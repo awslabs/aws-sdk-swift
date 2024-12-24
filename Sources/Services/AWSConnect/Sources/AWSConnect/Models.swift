@@ -91,6 +91,11 @@ public struct DeleteHoursOfOperationOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct DeleteHoursOfOperationOverrideOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteInstanceOutput: Swift.Sendable {
 
     public init() { }
@@ -236,6 +241,11 @@ public struct UpdateHoursOfOperationOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct UpdateHoursOfOperationOverrideOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct UpdateInstanceAttributeOutput: Swift.Sendable {
 
     public init() { }
@@ -372,9 +382,9 @@ public struct UpdateUserSecurityProfilesOutput: Swift.Sendable {
 }
 
 /// You do not have sufficient permissions to perform this action.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -460,9 +470,9 @@ extension ConnectClientTypes {
 }
 
 /// Request processing failed because of an error or failure with the service.
-public struct InternalServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -485,9 +495,9 @@ public struct InternalServiceException: ClientRuntime.ModeledError, AWSClientRun
 }
 
 /// One or more of the specified parameters are not valid.
-public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message about the parameters.
         public internal(set) var message: Swift.String? = nil
     }
@@ -510,9 +520,9 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// A resource already has that name.
-public struct ResourceConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -534,9 +544,9 @@ public struct ResourceConflictException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// The specified resource was not found.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message about the resource.
         public internal(set) var message: Swift.String? = nil
     }
@@ -559,9 +569,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// The throttling limit has been exceeded.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1609,9 +1619,9 @@ extension ConnectClientTypes {
 }
 
 /// The request is not valid.
-public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message about the request.
         public internal(set) var message: Swift.String? = nil
         /// Reason why the request was invalid.
@@ -1723,9 +1733,9 @@ extension ConnectClientTypes {
 }
 
 /// The service quota has been exceeded.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// The reason for the exception.
         public internal(set) var reason: ConnectClientTypes.ServiceQuotaExceededExceptionReason? = nil
@@ -1769,9 +1779,9 @@ public struct AssociateApprovedOriginInput: Swift.Sendable {
 }
 
 /// The allowed limit for the resource has been exceeded.
-public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message about the limit.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3071,9 +3081,9 @@ public struct BatchGetFlowAssociationOutput: Swift.Sendable {
 }
 
 /// An entity with the same name already exists.
-public struct IdempotencyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct IdempotencyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3419,9 +3429,9 @@ public struct CompleteAttachedFileUploadOutput: Swift.Sendable {
 }
 
 /// A resource with the specified name already exists.
-public struct DuplicateResourceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DuplicateResourceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3494,9 +3504,9 @@ public struct CreateAgentStatusOutput: Swift.Sendable {
 }
 
 /// Operation cannot be performed at this time as there is a conflict with another operation or contact state.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3713,9 +3723,9 @@ extension ConnectClientTypes {
 }
 
 /// The flow is not valid.
-public struct InvalidContactFlowException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidContactFlowException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The problems with the flow. Please fix before trying again.
         public internal(set) var problems: [ConnectClientTypes.ProblemDetail]? = nil
     }
@@ -3877,9 +3887,9 @@ public struct CreateContactFlowOutput: Swift.Sendable {
 }
 
 /// The problems with the module. Please fix before trying again.
-public struct InvalidContactFlowModuleException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidContactFlowModuleException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var problems: [ConnectClientTypes.ProblemDetail]? = nil
     }
 
@@ -4701,6 +4711,150 @@ public struct CreateHoursOfOperationOutput: Swift.Sendable {
 
 extension ConnectClientTypes {
 
+    public enum OverrideDays: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case friday
+        case monday
+        case saturday
+        case sunday
+        case thursday
+        case tuesday
+        case wednesday
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OverrideDays] {
+            return [
+                .friday,
+                .monday,
+                .saturday,
+                .sunday,
+                .thursday,
+                .tuesday,
+                .wednesday
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .friday: return "FRIDAY"
+            case .monday: return "MONDAY"
+            case .saturday: return "SATURDAY"
+            case .sunday: return "SUNDAY"
+            case .thursday: return "THURSDAY"
+            case .tuesday: return "TUESDAY"
+            case .wednesday: return "WEDNESDAY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// The start time or end time for an hours of operation override.
+    public struct OverrideTimeSlice: Swift.Sendable {
+        /// The hours.
+        /// This member is required.
+        public var hours: Swift.Int?
+        /// The minutes.
+        /// This member is required.
+        public var minutes: Swift.Int?
+
+        public init(
+            hours: Swift.Int? = 0,
+            minutes: Swift.Int? = 0
+        )
+        {
+            self.hours = hours
+            self.minutes = minutes
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Information about the hours of operation override config: day, start time, and end time.
+    public struct HoursOfOperationOverrideConfig: Swift.Sendable {
+        /// The day that the hours of operation override applies to.
+        public var day: ConnectClientTypes.OverrideDays?
+        /// The end time that your contact center closes if overrides are applied.
+        public var endTime: ConnectClientTypes.OverrideTimeSlice?
+        /// The start time when your contact center opens if overrides are applied.
+        public var startTime: ConnectClientTypes.OverrideTimeSlice?
+
+        public init(
+            day: ConnectClientTypes.OverrideDays? = nil,
+            endTime: ConnectClientTypes.OverrideTimeSlice? = nil,
+            startTime: ConnectClientTypes.OverrideTimeSlice? = nil
+        )
+        {
+            self.day = day
+            self.endTime = endTime
+            self.startTime = startTime
+        }
+    }
+}
+
+public struct CreateHoursOfOperationOverrideInput: Swift.Sendable {
+    /// Configuration information for the hours of operation override: day, start time, and end time.
+    /// This member is required.
+    public var config: [ConnectClientTypes.HoursOfOperationOverrideConfig]?
+    /// The description of the hours of operation override.
+    public var description: Swift.String?
+    /// The date from when the hours of operation override would be effective.
+    /// This member is required.
+    public var effectiveFrom: Swift.String?
+    /// The date until when the hours of operation override would be effective.
+    /// This member is required.
+    public var effectiveTill: Swift.String?
+    /// The identifier for the hours of operation
+    /// This member is required.
+    public var hoursOfOperationId: Swift.String?
+    /// The identifier of the Amazon Connect instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The name of the hours of operation override.
+    /// This member is required.
+    public var name: Swift.String?
+
+    public init(
+        config: [ConnectClientTypes.HoursOfOperationOverrideConfig]? = nil,
+        description: Swift.String? = nil,
+        effectiveFrom: Swift.String? = nil,
+        effectiveTill: Swift.String? = nil,
+        hoursOfOperationId: Swift.String? = nil,
+        instanceId: Swift.String? = nil,
+        name: Swift.String? = nil
+    )
+    {
+        self.config = config
+        self.description = description
+        self.effectiveFrom = effectiveFrom
+        self.effectiveTill = effectiveTill
+        self.hoursOfOperationId = hoursOfOperationId
+        self.instanceId = instanceId
+        self.name = name
+    }
+}
+
+public struct CreateHoursOfOperationOverrideOutput: Swift.Sendable {
+    /// The identifier for the hours of operation override.
+    public var hoursOfOperationOverrideId: Swift.String?
+
+    public init(
+        hoursOfOperationOverrideId: Swift.String? = nil
+    )
+    {
+        self.hoursOfOperationOverrideId = hoursOfOperationOverrideId
+    }
+}
+
+extension ConnectClientTypes {
+
     public enum DirectoryType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case connectManaged
         case existingDirectory
@@ -4798,6 +4952,7 @@ extension ConnectClientTypes {
         case application
         case callTransferConnector
         case casesDomain
+        case cognitoUserPool
         case event
         case fileScanner
         case pinpointApp
@@ -4815,6 +4970,7 @@ extension ConnectClientTypes {
                 .application,
                 .callTransferConnector,
                 .casesDomain,
+                .cognitoUserPool,
                 .event,
                 .fileScanner,
                 .pinpointApp,
@@ -4838,6 +4994,7 @@ extension ConnectClientTypes {
             case .application: return "APPLICATION"
             case .callTransferConnector: return "CALL_TRANSFER_CONNECTOR"
             case .casesDomain: return "CASES_DOMAIN"
+            case .cognitoUserPool: return "COGNITO_USER_POOL"
             case .event: return "EVENT"
             case .fileScanner: return "FILE_SCANNER"
             case .pinpointApp: return "PINPOINT_APP"
@@ -5254,6 +5411,113 @@ public struct CreatePromptOutput: Swift.Sendable {
     {
         self.promptARN = promptARN
         self.promptId = promptId
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// The contact configuration for push notification registration.
+    public struct ContactConfiguration: Swift.Sendable {
+        /// The identifier of the contact within the Amazon Connect instance.
+        /// This member is required.
+        public var contactId: Swift.String?
+        /// Whether to include raw connect message in the push notification payload. Default is False.
+        public var includeRawMessage: Swift.Bool
+        /// The role of the participant in the chat conversation. Only CUSTOMER is currently supported. Any other values other than CUSTOMER will result in an exception (4xx error).
+        public var participantRole: ConnectClientTypes.ParticipantRole?
+
+        public init(
+            contactId: Swift.String? = nil,
+            includeRawMessage: Swift.Bool = false,
+            participantRole: ConnectClientTypes.ParticipantRole? = nil
+        )
+        {
+            self.contactId = contactId
+            self.includeRawMessage = includeRawMessage
+            self.participantRole = participantRole
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    public enum DeviceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case apns
+        case apnsSandbox
+        case gcm
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DeviceType] {
+            return [
+                .apns,
+                .apnsSandbox,
+                .gcm
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .apns: return "APNS"
+            case .apnsSandbox: return "APNS_SANDBOX"
+            case .gcm: return "GCM"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreatePushNotificationRegistrationInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
+    public var clientToken: Swift.String?
+    /// The contact configuration for push notification registration.
+    /// This member is required.
+    public var contactConfiguration: ConnectClientTypes.ContactConfiguration?
+    /// The push notification token issued by the Apple or Google gateways.
+    /// This member is required.
+    public var deviceToken: Swift.String?
+    /// The device type to use when sending the message.
+    /// This member is required.
+    public var deviceType: ConnectClientTypes.DeviceType?
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The Amazon Resource Name (ARN) of the Pinpoint application.
+    /// This member is required.
+    public var pinpointAppArn: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        contactConfiguration: ConnectClientTypes.ContactConfiguration? = nil,
+        deviceToken: Swift.String? = nil,
+        deviceType: ConnectClientTypes.DeviceType? = nil,
+        instanceId: Swift.String? = nil,
+        pinpointAppArn: Swift.String? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.contactConfiguration = contactConfiguration
+        self.deviceToken = deviceToken
+        self.deviceType = deviceType
+        self.instanceId = instanceId
+        self.pinpointAppArn = pinpointAppArn
+    }
+}
+
+public struct CreatePushNotificationRegistrationOutput: Swift.Sendable {
+    /// The identifier for the registration.
+    /// This member is required.
+    public var registrationId: Swift.String?
+
+    public init(
+        registrationId: Swift.String? = nil
+    )
+    {
+        self.registrationId = registrationId
     }
 }
 
@@ -6320,9 +6584,9 @@ extension ConnectClientTypes {
 }
 
 /// The property is not valid.
-public struct PropertyValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PropertyValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         public internal(set) var propertyList: [ConnectClientTypes.PropertyValidationExceptionProperty]? = nil
@@ -6664,9 +6928,9 @@ public struct CreateTaskTemplateOutput: Swift.Sendable {
 }
 
 /// The resource is not ready.
-public struct ResourceNotReadyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotReadyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -6811,9 +7075,9 @@ extension ConnectClientTypes {
     public struct UserIdentityInfo: Swift.Sendable {
         /// The email address. If you are using SAML for identity management and include this parameter, an error is returned.
         public var email: Swift.String?
-        /// The first name. This is required if you are using Amazon Connect or SAML for identity management.
+        /// The first name. This is required if you are using Amazon Connect or SAML for identity management. Inputs must be in Unicode Normalization Form C (NFC). Text containing characters in a non-NFC form (for example, decomposed characters or combining marks) are not accepted.
         public var firstName: Swift.String?
-        /// The last name. This is required if you are using Amazon Connect or SAML for identity management.
+        /// The last name. This is required if you are using Amazon Connect or SAML for identity management. Inputs must be in Unicode Normalization Form C (NFC). Text containing characters in a non-NFC form (for example, decomposed characters or combining marks) are not accepted.
         public var lastName: Swift.String?
         /// The user's mobile number.
         public var mobile: Swift.String?
@@ -7070,9 +7334,9 @@ extension ConnectClientTypes {
 }
 
 /// That resource is already in use. Please try another.
-public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// The identifier for the resource.
         public internal(set) var resourceId: Swift.String? = nil
@@ -7102,9 +7366,9 @@ public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRunti
 }
 
 /// Displayed when rate-related API limits are exceeded.
-public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -7698,6 +7962,29 @@ public struct DeleteHoursOfOperationInput: Swift.Sendable {
     }
 }
 
+public struct DeleteHoursOfOperationOverrideInput: Swift.Sendable {
+    /// The identifier for the hours of operation.
+    /// This member is required.
+    public var hoursOfOperationId: Swift.String?
+    /// The identifier for the hours of operation override.
+    /// This member is required.
+    public var hoursOfOperationOverrideId: Swift.String?
+    /// The identifier of the Amazon Connect instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+
+    public init(
+        hoursOfOperationId: Swift.String? = nil,
+        hoursOfOperationOverrideId: Swift.String? = nil,
+        instanceId: Swift.String? = nil
+    )
+    {
+        self.hoursOfOperationId = hoursOfOperationId
+        self.hoursOfOperationOverrideId = hoursOfOperationOverrideId
+        self.instanceId = instanceId
+    }
+}
+
 public struct DeleteInstanceInput: Swift.Sendable {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
@@ -7763,6 +8050,34 @@ public struct DeletePromptInput: Swift.Sendable {
         self.instanceId = instanceId
         self.promptId = promptId
     }
+}
+
+public struct DeletePushNotificationRegistrationInput: Swift.Sendable {
+    /// The identifier of the contact within the Amazon Connect instance.
+    /// This member is required.
+    public var contactId: Swift.String?
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The identifier for the registration.
+    /// This member is required.
+    public var registrationId: Swift.String?
+
+    public init(
+        contactId: Swift.String? = nil,
+        instanceId: Swift.String? = nil,
+        registrationId: Swift.String? = nil
+    )
+    {
+        self.contactId = contactId
+        self.instanceId = instanceId
+        self.registrationId = registrationId
+    }
+}
+
+public struct DeletePushNotificationRegistrationOutput: Swift.Sendable {
+
+    public init() { }
 }
 
 public struct DeleteQueueInput: Swift.Sendable {
@@ -8424,6 +8739,26 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
+    /// An Object to define the minimum and maximum proficiency levels.
+    public struct Range: Swift.Sendable {
+        /// The maximum proficiency level of the range.
+        public var maxProficiencyLevel: Swift.Float?
+        /// The minimum proficiency level of the range.
+        public var minProficiencyLevel: Swift.Float?
+
+        public init(
+            maxProficiencyLevel: Swift.Float? = nil,
+            minProficiencyLevel: Swift.Float? = nil
+        )
+        {
+            self.maxProficiencyLevel = maxProficiencyLevel
+            self.minProficiencyLevel = minProficiencyLevel
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
     /// An object to specify the predefined attribute condition.
     public struct AttributeCondition: Swift.Sendable {
         /// The operator of the condition.
@@ -8434,6 +8769,8 @@ extension ConnectClientTypes {
         public var name: Swift.String?
         /// The proficiency level of the condition.
         public var proficiencyLevel: Swift.Float?
+        /// An Object to define the minimum and maximum proficiency levels.
+        public var range: ConnectClientTypes.Range?
         /// The value of predefined attribute.
         public var value: Swift.String?
 
@@ -8442,6 +8779,7 @@ extension ConnectClientTypes {
             matchCriteria: ConnectClientTypes.MatchCriteria? = nil,
             name: Swift.String? = nil,
             proficiencyLevel: Swift.Float? = nil,
+            range: ConnectClientTypes.Range? = nil,
             value: Swift.String? = nil
         )
         {
@@ -8449,6 +8787,7 @@ extension ConnectClientTypes {
             self.matchCriteria = matchCriteria
             self.name = name
             self.proficiencyLevel = proficiencyLevel
+            self.range = range
             self.value = value
         }
     }
@@ -8717,9 +9056,9 @@ extension ConnectClientTypes {
 }
 
 /// The flow has not been published.
-public struct ContactFlowNotPublishedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ContactFlowNotPublishedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -9191,6 +9530,85 @@ public struct DescribeHoursOfOperationOutput: Swift.Sendable {
     }
 }
 
+public struct DescribeHoursOfOperationOverrideInput: Swift.Sendable {
+    /// The identifier for the hours of operation.
+    /// This member is required.
+    public var hoursOfOperationId: Swift.String?
+    /// The identifier for the hours of operation override.
+    /// This member is required.
+    public var hoursOfOperationOverrideId: Swift.String?
+    /// The identifier of the Amazon Connect instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+
+    public init(
+        hoursOfOperationId: Swift.String? = nil,
+        hoursOfOperationOverrideId: Swift.String? = nil,
+        instanceId: Swift.String? = nil
+    )
+    {
+        self.hoursOfOperationId = hoursOfOperationId
+        self.hoursOfOperationOverrideId = hoursOfOperationOverrideId
+        self.instanceId = instanceId
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Information about the hours of operations override.
+    public struct HoursOfOperationOverride: Swift.Sendable {
+        /// Configuration information for the hours of operation override: day, start time, and end time.
+        public var config: [ConnectClientTypes.HoursOfOperationOverrideConfig]?
+        /// The description of the hours of operation override.
+        public var description: Swift.String?
+        /// The date from which the hours of operation override would be effective.
+        public var effectiveFrom: Swift.String?
+        /// The date till which the hours of operation override would be effective.
+        public var effectiveTill: Swift.String?
+        /// The Amazon Resource Name (ARN) for the hours of operation.
+        public var hoursOfOperationArn: Swift.String?
+        /// The identifier for the hours of operation.
+        public var hoursOfOperationId: Swift.String?
+        /// The identifier for the hours of operation override.
+        public var hoursOfOperationOverrideId: Swift.String?
+        /// The name of the hours of operation override.
+        public var name: Swift.String?
+
+        public init(
+            config: [ConnectClientTypes.HoursOfOperationOverrideConfig]? = nil,
+            description: Swift.String? = nil,
+            effectiveFrom: Swift.String? = nil,
+            effectiveTill: Swift.String? = nil,
+            hoursOfOperationArn: Swift.String? = nil,
+            hoursOfOperationId: Swift.String? = nil,
+            hoursOfOperationOverrideId: Swift.String? = nil,
+            name: Swift.String? = nil
+        )
+        {
+            self.config = config
+            self.description = description
+            self.effectiveFrom = effectiveFrom
+            self.effectiveTill = effectiveTill
+            self.hoursOfOperationArn = hoursOfOperationArn
+            self.hoursOfOperationId = hoursOfOperationId
+            self.hoursOfOperationOverrideId = hoursOfOperationOverrideId
+            self.name = name
+        }
+    }
+}
+
+public struct DescribeHoursOfOperationOverrideOutput: Swift.Sendable {
+    /// Information about the hours of operations override.
+    public var hoursOfOperationOverride: ConnectClientTypes.HoursOfOperationOverride?
+
+    public init(
+        hoursOfOperationOverride: ConnectClientTypes.HoursOfOperationOverride? = nil
+    )
+    {
+        self.hoursOfOperationOverride = hoursOfOperationOverride
+    }
+}
+
 public struct DescribeInstanceInput: Swift.Sendable {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
@@ -9433,6 +9851,7 @@ extension ConnectClientTypes {
         case enhancedContactMonitoring
         case highVolumeOutbound
         case inboundCalls
+        case multiPartyChatConference
         case multiPartyConference
         case outboundCalls
         case useCustomTtsVoices
@@ -9448,6 +9867,7 @@ extension ConnectClientTypes {
                 .enhancedContactMonitoring,
                 .highVolumeOutbound,
                 .inboundCalls,
+                .multiPartyChatConference,
                 .multiPartyConference,
                 .outboundCalls,
                 .useCustomTtsVoices
@@ -9469,6 +9889,7 @@ extension ConnectClientTypes {
             case .enhancedContactMonitoring: return "ENHANCED_CONTACT_MONITORING"
             case .highVolumeOutbound: return "HIGH_VOLUME_OUTBOUND"
             case .inboundCalls: return "INBOUND_CALLS"
+            case .multiPartyChatConference: return "MULTI_PARTY_CHAT_CONFERENCE"
             case .multiPartyConference: return "MULTI_PARTY_CONFERENCE"
             case .outboundCalls: return "OUTBOUND_CALLS"
             case .useCustomTtsVoices: return "USE_CUSTOM_TTS_VOICES"
@@ -12751,10 +13172,94 @@ public struct GetCurrentUserDataOutput: Swift.Sendable {
     }
 }
 
-/// No user with the specified credentials was found in the Amazon Connect instance.
-public struct UserNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct GetEffectiveHoursOfOperationsInput: Swift.Sendable {
+    /// The Date from when the hours of operation are listed.
+    /// This member is required.
+    public var fromDate: Swift.String?
+    /// The identifier for the hours of operation.
+    /// This member is required.
+    public var hoursOfOperationId: Swift.String?
+    /// The identifier of the Amazon Connect instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The Date until when the hours of operation are listed.
+    /// This member is required.
+    public var toDate: Swift.String?
 
-    public struct Properties {
+    public init(
+        fromDate: Swift.String? = nil,
+        hoursOfOperationId: Swift.String? = nil,
+        instanceId: Swift.String? = nil,
+        toDate: Swift.String? = nil
+    )
+    {
+        self.fromDate = fromDate
+        self.hoursOfOperationId = hoursOfOperationId
+        self.instanceId = instanceId
+        self.toDate = toDate
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Information about the hours of operations with the effective override applied.
+    public struct OperationalHour: Swift.Sendable {
+        /// The end time that your contact center closes.
+        public var end: ConnectClientTypes.OverrideTimeSlice?
+        /// The start time that your contact center opens.
+        public var start: ConnectClientTypes.OverrideTimeSlice?
+
+        public init(
+            end: ConnectClientTypes.OverrideTimeSlice? = nil,
+            start: ConnectClientTypes.OverrideTimeSlice? = nil
+        )
+        {
+            self.end = end
+            self.start = start
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Information about the hours of operations with the effective override applied.
+    public struct EffectiveHoursOfOperations: Swift.Sendable {
+        /// The date that the hours of operation or overrides applies to.
+        public var date: Swift.String?
+        /// Information about the hours of operations with the effective override applied.
+        public var operationalHours: [ConnectClientTypes.OperationalHour]?
+
+        public init(
+            date: Swift.String? = nil,
+            operationalHours: [ConnectClientTypes.OperationalHour]? = nil
+        )
+        {
+            self.date = date
+            self.operationalHours = operationalHours
+        }
+    }
+}
+
+public struct GetEffectiveHoursOfOperationsOutput: Swift.Sendable {
+    /// Information about the effective hours of operations
+    public var effectiveHoursOfOperationList: [ConnectClientTypes.EffectiveHoursOfOperations]?
+    /// The time zone for the hours of operation.
+    public var timeZone: Swift.String?
+
+    public init(
+        effectiveHoursOfOperationList: [ConnectClientTypes.EffectiveHoursOfOperations]? = nil,
+        timeZone: Swift.String? = nil
+    )
+    {
+        self.effectiveHoursOfOperationList = effectiveHoursOfOperationList
+        self.timeZone = timeZone
+    }
+}
+
+/// No user with the specified credentials was found in the Amazon Connect instance.
+public struct UserNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -15048,6 +15553,56 @@ public struct ListFlowAssociationsOutput: Swift.Sendable {
     }
 }
 
+public struct ListHoursOfOperationOverridesInput: Swift.Sendable {
+    /// The identifier for the hours of operation
+    /// This member is required.
+    public var hoursOfOperationId: Swift.String?
+    /// The identifier of the Amazon Connect instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The maximum number of results to return per page. The default MaxResult size is 100. Valid Range: Minimum value of 1. Maximum value of 1000.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        hoursOfOperationId: Swift.String? = nil,
+        instanceId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.hoursOfOperationId = hoursOfOperationId
+        self.instanceId = instanceId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListHoursOfOperationOverridesOutput: Swift.Sendable {
+    /// Information about the hours of operation override.
+    public var hoursOfOperationOverrideList: [ConnectClientTypes.HoursOfOperationOverride]?
+    /// The AWS Region where this resource was last modified.
+    public var lastModifiedRegion: Swift.String?
+    /// The timestamp when this resource was last modified.
+    public var lastModifiedTime: Foundation.Date?
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        hoursOfOperationOverrideList: [ConnectClientTypes.HoursOfOperationOverride]? = nil,
+        lastModifiedRegion: Swift.String? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.hoursOfOperationOverrideList = hoursOfOperationOverrideList
+        self.lastModifiedRegion = lastModifiedRegion
+        self.lastModifiedTime = lastModifiedTime
+        self.nextToken = nextToken
+    }
+}
+
 public struct ListHoursOfOperationsInput: Swift.Sendable {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
@@ -15989,9 +16544,9 @@ public struct ListQuickConnectsOutput: Swift.Sendable {
 }
 
 /// Thrown for analyzed content when requested OutputType was not enabled for a given contact. For example, if an OutputType.Raw was requested for a contact that had `RedactedOnly` Redaction policy set in the flow.
-public struct OutputTypeNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct OutputTypeNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -18938,6 +19493,68 @@ public struct SearchEmailAddressesOutput: Swift.Sendable {
 
 extension ConnectClientTypes {
 
+    public enum DateComparisonType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case equalTo
+        case greaterThan
+        case greaterThanOrEqualTo
+        case lessThan
+        case lessThanOrEqualTo
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DateComparisonType] {
+            return [
+                .equalTo,
+                .greaterThan,
+                .greaterThanOrEqualTo,
+                .lessThan,
+                .lessThanOrEqualTo
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .equalTo: return "EQUAL_TO"
+            case .greaterThan: return "GREATER_THAN"
+            case .greaterThanOrEqualTo: return "GREATER_THAN_OR_EQUAL_TO"
+            case .lessThan: return "LESS_THAN"
+            case .lessThanOrEqualTo: return "LESS_THAN_OR_EQUAL_TO"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// An object to specify the hours of operation override date condition.
+    public struct DateCondition: Swift.Sendable {
+        /// An object to specify the hours of operation override date condition comparisonType.
+        public var comparisonType: ConnectClientTypes.DateComparisonType?
+        /// An object to specify the hours of operation override date field.
+        public var fieldName: Swift.String?
+        /// An object to specify the hours of operation override date value.
+        public var value: Swift.String?
+
+        public init(
+            comparisonType: ConnectClientTypes.DateComparisonType? = nil,
+            fieldName: Swift.String? = nil,
+            value: Swift.String? = nil
+        )
+        {
+            self.comparisonType = comparisonType
+            self.fieldName = fieldName
+            self.value = value
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
     /// Filters to be applied to search results.
     public struct HoursOfOperationSearchFilter: Swift.Sendable {
         /// An object that can be used to specify Tag conditions inside the SearchFilter. This accepts an OR of AND (List of List) input where:
@@ -18953,6 +19570,26 @@ extension ConnectClientTypes {
         {
             self.tagFilter = tagFilter
         }
+    }
+}
+
+public struct SearchHoursOfOperationOverridesOutput: Swift.Sendable {
+    /// The total number of hours of operations which matched your search query.
+    public var approximateTotalCount: Swift.Int?
+    /// Information about the hours of operations overrides.
+    public var hoursOfOperationOverrides: [ConnectClientTypes.HoursOfOperationOverride]?
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. Length Constraints: Minimum length of 1. Maximum length of 2500.
+    public var nextToken: Swift.String?
+
+    public init(
+        approximateTotalCount: Swift.Int? = nil,
+        hoursOfOperationOverrides: [ConnectClientTypes.HoursOfOperationOverride]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.approximateTotalCount = approximateTotalCount
+        self.hoursOfOperationOverrides = hoursOfOperationOverrides
+        self.nextToken = nextToken
     }
 }
 
@@ -19143,9 +19780,9 @@ public struct SearchQuickConnectsOutput: Swift.Sendable {
 }
 
 /// Maximum number (1000) of tags have been returned with current request. Consider changing request parameters to get more tags.
-public struct MaximumResultReturnedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MaximumResultReturnedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -20451,7 +21088,7 @@ public struct StartAttachedFileUploadOutput: Swift.Sendable {
     public var fileId: Swift.String?
     /// The current status of the attached file.
     public var fileStatus: ConnectClientTypes.FileStatusType?
-    /// Information to be used while uploading the attached file.
+    /// The headers to be provided while uploading the file to the URL.
     public var uploadUrlMetadata: ConnectClientTypes.UploadUrlMetadata?
 
     public init(
@@ -20658,7 +21295,7 @@ extension ConnectClientTypes {
 
     /// Contains information about the recording configuration settings.
     public struct VoiceRecordingConfiguration: Swift.Sendable {
-        /// Identifies which IVR track is being recorded.
+        /// Identifies which IVR track is being recorded. One and only one of the track configurations should be presented in the request.
         public var ivrRecordingTrack: ConnectClientTypes.IvrRecordingTrack?
         /// Identifies which track is being recorded.
         public var voiceRecordingTrack: ConnectClientTypes.VoiceRecordingTrack?
@@ -20988,9 +21625,9 @@ public struct StartOutboundEmailContactOutput: Swift.Sendable {
 }
 
 /// Outbound calls to the destination number are not allowed.
-public struct DestinationNotAllowedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DestinationNotAllowedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message about the outbound calls.
         public internal(set) var message: Swift.String? = nil
     }
@@ -21013,9 +21650,9 @@ public struct DestinationNotAllowedException: ClientRuntime.ModeledError, AWSCli
 }
 
 /// The contact is not permitted.
-public struct OutboundContactNotPermittedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct OutboundContactNotPermittedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message about the contact.
         public internal(set) var message: Swift.String? = nil
     }
@@ -21423,9 +22060,9 @@ public struct StartWebRTCContactOutput: Swift.Sendable {
 }
 
 /// The contact with the specified ID is not active or does not exist. Applies to Voice calls only, not to Chat or Task contacts.
-public struct ContactNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ContactNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -22272,6 +22909,73 @@ public struct UpdateHoursOfOperationInput: Swift.Sendable {
     }
 }
 
+/// Request processing failed because dependent condition failed.
+public struct ConditionalOperationFailedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConditionalOperationFailedException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+public struct UpdateHoursOfOperationOverrideInput: Swift.Sendable {
+    /// Configuration information for the hours of operation override: day, start time, and end time.
+    public var config: [ConnectClientTypes.HoursOfOperationOverrideConfig]?
+    /// The description of the hours of operation override.
+    public var description: Swift.String?
+    /// The date from when the hours of operation override would be effective.
+    public var effectiveFrom: Swift.String?
+    /// The date till when the hours of operation override would be effective.
+    public var effectiveTill: Swift.String?
+    /// The identifier for the hours of operation.
+    /// This member is required.
+    public var hoursOfOperationId: Swift.String?
+    /// The identifier for the hours of operation override.
+    /// This member is required.
+    public var hoursOfOperationOverrideId: Swift.String?
+    /// The identifier of the Amazon Connect instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The name of the hours of operation override.
+    public var name: Swift.String?
+
+    public init(
+        config: [ConnectClientTypes.HoursOfOperationOverrideConfig]? = nil,
+        description: Swift.String? = nil,
+        effectiveFrom: Swift.String? = nil,
+        effectiveTill: Swift.String? = nil,
+        hoursOfOperationId: Swift.String? = nil,
+        hoursOfOperationOverrideId: Swift.String? = nil,
+        instanceId: Swift.String? = nil,
+        name: Swift.String? = nil
+    )
+    {
+        self.config = config
+        self.description = description
+        self.effectiveFrom = effectiveFrom
+        self.effectiveTill = effectiveTill
+        self.hoursOfOperationId = hoursOfOperationId
+        self.hoursOfOperationOverrideId = hoursOfOperationOverrideId
+        self.instanceId = instanceId
+        self.name = name
+    }
+}
+
 public struct UpdateInstanceAttributeInput: Swift.Sendable {
     /// The type of attribute. Only allowlisted customers can consume USE_CUSTOM_TTS_VOICES. To access this feature, contact Amazon Web Services Support for allowlisting.
     /// This member is required.
@@ -22321,6 +23025,46 @@ public struct UpdateInstanceStorageConfigInput: Swift.Sendable {
         self.resourceType = resourceType
         self.storageConfig = storageConfig
     }
+}
+
+public struct UpdateParticipantAuthenticationInput: Swift.Sendable {
+    /// The code query parameter provided by Cognito in the redirectUri.
+    public var code: Swift.String?
+    /// The error query parameter provided by Cognito in the redirectUri.
+    public var error: Swift.String?
+    /// The error_description parameter provided by Cognito in the redirectUri.
+    public var errorDescription: Swift.String?
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The state query parameter that was provided by Cognito in the redirectUri. This will also match the state parameter provided in the AuthenticationUrl from the [GetAuthenticationUrl](https://docs.aws.amazon.com/connect/latest/APIReference/API_GetAuthenticationUrl.html) response.
+    /// This member is required.
+    public var state: Swift.String?
+
+    public init(
+        code: Swift.String? = nil,
+        error: Swift.String? = nil,
+        errorDescription: Swift.String? = nil,
+        instanceId: Swift.String? = nil,
+        state: Swift.String? = nil
+    )
+    {
+        self.code = code
+        self.error = error
+        self.errorDescription = errorDescription
+        self.instanceId = instanceId
+        self.state = state
+    }
+}
+
+extension UpdateParticipantAuthenticationInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateParticipantAuthenticationInput(instanceId: \(Swift.String(describing: instanceId)), state: \(Swift.String(describing: state)), code: \"CONTENT_REDACTED\", error: \"CONTENT_REDACTED\", errorDescription: \"CONTENT_REDACTED\")"}
+}
+
+public struct UpdateParticipantAuthenticationOutput: Swift.Sendable {
+
+    public init() { }
 }
 
 extension ConnectClientTypes {
@@ -22722,30 +23466,6 @@ public struct UpdateQueueOutboundCallerConfigInput: Swift.Sendable {
         self.instanceId = instanceId
         self.outboundCallerConfig = outboundCallerConfig
         self.queueId = queueId
-    }
-}
-
-/// A conditional check failed.
-public struct ConditionalOperationFailedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
-
-    public struct Properties {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ConditionalOperationFailedException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    )
-    {
-        self.properties.message = message
     }
 }
 
@@ -23592,17 +24312,25 @@ extension ConnectClientTypes {
         public var andConditions: [ConnectClientTypes.ContactFlowModuleSearchCriteria]?
         /// A list of conditions which would be applied together with an OR condition.
         public var orConditions: [ConnectClientTypes.ContactFlowModuleSearchCriteria]?
+        /// The state of the flow.
+        public var stateCondition: ConnectClientTypes.ContactFlowModuleState?
+        /// The status of the flow.
+        public var statusCondition: ConnectClientTypes.ContactFlowModuleStatus?
         /// A leaf node condition which can be used to specify a string condition.
         public var stringCondition: ConnectClientTypes.StringCondition?
 
         public init(
             andConditions: [ConnectClientTypes.ContactFlowModuleSearchCriteria]? = nil,
             orConditions: [ConnectClientTypes.ContactFlowModuleSearchCriteria]? = nil,
+            stateCondition: ConnectClientTypes.ContactFlowModuleState? = nil,
+            statusCondition: ConnectClientTypes.ContactFlowModuleStatus? = nil,
             stringCondition: ConnectClientTypes.StringCondition? = nil
         )
         {
             self.andConditions = andConditions
             self.orConditions = orConditions
+            self.stateCondition = stateCondition
+            self.statusCondition = statusCondition
             self.stringCondition = stringCondition
         }
     }
@@ -23800,18 +24528,50 @@ extension ConnectClientTypes {
         public var andExpression: [ConnectClientTypes.Expression]?
         /// An object to specify the predefined attribute condition.
         public var attributeCondition: ConnectClientTypes.AttributeCondition?
+        /// An object to specify the predefined attribute condition.
+        public var notAttributeCondition: ConnectClientTypes.AttributeCondition?
         /// List of routing expressions which will be OR-ed together.
         public var orExpression: [ConnectClientTypes.Expression]?
 
         public init(
             andExpression: [ConnectClientTypes.Expression]? = nil,
             attributeCondition: ConnectClientTypes.AttributeCondition? = nil,
+            notAttributeCondition: ConnectClientTypes.AttributeCondition? = nil,
             orExpression: [ConnectClientTypes.Expression]? = nil
         )
         {
             self.andExpression = andExpression
             self.attributeCondition = attributeCondition
+            self.notAttributeCondition = notAttributeCondition
             self.orExpression = orExpression
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// The search criteria to be used to return hours of operations overrides.
+    public struct HoursOfOperationOverrideSearchCriteria: Swift.Sendable {
+        /// A list of conditions which would be applied together with an AND condition.
+        public var andConditions: [ConnectClientTypes.HoursOfOperationOverrideSearchCriteria]?
+        /// A leaf node condition which can be used to specify a date condition.
+        public var dateCondition: ConnectClientTypes.DateCondition?
+        /// A list of conditions which would be applied together with an OR condition.
+        public var orConditions: [ConnectClientTypes.HoursOfOperationOverrideSearchCriteria]?
+        /// A leaf node condition which can be used to specify a string condition.
+        public var stringCondition: ConnectClientTypes.StringCondition?
+
+        public init(
+            andConditions: [ConnectClientTypes.HoursOfOperationOverrideSearchCriteria]? = nil,
+            dateCondition: ConnectClientTypes.DateCondition? = nil,
+            orConditions: [ConnectClientTypes.HoursOfOperationOverrideSearchCriteria]? = nil,
+            stringCondition: ConnectClientTypes.StringCondition? = nil
+        )
+        {
+            self.andConditions = andConditions
+            self.dateCondition = dateCondition
+            self.orConditions = orConditions
+            self.stringCondition = stringCondition
         }
     }
 }
@@ -24157,6 +24917,8 @@ public struct StartChatContactInput: Swift.Sendable {
     /// The identifier of the flow for initiating the chat. To see the ContactFlowId in the Amazon Connect admin website, on the navigation menu go to Routing, Flows. Choose the flow. On the flow page, under the name of the flow, choose Show additional flow information. The ContactFlowId is the last part of the ARN, shown here in bold: arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx
     /// This member is required.
     public var contactFlowId: Swift.String?
+    /// The customer's identification number. For example, the CustomerId may be a customer number from your CRM.
+    public var customerId: Swift.String?
     /// The initial message to be sent to the newly created chat. If you have a Lex bot in your flow, the initial message is not delivered to the Lex bot.
     public var initialMessage: ConnectClientTypes.ChatMessage?
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
@@ -24179,6 +24941,7 @@ public struct StartChatContactInput: Swift.Sendable {
         chatDurationInMinutes: Swift.Int? = nil,
         clientToken: Swift.String? = nil,
         contactFlowId: Swift.String? = nil,
+        customerId: Swift.String? = nil,
         initialMessage: ConnectClientTypes.ChatMessage? = nil,
         instanceId: Swift.String? = nil,
         participantDetails: ConnectClientTypes.ParticipantDetails? = nil,
@@ -24192,6 +24955,7 @@ public struct StartChatContactInput: Swift.Sendable {
         self.chatDurationInMinutes = chatDurationInMinutes
         self.clientToken = clientToken
         self.contactFlowId = contactFlowId
+        self.customerId = customerId
         self.initialMessage = initialMessage
         self.instanceId = instanceId
         self.participantDetails = participantDetails
@@ -24200,6 +24964,11 @@ public struct StartChatContactInput: Swift.Sendable {
         self.segmentAttributes = segmentAttributes
         self.supportedMessagingContentTypes = supportedMessagingContentTypes
     }
+}
+
+extension StartChatContactInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "StartChatContactInput(attributes: \(Swift.String(describing: attributes)), chatDurationInMinutes: \(Swift.String(describing: chatDurationInMinutes)), clientToken: \(Swift.String(describing: clientToken)), contactFlowId: \(Swift.String(describing: contactFlowId)), initialMessage: \(Swift.String(describing: initialMessage)), instanceId: \(Swift.String(describing: instanceId)), participantDetails: \(Swift.String(describing: participantDetails)), persistentChat: \(Swift.String(describing: persistentChat)), relatedContactId: \(Swift.String(describing: relatedContactId)), segmentAttributes: \(Swift.String(describing: segmentAttributes)), supportedMessagingContentTypes: \(Swift.String(describing: supportedMessagingContentTypes)), customerId: \"CONTENT_REDACTED\")"}
 }
 
 public struct StartEmailContactInput: Swift.Sendable {
@@ -24721,6 +25490,35 @@ public struct SearchEmailAddressesInput: Swift.Sendable {
     }
 }
 
+public struct SearchHoursOfOperationOverridesInput: Swift.Sendable {
+    /// The identifier of the Amazon Connect instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The maximum number of results to return per page. Valid Range: Minimum value of 1. Maximum value of 100.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. Length Constraints: Minimum length of 1. Maximum length of 2500.
+    public var nextToken: Swift.String?
+    /// The search criteria to be used to return hours of operations overrides.
+    public var searchCriteria: ConnectClientTypes.HoursOfOperationOverrideSearchCriteria?
+    /// Filters to be applied to search results.
+    public var searchFilter: ConnectClientTypes.HoursOfOperationSearchFilter?
+
+    public init(
+        instanceId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        searchCriteria: ConnectClientTypes.HoursOfOperationOverrideSearchCriteria? = nil,
+        searchFilter: ConnectClientTypes.HoursOfOperationSearchFilter? = nil
+    )
+    {
+        self.instanceId = instanceId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.searchCriteria = searchCriteria
+        self.searchFilter = searchFilter
+    }
+}
+
 public struct SearchHoursOfOperationsInput: Swift.Sendable {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
@@ -25072,6 +25870,8 @@ extension ConnectClientTypes {
         public var customer: ConnectClientTypes.Customer?
         /// The customer or external third party participant endpoint.
         public var customerEndpoint: ConnectClientTypes.EndpointInfo?
+        /// The customer's identification number. For example, the CustomerId may be a customer number from your CRM. You can create a Lambda function to pull the unique customer ID of the caller from your CRM system. If you enable Amazon Connect Voice ID capability, this attribute is populated with the CustomerSpeakerId of the caller.
+        public var customerId: Swift.String?
         /// Information about customer’s voice activity.
         public var customerVoiceActivity: ConnectClientTypes.CustomerVoiceActivity?
         /// The description of the contact.
@@ -25136,6 +25936,7 @@ extension ConnectClientTypes {
             contactAssociationId: Swift.String? = nil,
             customer: ConnectClientTypes.Customer? = nil,
             customerEndpoint: ConnectClientTypes.EndpointInfo? = nil,
+            customerId: Swift.String? = nil,
             customerVoiceActivity: ConnectClientTypes.CustomerVoiceActivity? = nil,
             description: Swift.String? = nil,
             disconnectDetails: ConnectClientTypes.DisconnectDetails? = nil,
@@ -25174,6 +25975,7 @@ extension ConnectClientTypes {
             self.contactAssociationId = contactAssociationId
             self.customer = customer
             self.customerEndpoint = customerEndpoint
+            self.customerId = customerId
             self.customerVoiceActivity = customerVoiceActivity
             self.description = description
             self.disconnectDetails = disconnectDetails
@@ -25206,7 +26008,7 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes.Contact: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "Contact(additionalEmailRecipients: \(Swift.String(describing: additionalEmailRecipients)), agentInfo: \(Swift.String(describing: agentInfo)), answeringMachineDetectionStatus: \(Swift.String(describing: answeringMachineDetectionStatus)), arn: \(Swift.String(describing: arn)), campaign: \(Swift.String(describing: campaign)), channel: \(Swift.String(describing: channel)), connectedToSystemTimestamp: \(Swift.String(describing: connectedToSystemTimestamp)), contactAssociationId: \(Swift.String(describing: contactAssociationId)), customer: \(Swift.String(describing: customer)), customerEndpoint: \(Swift.String(describing: customerEndpoint)), customerVoiceActivity: \(Swift.String(describing: customerVoiceActivity)), disconnectDetails: \(Swift.String(describing: disconnectDetails)), disconnectTimestamp: \(Swift.String(describing: disconnectTimestamp)), id: \(Swift.String(describing: id)), initialContactId: \(Swift.String(describing: initialContactId)), initiationMethod: \(Swift.String(describing: initiationMethod)), initiationTimestamp: \(Swift.String(describing: initiationTimestamp)), lastPausedTimestamp: \(Swift.String(describing: lastPausedTimestamp)), lastResumedTimestamp: \(Swift.String(describing: lastResumedTimestamp)), lastUpdateTimestamp: \(Swift.String(describing: lastUpdateTimestamp)), previousContactId: \(Swift.String(describing: previousContactId)), qualityMetrics: \(Swift.String(describing: qualityMetrics)), queueInfo: \(Swift.String(describing: queueInfo)), queuePriority: \(Swift.String(describing: queuePriority)), queueTimeAdjustmentSeconds: \(Swift.String(describing: queueTimeAdjustmentSeconds)), relatedContactId: \(Swift.String(describing: relatedContactId)), routingCriteria: \(Swift.String(describing: routingCriteria)), scheduledTimestamp: \(Swift.String(describing: scheduledTimestamp)), segmentAttributes: \(Swift.String(describing: segmentAttributes)), systemEndpoint: \(Swift.String(describing: systemEndpoint)), tags: \(Swift.String(describing: tags)), totalPauseCount: \(Swift.String(describing: totalPauseCount)), totalPauseDurationInSeconds: \(Swift.String(describing: totalPauseDurationInSeconds)), wisdomInfo: \(Swift.String(describing: wisdomInfo)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "Contact(additionalEmailRecipients: \(Swift.String(describing: additionalEmailRecipients)), agentInfo: \(Swift.String(describing: agentInfo)), answeringMachineDetectionStatus: \(Swift.String(describing: answeringMachineDetectionStatus)), arn: \(Swift.String(describing: arn)), campaign: \(Swift.String(describing: campaign)), channel: \(Swift.String(describing: channel)), connectedToSystemTimestamp: \(Swift.String(describing: connectedToSystemTimestamp)), contactAssociationId: \(Swift.String(describing: contactAssociationId)), customer: \(Swift.String(describing: customer)), customerEndpoint: \(Swift.String(describing: customerEndpoint)), customerId: \(Swift.String(describing: customerId)), customerVoiceActivity: \(Swift.String(describing: customerVoiceActivity)), disconnectDetails: \(Swift.String(describing: disconnectDetails)), disconnectTimestamp: \(Swift.String(describing: disconnectTimestamp)), id: \(Swift.String(describing: id)), initialContactId: \(Swift.String(describing: initialContactId)), initiationMethod: \(Swift.String(describing: initiationMethod)), initiationTimestamp: \(Swift.String(describing: initiationTimestamp)), lastPausedTimestamp: \(Swift.String(describing: lastPausedTimestamp)), lastResumedTimestamp: \(Swift.String(describing: lastResumedTimestamp)), lastUpdateTimestamp: \(Swift.String(describing: lastUpdateTimestamp)), previousContactId: \(Swift.String(describing: previousContactId)), qualityMetrics: \(Swift.String(describing: qualityMetrics)), queueInfo: \(Swift.String(describing: queueInfo)), queuePriority: \(Swift.String(describing: queuePriority)), queueTimeAdjustmentSeconds: \(Swift.String(describing: queueTimeAdjustmentSeconds)), relatedContactId: \(Swift.String(describing: relatedContactId)), routingCriteria: \(Swift.String(describing: routingCriteria)), scheduledTimestamp: \(Swift.String(describing: scheduledTimestamp)), segmentAttributes: \(Swift.String(describing: segmentAttributes)), systemEndpoint: \(Swift.String(describing: systemEndpoint)), tags: \(Swift.String(describing: tags)), totalPauseCount: \(Swift.String(describing: totalPauseCount)), totalPauseDurationInSeconds: \(Swift.String(describing: totalPauseDurationInSeconds)), wisdomInfo: \(Swift.String(describing: wisdomInfo)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct DescribeContactOutput: Swift.Sendable {
@@ -25564,6 +26366,19 @@ extension CreateHoursOfOperationInput {
     }
 }
 
+extension CreateHoursOfOperationOverrideInput {
+
+    static func urlPathProvider(_ value: CreateHoursOfOperationOverrideInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let hoursOfOperationId = value.hoursOfOperationId else {
+            return nil
+        }
+        return "/hours-of-operations/\(instanceId.urlPercentEncoding())/\(hoursOfOperationId.urlPercentEncoding())/overrides"
+    }
+}
+
 extension CreateInstanceInput {
 
     static func urlPathProvider(_ value: CreateInstanceInput) -> Swift.String? {
@@ -25618,6 +26433,16 @@ extension CreatePromptInput {
             return nil
         }
         return "/prompts/\(instanceId.urlPercentEncoding())"
+    }
+}
+
+extension CreatePushNotificationRegistrationInput {
+
+    static func urlPathProvider(_ value: CreatePushNotificationRegistrationInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        return "/push-notification/\(instanceId.urlPercentEncoding())/registrations"
     }
 }
 
@@ -25884,6 +26709,22 @@ extension DeleteHoursOfOperationInput {
     }
 }
 
+extension DeleteHoursOfOperationOverrideInput {
+
+    static func urlPathProvider(_ value: DeleteHoursOfOperationOverrideInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let hoursOfOperationId = value.hoursOfOperationId else {
+            return nil
+        }
+        guard let hoursOfOperationOverrideId = value.hoursOfOperationOverrideId else {
+            return nil
+        }
+        return "/hours-of-operations/\(instanceId.urlPercentEncoding())/\(hoursOfOperationId.urlPercentEncoding())/overrides/\(hoursOfOperationOverrideId.urlPercentEncoding())"
+    }
+}
+
 extension DeleteInstanceInput {
 
     static func urlPathProvider(_ value: DeleteInstanceInput) -> Swift.String? {
@@ -25930,6 +26771,33 @@ extension DeletePromptInput {
             return nil
         }
         return "/prompts/\(instanceId.urlPercentEncoding())/\(promptId.urlPercentEncoding())"
+    }
+}
+
+extension DeletePushNotificationRegistrationInput {
+
+    static func urlPathProvider(_ value: DeletePushNotificationRegistrationInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let registrationId = value.registrationId else {
+            return nil
+        }
+        return "/push-notification/\(instanceId.urlPercentEncoding())/registrations/\(registrationId.urlPercentEncoding())"
+    }
+}
+
+extension DeletePushNotificationRegistrationInput {
+
+    static func queryItemProvider(_ value: DeletePushNotificationRegistrationInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        guard let contactId = value.contactId else {
+            let message = "Creating a URL Query Item failed. contactId is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let contactIdQueryItem = Smithy.URIQueryItem(name: "contactId".urlPercentEncoding(), value: Swift.String(contactId).urlPercentEncoding())
+        items.append(contactIdQueryItem)
+        return items
     }
 }
 
@@ -26231,6 +27099,22 @@ extension DescribeHoursOfOperationInput {
             return nil
         }
         return "/hours-of-operations/\(instanceId.urlPercentEncoding())/\(hoursOfOperationId.urlPercentEncoding())"
+    }
+}
+
+extension DescribeHoursOfOperationOverrideInput {
+
+    static func urlPathProvider(_ value: DescribeHoursOfOperationOverrideInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let hoursOfOperationId = value.hoursOfOperationId else {
+            return nil
+        }
+        guard let hoursOfOperationOverrideId = value.hoursOfOperationOverrideId else {
+            return nil
+        }
+        return "/hours-of-operations/\(instanceId.urlPercentEncoding())/\(hoursOfOperationId.urlPercentEncoding())/overrides/\(hoursOfOperationOverrideId.urlPercentEncoding())"
     }
 }
 
@@ -26781,6 +27665,39 @@ extension GetCurrentUserDataInput {
     }
 }
 
+extension GetEffectiveHoursOfOperationsInput {
+
+    static func urlPathProvider(_ value: GetEffectiveHoursOfOperationsInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let hoursOfOperationId = value.hoursOfOperationId else {
+            return nil
+        }
+        return "/effective-hours-of-operations/\(instanceId.urlPercentEncoding())/\(hoursOfOperationId.urlPercentEncoding())"
+    }
+}
+
+extension GetEffectiveHoursOfOperationsInput {
+
+    static func queryItemProvider(_ value: GetEffectiveHoursOfOperationsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        guard let fromDate = value.fromDate else {
+            let message = "Creating a URL Query Item failed. fromDate is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let fromDateQueryItem = Smithy.URIQueryItem(name: "fromDate".urlPercentEncoding(), value: Swift.String(fromDate).urlPercentEncoding())
+        items.append(fromDateQueryItem)
+        guard let toDate = value.toDate else {
+            let message = "Creating a URL Query Item failed. toDate is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let toDateQueryItem = Smithy.URIQueryItem(name: "toDate".urlPercentEncoding(), value: Swift.String(toDate).urlPercentEncoding())
+        items.append(toDateQueryItem)
+        return items
+    }
+}
+
 extension GetFederationTokenInput {
 
     static func urlPathProvider(_ value: GetFederationTokenInput) -> Swift.String? {
@@ -27299,6 +28216,35 @@ extension ListFlowAssociationsInput {
         if let resourceType = value.resourceType {
             let resourceTypeQueryItem = Smithy.URIQueryItem(name: "ResourceType".urlPercentEncoding(), value: Swift.String(resourceType.rawValue).urlPercentEncoding())
             items.append(resourceTypeQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListHoursOfOperationOverridesInput {
+
+    static func urlPathProvider(_ value: ListHoursOfOperationOverridesInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let hoursOfOperationId = value.hoursOfOperationId else {
+            return nil
+        }
+        return "/hours-of-operations/\(instanceId.urlPercentEncoding())/\(hoursOfOperationId.urlPercentEncoding())/overrides"
+    }
+}
+
+extension ListHoursOfOperationOverridesInput {
+
+    static func queryItemProvider(_ value: ListHoursOfOperationOverridesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
         }
         return items
     }
@@ -28280,6 +29226,13 @@ extension SearchEmailAddressesInput {
     }
 }
 
+extension SearchHoursOfOperationOverridesInput {
+
+    static func urlPathProvider(_ value: SearchHoursOfOperationOverridesInput) -> Swift.String? {
+        return "/search-hours-of-operation-overrides"
+    }
+}
+
 extension SearchHoursOfOperationsInput {
 
     static func urlPathProvider(_ value: SearchHoursOfOperationsInput) -> Swift.String? {
@@ -28784,6 +29737,22 @@ extension UpdateHoursOfOperationInput {
     }
 }
 
+extension UpdateHoursOfOperationOverrideInput {
+
+    static func urlPathProvider(_ value: UpdateHoursOfOperationOverrideInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let hoursOfOperationId = value.hoursOfOperationId else {
+            return nil
+        }
+        guard let hoursOfOperationOverrideId = value.hoursOfOperationOverrideId else {
+            return nil
+        }
+        return "/hours-of-operations/\(instanceId.urlPercentEncoding())/\(hoursOfOperationId.urlPercentEncoding())/overrides/\(hoursOfOperationOverrideId.urlPercentEncoding())"
+    }
+}
+
 extension UpdateInstanceAttributeInput {
 
     static func urlPathProvider(_ value: UpdateInstanceAttributeInput) -> Swift.String? {
@@ -28821,6 +29790,13 @@ extension UpdateInstanceStorageConfigInput {
         let resourceTypeQueryItem = Smithy.URIQueryItem(name: "resourceType".urlPercentEncoding(), value: Swift.String(resourceType.rawValue).urlPercentEncoding())
         items.append(resourceTypeQueryItem)
         return items
+    }
+}
+
+extension UpdateParticipantAuthenticationInput {
+
+    static func urlPathProvider(_ value: UpdateParticipantAuthenticationInput) -> Swift.String? {
+        return "/contact/update-participant-authentication"
     }
 }
 
@@ -29516,6 +30492,18 @@ extension CreateHoursOfOperationInput {
     }
 }
 
+extension CreateHoursOfOperationOverrideInput {
+
+    static func write(value: CreateHoursOfOperationOverrideInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Config"].writeList(value.config, memberWritingClosure: ConnectClientTypes.HoursOfOperationOverrideConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Description"].write(value.description)
+        try writer["EffectiveFrom"].write(value.effectiveFrom)
+        try writer["EffectiveTill"].write(value.effectiveTill)
+        try writer["Name"].write(value.name)
+    }
+}
+
 extension CreateInstanceInput {
 
     static func write(value: CreateInstanceInput?, to writer: SmithyJSON.Writer) throws {
@@ -29581,6 +30569,18 @@ extension CreatePromptInput {
         try writer["Name"].write(value.name)
         try writer["S3Uri"].write(value.s3Uri)
         try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension CreatePushNotificationRegistrationInput {
+
+    static func write(value: CreatePushNotificationRegistrationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["ContactConfiguration"].write(value.contactConfiguration, with: ConnectClientTypes.ContactConfiguration.write(value:to:))
+        try writer["DeviceToken"].write(value.deviceToken)
+        try writer["DeviceType"].write(value.deviceType)
+        try writer["PinpointAppArn"].write(value.pinpointAppArn)
     }
 }
 
@@ -30044,6 +31044,18 @@ extension SearchEmailAddressesInput {
     }
 }
 
+extension SearchHoursOfOperationOverridesInput {
+
+    static func write(value: SearchHoursOfOperationOverridesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["InstanceId"].write(value.instanceId)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["SearchCriteria"].write(value.searchCriteria, with: ConnectClientTypes.HoursOfOperationOverrideSearchCriteria.write(value:to:))
+        try writer["SearchFilter"].write(value.searchFilter, with: ConnectClientTypes.HoursOfOperationSearchFilter.write(value:to:))
+    }
+}
+
 extension SearchHoursOfOperationsInput {
 
     static func write(value: SearchHoursOfOperationsInput?, to writer: SmithyJSON.Writer) throws {
@@ -30223,6 +31235,7 @@ extension StartChatContactInput {
         try writer["ChatDurationInMinutes"].write(value.chatDurationInMinutes)
         try writer["ClientToken"].write(value.clientToken)
         try writer["ContactFlowId"].write(value.contactFlowId)
+        try writer["CustomerId"].write(value.customerId)
         try writer["InitialMessage"].write(value.initialMessage, with: ConnectClientTypes.ChatMessage.write(value:to:))
         try writer["InstanceId"].write(value.instanceId)
         try writer["ParticipantDetails"].write(value.participantDetails, with: ConnectClientTypes.ParticipantDetails.write(value:to:))
@@ -30626,6 +31639,18 @@ extension UpdateHoursOfOperationInput {
     }
 }
 
+extension UpdateHoursOfOperationOverrideInput {
+
+    static func write(value: UpdateHoursOfOperationOverrideInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Config"].writeList(value.config, memberWritingClosure: ConnectClientTypes.HoursOfOperationOverrideConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Description"].write(value.description)
+        try writer["EffectiveFrom"].write(value.effectiveFrom)
+        try writer["EffectiveTill"].write(value.effectiveTill)
+        try writer["Name"].write(value.name)
+    }
+}
+
 extension UpdateInstanceAttributeInput {
 
     static func write(value: UpdateInstanceAttributeInput?, to writer: SmithyJSON.Writer) throws {
@@ -30639,6 +31664,18 @@ extension UpdateInstanceStorageConfigInput {
     static func write(value: UpdateInstanceStorageConfigInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["StorageConfig"].write(value.storageConfig, with: ConnectClientTypes.InstanceStorageConfig.write(value:to:))
+    }
+}
+
+extension UpdateParticipantAuthenticationInput {
+
+    static func write(value: UpdateParticipantAuthenticationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Code"].write(value.code)
+        try writer["Error"].write(value.error)
+        try writer["ErrorDescription"].write(value.errorDescription)
+        try writer["InstanceId"].write(value.instanceId)
+        try writer["State"].write(value.state)
     }
 }
 
@@ -31245,6 +32282,18 @@ extension CreateHoursOfOperationOutput {
     }
 }
 
+extension CreateHoursOfOperationOverrideOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateHoursOfOperationOverrideOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateHoursOfOperationOverrideOutput()
+        value.hoursOfOperationOverrideId = try reader["HoursOfOperationOverrideId"].readIfPresent()
+        return value
+    }
+}
+
 extension CreateInstanceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateInstanceOutput {
@@ -31312,6 +32361,18 @@ extension CreatePromptOutput {
         var value = CreatePromptOutput()
         value.promptARN = try reader["PromptARN"].readIfPresent()
         value.promptId = try reader["PromptId"].readIfPresent()
+        return value
+    }
+}
+
+extension CreatePushNotificationRegistrationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreatePushNotificationRegistrationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreatePushNotificationRegistrationOutput()
+        value.registrationId = try reader["RegistrationId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -31547,6 +32608,13 @@ extension DeleteHoursOfOperationOutput {
     }
 }
 
+extension DeleteHoursOfOperationOverrideOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteHoursOfOperationOverrideOutput {
+        return DeleteHoursOfOperationOverrideOutput()
+    }
+}
+
 extension DeleteInstanceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteInstanceOutput {
@@ -31572,6 +32640,13 @@ extension DeletePromptOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeletePromptOutput {
         return DeletePromptOutput()
+    }
+}
+
+extension DeletePushNotificationRegistrationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeletePushNotificationRegistrationOutput {
+        return DeletePushNotificationRegistrationOutput()
     }
 }
 
@@ -31785,6 +32860,18 @@ extension DescribeHoursOfOperationOutput {
         let reader = responseReader
         var value = DescribeHoursOfOperationOutput()
         value.hoursOfOperation = try reader["HoursOfOperation"].readIfPresent(with: ConnectClientTypes.HoursOfOperation.read(from:))
+        return value
+    }
+}
+
+extension DescribeHoursOfOperationOverrideOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeHoursOfOperationOverrideOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeHoursOfOperationOverrideOutput()
+        value.hoursOfOperationOverride = try reader["HoursOfOperationOverride"].readIfPresent(with: ConnectClientTypes.HoursOfOperationOverride.read(from:))
         return value
     }
 }
@@ -32155,6 +33242,19 @@ extension GetCurrentUserDataOutput {
     }
 }
 
+extension GetEffectiveHoursOfOperationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetEffectiveHoursOfOperationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetEffectiveHoursOfOperationsOutput()
+        value.effectiveHoursOfOperationList = try reader["EffectiveHoursOfOperationList"].readListIfPresent(memberReadingClosure: ConnectClientTypes.EffectiveHoursOfOperations.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.timeZone = try reader["TimeZone"].readIfPresent()
+        return value
+    }
+}
+
 extension GetFederationTokenOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetFederationTokenOutput {
@@ -32468,6 +33568,21 @@ extension ListFlowAssociationsOutput {
         let reader = responseReader
         var value = ListFlowAssociationsOutput()
         value.flowAssociationSummaryList = try reader["FlowAssociationSummaryList"].readListIfPresent(memberReadingClosure: ConnectClientTypes.FlowAssociationSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListHoursOfOperationOverridesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListHoursOfOperationOverridesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListHoursOfOperationOverridesOutput()
+        value.hoursOfOperationOverrideList = try reader["HoursOfOperationOverrideList"].readListIfPresent(memberReadingClosure: ConnectClientTypes.HoursOfOperationOverride.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.lastModifiedRegion = try reader["LastModifiedRegion"].readIfPresent()
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -33044,6 +34159,20 @@ extension SearchEmailAddressesOutput {
     }
 }
 
+extension SearchHoursOfOperationOverridesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> SearchHoursOfOperationOverridesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = SearchHoursOfOperationOverridesOutput()
+        value.approximateTotalCount = try reader["ApproximateTotalCount"].readIfPresent()
+        value.hoursOfOperationOverrides = try reader["HoursOfOperationOverrides"].readListIfPresent(memberReadingClosure: ConnectClientTypes.HoursOfOperationOverride.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension SearchHoursOfOperationsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> SearchHoursOfOperationsOutput {
@@ -33568,6 +34697,13 @@ extension UpdateHoursOfOperationOutput {
     }
 }
 
+extension UpdateHoursOfOperationOverrideOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateHoursOfOperationOverrideOutput {
+        return UpdateHoursOfOperationOverrideOutput()
+    }
+}
+
 extension UpdateInstanceAttributeOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateInstanceAttributeOutput {
@@ -33579,6 +34715,13 @@ extension UpdateInstanceStorageConfigOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateInstanceStorageConfigOutput {
         return UpdateInstanceStorageConfigOutput()
+    }
+}
+
+extension UpdateParticipantAuthenticationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateParticipantAuthenticationOutput {
+        return UpdateParticipantAuthenticationOutput()
     }
 }
 
@@ -34421,6 +35564,26 @@ enum CreateHoursOfOperationOutputError {
     }
 }
 
+enum CreateHoursOfOperationOverrideOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "DuplicateResourceException": return try DuplicateResourceException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateInstanceOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -34527,6 +35690,25 @@ enum CreatePromptOutputError {
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreatePushNotificationRegistrationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -34942,6 +36124,24 @@ enum DeleteHoursOfOperationOutputError {
     }
 }
 
+enum DeleteHoursOfOperationOverrideOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteInstanceOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -35005,6 +36205,24 @@ enum DeletePromptOutputError {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeletePushNotificationRegistrationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -35401,6 +36619,24 @@ enum DescribeEvaluationFormOutputError {
 }
 
 enum DescribeHoursOfOperationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeHoursOfOperationOverrideOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -36047,6 +37283,24 @@ enum GetCurrentUserDataOutputError {
     }
 }
 
+enum GetEffectiveHoursOfOperationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetFederationTokenOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -36452,6 +37706,24 @@ enum ListFlowAssociationsOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListHoursOfOperationOverridesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
@@ -37270,6 +38542,24 @@ enum SearchEmailAddressesOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum SearchHoursOfOperationOverridesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
@@ -38205,6 +39495,26 @@ enum UpdateHoursOfOperationOutputError {
     }
 }
 
+enum UpdateHoursOfOperationOverrideOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConditionalOperationFailedException": return try ConditionalOperationFailedException.makeError(baseError: baseError)
+            case "DuplicateResourceException": return try DuplicateResourceException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateInstanceAttributeOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -38235,6 +39545,25 @@ enum UpdateInstanceStorageConfigOutputError {
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateParticipantAuthenticationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -39409,6 +40738,7 @@ extension ConnectClientTypes.Contact {
         value.scheduledTimestamp = try reader["ScheduledTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.relatedContactId = try reader["RelatedContactId"].readIfPresent()
         value.wisdomInfo = try reader["WisdomInfo"].readIfPresent(with: ConnectClientTypes.WisdomInfo.read(from:))
+        value.customerId = try reader["CustomerId"].readIfPresent()
         value.customerEndpoint = try reader["CustomerEndpoint"].readIfPresent(with: ConnectClientTypes.EndpointInfo.read(from:))
         value.systemEndpoint = try reader["SystemEndpoint"].readIfPresent(with: ConnectClientTypes.EndpointInfo.read(from:))
         value.queueTimeAdjustmentSeconds = try reader["QueueTimeAdjustmentSeconds"].readIfPresent()
@@ -39617,6 +40947,7 @@ extension ConnectClientTypes.Expression {
         guard let value else { return }
         try writer["AndExpression"].writeList(value.andExpression, memberWritingClosure: ConnectClientTypes.Expression.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["AttributeCondition"].write(value.attributeCondition, with: ConnectClientTypes.AttributeCondition.write(value:to:))
+        try writer["NotAttributeCondition"].write(value.notAttributeCondition, with: ConnectClientTypes.AttributeCondition.write(value:to:))
         try writer["OrExpression"].writeList(value.orExpression, memberWritingClosure: ConnectClientTypes.Expression.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
@@ -39626,6 +40957,7 @@ extension ConnectClientTypes.Expression {
         value.attributeCondition = try reader["AttributeCondition"].readIfPresent(with: ConnectClientTypes.AttributeCondition.read(from:))
         value.andExpression = try reader["AndExpression"].readListIfPresent(memberReadingClosure: ConnectClientTypes.Expression.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.orExpression = try reader["OrExpression"].readListIfPresent(memberReadingClosure: ConnectClientTypes.Expression.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.notAttributeCondition = try reader["NotAttributeCondition"].readIfPresent(with: ConnectClientTypes.AttributeCondition.read(from:))
         return value
     }
 }
@@ -39638,6 +40970,7 @@ extension ConnectClientTypes.AttributeCondition {
         try writer["MatchCriteria"].write(value.matchCriteria, with: ConnectClientTypes.MatchCriteria.write(value:to:))
         try writer["Name"].write(value.name)
         try writer["ProficiencyLevel"].write(value.proficiencyLevel)
+        try writer["Range"].write(value.range, with: ConnectClientTypes.Range.write(value:to:))
         try writer["Value"].write(value.value)
     }
 
@@ -39647,6 +40980,7 @@ extension ConnectClientTypes.AttributeCondition {
         value.name = try reader["Name"].readIfPresent()
         value.value = try reader["Value"].readIfPresent()
         value.proficiencyLevel = try reader["ProficiencyLevel"].readIfPresent()
+        value.range = try reader["Range"].readIfPresent(with: ConnectClientTypes.Range.read(from:))
         value.matchCriteria = try reader["MatchCriteria"].readIfPresent(with: ConnectClientTypes.MatchCriteria.read(from:))
         value.comparisonOperator = try reader["ComparisonOperator"].readIfPresent()
         return value
@@ -39679,6 +41013,23 @@ extension ConnectClientTypes.AgentsCriteria {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.AgentsCriteria()
         value.agentIds = try reader["AgentIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ConnectClientTypes.Range {
+
+    static func write(value: ConnectClientTypes.Range?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaxProficiencyLevel"].write(value.maxProficiencyLevel)
+        try writer["MinProficiencyLevel"].write(value.minProficiencyLevel)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.Range {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.Range()
+        value.minProficiencyLevel = try reader["MinProficiencyLevel"].readIfPresent()
+        value.maxProficiencyLevel = try reader["MaxProficiencyLevel"].readIfPresent()
         return value
     }
 }
@@ -40299,6 +41650,59 @@ extension ConnectClientTypes.HoursOfOperationTimeSlice {
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.HoursOfOperationTimeSlice {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.HoursOfOperationTimeSlice()
+        value.hours = try reader["Hours"].readIfPresent()
+        value.minutes = try reader["Minutes"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectClientTypes.HoursOfOperationOverride {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.HoursOfOperationOverride {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.HoursOfOperationOverride()
+        value.hoursOfOperationOverrideId = try reader["HoursOfOperationOverrideId"].readIfPresent()
+        value.hoursOfOperationId = try reader["HoursOfOperationId"].readIfPresent()
+        value.hoursOfOperationArn = try reader["HoursOfOperationArn"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.config = try reader["Config"].readListIfPresent(memberReadingClosure: ConnectClientTypes.HoursOfOperationOverrideConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.effectiveFrom = try reader["EffectiveFrom"].readIfPresent()
+        value.effectiveTill = try reader["EffectiveTill"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectClientTypes.HoursOfOperationOverrideConfig {
+
+    static func write(value: ConnectClientTypes.HoursOfOperationOverrideConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Day"].write(value.day)
+        try writer["EndTime"].write(value.endTime, with: ConnectClientTypes.OverrideTimeSlice.write(value:to:))
+        try writer["StartTime"].write(value.startTime, with: ConnectClientTypes.OverrideTimeSlice.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.HoursOfOperationOverrideConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.HoursOfOperationOverrideConfig()
+        value.day = try reader["Day"].readIfPresent()
+        value.startTime = try reader["StartTime"].readIfPresent(with: ConnectClientTypes.OverrideTimeSlice.read(from:))
+        value.endTime = try reader["EndTime"].readIfPresent(with: ConnectClientTypes.OverrideTimeSlice.read(from:))
+        return value
+    }
+}
+
+extension ConnectClientTypes.OverrideTimeSlice {
+
+    static func write(value: ConnectClientTypes.OverrideTimeSlice?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Hours"].write(value.hours)
+        try writer["Minutes"].write(value.minutes)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.OverrideTimeSlice {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.OverrideTimeSlice()
         value.hours = try reader["Hours"].readIfPresent()
         value.minutes = try reader["Minutes"].readIfPresent()
         return value
@@ -41413,6 +42817,28 @@ extension ConnectClientTypes.UserReference {
         var value = ConnectClientTypes.UserReference()
         value.id = try reader["Id"].readIfPresent()
         value.arn = try reader["Arn"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectClientTypes.EffectiveHoursOfOperations {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.EffectiveHoursOfOperations {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.EffectiveHoursOfOperations()
+        value.date = try reader["Date"].readIfPresent()
+        value.operationalHours = try reader["OperationalHours"].readListIfPresent(memberReadingClosure: ConnectClientTypes.OperationalHour.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ConnectClientTypes.OperationalHour {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.OperationalHour {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.OperationalHour()
+        value.start = try reader["Start"].readIfPresent(with: ConnectClientTypes.OverrideTimeSlice.read(from:))
+        value.end = try reader["End"].readIfPresent(with: ConnectClientTypes.OverrideTimeSlice.read(from:))
         return value
     }
 }
@@ -42995,6 +44421,16 @@ extension ConnectClientTypes.ParticipantDetailsToAdd {
     }
 }
 
+extension ConnectClientTypes.ContactConfiguration {
+
+    static func write(value: ConnectClientTypes.ContactConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ContactId"].write(value.contactId)
+        try writer["IncludeRawMessage"].write(value.includeRawMessage)
+        try writer["ParticipantRole"].write(value.participantRole)
+    }
+}
+
 extension ConnectClientTypes.ViewInputContent {
 
     static func write(value: ConnectClientTypes.ViewInputContent?, to writer: SmithyJSON.Writer) throws {
@@ -43150,6 +44586,8 @@ extension ConnectClientTypes.ContactFlowModuleSearchCriteria {
         guard let value else { return }
         try writer["AndConditions"].writeList(value.andConditions, memberWritingClosure: ConnectClientTypes.ContactFlowModuleSearchCriteria.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["OrConditions"].writeList(value.orConditions, memberWritingClosure: ConnectClientTypes.ContactFlowModuleSearchCriteria.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["StateCondition"].write(value.stateCondition)
+        try writer["StatusCondition"].write(value.statusCondition)
         try writer["StringCondition"].write(value.stringCondition, with: ConnectClientTypes.StringCondition.write(value:to:))
     }
 }
@@ -43307,6 +44745,27 @@ extension ConnectClientTypes.HoursOfOperationSearchFilter {
     static func write(value: ConnectClientTypes.HoursOfOperationSearchFilter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["TagFilter"].write(value.tagFilter, with: ConnectClientTypes.ControlPlaneTagFilter.write(value:to:))
+    }
+}
+
+extension ConnectClientTypes.HoursOfOperationOverrideSearchCriteria {
+
+    static func write(value: ConnectClientTypes.HoursOfOperationOverrideSearchCriteria?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AndConditions"].writeList(value.andConditions, memberWritingClosure: ConnectClientTypes.HoursOfOperationOverrideSearchCriteria.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["DateCondition"].write(value.dateCondition, with: ConnectClientTypes.DateCondition.write(value:to:))
+        try writer["OrConditions"].writeList(value.orConditions, memberWritingClosure: ConnectClientTypes.HoursOfOperationOverrideSearchCriteria.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["StringCondition"].write(value.stringCondition, with: ConnectClientTypes.StringCondition.write(value:to:))
+    }
+}
+
+extension ConnectClientTypes.DateCondition {
+
+    static func write(value: ConnectClientTypes.DateCondition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ComparisonType"].write(value.comparisonType)
+        try writer["FieldName"].write(value.fieldName)
+        try writer["Value"].write(value.value)
     }
 }
 

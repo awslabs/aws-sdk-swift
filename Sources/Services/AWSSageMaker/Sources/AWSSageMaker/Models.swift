@@ -62,12 +62,22 @@ public struct DeleteAppOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct DeleteClusterSchedulerConfigOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteCodeRepositoryOutput: Swift.Sendable {
 
     public init() { }
 }
 
 public struct DeleteCompilationJobOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DeleteComputeQuotaOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -428,10 +438,39 @@ extension SageMakerClientTypes {
     }
 }
 
-/// You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-public struct ResourceLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+extension SageMakerClientTypes {
 
-    public struct Properties {
+    public enum ActivationState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ActivationState] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "Disabled"
+            case .enabled: return "Enabled"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+/// You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
+public struct ResourceLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -453,9 +492,9 @@ public struct ResourceLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntim
 }
 
 /// Resource being access is not found.
-public struct ResourceNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1659,6 +1698,8 @@ extension SageMakerClientTypes {
         case mlR7i8xlarge
         case mlR7iLarge
         case mlR7iXlarge
+        case mlTrn12xlarge
+        case mlTrn132xlarge
         case sdkUnknown(Swift.String)
 
         public static var allCases: [TransformInstanceType] {
@@ -1760,7 +1801,9 @@ extension SageMakerClientTypes {
                 .mlR7i4xlarge,
                 .mlR7i8xlarge,
                 .mlR7iLarge,
-                .mlR7iXlarge
+                .mlR7iXlarge,
+                .mlTrn12xlarge,
+                .mlTrn132xlarge
             ]
         }
 
@@ -1869,6 +1912,8 @@ extension SageMakerClientTypes {
             case .mlR7i8xlarge: return "ml.r7i.8xlarge"
             case .mlR7iLarge: return "ml.r7i.large"
             case .mlR7iXlarge: return "ml.r7i.xlarge"
+            case .mlTrn12xlarge: return "ml.trn1.2xlarge"
+            case .mlTrn132xlarge: return "ml.trn1.32xlarge"
             case let .sdkUnknown(s): return s
             }
         }
@@ -2220,7 +2265,7 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
-    /// Specifies the training algorithm to use in a [CreateTrainingJob](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTrainingJob.html) request. For more information about algorithms provided by SageMaker, see [Algorithms](https://docs.aws.amazon.com/sagemaker/latest/dg/algos.html). For information about using your own algorithms, see [Using Your Own Algorithms with Amazon SageMaker](https://docs.aws.amazon.com/sagemaker/latest/dg/your-algorithms.html).
+    /// Specifies the training algorithm to use in a [CreateTrainingJob](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTrainingJob.html) request. SageMaker uses its own SageMaker account credentials to pull and access built-in algorithms so built-in algorithms are universally accessible across all Amazon Web Services accounts. As a result, built-in algorithms have standard, unrestricted access. You cannot restrict built-in algorithms using IAM roles. Use custom algorithms if you require specific access controls. For more information about algorithms provided by SageMaker, see [Algorithms](https://docs.aws.amazon.com/sagemaker/latest/dg/algos.html). For information about using your own algorithms, see [Using Your Own Algorithms with Amazon SageMaker](https://docs.aws.amazon.com/sagemaker/latest/dg/your-algorithms.html).
     public struct AlgorithmSpecification: Swift.Sendable {
         /// The name of the algorithm resource to use for the training job. This must be an algorithm resource that you created or subscribe to on Amazon Web Services Marketplace. You must specify either the algorithm name to the AlgorithmName parameter or the image URI of the algorithm container to the TrainingImage parameter. Note that the AlgorithmName parameter is mutually exclusive with the TrainingImage parameter. If you specify a value for the AlgorithmName parameter, you can't specify a value for TrainingImage, and vice versa. If you specify values for both parameters, the training job might break; if you don't specify any value for both parameters, the training job might raise a null error.
         public var algorithmName: Swift.String?
@@ -2882,6 +2927,7 @@ extension SageMakerClientTypes {
         case mlP38xlarge
         case mlP4de24xlarge
         case mlP4d24xlarge
+        case mlP5en48xlarge
         case mlP5e48xlarge
         case mlP548xlarge
         case mlR5d12xlarge
@@ -2907,6 +2953,7 @@ extension SageMakerClientTypes {
         case mlTrn1n32xlarge
         case mlTrn12xlarge
         case mlTrn132xlarge
+        case mlTrn248xlarge
         case sdkUnknown(Swift.String)
 
         public static var allCases: [TrainingInstanceType] {
@@ -2992,6 +3039,7 @@ extension SageMakerClientTypes {
                 .mlP38xlarge,
                 .mlP4de24xlarge,
                 .mlP4d24xlarge,
+                .mlP5en48xlarge,
                 .mlP5e48xlarge,
                 .mlP548xlarge,
                 .mlR5d12xlarge,
@@ -3016,7 +3064,8 @@ extension SageMakerClientTypes {
                 .mlT3Xlarge,
                 .mlTrn1n32xlarge,
                 .mlTrn12xlarge,
-                .mlTrn132xlarge
+                .mlTrn132xlarge,
+                .mlTrn248xlarge
             ]
         }
 
@@ -3108,6 +3157,7 @@ extension SageMakerClientTypes {
             case .mlP38xlarge: return "ml.p3.8xlarge"
             case .mlP4de24xlarge: return "ml.p4de.24xlarge"
             case .mlP4d24xlarge: return "ml.p4d.24xlarge"
+            case .mlP5en48xlarge: return "ml.p5en.48xlarge"
             case .mlP5e48xlarge: return "ml.p5e.48xlarge"
             case .mlP548xlarge: return "ml.p5.48xlarge"
             case .mlR5d12xlarge: return "ml.r5d.12xlarge"
@@ -3133,6 +3183,7 @@ extension SageMakerClientTypes {
             case .mlTrn1n32xlarge: return "ml.trn1n.32xlarge"
             case .mlTrn12xlarge: return "ml.trn1.2xlarge"
             case .mlTrn132xlarge: return "ml.trn1.32xlarge"
+            case .mlTrn248xlarge: return "ml.trn2.48xlarge"
             case let .sdkUnknown(s): return s
             }
         }
@@ -3185,6 +3236,8 @@ extension SageMakerClientTypes {
         public var instanceType: SageMakerClientTypes.TrainingInstanceType?
         /// The duration of time in seconds to retain configured resources in a warm pool for subsequent training jobs.
         public var keepAlivePeriodInSeconds: Swift.Int?
+        /// The Amazon Resource Name (ARN); of the training plan to use for this resource configuration.
+        public var trainingPlanArn: Swift.String?
         /// The Amazon Web Services KMS key that SageMaker uses to encrypt data on the storage volume attached to the ML compute instance(s) that run the training job. Certain Nitro-based instances include local storage, dependent on the instance type. Local storage volumes are encrypted using a hardware module on the instance. You can't request a VolumeKmsKeyId when using an instance type with local storage. For a list of instance types that support local instance storage, see [Instance Store Volumes](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/InstanceStorage.html#instance-store-volumes). For more information about local instance storage encryption, see [SSD Instance Store Volumes](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ssd-instance-store.html). The VolumeKmsKeyId can be in any of the following formats:
         ///
         /// * // KMS Key ID "1234abcd-12ab-34cd-56ef-1234567890ab"
@@ -3200,6 +3253,7 @@ extension SageMakerClientTypes {
             instanceGroups: [SageMakerClientTypes.InstanceGroup]? = nil,
             instanceType: SageMakerClientTypes.TrainingInstanceType? = nil,
             keepAlivePeriodInSeconds: Swift.Int? = nil,
+            trainingPlanArn: Swift.String? = nil,
             volumeKmsKeyId: Swift.String? = nil,
             volumeSizeInGB: Swift.Int? = nil
         )
@@ -3208,6 +3262,7 @@ extension SageMakerClientTypes {
             self.instanceGroups = instanceGroups
             self.instanceType = instanceType
             self.keepAlivePeriodInSeconds = keepAlivePeriodInSeconds
+            self.trainingPlanArn = trainingPlanArn
             self.volumeKmsKeyId = volumeKmsKeyId
             self.volumeSizeInGB = volumeSizeInGB
         }
@@ -4833,13 +4888,13 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
-    /// Specifies the ARN's of a SageMaker image and SageMaker image version, and the instance type that the version runs on.
+    /// Specifies the ARN's of a SageMaker AI image and SageMaker AI image version, and the instance type that the version runs on.
     public struct ResourceSpec: Swift.Sendable {
         /// The instance type that the image version runs on. JupyterServer apps only support the system value. For KernelGateway apps, the system value is translated to ml.t3.medium. KernelGateway apps also support all other values for available instance types.
         public var instanceType: SageMakerClientTypes.AppInstanceType?
         /// The Amazon Resource Name (ARN) of the Lifecycle Configuration attached to the Resource.
         public var lifecycleConfigArn: Swift.String?
-        /// The ARN of the SageMaker image that the image version belongs to.
+        /// The ARN of the SageMaker AI image that the image version belongs to.
         public var sageMakerImageArn: Swift.String?
         /// The SageMakerImageVersionAlias of the image to launch with. This value is in SemVer 2.0.0 versioning format.
         public var sageMakerImageVersionAlias: Swift.String?
@@ -4903,7 +4958,7 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
-    /// Details about an Amazon SageMaker app.
+    /// Details about an Amazon SageMaker AI app.
     public struct AppDetails: Swift.Sendable {
         /// The name of the app.
         public var appName: Swift.String?
@@ -4913,7 +4968,7 @@ extension SageMakerClientTypes {
         public var creationTime: Foundation.Date?
         /// The domain ID.
         public var domainId: Swift.String?
-        /// Specifies the ARN's of a SageMaker image and SageMaker image version, and the instance type that the version runs on.
+        /// Specifies the ARN's of a SageMaker AI image and SageMaker AI image version, and the instance type that the version runs on.
         public var resourceSpec: SageMakerClientTypes.ResourceSpec?
         /// The name of the space.
         public var spaceName: Swift.String?
@@ -4971,7 +5026,7 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
-    /// The Amazon Elastic File System storage configuration for a SageMaker image.
+    /// The Amazon Elastic File System storage configuration for a SageMaker AI image.
     public struct FileSystemConfig: Swift.Sendable {
         /// The default POSIX group ID (GID). If not specified, defaults to 100.
         public var defaultGid: Swift.Int?
@@ -4999,7 +5054,7 @@ extension SageMakerClientTypes {
     public struct CodeEditorAppImageConfig: Swift.Sendable {
         /// The configuration used to run the application image container.
         public var containerConfig: SageMakerClientTypes.ContainerConfig?
-        /// The Amazon Elastic File System storage configuration for a SageMaker image.
+        /// The Amazon Elastic File System storage configuration for a SageMaker AI image.
         public var fileSystemConfig: SageMakerClientTypes.FileSystemConfig?
 
         public init(
@@ -5015,11 +5070,11 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
-    /// The configuration for the file system and kernels in a SageMaker image running as a JupyterLab app. The FileSystemConfig object is not supported.
+    /// The configuration for the file system and kernels in a SageMaker AI image running as a JupyterLab app. The FileSystemConfig object is not supported.
     public struct JupyterLabAppImageConfig: Swift.Sendable {
         /// The configuration used to run the application image container.
         public var containerConfig: SageMakerClientTypes.ContainerConfig?
-        /// The Amazon Elastic File System storage configuration for a SageMaker image.
+        /// The Amazon Elastic File System storage configuration for a SageMaker AI image.
         public var fileSystemConfig: SageMakerClientTypes.FileSystemConfig?
 
         public init(
@@ -5056,9 +5111,9 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
-    /// The configuration for the file system and kernels in a SageMaker image running as a KernelGateway app.
+    /// The configuration for the file system and kernels in a SageMaker AI image running as a KernelGateway app.
     public struct KernelGatewayImageConfig: Swift.Sendable {
-        /// The Amazon Elastic File System storage configuration for a SageMaker image.
+        /// The Amazon Elastic File System storage configuration for a SageMaker AI image.
         public var fileSystemConfig: SageMakerClientTypes.FileSystemConfig?
         /// The specification of the Jupyter kernels in the image.
         /// This member is required.
@@ -5077,7 +5132,7 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
-    /// The configuration for running a SageMaker image as a KernelGateway app.
+    /// The configuration for running a SageMaker AI image as a KernelGateway app.
     public struct AppImageConfigDetails: Swift.Sendable {
         /// The ARN of the AppImageConfig.
         public var appImageConfigArn: Swift.String?
@@ -5089,7 +5144,7 @@ extension SageMakerClientTypes {
         public var creationTime: Foundation.Date?
         /// The configuration for the file system and the runtime, such as the environment variables and entry point.
         public var jupyterLabAppImageConfig: SageMakerClientTypes.JupyterLabAppImageConfig?
-        /// The configuration for the file system and kernels in the SageMaker image.
+        /// The configuration for the file system and kernels in the SageMaker AI image.
         public var kernelGatewayImageConfig: SageMakerClientTypes.KernelGatewayImageConfig?
         /// When the AppImageConfig was last modified.
         public var lastModifiedTime: Foundation.Date?
@@ -6668,9 +6723,9 @@ extension SageMakerClientTypes {
     public struct AutoMLS3DataSource: Swift.Sendable {
         /// The data type.
         ///
-        /// * If you choose S3Prefix, S3Uri identifies a key name prefix. SageMaker uses all objects that match the specified key name prefix for model training. The S3Prefix should have the following format: s3://DOC-EXAMPLE-BUCKET/DOC-EXAMPLE-FOLDER-OR-FILE
+        /// * If you choose S3Prefix, S3Uri identifies a key name prefix. SageMaker AI uses all objects that match the specified key name prefix for model training. The S3Prefix should have the following format: s3://DOC-EXAMPLE-BUCKET/DOC-EXAMPLE-FOLDER-OR-FILE
         ///
-        /// * If you choose ManifestFile, S3Uri identifies an object that is a manifest file containing a list of object keys that you want SageMaker to use for model training. A ManifestFile should have the format shown below: [ {"prefix": "s3://DOC-EXAMPLE-BUCKET/DOC-EXAMPLE-FOLDER/DOC-EXAMPLE-PREFIX/"}, "DOC-EXAMPLE-RELATIVE-PATH/DOC-EXAMPLE-FOLDER/DATA-1","DOC-EXAMPLE-RELATIVE-PATH/DOC-EXAMPLE-FOLDER/DATA-2",... "DOC-EXAMPLE-RELATIVE-PATH/DOC-EXAMPLE-FOLDER/DATA-N" ]
+        /// * If you choose ManifestFile, S3Uri identifies an object that is a manifest file containing a list of object keys that you want SageMaker AI to use for model training. A ManifestFile should have the format shown below: [ {"prefix": "s3://DOC-EXAMPLE-BUCKET/DOC-EXAMPLE-FOLDER/DOC-EXAMPLE-PREFIX/"}, "DOC-EXAMPLE-RELATIVE-PATH/DOC-EXAMPLE-FOLDER/DATA-1","DOC-EXAMPLE-RELATIVE-PATH/DOC-EXAMPLE-FOLDER/DATA-2",... "DOC-EXAMPLE-RELATIVE-PATH/DOC-EXAMPLE-FOLDER/DATA-N" ]
         ///
         /// * If you choose AugmentedManifestFile, S3Uri identifies an object that is an augmented manifest file in JSON lines format. This file contains the data you want to use for model training. AugmentedManifestFile is available for V2 API jobs only (for example, for jobs created by calling CreateAutoMLJobV2). Here is a minimal, single-record example of an AugmentedManifestFile: {"source-ref": "s3://DOC-EXAMPLE-BUCKET/DOC-EXAMPLE-FOLDER/cats/cat.jpg","label-metadata": {"class-name": "cat" } For more information on AugmentedManifestFile, see [Provide Dataset Metadata to Training Jobs with an Augmented Manifest File](https://docs.aws.amazon.com/sagemaker/latest/dg/augmented-manifest.html).
         /// This member is required.
@@ -9075,11 +9130,11 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
-    /// Configuration specifying how to treat different headers. If no headers are specified Amazon SageMaker will by default base64 encode when capturing the data.
+    /// Configuration specifying how to treat different headers. If no headers are specified Amazon SageMaker AI will by default base64 encode when capturing the data.
     public struct CaptureContentTypeHeader: Swift.Sendable {
-        /// The list of all content type headers that Amazon SageMaker will treat as CSV and capture accordingly.
+        /// The list of all content type headers that Amazon SageMaker AI will treat as CSV and capture accordingly.
         public var csvContentTypes: [Swift.String]?
-        /// The list of all content type headers that SageMaker will treat as JSON and capture accordingly.
+        /// The list of all content type headers that SageMaker AI will treat as JSON and capture accordingly.
         public var jsonContentTypes: [Swift.String]?
 
         public init(
@@ -9810,6 +9865,15 @@ extension SageMakerClientTypes {
         case mlC59xlarge
         case mlC5Large
         case mlC5Xlarge
+        case mlC6i12xlarge
+        case mlC6i16xlarge
+        case mlC6i24xlarge
+        case mlC6i2xlarge
+        case mlC6i32xlarge
+        case mlC6i4xlarge
+        case mlC6i8xlarge
+        case mlC6iLarge
+        case mlC6iXlarge
         case mlG512xlarge
         case mlG516xlarge
         case mlG524xlarge
@@ -9844,16 +9908,36 @@ extension SageMakerClientTypes {
         case mlM58xlarge
         case mlM5Large
         case mlM5Xlarge
+        case mlM6i12xlarge
+        case mlM6i16xlarge
+        case mlM6i24xlarge
+        case mlM6i2xlarge
+        case mlM6i32xlarge
+        case mlM6i4xlarge
+        case mlM6i8xlarge
+        case mlM6iLarge
+        case mlM6iXlarge
         case mlP4de24xlarge
         case mlP4d24xlarge
+        case mlP5en48xlarge
         case mlP5e48xlarge
         case mlP548xlarge
+        case mlR6i12xlarge
+        case mlR6i16xlarge
+        case mlR6i24xlarge
+        case mlR6i2xlarge
+        case mlR6i32xlarge
+        case mlR6i4xlarge
+        case mlR6i8xlarge
+        case mlR6iLarge
+        case mlR6iXlarge
         case mlT32xlarge
         case mlT3Large
         case mlT3Medium
         case mlT3Xlarge
         case mlTrn1n32xlarge
         case mlTrn132xlarge
+        case mlTrn248xlarge
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ClusterInstanceType] {
@@ -9871,6 +9955,15 @@ extension SageMakerClientTypes {
                 .mlC59xlarge,
                 .mlC5Large,
                 .mlC5Xlarge,
+                .mlC6i12xlarge,
+                .mlC6i16xlarge,
+                .mlC6i24xlarge,
+                .mlC6i2xlarge,
+                .mlC6i32xlarge,
+                .mlC6i4xlarge,
+                .mlC6i8xlarge,
+                .mlC6iLarge,
+                .mlC6iXlarge,
                 .mlG512xlarge,
                 .mlG516xlarge,
                 .mlG524xlarge,
@@ -9905,16 +9998,36 @@ extension SageMakerClientTypes {
                 .mlM58xlarge,
                 .mlM5Large,
                 .mlM5Xlarge,
+                .mlM6i12xlarge,
+                .mlM6i16xlarge,
+                .mlM6i24xlarge,
+                .mlM6i2xlarge,
+                .mlM6i32xlarge,
+                .mlM6i4xlarge,
+                .mlM6i8xlarge,
+                .mlM6iLarge,
+                .mlM6iXlarge,
                 .mlP4de24xlarge,
                 .mlP4d24xlarge,
+                .mlP5en48xlarge,
                 .mlP5e48xlarge,
                 .mlP548xlarge,
+                .mlR6i12xlarge,
+                .mlR6i16xlarge,
+                .mlR6i24xlarge,
+                .mlR6i2xlarge,
+                .mlR6i32xlarge,
+                .mlR6i4xlarge,
+                .mlR6i8xlarge,
+                .mlR6iLarge,
+                .mlR6iXlarge,
                 .mlT32xlarge,
                 .mlT3Large,
                 .mlT3Medium,
                 .mlT3Xlarge,
                 .mlTrn1n32xlarge,
-                .mlTrn132xlarge
+                .mlTrn132xlarge,
+                .mlTrn248xlarge
             ]
         }
 
@@ -9938,6 +10051,15 @@ extension SageMakerClientTypes {
             case .mlC59xlarge: return "ml.c5.9xlarge"
             case .mlC5Large: return "ml.c5.large"
             case .mlC5Xlarge: return "ml.c5.xlarge"
+            case .mlC6i12xlarge: return "ml.c6i.12xlarge"
+            case .mlC6i16xlarge: return "ml.c6i.16xlarge"
+            case .mlC6i24xlarge: return "ml.c6i.24xlarge"
+            case .mlC6i2xlarge: return "ml.c6i.2xlarge"
+            case .mlC6i32xlarge: return "ml.c6i.32xlarge"
+            case .mlC6i4xlarge: return "ml.c6i.4xlarge"
+            case .mlC6i8xlarge: return "ml.c6i.8xlarge"
+            case .mlC6iLarge: return "ml.c6i.large"
+            case .mlC6iXlarge: return "ml.c6i.xlarge"
             case .mlG512xlarge: return "ml.g5.12xlarge"
             case .mlG516xlarge: return "ml.g5.16xlarge"
             case .mlG524xlarge: return "ml.g5.24xlarge"
@@ -9972,16 +10094,36 @@ extension SageMakerClientTypes {
             case .mlM58xlarge: return "ml.m5.8xlarge"
             case .mlM5Large: return "ml.m5.large"
             case .mlM5Xlarge: return "ml.m5.xlarge"
+            case .mlM6i12xlarge: return "ml.m6i.12xlarge"
+            case .mlM6i16xlarge: return "ml.m6i.16xlarge"
+            case .mlM6i24xlarge: return "ml.m6i.24xlarge"
+            case .mlM6i2xlarge: return "ml.m6i.2xlarge"
+            case .mlM6i32xlarge: return "ml.m6i.32xlarge"
+            case .mlM6i4xlarge: return "ml.m6i.4xlarge"
+            case .mlM6i8xlarge: return "ml.m6i.8xlarge"
+            case .mlM6iLarge: return "ml.m6i.large"
+            case .mlM6iXlarge: return "ml.m6i.xlarge"
             case .mlP4de24xlarge: return "ml.p4de.24xlarge"
             case .mlP4d24xlarge: return "ml.p4d.24xlarge"
+            case .mlP5en48xlarge: return "ml.p5en.48xlarge"
             case .mlP5e48xlarge: return "ml.p5e.48xlarge"
             case .mlP548xlarge: return "ml.p5.48xlarge"
+            case .mlR6i12xlarge: return "ml.r6i.12xlarge"
+            case .mlR6i16xlarge: return "ml.r6i.16xlarge"
+            case .mlR6i24xlarge: return "ml.r6i.24xlarge"
+            case .mlR6i2xlarge: return "ml.r6i.2xlarge"
+            case .mlR6i32xlarge: return "ml.r6i.32xlarge"
+            case .mlR6i4xlarge: return "ml.r6i.4xlarge"
+            case .mlR6i8xlarge: return "ml.r6i.8xlarge"
+            case .mlR6iLarge: return "ml.r6i.large"
+            case .mlR6iXlarge: return "ml.r6i.xlarge"
             case .mlT32xlarge: return "ml.t3.2xlarge"
             case .mlT3Large: return "ml.t3.large"
             case .mlT3Medium: return "ml.t3.medium"
             case .mlT3Xlarge: return "ml.t3.xlarge"
             case .mlTrn1n32xlarge: return "ml.trn1n.32xlarge"
             case .mlTrn132xlarge: return "ml.trn1.32xlarge"
+            case .mlTrn248xlarge: return "ml.trn2.48xlarge"
             case let .sdkUnknown(s): return s
             }
         }
@@ -10041,6 +10183,50 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
+    public enum InstanceGroupStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case creating
+        case degraded
+        case deleting
+        case failed
+        case inservice
+        case systemupdating
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InstanceGroupStatus] {
+            return [
+                .creating,
+                .degraded,
+                .deleting,
+                .failed,
+                .inservice,
+                .systemupdating,
+                .updating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .creating: return "Creating"
+            case .degraded: return "Degraded"
+            case .deleting: return "Deleting"
+            case .failed: return "Failed"
+            case .inservice: return "InService"
+            case .systemupdating: return "SystemUpdating"
+            case .updating: return "Updating"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     /// Details of an instance group in a SageMaker HyperPod cluster.
     public struct ClusterInstanceGroupDetails: Swift.Sendable {
         /// The number of instances that are currently in the instance group of a SageMaker HyperPod cluster.
@@ -10059,10 +10245,28 @@ extension SageMakerClientTypes {
         public var onStartDeepHealthChecks: [SageMakerClientTypes.DeepHealthCheckType]?
         /// Specifies an Amazon Virtual Private Cloud (VPC) that your SageMaker jobs, hosted models, and compute resources have access to. You can control access to and from your resources by configuring a VPC. For more information, see [Give SageMaker Access to Resources in your Amazon VPC](https://docs.aws.amazon.com/sagemaker/latest/dg/infrastructure-give-access.html).
         public var overrideVpcConfig: SageMakerClientTypes.VpcConfig?
+        /// The current status of the cluster instance group.
+        ///
+        /// * InService: The instance group is active and healthy.
+        ///
+        /// * Creating: The instance group is being provisioned.
+        ///
+        /// * Updating: The instance group is being updated.
+        ///
+        /// * Failed: The instance group has failed to provision or is no longer healthy.
+        ///
+        /// * Degraded: The instance group is degraded, meaning that some instances have failed to provision or are no longer healthy.
+        ///
+        /// * Deleting: The instance group is being deleted.
+        public var status: SageMakerClientTypes.InstanceGroupStatus?
         /// The number of instances you specified to add to the instance group of a SageMaker HyperPod cluster.
         public var targetCount: Swift.Int?
         /// The number you specified to TreadsPerCore in CreateCluster for enabling or disabling multithreading. For instance types that support multithreading, you can specify 1 for disabling multithreading and 2 for enabling multithreading. For more information, see the reference table of [CPU cores and threads per CPU core per instance type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/cpu-options-supported-instances-values.html) in the Amazon Elastic Compute Cloud User Guide.
         public var threadsPerCore: Swift.Int?
+        /// The Amazon Resource Name (ARN); of the training plan associated with this cluster instance group. For more information about how to reserve GPU capacity for your SageMaker HyperPod clusters using Amazon SageMaker Training Plan, see [CreateTrainingPlan](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTrainingPlan.html).
+        public var trainingPlanArn: Swift.String?
+        /// The current status of the training plan associated with this cluster instance group.
+        public var trainingPlanStatus: Swift.String?
 
         public init(
             currentCount: Swift.Int? = nil,
@@ -10073,8 +10277,11 @@ extension SageMakerClientTypes {
             lifeCycleConfig: SageMakerClientTypes.ClusterLifeCycleConfig? = nil,
             onStartDeepHealthChecks: [SageMakerClientTypes.DeepHealthCheckType]? = nil,
             overrideVpcConfig: SageMakerClientTypes.VpcConfig? = nil,
+            status: SageMakerClientTypes.InstanceGroupStatus? = nil,
             targetCount: Swift.Int? = nil,
-            threadsPerCore: Swift.Int? = nil
+            threadsPerCore: Swift.Int? = nil,
+            trainingPlanArn: Swift.String? = nil,
+            trainingPlanStatus: Swift.String? = nil
         )
         {
             self.currentCount = currentCount
@@ -10085,8 +10292,11 @@ extension SageMakerClientTypes {
             self.lifeCycleConfig = lifeCycleConfig
             self.onStartDeepHealthChecks = onStartDeepHealthChecks
             self.overrideVpcConfig = overrideVpcConfig
+            self.status = status
             self.targetCount = targetCount
             self.threadsPerCore = threadsPerCore
+            self.trainingPlanArn = trainingPlanArn
+            self.trainingPlanStatus = trainingPlanStatus
         }
     }
 }
@@ -10118,6 +10328,8 @@ extension SageMakerClientTypes {
         public var overrideVpcConfig: SageMakerClientTypes.VpcConfig?
         /// Specifies the value for Threads per core. For instance types that support multithreading, you can specify 1 for disabling multithreading and 2 for enabling multithreading. For instance types that doesn't support multithreading, specify 1. For more information, see the reference table of [CPU cores and threads per CPU core per instance type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/cpu-options-supported-instances-values.html) in the Amazon Elastic Compute Cloud User Guide.
         public var threadsPerCore: Swift.Int?
+        /// The Amazon Resource Name (ARN); of the training plan to use for this cluster instance group. For more information about how to reserve GPU capacity for your SageMaker HyperPod clusters using Amazon SageMaker Training Plan, see [CreateTrainingPlan](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTrainingPlan.html).
+        public var trainingPlanArn: Swift.String?
 
         public init(
             executionRole: Swift.String? = nil,
@@ -10128,7 +10340,8 @@ extension SageMakerClientTypes {
             lifeCycleConfig: SageMakerClientTypes.ClusterLifeCycleConfig? = nil,
             onStartDeepHealthChecks: [SageMakerClientTypes.DeepHealthCheckType]? = nil,
             overrideVpcConfig: SageMakerClientTypes.VpcConfig? = nil,
-            threadsPerCore: Swift.Int? = nil
+            threadsPerCore: Swift.Int? = nil,
+            trainingPlanArn: Swift.String? = nil
         )
         {
             self.executionRole = executionRole
@@ -10140,6 +10353,7 @@ extension SageMakerClientTypes {
             self.onStartDeepHealthChecks = onStartDeepHealthChecks
             self.overrideVpcConfig = overrideVpcConfig
             self.threadsPerCore = threadsPerCore
+            self.trainingPlanArn = trainingPlanArn
         }
     }
 }
@@ -10388,6 +10602,114 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
+    public enum SchedulerResourceStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case created
+        case createFailed
+        case createRollbackFailed
+        case creating
+        case deleted
+        case deleteFailed
+        case deleteRollbackFailed
+        case deleting
+        case updated
+        case updateFailed
+        case updateRollbackFailed
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SchedulerResourceStatus] {
+            return [
+                .created,
+                .createFailed,
+                .createRollbackFailed,
+                .creating,
+                .deleted,
+                .deleteFailed,
+                .deleteRollbackFailed,
+                .deleting,
+                .updated,
+                .updateFailed,
+                .updateRollbackFailed,
+                .updating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .created: return "Created"
+            case .createFailed: return "CreateFailed"
+            case .createRollbackFailed: return "CreateRollbackFailed"
+            case .creating: return "Creating"
+            case .deleted: return "Deleted"
+            case .deleteFailed: return "DeleteFailed"
+            case .deleteRollbackFailed: return "DeleteRollbackFailed"
+            case .deleting: return "Deleting"
+            case .updated: return "Updated"
+            case .updateFailed: return "UpdateFailed"
+            case .updateRollbackFailed: return "UpdateRollbackFailed"
+            case .updating: return "Updating"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Summary of the cluster policy.
+    public struct ClusterSchedulerConfigSummary: Swift.Sendable {
+        /// ARN of the cluster.
+        public var clusterArn: Swift.String?
+        /// ARN of the cluster policy.
+        /// This member is required.
+        public var clusterSchedulerConfigArn: Swift.String?
+        /// ID of the cluster policy.
+        /// This member is required.
+        public var clusterSchedulerConfigId: Swift.String?
+        /// Version of the cluster policy.
+        public var clusterSchedulerConfigVersion: Swift.Int?
+        /// Creation time of the cluster policy.
+        /// This member is required.
+        public var creationTime: Foundation.Date?
+        /// Last modified time of the cluster policy.
+        public var lastModifiedTime: Foundation.Date?
+        /// Name of the cluster policy.
+        /// This member is required.
+        public var name: Swift.String?
+        /// Status of the cluster policy.
+        /// This member is required.
+        public var status: SageMakerClientTypes.SchedulerResourceStatus?
+
+        public init(
+            clusterArn: Swift.String? = nil,
+            clusterSchedulerConfigArn: Swift.String? = nil,
+            clusterSchedulerConfigId: Swift.String? = nil,
+            clusterSchedulerConfigVersion: Swift.Int? = nil,
+            creationTime: Foundation.Date? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
+            name: Swift.String? = nil,
+            status: SageMakerClientTypes.SchedulerResourceStatus? = nil
+        )
+        {
+            self.clusterArn = clusterArn
+            self.clusterSchedulerConfigArn = clusterSchedulerConfigArn
+            self.clusterSchedulerConfigId = clusterSchedulerConfigId
+            self.clusterSchedulerConfigVersion = clusterSchedulerConfigVersion
+            self.creationTime = creationTime
+            self.lastModifiedTime = lastModifiedTime
+            self.name = name
+            self.status = status
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     public enum ClusterSortBy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case creationTime
         case name
@@ -10475,25 +10797,29 @@ extension SageMakerClientTypes {
         /// The time when the SageMaker HyperPod cluster is created.
         /// This member is required.
         public var creationTime: Foundation.Date?
+        /// A list of Amazon Resource Names (ARNs) of the training plans associated with this cluster. For more information about how to reserve GPU capacity for your SageMaker HyperPod clusters using Amazon SageMaker Training Plan, see [CreateTrainingPlan](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTrainingPlan.html).
+        public var trainingPlanArns: [Swift.String]?
 
         public init(
             clusterArn: Swift.String? = nil,
             clusterName: Swift.String? = nil,
             clusterStatus: SageMakerClientTypes.ClusterStatus? = nil,
-            creationTime: Foundation.Date? = nil
+            creationTime: Foundation.Date? = nil,
+            trainingPlanArns: [Swift.String]? = nil
         )
         {
             self.clusterArn = clusterArn
             self.clusterName = clusterName
             self.clusterStatus = clusterStatus
             self.creationTime = creationTime
+            self.trainingPlanArns = trainingPlanArns
         }
     }
 }
 
 extension SageMakerClientTypes {
 
-    /// A custom SageMaker image. For more information, see [Bring your own SageMaker image](https://docs.aws.amazon.com/sagemaker/latest/dg/studio-byoi.html).
+    /// A custom SageMaker AI image. For more information, see [Bring your own SageMaker AI image](https://docs.aws.amazon.com/sagemaker/latest/dg/studio-byoi.html).
     public struct CustomImage: Swift.Sendable {
         /// The name of the AppImageConfig.
         /// This member is required.
@@ -10527,7 +10853,7 @@ extension SageMakerClientTypes {
         public var builtInLifecycleConfigArn: Swift.String?
         /// A list of custom SageMaker images that are configured to run as a Code Editor app.
         public var customImages: [SageMakerClientTypes.CustomImage]?
-        /// Specifies the ARN's of a SageMaker image and SageMaker image version, and the instance type that the version runs on.
+        /// Specifies the ARN's of a SageMaker AI image and SageMaker AI image version, and the instance type that the version runs on.
         public var defaultResourceSpec: SageMakerClientTypes.ResourceSpec?
         /// The Amazon Resource Name (ARN) of the Code Editor application lifecycle configuration.
         public var lifecycleConfigArns: [Swift.String]?
@@ -10551,7 +10877,7 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
-    /// A Git repository that SageMaker automatically displays to users for cloning in the JupyterServer application.
+    /// A Git repository that SageMaker AI automatically displays to users for cloning in the JupyterServer application.
     public struct CodeRepository: Swift.Sendable {
         /// The URL of the Git repository.
         /// This member is required.
@@ -11186,6 +11512,226 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
+    /// Configuration of the resources used for the compute allocation definition.
+    public struct ComputeQuotaResourceConfig: Swift.Sendable {
+        /// The number of instances to add to the instance group of a SageMaker HyperPod cluster.
+        /// This member is required.
+        public var count: Swift.Int?
+        /// The instance type of the instance group for the cluster.
+        /// This member is required.
+        public var instanceType: SageMakerClientTypes.ClusterInstanceType?
+
+        public init(
+            count: Swift.Int? = nil,
+            instanceType: SageMakerClientTypes.ClusterInstanceType? = nil
+        )
+        {
+            self.count = count
+            self.instanceType = instanceType
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    public enum PreemptTeamTasks: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case lowerpriority
+        case never
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PreemptTeamTasks] {
+            return [
+                .lowerpriority,
+                .never
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .lowerpriority: return "LowerPriority"
+            case .never: return "Never"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    public enum ResourceSharingStrategy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dontlend
+        case lend
+        case lendandborrow
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResourceSharingStrategy] {
+            return [
+                .dontlend,
+                .lend,
+                .lendandborrow
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dontlend: return "DontLend"
+            case .lend: return "Lend"
+            case .lendandborrow: return "LendAndBorrow"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Resource sharing configuration.
+    public struct ResourceSharingConfig: Swift.Sendable {
+        /// The limit on how much idle compute can be borrowed.The values can be 1 - 500 percent of idle compute that the team is allowed to borrow. Default is 50.
+        public var borrowLimit: Swift.Int?
+        /// The strategy of how idle compute is shared within the cluster. The following are the options of strategies.
+        ///
+        /// * DontLend: entities do not lend idle compute.
+        ///
+        /// * Lend: entities can lend idle compute to entities that can borrow.
+        ///
+        /// * LendandBorrow: entities can lend idle compute and borrow idle compute from other entities.
+        ///
+        ///
+        /// Default is LendandBorrow.
+        /// This member is required.
+        public var strategy: SageMakerClientTypes.ResourceSharingStrategy?
+
+        public init(
+            borrowLimit: Swift.Int? = nil,
+            strategy: SageMakerClientTypes.ResourceSharingStrategy? = nil
+        )
+        {
+            self.borrowLimit = borrowLimit
+            self.strategy = strategy
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Configuration of the compute allocation definition for an entity. This includes the resource sharing option and the setting to preempt low priority tasks.
+    public struct ComputeQuotaConfig: Swift.Sendable {
+        /// Allocate compute resources by instance types.
+        public var computeQuotaResources: [SageMakerClientTypes.ComputeQuotaResourceConfig]?
+        /// Allows workloads from within an entity to preempt same-team workloads. When set to LowerPriority, the entity's lower priority tasks are preempted by their own higher priority tasks. Default is LowerPriority.
+        public var preemptTeamTasks: SageMakerClientTypes.PreemptTeamTasks?
+        /// Resource sharing configuration. This defines how an entity can lend and borrow idle compute with other entities within the cluster.
+        public var resourceSharingConfig: SageMakerClientTypes.ResourceSharingConfig?
+
+        public init(
+            computeQuotaResources: [SageMakerClientTypes.ComputeQuotaResourceConfig]? = nil,
+            preemptTeamTasks: SageMakerClientTypes.PreemptTeamTasks? = nil,
+            resourceSharingConfig: SageMakerClientTypes.ResourceSharingConfig? = nil
+        )
+        {
+            self.computeQuotaResources = computeQuotaResources
+            self.preemptTeamTasks = preemptTeamTasks
+            self.resourceSharingConfig = resourceSharingConfig
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// The target entity to allocate compute resources to.
+    public struct ComputeQuotaTarget: Swift.Sendable {
+        /// Assigned entity fair-share weight. Idle compute will be shared across entities based on these assigned weights. This weight is only used when FairShare is enabled. A weight of 0 is the lowest priority and 100 is the highest. Weight 0 is the default.
+        public var fairShareWeight: Swift.Int?
+        /// Name of the team to allocate compute resources to.
+        /// This member is required.
+        public var teamName: Swift.String?
+
+        public init(
+            fairShareWeight: Swift.Int? = nil,
+            teamName: Swift.String? = nil
+        )
+        {
+            self.fairShareWeight = fairShareWeight
+            self.teamName = teamName
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Summary of the compute allocation definition.
+    public struct ComputeQuotaSummary: Swift.Sendable {
+        /// The state of the compute allocation being described. Use to enable or disable compute allocation. Default is Enabled.
+        public var activationState: SageMakerClientTypes.ActivationState?
+        /// ARN of the cluster.
+        public var clusterArn: Swift.String?
+        /// ARN of the compute allocation definition.
+        /// This member is required.
+        public var computeQuotaArn: Swift.String?
+        /// Configuration of the compute allocation definition. This includes the resource sharing option, and the setting to preempt low priority tasks.
+        public var computeQuotaConfig: SageMakerClientTypes.ComputeQuotaConfig?
+        /// ID of the compute allocation definition.
+        /// This member is required.
+        public var computeQuotaId: Swift.String?
+        /// The target entity to allocate compute resources to.
+        /// This member is required.
+        public var computeQuotaTarget: SageMakerClientTypes.ComputeQuotaTarget?
+        /// Version of the compute allocation definition.
+        public var computeQuotaVersion: Swift.Int?
+        /// Creation time of the compute allocation definition.
+        /// This member is required.
+        public var creationTime: Foundation.Date?
+        /// Last modified time of the compute allocation definition.
+        public var lastModifiedTime: Foundation.Date?
+        /// Name of the compute allocation definition.
+        /// This member is required.
+        public var name: Swift.String?
+        /// Status of the compute allocation definition.
+        /// This member is required.
+        public var status: SageMakerClientTypes.SchedulerResourceStatus?
+
+        public init(
+            activationState: SageMakerClientTypes.ActivationState? = nil,
+            clusterArn: Swift.String? = nil,
+            computeQuotaArn: Swift.String? = nil,
+            computeQuotaConfig: SageMakerClientTypes.ComputeQuotaConfig? = nil,
+            computeQuotaId: Swift.String? = nil,
+            computeQuotaTarget: SageMakerClientTypes.ComputeQuotaTarget? = nil,
+            computeQuotaVersion: Swift.Int? = nil,
+            creationTime: Foundation.Date? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
+            name: Swift.String? = nil,
+            status: SageMakerClientTypes.SchedulerResourceStatus? = nil
+        )
+        {
+            self.activationState = activationState
+            self.clusterArn = clusterArn
+            self.computeQuotaArn = computeQuotaArn
+            self.computeQuotaConfig = computeQuotaConfig
+            self.computeQuotaId = computeQuotaId
+            self.computeQuotaTarget = computeQuotaTarget
+            self.computeQuotaVersion = computeQuotaVersion
+            self.creationTime = creationTime
+            self.lastModifiedTime = lastModifiedTime
+            self.name = name
+            self.status = status
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     public enum ConditionOutcome: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case `false`
         case `true`
@@ -11230,9 +11776,9 @@ extension SageMakerClientTypes {
 }
 
 /// There was a conflict when you attempted to modify a SageMaker entity such as an Experiment or Artifact.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -12028,9 +12574,9 @@ public struct CreateAlgorithmOutput: Swift.Sendable {
 }
 
 /// Resource being accessed is in use.
-public struct ResourceInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -12061,7 +12607,7 @@ public struct CreateAppInput: Swift.Sendable {
     /// The domain ID.
     /// This member is required.
     public var domainId: Swift.String?
-    /// The instance type and the Amazon Resource Name (ARN) of the SageMaker image created on the instance. The value of InstanceType passed as part of the ResourceSpec in the CreateApp call overrides the value passed as part of the ResourceSpec configured for the user profile or the domain. If InstanceType is not specified in any of those three ResourceSpec values for a KernelGateway app, the CreateApp call fails with a request validation error.
+    /// The instance type and the Amazon Resource Name (ARN) of the SageMaker AI image created on the instance. The value of InstanceType passed as part of the ResourceSpec in the CreateApp call overrides the value passed as part of the ResourceSpec configured for the user profile or the domain. If InstanceType is not specified in any of those three ResourceSpec values for a KernelGateway app, the CreateApp call fails with a request validation error.
     public var resourceSpec: SageMakerClientTypes.ResourceSpec?
     /// The name of the space. If this value is not set, then UserProfileName must be set.
     public var spaceName: Swift.String?
@@ -12402,6 +12948,126 @@ public struct CreateClusterOutput: Swift.Sendable {
     )
     {
         self.clusterArn = clusterArn
+    }
+}
+
+extension SageMakerClientTypes {
+
+    public enum FairShare: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FairShare] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "Disabled"
+            case .enabled: return "Enabled"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Priority class configuration. When included in PriorityClasses, these class configurations define how tasks are queued.
+    public struct PriorityClass: Swift.Sendable {
+        /// Name of the priority class.
+        /// This member is required.
+        public var name: Swift.String?
+        /// Weight of the priority class. The value is within a range from 0 to 100, where 0 is the default. A weight of 0 is the lowest priority and 100 is the highest. Weight 0 is the default.
+        /// This member is required.
+        public var weight: Swift.Int?
+
+        public init(
+            name: Swift.String? = nil,
+            weight: Swift.Int? = nil
+        )
+        {
+            self.name = name
+            self.weight = weight
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Cluster policy configuration. This policy is used for task prioritization and fair-share allocation. This helps prioritize critical workloads and distributes idle compute across entities.
+    public struct SchedulerConfig: Swift.Sendable {
+        /// When enabled, entities borrow idle compute based on their assigned FairShareWeight. When disabled, entities borrow idle compute based on a first-come first-serve basis. Default is Enabled.
+        public var fairShare: SageMakerClientTypes.FairShare?
+        /// List of the priority classes, PriorityClass, of the cluster policy. When specified, these class configurations define how tasks are queued.
+        public var priorityClasses: [SageMakerClientTypes.PriorityClass]?
+
+        public init(
+            fairShare: SageMakerClientTypes.FairShare? = nil,
+            priorityClasses: [SageMakerClientTypes.PriorityClass]? = nil
+        )
+        {
+            self.fairShare = fairShare
+            self.priorityClasses = priorityClasses
+        }
+    }
+}
+
+public struct CreateClusterSchedulerConfigInput: Swift.Sendable {
+    /// ARN of the cluster.
+    /// This member is required.
+    public var clusterArn: Swift.String?
+    /// Description of the cluster policy.
+    public var description: Swift.String?
+    /// Name for the cluster policy.
+    /// This member is required.
+    public var name: Swift.String?
+    /// Configuration about the monitoring schedule.
+    /// This member is required.
+    public var schedulerConfig: SageMakerClientTypes.SchedulerConfig?
+    /// Tags of the cluster policy.
+    public var tags: [SageMakerClientTypes.Tag]?
+
+    public init(
+        clusterArn: Swift.String? = nil,
+        description: Swift.String? = nil,
+        name: Swift.String? = nil,
+        schedulerConfig: SageMakerClientTypes.SchedulerConfig? = nil,
+        tags: [SageMakerClientTypes.Tag]? = nil
+    )
+    {
+        self.clusterArn = clusterArn
+        self.description = description
+        self.name = name
+        self.schedulerConfig = schedulerConfig
+        self.tags = tags
+    }
+}
+
+public struct CreateClusterSchedulerConfigOutput: Swift.Sendable {
+    /// ARN of the cluster policy.
+    /// This member is required.
+    public var clusterSchedulerConfigArn: Swift.String?
+    /// ID of the cluster policy.
+    /// This member is required.
+    public var clusterSchedulerConfigId: Swift.String?
+
+    public init(
+        clusterSchedulerConfigArn: Swift.String? = nil,
+        clusterSchedulerConfigId: Swift.String? = nil
+    )
+    {
+        self.clusterSchedulerConfigArn = clusterSchedulerConfigArn
+        self.clusterSchedulerConfigId = clusterSchedulerConfigId
     }
 }
 
@@ -12794,7 +13460,7 @@ extension SageMakerClientTypes {
         ///
         /// * class_labels: Specifies the classification labels file name inside input tar.gz file. For example, {"class_labels": "imagenet_labels_1000.txt"}. Labels inside the txt file should be separated by newlines.
         public var compilerOptions: Swift.String?
-        /// The Amazon Web Services Key Management Service key (Amazon Web Services KMS) that Amazon SageMaker uses to encrypt your output models with Amazon S3 server-side encryption after compilation job. If you don't provide a KMS key ID, Amazon SageMaker uses the default KMS key for Amazon S3 for your role's account. For more information, see [KMS-Managed Encryption Keys](https://docs.aws.amazon.com/AmazonS3/latest/userguide/UsingKMSEncryption.html) in the Amazon Simple Storage Service Developer Guide. The KmsKeyId can be any of the following formats:
+        /// The Amazon Web Services Key Management Service key (Amazon Web Services KMS) that Amazon SageMaker AI uses to encrypt your output models with Amazon S3 server-side encryption after compilation job. If you don't provide a KMS key ID, Amazon SageMaker AI uses the default KMS key for Amazon S3 for your role's account. For more information, see [KMS-Managed Encryption Keys](https://docs.aws.amazon.com/AmazonS3/latest/userguide/UsingKMSEncryption.html) in the Amazon Simple Storage Service Developer Guide. The KmsKeyId can be any of the following formats:
         ///
         /// * Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
         ///
@@ -12804,7 +13470,7 @@ extension SageMakerClientTypes {
         ///
         /// * Alias name ARN: arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias
         public var kmsKeyId: Swift.String?
-        /// Identifies the S3 bucket where you want Amazon SageMaker to store the model artifacts. For example, s3://bucket-name/key-name-prefix.
+        /// Identifies the S3 bucket where you want Amazon SageMaker AI to store the model artifacts. For example, s3://bucket-name/key-name-prefix.
         /// This member is required.
         public var s3OutputLocation: Swift.String?
         /// Identifies the target device or the machine learning instance that you want to run your model on after the compilation has completed. Alternatively, you can specify OS, architecture, and accelerator using [TargetPlatform](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_TargetPlatform.html) fields. It can be used instead of TargetPlatform. Currently ml_trn1 is available only in US East (N. Virginia) Region, and ml_inf2 is available only in US East (Ohio) Region.
@@ -12843,7 +13509,7 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
-    /// The [VpcConfig](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_VpcConfig.html) configuration object that specifies the VPC that you want the compilation jobs to connect to. For more information on controlling access to your Amazon S3 buckets used for compilation job, see [Give Amazon SageMaker Compilation Jobs Access to Resources in Your Amazon VPC](https://docs.aws.amazon.com/sagemaker/latest/dg/neo-vpc.html).
+    /// The [VpcConfig](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_VpcConfig.html) configuration object that specifies the VPC that you want the compilation jobs to connect to. For more information on controlling access to your Amazon S3 buckets used for compilation job, see [Give Amazon SageMaker AI Compilation Jobs Access to Resources in Your Amazon VPC](https://docs.aws.amazon.com/sagemaker/latest/dg/neo-vpc.html).
     public struct NeoVpcConfig: Swift.Sendable {
         /// The VPC security group IDs. IDs have the form of sg-xxxxxxxx. Specify the security groups for the VPC that is specified in the Subnets field.
         /// This member is required.
@@ -12874,7 +13540,7 @@ public struct CreateCompilationJobInput: Swift.Sendable {
     /// Provides information about the output location for the compiled model and the target device the model runs on.
     /// This member is required.
     public var outputConfig: SageMakerClientTypes.OutputConfig?
-    /// The Amazon Resource Name (ARN) of an IAM role that enables Amazon SageMaker to perform tasks on your behalf. During model compilation, Amazon SageMaker needs your permission to:
+    /// The Amazon Resource Name (ARN) of an IAM role that enables Amazon SageMaker AI to perform tasks on your behalf. During model compilation, Amazon SageMaker AI needs your permission to:
     ///
     /// * Read input data from an S3 bucket
     ///
@@ -12885,10 +13551,10 @@ public struct CreateCompilationJobInput: Swift.Sendable {
     /// * Publish metrics to Amazon CloudWatch
     ///
     ///
-    /// You grant permissions for all of these tasks to an IAM role. To pass this role to Amazon SageMaker, the caller of this API must have the iam:PassRole permission. For more information, see [Amazon SageMaker Roles.](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-roles.html)
+    /// You grant permissions for all of these tasks to an IAM role. To pass this role to Amazon SageMaker AI, the caller of this API must have the iam:PassRole permission. For more information, see [Amazon SageMaker AI Roles.](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-roles.html)
     /// This member is required.
     public var roleArn: Swift.String?
-    /// Specifies a limit to how long a model compilation job can run. When the job reaches the time limit, Amazon SageMaker ends the compilation job. Use this API to cap model training costs.
+    /// Specifies a limit to how long a model compilation job can run. When the job reaches the time limit, Amazon SageMaker AI ends the compilation job. Use this API to cap model training costs.
     /// This member is required.
     public var stoppingCondition: SageMakerClientTypes.StoppingCondition?
     /// An array of key-value pairs. You can use tags to categorize your Amazon Web Services resources in different ways, for example, by purpose, owner, or environment. For more information, see [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html).
@@ -12919,7 +13585,7 @@ public struct CreateCompilationJobInput: Swift.Sendable {
 }
 
 public struct CreateCompilationJobOutput: Swift.Sendable {
-    /// If the action is successful, the service sends back an HTTP 200 response. Amazon SageMaker returns the following data in JSON format:
+    /// If the action is successful, the service sends back an HTTP 200 response. Amazon SageMaker AI returns the following data in JSON format:
     ///
     /// * CompilationJobArn: The Amazon Resource Name (ARN) of the compiled job.
     /// This member is required.
@@ -12930,6 +13596,64 @@ public struct CreateCompilationJobOutput: Swift.Sendable {
     )
     {
         self.compilationJobArn = compilationJobArn
+    }
+}
+
+public struct CreateComputeQuotaInput: Swift.Sendable {
+    /// The state of the compute allocation being described. Use to enable or disable compute allocation. Default is Enabled.
+    public var activationState: SageMakerClientTypes.ActivationState?
+    /// ARN of the cluster.
+    /// This member is required.
+    public var clusterArn: Swift.String?
+    /// Configuration of the compute allocation definition. This includes the resource sharing option, and the setting to preempt low priority tasks.
+    /// This member is required.
+    public var computeQuotaConfig: SageMakerClientTypes.ComputeQuotaConfig?
+    /// The target entity to allocate compute resources to.
+    /// This member is required.
+    public var computeQuotaTarget: SageMakerClientTypes.ComputeQuotaTarget?
+    /// Description of the compute allocation definition.
+    public var description: Swift.String?
+    /// Name to the compute allocation definition.
+    /// This member is required.
+    public var name: Swift.String?
+    /// Tags of the compute allocation definition.
+    public var tags: [SageMakerClientTypes.Tag]?
+
+    public init(
+        activationState: SageMakerClientTypes.ActivationState? = nil,
+        clusterArn: Swift.String? = nil,
+        computeQuotaConfig: SageMakerClientTypes.ComputeQuotaConfig? = nil,
+        computeQuotaTarget: SageMakerClientTypes.ComputeQuotaTarget? = nil,
+        description: Swift.String? = nil,
+        name: Swift.String? = nil,
+        tags: [SageMakerClientTypes.Tag]? = nil
+    )
+    {
+        self.activationState = activationState
+        self.clusterArn = clusterArn
+        self.computeQuotaConfig = computeQuotaConfig
+        self.computeQuotaTarget = computeQuotaTarget
+        self.description = description
+        self.name = name
+        self.tags = tags
+    }
+}
+
+public struct CreateComputeQuotaOutput: Swift.Sendable {
+    /// ARN of the compute allocation definition.
+    /// This member is required.
+    public var computeQuotaArn: Swift.String?
+    /// ID of the compute allocation definition.
+    /// This member is required.
+    public var computeQuotaId: Swift.String?
+
+    public init(
+        computeQuotaArn: Swift.String? = nil,
+        computeQuotaId: Swift.String? = nil
+    )
+    {
+        self.computeQuotaArn = computeQuotaArn
+        self.computeQuotaId = computeQuotaId
     }
 }
 
@@ -13184,12 +13908,12 @@ extension SageMakerClientTypes {
 
     /// Information about where and how you want to store the results of a monitoring job.
     public struct MonitoringS3Output: Swift.Sendable {
-        /// The local path to the Amazon S3 storage location where Amazon SageMaker saves the results of a monitoring job. LocalPath is an absolute path for the output data.
+        /// The local path to the Amazon S3 storage location where Amazon SageMaker AI saves the results of a monitoring job. LocalPath is an absolute path for the output data.
         /// This member is required.
         public var localPath: Swift.String?
         /// Whether to upload the results of the monitoring job continuously or after the job completes.
         public var s3UploadMode: SageMakerClientTypes.ProcessingS3UploadMode?
-        /// A URI that identifies the Amazon S3 storage location where Amazon SageMaker saves the results of a monitoring job.
+        /// A URI that identifies the Amazon S3 storage location where Amazon SageMaker AI saves the results of a monitoring job.
         /// This member is required.
         public var s3Uri: Swift.String?
 
@@ -13227,7 +13951,7 @@ extension SageMakerClientTypes {
 
     /// The output configuration for monitoring jobs.
     public struct MonitoringOutputConfig: Swift.Sendable {
-        /// The Key Management Service (KMS) key that Amazon SageMaker uses to encrypt the model artifacts at rest using Amazon S3 server-side encryption.
+        /// The Key Management Service (KMS) key that Amazon SageMaker AI uses to encrypt the model artifacts at rest using Amazon S3 server-side encryption.
         public var kmsKeyId: Swift.String?
         /// Monitoring outputs for monitoring jobs. This is where the output of the periodic monitoring jobs is uploaded.
         /// This member is required.
@@ -13457,7 +14181,7 @@ extension SageMakerClientTypes {
         /// The ML compute instance type for the processing job.
         /// This member is required.
         public var instanceType: SageMakerClientTypes.ProcessingInstanceType?
-        /// The Key Management Service (KMS) key that Amazon SageMaker uses to encrypt data on the storage volume attached to the ML compute instance(s) that run the model monitoring job.
+        /// The Key Management Service (KMS) key that Amazon SageMaker AI uses to encrypt data on the storage volume attached to the ML compute instance(s) that run the model monitoring job.
         public var volumeKmsKeyId: Swift.String?
         /// The size of the ML storage volume, in gigabytes, that you want to provision. You must specify sufficient ML storage for your scenario.
         /// This member is required.
@@ -13556,7 +14280,7 @@ public struct CreateDataQualityJobDefinitionInput: Swift.Sendable {
     public var jobResources: SageMakerClientTypes.MonitoringResources?
     /// Specifies networking configuration for the monitoring job.
     public var networkConfig: SageMakerClientTypes.MonitoringNetworkConfig?
-    /// The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker can assume to perform tasks on your behalf.
+    /// The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker AI can assume to perform tasks on your behalf.
     /// This member is required.
     public var roleArn: Swift.String?
     /// A time limit for how long the monitoring job is allowed to run before stopping.
@@ -13704,9 +14428,30 @@ public struct CreateDeviceFleetInput: Swift.Sendable {
 
 extension SageMakerClientTypes {
 
-    /// The settings for assigning a custom Amazon EFS file system to a user profile or space for an Amazon SageMaker Domain.
+    /// The settings for assigning a custom Amazon EFS file system to a user profile or space for an Amazon SageMaker AI Domain.
     public struct EFSFileSystemConfig: Swift.Sendable {
         /// The ID of your Amazon EFS file system.
+        /// This member is required.
+        public var fileSystemId: Swift.String?
+        /// The path to the file system directory that is accessible in Amazon SageMaker AI Studio. Permitted users can access only this directory and below.
+        public var fileSystemPath: Swift.String?
+
+        public init(
+            fileSystemId: Swift.String? = nil,
+            fileSystemPath: Swift.String? = nil
+        )
+        {
+            self.fileSystemId = fileSystemId
+            self.fileSystemPath = fileSystemPath
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// The settings for assigning a custom Amazon FSx for Lustre file system to a user profile or space for an Amazon SageMaker Domain.
+    public struct FSxLustreFileSystemConfig: Swift.Sendable {
+        /// The globally unique, 17-digit, ID of the file system, assigned by Amazon FSx for Lustre.
         /// This member is required.
         public var fileSystemId: Swift.String?
         /// The path to the file system directory that is accessible in Amazon SageMaker Studio. Permitted users can access only this directory and below.
@@ -13725,10 +14470,12 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
-    /// The settings for assigning a custom file system to a user profile or space for an Amazon SageMaker Domain. Permitted users can access this file system in Amazon SageMaker Studio.
+    /// The settings for assigning a custom file system to a user profile or space for an Amazon SageMaker AI Domain. Permitted users can access this file system in Amazon SageMaker AI Studio.
     public enum CustomFileSystemConfig: Swift.Sendable {
         /// The settings for a custom Amazon EFS file system.
         case efsfilesystemconfig(SageMakerClientTypes.EFSFileSystemConfig)
+        /// The settings for a custom Amazon FSx for Lustre file system.
+        case fsxlustrefilesystemconfig(SageMakerClientTypes.FSxLustreFileSystemConfig)
         case sdkUnknown(Swift.String)
     }
 }
@@ -13787,7 +14534,7 @@ extension SageMakerClientTypes {
         public var codeRepositories: [SageMakerClientTypes.CodeRepository]?
         /// A list of custom SageMaker images that are configured to run as a JupyterLab app.
         public var customImages: [SageMakerClientTypes.CustomImage]?
-        /// Specifies the ARN's of a SageMaker image and SageMaker image version, and the instance type that the version runs on.
+        /// Specifies the ARN's of a SageMaker AI image and SageMaker AI image version, and the instance type that the version runs on.
         public var defaultResourceSpec: SageMakerClientTypes.ResourceSpec?
         /// The configuration parameters that specify the IAM roles assumed by the execution role of SageMaker (assumable roles) and the cluster instances or job execution environments (execution roles or runtime roles) to manage and access resources required for running Amazon EMR clusters or Amazon EMR Serverless applications.
         public var emrSettings: SageMakerClientTypes.EmrSettings?
@@ -13819,9 +14566,9 @@ extension SageMakerClientTypes {
 
     /// The JupyterServer app settings.
     public struct JupyterServerAppSettings: Swift.Sendable {
-        /// A list of Git repositories that SageMaker automatically displays to users for cloning in the JupyterServer application.
+        /// A list of Git repositories that SageMaker AI automatically displays to users for cloning in the JupyterServer application.
         public var codeRepositories: [SageMakerClientTypes.CodeRepository]?
-        /// The default instance type and the Amazon Resource Name (ARN) of the default SageMaker image used by the JupyterServer app. If you use the LifecycleConfigArns parameter, then this parameter is also required.
+        /// The default instance type and the Amazon Resource Name (ARN) of the default SageMaker AI image used by the JupyterServer app. If you use the LifecycleConfigArns parameter, then this parameter is also required.
         public var defaultResourceSpec: SageMakerClientTypes.ResourceSpec?
         /// The Amazon Resource Name (ARN) of the Lifecycle Configurations attached to the JupyterServerApp. If you use this parameter, the DefaultResourceSpec parameter is also required. To remove a Lifecycle Config, you must set LifecycleConfigArns to an empty list.
         public var lifecycleConfigArns: [Swift.String]?
@@ -13843,9 +14590,9 @@ extension SageMakerClientTypes {
 
     /// The KernelGateway app settings.
     public struct KernelGatewayAppSettings: Swift.Sendable {
-        /// A list of custom SageMaker images that are configured to run as a KernelGateway app.
+        /// A list of custom SageMaker AI images that are configured to run as a KernelGateway app.
         public var customImages: [SageMakerClientTypes.CustomImage]?
-        /// The default instance type and the Amazon Resource Name (ARN) of the default SageMaker image used by the KernelGateway app. The Amazon SageMaker Studio UI does not use the default instance type value set here. The default instance type set here is used when Apps are created using the CLI or CloudFormation and the instance type parameter value is not passed.
+        /// The default instance type and the Amazon Resource Name (ARN) of the default SageMaker AI image used by the KernelGateway app. The Amazon SageMaker AI Studio UI does not use the default instance type value set here. The default instance type set here is used when Apps are created using the CLI or CloudFormation and the instance type parameter value is not passed.
         public var defaultResourceSpec: SageMakerClientTypes.ResourceSpec?
         /// The Amazon Resource Name (ARN) of the Lifecycle Configurations attached to the the user profile or domain. To remove a Lifecycle Config, you must set LifecycleConfigArns to an empty list.
         public var lifecycleConfigArns: [Swift.String]?
@@ -13905,7 +14652,7 @@ extension SageMakerClientTypes {
 
     /// The default settings for shared spaces that users create in the domain. SageMaker applies these settings only to shared spaces. It doesn't apply them to private spaces.
     public struct DefaultSpaceSettings: Swift.Sendable {
-        /// The settings for assigning a custom file system to a domain. Permitted users can access this file system in Amazon SageMaker Studio.
+        /// The settings for assigning a custom file system to a domain. Permitted users can access this file system in Amazon SageMaker AI Studio.
         public var customFileSystemConfigs: [SageMakerClientTypes.CustomFileSystemConfig]?
         /// Details about the POSIX identity that is used for file system operations.
         public var customPosixUserConfig: SageMakerClientTypes.CustomPosixUserConfig?
@@ -13949,9 +14696,9 @@ extension SageMakerClientTypes {
 
     /// A collection of settings that apply to an RSessionGateway app.
     public struct RSessionAppSettings: Swift.Sendable {
-        /// A list of custom SageMaker images that are configured to run as a RSession app.
+        /// A list of custom SageMaker AI images that are configured to run as a RSession app.
         public var customImages: [SageMakerClientTypes.CustomImage]?
-        /// Specifies the ARN's of a SageMaker image and SageMaker image version, and the instance type that the version runs on.
+        /// Specifies the ARN's of a SageMaker AI image and SageMaker AI image version, and the instance type that the version runs on.
         public var defaultResourceSpec: SageMakerClientTypes.ResourceSpec?
 
         public init(
@@ -14074,7 +14821,7 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
-    /// Specifies options for sharing Amazon SageMaker Studio notebooks. These settings are specified as part of DefaultUserSettings when the CreateDomain API is called, and as part of UserSettings when the CreateUserProfile API is called. When SharingSettings is not specified, notebook sharing isn't allowed.
+    /// Specifies options for sharing Amazon SageMaker AI Studio notebooks. These settings are specified as part of DefaultUserSettings when the CreateDomain API is called, and as part of UserSettings when the CreateUserProfile API is called. When SharingSettings is not specified, notebook sharing isn't allowed.
     public struct SharingSettings: Swift.Sendable {
         /// Whether to include the notebook cell output when sharing the notebook. The default is Disabled.
         public var notebookOutputOption: SageMakerClientTypes.NotebookOutputOption?
@@ -14129,14 +14876,19 @@ extension SageMakerClientTypes {
 
     public enum MlTools: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case autoMl
+        case comet
         case dataWrangler
+        case deepchecksLlmEvaluation
         case emrClusters
         case endpoints
         case experiments
         case featureStore
+        case fiddler
+        case hyperPodClusters
         case inferenceOptimization
         case inferenceRecommender
         case jumpStart
+        case lakeraGuard
         case models
         case modelEvaluation
         case performanceEvaluation
@@ -14148,14 +14900,19 @@ extension SageMakerClientTypes {
         public static var allCases: [MlTools] {
             return [
                 .autoMl,
+                .comet,
                 .dataWrangler,
+                .deepchecksLlmEvaluation,
                 .emrClusters,
                 .endpoints,
                 .experiments,
                 .featureStore,
+                .fiddler,
+                .hyperPodClusters,
                 .inferenceOptimization,
                 .inferenceRecommender,
                 .jumpStart,
+                .lakeraGuard,
                 .models,
                 .modelEvaluation,
                 .performanceEvaluation,
@@ -14173,14 +14930,19 @@ extension SageMakerClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .autoMl: return "AutoMl"
+            case .comet: return "Comet"
             case .dataWrangler: return "DataWrangler"
+            case .deepchecksLlmEvaluation: return "DeepchecksLLMEvaluation"
             case .emrClusters: return "EmrClusters"
             case .endpoints: return "Endpoints"
             case .experiments: return "Experiments"
             case .featureStore: return "FeatureStore"
+            case .fiddler: return "Fiddler"
+            case .hyperPodClusters: return "HyperPodClusters"
             case .inferenceOptimization: return "InferenceOptimization"
             case .inferenceRecommender: return "InferenceRecommender"
             case .jumpStart: return "JumpStart"
+            case .lakeraGuard: return "LakeraGuard"
             case .models: return "Models"
             case .modelEvaluation: return "ModelEvaluation"
             case .performanceEvaluation: return "PerformanceEvaluation"
@@ -14271,7 +15033,7 @@ extension SageMakerClientTypes {
 
     /// The TensorBoard app settings.
     public struct TensorBoardAppSettings: Swift.Sendable {
-        /// The default instance type and the Amazon Resource Name (ARN) of the SageMaker image created on the instance.
+        /// The default instance type and the Amazon Resource Name (ARN) of the SageMaker AI image created on the instance.
         public var defaultResourceSpec: SageMakerClientTypes.ResourceSpec?
 
         public init(
@@ -14293,7 +15055,7 @@ extension SageMakerClientTypes {
         public var canvasAppSettings: SageMakerClientTypes.CanvasAppSettings?
         /// The Code Editor application settings. SageMaker applies these settings only to private spaces that the user creates in the domain. SageMaker doesn't apply these settings to shared spaces.
         public var codeEditorAppSettings: SageMakerClientTypes.CodeEditorAppSettings?
-        /// The settings for assigning a custom file system to a user profile. Permitted users can access this file system in Amazon SageMaker Studio. SageMaker applies these settings only to private spaces that the user creates in the domain. SageMaker doesn't apply these settings to shared spaces.
+        /// The settings for assigning a custom file system to a user profile. Permitted users can access this file system in Amazon SageMaker AI Studio. SageMaker applies these settings only to private spaces that the user creates in the domain. SageMaker doesn't apply these settings to shared spaces.
         public var customFileSystemConfigs: [SageMakerClientTypes.CustomFileSystemConfig]?
         /// Details about the POSIX identity that is used for file system operations. SageMaker applies these settings only to private spaces that the user creates in the domain. SageMaker doesn't apply these settings to shared spaces.
         public var customPosixUserConfig: SageMakerClientTypes.CustomPosixUserConfig?
@@ -14315,9 +15077,9 @@ extension SageMakerClientTypes {
         public var rSessionAppSettings: SageMakerClientTypes.RSessionAppSettings?
         /// A collection of settings that configure user interaction with the RStudioServerPro app.
         public var rStudioServerProAppSettings: SageMakerClientTypes.RStudioServerProAppSettings?
-        /// The security groups for the Amazon Virtual Private Cloud (VPC) that the domain uses for communication. Optional when the CreateDomain.AppNetworkAccessType parameter is set to PublicInternetOnly. Required when the CreateDomain.AppNetworkAccessType parameter is set to VpcOnly, unless specified as part of the DefaultUserSettings for the domain. Amazon SageMaker adds a security group to allow NFS traffic from Amazon SageMaker Studio. Therefore, the number of security groups that you can specify is one less than the maximum number shown. SageMaker applies these settings only to private spaces that the user creates in the domain. SageMaker doesn't apply these settings to shared spaces.
+        /// The security groups for the Amazon Virtual Private Cloud (VPC) that the domain uses for communication. Optional when the CreateDomain.AppNetworkAccessType parameter is set to PublicInternetOnly. Required when the CreateDomain.AppNetworkAccessType parameter is set to VpcOnly, unless specified as part of the DefaultUserSettings for the domain. Amazon SageMaker AI adds a security group to allow NFS traffic from Amazon SageMaker AI Studio. Therefore, the number of security groups that you can specify is one less than the maximum number shown. SageMaker applies these settings only to private spaces that the user creates in the domain. SageMaker doesn't apply these settings to shared spaces.
         public var securityGroups: [Swift.String]?
-        /// Specifies options for sharing Amazon SageMaker Studio notebooks.
+        /// Specifies options for sharing Amazon SageMaker AI Studio notebooks.
         public var sharingSettings: SageMakerClientTypes.SharingSettings?
         /// The storage settings for a space. SageMaker applies these settings only to private spaces that the user creates in the domain. SageMaker doesn't apply these settings to shared spaces.
         public var spaceStorageSettings: SageMakerClientTypes.DefaultSpaceStorageSettings?
@@ -14424,7 +15186,7 @@ extension SageMakerClientTypes {
 
     /// A collection of settings that configure the RStudioServerPro Domain-level app.
     public struct RStudioServerProDomainSettings: Swift.Sendable {
-        /// Specifies the ARN's of a SageMaker image and SageMaker image version, and the instance type that the version runs on.
+        /// Specifies the ARN's of a SageMaker AI image and SageMaker AI image version, and the instance type that the version runs on.
         public var defaultResourceSpec: SageMakerClientTypes.ResourceSpec?
         /// The ARN of the execution role for the RStudioServerPro Domain-level app.
         /// This member is required.
@@ -14457,7 +15219,7 @@ extension SageMakerClientTypes {
         public var amazonQSettings: SageMakerClientTypes.AmazonQSettings?
         /// A collection of settings that configure the domain's Docker interaction.
         public var dockerSettings: SageMakerClientTypes.DockerSettings?
-        /// The configuration for attaching a SageMaker user profile name to the execution role as a [sts:SourceIdentity key](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_control-access_monitor.html).
+        /// The configuration for attaching a SageMaker AI user profile name to the execution role as a [sts:SourceIdentity key](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_control-access_monitor.html).
         public var executionRoleIdentityConfig: SageMakerClientTypes.ExecutionRoleIdentityConfig?
         /// A collection of settings that configure the RStudioServerPro Domain-level app.
         public var rStudioServerProDomainSettings: SageMakerClientTypes.RStudioServerProDomainSettings?
@@ -14513,7 +15275,7 @@ extension SageMakerClientTypes {
 public struct CreateDomainInput: Swift.Sendable {
     /// Specifies the VPC used for non-EFS traffic. The default value is PublicInternetOnly.
     ///
-    /// * PublicInternetOnly - Non-EFS traffic is through a VPC managed by Amazon SageMaker, which allows direct internet access
+    /// * PublicInternetOnly - Non-EFS traffic is through a VPC managed by Amazon SageMaker AI, which allows direct internet access
     ///
     /// * VpcOnly - All traffic is through the specified VPC and subnets
     public var appNetworkAccessType: SageMakerClientTypes.AppNetworkAccessType?
@@ -14535,7 +15297,7 @@ public struct CreateDomainInput: Swift.Sendable {
     /// Use KmsKeyId.
     @available(*, deprecated, message: "This property is deprecated, use KmsKeyId instead.")
     public var homeEfsFileSystemKmsKeyId: Swift.String?
-    /// SageMaker uses Amazon Web Services KMS to encrypt EFS and EBS volumes attached to the domain with an Amazon Web Services managed key by default. For more control, specify a customer managed key.
+    /// SageMaker AI uses Amazon Web Services KMS to encrypt EFS and EBS volumes attached to the domain with an Amazon Web Services managed key by default. For more control, specify a customer managed key.
     public var kmsKeyId: Swift.String?
     /// The VPC subnets that the domain uses for communication.
     /// This member is required.
@@ -14954,9 +15716,9 @@ public struct CreateEndpointOutput: Swift.Sendable {
 
 extension SageMakerClientTypes {
 
-    /// Configuration to control how SageMaker captures inference data.
+    /// Configuration to control how SageMaker AI captures inference data.
     public struct DataCaptureConfig: Swift.Sendable {
-        /// Configuration specifying how to treat different headers. If no headers are specified SageMaker will by default base64 encode when capturing the data.
+        /// Configuration specifying how to treat different headers. If no headers are specified SageMaker AI will by default base64 encode when capturing the data.
         public var captureContentTypeHeader: SageMakerClientTypes.CaptureContentTypeHeader?
         /// Specifies data Model Monitor will capture. You can configure whether to collect only input, only output, or both
         /// This member is required.
@@ -14966,10 +15728,10 @@ extension SageMakerClientTypes {
         public var destinationS3Uri: Swift.String?
         /// Whether data capture should be enabled or disabled (defaults to enabled).
         public var enableCapture: Swift.Bool?
-        /// The percentage of requests SageMaker will capture. A lower value is recommended for Endpoints with high traffic.
+        /// The percentage of requests SageMaker AI will capture. A lower value is recommended for Endpoints with high traffic.
         /// This member is required.
         public var initialSamplingPercentage: Swift.Int?
-        /// The Amazon Resource Name (ARN) of an Key Management Service key that SageMaker uses to encrypt the captured data at rest using Amazon S3 server-side encryption. The KmsKeyId can be any of the following formats:
+        /// The Amazon Resource Name (ARN) of an Key Management Service key that SageMaker AI uses to encrypt the captured data at rest using Amazon S3 server-side encryption. The KmsKeyId can be any of the following formats:
         ///
         /// * Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
         ///
@@ -15327,14 +16089,14 @@ extension SageMakerClientTypes {
 public struct CreateEndpointConfigInput: Swift.Sendable {
     /// Specifies configuration for how an endpoint performs asynchronous inference. This is a required field in order for your Endpoint to be invoked using [InvokeEndpointAsync](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_runtime_InvokeEndpointAsync.html).
     public var asyncInferenceConfig: SageMakerClientTypes.AsyncInferenceConfig?
-    /// Configuration to control how SageMaker captures inference data.
+    /// Configuration to control how SageMaker AI captures inference data.
     public var dataCaptureConfig: SageMakerClientTypes.DataCaptureConfig?
     /// Sets whether all model containers deployed to the endpoint are isolated. If they are, no inbound or outbound network calls can be made to or from the model containers.
     public var enableNetworkIsolation: Swift.Bool?
     /// The name of the endpoint configuration. You specify this name in a [CreateEndpoint](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateEndpoint.html) request.
     /// This member is required.
     public var endpointConfigName: Swift.String?
-    /// The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker can assume to perform actions on your behalf. For more information, see [SageMaker Roles](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-roles.html). To be able to pass this role to Amazon SageMaker, the caller of this action must have the iam:PassRole permission.
+    /// The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker AI can assume to perform actions on your behalf. For more information, see [SageMaker AI Roles](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-roles.html). To be able to pass this role to Amazon SageMaker AI, the caller of this action must have the iam:PassRole permission.
     public var executionRoleArn: Swift.String?
     /// A member of CreateEndpointConfig that enables explainers.
     public var explainerConfig: SageMakerClientTypes.ExplainerConfig?
@@ -17337,7 +18099,7 @@ public struct CreateImageInput: Swift.Sendable {
     /// The name of the image. Must be unique to your account.
     /// This member is required.
     public var imageName: Swift.String?
-    /// The ARN of an IAM role that enables Amazon SageMaker to perform tasks on your behalf.
+    /// The ARN of an IAM role that enables Amazon SageMaker AI to perform tasks on your behalf.
     /// This member is required.
     public var roleArn: Swift.String?
     /// A list of tags to apply to the image.
@@ -17481,13 +18243,13 @@ public struct CreateImageVersionInput: Swift.Sendable {
     /// The ImageName of the Image to create a version of.
     /// This member is required.
     public var imageName: Swift.String?
-    /// Indicates SageMaker job type compatibility.
+    /// Indicates SageMaker AI job type compatibility.
     ///
-    /// * TRAINING: The image version is compatible with SageMaker training jobs.
+    /// * TRAINING: The image version is compatible with SageMaker AI training jobs.
     ///
-    /// * INFERENCE: The image version is compatible with SageMaker inference jobs.
+    /// * INFERENCE: The image version is compatible with SageMaker AI inference jobs.
     ///
-    /// * NOTEBOOK_KERNEL: The image version is compatible with SageMaker notebook kernels.
+    /// * NOTEBOOK_KERNEL: The image version is compatible with SageMaker AI notebook kernels.
     public var jobType: SageMakerClientTypes.JobType?
     /// The machine learning framework vended in the image version.
     public var mlFramework: Swift.String?
@@ -17652,7 +18414,7 @@ extension SageMakerClientTypes {
         public var computeResourceRequirements: SageMakerClientTypes.InferenceComponentComputeResourceRequirements?
         /// Defines a container that provides the runtime environment for a model that you deploy with an inference component.
         public var container: SageMakerClientTypes.InferenceComponentContainerSpecification?
-        /// The name of an existing SageMaker model object in your account that you want to deploy with the inference component.
+        /// The name of an existing SageMaker AI model object in your account that you want to deploy with the inference component.
         public var modelName: Swift.String?
         /// Settings that take effect while the model container starts up.
         public var startupParameters: SageMakerClientTypes.InferenceComponentStartupParameters?
@@ -17726,7 +18488,7 @@ extension SageMakerClientTypes {
 
     /// The Amazon S3 location and configuration for storing inference request and response data.
     public struct InferenceExperimentDataStorageConfig: Swift.Sendable {
-        /// Configuration specifying how to treat different headers. If no headers are specified Amazon SageMaker will by default base64 encode when capturing the data.
+        /// Configuration specifying how to treat different headers. If no headers are specified Amazon SageMaker AI will by default base64 encode when capturing the data.
         public var contentType: SageMakerClientTypes.CaptureContentTypeHeader?
         /// The Amazon S3 bucket where the inference request and response data is stored.
         /// This member is required.
@@ -20449,7 +21211,7 @@ public struct CreateModelBiasJobDefinitionInput: Swift.Sendable {
     public var modelBiasJobOutputConfig: SageMakerClientTypes.MonitoringOutputConfig?
     /// Networking options for a model bias job.
     public var networkConfig: SageMakerClientTypes.MonitoringNetworkConfig?
-    /// The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker can assume to perform tasks on your behalf.
+    /// The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker AI can assume to perform tasks on your behalf.
     /// This member is required.
     public var roleArn: Swift.String?
     /// A time limit for how long the monitoring job is allowed to run before stopping.
@@ -20747,7 +21509,7 @@ public struct CreateModelExplainabilityJobDefinitionInput: Swift.Sendable {
     public var modelExplainabilityJobOutputConfig: SageMakerClientTypes.MonitoringOutputConfig?
     /// Networking options for a model explainability job.
     public var networkConfig: SageMakerClientTypes.MonitoringNetworkConfig?
-    /// The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker can assume to perform tasks on your behalf.
+    /// The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker AI can assume to perform tasks on your behalf.
     /// This member is required.
     public var roleArn: Swift.String?
     /// A time limit for how long the monitoring job is allowed to run before stopping.
@@ -21497,7 +22259,7 @@ public struct CreateModelQualityJobDefinitionInput: Swift.Sendable {
     public var modelQualityJobOutputConfig: SageMakerClientTypes.MonitoringOutputConfig?
     /// Specifies the network configuration for the monitoring job.
     public var networkConfig: SageMakerClientTypes.MonitoringNetworkConfig?
-    /// The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker can assume to perform tasks on your behalf.
+    /// The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker AI can assume to perform tasks on your behalf.
     /// This member is required.
     public var roleArn: Swift.String?
     /// A time limit for how long the monitoring job is allowed to run before stopping.
@@ -21656,7 +22418,7 @@ extension SageMakerClientTypes {
         /// Configures the monitoring job to run a specified Docker container image.
         /// This member is required.
         public var monitoringAppSpecification: SageMakerClientTypes.MonitoringAppSpecification?
-        /// The array of inputs for the monitoring job. Currently we support monitoring an Amazon SageMaker Endpoint.
+        /// The array of inputs for the monitoring job. Currently we support monitoring an Amazon SageMaker AI Endpoint.
         /// This member is required.
         public var monitoringInputs: [SageMakerClientTypes.MonitoringInput]?
         /// The array of outputs from the monitoring job to be uploaded to Amazon S3.
@@ -21667,7 +22429,7 @@ extension SageMakerClientTypes {
         public var monitoringResources: SageMakerClientTypes.MonitoringResources?
         /// Specifies networking options for an monitoring job.
         public var networkConfig: SageMakerClientTypes.NetworkConfig?
-        /// The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker can assume to perform tasks on your behalf.
+        /// The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker AI can assume to perform tasks on your behalf.
         /// This member is required.
         public var roleArn: Swift.String?
         /// Specifies a time limit for how long the monitoring job is allowed to run.
@@ -21768,7 +22530,7 @@ extension SageMakerClientTypes {
         ///
         /// * Even though the cron expression is set to start at 5PM UTC, note that there could be a delay of 0-20 minutes from the actual requested time to run the execution.
         ///
-        /// * We recommend that if you would like a daily schedule, you do not provide this parameter. Amazon SageMaker will pick a time for running every day.
+        /// * We recommend that if you would like a daily schedule, you do not provide this parameter. Amazon SageMaker AI will pick a time for running every day.
         ///
         ///
         /// You can also specify the keyword NOW to run the monitoring job immediately, one time, without recurring.
@@ -21970,18 +22732,18 @@ extension SageMakerClientTypes {
 public struct CreateNotebookInstanceInput: Swift.Sendable {
     /// This parameter is no longer supported. Elastic Inference (EI) is no longer available. This parameter was used to specify a list of EI instance types to associate with this notebook instance.
     public var acceleratorTypes: [SageMakerClientTypes.NotebookInstanceAcceleratorType]?
-    /// An array of up to three Git repositories to associate with the notebook instance. These can be either the names of Git repositories stored as resources in your account, or the URL of Git repositories in [Amazon Web Services CodeCommit](https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html) or in any other Git repository. These repositories are cloned at the same level as the default repository of your notebook instance. For more information, see [Associating Git Repositories with SageMaker Notebook Instances](https://docs.aws.amazon.com/sagemaker/latest/dg/nbi-git-repo.html).
+    /// An array of up to three Git repositories to associate with the notebook instance. These can be either the names of Git repositories stored as resources in your account, or the URL of Git repositories in [Amazon Web Services CodeCommit](https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html) or in any other Git repository. These repositories are cloned at the same level as the default repository of your notebook instance. For more information, see [Associating Git Repositories with SageMaker AI Notebook Instances](https://docs.aws.amazon.com/sagemaker/latest/dg/nbi-git-repo.html).
     public var additionalCodeRepositories: [Swift.String]?
-    /// A Git repository to associate with the notebook instance as its default code repository. This can be either the name of a Git repository stored as a resource in your account, or the URL of a Git repository in [Amazon Web Services CodeCommit](https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html) or in any other Git repository. When you open a notebook instance, it opens in the directory that contains this repository. For more information, see [Associating Git Repositories with SageMaker Notebook Instances](https://docs.aws.amazon.com/sagemaker/latest/dg/nbi-git-repo.html).
+    /// A Git repository to associate with the notebook instance as its default code repository. This can be either the name of a Git repository stored as a resource in your account, or the URL of a Git repository in [Amazon Web Services CodeCommit](https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html) or in any other Git repository. When you open a notebook instance, it opens in the directory that contains this repository. For more information, see [Associating Git Repositories with SageMaker AI Notebook Instances](https://docs.aws.amazon.com/sagemaker/latest/dg/nbi-git-repo.html).
     public var defaultCodeRepository: Swift.String?
-    /// Sets whether SageMaker provides internet access to the notebook instance. If you set this to Disabled this notebook instance is able to access resources only in your VPC, and is not be able to connect to SageMaker training and endpoint services unless you configure a NAT Gateway in your VPC. For more information, see [Notebook Instances Are Internet-Enabled by Default](https://docs.aws.amazon.com/sagemaker/latest/dg/appendix-additional-considerations.html#appendix-notebook-and-internet-access). You can set the value of this parameter to Disabled only if you set a value for the SubnetId parameter.
+    /// Sets whether SageMaker AI provides internet access to the notebook instance. If you set this to Disabled this notebook instance is able to access resources only in your VPC, and is not be able to connect to SageMaker AI training and endpoint services unless you configure a NAT Gateway in your VPC. For more information, see [Notebook Instances Are Internet-Enabled by Default](https://docs.aws.amazon.com/sagemaker/latest/dg/appendix-additional-considerations.html#appendix-notebook-and-internet-access). You can set the value of this parameter to Disabled only if you set a value for the SubnetId parameter.
     public var directInternetAccess: SageMakerClientTypes.DirectInternetAccess?
     /// Information on the IMDS configuration of the notebook instance
     public var instanceMetadataServiceConfiguration: SageMakerClientTypes.InstanceMetadataServiceConfiguration?
     /// The type of ML compute instance to launch for the notebook instance.
     /// This member is required.
     public var instanceType: SageMakerClientTypes.InstanceType?
-    /// The Amazon Resource Name (ARN) of a Amazon Web Services Key Management Service key that SageMaker uses to encrypt data on the storage volume attached to your notebook instance. The KMS key you provide must be enabled. For information, see [Enabling and Disabling Keys](https://docs.aws.amazon.com/kms/latest/developerguide/enabling-keys.html) in the Amazon Web Services Key Management Service Developer Guide.
+    /// The Amazon Resource Name (ARN) of a Amazon Web Services Key Management Service key that SageMaker AI uses to encrypt data on the storage volume attached to your notebook instance. The KMS key you provide must be enabled. For information, see [Enabling and Disabling Keys](https://docs.aws.amazon.com/kms/latest/developerguide/enabling-keys.html) in the Amazon Web Services Key Management Service Developer Guide.
     public var kmsKeyId: Swift.String?
     /// The name of a lifecycle configuration to associate with the notebook instance. For information about lifestyle configurations, see [Step 2.1: (Optional) Customize a Notebook Instance](https://docs.aws.amazon.com/sagemaker/latest/dg/notebook-lifecycle-config.html).
     public var lifecycleConfigName: Swift.String?
@@ -21990,7 +22752,7 @@ public struct CreateNotebookInstanceInput: Swift.Sendable {
     public var notebookInstanceName: Swift.String?
     /// The platform identifier of the notebook instance runtime environment.
     public var platformIdentifier: Swift.String?
-    /// When you send any requests to Amazon Web Services resources from the notebook instance, SageMaker assumes this role to perform tasks on your behalf. You must grant this role necessary permissions so SageMaker can perform these tasks. The policy must allow the SageMaker service principal (sagemaker.amazonaws.com) permissions to assume this role. For more information, see [SageMaker Roles](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-roles.html). To be able to pass this role to SageMaker, the caller of this API must have the iam:PassRole permission.
+    /// When you send any requests to Amazon Web Services resources from the notebook instance, SageMaker AI assumes this role to perform tasks on your behalf. You must grant this role necessary permissions so SageMaker AI can perform these tasks. The policy must allow the SageMaker AI service principal (sagemaker.amazonaws.com) permissions to assume this role. For more information, see [SageMaker AI Roles](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-roles.html). To be able to pass this role to SageMaker AI, the caller of this API must have the iam:PassRole permission.
     /// This member is required.
     public var roleArn: Swift.String?
     /// Whether root access is enabled or disabled for users of the notebook instance. The default value is Enabled. Lifecycle configurations need root access to be able to set up a notebook instance. Because of this, lifecycle configurations associated with a notebook instance always run with root access even if you disable root access for users.
@@ -22392,7 +23154,7 @@ public struct CreateOptimizationJobInput: Swift.Sendable {
     /// Details for where to store the optimized model that you create with the optimization job.
     /// This member is required.
     public var outputConfig: SageMakerClientTypes.OptimizationJobOutputConfig?
-    /// The Amazon Resource Name (ARN) of an IAM role that enables Amazon SageMaker to perform tasks on your behalf. During model optimization, Amazon SageMaker needs your permission to:
+    /// The Amazon Resource Name (ARN) of an IAM role that enables Amazon SageMaker AI to perform tasks on your behalf. During model optimization, Amazon SageMaker AI needs your permission to:
     ///
     /// * Read input data from an S3 bucket
     ///
@@ -22403,7 +23165,7 @@ public struct CreateOptimizationJobInput: Swift.Sendable {
     /// * Publish metrics to Amazon CloudWatch
     ///
     ///
-    /// You grant permissions for all of these tasks to an IAM role. To pass this role to Amazon SageMaker, the caller of this API must have the iam:PassRole permission. For more information, see [Amazon SageMaker Roles.](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-roles.html)
+    /// You grant permissions for all of these tasks to an IAM role. To pass this role to Amazon SageMaker AI, the caller of this API must have the iam:PassRole permission. For more information, see [Amazon SageMaker AI Roles.](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-roles.html)
     /// This member is required.
     public var roleArn: Swift.String?
     /// Specifies a limit to how long a job can run. When the job reaches the time limit, SageMaker ends the job. Use this API to cap costs. To stop a training job, SageMaker sends the algorithm the SIGTERM signal, which delays job termination for 120 seconds. Algorithms can use this 120-second window to save the model artifacts, so the results of training are not lost. The training algorithms provided by SageMaker automatically save the intermediate results of a model training job when possible. This attempt to save artifacts is only a best effort case as model might not be in a state from which it can be saved. For example, if training has just started, the model might not be ready to save. When saved, this intermediate data is a valid model artifact. You can use it to create a model with CreateModel. The Neural Topic Model (NTM) currently does not support saving intermediate model artifacts. When training NTMs, make sure that the maximum runtime is sufficient for the training job to complete.
@@ -22450,6 +23212,201 @@ public struct CreateOptimizationJobOutput: Swift.Sendable {
     )
     {
         self.optimizationJobArn = optimizationJobArn
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Configuration settings for the SageMaker Partner AI App.
+    public struct PartnerAppConfig: Swift.Sendable {
+        /// The list of users that are given admin access to the SageMaker Partner AI App.
+        public var adminUsers: [Swift.String]?
+        /// This is a map of required inputs for a SageMaker Partner AI App. Based on the application type, the map is populated with a key and value pair that is specific to the user and application.
+        public var arguments: [Swift.String: Swift.String]?
+
+        public init(
+            adminUsers: [Swift.String]? = nil,
+            arguments: [Swift.String: Swift.String]? = nil
+        )
+        {
+            self.adminUsers = adminUsers
+            self.arguments = arguments
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    public enum PartnerAppAuthType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case iam
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PartnerAppAuthType] {
+            return [
+                .iam
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .iam: return "IAM"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Maintenance configuration settings for the SageMaker Partner AI App.
+    public struct PartnerAppMaintenanceConfig: Swift.Sendable {
+        /// The day and time of the week in Coordinated Universal Time (UTC) 24-hour standard time that weekly maintenance updates are scheduled. This value must take the following format: 3-letter-day:24-h-hour:minute. For example: TUE:03:30.
+        public var maintenanceWindowStart: Swift.String?
+
+        public init(
+            maintenanceWindowStart: Swift.String? = nil
+        )
+        {
+            self.maintenanceWindowStart = maintenanceWindowStart
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    public enum PartnerAppType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case comet
+        case deepchecksLlmEvaluation
+        case fiddler
+        case lakeraGuard
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PartnerAppType] {
+            return [
+                .comet,
+                .deepchecksLlmEvaluation,
+                .fiddler,
+                .lakeraGuard
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .comet: return "comet"
+            case .deepchecksLlmEvaluation: return "deepchecks-llm-evaluation"
+            case .fiddler: return "fiddler"
+            case .lakeraGuard: return "lakera-guard"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreatePartnerAppInput: Swift.Sendable {
+    /// Configuration settings for the SageMaker Partner AI App.
+    public var applicationConfig: SageMakerClientTypes.PartnerAppConfig?
+    /// The authorization type that users use to access the SageMaker Partner AI App.
+    /// This member is required.
+    public var authType: SageMakerClientTypes.PartnerAppAuthType?
+    /// A unique token that guarantees that the call to this API is idempotent.
+    public var clientToken: Swift.String?
+    /// When set to TRUE, the SageMaker Partner AI App sets the Amazon Web Services IAM session name or the authenticated IAM user as the identity of the SageMaker Partner AI App user.
+    public var enableIamSessionBasedIdentity: Swift.Bool?
+    /// The ARN of the IAM role that the partner application uses.
+    /// This member is required.
+    public var executionRoleArn: Swift.String?
+    /// Maintenance configuration settings for the SageMaker Partner AI App.
+    public var maintenanceConfig: SageMakerClientTypes.PartnerAppMaintenanceConfig?
+    /// The name to give the SageMaker Partner AI App.
+    /// This member is required.
+    public var name: Swift.String?
+    /// Each tag consists of a key and an optional value. Tag keys must be unique per resource.
+    public var tags: [SageMakerClientTypes.Tag]?
+    /// Indicates the instance type and size of the cluster attached to the SageMaker Partner AI App.
+    /// This member is required.
+    public var tier: Swift.String?
+    /// The type of SageMaker Partner AI App to create. Must be one of the following: lakera-guard, comet, deepchecks-llm-evaluation, or fiddler.
+    /// This member is required.
+    public var type: SageMakerClientTypes.PartnerAppType?
+
+    public init(
+        applicationConfig: SageMakerClientTypes.PartnerAppConfig? = nil,
+        authType: SageMakerClientTypes.PartnerAppAuthType? = nil,
+        clientToken: Swift.String? = nil,
+        enableIamSessionBasedIdentity: Swift.Bool? = nil,
+        executionRoleArn: Swift.String? = nil,
+        maintenanceConfig: SageMakerClientTypes.PartnerAppMaintenanceConfig? = nil,
+        name: Swift.String? = nil,
+        tags: [SageMakerClientTypes.Tag]? = nil,
+        tier: Swift.String? = nil,
+        type: SageMakerClientTypes.PartnerAppType? = nil
+    )
+    {
+        self.applicationConfig = applicationConfig
+        self.authType = authType
+        self.clientToken = clientToken
+        self.enableIamSessionBasedIdentity = enableIamSessionBasedIdentity
+        self.executionRoleArn = executionRoleArn
+        self.maintenanceConfig = maintenanceConfig
+        self.name = name
+        self.tags = tags
+        self.tier = tier
+        self.type = type
+    }
+}
+
+public struct CreatePartnerAppOutput: Swift.Sendable {
+    /// The ARN of the SageMaker Partner AI App.
+    public var arn: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil
+    )
+    {
+        self.arn = arn
+    }
+}
+
+public struct CreatePartnerAppPresignedUrlInput: Swift.Sendable {
+    /// The ARN of the SageMaker Partner AI App to create the presigned URL for.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The time that will pass before the presigned URL expires.
+    public var expiresInSeconds: Swift.Int?
+    /// Indicates how long the Amazon SageMaker Partner AI App session can be accessed for after logging in.
+    public var sessionExpirationDurationInSeconds: Swift.Int?
+
+    public init(
+        arn: Swift.String? = nil,
+        expiresInSeconds: Swift.Int? = nil,
+        sessionExpirationDurationInSeconds: Swift.Int? = nil
+    )
+    {
+        self.arn = arn
+        self.expiresInSeconds = expiresInSeconds
+        self.sessionExpirationDurationInSeconds = sessionExpirationDurationInSeconds
+    }
+}
+
+public struct CreatePartnerAppPresignedUrlOutput: Swift.Sendable {
+    /// The presigned URL that you can use to access the SageMaker Partner AI App.
+    public var url: Swift.String?
+
+    public init(
+        url: Swift.String? = nil
+    )
+    {
+        self.url = url
     }
 }
 
@@ -23429,7 +24386,7 @@ extension SageMakerClientTypes {
     public struct SpaceCodeEditorAppSettings: Swift.Sendable {
         /// Settings that are used to configure and manage the lifecycle of CodeEditor applications in a space.
         public var appLifecycleManagement: SageMakerClientTypes.SpaceAppLifecycleManagement?
-        /// Specifies the ARN's of a SageMaker image and SageMaker image version, and the instance type that the version runs on.
+        /// Specifies the ARN's of a SageMaker AI image and SageMaker AI image version, and the instance type that the version runs on.
         public var defaultResourceSpec: SageMakerClientTypes.ResourceSpec?
 
         public init(
@@ -23445,7 +24402,7 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
-    /// A file system, created by you in Amazon EFS, that you assign to a user profile or space for an Amazon SageMaker Domain. Permitted users can access this file system in Amazon SageMaker Studio.
+    /// A file system, created by you in Amazon EFS, that you assign to a user profile or space for an Amazon SageMaker AI Domain. Permitted users can access this file system in Amazon SageMaker AI Studio.
     public struct EFSFileSystem: Swift.Sendable {
         /// The ID of your Amazon EFS file system.
         /// This member is required.
@@ -23462,10 +24419,29 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
-    /// A file system, created by you, that you assign to a user profile or space for an Amazon SageMaker Domain. Permitted users can access this file system in Amazon SageMaker Studio.
+    /// A custom file system in Amazon FSx for Lustre.
+    public struct FSxLustreFileSystem: Swift.Sendable {
+        /// Amazon FSx for Lustre file system ID.
+        /// This member is required.
+        public var fileSystemId: Swift.String?
+
+        public init(
+            fileSystemId: Swift.String? = nil
+        )
+        {
+            self.fileSystemId = fileSystemId
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// A file system, created by you, that you assign to a user profile or space for an Amazon SageMaker AI Domain. Permitted users can access this file system in Amazon SageMaker AI Studio.
     public enum CustomFileSystem: Swift.Sendable {
         /// A custom file system in Amazon EFS.
         case efsfilesystem(SageMakerClientTypes.EFSFileSystem)
+        /// A custom file system in Amazon FSx for Lustre.
+        case fsxlustrefilesystem(SageMakerClientTypes.FSxLustreFileSystem)
         case sdkUnknown(Swift.String)
     }
 }
@@ -23478,7 +24454,7 @@ extension SageMakerClientTypes {
         public var appLifecycleManagement: SageMakerClientTypes.SpaceAppLifecycleManagement?
         /// A list of Git repositories that SageMaker automatically displays to users for cloning in the JupyterLab application.
         public var codeRepositories: [SageMakerClientTypes.CodeRepository]?
-        /// Specifies the ARN's of a SageMaker image and SageMaker image version, and the instance type that the version runs on.
+        /// Specifies the ARN's of a SageMaker AI image and SageMaker AI image version, and the instance type that the version runs on.
         public var defaultResourceSpec: SageMakerClientTypes.ResourceSpec?
 
         public init(
@@ -23531,11 +24507,11 @@ extension SageMakerClientTypes {
 
     /// A collection of space settings.
     public struct SpaceSettings: Swift.Sendable {
-        /// The type of app created within the space.
+        /// The type of app created within the space. If using the [ UpdateSpace](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_UpdateSpace.html) API, you can't change the app type of your space by specifying a different value for this field.
         public var appType: SageMakerClientTypes.AppType?
         /// The Code Editor application settings.
         public var codeEditorAppSettings: SageMakerClientTypes.SpaceCodeEditorAppSettings?
-        /// A file system, created by you, that you assign to a space for an Amazon SageMaker Domain. Permitted users can access this file system in Amazon SageMaker Studio.
+        /// A file system, created by you, that you assign to a space for an Amazon SageMaker AI Domain. Permitted users can access this file system in Amazon SageMaker AI Studio.
         public var customFileSystems: [SageMakerClientTypes.CustomFileSystem]?
         /// The settings for the JupyterLab application.
         public var jupyterLabAppSettings: SageMakerClientTypes.SpaceJupyterLabAppSettings?
@@ -23702,10 +24678,10 @@ public struct CreateStudioLifecycleConfigInput: Swift.Sendable {
     /// The App type that the Lifecycle Configuration is attached to.
     /// This member is required.
     public var studioLifecycleConfigAppType: SageMakerClientTypes.StudioLifecycleConfigAppType?
-    /// The content of your Amazon SageMaker Studio Lifecycle Configuration script. This content must be base64 encoded.
+    /// The content of your Amazon SageMaker AI Studio Lifecycle Configuration script. This content must be base64 encoded.
     /// This member is required.
     public var studioLifecycleConfigContent: Swift.String?
-    /// The name of the Amazon SageMaker Studio Lifecycle Configuration to create.
+    /// The name of the Amazon SageMaker AI Studio Lifecycle Configuration to create.
     /// This member is required.
     public var studioLifecycleConfigName: Swift.String?
     /// Tags to be associated with the Lifecycle Configuration. Each tag consists of a key and an optional value. Tag keys must be unique per resource. Tags are searchable using the Search API.
@@ -24077,6 +25053,41 @@ public struct CreateTrainingJobOutput: Swift.Sendable {
     )
     {
         self.trainingJobArn = trainingJobArn
+    }
+}
+
+public struct CreateTrainingPlanInput: Swift.Sendable {
+    /// An array of key-value pairs to apply to this training plan.
+    public var tags: [SageMakerClientTypes.Tag]?
+    /// The name of the training plan to create.
+    /// This member is required.
+    public var trainingPlanName: Swift.String?
+    /// The unique identifier of the training plan offering to use for creating this plan.
+    /// This member is required.
+    public var trainingPlanOfferingId: Swift.String?
+
+    public init(
+        tags: [SageMakerClientTypes.Tag]? = nil,
+        trainingPlanName: Swift.String? = nil,
+        trainingPlanOfferingId: Swift.String? = nil
+    )
+    {
+        self.tags = tags
+        self.trainingPlanName = trainingPlanName
+        self.trainingPlanOfferingId = trainingPlanOfferingId
+    }
+}
+
+public struct CreateTrainingPlanOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN); of the created training plan.
+    /// This member is required.
+    public var trainingPlanArn: Swift.String?
+
+    public init(
+        trainingPlanArn: Swift.String? = nil
+    )
+    {
+        self.trainingPlanArn = trainingPlanArn
     }
 }
 
@@ -25194,6 +26205,19 @@ public struct DeleteClusterOutput: Swift.Sendable {
     }
 }
 
+public struct DeleteClusterSchedulerConfigInput: Swift.Sendable {
+    /// ID of the cluster policy.
+    /// This member is required.
+    public var clusterSchedulerConfigId: Swift.String?
+
+    public init(
+        clusterSchedulerConfigId: Swift.String? = nil
+    )
+    {
+        self.clusterSchedulerConfigId = clusterSchedulerConfigId
+    }
+}
+
 public struct DeleteCodeRepositoryInput: Swift.Sendable {
     /// The name of the Git repository to delete.
     /// This member is required.
@@ -25217,6 +26241,19 @@ public struct DeleteCompilationJobInput: Swift.Sendable {
     )
     {
         self.compilationJobName = compilationJobName
+    }
+}
+
+public struct DeleteComputeQuotaInput: Swift.Sendable {
+    /// ID of the compute allocation definition.
+    /// This member is required.
+    public var computeQuotaId: Swift.String?
+
+    public init(
+        computeQuotaId: Swift.String? = nil
+    )
+    {
+        self.computeQuotaId = computeQuotaId
     }
 }
 
@@ -25799,7 +26836,7 @@ public struct DeleteMonitoringScheduleInput: Swift.Sendable {
 }
 
 public struct DeleteNotebookInstanceInput: Swift.Sendable {
-    /// The name of the SageMaker notebook instance to delete.
+    /// The name of the SageMaker AI notebook instance to delete.
     /// This member is required.
     public var notebookInstanceName: Swift.String?
 
@@ -25834,6 +26871,35 @@ public struct DeleteOptimizationJobInput: Swift.Sendable {
     )
     {
         self.optimizationJobName = optimizationJobName
+    }
+}
+
+public struct DeletePartnerAppInput: Swift.Sendable {
+    /// The ARN of the SageMaker Partner AI App to delete.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// A unique token that guarantees that the call to this API is idempotent.
+    public var clientToken: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil,
+        clientToken: Swift.String? = nil
+    )
+    {
+        self.arn = arn
+        self.clientToken = clientToken
+    }
+}
+
+public struct DeletePartnerAppOutput: Swift.Sendable {
+    /// The ARN of the SageMaker Partner AI App that was deleted.
+    public var arn: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil
+    )
+    {
+        self.arn = arn
     }
 }
 
@@ -25899,7 +26965,7 @@ public struct DeleteSpaceInput: Swift.Sendable {
 }
 
 public struct DeleteStudioLifecycleConfigInput: Swift.Sendable {
-    /// The name of the Amazon SageMaker Studio Lifecycle Configuration to delete.
+    /// The name of the Amazon SageMaker AI Studio Lifecycle Configuration to delete.
     /// This member is required.
     public var studioLifecycleConfigName: Swift.String?
 
@@ -26489,7 +27555,7 @@ public struct DescribeAppOutput: Swift.Sendable {
     public var appType: SageMakerClientTypes.AppType?
     /// The lifecycle configuration that runs before the default lifecycle configuration
     public var builtInLifecycleConfigArn: Swift.String?
-    /// The creation time of the application. After an application has been shut down for 24 hours, SageMaker deletes all metadata for the application. To be considered an update and retain application metadata, applications must be restarted within 24 hours after the previous application has been shut down. After this time window, creation of an application is considered a new application rather than an update of the previous application.
+    /// The creation time of the application. After an application has been shut down for 24 hours, SageMaker AI deletes all metadata for the application. To be considered an update and retain application metadata, applications must be restarted within 24 hours after the previous application has been shut down. After this time window, creation of an application is considered a new application rather than an update of the previous application.
     public var creationTime: Foundation.Date?
     /// The domain ID.
     public var domainId: Swift.String?
@@ -26497,9 +27563,9 @@ public struct DescribeAppOutput: Swift.Sendable {
     public var failureReason: Swift.String?
     /// The timestamp of the last health check.
     public var lastHealthCheckTimestamp: Foundation.Date?
-    /// The timestamp of the last user's activity. LastUserActivityTimestamp is also updated when SageMaker performs health checks without user activity. As a result, this value is set to the same value as LastHealthCheckTimestamp.
+    /// The timestamp of the last user's activity. LastUserActivityTimestamp is also updated when SageMaker AI performs health checks without user activity. As a result, this value is set to the same value as LastHealthCheckTimestamp.
     public var lastUserActivityTimestamp: Foundation.Date?
-    /// The instance type and the Amazon Resource Name (ARN) of the SageMaker image created on the instance.
+    /// The instance type and the Amazon Resource Name (ARN) of the SageMaker AI image created on the instance.
     public var resourceSpec: SageMakerClientTypes.ResourceSpec?
     /// The name of the space. If this value is not set, then UserProfileName must be set.
     public var spaceName: Swift.String?
@@ -26726,7 +27792,7 @@ public struct DescribeAutoMLJobOutput: Swift.Sendable {
     /// Returns the status of the AutoML job.
     /// This member is required.
     public var autoMLJobStatus: SageMakerClientTypes.AutoMLJobStatus?
-    /// The best model candidate selected by SageMaker Autopilot using both the best objective metric and lowest [InferenceLatency](https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-metrics-validation.html) for an experiment.
+    /// The best model candidate selected by SageMaker AI Autopilot using both the best objective metric and lowest [InferenceLatency](https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-metrics-validation.html) for an experiment.
     public var bestCandidate: SageMakerClientTypes.AutoMLCandidate?
     /// Returns the creation time of the AutoML job.
     /// This member is required.
@@ -27021,6 +28087,89 @@ public struct DescribeClusterNodeOutput: Swift.Sendable {
     }
 }
 
+public struct DescribeClusterSchedulerConfigInput: Swift.Sendable {
+    /// ID of the cluster policy.
+    /// This member is required.
+    public var clusterSchedulerConfigId: Swift.String?
+    /// Version of the cluster policy.
+    public var clusterSchedulerConfigVersion: Swift.Int?
+
+    public init(
+        clusterSchedulerConfigId: Swift.String? = nil,
+        clusterSchedulerConfigVersion: Swift.Int? = nil
+    )
+    {
+        self.clusterSchedulerConfigId = clusterSchedulerConfigId
+        self.clusterSchedulerConfigVersion = clusterSchedulerConfigVersion
+    }
+}
+
+public struct DescribeClusterSchedulerConfigOutput: Swift.Sendable {
+    /// ARN of the cluster where the cluster policy is applied.
+    public var clusterArn: Swift.String?
+    /// ARN of the cluster policy.
+    /// This member is required.
+    public var clusterSchedulerConfigArn: Swift.String?
+    /// ID of the cluster policy.
+    /// This member is required.
+    public var clusterSchedulerConfigId: Swift.String?
+    /// Version of the cluster policy.
+    /// This member is required.
+    public var clusterSchedulerConfigVersion: Swift.Int?
+    /// Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
+    public var createdBy: SageMakerClientTypes.UserContext?
+    /// Creation time of the cluster policy.
+    /// This member is required.
+    public var creationTime: Foundation.Date?
+    /// Description of the cluster policy.
+    public var description: Swift.String?
+    /// Failure reason of the cluster policy.
+    public var failureReason: Swift.String?
+    /// Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
+    public var lastModifiedBy: SageMakerClientTypes.UserContext?
+    /// Last modified time of the cluster policy.
+    public var lastModifiedTime: Foundation.Date?
+    /// Name of the cluster policy.
+    /// This member is required.
+    public var name: Swift.String?
+    /// Cluster policy configuration. This policy is used for task prioritization and fair-share allocation. This helps prioritize critical workloads and distributes idle compute across entities.
+    public var schedulerConfig: SageMakerClientTypes.SchedulerConfig?
+    /// Status of the cluster policy.
+    /// This member is required.
+    public var status: SageMakerClientTypes.SchedulerResourceStatus?
+
+    public init(
+        clusterArn: Swift.String? = nil,
+        clusterSchedulerConfigArn: Swift.String? = nil,
+        clusterSchedulerConfigId: Swift.String? = nil,
+        clusterSchedulerConfigVersion: Swift.Int? = nil,
+        createdBy: SageMakerClientTypes.UserContext? = nil,
+        creationTime: Foundation.Date? = nil,
+        description: Swift.String? = nil,
+        failureReason: Swift.String? = nil,
+        lastModifiedBy: SageMakerClientTypes.UserContext? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
+        name: Swift.String? = nil,
+        schedulerConfig: SageMakerClientTypes.SchedulerConfig? = nil,
+        status: SageMakerClientTypes.SchedulerResourceStatus? = nil
+    )
+    {
+        self.clusterArn = clusterArn
+        self.clusterSchedulerConfigArn = clusterSchedulerConfigArn
+        self.clusterSchedulerConfigId = clusterSchedulerConfigId
+        self.clusterSchedulerConfigVersion = clusterSchedulerConfigVersion
+        self.createdBy = createdBy
+        self.creationTime = creationTime
+        self.description = description
+        self.failureReason = failureReason
+        self.lastModifiedBy = lastModifiedBy
+        self.lastModifiedTime = lastModifiedTime
+        self.name = name
+        self.schedulerConfig = schedulerConfig
+        self.status = status
+    }
+}
+
 public struct DescribeCodeRepositoryInput: Swift.Sendable {
     /// The name of the Git repository to describe.
     /// This member is required.
@@ -27113,7 +28262,7 @@ extension SageMakerClientTypes {
 }
 
 public struct DescribeCompilationJobOutput: Swift.Sendable {
-    /// The time when the model compilation job on a compilation job instance ended. For a successful or stopped job, this is when the job's model artifacts have finished uploading. For a failed job, this is when Amazon SageMaker detected that the job failed.
+    /// The time when the model compilation job on a compilation job instance ended. For a successful or stopped job, this is when the job's model artifacts have finished uploading. For a failed job, this is when Amazon SageMaker AI detected that the job failed.
     public var compilationEndTime: Foundation.Date?
     /// The Amazon Resource Name (ARN) of the model compilation job.
     /// This member is required.
@@ -27152,10 +28301,10 @@ public struct DescribeCompilationJobOutput: Swift.Sendable {
     /// Information about the output location for the compiled model and the target device that the model runs on.
     /// This member is required.
     public var outputConfig: SageMakerClientTypes.OutputConfig?
-    /// The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker assumes to perform the model compilation job.
+    /// The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker AI assumes to perform the model compilation job.
     /// This member is required.
     public var roleArn: Swift.String?
-    /// Specifies a limit to how long a model compilation job can run. When the job reaches the time limit, Amazon SageMaker ends the compilation job. Use this API to cap model training costs.
+    /// Specifies a limit to how long a model compilation job can run. When the job reaches the time limit, Amazon SageMaker AI ends the compilation job. Use this API to cap model training costs.
     /// This member is required.
     public var stoppingCondition: SageMakerClientTypes.StoppingCondition?
     /// A [VpcConfig](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_VpcConfig.html) object that specifies the VPC that you want your compilation job to connect to. Control access to your models by configuring the VPC. For more information, see [Protect Compilation Jobs by Using an Amazon Virtual Private Cloud](https://docs.aws.amazon.com/sagemaker/latest/dg/neo-vpc.html).
@@ -27200,6 +28349,98 @@ public struct DescribeCompilationJobOutput: Swift.Sendable {
         self.roleArn = roleArn
         self.stoppingCondition = stoppingCondition
         self.vpcConfig = vpcConfig
+    }
+}
+
+public struct DescribeComputeQuotaInput: Swift.Sendable {
+    /// ID of the compute allocation definition.
+    /// This member is required.
+    public var computeQuotaId: Swift.String?
+    /// Version of the compute allocation definition.
+    public var computeQuotaVersion: Swift.Int?
+
+    public init(
+        computeQuotaId: Swift.String? = nil,
+        computeQuotaVersion: Swift.Int? = nil
+    )
+    {
+        self.computeQuotaId = computeQuotaId
+        self.computeQuotaVersion = computeQuotaVersion
+    }
+}
+
+public struct DescribeComputeQuotaOutput: Swift.Sendable {
+    /// The state of the compute allocation being described. Use to enable or disable compute allocation. Default is Enabled.
+    public var activationState: SageMakerClientTypes.ActivationState?
+    /// ARN of the cluster.
+    public var clusterArn: Swift.String?
+    /// ARN of the compute allocation definition.
+    /// This member is required.
+    public var computeQuotaArn: Swift.String?
+    /// Configuration of the compute allocation definition. This includes the resource sharing option, and the setting to preempt low priority tasks.
+    public var computeQuotaConfig: SageMakerClientTypes.ComputeQuotaConfig?
+    /// ID of the compute allocation definition.
+    /// This member is required.
+    public var computeQuotaId: Swift.String?
+    /// The target entity to allocate compute resources to.
+    /// This member is required.
+    public var computeQuotaTarget: SageMakerClientTypes.ComputeQuotaTarget?
+    /// Version of the compute allocation definition.
+    /// This member is required.
+    public var computeQuotaVersion: Swift.Int?
+    /// Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
+    public var createdBy: SageMakerClientTypes.UserContext?
+    /// Creation time of the compute allocation configuration.
+    /// This member is required.
+    public var creationTime: Foundation.Date?
+    /// Description of the compute allocation definition.
+    public var description: Swift.String?
+    /// Failure reason of the compute allocation definition.
+    public var failureReason: Swift.String?
+    /// Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
+    public var lastModifiedBy: SageMakerClientTypes.UserContext?
+    /// Last modified time of the compute allocation configuration.
+    public var lastModifiedTime: Foundation.Date?
+    /// Name of the compute allocation definition.
+    /// This member is required.
+    public var name: Swift.String?
+    /// Status of the compute allocation definition.
+    /// This member is required.
+    public var status: SageMakerClientTypes.SchedulerResourceStatus?
+
+    public init(
+        activationState: SageMakerClientTypes.ActivationState? = nil,
+        clusterArn: Swift.String? = nil,
+        computeQuotaArn: Swift.String? = nil,
+        computeQuotaConfig: SageMakerClientTypes.ComputeQuotaConfig? = nil,
+        computeQuotaId: Swift.String? = nil,
+        computeQuotaTarget: SageMakerClientTypes.ComputeQuotaTarget? = nil,
+        computeQuotaVersion: Swift.Int? = nil,
+        createdBy: SageMakerClientTypes.UserContext? = nil,
+        creationTime: Foundation.Date? = nil,
+        description: Swift.String? = nil,
+        failureReason: Swift.String? = nil,
+        lastModifiedBy: SageMakerClientTypes.UserContext? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
+        name: Swift.String? = nil,
+        status: SageMakerClientTypes.SchedulerResourceStatus? = nil
+    )
+    {
+        self.activationState = activationState
+        self.clusterArn = clusterArn
+        self.computeQuotaArn = computeQuotaArn
+        self.computeQuotaConfig = computeQuotaConfig
+        self.computeQuotaId = computeQuotaId
+        self.computeQuotaTarget = computeQuotaTarget
+        self.computeQuotaVersion = computeQuotaVersion
+        self.createdBy = createdBy
+        self.creationTime = creationTime
+        self.description = description
+        self.failureReason = failureReason
+        self.lastModifiedBy = lastModifiedBy
+        self.lastModifiedTime = lastModifiedTime
+        self.name = name
+        self.status = status
     }
 }
 
@@ -27307,7 +28548,7 @@ public struct DescribeDataQualityJobDefinitionOutput: Swift.Sendable {
     public var jobResources: SageMakerClientTypes.MonitoringResources?
     /// The networking configuration for the data quality monitoring job.
     public var networkConfig: SageMakerClientTypes.MonitoringNetworkConfig?
-    /// The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker can assume to perform tasks on your behalf.
+    /// The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker AI can assume to perform tasks on your behalf.
     /// This member is required.
     public var roleArn: Swift.String?
     /// A time limit for how long the monitoring job is allowed to run before stopping.
@@ -27566,7 +28807,7 @@ extension SageMakerClientTypes {
 public struct DescribeDomainOutput: Swift.Sendable {
     /// Specifies the VPC used for non-EFS traffic. The default value is PublicInternetOnly.
     ///
-    /// * PublicInternetOnly - Non-EFS traffic is through a VPC managed by Amazon SageMaker, which allows direct internet access
+    /// * PublicInternetOnly - Non-EFS traffic is through a VPC managed by Amazon SageMaker AI, which allows direct internet access
     ///
     /// * VpcOnly - All traffic is through the specified VPC and subnets
     public var appNetworkAccessType: SageMakerClientTypes.AppNetworkAccessType?
@@ -27601,7 +28842,7 @@ public struct DescribeDomainOutput: Swift.Sendable {
     public var lastModifiedTime: Foundation.Date?
     /// The ID of the security group that authorizes traffic between the RSessionGateway apps and the RStudioServerPro app.
     public var securityGroupIdForDomainBoundary: Swift.String?
-    /// The ARN of the application managed by SageMaker in IAM Identity Center. This value is only returned for domains created after October 1, 2023.
+    /// The ARN of the application managed by SageMaker AI in IAM Identity Center. This value is only returned for domains created after October 1, 2023.
     public var singleSignOnApplicationArn: Swift.String?
     /// The IAM Identity Center managed application instance ID.
     public var singleSignOnManagedApplicationInstanceId: Swift.String?
@@ -28322,7 +29563,7 @@ public struct DescribeEndpointConfigOutput: Swift.Sendable {
     /// A timestamp that shows when the endpoint configuration was created.
     /// This member is required.
     public var creationTime: Foundation.Date?
-    /// Configuration to control how SageMaker captures inference data.
+    /// Configuration to control how SageMaker AI captures inference data.
     public var dataCaptureConfig: SageMakerClientTypes.DataCaptureConfig?
     /// Indicates whether all model containers deployed to the endpoint are isolated. If they are, no inbound or outbound network calls can be made to or from the model containers.
     public var enableNetworkIsolation: Swift.Bool?
@@ -29790,7 +31031,7 @@ public struct DescribeImageOutput: Swift.Sendable {
     public var imageStatus: SageMakerClientTypes.ImageStatus?
     /// When the image was last modified.
     public var lastModifiedTime: Foundation.Date?
-    /// The ARN of the IAM role that enables Amazon SageMaker to perform tasks on your behalf.
+    /// The ARN of the IAM role that enables Amazon SageMaker AI to perform tasks on your behalf.
     public var roleArn: Swift.String?
 
     public init(
@@ -29893,13 +31134,13 @@ public struct DescribeImageVersionOutput: Swift.Sendable {
     public var imageVersionArn: Swift.String?
     /// The status of the version.
     public var imageVersionStatus: SageMakerClientTypes.ImageVersionStatus?
-    /// Indicates SageMaker job type compatibility.
+    /// Indicates SageMaker AI job type compatibility.
     ///
-    /// * TRAINING: The image version is compatible with SageMaker training jobs.
+    /// * TRAINING: The image version is compatible with SageMaker AI training jobs.
     ///
-    /// * INFERENCE: The image version is compatible with SageMaker inference jobs.
+    /// * INFERENCE: The image version is compatible with SageMaker AI inference jobs.
     ///
-    /// * NOTEBOOK_KERNEL: The image version is compatible with SageMaker notebook kernels.
+    /// * NOTEBOOK_KERNEL: The image version is compatible with SageMaker AI notebook kernels.
     public var jobType: SageMakerClientTypes.JobType?
     /// When the version was last modified.
     public var lastModifiedTime: Foundation.Date?
@@ -30071,7 +31312,7 @@ extension SageMakerClientTypes {
         public var computeResourceRequirements: SageMakerClientTypes.InferenceComponentComputeResourceRequirements?
         /// Details about the container that provides the runtime environment for the model that is deployed with the inference component.
         public var container: SageMakerClientTypes.InferenceComponentContainerSpecificationSummary?
-        /// The name of the SageMaker model object that is deployed with the inference component.
+        /// The name of the SageMaker AI model object that is deployed with the inference component.
         public var modelName: Swift.String?
         /// Settings that take effect while the model container starts up.
         public var startupParameters: SageMakerClientTypes.InferenceComponentStartupParameters?
@@ -32069,7 +33310,7 @@ public struct DescribeModelQualityJobDefinitionOutput: Swift.Sendable {
     public var modelQualityJobOutputConfig: SageMakerClientTypes.MonitoringOutputConfig?
     /// Networking options for a model quality job.
     public var networkConfig: SageMakerClientTypes.MonitoringNetworkConfig?
-    /// The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker can assume to perform tasks on your behalf.
+    /// The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker AI can assume to perform tasks on your behalf.
     /// This member is required.
     public var roleArn: Swift.String?
     /// A time limit for how long the monitoring job is allowed to run before stopping.
@@ -32374,13 +33615,13 @@ extension SageMakerClientTypes {
 public struct DescribeNotebookInstanceOutput: Swift.Sendable {
     /// This parameter is no longer supported. Elastic Inference (EI) is no longer available. This parameter was used to specify a list of the EI instance types associated with this notebook instance.
     public var acceleratorTypes: [SageMakerClientTypes.NotebookInstanceAcceleratorType]?
-    /// An array of up to three Git repositories associated with the notebook instance. These can be either the names of Git repositories stored as resources in your account, or the URL of Git repositories in [Amazon Web Services CodeCommit](https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html) or in any other Git repository. These repositories are cloned at the same level as the default repository of your notebook instance. For more information, see [Associating Git Repositories with SageMaker Notebook Instances](https://docs.aws.amazon.com/sagemaker/latest/dg/nbi-git-repo.html).
+    /// An array of up to three Git repositories associated with the notebook instance. These can be either the names of Git repositories stored as resources in your account, or the URL of Git repositories in [Amazon Web Services CodeCommit](https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html) or in any other Git repository. These repositories are cloned at the same level as the default repository of your notebook instance. For more information, see [Associating Git Repositories with SageMaker AI Notebook Instances](https://docs.aws.amazon.com/sagemaker/latest/dg/nbi-git-repo.html).
     public var additionalCodeRepositories: [Swift.String]?
     /// A timestamp. Use this parameter to return the time when the notebook instance was created
     public var creationTime: Foundation.Date?
-    /// The Git repository associated with the notebook instance as its default code repository. This can be either the name of a Git repository stored as a resource in your account, or the URL of a Git repository in [Amazon Web Services CodeCommit](https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html) or in any other Git repository. When you open a notebook instance, it opens in the directory that contains this repository. For more information, see [Associating Git Repositories with SageMaker Notebook Instances](https://docs.aws.amazon.com/sagemaker/latest/dg/nbi-git-repo.html).
+    /// The Git repository associated with the notebook instance as its default code repository. This can be either the name of a Git repository stored as a resource in your account, or the URL of a Git repository in [Amazon Web Services CodeCommit](https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html) or in any other Git repository. When you open a notebook instance, it opens in the directory that contains this repository. For more information, see [Associating Git Repositories with SageMaker AI Notebook Instances](https://docs.aws.amazon.com/sagemaker/latest/dg/nbi-git-repo.html).
     public var defaultCodeRepository: Swift.String?
-    /// Describes whether SageMaker provides internet access to the notebook instance. If this value is set to Disabled, the notebook instance does not have internet access, and cannot connect to SageMaker training and endpoint services. For more information, see [Notebook Instances Are Internet-Enabled by Default](https://docs.aws.amazon.com/sagemaker/latest/dg/appendix-additional-considerations.html#appendix-notebook-and-internet-access).
+    /// Describes whether SageMaker AI provides internet access to the notebook instance. If this value is set to Disabled, the notebook instance does not have internet access, and cannot connect to SageMaker AI training and endpoint services. For more information, see [Notebook Instances Are Internet-Enabled by Default](https://docs.aws.amazon.com/sagemaker/latest/dg/appendix-additional-considerations.html#appendix-notebook-and-internet-access).
     public var directInternetAccess: SageMakerClientTypes.DirectInternetAccess?
     /// If status is Failed, the reason it failed.
     public var failureReason: Swift.String?
@@ -32388,17 +33629,17 @@ public struct DescribeNotebookInstanceOutput: Swift.Sendable {
     public var instanceMetadataServiceConfiguration: SageMakerClientTypes.InstanceMetadataServiceConfiguration?
     /// The type of ML compute instance running on the notebook instance.
     public var instanceType: SageMakerClientTypes.InstanceType?
-    /// The Amazon Web Services KMS key ID SageMaker uses to encrypt data when storing it on the ML storage volume attached to the instance.
+    /// The Amazon Web Services KMS key ID SageMaker AI uses to encrypt data when storing it on the ML storage volume attached to the instance.
     public var kmsKeyId: Swift.String?
     /// A timestamp. Use this parameter to retrieve the time when the notebook instance was last modified.
     public var lastModifiedTime: Foundation.Date?
-    /// The network interface IDs that SageMaker created at the time of creating the instance.
+    /// The network interface IDs that SageMaker AI created at the time of creating the instance.
     public var networkInterfaceId: Swift.String?
     /// The Amazon Resource Name (ARN) of the notebook instance.
     public var notebookInstanceArn: Swift.String?
     /// Returns the name of a notebook instance lifecycle configuration. For information about notebook instance lifestyle configurations, see [Step 2.1: (Optional) Customize a Notebook Instance](https://docs.aws.amazon.com/sagemaker/latest/dg/notebook-lifecycle-config.html)
     public var notebookInstanceLifecycleConfigName: Swift.String?
-    /// The name of the SageMaker notebook instance.
+    /// The name of the SageMaker AI notebook instance.
     public var notebookInstanceName: Swift.String?
     /// The status of the notebook instance.
     public var notebookInstanceStatus: SageMakerClientTypes.NotebookInstanceStatus?
@@ -32666,6 +33907,147 @@ public struct DescribeOptimizationJobOutput: Swift.Sendable {
         self.roleArn = roleArn
         self.stoppingCondition = stoppingCondition
         self.vpcConfig = vpcConfig
+    }
+}
+
+public struct DescribePartnerAppInput: Swift.Sendable {
+    /// The ARN of the SageMaker Partner AI App to describe.
+    /// This member is required.
+    public var arn: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil
+    )
+    {
+        self.arn = arn
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// This is an error field object that contains the error code and the reason for an operation failure.
+    public struct ErrorInfo: Swift.Sendable {
+        /// The error code for an invalid or failed operation.
+        public var code: Swift.String?
+        /// The failure reason for the operation.
+        public var reason: Swift.String?
+
+        public init(
+            code: Swift.String? = nil,
+            reason: Swift.String? = nil
+        )
+        {
+            self.code = code
+            self.reason = reason
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    public enum PartnerAppStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case available
+        case creating
+        case deleted
+        case deleting
+        case failed
+        case updateFailed
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PartnerAppStatus] {
+            return [
+                .available,
+                .creating,
+                .deleted,
+                .deleting,
+                .failed,
+                .updateFailed,
+                .updating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .available: return "Available"
+            case .creating: return "Creating"
+            case .deleted: return "Deleted"
+            case .deleting: return "Deleting"
+            case .failed: return "Failed"
+            case .updateFailed: return "UpdateFailed"
+            case .updating: return "Updating"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct DescribePartnerAppOutput: Swift.Sendable {
+    /// Configuration settings for the SageMaker Partner AI App.
+    public var applicationConfig: SageMakerClientTypes.PartnerAppConfig?
+    /// The ARN of the SageMaker Partner AI App that was described.
+    public var arn: Swift.String?
+    /// The authorization type that users use to access the SageMaker Partner AI App.
+    public var authType: SageMakerClientTypes.PartnerAppAuthType?
+    /// The URL of the SageMaker Partner AI App that the Application SDK uses to support in-app calls for the user.
+    public var baseUrl: Swift.String?
+    /// The time that the SageMaker Partner AI App was created.
+    public var creationTime: Foundation.Date?
+    /// When set to TRUE, the SageMaker Partner AI App sets the Amazon Web Services IAM session name or the authenticated IAM user as the identity of the SageMaker Partner AI App user.
+    public var enableIamSessionBasedIdentity: Swift.Bool?
+    /// This is an error field object that contains the error code and the reason for an operation failure.
+    public var error: SageMakerClientTypes.ErrorInfo?
+    /// The ARN of the IAM role associated with the SageMaker Partner AI App.
+    public var executionRoleArn: Swift.String?
+    /// Maintenance configuration settings for the SageMaker Partner AI App.
+    public var maintenanceConfig: SageMakerClientTypes.PartnerAppMaintenanceConfig?
+    /// The name of the SageMaker Partner AI App.
+    public var name: Swift.String?
+    /// The status of the SageMaker Partner AI App.
+    public var status: SageMakerClientTypes.PartnerAppStatus?
+    /// The instance type and size of the cluster attached to the SageMaker Partner AI App.
+    public var tier: Swift.String?
+    /// The type of SageMaker Partner AI App. Must be one of the following: lakera-guard, comet, deepchecks-llm-evaluation, or fiddler.
+    public var type: SageMakerClientTypes.PartnerAppType?
+    /// The version of the SageMaker Partner AI App.
+    public var version: Swift.String?
+
+    public init(
+        applicationConfig: SageMakerClientTypes.PartnerAppConfig? = nil,
+        arn: Swift.String? = nil,
+        authType: SageMakerClientTypes.PartnerAppAuthType? = nil,
+        baseUrl: Swift.String? = nil,
+        creationTime: Foundation.Date? = nil,
+        enableIamSessionBasedIdentity: Swift.Bool? = nil,
+        error: SageMakerClientTypes.ErrorInfo? = nil,
+        executionRoleArn: Swift.String? = nil,
+        maintenanceConfig: SageMakerClientTypes.PartnerAppMaintenanceConfig? = nil,
+        name: Swift.String? = nil,
+        status: SageMakerClientTypes.PartnerAppStatus? = nil,
+        tier: Swift.String? = nil,
+        type: SageMakerClientTypes.PartnerAppType? = nil,
+        version: Swift.String? = nil
+    )
+    {
+        self.applicationConfig = applicationConfig
+        self.arn = arn
+        self.authType = authType
+        self.baseUrl = baseUrl
+        self.creationTime = creationTime
+        self.enableIamSessionBasedIdentity = enableIamSessionBasedIdentity
+        self.error = error
+        self.executionRoleArn = executionRoleArn
+        self.maintenanceConfig = maintenanceConfig
+        self.name = name
+        self.status = status
+        self.tier = tier
+        self.type = type
+        self.version = version
     }
 }
 
@@ -33401,7 +34783,7 @@ public struct DescribeSpaceOutput: Swift.Sendable {
 }
 
 public struct DescribeStudioLifecycleConfigInput: Swift.Sendable {
-    /// The name of the Amazon SageMaker Studio Lifecycle Configuration to describe.
+    /// The name of the Amazon SageMaker AI Studio Lifecycle Configuration to describe.
     /// This member is required.
     public var studioLifecycleConfigName: Swift.String?
 
@@ -33414,17 +34796,17 @@ public struct DescribeStudioLifecycleConfigInput: Swift.Sendable {
 }
 
 public struct DescribeStudioLifecycleConfigOutput: Swift.Sendable {
-    /// The creation time of the Amazon SageMaker Studio Lifecycle Configuration.
+    /// The creation time of the Amazon SageMaker AI Studio Lifecycle Configuration.
     public var creationTime: Foundation.Date?
-    /// This value is equivalent to CreationTime because Amazon SageMaker Studio Lifecycle Configurations are immutable.
+    /// This value is equivalent to CreationTime because Amazon SageMaker AI Studio Lifecycle Configurations are immutable.
     public var lastModifiedTime: Foundation.Date?
     /// The App type that the Lifecycle Configuration is attached to.
     public var studioLifecycleConfigAppType: SageMakerClientTypes.StudioLifecycleConfigAppType?
     /// The ARN of the Lifecycle Configuration to describe.
     public var studioLifecycleConfigArn: Swift.String?
-    /// The content of your Amazon SageMaker Studio Lifecycle Configuration script.
+    /// The content of your Amazon SageMaker AI Studio Lifecycle Configuration script.
     public var studioLifecycleConfigContent: Swift.String?
-    /// The name of the Amazon SageMaker Studio Lifecycle Configuration that is described.
+    /// The name of the Amazon SageMaker AI Studio Lifecycle Configuration that is described.
     public var studioLifecycleConfigName: Swift.String?
 
     public init(
@@ -34085,6 +35467,289 @@ public struct DescribeTrainingJobOutput: Swift.Sendable {
         self.tuningJobArn = tuningJobArn
         self.vpcConfig = vpcConfig
         self.warmPoolStatus = warmPoolStatus
+    }
+}
+
+public struct DescribeTrainingPlanInput: Swift.Sendable {
+    /// The name of the training plan to describe.
+    /// This member is required.
+    public var trainingPlanName: Swift.String?
+
+    public init(
+        trainingPlanName: Swift.String? = nil
+    )
+    {
+        self.trainingPlanName = trainingPlanName
+    }
+}
+
+extension SageMakerClientTypes {
+
+    public enum ReservedCapacityInstanceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case mlP4d24xlarge
+        case mlP5en48xlarge
+        case mlP5e48xlarge
+        case mlP548xlarge
+        case mlTrn248xlarge
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ReservedCapacityInstanceType] {
+            return [
+                .mlP4d24xlarge,
+                .mlP5en48xlarge,
+                .mlP5e48xlarge,
+                .mlP548xlarge,
+                .mlTrn248xlarge
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .mlP4d24xlarge: return "ml.p4d.24xlarge"
+            case .mlP5en48xlarge: return "ml.p5en.48xlarge"
+            case .mlP5e48xlarge: return "ml.p5e.48xlarge"
+            case .mlP548xlarge: return "ml.p5.48xlarge"
+            case .mlTrn248xlarge: return "ml.trn2.48xlarge"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    public enum ReservedCapacityStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case expired
+        case failed
+        case pending
+        case scheduled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ReservedCapacityStatus] {
+            return [
+                .active,
+                .expired,
+                .failed,
+                .pending,
+                .scheduled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "Active"
+            case .expired: return "Expired"
+            case .failed: return "Failed"
+            case .pending: return "Pending"
+            case .scheduled: return "Scheduled"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Details of a reserved capacity for the training plan. For more information about how to reserve GPU capacity for your SageMaker HyperPod clusters using Amazon SageMaker Training Plan, see [CreateTrainingPlan](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTrainingPlan.html).
+    public struct ReservedCapacitySummary: Swift.Sendable {
+        /// The availability zone for the reserved capacity.
+        public var availabilityZone: Swift.String?
+        /// The number of whole hours in the total duration for this reserved capacity.
+        public var durationHours: Swift.Int?
+        /// The additional minutes beyond whole hours in the total duration for this reserved capacity.
+        public var durationMinutes: Swift.Int?
+        /// The end time of the reserved capacity.
+        public var endTime: Foundation.Date?
+        /// The instance type for the reserved capacity.
+        /// This member is required.
+        public var instanceType: SageMakerClientTypes.ReservedCapacityInstanceType?
+        /// The Amazon Resource Name (ARN); of the reserved capacity.
+        /// This member is required.
+        public var reservedCapacityArn: Swift.String?
+        /// The start time of the reserved capacity.
+        public var startTime: Foundation.Date?
+        /// The current status of the reserved capacity.
+        /// This member is required.
+        public var status: SageMakerClientTypes.ReservedCapacityStatus?
+        /// The total number of instances in the reserved capacity.
+        /// This member is required.
+        public var totalInstanceCount: Swift.Int?
+
+        public init(
+            availabilityZone: Swift.String? = nil,
+            durationHours: Swift.Int? = nil,
+            durationMinutes: Swift.Int? = nil,
+            endTime: Foundation.Date? = nil,
+            instanceType: SageMakerClientTypes.ReservedCapacityInstanceType? = nil,
+            reservedCapacityArn: Swift.String? = nil,
+            startTime: Foundation.Date? = nil,
+            status: SageMakerClientTypes.ReservedCapacityStatus? = nil,
+            totalInstanceCount: Swift.Int? = nil
+        )
+        {
+            self.availabilityZone = availabilityZone
+            self.durationHours = durationHours
+            self.durationMinutes = durationMinutes
+            self.endTime = endTime
+            self.instanceType = instanceType
+            self.reservedCapacityArn = reservedCapacityArn
+            self.startTime = startTime
+            self.status = status
+            self.totalInstanceCount = totalInstanceCount
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    public enum TrainingPlanStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case expired
+        case failed
+        case pending
+        case scheduled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TrainingPlanStatus] {
+            return [
+                .active,
+                .expired,
+                .failed,
+                .pending,
+                .scheduled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "Active"
+            case .expired: return "Expired"
+            case .failed: return "Failed"
+            case .pending: return "Pending"
+            case .scheduled: return "Scheduled"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    public enum SageMakerResourceName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case hyperpodCluster
+        case trainingJob
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SageMakerResourceName] {
+            return [
+                .hyperpodCluster,
+                .trainingJob
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .hyperpodCluster: return "hyperpod-cluster"
+            case .trainingJob: return "training-job"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct DescribeTrainingPlanOutput: Swift.Sendable {
+    /// The number of instances currently available for use in this training plan.
+    public var availableInstanceCount: Swift.Int?
+    /// The currency code for the upfront fee (e.g., USD).
+    public var currencyCode: Swift.String?
+    /// The number of whole hours in the total duration for this training plan.
+    public var durationHours: Swift.Int?
+    /// The additional minutes beyond whole hours in the total duration for this training plan.
+    public var durationMinutes: Swift.Int?
+    /// The end time of the training plan.
+    public var endTime: Foundation.Date?
+    /// The number of instances currently in use from this training plan.
+    public var inUseInstanceCount: Swift.Int?
+    /// The list of Reserved Capacity providing the underlying compute resources of the plan.
+    public var reservedCapacitySummaries: [SageMakerClientTypes.ReservedCapacitySummary]?
+    /// The start time of the training plan.
+    public var startTime: Foundation.Date?
+    /// The current status of the training plan (e.g., Pending, Active, Expired). To see the complete list of status values available for a training plan, refer to the Status attribute within the [TrainingPlanSummary](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_TrainingPlanSummary.html) object.
+    /// This member is required.
+    public var status: SageMakerClientTypes.TrainingPlanStatus?
+    /// A message providing additional information about the current status of the training plan.
+    public var statusMessage: Swift.String?
+    /// The target resources (e.g., SageMaker Training Jobs, SageMaker HyperPod) that can use this training plan. Training plans are specific to their target resource.
+    ///
+    /// * A training plan designed for SageMaker training jobs can only be used to schedule and run training jobs.
+    ///
+    /// * A training plan for HyperPod clusters can be used exclusively to provide compute resources to a cluster's instance group.
+    public var targetResources: [SageMakerClientTypes.SageMakerResourceName]?
+    /// The total number of instances reserved in this training plan.
+    public var totalInstanceCount: Swift.Int?
+    /// The Amazon Resource Name (ARN); of the training plan.
+    /// This member is required.
+    public var trainingPlanArn: Swift.String?
+    /// The name of the training plan.
+    /// This member is required.
+    public var trainingPlanName: Swift.String?
+    /// The upfront fee for the training plan.
+    public var upfrontFee: Swift.String?
+
+    public init(
+        availableInstanceCount: Swift.Int? = nil,
+        currencyCode: Swift.String? = nil,
+        durationHours: Swift.Int? = nil,
+        durationMinutes: Swift.Int? = nil,
+        endTime: Foundation.Date? = nil,
+        inUseInstanceCount: Swift.Int? = nil,
+        reservedCapacitySummaries: [SageMakerClientTypes.ReservedCapacitySummary]? = nil,
+        startTime: Foundation.Date? = nil,
+        status: SageMakerClientTypes.TrainingPlanStatus? = nil,
+        statusMessage: Swift.String? = nil,
+        targetResources: [SageMakerClientTypes.SageMakerResourceName]? = nil,
+        totalInstanceCount: Swift.Int? = nil,
+        trainingPlanArn: Swift.String? = nil,
+        trainingPlanName: Swift.String? = nil,
+        upfrontFee: Swift.String? = nil
+    )
+    {
+        self.availableInstanceCount = availableInstanceCount
+        self.currencyCode = currencyCode
+        self.durationHours = durationHours
+        self.durationMinutes = durationMinutes
+        self.endTime = endTime
+        self.inUseInstanceCount = inUseInstanceCount
+        self.reservedCapacitySummaries = reservedCapacitySummaries
+        self.startTime = startTime
+        self.status = status
+        self.statusMessage = statusMessage
+        self.targetResources = targetResources
+        self.totalInstanceCount = totalInstanceCount
+        self.trainingPlanArn = trainingPlanArn
+        self.trainingPlanName = trainingPlanName
+        self.upfrontFee = upfrontFee
     }
 }
 
@@ -35315,7 +36980,7 @@ extension SageMakerClientTypes {
 
     /// A collection of settings that update the current configuration for the RStudioServerPro Domain-level app.
     public struct RStudioServerProDomainSettingsForUpdate: Swift.Sendable {
-        /// Specifies the ARN's of a SageMaker image and SageMaker image version, and the instance type that the version runs on.
+        /// Specifies the ARN's of a SageMaker AI image and SageMaker AI image version, and the instance type that the version runs on.
         public var defaultResourceSpec: SageMakerClientTypes.ResourceSpec?
         /// The execution role for the RStudioServerPro Domain-level app.
         /// This member is required.
@@ -35348,7 +37013,7 @@ extension SageMakerClientTypes {
         public var amazonQSettings: SageMakerClientTypes.AmazonQSettings?
         /// A collection of settings that configure the domain's Docker interaction.
         public var dockerSettings: SageMakerClientTypes.DockerSettings?
-        /// The configuration for attaching a SageMaker user profile name to the execution role as a [sts:SourceIdentity key](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_control-access_monitor.html). This configuration can only be modified if there are no apps in the InService or Pending state.
+        /// The configuration for attaching a SageMaker AI user profile name to the execution role as a [sts:SourceIdentity key](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_control-access_monitor.html). This configuration can only be modified if there are no apps in the InService or Pending state.
         public var executionRoleIdentityConfig: SageMakerClientTypes.ExecutionRoleIdentityConfig?
         /// A collection of RStudioServerPro Domain-level app settings to update. A single RStudioServerPro application is created for a domain.
         public var rStudioServerProDomainSettingsForUpdate: SageMakerClientTypes.RStudioServerProDomainSettingsForUpdate?
@@ -37269,7 +38934,7 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
-    /// A SageMaker image. A SageMaker image represents a set of container images that are derived from a common base container image. Each of these container images is represented by a SageMaker ImageVersion.
+    /// A SageMaker AI image. A SageMaker AI image represents a set of container images that are derived from a common base container image. Each of these container images is represented by a SageMaker AI ImageVersion.
     public struct Image: Swift.Sendable {
         /// When the image was created.
         /// This member is required.
@@ -37379,7 +39044,7 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
-    /// A version of a SageMaker Image. A version represents an existing container image.
+    /// A version of a SageMaker AI Image. A version represents an existing container image.
     public struct ImageVersion: Swift.Sendable {
         /// When the version was created.
         /// This member is required.
@@ -38314,7 +39979,7 @@ public struct ListAliasesInput: Swift.Sendable {
 public struct ListAliasesOutput: Swift.Sendable {
     /// A token for getting the next set of aliases, if more aliases exist.
     public var nextToken: Swift.String?
-    /// A list of SageMaker image version aliases.
+    /// A list of SageMaker AI image version aliases.
     public var sageMakerImageVersionAliases: [Swift.String]?
 
     public init(
@@ -38842,6 +40507,8 @@ public struct ListClustersInput: Swift.Sendable {
     public var sortBy: SageMakerClientTypes.ClusterSortBy?
     /// The sort order for results. The default value is Ascending.
     public var sortOrder: SageMakerClientTypes.SortOrder?
+    /// The Amazon Resource Name (ARN); of the training plan to filter clusters by. For more information about reserving GPU capacity for your SageMaker HyperPod clusters using Amazon SageMaker Training Plan, see [CreateTrainingPlan](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTrainingPlan.html).
+    public var trainingPlanArn: Swift.String?
 
     public init(
         creationTimeAfter: Foundation.Date? = nil,
@@ -38850,7 +40517,8 @@ public struct ListClustersInput: Swift.Sendable {
         nameContains: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         sortBy: SageMakerClientTypes.ClusterSortBy? = nil,
-        sortOrder: SageMakerClientTypes.SortOrder? = nil
+        sortOrder: SageMakerClientTypes.SortOrder? = nil,
+        trainingPlanArn: Swift.String? = nil
     )
     {
         self.creationTimeAfter = creationTimeAfter
@@ -38860,6 +40528,7 @@ public struct ListClustersInput: Swift.Sendable {
         self.nextToken = nextToken
         self.sortBy = sortBy
         self.sortOrder = sortOrder
+        self.trainingPlanArn = trainingPlanArn
     }
 }
 
@@ -38877,6 +40546,98 @@ public struct ListClustersOutput: Swift.Sendable {
     )
     {
         self.clusterSummaries = clusterSummaries
+        self.nextToken = nextToken
+    }
+}
+
+extension SageMakerClientTypes {
+
+    public enum SortClusterSchedulerConfigBy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case creationTime
+        case name
+        case status
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SortClusterSchedulerConfigBy] {
+            return [
+                .creationTime,
+                .name,
+                .status
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .creationTime: return "CreationTime"
+            case .name: return "Name"
+            case .status: return "Status"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct ListClusterSchedulerConfigsInput: Swift.Sendable {
+    /// Filter for ARN of the cluster.
+    public var clusterArn: Swift.String?
+    /// Filter for after this creation time. The input for this parameter is a Unix timestamp. To convert a date and time into a Unix timestamp, see [EpochConverter](https://www.epochconverter.com/).
+    public var createdAfter: Foundation.Date?
+    /// Filter for before this creation time. The input for this parameter is a Unix timestamp. To convert a date and time into a Unix timestamp, see [EpochConverter](https://www.epochconverter.com/).
+    public var createdBefore: Foundation.Date?
+    /// The maximum number of cluster policies to list.
+    public var maxResults: Swift.Int?
+    /// Filter for name containing this string.
+    public var nameContains: Swift.String?
+    /// If the previous response was truncated, you will receive this token. Use it in your next request to receive the next set of results.
+    public var nextToken: Swift.String?
+    /// Filter for sorting the list by a given value. For example, sort by name, creation time, or status.
+    public var sortBy: SageMakerClientTypes.SortClusterSchedulerConfigBy?
+    /// The order of the list. By default, listed in Descending order according to by SortBy. To change the list order, you can specify SortOrder to be Ascending.
+    public var sortOrder: SageMakerClientTypes.SortOrder?
+    /// Filter for status.
+    public var status: SageMakerClientTypes.SchedulerResourceStatus?
+
+    public init(
+        clusterArn: Swift.String? = nil,
+        createdAfter: Foundation.Date? = nil,
+        createdBefore: Foundation.Date? = nil,
+        maxResults: Swift.Int? = nil,
+        nameContains: Swift.String? = nil,
+        nextToken: Swift.String? = nil,
+        sortBy: SageMakerClientTypes.SortClusterSchedulerConfigBy? = nil,
+        sortOrder: SageMakerClientTypes.SortOrder? = nil,
+        status: SageMakerClientTypes.SchedulerResourceStatus? = nil
+    )
+    {
+        self.clusterArn = clusterArn
+        self.createdAfter = createdAfter
+        self.createdBefore = createdBefore
+        self.maxResults = maxResults
+        self.nameContains = nameContains
+        self.nextToken = nextToken
+        self.sortBy = sortBy
+        self.sortOrder = sortOrder
+        self.status = status
+    }
+}
+
+public struct ListClusterSchedulerConfigsOutput: Swift.Sendable {
+    /// Summaries of the cluster policies.
+    public var clusterSchedulerConfigSummaries: [SageMakerClientTypes.ClusterSchedulerConfigSummary]?
+    /// If the previous response was truncated, you will receive this token. Use it in your next request to receive the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        clusterSchedulerConfigSummaries: [SageMakerClientTypes.ClusterSchedulerConfigSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.clusterSchedulerConfigSummaries = clusterSchedulerConfigSummaries
         self.nextToken = nextToken
     }
 }
@@ -39036,7 +40797,7 @@ public struct ListCompilationJobsOutput: Swift.Sendable {
     /// An array of [CompilationJobSummary](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CompilationJobSummary.html) objects, each describing a model compilation job.
     /// This member is required.
     public var compilationJobSummaries: [SageMakerClientTypes.CompilationJobSummary]?
-    /// If the response is truncated, Amazon SageMaker returns this NextToken. To retrieve the next set of model compilation jobs, use this token in the next request.
+    /// If the response is truncated, Amazon SageMaker AI returns this NextToken. To retrieve the next set of model compilation jobs, use this token in the next request.
     public var nextToken: Swift.String?
 
     public init(
@@ -39045,6 +40806,101 @@ public struct ListCompilationJobsOutput: Swift.Sendable {
     )
     {
         self.compilationJobSummaries = compilationJobSummaries
+        self.nextToken = nextToken
+    }
+}
+
+extension SageMakerClientTypes {
+
+    public enum SortQuotaBy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case clusterArn
+        case creationTime
+        case name
+        case status
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SortQuotaBy] {
+            return [
+                .clusterArn,
+                .creationTime,
+                .name,
+                .status
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .clusterArn: return "ClusterArn"
+            case .creationTime: return "CreationTime"
+            case .name: return "Name"
+            case .status: return "Status"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct ListComputeQuotasInput: Swift.Sendable {
+    /// Filter for ARN of the cluster.
+    public var clusterArn: Swift.String?
+    /// Filter for after this creation time. The input for this parameter is a Unix timestamp. To convert a date and time into a Unix timestamp, see [EpochConverter](https://www.epochconverter.com/).
+    public var createdAfter: Foundation.Date?
+    /// Filter for before this creation time. The input for this parameter is a Unix timestamp. To convert a date and time into a Unix timestamp, see [EpochConverter](https://www.epochconverter.com/).
+    public var createdBefore: Foundation.Date?
+    /// The maximum number of compute allocation definitions to list.
+    public var maxResults: Swift.Int?
+    /// Filter for name containing this string.
+    public var nameContains: Swift.String?
+    /// If the previous response was truncated, you will receive this token. Use it in your next request to receive the next set of results.
+    public var nextToken: Swift.String?
+    /// Filter for sorting the list by a given value. For example, sort by name, creation time, or status.
+    public var sortBy: SageMakerClientTypes.SortQuotaBy?
+    /// The order of the list. By default, listed in Descending order according to by SortBy. To change the list order, you can specify SortOrder to be Ascending.
+    public var sortOrder: SageMakerClientTypes.SortOrder?
+    /// Filter for status.
+    public var status: SageMakerClientTypes.SchedulerResourceStatus?
+
+    public init(
+        clusterArn: Swift.String? = nil,
+        createdAfter: Foundation.Date? = nil,
+        createdBefore: Foundation.Date? = nil,
+        maxResults: Swift.Int? = nil,
+        nameContains: Swift.String? = nil,
+        nextToken: Swift.String? = nil,
+        sortBy: SageMakerClientTypes.SortQuotaBy? = nil,
+        sortOrder: SageMakerClientTypes.SortOrder? = nil,
+        status: SageMakerClientTypes.SchedulerResourceStatus? = nil
+    )
+    {
+        self.clusterArn = clusterArn
+        self.createdAfter = createdAfter
+        self.createdBefore = createdBefore
+        self.maxResults = maxResults
+        self.nameContains = nameContains
+        self.nextToken = nextToken
+        self.sortBy = sortBy
+        self.sortOrder = sortOrder
+        self.status = status
+    }
+}
+
+public struct ListComputeQuotasOutput: Swift.Sendable {
+    /// Summaries of the compute allocation definitions.
+    public var computeQuotaSummaries: [SageMakerClientTypes.ComputeQuotaSummary]?
+    /// If the previous response was truncated, you will receive this token. Use it in your next request to receive the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        computeQuotaSummaries: [SageMakerClientTypes.ComputeQuotaSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.computeQuotaSummaries = computeQuotaSummaries
         self.nextToken = nextToken
     }
 }
@@ -42177,7 +44033,7 @@ public struct ListModelQualityJobDefinitionsOutput: Swift.Sendable {
     /// A list of summaries of model quality monitoring job definitions.
     /// This member is required.
     public var jobDefinitionSummaries: [SageMakerClientTypes.MonitoringJobDefinitionSummary]?
-    /// If the response is truncated, Amazon SageMaker returns this token. To retrieve the next set of model quality monitoring job definitions, use it in the next request.
+    /// If the response is truncated, Amazon SageMaker AI returns this token. To retrieve the next set of model quality monitoring job definitions, use it in the next request.
     public var nextToken: Swift.String?
 
     public init(
@@ -42976,7 +44832,7 @@ extension SageMakerClientTypes {
 }
 
 public struct ListNotebookInstanceLifecycleConfigsOutput: Swift.Sendable {
-    /// If the response is truncated, SageMaker returns this token. To get the next set of lifecycle configurations, use it in the next request.
+    /// If the response is truncated, SageMaker AI returns this token. To get the next set of lifecycle configurations, use it in the next request.
     public var nextToken: Swift.String?
     /// An array of NotebookInstanceLifecycleConfiguration objects, each listing a lifecycle configuration.
     public var notebookInstanceLifecycleConfigs: [SageMakerClientTypes.NotebookInstanceLifecycleConfigSummary]?
@@ -43114,13 +44970,13 @@ public struct ListNotebookInstancesInput: Swift.Sendable {
 
 extension SageMakerClientTypes {
 
-    /// Provides summary information for an SageMaker notebook instance.
+    /// Provides summary information for an SageMaker AI notebook instance.
     public struct NotebookInstanceSummary: Swift.Sendable {
-        /// An array of up to three Git repositories associated with the notebook instance. These can be either the names of Git repositories stored as resources in your account, or the URL of Git repositories in [Amazon Web Services CodeCommit](https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html) or in any other Git repository. These repositories are cloned at the same level as the default repository of your notebook instance. For more information, see [Associating Git Repositories with SageMaker Notebook Instances](https://docs.aws.amazon.com/sagemaker/latest/dg/nbi-git-repo.html).
+        /// An array of up to three Git repositories associated with the notebook instance. These can be either the names of Git repositories stored as resources in your account, or the URL of Git repositories in [Amazon Web Services CodeCommit](https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html) or in any other Git repository. These repositories are cloned at the same level as the default repository of your notebook instance. For more information, see [Associating Git Repositories with SageMaker AI Notebook Instances](https://docs.aws.amazon.com/sagemaker/latest/dg/nbi-git-repo.html).
         public var additionalCodeRepositories: [Swift.String]?
         /// A timestamp that shows when the notebook instance was created.
         public var creationTime: Foundation.Date?
-        /// The Git repository associated with the notebook instance as its default code repository. This can be either the name of a Git repository stored as a resource in your account, or the URL of a Git repository in [Amazon Web Services CodeCommit](https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html) or in any other Git repository. When you open a notebook instance, it opens in the directory that contains this repository. For more information, see [Associating Git Repositories with SageMaker Notebook Instances](https://docs.aws.amazon.com/sagemaker/latest/dg/nbi-git-repo.html).
+        /// The Git repository associated with the notebook instance as its default code repository. This can be either the name of a Git repository stored as a resource in your account, or the URL of a Git repository in [Amazon Web Services CodeCommit](https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html) or in any other Git repository. When you open a notebook instance, it opens in the directory that contains this repository. For more information, see [Associating Git Repositories with SageMaker AI Notebook Instances](https://docs.aws.amazon.com/sagemaker/latest/dg/nbi-git-repo.html).
         public var defaultCodeRepository: Swift.String?
         /// The type of ML compute instance that the notebook instance is running on.
         public var instanceType: SageMakerClientTypes.InstanceType?
@@ -43167,7 +45023,7 @@ extension SageMakerClientTypes {
 }
 
 public struct ListNotebookInstancesOutput: Swift.Sendable {
-    /// If the response to the previous ListNotebookInstances request was truncated, SageMaker returns this token. To retrieve the next set of notebook instances, use the token in the next request.
+    /// If the response to the previous ListNotebookInstances request was truncated, SageMaker AI returns this token. To retrieve the next set of notebook instances, use the token in the next request.
     public var nextToken: Swift.String?
     /// An array of NotebookInstanceSummary objects, one for each notebook instance.
     public var notebookInstances: [SageMakerClientTypes.NotebookInstanceSummary]?
@@ -43334,6 +45190,70 @@ public struct ListOptimizationJobsOutput: Swift.Sendable {
     {
         self.nextToken = nextToken
         self.optimizationJobSummaries = optimizationJobSummaries
+    }
+}
+
+public struct ListPartnerAppsInput: Swift.Sendable {
+    /// This parameter defines the maximum number of results that can be returned in a single response. The MaxResults parameter is an upper bound, not a target. If there are more results available than the value specified, a NextToken is provided in the response. The NextToken indicates that the user should get the next set of results by providing this token as a part of a subsequent call. The default value for MaxResults is 10.
+    public var maxResults: Swift.Int?
+    /// If the previous response was truncated, you will receive this token. Use it in your next request to receive the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// A subset of information related to a SageMaker Partner AI App. This information is used as part of the ListPartnerApps API response.
+    public struct PartnerAppSummary: Swift.Sendable {
+        /// The ARN of the SageMaker Partner AI App.
+        public var arn: Swift.String?
+        /// The creation time of the SageMaker Partner AI App.
+        public var creationTime: Foundation.Date?
+        /// The name of the SageMaker Partner AI App.
+        public var name: Swift.String?
+        /// The status of the SageMaker Partner AI App.
+        public var status: SageMakerClientTypes.PartnerAppStatus?
+        /// The type of SageMaker Partner AI App to create. Must be one of the following: lakera-guard, comet, deepchecks-llm-evaluation, or fiddler.
+        public var type: SageMakerClientTypes.PartnerAppType?
+
+        public init(
+            arn: Swift.String? = nil,
+            creationTime: Foundation.Date? = nil,
+            name: Swift.String? = nil,
+            status: SageMakerClientTypes.PartnerAppStatus? = nil,
+            type: SageMakerClientTypes.PartnerAppType? = nil
+        )
+        {
+            self.arn = arn
+            self.creationTime = creationTime
+            self.name = name
+            self.status = status
+            self.type = type
+        }
+    }
+}
+
+public struct ListPartnerAppsOutput: Swift.Sendable {
+    /// If the previous response was truncated, you will receive this token. Use it in your next request to receive the next set of results.
+    public var nextToken: Swift.String?
+    /// The information related to each of the SageMaker Partner AI Apps in an account.
+    public var summaries: [SageMakerClientTypes.PartnerAppSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        summaries: [SageMakerClientTypes.PartnerAppSummary]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.summaries = summaries
     }
 }
 
@@ -44758,17 +46678,17 @@ public struct ListStudioLifecycleConfigsInput: Swift.Sendable {
 
 extension SageMakerClientTypes {
 
-    /// Details of the Amazon SageMaker Studio Lifecycle Configuration.
+    /// Details of the Amazon SageMaker AI Studio Lifecycle Configuration.
     public struct StudioLifecycleConfigDetails: Swift.Sendable {
-        /// The creation time of the Amazon SageMaker Studio Lifecycle Configuration.
+        /// The creation time of the Amazon SageMaker AI Studio Lifecycle Configuration.
         public var creationTime: Foundation.Date?
-        /// This value is equivalent to CreationTime because Amazon SageMaker Studio Lifecycle Configurations are immutable.
+        /// This value is equivalent to CreationTime because Amazon SageMaker AI Studio Lifecycle Configurations are immutable.
         public var lastModifiedTime: Foundation.Date?
         /// The App type to which the Lifecycle Configuration is attached.
         public var studioLifecycleConfigAppType: SageMakerClientTypes.StudioLifecycleConfigAppType?
         /// The Amazon Resource Name (ARN) of the Lifecycle Configuration.
         public var studioLifecycleConfigArn: Swift.String?
-        /// The name of the Amazon SageMaker Studio Lifecycle Configuration.
+        /// The name of the Amazon SageMaker AI Studio Lifecycle Configuration.
         public var studioLifecycleConfigName: Swift.String?
 
         public init(
@@ -44899,6 +46819,8 @@ public struct ListTrainingJobsInput: Swift.Sendable {
     public var sortOrder: SageMakerClientTypes.SortOrder?
     /// A filter that retrieves only training jobs with a specific status.
     public var statusEquals: SageMakerClientTypes.TrainingJobStatus?
+    /// The Amazon Resource Name (ARN); of the training plan to filter training jobs by. For more information about reserving GPU capacity for your SageMaker training jobs using Amazon SageMaker Training Plan, see [CreateTrainingPlan](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTrainingPlan.html).
+    public var trainingPlanArnEquals: Swift.String?
     /// A filter that retrieves only training jobs with a specific warm pool status.
     public var warmPoolStatusEquals: SageMakerClientTypes.WarmPoolResourceStatus?
 
@@ -44913,6 +46835,7 @@ public struct ListTrainingJobsInput: Swift.Sendable {
         sortBy: SageMakerClientTypes.SortBy? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil,
         statusEquals: SageMakerClientTypes.TrainingJobStatus? = nil,
+        trainingPlanArnEquals: Swift.String? = nil,
         warmPoolStatusEquals: SageMakerClientTypes.WarmPoolResourceStatus? = nil
     )
     {
@@ -44926,6 +46849,7 @@ public struct ListTrainingJobsInput: Swift.Sendable {
         self.sortBy = sortBy
         self.sortOrder = sortOrder
         self.statusEquals = statusEquals
+        self.trainingPlanArnEquals = trainingPlanArnEquals
         self.warmPoolStatusEquals = warmPoolStatusEquals
     }
 }
@@ -44952,6 +46876,8 @@ extension SageMakerClientTypes {
         /// The status of the training job.
         /// This member is required.
         public var trainingJobStatus: SageMakerClientTypes.TrainingJobStatus?
+        /// The Amazon Resource Name (ARN); of the training plan associated with this training job. For more information about how to reserve GPU capacity for your SageMaker HyperPod clusters using Amazon SageMaker Training Plan, see [CreateTrainingPlan](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTrainingPlan.html).
+        public var trainingPlanArn: Swift.String?
         /// The status of the warm pool associated with the training job.
         public var warmPoolStatus: SageMakerClientTypes.WarmPoolStatus?
 
@@ -44963,6 +46889,7 @@ extension SageMakerClientTypes {
             trainingJobArn: Swift.String? = nil,
             trainingJobName: Swift.String? = nil,
             trainingJobStatus: SageMakerClientTypes.TrainingJobStatus? = nil,
+            trainingPlanArn: Swift.String? = nil,
             warmPoolStatus: SageMakerClientTypes.WarmPoolStatus? = nil
         )
         {
@@ -44973,6 +46900,7 @@ extension SageMakerClientTypes {
             self.trainingJobArn = trainingJobArn
             self.trainingJobName = trainingJobName
             self.trainingJobStatus = trainingJobStatus
+            self.trainingPlanArn = trainingPlanArn
             self.warmPoolStatus = warmPoolStatus
         }
     }
@@ -45077,6 +47005,247 @@ public struct ListTrainingJobsForHyperParameterTuningJobOutput: Swift.Sendable {
     {
         self.nextToken = nextToken
         self.trainingJobSummaries = trainingJobSummaries
+    }
+}
+
+extension SageMakerClientTypes {
+
+    public enum TrainingPlanFilterName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case status
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TrainingPlanFilterName] {
+            return [
+                .status
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .status: return "Status"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// A filter to apply when listing or searching for training plans. For more information about how to reserve GPU capacity for your SageMaker HyperPod clusters using Amazon SageMaker Training Plan, see [CreateTrainingPlan](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTrainingPlan.html).
+    public struct TrainingPlanFilter: Swift.Sendable {
+        /// The name of the filter field (e.g., Status, InstanceType).
+        /// This member is required.
+        public var name: SageMakerClientTypes.TrainingPlanFilterName?
+        /// The value to filter by for the specified field.
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init(
+            name: SageMakerClientTypes.TrainingPlanFilterName? = nil,
+            value: Swift.String? = nil
+        )
+        {
+            self.name = name
+            self.value = value
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    public enum TrainingPlanSortBy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case name
+        case startTime
+        case status
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TrainingPlanSortBy] {
+            return [
+                .name,
+                .startTime,
+                .status
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .name: return "TrainingPlanName"
+            case .startTime: return "StartTime"
+            case .status: return "Status"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    public enum TrainingPlanSortOrder: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case ascending
+        case descending
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TrainingPlanSortOrder] {
+            return [
+                .ascending,
+                .descending
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .ascending: return "Ascending"
+            case .descending: return "Descending"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct ListTrainingPlansInput: Swift.Sendable {
+    /// Additional filters to apply to the list of training plans.
+    public var filters: [SageMakerClientTypes.TrainingPlanFilter]?
+    /// The maximum number of results to return in the response.
+    public var maxResults: Swift.Int?
+    /// A token to continue pagination if more results are available.
+    public var nextToken: Swift.String?
+    /// The training plan field to sort the results by (e.g., StartTime, Status).
+    public var sortBy: SageMakerClientTypes.TrainingPlanSortBy?
+    /// The order to sort the results (Ascending or Descending).
+    public var sortOrder: SageMakerClientTypes.TrainingPlanSortOrder?
+    /// Filter to list only training plans with an actual start time after this date.
+    public var startTimeAfter: Foundation.Date?
+    /// Filter to list only training plans with an actual start time before this date.
+    public var startTimeBefore: Foundation.Date?
+
+    public init(
+        filters: [SageMakerClientTypes.TrainingPlanFilter]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        sortBy: SageMakerClientTypes.TrainingPlanSortBy? = nil,
+        sortOrder: SageMakerClientTypes.TrainingPlanSortOrder? = nil,
+        startTimeAfter: Foundation.Date? = nil,
+        startTimeBefore: Foundation.Date? = nil
+    )
+    {
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.sortBy = sortBy
+        self.sortOrder = sortOrder
+        self.startTimeAfter = startTimeAfter
+        self.startTimeBefore = startTimeBefore
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Details of the training plan. For more information about how to reserve GPU capacity for your SageMaker HyperPod clusters using Amazon SageMaker Training Plan, see [CreateTrainingPlan](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTrainingPlan.html).
+    public struct TrainingPlanSummary: Swift.Sendable {
+        /// The number of instances currently available for use in this training plan.
+        public var availableInstanceCount: Swift.Int?
+        /// The currency code for the upfront fee (e.g., USD).
+        public var currencyCode: Swift.String?
+        /// The number of whole hours in the total duration for this training plan.
+        public var durationHours: Swift.Int?
+        /// The additional minutes beyond whole hours in the total duration for this training plan.
+        public var durationMinutes: Swift.Int?
+        /// The end time of the training plan.
+        public var endTime: Foundation.Date?
+        /// The number of instances currently in use from this training plan.
+        public var inUseInstanceCount: Swift.Int?
+        /// A list of reserved capacities associated with this training plan, including details such as instance types, counts, and availability zones.
+        public var reservedCapacitySummaries: [SageMakerClientTypes.ReservedCapacitySummary]?
+        /// The start time of the training plan.
+        public var startTime: Foundation.Date?
+        /// The current status of the training plan (e.g., Pending, Active, Expired). To see the complete list of status values available for a training plan, refer to the Status attribute within the [TrainingPlanSummary](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_TrainingPlanSummary.html) object.
+        /// This member is required.
+        public var status: SageMakerClientTypes.TrainingPlanStatus?
+        /// A message providing additional information about the current status of the training plan.
+        public var statusMessage: Swift.String?
+        /// The target resources (e.g., training jobs, HyperPod clusters) that can use this training plan. Training plans are specific to their target resource.
+        ///
+        /// * A training plan designed for SageMaker training jobs can only be used to schedule and run training jobs.
+        ///
+        /// * A training plan for HyperPod clusters can be used exclusively to provide compute resources to a cluster's instance group.
+        public var targetResources: [SageMakerClientTypes.SageMakerResourceName]?
+        /// The total number of instances reserved in this training plan.
+        public var totalInstanceCount: Swift.Int?
+        /// The Amazon Resource Name (ARN); of the training plan.
+        /// This member is required.
+        public var trainingPlanArn: Swift.String?
+        /// The name of the training plan.
+        /// This member is required.
+        public var trainingPlanName: Swift.String?
+        /// The upfront fee for the training plan.
+        public var upfrontFee: Swift.String?
+
+        public init(
+            availableInstanceCount: Swift.Int? = nil,
+            currencyCode: Swift.String? = nil,
+            durationHours: Swift.Int? = nil,
+            durationMinutes: Swift.Int? = nil,
+            endTime: Foundation.Date? = nil,
+            inUseInstanceCount: Swift.Int? = nil,
+            reservedCapacitySummaries: [SageMakerClientTypes.ReservedCapacitySummary]? = nil,
+            startTime: Foundation.Date? = nil,
+            status: SageMakerClientTypes.TrainingPlanStatus? = nil,
+            statusMessage: Swift.String? = nil,
+            targetResources: [SageMakerClientTypes.SageMakerResourceName]? = nil,
+            totalInstanceCount: Swift.Int? = nil,
+            trainingPlanArn: Swift.String? = nil,
+            trainingPlanName: Swift.String? = nil,
+            upfrontFee: Swift.String? = nil
+        )
+        {
+            self.availableInstanceCount = availableInstanceCount
+            self.currencyCode = currencyCode
+            self.durationHours = durationHours
+            self.durationMinutes = durationMinutes
+            self.endTime = endTime
+            self.inUseInstanceCount = inUseInstanceCount
+            self.reservedCapacitySummaries = reservedCapacitySummaries
+            self.startTime = startTime
+            self.status = status
+            self.statusMessage = statusMessage
+            self.targetResources = targetResources
+            self.totalInstanceCount = totalInstanceCount
+            self.trainingPlanArn = trainingPlanArn
+            self.trainingPlanName = trainingPlanName
+            self.upfrontFee = upfrontFee
+        }
+    }
+}
+
+public struct ListTrainingPlansOutput: Swift.Sendable {
+    /// A token to continue pagination if more results are available.
+    public var nextToken: Swift.String?
+    /// A list of summary information for the training plans.
+    /// This member is required.
+    public var trainingPlanSummaries: [SageMakerClientTypes.TrainingPlanSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        trainingPlanSummaries: [SageMakerClientTypes.TrainingPlanSummary]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.trainingPlanSummaries = trainingPlanSummaries
     }
 }
 
@@ -47068,6 +49237,48 @@ public struct RenderUiTemplateOutput: Swift.Sendable {
 
 extension SageMakerClientTypes {
 
+    /// Details about a reserved capacity offering for a training plan offering. For more information about how to reserve GPU capacity for your SageMaker HyperPod clusters using Amazon SageMaker Training Plan, see [CreateTrainingPlan](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTrainingPlan.html).
+    public struct ReservedCapacityOffering: Swift.Sendable {
+        /// The availability zone for the reserved capacity offering.
+        public var availabilityZone: Swift.String?
+        /// The number of whole hours in the total duration for this reserved capacity offering.
+        public var durationHours: Swift.Int?
+        /// The additional minutes beyond whole hours in the total duration for this reserved capacity offering.
+        public var durationMinutes: Swift.Int?
+        /// The end time of the reserved capacity offering.
+        public var endTime: Foundation.Date?
+        /// The number of instances in the reserved capacity offering.
+        /// This member is required.
+        public var instanceCount: Swift.Int?
+        /// The instance type for the reserved capacity offering.
+        /// This member is required.
+        public var instanceType: SageMakerClientTypes.ReservedCapacityInstanceType?
+        /// The start time of the reserved capacity offering.
+        public var startTime: Foundation.Date?
+
+        public init(
+            availabilityZone: Swift.String? = nil,
+            durationHours: Swift.Int? = nil,
+            durationMinutes: Swift.Int? = nil,
+            endTime: Foundation.Date? = nil,
+            instanceCount: Swift.Int? = nil,
+            instanceType: SageMakerClientTypes.ReservedCapacityInstanceType? = nil,
+            startTime: Foundation.Date? = nil
+        )
+        {
+            self.availabilityZone = availabilityZone
+            self.durationHours = durationHours
+            self.durationMinutes = durationMinutes
+            self.endTime = endTime
+            self.instanceCount = instanceCount
+            self.instanceType = instanceType
+            self.startTime = startTime
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     /// The ResourceConfig to update KeepAlivePeriodInSeconds. Other fields in the ResourceConfig cannot be updated.
     public struct ResourceConfigForUpdate: Swift.Sendable {
         /// The KeepAlivePeriodInSeconds value specified in the ResourceConfig to update.
@@ -47689,6 +49900,112 @@ public struct SearchOutput: Swift.Sendable {
     {
         self.nextToken = nextToken
         self.results = results
+    }
+}
+
+public struct SearchTrainingPlanOfferingsInput: Swift.Sendable {
+    /// The desired duration in hours for the training plan offerings.
+    public var durationHours: Swift.Int?
+    /// A filter to search for reserved capacity offerings with an end time before a specified date.
+    public var endTimeBefore: Foundation.Date?
+    /// The number of instances you want to reserve in the training plan offerings. This allows you to specify the quantity of compute resources needed for your SageMaker training jobs or SageMaker HyperPod clusters, helping you find reserved capacity offerings that match your requirements.
+    /// This member is required.
+    public var instanceCount: Swift.Int?
+    /// The type of instance you want to search for in the available training plan offerings. This field allows you to filter the search results based on the specific compute resources you require for your SageMaker training jobs or SageMaker HyperPod clusters. When searching for training plan offerings, specifying the instance type helps you find Reserved Instances that match your computational needs.
+    /// This member is required.
+    public var instanceType: SageMakerClientTypes.ReservedCapacityInstanceType?
+    /// A filter to search for training plan offerings with a start time after a specified date.
+    public var startTimeAfter: Foundation.Date?
+    /// The target resources (e.g., SageMaker Training Jobs, SageMaker HyperPod) to search for in the offerings. Training plans are specific to their target resource.
+    ///
+    /// * A training plan designed for SageMaker training jobs can only be used to schedule and run training jobs.
+    ///
+    /// * A training plan for HyperPod clusters can be used exclusively to provide compute resources to a cluster's instance group.
+    /// This member is required.
+    public var targetResources: [SageMakerClientTypes.SageMakerResourceName]?
+
+    public init(
+        durationHours: Swift.Int? = nil,
+        endTimeBefore: Foundation.Date? = nil,
+        instanceCount: Swift.Int? = nil,
+        instanceType: SageMakerClientTypes.ReservedCapacityInstanceType? = nil,
+        startTimeAfter: Foundation.Date? = nil,
+        targetResources: [SageMakerClientTypes.SageMakerResourceName]? = nil
+    )
+    {
+        self.durationHours = durationHours
+        self.endTimeBefore = endTimeBefore
+        self.instanceCount = instanceCount
+        self.instanceType = instanceType
+        self.startTimeAfter = startTimeAfter
+        self.targetResources = targetResources
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Details about a training plan offering. For more information about how to reserve GPU capacity for your SageMaker HyperPod clusters using Amazon SageMaker Training Plan, see [CreateTrainingPlan](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTrainingPlan.html).
+    public struct TrainingPlanOffering: Swift.Sendable {
+        /// The currency code for the upfront fee (e.g., USD).
+        public var currencyCode: Swift.String?
+        /// The number of whole hours in the total duration for this training plan offering.
+        public var durationHours: Swift.Int?
+        /// The additional minutes beyond whole hours in the total duration for this training plan offering.
+        public var durationMinutes: Swift.Int?
+        /// The requested end time that the user specified when searching for the training plan offering.
+        public var requestedEndTimeBefore: Foundation.Date?
+        /// The requested start time that the user specified when searching for the training plan offering.
+        public var requestedStartTimeAfter: Foundation.Date?
+        /// A list of reserved capacity offerings associated with this training plan offering.
+        public var reservedCapacityOfferings: [SageMakerClientTypes.ReservedCapacityOffering]?
+        /// The target resources (e.g., SageMaker Training Jobs, SageMaker HyperPod) for this training plan offering. Training plans are specific to their target resource.
+        ///
+        /// * A training plan designed for SageMaker training jobs can only be used to schedule and run training jobs.
+        ///
+        /// * A training plan for HyperPod clusters can be used exclusively to provide compute resources to a cluster's instance group.
+        /// This member is required.
+        public var targetResources: [SageMakerClientTypes.SageMakerResourceName]?
+        /// The unique identifier for this training plan offering.
+        /// This member is required.
+        public var trainingPlanOfferingId: Swift.String?
+        /// The upfront fee for this training plan offering.
+        public var upfrontFee: Swift.String?
+
+        public init(
+            currencyCode: Swift.String? = nil,
+            durationHours: Swift.Int? = nil,
+            durationMinutes: Swift.Int? = nil,
+            requestedEndTimeBefore: Foundation.Date? = nil,
+            requestedStartTimeAfter: Foundation.Date? = nil,
+            reservedCapacityOfferings: [SageMakerClientTypes.ReservedCapacityOffering]? = nil,
+            targetResources: [SageMakerClientTypes.SageMakerResourceName]? = nil,
+            trainingPlanOfferingId: Swift.String? = nil,
+            upfrontFee: Swift.String? = nil
+        )
+        {
+            self.currencyCode = currencyCode
+            self.durationHours = durationHours
+            self.durationMinutes = durationMinutes
+            self.requestedEndTimeBefore = requestedEndTimeBefore
+            self.requestedStartTimeAfter = requestedStartTimeAfter
+            self.reservedCapacityOfferings = reservedCapacityOfferings
+            self.targetResources = targetResources
+            self.trainingPlanOfferingId = trainingPlanOfferingId
+            self.upfrontFee = upfrontFee
+        }
+    }
+}
+
+public struct SearchTrainingPlanOfferingsOutput: Swift.Sendable {
+    /// A list of training plan offerings that match the search criteria.
+    /// This member is required.
+    public var trainingPlanOfferings: [SageMakerClientTypes.TrainingPlanOffering]?
+
+    public init(
+        trainingPlanOfferings: [SageMakerClientTypes.TrainingPlanOffering]? = nil
+    )
+    {
+        self.trainingPlanOfferings = trainingPlanOfferings
     }
 }
 
@@ -48335,6 +50652,50 @@ public struct UpdateClusterOutput: Swift.Sendable {
     }
 }
 
+public struct UpdateClusterSchedulerConfigInput: Swift.Sendable {
+    /// ID of the cluster policy.
+    /// This member is required.
+    public var clusterSchedulerConfigId: Swift.String?
+    /// Description of the cluster policy.
+    public var description: Swift.String?
+    /// Cluster policy configuration.
+    public var schedulerConfig: SageMakerClientTypes.SchedulerConfig?
+    /// Target version.
+    /// This member is required.
+    public var targetVersion: Swift.Int?
+
+    public init(
+        clusterSchedulerConfigId: Swift.String? = nil,
+        description: Swift.String? = nil,
+        schedulerConfig: SageMakerClientTypes.SchedulerConfig? = nil,
+        targetVersion: Swift.Int? = nil
+    )
+    {
+        self.clusterSchedulerConfigId = clusterSchedulerConfigId
+        self.description = description
+        self.schedulerConfig = schedulerConfig
+        self.targetVersion = targetVersion
+    }
+}
+
+public struct UpdateClusterSchedulerConfigOutput: Swift.Sendable {
+    /// ARN of the cluster policy.
+    /// This member is required.
+    public var clusterSchedulerConfigArn: Swift.String?
+    /// Version of the cluster policy.
+    /// This member is required.
+    public var clusterSchedulerConfigVersion: Swift.Int?
+
+    public init(
+        clusterSchedulerConfigArn: Swift.String? = nil,
+        clusterSchedulerConfigVersion: Swift.Int? = nil
+    )
+    {
+        self.clusterSchedulerConfigArn = clusterSchedulerConfigArn
+        self.clusterSchedulerConfigVersion = clusterSchedulerConfigVersion
+    }
+}
+
 public struct UpdateClusterSoftwareInput: Swift.Sendable {
     /// Specify the name or the Amazon Resource Name (ARN) of the SageMaker HyperPod cluster you want to update for security patching.
     /// This member is required.
@@ -48388,6 +50749,58 @@ public struct UpdateCodeRepositoryOutput: Swift.Sendable {
     )
     {
         self.codeRepositoryArn = codeRepositoryArn
+    }
+}
+
+public struct UpdateComputeQuotaInput: Swift.Sendable {
+    /// The state of the compute allocation being described. Use to enable or disable compute allocation. Default is Enabled.
+    public var activationState: SageMakerClientTypes.ActivationState?
+    /// Configuration of the compute allocation definition. This includes the resource sharing option, and the setting to preempt low priority tasks.
+    public var computeQuotaConfig: SageMakerClientTypes.ComputeQuotaConfig?
+    /// ID of the compute allocation definition.
+    /// This member is required.
+    public var computeQuotaId: Swift.String?
+    /// The target entity to allocate compute resources to.
+    public var computeQuotaTarget: SageMakerClientTypes.ComputeQuotaTarget?
+    /// Description of the compute allocation definition.
+    public var description: Swift.String?
+    /// Target version.
+    /// This member is required.
+    public var targetVersion: Swift.Int?
+
+    public init(
+        activationState: SageMakerClientTypes.ActivationState? = nil,
+        computeQuotaConfig: SageMakerClientTypes.ComputeQuotaConfig? = nil,
+        computeQuotaId: Swift.String? = nil,
+        computeQuotaTarget: SageMakerClientTypes.ComputeQuotaTarget? = nil,
+        description: Swift.String? = nil,
+        targetVersion: Swift.Int? = nil
+    )
+    {
+        self.activationState = activationState
+        self.computeQuotaConfig = computeQuotaConfig
+        self.computeQuotaId = computeQuotaId
+        self.computeQuotaTarget = computeQuotaTarget
+        self.description = description
+        self.targetVersion = targetVersion
+    }
+}
+
+public struct UpdateComputeQuotaOutput: Swift.Sendable {
+    /// ARN of the compute allocation definition.
+    /// This member is required.
+    public var computeQuotaArn: Swift.String?
+    /// Version of the compute allocation definition.
+    /// This member is required.
+    public var computeQuotaVersion: Swift.Int?
+
+    public init(
+        computeQuotaArn: Swift.String? = nil,
+        computeQuotaVersion: Swift.Int? = nil
+    )
+    {
+        self.computeQuotaArn = computeQuotaArn
+        self.computeQuotaVersion = computeQuotaVersion
     }
 }
 
@@ -48479,7 +50892,7 @@ public struct UpdateDevicesInput: Swift.Sendable {
 public struct UpdateDomainInput: Swift.Sendable {
     /// Specifies the VPC used for non-EFS traffic.
     ///
-    /// * PublicInternetOnly - Non-EFS traffic is through a VPC managed by Amazon SageMaker, which allows direct internet access.
+    /// * PublicInternetOnly - Non-EFS traffic is through a VPC managed by Amazon SageMaker AI, which allows direct internet access.
     ///
     /// * VpcOnly - All Studio traffic is through the specified VPC and subnets.
     ///
@@ -48842,7 +51255,7 @@ public struct UpdateImageInput: Swift.Sendable {
     /// The name of the image to update.
     /// This member is required.
     public var imageName: Swift.String?
-    /// The new ARN for the IAM role that enables Amazon SageMaker to perform tasks on your behalf.
+    /// The new ARN for the IAM role that enables Amazon SageMaker AI to perform tasks on your behalf.
     public var roleArn: Swift.String?
 
     public init(
@@ -48885,13 +51298,13 @@ public struct UpdateImageVersionInput: Swift.Sendable {
     /// The name of the image.
     /// This member is required.
     public var imageName: Swift.String?
-    /// Indicates SageMaker job type compatibility.
+    /// Indicates SageMaker AI job type compatibility.
     ///
-    /// * TRAINING: The image version is compatible with SageMaker training jobs.
+    /// * TRAINING: The image version is compatible with SageMaker AI training jobs.
     ///
-    /// * INFERENCE: The image version is compatible with SageMaker inference jobs.
+    /// * INFERENCE: The image version is compatible with SageMaker AI inference jobs.
     ///
-    /// * NOTEBOOK_KERNEL: The image version is compatible with SageMaker notebook kernels.
+    /// * NOTEBOOK_KERNEL: The image version is compatible with SageMaker AI notebook kernels.
     public var jobType: SageMakerClientTypes.JobType?
     /// The machine learning framework vended in the image version.
     public var mlFramework: Swift.String?
@@ -49310,9 +51723,9 @@ public struct UpdateMonitoringScheduleOutput: Swift.Sendable {
 public struct UpdateNotebookInstanceInput: Swift.Sendable {
     /// This parameter is no longer supported. Elastic Inference (EI) is no longer available. This parameter was used to specify a list of the EI instance types to associate with this notebook instance.
     public var acceleratorTypes: [SageMakerClientTypes.NotebookInstanceAcceleratorType]?
-    /// An array of up to three Git repositories to associate with the notebook instance. These can be either the names of Git repositories stored as resources in your account, or the URL of Git repositories in [Amazon Web Services CodeCommit](https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html) or in any other Git repository. These repositories are cloned at the same level as the default repository of your notebook instance. For more information, see [Associating Git Repositories with SageMaker Notebook Instances](https://docs.aws.amazon.com/sagemaker/latest/dg/nbi-git-repo.html).
+    /// An array of up to three Git repositories to associate with the notebook instance. These can be either the names of Git repositories stored as resources in your account, or the URL of Git repositories in [Amazon Web Services CodeCommit](https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html) or in any other Git repository. These repositories are cloned at the same level as the default repository of your notebook instance. For more information, see [Associating Git Repositories with SageMaker AI Notebook Instances](https://docs.aws.amazon.com/sagemaker/latest/dg/nbi-git-repo.html).
     public var additionalCodeRepositories: [Swift.String]?
-    /// The Git repository to associate with the notebook instance as its default code repository. This can be either the name of a Git repository stored as a resource in your account, or the URL of a Git repository in [Amazon Web Services CodeCommit](https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html) or in any other Git repository. When you open a notebook instance, it opens in the directory that contains this repository. For more information, see [Associating Git Repositories with SageMaker Notebook Instances](https://docs.aws.amazon.com/sagemaker/latest/dg/nbi-git-repo.html).
+    /// The Git repository to associate with the notebook instance as its default code repository. This can be either the name of a Git repository stored as a resource in your account, or the URL of a Git repository in [Amazon Web Services CodeCommit](https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html) or in any other Git repository. When you open a notebook instance, it opens in the directory that contains this repository. For more information, see [Associating Git Repositories with SageMaker AI Notebook Instances](https://docs.aws.amazon.com/sagemaker/latest/dg/nbi-git-repo.html).
     public var defaultCodeRepository: Swift.String?
     /// This parameter is no longer supported. Elastic Inference (EI) is no longer available. This parameter was used to specify a list of the EI instance types to remove from this notebook instance.
     public var disassociateAcceleratorTypes: Swift.Bool?
@@ -49331,11 +51744,11 @@ public struct UpdateNotebookInstanceInput: Swift.Sendable {
     /// The name of the notebook instance to update.
     /// This member is required.
     public var notebookInstanceName: Swift.String?
-    /// The Amazon Resource Name (ARN) of the IAM role that SageMaker can assume to access the notebook instance. For more information, see [SageMaker Roles](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-roles.html). To be able to pass this role to SageMaker, the caller of this API must have the iam:PassRole permission.
+    /// The Amazon Resource Name (ARN) of the IAM role that SageMaker AI can assume to access the notebook instance. For more information, see [SageMaker AI Roles](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-roles.html). To be able to pass this role to SageMaker AI, the caller of this API must have the iam:PassRole permission.
     public var roleArn: Swift.String?
     /// Whether root access is enabled or disabled for users of the notebook instance. The default value is Enabled. If you set this to Disabled, users don't have root access on the notebook instance, but lifecycle configuration scripts still run with root permissions.
     public var rootAccess: SageMakerClientTypes.RootAccess?
-    /// The size, in GB, of the ML storage volume to attach to the notebook instance. The default value is 5 GB. ML storage volumes are encrypted, so SageMaker can't determine the amount of available free space on the volume. Because of this, you can increase the volume size when you update a notebook instance, but you can't decrease the volume size. If you want to decrease the size of the ML storage volume in use, create a new notebook instance with the desired size.
+    /// The size, in GB, of the ML storage volume to attach to the notebook instance. The default value is 5 GB. ML storage volumes are encrypted, so SageMaker AI can't determine the amount of available free space on the volume. Because of this, you can increase the volume size when you update a notebook instance, but you can't decrease the volume size. If you want to decrease the size of the ML storage volume in use, create a new notebook instance with the desired size.
     public var volumeSizeInGB: Swift.Int?
 
     public init(
@@ -49401,6 +51814,55 @@ public struct UpdateNotebookInstanceLifecycleConfigInput: Swift.Sendable {
 public struct UpdateNotebookInstanceLifecycleConfigOutput: Swift.Sendable {
 
     public init() { }
+}
+
+public struct UpdatePartnerAppInput: Swift.Sendable {
+    /// Configuration settings for the SageMaker Partner AI App.
+    public var applicationConfig: SageMakerClientTypes.PartnerAppConfig?
+    /// The ARN of the SageMaker Partner AI App to update.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// A unique token that guarantees that the call to this API is idempotent.
+    public var clientToken: Swift.String?
+    /// When set to TRUE, the SageMaker Partner AI App sets the Amazon Web Services IAM session name or the authenticated IAM user as the identity of the SageMaker Partner AI App user.
+    public var enableIamSessionBasedIdentity: Swift.Bool?
+    /// Maintenance configuration settings for the SageMaker Partner AI App.
+    public var maintenanceConfig: SageMakerClientTypes.PartnerAppMaintenanceConfig?
+    /// Each tag consists of a key and an optional value. Tag keys must be unique per resource.
+    public var tags: [SageMakerClientTypes.Tag]?
+    /// Indicates the instance type and size of the cluster attached to the SageMaker Partner AI App.
+    public var tier: Swift.String?
+
+    public init(
+        applicationConfig: SageMakerClientTypes.PartnerAppConfig? = nil,
+        arn: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        enableIamSessionBasedIdentity: Swift.Bool? = nil,
+        maintenanceConfig: SageMakerClientTypes.PartnerAppMaintenanceConfig? = nil,
+        tags: [SageMakerClientTypes.Tag]? = nil,
+        tier: Swift.String? = nil
+    )
+    {
+        self.applicationConfig = applicationConfig
+        self.arn = arn
+        self.clientToken = clientToken
+        self.enableIamSessionBasedIdentity = enableIamSessionBasedIdentity
+        self.maintenanceConfig = maintenanceConfig
+        self.tags = tags
+        self.tier = tier
+    }
+}
+
+public struct UpdatePartnerAppOutput: Swift.Sendable {
+    /// The ARN of the SageMaker Partner AI App that was updated.
+    public var arn: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil
+    )
+    {
+        self.arn = arn
+    }
 }
 
 public struct UpdatePipelineInput: Swift.Sendable {
@@ -50003,6 +52465,13 @@ extension CreateClusterInput {
     }
 }
 
+extension CreateClusterSchedulerConfigInput {
+
+    static func urlPathProvider(_ value: CreateClusterSchedulerConfigInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension CreateCodeRepositoryInput {
 
     static func urlPathProvider(_ value: CreateCodeRepositoryInput) -> Swift.String? {
@@ -50013,6 +52482,13 @@ extension CreateCodeRepositoryInput {
 extension CreateCompilationJobInput {
 
     static func urlPathProvider(_ value: CreateCompilationJobInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension CreateComputeQuotaInput {
+
+    static func urlPathProvider(_ value: CreateComputeQuotaInput) -> Swift.String? {
         return "/"
     }
 }
@@ -50262,6 +52738,20 @@ extension CreateOptimizationJobInput {
     }
 }
 
+extension CreatePartnerAppInput {
+
+    static func urlPathProvider(_ value: CreatePartnerAppInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension CreatePartnerAppPresignedUrlInput {
+
+    static func urlPathProvider(_ value: CreatePartnerAppPresignedUrlInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension CreatePipelineInput {
 
     static func urlPathProvider(_ value: CreatePipelineInput) -> Swift.String? {
@@ -50321,6 +52811,13 @@ extension CreateStudioLifecycleConfigInput {
 extension CreateTrainingJobInput {
 
     static func urlPathProvider(_ value: CreateTrainingJobInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension CreateTrainingPlanInput {
+
+    static func urlPathProvider(_ value: CreateTrainingPlanInput) -> Swift.String? {
         return "/"
     }
 }
@@ -50416,6 +52913,13 @@ extension DeleteClusterInput {
     }
 }
 
+extension DeleteClusterSchedulerConfigInput {
+
+    static func urlPathProvider(_ value: DeleteClusterSchedulerConfigInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension DeleteCodeRepositoryInput {
 
     static func urlPathProvider(_ value: DeleteCodeRepositoryInput) -> Swift.String? {
@@ -50426,6 +52930,13 @@ extension DeleteCodeRepositoryInput {
 extension DeleteCompilationJobInput {
 
     static func urlPathProvider(_ value: DeleteCompilationJobInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DeleteComputeQuotaInput {
+
+    static func urlPathProvider(_ value: DeleteComputeQuotaInput) -> Swift.String? {
         return "/"
     }
 }
@@ -50661,6 +53172,13 @@ extension DeleteOptimizationJobInput {
     }
 }
 
+extension DeletePartnerAppInput {
+
+    static func urlPathProvider(_ value: DeletePartnerAppInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension DeletePipelineInput {
 
     static func urlPathProvider(_ value: DeletePipelineInput) -> Swift.String? {
@@ -50801,6 +53319,13 @@ extension DescribeClusterNodeInput {
     }
 }
 
+extension DescribeClusterSchedulerConfigInput {
+
+    static func urlPathProvider(_ value: DescribeClusterSchedulerConfigInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension DescribeCodeRepositoryInput {
 
     static func urlPathProvider(_ value: DescribeCodeRepositoryInput) -> Swift.String? {
@@ -50811,6 +53336,13 @@ extension DescribeCodeRepositoryInput {
 extension DescribeCompilationJobInput {
 
     static func urlPathProvider(_ value: DescribeCompilationJobInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DescribeComputeQuotaInput {
+
+    static func urlPathProvider(_ value: DescribeComputeQuotaInput) -> Swift.String? {
         return "/"
     }
 }
@@ -51074,6 +53606,13 @@ extension DescribeOptimizationJobInput {
     }
 }
 
+extension DescribePartnerAppInput {
+
+    static func urlPathProvider(_ value: DescribePartnerAppInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension DescribePipelineInput {
 
     static func urlPathProvider(_ value: DescribePipelineInput) -> Swift.String? {
@@ -51133,6 +53672,13 @@ extension DescribeSubscribedWorkteamInput {
 extension DescribeTrainingJobInput {
 
     static func urlPathProvider(_ value: DescribeTrainingJobInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DescribeTrainingPlanInput {
+
+    static func urlPathProvider(_ value: DescribeTrainingPlanInput) -> Swift.String? {
         return "/"
     }
 }
@@ -51326,6 +53872,13 @@ extension ListClustersInput {
     }
 }
 
+extension ListClusterSchedulerConfigsInput {
+
+    static func urlPathProvider(_ value: ListClusterSchedulerConfigsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension ListCodeRepositoriesInput {
 
     static func urlPathProvider(_ value: ListCodeRepositoriesInput) -> Swift.String? {
@@ -51336,6 +53889,13 @@ extension ListCodeRepositoriesInput {
 extension ListCompilationJobsInput {
 
     static func urlPathProvider(_ value: ListCompilationJobsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ListComputeQuotasInput {
+
+    static func urlPathProvider(_ value: ListComputeQuotasInput) -> Swift.String? {
         return "/"
     }
 }
@@ -51648,6 +54208,13 @@ extension ListOptimizationJobsInput {
     }
 }
 
+extension ListPartnerAppsInput {
+
+    static func urlPathProvider(_ value: ListPartnerAppsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension ListPipelineExecutionsInput {
 
     static func urlPathProvider(_ value: ListPipelineExecutionsInput) -> Swift.String? {
@@ -51746,6 +54313,13 @@ extension ListTrainingJobsForHyperParameterTuningJobInput {
     }
 }
 
+extension ListTrainingPlansInput {
+
+    static func urlPathProvider(_ value: ListTrainingPlansInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension ListTransformJobsInput {
 
     static func urlPathProvider(_ value: ListTransformJobsInput) -> Swift.String? {
@@ -51826,6 +54400,13 @@ extension RetryPipelineExecutionInput {
 extension SearchInput {
 
     static func urlPathProvider(_ value: SearchInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension SearchTrainingPlanOfferingsInput {
+
+    static func urlPathProvider(_ value: SearchTrainingPlanOfferingsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -52026,6 +54607,13 @@ extension UpdateClusterInput {
     }
 }
 
+extension UpdateClusterSchedulerConfigInput {
+
+    static func urlPathProvider(_ value: UpdateClusterSchedulerConfigInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension UpdateClusterSoftwareInput {
 
     static func urlPathProvider(_ value: UpdateClusterSoftwareInput) -> Swift.String? {
@@ -52036,6 +54624,13 @@ extension UpdateClusterSoftwareInput {
 extension UpdateCodeRepositoryInput {
 
     static func urlPathProvider(_ value: UpdateCodeRepositoryInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension UpdateComputeQuotaInput {
+
+    static func urlPathProvider(_ value: UpdateComputeQuotaInput) -> Swift.String? {
         return "/"
     }
 }
@@ -52190,6 +54785,13 @@ extension UpdateNotebookInstanceInput {
 extension UpdateNotebookInstanceLifecycleConfigInput {
 
     static func urlPathProvider(_ value: UpdateNotebookInstanceLifecycleConfigInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension UpdatePartnerAppInput {
+
+    static func urlPathProvider(_ value: UpdatePartnerAppInput) -> Swift.String? {
         return "/"
     }
 }
@@ -52425,6 +55027,18 @@ extension CreateClusterInput {
     }
 }
 
+extension CreateClusterSchedulerConfigInput {
+
+    static func write(value: CreateClusterSchedulerConfigInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClusterArn"].write(value.clusterArn)
+        try writer["Description"].write(value.description)
+        try writer["Name"].write(value.name)
+        try writer["SchedulerConfig"].write(value.schedulerConfig, with: SageMakerClientTypes.SchedulerConfig.write(value:to:))
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: SageMakerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension CreateCodeRepositoryInput {
 
     static func write(value: CreateCodeRepositoryInput?, to writer: SmithyJSON.Writer) throws {
@@ -52447,6 +55061,20 @@ extension CreateCompilationJobInput {
         try writer["StoppingCondition"].write(value.stoppingCondition, with: SageMakerClientTypes.StoppingCondition.write(value:to:))
         try writer["Tags"].writeList(value.tags, memberWritingClosure: SageMakerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["VpcConfig"].write(value.vpcConfig, with: SageMakerClientTypes.NeoVpcConfig.write(value:to:))
+    }
+}
+
+extension CreateComputeQuotaInput {
+
+    static func write(value: CreateComputeQuotaInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ActivationState"].write(value.activationState)
+        try writer["ClusterArn"].write(value.clusterArn)
+        try writer["ComputeQuotaConfig"].write(value.computeQuotaConfig, with: SageMakerClientTypes.ComputeQuotaConfig.write(value:to:))
+        try writer["ComputeQuotaTarget"].write(value.computeQuotaTarget, with: SageMakerClientTypes.ComputeQuotaTarget.write(value:to:))
+        try writer["Description"].write(value.description)
+        try writer["Name"].write(value.name)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: SageMakerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -52966,6 +55594,33 @@ extension CreateOptimizationJobInput {
     }
 }
 
+extension CreatePartnerAppInput {
+
+    static func write(value: CreatePartnerAppInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ApplicationConfig"].write(value.applicationConfig, with: SageMakerClientTypes.PartnerAppConfig.write(value:to:))
+        try writer["AuthType"].write(value.authType)
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["EnableIamSessionBasedIdentity"].write(value.enableIamSessionBasedIdentity)
+        try writer["ExecutionRoleArn"].write(value.executionRoleArn)
+        try writer["MaintenanceConfig"].write(value.maintenanceConfig, with: SageMakerClientTypes.PartnerAppMaintenanceConfig.write(value:to:))
+        try writer["Name"].write(value.name)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: SageMakerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Tier"].write(value.tier)
+        try writer["Type"].write(value.type)
+    }
+}
+
+extension CreatePartnerAppPresignedUrlInput {
+
+    static func write(value: CreatePartnerAppPresignedUrlInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Arn"].write(value.arn)
+        try writer["ExpiresInSeconds"].write(value.expiresInSeconds)
+        try writer["SessionExpirationDurationInSeconds"].write(value.sessionExpirationDurationInSeconds)
+    }
+}
+
 extension CreatePipelineInput {
 
     static func write(value: CreatePipelineInput?, to writer: SmithyJSON.Writer) throws {
@@ -53097,6 +55752,16 @@ extension CreateTrainingJobInput {
         try writer["TensorBoardOutputConfig"].write(value.tensorBoardOutputConfig, with: SageMakerClientTypes.TensorBoardOutputConfig.write(value:to:))
         try writer["TrainingJobName"].write(value.trainingJobName)
         try writer["VpcConfig"].write(value.vpcConfig, with: SageMakerClientTypes.VpcConfig.write(value:to:))
+    }
+}
+
+extension CreateTrainingPlanInput {
+
+    static func write(value: CreateTrainingPlanInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: SageMakerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TrainingPlanName"].write(value.trainingPlanName)
+        try writer["TrainingPlanOfferingId"].write(value.trainingPlanOfferingId)
     }
 }
 
@@ -53252,6 +55917,14 @@ extension DeleteClusterInput {
     }
 }
 
+extension DeleteClusterSchedulerConfigInput {
+
+    static func write(value: DeleteClusterSchedulerConfigInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClusterSchedulerConfigId"].write(value.clusterSchedulerConfigId)
+    }
+}
+
 extension DeleteCodeRepositoryInput {
 
     static func write(value: DeleteCodeRepositoryInput?, to writer: SmithyJSON.Writer) throws {
@@ -53265,6 +55938,14 @@ extension DeleteCompilationJobInput {
     static func write(value: DeleteCompilationJobInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["CompilationJobName"].write(value.compilationJobName)
+    }
+}
+
+extension DeleteComputeQuotaInput {
+
+    static func write(value: DeleteComputeQuotaInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ComputeQuotaId"].write(value.computeQuotaId)
     }
 }
 
@@ -53541,6 +56222,15 @@ extension DeleteOptimizationJobInput {
     }
 }
 
+extension DeletePartnerAppInput {
+
+    static func write(value: DeletePartnerAppInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Arn"].write(value.arn)
+        try writer["ClientToken"].write(value.clientToken)
+    }
+}
+
 extension DeletePipelineInput {
 
     static func write(value: DeletePipelineInput?, to writer: SmithyJSON.Writer) throws {
@@ -53711,6 +56401,15 @@ extension DescribeClusterNodeInput {
     }
 }
 
+extension DescribeClusterSchedulerConfigInput {
+
+    static func write(value: DescribeClusterSchedulerConfigInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClusterSchedulerConfigId"].write(value.clusterSchedulerConfigId)
+        try writer["ClusterSchedulerConfigVersion"].write(value.clusterSchedulerConfigVersion)
+    }
+}
+
 extension DescribeCodeRepositoryInput {
 
     static func write(value: DescribeCodeRepositoryInput?, to writer: SmithyJSON.Writer) throws {
@@ -53724,6 +56423,15 @@ extension DescribeCompilationJobInput {
     static func write(value: DescribeCompilationJobInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["CompilationJobName"].write(value.compilationJobName)
+    }
+}
+
+extension DescribeComputeQuotaInput {
+
+    static func write(value: DescribeComputeQuotaInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ComputeQuotaId"].write(value.computeQuotaId)
+        try writer["ComputeQuotaVersion"].write(value.computeQuotaVersion)
     }
 }
 
@@ -54035,6 +56743,14 @@ extension DescribeOptimizationJobInput {
     }
 }
 
+extension DescribePartnerAppInput {
+
+    static func write(value: DescribePartnerAppInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Arn"].write(value.arn)
+    }
+}
+
 extension DescribePipelineInput {
 
     static func write(value: DescribePipelineInput?, to writer: SmithyJSON.Writer) throws {
@@ -54105,6 +56821,14 @@ extension DescribeTrainingJobInput {
     static func write(value: DescribeTrainingJobInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["TrainingJobName"].write(value.trainingJobName)
+    }
+}
+
+extension DescribeTrainingPlanInput {
+
+    static func write(value: DescribeTrainingPlanInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["TrainingPlanName"].write(value.trainingPlanName)
     }
 }
 
@@ -54414,6 +57138,23 @@ extension ListClustersInput {
         try writer["NextToken"].write(value.nextToken)
         try writer["SortBy"].write(value.sortBy)
         try writer["SortOrder"].write(value.sortOrder)
+        try writer["TrainingPlanArn"].write(value.trainingPlanArn)
+    }
+}
+
+extension ListClusterSchedulerConfigsInput {
+
+    static func write(value: ListClusterSchedulerConfigsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClusterArn"].write(value.clusterArn)
+        try writer["CreatedAfter"].writeTimestamp(value.createdAfter, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["CreatedBefore"].writeTimestamp(value.createdBefore, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NameContains"].write(value.nameContains)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["SortBy"].write(value.sortBy)
+        try writer["SortOrder"].write(value.sortOrder)
+        try writer["Status"].write(value.status)
     }
 }
 
@@ -54447,6 +57188,22 @@ extension ListCompilationJobsInput {
         try writer["SortBy"].write(value.sortBy)
         try writer["SortOrder"].write(value.sortOrder)
         try writer["StatusEquals"].write(value.statusEquals)
+    }
+}
+
+extension ListComputeQuotasInput {
+
+    static func write(value: ListComputeQuotasInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClusterArn"].write(value.clusterArn)
+        try writer["CreatedAfter"].writeTimestamp(value.createdAfter, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["CreatedBefore"].writeTimestamp(value.createdBefore, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NameContains"].write(value.nameContains)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["SortBy"].write(value.sortBy)
+        try writer["SortOrder"].write(value.sortOrder)
+        try writer["Status"].write(value.status)
     }
 }
 
@@ -55134,6 +57891,15 @@ extension ListOptimizationJobsInput {
     }
 }
 
+extension ListPartnerAppsInput {
+
+    static func write(value: ListPartnerAppsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+    }
+}
+
 extension ListPipelineExecutionsInput {
 
     static func write(value: ListPipelineExecutionsInput?, to writer: SmithyJSON.Writer) throws {
@@ -55304,6 +58070,7 @@ extension ListTrainingJobsInput {
         try writer["SortBy"].write(value.sortBy)
         try writer["SortOrder"].write(value.sortOrder)
         try writer["StatusEquals"].write(value.statusEquals)
+        try writer["TrainingPlanArnEquals"].write(value.trainingPlanArnEquals)
         try writer["WarmPoolStatusEquals"].write(value.warmPoolStatusEquals)
     }
 }
@@ -55318,6 +58085,20 @@ extension ListTrainingJobsForHyperParameterTuningJobInput {
         try writer["SortBy"].write(value.sortBy)
         try writer["SortOrder"].write(value.sortOrder)
         try writer["StatusEquals"].write(value.statusEquals)
+    }
+}
+
+extension ListTrainingPlansInput {
+
+    static func write(value: ListTrainingPlansInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Filters"].writeList(value.filters, memberWritingClosure: SageMakerClientTypes.TrainingPlanFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["SortBy"].write(value.sortBy)
+        try writer["SortOrder"].write(value.sortOrder)
+        try writer["StartTimeAfter"].writeTimestamp(value.startTimeAfter, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["StartTimeBefore"].writeTimestamp(value.startTimeBefore, format: SmithyTimestamps.TimestampFormat.epochSeconds)
     }
 }
 
@@ -55472,6 +58253,19 @@ extension SearchInput {
         try writer["SortBy"].write(value.sortBy)
         try writer["SortOrder"].write(value.sortOrder)
         try writer["VisibilityConditions"].writeList(value.visibilityConditions, memberWritingClosure: SageMakerClientTypes.VisibilityConditions.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension SearchTrainingPlanOfferingsInput {
+
+    static func write(value: SearchTrainingPlanOfferingsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DurationHours"].write(value.durationHours)
+        try writer["EndTimeBefore"].writeTimestamp(value.endTimeBefore, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["InstanceCount"].write(value.instanceCount)
+        try writer["InstanceType"].write(value.instanceType)
+        try writer["StartTimeAfter"].writeTimestamp(value.startTimeAfter, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["TargetResources"].writeList(value.targetResources, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SageMakerClientTypes.SageMakerResourceName>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -55728,6 +58522,17 @@ extension UpdateClusterInput {
     }
 }
 
+extension UpdateClusterSchedulerConfigInput {
+
+    static func write(value: UpdateClusterSchedulerConfigInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClusterSchedulerConfigId"].write(value.clusterSchedulerConfigId)
+        try writer["Description"].write(value.description)
+        try writer["SchedulerConfig"].write(value.schedulerConfig, with: SageMakerClientTypes.SchedulerConfig.write(value:to:))
+        try writer["TargetVersion"].write(value.targetVersion)
+    }
+}
+
 extension UpdateClusterSoftwareInput {
 
     static func write(value: UpdateClusterSoftwareInput?, to writer: SmithyJSON.Writer) throws {
@@ -55742,6 +58547,19 @@ extension UpdateCodeRepositoryInput {
         guard let value else { return }
         try writer["CodeRepositoryName"].write(value.codeRepositoryName)
         try writer["GitConfig"].write(value.gitConfig, with: SageMakerClientTypes.GitConfigForUpdate.write(value:to:))
+    }
+}
+
+extension UpdateComputeQuotaInput {
+
+    static func write(value: UpdateComputeQuotaInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ActivationState"].write(value.activationState)
+        try writer["ComputeQuotaConfig"].write(value.computeQuotaConfig, with: SageMakerClientTypes.ComputeQuotaConfig.write(value:to:))
+        try writer["ComputeQuotaId"].write(value.computeQuotaId)
+        try writer["ComputeQuotaTarget"].write(value.computeQuotaTarget, with: SageMakerClientTypes.ComputeQuotaTarget.write(value:to:))
+        try writer["Description"].write(value.description)
+        try writer["TargetVersion"].write(value.targetVersion)
     }
 }
 
@@ -56009,6 +58827,20 @@ extension UpdateNotebookInstanceLifecycleConfigInput {
         try writer["NotebookInstanceLifecycleConfigName"].write(value.notebookInstanceLifecycleConfigName)
         try writer["OnCreate"].writeList(value.onCreate, memberWritingClosure: SageMakerClientTypes.NotebookInstanceLifecycleHook.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["OnStart"].writeList(value.onStart, memberWritingClosure: SageMakerClientTypes.NotebookInstanceLifecycleHook.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension UpdatePartnerAppInput {
+
+    static func write(value: UpdatePartnerAppInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ApplicationConfig"].write(value.applicationConfig, with: SageMakerClientTypes.PartnerAppConfig.write(value:to:))
+        try writer["Arn"].write(value.arn)
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["EnableIamSessionBasedIdentity"].write(value.enableIamSessionBasedIdentity)
+        try writer["MaintenanceConfig"].write(value.maintenanceConfig, with: SageMakerClientTypes.PartnerAppMaintenanceConfig.write(value:to:))
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: SageMakerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Tier"].write(value.tier)
     }
 }
 
@@ -56291,6 +59123,19 @@ extension CreateClusterOutput {
     }
 }
 
+extension CreateClusterSchedulerConfigOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateClusterSchedulerConfigOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateClusterSchedulerConfigOutput()
+        value.clusterSchedulerConfigArn = try reader["ClusterSchedulerConfigArn"].readIfPresent() ?? ""
+        value.clusterSchedulerConfigId = try reader["ClusterSchedulerConfigId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension CreateCodeRepositoryOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateCodeRepositoryOutput {
@@ -56311,6 +59156,19 @@ extension CreateCompilationJobOutput {
         let reader = responseReader
         var value = CreateCompilationJobOutput()
         value.compilationJobArn = try reader["CompilationJobArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CreateComputeQuotaOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateComputeQuotaOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateComputeQuotaOutput()
+        value.computeQuotaArn = try reader["ComputeQuotaArn"].readIfPresent() ?? ""
+        value.computeQuotaId = try reader["ComputeQuotaId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -56722,6 +59580,30 @@ extension CreateOptimizationJobOutput {
     }
 }
 
+extension CreatePartnerAppOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreatePartnerAppOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreatePartnerAppOutput()
+        value.arn = try reader["Arn"].readIfPresent()
+        return value
+    }
+}
+
+extension CreatePartnerAppPresignedUrlOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreatePartnerAppPresignedUrlOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreatePartnerAppPresignedUrlOutput()
+        value.url = try reader["Url"].readIfPresent()
+        return value
+    }
+}
+
 extension CreatePipelineOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreatePipelineOutput {
@@ -56827,6 +59709,18 @@ extension CreateTrainingJobOutput {
         let reader = responseReader
         var value = CreateTrainingJobOutput()
         value.trainingJobArn = try reader["TrainingJobArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CreateTrainingPlanOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateTrainingPlanOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateTrainingPlanOutput()
+        value.trainingPlanArn = try reader["TrainingPlanArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -56973,6 +59867,13 @@ extension DeleteClusterOutput {
     }
 }
 
+extension DeleteClusterSchedulerConfigOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteClusterSchedulerConfigOutput {
+        return DeleteClusterSchedulerConfigOutput()
+    }
+}
+
 extension DeleteCodeRepositoryOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteCodeRepositoryOutput {
@@ -56984,6 +59885,13 @@ extension DeleteCompilationJobOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteCompilationJobOutput {
         return DeleteCompilationJobOutput()
+    }
+}
+
+extension DeleteComputeQuotaOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteComputeQuotaOutput {
+        return DeleteComputeQuotaOutput()
     }
 }
 
@@ -57235,6 +60143,18 @@ extension DeleteOptimizationJobOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteOptimizationJobOutput {
         return DeleteOptimizationJobOutput()
+    }
+}
+
+extension DeletePartnerAppOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeletePartnerAppOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeletePartnerAppOutput()
+        value.arn = try reader["Arn"].readIfPresent()
+        return value
     }
 }
 
@@ -57543,6 +60463,30 @@ extension DescribeClusterNodeOutput {
     }
 }
 
+extension DescribeClusterSchedulerConfigOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeClusterSchedulerConfigOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeClusterSchedulerConfigOutput()
+        value.clusterArn = try reader["ClusterArn"].readIfPresent()
+        value.clusterSchedulerConfigArn = try reader["ClusterSchedulerConfigArn"].readIfPresent() ?? ""
+        value.clusterSchedulerConfigId = try reader["ClusterSchedulerConfigId"].readIfPresent() ?? ""
+        value.clusterSchedulerConfigVersion = try reader["ClusterSchedulerConfigVersion"].readIfPresent() ?? 0
+        value.createdBy = try reader["CreatedBy"].readIfPresent(with: SageMakerClientTypes.UserContext.read(from:))
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.description = try reader["Description"].readIfPresent()
+        value.failureReason = try reader["FailureReason"].readIfPresent()
+        value.lastModifiedBy = try reader["LastModifiedBy"].readIfPresent(with: SageMakerClientTypes.UserContext.read(from:))
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.schedulerConfig = try reader["SchedulerConfig"].readIfPresent(with: SageMakerClientTypes.SchedulerConfig.read(from:))
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension DescribeCodeRepositoryOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeCodeRepositoryOutput {
@@ -57584,6 +60528,32 @@ extension DescribeCompilationJobOutput {
         value.roleArn = try reader["RoleArn"].readIfPresent() ?? ""
         value.stoppingCondition = try reader["StoppingCondition"].readIfPresent(with: SageMakerClientTypes.StoppingCondition.read(from:))
         value.vpcConfig = try reader["VpcConfig"].readIfPresent(with: SageMakerClientTypes.NeoVpcConfig.read(from:))
+        return value
+    }
+}
+
+extension DescribeComputeQuotaOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeComputeQuotaOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeComputeQuotaOutput()
+        value.activationState = try reader["ActivationState"].readIfPresent()
+        value.clusterArn = try reader["ClusterArn"].readIfPresent()
+        value.computeQuotaArn = try reader["ComputeQuotaArn"].readIfPresent() ?? ""
+        value.computeQuotaConfig = try reader["ComputeQuotaConfig"].readIfPresent(with: SageMakerClientTypes.ComputeQuotaConfig.read(from:))
+        value.computeQuotaId = try reader["ComputeQuotaId"].readIfPresent() ?? ""
+        value.computeQuotaTarget = try reader["ComputeQuotaTarget"].readIfPresent(with: SageMakerClientTypes.ComputeQuotaTarget.read(from:))
+        value.computeQuotaVersion = try reader["ComputeQuotaVersion"].readIfPresent() ?? 0
+        value.createdBy = try reader["CreatedBy"].readIfPresent(with: SageMakerClientTypes.UserContext.read(from:))
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.description = try reader["Description"].readIfPresent()
+        value.failureReason = try reader["FailureReason"].readIfPresent()
+        value.lastModifiedBy = try reader["LastModifiedBy"].readIfPresent(with: SageMakerClientTypes.UserContext.read(from:))
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -58470,6 +61440,31 @@ extension DescribeOptimizationJobOutput {
     }
 }
 
+extension DescribePartnerAppOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribePartnerAppOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribePartnerAppOutput()
+        value.applicationConfig = try reader["ApplicationConfig"].readIfPresent(with: SageMakerClientTypes.PartnerAppConfig.read(from:))
+        value.arn = try reader["Arn"].readIfPresent()
+        value.authType = try reader["AuthType"].readIfPresent()
+        value.baseUrl = try reader["BaseUrl"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.enableIamSessionBasedIdentity = try reader["EnableIamSessionBasedIdentity"].readIfPresent()
+        value.error = try reader["Error"].readIfPresent(with: SageMakerClientTypes.ErrorInfo.read(from:))
+        value.executionRoleArn = try reader["ExecutionRoleArn"].readIfPresent()
+        value.maintenanceConfig = try reader["MaintenanceConfig"].readIfPresent(with: SageMakerClientTypes.PartnerAppMaintenanceConfig.read(from:))
+        value.name = try reader["Name"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.tier = try reader["Tier"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        value.version = try reader["Version"].readIfPresent()
+        return value
+    }
+}
+
 extension DescribePipelineOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribePipelineOutput {
@@ -58688,6 +61683,32 @@ extension DescribeTrainingJobOutput {
         value.tuningJobArn = try reader["TuningJobArn"].readIfPresent()
         value.vpcConfig = try reader["VpcConfig"].readIfPresent(with: SageMakerClientTypes.VpcConfig.read(from:))
         value.warmPoolStatus = try reader["WarmPoolStatus"].readIfPresent(with: SageMakerClientTypes.WarmPoolStatus.read(from:))
+        return value
+    }
+}
+
+extension DescribeTrainingPlanOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeTrainingPlanOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeTrainingPlanOutput()
+        value.availableInstanceCount = try reader["AvailableInstanceCount"].readIfPresent()
+        value.currencyCode = try reader["CurrencyCode"].readIfPresent()
+        value.durationHours = try reader["DurationHours"].readIfPresent()
+        value.durationMinutes = try reader["DurationMinutes"].readIfPresent()
+        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.inUseInstanceCount = try reader["InUseInstanceCount"].readIfPresent()
+        value.reservedCapacitySummaries = try reader["ReservedCapacitySummaries"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ReservedCapacitySummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusMessage = try reader["StatusMessage"].readIfPresent()
+        value.targetResources = try reader["TargetResources"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SageMakerClientTypes.SageMakerResourceName>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.totalInstanceCount = try reader["TotalInstanceCount"].readIfPresent()
+        value.trainingPlanArn = try reader["TrainingPlanArn"].readIfPresent() ?? ""
+        value.trainingPlanName = try reader["TrainingPlanName"].readIfPresent() ?? ""
+        value.upfrontFee = try reader["UpfrontFee"].readIfPresent()
         return value
     }
 }
@@ -59089,6 +62110,19 @@ extension ListClustersOutput {
     }
 }
 
+extension ListClusterSchedulerConfigsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListClusterSchedulerConfigsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListClusterSchedulerConfigsOutput()
+        value.clusterSchedulerConfigSummaries = try reader["ClusterSchedulerConfigSummaries"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ClusterSchedulerConfigSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListCodeRepositoriesOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListCodeRepositoriesOutput {
@@ -59110,6 +62144,19 @@ extension ListCompilationJobsOutput {
         let reader = responseReader
         var value = ListCompilationJobsOutput()
         value.compilationJobSummaries = try reader["CompilationJobSummaries"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.CompilationJobSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListComputeQuotasOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListComputeQuotasOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListComputeQuotasOutput()
+        value.computeQuotaSummaries = try reader["ComputeQuotaSummaries"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ComputeQuotaSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -59687,6 +62734,19 @@ extension ListOptimizationJobsOutput {
     }
 }
 
+extension ListPartnerAppsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListPartnerAppsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListPartnerAppsOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.summaries = try reader["Summaries"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.PartnerAppSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension ListPipelineExecutionsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListPipelineExecutionsOutput {
@@ -59869,6 +62929,19 @@ extension ListTrainingJobsForHyperParameterTuningJobOutput {
     }
 }
 
+extension ListTrainingPlansOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListTrainingPlansOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListTrainingPlansOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.trainingPlanSummaries = try reader["TrainingPlanSummaries"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.TrainingPlanSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension ListTransformJobsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListTransformJobsOutput {
@@ -60014,6 +63087,18 @@ extension SearchOutput {
         var value = SearchOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
         value.results = try reader["Results"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.SearchRecord.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension SearchTrainingPlanOfferingsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> SearchTrainingPlanOfferingsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = SearchTrainingPlanOfferingsOutput()
+        value.trainingPlanOfferings = try reader["TrainingPlanOfferings"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.TrainingPlanOffering.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -60274,6 +63359,19 @@ extension UpdateClusterOutput {
     }
 }
 
+extension UpdateClusterSchedulerConfigOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateClusterSchedulerConfigOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateClusterSchedulerConfigOutput()
+        value.clusterSchedulerConfigArn = try reader["ClusterSchedulerConfigArn"].readIfPresent() ?? ""
+        value.clusterSchedulerConfigVersion = try reader["ClusterSchedulerConfigVersion"].readIfPresent() ?? 0
+        return value
+    }
+}
+
 extension UpdateClusterSoftwareOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateClusterSoftwareOutput {
@@ -60294,6 +63392,19 @@ extension UpdateCodeRepositoryOutput {
         let reader = responseReader
         var value = UpdateCodeRepositoryOutput()
         value.codeRepositoryArn = try reader["CodeRepositoryArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension UpdateComputeQuotaOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateComputeQuotaOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateComputeQuotaOutput()
+        value.computeQuotaArn = try reader["ComputeQuotaArn"].readIfPresent() ?? ""
+        value.computeQuotaVersion = try reader["ComputeQuotaVersion"].readIfPresent() ?? 0
         return value
     }
 }
@@ -60535,6 +63646,18 @@ extension UpdateNotebookInstanceLifecycleConfigOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateNotebookInstanceLifecycleConfigOutput {
         return UpdateNotebookInstanceLifecycleConfigOutput()
+    }
+}
+
+extension UpdatePartnerAppOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdatePartnerAppOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdatePartnerAppOutput()
+        value.arn = try reader["Arn"].readIfPresent()
+        return value
     }
 }
 
@@ -60843,6 +63966,21 @@ enum CreateClusterOutputError {
     }
 }
 
+enum CreateClusterSchedulerConfigOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ResourceLimitExceeded": return try ResourceLimitExceeded.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateCodeRepositoryOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -60865,6 +64003,21 @@ enum CreateCompilationJobOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceInUse": return try ResourceInUse.makeError(baseError: baseError)
+            case "ResourceLimitExceeded": return try ResourceLimitExceeded.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateComputeQuotaOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "ResourceLimitExceeded": return try ResourceLimitExceeded.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -61386,6 +64539,35 @@ enum CreateOptimizationJobOutputError {
     }
 }
 
+enum CreatePartnerAppOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ResourceLimitExceeded": return try ResourceLimitExceeded.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreatePartnerAppPresignedUrlOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ResourceNotFound": return try ResourceNotFound.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreatePipelineOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -61503,6 +64685,22 @@ enum CreateStudioLifecycleConfigOutputError {
 }
 
 enum CreateTrainingJobOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ResourceInUse": return try ResourceInUse.makeError(baseError: baseError)
+            case "ResourceLimitExceeded": return try ResourceLimitExceeded.makeError(baseError: baseError)
+            case "ResourceNotFound": return try ResourceNotFound.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateTrainingPlanOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -61706,6 +64904,20 @@ enum DeleteClusterOutputError {
     }
 }
 
+enum DeleteClusterSchedulerConfigOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ResourceNotFound": return try ResourceNotFound.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteCodeRepositoryOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -61720,6 +64932,20 @@ enum DeleteCodeRepositoryOutputError {
 }
 
 enum DeleteCompilationJobOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ResourceNotFound": return try ResourceNotFound.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteComputeQuotaOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -62195,6 +65421,21 @@ enum DeleteOptimizationJobOutputError {
     }
 }
 
+enum DeletePartnerAppOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ResourceNotFound": return try ResourceNotFound.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeletePipelineOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -62475,6 +65716,20 @@ enum DescribeClusterNodeOutputError {
     }
 }
 
+enum DescribeClusterSchedulerConfigOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ResourceNotFound": return try ResourceNotFound.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DescribeCodeRepositoryOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -62489,6 +65744,20 @@ enum DescribeCodeRepositoryOutputError {
 }
 
 enum DescribeCompilationJobOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ResourceNotFound": return try ResourceNotFound.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeComputeQuotaOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -63012,6 +66281,20 @@ enum DescribeOptimizationJobOutputError {
     }
 }
 
+enum DescribePartnerAppOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ResourceNotFound": return try ResourceNotFound.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DescribePipelineOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -63123,6 +66406,20 @@ enum DescribeSubscribedWorkteamOutputError {
 }
 
 enum DescribeTrainingJobOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ResourceNotFound": return try ResourceNotFound.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeTrainingPlanOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -63504,6 +66801,19 @@ enum ListClustersOutputError {
     }
 }
 
+enum ListClusterSchedulerConfigsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListCodeRepositoriesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -63518,6 +66828,19 @@ enum ListCodeRepositoriesOutputError {
 }
 
 enum ListCompilationJobsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListComputeQuotasOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -64111,6 +67434,19 @@ enum ListOptimizationJobsOutputError {
     }
 }
 
+enum ListPartnerAppsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListPipelineExecutionsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -64298,6 +67634,19 @@ enum ListTrainingJobsForHyperParameterTuningJobOutputError {
     }
 }
 
+enum ListTrainingPlansOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListTransformJobsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -64458,6 +67807,20 @@ enum SearchOutputError {
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum SearchTrainingPlanOfferingsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ResourceLimitExceeded": return try ResourceLimitExceeded.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -64866,6 +68229,22 @@ enum UpdateClusterOutputError {
     }
 }
 
+enum UpdateClusterSchedulerConfigOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ResourceLimitExceeded": return try ResourceLimitExceeded.makeError(baseError: baseError)
+            case "ResourceNotFound": return try ResourceNotFound.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateClusterSoftwareOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -64890,6 +68269,22 @@ enum UpdateCodeRepositoryOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateComputeQuotaOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ResourceLimitExceeded": return try ResourceLimitExceeded.makeError(baseError: baseError)
+            case "ResourceNotFound": return try ResourceNotFound.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -65211,6 +68606,21 @@ enum UpdateNotebookInstanceLifecycleConfigOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceLimitExceeded": return try ResourceLimitExceeded.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdatePartnerAppOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ResourceNotFound": return try ResourceNotFound.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -66096,6 +69506,7 @@ extension SageMakerClientTypes.ResourceConfig {
         try writer["InstanceGroups"].writeList(value.instanceGroups, memberWritingClosure: SageMakerClientTypes.InstanceGroup.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["InstanceType"].write(value.instanceType)
         try writer["KeepAlivePeriodInSeconds"].write(value.keepAlivePeriodInSeconds)
+        try writer["TrainingPlanArn"].write(value.trainingPlanArn)
         try writer["VolumeKmsKeyId"].write(value.volumeKmsKeyId)
         try writer["VolumeSizeInGB"].write(value.volumeSizeInGB)
     }
@@ -66109,6 +69520,7 @@ extension SageMakerClientTypes.ResourceConfig {
         value.volumeKmsKeyId = try reader["VolumeKmsKeyId"].readIfPresent()
         value.keepAlivePeriodInSeconds = try reader["KeepAlivePeriodInSeconds"].readIfPresent()
         value.instanceGroups = try reader["InstanceGroups"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.InstanceGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.trainingPlanArn = try reader["TrainingPlanArn"].readIfPresent()
         return value
     }
 }
@@ -67144,6 +70556,9 @@ extension SageMakerClientTypes.ClusterInstanceGroupDetails {
         value.threadsPerCore = try reader["ThreadsPerCore"].readIfPresent()
         value.instanceStorageConfigs = try reader["InstanceStorageConfigs"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ClusterInstanceStorageConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.onStartDeepHealthChecks = try reader["OnStartDeepHealthChecks"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SageMakerClientTypes.DeepHealthCheckType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.status = try reader["Status"].readIfPresent()
+        value.trainingPlanArn = try reader["TrainingPlanArn"].readIfPresent()
+        value.trainingPlanStatus = try reader["TrainingPlanStatus"].readIfPresent()
         value.overrideVpcConfig = try reader["OverrideVpcConfig"].readIfPresent(with: SageMakerClientTypes.VpcConfig.read(from:))
         return value
     }
@@ -67278,6 +70693,40 @@ extension SageMakerClientTypes.ClusterInstanceStatusDetails {
     }
 }
 
+extension SageMakerClientTypes.SchedulerConfig {
+
+    static func write(value: SageMakerClientTypes.SchedulerConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FairShare"].write(value.fairShare)
+        try writer["PriorityClasses"].writeList(value.priorityClasses, memberWritingClosure: SageMakerClientTypes.PriorityClass.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.SchedulerConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.SchedulerConfig()
+        value.priorityClasses = try reader["PriorityClasses"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.PriorityClass.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.fairShare = try reader["FairShare"].readIfPresent()
+        return value
+    }
+}
+
+extension SageMakerClientTypes.PriorityClass {
+
+    static func write(value: SageMakerClientTypes.PriorityClass?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Weight"].write(value.weight)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.PriorityClass {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.PriorityClass()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.weight = try reader["Weight"].readIfPresent() ?? 0
+        return value
+    }
+}
+
 extension SageMakerClientTypes.GitConfig {
 
     static func write(value: SageMakerClientTypes.GitConfig?, to writer: SmithyJSON.Writer) throws {
@@ -67403,6 +70852,76 @@ extension SageMakerClientTypes.DerivedInformation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.DerivedInformation()
         value.derivedDataInputConfig = try reader["DerivedDataInputConfig"].readIfPresent()
+        return value
+    }
+}
+
+extension SageMakerClientTypes.ComputeQuotaConfig {
+
+    static func write(value: SageMakerClientTypes.ComputeQuotaConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ComputeQuotaResources"].writeList(value.computeQuotaResources, memberWritingClosure: SageMakerClientTypes.ComputeQuotaResourceConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["PreemptTeamTasks"].write(value.preemptTeamTasks)
+        try writer["ResourceSharingConfig"].write(value.resourceSharingConfig, with: SageMakerClientTypes.ResourceSharingConfig.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ComputeQuotaConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.ComputeQuotaConfig()
+        value.computeQuotaResources = try reader["ComputeQuotaResources"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ComputeQuotaResourceConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.resourceSharingConfig = try reader["ResourceSharingConfig"].readIfPresent(with: SageMakerClientTypes.ResourceSharingConfig.read(from:))
+        value.preemptTeamTasks = try reader["PreemptTeamTasks"].readIfPresent()
+        return value
+    }
+}
+
+extension SageMakerClientTypes.ResourceSharingConfig {
+
+    static func write(value: SageMakerClientTypes.ResourceSharingConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BorrowLimit"].write(value.borrowLimit)
+        try writer["Strategy"].write(value.strategy)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ResourceSharingConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.ResourceSharingConfig()
+        value.strategy = try reader["Strategy"].readIfPresent() ?? .sdkUnknown("")
+        value.borrowLimit = try reader["BorrowLimit"].readIfPresent()
+        return value
+    }
+}
+
+extension SageMakerClientTypes.ComputeQuotaResourceConfig {
+
+    static func write(value: SageMakerClientTypes.ComputeQuotaResourceConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Count"].write(value.count)
+        try writer["InstanceType"].write(value.instanceType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ComputeQuotaResourceConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.ComputeQuotaResourceConfig()
+        value.instanceType = try reader["InstanceType"].readIfPresent() ?? .sdkUnknown("")
+        value.count = try reader["Count"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension SageMakerClientTypes.ComputeQuotaTarget {
+
+    static func write(value: SageMakerClientTypes.ComputeQuotaTarget?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FairShareWeight"].write(value.fairShareWeight)
+        try writer["TeamName"].write(value.teamName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ComputeQuotaTarget {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.ComputeQuotaTarget()
+        value.teamName = try reader["TeamName"].readIfPresent() ?? ""
+        value.fairShareWeight = try reader["FairShareWeight"].readIfPresent()
         return value
     }
 }
@@ -67900,6 +71419,8 @@ extension SageMakerClientTypes.CustomFileSystemConfig {
         switch value {
             case let .efsfilesystemconfig(efsfilesystemconfig):
                 try writer["EFSFileSystemConfig"].write(efsfilesystemconfig, with: SageMakerClientTypes.EFSFileSystemConfig.write(value:to:))
+            case let .fsxlustrefilesystemconfig(fsxlustrefilesystemconfig):
+                try writer["FSxLustreFileSystemConfig"].write(fsxlustrefilesystemconfig, with: SageMakerClientTypes.FSxLustreFileSystemConfig.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
@@ -67911,9 +71432,28 @@ extension SageMakerClientTypes.CustomFileSystemConfig {
         switch name {
             case "EFSFileSystemConfig":
                 return .efsfilesystemconfig(try reader["EFSFileSystemConfig"].read(with: SageMakerClientTypes.EFSFileSystemConfig.read(from:)))
+            case "FSxLustreFileSystemConfig":
+                return .fsxlustrefilesystemconfig(try reader["FSxLustreFileSystemConfig"].read(with: SageMakerClientTypes.FSxLustreFileSystemConfig.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension SageMakerClientTypes.FSxLustreFileSystemConfig {
+
+    static func write(value: SageMakerClientTypes.FSxLustreFileSystemConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FileSystemId"].write(value.fileSystemId)
+        try writer["FileSystemPath"].write(value.fileSystemPath)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.FSxLustreFileSystemConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.FSxLustreFileSystemConfig()
+        value.fileSystemId = try reader["FileSystemId"].readIfPresent() ?? ""
+        value.fileSystemPath = try reader["FileSystemPath"].readIfPresent()
+        return value
     }
 }
 
@@ -72016,6 +75556,49 @@ extension SageMakerClientTypes.OptimizationVpcConfig {
     }
 }
 
+extension SageMakerClientTypes.PartnerAppMaintenanceConfig {
+
+    static func write(value: SageMakerClientTypes.PartnerAppMaintenanceConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaintenanceWindowStart"].write(value.maintenanceWindowStart)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.PartnerAppMaintenanceConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.PartnerAppMaintenanceConfig()
+        value.maintenanceWindowStart = try reader["MaintenanceWindowStart"].readIfPresent()
+        return value
+    }
+}
+
+extension SageMakerClientTypes.PartnerAppConfig {
+
+    static func write(value: SageMakerClientTypes.PartnerAppConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AdminUsers"].writeList(value.adminUsers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Arguments"].writeMap(value.arguments, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.PartnerAppConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.PartnerAppConfig()
+        value.adminUsers = try reader["AdminUsers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.arguments = try reader["Arguments"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension SageMakerClientTypes.ErrorInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ErrorInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.ErrorInfo()
+        value.code = try reader["Code"].readIfPresent()
+        value.reason = try reader["Reason"].readIfPresent()
+        return value
+    }
+}
+
 extension SageMakerClientTypes.ParallelismConfiguration {
 
     static func write(value: SageMakerClientTypes.ParallelismConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -72449,6 +76032,8 @@ extension SageMakerClientTypes.CustomFileSystem {
         switch value {
             case let .efsfilesystem(efsfilesystem):
                 try writer["EFSFileSystem"].write(efsfilesystem, with: SageMakerClientTypes.EFSFileSystem.write(value:to:))
+            case let .fsxlustrefilesystem(fsxlustrefilesystem):
+                try writer["FSxLustreFileSystem"].write(fsxlustrefilesystem, with: SageMakerClientTypes.FSxLustreFileSystem.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
@@ -72460,9 +76045,26 @@ extension SageMakerClientTypes.CustomFileSystem {
         switch name {
             case "EFSFileSystem":
                 return .efsfilesystem(try reader["EFSFileSystem"].read(with: SageMakerClientTypes.EFSFileSystem.read(from:)))
+            case "FSxLustreFileSystem":
+                return .fsxlustrefilesystem(try reader["FSxLustreFileSystem"].read(with: SageMakerClientTypes.FSxLustreFileSystem.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension SageMakerClientTypes.FSxLustreFileSystem {
+
+    static func write(value: SageMakerClientTypes.FSxLustreFileSystem?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FileSystemId"].write(value.fileSystemId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.FSxLustreFileSystem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.FSxLustreFileSystem()
+        value.fileSystemId = try reader["FileSystemId"].readIfPresent() ?? ""
+        return value
     }
 }
 
@@ -72903,6 +76505,24 @@ extension SageMakerClientTypes.InfraCheckConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.InfraCheckConfig()
         value.enableInfraCheck = try reader["EnableInfraCheck"].readIfPresent()
+        return value
+    }
+}
+
+extension SageMakerClientTypes.ReservedCapacitySummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ReservedCapacitySummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.ReservedCapacitySummary()
+        value.reservedCapacityArn = try reader["ReservedCapacityArn"].readIfPresent() ?? ""
+        value.instanceType = try reader["InstanceType"].readIfPresent() ?? .sdkUnknown("")
+        value.totalInstanceCount = try reader["TotalInstanceCount"].readIfPresent() ?? 0
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.availabilityZone = try reader["AvailabilityZone"].readIfPresent()
+        value.durationHours = try reader["DurationHours"].readIfPresent()
+        value.durationMinutes = try reader["DurationMinutes"].readIfPresent()
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -73569,6 +77189,24 @@ extension SageMakerClientTypes.ClusterSummary {
         value.clusterName = try reader["ClusterName"].readIfPresent() ?? ""
         value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.clusterStatus = try reader["ClusterStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.trainingPlanArns = try reader["TrainingPlanArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension SageMakerClientTypes.ClusterSchedulerConfigSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ClusterSchedulerConfigSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.ClusterSchedulerConfigSummary()
+        value.clusterSchedulerConfigArn = try reader["ClusterSchedulerConfigArn"].readIfPresent() ?? ""
+        value.clusterSchedulerConfigId = try reader["ClusterSchedulerConfigId"].readIfPresent() ?? ""
+        value.clusterSchedulerConfigVersion = try reader["ClusterSchedulerConfigVersion"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.clusterArn = try reader["ClusterArn"].readIfPresent()
         return value
     }
 }
@@ -73603,6 +77241,26 @@ extension SageMakerClientTypes.CompilationJobSummary {
         value.compilationTargetPlatformAccelerator = try reader["CompilationTargetPlatformAccelerator"].readIfPresent()
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.compilationJobStatus = try reader["CompilationJobStatus"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension SageMakerClientTypes.ComputeQuotaSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ComputeQuotaSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.ComputeQuotaSummary()
+        value.computeQuotaArn = try reader["ComputeQuotaArn"].readIfPresent() ?? ""
+        value.computeQuotaId = try reader["ComputeQuotaId"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.computeQuotaVersion = try reader["ComputeQuotaVersion"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.clusterArn = try reader["ClusterArn"].readIfPresent()
+        value.computeQuotaConfig = try reader["ComputeQuotaConfig"].readIfPresent(with: SageMakerClientTypes.ComputeQuotaConfig.read(from:))
+        value.computeQuotaTarget = try reader["ComputeQuotaTarget"].readIfPresent(with: SageMakerClientTypes.ComputeQuotaTarget.read(from:))
+        value.activationState = try reader["ActivationState"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -74282,6 +77940,20 @@ extension SageMakerClientTypes.OptimizationJobSummary {
     }
 }
 
+extension SageMakerClientTypes.PartnerAppSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.PartnerAppSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.PartnerAppSummary()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
 extension SageMakerClientTypes.PipelineExecutionSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.PipelineExecutionSummary {
@@ -74736,6 +78408,31 @@ extension SageMakerClientTypes.TrainingJobSummary {
         value.trainingJobStatus = try reader["TrainingJobStatus"].readIfPresent() ?? .sdkUnknown("")
         value.secondaryStatus = try reader["SecondaryStatus"].readIfPresent()
         value.warmPoolStatus = try reader["WarmPoolStatus"].readIfPresent(with: SageMakerClientTypes.WarmPoolStatus.read(from:))
+        value.trainingPlanArn = try reader["TrainingPlanArn"].readIfPresent()
+        return value
+    }
+}
+
+extension SageMakerClientTypes.TrainingPlanSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.TrainingPlanSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.TrainingPlanSummary()
+        value.trainingPlanArn = try reader["TrainingPlanArn"].readIfPresent() ?? ""
+        value.trainingPlanName = try reader["TrainingPlanName"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusMessage = try reader["StatusMessage"].readIfPresent()
+        value.durationHours = try reader["DurationHours"].readIfPresent()
+        value.durationMinutes = try reader["DurationMinutes"].readIfPresent()
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.upfrontFee = try reader["UpfrontFee"].readIfPresent()
+        value.currencyCode = try reader["CurrencyCode"].readIfPresent()
+        value.totalInstanceCount = try reader["TotalInstanceCount"].readIfPresent()
+        value.availableInstanceCount = try reader["AvailableInstanceCount"].readIfPresent()
+        value.inUseInstanceCount = try reader["InUseInstanceCount"].readIfPresent()
+        value.targetResources = try reader["TargetResources"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SageMakerClientTypes.SageMakerResourceName>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.reservedCapacitySummaries = try reader["ReservedCapacitySummaries"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ReservedCapacitySummary.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -75426,6 +79123,40 @@ extension SageMakerClientTypes.Experiment {
     }
 }
 
+extension SageMakerClientTypes.TrainingPlanOffering {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.TrainingPlanOffering {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.TrainingPlanOffering()
+        value.trainingPlanOfferingId = try reader["TrainingPlanOfferingId"].readIfPresent() ?? ""
+        value.targetResources = try reader["TargetResources"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SageMakerClientTypes.SageMakerResourceName>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.requestedStartTimeAfter = try reader["RequestedStartTimeAfter"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.requestedEndTimeBefore = try reader["RequestedEndTimeBefore"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.durationHours = try reader["DurationHours"].readIfPresent()
+        value.durationMinutes = try reader["DurationMinutes"].readIfPresent()
+        value.upfrontFee = try reader["UpfrontFee"].readIfPresent()
+        value.currencyCode = try reader["CurrencyCode"].readIfPresent()
+        value.reservedCapacityOfferings = try reader["ReservedCapacityOfferings"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ReservedCapacityOffering.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension SageMakerClientTypes.ReservedCapacityOffering {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ReservedCapacityOffering {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.ReservedCapacityOffering()
+        value.instanceType = try reader["InstanceType"].readIfPresent() ?? .sdkUnknown("")
+        value.instanceCount = try reader["InstanceCount"].readIfPresent() ?? 0
+        value.availabilityZone = try reader["AvailabilityZone"].readIfPresent()
+        value.durationHours = try reader["DurationHours"].readIfPresent()
+        value.durationMinutes = try reader["DurationMinutes"].readIfPresent()
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
 extension SageMakerClientTypes.ClusterInstanceGroupSpecification {
 
     static func write(value: SageMakerClientTypes.ClusterInstanceGroupSpecification?, to writer: SmithyJSON.Writer) throws {
@@ -75439,6 +79170,7 @@ extension SageMakerClientTypes.ClusterInstanceGroupSpecification {
         try writer["OnStartDeepHealthChecks"].writeList(value.onStartDeepHealthChecks, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SageMakerClientTypes.DeepHealthCheckType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["OverrideVpcConfig"].write(value.overrideVpcConfig, with: SageMakerClientTypes.VpcConfig.write(value:to:))
         try writer["ThreadsPerCore"].write(value.threadsPerCore)
+        try writer["TrainingPlanArn"].write(value.trainingPlanArn)
     }
 }
 
@@ -75607,6 +79339,15 @@ extension SageMakerClientTypes.ModelMetadataSearchExpression {
 extension SageMakerClientTypes.ModelMetadataFilter {
 
     static func write(value: SageMakerClientTypes.ModelMetadataFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Value"].write(value.value)
+    }
+}
+
+extension SageMakerClientTypes.TrainingPlanFilter {
+
+    static func write(value: SageMakerClientTypes.TrainingPlanFilter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Name"].write(value.name)
         try writer["Value"].write(value.value)

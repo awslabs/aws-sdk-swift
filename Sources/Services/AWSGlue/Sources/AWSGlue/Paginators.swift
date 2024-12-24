@@ -12,6 +12,39 @@ import protocol ClientRuntime.PaginateToken
 import struct ClientRuntime.PaginatorSequence
 
 extension GlueClient {
+    /// Paginate over `[DescribeEntityOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeEntityInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeEntityOutput`
+    public func describeEntityPaginated(input: DescribeEntityInput) -> ClientRuntime.PaginatorSequence<DescribeEntityInput, DescribeEntityOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeEntityInput, DescribeEntityOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeEntity(input:))
+    }
+}
+
+extension DescribeEntityInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeEntityInput {
+        return DescribeEntityInput(
+            catalogId: self.catalogId,
+            connectionName: self.connectionName,
+            dataStoreApiVersion: self.dataStoreApiVersion,
+            entityName: self.entityName,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == DescribeEntityInput, OperationStackOutput == DescribeEntityOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeEntityPaginated`
+    /// to access the nested member `[GlueClientTypes.Field]`
+    /// - Returns: `[GlueClientTypes.Field]`
+    public func fields() async throws -> [GlueClientTypes.Field] {
+        return try await self.asyncCompactMap { item in item.fields }
+    }
+}
+extension GlueClient {
     /// Paginate over `[GetBlueprintRunsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -640,6 +673,36 @@ extension ListColumnStatisticsTaskRunsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension GlueClient {
+    /// Paginate over `[ListConnectionTypesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListConnectionTypesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListConnectionTypesOutput`
+    public func listConnectionTypesPaginated(input: ListConnectionTypesInput) -> ClientRuntime.PaginatorSequence<ListConnectionTypesInput, ListConnectionTypesOutput> {
+        return ClientRuntime.PaginatorSequence<ListConnectionTypesInput, ListConnectionTypesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listConnectionTypes(input:))
+    }
+}
+
+extension ListConnectionTypesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListConnectionTypesInput {
+        return ListConnectionTypesInput(
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListConnectionTypesInput, OperationStackOutput == ListConnectionTypesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listConnectionTypesPaginated`
+    /// to access the nested member `[GlueClientTypes.ConnectionTypeBrief]`
+    /// - Returns: `[GlueClientTypes.ConnectionTypeBrief]`
+    public func connectionTypes() async throws -> [GlueClientTypes.ConnectionTypeBrief] {
+        return try await self.asyncCompactMap { item in item.connectionTypes }
+    }
+}
+extension GlueClient {
     /// Paginate over `[ListCrawlersOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -793,6 +856,39 @@ extension ListDevEndpointsInput: ClientRuntime.PaginateToken {
             nextToken: token,
             tags: self.tags
         )}
+}
+extension GlueClient {
+    /// Paginate over `[ListEntitiesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListEntitiesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListEntitiesOutput`
+    public func listEntitiesPaginated(input: ListEntitiesInput) -> ClientRuntime.PaginatorSequence<ListEntitiesInput, ListEntitiesOutput> {
+        return ClientRuntime.PaginatorSequence<ListEntitiesInput, ListEntitiesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listEntities(input:))
+    }
+}
+
+extension ListEntitiesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListEntitiesInput {
+        return ListEntitiesInput(
+            catalogId: self.catalogId,
+            connectionName: self.connectionName,
+            dataStoreApiVersion: self.dataStoreApiVersion,
+            nextToken: token,
+            parentEntityName: self.parentEntityName
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListEntitiesInput, OperationStackOutput == ListEntitiesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listEntitiesPaginated`
+    /// to access the nested member `[GlueClientTypes.Entity]`
+    /// - Returns: `[GlueClientTypes.Entity]`
+    public func entities() async throws -> [GlueClientTypes.Entity] {
+        return try await self.asyncCompactMap { item in item.entities }
+    }
 }
 extension GlueClient {
     /// Paginate over `[ListJobsOutput]` results.

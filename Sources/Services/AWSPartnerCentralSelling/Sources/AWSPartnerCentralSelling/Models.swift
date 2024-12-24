@@ -29,12 +29,22 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 
+public struct AcceptEngagementInvitationOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct AssignOpportunityOutput: Swift.Sendable {
 
     public init() { }
 }
 
 public struct AssociateOpportunityOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DeleteResourceSnapshotJobOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -49,10 +59,25 @@ public struct RejectEngagementInvitationOutput: Swift.Sendable {
     public init() { }
 }
 
-/// This error occurs when you don't have permission to perform the requested action. You don’t have access to this action or resource. Review IAM policies or contact your AWS administrator for assistance.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct StartResourceSnapshotJobOutput: Swift.Sendable {
 
-    public struct Properties {
+    public init() { }
+}
+
+public struct StopResourceSnapshotJobOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct SubmitOpportunityOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+/// This error occurs when you don't have permission to perform the requested action. You don’t have access to this action or resource. Review IAM policies or contact your AWS administrator for assistance.
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -70,6 +95,253 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     )
     {
         self.properties.message = message
+    }
+}
+
+/// This error occurs when the specified resource can’t be found or doesn't exist. Resource ID and type might be incorrect. Suggested action: This is usually a transient error. Retry after the provided retry delay or a short interval. If the problem persists, contact AWS support.
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InternalServerException" }
+    public static var fault: ClientRuntime.ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+/// This error occurs when the specified resource can't be found. The resource might not exist, or isn't visible with the current credentials. Suggested action: Verify that the resource ID is correct and the resource is in the expected AWS region. Check IAM permissions for accessing the resource.
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceNotFoundException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+/// This error occurs when there are too many requests sent. Review the provided quotas and adapt your usage to avoid throttling. This error occurs when there are too many requests sent. Review the provided [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) and retry after the provided delay.
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ThrottlingException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+extension PartnerCentralSellingClientTypes {
+
+    public enum ValidationExceptionErrorCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case actionNotPermitted
+        case duplicateKeyValue
+        case invalidEnumValue
+        case invalidResourceState
+        case invalidStringFormat
+        case invalidValue
+        case requiredFieldMissing
+        case tooManyValues
+        case valueOutOfRange
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ValidationExceptionErrorCode] {
+            return [
+                .actionNotPermitted,
+                .duplicateKeyValue,
+                .invalidEnumValue,
+                .invalidResourceState,
+                .invalidStringFormat,
+                .invalidValue,
+                .requiredFieldMissing,
+                .tooManyValues,
+                .valueOutOfRange
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .actionNotPermitted: return "ACTION_NOT_PERMITTED"
+            case .duplicateKeyValue: return "DUPLICATE_KEY_VALUE"
+            case .invalidEnumValue: return "INVALID_ENUM_VALUE"
+            case .invalidResourceState: return "INVALID_RESOURCE_STATE"
+            case .invalidStringFormat: return "INVALID_STRING_FORMAT"
+            case .invalidValue: return "INVALID_VALUE"
+            case .requiredFieldMissing: return "REQUIRED_FIELD_MISSING"
+            case .tooManyValues: return "TOO_MANY_VALUES"
+            case .valueOutOfRange: return "VALUE_OUT_OF_RANGE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension PartnerCentralSellingClientTypes {
+
+    /// Indicates an invalid value for a field.
+    ///
+    /// * REQUIRED_FIELD_MISSING: The request is missing a required field. Fix: Verify your request payload includes all required fields.
+    ///
+    /// * INVALID_ENUM_VALUE: The enum field value isn't an accepted values. Fix: Check the documentation for the list of valid enum values, and update your request with a valid value.
+    ///
+    /// * INVALID_STRING_FORMAT: The string format is invalid. Fix: Confirm that the string is in the expected format (For example: email address, date).
+    ///
+    /// * INVALID_VALUE: The value isn't valid. Fix: Confirm that the value meets the expected criteria and is within the allowable range or set.
+    ///
+    /// * TOO_MANY_VALUES: There are too many values in a field that expects fewer entries. Fix: Reduce the number of values to match the expected limit.
+    ///
+    /// * ACTION_NOT_PERMITTED: The action isn't permitted due to current state or permissions. Fix: Verify that the action is appropriate for the current state, and that you have the necessary permissions to perform it.
+    ///
+    /// * DUPLICATE_KEY_VALUE: The value in a field duplicates a value that must be unique. Fix: Verify that the value is unique and doesn't duplicate an existing value in the system.
+    public struct ValidationExceptionError: Swift.Sendable {
+        /// Specifies the error code for the invalid field value.
+        /// This member is required.
+        public var code: PartnerCentralSellingClientTypes.ValidationExceptionErrorCode?
+        /// Specifies the field name with the invalid value.
+        public var fieldName: Swift.String?
+        /// Specifies the detailed error message for the invalid field value.
+        /// This member is required.
+        public var message: Swift.String?
+
+        public init(
+            code: PartnerCentralSellingClientTypes.ValidationExceptionErrorCode? = nil,
+            fieldName: Swift.String? = nil,
+            message: Swift.String? = nil
+        )
+        {
+            self.code = code
+            self.fieldName = fieldName
+            self.message = message
+        }
+    }
+}
+
+extension PartnerCentralSellingClientTypes {
+
+    public enum ValidationExceptionReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case businessValidationFailed
+        case requestValidationFailed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ValidationExceptionReason] {
+            return [
+                .businessValidationFailed,
+                .requestValidationFailed
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .businessValidationFailed: return "BUSINESS_VALIDATION_FAILED"
+            case .requestValidationFailed: return "REQUEST_VALIDATION_FAILED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+/// The input fails to satisfy the constraints specified by the service or business validation rules. Suggested action: Review the error message, including the failed fields and reasons, to correct the request payload.
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// A list of issues that were discovered in the submitted request or the resource state.
+        public internal(set) var errorList: [PartnerCentralSellingClientTypes.ValidationExceptionError]? = nil
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+        /// The primary reason for this validation exception to occur.
+        ///
+        /// * REQUEST_VALIDATION_FAILED: The request format is not valid. Fix: Verify your request payload includes all required fields, uses correct data types and string formats.
+        ///
+        /// * BUSINESS_VALIDATION_FAILED: The requested change doesn't pass the business validation rules. Fix: Check that your change aligns with the business rules defined by AWS Partner Central.
+        /// This member is required.
+        public internal(set) var reason: PartnerCentralSellingClientTypes.ValidationExceptionReason? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ValidationException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        errorList: [PartnerCentralSellingClientTypes.ValidationExceptionError]? = nil,
+        message: Swift.String? = nil,
+        reason: PartnerCentralSellingClientTypes.ValidationExceptionReason? = nil
+    )
+    {
+        self.properties.errorList = errorList
+        self.properties.message = message
+        self.properties.reason = reason
+    }
+}
+
+public struct AcceptEngagementInvitationInput: Swift.Sendable {
+    /// The CatalogType parameter specifies the catalog associated with the engagement invitation. Accepted values are AWS and Sandbox, which determine the environment in which the engagement invitation is managed.
+    /// This member is required.
+    public var catalog: Swift.String?
+    /// The Identifier parameter in the AcceptEngagementInvitationRequest specifies the unique identifier of the EngagementInvitation to be accepted. Providing the correct identifier ensures that the intended invitation is accepted.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        catalog: Swift.String? = nil,
+        identifier: Swift.String? = nil
+    )
+    {
+        self.catalog = catalog
+        self.identifier = identifier
     }
 }
 
@@ -1165,235 +1437,6 @@ extension PartnerCentralSellingClientTypes {
 extension PartnerCentralSellingClientTypes.AssigneeContact: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "AssigneeContact(businessTitle: \"CONTENT_REDACTED\", email: \"CONTENT_REDACTED\", firstName: \"CONTENT_REDACTED\", lastName: \"CONTENT_REDACTED\")"}
-}
-
-/// This error occurs when the specified resource can’t be found or doesn't exist. Resource ID and type might be incorrect. Suggested action: This is usually a transient error. Retry after the provided retry delay or a short interval. If the problem persists, contact AWS support.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
-
-    public struct Properties {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "InternalServerException" }
-    public static var fault: ClientRuntime.ErrorFault { .server }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    )
-    {
-        self.properties.message = message
-    }
-}
-
-/// This error occurs when the specified resource can't be found. The resource might not exist, or isn't visible with the current credentials. Suggested action: Verify that the resource ID is correct and the resource is in the expected AWS region. Check IAM permissions for accessing the resource.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
-
-    public struct Properties {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ResourceNotFoundException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    )
-    {
-        self.properties.message = message
-    }
-}
-
-/// This error occurs when there are too many requests sent. Review the provided quotas and adapt your usage to avoid throttling. This error occurs when there are too many requests sent. Review the provided [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) and retry after the provided delay.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
-
-    public struct Properties {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ThrottlingException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    )
-    {
-        self.properties.message = message
-    }
-}
-
-extension PartnerCentralSellingClientTypes {
-
-    public enum ValidationExceptionErrorCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case actionNotPermitted
-        case duplicateKeyValue
-        case invalidEnumValue
-        case invalidResourceState
-        case invalidStringFormat
-        case invalidValue
-        case requiredFieldMissing
-        case tooManyValues
-        case valueOutOfRange
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ValidationExceptionErrorCode] {
-            return [
-                .actionNotPermitted,
-                .duplicateKeyValue,
-                .invalidEnumValue,
-                .invalidResourceState,
-                .invalidStringFormat,
-                .invalidValue,
-                .requiredFieldMissing,
-                .tooManyValues,
-                .valueOutOfRange
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .actionNotPermitted: return "ACTION_NOT_PERMITTED"
-            case .duplicateKeyValue: return "DUPLICATE_KEY_VALUE"
-            case .invalidEnumValue: return "INVALID_ENUM_VALUE"
-            case .invalidResourceState: return "INVALID_RESOURCE_STATE"
-            case .invalidStringFormat: return "INVALID_STRING_FORMAT"
-            case .invalidValue: return "INVALID_VALUE"
-            case .requiredFieldMissing: return "REQUIRED_FIELD_MISSING"
-            case .tooManyValues: return "TOO_MANY_VALUES"
-            case .valueOutOfRange: return "VALUE_OUT_OF_RANGE"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension PartnerCentralSellingClientTypes {
-
-    /// Indicates an invalid value for a field.
-    ///
-    /// * REQUIRED_FIELD_MISSING: The request is missing a required field. Fix: Verify your request payload includes all required fields.
-    ///
-    /// * INVALID_ENUM_VALUE: The enum field value isn't an accepted values. Fix: Check the documentation for the list of valid enum values, and update your request with a valid value.
-    ///
-    /// * INVALID_STRING_FORMAT: The string format is invalid. Fix: Confirm that the string is in the expected format (For example: email address, date).
-    ///
-    /// * INVALID_VALUE: The value isn't valid. Fix: Confirm that the value meets the expected criteria and is within the allowable range or set.
-    ///
-    /// * TOO_MANY_VALUES: There are too many values in a field that expects fewer entries. Fix: Reduce the number of values to match the expected limit.
-    ///
-    /// * ACTION_NOT_PERMITTED: The action isn't permitted due to current state or permissions. Fix: Verify that the action is appropriate for the current state, and that you have the necessary permissions to perform it.
-    ///
-    /// * DUPLICATE_KEY_VALUE: The value in a field duplicates a value that must be unique. Fix: Verify that the value is unique and doesn't duplicate an existing value in the system.
-    public struct ValidationExceptionError: Swift.Sendable {
-        /// Specifies the error code for the invalid field value.
-        /// This member is required.
-        public var code: PartnerCentralSellingClientTypes.ValidationExceptionErrorCode?
-        /// Specifies the field name with the invalid value.
-        public var fieldName: Swift.String?
-        /// Specifies the detailed error message for the invalid field value.
-        /// This member is required.
-        public var message: Swift.String?
-
-        public init(
-            code: PartnerCentralSellingClientTypes.ValidationExceptionErrorCode? = nil,
-            fieldName: Swift.String? = nil,
-            message: Swift.String? = nil
-        )
-        {
-            self.code = code
-            self.fieldName = fieldName
-            self.message = message
-        }
-    }
-}
-
-extension PartnerCentralSellingClientTypes {
-
-    public enum ValidationExceptionReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case businessValidationFailed
-        case requestValidationFailed
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ValidationExceptionReason] {
-            return [
-                .businessValidationFailed,
-                .requestValidationFailed
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .businessValidationFailed: return "BUSINESS_VALIDATION_FAILED"
-            case .requestValidationFailed: return "REQUEST_VALIDATION_FAILED"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-/// The input fails to satisfy the constraints specified by the service or business validation rules. Suggested action: Review the error message, including the failed fields and reasons, to correct the request payload.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
-
-    public struct Properties {
-        /// A list of issues that were discovered in the submitted request or the resource state.
-        public internal(set) var errorList: [PartnerCentralSellingClientTypes.ValidationExceptionError]? = nil
-        /// This member is required.
-        public internal(set) var message: Swift.String? = nil
-        /// The primary reason for this validation exception to occur.
-        ///
-        /// * REQUEST_VALIDATION_FAILED: The request format is not valid. Fix: Verify your request payload includes all required fields, uses correct data types and string formats.
-        ///
-        /// * BUSINESS_VALIDATION_FAILED: The requested change doesn't pass the business validation rules. Fix: Check that your change aligns with the business rules defined by AWS Partner Central.
-        /// This member is required.
-        public internal(set) var reason: PartnerCentralSellingClientTypes.ValidationExceptionReason? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ValidationException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        errorList: [PartnerCentralSellingClientTypes.ValidationExceptionError]? = nil,
-        message: Swift.String? = nil,
-        reason: PartnerCentralSellingClientTypes.ValidationExceptionReason? = nil
-    )
-    {
-        self.properties.errorList = errorList
-        self.properties.message = message
-        self.properties.reason = reason
-    }
 }
 
 public struct AssignOpportunityInput: Swift.Sendable {
@@ -2538,6 +2581,8 @@ extension PartnerCentralSellingClientTypes {
         /// Indicates the currency in which the revenue estimate is provided. This helps in understanding the financial impact across different markets.
         /// This member is required.
         public var currencyCode: PartnerCentralSellingClientTypes.CurrencyCode?
+        /// A URL providing additional information or context about the spend estimation.
+        public var estimationUrl: Swift.String?
         /// Indicates how frequently the customer is expected to spend the projected amount. This can include values such as Monthly, Quarterly, or Annually. The default value is Monthly, representing recurring monthly spend.
         /// This member is required.
         public var frequency: PartnerCentralSellingClientTypes.PaymentFrequency?
@@ -2548,12 +2593,14 @@ extension PartnerCentralSellingClientTypes {
         public init(
             amount: Swift.String? = nil,
             currencyCode: PartnerCentralSellingClientTypes.CurrencyCode? = nil,
+            estimationUrl: Swift.String? = nil,
             frequency: PartnerCentralSellingClientTypes.PaymentFrequency? = nil,
             targetCompany: Swift.String? = nil
         )
         {
             self.amount = amount
             self.currencyCode = currencyCode
+            self.estimationUrl = estimationUrl
             self.frequency = frequency
             self.targetCompany = targetCompany
         }
@@ -2562,7 +2609,7 @@ extension PartnerCentralSellingClientTypes {
 
 extension PartnerCentralSellingClientTypes.ExpectedCustomerSpend: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ExpectedCustomerSpend(amount: \(Swift.String(describing: amount)), frequency: \(Swift.String(describing: frequency)), targetCompany: \(Swift.String(describing: targetCompany)), currencyCode: \"CONTENT_REDACTED\")"}
+        "ExpectedCustomerSpend(amount: \(Swift.String(describing: amount)), frequency: \(Swift.String(describing: frequency)), targetCompany: \(Swift.String(describing: targetCompany)), currencyCode: \"CONTENT_REDACTED\", estimationUrl: \"CONTENT_REDACTED\")"}
 }
 
 extension PartnerCentralSellingClientTypes {
@@ -2635,9 +2682,9 @@ extension PartnerCentralSellingClientTypes.AwsTeamMember: Swift.CustomDebugStrin
 }
 
 /// This error occurs when the request can’t be processed due to a conflict with the target resource's current state, which could result from updating or deleting the resource. Suggested action: Fetch the latest state of the resource, verify the state, and retry the request.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2659,9 +2706,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 /// This error occurs when the request would cause a service quota to be exceeded. Service quotas represent the maximum allowed use of a specific resource, and this error indicates that the request would surpass that limit. Suggested action: Review the [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) for the resource, and either reduce usage or request a quota increase.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2682,58 +2729,114 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-public struct StartEngagementByAcceptingInvitationTaskInput: Swift.Sendable {
-    /// Specifies the catalog related to the task. Use AWS for production engagements and Sandbox for testing scenarios.
-    /// This member is required.
-    public var catalog: Swift.String?
-    /// A unique, case-sensitive identifier provided by the client that helps to ensure the idempotency of the request. This can be a random or meaningful string but must be unique for each request.
-    /// This member is required.
-    public var clientToken: Swift.String?
-    /// Specifies the unique identifier of the EngagementInvitation to be accepted. Providing the correct identifier helps ensure that the correct engagement is processed.
-    /// This member is required.
-    public var identifier: Swift.String?
+extension PartnerCentralSellingClientTypes {
 
-    public init(
-        catalog: Swift.String? = nil,
-        clientToken: Swift.String? = nil,
-        identifier: Swift.String? = nil
-    )
-    {
-        self.catalog = catalog
-        self.clientToken = clientToken
-        self.identifier = identifier
+    /// Contains details about the customer associated with the Engagement Invitation, including company information and industry.
+    public struct EngagementCustomer: Swift.Sendable {
+        /// Represents the name of the customer’s company associated with the Engagement Invitation. This field is used to identify the customer.
+        /// This member is required.
+        public var companyName: Swift.String?
+        /// Indicates the country in which the customer’s company operates. This field is useful for understanding regional requirements or compliance needs.
+        /// This member is required.
+        public var countryCode: PartnerCentralSellingClientTypes.CountryCode?
+        /// Specifies the industry to which the customer’s company belongs. This field helps categorize the opportunity based on the customer’s business sector.
+        /// This member is required.
+        public var industry: PartnerCentralSellingClientTypes.Industry?
+        /// Provides the website URL of the customer’s company. This field helps partners verify the legitimacy and size of the customer organization.
+        /// This member is required.
+        public var websiteUrl: Swift.String?
+
+        public init(
+            companyName: Swift.String? = nil,
+            countryCode: PartnerCentralSellingClientTypes.CountryCode? = nil,
+            industry: PartnerCentralSellingClientTypes.Industry? = nil,
+            websiteUrl: Swift.String? = nil
+        )
+        {
+            self.companyName = companyName
+            self.countryCode = countryCode
+            self.industry = industry
+            self.websiteUrl = websiteUrl
+        }
+    }
+}
+
+extension PartnerCentralSellingClientTypes.EngagementCustomer: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "EngagementCustomer(companyName: \(Swift.String(describing: companyName)), industry: \(Swift.String(describing: industry)), countryCode: \"CONTENT_REDACTED\", websiteUrl: \"CONTENT_REDACTED\")"}
+}
+
+extension PartnerCentralSellingClientTypes {
+
+    /// Provides comprehensive details about a customer project associated with an Engagement. This may include information such as project goals, timelines, and specific customer requirements.
+    public struct EngagementCustomerProjectDetails: Swift.Sendable {
+        /// A description of the business problem the project aims to solve.
+        /// This member is required.
+        public var businessProblem: Swift.String?
+        /// The target completion date for the customer's project.
+        /// This member is required.
+        public var targetCompletionDate: Swift.String?
+        /// The title of the project.
+        /// This member is required.
+        public var title: Swift.String?
+
+        public init(
+            businessProblem: Swift.String? = nil,
+            targetCompletionDate: Swift.String? = nil,
+            title: Swift.String? = nil
+        )
+        {
+            self.businessProblem = businessProblem
+            self.targetCompletionDate = targetCompletionDate
+            self.title = title
+        }
+    }
+}
+
+extension PartnerCentralSellingClientTypes.EngagementCustomerProjectDetails: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "EngagementCustomerProjectDetails(targetCompletionDate: \(Swift.String(describing: targetCompletionDate)), title: \(Swift.String(describing: title)), businessProblem: \"CONTENT_REDACTED\")"}
+}
+
+extension PartnerCentralSellingClientTypes {
+
+    /// The CustomerProjects structure in Engagements offers a flexible framework for managing customer-project relationships. It supports multiple customers per Engagement and multiple projects per customer, while also allowing for customers without projects and projects without specific customers. All Engagement members have full visibility of customers and their associated projects, enabling the capture of relevant context even when project details are not fully defined. This structure also facilitates targeted invitations, allowing partners to focus on specific customers and their business problems when sending Engagement invitations.
+    public struct CustomerProjectsContext: Swift.Sendable {
+        /// Contains details about the customer associated with the Engagement Invitation, including company information and industry.
+        public var customer: PartnerCentralSellingClientTypes.EngagementCustomer?
+        /// Information about the customer project associated with the Engagement.
+        public var project: PartnerCentralSellingClientTypes.EngagementCustomerProjectDetails?
+
+        public init(
+            customer: PartnerCentralSellingClientTypes.EngagementCustomer? = nil,
+            project: PartnerCentralSellingClientTypes.EngagementCustomerProjectDetails? = nil
+        )
+        {
+            self.customer = customer
+            self.project = project
+        }
     }
 }
 
 extension PartnerCentralSellingClientTypes {
 
-    public enum ReasonCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case engagementAccessDenied
-        case engagementInvitationConflict
-        case engagementValidationFailed
-        case internalError
-        case invitationAccessDenied
-        case opportunityAccessDenied
-        case opportunityConflict
-        case opportunitySubmissionFailed
-        case opportunityValidationFailed
-        case resourceSnapshotAccessDenied
-        case resourceSnapshotJobAccessDenied
+    /// Represents the payload of an Engagement context. The structure of this payload varies based on the context type specified in the EngagementContextDetails.
+    public enum EngagementContextPayload: Swift.Sendable {
+        /// Contains detailed information about a customer project when the context type is "CustomerProject". This field is present only when the Type in EngagementContextDetails is set to "CustomerProject".
+        case customerproject(PartnerCentralSellingClientTypes.CustomerProjectsContext)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension PartnerCentralSellingClientTypes {
+
+    public enum EngagementContextType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case customerProject
         case sdkUnknown(Swift.String)
 
-        public static var allCases: [ReasonCode] {
+        public static var allCases: [EngagementContextType] {
             return [
-                .engagementAccessDenied,
-                .engagementInvitationConflict,
-                .engagementValidationFailed,
-                .internalError,
-                .invitationAccessDenied,
-                .opportunityAccessDenied,
-                .opportunityConflict,
-                .opportunitySubmissionFailed,
-                .opportunityValidationFailed,
-                .resourceSnapshotAccessDenied,
-                .resourceSnapshotJobAccessDenied
+                .customerProject
             ]
         }
 
@@ -2744,19 +2847,438 @@ extension PartnerCentralSellingClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
-            case .engagementAccessDenied: return "EngagementAccessDenied"
-            case .engagementInvitationConflict: return "EngagementInvitationConflict"
-            case .engagementValidationFailed: return "EngagementValidationFailed"
-            case .internalError: return "InternalError"
-            case .invitationAccessDenied: return "InvitationAccessDenied"
-            case .opportunityAccessDenied: return "OpportunityAccessDenied"
-            case .opportunityConflict: return "OpportunityConflict"
-            case .opportunitySubmissionFailed: return "OpportunitySubmissionFailed"
-            case .opportunityValidationFailed: return "OpportunityValidationFailed"
-            case .resourceSnapshotAccessDenied: return "ResourceSnapshotAccessDenied"
-            case .resourceSnapshotJobAccessDenied: return "ResourceSnapshotJobAccessDenied"
+            case .customerProject: return "CustomerProject"
             case let .sdkUnknown(s): return s
             }
+        }
+    }
+}
+
+extension PartnerCentralSellingClientTypes {
+
+    /// Provides detailed context information for an Engagement. This structure allows for specifying the type of context and its associated payload.
+    public struct EngagementContextDetails: Swift.Sendable {
+        /// Contains the specific details of the Engagement context. The structure of this payload varies depending on the Type field.
+        public var payload: PartnerCentralSellingClientTypes.EngagementContextPayload?
+        /// Specifies the type of Engagement context. Valid values are "CustomerProject" or "Document", indicating whether the context relates to a customer project or a document respectively.
+        /// This member is required.
+        public var type: PartnerCentralSellingClientTypes.EngagementContextType?
+
+        public init(
+            payload: PartnerCentralSellingClientTypes.EngagementContextPayload? = nil,
+            type: PartnerCentralSellingClientTypes.EngagementContextType? = nil
+        )
+        {
+            self.payload = payload
+            self.type = type
+        }
+    }
+}
+
+public struct CreateEngagementInput: Swift.Sendable {
+    /// The CreateEngagementRequest$Catalog parameter specifies the catalog related to the engagement. Accepted values are AWS and Sandbox, which determine the environment in which the engagement is managed.
+    /// This member is required.
+    public var catalog: Swift.String?
+    /// The CreateEngagementRequest$ClientToken parameter specifies a unique, case-sensitive identifier to ensure that the request is handled exactly once. The value must not exceed sixty-four alphanumeric characters.
+    /// This member is required.
+    public var clientToken: Swift.String?
+    /// The Contexts field is a required array of objects, with a maximum of 5 contexts allowed, specifying detailed information about customer projects associated with the Engagement. Each context object contains a Type field indicating the context type, which must be CustomerProject in this version, and a Payload field containing the CustomerProject details. The CustomerProject object is composed of two main components: Customer and Project. The Customer object includes information such as CompanyName, WebsiteUrl, Industry, and CountryCode, providing essential details about the customer. The Project object contains Title, BusinessProblem, and TargetCompletionDate, offering insights into the specific project associated with the customer. This structure allows comprehensive context to be included within the Engagement, facilitating effective collaboration between parties by providing relevant customer and project information.
+    public var contexts: [PartnerCentralSellingClientTypes.EngagementContextDetails]?
+    /// Provides a description of the Engagement.
+    /// This member is required.
+    public var description: Swift.String?
+    /// Specifies the title of the Engagement.
+    /// This member is required.
+    public var title: Swift.String?
+
+    public init(
+        catalog: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        contexts: [PartnerCentralSellingClientTypes.EngagementContextDetails]? = nil,
+        description: Swift.String? = nil,
+        title: Swift.String? = nil
+    )
+    {
+        self.catalog = catalog
+        self.clientToken = clientToken
+        self.contexts = contexts
+        self.description = description
+        self.title = title
+    }
+}
+
+public struct CreateEngagementOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) that identifies the engagement.
+    public var arn: Swift.String?
+    /// Unique identifier assigned to the newly created engagement.
+    public var id: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil,
+        id: Swift.String? = nil
+    )
+    {
+        self.arn = arn
+        self.id = id
+    }
+}
+
+public struct GetEngagementInput: Swift.Sendable {
+    /// Specifies the catalog related to the engagement request. Valid values are AWS and Sandbox.
+    /// This member is required.
+    public var catalog: Swift.String?
+    /// Specifies the identifier of the Engagement record to retrieve.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        catalog: Swift.String? = nil,
+        identifier: Swift.String? = nil
+    )
+    {
+        self.catalog = catalog
+        self.identifier = identifier
+    }
+}
+
+public struct GetEngagementOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the engagement retrieved.
+    public var arn: Swift.String?
+    /// A list of context objects associated with the engagement. Each context provides additional information related to the Engagement, such as customer projects or documents.
+    public var contexts: [PartnerCentralSellingClientTypes.EngagementContextDetails]?
+    /// The date and time when the Engagement was created, presented in ISO 8601 format (UTC). For example: "2023-05-01T20:37:46Z". This timestamp helps track the lifecycle of the Engagement.
+    public var createdAt: Foundation.Date?
+    /// The AWS account ID of the user who originally created the engagement. This field helps in tracking the origin of the engagement.
+    public var createdBy: Swift.String?
+    /// A more detailed description of the engagement. This provides additional context or information about the engagement's purpose or scope.
+    public var description: Swift.String?
+    /// The unique resource identifier of the engagement retrieved.
+    public var id: Swift.String?
+    /// Specifies the current count of members participating in the Engagement. This count includes all active members regardless of their roles or permissions within the Engagement.
+    public var memberCount: Swift.Int?
+    /// The title of the engagement. It provides a brief, descriptive name for the engagement that is meaningful and easily recognizable.
+    public var title: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil,
+        contexts: [PartnerCentralSellingClientTypes.EngagementContextDetails]? = nil,
+        createdAt: Foundation.Date? = nil,
+        createdBy: Swift.String? = nil,
+        description: Swift.String? = nil,
+        id: Swift.String? = nil,
+        memberCount: Swift.Int? = nil,
+        title: Swift.String? = nil
+    )
+    {
+        self.arn = arn
+        self.contexts = contexts
+        self.createdAt = createdAt
+        self.createdBy = createdBy
+        self.description = description
+        self.id = id
+        self.memberCount = memberCount
+        self.title = title
+    }
+}
+
+extension GetEngagementOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetEngagementOutput(arn: \(Swift.String(describing: arn)), contexts: \(Swift.String(describing: contexts)), createdAt: \(Swift.String(describing: createdAt)), description: \(Swift.String(describing: description)), id: \(Swift.String(describing: id)), memberCount: \(Swift.String(describing: memberCount)), title: \(Swift.String(describing: title)), createdBy: \"CONTENT_REDACTED\")"}
+}
+
+public struct ListEngagementMembersInput: Swift.Sendable {
+    /// The catalog related to the request.
+    /// This member is required.
+    public var catalog: Swift.String?
+    /// Identifier of the engagement record to retrieve members from.
+    /// This member is required.
+    public var identifier: Swift.String?
+    /// The maximum number of results to return in a single call.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        catalog: Swift.String? = nil,
+        identifier: Swift.String? = nil,
+        maxResults: Swift.Int? = 5,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.catalog = catalog
+        self.identifier = identifier
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension PartnerCentralSellingClientTypes {
+
+    /// Engagement members are the participants in an Engagement, which is likely a collaborative project or business opportunity within the AWS partner network. Members can be different partner organizations or AWS accounts that are working together on a specific engagement. Each member is represented by their AWS Account ID, Company Name, and associated details. Members have a status within the Engagement (PENDING, ACCEPTED, REJECTED, or WITHDRAWN), indicating their current state of participation. Only existing members of an Engagement can view the list of other members. This implies a level of privacy and access control within the Engagement structure.
+    public struct EngagementMember: Swift.Sendable {
+        /// This is the unique identifier for the AWS account associated with the member organization. It's used for AWS-related operations and identity verification.
+        public var accountId: Swift.String?
+        /// The official name of the member's company or organization.
+        public var companyName: Swift.String?
+        /// The URL of the member company's website. This offers a way to find more information about the member organization and serves as an additional identifier.
+        public var websiteUrl: Swift.String?
+
+        public init(
+            accountId: Swift.String? = nil,
+            companyName: Swift.String? = nil,
+            websiteUrl: Swift.String? = nil
+        )
+        {
+            self.accountId = accountId
+            self.companyName = companyName
+            self.websiteUrl = websiteUrl
+        }
+    }
+}
+
+extension PartnerCentralSellingClientTypes.EngagementMember: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "EngagementMember(companyName: \(Swift.String(describing: companyName)), websiteUrl: \(Swift.String(describing: websiteUrl)), accountId: \"CONTENT_REDACTED\")"}
+}
+
+public struct ListEngagementMembersOutput: Swift.Sendable {
+    /// Provides a list of engagement members.
+    /// This member is required.
+    public var engagementMemberList: [PartnerCentralSellingClientTypes.EngagementMember]?
+    /// A pagination token used to retrieve the next set of results. If there are more results available than can be returned in a single response, this token will be present. Use this token in a subsequent request to retrieve the next page of results. If there are no more results, this value will be null.
+    public var nextToken: Swift.String?
+
+    public init(
+        engagementMemberList: [PartnerCentralSellingClientTypes.EngagementMember]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.engagementMemberList = engagementMemberList
+        self.nextToken = nextToken
+    }
+}
+
+extension PartnerCentralSellingClientTypes {
+
+    public enum EngagementSortName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case createddate
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EngagementSortName] {
+            return [
+                .createddate
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .createddate: return "CreatedDate"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension PartnerCentralSellingClientTypes {
+
+    public enum SortOrder: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case ascending
+        case descending
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SortOrder] {
+            return [
+                .ascending,
+                .descending
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .ascending: return "ASCENDING"
+            case .descending: return "DESCENDING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension PartnerCentralSellingClientTypes {
+
+    /// Specifies the sorting parameters for listing Engagements.
+    public struct EngagementSort: Swift.Sendable {
+        /// The field by which to sort the results.
+        /// This member is required.
+        public var sortBy: PartnerCentralSellingClientTypes.EngagementSortName?
+        /// The order in which to sort the results.
+        /// This member is required.
+        public var sortOrder: PartnerCentralSellingClientTypes.SortOrder?
+
+        public init(
+            sortBy: PartnerCentralSellingClientTypes.EngagementSortName? = nil,
+            sortOrder: PartnerCentralSellingClientTypes.SortOrder? = nil
+        )
+        {
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+        }
+    }
+}
+
+public struct ListEngagementsInput: Swift.Sendable {
+    /// Specifies the catalog related to the request.
+    /// This member is required.
+    public var catalog: Swift.String?
+    /// A list of AWS account IDs. When specified, the response includes engagements created by these accounts. This filter is useful for finding engagements created by specific team members.
+    public var createdBy: [Swift.String]?
+    /// An array of strings representing engagement identifiers to retrieve.
+    public var engagementIdentifier: [Swift.String]?
+    /// An array of strings representing AWS Account IDs. Use this to exclude engagements created by specific users.
+    public var excludeCreatedBy: [Swift.String]?
+    /// The maximum number of results to return in a single call.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results. This value is returned from a previous call.
+    public var nextToken: Swift.String?
+    /// An object that specifies the sort order of the results.
+    public var sort: PartnerCentralSellingClientTypes.EngagementSort?
+
+    public init(
+        catalog: Swift.String? = nil,
+        createdBy: [Swift.String]? = nil,
+        engagementIdentifier: [Swift.String]? = nil,
+        excludeCreatedBy: [Swift.String]? = nil,
+        maxResults: Swift.Int? = 20,
+        nextToken: Swift.String? = nil,
+        sort: PartnerCentralSellingClientTypes.EngagementSort? = nil
+    )
+    {
+        self.catalog = catalog
+        self.createdBy = createdBy
+        self.engagementIdentifier = engagementIdentifier
+        self.excludeCreatedBy = excludeCreatedBy
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.sort = sort
+    }
+}
+
+extension ListEngagementsInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ListEngagementsInput(catalog: \(Swift.String(describing: catalog)), engagementIdentifier: \(Swift.String(describing: engagementIdentifier)), maxResults: \(Swift.String(describing: maxResults)), nextToken: \(Swift.String(describing: nextToken)), sort: \(Swift.String(describing: sort)), createdBy: \"CONTENT_REDACTED\", excludeCreatedBy: \"CONTENT_REDACTED\")"}
+}
+
+extension PartnerCentralSellingClientTypes {
+
+    /// An object that contains an Engagement's subset of fields.
+    public struct EngagementSummary: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the created engagement.
+        public var arn: Swift.String?
+        /// The date and time when the engagement was created.
+        public var createdAt: Foundation.Date?
+        /// The AWS account ID of the engagement creator.
+        public var createdBy: Swift.String?
+        /// The unique identifier for the engagement.
+        public var id: Swift.String?
+        /// The number of members in the engagement.
+        public var memberCount: Swift.Int?
+        /// The title of the engagement.
+        public var title: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            createdBy: Swift.String? = nil,
+            id: Swift.String? = nil,
+            memberCount: Swift.Int? = nil,
+            title: Swift.String? = nil
+        )
+        {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.id = id
+            self.memberCount = memberCount
+            self.title = title
+        }
+    }
+}
+
+extension PartnerCentralSellingClientTypes.EngagementSummary: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "EngagementSummary(arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), id: \(Swift.String(describing: id)), memberCount: \(Swift.String(describing: memberCount)), title: \(Swift.String(describing: title)), createdBy: \"CONTENT_REDACTED\")"}
+}
+
+public struct ListEngagementsOutput: Swift.Sendable {
+    /// An array of engagement summary objects.
+    /// This member is required.
+    public var engagementSummaryList: [PartnerCentralSellingClientTypes.EngagementSummary]?
+    /// The token to retrieve the next set of results. This field will be null if there are no more results.
+    public var nextToken: Swift.String?
+
+    public init(
+        engagementSummaryList: [PartnerCentralSellingClientTypes.EngagementSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.engagementSummaryList = engagementSummaryList
+        self.nextToken = nextToken
+    }
+}
+
+extension PartnerCentralSellingClientTypes {
+
+    public enum ListTasksSortName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case startTime
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ListTasksSortName] {
+            return [
+                .startTime
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .startTime: return "StartTime"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension PartnerCentralSellingClientTypes {
+
+    /// Defines the sorting parameters for listing tasks. This structure allows for specifying the field to sort by and the order of sorting.
+    public struct ListTasksSortBase: Swift.Sendable {
+        /// Specifies the field by which the task list should be sorted.
+        /// This member is required.
+        public var sortBy: PartnerCentralSellingClientTypes.ListTasksSortName?
+        /// Determines the order in which the sorted results are presented.
+        /// This member is required.
+        public var sortOrder: PartnerCentralSellingClientTypes.SortOrder?
+
+        public init(
+            sortBy: PartnerCentralSellingClientTypes.ListTasksSortName? = nil,
+            sortOrder: PartnerCentralSellingClientTypes.SortOrder? = nil
+        )
+        {
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
         }
     }
 }
@@ -2793,6 +3315,218 @@ extension PartnerCentralSellingClientTypes {
     }
 }
 
+public struct ListEngagementByAcceptingInvitationTasksInput: Swift.Sendable {
+    /// Specifies the catalog related to the request. Valid values are:
+    ///
+    /// * AWS: Retrieves the request from the production AWS environment.
+    ///
+    /// * Sandbox: Retrieves the request from a sandbox environment used for testing or development purposes.
+    /// This member is required.
+    public var catalog: Swift.String?
+    /// Filters tasks by the identifiers of the engagement invitations they are processing.
+    public var engagementInvitationIdentifier: [Swift.String]?
+    /// Use this parameter to control the number of items returned in each request, which can be useful for performance tuning and managing large result sets.
+    public var maxResults: Swift.Int?
+    /// Use this parameter for pagination when the result set spans multiple pages. This value is obtained from the NextToken field in the response of a previous call to this API.
+    public var nextToken: Swift.String?
+    /// Filters tasks by the identifiers of the opportunities they created or are associated with.
+    public var opportunityIdentifier: [Swift.String]?
+    /// Specifies the sorting criteria for the returned results. This allows you to order the tasks based on specific attributes.
+    public var sort: PartnerCentralSellingClientTypes.ListTasksSortBase?
+    /// Filters tasks by their unique identifiers. Use this when you want to retrieve information about specific tasks.
+    public var taskIdentifier: [Swift.String]?
+    /// Filters the tasks based on their current status. This allows you to focus on tasks in specific states.
+    public var taskStatus: [PartnerCentralSellingClientTypes.TaskStatus]?
+
+    public init(
+        catalog: Swift.String? = nil,
+        engagementInvitationIdentifier: [Swift.String]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        opportunityIdentifier: [Swift.String]? = nil,
+        sort: PartnerCentralSellingClientTypes.ListTasksSortBase? = nil,
+        taskIdentifier: [Swift.String]? = nil,
+        taskStatus: [PartnerCentralSellingClientTypes.TaskStatus]? = nil
+    )
+    {
+        self.catalog = catalog
+        self.engagementInvitationIdentifier = engagementInvitationIdentifier
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.opportunityIdentifier = opportunityIdentifier
+        self.sort = sort
+        self.taskIdentifier = taskIdentifier
+        self.taskStatus = taskStatus
+    }
+}
+
+extension PartnerCentralSellingClientTypes {
+
+    public enum ReasonCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case engagementAccessDenied
+        case engagementConflict
+        case engagementInvitationConflict
+        case engagementValidationFailed
+        case internalError
+        case invitationAccessDenied
+        case invitationValidationFailed
+        case opportunityAccessDenied
+        case opportunityConflict
+        case opportunitySubmissionFailed
+        case opportunityValidationFailed
+        case requestThrottled
+        case resourceSnapshotAccessDenied
+        case resourceSnapshotConflict
+        case resourceSnapshotJobAccessDenied
+        case resourceSnapshotJobConflict
+        case resourceSnapshotJobValidationFailed
+        case resourceSnapshotValidationFailed
+        case serviceQuotaExceeded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ReasonCode] {
+            return [
+                .engagementAccessDenied,
+                .engagementConflict,
+                .engagementInvitationConflict,
+                .engagementValidationFailed,
+                .internalError,
+                .invitationAccessDenied,
+                .invitationValidationFailed,
+                .opportunityAccessDenied,
+                .opportunityConflict,
+                .opportunitySubmissionFailed,
+                .opportunityValidationFailed,
+                .requestThrottled,
+                .resourceSnapshotAccessDenied,
+                .resourceSnapshotConflict,
+                .resourceSnapshotJobAccessDenied,
+                .resourceSnapshotJobConflict,
+                .resourceSnapshotJobValidationFailed,
+                .resourceSnapshotValidationFailed,
+                .serviceQuotaExceeded
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .engagementAccessDenied: return "EngagementAccessDenied"
+            case .engagementConflict: return "EngagementConflict"
+            case .engagementInvitationConflict: return "EngagementInvitationConflict"
+            case .engagementValidationFailed: return "EngagementValidationFailed"
+            case .internalError: return "InternalError"
+            case .invitationAccessDenied: return "InvitationAccessDenied"
+            case .invitationValidationFailed: return "InvitationValidationFailed"
+            case .opportunityAccessDenied: return "OpportunityAccessDenied"
+            case .opportunityConflict: return "OpportunityConflict"
+            case .opportunitySubmissionFailed: return "OpportunitySubmissionFailed"
+            case .opportunityValidationFailed: return "OpportunityValidationFailed"
+            case .requestThrottled: return "RequestThrottled"
+            case .resourceSnapshotAccessDenied: return "ResourceSnapshotAccessDenied"
+            case .resourceSnapshotConflict: return "ResourceSnapshotConflict"
+            case .resourceSnapshotJobAccessDenied: return "ResourceSnapshotJobAccessDenied"
+            case .resourceSnapshotJobConflict: return "ResourceSnapshotJobConflict"
+            case .resourceSnapshotJobValidationFailed: return "ResourceSnapshotJobValidationFailed"
+            case .resourceSnapshotValidationFailed: return "ResourceSnapshotValidationFailed"
+            case .serviceQuotaExceeded: return "ServiceQuotaExceeded"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension PartnerCentralSellingClientTypes {
+
+    /// Specifies a subset of fields associated with tasks related to accepting an engagement invitation.
+    public struct ListEngagementByAcceptingInvitationTaskSummary: Swift.Sendable {
+        /// The unique identifier of the engagement invitation that was accepted.
+        public var engagementInvitationId: Swift.String?
+        /// Detailed message describing the failure and possible recovery steps.
+        public var message: Swift.String?
+        /// Unique identifier of opportunity that was created.
+        public var opportunityId: Swift.String?
+        /// A code pointing to the specific reason for the failure.
+        public var reasonCode: PartnerCentralSellingClientTypes.ReasonCode?
+        /// Unique identifier of the resource snapshot job that was created.
+        public var resourceSnapshotJobId: Swift.String?
+        /// Task start timestamp.
+        public var startTime: Foundation.Date?
+        /// The Amazon Resource Name (ARN) that uniquely identifies the task.
+        public var taskArn: Swift.String?
+        /// Unique identifier of the task.
+        public var taskId: Swift.String?
+        /// Status of the task.
+        public var taskStatus: PartnerCentralSellingClientTypes.TaskStatus?
+
+        public init(
+            engagementInvitationId: Swift.String? = nil,
+            message: Swift.String? = nil,
+            opportunityId: Swift.String? = nil,
+            reasonCode: PartnerCentralSellingClientTypes.ReasonCode? = nil,
+            resourceSnapshotJobId: Swift.String? = nil,
+            startTime: Foundation.Date? = nil,
+            taskArn: Swift.String? = nil,
+            taskId: Swift.String? = nil,
+            taskStatus: PartnerCentralSellingClientTypes.TaskStatus? = nil
+        )
+        {
+            self.engagementInvitationId = engagementInvitationId
+            self.message = message
+            self.opportunityId = opportunityId
+            self.reasonCode = reasonCode
+            self.resourceSnapshotJobId = resourceSnapshotJobId
+            self.startTime = startTime
+            self.taskArn = taskArn
+            self.taskId = taskId
+            self.taskStatus = taskStatus
+        }
+    }
+}
+
+public struct ListEngagementByAcceptingInvitationTasksOutput: Swift.Sendable {
+    /// A token used for pagination to retrieve the next page of results.If there are more results available, this field will contain a token that can be used in a subsequent API call to retrieve the next page. If there are no more results, this field will be null or an empty string.
+    public var nextToken: Swift.String?
+    /// An array of EngagementByAcceptingInvitationTaskSummary objects, each representing a task that matches the specified filters. The array may be empty if no tasks match the criteria.
+    public var taskSummaries: [PartnerCentralSellingClientTypes.ListEngagementByAcceptingInvitationTaskSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        taskSummaries: [PartnerCentralSellingClientTypes.ListEngagementByAcceptingInvitationTaskSummary]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.taskSummaries = taskSummaries
+    }
+}
+
+public struct StartEngagementByAcceptingInvitationTaskInput: Swift.Sendable {
+    /// Specifies the catalog related to the task. Use AWS for production engagements and Sandbox for testing scenarios.
+    /// This member is required.
+    public var catalog: Swift.String?
+    /// A unique, case-sensitive identifier provided by the client that helps to ensure the idempotency of the request. This can be a random or meaningful string but must be unique for each request.
+    /// This member is required.
+    public var clientToken: Swift.String?
+    /// Specifies the unique identifier of the EngagementInvitation to be accepted. Providing the correct identifier helps ensure that the correct engagement is processed.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        catalog: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        identifier: Swift.String? = nil
+    )
+    {
+        self.catalog = catalog
+        self.clientToken = clientToken
+        self.identifier = identifier
+    }
+}
+
 public struct StartEngagementByAcceptingInvitationTaskOutput: Swift.Sendable {
     /// Returns the identifier of the engagement invitation that was accepted and used to create the opportunity.
     public var engagementInvitationId: Swift.String?
@@ -2802,6 +3536,8 @@ public struct StartEngagementByAcceptingInvitationTaskOutput: Swift.Sendable {
     public var opportunityId: Swift.String?
     /// Indicates the reason for task failure using an enumerated code.
     public var reasonCode: PartnerCentralSellingClientTypes.ReasonCode?
+    /// The identifier of the resource snapshot job created as part of this task.
+    public var resourceSnapshotJobId: Swift.String?
     /// The timestamp indicating when the task was initiated. The format follows RFC 3339 section 5.6.
     public var startTime: Foundation.Date?
     /// The Amazon Resource Name (ARN) of the task, used for tracking and managing the task within AWS.
@@ -2816,6 +3552,7 @@ public struct StartEngagementByAcceptingInvitationTaskOutput: Swift.Sendable {
         message: Swift.String? = nil,
         opportunityId: Swift.String? = nil,
         reasonCode: PartnerCentralSellingClientTypes.ReasonCode? = nil,
+        resourceSnapshotJobId: Swift.String? = nil,
         startTime: Foundation.Date? = nil,
         taskArn: Swift.String? = nil,
         taskId: Swift.String? = nil,
@@ -2826,10 +3563,124 @@ public struct StartEngagementByAcceptingInvitationTaskOutput: Swift.Sendable {
         self.message = message
         self.opportunityId = opportunityId
         self.reasonCode = reasonCode
+        self.resourceSnapshotJobId = resourceSnapshotJobId
         self.startTime = startTime
         self.taskArn = taskArn
         self.taskId = taskId
         self.taskStatus = taskStatus
+    }
+}
+
+public struct ListEngagementFromOpportunityTasksInput: Swift.Sendable {
+    /// Specifies the catalog related to the request. Valid values are:
+    ///
+    /// * AWS: Retrieves the request from the production AWS environment.
+    ///
+    /// * Sandbox: Retrieves the request from a sandbox environment used for testing or development purposes.
+    /// This member is required.
+    public var catalog: Swift.String?
+    /// Filters tasks by the identifiers of the engagements they created or are associated with.
+    public var engagementIdentifier: [Swift.String]?
+    /// Specifies the maximum number of results to return in a single page of the response.Use this parameter to control the number of items returned in each request, which can be useful for performance tuning and managing large result sets.
+    public var maxResults: Swift.Int?
+    /// The token for requesting the next page of results. This value is obtained from the NextToken field in the response of a previous call to this API. Use this parameter for pagination when the result set spans multiple pages.
+    public var nextToken: Swift.String?
+    /// The identifier of the original opportunity associated with this task.
+    public var opportunityIdentifier: [Swift.String]?
+    /// Specifies the sorting criteria for the returned results. This allows you to order the tasks based on specific attributes.
+    public var sort: PartnerCentralSellingClientTypes.ListTasksSortBase?
+    /// Filters tasks by their unique identifiers. Use this when you want to retrieve information about specific tasks.
+    public var taskIdentifier: [Swift.String]?
+    /// Filters the tasks based on their current status. This allows you to focus on tasks in specific states.
+    public var taskStatus: [PartnerCentralSellingClientTypes.TaskStatus]?
+
+    public init(
+        catalog: Swift.String? = nil,
+        engagementIdentifier: [Swift.String]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        opportunityIdentifier: [Swift.String]? = nil,
+        sort: PartnerCentralSellingClientTypes.ListTasksSortBase? = nil,
+        taskIdentifier: [Swift.String]? = nil,
+        taskStatus: [PartnerCentralSellingClientTypes.TaskStatus]? = nil
+    )
+    {
+        self.catalog = catalog
+        self.engagementIdentifier = engagementIdentifier
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.opportunityIdentifier = opportunityIdentifier
+        self.sort = sort
+        self.taskIdentifier = taskIdentifier
+        self.taskStatus = taskStatus
+    }
+}
+
+extension PartnerCentralSellingClientTypes {
+
+    /// Provides a summary of a task related to creating an engagement from an opportunity. This structure contains key information about the task's status, associated identifiers, and any failure details.
+    public struct ListEngagementFromOpportunityTaskSummary: Swift.Sendable {
+        /// The unique identifier of the engagement created as a result of the task. This field is populated when the task is completed successfully.
+        public var engagementId: Swift.String?
+        /// The unique identifier of the engagement identifier created as a result of the task. This field is populated when the task is completed successfully.
+        public var engagementInvitationId: Swift.String?
+        /// A detailed message providing additional information about the task, especially useful in case of failures. This field may contain error details or other relevant information about the task's execution
+        public var message: Swift.String?
+        /// The unique identifier of the original Opportunity from which the Engagement is being created. This field helps track the source of the Engagement creation task.
+        public var opportunityId: Swift.String?
+        /// A code indicating the specific reason for a task failure. This field is populated when the task status is FAILED and provides a categorized reason for the failure.
+        public var reasonCode: PartnerCentralSellingClientTypes.ReasonCode?
+        /// The identifier of the resource snapshot job associated with this task, if a snapshot was created as part of the Engagement creation process.
+        public var resourceSnapshotJobId: Swift.String?
+        /// The timestamp indicating when the task was initiated, in RFC 3339 5.6 date-time format.
+        public var startTime: Foundation.Date?
+        /// The Amazon Resource Name (ARN) uniquely identifying this task within AWS. This ARN can be used for referencing the task in other AWS services or APIs.
+        public var taskArn: Swift.String?
+        /// A unique identifier for a specific task.
+        public var taskId: Swift.String?
+        /// The current status of the task.
+        public var taskStatus: PartnerCentralSellingClientTypes.TaskStatus?
+
+        public init(
+            engagementId: Swift.String? = nil,
+            engagementInvitationId: Swift.String? = nil,
+            message: Swift.String? = nil,
+            opportunityId: Swift.String? = nil,
+            reasonCode: PartnerCentralSellingClientTypes.ReasonCode? = nil,
+            resourceSnapshotJobId: Swift.String? = nil,
+            startTime: Foundation.Date? = nil,
+            taskArn: Swift.String? = nil,
+            taskId: Swift.String? = nil,
+            taskStatus: PartnerCentralSellingClientTypes.TaskStatus? = nil
+        )
+        {
+            self.engagementId = engagementId
+            self.engagementInvitationId = engagementInvitationId
+            self.message = message
+            self.opportunityId = opportunityId
+            self.reasonCode = reasonCode
+            self.resourceSnapshotJobId = resourceSnapshotJobId
+            self.startTime = startTime
+            self.taskArn = taskArn
+            self.taskId = taskId
+            self.taskStatus = taskStatus
+        }
+    }
+}
+
+public struct ListEngagementFromOpportunityTasksOutput: Swift.Sendable {
+    /// A token used for pagination to retrieve the next page of results. If there are more results available, this field will contain a token that can be used in a subsequent API call to retrieve the next page. If there are no more results, this field will be null or an empty string.
+    public var nextToken: Swift.String?
+    /// TaskSummaries An array of TaskSummary objects containing details about each task.
+    public var taskSummaries: [PartnerCentralSellingClientTypes.ListEngagementFromOpportunityTaskSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        taskSummaries: [PartnerCentralSellingClientTypes.ListEngagementFromOpportunityTaskSummary]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.taskSummaries = taskSummaries
     }
 }
 
@@ -2941,12 +3792,18 @@ public struct StartEngagementFromOpportunityTaskInput: Swift.Sendable {
 }
 
 public struct StartEngagementFromOpportunityTaskOutput: Swift.Sendable {
+    /// The identifier of the newly created engagement. Only populated if TaskStatus is COMPLETE.
+    public var engagementId: Swift.String?
+    /// The identifier of the new engagement invitation. Only populated if TaskStatus is COMPLETE.
+    public var engagementInvitationId: Swift.String?
     /// If the task fails, this field contains a detailed message describing the failure and possible recovery steps.
     public var message: Swift.String?
     /// Returns the original opportunity identifier passed in the request, which is the unique identifier for the opportunity created in the partner’s system.
     public var opportunityId: Swift.String?
     /// Indicates the reason for task failure using an enumerated code.
     public var reasonCode: PartnerCentralSellingClientTypes.ReasonCode?
+    /// The identifier of the resource snapshot job created to add the opportunity resource snapshot to the Engagement. Only populated if TaskStatus is COMPLETE.
+    public var resourceSnapshotJobId: Swift.String?
     /// The timestamp indicating when the task was initiated. The format follows RFC 3339 section 5.6.
     public var startTime: Foundation.Date?
     /// The Amazon Resource Name (ARN) of the task, used for tracking and managing the task within AWS.
@@ -2957,78 +3814,29 @@ public struct StartEngagementFromOpportunityTaskOutput: Swift.Sendable {
     public var taskStatus: PartnerCentralSellingClientTypes.TaskStatus?
 
     public init(
+        engagementId: Swift.String? = nil,
+        engagementInvitationId: Swift.String? = nil,
         message: Swift.String? = nil,
         opportunityId: Swift.String? = nil,
         reasonCode: PartnerCentralSellingClientTypes.ReasonCode? = nil,
+        resourceSnapshotJobId: Swift.String? = nil,
         startTime: Foundation.Date? = nil,
         taskArn: Swift.String? = nil,
         taskId: Swift.String? = nil,
         taskStatus: PartnerCentralSellingClientTypes.TaskStatus? = nil
     )
     {
+        self.engagementId = engagementId
+        self.engagementInvitationId = engagementInvitationId
         self.message = message
         self.opportunityId = opportunityId
         self.reasonCode = reasonCode
+        self.resourceSnapshotJobId = resourceSnapshotJobId
         self.startTime = startTime
         self.taskArn = taskArn
         self.taskId = taskId
         self.taskStatus = taskStatus
     }
-}
-
-public struct GetEngagementInvitationInput: Swift.Sendable {
-    /// Specifies the catalog associated with the request. The field accepts values from the predefined set: AWS for live operations or Sandbox for testing environments.
-    /// This member is required.
-    public var catalog: Swift.String?
-    /// Specifies the unique identifier for the retrieved engagement invitation.
-    /// This member is required.
-    public var identifier: Swift.String?
-
-    public init(
-        catalog: Swift.String? = nil,
-        identifier: Swift.String? = nil
-    )
-    {
-        self.catalog = catalog
-        self.identifier = identifier
-    }
-}
-
-extension PartnerCentralSellingClientTypes {
-
-    /// Contains details about the customer associated with the Engagement Invitation, including company information and industry.
-    public struct EngagementCustomer: Swift.Sendable {
-        /// Represents the name of the customer’s company associated with the Engagement Invitation. This field is used to identify the customer.
-        /// This member is required.
-        public var companyName: Swift.String?
-        /// Indicates the country in which the customer’s company operates. This field is useful for understanding regional requirements or compliance needs.
-        /// This member is required.
-        public var countryCode: PartnerCentralSellingClientTypes.CountryCode?
-        /// Specifies the industry to which the customer’s company belongs. This field helps categorize the opportunity based on the customer’s business sector.
-        /// This member is required.
-        public var industry: PartnerCentralSellingClientTypes.Industry?
-        /// Provides the website URL of the customer’s company. This field helps partners verify the legitimacy and size of the customer organization.
-        /// This member is required.
-        public var websiteUrl: Swift.String?
-
-        public init(
-            companyName: Swift.String? = nil,
-            countryCode: PartnerCentralSellingClientTypes.CountryCode? = nil,
-            industry: PartnerCentralSellingClientTypes.Industry? = nil,
-            websiteUrl: Swift.String? = nil
-        )
-        {
-            self.companyName = companyName
-            self.countryCode = countryCode
-            self.industry = industry
-            self.websiteUrl = websiteUrl
-        }
-    }
-}
-
-extension PartnerCentralSellingClientTypes.EngagementCustomer: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "EngagementCustomer(companyName: \(Swift.String(describing: companyName)), industry: \(Swift.String(describing: industry)), countryCode: \"CONTENT_REDACTED\", websiteUrl: \"CONTENT_REDACTED\")"}
 }
 
 extension PartnerCentralSellingClientTypes {
@@ -3199,6 +4007,127 @@ extension PartnerCentralSellingClientTypes {
 
 extension PartnerCentralSellingClientTypes {
 
+    /// Represents the entity that received the Engagement Invitation, including account and company details. This field is essential for tracking the partner who is being invited to collaborate.
+    public enum Receiver: Swift.Sendable {
+        /// Specifies the AWS account of the partner who received the Engagement Invitation. This field is used to track the invitation recipient within the AWS ecosystem.
+        case account(PartnerCentralSellingClientTypes.AccountReceiver)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension PartnerCentralSellingClientTypes {
+
+    /// The Invitation structure represents an invitation exchanged between partners and AWS. It includes a message, receiver information, and a payload providing context for the invitation.
+    public struct Invitation: Swift.Sendable {
+        /// A message accompanying the invitation.
+        /// This member is required.
+        public var message: Swift.String?
+        /// Contains the data payload associated with the Engagement Invitation. This payload includes essential details related to the AWS opportunity and is used by partners to evaluate whether to accept or reject the engagement.
+        /// This member is required.
+        public var payload: PartnerCentralSellingClientTypes.Payload?
+        /// Represents the entity that received the Engagement Invitation, including account and company details. This field is essential for tracking the partner who is being invited to collaborate.
+        /// This member is required.
+        public var receiver: PartnerCentralSellingClientTypes.Receiver?
+
+        public init(
+            message: Swift.String? = nil,
+            payload: PartnerCentralSellingClientTypes.Payload? = nil,
+            receiver: PartnerCentralSellingClientTypes.Receiver? = nil
+        )
+        {
+            self.message = message
+            self.payload = payload
+            self.receiver = receiver
+        }
+    }
+}
+
+public struct CreateEngagementInvitationInput: Swift.Sendable {
+    /// Specifies the catalog related to the engagement. Accepted values are AWS and Sandbox, which determine the environment in which the engagement is managed.
+    /// This member is required.
+    public var catalog: Swift.String?
+    /// Specifies a unique, client-generated UUID to ensure that the request is handled exactly once. This token helps prevent duplicate invitation creations.
+    /// This member is required.
+    public var clientToken: Swift.String?
+    /// The unique identifier of the Engagement associated with the invitation. This parameter ensures the invitation is created within the correct Engagement context.
+    /// This member is required.
+    public var engagementIdentifier: Swift.String?
+    /// The Invitation object all information necessary to initiate an engagement invitation to a partner. It contains a personalized message from the sender, the invitation's receiver, and a payload. The Payload can be the OpportunityInvitation, which includes detailed structures for sender contacts, partner responsibilities, customer information, and project details.
+    /// This member is required.
+    public var invitation: PartnerCentralSellingClientTypes.Invitation?
+
+    public init(
+        catalog: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        engagementIdentifier: Swift.String? = nil,
+        invitation: PartnerCentralSellingClientTypes.Invitation? = nil
+    )
+    {
+        self.catalog = catalog
+        self.clientToken = clientToken
+        self.engagementIdentifier = engagementIdentifier
+        self.invitation = invitation
+    }
+}
+
+public struct CreateEngagementInvitationOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) that uniquely identifies the engagement invitation.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// Unique identifier assigned to the newly created engagement invitation.
+    /// This member is required.
+    public var id: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil,
+        id: Swift.String? = nil
+    )
+    {
+        self.arn = arn
+        self.id = id
+    }
+}
+
+public struct GetEngagementInvitationInput: Swift.Sendable {
+    /// Specifies the catalog associated with the request. The field accepts values from the predefined set: AWS for live operations or Sandbox for testing environments.
+    /// This member is required.
+    public var catalog: Swift.String?
+    /// Specifies the unique identifier for the retrieved engagement invitation.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        catalog: Swift.String? = nil,
+        identifier: Swift.String? = nil
+    )
+    {
+        self.catalog = catalog
+        self.identifier = identifier
+    }
+}
+
+extension PartnerCentralSellingClientTypes {
+
+    /// The EngagementMemberSummary provides a snapshot of essential information about participants in an AWS Partner Central Engagement. This compact data structure encapsulates key details of each member, facilitating efficient collaboration and management within the Engagement.
+    public struct EngagementMemberSummary: Swift.Sendable {
+        /// The official name of the member's company or organization.
+        public var companyName: Swift.String?
+        /// The URL of the member company's website. This offers a way to find more information about the member organization and serves as an additional identifier.
+        public var websiteUrl: Swift.String?
+
+        public init(
+            companyName: Swift.String? = nil,
+            websiteUrl: Swift.String? = nil
+        )
+        {
+            self.companyName = companyName
+            self.websiteUrl = websiteUrl
+        }
+    }
+}
+
+extension PartnerCentralSellingClientTypes {
+
     public enum EngagementInvitationPayloadType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case opportunityInvitation
         case sdkUnknown(Swift.String)
@@ -3220,16 +4149,6 @@ extension PartnerCentralSellingClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-    }
-}
-
-extension PartnerCentralSellingClientTypes {
-
-    /// Represents the entity that received the Engagement Invitation, including account and company details. This field is essential for tracking the partner who is being invited to collaborate.
-    public enum Receiver: Swift.Sendable {
-        /// Specifies the AWS account of the partner who received the Engagement Invitation. This field is used to track the invitation recipient within the AWS ecosystem.
-        case account(PartnerCentralSellingClientTypes.AccountReceiver)
-        case sdkUnknown(Swift.String)
     }
 }
 
@@ -3274,8 +4193,18 @@ public struct GetEngagementInvitationOutput: Swift.Sendable {
     /// Indicates the catalog from which the engagement invitation details are retrieved. This field helps in identifying the appropriate catalog (e.g., AWS or Sandbox) used in the request.
     /// This member is required.
     public var catalog: Swift.String?
+    /// The description of the engagement associated with this invitation.
+    public var engagementDescription: Swift.String?
+    /// The identifier of the engagement associated with this invitation.This ID links the invitation to its corresponding engagement.
+    public var engagementId: Swift.String?
     /// The title of the engagement invitation, summarizing the purpose or objectives of the opportunity shared by AWS.
     public var engagementTitle: Swift.String?
+    /// A list of active members currently part of the Engagement. This array contains a maximum of 10 members, each represented by an object with the following properties.
+    ///
+    /// * CompanyName: The name of the member's company.
+    ///
+    /// * WebsiteUrl: The website URL of the member's company.
+    public var existingMembers: [PartnerCentralSellingClientTypes.EngagementMemberSummary]?
     /// Indicates the date on which the engagement invitation will expire if not accepted by the partner.
     public var expirationDate: Foundation.Date?
     /// Unique identifier assigned to the engagement invitation being retrieved.
@@ -3283,6 +4212,8 @@ public struct GetEngagementInvitationOutput: Swift.Sendable {
     public var id: Swift.String?
     /// The date when the engagement invitation was sent to the partner.
     public var invitationDate: Foundation.Date?
+    /// The message sent to the invited partner when the invitation was created.
+    public var invitationMessage: Swift.String?
     /// Details of the engagement invitation payload, including specific data relevant to the invitation's contents, such as customer information and opportunity insights.
     public var payload: PartnerCentralSellingClientTypes.Payload?
     /// The type of payload contained in the engagement invitation, indicating what data or context the payload covers.
@@ -3301,10 +4232,14 @@ public struct GetEngagementInvitationOutput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         catalog: Swift.String? = nil,
+        engagementDescription: Swift.String? = nil,
+        engagementId: Swift.String? = nil,
         engagementTitle: Swift.String? = nil,
+        existingMembers: [PartnerCentralSellingClientTypes.EngagementMemberSummary]? = nil,
         expirationDate: Foundation.Date? = nil,
         id: Swift.String? = nil,
         invitationDate: Foundation.Date? = nil,
+        invitationMessage: Swift.String? = nil,
         payload: PartnerCentralSellingClientTypes.Payload? = nil,
         payloadType: PartnerCentralSellingClientTypes.EngagementInvitationPayloadType? = nil,
         receiver: PartnerCentralSellingClientTypes.Receiver? = nil,
@@ -3316,10 +4251,14 @@ public struct GetEngagementInvitationOutput: Swift.Sendable {
     {
         self.arn = arn
         self.catalog = catalog
+        self.engagementDescription = engagementDescription
+        self.engagementId = engagementId
         self.engagementTitle = engagementTitle
+        self.existingMembers = existingMembers
         self.expirationDate = expirationDate
         self.id = id
         self.invitationDate = invitationDate
+        self.invitationMessage = invitationMessage
         self.payload = payload
         self.payloadType = payloadType
         self.receiver = receiver
@@ -3332,18 +4271,20 @@ public struct GetEngagementInvitationOutput: Swift.Sendable {
 
 extension GetEngagementInvitationOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetEngagementInvitationOutput(arn: \(Swift.String(describing: arn)), catalog: \(Swift.String(describing: catalog)), engagementTitle: \(Swift.String(describing: engagementTitle)), expirationDate: \(Swift.String(describing: expirationDate)), id: \(Swift.String(describing: id)), invitationDate: \(Swift.String(describing: invitationDate)), payload: \(Swift.String(describing: payload)), payloadType: \(Swift.String(describing: payloadType)), receiver: \(Swift.String(describing: receiver)), rejectionReason: \(Swift.String(describing: rejectionReason)), senderCompanyName: \(Swift.String(describing: senderCompanyName)), status: \(Swift.String(describing: status)), senderAwsAccountId: \"CONTENT_REDACTED\")"}
+        "GetEngagementInvitationOutput(arn: \(Swift.String(describing: arn)), catalog: \(Swift.String(describing: catalog)), engagementDescription: \(Swift.String(describing: engagementDescription)), engagementId: \(Swift.String(describing: engagementId)), engagementTitle: \(Swift.String(describing: engagementTitle)), existingMembers: \(Swift.String(describing: existingMembers)), expirationDate: \(Swift.String(describing: expirationDate)), id: \(Swift.String(describing: id)), invitationDate: \(Swift.String(describing: invitationDate)), invitationMessage: \(Swift.String(describing: invitationMessage)), payload: \(Swift.String(describing: payload)), payloadType: \(Swift.String(describing: payloadType)), receiver: \(Swift.String(describing: receiver)), rejectionReason: \(Swift.String(describing: rejectionReason)), senderCompanyName: \(Swift.String(describing: senderCompanyName)), status: \(Swift.String(describing: status)), senderAwsAccountId: \"CONTENT_REDACTED\")"}
 }
 
 extension PartnerCentralSellingClientTypes {
 
     public enum ParticipantType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case receiver
+        case sender
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ParticipantType] {
             return [
-                .receiver
+                .receiver,
+                .sender
             ]
         }
 
@@ -3355,6 +4296,7 @@ extension PartnerCentralSellingClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .receiver: return "RECEIVER"
+            case .sender: return "SENDER"
             case let .sdkUnknown(s): return s
             }
         }
@@ -3389,35 +4331,6 @@ extension PartnerCentralSellingClientTypes {
 
 extension PartnerCentralSellingClientTypes {
 
-    public enum SortOrder: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case ascending
-        case descending
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [SortOrder] {
-            return [
-                .ascending,
-                .descending
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .ascending: return "ASCENDING"
-            case .descending: return "DESCENDING"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension PartnerCentralSellingClientTypes {
-
     /// Defines sorting options for retrieving Engagement Invitations. Sorting can be done based on various criteria like the invitation date or status.
     public struct OpportunityEngagementInvitationSort: Swift.Sendable {
         /// Specifies the field by which the Engagement Invitations are sorted. Common values include InvitationDate and Status.
@@ -3442,6 +4355,8 @@ public struct ListEngagementInvitationsInput: Swift.Sendable {
     /// Specifies the catalog from which to list the engagement invitations. Use AWS for production invitations or Sandbox for testing environments.
     /// This member is required.
     public var catalog: Swift.String?
+    /// Retrieves a list of engagement invitation summaries based on specified filters. The ListEngagementInvitations operation allows you to view all invitations that you have sent or received. You must specify the ParticipantType to filter invitations where you are either the SENDER or the RECEIVER. Invitations will automatically expire if not accepted within 15 days.
+    public var engagementIdentifier: [Swift.String]?
     /// Specifies the maximum number of engagement invitations to return in the response. If more results are available, a pagination token will be provided.
     public var maxResults: Swift.Int?
     /// A pagination token used to retrieve additional pages of results when the response to a previous request was truncated. Pass this token to continue listing invitations from where the previous call left off.
@@ -3451,25 +4366,40 @@ public struct ListEngagementInvitationsInput: Swift.Sendable {
     public var participantType: PartnerCentralSellingClientTypes.ParticipantType?
     /// Defines the type of payload associated with the engagement invitations to be listed. The attributes in this payload help decide on acceptance or rejection of the invitation.
     public var payloadType: [PartnerCentralSellingClientTypes.EngagementInvitationPayloadType]?
+    /// List of sender AWS account IDs to filter the invitations.
+    public var senderAwsAccountId: [Swift.String]?
     /// Specifies the sorting options for listing engagement invitations. Invitations can be sorted by fields such as InvitationDate or Status to help partners view results in their preferred order.
     public var sort: PartnerCentralSellingClientTypes.OpportunityEngagementInvitationSort?
+    /// Status values to filter the invitations.
+    public var status: [PartnerCentralSellingClientTypes.InvitationStatus]?
 
     public init(
         catalog: Swift.String? = nil,
+        engagementIdentifier: [Swift.String]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         participantType: PartnerCentralSellingClientTypes.ParticipantType? = nil,
         payloadType: [PartnerCentralSellingClientTypes.EngagementInvitationPayloadType]? = nil,
-        sort: PartnerCentralSellingClientTypes.OpportunityEngagementInvitationSort? = nil
+        senderAwsAccountId: [Swift.String]? = nil,
+        sort: PartnerCentralSellingClientTypes.OpportunityEngagementInvitationSort? = nil,
+        status: [PartnerCentralSellingClientTypes.InvitationStatus]? = nil
     )
     {
         self.catalog = catalog
+        self.engagementIdentifier = engagementIdentifier
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.participantType = participantType
         self.payloadType = payloadType
+        self.senderAwsAccountId = senderAwsAccountId
         self.sort = sort
+        self.status = status
     }
+}
+
+extension ListEngagementInvitationsInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ListEngagementInvitationsInput(catalog: \(Swift.String(describing: catalog)), engagementIdentifier: \(Swift.String(describing: engagementIdentifier)), maxResults: \(Swift.String(describing: maxResults)), nextToken: \(Swift.String(describing: nextToken)), participantType: \(Swift.String(describing: participantType)), payloadType: \(Swift.String(describing: payloadType)), sort: \(Swift.String(describing: sort)), status: \(Swift.String(describing: status)), senderAwsAccountId: \"CONTENT_REDACTED\")"}
 }
 
 extension PartnerCentralSellingClientTypes {
@@ -3481,6 +4411,8 @@ extension PartnerCentralSellingClientTypes {
         /// Specifies the catalog in which the Engagement Invitation resides. This can be either the AWS or Sandbox catalog, indicating whether the opportunity is live or being tested.
         /// This member is required.
         public var catalog: Swift.String?
+        /// The identifier of the Engagement associated with this invitation. This links the invitation to its parent Engagement.
+        public var engagementId: Swift.String?
         /// Provides a short title or description of the Engagement Invitation. This title helps partners quickly identify and differentiate between multiple engagement opportunities.
         public var engagementTitle: Swift.String?
         /// Indicates the date and time when the Engagement Invitation will expire. After this date, the invitation can no longer be accepted, and the opportunity will be unavailable to the partner.
@@ -3490,6 +4422,8 @@ extension PartnerCentralSellingClientTypes {
         public var id: Swift.String?
         /// Indicates the date when the Engagement Invitation was sent to the partner. This provides context for when the opportunity was shared and helps in tracking the timeline for engagement.
         public var invitationDate: Foundation.Date?
+        /// Identifies the role of the caller in the engagement invitation.
+        public var participantType: PartnerCentralSellingClientTypes.ParticipantType?
         /// Describes the type of payload associated with the Engagement Invitation, such as Opportunity or MarketplaceOffer. This helps partners understand the nature of the engagement request from AWS.
         public var payloadType: PartnerCentralSellingClientTypes.EngagementInvitationPayloadType?
         /// Specifies the partner company or individual that received the Engagement Invitation. This field is important for tracking who the invitation was sent to within the partner organization.
@@ -3504,10 +4438,12 @@ extension PartnerCentralSellingClientTypes {
         public init(
             arn: Swift.String? = nil,
             catalog: Swift.String? = nil,
+            engagementId: Swift.String? = nil,
             engagementTitle: Swift.String? = nil,
             expirationDate: Foundation.Date? = nil,
             id: Swift.String? = nil,
             invitationDate: Foundation.Date? = nil,
+            participantType: PartnerCentralSellingClientTypes.ParticipantType? = nil,
             payloadType: PartnerCentralSellingClientTypes.EngagementInvitationPayloadType? = nil,
             receiver: PartnerCentralSellingClientTypes.Receiver? = nil,
             senderAwsAccountId: Swift.String? = nil,
@@ -3517,10 +4453,12 @@ extension PartnerCentralSellingClientTypes {
         {
             self.arn = arn
             self.catalog = catalog
+            self.engagementId = engagementId
             self.engagementTitle = engagementTitle
             self.expirationDate = expirationDate
             self.id = id
             self.invitationDate = invitationDate
+            self.participantType = participantType
             self.payloadType = payloadType
             self.receiver = receiver
             self.senderAwsAccountId = senderAwsAccountId
@@ -3532,7 +4470,7 @@ extension PartnerCentralSellingClientTypes {
 
 extension PartnerCentralSellingClientTypes.EngagementInvitationSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "EngagementInvitationSummary(arn: \(Swift.String(describing: arn)), catalog: \(Swift.String(describing: catalog)), engagementTitle: \(Swift.String(describing: engagementTitle)), expirationDate: \(Swift.String(describing: expirationDate)), id: \(Swift.String(describing: id)), invitationDate: \(Swift.String(describing: invitationDate)), payloadType: \(Swift.String(describing: payloadType)), receiver: \(Swift.String(describing: receiver)), senderCompanyName: \(Swift.String(describing: senderCompanyName)), status: \(Swift.String(describing: status)), senderAwsAccountId: \"CONTENT_REDACTED\")"}
+        "EngagementInvitationSummary(arn: \(Swift.String(describing: arn)), catalog: \(Swift.String(describing: catalog)), engagementId: \(Swift.String(describing: engagementId)), engagementTitle: \(Swift.String(describing: engagementTitle)), expirationDate: \(Swift.String(describing: expirationDate)), id: \(Swift.String(describing: id)), invitationDate: \(Swift.String(describing: invitationDate)), participantType: \(Swift.String(describing: participantType)), payloadType: \(Swift.String(describing: payloadType)), receiver: \(Swift.String(describing: receiver)), senderCompanyName: \(Swift.String(describing: senderCompanyName)), status: \(Swift.String(describing: status)), senderAwsAccountId: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListEngagementInvitationsOutput: Swift.Sendable {
@@ -4803,6 +5741,8 @@ extension PartnerCentralSellingClientTypes {
 }
 
 public struct GetOpportunityOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) that uniquely identifies the opportunity.
+    public var arn: Swift.String?
     /// Specifies the catalog associated with the request. This field takes a string value from a predefined list: AWS or Sandbox. The catalog determines which environment the opportunity information is retrieved from. Use AWS to retrieve opportunities in the Amazon Web Services catalog, and Sandbox to retrieve opportunities in a secure and isolated testing environment.
     /// This member is required.
     public var catalog: Swift.String?
@@ -4864,6 +5804,7 @@ public struct GetOpportunityOutput: Swift.Sendable {
     public var softwareRevenue: PartnerCentralSellingClientTypes.SoftwareRevenue?
 
     public init(
+        arn: Swift.String? = nil,
         catalog: Swift.String? = nil,
         createdDate: Foundation.Date? = nil,
         customer: PartnerCentralSellingClientTypes.Customer? = nil,
@@ -4881,6 +5822,7 @@ public struct GetOpportunityOutput: Swift.Sendable {
         softwareRevenue: PartnerCentralSellingClientTypes.SoftwareRevenue? = nil
     )
     {
+        self.arn = arn
         self.catalog = catalog
         self.createdDate = createdDate
         self.customer = customer
@@ -5166,6 +6108,8 @@ extension PartnerCentralSellingClientTypes {
 
     /// An object that contains an Opportunity's subset of fields.
     public struct OpportunitySummary: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) for the opportunity. This globally unique identifier can be used for IAM policies and cross-service references.
+        public var arn: Swift.String?
         /// Specifies the catalog associated with the opportunity, either AWS or Sandbox. This indicates the environment in which the opportunity is managed.
         /// This member is required.
         public var catalog: Swift.String?
@@ -5193,6 +6137,7 @@ extension PartnerCentralSellingClientTypes {
         public var project: PartnerCentralSellingClientTypes.ProjectSummary?
 
         public init(
+            arn: Swift.String? = nil,
             catalog: Swift.String? = nil,
             createdDate: Foundation.Date? = nil,
             customer: PartnerCentralSellingClientTypes.CustomerSummary? = nil,
@@ -5204,6 +6149,7 @@ extension PartnerCentralSellingClientTypes {
             project: PartnerCentralSellingClientTypes.ProjectSummary? = nil
         )
         {
+            self.arn = arn
             self.catalog = catalog
             self.createdDate = createdDate
             self.customer = customer
@@ -5231,6 +6177,33 @@ public struct ListOpportunitiesOutput: Swift.Sendable {
     {
         self.nextToken = nextToken
         self.opportunitySummaries = opportunitySummaries
+    }
+}
+
+public struct SubmitOpportunityInput: Swift.Sendable {
+    /// Specifies the catalog related to the request.
+    /// This member is required.
+    public var catalog: Swift.String?
+    /// The identifier of the opportunity previously created by partner and needs to be submitted.
+    /// This member is required.
+    public var identifier: Swift.String?
+    /// Specifies the level of AWS sellers' involvement on the opportunity.
+    /// This member is required.
+    public var involvementType: PartnerCentralSellingClientTypes.SalesInvolvementType?
+    /// Determines whether to restrict visibility of the opportunity from AWS sales. Default value is Full.
+    public var visibility: PartnerCentralSellingClientTypes.Visibility?
+
+    public init(
+        catalog: Swift.String? = nil,
+        identifier: Swift.String? = nil,
+        involvementType: PartnerCentralSellingClientTypes.SalesInvolvementType? = nil,
+        visibility: PartnerCentralSellingClientTypes.Visibility? = nil
+    )
+    {
+        self.catalog = catalog
+        self.identifier = identifier
+        self.involvementType = involvementType
+        self.visibility = visibility
     }
 }
 
@@ -5332,6 +6305,911 @@ public struct UpdateOpportunityOutput: Swift.Sendable {
     {
         self.id = id
         self.lastModifiedDate = lastModifiedDate
+    }
+}
+
+extension PartnerCentralSellingClientTypes {
+
+    public enum ResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case opportunity
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResourceType] {
+            return [
+                .opportunity
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .opportunity: return "Opportunity"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateResourceSnapshotInput: Swift.Sendable {
+    /// Specifies the catalog where the snapshot is created. Valid values are AWS and Sandbox.
+    /// This member is required.
+    public var catalog: Swift.String?
+    /// Specifies a unique, client-generated UUID to ensure that the request is handled exactly once. This token helps prevent duplicate snapshot creations.
+    /// This member is required.
+    public var clientToken: Swift.String?
+    /// The unique identifier of the engagement associated with this snapshot. This field links the snapshot to a specific engagement context.
+    /// This member is required.
+    public var engagementIdentifier: Swift.String?
+    /// The unique identifier of the specific resource to be snapshotted. The format and constraints of this identifier depend on the ResourceType specified. For example: For Opportunity type, it will be an opportunity ID.
+    /// This member is required.
+    public var resourceIdentifier: Swift.String?
+    /// The name of the template that defines the schema for the snapshot. This template determines which subset of the resource data will be included in the snapshot. Must correspond to an existing and valid template for the specified ResourceType.
+    /// This member is required.
+    public var resourceSnapshotTemplateIdentifier: Swift.String?
+    /// Specifies the type of resource for which the snapshot is being created. This field determines the structure and content of the snapshot. Must be one of the supported resource types, such as: Opportunity.
+    /// This member is required.
+    public var resourceType: PartnerCentralSellingClientTypes.ResourceType?
+
+    public init(
+        catalog: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        engagementIdentifier: Swift.String? = nil,
+        resourceIdentifier: Swift.String? = nil,
+        resourceSnapshotTemplateIdentifier: Swift.String? = nil,
+        resourceType: PartnerCentralSellingClientTypes.ResourceType? = nil
+    )
+    {
+        self.catalog = catalog
+        self.clientToken = clientToken
+        self.engagementIdentifier = engagementIdentifier
+        self.resourceIdentifier = resourceIdentifier
+        self.resourceSnapshotTemplateIdentifier = resourceSnapshotTemplateIdentifier
+        self.resourceType = resourceType
+    }
+}
+
+public struct CreateResourceSnapshotOutput: Swift.Sendable {
+    /// Specifies the Amazon Resource Name (ARN) that uniquely identifies the snapshot created.
+    public var arn: Swift.String?
+    /// Specifies the revision number of the created snapshot. This field provides important information about the snapshot's place in the sequence of snapshots for the given resource.
+    public var revision: Swift.Int?
+
+    public init(
+        arn: Swift.String? = nil,
+        revision: Swift.Int? = nil
+    )
+    {
+        self.arn = arn
+        self.revision = revision
+    }
+}
+
+public struct GetResourceSnapshotInput: Swift.Sendable {
+    /// Specifies the catalog related to the request. Valid values are:
+    ///
+    /// * AWS: Retrieves the snapshot from the production AWS environment.
+    ///
+    /// * Sandbox: Retrieves the snapshot from a sandbox environment used for testing or development purposes.
+    /// This member is required.
+    public var catalog: Swift.String?
+    /// The unique identifier of the engagement associated with the snapshot. This field links the snapshot to a specific engagement context.
+    /// This member is required.
+    public var engagementIdentifier: Swift.String?
+    /// The unique identifier of the specific resource that was snapshotted. The format and constraints of this identifier depend on the ResourceType specified. For Opportunity type, it will be an opportunity ID
+    /// This member is required.
+    public var resourceIdentifier: Swift.String?
+    /// he name of the template that defines the schema for the snapshot. This template determines which subset of the resource data is included in the snapshot and must correspond to an existing and valid template for the specified ResourceType.
+    /// This member is required.
+    public var resourceSnapshotTemplateIdentifier: Swift.String?
+    /// Specifies the type of resource that was snapshotted. This field determines the structure and content of the snapshot payload. Valid value includes:Opportunity: For opportunity-related data.
+    /// This member is required.
+    public var resourceType: PartnerCentralSellingClientTypes.ResourceType?
+    /// Specifies which revision of the snapshot to retrieve. If omitted returns the latest revision.
+    public var revision: Swift.Int?
+
+    public init(
+        catalog: Swift.String? = nil,
+        engagementIdentifier: Swift.String? = nil,
+        resourceIdentifier: Swift.String? = nil,
+        resourceSnapshotTemplateIdentifier: Swift.String? = nil,
+        resourceType: PartnerCentralSellingClientTypes.ResourceType? = nil,
+        revision: Swift.Int? = nil
+    )
+    {
+        self.catalog = catalog
+        self.engagementIdentifier = engagementIdentifier
+        self.resourceIdentifier = resourceIdentifier
+        self.resourceSnapshotTemplateIdentifier = resourceSnapshotTemplateIdentifier
+        self.resourceType = resourceType
+        self.revision = revision
+    }
+}
+
+extension PartnerCentralSellingClientTypes {
+
+    /// Provides the lifecycle view of an opportunity resource shared through a snapshot.
+    public struct LifeCycleForView: Swift.Sendable {
+        /// Describes the next steps for the opportunity shared through a snapshot.
+        public var nextSteps: Swift.String?
+        /// Defines the approval status of the opportunity shared through a snapshot.
+        public var reviewStatus: PartnerCentralSellingClientTypes.ReviewStatus?
+        /// Defines the current stage of the opportunity shared through a snapshot.
+        public var stage: PartnerCentralSellingClientTypes.Stage?
+        /// The projected launch date of the opportunity shared through a snapshot.
+        public var targetCloseDate: Swift.String?
+
+        public init(
+            nextSteps: Swift.String? = nil,
+            reviewStatus: PartnerCentralSellingClientTypes.ReviewStatus? = nil,
+            stage: PartnerCentralSellingClientTypes.Stage? = nil,
+            targetCloseDate: Swift.String? = nil
+        )
+        {
+            self.nextSteps = nextSteps
+            self.reviewStatus = reviewStatus
+            self.stage = stage
+            self.targetCloseDate = targetCloseDate
+        }
+    }
+}
+
+extension PartnerCentralSellingClientTypes.LifeCycleForView: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "LifeCycleForView(reviewStatus: \(Swift.String(describing: reviewStatus)), stage: \(Swift.String(describing: stage)), targetCloseDate: \(Swift.String(describing: targetCloseDate)), nextSteps: \"CONTENT_REDACTED\")"}
+}
+
+extension PartnerCentralSellingClientTypes {
+
+    /// Provides the project view of an opportunity resource shared through a snapshot.
+    public struct ProjectView: Swift.Sendable {
+        /// Specifies the proposed solution focus or type of workload for the project.
+        public var customerUseCase: Swift.String?
+        /// Describes the deployment or consumption model for the partner solution or offering. This field indicates how the project's solution will be delivered or implemented for the customer.
+        public var deliveryModels: [PartnerCentralSellingClientTypes.DeliveryModel]?
+        /// Provides information about the anticipated customer spend related to this project. This may include details such as amount, frequency, and currency of expected expenditure.
+        public var expectedCustomerSpend: [PartnerCentralSellingClientTypes.ExpectedCustomerSpend]?
+        /// Offers a description of other solutions if the standard solutions do not adequately cover the project's scope.
+        public var otherSolutionDescription: Swift.String?
+        /// Lists the pre-sales activities that have occurred with the end-customer related to the opportunity. This field is conditionally mandatory when the project is qualified for Co-Sell and helps drive assignment priority on the AWS side. It provides insight into the engagement level with the customer.
+        public var salesActivities: [PartnerCentralSellingClientTypes.SalesActivity]?
+
+        public init(
+            customerUseCase: Swift.String? = nil,
+            deliveryModels: [PartnerCentralSellingClientTypes.DeliveryModel]? = nil,
+            expectedCustomerSpend: [PartnerCentralSellingClientTypes.ExpectedCustomerSpend]? = nil,
+            otherSolutionDescription: Swift.String? = nil,
+            salesActivities: [PartnerCentralSellingClientTypes.SalesActivity]? = nil
+        )
+        {
+            self.customerUseCase = customerUseCase
+            self.deliveryModels = deliveryModels
+            self.expectedCustomerSpend = expectedCustomerSpend
+            self.otherSolutionDescription = otherSolutionDescription
+            self.salesActivities = salesActivities
+        }
+    }
+}
+
+extension PartnerCentralSellingClientTypes.ProjectView: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ProjectView(customerUseCase: \(Swift.String(describing: customerUseCase)), deliveryModels: \(Swift.String(describing: deliveryModels)), expectedCustomerSpend: \(Swift.String(describing: expectedCustomerSpend)), salesActivities: \(Swift.String(describing: salesActivities)), otherSolutionDescription: \"CONTENT_REDACTED\")"}
+}
+
+extension PartnerCentralSellingClientTypes {
+
+    /// Provides a comprehensive view of an opportunity summary, including lifecycle information, team details, opportunity type, primary needs from AWS, and associated project information.
+    public struct OpportunitySummaryView: Swift.Sendable {
+        /// An object that contains the customer's Account and Contact.
+        public var customer: PartnerCentralSellingClientTypes.Customer?
+        /// Contains information about the opportunity's lifecycle, including its current stage, status, and important dates such as creation and last modification times.
+        public var lifecycle: PartnerCentralSellingClientTypes.LifeCycleForView?
+        /// Represents the internal team handling the opportunity. Specify the members involved in collaborating on an opportunity within the partner's organization.
+        public var opportunityTeam: [PartnerCentralSellingClientTypes.Contact]?
+        /// Specifies the opportunity type.
+        public var opportunityType: PartnerCentralSellingClientTypes.OpportunityType?
+        /// Identifies the type of support the partner needs from AWS.
+        public var primaryNeedsFromAws: [PartnerCentralSellingClientTypes.PrimaryNeedFromAws]?
+        /// Contains summary information about the project associated with the opportunity, including project name, description, timeline, and other relevant details.
+        public var project: PartnerCentralSellingClientTypes.ProjectView?
+        /// This field provides the associations' information for other entities with the opportunity. These entities include identifiers for AWSProducts, Partner Solutions, and AWSMarketplaceOffers.
+        public var relatedEntityIdentifiers: PartnerCentralSellingClientTypes.RelatedEntityIdentifiers?
+
+        public init(
+            customer: PartnerCentralSellingClientTypes.Customer? = nil,
+            lifecycle: PartnerCentralSellingClientTypes.LifeCycleForView? = nil,
+            opportunityTeam: [PartnerCentralSellingClientTypes.Contact]? = nil,
+            opportunityType: PartnerCentralSellingClientTypes.OpportunityType? = nil,
+            primaryNeedsFromAws: [PartnerCentralSellingClientTypes.PrimaryNeedFromAws]? = nil,
+            project: PartnerCentralSellingClientTypes.ProjectView? = nil,
+            relatedEntityIdentifiers: PartnerCentralSellingClientTypes.RelatedEntityIdentifiers? = nil
+        )
+        {
+            self.customer = customer
+            self.lifecycle = lifecycle
+            self.opportunityTeam = opportunityTeam
+            self.opportunityType = opportunityType
+            self.primaryNeedsFromAws = primaryNeedsFromAws
+            self.project = project
+            self.relatedEntityIdentifiers = relatedEntityIdentifiers
+        }
+    }
+}
+
+extension PartnerCentralSellingClientTypes {
+
+    /// Represents the payload of a resource snapshot. This structure is designed to accommodate different types of resource snapshots, currently supporting opportunity summaries.
+    public enum ResourceSnapshotPayload: Swift.Sendable {
+        /// An object that contains an opportunity's subset of fields.
+        case opportunitysummary(PartnerCentralSellingClientTypes.OpportunitySummaryView)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct GetResourceSnapshotOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the snapshot. This globally unique identifier can be used for resource-specific operations across AWS services.
+    public var arn: Swift.String?
+    /// The catalog in which the snapshot was created. Matches the Catalog specified in the request.
+    /// This member is required.
+    public var catalog: Swift.String?
+    /// The timestamp when the snapshot was created, in ISO 8601 format (e.g., "2023-06-01T14:30:00Z"). This allows for precise tracking of when the snapshot was taken.
+    public var createdAt: Foundation.Date?
+    /// The AWS account ID of the principal (user or role) who created the snapshot. This helps in tracking the origin of the snapshot.
+    public var createdBy: Swift.String?
+    /// The identifier of the engagement associated with this snapshot. Matches the EngagementIdentifier specified in the request.
+    public var engagementId: Swift.String?
+    /// Represents the payload of a resource snapshot. This structure is designed to accommodate different types of resource snapshots, currently supporting opportunity summaries.
+    public var payload: PartnerCentralSellingClientTypes.ResourceSnapshotPayload?
+    /// The identifier of the specific resource that was snapshotted. Matches the ResourceIdentifier specified in the request.
+    public var resourceId: Swift.String?
+    /// The name of the view used for this snapshot. This is the same as the template name.
+    public var resourceSnapshotTemplateName: Swift.String?
+    /// The type of the resource that was snapshotted. Matches the ResourceType specified in the request.
+    public var resourceType: PartnerCentralSellingClientTypes.ResourceType?
+    /// The revision number of this snapshot. This is a positive integer that is sequential and unique within the context of a resource view.
+    public var revision: Swift.Int?
+
+    public init(
+        arn: Swift.String? = nil,
+        catalog: Swift.String? = nil,
+        createdAt: Foundation.Date? = nil,
+        createdBy: Swift.String? = nil,
+        engagementId: Swift.String? = nil,
+        payload: PartnerCentralSellingClientTypes.ResourceSnapshotPayload? = nil,
+        resourceId: Swift.String? = nil,
+        resourceSnapshotTemplateName: Swift.String? = nil,
+        resourceType: PartnerCentralSellingClientTypes.ResourceType? = nil,
+        revision: Swift.Int? = nil
+    )
+    {
+        self.arn = arn
+        self.catalog = catalog
+        self.createdAt = createdAt
+        self.createdBy = createdBy
+        self.engagementId = engagementId
+        self.payload = payload
+        self.resourceId = resourceId
+        self.resourceSnapshotTemplateName = resourceSnapshotTemplateName
+        self.resourceType = resourceType
+        self.revision = revision
+    }
+}
+
+extension GetResourceSnapshotOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetResourceSnapshotOutput(arn: \(Swift.String(describing: arn)), catalog: \(Swift.String(describing: catalog)), createdAt: \(Swift.String(describing: createdAt)), engagementId: \(Swift.String(describing: engagementId)), payload: \(Swift.String(describing: payload)), resourceId: \(Swift.String(describing: resourceId)), resourceSnapshotTemplateName: \(Swift.String(describing: resourceSnapshotTemplateName)), resourceType: \(Swift.String(describing: resourceType)), revision: \(Swift.String(describing: revision)), createdBy: \"CONTENT_REDACTED\")"}
+}
+
+public struct ListEngagementResourceAssociationsInput: Swift.Sendable {
+    /// Specifies the catalog in which to search for engagement-resource associations.
+    /// This member is required.
+    public var catalog: Swift.String?
+    /// Filters the results to include only associations with resources owned by the specified AWS account. Use this when you want to find associations related to resources owned by a particular account.
+    public var createdBy: Swift.String?
+    /// Filters the results to include only associations related to the specified engagement. Use this when you want to find all resources associated with a specific engagement.
+    public var engagementIdentifier: Swift.String?
+    /// Limits the number of results returned in a single call. Use this to control the number of results returned, especially useful for pagination.
+    public var maxResults: Swift.Int?
+    /// A token used for pagination of results. Include this token in subsequent requests to retrieve the next set of results.
+    public var nextToken: Swift.String?
+    /// Filters the results to include only associations with the specified resource. Varies depending on the resource type. Use this when you want to find all engagements associated with a specific resource.
+    public var resourceIdentifier: Swift.String?
+    /// Filters the results to include only associations with resources of the specified type.
+    public var resourceType: PartnerCentralSellingClientTypes.ResourceType?
+
+    public init(
+        catalog: Swift.String? = nil,
+        createdBy: Swift.String? = nil,
+        engagementIdentifier: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        resourceIdentifier: Swift.String? = nil,
+        resourceType: PartnerCentralSellingClientTypes.ResourceType? = nil
+    )
+    {
+        self.catalog = catalog
+        self.createdBy = createdBy
+        self.engagementIdentifier = engagementIdentifier
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.resourceIdentifier = resourceIdentifier
+        self.resourceType = resourceType
+    }
+}
+
+extension ListEngagementResourceAssociationsInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ListEngagementResourceAssociationsInput(catalog: \(Swift.String(describing: catalog)), engagementIdentifier: \(Swift.String(describing: engagementIdentifier)), maxResults: \(Swift.String(describing: maxResults)), nextToken: \(Swift.String(describing: nextToken)), resourceIdentifier: \(Swift.String(describing: resourceIdentifier)), resourceType: \(Swift.String(describing: resourceType)), createdBy: \"CONTENT_REDACTED\")"}
+}
+
+extension PartnerCentralSellingClientTypes {
+
+    /// This provide a streamlined view of the relationships between engagements and resources. These summaries offer a crucial link between collaborative engagements and the specific resources involved, such as opportunities.These summaries are particularly valuable for partners navigating complex engagements with multiple resources. They enable quick insights into resource distribution across engagements, support efficient resource management, and help maintain a clear overview of collaborative activities.
+    public struct EngagementResourceAssociationSummary: Swift.Sendable {
+        /// Indicates the environment in which the resource and engagement exist.
+        /// This member is required.
+        public var catalog: Swift.String?
+        /// The AWS account ID of the entity that created the association.
+        public var createdBy: Swift.String?
+        /// A unique identifier for the engagement associated with the resource.
+        public var engagementId: Swift.String?
+        /// A unique identifier for the specific resource. Varies depending on the resource type.
+        public var resourceId: Swift.String?
+        /// Categorizes the type of resource associated with the engagement.
+        public var resourceType: PartnerCentralSellingClientTypes.ResourceType?
+
+        public init(
+            catalog: Swift.String? = nil,
+            createdBy: Swift.String? = nil,
+            engagementId: Swift.String? = nil,
+            resourceId: Swift.String? = nil,
+            resourceType: PartnerCentralSellingClientTypes.ResourceType? = nil
+        )
+        {
+            self.catalog = catalog
+            self.createdBy = createdBy
+            self.engagementId = engagementId
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+    }
+}
+
+extension PartnerCentralSellingClientTypes.EngagementResourceAssociationSummary: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "EngagementResourceAssociationSummary(catalog: \(Swift.String(describing: catalog)), engagementId: \(Swift.String(describing: engagementId)), resourceId: \(Swift.String(describing: resourceId)), resourceType: \(Swift.String(describing: resourceType)), createdBy: \"CONTENT_REDACTED\")"}
+}
+
+public struct ListEngagementResourceAssociationsOutput: Swift.Sendable {
+    /// A list of engagement-resource association summaries.
+    /// This member is required.
+    public var engagementResourceAssociationSummaries: [PartnerCentralSellingClientTypes.EngagementResourceAssociationSummary]?
+    /// A token to retrieve the next set of results. Use this token in a subsequent request to retrieve additional results if the response was truncated.
+    public var nextToken: Swift.String?
+
+    public init(
+        engagementResourceAssociationSummaries: [PartnerCentralSellingClientTypes.EngagementResourceAssociationSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.engagementResourceAssociationSummaries = engagementResourceAssociationSummaries
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListResourceSnapshotsInput: Swift.Sendable {
+    /// Specifies the catalog related to the request.
+    /// This member is required.
+    public var catalog: Swift.String?
+    /// Filters the response to include only snapshots of resources created by the specified AWS account.
+    public var createdBy: Swift.String?
+    /// The unique identifier of the engagement associated with the snapshots.
+    /// This member is required.
+    public var engagementIdentifier: Swift.String?
+    /// The maximum number of results to return in a single call.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results.
+    public var nextToken: Swift.String?
+    /// Filters the response to include only snapshots of the specified resource.
+    public var resourceIdentifier: Swift.String?
+    /// Filters the response to include only snapshots created using the specified template.
+    public var resourceSnapshotTemplateIdentifier: Swift.String?
+    /// Filters the response to include only snapshots of the specified resource type.
+    public var resourceType: PartnerCentralSellingClientTypes.ResourceType?
+
+    public init(
+        catalog: Swift.String? = nil,
+        createdBy: Swift.String? = nil,
+        engagementIdentifier: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        resourceIdentifier: Swift.String? = nil,
+        resourceSnapshotTemplateIdentifier: Swift.String? = nil,
+        resourceType: PartnerCentralSellingClientTypes.ResourceType? = nil
+    )
+    {
+        self.catalog = catalog
+        self.createdBy = createdBy
+        self.engagementIdentifier = engagementIdentifier
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.resourceIdentifier = resourceIdentifier
+        self.resourceSnapshotTemplateIdentifier = resourceSnapshotTemplateIdentifier
+        self.resourceType = resourceType
+    }
+}
+
+extension ListResourceSnapshotsInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ListResourceSnapshotsInput(catalog: \(Swift.String(describing: catalog)), engagementIdentifier: \(Swift.String(describing: engagementIdentifier)), maxResults: \(Swift.String(describing: maxResults)), nextToken: \(Swift.String(describing: nextToken)), resourceIdentifier: \(Swift.String(describing: resourceIdentifier)), resourceSnapshotTemplateIdentifier: \(Swift.String(describing: resourceSnapshotTemplateIdentifier)), resourceType: \(Swift.String(describing: resourceType)), createdBy: \"CONTENT_REDACTED\")"}
+}
+
+extension PartnerCentralSellingClientTypes {
+
+    /// Provides a concise summary of a resource snapshot, including its unique identifier and version information. This structure is used to quickly reference and identify specific versions of resource snapshots.
+    public struct ResourceSnapshotSummary: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the snapshot. This globally unique identifier can be used for cross-service references and in IAM policies.
+        public var arn: Swift.String?
+        /// The AWS account ID of the principal (user or role) who created the snapshot. This helps in tracking the origin of the snapshot.
+        public var createdBy: Swift.String?
+        /// The identifier of the specific resource snapshotted. The format might vary depending on the ResourceType.
+        public var resourceId: Swift.String?
+        /// The name of the template used to create the snapshot.
+        public var resourceSnapshotTemplateName: Swift.String?
+        /// The type of resource snapshotted.
+        public var resourceType: PartnerCentralSellingClientTypes.ResourceType?
+        /// The revision number of the snapshot. This integer value is incremented each time the snapshot is updated, allowing for version tracking of the resource snapshot.
+        public var revision: Swift.Int?
+
+        public init(
+            arn: Swift.String? = nil,
+            createdBy: Swift.String? = nil,
+            resourceId: Swift.String? = nil,
+            resourceSnapshotTemplateName: Swift.String? = nil,
+            resourceType: PartnerCentralSellingClientTypes.ResourceType? = nil,
+            revision: Swift.Int? = nil
+        )
+        {
+            self.arn = arn
+            self.createdBy = createdBy
+            self.resourceId = resourceId
+            self.resourceSnapshotTemplateName = resourceSnapshotTemplateName
+            self.resourceType = resourceType
+            self.revision = revision
+        }
+    }
+}
+
+extension PartnerCentralSellingClientTypes.ResourceSnapshotSummary: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ResourceSnapshotSummary(arn: \(Swift.String(describing: arn)), resourceId: \(Swift.String(describing: resourceId)), resourceSnapshotTemplateName: \(Swift.String(describing: resourceSnapshotTemplateName)), resourceType: \(Swift.String(describing: resourceType)), revision: \(Swift.String(describing: revision)), createdBy: \"CONTENT_REDACTED\")"}
+}
+
+public struct ListResourceSnapshotsOutput: Swift.Sendable {
+    /// The token to retrieve the next set of results. If there are no additional results, this value is null.
+    public var nextToken: Swift.String?
+    /// An array of resource snapshot summary objects.
+    /// This member is required.
+    public var resourceSnapshotSummaries: [PartnerCentralSellingClientTypes.ResourceSnapshotSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        resourceSnapshotSummaries: [PartnerCentralSellingClientTypes.ResourceSnapshotSummary]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.resourceSnapshotSummaries = resourceSnapshotSummaries
+    }
+}
+
+public struct CreateResourceSnapshotJobInput: Swift.Sendable {
+    /// Specifies the catalog in which to create the snapshot job. Valid values are AWS and  Sandbox.
+    /// This member is required.
+    public var catalog: Swift.String?
+    /// Specifies a unique, client-generated UUID to ensure that the request is handled exactly once. This token helps prevent duplicate snapshot job creations.
+    /// This member is required.
+    public var clientToken: Swift.String?
+    /// Specifies the identifier of the engagement associated with the resource to be snapshotted.
+    /// This member is required.
+    public var engagementIdentifier: Swift.String?
+    /// Specifies the identifier of the specific resource to be snapshotted. The format depends on the ResourceType.
+    /// This member is required.
+    public var resourceIdentifier: Swift.String?
+    /// Specifies the name of the template that defines the schema for the snapshot.
+    /// This member is required.
+    public var resourceSnapshotTemplateIdentifier: Swift.String?
+    /// The type of resource for which the snapshot job is being created. Must be one of the supported resource types Opportunity.
+    /// This member is required.
+    public var resourceType: PartnerCentralSellingClientTypes.ResourceType?
+
+    public init(
+        catalog: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        engagementIdentifier: Swift.String? = nil,
+        resourceIdentifier: Swift.String? = nil,
+        resourceSnapshotTemplateIdentifier: Swift.String? = nil,
+        resourceType: PartnerCentralSellingClientTypes.ResourceType? = nil
+    )
+    {
+        self.catalog = catalog
+        self.clientToken = clientToken
+        self.engagementIdentifier = engagementIdentifier
+        self.resourceIdentifier = resourceIdentifier
+        self.resourceSnapshotTemplateIdentifier = resourceSnapshotTemplateIdentifier
+        self.resourceType = resourceType
+    }
+}
+
+public struct CreateResourceSnapshotJobOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the created snapshot job.
+    public var arn: Swift.String?
+    /// The unique identifier for the created snapshot job.
+    public var id: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil,
+        id: Swift.String? = nil
+    )
+    {
+        self.arn = arn
+        self.id = id
+    }
+}
+
+public struct DeleteResourceSnapshotJobInput: Swift.Sendable {
+    /// Specifies the catalog from which to delete the snapshot job. Valid values are AWS and Sandbox.
+    /// This member is required.
+    public var catalog: Swift.String?
+    /// The unique identifier of the resource snapshot job to be deleted.
+    /// This member is required.
+    public var resourceSnapshotJobIdentifier: Swift.String?
+
+    public init(
+        catalog: Swift.String? = nil,
+        resourceSnapshotJobIdentifier: Swift.String? = nil
+    )
+    {
+        self.catalog = catalog
+        self.resourceSnapshotJobIdentifier = resourceSnapshotJobIdentifier
+    }
+}
+
+public struct GetResourceSnapshotJobInput: Swift.Sendable {
+    /// Specifies the catalog related to the request. Valid values are:
+    ///
+    /// * AWS: Retrieves the snapshot job from the production AWS environment.
+    ///
+    /// * Sandbox: Retrieves the snapshot job from a sandbox environment used for testing or development purposes.
+    /// This member is required.
+    public var catalog: Swift.String?
+    /// The unique identifier of the resource snapshot job to be retrieved. This identifier is crucial for pinpointing the specific job you want to query.
+    /// This member is required.
+    public var resourceSnapshotJobIdentifier: Swift.String?
+
+    public init(
+        catalog: Swift.String? = nil,
+        resourceSnapshotJobIdentifier: Swift.String? = nil
+    )
+    {
+        self.catalog = catalog
+        self.resourceSnapshotJobIdentifier = resourceSnapshotJobIdentifier
+    }
+}
+
+extension PartnerCentralSellingClientTypes {
+
+    public enum ResourceSnapshotJobStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case running
+        case stopped
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResourceSnapshotJobStatus] {
+            return [
+                .running,
+                .stopped
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .running: return "Running"
+            case .stopped: return "Stopped"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetResourceSnapshotJobOutput: Swift.Sendable {
+    /// he Amazon Resource Name (ARN) of the snapshot job. This globally unique identifier can be used for resource-specific operations across AWS services.
+    public var arn: Swift.String?
+    /// The catalog in which the snapshot job was created. This will match the catalog specified in the request.
+    /// This member is required.
+    public var catalog: Swift.String?
+    /// The date and time when the snapshot job was created, in ISO 8601 format (UTC). Example: "2023-05-01T20:37:46Z"
+    public var createdAt: Foundation.Date?
+    /// The identifier of the engagement associated with this snapshot job. This links the job to a specific engagement context.
+    public var engagementId: Swift.String?
+    /// The unique identifier of the snapshot job. This matches the ResourceSnapshotJobIdentifier provided in the request.
+    public var id: Swift.String?
+    /// If the job has encountered any failures, this field contains the error message from the most recent failure. This can be useful for troubleshooting issues with the job.
+    public var lastFailure: Swift.String?
+    /// The date and time of the last successful execution of the job, in ISO 8601 format (UTC). Example: "2023-05-01T20:37:46Z"
+    public var lastSuccessfulExecutionDate: Foundation.Date?
+    /// The Amazon Resource Name (ARN) of the resource being snapshotted. This provides a globally unique identifier for the resource across AWS.
+    public var resourceArn: Swift.String?
+    /// The identifier of the specific resource being snapshotted. The format may vary depending on the ResourceType.
+    public var resourceId: Swift.String?
+    /// The name of the template used for creating the snapshot. This is the same as the template name. It defines the structure and content of the snapshot.
+    public var resourceSnapshotTemplateName: Swift.String?
+    /// The type of resource being snapshotted. This would have Opportunity as a value as it is dependent on the supported resource type.
+    public var resourceType: PartnerCentralSellingClientTypes.ResourceType?
+    /// The current status of the snapshot job. Valid values:
+    ///
+    /// * STOPPED: The job is not currently running.
+    ///
+    /// * RUNNING: The job is actively executing.
+    public var status: PartnerCentralSellingClientTypes.ResourceSnapshotJobStatus?
+
+    public init(
+        arn: Swift.String? = nil,
+        catalog: Swift.String? = nil,
+        createdAt: Foundation.Date? = nil,
+        engagementId: Swift.String? = nil,
+        id: Swift.String? = nil,
+        lastFailure: Swift.String? = nil,
+        lastSuccessfulExecutionDate: Foundation.Date? = nil,
+        resourceArn: Swift.String? = nil,
+        resourceId: Swift.String? = nil,
+        resourceSnapshotTemplateName: Swift.String? = nil,
+        resourceType: PartnerCentralSellingClientTypes.ResourceType? = nil,
+        status: PartnerCentralSellingClientTypes.ResourceSnapshotJobStatus? = nil
+    )
+    {
+        self.arn = arn
+        self.catalog = catalog
+        self.createdAt = createdAt
+        self.engagementId = engagementId
+        self.id = id
+        self.lastFailure = lastFailure
+        self.lastSuccessfulExecutionDate = lastSuccessfulExecutionDate
+        self.resourceArn = resourceArn
+        self.resourceId = resourceId
+        self.resourceSnapshotTemplateName = resourceSnapshotTemplateName
+        self.resourceType = resourceType
+        self.status = status
+    }
+}
+
+extension PartnerCentralSellingClientTypes {
+
+    public enum SortBy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case createdDate
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SortBy] {
+            return [
+                .createdDate
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .createdDate: return "CreatedDate"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension PartnerCentralSellingClientTypes {
+
+    /// Defines the sorting parameters for listing resource snapshot jobs. This structure allows you to specify the field to sort by and the order of sorting.
+    public struct SortObject: Swift.Sendable {
+        /// Specifies the field by which to sort the resource snapshot jobs.
+        public var sortBy: PartnerCentralSellingClientTypes.SortBy?
+        /// Determines the order in which the sorted results are presented.
+        public var sortOrder: PartnerCentralSellingClientTypes.SortOrder?
+
+        public init(
+            sortBy: PartnerCentralSellingClientTypes.SortBy? = nil,
+            sortOrder: PartnerCentralSellingClientTypes.SortOrder? = nil
+        )
+        {
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+        }
+    }
+}
+
+public struct ListResourceSnapshotJobsInput: Swift.Sendable {
+    /// Specifies the catalog related to the request.
+    /// This member is required.
+    public var catalog: Swift.String?
+    /// The identifier of the engagement to filter the response.
+    public var engagementIdentifier: Swift.String?
+    /// The maximum number of results to return in a single call. If omitted, defaults to 50.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results.
+    public var nextToken: Swift.String?
+    /// Configures the sorting of the response. If omitted, results are sorted by CreatedDate in descending order.
+    public var sort: PartnerCentralSellingClientTypes.SortObject?
+    /// The status of the jobs to filter the response.
+    public var status: PartnerCentralSellingClientTypes.ResourceSnapshotJobStatus?
+
+    public init(
+        catalog: Swift.String? = nil,
+        engagementIdentifier: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        sort: PartnerCentralSellingClientTypes.SortObject? = nil,
+        status: PartnerCentralSellingClientTypes.ResourceSnapshotJobStatus? = nil
+    )
+    {
+        self.catalog = catalog
+        self.engagementIdentifier = engagementIdentifier
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.sort = sort
+        self.status = status
+    }
+}
+
+extension PartnerCentralSellingClientTypes {
+
+    /// An object that contains a Resource Snapshot Job's subset of fields.
+    public struct ResourceSnapshotJobSummary: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) for the resource snapshot job.
+        public var arn: Swift.String?
+        /// The unique identifier for the engagement within the AWS Partner Central system. This ID is used for direct references to the engagement within the service.
+        public var engagementId: Swift.String?
+        /// The unique identifier for the resource snapshot job within the AWS Partner Central system. This ID is used for direct references to the job within the service.
+        public var id: Swift.String?
+        /// Represents the current status of the resource snapshot job.
+        public var status: PartnerCentralSellingClientTypes.ResourceSnapshotJobStatus?
+
+        public init(
+            arn: Swift.String? = nil,
+            engagementId: Swift.String? = nil,
+            id: Swift.String? = nil,
+            status: PartnerCentralSellingClientTypes.ResourceSnapshotJobStatus? = nil
+        )
+        {
+            self.arn = arn
+            self.engagementId = engagementId
+            self.id = id
+            self.status = status
+        }
+    }
+}
+
+public struct ListResourceSnapshotJobsOutput: Swift.Sendable {
+    /// The token to retrieve the next set of results. If there are no additional results, this value is null.
+    public var nextToken: Swift.String?
+    /// An array of resource snapshot job summary objects.
+    /// This member is required.
+    public var resourceSnapshotJobSummaries: [PartnerCentralSellingClientTypes.ResourceSnapshotJobSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        resourceSnapshotJobSummaries: [PartnerCentralSellingClientTypes.ResourceSnapshotJobSummary]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.resourceSnapshotJobSummaries = resourceSnapshotJobSummaries
+    }
+}
+
+public struct StartResourceSnapshotJobInput: Swift.Sendable {
+    /// Specifies the catalog related to the request.
+    /// This member is required.
+    public var catalog: Swift.String?
+    /// The identifier of the resource snapshot job to start.
+    /// This member is required.
+    public var resourceSnapshotJobIdentifier: Swift.String?
+
+    public init(
+        catalog: Swift.String? = nil,
+        resourceSnapshotJobIdentifier: Swift.String? = nil
+    )
+    {
+        self.catalog = catalog
+        self.resourceSnapshotJobIdentifier = resourceSnapshotJobIdentifier
+    }
+}
+
+public struct StopResourceSnapshotJobInput: Swift.Sendable {
+    /// Specifies the catalog related to the request.
+    /// This member is required.
+    public var catalog: Swift.String?
+    /// The identifier of the job to stop.
+    /// This member is required.
+    public var resourceSnapshotJobIdentifier: Swift.String?
+
+    public init(
+        catalog: Swift.String? = nil,
+        resourceSnapshotJobIdentifier: Swift.String? = nil
+    )
+    {
+        self.catalog = catalog
+        self.resourceSnapshotJobIdentifier = resourceSnapshotJobIdentifier
+    }
+}
+
+public struct GetSellingSystemSettingsInput: Swift.Sendable {
+    /// Specifies the catalog in which the settings are defined. Acceptable values include AWS for production and Sandbox for testing environments.
+    /// This member is required.
+    public var catalog: Swift.String?
+
+    public init(
+        catalog: Swift.String? = nil
+    )
+    {
+        self.catalog = catalog
+    }
+}
+
+public struct GetSellingSystemSettingsOutput: Swift.Sendable {
+    /// Specifies the catalog in which the settings are defined. Acceptable values include AWS for production and Sandbox for testing environments.
+    /// This member is required.
+    public var catalog: Swift.String?
+    /// Specifies the ARN of the IAM Role used for resource snapshot job executions.
+    public var resourceSnapshotJobRoleArn: Swift.String?
+
+    public init(
+        catalog: Swift.String? = nil,
+        resourceSnapshotJobRoleArn: Swift.String? = nil
+    )
+    {
+        self.catalog = catalog
+        self.resourceSnapshotJobRoleArn = resourceSnapshotJobRoleArn
+    }
+}
+
+public struct PutSellingSystemSettingsInput: Swift.Sendable {
+    /// Specifies the catalog in which the settings will be updated. Acceptable values include AWS for production and Sandbox for testing environments.
+    /// This member is required.
+    public var catalog: Swift.String?
+    /// Specifies the ARN of the IAM Role used for resource snapshot job executions.
+    public var resourceSnapshotJobRoleIdentifier: Swift.String?
+
+    public init(
+        catalog: Swift.String? = nil,
+        resourceSnapshotJobRoleIdentifier: Swift.String? = nil
+    )
+    {
+        self.catalog = catalog
+        self.resourceSnapshotJobRoleIdentifier = resourceSnapshotJobRoleIdentifier
+    }
+}
+
+public struct PutSellingSystemSettingsOutput: Swift.Sendable {
+    /// Specifies the catalog in which the settings are defined. Acceptable values include AWS for production and Sandbox for testing environments.
+    /// This member is required.
+    public var catalog: Swift.String?
+    /// Specifies the ARN of the IAM Role used for resource snapshot job executions.
+    public var resourceSnapshotJobRoleArn: Swift.String?
+
+    public init(
+        catalog: Swift.String? = nil,
+        resourceSnapshotJobRoleArn: Swift.String? = nil
+    )
+    {
+        self.catalog = catalog
+        self.resourceSnapshotJobRoleArn = resourceSnapshotJobRoleArn
     }
 }
 
@@ -5468,6 +7346,8 @@ extension PartnerCentralSellingClientTypes {
 
     /// Specifies minimal information for the solution offered to solve the customer's business problem.
     public struct SolutionBase: Swift.Sendable {
+        /// The SolutionBase structure provides essential information about a solution.
+        public var arn: Swift.String?
         /// Specifies the catalog in which the solution is hosted, either AWS or Sandbox. This helps partners differentiate between live solutions and those in testing environments.
         /// This member is required.
         public var catalog: Swift.String?
@@ -5488,6 +7368,7 @@ extension PartnerCentralSellingClientTypes {
         public var status: PartnerCentralSellingClientTypes.SolutionStatus?
 
         public init(
+            arn: Swift.String? = nil,
             catalog: Swift.String? = nil,
             category: Swift.String? = nil,
             createdDate: Foundation.Date? = nil,
@@ -5496,6 +7377,7 @@ extension PartnerCentralSellingClientTypes {
             status: PartnerCentralSellingClientTypes.SolutionStatus? = nil
         )
         {
+            self.arn = arn
             self.catalog = catalog
             self.category = category
             self.createdDate = createdDate
@@ -5523,6 +7405,13 @@ public struct ListSolutionsOutput: Swift.Sendable {
     }
 }
 
+extension AcceptEngagementInvitationInput {
+
+    static func urlPathProvider(_ value: AcceptEngagementInvitationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension AssignOpportunityInput {
 
     static func urlPathProvider(_ value: AssignOpportunityInput) -> Swift.String? {
@@ -5537,9 +7426,44 @@ extension AssociateOpportunityInput {
     }
 }
 
+extension CreateEngagementInput {
+
+    static func urlPathProvider(_ value: CreateEngagementInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension CreateEngagementInvitationInput {
+
+    static func urlPathProvider(_ value: CreateEngagementInvitationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension CreateOpportunityInput {
 
     static func urlPathProvider(_ value: CreateOpportunityInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension CreateResourceSnapshotInput {
+
+    static func urlPathProvider(_ value: CreateResourceSnapshotInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension CreateResourceSnapshotJobInput {
+
+    static func urlPathProvider(_ value: CreateResourceSnapshotJobInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DeleteResourceSnapshotJobInput {
+
+    static func urlPathProvider(_ value: DeleteResourceSnapshotJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5558,6 +7482,13 @@ extension GetAwsOpportunitySummaryInput {
     }
 }
 
+extension GetEngagementInput {
+
+    static func urlPathProvider(_ value: GetEngagementInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension GetEngagementInvitationInput {
 
     static func urlPathProvider(_ value: GetEngagementInvitationInput) -> Swift.String? {
@@ -5572,9 +7503,65 @@ extension GetOpportunityInput {
     }
 }
 
+extension GetResourceSnapshotInput {
+
+    static func urlPathProvider(_ value: GetResourceSnapshotInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension GetResourceSnapshotJobInput {
+
+    static func urlPathProvider(_ value: GetResourceSnapshotJobInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension GetSellingSystemSettingsInput {
+
+    static func urlPathProvider(_ value: GetSellingSystemSettingsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ListEngagementByAcceptingInvitationTasksInput {
+
+    static func urlPathProvider(_ value: ListEngagementByAcceptingInvitationTasksInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ListEngagementFromOpportunityTasksInput {
+
+    static func urlPathProvider(_ value: ListEngagementFromOpportunityTasksInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension ListEngagementInvitationsInput {
 
     static func urlPathProvider(_ value: ListEngagementInvitationsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ListEngagementMembersInput {
+
+    static func urlPathProvider(_ value: ListEngagementMembersInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ListEngagementResourceAssociationsInput {
+
+    static func urlPathProvider(_ value: ListEngagementResourceAssociationsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ListEngagementsInput {
+
+    static func urlPathProvider(_ value: ListEngagementsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5586,9 +7573,30 @@ extension ListOpportunitiesInput {
     }
 }
 
+extension ListResourceSnapshotJobsInput {
+
+    static func urlPathProvider(_ value: ListResourceSnapshotJobsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ListResourceSnapshotsInput {
+
+    static func urlPathProvider(_ value: ListResourceSnapshotsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension ListSolutionsInput {
 
     static func urlPathProvider(_ value: ListSolutionsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension PutSellingSystemSettingsInput {
+
+    static func urlPathProvider(_ value: PutSellingSystemSettingsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5614,10 +7622,40 @@ extension StartEngagementFromOpportunityTaskInput {
     }
 }
 
+extension StartResourceSnapshotJobInput {
+
+    static func urlPathProvider(_ value: StartResourceSnapshotJobInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension StopResourceSnapshotJobInput {
+
+    static func urlPathProvider(_ value: StopResourceSnapshotJobInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension SubmitOpportunityInput {
+
+    static func urlPathProvider(_ value: SubmitOpportunityInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension UpdateOpportunityInput {
 
     static func urlPathProvider(_ value: UpdateOpportunityInput) -> Swift.String? {
         return "/"
+    }
+}
+
+extension AcceptEngagementInvitationInput {
+
+    static func write(value: AcceptEngagementInvitationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Catalog"].write(value.catalog)
+        try writer["Identifier"].write(value.identifier)
     }
 }
 
@@ -5642,6 +7680,29 @@ extension AssociateOpportunityInput {
     }
 }
 
+extension CreateEngagementInput {
+
+    static func write(value: CreateEngagementInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Catalog"].write(value.catalog)
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["Contexts"].writeList(value.contexts, memberWritingClosure: PartnerCentralSellingClientTypes.EngagementContextDetails.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Description"].write(value.description)
+        try writer["Title"].write(value.title)
+    }
+}
+
+extension CreateEngagementInvitationInput {
+
+    static func write(value: CreateEngagementInvitationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Catalog"].write(value.catalog)
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["EngagementIdentifier"].write(value.engagementIdentifier)
+        try writer["Invitation"].write(value.invitation, with: PartnerCentralSellingClientTypes.Invitation.write(value:to:))
+    }
+}
+
 extension CreateOpportunityInput {
 
     static func write(value: CreateOpportunityInput?, to writer: SmithyJSON.Writer) throws {
@@ -5659,6 +7720,41 @@ extension CreateOpportunityInput {
         try writer["PrimaryNeedsFromAws"].writeList(value.primaryNeedsFromAws, memberWritingClosure: SmithyReadWrite.WritingClosureBox<PartnerCentralSellingClientTypes.PrimaryNeedFromAws>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Project"].write(value.project, with: PartnerCentralSellingClientTypes.Project.write(value:to:))
         try writer["SoftwareRevenue"].write(value.softwareRevenue, with: PartnerCentralSellingClientTypes.SoftwareRevenue.write(value:to:))
+    }
+}
+
+extension CreateResourceSnapshotInput {
+
+    static func write(value: CreateResourceSnapshotInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Catalog"].write(value.catalog)
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["EngagementIdentifier"].write(value.engagementIdentifier)
+        try writer["ResourceIdentifier"].write(value.resourceIdentifier)
+        try writer["ResourceSnapshotTemplateIdentifier"].write(value.resourceSnapshotTemplateIdentifier)
+        try writer["ResourceType"].write(value.resourceType)
+    }
+}
+
+extension CreateResourceSnapshotJobInput {
+
+    static func write(value: CreateResourceSnapshotJobInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Catalog"].write(value.catalog)
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["EngagementIdentifier"].write(value.engagementIdentifier)
+        try writer["ResourceIdentifier"].write(value.resourceIdentifier)
+        try writer["ResourceSnapshotTemplateIdentifier"].write(value.resourceSnapshotTemplateIdentifier)
+        try writer["ResourceType"].write(value.resourceType)
+    }
+}
+
+extension DeleteResourceSnapshotJobInput {
+
+    static func write(value: DeleteResourceSnapshotJobInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Catalog"].write(value.catalog)
+        try writer["ResourceSnapshotJobIdentifier"].write(value.resourceSnapshotJobIdentifier)
     }
 }
 
@@ -5682,6 +7778,15 @@ extension GetAwsOpportunitySummaryInput {
     }
 }
 
+extension GetEngagementInput {
+
+    static func write(value: GetEngagementInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Catalog"].write(value.catalog)
+        try writer["Identifier"].write(value.identifier)
+    }
+}
+
 extension GetEngagementInvitationInput {
 
     static func write(value: GetEngagementInvitationInput?, to writer: SmithyJSON.Writer) throws {
@@ -5700,16 +7805,118 @@ extension GetOpportunityInput {
     }
 }
 
+extension GetResourceSnapshotInput {
+
+    static func write(value: GetResourceSnapshotInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Catalog"].write(value.catalog)
+        try writer["EngagementIdentifier"].write(value.engagementIdentifier)
+        try writer["ResourceIdentifier"].write(value.resourceIdentifier)
+        try writer["ResourceSnapshotTemplateIdentifier"].write(value.resourceSnapshotTemplateIdentifier)
+        try writer["ResourceType"].write(value.resourceType)
+        try writer["Revision"].write(value.revision)
+    }
+}
+
+extension GetResourceSnapshotJobInput {
+
+    static func write(value: GetResourceSnapshotJobInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Catalog"].write(value.catalog)
+        try writer["ResourceSnapshotJobIdentifier"].write(value.resourceSnapshotJobIdentifier)
+    }
+}
+
+extension GetSellingSystemSettingsInput {
+
+    static func write(value: GetSellingSystemSettingsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Catalog"].write(value.catalog)
+    }
+}
+
+extension ListEngagementByAcceptingInvitationTasksInput {
+
+    static func write(value: ListEngagementByAcceptingInvitationTasksInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Catalog"].write(value.catalog)
+        try writer["EngagementInvitationIdentifier"].writeList(value.engagementInvitationIdentifier, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["OpportunityIdentifier"].writeList(value.opportunityIdentifier, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Sort"].write(value.sort, with: PartnerCentralSellingClientTypes.ListTasksSortBase.write(value:to:))
+        try writer["TaskIdentifier"].writeList(value.taskIdentifier, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TaskStatus"].writeList(value.taskStatus, memberWritingClosure: SmithyReadWrite.WritingClosureBox<PartnerCentralSellingClientTypes.TaskStatus>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension ListEngagementFromOpportunityTasksInput {
+
+    static func write(value: ListEngagementFromOpportunityTasksInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Catalog"].write(value.catalog)
+        try writer["EngagementIdentifier"].writeList(value.engagementIdentifier, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["OpportunityIdentifier"].writeList(value.opportunityIdentifier, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Sort"].write(value.sort, with: PartnerCentralSellingClientTypes.ListTasksSortBase.write(value:to:))
+        try writer["TaskIdentifier"].writeList(value.taskIdentifier, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TaskStatus"].writeList(value.taskStatus, memberWritingClosure: SmithyReadWrite.WritingClosureBox<PartnerCentralSellingClientTypes.TaskStatus>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension ListEngagementInvitationsInput {
 
     static func write(value: ListEngagementInvitationsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Catalog"].write(value.catalog)
+        try writer["EngagementIdentifier"].writeList(value.engagementIdentifier, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["MaxResults"].write(value.maxResults)
         try writer["NextToken"].write(value.nextToken)
         try writer["ParticipantType"].write(value.participantType)
         try writer["PayloadType"].writeList(value.payloadType, memberWritingClosure: SmithyReadWrite.WritingClosureBox<PartnerCentralSellingClientTypes.EngagementInvitationPayloadType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SenderAwsAccountId"].writeList(value.senderAwsAccountId, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Sort"].write(value.sort, with: PartnerCentralSellingClientTypes.OpportunityEngagementInvitationSort.write(value:to:))
+        try writer["Status"].writeList(value.status, memberWritingClosure: SmithyReadWrite.WritingClosureBox<PartnerCentralSellingClientTypes.InvitationStatus>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension ListEngagementMembersInput {
+
+    static func write(value: ListEngagementMembersInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Catalog"].write(value.catalog)
+        try writer["Identifier"].write(value.identifier)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+    }
+}
+
+extension ListEngagementResourceAssociationsInput {
+
+    static func write(value: ListEngagementResourceAssociationsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Catalog"].write(value.catalog)
+        try writer["CreatedBy"].write(value.createdBy)
+        try writer["EngagementIdentifier"].write(value.engagementIdentifier)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["ResourceIdentifier"].write(value.resourceIdentifier)
+        try writer["ResourceType"].write(value.resourceType)
+    }
+}
+
+extension ListEngagementsInput {
+
+    static func write(value: ListEngagementsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Catalog"].write(value.catalog)
+        try writer["CreatedBy"].writeList(value.createdBy, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["EngagementIdentifier"].writeList(value.engagementIdentifier, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ExcludeCreatedBy"].writeList(value.excludeCreatedBy, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["Sort"].write(value.sort, with: PartnerCentralSellingClientTypes.EngagementSort.write(value:to:))
     }
 }
 
@@ -5729,6 +7936,34 @@ extension ListOpportunitiesInput {
     }
 }
 
+extension ListResourceSnapshotJobsInput {
+
+    static func write(value: ListResourceSnapshotJobsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Catalog"].write(value.catalog)
+        try writer["EngagementIdentifier"].write(value.engagementIdentifier)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["Sort"].write(value.sort, with: PartnerCentralSellingClientTypes.SortObject.write(value:to:))
+        try writer["Status"].write(value.status)
+    }
+}
+
+extension ListResourceSnapshotsInput {
+
+    static func write(value: ListResourceSnapshotsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Catalog"].write(value.catalog)
+        try writer["CreatedBy"].write(value.createdBy)
+        try writer["EngagementIdentifier"].write(value.engagementIdentifier)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["ResourceIdentifier"].write(value.resourceIdentifier)
+        try writer["ResourceSnapshotTemplateIdentifier"].write(value.resourceSnapshotTemplateIdentifier)
+        try writer["ResourceType"].write(value.resourceType)
+    }
+}
+
 extension ListSolutionsInput {
 
     static func write(value: ListSolutionsInput?, to writer: SmithyJSON.Writer) throws {
@@ -5740,6 +7975,15 @@ extension ListSolutionsInput {
         try writer["NextToken"].write(value.nextToken)
         try writer["Sort"].write(value.sort, with: PartnerCentralSellingClientTypes.SolutionSort.write(value:to:))
         try writer["Status"].writeList(value.status, memberWritingClosure: SmithyReadWrite.WritingClosureBox<PartnerCentralSellingClientTypes.SolutionStatus>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension PutSellingSystemSettingsInput {
+
+    static func write(value: PutSellingSystemSettingsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Catalog"].write(value.catalog)
+        try writer["ResourceSnapshotJobRoleIdentifier"].write(value.resourceSnapshotJobRoleIdentifier)
     }
 }
 
@@ -5774,6 +8018,35 @@ extension StartEngagementFromOpportunityTaskInput {
     }
 }
 
+extension StartResourceSnapshotJobInput {
+
+    static func write(value: StartResourceSnapshotJobInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Catalog"].write(value.catalog)
+        try writer["ResourceSnapshotJobIdentifier"].write(value.resourceSnapshotJobIdentifier)
+    }
+}
+
+extension StopResourceSnapshotJobInput {
+
+    static func write(value: StopResourceSnapshotJobInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Catalog"].write(value.catalog)
+        try writer["ResourceSnapshotJobIdentifier"].write(value.resourceSnapshotJobIdentifier)
+    }
+}
+
+extension SubmitOpportunityInput {
+
+    static func write(value: SubmitOpportunityInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Catalog"].write(value.catalog)
+        try writer["Identifier"].write(value.identifier)
+        try writer["InvolvementType"].write(value.involvementType)
+        try writer["Visibility"].write(value.visibility)
+    }
+}
+
 extension UpdateOpportunityInput {
 
     static func write(value: UpdateOpportunityInput?, to writer: SmithyJSON.Writer) throws {
@@ -5793,6 +8066,13 @@ extension UpdateOpportunityInput {
     }
 }
 
+extension AcceptEngagementInvitationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AcceptEngagementInvitationOutput {
+        return AcceptEngagementInvitationOutput()
+    }
+}
+
 extension AssignOpportunityOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AssignOpportunityOutput {
@@ -5807,6 +8087,32 @@ extension AssociateOpportunityOutput {
     }
 }
 
+extension CreateEngagementOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateEngagementOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateEngagementOutput()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent()
+        return value
+    }
+}
+
+extension CreateEngagementInvitationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateEngagementInvitationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateEngagementInvitationOutput()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension CreateOpportunityOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateOpportunityOutput {
@@ -5818,6 +8124,39 @@ extension CreateOpportunityOutput {
         value.lastModifiedDate = try reader["LastModifiedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.partnerOpportunityIdentifier = try reader["PartnerOpportunityIdentifier"].readIfPresent()
         return value
+    }
+}
+
+extension CreateResourceSnapshotOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateResourceSnapshotOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateResourceSnapshotOutput()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.revision = try reader["Revision"].readIfPresent()
+        return value
+    }
+}
+
+extension CreateResourceSnapshotJobOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateResourceSnapshotJobOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateResourceSnapshotJobOutput()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent()
+        return value
+    }
+}
+
+extension DeleteResourceSnapshotJobOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteResourceSnapshotJobOutput {
+        return DeleteResourceSnapshotJobOutput()
     }
 }
 
@@ -5851,6 +8190,25 @@ extension GetAwsOpportunitySummaryOutput {
     }
 }
 
+extension GetEngagementOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetEngagementOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetEngagementOutput()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.contexts = try reader["Contexts"].readListIfPresent(memberReadingClosure: PartnerCentralSellingClientTypes.EngagementContextDetails.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.createdBy = try reader["CreatedBy"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent()
+        value.memberCount = try reader["MemberCount"].readIfPresent()
+        value.title = try reader["Title"].readIfPresent()
+        return value
+    }
+}
+
 extension GetEngagementInvitationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetEngagementInvitationOutput {
@@ -5860,10 +8218,14 @@ extension GetEngagementInvitationOutput {
         var value = GetEngagementInvitationOutput()
         value.arn = try reader["Arn"].readIfPresent()
         value.catalog = try reader["Catalog"].readIfPresent() ?? ""
+        value.engagementDescription = try reader["EngagementDescription"].readIfPresent()
+        value.engagementId = try reader["EngagementId"].readIfPresent()
         value.engagementTitle = try reader["EngagementTitle"].readIfPresent()
+        value.existingMembers = try reader["ExistingMembers"].readListIfPresent(memberReadingClosure: PartnerCentralSellingClientTypes.EngagementMemberSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.expirationDate = try reader["ExpirationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.id = try reader["Id"].readIfPresent() ?? ""
         value.invitationDate = try reader["InvitationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.invitationMessage = try reader["InvitationMessage"].readIfPresent()
         value.payload = try reader["Payload"].readIfPresent(with: PartnerCentralSellingClientTypes.Payload.read(from:))
         value.payloadType = try reader["PayloadType"].readIfPresent()
         value.receiver = try reader["Receiver"].readIfPresent(with: PartnerCentralSellingClientTypes.Receiver.read(from:))
@@ -5882,6 +8244,7 @@ extension GetOpportunityOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetOpportunityOutput()
+        value.arn = try reader["Arn"].readIfPresent()
         value.catalog = try reader["Catalog"].readIfPresent() ?? ""
         value.createdDate = try reader["CreatedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.customer = try reader["Customer"].readIfPresent(with: PartnerCentralSellingClientTypes.Customer.read(from:))
@@ -5901,6 +8264,89 @@ extension GetOpportunityOutput {
     }
 }
 
+extension GetResourceSnapshotOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetResourceSnapshotOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetResourceSnapshotOutput()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.catalog = try reader["Catalog"].readIfPresent() ?? ""
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.createdBy = try reader["CreatedBy"].readIfPresent()
+        value.engagementId = try reader["EngagementId"].readIfPresent()
+        value.payload = try reader["Payload"].readIfPresent(with: PartnerCentralSellingClientTypes.ResourceSnapshotPayload.read(from:))
+        value.resourceId = try reader["ResourceId"].readIfPresent()
+        value.resourceSnapshotTemplateName = try reader["ResourceSnapshotTemplateName"].readIfPresent()
+        value.resourceType = try reader["ResourceType"].readIfPresent()
+        value.revision = try reader["Revision"].readIfPresent()
+        return value
+    }
+}
+
+extension GetResourceSnapshotJobOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetResourceSnapshotJobOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetResourceSnapshotJobOutput()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.catalog = try reader["Catalog"].readIfPresent() ?? ""
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.engagementId = try reader["EngagementId"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent()
+        value.lastFailure = try reader["LastFailure"].readIfPresent()
+        value.lastSuccessfulExecutionDate = try reader["LastSuccessfulExecutionDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.resourceArn = try reader["ResourceArn"].readIfPresent()
+        value.resourceId = try reader["ResourceId"].readIfPresent()
+        value.resourceSnapshotTemplateName = try reader["ResourceSnapshotTemplateName"].readIfPresent()
+        value.resourceType = try reader["ResourceType"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        return value
+    }
+}
+
+extension GetSellingSystemSettingsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetSellingSystemSettingsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetSellingSystemSettingsOutput()
+        value.catalog = try reader["Catalog"].readIfPresent() ?? ""
+        value.resourceSnapshotJobRoleArn = try reader["ResourceSnapshotJobRoleArn"].readIfPresent()
+        return value
+    }
+}
+
+extension ListEngagementByAcceptingInvitationTasksOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListEngagementByAcceptingInvitationTasksOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListEngagementByAcceptingInvitationTasksOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.taskSummaries = try reader["TaskSummaries"].readListIfPresent(memberReadingClosure: PartnerCentralSellingClientTypes.ListEngagementByAcceptingInvitationTaskSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ListEngagementFromOpportunityTasksOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListEngagementFromOpportunityTasksOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListEngagementFromOpportunityTasksOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.taskSummaries = try reader["TaskSummaries"].readListIfPresent(memberReadingClosure: PartnerCentralSellingClientTypes.ListEngagementFromOpportunityTaskSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension ListEngagementInvitationsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListEngagementInvitationsOutput {
@@ -5909,6 +8355,45 @@ extension ListEngagementInvitationsOutput {
         let reader = responseReader
         var value = ListEngagementInvitationsOutput()
         value.engagementInvitationSummaries = try reader["EngagementInvitationSummaries"].readListIfPresent(memberReadingClosure: PartnerCentralSellingClientTypes.EngagementInvitationSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListEngagementMembersOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListEngagementMembersOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListEngagementMembersOutput()
+        value.engagementMemberList = try reader["EngagementMemberList"].readListIfPresent(memberReadingClosure: PartnerCentralSellingClientTypes.EngagementMember.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListEngagementResourceAssociationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListEngagementResourceAssociationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListEngagementResourceAssociationsOutput()
+        value.engagementResourceAssociationSummaries = try reader["EngagementResourceAssociationSummaries"].readListIfPresent(memberReadingClosure: PartnerCentralSellingClientTypes.EngagementResourceAssociationSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListEngagementsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListEngagementsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListEngagementsOutput()
+        value.engagementSummaryList = try reader["EngagementSummaryList"].readListIfPresent(memberReadingClosure: PartnerCentralSellingClientTypes.EngagementSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -5927,6 +8412,32 @@ extension ListOpportunitiesOutput {
     }
 }
 
+extension ListResourceSnapshotJobsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListResourceSnapshotJobsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListResourceSnapshotJobsOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.resourceSnapshotJobSummaries = try reader["ResourceSnapshotJobSummaries"].readListIfPresent(memberReadingClosure: PartnerCentralSellingClientTypes.ResourceSnapshotJobSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension ListResourceSnapshotsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListResourceSnapshotsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListResourceSnapshotsOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.resourceSnapshotSummaries = try reader["ResourceSnapshotSummaries"].readListIfPresent(memberReadingClosure: PartnerCentralSellingClientTypes.ResourceSnapshotSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension ListSolutionsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListSolutionsOutput {
@@ -5936,6 +8447,19 @@ extension ListSolutionsOutput {
         var value = ListSolutionsOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
         value.solutionSummaries = try reader["SolutionSummaries"].readListIfPresent(memberReadingClosure: PartnerCentralSellingClientTypes.SolutionBase.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension PutSellingSystemSettingsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutSellingSystemSettingsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = PutSellingSystemSettingsOutput()
+        value.catalog = try reader["Catalog"].readIfPresent() ?? ""
+        value.resourceSnapshotJobRoleArn = try reader["ResourceSnapshotJobRoleArn"].readIfPresent()
         return value
     }
 }
@@ -5958,6 +8482,7 @@ extension StartEngagementByAcceptingInvitationTaskOutput {
         value.message = try reader["Message"].readIfPresent()
         value.opportunityId = try reader["OpportunityId"].readIfPresent()
         value.reasonCode = try reader["ReasonCode"].readIfPresent()
+        value.resourceSnapshotJobId = try reader["ResourceSnapshotJobId"].readIfPresent()
         value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.taskArn = try reader["TaskArn"].readIfPresent()
         value.taskId = try reader["TaskId"].readIfPresent()
@@ -5973,14 +8498,38 @@ extension StartEngagementFromOpportunityTaskOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = StartEngagementFromOpportunityTaskOutput()
+        value.engagementId = try reader["EngagementId"].readIfPresent()
+        value.engagementInvitationId = try reader["EngagementInvitationId"].readIfPresent()
         value.message = try reader["Message"].readIfPresent()
         value.opportunityId = try reader["OpportunityId"].readIfPresent()
         value.reasonCode = try reader["ReasonCode"].readIfPresent()
+        value.resourceSnapshotJobId = try reader["ResourceSnapshotJobId"].readIfPresent()
         value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.taskArn = try reader["TaskArn"].readIfPresent()
         value.taskId = try reader["TaskId"].readIfPresent()
         value.taskStatus = try reader["TaskStatus"].readIfPresent()
         return value
+    }
+}
+
+extension StartResourceSnapshotJobOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartResourceSnapshotJobOutput {
+        return StartResourceSnapshotJobOutput()
+    }
+}
+
+extension StopResourceSnapshotJobOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StopResourceSnapshotJobOutput {
+        return StopResourceSnapshotJobOutput()
+    }
+}
+
+extension SubmitOpportunityOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> SubmitOpportunityOutput {
+        return SubmitOpportunityOutput()
     }
 }
 
@@ -5994,6 +8543,24 @@ extension UpdateOpportunityOutput {
         value.id = try reader["Id"].readIfPresent() ?? ""
         value.lastModifiedDate = try reader["LastModifiedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
+    }
+}
+
+enum AcceptEngagementInvitationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
     }
 }
 
@@ -6033,6 +8600,44 @@ enum AssociateOpportunityOutputError {
     }
 }
 
+enum CreateEngagementOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateEngagementInvitationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateOpportunityOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -6044,6 +8649,61 @@ enum CreateOpportunityOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateResourceSnapshotOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateResourceSnapshotJobOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteResourceSnapshotJobOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -6088,6 +8748,23 @@ enum GetAwsOpportunitySummaryOutputError {
     }
 }
 
+enum GetEngagementOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetEngagementInvitationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -6124,6 +8801,91 @@ enum GetOpportunityOutputError {
     }
 }
 
+enum GetResourceSnapshotOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetResourceSnapshotJobOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetSellingSystemSettingsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListEngagementByAcceptingInvitationTasksOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListEngagementFromOpportunityTasksOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListEngagementInvitationsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -6134,6 +8896,57 @@ enum ListEngagementInvitationsOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListEngagementMembersOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListEngagementResourceAssociationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListEngagementsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -6160,6 +8973,39 @@ enum ListOpportunitiesOutputError {
     }
 }
 
+enum ListResourceSnapshotJobsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListResourceSnapshotsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListSolutionsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -6171,6 +9017,23 @@ enum ListSolutionsOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum PutSellingSystemSettingsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -6228,6 +9091,58 @@ enum StartEngagementFromOpportunityTaskOutputError {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StartResourceSnapshotJobOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StopResourceSnapshotJobOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum SubmitOpportunityOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -6321,11 +9236,11 @@ extension ThrottlingException {
     }
 }
 
-extension ConflictException {
+extension ServiceQuotaExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConflictException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
-        var value = ConflictException()
+        var value = ServiceQuotaExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -6334,11 +9249,11 @@ extension ConflictException {
     }
 }
 
-extension ServiceQuotaExceededException {
+extension ConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceQuotaExceededException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
-        var value = ServiceQuotaExceededException()
+        var value = ConflictException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -6456,6 +9371,7 @@ extension PartnerCentralSellingClientTypes.ExpectedCustomerSpend {
         guard let value else { return }
         try writer["Amount"].write(value.amount)
         try writer["CurrencyCode"].write(value.currencyCode)
+        try writer["EstimationUrl"].write(value.estimationUrl)
         try writer["Frequency"].write(value.frequency)
         try writer["TargetCompany"].write(value.targetCompany)
     }
@@ -6467,11 +9383,120 @@ extension PartnerCentralSellingClientTypes.ExpectedCustomerSpend {
         value.currencyCode = try reader["CurrencyCode"].readIfPresent() ?? .sdkUnknown("")
         value.frequency = try reader["Frequency"].readIfPresent() ?? .sdkUnknown("")
         value.targetCompany = try reader["TargetCompany"].readIfPresent() ?? ""
+        value.estimationUrl = try reader["EstimationUrl"].readIfPresent()
+        return value
+    }
+}
+
+extension PartnerCentralSellingClientTypes.EngagementContextDetails {
+
+    static func write(value: PartnerCentralSellingClientTypes.EngagementContextDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Payload"].write(value.payload, with: PartnerCentralSellingClientTypes.EngagementContextPayload.write(value:to:))
+        try writer["Type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.EngagementContextDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PartnerCentralSellingClientTypes.EngagementContextDetails()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.payload = try reader["Payload"].readIfPresent(with: PartnerCentralSellingClientTypes.EngagementContextPayload.read(from:))
+        return value
+    }
+}
+
+extension PartnerCentralSellingClientTypes.EngagementContextPayload {
+
+    static func write(value: PartnerCentralSellingClientTypes.EngagementContextPayload?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .customerproject(customerproject):
+                try writer["CustomerProject"].write(customerproject, with: PartnerCentralSellingClientTypes.CustomerProjectsContext.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.EngagementContextPayload {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "CustomerProject":
+                return .customerproject(try reader["CustomerProject"].read(with: PartnerCentralSellingClientTypes.CustomerProjectsContext.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension PartnerCentralSellingClientTypes.CustomerProjectsContext {
+
+    static func write(value: PartnerCentralSellingClientTypes.CustomerProjectsContext?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Customer"].write(value.customer, with: PartnerCentralSellingClientTypes.EngagementCustomer.write(value:to:))
+        try writer["Project"].write(value.project, with: PartnerCentralSellingClientTypes.EngagementCustomerProjectDetails.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.CustomerProjectsContext {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PartnerCentralSellingClientTypes.CustomerProjectsContext()
+        value.customer = try reader["Customer"].readIfPresent(with: PartnerCentralSellingClientTypes.EngagementCustomer.read(from:))
+        value.project = try reader["Project"].readIfPresent(with: PartnerCentralSellingClientTypes.EngagementCustomerProjectDetails.read(from:))
+        return value
+    }
+}
+
+extension PartnerCentralSellingClientTypes.EngagementCustomerProjectDetails {
+
+    static func write(value: PartnerCentralSellingClientTypes.EngagementCustomerProjectDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BusinessProblem"].write(value.businessProblem)
+        try writer["TargetCompletionDate"].write(value.targetCompletionDate)
+        try writer["Title"].write(value.title)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.EngagementCustomerProjectDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PartnerCentralSellingClientTypes.EngagementCustomerProjectDetails()
+        value.title = try reader["Title"].readIfPresent() ?? ""
+        value.businessProblem = try reader["BusinessProblem"].readIfPresent() ?? ""
+        value.targetCompletionDate = try reader["TargetCompletionDate"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension PartnerCentralSellingClientTypes.EngagementCustomer {
+
+    static func write(value: PartnerCentralSellingClientTypes.EngagementCustomer?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CompanyName"].write(value.companyName)
+        try writer["CountryCode"].write(value.countryCode)
+        try writer["Industry"].write(value.industry)
+        try writer["WebsiteUrl"].write(value.websiteUrl)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.EngagementCustomer {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PartnerCentralSellingClientTypes.EngagementCustomer()
+        value.industry = try reader["Industry"].readIfPresent() ?? .sdkUnknown("")
+        value.companyName = try reader["CompanyName"].readIfPresent() ?? ""
+        value.websiteUrl = try reader["WebsiteUrl"].readIfPresent() ?? ""
+        value.countryCode = try reader["CountryCode"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
 
 extension PartnerCentralSellingClientTypes.Receiver {
+
+    static func write(value: PartnerCentralSellingClientTypes.Receiver?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .account(account):
+                try writer["Account"].write(account, with: PartnerCentralSellingClientTypes.AccountReceiver.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.Receiver {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6487,6 +9512,12 @@ extension PartnerCentralSellingClientTypes.Receiver {
 
 extension PartnerCentralSellingClientTypes.AccountReceiver {
 
+    static func write(value: PartnerCentralSellingClientTypes.AccountReceiver?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Alias"].write(value.alias)
+        try writer["AwsAccountId"].write(value.awsAccountId)
+    }
+
     static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.AccountReceiver {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PartnerCentralSellingClientTypes.AccountReceiver()
@@ -6497,6 +9528,16 @@ extension PartnerCentralSellingClientTypes.AccountReceiver {
 }
 
 extension PartnerCentralSellingClientTypes.Payload {
+
+    static func write(value: PartnerCentralSellingClientTypes.Payload?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .opportunityinvitation(opportunityinvitation):
+                try writer["OpportunityInvitation"].write(opportunityinvitation, with: PartnerCentralSellingClientTypes.OpportunityInvitationPayload.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.Payload {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6512,6 +9553,14 @@ extension PartnerCentralSellingClientTypes.Payload {
 
 extension PartnerCentralSellingClientTypes.OpportunityInvitationPayload {
 
+    static func write(value: PartnerCentralSellingClientTypes.OpportunityInvitationPayload?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Customer"].write(value.customer, with: PartnerCentralSellingClientTypes.EngagementCustomer.write(value:to:))
+        try writer["Project"].write(value.project, with: PartnerCentralSellingClientTypes.ProjectDetails.write(value:to:))
+        try writer["ReceiverResponsibilities"].writeList(value.receiverResponsibilities, memberWritingClosure: SmithyReadWrite.WritingClosureBox<PartnerCentralSellingClientTypes.ReceiverResponsibility>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SenderContacts"].writeList(value.senderContacts, memberWritingClosure: PartnerCentralSellingClientTypes.SenderContact.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
     static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.OpportunityInvitationPayload {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PartnerCentralSellingClientTypes.OpportunityInvitationPayload()
@@ -6525,6 +9574,14 @@ extension PartnerCentralSellingClientTypes.OpportunityInvitationPayload {
 
 extension PartnerCentralSellingClientTypes.ProjectDetails {
 
+    static func write(value: PartnerCentralSellingClientTypes.ProjectDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BusinessProblem"].write(value.businessProblem)
+        try writer["ExpectedCustomerSpend"].writeList(value.expectedCustomerSpend, memberWritingClosure: PartnerCentralSellingClientTypes.ExpectedCustomerSpend.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TargetCompletionDate"].write(value.targetCompletionDate)
+        try writer["Title"].write(value.title)
+    }
+
     static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.ProjectDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PartnerCentralSellingClientTypes.ProjectDetails()
@@ -6536,20 +9593,16 @@ extension PartnerCentralSellingClientTypes.ProjectDetails {
     }
 }
 
-extension PartnerCentralSellingClientTypes.EngagementCustomer {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.EngagementCustomer {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PartnerCentralSellingClientTypes.EngagementCustomer()
-        value.industry = try reader["Industry"].readIfPresent() ?? .sdkUnknown("")
-        value.companyName = try reader["CompanyName"].readIfPresent() ?? ""
-        value.websiteUrl = try reader["WebsiteUrl"].readIfPresent() ?? ""
-        value.countryCode = try reader["CountryCode"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
 extension PartnerCentralSellingClientTypes.SenderContact {
+
+    static func write(value: PartnerCentralSellingClientTypes.SenderContact?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BusinessTitle"].write(value.businessTitle)
+        try writer["Email"].write(value.email)
+        try writer["FirstName"].write(value.firstName)
+        try writer["LastName"].write(value.lastName)
+        try writer["Phone"].write(value.phone)
+    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.SenderContact {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -6559,6 +9612,17 @@ extension PartnerCentralSellingClientTypes.SenderContact {
         value.lastName = try reader["LastName"].readIfPresent()
         value.businessTitle = try reader["BusinessTitle"].readIfPresent()
         value.phone = try reader["Phone"].readIfPresent()
+        return value
+    }
+}
+
+extension PartnerCentralSellingClientTypes.EngagementMemberSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.EngagementMemberSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PartnerCentralSellingClientTypes.EngagementMemberSummary()
+        value.companyName = try reader["CompanyName"].readIfPresent()
+        value.websiteUrl = try reader["WebsiteUrl"].readIfPresent()
         return value
     }
 }
@@ -6786,6 +9850,100 @@ extension PartnerCentralSellingClientTypes.NextStepsHistory {
     }
 }
 
+extension PartnerCentralSellingClientTypes.ResourceSnapshotPayload {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.ResourceSnapshotPayload {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "OpportunitySummary":
+                return .opportunitysummary(try reader["OpportunitySummary"].read(with: PartnerCentralSellingClientTypes.OpportunitySummaryView.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension PartnerCentralSellingClientTypes.OpportunitySummaryView {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.OpportunitySummaryView {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PartnerCentralSellingClientTypes.OpportunitySummaryView()
+        value.opportunityType = try reader["OpportunityType"].readIfPresent()
+        value.lifecycle = try reader["Lifecycle"].readIfPresent(with: PartnerCentralSellingClientTypes.LifeCycleForView.read(from:))
+        value.opportunityTeam = try reader["OpportunityTeam"].readListIfPresent(memberReadingClosure: PartnerCentralSellingClientTypes.Contact.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.primaryNeedsFromAws = try reader["PrimaryNeedsFromAws"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<PartnerCentralSellingClientTypes.PrimaryNeedFromAws>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.customer = try reader["Customer"].readIfPresent(with: PartnerCentralSellingClientTypes.Customer.read(from:))
+        value.project = try reader["Project"].readIfPresent(with: PartnerCentralSellingClientTypes.ProjectView.read(from:))
+        value.relatedEntityIdentifiers = try reader["RelatedEntityIdentifiers"].readIfPresent(with: PartnerCentralSellingClientTypes.RelatedEntityIdentifiers.read(from:))
+        return value
+    }
+}
+
+extension PartnerCentralSellingClientTypes.ProjectView {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.ProjectView {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PartnerCentralSellingClientTypes.ProjectView()
+        value.deliveryModels = try reader["DeliveryModels"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<PartnerCentralSellingClientTypes.DeliveryModel>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.expectedCustomerSpend = try reader["ExpectedCustomerSpend"].readListIfPresent(memberReadingClosure: PartnerCentralSellingClientTypes.ExpectedCustomerSpend.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.customerUseCase = try reader["CustomerUseCase"].readIfPresent()
+        value.salesActivities = try reader["SalesActivities"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<PartnerCentralSellingClientTypes.SalesActivity>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.otherSolutionDescription = try reader["OtherSolutionDescription"].readIfPresent()
+        return value
+    }
+}
+
+extension PartnerCentralSellingClientTypes.LifeCycleForView {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.LifeCycleForView {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PartnerCentralSellingClientTypes.LifeCycleForView()
+        value.targetCloseDate = try reader["TargetCloseDate"].readIfPresent()
+        value.reviewStatus = try reader["ReviewStatus"].readIfPresent()
+        value.stage = try reader["Stage"].readIfPresent()
+        value.nextSteps = try reader["NextSteps"].readIfPresent()
+        return value
+    }
+}
+
+extension PartnerCentralSellingClientTypes.ListEngagementByAcceptingInvitationTaskSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.ListEngagementByAcceptingInvitationTaskSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PartnerCentralSellingClientTypes.ListEngagementByAcceptingInvitationTaskSummary()
+        value.taskId = try reader["TaskId"].readIfPresent()
+        value.taskArn = try reader["TaskArn"].readIfPresent()
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.taskStatus = try reader["TaskStatus"].readIfPresent()
+        value.message = try reader["Message"].readIfPresent()
+        value.reasonCode = try reader["ReasonCode"].readIfPresent()
+        value.opportunityId = try reader["OpportunityId"].readIfPresent()
+        value.resourceSnapshotJobId = try reader["ResourceSnapshotJobId"].readIfPresent()
+        value.engagementInvitationId = try reader["EngagementInvitationId"].readIfPresent()
+        return value
+    }
+}
+
+extension PartnerCentralSellingClientTypes.ListEngagementFromOpportunityTaskSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.ListEngagementFromOpportunityTaskSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PartnerCentralSellingClientTypes.ListEngagementFromOpportunityTaskSummary()
+        value.taskId = try reader["TaskId"].readIfPresent()
+        value.taskArn = try reader["TaskArn"].readIfPresent()
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.taskStatus = try reader["TaskStatus"].readIfPresent()
+        value.message = try reader["Message"].readIfPresent()
+        value.reasonCode = try reader["ReasonCode"].readIfPresent()
+        value.opportunityId = try reader["OpportunityId"].readIfPresent()
+        value.resourceSnapshotJobId = try reader["ResourceSnapshotJobId"].readIfPresent()
+        value.engagementId = try reader["EngagementId"].readIfPresent()
+        value.engagementInvitationId = try reader["EngagementInvitationId"].readIfPresent()
+        return value
+    }
+}
+
 extension PartnerCentralSellingClientTypes.EngagementInvitationSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.EngagementInvitationSummary {
@@ -6794,6 +9952,7 @@ extension PartnerCentralSellingClientTypes.EngagementInvitationSummary {
         value.arn = try reader["Arn"].readIfPresent()
         value.payloadType = try reader["PayloadType"].readIfPresent()
         value.id = try reader["Id"].readIfPresent() ?? ""
+        value.engagementId = try reader["EngagementId"].readIfPresent()
         value.engagementTitle = try reader["EngagementTitle"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
         value.invitationDate = try reader["InvitationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
@@ -6802,6 +9961,48 @@ extension PartnerCentralSellingClientTypes.EngagementInvitationSummary {
         value.senderCompanyName = try reader["SenderCompanyName"].readIfPresent()
         value.receiver = try reader["Receiver"].readIfPresent(with: PartnerCentralSellingClientTypes.Receiver.read(from:))
         value.catalog = try reader["Catalog"].readIfPresent() ?? ""
+        value.participantType = try reader["ParticipantType"].readIfPresent()
+        return value
+    }
+}
+
+extension PartnerCentralSellingClientTypes.EngagementMember {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.EngagementMember {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PartnerCentralSellingClientTypes.EngagementMember()
+        value.companyName = try reader["CompanyName"].readIfPresent()
+        value.websiteUrl = try reader["WebsiteUrl"].readIfPresent()
+        value.accountId = try reader["AccountId"].readIfPresent()
+        return value
+    }
+}
+
+extension PartnerCentralSellingClientTypes.EngagementResourceAssociationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.EngagementResourceAssociationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PartnerCentralSellingClientTypes.EngagementResourceAssociationSummary()
+        value.catalog = try reader["Catalog"].readIfPresent() ?? ""
+        value.engagementId = try reader["EngagementId"].readIfPresent()
+        value.resourceType = try reader["ResourceType"].readIfPresent()
+        value.resourceId = try reader["ResourceId"].readIfPresent()
+        value.createdBy = try reader["CreatedBy"].readIfPresent()
+        return value
+    }
+}
+
+extension PartnerCentralSellingClientTypes.EngagementSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.EngagementSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PartnerCentralSellingClientTypes.EngagementSummary()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent()
+        value.title = try reader["Title"].readIfPresent()
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.createdBy = try reader["CreatedBy"].readIfPresent()
+        value.memberCount = try reader["MemberCount"].readIfPresent()
         return value
     }
 }
@@ -6813,6 +10014,7 @@ extension PartnerCentralSellingClientTypes.OpportunitySummary {
         var value = PartnerCentralSellingClientTypes.OpportunitySummary()
         value.catalog = try reader["Catalog"].readIfPresent() ?? ""
         value.id = try reader["Id"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent()
         value.partnerOpportunityIdentifier = try reader["PartnerOpportunityIdentifier"].readIfPresent()
         value.opportunityType = try reader["OpportunityType"].readIfPresent()
         value.lastModifiedDate = try reader["LastModifiedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
@@ -6888,6 +10090,34 @@ extension PartnerCentralSellingClientTypes.LifeCycleSummary {
     }
 }
 
+extension PartnerCentralSellingClientTypes.ResourceSnapshotJobSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.ResourceSnapshotJobSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PartnerCentralSellingClientTypes.ResourceSnapshotJobSummary()
+        value.id = try reader["Id"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.engagementId = try reader["EngagementId"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        return value
+    }
+}
+
+extension PartnerCentralSellingClientTypes.ResourceSnapshotSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.ResourceSnapshotSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PartnerCentralSellingClientTypes.ResourceSnapshotSummary()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.revision = try reader["Revision"].readIfPresent()
+        value.resourceType = try reader["ResourceType"].readIfPresent()
+        value.resourceId = try reader["ResourceId"].readIfPresent()
+        value.resourceSnapshotTemplateName = try reader["ResourceSnapshotTemplateName"].readIfPresent()
+        value.createdBy = try reader["CreatedBy"].readIfPresent()
+        return value
+    }
+}
+
 extension PartnerCentralSellingClientTypes.SolutionBase {
 
     static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.SolutionBase {
@@ -6895,6 +10125,7 @@ extension PartnerCentralSellingClientTypes.SolutionBase {
         var value = PartnerCentralSellingClientTypes.SolutionBase()
         value.catalog = try reader["Catalog"].readIfPresent() ?? ""
         value.id = try reader["Id"].readIfPresent() ?? ""
+        value.arn = try reader["Arn"].readIfPresent()
         value.name = try reader["Name"].readIfPresent() ?? ""
         value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         value.category = try reader["Category"].readIfPresent() ?? ""
@@ -6926,9 +10157,37 @@ extension PartnerCentralSellingClientTypes.AssigneeContact {
     }
 }
 
+extension PartnerCentralSellingClientTypes.Invitation {
+
+    static func write(value: PartnerCentralSellingClientTypes.Invitation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Message"].write(value.message)
+        try writer["Payload"].write(value.payload, with: PartnerCentralSellingClientTypes.Payload.write(value:to:))
+        try writer["Receiver"].write(value.receiver, with: PartnerCentralSellingClientTypes.Receiver.write(value:to:))
+    }
+}
+
+extension PartnerCentralSellingClientTypes.ListTasksSortBase {
+
+    static func write(value: PartnerCentralSellingClientTypes.ListTasksSortBase?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SortBy"].write(value.sortBy)
+        try writer["SortOrder"].write(value.sortOrder)
+    }
+}
+
 extension PartnerCentralSellingClientTypes.OpportunityEngagementInvitationSort {
 
     static func write(value: PartnerCentralSellingClientTypes.OpportunityEngagementInvitationSort?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SortBy"].write(value.sortBy)
+        try writer["SortOrder"].write(value.sortOrder)
+    }
+}
+
+extension PartnerCentralSellingClientTypes.EngagementSort {
+
+    static func write(value: PartnerCentralSellingClientTypes.EngagementSort?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["SortBy"].write(value.sortBy)
         try writer["SortOrder"].write(value.sortOrder)
@@ -6950,6 +10209,15 @@ extension PartnerCentralSellingClientTypes.LastModifiedDate {
         guard let value else { return }
         try writer["AfterLastModifiedDate"].writeTimestamp(value.afterLastModifiedDate, format: SmithyTimestamps.TimestampFormat.dateTime)
         try writer["BeforeLastModifiedDate"].writeTimestamp(value.beforeLastModifiedDate, format: SmithyTimestamps.TimestampFormat.dateTime)
+    }
+}
+
+extension PartnerCentralSellingClientTypes.SortObject {
+
+    static func write(value: PartnerCentralSellingClientTypes.SortObject?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SortBy"].write(value.sortBy)
+        try writer["SortOrder"].write(value.sortOrder)
     }
 }
 

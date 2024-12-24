@@ -30,9 +30,9 @@ import struct Smithy.URIQueryItem
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 
 ///
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// User does not have sufficient access to perform this action.
         public internal(set) var exceptionMessage: Swift.String? = nil
     }
@@ -55,9 +55,9 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 }
 
 ///
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Updating or deleting a resource can cause an inconsistent state.
         public internal(set) var exceptionMessage: Swift.String? = nil
     }
@@ -80,9 +80,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 ///
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Unexpected error during processing of request.
         public internal(set) var exceptionMessage: Swift.String? = nil
     }
@@ -105,9 +105,9 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 ///
-public struct PendingVerification: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PendingVerification: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Your account is pending verification.
         public internal(set) var exceptionMessage: Swift.String? = nil
     }
@@ -130,9 +130,9 @@ public struct PendingVerification: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 ///
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Request references a resource which does not exist.
         public internal(set) var exceptionMessage: Swift.String? = nil
     }
@@ -155,9 +155,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 ///
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Request would cause a service quota to be exceeded.
         public internal(set) var exceptionMessage: Swift.String? = nil
     }
@@ -180,9 +180,9 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 }
 
 ///
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The input fails to satisfy the constraints specified by an Amazon Web Services service.
         public internal(set) var exceptionMessage: Swift.String? = nil
     }
@@ -583,12 +583,14 @@ extension IVSRealTimeClientTypes {
     public enum ParticipantRecordingMediaType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case audioOnly
         case audioVideo
+        case `none`
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ParticipantRecordingMediaType] {
             return [
                 .audioOnly,
-                .audioVideo
+                .audioVideo,
+                .none
             ]
         }
 
@@ -601,8 +603,91 @@ extension IVSRealTimeClientTypes {
             switch self {
             case .audioOnly: return "AUDIO_ONLY"
             case .audioVideo: return "AUDIO_VIDEO"
+            case .none: return "NONE"
             case let .sdkUnknown(s): return s
             }
+        }
+    }
+}
+
+extension IVSRealTimeClientTypes {
+
+    public enum ThumbnailRecordingMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case interval
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ThumbnailRecordingMode] {
+            return [
+                .disabled,
+                .interval
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .interval: return "INTERVAL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension IVSRealTimeClientTypes {
+
+    public enum ThumbnailStorageType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case latest
+        case sequential
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ThumbnailStorageType] {
+            return [
+                .latest,
+                .sequential
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .latest: return "LATEST"
+            case .sequential: return "SEQUENTIAL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension IVSRealTimeClientTypes {
+
+    /// An object representing a configuration of thumbnails for recorded video from an individual participant.
+    public struct ParticipantThumbnailConfiguration: Swift.Sendable {
+        /// Thumbnail recording mode. Default: DISABLED.
+        public var recordingMode: IVSRealTimeClientTypes.ThumbnailRecordingMode?
+        /// Indicates the format in which thumbnails are recorded. SEQUENTIAL records all generated thumbnails in a serial manner, to the media/thumbnails/high directory. LATEST saves the latest thumbnail in media/latest_thumbnail/high/thumb.jpg and overwrites it at the interval specified by targetIntervalSeconds. You can enable both SEQUENTIAL and LATEST. Default: SEQUENTIAL.
+        public var storage: [IVSRealTimeClientTypes.ThumbnailStorageType]?
+        /// The targeted thumbnail-generation interval in seconds. This is configurable only if recordingMode is INTERVAL. Default: 60.
+        public var targetIntervalSeconds: Swift.Int?
+
+        public init(
+            recordingMode: IVSRealTimeClientTypes.ThumbnailRecordingMode? = nil,
+            storage: [IVSRealTimeClientTypes.ThumbnailStorageType]? = nil,
+            targetIntervalSeconds: Swift.Int? = nil
+        )
+        {
+            self.recordingMode = recordingMode
+            self.storage = storage
+            self.targetIntervalSeconds = targetIntervalSeconds
         }
     }
 }
@@ -616,14 +701,18 @@ extension IVSRealTimeClientTypes {
         /// ARN of the [StorageConfiguration] resource to use for individual participant recording. Default: "" (empty string, no storage configuration is specified). Individual participant recording cannot be started unless a storage configuration is specified, when a [Stage] is created or updated.
         /// This member is required.
         public var storageConfigurationArn: Swift.String?
+        /// A complex type that allows you to enable/disable the recording of thumbnails for individual participant recording and modify the interval at which thumbnails are generated for the live session.
+        public var thumbnailConfiguration: IVSRealTimeClientTypes.ParticipantThumbnailConfiguration?
 
         public init(
             mediaTypes: [IVSRealTimeClientTypes.ParticipantRecordingMediaType]? = nil,
-            storageConfigurationArn: Swift.String? = nil
+            storageConfigurationArn: Swift.String? = nil,
+            thumbnailConfiguration: IVSRealTimeClientTypes.ParticipantThumbnailConfiguration? = nil
         )
         {
             self.mediaTypes = mediaTypes
             self.storageConfigurationArn = storageConfigurationArn
+            self.thumbnailConfiguration = thumbnailConfiguration
         }
     }
 }
@@ -1039,6 +1128,26 @@ extension IVSRealTimeClientTypes {
 
 extension IVSRealTimeClientTypes {
 
+    /// An object representing a configuration of thumbnails for recorded video for a [Composition].
+    public struct CompositionThumbnailConfiguration: Swift.Sendable {
+        /// Indicates the format in which thumbnails are recorded. SEQUENTIAL records all generated thumbnails in a serial manner, to the media/thumbnails/(width)x(height) directory, where (width) and (height) are the width and height of the thumbnail. LATEST saves the latest thumbnail in media/latest_thumbnail/(width)x(height)/thumb.jpg and overwrites it at the interval specified by targetIntervalSeconds. You can enable both SEQUENTIAL and LATEST. Default: SEQUENTIAL.
+        public var storage: [IVSRealTimeClientTypes.ThumbnailStorageType]?
+        /// The targeted thumbnail-generation interval in seconds. Default: 60.
+        public var targetIntervalSeconds: Swift.Int?
+
+        public init(
+            storage: [IVSRealTimeClientTypes.ThumbnailStorageType]? = nil,
+            targetIntervalSeconds: Swift.Int? = nil
+        )
+        {
+            self.storage = storage
+            self.targetIntervalSeconds = targetIntervalSeconds
+        }
+    }
+}
+
+extension IVSRealTimeClientTypes {
+
     /// A complex type that describes an S3 location where recorded videos will be stored.
     public struct S3DestinationConfiguration: Swift.Sendable {
         /// ARNs of the [EncoderConfiguration] resource. The encoder configuration and stage resources must be in the same AWS account and region.
@@ -1049,16 +1158,20 @@ extension IVSRealTimeClientTypes {
         /// ARN of the [StorageConfiguration] where recorded videos will be stored.
         /// This member is required.
         public var storageConfigurationArn: Swift.String?
+        /// A complex type that allows you to enable/disable the recording of thumbnails for a [Composition] and modify the interval at which thumbnails are generated for the live session.
+        public var thumbnailConfigurations: [IVSRealTimeClientTypes.CompositionThumbnailConfiguration]?
 
         public init(
             encoderConfigurationArns: [Swift.String]? = nil,
             recordingConfiguration: IVSRealTimeClientTypes.RecordingConfiguration? = nil,
-            storageConfigurationArn: Swift.String? = nil
+            storageConfigurationArn: Swift.String? = nil,
+            thumbnailConfigurations: [IVSRealTimeClientTypes.CompositionThumbnailConfiguration]? = nil
         )
         {
             self.encoderConfigurationArns = encoderConfigurationArns
             self.recordingConfiguration = recordingConfiguration
             self.storageConfigurationArn = storageConfigurationArn
+            self.thumbnailConfigurations = thumbnailConfigurations
         }
     }
 }
@@ -4866,6 +4979,7 @@ extension IVSRealTimeClientTypes.AutoParticipantRecordingConfiguration {
         guard let value else { return }
         try writer["mediaTypes"].writeList(value.mediaTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<IVSRealTimeClientTypes.ParticipantRecordingMediaType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["storageConfigurationArn"].write(value.storageConfigurationArn)
+        try writer["thumbnailConfiguration"].write(value.thumbnailConfiguration, with: IVSRealTimeClientTypes.ParticipantThumbnailConfiguration.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IVSRealTimeClientTypes.AutoParticipantRecordingConfiguration {
@@ -4873,6 +4987,26 @@ extension IVSRealTimeClientTypes.AutoParticipantRecordingConfiguration {
         var value = IVSRealTimeClientTypes.AutoParticipantRecordingConfiguration()
         value.storageConfigurationArn = try reader["storageConfigurationArn"].readIfPresent() ?? ""
         value.mediaTypes = try reader["mediaTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<IVSRealTimeClientTypes.ParticipantRecordingMediaType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.thumbnailConfiguration = try reader["thumbnailConfiguration"].readIfPresent(with: IVSRealTimeClientTypes.ParticipantThumbnailConfiguration.read(from:))
+        return value
+    }
+}
+
+extension IVSRealTimeClientTypes.ParticipantThumbnailConfiguration {
+
+    static func write(value: IVSRealTimeClientTypes.ParticipantThumbnailConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["recordingMode"].write(value.recordingMode)
+        try writer["storage"].writeList(value.storage, memberWritingClosure: SmithyReadWrite.WritingClosureBox<IVSRealTimeClientTypes.ThumbnailStorageType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["targetIntervalSeconds"].write(value.targetIntervalSeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IVSRealTimeClientTypes.ParticipantThumbnailConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IVSRealTimeClientTypes.ParticipantThumbnailConfiguration()
+        value.targetIntervalSeconds = try reader["targetIntervalSeconds"].readIfPresent()
+        value.storage = try reader["storage"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<IVSRealTimeClientTypes.ThumbnailStorageType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.recordingMode = try reader["recordingMode"].readIfPresent()
         return value
     }
 }
@@ -4983,6 +5117,7 @@ extension IVSRealTimeClientTypes.S3DestinationConfiguration {
         try writer["encoderConfigurationArns"].writeList(value.encoderConfigurationArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["recordingConfiguration"].write(value.recordingConfiguration, with: IVSRealTimeClientTypes.RecordingConfiguration.write(value:to:))
         try writer["storageConfigurationArn"].write(value.storageConfigurationArn)
+        try writer["thumbnailConfigurations"].writeList(value.thumbnailConfigurations, memberWritingClosure: IVSRealTimeClientTypes.CompositionThumbnailConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IVSRealTimeClientTypes.S3DestinationConfiguration {
@@ -4991,6 +5126,24 @@ extension IVSRealTimeClientTypes.S3DestinationConfiguration {
         value.storageConfigurationArn = try reader["storageConfigurationArn"].readIfPresent() ?? ""
         value.encoderConfigurationArns = try reader["encoderConfigurationArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.recordingConfiguration = try reader["recordingConfiguration"].readIfPresent(with: IVSRealTimeClientTypes.RecordingConfiguration.read(from:))
+        value.thumbnailConfigurations = try reader["thumbnailConfigurations"].readListIfPresent(memberReadingClosure: IVSRealTimeClientTypes.CompositionThumbnailConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension IVSRealTimeClientTypes.CompositionThumbnailConfiguration {
+
+    static func write(value: IVSRealTimeClientTypes.CompositionThumbnailConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["storage"].writeList(value.storage, memberWritingClosure: SmithyReadWrite.WritingClosureBox<IVSRealTimeClientTypes.ThumbnailStorageType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["targetIntervalSeconds"].write(value.targetIntervalSeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IVSRealTimeClientTypes.CompositionThumbnailConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IVSRealTimeClientTypes.CompositionThumbnailConfiguration()
+        value.targetIntervalSeconds = try reader["targetIntervalSeconds"].readIfPresent()
+        value.storage = try reader["storage"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<IVSRealTimeClientTypes.ThumbnailStorageType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }

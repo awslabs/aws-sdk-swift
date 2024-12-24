@@ -47,9 +47,9 @@ public struct DeleteDeploymentOutput: Swift.Sendable {
 }
 
 /// You don't have permission to perform the action.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -133,9 +133,9 @@ extension GreengrassV2ClientTypes {
 }
 
 /// IoT Greengrass can't process your request right now. Try again later.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The amount of time to wait before you retry the request.
@@ -219,9 +219,9 @@ extension GreengrassV2ClientTypes {
 }
 
 /// The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The list of fields that failed to validate.
         public internal(set) var fields: [GreengrassV2ClientTypes.ValidationExceptionField]? = nil
         /// This member is required.
@@ -277,9 +277,9 @@ public struct AssociateServiceRoleToAccountOutput: Swift.Sendable {
 }
 
 /// The requested resource can't be found.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The ID of the resource that isn't found.
@@ -312,9 +312,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// Your request exceeded a request rate quota. For example, you might have exceeded the amount of times that you can retrieve device or deployment status per second.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The code for the quota in [Service Quotas](https://docs.aws.amazon.com/servicequotas/latest/userguide/intro.html).
@@ -448,9 +448,9 @@ public struct BatchDisassociateClientDeviceFromCoreDeviceOutput: Swift.Sendable 
 }
 
 /// Your request has conflicting operations. This can occur if you're trying to perform more than one operation on the same resource at the same time.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The ID of the resource that conflicts with the request.
@@ -978,10 +978,20 @@ extension GreengrassV2ClientTypes {
 
     /// Contains information about a Greengrass core device, which is an IoT thing that runs the IoT Greengrass Core software.
     public struct CoreDevice: Swift.Sendable {
+        /// The computer architecture of the core device.
+        public var architecture: Swift.String?
         /// The name of the core device. This is also the name of the IoT thing.
         public var coreDeviceThingName: Swift.String?
         /// The time at which the core device's status last updated, expressed in ISO 8601 format.
         public var lastStatusUpdateTimestamp: Foundation.Date?
+        /// The operating system platform that the core device runs.
+        public var platform: Swift.String?
+        /// The runtime for the core device. The runtime can be:
+        ///
+        /// * aws_nucleus_classic
+        ///
+        /// * aws_nucleus_lite
+        public var runtime: Swift.String?
         /// The status of the core device. Core devices can have the following statuses:
         ///
         /// * HEALTHY – The IoT Greengrass Core software and all components run on the core device without issue.
@@ -990,22 +1000,28 @@ extension GreengrassV2ClientTypes {
         public var status: GreengrassV2ClientTypes.CoreDeviceStatus?
 
         public init(
+            architecture: Swift.String? = nil,
             coreDeviceThingName: Swift.String? = nil,
             lastStatusUpdateTimestamp: Foundation.Date? = nil,
+            platform: Swift.String? = nil,
+            runtime: Swift.String? = nil,
             status: GreengrassV2ClientTypes.CoreDeviceStatus? = nil
         )
         {
+            self.architecture = architecture
             self.coreDeviceThingName = coreDeviceThingName
             self.lastStatusUpdateTimestamp = lastStatusUpdateTimestamp
+            self.platform = platform
+            self.runtime = runtime
             self.status = status
         }
     }
 }
 
 /// The request is already in progress. This exception occurs when you use a client token for multiple requests while IoT Greengrass is still processing an earlier request that uses the same client token.
-public struct RequestAlreadyInProgressException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct RequestAlreadyInProgressException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1028,9 +1044,9 @@ public struct RequestAlreadyInProgressException: ClientRuntime.ModeledError, AWS
 }
 
 /// Your request exceeds a service quota. For example, you might have the maximum number of components that you can create.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The code for the quota in [Service Quotas](https://docs.aws.amazon.com/servicequotas/latest/userguide/intro.html).
@@ -2465,6 +2481,12 @@ public struct GetCoreDeviceOutput: Swift.Sendable {
     public var lastStatusUpdateTimestamp: Foundation.Date?
     /// The operating system platform that the core device runs.
     public var platform: Swift.String?
+    /// The runtime for the core device. The runtime can be:
+    ///
+    /// * aws_nucleus_classic
+    ///
+    /// * aws_nucleus_lite
+    public var runtime: Swift.String?
     /// The status of the core device. The core device status can be:
     ///
     /// * HEALTHY – The IoT Greengrass Core software and all components run on the core device without issue.
@@ -2480,6 +2502,7 @@ public struct GetCoreDeviceOutput: Swift.Sendable {
         coreVersion: Swift.String? = nil,
         lastStatusUpdateTimestamp: Foundation.Date? = nil,
         platform: Swift.String? = nil,
+        runtime: Swift.String? = nil,
         status: GreengrassV2ClientTypes.CoreDeviceStatus? = nil,
         tags: [Swift.String: Swift.String]? = nil
     )
@@ -2489,6 +2512,7 @@ public struct GetCoreDeviceOutput: Swift.Sendable {
         self.coreVersion = coreVersion
         self.lastStatusUpdateTimestamp = lastStatusUpdateTimestamp
         self.platform = platform
+        self.runtime = runtime
         self.status = status
         self.tags = tags
     }
@@ -2707,6 +2731,12 @@ public struct ListCoreDevicesInput: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// The token to be used for the next set of paginated results.
     public var nextToken: Swift.String?
+    /// The runtime to be used by the core device. The runtime can be:
+    ///
+    /// * aws_nucleus_classic
+    ///
+    /// * aws_nucleus_lite
+    public var runtime: Swift.String?
     /// The core device status by which to filter. If you specify this parameter, the list includes only core devices that have this status. Choose one of the following options:
     ///
     /// * HEALTHY – The IoT Greengrass Core software and all components run on the core device without issue.
@@ -2719,12 +2749,14 @@ public struct ListCoreDevicesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
+        runtime: Swift.String? = nil,
         status: GreengrassV2ClientTypes.CoreDeviceStatus? = nil,
         thingGroupArn: Swift.String? = nil
     )
     {
         self.maxResults = maxResults
         self.nextToken = nextToken
+        self.runtime = runtime
         self.status = status
         self.thingGroupArn = thingGroupArn
     }
@@ -3472,6 +3504,10 @@ extension ListCoreDevicesInput {
             let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
+        if let runtime = value.runtime {
+            let runtimeQueryItem = Smithy.URIQueryItem(name: "runtime".urlPercentEncoding(), value: Swift.String(runtime).urlPercentEncoding())
+            items.append(runtimeQueryItem)
+        }
         if let thingGroupArn = value.thingGroupArn {
             let thingGroupArnQueryItem = Smithy.URIQueryItem(name: "thingGroupArn".urlPercentEncoding(), value: Swift.String(thingGroupArn).urlPercentEncoding())
             items.append(thingGroupArnQueryItem)
@@ -3851,7 +3887,7 @@ extension GetComponentOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetComponentOutput()
-        value.recipe = try reader["recipe"].readIfPresent() ?? Foundation.Data("".utf8)
+        value.recipe = try reader["recipe"].readIfPresent() ?? Foundation.Data(base64Encoded: "")
         value.recipeOutputFormat = try reader["recipeOutputFormat"].readIfPresent() ?? .sdkUnknown("")
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
@@ -3895,6 +3931,7 @@ extension GetCoreDeviceOutput {
         value.coreVersion = try reader["coreVersion"].readIfPresent()
         value.lastStatusUpdateTimestamp = try reader["lastStatusUpdateTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.platform = try reader["platform"].readIfPresent()
+        value.runtime = try reader["runtime"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
@@ -5091,6 +5128,9 @@ extension GreengrassV2ClientTypes.CoreDevice {
         value.coreDeviceThingName = try reader["coreDeviceThingName"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
         value.lastStatusUpdateTimestamp = try reader["lastStatusUpdateTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.platform = try reader["platform"].readIfPresent()
+        value.architecture = try reader["architecture"].readIfPresent()
+        value.runtime = try reader["runtime"].readIfPresent()
         return value
     }
 }

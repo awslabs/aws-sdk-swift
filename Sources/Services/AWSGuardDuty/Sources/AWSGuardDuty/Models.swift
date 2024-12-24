@@ -48,9 +48,9 @@ public struct UpdateMalwareProtectionPlanOutput: Swift.Sendable {
 }
 
 /// A bad request exception object.
-public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message.
         public internal(set) var message: Swift.String? = nil
         /// The error type.
@@ -77,9 +77,9 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 /// An internal server error exception object.
-public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message.
         public internal(set) var message: Swift.String? = nil
         /// The error type.
@@ -184,9 +184,9 @@ extension GuardDutyClientTypes {
 }
 
 /// An access denied exception object.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message.
         public internal(set) var message: Swift.String? = nil
         /// The error type.
@@ -1796,9 +1796,9 @@ extension GuardDutyClientTypes {
 }
 
 /// A request conflict exception object.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message.
         public internal(set) var message: Swift.String? = nil
         /// The error type.
@@ -2946,10 +2946,12 @@ public struct CreateFilterInput: Swift.Sendable {
     ///
     /// * Medium: ["4", "5", "6"]
     ///
-    /// * High: ["7", "8", "9"]
+    /// * High: ["7", "8"]
+    ///
+    /// * Critical: ["9", "10"]
     ///
     ///
-    /// For more information, see [Severity levels for GuardDuty findings](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_findings.html#guardduty_findings-severity).
+    /// For more information, see [Findings severity levels](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_findings-severity.html) in the Amazon GuardDuty User Guide.
     ///
     /// * type
     ///
@@ -4042,9 +4044,9 @@ public struct DeleteIPSetOutput: Swift.Sendable {
 }
 
 /// The requested resource can't be found.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message.
         public internal(set) var message: Swift.String? = nil
         /// The error type.
@@ -4456,7 +4458,7 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes {
 
-    /// Contains information about a malware scan.
+    /// Contains information about malware scans associated with GuardDuty Malware Protection for EC2.
     public struct Scan: Swift.Sendable {
         /// The ID for the account that belongs to the scan.
         public var accountId: Swift.String?
@@ -4464,7 +4466,7 @@ extension GuardDutyClientTypes {
         public var adminDetectorId: Swift.String?
         /// List of volumes that were attached to the original instance to be scanned.
         public var attachedVolumes: [GuardDutyClientTypes.VolumeDetail]?
-        /// The unique ID of the detector that the request is associated with. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html) API.
+        /// The unique ID of the detector that is associated with the request. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html) API.
         public var detectorId: Swift.String?
         /// Represents the reason for FAILED scan status.
         public var failureReason: Swift.String?
@@ -4529,7 +4531,7 @@ extension GuardDutyClientTypes {
 public struct DescribeMalwareScansOutput: Swift.Sendable {
     /// The pagination parameter to be used on the next list operation to retrieve more items.
     public var nextToken: Swift.String?
-    /// Contains information about malware scans.
+    /// Contains information about malware scans associated with GuardDuty Malware Protection for EC2.
     /// This member is required.
     public var scans: [GuardDutyClientTypes.Scan]?
 
@@ -4764,7 +4766,7 @@ extension GuardDutyClientTypes {
         ///
         /// * NONE: Indicates that the additional configuration will not be automatically enabled for any account in the organization. The administrator must manage the additional configuration for each account individually.
         public var autoEnable: GuardDutyClientTypes.OrgFeatureStatus?
-        /// The name of the additional configuration that is configured for the member accounts within the organization.
+        /// The name of the additional configuration that is configured for the member accounts within the organization. These values are applicable to only Runtime Monitoring protection plan.
         public var name: GuardDutyClientTypes.OrgFeatureAdditionalConfiguration?
 
         public init(
@@ -10591,7 +10593,7 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes {
 
-    /// A list of additional configurations which will be configured for the organization.
+    /// A list of additional configurations which will be configured for the organization. Additional configuration applies to only GuardDuty Runtime Monitoring protection plan.
     public struct OrganizationAdditionalConfiguration: Swift.Sendable {
         /// The status of the additional configuration that will be configured for the organization. Use one of the following values to configure the feature status for the entire organization:
         ///
@@ -10601,7 +10603,7 @@ extension GuardDutyClientTypes {
         ///
         /// * NONE: Indicates that the additional configuration will not be automatically enabled for any account in the organization. The administrator must manage the additional configuration for each account individually.
         public var autoEnable: GuardDutyClientTypes.OrgFeatureStatus?
-        /// The name of the additional configuration that will be configured for the organization.
+        /// The name of the additional configuration that will be configured for the organization. These values are applicable to only Runtime Monitoring protection plan.
         public var name: GuardDutyClientTypes.OrgFeatureAdditionalConfiguration?
 
         public init(
@@ -10646,7 +10648,7 @@ extension GuardDutyClientTypes {
 }
 
 public struct UpdateOrganizationConfigurationInput: Swift.Sendable {
-    /// Represents whether or not to automatically enable member accounts in the organization. Even though this is still supported, we recommend using AutoEnableOrganizationMembers to achieve the similar results. You must provide a value for either autoEnableOrganizationMembers or autoEnable.
+    /// Represents whether to automatically enable member accounts in the organization. This applies to only new member accounts, not the existing member accounts. When a new account joins the organization, the chosen features will be enabled for them by default. Even though this is still supported, we recommend using AutoEnableOrganizationMembers to achieve the similar results. You must provide a value for either autoEnableOrganizationMembers or autoEnable.
     @available(*, deprecated, message: "This field is deprecated, use AutoEnableOrganizationMembers instead")
     public var autoEnable: Swift.Bool?
     /// Indicates the auto-enablement configuration of GuardDuty for the member accounts in the organization. You must provide a value for either autoEnableOrganizationMembers or autoEnable. Use one of the following configuration values for autoEnableOrganizationMembers:

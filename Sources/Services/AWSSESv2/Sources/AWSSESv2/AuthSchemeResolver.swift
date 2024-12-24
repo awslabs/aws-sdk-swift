@@ -20,6 +20,8 @@ public struct SESv2AuthSchemeResolverParameters: SmithyHTTPAuthAPI.AuthSchemeRes
     public let operation: Swift.String
     /// Override the endpoint used to send this request
     public let endpoint: Swift.String?
+    /// Operation parameter for EndpointId
+    public let endpointId: Swift.String?
     /// The AWS region used to dispatch the request.
     public let region: Swift.String?
     /// When true, use the dual-stack endpoint. If the configured endpoint does not support dual-stack, dispatching the request MAY return an error.
@@ -98,6 +100,6 @@ public struct DefaultSESv2AuthSchemeResolver: SESv2AuthSchemeResolver {
         guard let endpointParam = context.get(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams")) else {
             throw Smithy.ClientError.dataNotFound("Endpoint param not configured in middleware context for rules-based auth scheme resolver params construction.")
         }
-        return SESv2AuthSchemeResolverParameters(operation: opName, endpoint: endpointParam.endpoint, region: endpointParam.region, useDualStack: endpointParam.useDualStack, useFIPS: endpointParam.useFIPS)
+        return SESv2AuthSchemeResolverParameters(operation: opName, endpoint: endpointParam.endpoint, endpointId: endpointParam.endpointId, region: endpointParam.region, useDualStack: endpointParam.useDualStack, useFIPS: endpointParam.useFIPS)
     }
 }

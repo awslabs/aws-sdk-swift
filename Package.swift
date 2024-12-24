@@ -15,7 +15,7 @@ import PackageDescription
 
 // MARK: - Dynamic Content
 
-let clientRuntimeVersion: Version = "0.98.0"
+let clientRuntimeVersion: Version = "0.105.0"
 let crtVersion: Version = "0.42.0"
 
 let excludeRuntimeUnitTests = false
@@ -58,10 +58,13 @@ let serviceTargets: [String] = [
     "AWSBCMPricingCalculator",
     "AWSBackup",
     "AWSBackupGateway",
+    "AWSBackupSearch",
     "AWSBatch",
     "AWSBedrock",
     "AWSBedrockAgent",
     "AWSBedrockAgentRuntime",
+    "AWSBedrockDataAutomation",
+    "AWSBedrockDataAutomationRuntime",
     "AWSBedrockRuntime",
     "AWSBilling",
     "AWSBillingconductor",
@@ -124,6 +127,7 @@ let serviceTargets: [String] = [
     "AWSCustomerProfiles",
     "AWSDAX",
     "AWSDLM",
+    "AWSDSQL",
     "AWSDataBrew",
     "AWSDataExchange",
     "AWSDataPipeline",
@@ -348,6 +352,7 @@ let serviceTargets: [String] = [
     "AWSS3",
     "AWSS3Control",
     "AWSS3Outposts",
+    "AWSS3Tables",
     "AWSSES",
     "AWSSESv2",
     "AWSSFN",

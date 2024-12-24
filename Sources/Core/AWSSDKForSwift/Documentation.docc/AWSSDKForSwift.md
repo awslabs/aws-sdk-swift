@@ -149,6 +149,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSBackupGateway](../../../../../swift/api/awsbackupgateway/latest)
 
+[AWSBackupSearch](../../../../../swift/api/awsbackupsearch/latest)
+
 [AWSBatch](../../../../../swift/api/awsbatch/latest)
 
 [AWSBedrock](../../../../../swift/api/awsbedrock/latest)
@@ -156,6 +158,10 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSBedrockAgent](../../../../../swift/api/awsbedrockagent/latest)
 
 [AWSBedrockAgentRuntime](../../../../../swift/api/awsbedrockagentruntime/latest)
+
+[AWSBedrockDataAutomation](../../../../../swift/api/awsbedrockdataautomation/latest)
+
+[AWSBedrockDataAutomationRuntime](../../../../../swift/api/awsbedrockdataautomationruntime/latest)
 
 [AWSBedrockRuntime](../../../../../swift/api/awsbedrockruntime/latest)
 
@@ -280,6 +286,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSDAX](../../../../../swift/api/awsdax/latest)
 
 [AWSDLM](../../../../../swift/api/awsdlm/latest)
+
+[AWSDSQL](../../../../../swift/api/awsdsql/latest)
 
 [AWSDataBrew](../../../../../swift/api/awsdatabrew/latest)
 
@@ -728,6 +736,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSS3Control](../../../../../swift/api/awss3control/latest)
 
 [AWSS3Outposts](../../../../../swift/api/awss3outposts/latest)
+
+[AWSS3Tables](../../../../../swift/api/awss3tables/latest)
 
 [AWSSES](../../../../../swift/api/awsses/latest)
 

@@ -29,9 +29,9 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 
 /// You do not have sufficient access to perform this action.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: Swift.String? = nil
         public internal(set) var message: Swift.String? = nil
     }
@@ -104,9 +104,9 @@ extension RedshiftServerlessClientTypes {
 }
 
 /// The submitted action has conflicts.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -129,9 +129,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 /// The request processing has failed because of an unknown error, exception or failure.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -154,9 +154,9 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 /// The resource could not be found.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The name of the resource that could not be found.
@@ -183,9 +183,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// The service limit was exceeded.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -208,9 +208,9 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 }
 
 /// The request exceeded the number of tags allowed for a resource.
-public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// The name of the resource that exceeded the number of tags allowed for a resource.
         public internal(set) var resourceName: Swift.String? = nil
@@ -236,9 +236,9 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
 }
 
 /// The input failed to satisfy the constraints specified by an AWS service.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -462,9 +462,9 @@ public struct ConvertRecoveryPointToSnapshotOutput: Swift.Sendable {
 }
 
 /// The request was denied due to request throttling.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: Swift.String? = nil
         public internal(set) var message: Swift.String? = nil
     }
@@ -1409,9 +1409,9 @@ public struct CreateUsageLimitOutput: Swift.Sendable {
 }
 
 /// There is an insufficient capacity to perform the action.
-public struct InsufficientCapacityException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InsufficientCapacityException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1434,9 +1434,9 @@ public struct InsufficientCapacityException: ClientRuntime.ModeledError, AWSClie
 }
 
 /// There are no subnets in your VPC with associated IPv6 CIDR blocks. To use dual-stack mode, associate an IPv6 CIDR block with each subnet in your VPC.
-public struct Ipv6CidrBlockNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct Ipv6CidrBlockNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2517,9 +2517,9 @@ public struct GetWorkgroupOutput: Swift.Sendable {
 }
 
 /// The provided pagination token is invalid.
-public struct InvalidPaginationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidPaginationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2577,6 +2577,112 @@ public struct ListCustomDomainAssociationsOutput: Swift.Sendable {
     )
     {
         self.associations = associations
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListManagedWorkgroupsInput: Swift.Sendable {
+    /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to display the next page of results.
+    public var maxResults: Swift.Int?
+    /// If your initial ListManagedWorkgroups operation returns a nextToken, you can include the returned nextToken in following ListManagedWorkgroups operations, which returns results in the next page.
+    public var nextToken: Swift.String?
+    /// The Amazon Resource Name (ARN) for the managed workgroup in the AWS Glue Data Catalog.
+    public var sourceArn: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        sourceArn: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.sourceArn = sourceArn
+    }
+}
+
+extension RedshiftServerlessClientTypes {
+
+    public enum ManagedWorkgroupStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case available
+        case creating
+        case deleting
+        case modifying
+        case notAvailable
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ManagedWorkgroupStatus] {
+            return [
+                .available,
+                .creating,
+                .deleting,
+                .modifying,
+                .notAvailable
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .available: return "AVAILABLE"
+            case .creating: return "CREATING"
+            case .deleting: return "DELETING"
+            case .modifying: return "MODIFYING"
+            case .notAvailable: return "NOT_AVAILABLE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension RedshiftServerlessClientTypes {
+
+    /// A collection of Amazon Redshift compute resources managed by AWS Glue.
+    public struct ManagedWorkgroupListItem: Swift.Sendable {
+        /// The creation date of the managed workgroup.
+        public var creationDate: Foundation.Date?
+        /// The unique identifier of the managed workgroup.
+        public var managedWorkgroupId: Swift.String?
+        /// The name of the managed workgroup.
+        public var managedWorkgroupName: Swift.String?
+        /// The Amazon Resource Name (ARN) for the managed workgroup in the AWS Glue Data Catalog.
+        public var sourceArn: Swift.String?
+        /// The status of the managed workgroup.
+        public var status: RedshiftServerlessClientTypes.ManagedWorkgroupStatus?
+
+        public init(
+            creationDate: Foundation.Date? = nil,
+            managedWorkgroupId: Swift.String? = nil,
+            managedWorkgroupName: Swift.String? = nil,
+            sourceArn: Swift.String? = nil,
+            status: RedshiftServerlessClientTypes.ManagedWorkgroupStatus? = nil
+        )
+        {
+            self.creationDate = creationDate
+            self.managedWorkgroupId = managedWorkgroupId
+            self.managedWorkgroupName = managedWorkgroupName
+            self.sourceArn = sourceArn
+            self.status = status
+        }
+    }
+}
+
+public struct ListManagedWorkgroupsOutput: Swift.Sendable {
+    /// The returned array of managed workgroups.
+    public var managedWorkgroups: [RedshiftServerlessClientTypes.ManagedWorkgroupListItem]?
+    /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token.
+    public var nextToken: Swift.String?
+
+    public init(
+        managedWorkgroups: [RedshiftServerlessClientTypes.ManagedWorkgroupListItem]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.managedWorkgroups = managedWorkgroups
         self.nextToken = nextToken
     }
 }
@@ -3796,6 +3902,13 @@ extension ListEndpointAccessInput {
     }
 }
 
+extension ListManagedWorkgroupsInput {
+
+    static func urlPathProvider(_ value: ListManagedWorkgroupsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension ListNamespacesInput {
 
     static func urlPathProvider(_ value: ListNamespacesInput) -> Swift.String? {
@@ -4271,6 +4384,14 @@ extension ListEndpointAccessInput {
         try writer["ownerAccount"].write(value.ownerAccount)
         try writer["vpcId"].write(value.vpcId)
         try writer["workgroupName"].write(value.workgroupName)
+    }
+}
+
+extension ListManagedWorkgroupsInput {
+
+    static func write(value: ListManagedWorkgroupsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["sourceArn"].write(value.sourceArn)
     }
 }
 
@@ -4904,6 +5025,19 @@ extension ListEndpointAccessOutput {
         let reader = responseReader
         var value = ListEndpointAccessOutput()
         value.endpoints = try reader["endpoints"].readListIfPresent(memberReadingClosure: RedshiftServerlessClientTypes.EndpointAccess.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListManagedWorkgroupsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListManagedWorkgroupsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListManagedWorkgroupsOutput()
+        value.managedWorkgroups = try reader["managedWorkgroups"].readListIfPresent(memberReadingClosure: RedshiftServerlessClientTypes.ManagedWorkgroupListItem.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -5733,6 +5867,21 @@ enum ListEndpointAccessOutputError {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListManagedWorkgroupsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -6684,6 +6833,20 @@ extension RedshiftServerlessClientTypes.Association {
         value.customDomainCertificateExpiryTime = try reader["customDomainCertificateExpiryTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.customDomainName = try reader["customDomainName"].readIfPresent()
         value.workgroupName = try reader["workgroupName"].readIfPresent()
+        return value
+    }
+}
+
+extension RedshiftServerlessClientTypes.ManagedWorkgroupListItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RedshiftServerlessClientTypes.ManagedWorkgroupListItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RedshiftServerlessClientTypes.ManagedWorkgroupListItem()
+        value.managedWorkgroupName = try reader["managedWorkgroupName"].readIfPresent()
+        value.managedWorkgroupId = try reader["managedWorkgroupId"].readIfPresent()
+        value.sourceArn = try reader["sourceArn"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.creationDate = try reader["creationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
 }

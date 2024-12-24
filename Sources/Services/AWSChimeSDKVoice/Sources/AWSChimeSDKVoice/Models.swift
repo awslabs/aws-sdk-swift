@@ -227,9 +227,9 @@ extension ChimeSDKVoiceClientTypes {
 }
 
 /// You don't have the permissions needed to run this action.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: ChimeSDKVoiceClientTypes.ErrorCode? = nil
         public internal(set) var message: Swift.String? = nil
     }
@@ -340,9 +340,9 @@ extension ChimeSDKVoiceClientTypes {
 }
 
 /// The input parameters don't match the service's restrictions.
-public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: ChimeSDKVoiceClientTypes.ErrorCode? = nil
         public internal(set) var message: Swift.String? = nil
     }
@@ -367,9 +367,9 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 /// The client is permanently forbidden from making the request.
-public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: ChimeSDKVoiceClientTypes.ErrorCode? = nil
         public internal(set) var message: Swift.String? = nil
     }
@@ -394,9 +394,9 @@ public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.A
 }
 
 /// The requested resource couldn't be found.
-public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: ChimeSDKVoiceClientTypes.ErrorCode? = nil
         public internal(set) var message: Swift.String? = nil
     }
@@ -421,9 +421,9 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 /// The service encountered an unexpected error.
-public struct ServiceFailureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceFailureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: ChimeSDKVoiceClientTypes.ErrorCode? = nil
         public internal(set) var message: Swift.String? = nil
     }
@@ -448,9 +448,9 @@ public struct ServiceFailureException: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 /// The service is currently unavailable.
-public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: ChimeSDKVoiceClientTypes.ErrorCode? = nil
         public internal(set) var message: Swift.String? = nil
     }
@@ -475,9 +475,9 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
 }
 
 /// The number of customer requests exceeds the request rate limit.
-public struct ThrottledClientException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottledClientException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: ChimeSDKVoiceClientTypes.ErrorCode? = nil
         public internal(set) var message: Swift.String? = nil
     }
@@ -502,9 +502,9 @@ public struct ThrottledClientException: ClientRuntime.ModeledError, AWSClientRun
 }
 
 /// The client isn't authorized to request a resource.
-public struct UnauthorizedClientException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnauthorizedClientException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: ChimeSDKVoiceClientTypes.ErrorCode? = nil
         public internal(set) var message: Swift.String? = nil
     }
@@ -911,9 +911,9 @@ extension ChimeSDKVoiceClientTypes {
 }
 
 /// The request exceeds the resource limit.
-public struct ResourceLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: ChimeSDKVoiceClientTypes.ErrorCode? = nil
         public internal(set) var message: Swift.String? = nil
     }
@@ -1420,9 +1420,9 @@ public struct CreateProxySessionOutput: Swift.Sendable {
 }
 
 /// Multiple instances of the same request were made simultaneously.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: ChimeSDKVoiceClientTypes.ErrorCode? = nil
         public internal(set) var message: Swift.String? = nil
     }
@@ -2041,9 +2041,9 @@ public struct CreateVoiceConnectorGroupOutput: Swift.Sendable {
 }
 
 /// Access to the target resource is no longer available at the origin server. This condition is likely to be permanent.
-public struct GoneException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct GoneException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: ChimeSDKVoiceClientTypes.ErrorCode? = nil
         public internal(set) var message: Swift.String? = nil
     }
@@ -4925,9 +4925,9 @@ extension SearchAvailablePhoneNumbersOutput: Swift.CustomDebugStringConvertible 
 }
 
 /// A well-formed request couldn't be followed due to semantic errors.
-public struct UnprocessableEntityException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnprocessableEntityException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: ChimeSDKVoiceClientTypes.ErrorCode? = nil
         public internal(set) var message: Swift.String? = nil
     }

@@ -28,9 +28,9 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 
 /// The specified parameter is invalid. Review the available parameters for the API request.
-public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -53,9 +53,9 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// The specified repository could not be found. Check the spelling of the specified repository and ensure that you are performing operations on the correct registry.
-public struct RepositoryNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct RepositoryNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -78,9 +78,9 @@ public struct RepositoryNotFoundException: ClientRuntime.ModeledError, AWSClient
 }
 
 /// These errors are usually caused by a server-side issue.
-public struct ServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -387,9 +387,9 @@ public struct BatchDeleteImageOutput: Swift.Sendable {
 }
 
 /// The operation did not succeed because it would have exceeded a service limit for your account. For more information, see [Amazon ECR service quotas](https://docs.aws.amazon.com/AmazonECR/latest/userguide/service-quotas.html) in the Amazon Elastic Container Registry User Guide.
-public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -412,9 +412,9 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 }
 
 /// The image or images were unable to be pulled using the pull through cache rule. This is usually caused because of an issue with the Secrets Manager secret containing the credentials for the upstream registry.
-public struct UnableToGetUpstreamImageException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnableToGetUpstreamImageException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -510,9 +510,9 @@ public struct BatchGetImageOutput: Swift.Sendable {
 }
 
 /// There was an exception validating this request.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -725,9 +725,9 @@ public struct BatchGetRepositoryScanningConfigurationOutput: Swift.Sendable {
 }
 
 /// The specified layer upload does not contain any layer parts.
-public struct EmptyUploadException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct EmptyUploadException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -750,9 +750,9 @@ public struct EmptyUploadException: ClientRuntime.ModeledError, AWSClientRuntime
 }
 
 /// The layer digest calculation performed by Amazon ECR upon receipt of the image layer does not match the digest specified.
-public struct InvalidLayerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidLayerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -775,9 +775,9 @@ public struct InvalidLayerException: ClientRuntime.ModeledError, AWSClientRuntim
 }
 
 /// The operation failed due to a KMS exception.
-public struct KmsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct KmsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error code returned by KMS.
         public internal(set) var kmsError: Swift.String? = nil
         public internal(set) var message: Swift.String? = nil
@@ -803,9 +803,9 @@ public struct KmsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServ
 }
 
 /// The image layer already exists in the associated repository.
-public struct LayerAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LayerAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -828,9 +828,9 @@ public struct LayerAlreadyExistsException: ClientRuntime.ModeledError, AWSClient
 }
 
 /// Layer parts must be at least 5 MiB in size.
-public struct LayerPartTooSmallException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LayerPartTooSmallException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -853,9 +853,9 @@ public struct LayerPartTooSmallException: ClientRuntime.ModeledError, AWSClientR
 }
 
 /// The upload could not be found, or the specified upload ID is not valid for this repository.
-public struct UploadNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UploadNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -929,9 +929,9 @@ public struct CompleteLayerUploadOutput: Swift.Sendable {
 }
 
 /// A pull through cache rule with these settings already exists for the private registry.
-public struct PullThroughCacheRuleAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PullThroughCacheRuleAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -953,9 +953,9 @@ public struct PullThroughCacheRuleAlreadyExistsException: ClientRuntime.ModeledE
 }
 
 /// The ARN of the secret specified in the pull through cache rule was not found. Update the pull through cache rule with a valid secret ARN and try again.
-public struct SecretNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SecretNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -977,9 +977,9 @@ public struct SecretNotFoundException: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 /// The secret is unable to be accessed. Verify the resource permissions for the secret and try again.
-public struct UnableToAccessSecretException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnableToAccessSecretException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1001,9 +1001,9 @@ public struct UnableToAccessSecretException: ClientRuntime.ModeledError, AWSClie
 }
 
 /// The secret is accessible but is unable to be decrypted. Verify the resource permisisons and try again.
-public struct UnableToDecryptSecretValueException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnableToDecryptSecretValueException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1025,9 +1025,9 @@ public struct UnableToDecryptSecretValueException: ClientRuntime.ModeledError, A
 }
 
 /// The specified upstream registry isn't supported.
-public struct UnsupportedUpstreamRegistryException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnsupportedUpstreamRegistryException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1167,9 +1167,9 @@ public struct CreatePullThroughCacheRuleOutput: Swift.Sendable {
 }
 
 /// An invalid parameter has been specified. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
-public struct InvalidTagParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidTagParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1191,9 +1191,9 @@ public struct InvalidTagParameterException: ClientRuntime.ModeledError, AWSClien
 }
 
 /// The specified repository already exists in the specified registry.
-public struct RepositoryAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct RepositoryAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1216,9 +1216,9 @@ public struct RepositoryAlreadyExistsException: ClientRuntime.ModeledError, AWSC
 }
 
 /// The list of tags on the repository is over the limit. The maximum number of tags that can be applied to a repository is 50.
-public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1449,9 +1449,9 @@ public struct CreateRepositoryOutput: Swift.Sendable {
 }
 
 /// The repository creation template already exists. Specify a unique prefix and try again.
-public struct TemplateAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TemplateAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1641,9 +1641,9 @@ public struct CreateRepositoryCreationTemplateOutput: Swift.Sendable {
 }
 
 /// The lifecycle policy could not be found, and no policy is set to the repository.
-public struct LifecyclePolicyNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LifecyclePolicyNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1706,9 +1706,9 @@ public struct DeleteLifecyclePolicyOutput: Swift.Sendable {
 }
 
 /// The pull through cache rule was not found. Specify a valid pull through cache rule and try again.
-public struct PullThroughCacheRuleNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PullThroughCacheRuleNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1775,9 +1775,9 @@ public struct DeletePullThroughCacheRuleOutput: Swift.Sendable {
 }
 
 /// The registry doesn't have an associated registry policy.
-public struct RegistryPolicyNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct RegistryPolicyNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1820,9 +1820,9 @@ public struct DeleteRegistryPolicyOutput: Swift.Sendable {
 }
 
 /// The specified repository contains images. To delete a repository that contains images, you must force the deletion with the force parameter.
-public struct RepositoryNotEmptyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct RepositoryNotEmptyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1878,9 +1878,9 @@ public struct DeleteRepositoryOutput: Swift.Sendable {
 }
 
 /// The specified repository creation template can't be found. Verify the registry ID and prefix and try again.
-public struct TemplateNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TemplateNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1931,9 +1931,9 @@ public struct DeleteRepositoryCreationTemplateOutput: Swift.Sendable {
 }
 
 /// The specified repository and registry combination does not have an associated repository policy.
-public struct RepositoryPolicyNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct RepositoryPolicyNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1993,9 +1993,9 @@ public struct DeleteRepositoryPolicyOutput: Swift.Sendable {
 }
 
 /// The image requested does not exist in the specified repository.
-public struct ImageNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ImageNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2404,9 +2404,9 @@ public struct DescribeImagesOutput: Swift.Sendable {
 }
 
 /// The specified image scan could not be found. Ensure that image scanning is enabled on the repository and try again.
-public struct ScanNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ScanNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3264,7 +3264,7 @@ public struct DescribeRepositoryCreationTemplatesOutput: Swift.Sendable {
 }
 
 public struct GetAccountSettingInput: Swift.Sendable {
-    /// Basic scan type version name.
+    /// The name of the account setting, such as BASIC_SCAN_TYPE_VERSION or REGISTRY_POLICY_SCOPE.
     /// This member is required.
     public var name: Swift.String?
 
@@ -3277,9 +3277,9 @@ public struct GetAccountSettingInput: Swift.Sendable {
 }
 
 public struct GetAccountSettingOutput: Swift.Sendable {
-    /// Retrieves the basic scan type version name.
+    /// Retrieves the name of the account setting.
     public var name: Swift.String?
-    /// Retrieves the value that specifies what basic scan type is being used: AWS_NATIVE or CLAIR.
+    /// The setting value for the setting name. The following are valid values for the basic scan type being used: AWS_NATIVE or CLAIR. The following are valid values for the registry policy scope being used: V1 or V2.
     public var value: Swift.String?
 
     public init(
@@ -3342,9 +3342,9 @@ public struct GetAuthorizationTokenOutput: Swift.Sendable {
 }
 
 /// The specified layer is not available because it is not associated with an image. Unassociated image layers may be cleaned up at any time.
-public struct LayerInaccessibleException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LayerInaccessibleException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3367,9 +3367,9 @@ public struct LayerInaccessibleException: ClientRuntime.ModeledError, AWSClientR
 }
 
 /// The specified layers could not be found, or the specified layer is not valid for this repository.
-public struct LayersNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LayersNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3392,9 +3392,9 @@ public struct LayersNotFoundException: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 /// There was an issue getting the upstream layer matching the pull through cache rule.
-public struct UnableToGetUpstreamLayerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnableToGetUpstreamLayerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3495,9 +3495,9 @@ public struct GetLifecyclePolicyOutput: Swift.Sendable {
 }
 
 /// There is no dry run for this repository.
-public struct LifecyclePolicyPreviewNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LifecyclePolicyPreviewNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3998,10 +3998,10 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 }
 
 public struct PutAccountSettingInput: Swift.Sendable {
-    /// Basic scan type version name.
+    /// The name of the account setting, such as BASIC_SCAN_TYPE_VERSION or REGISTRY_POLICY_SCOPE.
     /// This member is required.
     public var name: Swift.String?
-    /// Setting value that determines what basic scan type is being used: AWS_NATIVE or CLAIR.
+    /// Setting value that is specified. The following are valid values for the basic scan type being used: AWS_NATIVE or CLAIR. The following are valid values for the registry policy scope being used: V1 or V2.
     /// This member is required.
     public var value: Swift.String?
 
@@ -4016,9 +4016,9 @@ public struct PutAccountSettingInput: Swift.Sendable {
 }
 
 public struct PutAccountSettingOutput: Swift.Sendable {
-    /// Retrieves the the basic scan type version name.
+    /// Retrieves the name of the account setting.
     public var name: Swift.String?
-    /// Retrieves the basic scan type value, either AWS_NATIVE or -.
+    /// Retrieves the value of the specified account setting.
     public var value: Swift.String?
 
     public init(
@@ -4032,9 +4032,9 @@ public struct PutAccountSettingOutput: Swift.Sendable {
 }
 
 /// The specified image has already been pushed, and there were no changes to the manifest or image tag after the last push.
-public struct ImageAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ImageAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4057,9 +4057,9 @@ public struct ImageAlreadyExistsException: ClientRuntime.ModeledError, AWSClient
 }
 
 /// The specified image digest does not match the digest that Amazon ECR calculated for the image.
-public struct ImageDigestDoesNotMatchException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ImageDigestDoesNotMatchException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4081,9 +4081,9 @@ public struct ImageDigestDoesNotMatchException: ClientRuntime.ModeledError, AWSC
 }
 
 /// The specified image is tagged with a tag that already exists. The repository is configured for tag immutability.
-public struct ImageTagAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ImageTagAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4105,9 +4105,9 @@ public struct ImageTagAlreadyExistsException: ClientRuntime.ModeledError, AWSCli
 }
 
 /// The manifest list is referencing an image that does not exist.
-public struct ReferencedImagesNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ReferencedImagesNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4429,9 +4429,9 @@ public struct SetRepositoryPolicyOutput: Swift.Sendable {
 }
 
 /// The image is of a type that cannot be scanned.
-public struct UnsupportedImageTypeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnsupportedImageTypeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4499,9 +4499,9 @@ public struct StartImageScanOutput: Swift.Sendable {
 }
 
 /// The previous lifecycle policy preview request has not completed. Wait and try again.
-public struct LifecyclePolicyPreviewInProgressException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LifecyclePolicyPreviewInProgressException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4721,9 +4721,9 @@ public struct UpdateRepositoryCreationTemplateOutput: Swift.Sendable {
 }
 
 /// The layer part size is not valid, or the first byte specified is not consecutive to the last byte of a previous layer part upload.
-public struct InvalidLayerPartException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidLayerPartException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The last valid byte received from the layer part upload that is associated with the exception.
         public internal(set) var lastValidByteReceived: Swift.Int? = nil
         /// The error message associated with the exception.

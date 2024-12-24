@@ -51,9 +51,9 @@ public struct RemoveTagsOutput: Swift.Sendable {
 }
 
 /// An error occured because the client wanted to access a not supported operation. Gives http status code of 409.
-public struct DisabledOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DisabledOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A description of the error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -76,9 +76,9 @@ public struct DisabledOperationException: ClientRuntime.ModeledError, AWSClientR
 }
 
 /// An exception for trying to create more than allowed resources or sub-resources. Gives http status code of 409.
-public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A description of the error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -101,9 +101,9 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 }
 
 /// An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A description of the error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -276,9 +276,9 @@ public struct AcceptInboundCrossClusterSearchConnectionOutput: Swift.Sendable {
 }
 
 /// An error occurred because user does not have permissions to access the resource. Returns HTTP status code 403.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A description of the error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -432,9 +432,9 @@ extension ElasticsearchClientTypes {
 }
 
 /// An error occurred while processing the request.
-public struct BaseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BaseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A description of the error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -457,9 +457,9 @@ public struct BaseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSSer
 }
 
 /// The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
-public struct InternalException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A description of the error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -482,9 +482,9 @@ public struct InternalException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 /// An exception for missing / invalid input fields. Gives http status code of 400.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A description of the error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -791,9 +791,9 @@ extension ElasticsearchClientTypes {
 }
 
 /// An error occurred because the client attempts to remove a resource that is currently in use. Returns HTTP status code 409.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A description of the error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1235,9 +1235,9 @@ public struct CancelElasticsearchServiceSoftwareUpdateOutput: Swift.Sendable {
 }
 
 /// An exception for trying to create or access sub-resource that is either invalid or not supported. Gives http status code of 409.
-public struct InvalidTypeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidTypeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A description of the error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1260,9 +1260,9 @@ public struct InvalidTypeException: ClientRuntime.ModeledError, AWSClientRuntime
 }
 
 /// An exception for creating a resource that already exists. Gives http status code of 400.
-public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A description of the error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4194,9 +4194,9 @@ public struct DescribeElasticsearchInstanceTypeLimitsOutput: Swift.Sendable {
 }
 
 /// The request processing has failed because of invalid pagination token provided by customer. Returns an HTTP status code of 400.
-public struct InvalidPaginationTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidPaginationTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A description of the error.
         public internal(set) var message: Swift.String? = nil
     }

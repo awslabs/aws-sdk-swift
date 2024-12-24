@@ -33,9 +33,9 @@ public struct ListDomainNamesInput: Swift.Sendable {
 }
 
 /// An error occurred while processing the request.
-public struct BaseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BaseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A machine-parsable string error or warning code.
         public internal(set) var code: Swift.String? = nil
         /// A human-readable string error or warning message.
@@ -62,9 +62,9 @@ public struct BaseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSSer
 }
 
 /// An internal error occurred while processing the request. If this problem persists, report an issue from the [Service Health Dashboard](http://status.aws.amazon.com/).
-public struct InternalException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A machine-parsable string error or warning code.
         public internal(set) var code: Swift.String? = nil
         /// A human-readable string error or warning message.
@@ -91,9 +91,9 @@ public struct InternalException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 /// The request was rejected because it attempted to reference a resource that does not exist.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A machine-parsable string error or warning code.
         public internal(set) var code: Swift.String? = nil
         /// A human-readable string error or warning message.
@@ -120,9 +120,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// The request was rejected because it has invalid parameters.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A machine-parsable string error or warning code.
         public internal(set) var code: Swift.String? = nil
         /// A human-readable string error or warning message.
@@ -176,9 +176,9 @@ public struct BuildSuggestersOutput: Swift.Sendable {
 }
 
 /// The request was rejected because a resource limit has already been met.
-public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A machine-parsable string error or warning code.
         public internal(set) var code: Swift.String? = nil
         /// A human-readable string error or warning message.
@@ -205,9 +205,9 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 }
 
 /// The request was rejected because it attempted to create a resource that already exists.
-public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A machine-parsable string error or warning code.
         public internal(set) var code: Swift.String? = nil
         /// A human-readable string error or warning message.
@@ -362,9 +362,9 @@ public struct CreateDomainOutput: Swift.Sendable {
 }
 
 /// The request was rejected because it specified an invalid type definition.
-public struct InvalidTypeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidTypeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A machine-parsable string error or warning code.
         public internal(set) var code: Swift.String? = nil
         /// A human-readable string error or warning message.
@@ -1715,9 +1715,9 @@ public struct DescribeAnalysisSchemesOutput: Swift.Sendable {
 }
 
 /// The request was rejected because it attempted an operation which is not enabled.
-public struct DisabledOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DisabledOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A machine-parsable string error or warning code.
         public internal(set) var code: Swift.String? = nil
         /// A human-readable string error or warning message.

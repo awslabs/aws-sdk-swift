@@ -82,9 +82,9 @@ extension EKSClientTypes {
 }
 
 /// You don't have permissions to perform the requested operation. The [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see [Access management](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html) in the IAM User Guide.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// You do not have sufficient access to perform this action.
         public internal(set) var message: Swift.String? = nil
     }
@@ -457,6 +457,26 @@ extension EKSClientTypes {
 
 extension EKSClientTypes {
 
+    /// Contains compatibility information for an Amazon EKS add-on.
+    public struct AddonCompatibilityDetail: Swift.Sendable {
+        /// A list of compatible add-on versions.
+        public var compatibleVersions: [Swift.String]?
+        /// The name of the Amazon EKS add-on.
+        public var name: Swift.String?
+
+        public init(
+            compatibleVersions: [Swift.String]? = nil,
+            name: Swift.String? = nil
+        )
+        {
+            self.compatibleVersions = compatibleVersions
+            self.name = name
+        }
+    }
+}
+
+extension EKSClientTypes {
+
     /// Compatibility information.
     public struct Compatibility: Swift.Sendable {
         /// The supported Kubernetes version of the cluster.
@@ -665,9 +685,9 @@ extension EKSClientTypes {
 }
 
 /// The specified parameter is invalid. Review the available parameters for the API request.
-public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The specified parameter for the add-on name is invalid. Review the available parameters for the API request
         public internal(set) var addonName: Swift.String? = nil
         /// The Amazon EKS cluster associated with the exception.
@@ -710,9 +730,9 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// The request is invalid given the state of the cluster. Check the state of the cluster and the associated operations.
-public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The request is invalid given the state of the add-on name. Check the state of the cluster and the associated operations.
         public internal(set) var addonName: Swift.String? = nil
         /// The Amazon EKS cluster associated with the exception.
@@ -751,9 +771,9 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 /// The specified resource could not be found. You can view your available clusters with ListClusters. You can view your available managed node groups with ListNodegroups. Amazon EKS clusters and node groups are Amazon Web Services Region specific.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The Amazon EKS add-on name associated with the exception.
         public internal(set) var addonName: Swift.String? = nil
         /// The Amazon EKS cluster associated with the exception.
@@ -796,9 +816,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// These errors are usually caused by a server-side issue.
-public struct ServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The Amazon EKS add-on name associated with the exception.
         public internal(set) var addonName: Swift.String? = nil
         /// The Amazon EKS cluster associated with the exception.
@@ -913,9 +933,9 @@ public struct AssociateAccessPolicyOutput: Swift.Sendable {
 }
 
 /// These errors are usually caused by a client action. Actions can include using an action or resource on behalf of an [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
-public struct ClientException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ClientException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The Amazon EKS add-on name associated with the exception.
         public internal(set) var addonName: Swift.String? = nil
         /// The Amazon EKS cluster associated with the exception.
@@ -954,9 +974,9 @@ public struct ClientException: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
 }
 
 /// The specified resource is in use.
-public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The specified add-on name is in use.
         public internal(set) var addonName: Swift.String? = nil
         /// The Amazon EKS cluster associated with the exception.
@@ -1182,6 +1202,7 @@ extension EKSClientTypes {
         case maxUnavailable
         case maxUnavailablePercentage
         case minSize
+        case nodeRepairEnabled
         case platformVersion
         case podIdentityAssociations
         case publicAccessCidrs
@@ -1219,6 +1240,7 @@ extension EKSClientTypes {
                 .maxUnavailable,
                 .maxUnavailablePercentage,
                 .minSize,
+                .nodeRepairEnabled,
                 .platformVersion,
                 .podIdentityAssociations,
                 .publicAccessCidrs,
@@ -1262,6 +1284,7 @@ extension EKSClientTypes {
             case .maxUnavailable: return "MaxUnavailable"
             case .maxUnavailablePercentage: return "MaxUnavailablePercentage"
             case .minSize: return "MinSize"
+            case .nodeRepairEnabled: return "NodeRepairEnabled"
             case .platformVersion: return "PlatformVersion"
             case .podIdentityAssociations: return "PodIdentityAssociations"
             case .publicAccessCidrs: return "PublicAccessCidrs"
@@ -1553,9 +1576,9 @@ extension EKSClientTypes {
 }
 
 /// You have encountered a service limit on the specified resource.
-public struct ResourceLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The Amazon EKS cluster associated with the exception.
         public internal(set) var clusterName: Swift.String? = nil
         /// The Amazon EKS message associated with the exception.
@@ -1739,9 +1762,9 @@ public struct CreateAddonOutput: Swift.Sendable {
 }
 
 /// The service is unavailable. Back off and retry the operation.
-public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The request has failed due to a temporary failure of the server.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1764,9 +1787,9 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
 }
 
 /// At least one of your specified cluster subnets is in an Availability Zone that does not support Amazon EKS. The exception output specifies the supported Availability Zones for your account, from which you can choose subnets for your cluster.
-public struct UnsupportedAvailabilityZoneException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnsupportedAvailabilityZoneException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The Amazon EKS cluster associated with the exception.
         public internal(set) var clusterName: Swift.String? = nil
         /// At least one of your specified cluster subnets is in an Availability Zone that does not support Amazon EKS. The exception output specifies the supported Availability Zones for your account, from which you can choose subnets for your cluster.
@@ -2040,9 +2063,33 @@ extension EKSClientTypes {
 
 extension EKSClientTypes {
 
-    /// A network CIDR that can contain hybrid nodes.
+    /// A network CIDR that can contain hybrid nodes. These CIDR blocks define the expected IP address range of the hybrid nodes that join the cluster. These blocks are typically determined by your network administrator. Enter one or more IPv4 CIDR blocks in decimal dotted-quad notation (for example,  10.2.0.0/16). It must satisfy the following requirements:
+    ///
+    /// * Each block must be within an IPv4 RFC-1918 network range. Minimum allowed size is /24, maximum allowed size is /8. Publicly-routable addresses aren't supported.
+    ///
+    /// * Each block cannot overlap with the range of the VPC CIDR blocks for your EKS resources, or the block of the Kubernetes service IP range.
+    ///
+    /// * Each block must have a route to the VPC that uses the VPC CIDR blocks, not public IPs or Elastic IPs. There are many options including Transit Gateway, Site-to-Site VPN, or Direct Connect.
+    ///
+    /// * Each host must allow outbound connection to the EKS cluster control plane on TCP ports 443 and 10250.
+    ///
+    /// * Each host must allow inbound connection from the EKS cluster control plane on TCP port 10250 for logs, exec and port-forward operations.
+    ///
+    /// * Each host must allow TCP and UDP network connectivity to and from other hosts that are running CoreDNS on UDP port 53 for service and pod DNS names.
     public struct RemoteNodeNetwork: Swift.Sendable {
-        /// A network CIDR that can contain hybrid nodes.
+        /// A network CIDR that can contain hybrid nodes. These CIDR blocks define the expected IP address range of the hybrid nodes that join the cluster. These blocks are typically determined by your network administrator. Enter one or more IPv4 CIDR blocks in decimal dotted-quad notation (for example,  10.2.0.0/16). It must satisfy the following requirements:
+        ///
+        /// * Each block must be within an IPv4 RFC-1918 network range. Minimum allowed size is /24, maximum allowed size is /8. Publicly-routable addresses aren't supported.
+        ///
+        /// * Each block cannot overlap with the range of the VPC CIDR blocks for your EKS resources, or the block of the Kubernetes service IP range.
+        ///
+        /// * Each block must have a route to the VPC that uses the VPC CIDR blocks, not public IPs or Elastic IPs. There are many options including Transit Gateway, Site-to-Site VPN, or Direct Connect.
+        ///
+        /// * Each host must allow outbound connection to the EKS cluster control plane on TCP ports 443 and 10250.
+        ///
+        /// * Each host must allow inbound connection from the EKS cluster control plane on TCP port 10250 for logs, exec and port-forward operations.
+        ///
+        /// * Each host must allow TCP and UDP network connectivity to and from other hosts that are running CoreDNS on UDP port 53 for service and pod DNS names.
         public var cidrs: [Swift.String]?
 
         public init(
@@ -2056,9 +2103,17 @@ extension EKSClientTypes {
 
 extension EKSClientTypes {
 
-    /// A network CIDR that can contain pods that run Kubernetes webhooks on hybrid nodes.
+    /// A network CIDR that can contain pods that run Kubernetes webhooks on hybrid nodes. These CIDR blocks are determined by configuring your Container Network Interface (CNI) plugin. We recommend the Calico CNI or Cilium CNI. Note that the Amazon VPC CNI plugin for Kubernetes isn't available for on-premises and edge locations. Enter one or more IPv4 CIDR blocks in decimal dotted-quad notation (for example,  10.2.0.0/16). It must satisfy the following requirements:
+    ///
+    /// * Each block must be within an IPv4 RFC-1918 network range. Minimum allowed size is /24, maximum allowed size is /8. Publicly-routable addresses aren't supported.
+    ///
+    /// * Each block cannot overlap with the range of the VPC CIDR blocks for your EKS resources, or the block of the Kubernetes service IP range.
     public struct RemotePodNetwork: Swift.Sendable {
-        /// A network CIDR that can contain pods that run Kubernetes webhooks on hybrid nodes.
+        /// A network CIDR that can contain pods that run Kubernetes webhooks on hybrid nodes. These CIDR blocks are determined by configuring your Container Network Interface (CNI) plugin. We recommend the Calico CNI or Cilium CNI. Note that the Amazon VPC CNI plugin for Kubernetes isn't available for on-premises and edge locations. Enter one or more IPv4 CIDR blocks in decimal dotted-quad notation (for example,  10.2.0.0/16). It must satisfy the following requirements:
+        ///
+        /// * Each block must be within an IPv4 RFC-1918 network range. Minimum allowed size is /24, maximum allowed size is /8. Publicly-routable addresses aren't supported.
+        ///
+        /// * Each block cannot overlap with the range of the VPC CIDR blocks for your EKS resources, or the block of the Kubernetes service IP range.
         public var cidrs: [Swift.String]?
 
         public init(
@@ -2074,9 +2129,25 @@ extension EKSClientTypes {
 
     /// The configuration in the cluster for EKS Hybrid Nodes. You can't change or update this configuration after the cluster is created.
     public struct RemoteNetworkConfigRequest: Swift.Sendable {
-        /// The list of network CIDRs that can contain hybrid nodes.
+        /// The list of network CIDRs that can contain hybrid nodes. These CIDR blocks define the expected IP address range of the hybrid nodes that join the cluster. These blocks are typically determined by your network administrator. Enter one or more IPv4 CIDR blocks in decimal dotted-quad notation (for example,  10.2.0.0/16). It must satisfy the following requirements:
+        ///
+        /// * Each block must be within an IPv4 RFC-1918 network range. Minimum allowed size is /24, maximum allowed size is /8. Publicly-routable addresses aren't supported.
+        ///
+        /// * Each block cannot overlap with the range of the VPC CIDR blocks for your EKS resources, or the block of the Kubernetes service IP range.
+        ///
+        /// * Each block must have a route to the VPC that uses the VPC CIDR blocks, not public IPs or Elastic IPs. There are many options including Transit Gateway, Site-to-Site VPN, or Direct Connect.
+        ///
+        /// * Each host must allow outbound connection to the EKS cluster control plane on TCP ports 443 and 10250.
+        ///
+        /// * Each host must allow inbound connection from the EKS cluster control plane on TCP port 10250 for logs, exec and port-forward operations.
+        ///
+        /// * Each host must allow TCP and UDP network connectivity to and from other hosts that are running CoreDNS on UDP port 53 for service and pod DNS names.
         public var remoteNodeNetworks: [EKSClientTypes.RemoteNodeNetwork]?
-        /// The list of network CIDRs that can contain pods that run Kubernetes webhooks on hybrid nodes.
+        /// The list of network CIDRs that can contain pods that run Kubernetes webhooks on hybrid nodes. These CIDR blocks are determined by configuring your Container Network Interface (CNI) plugin. We recommend the Calico CNI or Cilium CNI. Note that the Amazon VPC CNI plugin for Kubernetes isn't available for on-premises and edge locations. Enter one or more IPv4 CIDR blocks in decimal dotted-quad notation (for example,  10.2.0.0/16). It must satisfy the following requirements:
+        ///
+        /// * Each block must be within an IPv4 RFC-1918 network range. Minimum allowed size is /24, maximum allowed size is /8. Publicly-routable addresses aren't supported.
+        ///
+        /// * Each block cannot overlap with the range of the VPC CIDR blocks for your EKS resources, or the block of the Kubernetes service IP range.
         public var remotePodNetworks: [EKSClientTypes.RemotePodNetwork]?
 
         public init(
@@ -3341,6 +3412,22 @@ extension EKSClientTypes {
 
 extension EKSClientTypes {
 
+    /// The node auto repair configuration for the node group.
+    public struct NodeRepairConfig: Swift.Sendable {
+        /// Specifies whether to enable node auto repair for the node group. Node auto repair is disabled by default.
+        public var enabled: Swift.Bool?
+
+        public init(
+            enabled: Swift.Bool? = nil
+        )
+        {
+            self.enabled = enabled
+        }
+    }
+}
+
+extension EKSClientTypes {
+
     /// An object representing the remote access configuration for the managed node group.
     public struct RemoteAccessConfig: Swift.Sendable {
         /// The Amazon EC2 SSH key name that provides access for SSH communication with the nodes in the managed node group. For more information, see [Amazon EC2 key pairs and Linux instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) in the Amazon Elastic Compute Cloud User Guide for Linux Instances. For Windows, an Amazon EC2 SSH key is used to obtain the RDP password. For more information, see [Amazon EC2 key pairs and Windows instances](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/ec2-key-pairs.html) in the Amazon Elastic Compute Cloud User Guide for Windows Instances.
@@ -3477,6 +3564,8 @@ public struct CreateNodegroupInput: Swift.Sendable {
     public var labels: [Swift.String: Swift.String]?
     /// An object representing a node group's launch template specification. When using this object, don't directly specify instanceTypes, diskSize, or remoteAccess. Make sure that the launch template meets the requirements in launchTemplateSpecification. Also refer to [Customizing managed nodes with launch templates](https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html) in the Amazon EKS User Guide.
     public var launchTemplate: EKSClientTypes.LaunchTemplateSpecification?
+    /// The node auto repair configuration for the node group.
+    public var nodeRepairConfig: EKSClientTypes.NodeRepairConfig?
     /// The Amazon Resource Name (ARN) of the IAM role to associate with your node group. The Amazon EKS worker node kubelet daemon makes calls to Amazon Web Services APIs on your behalf. Nodes receive permissions for these API calls through an IAM instance profile and associated policies. Before you can launch nodes and register them into a cluster, you must create an IAM role for those nodes to use when they are launched. For more information, see [Amazon EKS node IAM role](https://docs.aws.amazon.com/eks/latest/userguide/create-node-role.html) in the Amazon EKS User Guide . If you specify launchTemplate, then don't specify [IamInstanceProfile](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_IamInstanceProfile.html) in your launch template, or the node group deployment will fail. For more information about using launch templates with Amazon EKS, see [Customizing managed nodes with launch templates](https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html) in the Amazon EKS User Guide.
     /// This member is required.
     public var nodeRole: Swift.String?
@@ -3510,6 +3599,7 @@ public struct CreateNodegroupInput: Swift.Sendable {
         instanceTypes: [Swift.String]? = nil,
         labels: [Swift.String: Swift.String]? = nil,
         launchTemplate: EKSClientTypes.LaunchTemplateSpecification? = nil,
+        nodeRepairConfig: EKSClientTypes.NodeRepairConfig? = nil,
         nodeRole: Swift.String? = nil,
         nodegroupName: Swift.String? = nil,
         releaseVersion: Swift.String? = nil,
@@ -3530,6 +3620,7 @@ public struct CreateNodegroupInput: Swift.Sendable {
         self.instanceTypes = instanceTypes
         self.labels = labels
         self.launchTemplate = launchTemplate
+        self.nodeRepairConfig = nodeRepairConfig
         self.nodeRole = nodeRole
         self.nodegroupName = nodegroupName
         self.releaseVersion = releaseVersion
@@ -3834,6 +3925,8 @@ extension EKSClientTypes {
         public var launchTemplate: EKSClientTypes.LaunchTemplateSpecification?
         /// The Unix epoch timestamp for the last modification to the object.
         public var modifiedAt: Foundation.Date?
+        /// The node auto repair configuration for the node group.
+        public var nodeRepairConfig: EKSClientTypes.NodeRepairConfig?
         /// The IAM role associated with your node group. The Amazon EKS node kubelet daemon makes calls to Amazon Web Services APIs on your behalf. Nodes receive permissions for these API calls through an IAM instance profile and associated policies.
         public var nodeRole: Swift.String?
         /// The Amazon Resource Name (ARN) associated with the managed node group.
@@ -3872,6 +3965,7 @@ extension EKSClientTypes {
             labels: [Swift.String: Swift.String]? = nil,
             launchTemplate: EKSClientTypes.LaunchTemplateSpecification? = nil,
             modifiedAt: Foundation.Date? = nil,
+            nodeRepairConfig: EKSClientTypes.NodeRepairConfig? = nil,
             nodeRole: Swift.String? = nil,
             nodegroupArn: Swift.String? = nil,
             nodegroupName: Swift.String? = nil,
@@ -3897,6 +3991,7 @@ extension EKSClientTypes {
             self.labels = labels
             self.launchTemplate = launchTemplate
             self.modifiedAt = modifiedAt
+            self.nodeRepairConfig = nodeRepairConfig
             self.nodeRole = nodeRole
             self.nodegroupArn = nodegroupArn
             self.nodegroupName = nodegroupName
@@ -4455,6 +4550,138 @@ public struct DescribeClusterOutput: Swift.Sendable {
     }
 }
 
+extension EKSClientTypes {
+
+    public enum ClusterVersionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case extendedSupport
+        case standardSupport
+        case unsupported
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ClusterVersionStatus] {
+            return [
+                .extendedSupport,
+                .standardSupport,
+                .unsupported
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .extendedSupport: return "extended-support"
+            case .standardSupport: return "standard-support"
+            case .unsupported: return "unsupported"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct DescribeClusterVersionsInput: Swift.Sendable {
+    /// The type of cluster to filter versions by.
+    public var clusterType: Swift.String?
+    /// List of specific cluster versions to describe.
+    public var clusterVersions: [Swift.String]?
+    /// Filter to show only default versions.
+    public var defaultOnly: Swift.Bool?
+    /// Include all available versions in the response.
+    public var includeAll: Swift.Bool?
+    /// Maximum number of results to return.
+    public var maxResults: Swift.Int?
+    /// Pagination token for the next set of results.
+    public var nextToken: Swift.String?
+    /// Filter versions by their current status.
+    public var status: EKSClientTypes.ClusterVersionStatus?
+
+    public init(
+        clusterType: Swift.String? = nil,
+        clusterVersions: [Swift.String]? = nil,
+        defaultOnly: Swift.Bool? = nil,
+        includeAll: Swift.Bool? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        status: EKSClientTypes.ClusterVersionStatus? = nil
+    )
+    {
+        self.clusterType = clusterType
+        self.clusterVersions = clusterVersions
+        self.defaultOnly = defaultOnly
+        self.includeAll = includeAll
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.status = status
+    }
+}
+
+extension EKSClientTypes {
+
+    /// Contains details about a specific EKS cluster version.
+    public struct ClusterVersionInformation: Swift.Sendable {
+        /// The type of cluster this version is for.
+        public var clusterType: Swift.String?
+        /// The Kubernetes version for the cluster.
+        public var clusterVersion: Swift.String?
+        /// Default platform version for this Kubernetes version.
+        public var defaultPlatformVersion: Swift.String?
+        /// Indicates if this is a default version.
+        public var defaultVersion: Swift.Bool
+        /// Date when extended support ends for this version.
+        public var endOfExtendedSupportDate: Foundation.Date?
+        /// Date when standard support ends for this version.
+        public var endOfStandardSupportDate: Foundation.Date?
+        /// The patch version of Kubernetes for this cluster version.
+        public var kubernetesPatchVersion: Swift.String?
+        /// The release date of this cluster version.
+        public var releaseDate: Foundation.Date?
+        /// Current status of this cluster version.
+        public var status: EKSClientTypes.ClusterVersionStatus?
+
+        public init(
+            clusterType: Swift.String? = nil,
+            clusterVersion: Swift.String? = nil,
+            defaultPlatformVersion: Swift.String? = nil,
+            defaultVersion: Swift.Bool = false,
+            endOfExtendedSupportDate: Foundation.Date? = nil,
+            endOfStandardSupportDate: Foundation.Date? = nil,
+            kubernetesPatchVersion: Swift.String? = nil,
+            releaseDate: Foundation.Date? = nil,
+            status: EKSClientTypes.ClusterVersionStatus? = nil
+        )
+        {
+            self.clusterType = clusterType
+            self.clusterVersion = clusterVersion
+            self.defaultPlatformVersion = defaultPlatformVersion
+            self.defaultVersion = defaultVersion
+            self.endOfExtendedSupportDate = endOfExtendedSupportDate
+            self.endOfStandardSupportDate = endOfStandardSupportDate
+            self.kubernetesPatchVersion = kubernetesPatchVersion
+            self.releaseDate = releaseDate
+            self.status = status
+        }
+    }
+}
+
+public struct DescribeClusterVersionsOutput: Swift.Sendable {
+    /// List of cluster version information objects.
+    public var clusterVersions: [EKSClientTypes.ClusterVersionInformation]?
+    /// Pagination token for the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        clusterVersions: [EKSClientTypes.ClusterVersionInformation]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.clusterVersions = clusterVersions
+        self.nextToken = nextToken
+    }
+}
+
 public struct DescribeEksAnywhereSubscriptionInput: Swift.Sendable {
     /// The ID of the subscription.
     /// This member is required.
@@ -4774,13 +5001,17 @@ extension EKSClientTypes {
 
     /// Summary information that relates to the category of the insight. Currently only returned with certain insights having category UPGRADE_READINESS.
     public struct InsightCategorySpecificSummary: Swift.Sendable {
+        /// A list of AddonCompatibilityDetail objects for Amazon EKS add-ons.
+        public var addonCompatibilityDetails: [EKSClientTypes.AddonCompatibilityDetail]?
         /// The summary information about deprecated resource usage for an insight check in the UPGRADE_READINESS category.
         public var deprecationDetails: [EKSClientTypes.DeprecationDetail]?
 
         public init(
+            addonCompatibilityDetails: [EKSClientTypes.AddonCompatibilityDetail]? = nil,
             deprecationDetails: [EKSClientTypes.DeprecationDetail]? = nil
         )
         {
+            self.addonCompatibilityDetails = addonCompatibilityDetails
             self.deprecationDetails = deprecationDetails
         }
     }
@@ -5689,9 +5920,9 @@ public struct ListPodIdentityAssociationsOutput: Swift.Sendable {
 }
 
 /// This exception is thrown if the request contains a semantic error. The precise meaning will depend on the API, and will be documented in the error message.
-public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This exception is thrown if the request contains a semantic error. The precise meaning will depend on the API, and will be documented in the error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -5714,9 +5945,9 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 /// A service resource associated with the request could not be found. Clients should not retry such requests.
-public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A service resource associated with the request could not be found. Clients should not retry such requests.
         public internal(set) var message: Swift.String? = nil
     }
@@ -5809,9 +6040,9 @@ public struct ListUpdatesOutput: Swift.Sendable {
 }
 
 /// Required resources (such as service-linked roles) were created and are still propagating. Retry later.
-public struct ResourcePropagationDelayException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourcePropagationDelayException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Required resources (such as service-linked roles) were created and are still propagating. Retry later.
         public internal(set) var message: Swift.String? = nil
     }
@@ -6284,6 +6515,8 @@ public struct UpdateNodegroupConfigInput: Swift.Sendable {
     public var clusterName: Swift.String?
     /// The Kubernetes labels to apply to the nodes in the node group after the update.
     public var labels: EKSClientTypes.UpdateLabelsPayload?
+    /// The node auto repair configuration for the node group.
+    public var nodeRepairConfig: EKSClientTypes.NodeRepairConfig?
     /// The name of the managed node group to update.
     /// This member is required.
     public var nodegroupName: Swift.String?
@@ -6298,6 +6531,7 @@ public struct UpdateNodegroupConfigInput: Swift.Sendable {
         clientRequestToken: Swift.String? = nil,
         clusterName: Swift.String? = nil,
         labels: EKSClientTypes.UpdateLabelsPayload? = nil,
+        nodeRepairConfig: EKSClientTypes.NodeRepairConfig? = nil,
         nodegroupName: Swift.String? = nil,
         scalingConfig: EKSClientTypes.NodegroupScalingConfig? = nil,
         taints: EKSClientTypes.UpdateTaintsPayload? = nil,
@@ -6307,6 +6541,7 @@ public struct UpdateNodegroupConfigInput: Swift.Sendable {
         self.clientRequestToken = clientRequestToken
         self.clusterName = clusterName
         self.labels = labels
+        self.nodeRepairConfig = nodeRepairConfig
         self.nodegroupName = nodegroupName
         self.scalingConfig = scalingConfig
         self.taints = taints
@@ -6727,6 +6962,51 @@ extension DescribeClusterInput {
             return nil
         }
         return "/clusters/\(name.urlPercentEncoding())"
+    }
+}
+
+extension DescribeClusterVersionsInput {
+
+    static func urlPathProvider(_ value: DescribeClusterVersionsInput) -> Swift.String? {
+        return "/cluster-versions"
+    }
+}
+
+extension DescribeClusterVersionsInput {
+
+    static func queryItemProvider(_ value: DescribeClusterVersionsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let clusterType = value.clusterType {
+            let clusterTypeQueryItem = Smithy.URIQueryItem(name: "clusterType".urlPercentEncoding(), value: Swift.String(clusterType).urlPercentEncoding())
+            items.append(clusterTypeQueryItem)
+        }
+        if let clusterVersions = value.clusterVersions {
+            clusterVersions.forEach { queryItemValue in
+                let queryItem = Smithy.URIQueryItem(name: "clusterVersions".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+                items.append(queryItem)
+            }
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let includeAll = value.includeAll {
+            let includeAllQueryItem = Smithy.URIQueryItem(name: "includeAll".urlPercentEncoding(), value: Swift.String(includeAll).urlPercentEncoding())
+            items.append(includeAllQueryItem)
+        }
+        if let defaultOnly = value.defaultOnly {
+            let defaultOnlyQueryItem = Smithy.URIQueryItem(name: "defaultOnly".urlPercentEncoding(), value: Swift.String(defaultOnly).urlPercentEncoding())
+            items.append(defaultOnlyQueryItem)
+        }
+        if let status = value.status {
+            let statusQueryItem = Smithy.URIQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
+            items.append(statusQueryItem)
+        }
+        return items
     }
 }
 
@@ -7445,6 +7725,7 @@ extension CreateNodegroupInput {
         try writer["instanceTypes"].writeList(value.instanceTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["labels"].writeMap(value.labels, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["launchTemplate"].write(value.launchTemplate, with: EKSClientTypes.LaunchTemplateSpecification.write(value:to:))
+        try writer["nodeRepairConfig"].write(value.nodeRepairConfig, with: EKSClientTypes.NodeRepairConfig.write(value:to:))
         try writer["nodeRole"].write(value.nodeRole)
         try writer["nodegroupName"].write(value.nodegroupName)
         try writer["releaseVersion"].write(value.releaseVersion)
@@ -7579,6 +7860,7 @@ extension UpdateNodegroupConfigInput {
         guard let value else { return }
         try writer["clientRequestToken"].write(value.clientRequestToken)
         try writer["labels"].write(value.labels, with: EKSClientTypes.UpdateLabelsPayload.write(value:to:))
+        try writer["nodeRepairConfig"].write(value.nodeRepairConfig, with: EKSClientTypes.NodeRepairConfig.write(value:to:))
         try writer["scalingConfig"].write(value.scalingConfig, with: EKSClientTypes.NodegroupScalingConfig.write(value:to:))
         try writer["taints"].write(value.taints, with: EKSClientTypes.UpdateTaintsPayload.write(value:to:))
         try writer["updateConfig"].write(value.updateConfig, with: EKSClientTypes.NodegroupUpdateConfig.write(value:to:))
@@ -7880,6 +8162,19 @@ extension DescribeClusterOutput {
         let reader = responseReader
         var value = DescribeClusterOutput()
         value.cluster = try reader["cluster"].readIfPresent(with: EKSClientTypes.Cluster.read(from:))
+        return value
+    }
+}
+
+extension DescribeClusterVersionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeClusterVersionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeClusterVersionsOutput()
+        value.clusterVersions = try reader["clusterVersions"].readListIfPresent(memberReadingClosure: EKSClientTypes.ClusterVersionInformation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
 }
@@ -8687,6 +8982,22 @@ enum DescribeClusterOutputError {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServerException": return try ServerException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeClusterVersionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -10069,6 +10380,7 @@ extension EKSClientTypes.Nodegroup {
         value.diskSize = try reader["diskSize"].readIfPresent()
         value.health = try reader["health"].readIfPresent(with: EKSClientTypes.NodegroupHealth.read(from:))
         value.updateConfig = try reader["updateConfig"].readIfPresent(with: EKSClientTypes.NodegroupUpdateConfig.read(from:))
+        value.nodeRepairConfig = try reader["nodeRepairConfig"].readIfPresent(with: EKSClientTypes.NodeRepairConfig.read(from:))
         value.launchTemplate = try reader["launchTemplate"].readIfPresent(with: EKSClientTypes.LaunchTemplateSpecification.read(from:))
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
@@ -10090,6 +10402,21 @@ extension EKSClientTypes.LaunchTemplateSpecification {
         value.name = try reader["name"].readIfPresent()
         value.version = try reader["version"].readIfPresent()
         value.id = try reader["id"].readIfPresent()
+        return value
+    }
+}
+
+extension EKSClientTypes.NodeRepairConfig {
+
+    static func write(value: EKSClientTypes.NodeRepairConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["enabled"].write(value.enabled)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.NodeRepairConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.NodeRepairConfig()
+        value.enabled = try reader["enabled"].readIfPresent()
         return value
     }
 }
@@ -10281,6 +10608,24 @@ extension EKSClientTypes.Compatibility {
     }
 }
 
+extension EKSClientTypes.ClusterVersionInformation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.ClusterVersionInformation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.ClusterVersionInformation()
+        value.clusterVersion = try reader["clusterVersion"].readIfPresent()
+        value.clusterType = try reader["clusterType"].readIfPresent()
+        value.defaultPlatformVersion = try reader["defaultPlatformVersion"].readIfPresent()
+        value.defaultVersion = try reader["defaultVersion"].readIfPresent() ?? false
+        value.releaseDate = try reader["releaseDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endOfStandardSupportDate = try reader["endOfStandardSupportDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endOfExtendedSupportDate = try reader["endOfExtendedSupportDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["status"].readIfPresent()
+        value.kubernetesPatchVersion = try reader["kubernetesPatchVersion"].readIfPresent()
+        return value
+    }
+}
+
 extension EKSClientTypes.IdentityProviderConfigResponse {
 
     static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.IdentityProviderConfigResponse {
@@ -10339,6 +10684,18 @@ extension EKSClientTypes.InsightCategorySpecificSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EKSClientTypes.InsightCategorySpecificSummary()
         value.deprecationDetails = try reader["deprecationDetails"].readListIfPresent(memberReadingClosure: EKSClientTypes.DeprecationDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.addonCompatibilityDetails = try reader["addonCompatibilityDetails"].readListIfPresent(memberReadingClosure: EKSClientTypes.AddonCompatibilityDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension EKSClientTypes.AddonCompatibilityDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.AddonCompatibilityDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.AddonCompatibilityDetail()
+        value.name = try reader["name"].readIfPresent()
+        value.compatibleVersions = try reader["compatibleVersions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }

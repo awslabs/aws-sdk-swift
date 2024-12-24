@@ -122,9 +122,9 @@ extension MarketplaceCommerceAnalyticsClientTypes {
 }
 
 /// This exception is thrown when an internal service error occurs.
-public struct MarketplaceCommerceAnalyticsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MarketplaceCommerceAnalyticsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This message describes details of the error.
         public internal(set) var message: Swift.String? = nil
     }

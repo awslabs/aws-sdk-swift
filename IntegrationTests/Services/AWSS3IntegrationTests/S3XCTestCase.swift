@@ -55,9 +55,9 @@ class S3XCTestCase: XCTestCase {
     ///
     /// Useful for testing presigned URLs.
     /// - Parameter urlRequest: The urlRequest to be performed.
-    /// - Returns: The data from the request, or empty data if the request has no body.
+    /// - Returns: The data and optional http response, or empty data if the response has no body.
     /// - Throws: Any error returned by the data task, or `HTTPError` if the request completes and the HTTP status code is not 200 series.
-    func perform(urlRequest: URLRequest) async throws -> Data {
+    func perform(urlRequest: URLRequest) async throws -> (Data, HTTPURLResponse?) {
         try await withCheckedThrowingContinuation { continuation in
             let task = URLSession.shared.dataTask(with: urlRequest) { data, urlResponse, error in
                 if let error = error {
@@ -66,7 +66,7 @@ class S3XCTestCase: XCTestCase {
                     let error = HTTPError(code: code, data: data, url: urlRequest.url)
                     continuation.resume(throwing: error)
                 } else {
-                    continuation.resume(returning: data ?? Data())
+                    continuation.resume(returning: (data ?? Data(), urlResponse as? HTTPURLResponse))
                 }
             }
             task.resume()

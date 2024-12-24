@@ -196,11 +196,29 @@ extension MediaConnectClientTypes {
 
 extension MediaConnectClientTypes {
 
+    /// The settings related to the multicast source.
+    public struct MulticastSourceSettings: Swift.Sendable {
+        /// The IP address of the source for source-specific multicast (SSM).
+        public var multicastSourceIp: Swift.String?
+
+        public init(
+            multicastSourceIp: Swift.String? = nil
+        )
+        {
+            self.multicastSourceIp = multicastSourceIp
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
     /// Add a network source to an existing bridge.
     public struct AddBridgeNetworkSourceRequest: Swift.Sendable {
         /// The network source multicast IP.
         /// This member is required.
         public var multicastIp: Swift.String?
+        /// The settings related to the multicast source.
+        public var multicastSourceSettings: MediaConnectClientTypes.MulticastSourceSettings?
         /// The name of the network source. This name is used to reference the source and must be unique among sources in this bridge.
         /// This member is required.
         public var name: Swift.String?
@@ -216,6 +234,7 @@ extension MediaConnectClientTypes {
 
         public init(
             multicastIp: Swift.String? = nil,
+            multicastSourceSettings: MediaConnectClientTypes.MulticastSourceSettings? = nil,
             name: Swift.String? = nil,
             networkName: Swift.String? = nil,
             port: Swift.Int? = nil,
@@ -223,6 +242,7 @@ extension MediaConnectClientTypes {
         )
         {
             self.multicastIp = multicastIp
+            self.multicastSourceSettings = multicastSourceSettings
             self.name = name
             self.networkName = networkName
             self.port = port
@@ -1049,6 +1069,8 @@ extension MediaConnectClientTypes {
         /// The network source multicast IP.
         /// This member is required.
         public var multicastIp: Swift.String?
+        /// The settings related to the multicast source.
+        public var multicastSourceSettings: MediaConnectClientTypes.MulticastSourceSettings?
         /// The name of the network source.
         /// This member is required.
         public var name: Swift.String?
@@ -1064,6 +1086,7 @@ extension MediaConnectClientTypes {
 
         public init(
             multicastIp: Swift.String? = nil,
+            multicastSourceSettings: MediaConnectClientTypes.MulticastSourceSettings? = nil,
             name: Swift.String? = nil,
             networkName: Swift.String? = nil,
             port: Swift.Int? = nil,
@@ -1071,6 +1094,7 @@ extension MediaConnectClientTypes {
         )
         {
             self.multicastIp = multicastIp
+            self.multicastSourceSettings = multicastSourceSettings
             self.name = name
             self.networkName = networkName
             self.port = port
@@ -2839,9 +2863,9 @@ extension MediaConnectClientTypes {
 }
 
 /// Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message returned by AWS Elemental MediaConnect.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -2865,9 +2889,9 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 /// Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message returned by AWS Elemental MediaConnect.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -2891,9 +2915,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 /// Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message returned by AWS Elemental MediaConnect.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -2917,9 +2941,9 @@ public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.A
 }
 
 /// Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message returned by AWS Elemental MediaConnect.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -2943,9 +2967,9 @@ public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClien
 }
 
 /// Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message returned by AWS Elemental MediaConnect.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -2969,9 +2993,9 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 /// Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message returned by AWS Elemental MediaConnect.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -2995,9 +3019,9 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
 }
 
 /// Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message returned by AWS Elemental MediaConnect.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -3142,9 +3166,9 @@ public struct AddFlowMediaStreamsOutput: Swift.Sendable {
 }
 
 /// Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-public struct AddFlowOutputs420Exception: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AddFlowOutputs420Exception: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message returned by AWS Elemental MediaConnect.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -3572,9 +3596,9 @@ extension MediaConnectClientTypes {
 }
 
 /// Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-public struct CreateBridge420Exception: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CreateBridge420Exception: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message returned by AWS Elemental MediaConnect.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -3650,9 +3674,9 @@ public struct CreateBridgeOutput: Swift.Sendable {
 }
 
 /// Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-public struct CreateFlow420Exception: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CreateFlow420Exception: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message returned by AWS Elemental MediaConnect.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -3864,9 +3888,9 @@ public struct CreateFlowOutput: Swift.Sendable {
 }
 
 /// Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-public struct CreateGateway420Exception: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CreateGateway420Exception: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message returned by AWS Elemental MediaConnect.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -4443,9 +4467,9 @@ extension MediaConnectClientTypes {
 }
 
 /// Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-public struct GrantFlowEntitlements420Exception: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct GrantFlowEntitlements420Exception: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message returned by AWS Elemental MediaConnect.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -5323,6 +5347,8 @@ extension MediaConnectClientTypes {
     public struct UpdateBridgeNetworkSourceRequest: Swift.Sendable {
         /// The network source multicast IP.
         public var multicastIp: Swift.String?
+        /// The settings related to the multicast source.
+        public var multicastSourceSettings: MediaConnectClientTypes.MulticastSourceSettings?
         /// The network source's gateway network name.
         public var networkName: Swift.String?
         /// The network source port.
@@ -5332,12 +5358,14 @@ extension MediaConnectClientTypes {
 
         public init(
             multicastIp: Swift.String? = nil,
+            multicastSourceSettings: MediaConnectClientTypes.MulticastSourceSettings? = nil,
             networkName: Swift.String? = nil,
             port: Swift.Int? = nil,
             `protocol`: MediaConnectClientTypes.ModelProtocol? = nil
         )
         {
             self.multicastIp = multicastIp
+            self.multicastSourceSettings = multicastSourceSettings
             self.networkName = networkName
             self.port = port
             self.`protocol` = `protocol`
@@ -8662,10 +8690,26 @@ extension MediaConnectClientTypes.BridgeNetworkSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaConnectClientTypes.BridgeNetworkSource()
         value.multicastIp = try reader["multicastIp"].readIfPresent() ?? ""
+        value.multicastSourceSettings = try reader["multicastSourceSettings"].readIfPresent(with: MediaConnectClientTypes.MulticastSourceSettings.read(from:))
         value.name = try reader["name"].readIfPresent() ?? ""
         value.networkName = try reader["networkName"].readIfPresent() ?? ""
         value.port = try reader["port"].readIfPresent() ?? 0
         value.`protocol` = try reader["protocol"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.MulticastSourceSettings {
+
+    static func write(value: MediaConnectClientTypes.MulticastSourceSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["multicastSourceIp"].write(value.multicastSourceIp)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.MulticastSourceSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.MulticastSourceSettings()
+        value.multicastSourceIp = try reader["multicastSourceIp"].readIfPresent()
         return value
     }
 }
@@ -9376,6 +9420,7 @@ extension MediaConnectClientTypes.AddBridgeNetworkSourceRequest {
     static func write(value: MediaConnectClientTypes.AddBridgeNetworkSourceRequest?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["multicastIp"].write(value.multicastIp)
+        try writer["multicastSourceSettings"].write(value.multicastSourceSettings, with: MediaConnectClientTypes.MulticastSourceSettings.write(value:to:))
         try writer["name"].write(value.name)
         try writer["networkName"].write(value.networkName)
         try writer["port"].write(value.port)
@@ -9650,6 +9695,7 @@ extension MediaConnectClientTypes.UpdateBridgeNetworkSourceRequest {
     static func write(value: MediaConnectClientTypes.UpdateBridgeNetworkSourceRequest?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["multicastIp"].write(value.multicastIp)
+        try writer["multicastSourceSettings"].write(value.multicastSourceSettings, with: MediaConnectClientTypes.MulticastSourceSettings.write(value:to:))
         try writer["networkName"].write(value.networkName)
         try writer["port"].write(value.port)
         try writer["protocol"].write(value.`protocol`)

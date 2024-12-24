@@ -28,12 +28,13 @@ import protocol ClientRuntime.ModeledError
 import struct Smithy.Document
 import struct Smithy.URIQueryItem
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
+@_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// The request is denied because of missing access permissions.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -55,9 +56,9 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 }
 
 /// Error occurred because of a conflict while performing an operation.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -79,9 +80,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 /// An internal server error occurred. Retry your request.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -103,9 +104,9 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 /// The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -126,10 +127,34 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-/// The number of requests exceeds the limit. Resubmit your request later.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+/// The number of requests exceeds the service quota. Resubmit your request later.
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+/// The number of requests exceeds the limit. Resubmit your request later.
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -151,9 +176,9 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 /// Input validation failed. Check your request parameters and retry the request.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -171,6 +196,453 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     )
     {
         self.properties.message = message
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// The configuration of a virtual private cloud (VPC). For more information, see [Protect your data using Amazon Virtual Private Cloud and Amazon Web Services PrivateLink](https://docs.aws.amazon.com/bedrock/latest/userguide/usingVPC.html).
+    public struct VpcConfig: Swift.Sendable {
+        /// An array of IDs for each security group in the VPC to use.
+        /// This member is required.
+        public var securityGroupIds: [Swift.String]?
+        /// An array of IDs for each subnet in the VPC to use.
+        /// This member is required.
+        public var subnetIds: [Swift.String]?
+
+        public init(
+            securityGroupIds: [Swift.String]? = nil,
+            subnetIds: [Swift.String]? = nil
+        )
+        {
+            self.securityGroupIds = securityGroupIds
+            self.subnetIds = subnetIds
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// Specifies the configuration for a Amazon SageMaker endpoint.
+    public struct SageMakerEndpoint: Swift.Sendable {
+        /// The ARN of the IAM role that Amazon SageMaker can assume to access model artifacts and docker image for deployment on Amazon EC2 compute instances or for batch transform jobs.
+        /// This member is required.
+        public var executionRole: Swift.String?
+        /// The number of Amazon EC2 compute instances to deploy for initial endpoint creation.
+        /// This member is required.
+        public var initialInstanceCount: Swift.Int?
+        /// The Amazon EC2 compute instance type to deploy for hosting the model.
+        /// This member is required.
+        public var instanceType: Swift.String?
+        /// The Amazon Web Services KMS key that Amazon SageMaker uses to encrypt data on the storage volume attached to the Amazon EC2 compute instance that hosts the endpoint.
+        public var kmsEncryptionKey: Swift.String?
+        /// The VPC configuration for the endpoint.
+        public var vpc: BedrockClientTypes.VpcConfig?
+
+        public init(
+            executionRole: Swift.String? = nil,
+            initialInstanceCount: Swift.Int? = nil,
+            instanceType: Swift.String? = nil,
+            kmsEncryptionKey: Swift.String? = nil,
+            vpc: BedrockClientTypes.VpcConfig? = nil
+        )
+        {
+            self.executionRole = executionRole
+            self.initialInstanceCount = initialInstanceCount
+            self.instanceType = instanceType
+            self.kmsEncryptionKey = kmsEncryptionKey
+            self.vpc = vpc
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// Specifies the configuration for the endpoint.
+    public enum EndpointConfig: Swift.Sendable {
+        /// The configuration specific to Amazon SageMaker for the endpoint.
+        case sagemaker(BedrockClientTypes.SageMakerEndpoint)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// Definition of the key/value pair for a tag.
+    public struct Tag: Swift.Sendable {
+        /// Key for the tag.
+        /// This member is required.
+        public var key: Swift.String?
+        /// Value for the tag.
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init(
+            key: Swift.String? = nil,
+            value: Swift.String? = nil
+        )
+        {
+            self.key = key
+            self.value = value
+        }
+    }
+}
+
+public struct CreateMarketplaceModelEndpointInput: Swift.Sendable {
+    /// Indicates whether you accept the end-user license agreement (EULA) for the model. Set to true to accept the EULA.
+    public var acceptEula: Swift.Bool?
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This token is listed as not required because Amazon Web Services SDKs automatically generate it for you and set this parameter. If you're not using the Amazon Web Services SDK or the CLI, you must provide this token or the action will fail.
+    public var clientRequestToken: Swift.String?
+    /// The configuration for the endpoint, including the number and type of instances to use.
+    /// This member is required.
+    public var endpointConfig: BedrockClientTypes.EndpointConfig?
+    /// The name of the endpoint. This name must be unique within your Amazon Web Services account and region.
+    /// This member is required.
+    public var endpointName: Swift.String?
+    /// The ARN of the model from Amazon Bedrock Marketplace that you want to deploy to the endpoint.
+    /// This member is required.
+    public var modelSourceIdentifier: Swift.String?
+    /// An array of key-value pairs to apply to the underlying Amazon SageMaker endpoint. You can use these tags to organize and identify your Amazon Web Services resources.
+    public var tags: [BedrockClientTypes.Tag]?
+
+    public init(
+        acceptEula: Swift.Bool? = false,
+        clientRequestToken: Swift.String? = nil,
+        endpointConfig: BedrockClientTypes.EndpointConfig? = nil,
+        endpointName: Swift.String? = nil,
+        modelSourceIdentifier: Swift.String? = nil,
+        tags: [BedrockClientTypes.Tag]? = nil
+    )
+    {
+        self.acceptEula = acceptEula
+        self.clientRequestToken = clientRequestToken
+        self.endpointConfig = endpointConfig
+        self.endpointName = endpointName
+        self.modelSourceIdentifier = modelSourceIdentifier
+        self.tags = tags
+    }
+}
+
+extension BedrockClientTypes {
+
+    public enum Status: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case incompatibleEndpoint
+        case registered
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Status] {
+            return [
+                .incompatibleEndpoint,
+                .registered
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .incompatibleEndpoint: return "INCOMPATIBLE_ENDPOINT"
+            case .registered: return "REGISTERED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// Contains details about an endpoint for a model from Amazon Bedrock Marketplace.
+    public struct MarketplaceModelEndpoint: Swift.Sendable {
+        /// The timestamp when the endpoint was registered.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The Amazon Resource Name (ARN) of the endpoint.
+        /// This member is required.
+        public var endpointArn: Swift.String?
+        /// The configuration of the endpoint, including the number and type of instances used.
+        /// This member is required.
+        public var endpointConfig: BedrockClientTypes.EndpointConfig?
+        /// The current status of the endpoint (e.g., Creating, InService, Updating, Failed).
+        /// This member is required.
+        public var endpointStatus: Swift.String?
+        /// Additional information about the endpoint status, if available.
+        public var endpointStatusMessage: Swift.String?
+        /// The ARN of the model from Amazon Bedrock Marketplace that is deployed on this endpoint.
+        /// This member is required.
+        public var modelSourceIdentifier: Swift.String?
+        /// The overall status of the endpoint in Amazon Bedrock Marketplace (e.g., ACTIVE, INACTIVE).
+        public var status: BedrockClientTypes.Status?
+        /// Additional information about the overall status, if available.
+        public var statusMessage: Swift.String?
+        /// The timestamp when the endpoint was last updated.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            createdAt: Foundation.Date? = nil,
+            endpointArn: Swift.String? = nil,
+            endpointConfig: BedrockClientTypes.EndpointConfig? = nil,
+            endpointStatus: Swift.String? = nil,
+            endpointStatusMessage: Swift.String? = nil,
+            modelSourceIdentifier: Swift.String? = nil,
+            status: BedrockClientTypes.Status? = nil,
+            statusMessage: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil
+        )
+        {
+            self.createdAt = createdAt
+            self.endpointArn = endpointArn
+            self.endpointConfig = endpointConfig
+            self.endpointStatus = endpointStatus
+            self.endpointStatusMessage = endpointStatusMessage
+            self.modelSourceIdentifier = modelSourceIdentifier
+            self.status = status
+            self.statusMessage = statusMessage
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+public struct CreateMarketplaceModelEndpointOutput: Swift.Sendable {
+    /// Details about the created endpoint.
+    /// This member is required.
+    public var marketplaceModelEndpoint: BedrockClientTypes.MarketplaceModelEndpoint?
+
+    public init(
+        marketplaceModelEndpoint: BedrockClientTypes.MarketplaceModelEndpoint? = nil
+    )
+    {
+        self.marketplaceModelEndpoint = marketplaceModelEndpoint
+    }
+}
+
+public struct DeleteMarketplaceModelEndpointInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the endpoint you want to delete.
+    /// This member is required.
+    public var endpointArn: Swift.String?
+
+    public init(
+        endpointArn: Swift.String? = nil
+    )
+    {
+        self.endpointArn = endpointArn
+    }
+}
+
+public struct DeleteMarketplaceModelEndpointOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+/// Returned if the service cannot complete the request.
+public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceUnavailableException" }
+    public static var fault: ClientRuntime.ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+public struct DeregisterMarketplaceModelEndpointInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the endpoint you want to deregister.
+    /// This member is required.
+    public var endpointArn: Swift.String?
+
+    public init(
+        endpointArn: Swift.String? = nil
+    )
+    {
+        self.endpointArn = endpointArn
+    }
+}
+
+public struct DeregisterMarketplaceModelEndpointOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct GetMarketplaceModelEndpointInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the endpoint you want to get information about.
+    /// This member is required.
+    public var endpointArn: Swift.String?
+
+    public init(
+        endpointArn: Swift.String? = nil
+    )
+    {
+        self.endpointArn = endpointArn
+    }
+}
+
+public struct GetMarketplaceModelEndpointOutput: Swift.Sendable {
+    /// Details about the requested endpoint.
+    public var marketplaceModelEndpoint: BedrockClientTypes.MarketplaceModelEndpoint?
+
+    public init(
+        marketplaceModelEndpoint: BedrockClientTypes.MarketplaceModelEndpoint? = nil
+    )
+    {
+        self.marketplaceModelEndpoint = marketplaceModelEndpoint
+    }
+}
+
+public struct ListMarketplaceModelEndpointsInput: Swift.Sendable {
+    /// The maximum number of results to return in a single call. If more results are available, the operation returns a NextToken value.
+    public var maxResults: Swift.Int?
+    /// If specified, only endpoints for the given model source identifier are returned.
+    public var modelSourceEquals: Swift.String?
+    /// The token for the next set of results. You receive this token from a previous ListMarketplaceModelEndpoints call.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        modelSourceEquals: Swift.String? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.modelSourceEquals = modelSourceEquals
+        self.nextToken = nextToken
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// Provides a summary of an endpoint for a model from Amazon Bedrock Marketplace.
+    public struct MarketplaceModelEndpointSummary: Swift.Sendable {
+        /// The timestamp when the endpoint was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The Amazon Resource Name (ARN) of the endpoint.
+        /// This member is required.
+        public var endpointArn: Swift.String?
+        /// The ARN of the model from Amazon Bedrock Marketplace that is deployed on this endpoint.
+        /// This member is required.
+        public var modelSourceIdentifier: Swift.String?
+        /// The overall status of the endpoint in Amazon Bedrock Marketplace.
+        public var status: BedrockClientTypes.Status?
+        /// Additional information about the overall status, if available.
+        public var statusMessage: Swift.String?
+        /// The timestamp when the endpoint was last updated.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            createdAt: Foundation.Date? = nil,
+            endpointArn: Swift.String? = nil,
+            modelSourceIdentifier: Swift.String? = nil,
+            status: BedrockClientTypes.Status? = nil,
+            statusMessage: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil
+        )
+        {
+            self.createdAt = createdAt
+            self.endpointArn = endpointArn
+            self.modelSourceIdentifier = modelSourceIdentifier
+            self.status = status
+            self.statusMessage = statusMessage
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+public struct ListMarketplaceModelEndpointsOutput: Swift.Sendable {
+    /// An array of endpoint summaries.
+    public var marketplaceModelEndpoints: [BedrockClientTypes.MarketplaceModelEndpointSummary]?
+    /// The token for the next set of results. Use this token to get the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        marketplaceModelEndpoints: [BedrockClientTypes.MarketplaceModelEndpointSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.marketplaceModelEndpoints = marketplaceModelEndpoints
+        self.nextToken = nextToken
+    }
+}
+
+public struct RegisterMarketplaceModelEndpointInput: Swift.Sendable {
+    /// The ARN of the Amazon SageMaker endpoint you want to register with Amazon Bedrock Marketplace.
+    /// This member is required.
+    public var endpointIdentifier: Swift.String?
+    /// The ARN of the model from Amazon Bedrock Marketplace that is deployed on the endpoint.
+    /// This member is required.
+    public var modelSourceIdentifier: Swift.String?
+
+    public init(
+        endpointIdentifier: Swift.String? = nil,
+        modelSourceIdentifier: Swift.String? = nil
+    )
+    {
+        self.endpointIdentifier = endpointIdentifier
+        self.modelSourceIdentifier = modelSourceIdentifier
+    }
+}
+
+public struct RegisterMarketplaceModelEndpointOutput: Swift.Sendable {
+    /// Details about the registered endpoint.
+    /// This member is required.
+    public var marketplaceModelEndpoint: BedrockClientTypes.MarketplaceModelEndpoint?
+
+    public init(
+        marketplaceModelEndpoint: BedrockClientTypes.MarketplaceModelEndpoint? = nil
+    )
+    {
+        self.marketplaceModelEndpoint = marketplaceModelEndpoint
+    }
+}
+
+public struct UpdateMarketplaceModelEndpointInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This token is listed as not required because Amazon Web Services SDKs automatically generate it for you and set this parameter. If you're not using the Amazon Web Services SDK or the CLI, you must provide this token or the action will fail.
+    public var clientRequestToken: Swift.String?
+    /// The Amazon Resource Name (ARN) of the endpoint you want to update.
+    /// This member is required.
+    public var endpointArn: Swift.String?
+    /// The new configuration for the endpoint, including the number and type of instances to use.
+    /// This member is required.
+    public var endpointConfig: BedrockClientTypes.EndpointConfig?
+
+    public init(
+        clientRequestToken: Swift.String? = nil,
+        endpointArn: Swift.String? = nil,
+        endpointConfig: BedrockClientTypes.EndpointConfig? = nil
+    )
+    {
+        self.clientRequestToken = clientRequestToken
+        self.endpointArn = endpointArn
+        self.endpointConfig = endpointConfig
+    }
+}
+
+public struct UpdateMarketplaceModelEndpointOutput: Swift.Sendable {
+    /// Details about the updated endpoint.
+    /// This member is required.
+    public var marketplaceModelEndpoint: BedrockClientTypes.MarketplaceModelEndpoint?
+
+    public init(
+        marketplaceModelEndpoint: BedrockClientTypes.MarketplaceModelEndpoint? = nil
+    )
+    {
+        self.marketplaceModelEndpoint = marketplaceModelEndpoint
     }
 }
 
@@ -306,30 +778,6 @@ public struct BatchDeleteEvaluationJobOutput: Swift.Sendable {
     {
         self.errors = errors
         self.evaluationJobs = evaluationJobs
-    }
-}
-
-/// The number of requests exceeds the service quota. Resubmit your request later.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
-
-    public struct Properties {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    )
-    {
-        self.properties.message = message
     }
 }
 
@@ -1060,28 +1508,6 @@ extension BedrockClientTypes {
 
 extension BedrockClientTypes {
 
-    /// Definition of the key/value pair for a tag.
-    public struct Tag: Swift.Sendable {
-        /// Key for the tag.
-        /// This member is required.
-        public var key: Swift.String?
-        /// Value for the tag.
-        /// This member is required.
-        public var value: Swift.String?
-
-        public init(
-            key: Swift.String? = nil,
-            value: Swift.String? = nil
-        )
-        {
-            self.key = key
-            self.value = value
-        }
-    }
-}
-
-extension BedrockClientTypes {
-
     /// The Amazon S3 location where the results of your evaluation job are saved.
     public struct EvaluationOutputDataConfig: Swift.Sendable {
         /// The Amazon S3 URI where the results of the evaluation job are saved.
@@ -1354,9 +1780,9 @@ public struct StopEvaluationJobOutput: Swift.Sendable {
 }
 
 /// The request contains more tags than can be associated with a resource (50 tags per resource). The maximum number of tags includes both existing tags and those included in your current request.
-public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// The name of the resource with too many tags.
         public internal(set) var resourceName: Swift.String? = nil
@@ -1378,6 +1804,35 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
     {
         self.properties.message = message
         self.properties.resourceName = resourceName
+    }
+}
+
+extension BedrockClientTypes {
+
+    public enum GuardrailModality: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case image
+        case text
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GuardrailModality] {
+            return [
+                .image,
+                .text
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .image: return "IMAGE"
+            case .text: return "TEXT"
+            case let .sdkUnknown(s): return s
+            }
+        }
     }
 }
 
@@ -1472,9 +1927,13 @@ extension BedrockClientTypes {
     ///
     /// Content filtering depends on the confidence classification of user inputs and FM responses across each of the four harmful categories. All input and output statements are classified into one of four confidence levels (NONE, LOW, MEDIUM, HIGH) for each harmful category. For example, if a statement is classified as Hate with HIGH confidence, the likelihood of the statement representing hateful content is high. A single statement can be classified across multiple categories with varying confidence levels. For example, a single statement can be classified as Hate with HIGH confidence, Insults with LOW confidence, Sexual with NONE confidence, and Violence with MEDIUM confidence. For more information, see [Guardrails content filters](https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails-filters.html).
     public struct GuardrailContentFilterConfig: Swift.Sendable {
+        /// The input modalities selected for the guardrail content filter configuration.
+        public var inputModalities: [BedrockClientTypes.GuardrailModality]?
         /// The strength of the content filter to apply to prompts. As you increase the filter strength, the likelihood of filtering harmful content increases and the probability of seeing harmful content in your application reduces.
         /// This member is required.
         public var inputStrength: BedrockClientTypes.GuardrailFilterStrength?
+        /// The output modalities selected for the guardrail content filter configuration.
+        public var outputModalities: [BedrockClientTypes.GuardrailModality]?
         /// The strength of the content filter to apply to model responses. As you increase the filter strength, the likelihood of filtering harmful content increases and the probability of seeing harmful content in your application reduces.
         /// This member is required.
         public var outputStrength: BedrockClientTypes.GuardrailFilterStrength?
@@ -1483,16 +1942,25 @@ extension BedrockClientTypes {
         public var type: BedrockClientTypes.GuardrailContentFilterType?
 
         public init(
+            inputModalities: [BedrockClientTypes.GuardrailModality]? = nil,
             inputStrength: BedrockClientTypes.GuardrailFilterStrength? = nil,
+            outputModalities: [BedrockClientTypes.GuardrailModality]? = nil,
             outputStrength: BedrockClientTypes.GuardrailFilterStrength? = nil,
             type: BedrockClientTypes.GuardrailContentFilterType? = nil
         )
         {
+            self.inputModalities = inputModalities
             self.inputStrength = inputStrength
+            self.outputModalities = outputModalities
             self.outputStrength = outputStrength
             self.type = type
         }
     }
+}
+
+extension BedrockClientTypes.GuardrailContentFilterConfig: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GuardrailContentFilterConfig(inputStrength: \(Swift.String(describing: inputStrength)), outputStrength: \(Swift.String(describing: outputStrength)), type: \(Swift.String(describing: type)), inputModalities: \"CONTENT_REDACTED\", outputModalities: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockClientTypes {
@@ -1738,7 +2206,7 @@ extension BedrockClientTypes {
         ///
         /// * ADDRESS A physical address, such as "100 Main Street, Anytown, USA" or "Suite #12, Building 123". An address can include information such as the street, building, location, city, state, country, county, zip code, precinct, and neighborhood.
         ///
-        /// * AGE An individual's age, including the quantity and unit of time. For example, in the phrase "I am 40 years old," Guarrails recognizes "40 years" as an age.
+        /// * AGE An individual's age, including the quantity and unit of time. For example, in the phrase "I am 40 years old," Guardrails recognizes "40 years" as an age.
         ///
         /// * NAME An individual's name. This entity type does not include titles, such as Dr., Mr., Mrs., or Miss. guardrails doesn't apply this entity type to names that are part of organizations or addresses. For example, guardrails recognizes the "John Doe Organization" as an organization, and it recognizes "Jane Doe Street" as an address.
         ///
@@ -1761,7 +2229,7 @@ extension BedrockClientTypes {
         ///
         /// * Finance
         ///
-        /// * REDIT_DEBIT_CARD_CVV A three-digit card verification code (CVV) that is present on VISA, MasterCard, and Discover credit and debit cards. For American Express credit or debit cards, the CVV is a four-digit numeric code.
+        /// * CREDIT_DEBIT_CARD_CVV A three-digit card verification code (CVV) that is present on VISA, MasterCard, and Discover credit and debit cards. For American Express credit or debit cards, the CVV is a four-digit numeric code.
         ///
         /// * CREDIT_DEBIT_CARD_EXPIRY The expiration date for a credit or debit card. This number is usually four digits long and is often formatted as month/year or MM/YY. Guardrails recognizes expiration dates such as 01/21, 01/2021, and Jan 2021.
         ///
@@ -2245,9 +2713,13 @@ extension BedrockClientTypes {
     ///
     /// * [GetGuardrail response body](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_GetGuardrail.html#API_GetGuardrail_ResponseSyntax)
     public struct GuardrailContentFilter: Swift.Sendable {
+        /// The input modalities selected for the guardrail content filter.
+        public var inputModalities: [BedrockClientTypes.GuardrailModality]?
         /// The strength of the content filter to apply to prompts. As you increase the filter strength, the likelihood of filtering harmful content increases and the probability of seeing harmful content in your application reduces.
         /// This member is required.
         public var inputStrength: BedrockClientTypes.GuardrailFilterStrength?
+        /// The output modalities selected for the guardrail content filter.
+        public var outputModalities: [BedrockClientTypes.GuardrailModality]?
         /// The strength of the content filter to apply to model responses. As you increase the filter strength, the likelihood of filtering harmful content increases and the probability of seeing harmful content in your application reduces.
         /// This member is required.
         public var outputStrength: BedrockClientTypes.GuardrailFilterStrength?
@@ -2256,16 +2728,25 @@ extension BedrockClientTypes {
         public var type: BedrockClientTypes.GuardrailContentFilterType?
 
         public init(
+            inputModalities: [BedrockClientTypes.GuardrailModality]? = nil,
             inputStrength: BedrockClientTypes.GuardrailFilterStrength? = nil,
+            outputModalities: [BedrockClientTypes.GuardrailModality]? = nil,
             outputStrength: BedrockClientTypes.GuardrailFilterStrength? = nil,
             type: BedrockClientTypes.GuardrailContentFilterType? = nil
         )
         {
+            self.inputModalities = inputModalities
             self.inputStrength = inputStrength
+            self.outputModalities = outputModalities
             self.outputStrength = outputStrength
             self.type = type
         }
     }
+}
+
+extension BedrockClientTypes.GuardrailContentFilter: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GuardrailContentFilter(inputStrength: \(Swift.String(describing: inputStrength)), outputStrength: \(Swift.String(describing: outputStrength)), type: \(Swift.String(describing: type)), inputModalities: \"CONTENT_REDACTED\", outputModalities: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockClientTypes {
@@ -2332,7 +2813,7 @@ extension BedrockClientTypes {
         /// The configured guardrail action when PII entity is detected.
         /// This member is required.
         public var action: BedrockClientTypes.GuardrailSensitiveInformationAction?
-        /// The type of PII entity. For exampvle, Social Security Number.
+        /// The type of PII entity. For example, Social Security Number.
         /// This member is required.
         public var type: BedrockClientTypes.GuardrailPiiEntityType?
 
@@ -3229,13 +3710,16 @@ extension BedrockClientTypes {
         public var s3Config: BedrockClientTypes.S3Config?
         /// Set to include text data in the log delivery.
         public var textDataDeliveryEnabled: Swift.Bool?
+        /// Set to include video data in the log delivery.
+        public var videoDataDeliveryEnabled: Swift.Bool?
 
         public init(
             cloudWatchConfig: BedrockClientTypes.CloudWatchConfig? = nil,
             embeddingDataDeliveryEnabled: Swift.Bool? = nil,
             imageDataDeliveryEnabled: Swift.Bool? = nil,
             s3Config: BedrockClientTypes.S3Config? = nil,
-            textDataDeliveryEnabled: Swift.Bool? = nil
+            textDataDeliveryEnabled: Swift.Bool? = nil,
+            videoDataDeliveryEnabled: Swift.Bool? = nil
         )
         {
             self.cloudWatchConfig = cloudWatchConfig
@@ -3243,6 +3727,7 @@ extension BedrockClientTypes {
             self.imageDataDeliveryEnabled = imageDataDeliveryEnabled
             self.s3Config = s3Config
             self.textDataDeliveryEnabled = textDataDeliveryEnabled
+            self.videoDataDeliveryEnabled = videoDataDeliveryEnabled
         }
     }
 }
@@ -3575,28 +4060,6 @@ extension BedrockClientTypes {
         /// The Amazon S3 data source of the imported model.
         case s3datasource(BedrockClientTypes.S3DataSource)
         case sdkUnknown(Swift.String)
-    }
-}
-
-extension BedrockClientTypes {
-
-    /// The configuration of a virtual private cloud (VPC). For more information, see [Protect your data using Amazon Virtual Private Cloud and Amazon Web Services PrivateLink](https://docs.aws.amazon.com/bedrock/latest/userguide/usingVPC.html).
-    public struct VpcConfig: Swift.Sendable {
-        /// An array of IDs for each security group in the VPC to use.
-        /// This member is required.
-        public var securityGroupIds: [Swift.String]?
-        /// An array of IDs for each subnet in the VPC to use.
-        /// This member is required.
-        public var subnetIds: [Swift.String]?
-
-        public init(
-            securityGroupIds: [Swift.String]? = nil,
-            subnetIds: [Swift.String]? = nil
-        )
-        {
-            self.securityGroupIds = securityGroupIds
-            self.subnetIds = subnetIds
-        }
     }
 }
 
@@ -4176,7 +4639,7 @@ public struct CreateModelInvocationJobInput: Swift.Sendable {
     public var tags: [BedrockClientTypes.Tag]?
     /// The number of hours after which to force the batch inference job to time out.
     public var timeoutDurationInHours: Swift.Int?
-    /// The configuration of the Virtual Private Cloud (VPC) for the data in the batch inference job. For more information, see [Protect batch inference jobs using a VPC](https://docs.aws.amazon.com/bedrock/latest/userguide/batch-inference-vpc).
+    /// The configuration of the Virtual Private Cloud (VPC) for the data in the batch inference job. For more information, see [Protect batch inference jobs using a VPC](https://docs.aws.amazon.com/bedrock/latest/userguide/batch-vpc).
     public var vpcConfig: BedrockClientTypes.VpcConfig?
 
     public init(
@@ -4310,14 +4773,43 @@ public struct GetModelInvocationJobOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the service role with permissions to carry out and manage batch inference. You can use the console to create a default service role or follow the steps at [Create a service role for batch inference](https://docs.aws.amazon.com/bedrock/latest/userguide/batch-iam-sr.html).
     /// This member is required.
     public var roleArn: Swift.String?
-    /// The status of the batch inference job.
+    /// The status of the batch inference job. The following statuses are possible:
+    ///
+    /// * Submitted – This job has been submitted to a queue for validation.
+    ///
+    /// * Validating – This job is being validated for the requirements described in [Format and upload your batch inference data](https://docs.aws.amazon.com/bedrock/latest/userguide/batch-inference-data.html). The criteria include the following:
+    ///
+    /// * Your IAM service role has access to the Amazon S3 buckets containing your files.
+    ///
+    /// * Your files are .jsonl files and each individual record is a JSON object in the correct format. Note that validation doesn't check if the modelInput value matches the request body for the model.
+    ///
+    /// * Your files fulfill the requirements for file size and number of records. For more information, see [Quotas for Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/quotas.html).
+    ///
+    ///
+    ///
+    ///
+    /// * Scheduled – This job has been validated and is now in a queue. The job will automatically start when it reaches its turn.
+    ///
+    /// * Expired – This job timed out because it was scheduled but didn't begin before the set timeout duration. Submit a new job request.
+    ///
+    /// * InProgress – This job has begun. You can start viewing the results in the output S3 location.
+    ///
+    /// * Completed – This job has successfully completed. View the output files in the output S3 location.
+    ///
+    /// * PartiallyCompleted – This job has partially completed. Not all of your records could be processed in time. View the output files in the output S3 location.
+    ///
+    /// * Failed – This job has failed. Check the failure message for any further details. For further assistance, reach out to the [Amazon Web Services Support Center](https://console.aws.amazon.com/support/home/).
+    ///
+    /// * Stopped – This job was stopped by a user.
+    ///
+    /// * Stopping – This job is being stopped by a user.
     public var status: BedrockClientTypes.ModelInvocationJobStatus?
     /// The time at which the batch inference job was submitted.
     /// This member is required.
     public var submitTime: Foundation.Date?
     /// The number of hours after which batch inference job was set to time out.
     public var timeoutDurationInHours: Swift.Int?
-    /// The configuration of the Virtual Private Cloud (VPC) for the data in the batch inference job. For more information, see [Protect batch inference jobs using a VPC](https://docs.aws.amazon.com/bedrock/latest/userguide/batch-inference-vpc).
+    /// The configuration of the Virtual Private Cloud (VPC) for the data in the batch inference job. For more information, see [Protect batch inference jobs using a VPC](https://docs.aws.amazon.com/bedrock/latest/userguide/batch-vpc).
     public var vpcConfig: BedrockClientTypes.VpcConfig?
 
     public init(
@@ -4372,7 +4864,36 @@ public struct ListModelInvocationJobsInput: Swift.Sendable {
     public var sortBy: BedrockClientTypes.SortJobsBy?
     /// Specifies whether to sort the results by ascending or descending order.
     public var sortOrder: BedrockClientTypes.SortOrder?
-    /// Specify a status to filter for batch inference jobs whose statuses match the string you specify.
+    /// Specify a status to filter for batch inference jobs whose statuses match the string you specify. The following statuses are possible:
+    ///
+    /// * Submitted – This job has been submitted to a queue for validation.
+    ///
+    /// * Validating – This job is being validated for the requirements described in [Format and upload your batch inference data](https://docs.aws.amazon.com/bedrock/latest/userguide/batch-inference-data.html). The criteria include the following:
+    ///
+    /// * Your IAM service role has access to the Amazon S3 buckets containing your files.
+    ///
+    /// * Your files are .jsonl files and each individual record is a JSON object in the correct format. Note that validation doesn't check if the modelInput value matches the request body for the model.
+    ///
+    /// * Your files fulfill the requirements for file size and number of records. For more information, see [Quotas for Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/quotas.html).
+    ///
+    ///
+    ///
+    ///
+    /// * Scheduled – This job has been validated and is now in a queue. The job will automatically start when it reaches its turn.
+    ///
+    /// * Expired – This job timed out because it was scheduled but didn't begin before the set timeout duration. Submit a new job request.
+    ///
+    /// * InProgress – This job has begun. You can start viewing the results in the output S3 location.
+    ///
+    /// * Completed – This job has successfully completed. View the output files in the output S3 location.
+    ///
+    /// * PartiallyCompleted – This job has partially completed. Not all of your records could be processed in time. View the output files in the output S3 location.
+    ///
+    /// * Failed – This job has failed. Check the failure message for any further details. For further assistance, reach out to the [Amazon Web Services Support Center](https://console.aws.amazon.com/support/home/).
+    ///
+    /// * Stopped – This job was stopped by a user.
+    ///
+    /// * Stopping – This job is being stopped by a user.
     public var statusEquals: BedrockClientTypes.ModelInvocationJobStatus?
     /// Specify a time to filter for batch inference jobs that were submitted after the time you specify.
     public var submitTimeAfter: Foundation.Date?
@@ -4433,14 +4954,43 @@ extension BedrockClientTypes {
         /// The Amazon Resource Name (ARN) of the service role with permissions to carry out and manage batch inference. You can use the console to create a default service role or follow the steps at [Create a service role for batch inference](https://docs.aws.amazon.com/bedrock/latest/userguide/batch-iam-sr.html).
         /// This member is required.
         public var roleArn: Swift.String?
-        /// The status of the batch inference job.
+        /// The status of the batch inference job. The following statuses are possible:
+        ///
+        /// * Submitted – This job has been submitted to a queue for validation.
+        ///
+        /// * Validating – This job is being validated for the requirements described in [Format and upload your batch inference data](https://docs.aws.amazon.com/bedrock/latest/userguide/batch-inference-data.html). The criteria include the following:
+        ///
+        /// * Your IAM service role has access to the Amazon S3 buckets containing your files.
+        ///
+        /// * Your files are .jsonl files and each individual record is a JSON object in the correct format. Note that validation doesn't check if the modelInput value matches the request body for the model.
+        ///
+        /// * Your files fulfill the requirements for file size and number of records. For more information, see [Quotas for Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/quotas.html).
+        ///
+        ///
+        ///
+        ///
+        /// * Scheduled – This job has been validated and is now in a queue. The job will automatically start when it reaches its turn.
+        ///
+        /// * Expired – This job timed out because it was scheduled but didn't begin before the set timeout duration. Submit a new job request.
+        ///
+        /// * InProgress – This job has begun. You can start viewing the results in the output S3 location.
+        ///
+        /// * Completed – This job has successfully completed. View the output files in the output S3 location.
+        ///
+        /// * PartiallyCompleted – This job has partially completed. Not all of your records could be processed in time. View the output files in the output S3 location.
+        ///
+        /// * Failed – This job has failed. Check the failure message for any further details. For further assistance, reach out to the [Amazon Web Services Support Center](https://console.aws.amazon.com/support/home/).
+        ///
+        /// * Stopped – This job was stopped by a user.
+        ///
+        /// * Stopping – This job is being stopped by a user.
         public var status: BedrockClientTypes.ModelInvocationJobStatus?
         /// The time at which the batch inference job was submitted.
         /// This member is required.
         public var submitTime: Foundation.Date?
         /// The number of hours after which the batch inference job was set to time out.
         public var timeoutDurationInHours: Swift.Int?
-        /// The configuration of the Virtual Private Cloud (VPC) for the data in the batch inference job. For more information, see [Protect batch inference jobs using a VPC](https://docs.aws.amazon.com/bedrock/latest/userguide/batch-inference-vpc).
+        /// The configuration of the Virtual Private Cloud (VPC) for the data in the batch inference job. For more information, see [Protect batch inference jobs using a VPC](https://docs.aws.amazon.com/bedrock/latest/userguide/batch-vpc).
         public var vpcConfig: BedrockClientTypes.VpcConfig?
 
         public init(
@@ -4552,14 +5102,64 @@ public struct GetCustomModelInput: Swift.Sendable {
 
 extension BedrockClientTypes {
 
+    /// Details about a teacher model used for model customization.
+    public struct TeacherModelConfig: Swift.Sendable {
+        /// The maximum number of tokens requested when the customization job invokes the teacher model.
+        public var maxResponseLengthForInference: Swift.Int?
+        /// The identifier of the teacher model.
+        /// This member is required.
+        public var teacherModelIdentifier: Swift.String?
+
+        public init(
+            maxResponseLengthForInference: Swift.Int? = nil,
+            teacherModelIdentifier: Swift.String? = nil
+        )
+        {
+            self.maxResponseLengthForInference = maxResponseLengthForInference
+            self.teacherModelIdentifier = teacherModelIdentifier
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// Settings for distilling a foundation model into a smaller and more efficient model.
+    public struct DistillationConfig: Swift.Sendable {
+        /// The teacher model configuration.
+        /// This member is required.
+        public var teacherModelConfig: BedrockClientTypes.TeacherModelConfig?
+
+        public init(
+            teacherModelConfig: BedrockClientTypes.TeacherModelConfig? = nil
+        )
+        {
+            self.teacherModelConfig = teacherModelConfig
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// A model customization configuration
+    public enum CustomizationConfig: Swift.Sendable {
+        /// The distillation configuration for the custom model.
+        case distillationconfig(BedrockClientTypes.DistillationConfig)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockClientTypes {
+
     public enum CustomizationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case continuedPreTraining
+        case distillation
         case fineTuning
         case sdkUnknown(Swift.String)
 
         public static var allCases: [CustomizationType] {
             return [
                 .continuedPreTraining,
+                .distillation,
                 .fineTuning
             ]
         }
@@ -4572,6 +5172,7 @@ extension BedrockClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .continuedPreTraining: return "CONTINUED_PRE_TRAINING"
+            case .distillation: return "DISTILLATION"
             case .fineTuning: return "FINE_TUNING"
             case let .sdkUnknown(s): return s
             }
@@ -4598,16 +5199,95 @@ extension BedrockClientTypes {
 
 extension BedrockClientTypes {
 
+    /// A storage location for invocation logs.
+    public enum InvocationLogSource: Swift.Sendable {
+        /// The URI of an invocation log in a bucket.
+        case s3uri(Swift.String)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// A mapping of a metadata key to a value that it should or should not equal.
+    public struct RequestMetadataBaseFilters: Swift.Sendable {
+        /// Include results where the key equals the value.
+        public var equals: [Swift.String: Swift.String]?
+        /// Include results where the key does not equal the value.
+        public var notEquals: [Swift.String: Swift.String]?
+
+        public init(
+            equals: [Swift.String: Swift.String]? = nil,
+            notEquals: [Swift.String: Swift.String]? = nil
+        )
+        {
+            self.equals = equals
+            self.notEquals = notEquals
+        }
+    }
+}
+
+extension BedrockClientTypes.RequestMetadataBaseFilters: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RequestMetadataBaseFilters(equals: \"CONTENT_REDACTED\", notEquals: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockClientTypes {
+
+    /// Rules for filtering invocation logs. A filter can be a mapping of a metadata key to a value that it should or should not equal (a base filter), or a list of base filters that are all applied with AND or OR logical operators
+    public enum RequestMetadataFilters: Swift.Sendable {
+        /// Include results where the key equals the value.
+        case equals([Swift.String: Swift.String])
+        /// Include results where the key does not equal the value.
+        case notequals([Swift.String: Swift.String])
+        /// Include results where all of the based filters match.
+        case andall([BedrockClientTypes.RequestMetadataBaseFilters])
+        /// Include results where any of the base filters match.
+        case orall([BedrockClientTypes.RequestMetadataBaseFilters])
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// Settings for using invocation logs to customize a model.
+    public struct InvocationLogsConfig: Swift.Sendable {
+        /// The source of the invocation logs.
+        /// This member is required.
+        public var invocationLogSource: BedrockClientTypes.InvocationLogSource?
+        /// Rules for filtering invocation logs based on request metadata.
+        public var requestMetadataFilters: BedrockClientTypes.RequestMetadataFilters?
+        /// Whether to use the model's response for training, or just the prompt. The default value is False.
+        public var usePromptResponse: Swift.Bool
+
+        public init(
+            invocationLogSource: BedrockClientTypes.InvocationLogSource? = nil,
+            requestMetadataFilters: BedrockClientTypes.RequestMetadataFilters? = nil,
+            usePromptResponse: Swift.Bool = false
+        )
+        {
+            self.invocationLogSource = invocationLogSource
+            self.requestMetadataFilters = requestMetadataFilters
+            self.usePromptResponse = usePromptResponse
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
     /// S3 Location of the training data.
     public struct TrainingDataConfig: Swift.Sendable {
+        /// Settings for using invocation logs to customize a model.
+        public var invocationLogsConfig: BedrockClientTypes.InvocationLogsConfig?
         /// The S3 URI where the training data is stored.
-        /// This member is required.
         public var s3Uri: Swift.String?
 
         public init(
+            invocationLogsConfig: BedrockClientTypes.InvocationLogsConfig? = nil,
             s3Uri: Swift.String? = nil
         )
         {
+            self.invocationLogsConfig = invocationLogsConfig
             self.s3Uri = s3Uri
         }
     }
@@ -4686,6 +5366,8 @@ public struct GetCustomModelOutput: Swift.Sendable {
     /// Creation time of the model.
     /// This member is required.
     public var creationTime: Foundation.Date?
+    /// The customization configuration for the custom model.
+    public var customizationConfig: BedrockClientTypes.CustomizationConfig?
     /// The type of model customization.
     public var customizationType: BedrockClientTypes.CustomizationType?
     /// Hyperparameter values associated with this model. For details on the format for different models, see [Custom model hyperparameters](https://docs.aws.amazon.com/bedrock/latest/userguide/custom-models-hp.html).
@@ -4719,6 +5401,7 @@ public struct GetCustomModelOutput: Swift.Sendable {
     public init(
         baseModelArn: Swift.String? = nil,
         creationTime: Foundation.Date? = nil,
+        customizationConfig: BedrockClientTypes.CustomizationConfig? = nil,
         customizationType: BedrockClientTypes.CustomizationType? = nil,
         hyperParameters: [Swift.String: Swift.String]? = nil,
         jobArn: Swift.String? = nil,
@@ -4735,6 +5418,7 @@ public struct GetCustomModelOutput: Swift.Sendable {
     {
         self.baseModelArn = baseModelArn
         self.creationTime = creationTime
+        self.customizationConfig = customizationConfig
         self.customizationType = customizationType
         self.hyperParameters = hyperParameters
         self.jobArn = jobArn
@@ -4767,12 +5451,14 @@ extension BedrockClientTypes {
 
     public enum ModelCustomization: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case continuedPreTraining
+        case distillation
         case fineTuning
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ModelCustomization] {
             return [
                 .continuedPreTraining,
+                .distillation,
                 .fineTuning
             ]
         }
@@ -4785,6 +5471,7 @@ extension BedrockClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .continuedPreTraining: return "CONTINUED_PRE_TRAINING"
+            case .distillation: return "DISTILLATION"
             case .fineTuning: return "FINE_TUNING"
             case let .sdkUnknown(s): return s
             }
@@ -5161,6 +5848,263 @@ public struct ListFoundationModelsOutput: Swift.Sendable {
     )
     {
         self.modelSummaries = modelSummaries
+    }
+}
+
+public struct GetPromptRouterInput: Swift.Sendable {
+    /// The prompt router's ARN
+    /// This member is required.
+    public var promptRouterArn: Swift.String?
+
+    public init(
+        promptRouterArn: Swift.String? = nil
+    )
+    {
+        self.promptRouterArn = promptRouterArn
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// The target model for a prompt router.
+    public struct PromptRouterTargetModel: Swift.Sendable {
+        /// The target model's ARN.
+        public var modelArn: Swift.String?
+
+        public init(
+            modelArn: Swift.String? = nil
+        )
+        {
+            self.modelArn = modelArn
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// Routing criteria for a prompt router.
+    public struct RoutingCriteria: Swift.Sendable {
+        /// The criteria's response quality difference.
+        /// This member is required.
+        public var responseQualityDifference: Swift.Double?
+
+        public init(
+            responseQualityDifference: Swift.Double? = nil
+        )
+        {
+            self.responseQualityDifference = responseQualityDifference
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    public enum PromptRouterStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case available
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PromptRouterStatus] {
+            return [
+                .available
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .available: return "AVAILABLE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    public enum PromptRouterType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case custom
+        case `default`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PromptRouterType] {
+            return [
+                .custom,
+                .default
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .custom: return "custom"
+            case .default: return "default"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetPromptRouterOutput: Swift.Sendable {
+    /// When the router was created.
+    public var createdAt: Foundation.Date?
+    /// The router's description.
+    public var description: Swift.String?
+    /// The router's fallback model.
+    /// This member is required.
+    public var fallbackModel: BedrockClientTypes.PromptRouterTargetModel?
+    /// The router's models.
+    /// This member is required.
+    public var models: [BedrockClientTypes.PromptRouterTargetModel]?
+    /// The prompt router's ARN
+    /// This member is required.
+    public var promptRouterArn: Swift.String?
+    /// The router's name.
+    /// This member is required.
+    public var promptRouterName: Swift.String?
+    /// The router's routing criteria.
+    /// This member is required.
+    public var routingCriteria: BedrockClientTypes.RoutingCriteria?
+    /// The router's status.
+    /// This member is required.
+    public var status: BedrockClientTypes.PromptRouterStatus?
+    /// The router's type.
+    /// This member is required.
+    public var type: BedrockClientTypes.PromptRouterType?
+    /// When the router was updated.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        description: Swift.String? = nil,
+        fallbackModel: BedrockClientTypes.PromptRouterTargetModel? = nil,
+        models: [BedrockClientTypes.PromptRouterTargetModel]? = nil,
+        promptRouterArn: Swift.String? = nil,
+        promptRouterName: Swift.String? = nil,
+        routingCriteria: BedrockClientTypes.RoutingCriteria? = nil,
+        status: BedrockClientTypes.PromptRouterStatus? = nil,
+        type: BedrockClientTypes.PromptRouterType? = nil,
+        updatedAt: Foundation.Date? = nil
+    )
+    {
+        self.createdAt = createdAt
+        self.description = description
+        self.fallbackModel = fallbackModel
+        self.models = models
+        self.promptRouterArn = promptRouterArn
+        self.promptRouterName = promptRouterName
+        self.routingCriteria = routingCriteria
+        self.status = status
+        self.type = type
+        self.updatedAt = updatedAt
+    }
+}
+
+extension GetPromptRouterOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetPromptRouterOutput(createdAt: \(Swift.String(describing: createdAt)), fallbackModel: \(Swift.String(describing: fallbackModel)), models: \(Swift.String(describing: models)), promptRouterArn: \(Swift.String(describing: promptRouterArn)), promptRouterName: \(Swift.String(describing: promptRouterName)), routingCriteria: \(Swift.String(describing: routingCriteria)), status: \(Swift.String(describing: status)), type: \(Swift.String(describing: type)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\")"}
+}
+
+public struct ListPromptRoutersInput: Swift.Sendable {
+    /// The maximum number of prompt routers to return in one page of results.
+    public var maxResults: Swift.Int?
+    /// Specify the pagination token from a previous request to retrieve the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// Details about a prompt router.
+    public struct PromptRouterSummary: Swift.Sendable {
+        /// When the router was created.
+        public var createdAt: Foundation.Date?
+        /// The router's description.
+        public var description: Swift.String?
+        /// The router's fallback model.
+        /// This member is required.
+        public var fallbackModel: BedrockClientTypes.PromptRouterTargetModel?
+        /// The router's models.
+        /// This member is required.
+        public var models: [BedrockClientTypes.PromptRouterTargetModel]?
+        /// The router's ARN.
+        /// This member is required.
+        public var promptRouterArn: Swift.String?
+        /// The router's name.
+        /// This member is required.
+        public var promptRouterName: Swift.String?
+        /// The router's routing criteria.
+        /// This member is required.
+        public var routingCriteria: BedrockClientTypes.RoutingCriteria?
+        /// The router's status.
+        /// This member is required.
+        public var status: BedrockClientTypes.PromptRouterStatus?
+        /// The summary's type.
+        /// This member is required.
+        public var type: BedrockClientTypes.PromptRouterType?
+        /// When the router was updated.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            createdAt: Foundation.Date? = nil,
+            description: Swift.String? = nil,
+            fallbackModel: BedrockClientTypes.PromptRouterTargetModel? = nil,
+            models: [BedrockClientTypes.PromptRouterTargetModel]? = nil,
+            promptRouterArn: Swift.String? = nil,
+            promptRouterName: Swift.String? = nil,
+            routingCriteria: BedrockClientTypes.RoutingCriteria? = nil,
+            status: BedrockClientTypes.PromptRouterStatus? = nil,
+            type: BedrockClientTypes.PromptRouterType? = nil,
+            updatedAt: Foundation.Date? = nil
+        )
+        {
+            self.createdAt = createdAt
+            self.description = description
+            self.fallbackModel = fallbackModel
+            self.models = models
+            self.promptRouterArn = promptRouterArn
+            self.promptRouterName = promptRouterName
+            self.routingCriteria = routingCriteria
+            self.status = status
+            self.type = type
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+extension BedrockClientTypes.PromptRouterSummary: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "PromptRouterSummary(createdAt: \(Swift.String(describing: createdAt)), fallbackModel: \(Swift.String(describing: fallbackModel)), models: \(Swift.String(describing: models)), promptRouterArn: \(Swift.String(describing: promptRouterArn)), promptRouterName: \(Swift.String(describing: promptRouterName)), routingCriteria: \(Swift.String(describing: routingCriteria)), status: \(Swift.String(describing: status)), type: \(Swift.String(describing: type)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\")"}
+}
+
+public struct ListPromptRoutersOutput: Swift.Sendable {
+    /// Specify the pagination token from a previous request to retrieve the next page of results.
+    public var nextToken: Swift.String?
+    /// A list of prompt router summaries.
+    public var promptRouterSummaries: [BedrockClientTypes.PromptRouterSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        promptRouterSummaries: [BedrockClientTypes.PromptRouterSummary]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.promptRouterSummaries = promptRouterSummaries
     }
 }
 
@@ -5649,10 +6593,11 @@ public struct CreateModelCustomizationJobInput: Swift.Sendable {
     public var customModelName: Swift.String?
     /// Tags to attach to the resulting custom model.
     public var customModelTags: [BedrockClientTypes.Tag]?
+    /// The customization configuration for the model customization job.
+    public var customizationConfig: BedrockClientTypes.CustomizationConfig?
     /// The customization type.
     public var customizationType: BedrockClientTypes.CustomizationType?
     /// Parameters related to tuning the model. For details on the format for different models, see [Custom model hyperparameters](https://docs.aws.amazon.com/bedrock/latest/userguide/custom-models-hp.html).
-    /// This member is required.
     public var hyperParameters: [Swift.String: Swift.String]?
     /// A name for the fine-tuning job.
     /// This member is required.
@@ -5679,6 +6624,7 @@ public struct CreateModelCustomizationJobInput: Swift.Sendable {
         customModelKmsKeyId: Swift.String? = nil,
         customModelName: Swift.String? = nil,
         customModelTags: [BedrockClientTypes.Tag]? = nil,
+        customizationConfig: BedrockClientTypes.CustomizationConfig? = nil,
         customizationType: BedrockClientTypes.CustomizationType? = nil,
         hyperParameters: [Swift.String: Swift.String]? = nil,
         jobName: Swift.String? = nil,
@@ -5695,6 +6641,7 @@ public struct CreateModelCustomizationJobInput: Swift.Sendable {
         self.customModelKmsKeyId = customModelKmsKeyId
         self.customModelName = customModelName
         self.customModelTags = customModelTags
+        self.customizationConfig = customizationConfig
         self.customizationType = customizationType
         self.hyperParameters = hyperParameters
         self.jobName = jobName
@@ -5780,6 +6727,8 @@ public struct GetModelCustomizationJobOutput: Swift.Sendable {
     /// Time that the resource was created.
     /// This member is required.
     public var creationTime: Foundation.Date?
+    /// The customization configuration for the model customization job.
+    public var customizationConfig: BedrockClientTypes.CustomizationConfig?
     /// The type of model customization.
     public var customizationType: BedrockClientTypes.CustomizationType?
     /// Time that the resource transitioned to terminal state.
@@ -5787,7 +6736,6 @@ public struct GetModelCustomizationJobOutput: Swift.Sendable {
     /// Information about why the job failed.
     public var failureMessage: Swift.String?
     /// The hyperparameter values for the job. For details on the format for different models, see [Custom model hyperparameters](https://docs.aws.amazon.com/bedrock/latest/userguide/custom-models-hp.html).
-    /// This member is required.
     public var hyperParameters: [Swift.String: Swift.String]?
     /// The Amazon Resource Name (ARN) of the customization job.
     /// This member is required.
@@ -5829,6 +6777,7 @@ public struct GetModelCustomizationJobOutput: Swift.Sendable {
         baseModelArn: Swift.String? = nil,
         clientRequestToken: Swift.String? = nil,
         creationTime: Foundation.Date? = nil,
+        customizationConfig: BedrockClientTypes.CustomizationConfig? = nil,
         customizationType: BedrockClientTypes.CustomizationType? = nil,
         endTime: Foundation.Date? = nil,
         failureMessage: Swift.String? = nil,
@@ -5852,6 +6801,7 @@ public struct GetModelCustomizationJobOutput: Swift.Sendable {
         self.baseModelArn = baseModelArn
         self.clientRequestToken = clientRequestToken
         self.creationTime = creationTime
+        self.customizationConfig = customizationConfig
         self.customizationType = customizationType
         self.endTime = endTime
         self.failureMessage = failureMessage
@@ -6411,6 +7361,13 @@ extension CreateInferenceProfileInput {
     }
 }
 
+extension CreateMarketplaceModelEndpointInput {
+
+    static func urlPathProvider(_ value: CreateMarketplaceModelEndpointInput) -> Swift.String? {
+        return "/marketplace-model/endpoints"
+    }
+}
+
 extension CreateModelCopyJobInput {
 
     static func urlPathProvider(_ value: CreateModelCopyJobInput) -> Swift.String? {
@@ -6498,6 +7455,16 @@ extension DeleteInferenceProfileInput {
     }
 }
 
+extension DeleteMarketplaceModelEndpointInput {
+
+    static func urlPathProvider(_ value: DeleteMarketplaceModelEndpointInput) -> Swift.String? {
+        guard let endpointArn = value.endpointArn else {
+            return nil
+        }
+        return "/marketplace-model/endpoints/\(endpointArn.urlPercentEncoding())"
+    }
+}
+
 extension DeleteModelInvocationLoggingConfigurationInput {
 
     static func urlPathProvider(_ value: DeleteModelInvocationLoggingConfigurationInput) -> Swift.String? {
@@ -6512,6 +7479,16 @@ extension DeleteProvisionedModelThroughputInput {
             return nil
         }
         return "/provisioned-model-throughput/\(provisionedModelId.urlPercentEncoding())"
+    }
+}
+
+extension DeregisterMarketplaceModelEndpointInput {
+
+    static func urlPathProvider(_ value: DeregisterMarketplaceModelEndpointInput) -> Swift.String? {
+        guard let endpointArn = value.endpointArn else {
+            return nil
+        }
+        return "/marketplace-model/endpoints/\(endpointArn.urlPercentEncoding())/registration"
     }
 }
 
@@ -6587,6 +7564,16 @@ extension GetInferenceProfileInput {
     }
 }
 
+extension GetMarketplaceModelEndpointInput {
+
+    static func urlPathProvider(_ value: GetMarketplaceModelEndpointInput) -> Swift.String? {
+        guard let endpointArn = value.endpointArn else {
+            return nil
+        }
+        return "/marketplace-model/endpoints/\(endpointArn.urlPercentEncoding())"
+    }
+}
+
 extension GetModelCopyJobInput {
 
     static func urlPathProvider(_ value: GetModelCopyJobInput) -> Swift.String? {
@@ -6631,6 +7618,16 @@ extension GetModelInvocationLoggingConfigurationInput {
 
     static func urlPathProvider(_ value: GetModelInvocationLoggingConfigurationInput) -> Swift.String? {
         return "/logging/modelinvocations"
+    }
+}
+
+extension GetPromptRouterInput {
+
+    static func urlPathProvider(_ value: GetPromptRouterInput) -> Swift.String? {
+        guard let promptRouterArn = value.promptRouterArn else {
+            return nil
+        }
+        return "/prompt-routers/\(promptRouterArn.urlPercentEncoding())"
     }
 }
 
@@ -6878,6 +7875,33 @@ extension ListInferenceProfilesInput {
     }
 }
 
+extension ListMarketplaceModelEndpointsInput {
+
+    static func urlPathProvider(_ value: ListMarketplaceModelEndpointsInput) -> Swift.String? {
+        return "/marketplace-model/endpoints"
+    }
+}
+
+extension ListMarketplaceModelEndpointsInput {
+
+    static func queryItemProvider(_ value: ListMarketplaceModelEndpointsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let modelSourceEquals = value.modelSourceEquals {
+            let modelSourceEqualsQueryItem = Smithy.URIQueryItem(name: "modelSourceIdentifier".urlPercentEncoding(), value: Swift.String(modelSourceEquals).urlPercentEncoding())
+            items.append(modelSourceEqualsQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListModelCopyJobsInput {
 
     static func urlPathProvider(_ value: ListModelCopyJobsInput) -> Swift.String? {
@@ -7074,6 +8098,29 @@ extension ListModelInvocationJobsInput {
     }
 }
 
+extension ListPromptRoutersInput {
+
+    static func urlPathProvider(_ value: ListPromptRoutersInput) -> Swift.String? {
+        return "/prompt-routers"
+    }
+}
+
+extension ListPromptRoutersInput {
+
+    static func queryItemProvider(_ value: ListPromptRoutersInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListProvisionedModelThroughputsInput {
 
     static func urlPathProvider(_ value: ListProvisionedModelThroughputsInput) -> Swift.String? {
@@ -7139,6 +8186,16 @@ extension PutModelInvocationLoggingConfigurationInput {
     }
 }
 
+extension RegisterMarketplaceModelEndpointInput {
+
+    static func urlPathProvider(_ value: RegisterMarketplaceModelEndpointInput) -> Swift.String? {
+        guard let endpointIdentifier = value.endpointIdentifier else {
+            return nil
+        }
+        return "/marketplace-model/endpoints/\(endpointIdentifier.urlPercentEncoding())/registration"
+    }
+}
+
 extension StopEvaluationJobInput {
 
     static func urlPathProvider(_ value: StopEvaluationJobInput) -> Swift.String? {
@@ -7190,6 +8247,16 @@ extension UpdateGuardrailInput {
             return nil
         }
         return "/guardrails/\(guardrailIdentifier.urlPercentEncoding())"
+    }
+}
+
+extension UpdateMarketplaceModelEndpointInput {
+
+    static func urlPathProvider(_ value: UpdateMarketplaceModelEndpointInput) -> Swift.String? {
+        guard let endpointArn = value.endpointArn else {
+            return nil
+        }
+        return "/marketplace-model/endpoints/\(endpointArn.urlPercentEncoding())"
     }
 }
 
@@ -7268,6 +8335,19 @@ extension CreateInferenceProfileInput {
     }
 }
 
+extension CreateMarketplaceModelEndpointInput {
+
+    static func write(value: CreateMarketplaceModelEndpointInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["acceptEula"].write(value.acceptEula)
+        try writer["clientRequestToken"].write(value.clientRequestToken)
+        try writer["endpointConfig"].write(value.endpointConfig, with: BedrockClientTypes.EndpointConfig.write(value:to:))
+        try writer["endpointName"].write(value.endpointName)
+        try writer["modelSourceIdentifier"].write(value.modelSourceIdentifier)
+        try writer["tags"].writeList(value.tags, memberWritingClosure: BedrockClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension CreateModelCopyJobInput {
 
     static func write(value: CreateModelCopyJobInput?, to writer: SmithyJSON.Writer) throws {
@@ -7289,6 +8369,7 @@ extension CreateModelCustomizationJobInput {
         try writer["customModelKmsKeyId"].write(value.customModelKmsKeyId)
         try writer["customModelName"].write(value.customModelName)
         try writer["customModelTags"].writeList(value.customModelTags, memberWritingClosure: BedrockClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["customizationConfig"].write(value.customizationConfig, with: BedrockClientTypes.CustomizationConfig.write(value:to:))
         try writer["customizationType"].write(value.customizationType)
         try writer["hyperParameters"].writeMap(value.hyperParameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["jobName"].write(value.jobName)
@@ -7362,6 +8443,14 @@ extension PutModelInvocationLoggingConfigurationInput {
     }
 }
 
+extension RegisterMarketplaceModelEndpointInput {
+
+    static func write(value: RegisterMarketplaceModelEndpointInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["modelSourceIdentifier"].write(value.modelSourceIdentifier)
+    }
+}
+
 extension TagResourceInput {
 
     static func write(value: TagResourceInput?, to writer: SmithyJSON.Writer) throws {
@@ -7394,6 +8483,15 @@ extension UpdateGuardrailInput {
         try writer["sensitiveInformationPolicyConfig"].write(value.sensitiveInformationPolicyConfig, with: BedrockClientTypes.GuardrailSensitiveInformationPolicyConfig.write(value:to:))
         try writer["topicPolicyConfig"].write(value.topicPolicyConfig, with: BedrockClientTypes.GuardrailTopicPolicyConfig.write(value:to:))
         try writer["wordPolicyConfig"].write(value.wordPolicyConfig, with: BedrockClientTypes.GuardrailWordPolicyConfig.write(value:to:))
+    }
+}
+
+extension UpdateMarketplaceModelEndpointInput {
+
+    static func write(value: UpdateMarketplaceModelEndpointInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientRequestToken"].write(value.clientRequestToken)
+        try writer["endpointConfig"].write(value.endpointConfig, with: BedrockClientTypes.EndpointConfig.write(value:to:))
     }
 }
 
@@ -7468,6 +8566,18 @@ extension CreateInferenceProfileOutput {
         var value = CreateInferenceProfileOutput()
         value.inferenceProfileArn = try reader["inferenceProfileArn"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent()
+        return value
+    }
+}
+
+extension CreateMarketplaceModelEndpointOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateMarketplaceModelEndpointOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateMarketplaceModelEndpointOutput()
+        value.marketplaceModelEndpoint = try reader["marketplaceModelEndpoint"].readIfPresent(with: BedrockClientTypes.MarketplaceModelEndpoint.read(from:))
         return value
     }
 }
@@ -7560,6 +8670,13 @@ extension DeleteInferenceProfileOutput {
     }
 }
 
+extension DeleteMarketplaceModelEndpointOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteMarketplaceModelEndpointOutput {
+        return DeleteMarketplaceModelEndpointOutput()
+    }
+}
+
 extension DeleteModelInvocationLoggingConfigurationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteModelInvocationLoggingConfigurationOutput {
@@ -7574,6 +8691,13 @@ extension DeleteProvisionedModelThroughputOutput {
     }
 }
 
+extension DeregisterMarketplaceModelEndpointOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeregisterMarketplaceModelEndpointOutput {
+        return DeregisterMarketplaceModelEndpointOutput()
+    }
+}
+
 extension GetCustomModelOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetCustomModelOutput {
@@ -7583,6 +8707,7 @@ extension GetCustomModelOutput {
         var value = GetCustomModelOutput()
         value.baseModelArn = try reader["baseModelArn"].readIfPresent() ?? ""
         value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.customizationConfig = try reader["customizationConfig"].readIfPresent(with: BedrockClientTypes.CustomizationConfig.read(from:))
         value.customizationType = try reader["customizationType"].readIfPresent()
         value.hyperParameters = try reader["hyperParameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.jobArn = try reader["jobArn"].readIfPresent() ?? ""
@@ -7705,6 +8830,18 @@ extension GetInferenceProfileOutput {
     }
 }
 
+extension GetMarketplaceModelEndpointOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetMarketplaceModelEndpointOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetMarketplaceModelEndpointOutput()
+        value.marketplaceModelEndpoint = try reader["marketplaceModelEndpoint"].readIfPresent(with: BedrockClientTypes.MarketplaceModelEndpoint.read(from:))
+        return value
+    }
+}
+
 extension GetModelCopyJobOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetModelCopyJobOutput {
@@ -7737,10 +8874,11 @@ extension GetModelCustomizationJobOutput {
         value.baseModelArn = try reader["baseModelArn"].readIfPresent() ?? ""
         value.clientRequestToken = try reader["clientRequestToken"].readIfPresent()
         value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.customizationConfig = try reader["customizationConfig"].readIfPresent(with: BedrockClientTypes.CustomizationConfig.read(from:))
         value.customizationType = try reader["customizationType"].readIfPresent()
         value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.failureMessage = try reader["failureMessage"].readIfPresent()
-        value.hyperParameters = try reader["hyperParameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.hyperParameters = try reader["hyperParameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.jobArn = try reader["jobArn"].readIfPresent() ?? ""
         value.jobName = try reader["jobName"].readIfPresent() ?? ""
         value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
@@ -7817,6 +8955,27 @@ extension GetModelInvocationLoggingConfigurationOutput {
         let reader = responseReader
         var value = GetModelInvocationLoggingConfigurationOutput()
         value.loggingConfig = try reader["loggingConfig"].readIfPresent(with: BedrockClientTypes.LoggingConfig.read(from:))
+        return value
+    }
+}
+
+extension GetPromptRouterOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetPromptRouterOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetPromptRouterOutput()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.description = try reader["description"].readIfPresent()
+        value.fallbackModel = try reader["fallbackModel"].readIfPresent(with: BedrockClientTypes.PromptRouterTargetModel.read(from:))
+        value.models = try reader["models"].readListIfPresent(memberReadingClosure: BedrockClientTypes.PromptRouterTargetModel.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.promptRouterArn = try reader["promptRouterArn"].readIfPresent() ?? ""
+        value.promptRouterName = try reader["promptRouterName"].readIfPresent() ?? ""
+        value.routingCriteria = try reader["routingCriteria"].readIfPresent(with: BedrockClientTypes.RoutingCriteria.read(from:))
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
 }
@@ -7922,6 +9081,19 @@ extension ListInferenceProfilesOutput {
     }
 }
 
+extension ListMarketplaceModelEndpointsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListMarketplaceModelEndpointsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListMarketplaceModelEndpointsOutput()
+        value.marketplaceModelEndpoints = try reader["marketplaceModelEndpoints"].readListIfPresent(memberReadingClosure: BedrockClientTypes.MarketplaceModelEndpointSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListModelCopyJobsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListModelCopyJobsOutput {
@@ -7974,6 +9146,19 @@ extension ListModelInvocationJobsOutput {
     }
 }
 
+extension ListPromptRoutersOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListPromptRoutersOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListPromptRoutersOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.promptRouterSummaries = try reader["promptRouterSummaries"].readListIfPresent(memberReadingClosure: BedrockClientTypes.PromptRouterSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension ListProvisionedModelThroughputsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListProvisionedModelThroughputsOutput {
@@ -8003,6 +9188,18 @@ extension PutModelInvocationLoggingConfigurationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutModelInvocationLoggingConfigurationOutput {
         return PutModelInvocationLoggingConfigurationOutput()
+    }
+}
+
+extension RegisterMarketplaceModelEndpointOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> RegisterMarketplaceModelEndpointOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = RegisterMarketplaceModelEndpointOutput()
+        value.marketplaceModelEndpoint = try reader["marketplaceModelEndpoint"].readIfPresent(with: BedrockClientTypes.MarketplaceModelEndpoint.read(from:))
+        return value
     }
 }
 
@@ -8052,6 +9249,18 @@ extension UpdateGuardrailOutput {
         value.guardrailId = try reader["guardrailId"].readIfPresent() ?? ""
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.version = try reader["version"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension UpdateMarketplaceModelEndpointOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateMarketplaceModelEndpointOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateMarketplaceModelEndpointOutput()
+        value.marketplaceModelEndpoint = try reader["marketplaceModelEndpoint"].readIfPresent(with: BedrockClientTypes.MarketplaceModelEndpoint.read(from:))
         return value
     }
 }
@@ -8158,6 +9367,26 @@ enum CreateInferenceProfileOutputError {
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "TooManyTagsException": return try TooManyTagsException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateMarketplaceModelEndpointOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -8339,6 +9568,24 @@ enum DeleteInferenceProfileOutputError {
     }
 }
 
+enum DeleteMarketplaceModelEndpointOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteModelInvocationLoggingConfigurationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -8367,6 +9614,25 @@ enum DeleteProvisionedModelThroughputOutputError {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeregisterMarketplaceModelEndpointOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -8482,6 +9748,24 @@ enum GetInferenceProfileOutputError {
     }
 }
 
+enum GetMarketplaceModelEndpointOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetModelCopyJobOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -8565,6 +9849,24 @@ enum GetModelInvocationLoggingConfigurationOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetPromptRouterOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -8691,6 +9993,24 @@ enum ListInferenceProfilesOutputError {
     }
 }
 
+enum ListMarketplaceModelEndpointsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListModelCopyJobsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -8760,6 +10080,23 @@ enum ListModelInvocationJobsOutputError {
     }
 }
 
+enum ListPromptRoutersOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListProvisionedModelThroughputsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -8805,6 +10142,25 @@ enum PutModelInvocationLoggingConfigurationOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum RegisterMarketplaceModelEndpointOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -8907,6 +10263,26 @@ enum UntagResourceOutputError {
 }
 
 enum UpdateGuardrailOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateMarketplaceModelEndpointOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -9049,6 +10425,19 @@ extension TooManyTagsException {
     }
 }
 
+extension ServiceUnavailableException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceUnavailableException {
+        let reader = baseError.errorBodyReader
+        var value = ServiceUnavailableException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension BedrockClientTypes.BatchDeleteEvaluationJobError {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.BatchDeleteEvaluationJobError {
@@ -9072,18 +10461,198 @@ extension BedrockClientTypes.BatchDeleteEvaluationJobItem {
     }
 }
 
+extension BedrockClientTypes.MarketplaceModelEndpoint {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.MarketplaceModelEndpoint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.MarketplaceModelEndpoint()
+        value.endpointArn = try reader["endpointArn"].readIfPresent() ?? ""
+        value.modelSourceIdentifier = try reader["modelSourceIdentifier"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent()
+        value.statusMessage = try reader["statusMessage"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.endpointConfig = try reader["endpointConfig"].readIfPresent(with: BedrockClientTypes.EndpointConfig.read(from:))
+        value.endpointStatus = try reader["endpointStatus"].readIfPresent() ?? ""
+        value.endpointStatusMessage = try reader["endpointStatusMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockClientTypes.EndpointConfig {
+
+    static func write(value: BedrockClientTypes.EndpointConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .sagemaker(sagemaker):
+                try writer["sageMaker"].write(sagemaker, with: BedrockClientTypes.SageMakerEndpoint.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.EndpointConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "sageMaker":
+                return .sagemaker(try reader["sageMaker"].read(with: BedrockClientTypes.SageMakerEndpoint.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BedrockClientTypes.SageMakerEndpoint {
+
+    static func write(value: BedrockClientTypes.SageMakerEndpoint?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["executionRole"].write(value.executionRole)
+        try writer["initialInstanceCount"].write(value.initialInstanceCount)
+        try writer["instanceType"].write(value.instanceType)
+        try writer["kmsEncryptionKey"].write(value.kmsEncryptionKey)
+        try writer["vpc"].write(value.vpc, with: BedrockClientTypes.VpcConfig.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.SageMakerEndpoint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.SageMakerEndpoint()
+        value.initialInstanceCount = try reader["initialInstanceCount"].readIfPresent() ?? 0
+        value.instanceType = try reader["instanceType"].readIfPresent() ?? ""
+        value.executionRole = try reader["executionRole"].readIfPresent() ?? ""
+        value.kmsEncryptionKey = try reader["kmsEncryptionKey"].readIfPresent()
+        value.vpc = try reader["vpc"].readIfPresent(with: BedrockClientTypes.VpcConfig.read(from:))
+        return value
+    }
+}
+
+extension BedrockClientTypes.VpcConfig {
+
+    static func write(value: BedrockClientTypes.VpcConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["securityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["subnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.VpcConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.VpcConfig()
+        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension BedrockClientTypes.TrainingDataConfig {
 
     static func write(value: BedrockClientTypes.TrainingDataConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["invocationLogsConfig"].write(value.invocationLogsConfig, with: BedrockClientTypes.InvocationLogsConfig.write(value:to:))
         try writer["s3Uri"].write(value.s3Uri)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.TrainingDataConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockClientTypes.TrainingDataConfig()
-        value.s3Uri = try reader["s3Uri"].readIfPresent() ?? ""
+        value.s3Uri = try reader["s3Uri"].readIfPresent()
+        value.invocationLogsConfig = try reader["invocationLogsConfig"].readIfPresent(with: BedrockClientTypes.InvocationLogsConfig.read(from:))
         return value
+    }
+}
+
+extension BedrockClientTypes.InvocationLogsConfig {
+
+    static func write(value: BedrockClientTypes.InvocationLogsConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["invocationLogSource"].write(value.invocationLogSource, with: BedrockClientTypes.InvocationLogSource.write(value:to:))
+        try writer["requestMetadataFilters"].write(value.requestMetadataFilters, with: BedrockClientTypes.RequestMetadataFilters.write(value:to:))
+        try writer["usePromptResponse"].write(value.usePromptResponse)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.InvocationLogsConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.InvocationLogsConfig()
+        value.usePromptResponse = try reader["usePromptResponse"].readIfPresent() ?? false
+        value.invocationLogSource = try reader["invocationLogSource"].readIfPresent(with: BedrockClientTypes.InvocationLogSource.read(from:))
+        value.requestMetadataFilters = try reader["requestMetadataFilters"].readIfPresent(with: BedrockClientTypes.RequestMetadataFilters.read(from:))
+        return value
+    }
+}
+
+extension BedrockClientTypes.RequestMetadataFilters {
+
+    static func write(value: BedrockClientTypes.RequestMetadataFilters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .andall(andall):
+                try writer["andAll"].writeList(andall, memberWritingClosure: BedrockClientTypes.RequestMetadataBaseFilters.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .equals(equals):
+                try writer["equals"].writeMap(equals, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+            case let .notequals(notequals):
+                try writer["notEquals"].writeMap(notequals, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+            case let .orall(orall):
+                try writer["orAll"].writeList(orall, memberWritingClosure: BedrockClientTypes.RequestMetadataBaseFilters.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.RequestMetadataFilters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "equals":
+                return .equals(try reader["equals"].readMap(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false))
+            case "notEquals":
+                return .notequals(try reader["notEquals"].readMap(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false))
+            case "andAll":
+                return .andall(try reader["andAll"].readList(memberReadingClosure: BedrockClientTypes.RequestMetadataBaseFilters.read(from:), memberNodeInfo: "member", isFlattened: false))
+            case "orAll":
+                return .orall(try reader["orAll"].readList(memberReadingClosure: BedrockClientTypes.RequestMetadataBaseFilters.read(from:), memberNodeInfo: "member", isFlattened: false))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BedrockClientTypes.RequestMetadataBaseFilters {
+
+    static func write(value: BedrockClientTypes.RequestMetadataBaseFilters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["equals"].writeMap(value.equals, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["notEquals"].writeMap(value.notEquals, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.RequestMetadataBaseFilters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.RequestMetadataBaseFilters()
+        value.equals = try reader["equals"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.notEquals = try reader["notEquals"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension BedrockClientTypes.InvocationLogSource {
+
+    static func write(value: BedrockClientTypes.InvocationLogSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .s3uri(s3uri):
+                try writer["s3Uri"].write(s3uri)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.InvocationLogSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "s3Uri":
+                return .s3uri(try reader["s3Uri"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
     }
 }
 
@@ -9148,6 +10717,62 @@ extension BedrockClientTypes.ValidatorMetric {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockClientTypes.ValidatorMetric()
         value.validationLoss = try reader["validationLoss"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockClientTypes.CustomizationConfig {
+
+    static func write(value: BedrockClientTypes.CustomizationConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .distillationconfig(distillationconfig):
+                try writer["distillationConfig"].write(distillationconfig, with: BedrockClientTypes.DistillationConfig.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.CustomizationConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "distillationConfig":
+                return .distillationconfig(try reader["distillationConfig"].read(with: BedrockClientTypes.DistillationConfig.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BedrockClientTypes.DistillationConfig {
+
+    static func write(value: BedrockClientTypes.DistillationConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["teacherModelConfig"].write(value.teacherModelConfig, with: BedrockClientTypes.TeacherModelConfig.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.DistillationConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.DistillationConfig()
+        value.teacherModelConfig = try reader["teacherModelConfig"].readIfPresent(with: BedrockClientTypes.TeacherModelConfig.read(from:))
+        return value
+    }
+}
+
+extension BedrockClientTypes.TeacherModelConfig {
+
+    static func write(value: BedrockClientTypes.TeacherModelConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maxResponseLengthForInference"].write(value.maxResponseLengthForInference)
+        try writer["teacherModelIdentifier"].write(value.teacherModelIdentifier)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.TeacherModelConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.TeacherModelConfig()
+        value.teacherModelIdentifier = try reader["teacherModelIdentifier"].readIfPresent() ?? ""
+        value.maxResponseLengthForInference = try reader["maxResponseLengthForInference"].readIfPresent()
         return value
     }
 }
@@ -9591,7 +11216,7 @@ extension BedrockClientTypes.ByteContentDoc {
         var value = BedrockClientTypes.ByteContentDoc()
         value.identifier = try reader["identifier"].readIfPresent() ?? ""
         value.contentType = try reader["contentType"].readIfPresent() ?? ""
-        value.data = try reader["data"].readIfPresent() ?? Foundation.Data("".utf8)
+        value.data = try reader["data"].readIfPresent() ?? Foundation.Data(base64Encoded: "")
         return value
     }
 }
@@ -9951,6 +11576,8 @@ extension BedrockClientTypes.GuardrailContentFilter {
         value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         value.inputStrength = try reader["inputStrength"].readIfPresent() ?? .sdkUnknown("")
         value.outputStrength = try reader["outputStrength"].readIfPresent() ?? .sdkUnknown("")
+        value.inputModalities = try reader["inputModalities"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BedrockClientTypes.GuardrailModality>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.outputModalities = try reader["outputModalities"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BedrockClientTypes.GuardrailModality>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -10108,23 +11735,6 @@ extension BedrockClientTypes.Tag {
     }
 }
 
-extension BedrockClientTypes.VpcConfig {
-
-    static func write(value: BedrockClientTypes.VpcConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["securityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["subnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.VpcConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockClientTypes.VpcConfig()
-        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
 extension BedrockClientTypes.ModelInvocationJobInputDataConfig {
 
     static func write(value: BedrockClientTypes.ModelInvocationJobInputDataConfig?, to writer: SmithyJSON.Writer) throws {
@@ -10220,6 +11830,7 @@ extension BedrockClientTypes.LoggingConfig {
         try writer["imageDataDeliveryEnabled"].write(value.imageDataDeliveryEnabled)
         try writer["s3Config"].write(value.s3Config, with: BedrockClientTypes.S3Config.write(value:to:))
         try writer["textDataDeliveryEnabled"].write(value.textDataDeliveryEnabled)
+        try writer["videoDataDeliveryEnabled"].write(value.videoDataDeliveryEnabled)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.LoggingConfig {
@@ -10230,6 +11841,7 @@ extension BedrockClientTypes.LoggingConfig {
         value.textDataDeliveryEnabled = try reader["textDataDeliveryEnabled"].readIfPresent()
         value.imageDataDeliveryEnabled = try reader["imageDataDeliveryEnabled"].readIfPresent()
         value.embeddingDataDeliveryEnabled = try reader["embeddingDataDeliveryEnabled"].readIfPresent()
+        value.videoDataDeliveryEnabled = try reader["videoDataDeliveryEnabled"].readIfPresent()
         return value
     }
 }
@@ -10266,6 +11878,26 @@ extension BedrockClientTypes.CloudWatchConfig {
         value.logGroupName = try reader["logGroupName"].readIfPresent() ?? ""
         value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
         value.largeDataDeliveryS3Config = try reader["largeDataDeliveryS3Config"].readIfPresent(with: BedrockClientTypes.S3Config.read(from:))
+        return value
+    }
+}
+
+extension BedrockClientTypes.RoutingCriteria {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.RoutingCriteria {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.RoutingCriteria()
+        value.responseQualityDifference = try reader["responseQualityDifference"].readIfPresent() ?? 0.0
+        return value
+    }
+}
+
+extension BedrockClientTypes.PromptRouterTargetModel {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.PromptRouterTargetModel {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.PromptRouterTargetModel()
+        value.modelArn = try reader["modelArn"].readIfPresent()
         return value
     }
 }
@@ -10373,6 +12005,21 @@ extension BedrockClientTypes.InferenceProfileSummary {
     }
 }
 
+extension BedrockClientTypes.MarketplaceModelEndpointSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.MarketplaceModelEndpointSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.MarketplaceModelEndpointSummary()
+        value.endpointArn = try reader["endpointArn"].readIfPresent() ?? ""
+        value.modelSourceIdentifier = try reader["modelSourceIdentifier"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent()
+        value.statusMessage = try reader["statusMessage"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
 extension BedrockClientTypes.ModelCopyJobSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.ModelCopyJobSummary {
@@ -10453,6 +12100,25 @@ extension BedrockClientTypes.ModelInvocationJobSummary {
     }
 }
 
+extension BedrockClientTypes.PromptRouterSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.PromptRouterSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.PromptRouterSummary()
+        value.promptRouterName = try reader["promptRouterName"].readIfPresent() ?? ""
+        value.routingCriteria = try reader["routingCriteria"].readIfPresent(with: BedrockClientTypes.RoutingCriteria.read(from:))
+        value.description = try reader["description"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.promptRouterArn = try reader["promptRouterArn"].readIfPresent() ?? ""
+        value.models = try reader["models"].readListIfPresent(memberReadingClosure: BedrockClientTypes.PromptRouterTargetModel.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.fallbackModel = try reader["fallbackModel"].readIfPresent(with: BedrockClientTypes.PromptRouterTargetModel.read(from:))
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension BedrockClientTypes.ProvisionedModelSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.ProvisionedModelSummary {
@@ -10505,7 +12171,9 @@ extension BedrockClientTypes.GuardrailContentFilterConfig {
 
     static func write(value: BedrockClientTypes.GuardrailContentFilterConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["inputModalities"].writeList(value.inputModalities, memberWritingClosure: SmithyReadWrite.WritingClosureBox<BedrockClientTypes.GuardrailModality>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["inputStrength"].write(value.inputStrength)
+        try writer["outputModalities"].writeList(value.outputModalities, memberWritingClosure: SmithyReadWrite.WritingClosureBox<BedrockClientTypes.GuardrailModality>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["outputStrength"].write(value.outputStrength)
         try writer["type"].write(value.type)
     }

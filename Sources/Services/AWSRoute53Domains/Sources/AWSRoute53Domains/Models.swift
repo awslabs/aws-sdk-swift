@@ -38,9 +38,9 @@ public struct ResendOperationAuthorizationOutput: Swift.Sendable {
 }
 
 /// The number of domains has exceeded the allowed threshold for the account.
-public struct DomainLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DomainLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The number of domains has exceeded the allowed threshold for the account.
         public internal(set) var message: Swift.String? = nil
     }
@@ -63,9 +63,9 @@ public struct DomainLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 /// The requested item is not acceptable. For example, for APIs that accept a domain name, the request might specify a domain name that doesn't belong to the account that submitted the request. For AcceptDomainTransferFromAnotherAwsAccount, the password might be invalid.
-public struct InvalidInput: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidInput: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The requested item is not acceptable. For example, for an OperationId it might refer to the ID of an operation that is already completed. For a domain name, it might not be a valid domain name or belong to the requester account.
         public internal(set) var message: Swift.String? = nil
     }
@@ -88,9 +88,9 @@ public struct InvalidInput: ClientRuntime.ModeledError, AWSClientRuntime.AWSServ
 }
 
 /// The number of operations or jobs running exceeded the allowed threshold for the account.
-public struct OperationLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct OperationLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The number of operations or jobs running exceeded the allowed threshold for the account.
         public internal(set) var message: Swift.String? = nil
     }
@@ -113,9 +113,9 @@ public struct OperationLimitExceeded: ClientRuntime.ModeledError, AWSClientRunti
 }
 
 /// Amazon Route 53 does not support this top-level domain (TLD).
-public struct UnsupportedTLD: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnsupportedTLD: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Amazon Route 53 does not support this top-level domain (TLD).
         public internal(set) var message: Swift.String? = nil
     }
@@ -175,9 +175,9 @@ public struct AcceptDomainTransferFromAnotherAwsAccountOutput: Swift.Sendable {
 }
 
 /// This error is returned if you call AssociateDelegationSignerToDomain when the specified domain has reached the maximum number of DS records. You can't add any additional DS records unless you delete an existing one first.
-public struct DnssecLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DnssecLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -199,9 +199,9 @@ public struct DnssecLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 /// The request is already in progress for the domain.
-public struct DuplicateRequest: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DuplicateRequest: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The request is already in progress for the domain.
         public internal(set) var message: Swift.String? = nil
         /// ID of the request operation.
@@ -228,9 +228,9 @@ public struct DuplicateRequest: ClientRuntime.ModeledError, AWSClientRuntime.AWS
 }
 
 /// The top-level domain does not support this operation.
-public struct TLDRulesViolation: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TLDRulesViolation: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The top-level domain does not support this operation.
         public internal(set) var message: Swift.String? = nil
     }
@@ -324,6 +324,7 @@ extension Route53DomainsClientTypes {
         case releaseToGandi
         case removeDnssec
         case renewDomain
+        case restoreDomain
         case transferInDomain
         case transferOnRenew
         case transferOutDomain
@@ -348,6 +349,7 @@ extension Route53DomainsClientTypes {
                 .releaseToGandi,
                 .removeDnssec,
                 .renewDomain,
+                .restoreDomain,
                 .transferInDomain,
                 .transferOnRenew,
                 .transferOutDomain,
@@ -378,6 +380,7 @@ extension Route53DomainsClientTypes {
             case .releaseToGandi: return "RELEASE_TO_GANDI"
             case .removeDnssec: return "REMOVE_DNSSEC"
             case .renewDomain: return "RENEW_DOMAIN"
+            case .restoreDomain: return "RESTORE_DOMAIN"
             case .transferInDomain: return "TRANSFER_IN_DOMAIN"
             case .transferOnRenew: return "TRANSFER_ON_RENEW"
             case .transferOutDomain: return "TRANSFER_OUT_DOMAIN"
