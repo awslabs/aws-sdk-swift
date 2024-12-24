@@ -126,9 +126,9 @@ extension InspectorClientTypes {
 }
 
 /// You do not have required permissions to access the requested resource.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// You can immediately retry your request.
         /// This member is required.
         public internal(set) var canRetry: Swift.Bool? = nil
@@ -162,9 +162,9 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 }
 
 /// Internal server error.
-public struct InternalException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// You can immediately retry your request.
         /// This member is required.
         public internal(set) var canRetry: Swift.Bool? = nil
@@ -378,9 +378,9 @@ extension InspectorClientTypes {
 }
 
 /// The request was rejected because an invalid or out-of-range value was supplied for an input parameter.
-public struct InvalidInputException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidInputException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// You can immediately retry your request.
         /// This member is required.
         public internal(set) var canRetry: Swift.Bool? = nil
@@ -461,9 +461,9 @@ extension InspectorClientTypes {
 }
 
 /// The request was rejected because it referenced an entity that does not exist. The error code describes the entity.
-public struct NoSuchEntityException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NoSuchEntityException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// You can immediately retry your request.
         /// This member is required.
         public internal(set) var canRetry: Swift.Bool? = nil
@@ -497,9 +497,9 @@ public struct NoSuchEntityException: ClientRuntime.ModeledError, AWSClientRuntim
 }
 
 /// The serice is temporary unavailable.
-public struct ServiceTemporarilyUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceTemporarilyUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// You can wait and then retry your request.
         /// This member is required.
         public internal(set) var canRetry: Swift.Bool? = nil
@@ -805,9 +805,9 @@ extension InspectorClientTypes {
 }
 
 /// You started an assessment run, but one of the instances is already participating in another assessment run.
-public struct AgentsAlreadyRunningAssessmentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AgentsAlreadyRunningAssessmentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         ///
         /// This member is required.
         public internal(set) var agents: [InspectorClientTypes.AgentAlreadyRunningAssessment]? = nil
@@ -1316,9 +1316,9 @@ extension InspectorClientTypes {
 }
 
 /// You cannot perform a specified action if an assessment run is currently in progress.
-public struct AssessmentRunInProgressException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AssessmentRunInProgressException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The ARNs of the assessment runs that are currently in progress.
         /// This member is required.
         public internal(set) var assessmentRunArns: [Swift.String]? = nil
@@ -1702,9 +1702,9 @@ extension InspectorClientTypes {
 }
 
 /// Amazon Inspector cannot assume the cross-account role that it needs to list your EC2 instances during the assessment run.
-public struct InvalidCrossAccountRoleException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidCrossAccountRoleException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// You can immediately retry your request.
         /// This member is required.
         public internal(set) var canRetry: Swift.Bool? = nil
@@ -1776,9 +1776,9 @@ extension InspectorClientTypes {
 }
 
 /// The request was rejected because it attempted to create resources beyond the current AWS account limits. The error code describes the limit exceeded.
-public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// You can immediately retry your request.
         /// This member is required.
         public internal(set) var canRetry: Swift.Bool? = nil
@@ -1887,9 +1887,9 @@ public struct CreateAssessmentTemplateOutput: Swift.Sendable {
 }
 
 /// The request is rejected. The specified assessment template is currently generating an exclusions preview.
-public struct PreviewGenerationInProgressException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PreviewGenerationInProgressException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2670,9 +2670,9 @@ extension InspectorClientTypes {
 }
 
 /// Used by the [GetAssessmentReport] API. The request was rejected because you tried to generate a report for an assessment run that existed before reporting was supported in Amazon Inspector. You can only generate reports for assessment runs that took place or will take place after generating reports in Amazon Inspector became available.
-public struct UnsupportedFeatureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnsupportedFeatureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var canRetry: Swift.Bool? = nil
         /// This member is required.

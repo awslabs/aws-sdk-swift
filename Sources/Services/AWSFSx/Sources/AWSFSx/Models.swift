@@ -89,9 +89,9 @@ extension FSxClientTypes {
 }
 
 /// An Active Directory error.
-public struct ActiveDirectoryError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ActiveDirectoryError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The directory ID of the directory that an error pertains to.
         /// This member is required.
         public internal(set) var activeDirectoryId: Swift.String? = nil
@@ -2645,9 +2645,9 @@ extension FSxClientTypes {
 }
 
 /// A generic error indicating a failure with a client request.
-public struct BadRequest: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BadRequest: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A detailed error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2670,9 +2670,9 @@ public struct BadRequest: ClientRuntime.ModeledError, AWSClientRuntime.AWSServic
 }
 
 /// No Amazon FSx file systems were found based upon supplied parameters.
-public struct FileSystemNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct FileSystemNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A detailed error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2695,9 +2695,9 @@ public struct FileSystemNotFound: ClientRuntime.ModeledError, AWSClientRuntime.A
 }
 
 /// A generic error indicating a server-side failure.
-public struct InternalServerError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A detailed error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2849,9 +2849,9 @@ extension FSxClientTypes {
 }
 
 /// The data repository task could not be canceled because the task has already ended.
-public struct DataRepositoryTaskEnded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DataRepositoryTaskEnded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A detailed error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2874,9 +2874,9 @@ public struct DataRepositoryTaskEnded: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 /// The data repository task or tasks you specified could not be found.
-public struct DataRepositoryTaskNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DataRepositoryTaskNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A detailed error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2899,9 +2899,9 @@ public struct DataRepositoryTaskNotFound: ClientRuntime.ModeledError, AWSClientR
 }
 
 /// The requested operation is not supported for this resource or API.
-public struct UnsupportedOperation: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnsupportedOperation: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A detailed error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3007,9 +3007,9 @@ public struct CancelDataRepositoryTaskOutput: Swift.Sendable {
 }
 
 /// No Amazon FSx backups were found based upon the supplied parameters.
-public struct BackupNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BackupNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A detailed error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3032,9 +3032,9 @@ public struct BackupNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSSe
 }
 
 /// The error returned when a second request is received with the same client request token but different parameters settings. A client request token should always uniquely identify a single request.
-public struct IncompatibleParameterError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct IncompatibleParameterError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A detailed error message.
         public internal(set) var message: Swift.String? = nil
         /// A parameter that is incompatible with the earlier request.
@@ -3062,9 +3062,9 @@ public struct IncompatibleParameterError: ClientRuntime.ModeledError, AWSClientR
 }
 
 /// Amazon FSx doesn't support Multi-AZ Windows File Server copy backup in the destination Region, so the copied backup can't be restored.
-public struct IncompatibleRegionForMultiAZ: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct IncompatibleRegionForMultiAZ: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A detailed error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3087,9 +3087,9 @@ public struct IncompatibleRegionForMultiAZ: ClientRuntime.ModeledError, AWSClien
 }
 
 /// The Key Management Service (KMS) key of the destination backup is not valid.
-public struct InvalidDestinationKmsKey: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidDestinationKmsKey: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A detailed error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3112,9 +3112,9 @@ public struct InvalidDestinationKmsKey: ClientRuntime.ModeledError, AWSClientRun
 }
 
 /// The Region provided for SourceRegion is not valid or is in a different Amazon Web Services partition.
-public struct InvalidRegion: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidRegion: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A detailed error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3137,9 +3137,9 @@ public struct InvalidRegion: ClientRuntime.ModeledError, AWSClientRuntime.AWSSer
 }
 
 /// The Key Management Service (KMS) key of the source backup is not valid.
-public struct InvalidSourceKmsKey: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidSourceKmsKey: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A detailed error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3216,9 +3216,9 @@ extension FSxClientTypes {
 }
 
 /// An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web Services Support.
-public struct ServiceLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Enumeration of the service limit that was exceeded.
         /// This member is required.
         public internal(set) var limit: FSxClientTypes.ServiceLimit? = nil
@@ -3246,9 +3246,9 @@ public struct ServiceLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime
 }
 
 /// The request was rejected because the lifecycle status of the source backup isn't AVAILABLE.
-public struct SourceBackupUnavailable: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SourceBackupUnavailable: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The ID of the source backup. Specifies the backup that you are copying.
         public internal(set) var backupId: Swift.String? = nil
         /// A detailed error message.
@@ -3531,9 +3531,9 @@ public struct CopySnapshotAndUpdateVolumeInput: Swift.Sendable {
 }
 
 /// Another backup is already under way. Wait for completion before initiating additional backups of this file system.
-public struct BackupInProgress: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BackupInProgress: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A detailed error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3556,9 +3556,9 @@ public struct BackupInProgress: ClientRuntime.ModeledError, AWSClientRuntime.AWS
 }
 
 /// No Amazon FSx volumes were found based upon the supplied parameters.
-public struct VolumeNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct VolumeNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A detailed error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3841,9 +3841,9 @@ public struct CreateDataRepositoryAssociationOutput: Swift.Sendable {
 }
 
 /// An existing data repository task is currently executing on the file system. Wait until the existing task has completed, then create the new task.
-public struct DataRepositoryTaskExecuting: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DataRepositoryTaskExecuting: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A detailed error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4273,9 +4273,9 @@ public struct CreateDataRepositoryTaskOutput: Swift.Sendable {
 }
 
 /// One or more network settings specified in the request are invalid.
-public struct InvalidNetworkSettings: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidNetworkSettings: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The route table ID is either invalid or not part of the VPC specified.
         public internal(set) var invalidRouteTableId: Swift.String? = nil
         /// The security group ID is either invalid or not part of the VPC specified.
@@ -4310,9 +4310,9 @@ public struct InvalidNetworkSettings: ClientRuntime.ModeledError, AWSClientRunti
 }
 
 /// An invalid value for PerUnitStorageThroughput was provided. Please create your file system again, using a valid value.
-public struct InvalidPerUnitStorageThroughput: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidPerUnitStorageThroughput: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A detailed error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4335,9 +4335,9 @@ public struct InvalidPerUnitStorageThroughput: ClientRuntime.ModeledError, AWSCl
 }
 
 /// A cache configuration is required for this operation.
-public struct MissingFileCacheConfiguration: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MissingFileCacheConfiguration: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A detailed error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4781,9 +4781,9 @@ public struct CreateFileCacheOutput: Swift.Sendable {
 }
 
 /// The path provided for data repository export isn't valid.
-public struct InvalidExportPath: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidExportPath: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A detailed error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4806,9 +4806,9 @@ public struct InvalidExportPath: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 /// The path provided for data repository import isn't valid.
-public struct InvalidImportPath: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidImportPath: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A detailed error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4831,9 +4831,9 @@ public struct InvalidImportPath: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 /// A file system configuration is required for this operation.
-public struct MissingFileSystemConfiguration: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MissingFileSystemConfiguration: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A detailed error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -5996,9 +5996,9 @@ public struct CreateStorageVirtualMachineOutput: Swift.Sendable {
 }
 
 /// A volume configuration is required for this operation.
-public struct MissingVolumeConfiguration: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MissingVolumeConfiguration: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A detailed error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -6021,9 +6021,9 @@ public struct MissingVolumeConfiguration: ClientRuntime.ModeledError, AWSClientR
 }
 
 /// No FSx for ONTAP SVMs were found based upon the supplied parameters.
-public struct StorageVirtualMachineNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct StorageVirtualMachineNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A detailed error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -6399,9 +6399,9 @@ public struct CreateVolumeFromBackupInput: Swift.Sendable {
 }
 
 /// You can't delete a backup while it's being copied.
-public struct BackupBeingCopied: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BackupBeingCopied: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The ID of the source backup. Specifies the backup that you are copying.
         public internal(set) var backupId: Swift.String? = nil
         /// A detailed error message.
@@ -6428,9 +6428,9 @@ public struct BackupBeingCopied: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 /// You can't delete a backup while it's being used to restore a file system.
-public struct BackupRestoring: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BackupRestoring: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The ID of a file system being restored from the backup.
         public internal(set) var fileSystemId: Swift.String? = nil
         /// A detailed error message.
@@ -6492,9 +6492,9 @@ public struct DeleteBackupOutput: Swift.Sendable {
 }
 
 /// No data repository associations were found based upon the supplied parameters.
-public struct DataRepositoryAssociationNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DataRepositoryAssociationNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A detailed error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -6558,9 +6558,9 @@ public struct DeleteDataRepositoryAssociationOutput: Swift.Sendable {
 }
 
 /// No caches were found based upon supplied parameters.
-public struct FileCacheNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct FileCacheNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A detailed error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -6825,9 +6825,9 @@ public struct DeleteFileSystemOutput: Swift.Sendable {
 }
 
 /// No Amazon FSx snapshots were found based on the supplied parameters.
-public struct SnapshotNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SnapshotNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A detailed error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -7137,9 +7137,9 @@ public struct DescribeBackupsInput: Swift.Sendable {
 }
 
 /// You have filtered the response to a data repository type that is not supported.
-public struct InvalidDataRepositoryType: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidDataRepositoryType: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A detailed error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -7776,9 +7776,9 @@ public struct DisassociateFileSystemAliasesOutput: Swift.Sendable {
 }
 
 /// The resource specified for the tagging operation is not a resource type owned by Amazon FSx. Use the API of the relevant service to perform the operation.
-public struct NotServiceResourceError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NotServiceResourceError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A detailed error message.
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Resource Name (ARN) of the non-Amazon FSx resource.
@@ -7806,9 +7806,9 @@ public struct NotServiceResourceError: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 /// The resource specified does not support tagging.
-public struct ResourceDoesNotSupportTagging: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceDoesNotSupportTagging: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A detailed error message.
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Resource Name (ARN) of the resource that doesn't support tagging.
@@ -7836,9 +7836,9 @@ public struct ResourceDoesNotSupportTagging: ClientRuntime.ModeledError, AWSClie
 }
 
 /// The resource specified by the Amazon Resource Name (ARN) can't be found.
-public struct ResourceNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A detailed error message.
         public internal(set) var message: Swift.String? = nil
         /// The resource ARN of the resource that can't be found.

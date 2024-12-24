@@ -29,9 +29,9 @@ import struct Smithy.URIQueryItem
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// A request contains unexpected data.
-public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -53,9 +53,9 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 /// An operation failed because a dependent service threw an exception.
-public struct DependentServiceFailureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DependentServiceFailureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -77,9 +77,9 @@ public struct DependentServiceFailureException: ClientRuntime.ModeledError, AWSC
 }
 
 /// The service failed to perform an operation due to an internal issue.
-public struct InternalFailureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalFailureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -101,9 +101,9 @@ public struct InternalFailureException: ClientRuntime.ModeledError, AWSClientRun
 }
 
 /// A resource could not be created because service quotas were exceeded.
-public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -125,9 +125,9 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 }
 
 /// An operation failed due to a lack of access.
-public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -508,6 +508,68 @@ extension AmplifyClientTypes {
 
 extension AmplifyClientTypes {
 
+    public enum WafStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case associating
+        case associationFailed
+        case associationSuccess
+        case disassociating
+        case disassociationFailed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [WafStatus] {
+            return [
+                .associating,
+                .associationFailed,
+                .associationSuccess,
+                .disassociating,
+                .disassociationFailed
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .associating: return "ASSOCIATING"
+            case .associationFailed: return "ASSOCIATION_FAILED"
+            case .associationSuccess: return "ASSOCIATION_SUCCESS"
+            case .disassociating: return "DISASSOCIATING"
+            case .disassociationFailed: return "DISASSOCIATION_FAILED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension AmplifyClientTypes {
+
+    /// Describes the Firewall configuration for a hosted Amplify application. Firewall support enables you to protect your web applications with a direct integration with WAF. For more information about using WAF protections for an Amplify application, see [Firewall support for hosted sites](https://docs.aws.amazon.com/amplify/latest/userguide/WAF-integration.html) in the Amplify User Guide.
+    public struct WafConfiguration: Swift.Sendable {
+        /// The reason for the current status of the Firewall configuration.
+        public var statusReason: Swift.String?
+        /// The status of the process to associate or disassociate a web ACL to an Amplify app.
+        public var wafStatus: AmplifyClientTypes.WafStatus?
+        /// The Amazon Resource Name (ARN) for the web ACL associated with an Amplify app.
+        public var webAclArn: Swift.String?
+
+        public init(
+            statusReason: Swift.String? = nil,
+            wafStatus: AmplifyClientTypes.WafStatus? = nil,
+            webAclArn: Swift.String? = nil
+        )
+        {
+            self.statusReason = statusReason
+            self.wafStatus = wafStatus
+            self.webAclArn = webAclArn
+        }
+    }
+}
+
+extension AmplifyClientTypes {
+
     /// Represents the different branches of a repository for building, deploying, and hosting an Amplify app.
     public struct App: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the Amplify app.
@@ -526,7 +588,7 @@ extension AmplifyClientTypes {
         public var buildSpec: Swift.String?
         /// The cache configuration for the Amplify app. If you don't specify the cache configuration type, Amplify uses the default AMPLIFY_MANAGED setting.
         public var cacheConfig: AmplifyClientTypes.CacheConfig?
-        /// Creates a date and time for the Amplify app.
+        /// A timestamp of when Amplify created the application.
         /// This member is required.
         public var createTime: Foundation.Date?
         /// Describes the custom HTTP headers for the Amplify app.
@@ -569,9 +631,13 @@ extension AmplifyClientTypes {
         public var repositoryCloneMethod: AmplifyClientTypes.RepositoryCloneMethod?
         /// The tag for the Amplify app.
         public var tags: [Swift.String: Swift.String]?
-        /// Updates the date and time for the Amplify app.
+        /// A timestamp of when Amplify updated the application.
         /// This member is required.
         public var updateTime: Foundation.Date?
+        /// Describes the Firewall configuration for the Amplify app. Firewall support enables you to protect your hosted applications with a direct integration with WAF.
+        public var wafConfiguration: AmplifyClientTypes.WafConfiguration?
+        /// A timestamp of when Amplify created the webhook in your Git repository.
+        public var webhookCreateTime: Foundation.Date?
 
         public init(
             appArn: Swift.String? = nil,
@@ -598,7 +664,9 @@ extension AmplifyClientTypes {
             repository: Swift.String? = nil,
             repositoryCloneMethod: AmplifyClientTypes.RepositoryCloneMethod? = nil,
             tags: [Swift.String: Swift.String]? = nil,
-            updateTime: Foundation.Date? = nil
+            updateTime: Foundation.Date? = nil,
+            wafConfiguration: AmplifyClientTypes.WafConfiguration? = nil,
+            webhookCreateTime: Foundation.Date? = nil
         )
         {
             self.appArn = appArn
@@ -626,13 +694,15 @@ extension AmplifyClientTypes {
             self.repositoryCloneMethod = repositoryCloneMethod
             self.tags = tags
             self.updateTime = updateTime
+            self.wafConfiguration = wafConfiguration
+            self.webhookCreateTime = webhookCreateTime
         }
     }
 }
 
 extension AmplifyClientTypes.App: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "App(appArn: \(Swift.String(describing: appArn)), appId: \(Swift.String(describing: appId)), autoBranchCreationConfig: \(Swift.String(describing: autoBranchCreationConfig)), autoBranchCreationPatterns: \(Swift.String(describing: autoBranchCreationPatterns)), cacheConfig: \(Swift.String(describing: cacheConfig)), createTime: \(Swift.String(describing: createTime)), customHeaders: \(Swift.String(describing: customHeaders)), customRules: \(Swift.String(describing: customRules)), defaultDomain: \(Swift.String(describing: defaultDomain)), description: \(Swift.String(describing: description)), enableAutoBranchCreation: \(Swift.String(describing: enableAutoBranchCreation)), enableBasicAuth: \(Swift.String(describing: enableBasicAuth)), enableBranchAutoBuild: \(Swift.String(describing: enableBranchAutoBuild)), enableBranchAutoDeletion: \(Swift.String(describing: enableBranchAutoDeletion)), environmentVariables: \(Swift.String(describing: environmentVariables)), iamServiceRoleArn: \(Swift.String(describing: iamServiceRoleArn)), name: \(Swift.String(describing: name)), platform: \(Swift.String(describing: platform)), productionBranch: \(Swift.String(describing: productionBranch)), repository: \(Swift.String(describing: repository)), repositoryCloneMethod: \(Swift.String(describing: repositoryCloneMethod)), tags: \(Swift.String(describing: tags)), updateTime: \(Swift.String(describing: updateTime)), basicAuthCredentials: \"CONTENT_REDACTED\", buildSpec: \"CONTENT_REDACTED\")"}
+        "App(appArn: \(Swift.String(describing: appArn)), appId: \(Swift.String(describing: appId)), autoBranchCreationConfig: \(Swift.String(describing: autoBranchCreationConfig)), autoBranchCreationPatterns: \(Swift.String(describing: autoBranchCreationPatterns)), cacheConfig: \(Swift.String(describing: cacheConfig)), createTime: \(Swift.String(describing: createTime)), customHeaders: \(Swift.String(describing: customHeaders)), customRules: \(Swift.String(describing: customRules)), defaultDomain: \(Swift.String(describing: defaultDomain)), description: \(Swift.String(describing: description)), enableAutoBranchCreation: \(Swift.String(describing: enableAutoBranchCreation)), enableBasicAuth: \(Swift.String(describing: enableBasicAuth)), enableBranchAutoBuild: \(Swift.String(describing: enableBranchAutoBuild)), enableBranchAutoDeletion: \(Swift.String(describing: enableBranchAutoDeletion)), environmentVariables: \(Swift.String(describing: environmentVariables)), iamServiceRoleArn: \(Swift.String(describing: iamServiceRoleArn)), name: \(Swift.String(describing: name)), platform: \(Swift.String(describing: platform)), productionBranch: \(Swift.String(describing: productionBranch)), repository: \(Swift.String(describing: repository)), repositoryCloneMethod: \(Swift.String(describing: repositoryCloneMethod)), tags: \(Swift.String(describing: tags)), updateTime: \(Swift.String(describing: updateTime)), wafConfiguration: \(Swift.String(describing: wafConfiguration)), webhookCreateTime: \(Swift.String(describing: webhookCreateTime)), basicAuthCredentials: \"CONTENT_REDACTED\", buildSpec: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateAppOutput: Swift.Sendable {
@@ -649,9 +719,9 @@ public struct CreateAppOutput: Swift.Sendable {
 }
 
 /// An entity was not found during an operation.
-public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -884,7 +954,7 @@ extension AmplifyClientTypes {
         public var branchName: Swift.String?
         /// The build specification (build spec) content for the branch of an Amplify app.
         public var buildSpec: Swift.String?
-        /// The creation date and time for a branch that is part of an Amplify app.
+        /// A timestamp of when Amplify created the branch.
         /// This member is required.
         public var createTime: Foundation.Date?
         /// The custom domains for a branch of an Amplify app.
@@ -935,7 +1005,7 @@ extension AmplifyClientTypes {
         /// The content Time to Live (TTL) for the website in seconds.
         /// This member is required.
         public var ttl: Swift.String?
-        /// The last updated date and time for a branch that is part of an Amplify app.
+        /// A timestamp for the last updated time for a branch.
         /// This member is required.
         public var updateTime: Foundation.Date?
 
@@ -1434,13 +1504,13 @@ extension AmplifyClientTypes {
         /// The name for a branch that is part of an Amplify app.
         /// This member is required.
         public var branchName: Swift.String?
-        /// The create date and time for a webhook.
+        /// A timestamp of when Amplify created the webhook in your Git repository.
         /// This member is required.
         public var createTime: Foundation.Date?
         /// The description for a webhook.
         /// This member is required.
         public var description: Swift.String?
-        /// Updates the date and time for a webhook.
+        /// A timestamp of when Amplify updated the webhook in your Git repository.
         /// This member is required.
         public var updateTime: Foundation.Date?
         /// The Amazon Resource Name (ARN) for the webhook.
@@ -1707,6 +1777,7 @@ extension AmplifyClientTypes {
     public enum JobStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case cancelled
         case cancelling
+        case created
         case failed
         case pending
         case provisioning
@@ -1718,6 +1789,7 @@ extension AmplifyClientTypes {
             return [
                 .cancelled,
                 .cancelling,
+                .created,
                 .failed,
                 .pending,
                 .provisioning,
@@ -1735,6 +1807,7 @@ extension AmplifyClientTypes {
             switch self {
             case .cancelled: return "CANCELLED"
             case .cancelling: return "CANCELLING"
+            case .created: return "CREATED"
             case .failed: return "FAILED"
             case .pending: return "PENDING"
             case .provisioning: return "PROVISIONING"
@@ -2474,9 +2547,9 @@ public struct ListJobsOutput: Swift.Sendable {
 }
 
 /// An operation failed due to a non-existent resource.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var code: Swift.String? = nil
         /// This member is required.
@@ -5030,6 +5103,20 @@ extension AmplifyClientTypes.App {
         value.autoBranchCreationConfig = try reader["autoBranchCreationConfig"].readIfPresent(with: AmplifyClientTypes.AutoBranchCreationConfig.read(from:))
         value.repositoryCloneMethod = try reader["repositoryCloneMethod"].readIfPresent()
         value.cacheConfig = try reader["cacheConfig"].readIfPresent(with: AmplifyClientTypes.CacheConfig.read(from:))
+        value.webhookCreateTime = try reader["webhookCreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.wafConfiguration = try reader["wafConfiguration"].readIfPresent(with: AmplifyClientTypes.WafConfiguration.read(from:))
+        return value
+    }
+}
+
+extension AmplifyClientTypes.WafConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AmplifyClientTypes.WafConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AmplifyClientTypes.WafConfiguration()
+        value.webAclArn = try reader["webAclArn"].readIfPresent()
+        value.wafStatus = try reader["wafStatus"].readIfPresent()
+        value.statusReason = try reader["statusReason"].readIfPresent()
         return value
     }
 }

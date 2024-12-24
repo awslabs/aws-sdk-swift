@@ -204,9 +204,9 @@ extension CostExplorerClientTypes {
 }
 
 /// The requested analysis can't be found.
-public struct AnalysisNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AnalysisNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1241,9 +1241,9 @@ extension CostExplorerClientTypes {
 }
 
 /// You made too many calls in a short period of time. Try again later.
-public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1300,9 +1300,9 @@ public struct CreateAnomalyMonitorOutput: Swift.Sendable {
 }
 
 /// The cost anomaly monitor does not exist for the account.
-public struct UnknownMonitorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnknownMonitorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1337,9 +1337,9 @@ public struct CreateAnomalySubscriptionOutput: Swift.Sendable {
 }
 
 /// You've reached the limit on the number of resources you can create, or exceeded the size of an individual resource.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1611,9 +1611,9 @@ public struct DeleteAnomalyMonitorOutput: Swift.Sendable {
 }
 
 /// The cost anomaly subscription does not exist for the account.
-public struct UnknownSubscriptionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnknownSubscriptionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1653,9 +1653,9 @@ public struct DeleteAnomalySubscriptionOutput: Swift.Sendable {
 }
 
 /// The specified ARN in the request doesn't exist.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         public internal(set) var resourceName: Swift.String? = nil
     }
@@ -1801,9 +1801,9 @@ extension CostExplorerClientTypes {
 }
 
 /// The pagination token is invalid. Try again without a pagination token.
-public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1986,9 +1986,9 @@ public struct GetAnomalySubscriptionsInput: Swift.Sendable {
 }
 
 /// The requested data is unavailable.
-public struct DataUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DataUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2142,9 +2142,9 @@ public struct GetCommitmentPurchaseAnalysisOutput: Swift.Sendable {
 }
 
 /// The requested report expired. Update the date interval and try again.
-public struct BillExpirationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BillExpirationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2166,9 +2166,9 @@ public struct BillExpirationException: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 /// Your request parameters changed between pages. Try again with the old parameters or without a pagination token.
-public struct RequestChangedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct RequestChangedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4965,9 +4965,9 @@ public struct GetTagsOutput: Swift.Sendable {
 }
 
 /// Cost Explorer was unable to identify the usage unit. Provide UsageType/UsageTypeGroup filter selections that contain matching units, for example: hours.
-public struct UnresolvableUsageUnitException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnresolvableUsageUnitException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -5518,9 +5518,9 @@ public struct ProvideAnomalyFeedbackOutput: Swift.Sendable {
 }
 
 /// A request to generate a recommendation or analysis is already in progress.
-public struct GenerationExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct GenerationExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -5578,9 +5578,9 @@ public struct StartCommitmentPurchaseAnalysisOutput: Swift.Sendable {
 }
 
 /// A request to backfill is already in progress. Once the previous request is complete, you can create another request.
-public struct BackfillLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BackfillLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -5652,9 +5652,9 @@ public struct StartSavingsPlansPurchaseRecommendationGenerationOutput: Swift.Sen
 }
 
 /// Can occur if you specify a number of tags for a resource greater than the maximum 50 user tags per resource.
-public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         public internal(set) var resourceName: Swift.String? = nil
     }
@@ -6140,6 +6140,8 @@ extension CostExplorerClientTypes {
 }
 
 public struct GetCostAndUsageInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) that uniquely identifies a specific billing view. The ARN is used to specify which particular billing view you want to interact with or retrieve information from when making API calls related to Amazon Web Services Billing and Cost Management features. The BillingViewArn can be retrieved by calling the ListBillingViews API.
+    public var billingViewArn: Swift.String?
     /// Filters Amazon Web Services costs by different dimensions. For example, you can specify SERVICE and LINKED_ACCOUNT and get the costs that are associated with that account's usage of that service. You can nest Expression objects to define any combination of dimension filters. For more information, see [Expression](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Expression.html). Valid values for MatchOptions for Dimensions are EQUALS and CASE_SENSITIVE. Valid values for MatchOptions for CostCategories and Tags are EQUALS, ABSENT, and CASE_SENSITIVE. Default values are EQUALS and CASE_SENSITIVE.
     public var filter: CostExplorerClientTypes.Expression?
     /// Sets the Amazon Web Services cost granularity to MONTHLY or DAILY, or HOURLY. If Granularity isn't set, the response object doesn't include the Granularity, either MONTHLY or DAILY, or HOURLY.
@@ -6157,6 +6159,7 @@ public struct GetCostAndUsageInput: Swift.Sendable {
     public var timePeriod: CostExplorerClientTypes.DateInterval?
 
     public init(
+        billingViewArn: Swift.String? = nil,
         filter: CostExplorerClientTypes.Expression? = nil,
         granularity: CostExplorerClientTypes.Granularity? = nil,
         groupBy: [CostExplorerClientTypes.GroupDefinition]? = nil,
@@ -6165,6 +6168,7 @@ public struct GetCostAndUsageInput: Swift.Sendable {
         timePeriod: CostExplorerClientTypes.DateInterval? = nil
     )
     {
+        self.billingViewArn = billingViewArn
         self.filter = filter
         self.granularity = granularity
         self.groupBy = groupBy
@@ -6175,6 +6179,8 @@ public struct GetCostAndUsageInput: Swift.Sendable {
 }
 
 public struct GetCostAndUsageWithResourcesInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) that uniquely identifies a specific billing view. The ARN is used to specify which particular billing view you want to interact with or retrieve information from when making API calls related to Amazon Web Services Billing and Cost Management features. The BillingViewArn can be retrieved by calling the ListBillingViews API.
+    public var billingViewArn: Swift.String?
     /// Filters Amazon Web Services costs by different dimensions. For example, you can specify SERVICE and LINKED_ACCOUNT and get the costs that are associated with that account's usage of that service. You can nest Expression objects to define any combination of dimension filters. For more information, see [Expression](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Expression.html). The GetCostAndUsageWithResources operation requires that you either group by or filter by a ResourceId. It requires the [Expression](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Expression.html)"SERVICE = Amazon Elastic Compute Cloud - Compute" in the filter. Valid values for MatchOptions for Dimensions are EQUALS and CASE_SENSITIVE. Valid values for MatchOptions for CostCategories and Tags are EQUALS, ABSENT, and CASE_SENSITIVE. Default values are EQUALS and CASE_SENSITIVE.
     /// This member is required.
     public var filter: CostExplorerClientTypes.Expression?
@@ -6192,6 +6198,7 @@ public struct GetCostAndUsageWithResourcesInput: Swift.Sendable {
     public var timePeriod: CostExplorerClientTypes.DateInterval?
 
     public init(
+        billingViewArn: Swift.String? = nil,
         filter: CostExplorerClientTypes.Expression? = nil,
         granularity: CostExplorerClientTypes.Granularity? = nil,
         groupBy: [CostExplorerClientTypes.GroupDefinition]? = nil,
@@ -6200,6 +6207,7 @@ public struct GetCostAndUsageWithResourcesInput: Swift.Sendable {
         timePeriod: CostExplorerClientTypes.DateInterval? = nil
     )
     {
+        self.billingViewArn = billingViewArn
         self.filter = filter
         self.granularity = granularity
         self.groupBy = groupBy
@@ -6210,6 +6218,8 @@ public struct GetCostAndUsageWithResourcesInput: Swift.Sendable {
 }
 
 public struct GetCostCategoriesInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) that uniquely identifies a specific billing view. The ARN is used to specify which particular billing view you want to interact with or retrieve information from when making API calls related to Amazon Web Services Billing and Cost Management features. The BillingViewArn can be retrieved by calling the ListBillingViews API.
+    public var billingViewArn: Swift.String?
     /// The unique name of the Cost Category.
     public var costCategoryName: Swift.String?
     /// Use Expression to filter in various Cost Explorer APIs. Not all Expression types are supported in each API. Refer to the documentation for each specific API to see what is supported. There are two patterns:
@@ -6294,6 +6304,7 @@ public struct GetCostCategoriesInput: Swift.Sendable {
     public var timePeriod: CostExplorerClientTypes.DateInterval?
 
     public init(
+        billingViewArn: Swift.String? = nil,
         costCategoryName: Swift.String? = nil,
         filter: CostExplorerClientTypes.Expression? = nil,
         maxResults: Swift.Int? = nil,
@@ -6303,6 +6314,7 @@ public struct GetCostCategoriesInput: Swift.Sendable {
         timePeriod: CostExplorerClientTypes.DateInterval? = nil
     )
     {
+        self.billingViewArn = billingViewArn
         self.costCategoryName = costCategoryName
         self.filter = filter
         self.maxResults = maxResults
@@ -6314,6 +6326,8 @@ public struct GetCostCategoriesInput: Swift.Sendable {
 }
 
 public struct GetCostForecastInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) that uniquely identifies a specific billing view. The ARN is used to specify which particular billing view you want to interact with or retrieve information from when making API calls related to Amazon Web Services Billing and Cost Management features. The BillingViewArn can be retrieved by calling the ListBillingViews API.
+    public var billingViewArn: Swift.String?
     /// The filters that you want to use to filter your forecast. The GetCostForecast API supports filtering by the following dimensions:
     ///
     /// * AZ
@@ -6385,6 +6399,7 @@ public struct GetCostForecastInput: Swift.Sendable {
     public var timePeriod: CostExplorerClientTypes.DateInterval?
 
     public init(
+        billingViewArn: Swift.String? = nil,
         filter: CostExplorerClientTypes.Expression? = nil,
         granularity: CostExplorerClientTypes.Granularity? = nil,
         metric: CostExplorerClientTypes.Metric? = nil,
@@ -6392,6 +6407,7 @@ public struct GetCostForecastInput: Swift.Sendable {
         timePeriod: CostExplorerClientTypes.DateInterval? = nil
     )
     {
+        self.billingViewArn = billingViewArn
         self.filter = filter
         self.granularity = granularity
         self.metric = metric
@@ -6401,6 +6417,8 @@ public struct GetCostForecastInput: Swift.Sendable {
 }
 
 public struct GetDimensionValuesInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) that uniquely identifies a specific billing view. The ARN is used to specify which particular billing view you want to interact with or retrieve information from when making API calls related to Amazon Web Services Billing and Cost Management features. The BillingViewArn can be retrieved by calling the ListBillingViews API.
+    public var billingViewArn: Swift.String?
     /// The context for the call to GetDimensionValues. This can be RESERVATIONS or COST_AND_USAGE. The default value is COST_AND_USAGE. If the context is set to RESERVATIONS, the resulting dimension values can be used in the GetReservationUtilization operation. If the context is set to COST_AND_USAGE, the resulting dimension values can be used in the GetCostAndUsage operation. If you set the context to COST_AND_USAGE, you can use the following dimensions for searching:
     ///
     /// * AZ - The Availability Zone. An example is us-east-1a.
@@ -6574,6 +6592,7 @@ public struct GetDimensionValuesInput: Swift.Sendable {
     public var timePeriod: CostExplorerClientTypes.DateInterval?
 
     public init(
+        billingViewArn: Swift.String? = nil,
         context: CostExplorerClientTypes.Context? = nil,
         dimension: CostExplorerClientTypes.Dimension? = nil,
         filter: CostExplorerClientTypes.Expression? = nil,
@@ -6584,6 +6603,7 @@ public struct GetDimensionValuesInput: Swift.Sendable {
         timePeriod: CostExplorerClientTypes.DateInterval? = nil
     )
     {
+        self.billingViewArn = billingViewArn
         self.context = context
         self.dimension = dimension
         self.filter = filter
@@ -7216,6 +7236,8 @@ public struct GetSavingsPlansUtilizationInput: Swift.Sendable {
 }
 
 public struct GetTagsInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) that uniquely identifies a specific billing view. The ARN is used to specify which particular billing view you want to interact with or retrieve information from when making API calls related to Amazon Web Services Billing and Cost Management features. The BillingViewArn can be retrieved by calling the ListBillingViews API.
+    public var billingViewArn: Swift.String?
     /// Use Expression to filter in various Cost Explorer APIs. Not all Expression types are supported in each API. Refer to the documentation for each specific API to see what is supported. There are two patterns:
     ///
     /// * Simple dimension values.
@@ -7300,6 +7322,7 @@ public struct GetTagsInput: Swift.Sendable {
     public var timePeriod: CostExplorerClientTypes.DateInterval?
 
     public init(
+        billingViewArn: Swift.String? = nil,
         filter: CostExplorerClientTypes.Expression? = nil,
         maxResults: Swift.Int? = nil,
         nextPageToken: Swift.String? = nil,
@@ -7309,6 +7332,7 @@ public struct GetTagsInput: Swift.Sendable {
         timePeriod: CostExplorerClientTypes.DateInterval? = nil
     )
     {
+        self.billingViewArn = billingViewArn
         self.filter = filter
         self.maxResults = maxResults
         self.nextPageToken = nextPageToken
@@ -7320,6 +7344,8 @@ public struct GetTagsInput: Swift.Sendable {
 }
 
 public struct GetUsageForecastInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) that uniquely identifies a specific billing view. The ARN is used to specify which particular billing view you want to interact with or retrieve information from when making API calls related to Amazon Web Services Billing and Cost Management features. The BillingViewArn can be retrieved by calling the ListBillingViews API.
+    public var billingViewArn: Swift.String?
     /// The filters that you want to use to filter your forecast. The GetUsageForecast API supports filtering by the following dimensions:
     ///
     /// * AZ
@@ -7385,6 +7411,7 @@ public struct GetUsageForecastInput: Swift.Sendable {
     public var timePeriod: CostExplorerClientTypes.DateInterval?
 
     public init(
+        billingViewArn: Swift.String? = nil,
         filter: CostExplorerClientTypes.Expression? = nil,
         granularity: CostExplorerClientTypes.Granularity? = nil,
         metric: CostExplorerClientTypes.Metric? = nil,
@@ -7392,6 +7419,7 @@ public struct GetUsageForecastInput: Swift.Sendable {
         timePeriod: CostExplorerClientTypes.DateInterval? = nil
     )
     {
+        self.billingViewArn = billingViewArn
         self.filter = filter
         self.granularity = granularity
         self.metric = metric
@@ -8124,6 +8152,7 @@ extension GetCostAndUsageInput {
 
     static func write(value: GetCostAndUsageInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["BillingViewArn"].write(value.billingViewArn)
         try writer["Filter"].write(value.filter, with: CostExplorerClientTypes.Expression.write(value:to:))
         try writer["Granularity"].write(value.granularity)
         try writer["GroupBy"].writeList(value.groupBy, memberWritingClosure: CostExplorerClientTypes.GroupDefinition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -8137,6 +8166,7 @@ extension GetCostAndUsageWithResourcesInput {
 
     static func write(value: GetCostAndUsageWithResourcesInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["BillingViewArn"].write(value.billingViewArn)
         try writer["Filter"].write(value.filter, with: CostExplorerClientTypes.Expression.write(value:to:))
         try writer["Granularity"].write(value.granularity)
         try writer["GroupBy"].writeList(value.groupBy, memberWritingClosure: CostExplorerClientTypes.GroupDefinition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -8150,6 +8180,7 @@ extension GetCostCategoriesInput {
 
     static func write(value: GetCostCategoriesInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["BillingViewArn"].write(value.billingViewArn)
         try writer["CostCategoryName"].write(value.costCategoryName)
         try writer["Filter"].write(value.filter, with: CostExplorerClientTypes.Expression.write(value:to:))
         try writer["MaxResults"].write(value.maxResults)
@@ -8164,6 +8195,7 @@ extension GetCostForecastInput {
 
     static func write(value: GetCostForecastInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["BillingViewArn"].write(value.billingViewArn)
         try writer["Filter"].write(value.filter, with: CostExplorerClientTypes.Expression.write(value:to:))
         try writer["Granularity"].write(value.granularity)
         try writer["Metric"].write(value.metric)
@@ -8176,6 +8208,7 @@ extension GetDimensionValuesInput {
 
     static func write(value: GetDimensionValuesInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["BillingViewArn"].write(value.billingViewArn)
         try writer["Context"].write(value.context)
         try writer["Dimension"].write(value.dimension)
         try writer["Filter"].write(value.filter, with: CostExplorerClientTypes.Expression.write(value:to:))
@@ -8311,6 +8344,7 @@ extension GetTagsInput {
 
     static func write(value: GetTagsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["BillingViewArn"].write(value.billingViewArn)
         try writer["Filter"].write(value.filter, with: CostExplorerClientTypes.Expression.write(value:to:))
         try writer["MaxResults"].write(value.maxResults)
         try writer["NextPageToken"].write(value.nextPageToken)
@@ -8325,6 +8359,7 @@ extension GetUsageForecastInput {
 
     static func write(value: GetUsageForecastInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["BillingViewArn"].write(value.billingViewArn)
         try writer["Filter"].write(value.filter, with: CostExplorerClientTypes.Expression.write(value:to:))
         try writer["Granularity"].write(value.granularity)
         try writer["Metric"].write(value.metric)
@@ -9252,6 +9287,7 @@ enum GetCostAndUsageOutputError {
             case "InvalidNextTokenException": return try InvalidNextTokenException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "RequestChangedException": return try RequestChangedException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -9270,6 +9306,7 @@ enum GetCostAndUsageWithResourcesOutputError {
             case "InvalidNextTokenException": return try InvalidNextTokenException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "RequestChangedException": return try RequestChangedException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -9288,6 +9325,7 @@ enum GetCostCategoriesOutputError {
             case "InvalidNextTokenException": return try InvalidNextTokenException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "RequestChangedException": return try RequestChangedException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -9303,6 +9341,7 @@ enum GetCostForecastOutputError {
         switch baseError.code {
             case "DataUnavailableException": return try DataUnavailableException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -9321,6 +9360,7 @@ enum GetDimensionValuesOutputError {
             case "InvalidNextTokenException": return try InvalidNextTokenException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "RequestChangedException": return try RequestChangedException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -9479,6 +9519,7 @@ enum GetTagsOutputError {
             case "InvalidNextTokenException": return try InvalidNextTokenException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "RequestChangedException": return try RequestChangedException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -9494,6 +9535,7 @@ enum GetUsageForecastOutputError {
         switch baseError.code {
             case "DataUnavailableException": return try DataUnavailableException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "UnresolvableUsageUnitException": return try UnresolvableUsageUnitException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }

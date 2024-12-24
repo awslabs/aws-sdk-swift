@@ -89,9 +89,9 @@ public struct VerifyEmailAddressOutput: Swift.Sendable {
 }
 
 /// Indicates that email sending is disabled for your entire Amazon SES account. You can enable or disable email sending for your Amazon SES account using [UpdateAccountSendingEnabled].
-public struct AccountSendingPausedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccountSendingPausedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -135,9 +135,9 @@ extension SESClientTypes {
 }
 
 /// Indicates that a resource could not be created because of a naming conflict.
-public struct AlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// Indicates that a resource could not be created because the resource name already exists.
         public internal(set) var name: Swift.String? = nil
@@ -636,9 +636,9 @@ extension SESClientTypes {
 }
 
 /// Indicates that the delete operation could not be completed.
-public struct CannotDeleteException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CannotDeleteException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// Indicates that a resource could not be deleted because no resource with the specified name exists.
         public internal(set) var name: Swift.String? = nil
@@ -664,9 +664,9 @@ public struct CannotDeleteException: ClientRuntime.ModeledError, AWSClientRuntim
 }
 
 /// Indicates that a resource could not be created because of service limits. For a list of Amazon SES limits, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/limits.html).
-public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -688,9 +688,9 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 }
 
 /// Indicates that the provided receipt rule set does not exist.
-public struct RuleSetDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct RuleSetDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// Indicates that the named receipt rule set does not exist.
         public internal(set) var name: Swift.String? = nil
@@ -852,9 +852,9 @@ extension SESClientTypes {
 }
 
 /// Indicates that the configuration set could not be created because of a naming conflict.
-public struct ConfigurationSetAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConfigurationSetAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Indicates that the configuration set does not exist.
         public internal(set) var configurationSetName: Swift.String? = nil
         public internal(set) var message: Swift.String? = nil
@@ -915,9 +915,9 @@ extension SESClientTypes {
 }
 
 /// Indicates that the configuration set does not exist.
-public struct ConfigurationSetDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConfigurationSetDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Indicates that the configuration set does not exist.
         public internal(set) var configurationSetName: Swift.String? = nil
         public internal(set) var message: Swift.String? = nil
@@ -943,9 +943,9 @@ public struct ConfigurationSetDoesNotExistException: ClientRuntime.ModeledError,
 }
 
 /// Indicates that email sending is disabled for the configuration set. You can enable or disable email sending for a configuration set using [UpdateConfigurationSetSendingEnabled].
-public struct ConfigurationSetSendingPausedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConfigurationSetSendingPausedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The name of the configuration set for which email sending is disabled.
         public internal(set) var configurationSetName: Swift.String? = nil
         public internal(set) var message: Swift.String? = nil
@@ -993,9 +993,9 @@ extension SESClientTypes {
 }
 
 /// Indicates that the configuration set is invalid. See the error message for details.
-public struct InvalidConfigurationSetException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidConfigurationSetException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1037,9 +1037,9 @@ public struct CreateConfigurationSetOutput: Swift.Sendable {
 }
 
 /// Indicates that the event destination could not be created because of a naming conflict.
-public struct EventDestinationAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct EventDestinationAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Indicates that the configuration set does not exist.
         public internal(set) var configurationSetName: Swift.String? = nil
         /// Indicates that the event destination does not exist.
@@ -1069,9 +1069,9 @@ public struct EventDestinationAlreadyExistsException: ClientRuntime.ModeledError
 }
 
 /// Indicates that the Amazon CloudWatch destination is invalid. See the error message for details.
-public struct InvalidCloudWatchDestinationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidCloudWatchDestinationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Indicates that the configuration set does not exist.
         public internal(set) var configurationSetName: Swift.String? = nil
         /// Indicates that the event destination does not exist.
@@ -1101,9 +1101,9 @@ public struct InvalidCloudWatchDestinationException: ClientRuntime.ModeledError,
 }
 
 /// Indicates that the Amazon Kinesis Firehose destination is invalid. See the error message for details.
-public struct InvalidFirehoseDestinationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidFirehoseDestinationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Indicates that the configuration set does not exist.
         public internal(set) var configurationSetName: Swift.String? = nil
         /// Indicates that the event destination does not exist.
@@ -1133,9 +1133,9 @@ public struct InvalidFirehoseDestinationException: ClientRuntime.ModeledError, A
 }
 
 /// Indicates that the Amazon Simple Notification Service (Amazon SNS) destination is invalid. See the error message for details.
-public struct InvalidSNSDestinationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidSNSDestinationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Indicates that the configuration set does not exist.
         public internal(set) var configurationSetName: Swift.String? = nil
         /// Indicates that the event destination does not exist.
@@ -1338,9 +1338,9 @@ public struct CreateConfigurationSetEventDestinationOutput: Swift.Sendable {
 /// * When the tracking domain you specified is not verified in Amazon SES.
 ///
 /// * When the tracking domain you specified is not a valid domain or subdomain.
-public struct InvalidTrackingOptionsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidTrackingOptionsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1362,9 +1362,9 @@ public struct InvalidTrackingOptionsException: ClientRuntime.ModeledError, AWSCl
 }
 
 /// Indicates that the configuration set you specified already contains a TrackingOptions object.
-public struct TrackingOptionsAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TrackingOptionsAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Indicates that a TrackingOptions object already exists in the specified configuration set.
         public internal(set) var configurationSetName: Swift.String? = nil
         public internal(set) var message: Swift.String? = nil
@@ -1431,9 +1431,9 @@ public struct CreateConfigurationSetTrackingOptionsOutput: Swift.Sendable {
 }
 
 /// Indicates that custom verification email template provided content is invalid.
-public struct CustomVerificationEmailInvalidContentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CustomVerificationEmailInvalidContentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1455,9 +1455,9 @@ public struct CustomVerificationEmailInvalidContentException: ClientRuntime.Mode
 }
 
 /// Indicates that a custom verification email template with the name you specified already exists.
-public struct CustomVerificationEmailTemplateAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CustomVerificationEmailTemplateAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Indicates that the provided custom verification email template with the specified template name already exists.
         public internal(set) var customVerificationEmailTemplateName: Swift.String? = nil
         public internal(set) var message: Swift.String? = nil
@@ -1483,9 +1483,9 @@ public struct CustomVerificationEmailTemplateAlreadyExistsException: ClientRunti
 }
 
 /// Indicates that the sender address specified for a custom verification email is not verified, and is therefore not eligible to send the custom verification email.
-public struct FromEmailAddressNotVerifiedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct FromEmailAddressNotVerifiedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Indicates that the from email address associated with the custom verification email template is not verified.
         public internal(set) var fromEmailAddress: Swift.String? = nil
         public internal(set) var message: Swift.String? = nil
@@ -1649,9 +1649,9 @@ public struct CreateReceiptFilterOutput: Swift.Sendable {
 }
 
 /// Indicates that the provided Amazon Web Services Lambda function is invalid, or that Amazon SES could not execute the provided function, possibly due to permissions issues. For information about giving permissions, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-permissions.html).
-public struct InvalidLambdaFunctionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidLambdaFunctionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Indicates that the ARN of the function was not found.
         public internal(set) var functionArn: Swift.String? = nil
         public internal(set) var message: Swift.String? = nil
@@ -1677,9 +1677,9 @@ public struct InvalidLambdaFunctionException: ClientRuntime.ModeledError, AWSCli
 }
 
 /// Indicates that the provided Amazon S3 bucket or Amazon Web Services KMS encryption key is invalid, or that Amazon SES could not publish to the bucket, possibly due to permissions issues. For information about giving permissions, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-permissions.html).
-public struct InvalidS3ConfigurationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidS3ConfigurationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Indicated that the S3 Bucket was not found.
         public internal(set) var bucket: Swift.String? = nil
         public internal(set) var message: Swift.String? = nil
@@ -1705,9 +1705,9 @@ public struct InvalidS3ConfigurationException: ClientRuntime.ModeledError, AWSCl
 }
 
 /// Indicates that the provided Amazon SNS topic is invalid, or that Amazon SES could not publish to the topic, possibly due to permissions issues. For information about giving permissions, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-permissions.html).
-public struct InvalidSnsTopicException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidSnsTopicException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// Indicates that the topic does not exist.
         public internal(set) var topic: Swift.String? = nil
@@ -1733,9 +1733,9 @@ public struct InvalidSnsTopicException: ClientRuntime.ModeledError, AWSClientRun
 }
 
 /// Indicates that the provided receipt rule does not exist.
-public struct RuleDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct RuleDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// Indicates that the named receipt rule does not exist.
         public internal(set) var name: Swift.String? = nil
@@ -2153,9 +2153,9 @@ public struct CreateReceiptRuleSetOutput: Swift.Sendable {
 }
 
 /// Indicates that the template that you specified could not be rendered. This issue may occur when a template refers to a partial that does not exist.
-public struct InvalidTemplateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidTemplateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         public internal(set) var templateName: Swift.String? = nil
     }
@@ -2295,9 +2295,9 @@ extension SESClientTypes {
 }
 
 /// Indicates that a custom verification email template with the name you specified does not exist.
-public struct CustomVerificationEmailTemplateDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CustomVerificationEmailTemplateDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Indicates that the provided custom verification email template does not exist.
         public internal(set) var customVerificationEmailTemplateName: Swift.String? = nil
         public internal(set) var message: Swift.String? = nil
@@ -2343,9 +2343,9 @@ public struct DeleteConfigurationSetOutput: Swift.Sendable {
 }
 
 /// Indicates that the event destination does not exist.
-public struct EventDestinationDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct EventDestinationDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Indicates that the configuration set does not exist.
         public internal(set) var configurationSetName: Swift.String? = nil
         /// Indicates that the event destination does not exist.
@@ -2400,9 +2400,9 @@ public struct DeleteConfigurationSetEventDestinationOutput: Swift.Sendable {
 }
 
 /// Indicates that the TrackingOptions object you specified does not exist.
-public struct TrackingOptionsDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TrackingOptionsDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Indicates that a TrackingOptions object does not exist in the specified configuration set.
         public internal(set) var configurationSetName: Swift.String? = nil
         public internal(set) var message: Swift.String? = nil
@@ -3231,9 +3231,9 @@ public struct GetSendStatisticsOutput: Swift.Sendable {
 }
 
 /// Indicates that the Template object you specified does not exist in your Amazon SES account.
-public struct TemplateDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TemplateDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         public internal(set) var templateName: Swift.String? = nil
     }
@@ -3312,9 +3312,9 @@ extension SESClientTypes {
 }
 
 /// Indicates that provided delivery option is invalid.
-public struct InvalidDeliveryOptionsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidDeliveryOptionsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3336,9 +3336,9 @@ public struct InvalidDeliveryOptionsException: ClientRuntime.ModeledError, AWSCl
 }
 
 /// Indicates that the provided policy is invalid. Check the error stack for more information about what caused the error.
-public struct InvalidPolicyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidPolicyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3360,9 +3360,9 @@ public struct InvalidPolicyException: ClientRuntime.ModeledError, AWSClientRunti
 }
 
 /// Indicates that one or more of the replacement values you provided is invalid. This error may occur when the TemplateData object contains invalid JSON.
-public struct InvalidRenderingParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidRenderingParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         public internal(set) var templateName: Swift.String? = nil
     }
@@ -3636,9 +3636,9 @@ public struct ListVerifiedEmailAddressesOutput: Swift.Sendable {
 }
 
 /// Indicates that the message could not be sent because Amazon SES could not read the MX record required to use the specified MAIL FROM domain. For information about editing the custom MAIL FROM domain settings for an identity, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/mail-from-edit.html).
-public struct MailFromDomainNotVerifiedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MailFromDomainNotVerifiedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3707,9 +3707,9 @@ extension SESClientTypes {
 }
 
 /// Indicates that the action failed, and the message could not be sent. Check the error stack for more information about what caused the error.
-public struct MessageRejected: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MessageRejected: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3731,9 +3731,9 @@ public struct MessageRejected: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
 }
 
 /// Indicates that one or more of the replacement values for the specified template was not specified. Ensure that the TemplateData object contains references to all of the replacement tags in the specified template.
-public struct MissingRenderingAttributeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MissingRenderingAttributeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         public internal(set) var templateName: Swift.String? = nil
     }
@@ -3790,9 +3790,9 @@ extension SESClientTypes {
 }
 
 /// Indicates that the account has not been granted production access.
-public struct ProductionAccessNotGrantedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ProductionAccessNotGrantedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 

@@ -32,9 +32,9 @@ import struct Smithy.URIQueryItem
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// The request is denied because of missing access permissions.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -94,9 +94,9 @@ extension BedrockAgentClientTypes {
 }
 
 /// There was a conflict performing an operation.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -118,9 +118,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 /// An internal server error occurred. Retry your request.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -142,9 +142,9 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 /// The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -166,9 +166,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// The number of requests exceeds the service quota. Resubmit your request later.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -190,9 +190,9 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 }
 
 /// The number of requests exceeds the limit. Resubmit your request later.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -236,9 +236,9 @@ extension BedrockAgentClientTypes {
 }
 
 /// Input validation failed. Check your request parameters and retry the request.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A list of objects containing fields that caused validation errors and their corresponding validation error messages.
         public internal(set) var fieldList: [BedrockAgentClientTypes.ValidationExceptionField]? = nil
         public internal(set) var message: Swift.String? = nil
@@ -1015,20 +1015,40 @@ extension BedrockAgentClientTypes {
 
 extension BedrockAgentClientTypes {
 
+    /// Configuration for SESSION_SUMMARY memory type enabled for the agent.
+    public struct SessionSummaryConfiguration: Swift.Sendable {
+        /// Maximum number of recent session summaries to include in the agent's prompt context.
+        public var maxRecentSessions: Swift.Int?
+
+        public init(
+            maxRecentSessions: Swift.Int? = nil
+        )
+        {
+            self.maxRecentSessions = maxRecentSessions
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
     /// Details of the memory configuration.
     public struct MemoryConfiguration: Swift.Sendable {
         /// The type of memory that is stored.
         /// This member is required.
         public var enabledMemoryTypes: [BedrockAgentClientTypes.MemoryType]?
+        /// Contains the configuration for SESSION_SUMMARY memory type enabled for the agent.
+        public var sessionSummaryConfiguration: BedrockAgentClientTypes.SessionSummaryConfiguration?
         /// The number of days the agent is configured to retain the conversational context.
         public var storageDays: Swift.Int?
 
         public init(
             enabledMemoryTypes: [BedrockAgentClientTypes.MemoryType]? = nil,
+            sessionSummaryConfiguration: BedrockAgentClientTypes.SessionSummaryConfiguration? = nil,
             storageDays: Swift.Int? = 30
         )
         {
             self.enabledMemoryTypes = enabledMemoryTypes
+            self.sessionSummaryConfiguration = sessionSummaryConfiguration
             self.storageDays = storageDays
         }
     }
@@ -1157,6 +1177,7 @@ extension BedrockAgentClientTypes {
 
     public enum PromptType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case knowledgeBaseResponseGeneration
+        case memorySummarization
         case orchestration
         case postProcessing
         case preProcessing
@@ -1165,6 +1186,7 @@ extension BedrockAgentClientTypes {
         public static var allCases: [PromptType] {
             return [
                 .knowledgeBaseResponseGeneration,
+                .memorySummarization,
                 .orchestration,
                 .postProcessing,
                 .preProcessing
@@ -1179,6 +1201,7 @@ extension BedrockAgentClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .knowledgeBaseResponseGeneration: return "KNOWLEDGE_BASE_RESPONSE_GENERATION"
+            case .memorySummarization: return "MEMORY_SUMMARIZATION"
             case .orchestration: return "ORCHESTRATION"
             case .postProcessing: return "POST_PROCESSING"
             case .preProcessing: return "PRE_PROCESSING"
@@ -3239,11 +3262,13 @@ extension BedrockAgentClientTypes {
 
     public enum SharePointAuthType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case oauth2ClientCredentials
+        case oauth2SharepointAppOnlyClientCredentials
         case sdkUnknown(Swift.String)
 
         public static var allCases: [SharePointAuthType] {
             return [
-                .oauth2ClientCredentials
+                .oauth2ClientCredentials,
+                .oauth2SharepointAppOnlyClientCredentials
             ]
         }
 
@@ -3255,6 +3280,7 @@ extension BedrockAgentClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .oauth2ClientCredentials: return "OAUTH2_CLIENT_CREDENTIALS"
+            case .oauth2SharepointAppOnlyClientCredentials: return "OAUTH2_SHAREPOINT_APP_ONLY_CLIENT_CREDENTIALS"
             case let .sdkUnknown(s): return s
             }
         }
@@ -3397,13 +3423,17 @@ extension BedrockAgentClientTypes {
 
     /// The rate limits for the URLs that you want to crawl. You should be authorized to crawl the URLs.
     public struct WebCrawlerLimits: Swift.Sendable {
+        /// The max number of web pages crawled from your source URLs, up to 25,000 pages. If the web pages exceed this limit, the data source sync will fail and no web pages will be ingested.
+        public var maxPages: Swift.Int?
         /// The max rate at which pages are crawled, up to 300 per minute per host.
         public var rateLimit: Swift.Int?
 
         public init(
+            maxPages: Swift.Int? = nil,
             rateLimit: Swift.Int? = nil
         )
         {
+            self.maxPages = maxPages
             self.rateLimit = rateLimit
         }
     }
@@ -3450,25 +3480,29 @@ extension BedrockAgentClientTypes {
         public var inclusionFilters: [Swift.String]?
         /// The scope of what is crawled for your URLs. You can choose to crawl only web pages that belong to the same host or primary domain. For example, only web pages that contain the seed URL "https://docs.aws.amazon.com/bedrock/latest/userguide/" and no other domains. You can choose to include sub domains in addition to the host or primary domain. For example, web pages that contain "aws.amazon.com" can also include sub domain "docs.aws.amazon.com".
         public var scope: BedrockAgentClientTypes.WebScopeType?
+        /// A string used for identifying the crawler or a bot when it accesses a web server. By default, this is set to bedrockbot_UUID for your crawler. You can optionally append a custom string to bedrockbot_UUID to allowlist a specific user agent permitted to access your source URLs.
+        public var userAgent: Swift.String?
 
         public init(
             crawlerLimits: BedrockAgentClientTypes.WebCrawlerLimits? = nil,
             exclusionFilters: [Swift.String]? = nil,
             inclusionFilters: [Swift.String]? = nil,
-            scope: BedrockAgentClientTypes.WebScopeType? = nil
+            scope: BedrockAgentClientTypes.WebScopeType? = nil,
+            userAgent: Swift.String? = nil
         )
         {
             self.crawlerLimits = crawlerLimits
             self.exclusionFilters = exclusionFilters
             self.inclusionFilters = inclusionFilters
             self.scope = scope
+            self.userAgent = userAgent
         }
     }
 }
 
 extension BedrockAgentClientTypes.WebCrawlerConfiguration: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "WebCrawlerConfiguration(crawlerLimits: \(Swift.String(describing: crawlerLimits)), scope: \(Swift.String(describing: scope)), exclusionFilters: \"CONTENT_REDACTED\", inclusionFilters: \"CONTENT_REDACTED\")"}
+        "WebCrawlerConfiguration(crawlerLimits: \(Swift.String(describing: crawlerLimits)), scope: \(Swift.String(describing: scope)), exclusionFilters: \"CONTENT_REDACTED\", inclusionFilters: \"CONTENT_REDACTED\", userAgent: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentClientTypes {
@@ -15001,6 +15035,7 @@ extension BedrockAgentClientTypes.MemoryConfiguration {
     static func write(value: BedrockAgentClientTypes.MemoryConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["enabledMemoryTypes"].writeList(value.enabledMemoryTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<BedrockAgentClientTypes.MemoryType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["sessionSummaryConfiguration"].write(value.sessionSummaryConfiguration, with: BedrockAgentClientTypes.SessionSummaryConfiguration.write(value:to:))
         try writer["storageDays"].write(value.storageDays)
     }
 
@@ -15009,6 +15044,22 @@ extension BedrockAgentClientTypes.MemoryConfiguration {
         var value = BedrockAgentClientTypes.MemoryConfiguration()
         value.enabledMemoryTypes = try reader["enabledMemoryTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BedrockAgentClientTypes.MemoryType>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.storageDays = try reader["storageDays"].readIfPresent() ?? 30
+        value.sessionSummaryConfiguration = try reader["sessionSummaryConfiguration"].readIfPresent(with: BedrockAgentClientTypes.SessionSummaryConfiguration.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentClientTypes.SessionSummaryConfiguration {
+
+    static func write(value: BedrockAgentClientTypes.SessionSummaryConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maxRecentSessions"].write(value.maxRecentSessions)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.SessionSummaryConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.SessionSummaryConfiguration()
+        value.maxRecentSessions = try reader["maxRecentSessions"].readIfPresent()
         return value
     }
 }
@@ -15913,6 +15964,7 @@ extension BedrockAgentClientTypes.WebCrawlerConfiguration {
         try writer["exclusionFilters"].writeList(value.exclusionFilters, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["inclusionFilters"].writeList(value.inclusionFilters, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["scope"].write(value.scope)
+        try writer["userAgent"].write(value.userAgent)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.WebCrawlerConfiguration {
@@ -15922,6 +15974,7 @@ extension BedrockAgentClientTypes.WebCrawlerConfiguration {
         value.inclusionFilters = try reader["inclusionFilters"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.exclusionFilters = try reader["exclusionFilters"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.scope = try reader["scope"].readIfPresent()
+        value.userAgent = try reader["userAgent"].readIfPresent()
         return value
     }
 }
@@ -15930,6 +15983,7 @@ extension BedrockAgentClientTypes.WebCrawlerLimits {
 
     static func write(value: BedrockAgentClientTypes.WebCrawlerLimits?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["maxPages"].write(value.maxPages)
         try writer["rateLimit"].write(value.rateLimit)
     }
 
@@ -15937,6 +15991,7 @@ extension BedrockAgentClientTypes.WebCrawlerLimits {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.WebCrawlerLimits()
         value.rateLimit = try reader["rateLimit"].readIfPresent()
+        value.maxPages = try reader["maxPages"].readIfPresent()
         return value
     }
 }

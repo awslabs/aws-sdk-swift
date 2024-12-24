@@ -176,9 +176,9 @@ extension CloudFrontClientTypes {
 }
 
 /// Access denied.
-public struct AccessDenied: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDenied: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -636,9 +636,9 @@ extension CloudFrontClientTypes {
 }
 
 /// The update contains modifications that are not allowed.
-public struct IllegalUpdate: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct IllegalUpdate: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -660,9 +660,9 @@ public struct IllegalUpdate: ClientRuntime.ModeledError, AWSClientRuntime.AWSSer
 }
 
 /// An argument is invalid.
-public struct InvalidArgument: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidArgument: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -684,9 +684,9 @@ public struct InvalidArgument: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
 }
 
 /// The specified distribution does not exist.
-public struct NoSuchDistribution: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NoSuchDistribution: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -708,9 +708,9 @@ public struct NoSuchDistribution: ClientRuntime.ModeledError, AWSClientRuntime.A
 }
 
 /// Your request contains more CNAMEs than are allowed per distribution.
-public struct TooManyDistributionCNAMEs: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyDistributionCNAMEs: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -750,9 +750,9 @@ public struct AssociateAliasInput: Swift.Sendable {
 }
 
 /// Invalidation batch specified is too large.
-public struct BatchTooLarge: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BatchTooLarge: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1628,9 +1628,9 @@ extension CloudFrontClientTypes {
 }
 
 /// A cache policy with this name already exists. You must provide a unique name. To modify an existing cache policy, use UpdateCachePolicy.
-public struct CachePolicyAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CachePolicyAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1652,9 +1652,9 @@ public struct CachePolicyAlreadyExists: ClientRuntime.ModeledError, AWSClientRun
 }
 
 /// Cannot delete the cache policy because it is attached to one or more cache behaviors.
-public struct CachePolicyInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CachePolicyInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1757,9 +1757,9 @@ extension CloudFrontClientTypes {
 }
 
 /// You can't change the value of a public key.
-public struct CannotChangeImmutablePublicKeyFields: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CannotChangeImmutablePublicKeyFields: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1781,9 +1781,9 @@ public struct CannotChangeImmutablePublicKeyFields: ClientRuntime.ModeledError, 
 }
 
 /// The entity cannot be deleted while it is in use.
-public struct CannotDeleteEntityWhileInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CannotDeleteEntityWhileInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1805,9 +1805,9 @@ public struct CannotDeleteEntityWhileInUse: ClientRuntime.ModeledError, AWSClien
 }
 
 /// The entity cannot be updated while it is in use.
-public struct CannotUpdateEntityWhileInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CannotUpdateEntityWhileInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1861,9 +1861,9 @@ extension CloudFrontClientTypes {
 }
 
 /// The CNAME specified is already defined for CloudFront.
-public struct CNAMEAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CNAMEAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1885,9 +1885,9 @@ public struct CNAMEAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime.A
 }
 
 /// The caller reference you attempted to create the distribution with is associated with another distribution.
-public struct DistributionAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DistributionAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1909,9 +1909,9 @@ public struct DistributionAlreadyExists: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// The specified configuration for field-level encryption can't be associated with the specified cache behavior.
-public struct IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1933,9 +1933,9 @@ public struct IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior: Cli
 }
 
 /// The value of Quantity and the size of Items don't match.
-public struct InconsistentQuantities: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InconsistentQuantities: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1957,9 +1957,9 @@ public struct InconsistentQuantities: ClientRuntime.ModeledError, AWSClientRunti
 }
 
 /// The default root object file name is too big or contains an invalid character.
-public struct InvalidDefaultRootObject: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidDefaultRootObject: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1981,9 +1981,9 @@ public struct InvalidDefaultRootObject: ClientRuntime.ModeledError, AWSClientRun
 }
 
 /// An invalid error code was specified.
-public struct InvalidErrorCode: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidErrorCode: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2005,9 +2005,9 @@ public struct InvalidErrorCode: ClientRuntime.ModeledError, AWSClientRuntime.AWS
 }
 
 /// Your request contains forward cookies option which doesn't match with the expectation for the whitelisted list of cookie names. Either list of cookie names has been specified when not allowed or list of cookie names is missing when expected.
-public struct InvalidForwardCookies: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidForwardCookies: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2029,9 +2029,9 @@ public struct InvalidForwardCookies: ClientRuntime.ModeledError, AWSClientRuntim
 }
 
 /// A CloudFront function association is invalid.
-public struct InvalidFunctionAssociation: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidFunctionAssociation: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2053,9 +2053,9 @@ public struct InvalidFunctionAssociation: ClientRuntime.ModeledError, AWSClientR
 }
 
 /// The specified geo restriction parameter is not valid.
-public struct InvalidGeoRestrictionParameter: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidGeoRestrictionParameter: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2077,9 +2077,9 @@ public struct InvalidGeoRestrictionParameter: ClientRuntime.ModeledError, AWSCli
 }
 
 /// The headers specified are not valid for an Amazon S3 origin.
-public struct InvalidHeadersForS3Origin: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidHeadersForS3Origin: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2101,9 +2101,9 @@ public struct InvalidHeadersForS3Origin: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// The If-Match version is missing or not valid.
-public struct InvalidIfMatchVersion: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidIfMatchVersion: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2125,9 +2125,9 @@ public struct InvalidIfMatchVersion: ClientRuntime.ModeledError, AWSClientRuntim
 }
 
 /// The specified Lambda@Edge function association is invalid.
-public struct InvalidLambdaFunctionAssociation: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidLambdaFunctionAssociation: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2149,9 +2149,9 @@ public struct InvalidLambdaFunctionAssociation: ClientRuntime.ModeledError, AWSC
 }
 
 /// The location code specified is not valid.
-public struct InvalidLocationCode: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidLocationCode: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2173,9 +2173,9 @@ public struct InvalidLocationCode: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 /// The minimum protocol version specified is not valid.
-public struct InvalidMinimumProtocolVersion: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidMinimumProtocolVersion: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2197,9 +2197,9 @@ public struct InvalidMinimumProtocolVersion: ClientRuntime.ModeledError, AWSClie
 }
 
 /// The Amazon S3 origin server specified does not refer to a valid Amazon S3 bucket.
-public struct InvalidOrigin: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidOrigin: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2221,9 +2221,9 @@ public struct InvalidOrigin: ClientRuntime.ModeledError, AWSClientRuntime.AWSSer
 }
 
 /// The origin access control is not valid.
-public struct InvalidOriginAccessControl: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidOriginAccessControl: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2245,9 +2245,9 @@ public struct InvalidOriginAccessControl: ClientRuntime.ModeledError, AWSClientR
 }
 
 /// The origin access identity is not valid or doesn't exist.
-public struct InvalidOriginAccessIdentity: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidOriginAccessIdentity: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2269,9 +2269,9 @@ public struct InvalidOriginAccessIdentity: ClientRuntime.ModeledError, AWSClient
 }
 
 /// The keep alive timeout specified for the origin is not valid.
-public struct InvalidOriginKeepaliveTimeout: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidOriginKeepaliveTimeout: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2293,9 +2293,9 @@ public struct InvalidOriginKeepaliveTimeout: ClientRuntime.ModeledError, AWSClie
 }
 
 /// The read timeout specified for the origin is not valid.
-public struct InvalidOriginReadTimeout: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidOriginReadTimeout: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2317,9 +2317,9 @@ public struct InvalidOriginReadTimeout: ClientRuntime.ModeledError, AWSClientRun
 }
 
 /// You cannot specify SSLv3 as the minimum protocol version if you only want to support only clients that support Server Name Indication (SNI).
-public struct InvalidProtocolSettings: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidProtocolSettings: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2341,9 +2341,9 @@ public struct InvalidProtocolSettings: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 /// The query string parameters specified are not valid.
-public struct InvalidQueryStringParameters: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidQueryStringParameters: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2365,9 +2365,9 @@ public struct InvalidQueryStringParameters: ClientRuntime.ModeledError, AWSClien
 }
 
 /// The relative path is too big, is not URL-encoded, or does not begin with a slash (/).
-public struct InvalidRelativePath: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidRelativePath: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2389,9 +2389,9 @@ public struct InvalidRelativePath: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 /// This operation requires the HTTPS protocol. Ensure that you specify the HTTPS protocol in your request, or omit the RequiredProtocols element from your distribution configuration.
-public struct InvalidRequiredProtocol: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidRequiredProtocol: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2413,9 +2413,9 @@ public struct InvalidRequiredProtocol: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 /// A response code is not valid.
-public struct InvalidResponseCode: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidResponseCode: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2437,9 +2437,9 @@ public struct InvalidResponseCode: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 /// The TTL order specified is not valid.
-public struct InvalidTTLOrder: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidTTLOrder: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2461,9 +2461,9 @@ public struct InvalidTTLOrder: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
 }
 
 /// A viewer certificate specified is not valid.
-public struct InvalidViewerCertificate: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidViewerCertificate: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2485,9 +2485,9 @@ public struct InvalidViewerCertificate: ClientRuntime.ModeledError, AWSClientRun
 }
 
 /// A web ACL ID specified is not valid. To specify a web ACL created using the latest version of WAF, use the ACL ARN, for example arn:aws:wafv2:us-east-1:123456789012:global/webacl/ExampleWebACL/473e64fd-f30b-4765-81a0-62ad96dd167a. To specify a web ACL created using WAF Classic, use the ACL ID, for example 473e64fd-f30b-4765-81a0-62ad96dd167a.
-public struct InvalidWebACLId: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidWebACLId: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2509,9 +2509,9 @@ public struct InvalidWebACLId: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
 }
 
 /// This operation requires a body. Ensure that the body is present and the Content-Type header is set.
-public struct MissingBody: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MissingBody: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2533,9 +2533,9 @@ public struct MissingBody: ClientRuntime.ModeledError, AWSClientRuntime.AWSServi
 }
 
 /// The cache policy does not exist.
-public struct NoSuchCachePolicy: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NoSuchCachePolicy: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2557,9 +2557,9 @@ public struct NoSuchCachePolicy: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 /// The specified configuration for field-level encryption doesn't exist.
-public struct NoSuchFieldLevelEncryptionConfig: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NoSuchFieldLevelEncryptionConfig: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2581,9 +2581,9 @@ public struct NoSuchFieldLevelEncryptionConfig: ClientRuntime.ModeledError, AWSC
 }
 
 /// No origin exists with the specified Origin Id.
-public struct NoSuchOrigin: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NoSuchOrigin: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2605,9 +2605,9 @@ public struct NoSuchOrigin: ClientRuntime.ModeledError, AWSClientRuntime.AWSServ
 }
 
 /// The origin request policy does not exist.
-public struct NoSuchOriginRequestPolicy: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NoSuchOriginRequestPolicy: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2629,9 +2629,9 @@ public struct NoSuchOriginRequestPolicy: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// The real-time log configuration does not exist.
-public struct NoSuchRealtimeLogConfig: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NoSuchRealtimeLogConfig: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2653,9 +2653,9 @@ public struct NoSuchRealtimeLogConfig: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 /// The response headers policy does not exist.
-public struct NoSuchResponseHeadersPolicy: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NoSuchResponseHeadersPolicy: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2677,9 +2677,9 @@ public struct NoSuchResponseHeadersPolicy: ClientRuntime.ModeledError, AWSClient
 }
 
 /// The precondition in one or more of the request fields evaluated to false.
-public struct PreconditionFailed: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PreconditionFailed: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2701,9 +2701,9 @@ public struct PreconditionFailed: ClientRuntime.ModeledError, AWSClientRuntime.A
 }
 
 /// The specified real-time log configuration belongs to a different Amazon Web Services account.
-public struct RealtimeLogConfigOwnerMismatch: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct RealtimeLogConfigOwnerMismatch: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2725,9 +2725,9 @@ public struct RealtimeLogConfigOwnerMismatch: ClientRuntime.ModeledError, AWSCli
 }
 
 /// You cannot create more cache behaviors for the distribution.
-public struct TooManyCacheBehaviors: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyCacheBehaviors: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2749,9 +2749,9 @@ public struct TooManyCacheBehaviors: ClientRuntime.ModeledError, AWSClientRuntim
 }
 
 /// You cannot create anymore custom SSL/TLS certificates.
-public struct TooManyCertificates: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyCertificates: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2773,9 +2773,9 @@ public struct TooManyCertificates: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 /// Your request contains more cookie names in the whitelist than are allowed per cache behavior.
-public struct TooManyCookieNamesInWhiteList: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyCookieNamesInWhiteList: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2797,9 +2797,9 @@ public struct TooManyCookieNamesInWhiteList: ClientRuntime.ModeledError, AWSClie
 }
 
 /// Processing your request would cause you to exceed the maximum number of distributions allowed.
-public struct TooManyDistributions: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyDistributions: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2821,9 +2821,9 @@ public struct TooManyDistributions: ClientRuntime.ModeledError, AWSClientRuntime
 }
 
 /// The maximum number of distributions have been associated with the specified cache policy. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
-public struct TooManyDistributionsAssociatedToCachePolicy: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyDistributionsAssociatedToCachePolicy: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2845,9 +2845,9 @@ public struct TooManyDistributionsAssociatedToCachePolicy: ClientRuntime.Modeled
 }
 
 /// The maximum number of distributions have been associated with the specified configuration for field-level encryption.
-public struct TooManyDistributionsAssociatedToFieldLevelEncryptionConfig: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyDistributionsAssociatedToFieldLevelEncryptionConfig: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2869,9 +2869,9 @@ public struct TooManyDistributionsAssociatedToFieldLevelEncryptionConfig: Client
 }
 
 /// The number of distributions that reference this key group is more than the maximum allowed. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
-public struct TooManyDistributionsAssociatedToKeyGroup: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyDistributionsAssociatedToKeyGroup: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2893,9 +2893,9 @@ public struct TooManyDistributionsAssociatedToKeyGroup: ClientRuntime.ModeledErr
 }
 
 /// The maximum number of distributions have been associated with the specified origin access control. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
-public struct TooManyDistributionsAssociatedToOriginAccessControl: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyDistributionsAssociatedToOriginAccessControl: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2917,9 +2917,9 @@ public struct TooManyDistributionsAssociatedToOriginAccessControl: ClientRuntime
 }
 
 /// The maximum number of distributions have been associated with the specified origin request policy. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
-public struct TooManyDistributionsAssociatedToOriginRequestPolicy: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyDistributionsAssociatedToOriginRequestPolicy: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2941,9 +2941,9 @@ public struct TooManyDistributionsAssociatedToOriginRequestPolicy: ClientRuntime
 }
 
 /// The maximum number of distributions have been associated with the specified response headers policy. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
-public struct TooManyDistributionsAssociatedToResponseHeadersPolicy: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyDistributionsAssociatedToResponseHeadersPolicy: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2965,9 +2965,9 @@ public struct TooManyDistributionsAssociatedToResponseHeadersPolicy: ClientRunti
 }
 
 /// You have reached the maximum number of distributions that are associated with a CloudFront function. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
-public struct TooManyDistributionsWithFunctionAssociations: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyDistributionsWithFunctionAssociations: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2989,9 +2989,9 @@ public struct TooManyDistributionsWithFunctionAssociations: ClientRuntime.Modele
 }
 
 /// Processing your request would cause the maximum number of distributions with Lambda@Edge function associations per owner to be exceeded.
-public struct TooManyDistributionsWithLambdaAssociations: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyDistributionsWithLambdaAssociations: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3013,9 +3013,9 @@ public struct TooManyDistributionsWithLambdaAssociations: ClientRuntime.ModeledE
 }
 
 /// The maximum number of distributions have been associated with the specified Lambda@Edge function.
-public struct TooManyDistributionsWithSingleFunctionARN: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyDistributionsWithSingleFunctionARN: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3037,9 +3037,9 @@ public struct TooManyDistributionsWithSingleFunctionARN: ClientRuntime.ModeledEr
 }
 
 /// You have reached the maximum number of CloudFront function associations for this distribution. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
-public struct TooManyFunctionAssociations: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyFunctionAssociations: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3061,9 +3061,9 @@ public struct TooManyFunctionAssociations: ClientRuntime.ModeledError, AWSClient
 }
 
 /// Your request contains too many headers in forwarded values.
-public struct TooManyHeadersInForwardedValues: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyHeadersInForwardedValues: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3085,9 +3085,9 @@ public struct TooManyHeadersInForwardedValues: ClientRuntime.ModeledError, AWSCl
 }
 
 /// The number of key groups referenced by this distribution is more than the maximum allowed. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
-public struct TooManyKeyGroupsAssociatedToDistribution: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyKeyGroupsAssociatedToDistribution: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3109,9 +3109,9 @@ public struct TooManyKeyGroupsAssociatedToDistribution: ClientRuntime.ModeledErr
 }
 
 /// Your request contains more Lambda@Edge function associations than are allowed per distribution.
-public struct TooManyLambdaFunctionAssociations: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyLambdaFunctionAssociations: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3133,9 +3133,9 @@ public struct TooManyLambdaFunctionAssociations: ClientRuntime.ModeledError, AWS
 }
 
 /// Your request contains too many origin custom headers.
-public struct TooManyOriginCustomHeaders: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyOriginCustomHeaders: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3157,9 +3157,9 @@ public struct TooManyOriginCustomHeaders: ClientRuntime.ModeledError, AWSClientR
 }
 
 /// Processing your request would cause you to exceed the maximum number of origin groups allowed.
-public struct TooManyOriginGroupsPerDistribution: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyOriginGroupsPerDistribution: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3181,9 +3181,9 @@ public struct TooManyOriginGroupsPerDistribution: ClientRuntime.ModeledError, AW
 }
 
 /// You cannot create more origins for the distribution.
-public struct TooManyOrigins: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyOrigins: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3205,9 +3205,9 @@ public struct TooManyOrigins: ClientRuntime.ModeledError, AWSClientRuntime.AWSSe
 }
 
 /// Your request contains too many query string parameters.
-public struct TooManyQueryStringParameters: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyQueryStringParameters: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3229,9 +3229,9 @@ public struct TooManyQueryStringParameters: ClientRuntime.ModeledError, AWSClien
 }
 
 /// Your request contains more trusted signers than are allowed per distribution.
-public struct TooManyTrustedSigners: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyTrustedSigners: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3253,9 +3253,9 @@ public struct TooManyTrustedSigners: ClientRuntime.ModeledError, AWSClientRuntim
 }
 
 /// The specified key group does not exist.
-public struct TrustedKeyGroupDoesNotExist: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TrustedKeyGroupDoesNotExist: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3277,9 +3277,9 @@ public struct TrustedKeyGroupDoesNotExist: ClientRuntime.ModeledError, AWSClient
 }
 
 /// One or more of your trusted signers don't exist.
-public struct TrustedSignerDoesNotExist: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TrustedSignerDoesNotExist: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4573,9 +4573,9 @@ public struct CopyDistributionOutput: Swift.Sendable {
 }
 
 /// The entity already exists. You must provide a unique entity.
-public struct EntityAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct EntityAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4597,9 +4597,9 @@ public struct EntityAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 /// The entity limit has been exceeded.
-public struct EntityLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct EntityLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4621,9 +4621,9 @@ public struct EntityLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 /// The tagging specified is not valid.
-public struct InvalidTagging: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidTagging: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4645,9 +4645,9 @@ public struct InvalidTagging: ClientRuntime.ModeledError, AWSClientRuntime.AWSSe
 }
 
 /// This operation is not supported in this region.
-public struct UnsupportedOperation: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnsupportedOperation: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4744,9 +4744,9 @@ public struct CreateAnycastIpListOutput: Swift.Sendable {
 }
 
 /// You have reached the maximum number of cache policies for this Amazon Web Services account. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
-public struct TooManyCachePolicies: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyCachePolicies: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4768,9 +4768,9 @@ public struct TooManyCachePolicies: ClientRuntime.ModeledError, AWSClientRuntime
 }
 
 /// The number of cookies in the cache policy exceeds the maximum. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
-public struct TooManyCookiesInCachePolicy: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyCookiesInCachePolicy: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4792,9 +4792,9 @@ public struct TooManyCookiesInCachePolicy: ClientRuntime.ModeledError, AWSClient
 }
 
 /// The number of headers in the cache policy exceeds the maximum. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
-public struct TooManyHeadersInCachePolicy: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyHeadersInCachePolicy: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4816,9 +4816,9 @@ public struct TooManyHeadersInCachePolicy: ClientRuntime.ModeledError, AWSClient
 }
 
 /// The number of query strings in the cache policy exceeds the maximum. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
-public struct TooManyQueryStringsInCachePolicy: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyQueryStringsInCachePolicy: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4873,9 +4873,9 @@ public struct CreateCachePolicyOutput: Swift.Sendable {
 }
 
 /// If the CallerReference is a value you already sent in a previous request to create an identity but the content of the CloudFrontOriginAccessIdentityConfig is different from the original request, CloudFront returns a CloudFrontOriginAccessIdentityAlreadyExists error.
-public struct CloudFrontOriginAccessIdentityAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CloudFrontOriginAccessIdentityAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4897,9 +4897,9 @@ public struct CloudFrontOriginAccessIdentityAlreadyExists: ClientRuntime.Modeled
 }
 
 /// Processing your request would cause you to exceed the maximum number of origin access identities allowed.
-public struct TooManyCloudFrontOriginAccessIdentities: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyCloudFrontOriginAccessIdentities: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -5004,9 +5004,9 @@ public struct CreateCloudFrontOriginAccessIdentityOutput: Swift.Sendable {
 }
 
 /// A continuous deployment policy with this configuration already exists.
-public struct ContinuousDeploymentPolicyAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ContinuousDeploymentPolicyAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -5028,9 +5028,9 @@ public struct ContinuousDeploymentPolicyAlreadyExists: ClientRuntime.ModeledErro
 }
 
 /// A continuous deployment policy for this staging distribution already exists.
-public struct StagingDistributionInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct StagingDistributionInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -5052,9 +5052,9 @@ public struct StagingDistributionInUse: ClientRuntime.ModeledError, AWSClientRun
 }
 
 /// You have reached the maximum number of continuous deployment policies for this Amazon Web Services account.
-public struct TooManyContinuousDeploymentPolicies: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyContinuousDeploymentPolicies: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -5302,9 +5302,9 @@ public struct CreateContinuousDeploymentPolicyOutput: Swift.Sendable {
 }
 
 /// You cannot delete a continuous deployment policy that is associated with a primary distribution.
-public struct ContinuousDeploymentPolicyInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ContinuousDeploymentPolicyInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -5326,9 +5326,9 @@ public struct ContinuousDeploymentPolicyInUse: ClientRuntime.ModeledError, AWSCl
 }
 
 /// The entity was not found.
-public struct EntityNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct EntityNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -5350,9 +5350,9 @@ public struct EntityNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSSe
 }
 
 /// An origin cannot contain both an origin access control (OAC) and an origin access identity (OAI).
-public struct IllegalOriginAccessConfiguration: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct IllegalOriginAccessConfiguration: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -5374,9 +5374,9 @@ public struct IllegalOriginAccessConfiguration: ClientRuntime.ModeledError, AWSC
 }
 
 /// An origin access control is associated with an origin whose domain name is not supported.
-public struct InvalidDomainNameForOriginAccessControl: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidDomainNameForOriginAccessControl: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -5398,9 +5398,9 @@ public struct InvalidDomainNameForOriginAccessControl: ClientRuntime.ModeledErro
 }
 
 /// The continuous deployment policy doesn't exist.
-public struct NoSuchContinuousDeploymentPolicy: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NoSuchContinuousDeploymentPolicy: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -5514,9 +5514,9 @@ public struct CreateDistributionWithTagsOutput: Swift.Sendable {
 }
 
 /// The specified configuration for field-level encryption already exists.
-public struct FieldLevelEncryptionConfigAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct FieldLevelEncryptionConfigAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -5538,9 +5538,9 @@ public struct FieldLevelEncryptionConfigAlreadyExists: ClientRuntime.ModeledErro
 }
 
 /// The specified profile for field-level encryption doesn't exist.
-public struct NoSuchFieldLevelEncryptionProfile: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NoSuchFieldLevelEncryptionProfile: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -5562,9 +5562,9 @@ public struct NoSuchFieldLevelEncryptionProfile: ClientRuntime.ModeledError, AWS
 }
 
 /// No profile specified for the field-level encryption query argument.
-public struct QueryArgProfileEmpty: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct QueryArgProfileEmpty: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -5586,9 +5586,9 @@ public struct QueryArgProfileEmpty: ClientRuntime.ModeledError, AWSClientRuntime
 }
 
 /// The maximum number of configurations for field-level encryption have been created.
-public struct TooManyFieldLevelEncryptionConfigs: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyFieldLevelEncryptionConfigs: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -5610,9 +5610,9 @@ public struct TooManyFieldLevelEncryptionConfigs: ClientRuntime.ModeledError, AW
 }
 
 /// The maximum number of content type profiles for field-level encryption have been created.
-public struct TooManyFieldLevelEncryptionContentTypeProfiles: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyFieldLevelEncryptionContentTypeProfiles: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -5634,9 +5634,9 @@ public struct TooManyFieldLevelEncryptionContentTypeProfiles: ClientRuntime.Mode
 }
 
 /// The maximum number of query arg profiles for field-level encryption have been created.
-public struct TooManyFieldLevelEncryptionQueryArgProfiles: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyFieldLevelEncryptionQueryArgProfiles: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -5905,9 +5905,9 @@ public struct CreateFieldLevelEncryptionConfigOutput: Swift.Sendable {
 }
 
 /// The specified profile for field-level encryption already exists.
-public struct FieldLevelEncryptionProfileAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct FieldLevelEncryptionProfileAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -5929,9 +5929,9 @@ public struct FieldLevelEncryptionProfileAlreadyExists: ClientRuntime.ModeledErr
 }
 
 /// The maximum size of a profile for field-level encryption was exceeded.
-public struct FieldLevelEncryptionProfileSizeExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct FieldLevelEncryptionProfileSizeExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -5953,9 +5953,9 @@ public struct FieldLevelEncryptionProfileSizeExceeded: ClientRuntime.ModeledErro
 }
 
 /// The specified public key doesn't exist.
-public struct NoSuchPublicKey: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NoSuchPublicKey: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -5977,9 +5977,9 @@ public struct NoSuchPublicKey: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
 }
 
 /// The maximum number of encryption entities for field-level encryption have been created.
-public struct TooManyFieldLevelEncryptionEncryptionEntities: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyFieldLevelEncryptionEncryptionEntities: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -6001,9 +6001,9 @@ public struct TooManyFieldLevelEncryptionEncryptionEntities: ClientRuntime.Model
 }
 
 /// The maximum number of field patterns for field-level encryption have been created.
-public struct TooManyFieldLevelEncryptionFieldPatterns: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyFieldLevelEncryptionFieldPatterns: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -6025,9 +6025,9 @@ public struct TooManyFieldLevelEncryptionFieldPatterns: ClientRuntime.ModeledErr
 }
 
 /// The maximum number of profiles for field-level encryption have been created.
-public struct TooManyFieldLevelEncryptionProfiles: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyFieldLevelEncryptionProfiles: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -6209,9 +6209,9 @@ public struct CreateFieldLevelEncryptionProfileOutput: Swift.Sendable {
 }
 
 /// A function with the same name already exists in this Amazon Web Services account. To create a function, you must provide a unique name. To update an existing function, use UpdateFunction.
-public struct FunctionAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct FunctionAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -6233,9 +6233,9 @@ public struct FunctionAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntim
 }
 
 /// The function is too large. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
-public struct FunctionSizeLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct FunctionSizeLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -6257,9 +6257,9 @@ public struct FunctionSizeLimitExceeded: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// You have reached the maximum number of CloudFront functions for this Amazon Web Services account. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
-public struct TooManyFunctions: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyFunctions: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -6512,9 +6512,9 @@ public struct CreateFunctionOutput: Swift.Sendable {
 }
 
 /// You have exceeded the maximum number of allowable InProgress invalidation batch requests, or invalidation objects.
-public struct TooManyInvalidationsInProgress: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyInvalidationsInProgress: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -6647,9 +6647,9 @@ public struct CreateInvalidationOutput: Swift.Sendable {
 }
 
 /// A key group with this name already exists. You must provide a unique name. To modify an existing key group, use UpdateKeyGroup.
-public struct KeyGroupAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct KeyGroupAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -6671,9 +6671,9 @@ public struct KeyGroupAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntim
 }
 
 /// You have reached the maximum number of key groups for this Amazon Web Services account. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
-public struct TooManyKeyGroups: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyKeyGroups: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -6695,9 +6695,9 @@ public struct TooManyKeyGroups: ClientRuntime.ModeledError, AWSClientRuntime.AWS
 }
 
 /// The number of public keys in this key group is more than the maximum allowed. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
-public struct TooManyPublicKeysInKeyGroup: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyPublicKeysInKeyGroup: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -6805,9 +6805,9 @@ public struct CreateKeyGroupOutput: Swift.Sendable {
 }
 
 /// The entity size limit was exceeded.
-public struct EntitySizeLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct EntitySizeLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -6959,9 +6959,9 @@ public struct CreateKeyValueStoreOutput: Swift.Sendable {
 }
 
 /// A monitoring subscription already exists for the specified distribution.
-public struct MonitoringSubscriptionAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MonitoringSubscriptionAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -7075,9 +7075,9 @@ public struct CreateMonitoringSubscriptionOutput: Swift.Sendable {
 }
 
 /// An origin access control with the specified parameters already exists.
-public struct OriginAccessControlAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct OriginAccessControlAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -7099,9 +7099,9 @@ public struct OriginAccessControlAlreadyExists: ClientRuntime.ModeledError, AWSC
 }
 
 /// The number of origin access controls in your Amazon Web Services account exceeds the maximum allowed. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
-public struct TooManyOriginAccessControls: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyOriginAccessControls: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -7312,9 +7312,9 @@ public struct CreateOriginAccessControlOutput: Swift.Sendable {
 }
 
 /// An origin request policy with this name already exists. You must provide a unique name. To modify an existing origin request policy, use UpdateOriginRequestPolicy.
-public struct OriginRequestPolicyAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct OriginRequestPolicyAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -7336,9 +7336,9 @@ public struct OriginRequestPolicyAlreadyExists: ClientRuntime.ModeledError, AWSC
 }
 
 /// The number of cookies in the origin request policy exceeds the maximum. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
-public struct TooManyCookiesInOriginRequestPolicy: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyCookiesInOriginRequestPolicy: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -7360,9 +7360,9 @@ public struct TooManyCookiesInOriginRequestPolicy: ClientRuntime.ModeledError, A
 }
 
 /// The number of headers in the origin request policy exceeds the maximum. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
-public struct TooManyHeadersInOriginRequestPolicy: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyHeadersInOriginRequestPolicy: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -7384,9 +7384,9 @@ public struct TooManyHeadersInOriginRequestPolicy: ClientRuntime.ModeledError, A
 }
 
 /// You have reached the maximum number of origin request policies for this Amazon Web Services account. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
-public struct TooManyOriginRequestPolicies: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyOriginRequestPolicies: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -7408,9 +7408,9 @@ public struct TooManyOriginRequestPolicies: ClientRuntime.ModeledError, AWSClien
 }
 
 /// The number of query strings in the origin request policy exceeds the maximum. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
-public struct TooManyQueryStringsInOriginRequestPolicy: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyQueryStringsInOriginRequestPolicy: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -7743,9 +7743,9 @@ public struct CreateOriginRequestPolicyOutput: Swift.Sendable {
 }
 
 /// The specified public key already exists.
-public struct PublicKeyAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PublicKeyAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -7767,9 +7767,9 @@ public struct PublicKeyAlreadyExists: ClientRuntime.ModeledError, AWSClientRunti
 }
 
 /// The maximum number of public keys for field-level encryption have been created. To create a new public key, delete one of the existing keys.
-public struct TooManyPublicKeys: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyPublicKeys: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -7882,9 +7882,9 @@ public struct CreatePublicKeyOutput: Swift.Sendable {
 }
 
 /// A real-time log configuration with this name already exists. You must provide a unique name. To modify an existing real-time log configuration, use UpdateRealtimeLogConfig.
-public struct RealtimeLogConfigAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct RealtimeLogConfigAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -7906,9 +7906,9 @@ public struct RealtimeLogConfigAlreadyExists: ClientRuntime.ModeledError, AWSCli
 }
 
 /// You have reached the maximum number of real-time log configurations for this Amazon Web Services account. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
-public struct TooManyRealtimeLogConfigs: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyRealtimeLogConfigs: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -8050,9 +8050,9 @@ public struct CreateRealtimeLogConfigOutput: Swift.Sendable {
 }
 
 /// A response headers policy with this name already exists. You must provide a unique name. To modify an existing response headers policy, use UpdateResponseHeadersPolicy.
-public struct ResponseHeadersPolicyAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResponseHeadersPolicyAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -8074,9 +8074,9 @@ public struct ResponseHeadersPolicyAlreadyExists: ClientRuntime.ModeledError, AW
 }
 
 /// The length of the Content-Security-Policy header value in the response headers policy exceeds the maximum. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
-public struct TooLongCSPInResponseHeadersPolicy: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooLongCSPInResponseHeadersPolicy: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -8098,9 +8098,9 @@ public struct TooLongCSPInResponseHeadersPolicy: ClientRuntime.ModeledError, AWS
 }
 
 /// The number of custom headers in the response headers policy exceeds the maximum. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
-public struct TooManyCustomHeadersInResponseHeadersPolicy: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyCustomHeadersInResponseHeadersPolicy: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -8122,9 +8122,9 @@ public struct TooManyCustomHeadersInResponseHeadersPolicy: ClientRuntime.Modeled
 }
 
 /// The number of headers in RemoveHeadersConfig in the response headers policy exceeds the maximum. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
-public struct TooManyRemoveHeadersInResponseHeadersPolicy: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyRemoveHeadersInResponseHeadersPolicy: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -8146,9 +8146,9 @@ public struct TooManyRemoveHeadersInResponseHeadersPolicy: ClientRuntime.Modeled
 }
 
 /// You have reached the maximum number of response headers policies for this Amazon Web Services account. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
-public struct TooManyResponseHeadersPolicies: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyResponseHeadersPolicies: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -8803,9 +8803,9 @@ public struct CreateResponseHeadersPolicyOutput: Swift.Sendable {
 }
 
 /// The caller reference you attempted to create the streaming distribution with is associated with another distribution
-public struct StreamingDistributionAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct StreamingDistributionAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -8827,9 +8827,9 @@ public struct StreamingDistributionAlreadyExists: ClientRuntime.ModeledError, AW
 }
 
 /// Your request contains more CNAMEs than are allowed per distribution.
-public struct TooManyStreamingDistributionCNAMEs: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyStreamingDistributionCNAMEs: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -8851,9 +8851,9 @@ public struct TooManyStreamingDistributionCNAMEs: ClientRuntime.ModeledError, AW
 }
 
 /// Processing your request would cause you to exceed the maximum number of streaming distributions allowed.
-public struct TooManyStreamingDistributions: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyStreamingDistributions: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -9231,9 +9231,9 @@ public struct CreateVpcOriginOutput: Swift.Sendable {
 }
 
 /// Deletion is not allowed for this entity.
-public struct IllegalDelete: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct IllegalDelete: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -9290,9 +9290,9 @@ public struct DeleteCachePolicyInput: Swift.Sendable {
 }
 
 /// The Origin Access Identity specified is already in use.
-public struct CloudFrontOriginAccessIdentityInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CloudFrontOriginAccessIdentityInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -9314,9 +9314,9 @@ public struct CloudFrontOriginAccessIdentityInUse: ClientRuntime.ModeledError, A
 }
 
 /// The specified origin access identity does not exist.
-public struct NoSuchCloudFrontOriginAccessIdentity: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NoSuchCloudFrontOriginAccessIdentity: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -9373,9 +9373,9 @@ public struct DeleteContinuousDeploymentPolicyInput: Swift.Sendable {
 }
 
 /// The specified CloudFront distribution is not disabled. You must disable the distribution before you can delete it.
-public struct DistributionNotDisabled: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DistributionNotDisabled: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -9434,9 +9434,9 @@ public struct DeleteDistributionInput: Swift.Sendable {
 }
 
 /// The specified configuration for field-level encryption is in use.
-public struct FieldLevelEncryptionConfigInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct FieldLevelEncryptionConfigInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -9475,9 +9475,9 @@ public struct DeleteFieldLevelEncryptionConfigInput: Swift.Sendable {
 }
 
 /// The specified profile for field-level encryption is in use.
-public struct FieldLevelEncryptionProfileInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct FieldLevelEncryptionProfileInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -9516,9 +9516,9 @@ public struct DeleteFieldLevelEncryptionProfileInput: Swift.Sendable {
 }
 
 /// Cannot delete the function because it's attached to one or more cache behaviors.
-public struct FunctionInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct FunctionInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -9540,9 +9540,9 @@ public struct FunctionInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSSer
 }
 
 /// The function does not exist.
-public struct NoSuchFunctionExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NoSuchFunctionExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -9582,9 +9582,9 @@ public struct DeleteFunctionInput: Swift.Sendable {
 }
 
 /// A resource that was specified is not valid.
-public struct NoSuchResource: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NoSuchResource: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -9606,9 +9606,9 @@ public struct NoSuchResource: ClientRuntime.ModeledError, AWSClientRuntime.AWSSe
 }
 
 /// Cannot delete this resource because it is in use.
-public struct ResourceInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -9665,9 +9665,9 @@ public struct DeleteKeyValueStoreInput: Swift.Sendable {
 }
 
 /// A monitoring subscription does not exist for the specified distribution.
-public struct NoSuchMonitoringSubscription: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NoSuchMonitoringSubscription: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -9707,9 +9707,9 @@ public struct DeleteMonitoringSubscriptionOutput: Swift.Sendable {
 }
 
 /// The origin access control does not exist.
-public struct NoSuchOriginAccessControl: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NoSuchOriginAccessControl: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -9731,9 +9731,9 @@ public struct NoSuchOriginAccessControl: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// Cannot delete the origin access control because it's in use by one or more distributions.
-public struct OriginAccessControlInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct OriginAccessControlInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -9772,9 +9772,9 @@ public struct DeleteOriginAccessControlInput: Swift.Sendable {
 }
 
 /// Cannot delete the origin request policy because it is attached to one or more cache behaviors.
-public struct OriginRequestPolicyInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct OriginRequestPolicyInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -9813,9 +9813,9 @@ public struct DeleteOriginRequestPolicyInput: Swift.Sendable {
 }
 
 /// The specified public key is in use.
-public struct PublicKeyInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PublicKeyInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -9854,9 +9854,9 @@ public struct DeletePublicKeyInput: Swift.Sendable {
 }
 
 /// Cannot delete the real-time log configuration because it is attached to one or more cache behaviors.
-public struct RealtimeLogConfigInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct RealtimeLogConfigInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -9894,9 +9894,9 @@ public struct DeleteRealtimeLogConfigInput: Swift.Sendable {
 }
 
 /// Cannot delete the response headers policy because it is attached to one or more cache behaviors in a CloudFront distribution.
-public struct ResponseHeadersPolicyInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResponseHeadersPolicyInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -9935,9 +9935,9 @@ public struct DeleteResponseHeadersPolicyInput: Swift.Sendable {
 }
 
 /// The specified streaming distribution does not exist.
-public struct NoSuchStreamingDistribution: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NoSuchStreamingDistribution: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -9959,9 +9959,9 @@ public struct NoSuchStreamingDistribution: ClientRuntime.ModeledError, AWSClient
 }
 
 /// The specified CloudFront distribution is not disabled. You must disable the distribution before you can delete it.
-public struct StreamingDistributionNotDisabled: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct StreamingDistributionNotDisabled: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -10524,9 +10524,9 @@ extension GetFunctionOutput: Swift.CustomDebugStringConvertible {
 }
 
 /// The specified invalidation does not exist.
-public struct NoSuchInvalidation: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NoSuchInvalidation: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -13161,9 +13161,9 @@ public struct TagResourceInput: Swift.Sendable {
 }
 
 /// The CloudFront function failed.
-public struct TestFunctionFailed: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TestFunctionFailed: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 

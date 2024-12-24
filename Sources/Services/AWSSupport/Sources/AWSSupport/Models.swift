@@ -27,9 +27,9 @@ import protocol ClientRuntime.ModeledError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 
 /// The limit for the number of attachment sets created in a short period of time has been exceeded.
-public struct AttachmentLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AttachmentLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The limit for the number of attachment sets created in a short period of time has been exceeded.
         public internal(set) var message: Swift.String? = nil
     }
@@ -52,9 +52,9 @@ public struct AttachmentLimitExceeded: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 /// The expiration time of the attachment set has passed. The set expires 1 hour after it is created.
-public struct AttachmentSetExpired: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AttachmentSetExpired: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The expiration time of the attachment set has passed. The set expires one hour after it is created.
         public internal(set) var message: Swift.String? = nil
     }
@@ -77,9 +77,9 @@ public struct AttachmentSetExpired: ClientRuntime.ModeledError, AWSClientRuntime
 }
 
 /// An attachment set with the specified ID could not be found.
-public struct AttachmentSetIdNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AttachmentSetIdNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// An attachment set with the specified ID could not be found.
         public internal(set) var message: Swift.String? = nil
     }
@@ -102,9 +102,9 @@ public struct AttachmentSetIdNotFound: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 /// A limit for the size of an attachment set has been exceeded. The limits are three attachments and 5 MB per attachment.
-public struct AttachmentSetSizeLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AttachmentSetSizeLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A limit for the size of an attachment set has been exceeded. The limits are three attachments and 5 MB per attachment.
         public internal(set) var message: Swift.String? = nil
     }
@@ -127,9 +127,9 @@ public struct AttachmentSetSizeLimitExceeded: ClientRuntime.ModeledError, AWSCli
 }
 
 /// An internal server error occurred.
-public struct InternalServerError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// An internal server error occurred.
         public internal(set) var message: Swift.String? = nil
     }
@@ -206,9 +206,9 @@ public struct AddAttachmentsToSetOutput: Swift.Sendable {
 }
 
 /// The requested caseId couldn't be located.
-public struct CaseIdNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CaseIdNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The requested CaseId could not be located.
         public internal(set) var message: Swift.String? = nil
     }
@@ -289,9 +289,9 @@ extension SupportClientTypes {
 }
 
 /// An attachment with the specified ID could not be found.
-public struct AttachmentIdNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AttachmentIdNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// An attachment with the specified ID could not be found.
         public internal(set) var message: Swift.String? = nil
     }
@@ -314,9 +314,9 @@ public struct AttachmentIdNotFound: ClientRuntime.ModeledError, AWSClientRuntime
 }
 
 /// The case creation limit for the account has been exceeded.
-public struct CaseCreationLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CaseCreationLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// An error message that indicates that you have exceeded the number of cases you can have open.
         public internal(set) var message: Swift.String? = nil
     }
@@ -398,9 +398,9 @@ public struct CreateCaseOutput: Swift.Sendable {
 }
 
 /// The limit for the number of [DescribeAttachment] requests in a short period of time has been exceeded.
-public struct DescribeAttachmentLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DescribeAttachmentLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The limit for the number of [DescribeAttachment] requests in a short period of time has been exceeded.
         public internal(set) var message: Swift.String? = nil
     }
@@ -727,9 +727,9 @@ public struct DescribeCommunicationsOutput: Swift.Sendable {
 }
 
 /// You have exceeded the maximum allowed TPS (Transactions Per Second) for the operations.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 

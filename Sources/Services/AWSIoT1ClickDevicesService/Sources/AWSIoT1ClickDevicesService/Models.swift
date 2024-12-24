@@ -146,9 +146,9 @@ extension IoT1ClickDevicesClientTypes {
     }
 }
 
-public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// 403
         public internal(set) var code: Swift.String? = nil
         /// The 403 error message returned by the web server.
@@ -174,9 +174,9 @@ public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.A
     }
 }
 
-public struct InternalFailureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalFailureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// 500
         public internal(set) var code: Swift.String? = nil
         /// The 500 error message returned by the web server.
@@ -202,9 +202,9 @@ public struct InternalFailureException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// 400
         public internal(set) var code: Swift.String? = nil
         /// The 400 error message returned by the web server.
@@ -259,9 +259,9 @@ public struct ClaimDevicesByClaimCodeOutput: Swift.Sendable {
     }
 }
 
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// 404
         public internal(set) var code: Swift.String? = nil
         /// The requested device could not be found.
@@ -312,9 +312,9 @@ public struct DescribeDeviceOutput: Swift.Sendable {
     }
 }
 
-public struct PreconditionFailedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PreconditionFailedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// 412
         public internal(set) var code: Swift.String? = nil
         /// An error message explaining the error or its remedy.
@@ -340,9 +340,9 @@ public struct PreconditionFailedException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-public struct ResourceConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// 409
         public internal(set) var code: Swift.String? = nil
         /// An error message explaining the error or its remedy.
@@ -447,9 +447,9 @@ public struct InitiateDeviceClaimOutput: Swift.Sendable {
     }
 }
 
-public struct RangeNotSatisfiableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct RangeNotSatisfiableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// 416
         public internal(set) var code: Swift.String? = nil
         /// The requested number of results specified by nextToken cannot be satisfied.

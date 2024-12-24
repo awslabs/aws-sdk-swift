@@ -110,9 +110,9 @@ public struct UntagResourceOutput: Swift.Sendable {
 }
 
 /// You do not have sufficient access to perform this action.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -134,9 +134,9 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 }
 
 /// This exception is thrown when an error occurs in the Transfer Family service.
-public struct InternalServiceError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServiceError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -159,9 +159,9 @@ public struct InternalServiceError: ClientRuntime.ModeledError, AWSClientRuntime
 }
 
 /// This exception is thrown when the client submits a malformed request.
-public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -184,9 +184,9 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 /// The requested resource does not exist, or exists in a region other than the one specified for the command.
-public struct ResourceExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// This member is required.
@@ -217,9 +217,9 @@ public struct ResourceExistsException: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 /// This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// This member is required.
@@ -250,9 +250,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// The request has failed because the Amazon Web ServicesTransfer Family service is not available.
-public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -274,9 +274,9 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
 }
 
 /// The request was denied due to request throttling.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var retryAfterSeconds: Swift.String? = nil
     }
 
@@ -294,6 +294,64 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     )
     {
         self.properties.retryAfterSeconds = retryAfterSeconds
+    }
+}
+
+extension TransferClientTypes {
+
+    public enum EnforceMessageSigningType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EnforceMessageSigningType] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension TransferClientTypes {
+
+    public enum PreserveFilenameType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PreserveFilenameType] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
     }
 }
 
@@ -357,12 +415,24 @@ public struct CreateAgreementInput: Swift.Sendable {
     public var baseDirectory: Swift.String?
     /// A name or short description to identify the agreement.
     public var description: Swift.String?
+    /// Determines whether or not unsigned messages from your trading partners will be accepted.
+    ///
+    /// * ENABLED: Transfer Family rejects unsigned messages from your trading partner.
+    ///
+    /// * DISABLED (default value): Transfer Family accepts unsigned messages from your trading partner.
+    public var enforceMessageSigning: TransferClientTypes.EnforceMessageSigningType?
     /// A unique identifier for the AS2 local profile.
     /// This member is required.
     public var localProfileId: Swift.String?
     /// A unique identifier for the partner profile used in the agreement.
     /// This member is required.
     public var partnerProfileId: Swift.String?
+    /// Determines whether or not Transfer Family appends a unique string of characters to the end of the AS2 message payload filename when saving it.
+    ///
+    /// * ENABLED: the filename provided by your trading parter is preserved when the file is saved.
+    ///
+    /// * DISABLED (default value): when Transfer Family saves the file, the filename is adjusted, as described in [File names and locations](https://docs.aws.amazon.com/transfer/latest/userguide/send-as2-messages.html#file-names-as2).
+    public var preserveFilename: TransferClientTypes.PreserveFilenameType?
     /// A system-assigned unique identifier for a server instance. This is the specific server that the agreement uses.
     /// This member is required.
     public var serverId: Swift.String?
@@ -375,8 +445,10 @@ public struct CreateAgreementInput: Swift.Sendable {
         accessRole: Swift.String? = nil,
         baseDirectory: Swift.String? = nil,
         description: Swift.String? = nil,
+        enforceMessageSigning: TransferClientTypes.EnforceMessageSigningType? = nil,
         localProfileId: Swift.String? = nil,
         partnerProfileId: Swift.String? = nil,
+        preserveFilename: TransferClientTypes.PreserveFilenameType? = nil,
         serverId: Swift.String? = nil,
         status: TransferClientTypes.AgreementStatusType? = nil,
         tags: [TransferClientTypes.Tag]? = nil
@@ -385,8 +457,10 @@ public struct CreateAgreementInput: Swift.Sendable {
         self.accessRole = accessRole
         self.baseDirectory = baseDirectory
         self.description = description
+        self.enforceMessageSigning = enforceMessageSigning
         self.localProfileId = localProfileId
         self.partnerProfileId = partnerProfileId
+        self.preserveFilename = preserveFilename
         self.serverId = serverId
         self.status = status
         self.tags = tags
@@ -457,10 +531,22 @@ extension TransferClientTypes {
         public var baseDirectory: Swift.String?
         /// The name or short description that's used to identify the agreement.
         public var description: Swift.String?
+        /// Determines whether or not unsigned messages from your trading partners will be accepted.
+        ///
+        /// * ENABLED: Transfer Family rejects unsigned messages from your trading partner.
+        ///
+        /// * DISABLED (default value): Transfer Family accepts unsigned messages from your trading partner.
+        public var enforceMessageSigning: TransferClientTypes.EnforceMessageSigningType?
         /// A unique identifier for the AS2 local profile.
         public var localProfileId: Swift.String?
         /// A unique identifier for the partner profile used in the agreement.
         public var partnerProfileId: Swift.String?
+        /// Determines whether or not Transfer Family appends a unique string of characters to the end of the AS2 message payload filename when saving it.
+        ///
+        /// * ENABLED: the filename provided by your trading parter is preserved when the file is saved.
+        ///
+        /// * DISABLED (default value): when Transfer Family saves the file, the filename is adjusted, as described in [File names and locations](https://docs.aws.amazon.com/transfer/latest/userguide/send-as2-messages.html#file-names-as2).
+        public var preserveFilename: TransferClientTypes.PreserveFilenameType?
         /// A system-assigned unique identifier for a server instance. This identifier indicates the specific server that the agreement uses.
         public var serverId: Swift.String?
         /// The current status of the agreement, either ACTIVE or INACTIVE.
@@ -474,8 +560,10 @@ extension TransferClientTypes {
             arn: Swift.String? = nil,
             baseDirectory: Swift.String? = nil,
             description: Swift.String? = nil,
+            enforceMessageSigning: TransferClientTypes.EnforceMessageSigningType? = nil,
             localProfileId: Swift.String? = nil,
             partnerProfileId: Swift.String? = nil,
+            preserveFilename: TransferClientTypes.PreserveFilenameType? = nil,
             serverId: Swift.String? = nil,
             status: TransferClientTypes.AgreementStatusType? = nil,
             tags: [TransferClientTypes.Tag]? = nil
@@ -486,8 +574,10 @@ extension TransferClientTypes {
             self.arn = arn
             self.baseDirectory = baseDirectory
             self.description = description
+            self.enforceMessageSigning = enforceMessageSigning
             self.localProfileId = localProfileId
             self.partnerProfileId = partnerProfileId
+            self.preserveFilename = preserveFilename
             self.serverId = serverId
             self.status = status
             self.tags = tags
@@ -509,9 +599,9 @@ public struct DescribeAgreementOutput: Swift.Sendable {
 }
 
 /// The NextToken parameter that was passed is invalid.
-public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -621,10 +711,22 @@ public struct UpdateAgreementInput: Swift.Sendable {
     public var baseDirectory: Swift.String?
     /// To replace the existing description, provide a short description for the agreement.
     public var description: Swift.String?
+    /// Determines whether or not unsigned messages from your trading partners will be accepted.
+    ///
+    /// * ENABLED: Transfer Family rejects unsigned messages from your trading partner.
+    ///
+    /// * DISABLED (default value): Transfer Family accepts unsigned messages from your trading partner.
+    public var enforceMessageSigning: TransferClientTypes.EnforceMessageSigningType?
     /// A unique identifier for the AS2 local profile. To change the local profile identifier, provide a new value here.
     public var localProfileId: Swift.String?
     /// A unique identifier for the partner profile. To change the partner profile identifier, provide a new value here.
     public var partnerProfileId: Swift.String?
+    /// Determines whether or not Transfer Family appends a unique string of characters to the end of the AS2 message payload filename when saving it.
+    ///
+    /// * ENABLED: the filename provided by your trading parter is preserved when the file is saved.
+    ///
+    /// * DISABLED (default value): when Transfer Family saves the file, the filename is adjusted, as described in [File names and locations](https://docs.aws.amazon.com/transfer/latest/userguide/send-as2-messages.html#file-names-as2).
+    public var preserveFilename: TransferClientTypes.PreserveFilenameType?
     /// A system-assigned unique identifier for a server instance. This is the specific server that the agreement uses.
     /// This member is required.
     public var serverId: Swift.String?
@@ -636,8 +738,10 @@ public struct UpdateAgreementInput: Swift.Sendable {
         agreementId: Swift.String? = nil,
         baseDirectory: Swift.String? = nil,
         description: Swift.String? = nil,
+        enforceMessageSigning: TransferClientTypes.EnforceMessageSigningType? = nil,
         localProfileId: Swift.String? = nil,
         partnerProfileId: Swift.String? = nil,
+        preserveFilename: TransferClientTypes.PreserveFilenameType? = nil,
         serverId: Swift.String? = nil,
         status: TransferClientTypes.AgreementStatusType? = nil
     )
@@ -646,8 +750,10 @@ public struct UpdateAgreementInput: Swift.Sendable {
         self.agreementId = agreementId
         self.baseDirectory = baseDirectory
         self.description = description
+        self.enforceMessageSigning = enforceMessageSigning
         self.localProfileId = localProfileId
         self.partnerProfileId = partnerProfileId
+        self.preserveFilename = preserveFilename
         self.serverId = serverId
         self.status = status
     }
@@ -805,6 +911,35 @@ extension TransferClientTypes {
 
 extension TransferClientTypes {
 
+    public enum PreserveContentType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PreserveContentType] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension TransferClientTypes {
+
     public enum SigningAlg: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case `none`
         case sha1
@@ -876,6 +1011,8 @@ extension TransferClientTypes {
         public var messageSubject: Swift.String?
         /// A unique identifier for the partner profile for the connector.
         public var partnerProfileId: Swift.String?
+        /// Allows you to use the Amazon S3 Content-Type that is associated with objects in S3 instead of having the content type mapped based on the file extension. This parameter is enabled by default when you create an AS2 connector from the console, but disabled by default when you create an AS2 connector by calling the API directly.
+        public var preserveContentType: TransferClientTypes.PreserveContentType?
         /// The algorithm that is used to sign the AS2 messages sent with the connector.
         public var signingAlgorithm: TransferClientTypes.SigningAlg?
 
@@ -888,6 +1025,7 @@ extension TransferClientTypes {
             mdnSigningAlgorithm: TransferClientTypes.MdnSigningAlg? = nil,
             messageSubject: Swift.String? = nil,
             partnerProfileId: Swift.String? = nil,
+            preserveContentType: TransferClientTypes.PreserveContentType? = nil,
             signingAlgorithm: TransferClientTypes.SigningAlg? = nil
         )
         {
@@ -899,6 +1037,7 @@ extension TransferClientTypes {
             self.mdnSigningAlgorithm = mdnSigningAlgorithm
             self.messageSubject = messageSubject
             self.partnerProfileId = partnerProfileId
+            self.preserveContentType = preserveContentType
             self.signingAlgorithm = signingAlgorithm
         }
     }
@@ -1074,7 +1213,7 @@ extension TransferClientTypes {
         public var notBeforeDate: Foundation.Date?
         /// The serial number for the certificate.
         public var serial: Swift.String?
-        /// The certificate can be either ACTIVE, PENDING_ROTATION, or INACTIVE. PENDING_ROTATION means that this certificate will replace the current certificate when it expires.
+        /// Currently, the only available status is ACTIVE: all other values are reserved for future use.
         public var status: TransferClientTypes.CertificateStatusType?
         /// Key-value pairs that can be used to group and search for certificates.
         public var tags: [TransferClientTypes.Tag]?
@@ -1334,9 +1473,9 @@ public struct UpdateCertificateOutput: Swift.Sendable {
 }
 
 /// This exception is thrown when the UpdateServer is called for a file transfer protocol-enabled server that has VPC as the endpoint type and the server's VpcEndpointID is not in the available state.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -6579,8 +6718,10 @@ extension CreateAgreementInput {
         try writer["AccessRole"].write(value.accessRole)
         try writer["BaseDirectory"].write(value.baseDirectory)
         try writer["Description"].write(value.description)
+        try writer["EnforceMessageSigning"].write(value.enforceMessageSigning)
         try writer["LocalProfileId"].write(value.localProfileId)
         try writer["PartnerProfileId"].write(value.partnerProfileId)
+        try writer["PreserveFilename"].write(value.preserveFilename)
         try writer["ServerId"].write(value.serverId)
         try writer["Status"].write(value.status)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: TransferClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -7168,8 +7309,10 @@ extension UpdateAgreementInput {
         try writer["AgreementId"].write(value.agreementId)
         try writer["BaseDirectory"].write(value.baseDirectory)
         try writer["Description"].write(value.description)
+        try writer["EnforceMessageSigning"].write(value.enforceMessageSigning)
         try writer["LocalProfileId"].write(value.localProfileId)
         try writer["PartnerProfileId"].write(value.partnerProfileId)
+        try writer["PreserveFilename"].write(value.preserveFilename)
         try writer["ServerId"].write(value.serverId)
         try writer["Status"].write(value.status)
     }
@@ -9480,6 +9623,8 @@ extension TransferClientTypes.DescribedAgreement {
         value.baseDirectory = try reader["BaseDirectory"].readIfPresent()
         value.accessRole = try reader["AccessRole"].readIfPresent()
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: TransferClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.preserveFilename = try reader["PreserveFilename"].readIfPresent()
+        value.enforceMessageSigning = try reader["EnforceMessageSigning"].readIfPresent()
         return value
     }
 }
@@ -9572,6 +9717,7 @@ extension TransferClientTypes.As2ConnectorConfig {
         try writer["MdnSigningAlgorithm"].write(value.mdnSigningAlgorithm)
         try writer["MessageSubject"].write(value.messageSubject)
         try writer["PartnerProfileId"].write(value.partnerProfileId)
+        try writer["PreserveContentType"].write(value.preserveContentType)
         try writer["SigningAlgorithm"].write(value.signingAlgorithm)
     }
 
@@ -9587,6 +9733,7 @@ extension TransferClientTypes.As2ConnectorConfig {
         value.mdnSigningAlgorithm = try reader["MdnSigningAlgorithm"].readIfPresent()
         value.mdnResponse = try reader["MdnResponse"].readIfPresent()
         value.basicAuthSecretId = try reader["BasicAuthSecretId"].readIfPresent()
+        value.preserveContentType = try reader["PreserveContentType"].readIfPresent()
         return value
     }
 }

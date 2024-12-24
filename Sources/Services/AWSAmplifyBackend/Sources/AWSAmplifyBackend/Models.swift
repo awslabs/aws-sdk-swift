@@ -61,9 +61,9 @@ extension AmplifyBackendClientTypes {
 }
 
 /// An error returned if a request is not formed properly.
-public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// An error message to inform that the request failed.
         public internal(set) var message: Swift.String? = nil
     }
@@ -86,9 +86,9 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 /// An error returned if there's a temporary issue with the service.
-public struct GatewayTimeoutException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct GatewayTimeoutException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// An error message to inform that the request failed.
         public internal(set) var message: Swift.String? = nil
     }
@@ -111,9 +111,9 @@ public struct GatewayTimeoutException: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 /// An error returned when a specific resource type is not found.
-public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// An error message to inform that the request has failed.
         public internal(set) var message: Swift.String? = nil
         /// The type of resource that is not found.
@@ -140,9 +140,9 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 /// An error that is returned when a limit of a specific type has been exceeded.
-public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The type of limit that was exceeded.
         public internal(set) var limitType: Swift.String? = nil
         /// An error message to inform that the request has failed.

@@ -35,9 +35,9 @@ public struct SetCognitoEventsOutput: Swift.Sendable {
 }
 
 /// An exception thrown when a bulk publish operation is requested less than 24 hours after a previous bulk publish operation completed successfully.
-public struct AlreadyStreamedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AlreadyStreamedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message associated with the AlreadyStreamedException exception.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -61,9 +61,9 @@ public struct AlreadyStreamedException: ClientRuntime.ModeledError, AWSClientRun
 }
 
 /// An exception thrown when there is an IN_PROGRESS bulk publish operation for the given identity pool.
-public struct DuplicateRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DuplicateRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message associated with the DuplicateRequestException exception.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -87,9 +87,9 @@ public struct DuplicateRequestException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// Indicates an internal service error.
-public struct InternalErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Message returned by InternalErrorException.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -113,9 +113,9 @@ public struct InternalErrorException: ClientRuntime.ModeledError, AWSClientRunti
 }
 
 /// Thrown when a request parameter does not comply with the associated constraints.
-public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Message returned by InvalidParameterException.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -139,9 +139,9 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// Thrown when a user is not authorized to access the requested resource.
-public struct NotAuthorizedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NotAuthorizedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message returned by a NotAuthorizedException.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -165,9 +165,9 @@ public struct NotAuthorizedException: ClientRuntime.ModeledError, AWSClientRunti
 }
 
 /// Thrown if the resource doesn't exist.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Message returned by a ResourceNotFoundException.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -218,9 +218,9 @@ public struct BulkPublishOutput: Swift.Sendable {
 }
 
 /// Thrown if an update can't be applied because the resource was changed by another call and this would result in a conflict.
-public struct ResourceConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message returned by a ResourceConflictException.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -244,9 +244,9 @@ public struct ResourceConflictException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// Thrown if the request is throttled.
-public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Message returned by a TooManyRequestsException.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -926,9 +926,9 @@ public struct ListRecordsOutput: Swift.Sendable {
     }
 }
 
-public struct InvalidConfigurationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidConfigurationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Message returned by InvalidConfigurationException.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -1048,9 +1048,9 @@ public struct SetCognitoEventsInput: Swift.Sendable {
 }
 
 /// Thrown if there are parallel requests to modify a resource.
-public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message returned by a ConcurrentModicationException.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -1187,9 +1187,9 @@ public struct UnsubscribeFromDatasetOutput: Swift.Sendable {
 }
 
 /// The AWS Lambda function returned invalid output or an exception.
-public struct InvalidLambdaFunctionOutputException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidLambdaFunctionOutputException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message returned when an InvalidLambdaFunctionOutputException occurs
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -1213,9 +1213,9 @@ public struct InvalidLambdaFunctionOutputException: ClientRuntime.ModeledError, 
 }
 
 /// AWS Lambda throttled your account, please contact AWS Support
-public struct LambdaThrottledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LambdaThrottledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message returned when an LambdaThrottledException is thrown
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -1239,9 +1239,9 @@ public struct LambdaThrottledException: ClientRuntime.ModeledError, AWSClientRun
 }
 
 /// Thrown when the limit on the number of objects or operations has been exceeded.
-public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Message returned by LimitExceededException.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil

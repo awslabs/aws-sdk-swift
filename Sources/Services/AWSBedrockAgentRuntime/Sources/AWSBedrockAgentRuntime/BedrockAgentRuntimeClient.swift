@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class BedrockAgentRuntimeClient: ClientRuntime.Client {
     public static let clientName = "BedrockAgentRuntimeClient"
-    public static let version = "1.0.62"
+    public static let version = "1.0.66"
     let client: ClientRuntime.SdkHttpClient
     let config: BedrockAgentRuntimeClient.BedrockAgentRuntimeClientConfiguration
     let serviceName = "Bedrock Agent Runtime"
@@ -565,6 +565,17 @@ extension BedrockAgentRuntimeClient {
     ///
     /// * To activate trace enablement, turn enableTrace to true. Trace enablement helps you follow the agent's reasoning process that led it to the information it processed, the actions it took, and the final result it yielded. For more information, see [Trace enablement](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-test.html#trace-events).
     ///
+    /// * To stream agent responses, make sure that only orchestration prompt is enabled. Agent streaming is not supported for the following steps:
+    ///
+    /// * Pre-processing
+    ///
+    /// * Post-processing
+    ///
+    /// * Agent with 1 Knowledge base and User Input not enabled
+    ///
+    ///
+    ///
+    ///
     /// * End a conversation by setting endSession to true.
     ///
     /// * In the sessionState object, you can include attributes for the session or prompt or, if you configured an action group to return control, results from invocation of the action group.
@@ -592,6 +603,7 @@ extension BedrockAgentRuntimeClient {
     /// - `ConflictException` : There was a conflict performing an operation. Resolve the conflict and retry your request.
     /// - `DependencyFailedException` : There was an issue with a dependency. Check the resource configurations and retry the request.
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `ModelNotReadyException` : The model specified in the request is not ready to serve inference requests. The AWS SDK will automatically retry the operation up to 5 times. For information about configuring automatic retries, see [Retry behavior](https://docs.aws.amazon.com/sdkref/latest/guide/feature-retry-behavior.html) in the AWS SDKs and Tools reference guide.
     /// - `ResourceNotFoundException` : The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.
     /// - `ServiceQuotaExceededException` : The number of requests exceeds the service quota. Resubmit your request later.
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.

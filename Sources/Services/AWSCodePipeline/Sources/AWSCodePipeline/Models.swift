@@ -80,9 +80,9 @@ public struct UpdateActionTypeOutput: Swift.Sendable {
 }
 
 /// The nonce was specified in an invalid format.
-public struct InvalidNonceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidNonceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message provided to the user in the event of an exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -105,9 +105,9 @@ public struct InvalidNonceException: ClientRuntime.ModeledError, AWSClientRuntim
 }
 
 /// The job was specified in an invalid format or cannot be found.
-public struct JobNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct JobNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message provided to the user in the event of an exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -130,9 +130,9 @@ public struct JobNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime
 }
 
 /// The validation was specified in an invalid format.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message provided to the user in the event of an exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -231,9 +231,9 @@ public struct AcknowledgeJobOutput: Swift.Sendable {
 }
 
 /// The client token was specified in an invalid format
-public struct InvalidClientTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidClientTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message provided to the user in the event of an exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1005,9 +1005,9 @@ extension CodePipelineClientTypes {
 }
 
 /// The specified action cannot be found.
-public struct ActionNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ActionNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message provided to the user in the event of an exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1489,9 +1489,9 @@ extension CodePipelineClientTypes {
 }
 
 /// The specified action type cannot be found.
-public struct ActionTypeNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ActionTypeNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message provided to the user in the event of an exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1514,9 +1514,9 @@ public struct ActionTypeNotFoundException: ClientRuntime.ModeledError, AWSClient
 }
 
 /// The approval action has already been approved or rejected.
-public struct ApprovalAlreadyCompletedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ApprovalAlreadyCompletedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message provided to the user in the event of an exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2099,9 +2099,9 @@ extension CodePipelineClientTypes {
 }
 
 /// Unable to modify the tag due to a simultaneous update request.
-public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2123,9 +2123,9 @@ public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSCl
 }
 
 /// The specified resource tags are invalid.
-public struct InvalidTagsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidTagsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2147,9 +2147,9 @@ public struct InvalidTagsException: ClientRuntime.ModeledError, AWSClientRuntime
 }
 
 /// The number of pipelines associated with the Amazon Web Services account has exceeded the limit allowed for the account.
-public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message provided to the user in the event of an exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2172,9 +2172,9 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 }
 
 /// The tags limit for a resource has been exceeded.
-public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2282,9 +2282,9 @@ public struct CreateCustomActionTypeOutput: Swift.Sendable {
 }
 
 /// The action declaration was specified in an invalid format.
-public struct InvalidActionDeclarationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidActionDeclarationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message provided to the user in the event of an exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2307,9 +2307,9 @@ public struct InvalidActionDeclarationException: ClientRuntime.ModeledError, AWS
 }
 
 /// Reserved for future use.
-public struct InvalidBlockerDeclarationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidBlockerDeclarationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message provided to the user in the event of an exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2332,9 +2332,9 @@ public struct InvalidBlockerDeclarationException: ClientRuntime.ModeledError, AW
 }
 
 /// The stage declaration was specified in an invalid format.
-public struct InvalidStageDeclarationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidStageDeclarationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message provided to the user in the event of an exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2357,9 +2357,9 @@ public struct InvalidStageDeclarationException: ClientRuntime.ModeledError, AWSC
 }
 
 /// The structure was specified in an invalid format.
-public struct InvalidStructureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidStructureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message provided to the user in the event of an exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2382,9 +2382,9 @@ public struct InvalidStructureException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// The specified pipeline name is already in use.
-public struct PipelineNameInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PipelineNameInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message provided to the user in the event of an exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2983,7 +2983,7 @@ public struct DeleteWebhookOutput: Swift.Sendable {
 }
 
 /// The specified webhook was entered in an invalid format or cannot be found.
-public struct WebhookNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WebhookNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
     public static var typeName: Swift.String { "WebhookNotFoundException" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
@@ -3013,9 +3013,9 @@ public struct DeregisterWebhookWithThirdPartyOutput: Swift.Sendable {
 }
 
 /// The pipeline was specified in an invalid format or cannot be found.
-public struct PipelineNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PipelineNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message provided to the user in the event of an exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3038,9 +3038,9 @@ public struct PipelineNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// The stage was specified in an invalid format or cannot be found.
-public struct StageNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct StageNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message provided to the user in the event of an exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3347,9 +3347,9 @@ public struct GetJobDetailsOutput: Swift.Sendable {
 }
 
 /// The pipeline version was specified in an invalid format or cannot be found.
-public struct PipelineVersionNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PipelineVersionNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message provided to the user in the event of an exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3435,9 +3435,9 @@ public struct GetPipelineOutput: Swift.Sendable {
 }
 
 /// The pipeline execution was specified in an invalid format or cannot be found, or an execution ID does not belong to the specified pipeline.
-public struct PipelineExecutionNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PipelineExecutionNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message provided to the user in the event of an exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4257,9 +4257,9 @@ public struct GetPipelineStateOutput: Swift.Sendable {
 }
 
 /// The job was specified in an invalid format or cannot be found.
-public struct InvalidJobException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidJobException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message provided to the user in the event of an exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4387,9 +4387,9 @@ public struct GetThirdPartyJobDetailsOutput: Swift.Sendable {
 }
 
 /// The next token was specified in an invalid format. Make sure that the next token you provide is the token returned by a previous call.
-public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message provided to the user in the event of an exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -5117,9 +5117,9 @@ public struct ListRuleTypesOutput: Swift.Sendable {
 }
 
 /// The specified resource ARN is invalid.
-public struct InvalidArnException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidArnException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -5141,9 +5141,9 @@ public struct InvalidArnException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 /// The resource was specified in an invalid format.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message provided to the user in the event of an exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -5398,9 +5398,9 @@ public struct ListWebhooksOutput: Swift.Sendable {
 }
 
 /// The pipeline has reached the limit for concurrent pipeline executions.
-public struct ConcurrentPipelineExecutionsLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConcurrentPipelineExecutionsLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -5422,9 +5422,9 @@ public struct ConcurrentPipelineExecutionsLimitExceededException: ClientRuntime.
 }
 
 /// Unable to override because the condition does not allow overrides.
-public struct ConditionNotOverridableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConditionNotOverridableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -5446,9 +5446,9 @@ public struct ConditionNotOverridableException: ClientRuntime.ModeledError, AWSC
 }
 
 /// Your request cannot be handled because the pipeline is busy handling ongoing activities. Try again later.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -5470,9 +5470,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 /// The stage has failed in a later run of the pipeline and the pipelineExecutionId associated with the request is out of date.
-public struct NotLatestPipelineExecutionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NotLatestPipelineExecutionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message provided to the user in the event of an exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -5712,9 +5712,9 @@ public struct PutActionRevisionOutput: Swift.Sendable {
 }
 
 /// The approval request already received a response or has expired.
-public struct InvalidApprovalTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidApprovalTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message provided to the user in the event of an exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -5784,9 +5784,9 @@ public struct PutApprovalResultOutput: Swift.Sendable {
 }
 
 /// The job state was specified in an invalid format.
-public struct InvalidJobStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidJobStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message provided to the user in the event of an exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -5895,9 +5895,9 @@ public struct PutJobFailureResultInput: Swift.Sendable {
 }
 
 /// Exceeded the total size limit for all variables in the pipeline.
-public struct OutputVariablesSizeExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct OutputVariablesSizeExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -6058,9 +6058,9 @@ public struct PutThirdPartyJobSuccessResultInput: Swift.Sendable {
 }
 
 /// The specified authentication type is in an invalid format.
-public struct InvalidWebhookAuthenticationParametersException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidWebhookAuthenticationParametersException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message provided to the user in the event of an exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -6083,9 +6083,9 @@ public struct InvalidWebhookAuthenticationParametersException: ClientRuntime.Mod
 }
 
 /// The specified event filter rule is in an invalid format.
-public struct InvalidWebhookFilterPatternException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidWebhookFilterPatternException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message provided to the user in the event of an exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -6154,9 +6154,9 @@ public struct RegisterWebhookWithThirdPartyOutput: Swift.Sendable {
 }
 
 /// Unable to retry. The pipeline structure or stage state might have changed while actions awaited retry, or the stage contains no failed actions.
-public struct StageNotRetryableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct StageNotRetryableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message provided to the user in the event of an exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -6221,9 +6221,9 @@ public struct RetryStageExecutionOutput: Swift.Sendable {
 }
 
 /// The specified pipeline execution is outdated and cannot be used as a target pipeline execution for rollback.
-public struct PipelineExecutionOutdatedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PipelineExecutionOutdatedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -6245,9 +6245,9 @@ public struct PipelineExecutionOutdatedException: ClientRuntime.ModeledError, AW
 }
 
 /// Unable to roll back the stage. The cause might be if the pipeline version has changed since the target pipeline execution was deployed, the stage is currently running, or an incorrect target pipeline execution ID was provided.
-public struct UnableToRollbackStageException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnableToRollbackStageException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -6428,9 +6428,9 @@ public struct StartPipelineExecutionOutput: Swift.Sendable {
 }
 
 /// The pipeline execution is already in a Stopping state. If you already chose to stop and wait, you cannot make that request again. You can choose to stop and abandon now, but be aware that this option can lead to failed tasks or out of sequence tasks. If you already chose to stop and abandon, you cannot make that request again.
-public struct DuplicatedStopRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DuplicatedStopRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -6452,9 +6452,9 @@ public struct DuplicatedStopRequestException: ClientRuntime.ModeledError, AWSCli
 }
 
 /// Unable to stop the pipeline execution. The execution might already be in a Stopped state, or it might no longer be in progress.
-public struct PipelineExecutionNotStoppableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PipelineExecutionNotStoppableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -6560,9 +6560,9 @@ public struct UntagResourceOutput: Swift.Sendable {
 }
 
 /// The request failed because of an unknown error, exception, or failure.
-public struct RequestFailedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct RequestFailedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 

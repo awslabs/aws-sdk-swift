@@ -153,9 +153,9 @@ extension LambdaClientTypes {
 }
 
 /// One of the parameters in the request is not valid.
-public struct InvalidParameterValueException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidParameterValueException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The exception message.
         public internal(set) var message: Swift.String? = nil
         /// The exception type.
@@ -182,9 +182,9 @@ public struct InvalidParameterValueException: ClientRuntime.ModeledError, AWSCli
 }
 
 /// The permissions policy for the resource is too large. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html).
-public struct PolicyLengthExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PolicyLengthExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         public internal(set) var type: Swift.String? = nil
     }
@@ -213,9 +213,9 @@ public struct PolicyLengthExceededException: ClientRuntime.ModeledError, AWSClie
 /// * For AddPermission and RemovePermission API operations: Call GetPolicy to retrieve the latest RevisionId for your resource.
 ///
 /// * For all other API operations: Call GetFunction or GetAlias to retrieve the latest RevisionId for your resource.
-public struct PreconditionFailedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PreconditionFailedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The exception message.
         public internal(set) var message: Swift.String? = nil
         /// The exception type.
@@ -242,9 +242,9 @@ public struct PreconditionFailedException: ClientRuntime.ModeledError, AWSClient
 }
 
 /// The resource already exists, or another operation is in progress.
-public struct ResourceConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The exception message.
         public internal(set) var message: Swift.String? = nil
         /// The exception type.
@@ -271,9 +271,9 @@ public struct ResourceConflictException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// The resource specified in the request does not exist.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         public internal(set) var type: Swift.String? = nil
     }
@@ -298,9 +298,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// The Lambda service encountered an internal error.
-public struct ServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         public internal(set) var type: Swift.String? = nil
     }
@@ -366,9 +366,9 @@ extension LambdaClientTypes {
 }
 
 /// The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
-public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         public internal(set) var reason: LambdaClientTypes.ThrottleReason? = nil
         /// The number of seconds the caller should wait before retrying.
@@ -1642,9 +1642,9 @@ public struct CreateEventSourceMappingOutput: Swift.Sendable {
 }
 
 /// The specified code signing configuration does not exist.
-public struct CodeSigningConfigNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CodeSigningConfigNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         public internal(set) var type: Swift.String? = nil
     }
@@ -1669,9 +1669,9 @@ public struct CodeSigningConfigNotFoundException: ClientRuntime.ModeledError, AW
 }
 
 /// Your Amazon Web Services account has exceeded its maximum total code size. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html).
-public struct CodeStorageExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CodeStorageExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// The exception type.
         public internal(set) var type: Swift.String? = nil
@@ -1697,9 +1697,9 @@ public struct CodeStorageExceededException: ClientRuntime.ModeledError, AWSClien
 }
 
 /// The code signature failed one or more of the validation checks for signature mismatch or expiry, and the code signing policy is set to ENFORCE. Lambda blocks the deployment.
-public struct CodeVerificationFailedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CodeVerificationFailedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         public internal(set) var type: Swift.String? = nil
     }
@@ -1724,9 +1724,9 @@ public struct CodeVerificationFailedException: ClientRuntime.ModeledError, AWSCl
 }
 
 /// The code signature failed the integrity check. If the integrity check fails, then Lambda blocks deployment, even if the code signing policy is set to WARN.
-public struct InvalidCodeSignatureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidCodeSignatureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         public internal(set) var type: Swift.String? = nil
     }
@@ -3260,9 +3260,9 @@ public struct DeleteCodeSigningConfigOutput: Swift.Sendable {
 }
 
 /// The operation conflicts with the resource's availability. For example, you tried to update an event source mapping in the CREATING state, or you tried to delete an event source mapping currently UPDATING.
-public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         public internal(set) var type: Swift.String? = nil
     }
@@ -4843,9 +4843,9 @@ public struct GetPolicyOutput: Swift.Sendable {
 }
 
 /// The specified configuration does not exist.
-public struct ProvisionedConcurrencyConfigNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ProvisionedConcurrencyConfigNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         public internal(set) var type: Swift.String? = nil
     }
@@ -5039,9 +5039,9 @@ public struct GetRuntimeManagementConfigOutput: Swift.Sendable {
 }
 
 /// Need additional permissions to configure VPC settings.
-public struct EC2AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct EC2AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         public internal(set) var type: Swift.String? = nil
     }
@@ -5066,9 +5066,9 @@ public struct EC2AccessDeniedException: ClientRuntime.ModeledError, AWSClientRun
 }
 
 /// Amazon EC2 throttled Lambda during Lambda function initialization using the execution role provided for the function.
-public struct EC2ThrottledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct EC2ThrottledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         public internal(set) var type: Swift.String? = nil
     }
@@ -5093,9 +5093,9 @@ public struct EC2ThrottledException: ClientRuntime.ModeledError, AWSClientRuntim
 }
 
 /// Lambda received an unexpected Amazon EC2 client exception while setting up for the Lambda function.
-public struct EC2UnexpectedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct EC2UnexpectedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var ec2ErrorCode: Swift.String? = nil
         public internal(set) var message: Swift.String? = nil
         public internal(set) var type: Swift.String? = nil
@@ -5123,9 +5123,9 @@ public struct EC2UnexpectedException: ClientRuntime.ModeledError, AWSClientRunti
 }
 
 /// An error occurred when reading from or writing to a connected file system.
-public struct EFSIOException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct EFSIOException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         public internal(set) var type: Swift.String? = nil
     }
@@ -5150,9 +5150,9 @@ public struct EFSIOException: ClientRuntime.ModeledError, AWSClientRuntime.AWSSe
 }
 
 /// The Lambda function couldn't make a network connection to the configured file system.
-public struct EFSMountConnectivityException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct EFSMountConnectivityException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         public internal(set) var type: Swift.String? = nil
     }
@@ -5177,9 +5177,9 @@ public struct EFSMountConnectivityException: ClientRuntime.ModeledError, AWSClie
 }
 
 /// The Lambda function couldn't mount the configured file system due to a permission or configuration issue.
-public struct EFSMountFailureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct EFSMountFailureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         public internal(set) var type: Swift.String? = nil
     }
@@ -5204,9 +5204,9 @@ public struct EFSMountFailureException: ClientRuntime.ModeledError, AWSClientRun
 }
 
 /// The Lambda function made a network connection to the configured file system, but the mount operation timed out.
-public struct EFSMountTimeoutException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct EFSMountTimeoutException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         public internal(set) var type: Swift.String? = nil
     }
@@ -5231,9 +5231,9 @@ public struct EFSMountTimeoutException: ClientRuntime.ModeledError, AWSClientRun
 }
 
 /// Lambda couldn't create an elastic network interface in the VPC, specified as part of Lambda function configuration, because the limit for network interfaces has been reached. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html).
-public struct ENILimitReachedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ENILimitReachedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         public internal(set) var type: Swift.String? = nil
     }
@@ -5258,9 +5258,9 @@ public struct ENILimitReachedException: ClientRuntime.ModeledError, AWSClientRun
 }
 
 /// The request body could not be parsed as JSON.
-public struct InvalidRequestContentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidRequestContentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The exception message.
         public internal(set) var message: Swift.String? = nil
         /// The exception type.
@@ -5287,9 +5287,9 @@ public struct InvalidRequestContentException: ClientRuntime.ModeledError, AWSCli
 }
 
 /// The runtime or runtime version specified is not supported.
-public struct InvalidRuntimeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidRuntimeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         public internal(set) var type: Swift.String? = nil
     }
@@ -5314,9 +5314,9 @@ public struct InvalidRuntimeException: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 /// The security group ID provided in the Lambda function VPC configuration is not valid.
-public struct InvalidSecurityGroupIDException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidSecurityGroupIDException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         public internal(set) var type: Swift.String? = nil
     }
@@ -5341,9 +5341,9 @@ public struct InvalidSecurityGroupIDException: ClientRuntime.ModeledError, AWSCl
 }
 
 /// The subnet ID provided in the Lambda function VPC configuration is not valid.
-public struct InvalidSubnetIDException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidSubnetIDException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         public internal(set) var type: Swift.String? = nil
     }
@@ -5368,9 +5368,9 @@ public struct InvalidSubnetIDException: ClientRuntime.ModeledError, AWSClientRun
 }
 
 /// Lambda could not unzip the deployment package.
-public struct InvalidZipFileException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidZipFileException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         public internal(set) var type: Swift.String? = nil
     }
@@ -5395,9 +5395,9 @@ public struct InvalidZipFileException: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 /// Lambda couldn't decrypt the environment variables because KMS access was denied. Check the Lambda function's KMS permissions.
-public struct KMSAccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct KMSAccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         public internal(set) var type: Swift.String? = nil
     }
@@ -5422,9 +5422,9 @@ public struct KMSAccessDeniedException: ClientRuntime.ModeledError, AWSClientRun
 }
 
 /// Lambda couldn't decrypt the environment variables because the KMS key used is disabled. Check the Lambda function's KMS key settings.
-public struct KMSDisabledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct KMSDisabledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         public internal(set) var type: Swift.String? = nil
     }
@@ -5449,9 +5449,9 @@ public struct KMSDisabledException: ClientRuntime.ModeledError, AWSClientRuntime
 }
 
 /// Lambda couldn't decrypt the environment variables because the state of the KMS key used is not valid for Decrypt. Check the function's KMS key settings.
-public struct KMSInvalidStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct KMSInvalidStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         public internal(set) var type: Swift.String? = nil
     }
@@ -5476,9 +5476,9 @@ public struct KMSInvalidStateException: ClientRuntime.ModeledError, AWSClientRun
 }
 
 /// Lambda couldn't decrypt the environment variables because the KMS key was not found. Check the function's KMS key settings.
-public struct KMSNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct KMSNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         public internal(set) var type: Swift.String? = nil
     }
@@ -5503,9 +5503,9 @@ public struct KMSNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime
 }
 
 /// Lambda has detected your function being invoked in a recursive loop with other Amazon Web Services resources and stopped your function's invocation.
-public struct RecursiveInvocationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct RecursiveInvocationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The exception message.
         public internal(set) var message: Swift.String? = nil
         /// The exception type.
@@ -5532,9 +5532,9 @@ public struct RecursiveInvocationException: ClientRuntime.ModeledError, AWSClien
 }
 
 /// The request payload exceeded the Invoke request body JSON input quota. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html).
-public struct RequestTooLargeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct RequestTooLargeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         public internal(set) var type: Swift.String? = nil
     }
@@ -5559,9 +5559,9 @@ public struct RequestTooLargeException: ClientRuntime.ModeledError, AWSClientRun
 }
 
 /// The function is inactive and its VPC connection is no longer available. Wait for the VPC connection to reestablish and try again.
-public struct ResourceNotReadyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotReadyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The exception message.
         public internal(set) var message: Swift.String? = nil
         /// The exception type.
@@ -5588,9 +5588,9 @@ public struct ResourceNotReadyException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// The afterRestore()[runtime hook](https://docs.aws.amazon.com/lambda/latest/dg/snapstart-runtime-hooks.html) encountered an error. For more information, check the Amazon CloudWatch logs.
-public struct SnapStartException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SnapStartException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         public internal(set) var type: Swift.String? = nil
     }
@@ -5615,9 +5615,9 @@ public struct SnapStartException: ClientRuntime.ModeledError, AWSClientRuntime.A
 }
 
 /// Lambda is initializing your function. You can invoke the function when the [function state](https://docs.aws.amazon.com/lambda/latest/dg/functions-states.html) becomes Active.
-public struct SnapStartNotReadyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SnapStartNotReadyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         public internal(set) var type: Swift.String? = nil
     }
@@ -5642,9 +5642,9 @@ public struct SnapStartNotReadyException: ClientRuntime.ModeledError, AWSClientR
 }
 
 /// Lambda couldn't restore the snapshot within the timeout limit.
-public struct SnapStartTimeoutException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SnapStartTimeoutException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         public internal(set) var type: Swift.String? = nil
     }
@@ -5669,9 +5669,9 @@ public struct SnapStartTimeoutException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// Lambda couldn't set up VPC access for the Lambda function because one or more configured subnets has no available IP addresses.
-public struct SubnetIPAddressLimitReachedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SubnetIPAddressLimitReachedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         public internal(set) var type: Swift.String? = nil
     }
@@ -5696,9 +5696,9 @@ public struct SubnetIPAddressLimitReachedException: ClientRuntime.ModeledError, 
 }
 
 /// The content type of the Invoke request body is not JSON.
-public struct UnsupportedMediaTypeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnsupportedMediaTypeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         public internal(set) var type: Swift.String? = nil
     }
