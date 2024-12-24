@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ECRClient: ClientRuntime.Client {
     public static let clientName = "ECRClient"
-    public static let version = "1.0.65"
+    public static let version = "1.0.66"
     let client: ClientRuntime.SdkHttpClient
     let config: ECRClient.ECRClientConfiguration
     let serviceName = "ECR"
@@ -1880,7 +1880,7 @@ extension ECRClient {
 
     /// Performs the `GetAccountSetting` operation on the `AmazonEC2ContainerRegistry_V20150921` service.
     ///
-    /// Retrieves the basic scan type version name.
+    /// Retrieves the account setting value for the specified setting name.
     ///
     /// - Parameter GetAccountSettingInput : [no documentation found]
     ///
@@ -2681,7 +2681,7 @@ extension ECRClient {
 
     /// Performs the `PutAccountSetting` operation on the `AmazonEC2ContainerRegistry_V20150921` service.
     ///
-    /// Allows you to change the basic scan type version by setting the name parameter to either CLAIR to AWS_NATIVE.
+    /// Allows you to change the basic scan type version or registry policy scope.
     ///
     /// - Parameter PutAccountSettingInput : [no documentation found]
     ///
