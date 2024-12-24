@@ -16,18 +16,29 @@ import class AWSSDKHTTPAuth.AWSSigV4Signer
 import struct Foundation.Date
 import struct Foundation.TimeInterval
 
+/// A utility class with a single utility method that generates IAM authentication token used for connecting to RDS.
 @_spi(AuthTokenGenerator)
 public class AuthTokenGenerator {
     public var awsCredentialIdentity: AWSCredentialIdentity
 
+    /// The initializer that takes in AWSCredentialIdentity struct to use to generate the IAM authentication token.
     public init(awsCredentialIdentity: AWSCredentialIdentity) {
         self.awsCredentialIdentity = awsCredentialIdentity
     }
 
+    /// The initializer that takes in a specific AWSCredentialIdentityResolver, used to resolve the AWSCredentialIdentity used to generate the IAM authentication token.
     public init(awsCredentialIdentityResolver: any AWSCredentialIdentityResolver) async  throws {
         self.awsCredentialIdentity = try await awsCredentialIdentityResolver.getIdentity()
     }
 
+    /// Generates authenetication token using given inputs to the method and credential identity instance variable.
+    ///
+    /// - Parameters:
+    ///   - endpoint: The endpoint of the RDS instance. E.g., `rdsmysql.123456789012.us-west-2.rds.amazonaws.com`
+    ///   - port: The port of the RDS instance to connect to. E.g., `3306`
+    ///   - region: The region that RDS instance is located in. E.g., `us-west-2`
+    ///   - username: The username of the RDS database user. E.g., `admin`
+    ///   - expiration: The expiration for the token in seconds. Default is 900 seconds (15 minutes).
     public func generateAuthToken(
         endpoint: String,
         port: Int16,
@@ -40,7 +51,7 @@ public class AuthTokenGenerator {
         requestBuilder.withHost(endpoint)
         requestBuilder.withPort(port)
 
-        // Add the Host header and the required query items.
+        // Add the Host header and the required query items for the desired presigned URL.
         requestBuilder.withHeader(name: "Host", value: "\(endpoint):\(port)")
         requestBuilder.withQueryItem(URIQueryItem(name: "Action", value: "connect"))
         requestBuilder.withQueryItem(URIQueryItem(name: "DBUser", value: username))
