@@ -6,13 +6,13 @@
 //
 
 import AwsCommonRuntimeKit
+import class AWSSDKHTTPAuth.AWSSigV4Signer
+import ClientRuntime
 import Smithy
-import SmithyIdentity
 import SmithyHTTPAPI
 import SmithyHTTPAuth
 import SmithyHTTPAuthAPI
-import ClientRuntime
-import class AWSSDKHTTPAuth.AWSSigV4Signer
+import SmithyIdentity
 import struct Foundation.Date
 import struct Foundation.TimeInterval
 
