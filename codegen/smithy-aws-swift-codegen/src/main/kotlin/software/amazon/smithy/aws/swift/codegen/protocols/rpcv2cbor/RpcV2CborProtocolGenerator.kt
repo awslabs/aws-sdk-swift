@@ -24,7 +24,7 @@ class RpcV2CborProtocolGenerator : AWSHTTPBindingProtocolGenerator(RpcV2CborCust
     override val shouldRenderEncodableConformance = true
 
     override fun getProtocolHttpBindingResolver(ctx: ProtocolGenerator.GenerationContext, defaultContentType: String):
-            HttpBindingResolver = RPCV2CBORHttpBindingResolver(ctx, defaultContentType)
+        HttpBindingResolver = RPCV2CBORHttpBindingResolver(ctx, defaultContentType)
 
     override fun addProtocolSpecificMiddleware(ctx: ProtocolGenerator.GenerationContext, operation: OperationShape) {
         super.addProtocolSpecificMiddleware(ctx, operation)
@@ -53,12 +53,13 @@ class RpcV2CborProtocolGenerator : AWSHTTPBindingProtocolGenerator(RpcV2CborCust
 
         // Middleware to set smithy-protocol and Accept headers
         // Every request for the rpcv2Cbor protocol MUST contain a smithy-protocol header with the value of rpc-v2-cbor
-        val smithyProtocolRequestHeaderMiddleware = MutateHeadersMiddleware(overrideHeaders = mapOf(
-            "smithy-protocol" to "rpc-v2-cbor",
-            "Accept" to acceptHeaderValue
-        ))
+        val smithyProtocolRequestHeaderMiddleware = MutateHeadersMiddleware(
+            overrideHeaders = mapOf(
+                "smithy-protocol" to "rpc-v2-cbor",
+                "Accept" to acceptHeaderValue
+            )
+        )
 
-        //val resolver = getProtocolHttpBindingResolver(ctx, defaultContentType)
         operationMiddleware.appendMiddleware(operation, smithyProtocolRequestHeaderMiddleware)
         operationMiddleware.appendMiddleware(operation, RpcV2CborValidateResponseHeaderMiddleware)
 

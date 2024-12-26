@@ -17,7 +17,7 @@ class RPCV2CBORHttpBindingResolver(
 ) : StaticHttpBindingResolver(context, rpcv2CborHttpTrait, defaultContentType) {
 
     companion object {
-        private val rpcv2CborHttpTrait: HttpTrait =  HttpTrait
+        private val rpcv2CborHttpTrait: HttpTrait = HttpTrait
             .builder()
             .code(200)
             .method("POST")

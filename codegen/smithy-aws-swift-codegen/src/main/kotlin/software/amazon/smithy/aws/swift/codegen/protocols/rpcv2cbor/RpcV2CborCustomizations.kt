@@ -12,8 +12,4 @@ class RpcV2CborCustomizations : AWSHTTPProtocolCustomizations() {
     // Timestamp format is not used in RpcV2Cbor since it's a binary protocol. We seem to be missing an abstraction
     // between text-based and binary-based protocols
     override val defaultTimestampFormat = TimestampFormatTrait.Format.UNKNOWN
-
-//    override fun alwaysHasHttpBody(): Boolean {
-//        return true
-//    }
 }

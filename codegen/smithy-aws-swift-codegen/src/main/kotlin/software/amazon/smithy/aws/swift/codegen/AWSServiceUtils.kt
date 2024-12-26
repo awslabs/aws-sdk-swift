@@ -7,7 +7,6 @@ package software.amazon.smithy.aws.swift.codegen
 
 import software.amazon.smithy.aws.traits.ServiceTrait
 import software.amazon.smithy.model.shapes.ServiceShape
-import software.amazon.smithy.swift.codegen.model.expectTrait
 import software.amazon.smithy.swift.codegen.model.getTrait
 
 /**
