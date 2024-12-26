@@ -31,6 +31,16 @@ public class AuthTokenGenerator {
         self.awsCredentialIdentity = try await awsCredentialIdentityResolver.getIdentity()
     }
 
+    /// Updates the AWS credentials used to generate the IAM auth token.
+    public func updateCredentials(newAWSCredentialIdentity: AWSCredentialIdentity) {
+        self.awsCredentialIdentity = newAWSCredentialIdentity
+    }
+
+    /// Updates the AWS credentials used to generate the IAM auth token by resolving credentials from passed in resolver.
+    public func updateCredentials(awsCredentialIdentityResolver: any AWSCredentialIdentityResolver) async throws {
+        self.awsCredentialIdentity = try await awsCredentialIdentityResolver.getIdentity()
+    }
+
     /// Generates authenetication token using given inputs to the method and credential identity instance variable.
     ///
     /// - Parameters:
