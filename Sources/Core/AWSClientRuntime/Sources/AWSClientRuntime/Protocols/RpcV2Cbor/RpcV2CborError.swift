@@ -47,28 +47,10 @@ public struct RpcV2CborError: BaseError {
     }
 }
 
+// support awsQueryCompatible trait
 extension RpcV2CborError {
     @_spi(SmithyReadWrite)
     public static func makeQueryCompatibleError(
-        httpResponse: HTTPResponse,
-        responseReader: Reader,
-        noErrorWrapping: Bool,
-        errorDetails: String?
-    ) throws -> RpcV2CborError {
-        let errorCode = try AwsQueryCompatibleErrorDetails.parse(errorDetails).code
-        return try RpcV2CborError(
-            httpResponse: httpResponse,
-            responseReader: responseReader,
-            noErrorWrapping: noErrorWrapping,
-            code: errorCode
-        )
-    }
-}
-
-// support awsQueryCompatible trait
-extension AWSJSONError {
-    @_spi(SmithyReadWrite)
-    public static func makeQueryCompatibleAWSJsonError(
         httpResponse: HTTPResponse,
         responseReader: Reader,
         noErrorWrapping: Bool,
