@@ -13,14 +13,14 @@ import software.amazon.smithy.swift.codegen.integration.middlewares.handlers.Mid
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareRenderable
 import software.amazon.smithy.swift.codegen.model.shapes
 
-class RpcV2CborValidateResponseHeaderIntegration : SwiftIntegration {
+class CborValidateResponseHeaderIntegration : SwiftIntegration {
     override fun enabledForService(model: Model, settings: SwiftSettings): Boolean = model
         .shapes<ServiceShape>()
         .any { it.hasTrait(Rpcv2CborTrait::class.java) }
 }
 
-object RpcV2CborValidateResponseHeaderMiddleware : MiddlewareRenderable {
-    override val name = "RpcV2CborValidateResponseHeaderMiddleware"
+object CborValidateResponseHeaderMiddleware : MiddlewareRenderable {
+    override val name = "CborValidateResponseHeaderMiddleware"
 
     override fun renderMiddlewareInit(
         ctx: ProtocolGenerator.GenerationContext,
@@ -31,7 +31,7 @@ object RpcV2CborValidateResponseHeaderMiddleware : MiddlewareRenderable {
         val outputShapeName = MiddlewareShapeUtils.outputSymbol(ctx.symbolProvider, ctx.model, op).name
         writer.write(
             "\$N<\$L, \$L>()",
-            AWSClientRuntimeTypes.RpcV2Cbor.RpcV2CborValidateResponseHeaderMiddleware,
+            AWSClientRuntimeTypes.RpcV2Cbor.CborValidateResponseHeaderMiddleware,
             inputShapeName,
             outputShapeName,
         )

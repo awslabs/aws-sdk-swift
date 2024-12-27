@@ -31,7 +31,7 @@ object AWSClientRuntimeTypes {
 
     object RpcV2Cbor {
         val RpcV2CborError = runtimeSymbol("RpcV2CborError", SwiftDeclaration.STRUCT, listOf("SmithyReadWrite"))
-        val RpcV2CborValidateResponseHeaderMiddleware = runtimeSymbol("RpcV2CborValidateResponseHeaderMiddleware", SwiftDeclaration.STRUCT)
+        val CborValidateResponseHeaderMiddleware = runtimeSymbol("CborValidateResponseHeaderMiddleware", SwiftDeclaration.STRUCT)
     }
 
     object Core {

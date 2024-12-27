@@ -61,7 +61,7 @@ class RpcV2CborProtocolGenerator : AWSHTTPBindingProtocolGenerator(RpcV2CborCust
         )
 
         operationMiddleware.appendMiddleware(operation, smithyProtocolRequestHeaderMiddleware)
-        operationMiddleware.appendMiddleware(operation, RpcV2CborValidateResponseHeaderMiddleware)
+        operationMiddleware.appendMiddleware(operation, CborValidateResponseHeaderMiddleware)
 
         if (operation.hasHttpBody(ctx)) {
             operationMiddleware.appendMiddleware(operation, ContentTypeMiddleware(ctx.model, ctx.symbolProvider, contentTypeValue, true))
