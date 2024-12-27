@@ -3481,7 +3481,7 @@ extension TranslateClientTypes.TranslatedDocument {
     static func read(from reader: SmithyJSON.Reader) throws -> TranslateClientTypes.TranslatedDocument {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TranslateClientTypes.TranslatedDocument()
-        value.content = try reader["Content"].readIfPresent() ?? Foundation.Data("".utf8)
+        value.content = try reader["Content"].readIfPresent() ?? Foundation.Data(base64Encoded: "")
         return value
     }
 }

@@ -63,7 +63,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CostExplorerClient: ClientRuntime.Client {
     public static let clientName = "CostExplorerClient"
-    public static let version = "1.0.64"
+    public static let version = "1.0.67"
     let client: ClientRuntime.SdkHttpClient
     let config: CostExplorerClient.CostExplorerClientConfiguration
     let serviceName = "Cost Explorer"
@@ -1199,6 +1199,7 @@ extension CostExplorerClient {
     /// - `InvalidNextTokenException` : The pagination token is invalid. Try again without a pagination token.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     /// - `RequestChangedException` : Your request parameters changed between pages. Try again with the old parameters or without a pagination token.
+    /// - `ResourceNotFoundException` : The specified ARN in the request doesn't exist.
     public func getCostAndUsage(input: GetCostAndUsageInput) async throws -> GetCostAndUsageOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1273,6 +1274,7 @@ extension CostExplorerClient {
     /// - `InvalidNextTokenException` : The pagination token is invalid. Try again without a pagination token.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     /// - `RequestChangedException` : Your request parameters changed between pages. Try again with the old parameters or without a pagination token.
+    /// - `ResourceNotFoundException` : The specified ARN in the request doesn't exist.
     public func getCostAndUsageWithResources(input: GetCostAndUsageWithResourcesInput) async throws -> GetCostAndUsageWithResourcesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1347,6 +1349,7 @@ extension CostExplorerClient {
     /// - `InvalidNextTokenException` : The pagination token is invalid. Try again without a pagination token.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     /// - `RequestChangedException` : Your request parameters changed between pages. Try again with the old parameters or without a pagination token.
+    /// - `ResourceNotFoundException` : The specified ARN in the request doesn't exist.
     public func getCostCategories(input: GetCostCategoriesInput) async throws -> GetCostCategoriesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1418,6 +1421,7 @@ extension CostExplorerClient {
     /// __Possible Exceptions:__
     /// - `DataUnavailableException` : The requested data is unavailable.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
+    /// - `ResourceNotFoundException` : The specified ARN in the request doesn't exist.
     public func getCostForecast(input: GetCostForecastInput) async throws -> GetCostForecastOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1492,6 +1496,7 @@ extension CostExplorerClient {
     /// - `InvalidNextTokenException` : The pagination token is invalid. Try again without a pagination token.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     /// - `RequestChangedException` : Your request parameters changed between pages. Try again with the old parameters or without a pagination token.
+    /// - `ResourceNotFoundException` : The specified ARN in the request doesn't exist.
     public func getDimensionValues(input: GetDimensionValuesInput) async throws -> GetDimensionValuesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2248,6 +2253,7 @@ extension CostExplorerClient {
     /// - `InvalidNextTokenException` : The pagination token is invalid. Try again without a pagination token.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     /// - `RequestChangedException` : Your request parameters changed between pages. Try again with the old parameters or without a pagination token.
+    /// - `ResourceNotFoundException` : The specified ARN in the request doesn't exist.
     public func getTags(input: GetTagsInput) async throws -> GetTagsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2319,6 +2325,7 @@ extension CostExplorerClient {
     /// __Possible Exceptions:__
     /// - `DataUnavailableException` : The requested data is unavailable.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
+    /// - `ResourceNotFoundException` : The specified ARN in the request doesn't exist.
     /// - `UnresolvableUsageUnitException` : Cost Explorer was unable to identify the usage unit. Provide UsageType/UsageTypeGroup filter selections that contain matching units, for example: hours.
     public func getUsageForecast(input: GetUsageForecastInput) async throws -> GetUsageForecastOutput {
         let context = Smithy.ContextBuilder()

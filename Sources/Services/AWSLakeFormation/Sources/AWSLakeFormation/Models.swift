@@ -2849,7 +2849,7 @@ public struct GetWorkUnitResultsOutput: Swift.Sendable {
     public var resultStream: Smithy.ByteStream?
 
     public init(
-        resultStream: Smithy.ByteStream? = Smithy.ByteStream.data(Foundation.Data("".utf8))
+        resultStream: Smithy.ByteStream? = Smithy.ByteStream.data(Foundation.Data(base64Encoded: ""))
     )
     {
         self.resultStream = resultStream

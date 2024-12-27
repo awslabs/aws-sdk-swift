@@ -2593,7 +2593,7 @@ public struct GetPackageVersionAssetOutput: Swift.Sendable {
     public var packageVersionRevision: Swift.String?
 
     public init(
-        asset: Smithy.ByteStream? = Smithy.ByteStream.data(Foundation.Data("".utf8)),
+        asset: Smithy.ByteStream? = Smithy.ByteStream.data(Foundation.Data(base64Encoded: "")),
         assetName: Swift.String? = nil,
         packageVersion: Swift.String? = nil,
         packageVersionRevision: Swift.String? = nil

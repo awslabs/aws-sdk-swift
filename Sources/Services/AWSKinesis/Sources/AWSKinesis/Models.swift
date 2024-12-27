@@ -4428,7 +4428,7 @@ extension KinesisClientTypes.Record {
         var value = KinesisClientTypes.Record()
         value.sequenceNumber = try reader["SequenceNumber"].readIfPresent() ?? ""
         value.approximateArrivalTimestamp = try reader["ApproximateArrivalTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.data = try reader["Data"].readIfPresent() ?? Foundation.Data("".utf8)
+        value.data = try reader["Data"].readIfPresent() ?? Foundation.Data(base64Encoded: "")
         value.partitionKey = try reader["PartitionKey"].readIfPresent() ?? ""
         value.encryptionType = try reader["EncryptionType"].readIfPresent()
         return value

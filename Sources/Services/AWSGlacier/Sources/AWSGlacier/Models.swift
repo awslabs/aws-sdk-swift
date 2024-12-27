@@ -1477,7 +1477,7 @@ public struct GetJobOutputOutput: Swift.Sendable {
     public init(
         acceptRanges: Swift.String? = nil,
         archiveDescription: Swift.String? = nil,
-        body: Smithy.ByteStream? = Smithy.ByteStream.data(Foundation.Data("".utf8)),
+        body: Smithy.ByteStream? = Smithy.ByteStream.data(Foundation.Data(base64Encoded: "")),
         checksum: Swift.String? = nil,
         contentRange: Swift.String? = nil,
         contentType: Swift.String? = nil,

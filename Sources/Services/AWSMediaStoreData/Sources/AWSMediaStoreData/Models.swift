@@ -220,7 +220,7 @@ public struct GetObjectOutput: Swift.Sendable {
     public var statusCode: Swift.Int
 
     public init(
-        body: Smithy.ByteStream? = Smithy.ByteStream.data(Foundation.Data("".utf8)),
+        body: Smithy.ByteStream? = Smithy.ByteStream.data(Foundation.Data(base64Encoded: "")),
         cacheControl: Swift.String? = nil,
         contentLength: Swift.Int? = nil,
         contentRange: Swift.String? = nil,

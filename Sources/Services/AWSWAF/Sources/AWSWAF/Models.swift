@@ -9952,7 +9952,7 @@ extension WAFClientTypes.ByteMatchTuple {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WAFClientTypes.ByteMatchTuple()
         value.fieldToMatch = try reader["FieldToMatch"].readIfPresent(with: WAFClientTypes.FieldToMatch.read(from:))
-        value.targetString = try reader["TargetString"].readIfPresent() ?? Foundation.Data("".utf8)
+        value.targetString = try reader["TargetString"].readIfPresent() ?? Foundation.Data(base64Encoded: "")
         value.textTransformation = try reader["TextTransformation"].readIfPresent() ?? .sdkUnknown("")
         value.positionalConstraint = try reader["PositionalConstraint"].readIfPresent() ?? .sdkUnknown("")
         return value

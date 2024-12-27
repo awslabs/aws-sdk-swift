@@ -1228,8 +1228,12 @@ public struct CreateDBClusterInput: Swift.Sendable {
     ///
     /// KMS creates the default encryption key for your Amazon Web Services account. Your Amazon Web Services account has a different default encryption key for each Amazon Web Services Regions.
     public var kmsKeyId: Swift.String?
+    /// Specifies whether to manage the master user password with Amazon Web Services Secrets Manager. Constraint: You can't manage the master user password with Amazon Web Services Secrets Manager if MasterUserPassword is specified.
+    public var manageMasterUserPassword: Swift.Bool?
     /// The password for the master database user. This password can contain any printable ASCII character except forward slash (/), double quote ("), or the "at" symbol (@). Constraints: Must contain from 8 to 100 characters.
     public var masterUserPassword: Swift.String?
+    /// The Amazon Web Services KMS key identifier to encrypt a secret that is automatically generated and managed in Amazon Web Services Secrets Manager. This setting is valid only if the master user password is managed by Amazon DocumentDB in Amazon Web Services Secrets Manager for the DB cluster. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. To use a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN. If you don't specify MasterUserSecretKmsKeyId, then the aws/secretsmanager KMS key is used to encrypt the secret. If the secret is in a different Amazon Web Services account, then you can't use the aws/secretsmanager KMS key to encrypt the secret, and you must use a customer managed KMS key. There is a default KMS key for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region.
+    public var masterUserSecretKmsKeyId: Swift.String?
     /// The name of the master user for the cluster. Constraints:
     ///
     /// * Must be from 1 to 63 letters or numbers.
@@ -1275,7 +1279,9 @@ public struct CreateDBClusterInput: Swift.Sendable {
         engineVersion: Swift.String? = nil,
         globalClusterIdentifier: Swift.String? = nil,
         kmsKeyId: Swift.String? = nil,
+        manageMasterUserPassword: Swift.Bool? = nil,
         masterUserPassword: Swift.String? = nil,
+        masterUserSecretKmsKeyId: Swift.String? = nil,
         masterUsername: Swift.String? = nil,
         port: Swift.Int? = nil,
         preSignedUrl: Swift.String? = nil,
@@ -1298,7 +1304,9 @@ public struct CreateDBClusterInput: Swift.Sendable {
         self.engineVersion = engineVersion
         self.globalClusterIdentifier = globalClusterIdentifier
         self.kmsKeyId = kmsKeyId
+        self.manageMasterUserPassword = manageMasterUserPassword
         self.masterUserPassword = masterUserPassword
+        self.masterUserSecretKmsKeyId = masterUserSecretKmsKeyId
         self.masterUsername = masterUsername
         self.port = port
         self.preSignedUrl = preSignedUrl
@@ -1367,6 +1375,38 @@ extension DocDBClientTypes {
 
 extension DocDBClientTypes {
 
+    /// Contains the secret managed by Amazon DocumentDB in Amazon Web Services Secrets Manager for the master user password.
+    public struct ClusterMasterUserSecret: Swift.Sendable {
+        /// The Amazon Web Services KMS key identifier that is used to encrypt the secret.
+        public var kmsKeyId: Swift.String?
+        /// The Amazon Resource Name (ARN) of the secret.
+        public var secretArn: Swift.String?
+        /// The status of the secret. The possible status values include the following:
+        ///
+        /// * creating - The secret is being created.
+        ///
+        /// * active - The secret is available for normal use and rotation.
+        ///
+        /// * rotating - The secret is being rotated.
+        ///
+        /// * impaired - The secret can be used to access database credentials, but it can't be rotated. A secret might have this status if, for example, permissions are changed so that Amazon DocumentDB can no longer access either the secret or the KMS key for the secret. When a secret has this status, you can correct the condition that caused the status. Alternatively, modify the instance to turn off automatic management of database credentials, and then modify the instance again to turn on automatic management of database credentials.
+        public var secretStatus: Swift.String?
+
+        public init(
+            kmsKeyId: Swift.String? = nil,
+            secretArn: Swift.String? = nil,
+            secretStatus: Swift.String? = nil
+        )
+        {
+            self.kmsKeyId = kmsKeyId
+            self.secretArn = secretArn
+            self.secretStatus = secretStatus
+        }
+    }
+}
+
+extension DocDBClientTypes {
+
     /// Used as a response element for queries on virtual private cloud (VPC) security group membership.
     public struct VpcSecurityGroupMembership: Swift.Sendable {
         /// The status of the VPC security group.
@@ -1429,6 +1469,8 @@ extension DocDBClientTypes {
         public var kmsKeyId: Swift.String?
         /// Specifies the latest time to which a database can be restored with point-in-time restore.
         public var latestRestorableTime: Foundation.Date?
+        /// The secret managed by Amazon DocumentDB in Amazon Web Services Secrets Manager for the master user password.
+        public var masterUserSecret: DocDBClientTypes.ClusterMasterUserSecret?
         /// Contains the master user name for the cluster.
         public var masterUsername: Swift.String?
         /// Specifies whether the cluster has instances in multiple Availability Zones.
@@ -1477,6 +1519,7 @@ extension DocDBClientTypes {
             hostedZoneId: Swift.String? = nil,
             kmsKeyId: Swift.String? = nil,
             latestRestorableTime: Foundation.Date? = nil,
+            masterUserSecret: DocDBClientTypes.ClusterMasterUserSecret? = nil,
             masterUsername: Swift.String? = nil,
             multiAZ: Swift.Bool? = nil,
             percentProgress: Swift.String? = nil,
@@ -1512,6 +1555,7 @@ extension DocDBClientTypes {
             self.hostedZoneId = hostedZoneId
             self.kmsKeyId = kmsKeyId
             self.latestRestorableTime = latestRestorableTime
+            self.masterUserSecret = masterUserSecret
             self.masterUsername = masterUsername
             self.multiAZ = multiAZ
             self.percentProgress = percentProgress
@@ -4404,8 +4448,19 @@ public struct ModifyDBClusterInput: Swift.Sendable {
     public var deletionProtection: Swift.Bool?
     /// The version number of the database engine to which you want to upgrade. Changing this parameter results in an outage. The change is applied during the next maintenance window unless ApplyImmediately is enabled. To list all of the available engine versions for Amazon DocumentDB use the following command: aws docdb describe-db-engine-versions --engine docdb --query "DBEngineVersions[].EngineVersion"
     public var engineVersion: Swift.String?
+    /// Specifies whether to manage the master user password with Amazon Web Services Secrets Manager. If the cluster doesn't manage the master user password with Amazon Web Services Secrets Manager, you can turn on this management. In this case, you can't specify MasterUserPassword. If the cluster already manages the master user password with Amazon Web Services Secrets Manager, and you specify that the master user password is not managed with Amazon Web Services Secrets Manager, then you must specify MasterUserPassword. In this case, Amazon DocumentDB deletes the secret and uses the new password for the master user specified by MasterUserPassword.
+    public var manageMasterUserPassword: Swift.Bool?
     /// The password for the master database user. This password can contain any printable ASCII character except forward slash (/), double quote ("), or the "at" symbol (@). Constraints: Must contain from 8 to 100 characters.
     public var masterUserPassword: Swift.String?
+    /// The Amazon Web Services KMS key identifier to encrypt a secret that is automatically generated and managed in Amazon Web Services Secrets Manager. This setting is valid only if both of the following conditions are met:
+    ///
+    /// * The cluster doesn't manage the master user password in Amazon Web Services Secrets Manager. If the cluster already manages the master user password in Amazon Web Services Secrets Manager, you can't change the KMS key that is used to encrypt the secret.
+    ///
+    /// * You are enabling ManageMasterUserPassword to manage the master user password in Amazon Web Services Secrets Manager. If you are turning on ManageMasterUserPassword and don't specify MasterUserSecretKmsKeyId, then the aws/secretsmanager KMS key is used to encrypt the secret. If the secret is in a different Amazon Web Services account, then you can't use the aws/secretsmanager KMS key to encrypt the secret, and you must use a customer managed KMS key.
+    ///
+    ///
+    /// The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. To use a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN. There is a default KMS key for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region.
+    public var masterUserSecretKmsKeyId: Swift.String?
     /// The new cluster identifier for the cluster when renaming a cluster. This value is stored as a lowercase string. Constraints:
     ///
     /// * Must contain from 1 to 63 letters, numbers, or hyphens.
@@ -4431,6 +4486,8 @@ public struct ModifyDBClusterInput: Swift.Sendable {
     public var preferredBackupWindow: Swift.String?
     /// The weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC). Format: ddd:hh24:mi-ddd:hh24:mi The default is a 30-minute window selected at random from an 8-hour block of time for each Amazon Web Services Region, occurring on a random day of the week. Valid days: Mon, Tue, Wed, Thu, Fri, Sat, Sun Constraints: Minimum 30-minute window.
     public var preferredMaintenanceWindow: Swift.String?
+    /// Specifies whether to rotate the secret managed by Amazon Web Services Secrets Manager for the master user password. This setting is valid only if the master user password is managed by Amazon DocumentDB in Amazon Web Services Secrets Manager for the cluster. The secret value contains the updated password. Constraint: You must apply the change immediately when rotating the master user password.
+    public var rotateMasterUserPassword: Swift.Bool?
     /// The storage type to associate with the DB cluster. For information on storage types for Amazon DocumentDB clusters, see Cluster storage configurations in the Amazon DocumentDB Developer Guide. Valid values for storage type - standard | iopt1 Default value is standard
     public var storageType: Swift.String?
     /// A list of virtual private cloud (VPC) security groups that the cluster will belong to.
@@ -4445,11 +4502,14 @@ public struct ModifyDBClusterInput: Swift.Sendable {
         dbClusterParameterGroupName: Swift.String? = nil,
         deletionProtection: Swift.Bool? = nil,
         engineVersion: Swift.String? = nil,
+        manageMasterUserPassword: Swift.Bool? = nil,
         masterUserPassword: Swift.String? = nil,
+        masterUserSecretKmsKeyId: Swift.String? = nil,
         newDBClusterIdentifier: Swift.String? = nil,
         port: Swift.Int? = nil,
         preferredBackupWindow: Swift.String? = nil,
         preferredMaintenanceWindow: Swift.String? = nil,
+        rotateMasterUserPassword: Swift.Bool? = nil,
         storageType: Swift.String? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil
     )
@@ -4462,11 +4522,14 @@ public struct ModifyDBClusterInput: Swift.Sendable {
         self.dbClusterParameterGroupName = dbClusterParameterGroupName
         self.deletionProtection = deletionProtection
         self.engineVersion = engineVersion
+        self.manageMasterUserPassword = manageMasterUserPassword
         self.masterUserPassword = masterUserPassword
+        self.masterUserSecretKmsKeyId = masterUserSecretKmsKeyId
         self.newDBClusterIdentifier = newDBClusterIdentifier
         self.port = port
         self.preferredBackupWindow = preferredBackupWindow
         self.preferredMaintenanceWindow = preferredMaintenanceWindow
+        self.rotateMasterUserPassword = rotateMasterUserPassword
         self.storageType = storageType
         self.vpcSecurityGroupIds = vpcSecurityGroupIds
     }
@@ -5823,7 +5886,9 @@ extension CreateDBClusterInput {
         try writer["EngineVersion"].write(value.engineVersion)
         try writer["GlobalClusterIdentifier"].write(value.globalClusterIdentifier)
         try writer["KmsKeyId"].write(value.kmsKeyId)
+        try writer["ManageMasterUserPassword"].write(value.manageMasterUserPassword)
         try writer["MasterUserPassword"].write(value.masterUserPassword)
+        try writer["MasterUserSecretKmsKeyId"].write(value.masterUserSecretKmsKeyId)
         try writer["MasterUsername"].write(value.masterUsername)
         try writer["Port"].write(value.port)
         try writer["PreSignedUrl"].write(value.preSignedUrl)
@@ -6271,11 +6336,14 @@ extension ModifyDBClusterInput {
         try writer["DBClusterParameterGroupName"].write(value.dbClusterParameterGroupName)
         try writer["DeletionProtection"].write(value.deletionProtection)
         try writer["EngineVersion"].write(value.engineVersion)
+        try writer["ManageMasterUserPassword"].write(value.manageMasterUserPassword)
         try writer["MasterUserPassword"].write(value.masterUserPassword)
+        try writer["MasterUserSecretKmsKeyId"].write(value.masterUserSecretKmsKeyId)
         try writer["NewDBClusterIdentifier"].write(value.newDBClusterIdentifier)
         try writer["Port"].write(value.port)
         try writer["PreferredBackupWindow"].write(value.preferredBackupWindow)
         try writer["PreferredMaintenanceWindow"].write(value.preferredMaintenanceWindow)
+        try writer["RotateMasterUserPassword"].write(value.rotateMasterUserPassword)
         try writer["StorageType"].write(value.storageType)
         try writer["VpcSecurityGroupIds"].writeList(value.vpcSecurityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "VpcSecurityGroupId", isFlattened: false)
         try writer["Action"].write("ModifyDBCluster")
@@ -8937,6 +9005,19 @@ extension DocDBClientTypes.DBCluster {
         value.enabledCloudwatchLogsExports = try reader["EnabledCloudwatchLogsExports"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.deletionProtection = try reader["DeletionProtection"].readIfPresent()
         value.storageType = try reader["StorageType"].readIfPresent()
+        value.masterUserSecret = try reader["MasterUserSecret"].readIfPresent(with: DocDBClientTypes.ClusterMasterUserSecret.read(from:))
+        return value
+    }
+}
+
+extension DocDBClientTypes.ClusterMasterUserSecret {
+
+    static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.ClusterMasterUserSecret {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DocDBClientTypes.ClusterMasterUserSecret()
+        value.secretArn = try reader["SecretArn"].readIfPresent()
+        value.secretStatus = try reader["SecretStatus"].readIfPresent()
+        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
         return value
     }
 }

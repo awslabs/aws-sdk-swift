@@ -2039,7 +2039,7 @@ public struct GetTileOutput: Swift.Sendable {
     public var binaryFile: Smithy.ByteStream?
 
     public init(
-        binaryFile: Smithy.ByteStream? = Smithy.ByteStream.data(Foundation.Data("".utf8))
+        binaryFile: Smithy.ByteStream? = Smithy.ByteStream.data(Foundation.Data(base64Encoded: ""))
     )
     {
         self.binaryFile = binaryFile

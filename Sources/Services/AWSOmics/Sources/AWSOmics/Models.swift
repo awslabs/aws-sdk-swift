@@ -3972,7 +3972,7 @@ public struct GetReadSetOutput: Swift.Sendable {
     public var payload: Smithy.ByteStream?
 
     public init(
-        payload: Smithy.ByteStream? = Smithy.ByteStream.data(Foundation.Data("".utf8))
+        payload: Smithy.ByteStream? = Smithy.ByteStream.data(Foundation.Data(base64Encoded: ""))
     )
     {
         self.payload = payload
@@ -4590,7 +4590,7 @@ public struct GetReferenceOutput: Swift.Sendable {
     public var payload: Smithy.ByteStream?
 
     public init(
-        payload: Smithy.ByteStream? = Smithy.ByteStream.data(Foundation.Data("".utf8))
+        payload: Smithy.ByteStream? = Smithy.ByteStream.data(Foundation.Data(base64Encoded: ""))
     )
     {
         self.payload = payload

@@ -325,7 +325,7 @@ public struct GetMediaOutput: Swift.Sendable {
 
     public init(
         contentType: Swift.String? = nil,
-        payload: Smithy.ByteStream? = Smithy.ByteStream.data(Foundation.Data("".utf8))
+        payload: Smithy.ByteStream? = Smithy.ByteStream.data(Foundation.Data(base64Encoded: ""))
     )
     {
         self.contentType = contentType

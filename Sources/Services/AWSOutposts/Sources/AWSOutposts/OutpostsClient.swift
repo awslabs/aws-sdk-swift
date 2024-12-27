@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class OutpostsClient: ClientRuntime.Client {
     public static let clientName = "OutpostsClient"
-    public static let version = "1.0.64"
+    public static let version = "1.0.67"
     let client: ClientRuntime.SdkHttpClient
     let config: OutpostsClient.OutpostsClientConfiguration
     let serviceName = "Outposts"
@@ -2080,7 +2080,7 @@ extension OutpostsClient {
 
     /// Performs the `StartCapacityTask` operation on the `OutpostsOlafService` service.
     ///
-    /// Starts the specified capacity task. You can have one active capacity task per order or Outpost.
+    /// Starts the specified capacity task. You can have one active capacity task for each order and each Outpost.
     ///
     /// - Parameter StartCapacityTaskInput : [no documentation found]
     ///

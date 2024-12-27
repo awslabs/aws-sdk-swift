@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class BCMPricingCalculatorClient: ClientRuntime.Client {
     public static let clientName = "BCMPricingCalculatorClient"
-    public static let version = "1.0.64"
+    public static let version = "1.0.67"
     let client: ClientRuntime.SdkHttpClient
     let config: BCMPricingCalculatorClient.BCMPricingCalculatorClientConfiguration
     let serviceName = "BCM Pricing Calculator"
@@ -1261,6 +1261,7 @@ extension BCMPricingCalculatorClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource.
     /// - `DataUnavailableException` : The requested data is currently unavailable.
     /// - `InternalServerException` : An internal error has occurred. Retry your request, but if the problem persists, contact Amazon Web Services support.
     /// - `ThrottlingException` : The request was denied due to request throttling.

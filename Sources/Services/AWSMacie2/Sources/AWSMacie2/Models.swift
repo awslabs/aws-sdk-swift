@@ -336,14 +336,16 @@ extension Macie2ClientTypes {
 
 extension Macie2ClientTypes {
 
-    /// The error code for an error that prevented Amazon Macie from retrieving and processing information about an S3 bucket and the bucket's objects.
+    /// The code for an error or issue that prevented Amazon Macie from retrieving and processing information about an S3 bucket and the bucket's objects.
     public enum BucketMetadataErrorCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case accessDenied
+        case bucketCountExceedsQuota
         case sdkUnknown(Swift.String)
 
         public static var allCases: [BucketMetadataErrorCode] {
             return [
-                .accessDenied
+                .accessDenied,
+                .bucketCountExceedsQuota
             ]
         }
 
@@ -355,6 +357,7 @@ extension Macie2ClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .accessDenied: return "ACCESS_DENIED"
+            case .bucketCountExceedsQuota: return "BUCKET_COUNT_EXCEEDS_QUOTA"
             case let .sdkUnknown(s): return s
             }
         }
@@ -851,7 +854,7 @@ extension Macie2ClientTypes {
 
 extension Macie2ClientTypes {
 
-    /// Provides statistical data and other information about an S3 bucket that Amazon Macie monitors and analyzes for your account. By default, object count and storage size values include data for object parts that are the result of incomplete multipart uploads. For more information, see [How Macie monitors Amazon S3 data security](https://docs.aws.amazon.com/macie/latest/user/monitoring-s3-how-it-works.html) in the Amazon Macie User Guide. If an error occurs when Macie attempts to retrieve and process metadata from Amazon S3 for the bucket or the bucket's objects, the value for the versioning property is false and the value for most other properties is null. Key exceptions are accountId, bucketArn, bucketCreatedAt, bucketName, lastUpdated, and region. To identify the cause of the error, refer to the errorCode and errorMessage values.
+    /// Provides statistical data and other information about an S3 bucket that Amazon Macie monitors and analyzes for your account. By default, object count and storage size values include data for object parts that are the result of incomplete multipart uploads. For more information, see [How Macie monitors Amazon S3 data security](https://docs.aws.amazon.com/macie/latest/user/monitoring-s3-how-it-works.html) in the Amazon Macie User Guide. If an error or issue prevents Macie from retrieving and processing metadata from Amazon S3 for the bucket or the bucket's objects, the value for the versioning property is false and the value for most other properties is null or UNKNOWN. Key exceptions are accountId, bucketArn, bucketCreatedAt, bucketName, lastUpdated, and region. To identify the cause, refer to the errorCode and errorMessage values.
     public struct BucketMetadata: Swift.Sendable {
         /// The unique identifier for the Amazon Web Services account that owns the bucket.
         public var accountId: Swift.String?
@@ -878,13 +881,20 @@ extension Macie2ClientTypes {
         public var classifiableObjectCount: Swift.Int?
         /// The total storage size, in bytes, of the objects that Amazon Macie can analyze in the bucket. These objects use a supported storage class and have a file name extension for a supported file or storage format. If versioning is enabled for the bucket, Macie calculates this value based on the size of the latest version of each applicable object in the bucket. This value doesn't reflect the storage size of all versions of each applicable object in the bucket.
         public var classifiableSizeInBytes: Swift.Int?
-        /// The error code for an error that prevented Amazon Macie from retrieving and processing information about the bucket and the bucket's objects. If this value is ACCESS_DENIED, Macie doesn't have permission to retrieve the information. For example, the bucket has a restrictive bucket policy and Amazon S3 denied the request. If this value is null, Macie was able to retrieve and process the information.
+        /// The code for an error or issue that prevented Amazon Macie from retrieving and processing information about the bucket and the bucket's objects. Possible values are:
+        ///
+        /// * ACCESS_DENIED - Macie doesn't have permission to retrieve the information. For example, the bucket has a restrictive bucket policy and Amazon S3 denied the request.
+        ///
+        /// * BUCKET_COUNT_EXCEEDS_QUOTA - Retrieving and processing the information would exceed the quota for the number of buckets that Macie monitors for an account (10,000).
+        ///
+        ///
+        /// If this value is null, Macie was able to retrieve and process the information.
         public var errorCode: Macie2ClientTypes.BucketMetadataErrorCode?
-        /// A brief description of the error (errorCode) that prevented Amazon Macie from retrieving and processing information about the bucket and the bucket's objects. This value is null if Macie was able to retrieve and process the information.
+        /// A brief description of the error or issue (errorCode) that prevented Amazon Macie from retrieving and processing information about the bucket and the bucket's objects. This value is null if Macie was able to retrieve and process the information.
         public var errorMessage: Swift.String?
         /// Specifies whether any one-time or recurring classification jobs are configured to analyze objects in the bucket, and, if so, the details of the job that ran most recently.
         public var jobDetails: Macie2ClientTypes.JobDetails?
-        /// The date and time, in UTC and extended ISO 8601 format, when Amazon Macie most recently analyzed objects in the bucket while performing automated sensitive data discovery. This value is null if automated sensitive data discovery is disabled for your account.
+        /// The date and time, in UTC and extended ISO 8601 format, when Amazon Macie most recently analyzed objects in the bucket while performing automated sensitive data discovery. This value is null if this analysis hasn't occurred.
         public var lastAutomatedDiscoveryTime: Foundation.Date?
         /// The date and time, in UTC and extended ISO 8601 format, when Amazon Macie most recently retrieved bucket or object metadata from Amazon S3 for the bucket.
         public var lastUpdated: Foundation.Date?
@@ -898,7 +908,7 @@ extension Macie2ClientTypes {
         public var region: Swift.String?
         /// Specifies whether the bucket is configured to replicate one or more objects to buckets for other Amazon Web Services accounts and, if so, which accounts.
         public var replicationDetails: Macie2ClientTypes.ReplicationDetails?
-        /// The sensitivity score for the bucket, ranging from -1 (classification error) to 100 (sensitive).If automated sensitive data discovery has never been enabled for your account or it’s been disabled for your organization or your standalone account for more than 30 days, possible values are: 1, the bucket is empty; or, 50, the bucket stores objects but it’s been excluded from recent analyses.
+        /// The sensitivity score for the bucket, ranging from -1 (classification error) to 100 (sensitive).If automated sensitive data discovery has never been enabled for your account or it's been disabled for your organization or standalone account for more than 30 days, possible values are: 1, the bucket is empty; or, 50, the bucket stores objects but it's been excluded from recent analyses.
         public var sensitivityScore: Swift.Int?
         /// The default server-side encryption settings for the bucket.
         public var serverSideEncryption: Macie2ClientTypes.BucketServerSideEncryption?
@@ -1279,7 +1289,7 @@ extension Macie2ClientTypes {
         public var id: Swift.String?
         /// The name of the custom data identifier or managed data identifier that detected the sensitive data. For a managed data identifier, this value is the same as the unique identifier (id).
         public var name: Swift.String?
-        /// Specifies whether occurrences of this type of sensitive data are excluded (true) or included (false) in the bucket's sensitivity score.
+        /// Specifies whether occurrences of this type of sensitive data are excluded (true) or included (false) in the bucket's sensitivity score, if the score is calculated by Amazon Macie.
         public var suppressed: Swift.Bool?
         /// The type of data identifier that detected the sensitive data. Possible values are: CUSTOM, for a custom data identifier; and, MANAGED, for a managed data identifier.
         public var type: Macie2ClientTypes.DataIdentifierType?
@@ -1795,7 +1805,7 @@ extension Macie2ClientTypes {
     public struct ApiCallDetails: Swift.Sendable {
         /// The name of the operation that was invoked most recently and produced the finding.
         public var api: Swift.String?
-        /// The URL of the Amazon Web Service that provides the operation, for example: s3.amazonaws.com.
+        /// The URL of the Amazon Web Services service that provides the operation, for example: s3.amazonaws.com.
         public var apiServiceName: Swift.String?
         /// The first date and time, in UTC and extended ISO 8601 format, when any operation was invoked and produced the finding.
         public var firstSeen: Foundation.Date?
@@ -2243,7 +2253,7 @@ extension Macie2ClientTypes {
         public var assumedRole: Macie2ClientTypes.AssumedRole?
         /// If the action was performed using the credentials for another Amazon Web Services account, the details of that account.
         public var awsAccount: Macie2ClientTypes.AwsAccount?
-        /// If the action was performed by an Amazon Web Services account that belongs to an Amazon Web Service, the name of the service.
+        /// If the action was performed by an Amazon Web Services account that belongs to an Amazon Web Services service, the name of the service.
         public var awsService: Macie2ClientTypes.AwsService?
         /// If the action was performed with temporary security credentials that were obtained using the GetFederationToken operation of the Security Token Service (STS) API, the identifiers, session context, and other details about the identity.
         public var federatedUser: Macie2ClientTypes.FederatedUser?
@@ -2400,7 +2410,7 @@ extension Macie2ClientTypes {
 
 extension Macie2ClientTypes {
 
-    /// Provides information about the S3 bucket that a finding applies to.
+    /// Provides information about the S3 bucket that a finding applies to. If a quota prevented Amazon Macie from retrieving and processing all the bucket's information prior to generating the finding, the following values are UNKNOWN or null: allowsUnencryptedObjectUploads, defaultServerSideEncryption, publicAccess, and tags.
     public struct S3Bucket: Swift.Sendable {
         /// Specifies whether the bucket policy for the bucket requires server-side encryption of objects when objects are added to the bucket. Possible values are:
         ///
@@ -2637,7 +2647,7 @@ extension Macie2ClientTypes {
 
 extension Macie2ClientTypes {
 
-    /// The type of finding. For details about each type, see [Types of Amazon Macie findings](https://docs.aws.amazon.com/macie/latest/user/findings-types.html) in the Amazon Macie User Guide. Possible values are:
+    /// The type of finding. For details about each type, see [Types of findings](https://docs.aws.amazon.com/macie/latest/user/findings-types.html) in the Amazon Macie User Guide. Possible values are:
     public enum FindingType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case policyIamuserS3blockpublicaccessdisabled
         case policyIamuserS3bucketencryptiondisabled
@@ -3464,7 +3474,7 @@ extension Macie2ClientTypes {
 
 extension Macie2ClientTypes {
 
-    /// Provides statistical data and other information about an S3 bucket that Amazon Macie monitors and analyzes for your account. By default, object count and storage size values include data for object parts that are the result of incomplete multipart uploads. For more information, see [How Macie monitors Amazon S3 data security](https://docs.aws.amazon.com/macie/latest/user/monitoring-s3-how-it-works.html) in the Amazon Macie User Guide. If an error occurs when Macie attempts to retrieve and process information about the bucket or the bucket's objects, the value for most of these properties is null. Key exceptions are accountId and bucketName. To identify the cause of the error, refer to the errorCode and errorMessage values.
+    /// Provides statistical data and other information about an S3 bucket that Amazon Macie monitors and analyzes for your account. By default, object count and storage size values include data for object parts that are the result of incomplete multipart uploads. For more information, see [How Macie monitors Amazon S3 data security](https://docs.aws.amazon.com/macie/latest/user/monitoring-s3-how-it-works.html) in the Amazon Macie User Guide. If an error or issue prevents Macie from retrieving and processing information about the bucket or the bucket's objects, the value for many of these properties is null. Key exceptions are accountId and bucketName. To identify the cause, refer to the errorCode and errorMessage values.
     public struct MatchingBucket: Swift.Sendable {
         /// The unique identifier for the Amazon Web Services account that owns the bucket.
         public var accountId: Swift.String?
@@ -3476,19 +3486,26 @@ extension Macie2ClientTypes {
         public var classifiableObjectCount: Swift.Int?
         /// The total storage size, in bytes, of the objects that Amazon Macie can analyze in the bucket. These objects use a supported storage class and have a file name extension for a supported file or storage format. If versioning is enabled for the bucket, Macie calculates this value based on the size of the latest version of each applicable object in the bucket. This value doesn't reflect the storage size of all versions of each applicable object in the bucket.
         public var classifiableSizeInBytes: Swift.Int?
-        /// The error code for an error that prevented Amazon Macie from retrieving and processing information about the bucket and the bucket's objects. If this value is ACCESS_DENIED, Macie doesn't have permission to retrieve the information. For example, the bucket has a restrictive bucket policy and Amazon S3 denied the request. If this value is null, Macie was able to retrieve and process the information.
+        /// The code for an error or issue that prevented Amazon Macie from retrieving and processing information about the bucket and the bucket's objects. Possible values are:
+        ///
+        /// * ACCESS_DENIED - Macie doesn't have permission to retrieve the information. For example, the bucket has a restrictive bucket policy and Amazon S3 denied the request.
+        ///
+        /// * BUCKET_COUNT_EXCEEDS_QUOTA - Retrieving and processing the information would exceed the quota for the number of buckets that Macie monitors for an account (10,000).
+        ///
+        ///
+        /// If this value is null, Macie was able to retrieve and process the information.
         public var errorCode: Macie2ClientTypes.BucketMetadataErrorCode?
-        /// A brief description of the error (errorCode) that prevented Amazon Macie from retrieving and processing information about the bucket and the bucket's objects. This value is null if Macie was able to retrieve and process the information.
+        /// A brief description of the error or issue (errorCode) that prevented Amazon Macie from retrieving and processing information about the bucket and the bucket's objects. This value is null if Macie was able to retrieve and process the information.
         public var errorMessage: Swift.String?
         /// Specifies whether any one-time or recurring classification jobs are configured to analyze objects in the bucket, and, if so, the details of the job that ran most recently.
         public var jobDetails: Macie2ClientTypes.JobDetails?
-        /// The date and time, in UTC and extended ISO 8601 format, when Amazon Macie most recently analyzed objects in the bucket while performing automated sensitive data discovery. This value is null if automated sensitive data discovery is disabled for your account.
+        /// The date and time, in UTC and extended ISO 8601 format, when Amazon Macie most recently analyzed objects in the bucket while performing automated sensitive data discovery. This value is null if this analysis hasn't occurred.
         public var lastAutomatedDiscoveryTime: Foundation.Date?
         /// The total number of objects in the bucket.
         public var objectCount: Swift.Int?
         /// The total number of objects in the bucket, grouped by server-side encryption type. This includes a grouping that reports the total number of objects that aren't encrypted or use client-side encryption.
         public var objectCountByEncryptionType: Macie2ClientTypes.ObjectCountByEncryptionType?
-        /// The sensitivity score for the bucket, ranging from -1 (classification error) to 100 (sensitive).If automated sensitive data discovery has never been enabled for your account or it’s been disabled for your organization or your standalone account for more than 30 days, possible values are: 1, the bucket is empty; or, 50, the bucket stores objects but it’s been excluded from recent analyses.
+        /// The sensitivity score for the bucket, ranging from -1 (classification error) to 100 (sensitive).If automated sensitive data discovery has never been enabled for your account or it's been disabled for your organization or standalone account for more than 30 days, possible values are: 1, the bucket is empty; or, 50, the bucket stores objects but it's been excluded from recent analyses.
         public var sensitivityScore: Swift.Int?
         /// The total storage size, in bytes, of the bucket. If versioning is enabled for the bucket, Amazon Macie calculates this value based on the size of the latest version of each object in the bucket. This value doesn't reflect the storage size of all versions of each object in the bucket.
         public var sizeInBytes: Swift.Int?
@@ -3542,7 +3559,7 @@ extension Macie2ClientTypes {
 
     /// Provides statistical data and other information about an Amazon Web Services resource that Amazon Macie monitors and analyzes for your account.
     public struct MatchingResource: Swift.Sendable {
-        /// The details of an S3 bucket that Amazon Macie monitors and analyzes.
+        /// The details of an S3 bucket that Amazon Macie monitors and analyzes for your account.
         public var matchingBucket: Macie2ClientTypes.MatchingBucket?
 
         public init(
@@ -3822,9 +3839,9 @@ extension Macie2ClientTypes {
 
 extension Macie2ClientTypes {
 
-    /// Specifies a custom data identifier or managed data identifier that detected a type of sensitive data to start excluding or including in an S3 bucket's sensitivity score.
+    /// Specifies a custom data identifier or managed data identifier that detected a type of sensitive data to exclude from an S3 bucket's sensitivity score.
     public struct SuppressDataIdentifier: Swift.Sendable {
-        /// The unique identifier for the custom data identifier or managed data identifier that detected the type of sensitive data to exclude or include in the score.
+        /// The unique identifier for the custom data identifier or managed data identifier that detected the type of sensitive data to exclude from the score.
         public var id: Swift.String?
         /// The type of data identifier that detected the sensitive data. Possible values are: CUSTOM, for a custom data identifier; and, MANAGED, for a managed data identifier.
         public var type: Macie2ClientTypes.DataIdentifierType?
@@ -4762,7 +4779,7 @@ extension Macie2ClientTypes {
         public var publiclyReadable: Swift.Int?
         /// The total number of buckets that allow the general public to have write access to the bucket.
         public var publiclyWritable: Swift.Int?
-        /// The total number of buckets that Amazon Macie wasn't able to evaluate permissions settings for. Macie can't determine whether these buckets are publicly accessible.
+        /// The total number of buckets that Amazon Macie wasn't able to evaluate permissions settings for. For example, the buckets' policies or a quota prevented Macie from retrieving the requisite data. Macie can't determine whether the buckets are publicly accessible.
         public var unknown: Swift.Int?
 
         public init(
@@ -4790,7 +4807,7 @@ extension Macie2ClientTypes {
         public var s3Managed: Swift.Int?
         /// The total number of buckets that don't specify default server-side encryption behavior for new objects. Default encryption settings aren't configured for these buckets.
         public var unencrypted: Swift.Int?
-        /// The total number of buckets that Amazon Macie doesn't have current encryption metadata for. Macie can't provide current data about the default encryption settings for these buckets.
+        /// The total number of buckets that Amazon Macie doesn't have current encryption metadata for. For example, the buckets' permissions settings or a quota prevented Macie from retrieving the default encryption settings for the buckets.
         public var unknown: Swift.Int?
 
         public init(
@@ -4818,7 +4835,7 @@ extension Macie2ClientTypes {
         public var `internal`: Swift.Int?
         /// The total number of buckets that aren't shared with other Amazon Web Services accounts, Amazon CloudFront OAIs, or CloudFront OACs.
         public var notShared: Swift.Int?
-        /// The total number of buckets that Amazon Macie wasn't able to evaluate shared access settings for. Macie can't determine whether these buckets are shared with other Amazon Web Services accounts, Amazon CloudFront OAIs, or CloudFront OACs.
+        /// The total number of buckets that Amazon Macie wasn't able to evaluate shared access settings for. For example, the buckets' permissions settings or a quota prevented Macie from retrieving the requisite data. Macie can't determine whether the buckets are shared with other Amazon Web Services accounts, Amazon CloudFront OAIs, or CloudFront OACs.
         public var unknown: Swift.Int?
 
         public init(
@@ -4844,7 +4861,7 @@ extension Macie2ClientTypes {
         public var allowsUnencryptedObjectUploads: Swift.Int?
         /// The total number of buckets whose bucket policies require server-side encryption of new objects. PutObject requests for these buckets must include a valid server-side encryption header: the x-amz-server-side-encryption header with a value of AES256 or aws:kms, or the x-amz-server-side-encryption-customer-algorithm header with a value of AES256.
         public var deniesUnencryptedObjectUploads: Swift.Int?
-        /// The total number of buckets that Amazon Macie wasn't able to evaluate server-side encryption requirements for. Macie can't determine whether the bucket policies for these buckets require server-side encryption of new objects.
+        /// The total number of buckets that Amazon Macie wasn't able to evaluate server-side encryption requirements for. For example, the buckets' permissions settings or a quota prevented Macie from retrieving the requisite data. Macie can't determine whether bucket policies for the buckets require server-side encryption of new objects.
         public var unknown: Swift.Int?
 
         public init(
@@ -4951,7 +4968,7 @@ extension Macie2ClientTypes {
 
 extension Macie2ClientTypes {
 
-    /// Provides aggregated statistical data for sensitive data discovery metrics that apply to S3 buckets. Each field contains aggregated data for all the buckets that have a sensitivity score (sensitivityScore) of a specified value or within a specified range (BucketStatisticsBySensitivity). If automated sensitive data discovery is currently disabled for your account, the value for each field is 0.
+    /// Provides aggregated statistical data for sensitive data discovery metrics that apply to S3 buckets. Each field contains aggregated data for all the buckets that have a sensitivity score (sensitivityScore) of a specified value or within a specified range (BucketStatisticsBySensitivity). If automated sensitive data discovery is currently disabled for your account, the value for most fields is 0.
     public struct SensitivityAggregations: Swift.Sendable {
         /// The total storage size, in bytes, of all the objects that Amazon Macie can analyze in the buckets. These objects use a supported storage class and have a file name extension for a supported file or storage format. If versioning is enabled for any of the buckets, this value is based on the size of the latest version of each applicable object in the buckets. This value doesn't reflect the storage size of all versions of all applicable objects in the buckets.
         public var classifiableSizeInBytes: Swift.Int?
@@ -4979,7 +4996,7 @@ extension Macie2ClientTypes {
 
 extension Macie2ClientTypes {
 
-    /// Provides aggregated statistical data for sensitive data discovery metrics that apply to S3 buckets, grouped by bucket sensitivity score (sensitivityScore). If automated sensitive data discovery is currently disabled for your account, the value for each metric is 0.
+    /// Provides aggregated statistical data for sensitive data discovery metrics that apply to S3 buckets, grouped by bucket sensitivity score (sensitivityScore). If automated sensitive data discovery is currently disabled for your account, the value for most of these metrics is 0.
     public struct BucketStatisticsBySensitivity: Swift.Sendable {
         /// The aggregated statistical data for all buckets that have a sensitivity score of -1.
         public var classificationError: Macie2ClientTypes.SensitivityAggregations?
@@ -6440,7 +6457,7 @@ public struct GetBucketStatisticsOutput: Swift.Sendable {
     public var bucketCountByObjectEncryptionRequirement: Macie2ClientTypes.BucketCountPolicyAllowsUnencryptedObjectUploads?
     /// The total number of buckets that are or aren't shared with other Amazon Web Services accounts, Amazon CloudFront origin access identities (OAIs), or CloudFront origin access controls (OACs).
     public var bucketCountBySharedAccessType: Macie2ClientTypes.BucketCountBySharedAccessType?
-    /// The aggregated sensitive data discovery statistics for the buckets. If automated sensitive data discovery is currently disabled for your account, the value for each statistic is 0.
+    /// The aggregated sensitive data discovery statistics for the buckets. If automated sensitive data discovery is currently disabled for your account, the value for most statistics is 0.
     public var bucketStatisticsBySensitivity: Macie2ClientTypes.BucketStatisticsBySensitivity?
     /// The total number of objects that Amazon Macie can analyze in the buckets. These objects use a supported storage class and have a file name extension for a supported file or storage format.
     public var classifiableObjectCount: Swift.Int?
@@ -6755,7 +6772,7 @@ public struct GetFindingsPublicationConfigurationInput: Swift.Sendable {
 
 extension Macie2ClientTypes {
 
-    /// Specifies configuration settings that determine which findings are published to Security Hub automatically. For information about how Macie publishes findings to Security Hub, see [Amazon Macie integration with Security Hub](https://docs.aws.amazon.com/macie/latest/user/securityhub-integration.html) in the Amazon Macie User Guide.
+    /// Specifies configuration settings that determine which findings are published to Security Hub automatically. For information about how Macie publishes findings to Security Hub, see [Evaluating findings with Security Hub](https://docs.aws.amazon.com/macie/latest/user/securityhub-integration.html) in the Amazon Macie User Guide.
     public struct SecurityHubConfiguration: Swift.Sendable {
         /// Specifies whether to publish sensitive data findings to Security Hub. If you set this value to true, Amazon Macie automatically publishes all sensitive data findings that weren't suppressed by a findings filter. The default value is false.
         /// This member is required.
@@ -7221,7 +7238,7 @@ public struct UnprocessableEntityException: ClientRuntime.ModeledError, AWSClien
         ///
         /// * OBJECT_EXCEEDS_SIZE_QUOTA - The storage size of the affected S3 object exceeds the size quota for retrieving occurrences of sensitive data from this type of file.
         ///
-        /// * OBJECT_UNAVAILABLE - The affected S3 object isn't available. The object was renamed, moved, deleted, or changed after Macie created the finding. Or the object is encrypted with an KMS key that's currently disabled.
+        /// * OBJECT_UNAVAILABLE - The affected S3 object isn't available. The object was renamed, moved, deleted, or changed after Macie created the finding. Or the object is encrypted with an KMS key that isn’t available. For example, the key is disabled, is scheduled for deletion, or was deleted.
         ///
         /// * RESULT_NOT_SIGNED - The corresponding sensitive data discovery result is stored in an S3 object that hasn't been signed. Macie can't verify the integrity and authenticity of the sensitive data discovery result. Therefore, Macie can't verify the location of the sensitive data to retrieve.
         ///
@@ -7353,7 +7370,7 @@ public struct GetSensitiveDataOccurrencesAvailabilityOutput: Swift.Sendable {
     ///
     /// * OBJECT_EXCEEDS_SIZE_QUOTA - The storage size of the affected S3 object exceeds the size quota for retrieving occurrences of sensitive data from this type of file.
     ///
-    /// * OBJECT_UNAVAILABLE - The affected S3 object isn't available. The object was renamed, moved, deleted, or changed after Macie created the finding. Or the object is encrypted with an KMS key that's currently disabled.
+    /// * OBJECT_UNAVAILABLE - The affected S3 object isn't available. The object was renamed, moved, deleted, or changed after Macie created the finding. Or the object is encrypted with an KMS key that isn’t available. For example, the key is disabled, is scheduled for deletion, or was deleted.
     ///
     /// * RESULT_NOT_SIGNED - The corresponding sensitive data discovery result is stored in an S3 object that hasn't been signed. Macie can't verify the integrity and authenticity of the sensitive data discovery result. Therefore, Macie can't verify the location of the sensitive data to retrieve.
     ///
@@ -8559,7 +8576,7 @@ extension Macie2ClientTypes {
 
     /// Specifies S3 buckets to add or remove from the exclusion list defined by the classification scope for an Amazon Macie account.
     public struct S3ClassificationScopeExclusionUpdate: Swift.Sendable {
-        /// Depending on the value specified for the update operation (ClassificationScopeUpdateOperation), an array of strings that: lists the names of buckets to add or remove from the list, or specifies a new set of bucket names that overwrites all existing names in the list. Each string must be the full name of an S3 bucket. Values are case sensitive.
+        /// Depending on the value specified for the update operation (ClassificationScopeUpdateOperation), an array of strings that: lists the names of buckets to add or remove from the list, or specifies a new set of bucket names that overwrites all existing names in the list. Each string must be the full name of an existing S3 bucket. Values are case sensitive.
         /// This member is required.
         public var bucketNames: [Swift.String]?
         /// Specifies how to apply the changes to the exclusion list. Valid values are:
@@ -8763,7 +8780,7 @@ public struct UpdateResourceProfileDetectionsInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the S3 bucket that the request applies to.
     /// This member is required.
     public var resourceArn: Swift.String?
-    /// An array of objects, one for each custom data identifier or managed data identifier that detected the type of sensitive data to start excluding or including in the bucket's score. To start including all sensitive data types in the score, don't specify any values for this array.
+    /// An array of objects, one for each custom data identifier or managed data identifier that detected a type of sensitive data to exclude from the bucket's score. To include all sensitive data types in the score, don't specify any values for this array.
     public var suppressDataIdentifiers: [Macie2ClientTypes.SuppressDataIdentifier]?
 
     public init(
@@ -8783,7 +8800,7 @@ public struct UpdateResourceProfileDetectionsOutput: Swift.Sendable {
 
 extension Macie2ClientTypes {
 
-    /// Specifies the access method and settings to use when retrieving occurrences of sensitive data reported by findings. If your request specifies an Identity and Access Management (IAM) role to assume, Amazon Macie verifies that the role exists and the attached policies are configured correctly. If there's an issue, Macie returns an error. For information about addressing the issue, see [Configuration options and requirements for retrieving sensitive data samples](https://docs.aws.amazon.com/macie/latest/user/findings-retrieve-sd-options.html) in the Amazon Macie User Guide.
+    /// Specifies the access method and settings to use when retrieving occurrences of sensitive data reported by findings. If your request specifies an Identity and Access Management (IAM) role to assume, Amazon Macie verifies that the role exists and the attached policies are configured correctly. If there's an issue, Macie returns an error. For information about addressing the issue, see [Configuration options for retrieving sensitive data samples](https://docs.aws.amazon.com/macie/latest/user/findings-retrieve-sd-options.html) in the Amazon Macie User Guide.
     public struct UpdateRetrievalConfiguration: Swift.Sendable {
         /// The access method to use when retrieving sensitive data from affected S3 objects. Valid values are: ASSUME_ROLE, assume an IAM role that is in the affected Amazon Web Services account and delegates access to Amazon Macie; and, CALLER_CREDENTIALS, use the credentials of the IAM user who requests the sensitive data. If you specify ASSUME_ROLE, also specify the name of an existing IAM role for Macie to assume (roleName). If you change this value from ASSUME_ROLE to CALLER_CREDENTIALS for an existing configuration, Macie permanently deletes the external ID and role name currently specified for the configuration. These settings can't be recovered after they're deleted.
         /// This member is required.

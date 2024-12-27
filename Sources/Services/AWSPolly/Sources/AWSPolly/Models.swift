@@ -1752,7 +1752,7 @@ public struct SynthesizeSpeechOutput: Swift.Sendable {
     public var requestCharacters: Swift.Int
 
     public init(
-        audioStream: Smithy.ByteStream? = Smithy.ByteStream.data(Foundation.Data("".utf8)),
+        audioStream: Smithy.ByteStream? = Smithy.ByteStream.data(Foundation.Data(base64Encoded: "")),
         contentType: Swift.String? = nil,
         requestCharacters: Swift.Int = 0
     )

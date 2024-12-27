@@ -11216,7 +11216,7 @@ extension BedrockClientTypes.ByteContentDoc {
         var value = BedrockClientTypes.ByteContentDoc()
         value.identifier = try reader["identifier"].readIfPresent() ?? ""
         value.contentType = try reader["contentType"].readIfPresent() ?? ""
-        value.data = try reader["data"].readIfPresent() ?? Foundation.Data("".utf8)
+        value.data = try reader["data"].readIfPresent() ?? Foundation.Data(base64Encoded: "")
         return value
     }
 }
