@@ -24,9 +24,9 @@ import protocol ClientRuntime.ModeledError
 import struct Smithy.URIQueryItem
 
 /// You do not have sufficient access to perform this action.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Single error code. For this exception the value will be access_denied.
         public internal(set) var error: Swift.String? = nil
         /// Human-readable text providing additional information, used to assist the client developer in understanding the error that occurred.
@@ -53,9 +53,9 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 }
 
 /// Indicates that a request to authorize a client with an access user session token is pending.
-public struct AuthorizationPendingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AuthorizationPendingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Single error code. For this exception the value will be authorization_pending.
         public internal(set) var error: Swift.String? = nil
         /// Human-readable text providing additional information, used to assist the client developer in understanding the error that occurred.
@@ -82,9 +82,9 @@ public struct AuthorizationPendingException: ClientRuntime.ModeledError, AWSClie
 }
 
 /// Indicates that the token issued by the service is expired and is no longer valid.
-public struct ExpiredTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ExpiredTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Single error code. For this exception the value will be expired_token.
         public internal(set) var error: Swift.String? = nil
         /// Human-readable text providing additional information, used to assist the client developer in understanding the error that occurred.
@@ -111,9 +111,9 @@ public struct ExpiredTokenException: ClientRuntime.ModeledError, AWSClientRuntim
 }
 
 /// Indicates that an error from the service occurred while trying to process a request.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Single error code. For this exception the value will be server_error.
         public internal(set) var error: Swift.String? = nil
         /// Human-readable text providing additional information, used to assist the client developer in understanding the error that occurred.
@@ -140,9 +140,9 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 /// Indicates that the clientId or clientSecret in the request is invalid. For example, this can occur when a client sends an incorrect clientId or an expired clientSecret.
-public struct InvalidClientException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidClientException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Single error code. For this exception the value will be invalid_client.
         public internal(set) var error: Swift.String? = nil
         /// Human-readable text providing additional information, used to assist the client developer in understanding the error that occurred.
@@ -169,9 +169,9 @@ public struct InvalidClientException: ClientRuntime.ModeledError, AWSClientRunti
 }
 
 /// Indicates that a request contains an invalid grant. This can occur if a client makes a [CreateToken] request with an invalid grant type.
-public struct InvalidGrantException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidGrantException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Single error code. For this exception the value will be invalid_grant.
         public internal(set) var error: Swift.String? = nil
         /// Human-readable text providing additional information, used to assist the client developer in understanding the error that occurred.
@@ -198,9 +198,9 @@ public struct InvalidGrantException: ClientRuntime.ModeledError, AWSClientRuntim
 }
 
 /// Indicates that something is wrong with the input to the request. For example, a required parameter might be missing or out of range.
-public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Single error code. For this exception the value will be invalid_request.
         public internal(set) var error: Swift.String? = nil
         /// Human-readable text providing additional information, used to assist the client developer in understanding the error that occurred.
@@ -227,9 +227,9 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 /// Indicates that the scope provided in the request is invalid.
-public struct InvalidScopeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidScopeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Single error code. For this exception the value will be invalid_scope.
         public internal(set) var error: Swift.String? = nil
         /// Human-readable text providing additional information, used to assist the client developer in understanding the error that occurred.
@@ -256,9 +256,9 @@ public struct InvalidScopeException: ClientRuntime.ModeledError, AWSClientRuntim
 }
 
 /// Indicates that the client is making the request too frequently and is more than the service can handle.
-public struct SlowDownException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SlowDownException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Single error code. For this exception the value will be slow_down.
         public internal(set) var error: Swift.String? = nil
         /// Human-readable text providing additional information, used to assist the client developer in understanding the error that occurred.
@@ -285,9 +285,9 @@ public struct SlowDownException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 /// Indicates that the client is not currently authorized to make the request. This can happen when a clientId is not issued for a public client.
-public struct UnauthorizedClientException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnauthorizedClientException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Single error code. For this exception the value will be unauthorized_client.
         public internal(set) var error: Swift.String? = nil
         /// Human-readable text providing additional information, used to assist the client developer in understanding the error that occurred.
@@ -314,9 +314,9 @@ public struct UnauthorizedClientException: ClientRuntime.ModeledError, AWSClient
 }
 
 /// Indicates that the grant type in the request is not supported by the service.
-public struct UnsupportedGrantTypeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnsupportedGrantTypeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Single error code. For this exception the value will be unsupported_grant_type.
         public internal(set) var error: Swift.String? = nil
         /// Human-readable text providing additional information, used to assist the client developer in understanding the error that occurred.
@@ -428,9 +428,9 @@ extension CreateTokenOutput: Swift.CustomDebugStringConvertible {
 }
 
 /// Indicates that a token provided as input to the request was issued by and is only usable by calling IAM Identity Center endpoints in another region.
-public struct InvalidRequestRegionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidRequestRegionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Indicates the IAM Identity Center endpoint which the requester may call with this token.
         public internal(set) var endpoint: Swift.String? = nil
         /// Single error code. For this exception the value will be invalid_request.
@@ -565,9 +565,9 @@ extension CreateTokenWithIAMOutput: Swift.CustomDebugStringConvertible {
 }
 
 /// Indicates that the client information sent in the request during registration is invalid.
-public struct InvalidClientMetadataException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidClientMetadataException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Single error code. For this exception the value will be invalid_client_metadata.
         public internal(set) var error: Swift.String? = nil
         /// Human-readable text providing additional information, used to assist the client developer in understanding the error that occurred.
@@ -594,9 +594,9 @@ public struct InvalidClientMetadataException: ClientRuntime.ModeledError, AWSCli
 }
 
 /// Indicates that one or more redirect URI in the request is not supported for this operation.
-public struct InvalidRedirectUriException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidRedirectUriException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Single error code. For this exception the value will be invalid_redirect_uri.
         public internal(set) var error: Swift.String? = nil
         /// Human-readable text providing additional information, used to assist the client developer in understanding the error that occurred.

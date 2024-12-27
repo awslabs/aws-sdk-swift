@@ -232,9 +232,9 @@ extension WAFClientTypes {
 }
 
 /// The name specified is invalid.
-public struct WAFDisallowedNameException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WAFDisallowedNameException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -256,9 +256,9 @@ public struct WAFDisallowedNameException: ClientRuntime.ModeledError, AWSClientR
 }
 
 /// The operation failed because of a system problem, even though the request was valid. Retry your request.
-public struct WAFInternalErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WAFInternalErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -280,7 +280,7 @@ public struct WAFInternalErrorException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// The operation failed because you tried to create, update, or delete an object by using an invalid account identifier.
-public struct WAFInvalidAccountException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WAFInvalidAccountException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
     public static var typeName: Swift.String { "WAFInvalidAccountException" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
@@ -423,9 +423,9 @@ extension WAFClientTypes {
 /// * You tried to update a ByteMatchSet with a Field of HEADER but no value for Data.
 ///
 /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL cannot be associated.
-public struct WAFInvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WAFInvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var field: WAFClientTypes.ParameterExceptionField? = nil
         public internal(set) var parameter: Swift.String? = nil
         public internal(set) var reason: WAFClientTypes.ParameterExceptionReason? = nil
@@ -453,9 +453,9 @@ public struct WAFInvalidParameterException: ClientRuntime.ModeledError, AWSClien
 }
 
 /// The operation exceeds a resource limit, for example, the maximum number of WebACL objects that you can create for an AWS account. For more information, see [Limits](https://docs.aws.amazon.com/waf/latest/developerguide/limits.html) in the AWS WAF Developer Guide.
-public struct WAFLimitsExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WAFLimitsExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -477,9 +477,9 @@ public struct WAFLimitsExceededException: ClientRuntime.ModeledError, AWSClientR
 }
 
 /// The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
-public struct WAFStaleDataException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WAFStaleDataException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1822,9 +1822,9 @@ public struct CreateIPSetOutput: Swift.Sendable {
 }
 
 ///
-public struct WAFBadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WAFBadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1846,9 +1846,9 @@ public struct WAFBadRequestException: ClientRuntime.ModeledError, AWSClientRunti
 }
 
 ///
-public struct WAFTagOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WAFTagOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1870,9 +1870,9 @@ public struct WAFTagOperationException: ClientRuntime.ModeledError, AWSClientRun
 }
 
 ///
-public struct WAFTagOperationInternalErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WAFTagOperationInternalErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2915,9 +2915,9 @@ extension WAFClientTypes {
 /// * S3_BUCKET_INVALID_REGION - The S3 bucket is not in the same Region as the web ACL.
 ///
 /// * S3_INTERNAL_ERROR - AWS WAF failed to create the template in the S3 bucket for another reason.
-public struct WAFEntityMigrationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WAFEntityMigrationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         public internal(set) var migrationErrorReason: Swift.String? = nil
         public internal(set) var migrationErrorType: WAFClientTypes.MigrationErrorType? = nil
@@ -2955,9 +2955,9 @@ public struct WAFEntityMigrationException: ClientRuntime.ModeledError, AWSClient
 /// * You tried to add a Rule to a WebACL, but the Rule already exists in the specified WebACL.
 ///
 /// * You tried to add a ByteMatchTuple to a ByteMatchSet, but the ByteMatchTuple already exists in the specified WebACL.
-public struct WAFInvalidOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WAFInvalidOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2979,9 +2979,9 @@ public struct WAFInvalidOperationException: ClientRuntime.ModeledError, AWSClien
 }
 
 /// The operation failed because the referenced object doesn't exist.
-public struct WAFNonexistentItemException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WAFNonexistentItemException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3180,9 +3180,9 @@ public struct CreateXssMatchSetOutput: Swift.Sendable {
 /// * You tried to delete a ByteMatchSet that contains one or more ByteMatchTuple objects.
 ///
 /// * You tried to delete an IPSet that references one or more IP addresses.
-public struct WAFNonEmptyEntityException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WAFNonEmptyEntityException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3208,9 +3208,9 @@ public struct WAFNonEmptyEntityException: ClientRuntime.ModeledError, AWSClientR
 /// * You tried to delete a ByteMatchSet that is still referenced by a Rule.
 ///
 /// * You tried to delete a Rule that is still referenced by a WebACL.
-public struct WAFReferencedItemException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WAFReferencedItemException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -5141,9 +5141,9 @@ public struct ListXssMatchSetsOutput: Swift.Sendable {
 }
 
 /// AWS WAF is not able to access the service linked role. This can be caused by a previous PutLoggingConfiguration request, which can lock the service linked role for about 20 seconds. Please try your request again. The service linked role can also be locked by a previous DeleteServiceLinkedRole request, which can lock the role for 15 minutes or more. If you recently made a DeleteServiceLinkedRole, wait at least 15 minutes and try the request again. If you receive this same exception again, you will have to wait additional time until the role is unlocked.
-public struct WAFServiceLinkedRoleErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WAFServiceLinkedRoleErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -5206,9 +5206,9 @@ public struct PutLoggingConfigurationOutput: Swift.Sendable {
 /// * The user making the request must be the owner of the RuleGroup.
 ///
 /// * Your policy must be composed using IAM Policy version 2012-10-17.
-public struct WAFInvalidPermissionPolicyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WAFInvalidPermissionPolicyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -5307,9 +5307,9 @@ public struct UntagResourceOutput: Swift.Sendable {
 /// * You tried to add an IP address to or delete an IP address from an IPSet that doesn't exist.
 ///
 /// * You tried to add a ByteMatchTuple to or delete a ByteMatchTuple from a ByteMatchSet that doesn't exist.
-public struct WAFNonexistentContainerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WAFNonexistentContainerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -5667,9 +5667,9 @@ public struct UpdateRegexMatchSetOutput: Swift.Sendable {
 }
 
 /// The regular expression (regex) you specified in RegexPatternString is invalid.
-public struct WAFInvalidRegexPatternException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WAFInvalidRegexPatternException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -5974,9 +5974,9 @@ public struct UpdateSqlInjectionMatchSetOutput: Swift.Sendable {
 }
 
 /// The specified subscription does not exist.
-public struct WAFSubscriptionNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WAFSubscriptionNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -9952,7 +9952,7 @@ extension WAFClientTypes.ByteMatchTuple {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WAFClientTypes.ByteMatchTuple()
         value.fieldToMatch = try reader["FieldToMatch"].readIfPresent(with: WAFClientTypes.FieldToMatch.read(from:))
-        value.targetString = try reader["TargetString"].readIfPresent() ?? Foundation.Data("".utf8)
+        value.targetString = try reader["TargetString"].readIfPresent() ?? Foundation.Data(base64Encoded: "")
         value.textTransformation = try reader["TextTransformation"].readIfPresent() ?? .sdkUnknown("")
         value.positionalConstraint = try reader["PositionalConstraint"].readIfPresent() ?? .sdkUnknown("")
         return value

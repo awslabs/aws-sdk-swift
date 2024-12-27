@@ -29,9 +29,9 @@ import protocol ClientRuntime.ModeledError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 
 /// You do not have sufficient access to perform this action.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -54,9 +54,9 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 }
 
 /// This exception is thrown when you start a new import and a previous import is still in progress.
-public struct AccountHasOngoingImportException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccountHasOngoingImportException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -79,9 +79,9 @@ public struct AccountHasOngoingImportException: ClientRuntime.ModeledError, AWSC
 }
 
 /// This exception is thrown when the specified account is not found or not part of an organization.
-public struct AccountNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccountNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -104,9 +104,9 @@ public struct AccountNotFoundException: ClientRuntime.ModeledError, AWSClientRun
 }
 
 /// This exception is thrown when the specified account is not registered as the CloudTrail delegated administrator.
-public struct AccountNotRegisteredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccountNotRegisteredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -129,9 +129,9 @@ public struct AccountNotRegisteredException: ClientRuntime.ModeledError, AWSClie
 }
 
 /// This exception is thrown when the account is already registered as the CloudTrail delegated administrator.
-public struct AccountRegisteredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccountRegisteredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -154,9 +154,9 @@ public struct AccountRegisteredException: ClientRuntime.ModeledError, AWSClientR
 }
 
 /// This exception is thrown when the specified value of ChannelARN is not valid.
-public struct ChannelARNInvalidException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ChannelARNInvalidException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -179,9 +179,9 @@ public struct ChannelARNInvalidException: ClientRuntime.ModeledError, AWSClientR
 }
 
 /// This exception is thrown when CloudTrail cannot find the specified channel.
-public struct ChannelNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ChannelNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -204,9 +204,9 @@ public struct ChannelNotFoundException: ClientRuntime.ModeledError, AWSClientRun
 }
 
 /// This exception is thrown when an operation is called with an ARN that is not valid. The following is the format of a trail ARN: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail The following is the format of an event data store ARN: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE The following is the format of a dashboard ARN: arn:aws:cloudtrail:us-east-1:123456789012:dashboard/exampleDash The following is the format of a channel ARN: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
-public struct CloudTrailARNInvalidException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CloudTrailARNInvalidException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -229,9 +229,9 @@ public struct CloudTrailARNInvalidException: ClientRuntime.ModeledError, AWSClie
 }
 
 /// This exception is thrown when the specified resource is not ready for an operation. This can occur when you try to run an operation on a resource before CloudTrail has time to fully load the resource, or because another operation is modifying the resource. If this exception occurs, wait a few minutes, and then try the operation again.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -254,9 +254,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 /// The specified event data store ARN is not valid or does not map to an event data store in your account.
-public struct EventDataStoreARNInvalidException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct EventDataStoreARNInvalidException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -279,9 +279,9 @@ public struct EventDataStoreARNInvalidException: ClientRuntime.ModeledError, AWS
 }
 
 /// The specified event data store was not found.
-public struct EventDataStoreNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct EventDataStoreNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -304,9 +304,9 @@ public struct EventDataStoreNotFoundException: ClientRuntime.ModeledError, AWSCl
 }
 
 /// The event data store is inactive.
-public struct InactiveEventDataStoreException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InactiveEventDataStoreException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -329,9 +329,9 @@ public struct InactiveEventDataStoreException: ClientRuntime.ModeledError, AWSCl
 }
 
 /// This exception is thrown when the specified tag key or values are not valid. It can also occur if there are duplicate tags or too many tags on the resource.
-public struct InvalidTagParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidTagParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -364,9 +364,9 @@ public struct InvalidTagParameterException: ClientRuntime.ModeledError, AWSClien
 /// * Have no adjacent periods, underscores or dashes. Names like my-_namespace and my--namespace are not valid.
 ///
 /// * Not be in IP address format (for example, 192.168.5.4)
-public struct InvalidTrailNameException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidTrailNameException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -389,9 +389,9 @@ public struct InvalidTrailNameException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// This exception is thrown when the management account does not have a service-linked role.
-public struct NoManagementAccountSLRExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NoManagementAccountSLRExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -414,9 +414,9 @@ public struct NoManagementAccountSLRExistsException: ClientRuntime.ModeledError,
 }
 
 /// This exception is thrown when the Amazon Web Services account making the request to create or update an organization trail or event data store is not the management account for an organization in Organizations. For more information, see [Prepare For Creating a Trail For Your Organization](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/creating-an-organizational-trail-prepare.html) or [Organization event data stores](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-lake-organizations.html).
-public struct NotOrganizationMasterAccountException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NotOrganizationMasterAccountException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -439,9 +439,9 @@ public struct NotOrganizationMasterAccountException: ClientRuntime.ModeledError,
 }
 
 /// This exception is thrown when the requested operation is not permitted.
-public struct OperationNotPermittedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct OperationNotPermittedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -464,9 +464,9 @@ public struct OperationNotPermittedException: ClientRuntime.ModeledError, AWSCli
 }
 
 /// This exception is thrown when the specified resource is not found.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -489,9 +489,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// This exception is thrown when the specified resource type is not supported by CloudTrail.
-public struct ResourceTypeNotSupportedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceTypeNotSupportedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -514,9 +514,9 @@ public struct ResourceTypeNotSupportedException: ClientRuntime.ModeledError, AWS
 }
 
 /// The number of tags per trail, event data store, dashboard, or channel has exceeded the permitted amount. Currently, the limit is 50.
-public struct TagsLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TagsLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -539,9 +539,9 @@ public struct TagsLimitExceededException: ClientRuntime.ModeledError, AWSClientR
 }
 
 /// This exception is thrown when the requested operation is not supported.
-public struct UnsupportedOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnsupportedOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -701,9 +701,9 @@ extension CloudTrailClientTypes {
 }
 
 /// The specified query cannot be canceled because it is in the FINISHED, FAILED, TIMED_OUT, or CANCELLED state.
-public struct InactiveQueryException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InactiveQueryException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -726,9 +726,9 @@ public struct InactiveQueryException: ClientRuntime.ModeledError, AWSClientRunti
 }
 
 /// The request includes a parameter that is not valid.
-public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -751,9 +751,9 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// The query ID does not exist or does not map to a query.
-public struct QueryIdNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct QueryIdNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -861,9 +861,9 @@ public struct CancelQueryOutput: Swift.Sendable {
 }
 
 /// This exception is thrown when the management account of an organization is registered as the CloudTrail delegated administrator.
-public struct CannotDelegateManagementAccountException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CannotDelegateManagementAccountException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -906,9 +906,9 @@ extension CloudTrailClientTypes {
 }
 
 /// This exception is thrown when the provided channel already exists.
-public struct ChannelAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ChannelAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -931,9 +931,9 @@ public struct ChannelAlreadyExistsException: ClientRuntime.ModeledError, AWSClie
 }
 
 /// This exception is thrown when the specified event data store cannot yet be deleted because it is in use by a channel.
-public struct ChannelExistsForEDSException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ChannelExistsForEDSException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -956,9 +956,9 @@ public struct ChannelExistsForEDSException: ClientRuntime.ModeledError, AWSClien
 }
 
 /// This exception is thrown when the maximum number of channels limit is exceeded.
-public struct ChannelMaxLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ChannelMaxLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -981,9 +981,9 @@ public struct ChannelMaxLimitExceededException: ClientRuntime.ModeledError, AWSC
 }
 
 /// This exception is thrown when event categories of specified event data stores are not valid.
-public struct InvalidEventDataStoreCategoryException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidEventDataStoreCategoryException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1006,9 +1006,9 @@ public struct InvalidEventDataStoreCategoryException: ClientRuntime.ModeledError
 }
 
 /// This exception is thrown when the specified value of Source is not valid.
-public struct InvalidSourceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidSourceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1137,9 +1137,9 @@ public struct CreateChannelOutput: Swift.Sendable {
 }
 
 /// For the CreateTrailPutInsightSelectors, UpdateTrail, StartQuery, and StartImport operations, this exception is thrown when the policy on the S3 bucket or KMS key does not have sufficient permissions for the operation. For all other operations, this exception is thrown when the policy for the KMS key does not have sufficient permissions for the operation.
-public struct InsufficientEncryptionPolicyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InsufficientEncryptionPolicyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1162,9 +1162,9 @@ public struct InsufficientEncryptionPolicyException: ClientRuntime.ModeledError,
 }
 
 /// The query that was submitted has validation errors, or uses incorrect syntax or unsupported keywords. For more information about writing a query, see [Create or edit a query](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/query-create-edit-query.html) in the CloudTrail User Guide.
-public struct InvalidQueryStatementException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidQueryStatementException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1187,9 +1187,9 @@ public struct InvalidQueryStatementException: ClientRuntime.ModeledError, AWSCli
 }
 
 /// This exception is thrown when the quota is exceeded. For information about CloudTrail quotas, see [Service quotas](https://docs.aws.amazon.com/general/latest/gr/ct.html#limits_cloudtrail) in the Amazon Web Services General Reference.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1462,9 +1462,9 @@ public struct CreateDashboardOutput: Swift.Sendable {
 }
 
 /// This exception is thrown when trusted access has not been enabled between CloudTrail and Organizations. For more information, see [How to enable or disable trusted access](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services.html#orgs_how-to-enable-disable-trusted-access) in the Organizations User Guide and [Prepare For Creating a Trail For Your Organization](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/creating-an-organizational-trail-prepare.html) in the CloudTrail User Guide.
-public struct CloudTrailAccessNotEnabledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CloudTrailAccessNotEnabledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1487,9 +1487,9 @@ public struct CloudTrailAccessNotEnabledException: ClientRuntime.ModeledError, A
 }
 
 /// An event data store with that name already exists.
-public struct EventDataStoreAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct EventDataStoreAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1512,9 +1512,9 @@ public struct EventDataStoreAlreadyExistsException: ClientRuntime.ModeledError, 
 }
 
 /// Your account has used the maximum number of event data stores.
-public struct EventDataStoreMaxLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct EventDataStoreMaxLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1537,9 +1537,9 @@ public struct EventDataStoreMaxLimitExceededException: ClientRuntime.ModeledErro
 }
 
 /// This exception is thrown when the IAM identity that is used to create the organization resource lacks one or more required permissions for creating an organization resource in a required service.
-public struct InsufficientDependencyServiceAccessPermissionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InsufficientDependencyServiceAccessPermissionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1570,9 +1570,9 @@ public struct InsufficientDependencyServiceAccessPermissionException: ClientRunt
 /// * Specify up to 500 values for all conditions in all advanced event selectors for a trail.
 ///
 /// * Specify a valid value for a parameter. For example, specifying the ReadWriteType parameter with a value of read-only is not valid.
-public struct InvalidEventSelectorsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidEventSelectorsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1595,9 +1595,9 @@ public struct InvalidEventSelectorsException: ClientRuntime.ModeledError, AWSCli
 }
 
 /// This exception is thrown when the KMS key ARN is not valid.
-public struct InvalidKmsKeyIdException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidKmsKeyIdException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1620,9 +1620,9 @@ public struct InvalidKmsKeyIdException: ClientRuntime.ModeledError, AWSClientRun
 }
 
 /// This exception is thrown when there is an issue with the specified KMS key and the trail or event data store can't be updated.
-public struct KmsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct KmsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1645,9 +1645,9 @@ public struct KmsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServ
 }
 
 /// This exception is thrown when the KMS key does not exist, when the S3 bucket and the KMS key are not in the same Region, or when the KMS key associated with the Amazon SNS topic either does not exist or is not in the same Region.
-public struct KmsKeyNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct KmsKeyNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1670,9 +1670,9 @@ public struct KmsKeyNotFoundException: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 /// This exception is thrown when Organizations is not configured to support all features. All features must be enabled in Organizations to support creating an organization trail or event data store.
-public struct OrganizationNotInAllFeaturesModeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct OrganizationNotInAllFeaturesModeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1695,9 +1695,9 @@ public struct OrganizationNotInAllFeaturesModeException: ClientRuntime.ModeledEr
 }
 
 /// This exception is thrown when the request is made from an Amazon Web Services account that is not a member of an organization. To make this request, sign in using the credentials of an account that belongs to an organization.
-public struct OrganizationsNotInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct OrganizationsNotInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1885,9 +1885,9 @@ public struct CreateEventDataStoreOutput: Swift.Sendable {
 }
 
 /// This exception is thrown when a call results in the InvalidClientTokenId error code. This can occur when you are creating or updating a trail to send notifications to an Amazon SNS topic that is in a suspended Amazon Web Services account.
-public struct CloudTrailInvalidClientTokenIdException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CloudTrailInvalidClientTokenIdException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1910,9 +1910,9 @@ public struct CloudTrailInvalidClientTokenIdException: ClientRuntime.ModeledErro
 }
 
 /// Cannot set a CloudWatch Logs delivery for this Region.
-public struct CloudWatchLogsDeliveryUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CloudWatchLogsDeliveryUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1935,9 +1935,9 @@ public struct CloudWatchLogsDeliveryUnavailableException: ClientRuntime.ModeledE
 }
 
 /// This exception is thrown when the policy on the S3 bucket is not sufficient.
-public struct InsufficientS3BucketPolicyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InsufficientS3BucketPolicyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1960,9 +1960,9 @@ public struct InsufficientS3BucketPolicyException: ClientRuntime.ModeledError, A
 }
 
 /// This exception is thrown when the policy on the Amazon SNS topic is not sufficient.
-public struct InsufficientSnsTopicPolicyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InsufficientSnsTopicPolicyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1985,9 +1985,9 @@ public struct InsufficientSnsTopicPolicyException: ClientRuntime.ModeledError, A
 }
 
 /// This exception is thrown when the provided CloudWatch Logs log group is not valid.
-public struct InvalidCloudWatchLogsLogGroupArnException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidCloudWatchLogsLogGroupArnException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2010,9 +2010,9 @@ public struct InvalidCloudWatchLogsLogGroupArnException: ClientRuntime.ModeledEr
 }
 
 /// This exception is thrown when the provided role is not valid.
-public struct InvalidCloudWatchLogsRoleArnException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidCloudWatchLogsRoleArnException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2035,9 +2035,9 @@ public struct InvalidCloudWatchLogsRoleArnException: ClientRuntime.ModeledError,
 }
 
 /// This exception is thrown when the combination of parameters provided is not valid.
-public struct InvalidParameterCombinationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidParameterCombinationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2060,9 +2060,9 @@ public struct InvalidParameterCombinationException: ClientRuntime.ModeledError, 
 }
 
 /// This exception is thrown when the provided S3 bucket name is not valid.
-public struct InvalidS3BucketNameException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidS3BucketNameException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2085,9 +2085,9 @@ public struct InvalidS3BucketNameException: ClientRuntime.ModeledError, AWSClien
 }
 
 /// This exception is thrown when the provided S3 prefix is not valid.
-public struct InvalidS3PrefixException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidS3PrefixException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2110,9 +2110,9 @@ public struct InvalidS3PrefixException: ClientRuntime.ModeledError, AWSClientRun
 }
 
 /// This exception is thrown when the provided SNS topic name is not valid.
-public struct InvalidSnsTopicNameException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidSnsTopicNameException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2136,9 +2136,9 @@ public struct InvalidSnsTopicNameException: ClientRuntime.ModeledError, AWSClien
 
 /// This exception is no longer in use.
 @available(*, deprecated)
-public struct KmsKeyDisabledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct KmsKeyDisabledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2161,9 +2161,9 @@ public struct KmsKeyDisabledException: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 /// This exception is thrown when the maximum number of trails is reached.
-public struct MaximumNumberOfTrailsExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MaximumNumberOfTrailsExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2186,9 +2186,9 @@ public struct MaximumNumberOfTrailsExceededException: ClientRuntime.ModeledError
 }
 
 /// This exception is thrown when the specified S3 bucket does not exist.
-public struct S3BucketDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct S3BucketDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2211,9 +2211,9 @@ public struct S3BucketDoesNotExistException: ClientRuntime.ModeledError, AWSClie
 }
 
 /// This exception is thrown when the request rate exceeds the limit.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2236,9 +2236,9 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 /// This exception is thrown when the specified trail already exists.
-public struct TrailAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TrailAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2261,9 +2261,9 @@ public struct TrailAlreadyExistsException: ClientRuntime.ModeledError, AWSClient
 }
 
 /// This exception is no longer in use.
-public struct TrailNotProvidedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TrailNotProvidedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2461,9 +2461,9 @@ public struct DeleteDashboardOutput: Swift.Sendable {
 }
 
 /// You cannot delete the event data store because Lake query federation is enabled. To delete the event data store, run the DisableFederation operation to disable Lake query federation on the event data store.
-public struct EventDataStoreFederationEnabledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct EventDataStoreFederationEnabledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2486,9 +2486,9 @@ public struct EventDataStoreFederationEnabledException: ClientRuntime.ModeledErr
 }
 
 /// This exception is thrown when you try to update or delete an event data store that currently has an import in progress.
-public struct EventDataStoreHasOngoingImportException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct EventDataStoreHasOngoingImportException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2511,9 +2511,9 @@ public struct EventDataStoreHasOngoingImportException: ClientRuntime.ModeledErro
 }
 
 /// The event data store cannot be deleted because termination protection is enabled for it.
-public struct EventDataStoreTerminationProtectedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct EventDataStoreTerminationProtectedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2554,9 +2554,9 @@ public struct DeleteEventDataStoreOutput: Swift.Sendable {
 }
 
 /// This exception is thrown when the provided resource does not exist, or the ARN format of the resource is not valid. The following is the format of an event data store ARN: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE The following is the format of a dashboard ARN: arn:aws:cloudtrail:us-east-1:123456789012:dashboard/exampleDash The following is the format of a channel ARN: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
-public struct ResourceARNNotValidException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceARNNotValidException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2579,9 +2579,9 @@ public struct ResourceARNNotValidException: ClientRuntime.ModeledError, AWSClien
 }
 
 /// This exception is thrown when the specified resource policy is not found.
-public struct ResourcePolicyNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourcePolicyNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2622,9 +2622,9 @@ public struct DeleteResourcePolicyOutput: Swift.Sendable {
 }
 
 /// This exception is thrown when an operation is called on a trail from a Region other than the Region in which the trail was created.
-public struct InvalidHomeRegionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidHomeRegionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2647,9 +2647,9 @@ public struct InvalidHomeRegionException: ClientRuntime.ModeledError, AWSClientR
 }
 
 /// This exception is thrown when the trail with the given name is not found.
-public struct TrailNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TrailNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2692,9 +2692,9 @@ public struct DeleteTrailOutput: Swift.Sendable {
 }
 
 /// This exception is thrown when the account making the request is not the organization's management account.
-public struct NotOrganizationManagementAccountException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NotOrganizationManagementAccountException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3006,9 +3006,9 @@ public struct DescribeTrailsOutput: Swift.Sendable {
 }
 
 /// You are trying to update a resource when another request is in progress. Allow sufficient wait time for the previous request to complete, then retry your request.
-public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3133,9 +3133,9 @@ public struct EnableFederationOutput: Swift.Sendable {
 }
 
 /// This exception is thrown when a valid query could not be generated for the provided prompt.
-public struct GenerateResponseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct GenerateResponseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3668,9 +3668,9 @@ public struct GetEventSelectorsOutput: Swift.Sendable {
 }
 
 /// The specified import was not found.
-public struct ImportNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ImportNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3864,9 +3864,9 @@ public struct GetImportOutput: Swift.Sendable {
 }
 
 /// If you run GetInsightSelectors on a trail or event data store that does not have Insights events enabled, the operation throws the exception InsightNotEnabledException.
-public struct InsightNotEnabledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InsightNotEnabledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3987,9 +3987,9 @@ public struct GetInsightSelectorsOutput: Swift.Sendable {
 }
 
 /// This exception is thrown if the limit specified is not valid.
-public struct InvalidMaxResultsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidMaxResultsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4012,9 +4012,9 @@ public struct InvalidMaxResultsException: ClientRuntime.ModeledError, AWSClientR
 }
 
 /// A token that is not valid, or a token that was previously used in a request with different parameters. This exception is thrown if the token is not valid.
-public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4741,9 +4741,9 @@ public struct ListInsightsMetricDataOutput: Swift.Sendable {
 }
 
 /// Occurs if the timestamp values are not valid. Either the start time occurs after the end time, or the time range is outside the range of possible values.
-public struct InvalidTimeRangeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidTimeRangeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4766,9 +4766,9 @@ public struct InvalidTimeRangeException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// Reserved for future use.
-public struct InvalidTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4857,9 +4857,9 @@ public struct ListPublicKeysOutput: Swift.Sendable {
 }
 
 /// A date range for the query was specified that is not valid. Be sure that the start time is chronologically before the end time. For more information about writing a query, see [Create or edit a query](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/query-create-edit-query.html) in the CloudTrail User Guide.
-public struct InvalidDateRangeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidDateRangeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4882,9 +4882,9 @@ public struct InvalidDateRangeException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// The query status is not valid for the operation.
-public struct InvalidQueryStatusException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidQueryStatusException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -5087,9 +5087,9 @@ public struct ListTrailsOutput: Swift.Sendable {
 }
 
 /// Occurs if an event category that is not valid is specified as a value of EventCategory.
-public struct InvalidEventCategoryException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidEventCategoryException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -5112,9 +5112,9 @@ public struct InvalidEventCategoryException: ClientRuntime.ModeledError, AWSClie
 }
 
 /// Occurs when a lookup attribute is specified that is not valid.
-public struct InvalidLookupAttributesException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidLookupAttributesException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -5413,9 +5413,9 @@ public struct PutEventSelectorsOutput: Swift.Sendable {
 }
 
 /// For PutInsightSelectors, this exception is thrown when the formatting or syntax of the InsightSelectors JSON statement is not valid, or the specified InsightType in the InsightSelectors statement is not valid. Valid values for InsightType are ApiCallRateInsight and ApiErrorRateInsight. To enable Insights on an event data store, the destination event data store specified by the InsightsDestination parameter must log Insights events and the source event data store specified by the EventDataStore parameter must log management events. For UpdateEventDataStore, this exception is thrown if Insights are enabled on the event data store and the updated advanced event selectors are not compatible with the configured InsightSelectors. If the InsightSelectors includes an InsightType of ApiCallRateInsight, the source event data store must log write management events. If the InsightSelectors includes an InsightType of ApiErrorRateInsight, the source event data store must log management events.
-public struct InvalidInsightSelectorsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidInsightSelectorsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -5487,9 +5487,9 @@ public struct PutInsightSelectorsOutput: Swift.Sendable {
 }
 
 /// This exception is thrown when the resouce-based policy has syntax errors, or contains a principal that is not valid.
-public struct ResourcePolicyNotValidException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourcePolicyNotValidException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -5550,9 +5550,9 @@ public struct PutResourcePolicyOutput: Swift.Sendable {
 }
 
 /// This exception is thrown when the maximum number of CloudTrail delegated administrators is reached.
-public struct DelegatedAdminAccountLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DelegatedAdminAccountLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -5620,9 +5620,9 @@ public struct RemoveTagsOutput: Swift.Sendable {
 }
 
 /// The event data store is not in a status that supports the operation.
-public struct InvalidEventDataStoreStatusException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidEventDataStoreStatusException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -5761,9 +5761,9 @@ public struct StartEventDataStoreIngestionOutput: Swift.Sendable {
 }
 
 /// This exception is thrown when the provided source S3 bucket is not valid for import.
-public struct InvalidImportSourceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidImportSourceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -5874,9 +5874,9 @@ public struct StartLoggingOutput: Swift.Sendable {
 }
 
 /// You are already running the maximum number of concurrent queries. The maximum number of concurrent queries is 10. Wait a minute for some queries to finish, and then run the query again.
-public struct MaxConcurrentQueriesException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MaxConcurrentQueriesException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }

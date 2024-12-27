@@ -90,9 +90,9 @@ public struct SetVaultNotificationsOutput: Swift.Sendable {
 }
 
 /// Returned if a parameter of the request is incorrectly specified.
-public struct InvalidParameterValueException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidParameterValueException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// 400 Bad Request
         public internal(set) var code: Swift.String? = nil
         /// Returned if a parameter of the request is incorrectly specified.
@@ -123,9 +123,9 @@ public struct InvalidParameterValueException: ClientRuntime.ModeledError, AWSCli
 }
 
 /// Returned if a required header or parameter is missing from the request.
-public struct MissingParameterValueException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MissingParameterValueException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// 400 Bad Request
         public internal(set) var code: Swift.String? = nil
         /// Returned if no authentication data is found for the request.
@@ -156,9 +156,9 @@ public struct MissingParameterValueException: ClientRuntime.ModeledError, AWSCli
 }
 
 /// Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// 404 Not Found
         public internal(set) var code: Swift.String? = nil
         /// Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
@@ -189,9 +189,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// Returned if the service cannot complete the request.
-public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// 500 Internal Server Error
         public internal(set) var code: Swift.String? = nil
         /// Returned if the service cannot complete the request.
@@ -420,9 +420,9 @@ extension GlacierClientTypes {
 }
 
 /// Returned if the request results in a vault or account limit being exceeded.
-public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// 400 Bad Request
         public internal(set) var code: Swift.String? = nil
         /// Returned if the request results in a vault limit or tags limit being exceeded.
@@ -1477,7 +1477,7 @@ public struct GetJobOutputOutput: Swift.Sendable {
     public init(
         acceptRanges: Swift.String? = nil,
         archiveDescription: Swift.String? = nil,
-        body: Smithy.ByteStream? = Smithy.ByteStream.data(Foundation.Data("".utf8)),
+        body: Smithy.ByteStream? = Smithy.ByteStream.data(Foundation.Data(base64Encoded: "")),
         checksum: Swift.String? = nil,
         contentRange: Swift.String? = nil,
         contentType: Swift.String? = nil,
@@ -1639,9 +1639,9 @@ public struct GetVaultNotificationsOutput: Swift.Sendable {
 }
 
 /// Returned if there is insufficient capacity to process this expedited request. This error only applies to expedited retrievals and not to standard or bulk retrievals.
-public struct InsufficientCapacityException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InsufficientCapacityException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: Swift.String? = nil
         public internal(set) var message: Swift.String? = nil
         public internal(set) var type: Swift.String? = nil
@@ -1669,9 +1669,9 @@ public struct InsufficientCapacityException: ClientRuntime.ModeledError, AWSClie
 }
 
 /// Returned if a retrieval job would exceed the current data policy's retrieval rate limit. For more information about data retrieval policies,
-public struct PolicyEnforcedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PolicyEnforcedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// PolicyEnforcedException
         public internal(set) var code: Swift.String? = nil
         /// InitiateJob request denied by current data retrieval policy.
@@ -2481,9 +2481,9 @@ public struct SetVaultNotificationsInput: Swift.Sendable {
 }
 
 /// Returned if, when uploading an archive, Amazon S3 Glacier times out while receiving the upload.
-public struct RequestTimeoutException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct RequestTimeoutException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// 408 Request Timeout
         public internal(set) var code: Swift.String? = nil
         /// Returned if, when uploading an archive, Amazon S3 Glacier times out while receiving the upload.

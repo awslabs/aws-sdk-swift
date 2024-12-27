@@ -29,9 +29,9 @@ import struct Smithy.Document
 import struct Smithy.URIQueryItem
 
 /// Access to the Apache Airflow Web UI or CLI has been denied due to insufficient permissions. To learn more, see [Accessing an Amazon MWAA environment](https://docs.aws.amazon.com/mwaa/latest/userguide/access-policies.html).
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -53,9 +53,9 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 }
 
 /// ResourceNotFoundException: The resource is not available.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -111,9 +111,9 @@ extension CreateCliTokenOutput: Swift.CustomDebugStringConvertible {
 }
 
 /// InternalServerException: An internal error has occurred.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -135,9 +135,9 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 /// ValidationException: The provided input is not valid.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -332,7 +332,7 @@ extension MWAAClientTypes {
 public struct CreateEnvironmentInput: Swift.Sendable {
     /// A list of key-value pairs containing the Apache Airflow configuration options you want to attach to your environment. For more information, see [Apache Airflow configuration options](https://docs.aws.amazon.com/mwaa/latest/userguide/configuring-env-variables.html).
     public var airflowConfigurationOptions: [Swift.String: Swift.String]?
-    /// The Apache Airflow version for your environment. If no value is specified, it defaults to the latest version. For more information, see [Apache Airflow versions on Amazon Managed Workflows for Apache Airflow (Amazon MWAA)](https://docs.aws.amazon.com/mwaa/latest/userguide/airflow-versions.html). Valid values: 1.10.12, 2.0.2, 2.2.2, 2.4.3, 2.5.1, 2.6.3, 2.7.2, 2.8.1, 2.9.2, and 2.10.1.
+    /// The Apache Airflow version for your environment. If no value is specified, it defaults to the latest version. For more information, see [Apache Airflow versions on Amazon Managed Workflows for Apache Airflow (Amazon MWAA)](https://docs.aws.amazon.com/mwaa/latest/userguide/airflow-versions.html). Valid values: 1.10.12, 2.0.2, 2.2.2, 2.4.3, 2.5.1, 2.6.3, 2.7.2, 2.8.1, 2.9.2, 2.10.1, and 2.10.3.
     public var airflowVersion: Swift.String?
     /// The relative path to the DAGs folder on your Amazon S3 bucket. For example, dags. For more information, see [Adding or updating DAGs](https://docs.aws.amazon.com/mwaa/latest/userguide/configuring-dag-folder.html).
     /// This member is required.
@@ -737,7 +737,7 @@ extension MWAAClientTypes {
     public struct Environment: Swift.Sendable {
         /// A list of key-value pairs containing the Apache Airflow configuration options attached to your environment. For more information, see [Apache Airflow configuration options](https://docs.aws.amazon.com/mwaa/latest/userguide/configuring-env-variables.html).
         public var airflowConfigurationOptions: [Swift.String: Swift.String]?
-        /// The Apache Airflow version on your environment. Valid values: 1.10.12, 2.0.2, 2.2.2, 2.4.3, 2.5.1, 2.6.3, 2.7.2, 2.8.1, 2.9.2, and 2.10.1.
+        /// The Apache Airflow version on your environment. Valid values: 1.10.12, 2.0.2, 2.2.2, 2.4.3, 2.5.1, 2.6.3, 2.7.2, 2.8.1, 2.9.2, 2.10.1, and 2.10.3.
         public var airflowVersion: Swift.String?
         /// The Amazon Resource Name (ARN) of the Amazon MWAA environment.
         public var arn: Swift.String?
@@ -924,9 +924,9 @@ public struct GetEnvironmentOutput: Swift.Sendable {
 }
 
 /// An exception indicating that a client-side error occurred during the Apache Airflow REST API call.
-public struct RestApiClientException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct RestApiClientException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error response data from the Apache Airflow REST API call, provided as a JSON object.
         public internal(set) var restApiResponse: Smithy.Document? = nil
         /// The HTTP status code returned by the Apache Airflow REST API call.
@@ -958,9 +958,9 @@ extension RestApiClientException: Swift.CustomDebugStringConvertible {
 }
 
 /// An exception indicating that a server-side error occurred during the Apache Airflow REST API call.
-public struct RestApiServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct RestApiServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error response data from the Apache Airflow REST API call, provided as a JSON object.
         public internal(set) var restApiResponse: Smithy.Document? = nil
         /// The HTTP status code returned by the Apache Airflow REST API call.
@@ -1433,7 +1433,7 @@ extension MWAAClientTypes {
 public struct UpdateEnvironmentInput: Swift.Sendable {
     /// A list of key-value pairs containing the Apache Airflow configuration options you want to attach to your environment. For more information, see [Apache Airflow configuration options](https://docs.aws.amazon.com/mwaa/latest/userguide/configuring-env-variables.html).
     public var airflowConfigurationOptions: [Swift.String: Swift.String]?
-    /// The Apache Airflow version for your environment. To upgrade your environment, specify a newer version of Apache Airflow supported by Amazon MWAA. Before you upgrade an environment, make sure your requirements, DAGs, plugins, and other resources used in your workflows are compatible with the new Apache Airflow version. For more information about updating your resources, see [Upgrading an Amazon MWAA environment](https://docs.aws.amazon.com/mwaa/latest/userguide/upgrading-environment.html). Valid values: 1.10.12, 2.0.2, 2.2.2, 2.4.3, 2.5.1, 2.6.3, 2.7.2, 2.8.1, 2.9.2, and 2.10.1.
+    /// The Apache Airflow version for your environment. To upgrade your environment, specify a newer version of Apache Airflow supported by Amazon MWAA. Before you upgrade an environment, make sure your requirements, DAGs, plugins, and other resources used in your workflows are compatible with the new Apache Airflow version. For more information about updating your resources, see [Upgrading an Amazon MWAA environment](https://docs.aws.amazon.com/mwaa/latest/userguide/upgrading-environment.html). Valid values: 1.10.12, 2.0.2, 2.2.2, 2.4.3, 2.5.1, 2.6.3, 2.7.2, 2.8.1, 2.9.2, 2.10.1, and 2.10.3.
     public var airflowVersion: Swift.String?
     /// The relative path to the DAGs folder on your Amazon S3 bucket. For example, dags. For more information, see [Adding or updating DAGs](https://docs.aws.amazon.com/mwaa/latest/userguide/configuring-dag-folder.html).
     public var dagS3Path: Swift.String?

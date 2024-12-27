@@ -294,9 +294,9 @@ extension BatchClientTypes {
 }
 
 /// These errors are usually caused by a client action. One example cause is using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Another cause is specifying an identifier that's not valid.
-public struct ClientException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ClientException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -318,9 +318,9 @@ public struct ClientException: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
 }
 
 /// These errors are usually caused by a server issue.
-public struct ServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2317,16 +2317,20 @@ extension BatchClientTypes {
         public var name: Swift.String?
         /// If this value is true, the container has read-only access to the volume. Otherwise, the container can write to the volume. The default value is false.
         public var readOnly: Swift.Bool?
+        /// A sub-path inside the referenced volume instead of its root.
+        public var subPath: Swift.String?
 
         public init(
             mountPath: Swift.String? = nil,
             name: Swift.String? = nil,
-            readOnly: Swift.Bool? = nil
+            readOnly: Swift.Bool? = nil,
+            subPath: Swift.String? = nil
         )
         {
             self.mountPath = mountPath
             self.name = name
             self.readOnly = readOnly
+            self.subPath = subPath
         }
     }
 }
@@ -2399,16 +2403,42 @@ extension BatchClientTypes {
 
 extension BatchClientTypes {
 
-    /// Describes and uniquely identifies Kubernetes resources. For example, the compute environment that a pod runs in or the jobID for a job running in the pod. For more information, see [Understanding Kubernetes Objects](https://kubernetes.io/docs/concepts/overview/working-with-objects/kubernetes-objects/) in the Kubernetes documentation.
+    /// Describes and uniquely identifies Kubernetes resources. For example, the compute environment that a pod runs in or the jobID for a job running in the pod. For more information, see [ Understanding Kubernetes Objects](https://kubernetes.io/docs/concepts/overview/working-with-objects/kubernetes-objects/) in the Kubernetes documentation.
     public struct EksMetadata: Swift.Sendable {
+        /// Key-value pairs used to attach arbitrary, non-identifying metadata to Kubernetes objects. Valid annotation keys have two segments: an optional prefix and a name, separated by a slash (/).
+        ///
+        /// * The prefix is optional and must be 253 characters or less. If specified, the prefix must be a DNS subdomain− a series of DNS labels separated by dots (.), and it must end with a slash (/).
+        ///
+        /// * The name segment is required and must be 63 characters or less. It can include alphanumeric characters ([a-z0-9A-Z]), dashes (-), underscores (_), and dots (.), but must begin and end with an alphanumeric character.
+        ///
+        ///
+        /// Annotation values must be 255 characters or less. Annotations can be added or modified at any time. Each resource can have multiple annotations.
+        public var annotations: [Swift.String: Swift.String]?
         /// Key-value pairs used to identify, sort, and organize cube resources. Can contain up to 63 uppercase letters, lowercase letters, numbers, hyphens (-), and underscores (_). Labels can be added or modified at any time. Each resource can have multiple labels, but each key must be unique for a given object.
         public var labels: [Swift.String: Swift.String]?
+        /// The namespace of the Amazon EKS cluster. In Kubernetes, namespaces provide a mechanism for isolating groups of resources within a single cluster. Names of resources need to be unique within a namespace, but not across namespaces. Batch places Batch Job pods in this namespace. If this field is provided, the value can't be empty or null. It must meet the following requirements:
+        ///
+        /// * 1-63 characters long
+        ///
+        /// * Can't be set to default
+        ///
+        /// * Can't start with kube
+        ///
+        /// * Must match the following regular expression: ^[a-z0-9]([-a-z0-9]*[a-z0-9])?$
+        ///
+        ///
+        /// For more information, see [Namespaces](https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/) in the Kubernetes documentation. This namespace can be different from the kubernetesNamespace set in the compute environment's EksConfiguration, but must have identical role-based access control (RBAC) roles as the compute environment's kubernetesNamespace. For multi-node parallel jobs, the same value must be provided across all the node ranges.
+        public var namespace: Swift.String?
 
         public init(
-            labels: [Swift.String: Swift.String]? = nil
+            annotations: [Swift.String: Swift.String]? = nil,
+            labels: [Swift.String: Swift.String]? = nil,
+            namespace: Swift.String? = nil
         )
         {
+            self.annotations = annotations
             self.labels = labels
+            self.namespace = namespace
         }
     }
 }
@@ -2451,6 +2481,27 @@ extension BatchClientTypes {
 
 extension BatchClientTypes {
 
+    /// A persistentVolumeClaim volume is used to mount a [PersistentVolume](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) into a Pod. PersistentVolumeClaims are a way for users to "claim" durable storage without knowing the details of the particular cloud environment. See the information about [PersistentVolumes](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) in the Kubernetes documentation.
+    public struct EksPersistentVolumeClaim: Swift.Sendable {
+        /// The name of the persistentVolumeClaim bounded to a persistentVolume. For more information, see [ Persistent Volume Claims](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#persistentvolumeclaims) in the Kubernetes documentation.
+        /// This member is required.
+        public var claimName: Swift.String?
+        /// An optional boolean value indicating if the mount is read only. Default is false. For more information, see [ Read Only Mounts](https://kubernetes.io/docs/concepts/storage/volumes/#read-only-mounts) in the Kubernetes documentation.
+        public var readOnly: Swift.Bool?
+
+        public init(
+            claimName: Swift.String? = nil,
+            readOnly: Swift.Bool? = nil
+        )
+        {
+            self.claimName = claimName
+            self.readOnly = readOnly
+        }
+    }
+}
+
+extension BatchClientTypes {
+
     /// Specifies the configuration of a Kubernetes secret volume. For more information, see [secret](https://kubernetes.io/docs/concepts/storage/volumes/#secret) in the Kubernetes documentation.
     public struct EksSecret: Swift.Sendable {
         /// Specifies whether the secret or the secret's keys must be defined.
@@ -2481,6 +2532,8 @@ extension BatchClientTypes {
         /// The name of the volume. The name must be allowed as a DNS subdomain name. For more information, see [DNS subdomain names](https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#dns-subdomain-names) in the Kubernetes documentation.
         /// This member is required.
         public var name: Swift.String?
+        /// Specifies the configuration of a Kubernetes persistentVolumeClaim bounded to a persistentVolume. For more information, see [ Persistent Volume Claims](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#persistentvolumeclaims) in the Kubernetes documentation.
+        public var persistentVolumeClaim: BatchClientTypes.EksPersistentVolumeClaim?
         /// Specifies the configuration of a Kubernetes secret volume. For more information, see [secret](https://kubernetes.io/docs/concepts/storage/volumes/#secret) in the Kubernetes documentation.
         public var secret: BatchClientTypes.EksSecret?
 
@@ -2488,12 +2541,14 @@ extension BatchClientTypes {
             emptyDir: BatchClientTypes.EksEmptyDir? = nil,
             hostPath: BatchClientTypes.EksHostPath? = nil,
             name: Swift.String? = nil,
+            persistentVolumeClaim: BatchClientTypes.EksPersistentVolumeClaim? = nil,
             secret: BatchClientTypes.EksSecret? = nil
         )
         {
             self.emptyDir = emptyDir
             self.hostPath = hostPath
             self.name = name
+            self.persistentVolumeClaim = persistentVolumeClaim
             self.secret = secret
         }
     }
@@ -6267,13 +6322,17 @@ extension BatchClientTypes.EksMetadata {
 
     static func write(value: BatchClientTypes.EksMetadata?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["annotations"].writeMap(value.annotations, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["labels"].writeMap(value.labels, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["namespace"].write(value.namespace)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.EksMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BatchClientTypes.EksMetadata()
         value.labels = try reader["labels"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.annotations = try reader["annotations"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.namespace = try reader["namespace"].readIfPresent()
         return value
     }
 }
@@ -6285,6 +6344,7 @@ extension BatchClientTypes.EksVolume {
         try writer["emptyDir"].write(value.emptyDir, with: BatchClientTypes.EksEmptyDir.write(value:to:))
         try writer["hostPath"].write(value.hostPath, with: BatchClientTypes.EksHostPath.write(value:to:))
         try writer["name"].write(value.name)
+        try writer["persistentVolumeClaim"].write(value.persistentVolumeClaim, with: BatchClientTypes.EksPersistentVolumeClaim.write(value:to:))
         try writer["secret"].write(value.secret, with: BatchClientTypes.EksSecret.write(value:to:))
     }
 
@@ -6295,6 +6355,24 @@ extension BatchClientTypes.EksVolume {
         value.hostPath = try reader["hostPath"].readIfPresent(with: BatchClientTypes.EksHostPath.read(from:))
         value.emptyDir = try reader["emptyDir"].readIfPresent(with: BatchClientTypes.EksEmptyDir.read(from:))
         value.secret = try reader["secret"].readIfPresent(with: BatchClientTypes.EksSecret.read(from:))
+        value.persistentVolumeClaim = try reader["persistentVolumeClaim"].readIfPresent(with: BatchClientTypes.EksPersistentVolumeClaim.read(from:))
+        return value
+    }
+}
+
+extension BatchClientTypes.EksPersistentVolumeClaim {
+
+    static func write(value: BatchClientTypes.EksPersistentVolumeClaim?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["claimName"].write(value.claimName)
+        try writer["readOnly"].write(value.readOnly)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.EksPersistentVolumeClaim {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.EksPersistentVolumeClaim()
+        value.claimName = try reader["claimName"].readIfPresent() ?? ""
+        value.readOnly = try reader["readOnly"].readIfPresent()
         return value
     }
 }
@@ -6411,6 +6489,7 @@ extension BatchClientTypes.EksContainerVolumeMount {
         try writer["mountPath"].write(value.mountPath)
         try writer["name"].write(value.name)
         try writer["readOnly"].write(value.readOnly)
+        try writer["subPath"].write(value.subPath)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.EksContainerVolumeMount {
@@ -6418,6 +6497,7 @@ extension BatchClientTypes.EksContainerVolumeMount {
         var value = BatchClientTypes.EksContainerVolumeMount()
         value.name = try reader["name"].readIfPresent()
         value.mountPath = try reader["mountPath"].readIfPresent()
+        value.subPath = try reader["subPath"].readIfPresent()
         value.readOnly = try reader["readOnly"].readIfPresent()
         return value
     }

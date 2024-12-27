@@ -28,9 +28,9 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 
 /// The access is denied for the Amazon Web Services Support API.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1212,9 +1212,9 @@ extension TaxSettingsClientTypes {
 }
 
 /// Failed to upload the tax exemption document to Amazon Web Services Support case.
-public struct AttachmentUploadException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AttachmentUploadException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1263,9 +1263,9 @@ extension TaxSettingsClientTypes {
 }
 
 /// The exception when the input is creating conflict with the given state.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// 409
         /// This member is required.
         public internal(set) var errorCode: Swift.String? = nil
@@ -1298,9 +1298,9 @@ extension ConflictException: Swift.CustomDebugStringConvertible {
 }
 
 /// The exception thrown when an unexpected error occurs when processing a request.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// 500
         /// This member is required.
         public internal(set) var errorCode: Swift.String? = nil
@@ -1388,9 +1388,9 @@ extension TaxSettingsClientTypes {
 }
 
 /// The exception when the input doesn't pass validation for at least one of the input parameters.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// 400
         /// This member is required.
         public internal(set) var errorCode: TaxSettingsClientTypes.ValidationExceptionErrorCode? = nil
@@ -1484,9 +1484,9 @@ public struct BatchDeleteTaxRegistrationOutput: Swift.Sendable {
 }
 
 /// The exception thrown when the input doesn't have a resource associated to it.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// 404
         /// This member is required.
         public internal(set) var errorCode: Swift.String? = nil
@@ -1880,9 +1880,9 @@ public struct BatchPutTaxRegistrationOutput: Swift.Sendable {
 }
 
 /// You've exceeded the Amazon Web Services Support case creation limit for your account.
-public struct CaseCreationLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CaseCreationLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }

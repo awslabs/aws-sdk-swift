@@ -62,7 +62,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class PaymentCryptographyDataClient: ClientRuntime.Client {
     public static let clientName = "PaymentCryptographyDataClient"
-    public static let version = "1.0.60"
+    public static let version = "1.0.67"
     let client: ClientRuntime.SdkHttpClient
     let config: PaymentCryptographyDataClient.PaymentCryptographyDataClientConfiguration
     let serviceName = "Payment Cryptography Data"

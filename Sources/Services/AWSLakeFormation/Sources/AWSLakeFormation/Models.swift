@@ -30,9 +30,9 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 
 /// Access to a resource was denied.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -55,9 +55,9 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 }
 
 /// Two processes are trying to modify a resource simultaneously.
-public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -80,9 +80,9 @@ public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSCl
 }
 
 /// A specified entity does not exist.
-public struct EntityNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct EntityNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -105,9 +105,9 @@ public struct EntityNotFoundException: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 /// An internal service error occurred.
-public struct InternalServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -130,9 +130,9 @@ public struct InternalServiceException: ClientRuntime.ModeledError, AWSClientRun
 }
 
 /// The input provided was not valid.
-public struct InvalidInputException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidInputException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -155,9 +155,9 @@ public struct InvalidInputException: ClientRuntime.ModeledError, AWSClientRuntim
 }
 
 /// The operation timed out.
-public struct OperationTimeoutException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct OperationTimeoutException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -669,9 +669,9 @@ extension LakeFormationClientTypes {
 }
 
 /// A resource to be created or added already exists.
-public struct AlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -988,9 +988,9 @@ public struct BatchRevokePermissionsOutput: Swift.Sendable {
 }
 
 /// Contains details about an error related to a transaction commit that was in progress.
-public struct TransactionCommitInProgressException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TransactionCommitInProgressException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1013,9 +1013,9 @@ public struct TransactionCommitInProgressException: ClientRuntime.ModeledError, 
 }
 
 /// Contains details about an error where the specified transaction has already been committed and cannot be used for UpdateTableObjects.
-public struct TransactionCommittedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TransactionCommittedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1056,9 +1056,9 @@ public struct CancelTransactionOutput: Swift.Sendable {
 }
 
 /// Contains details about an error related to a transaction that was cancelled.
-public struct TransactionCanceledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TransactionCanceledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1141,9 +1141,9 @@ public struct CommitTransactionOutput: Swift.Sendable {
 }
 
 /// A resource numerical limit was exceeded.
-public struct ResourceNumberLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNumberLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1533,9 +1533,9 @@ public struct DeleteLFTagExpressionOutput: Swift.Sendable {
 }
 
 /// Contains details about an error related to a resource which is not ready for a transaction.
-public struct ResourceNotReadyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotReadyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2230,9 +2230,9 @@ public struct GetQueryStateOutput: Swift.Sendable {
 }
 
 /// Contains details about an error where the query request expired.
-public struct ExpiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ExpiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2255,9 +2255,9 @@ public struct ExpiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWS
 }
 
 /// Contains details about an error related to statistics not being ready.
-public struct StatisticsNotReadyYetException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct StatisticsNotReadyYetException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2280,9 +2280,9 @@ public struct StatisticsNotReadyYetException: ClientRuntime.ModeledError, AWSCli
 }
 
 /// Contains details about an error where the query request was throttled.
-public struct ThrottledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2390,9 +2390,9 @@ public struct GetQueryStatisticsOutput: Swift.Sendable {
 }
 
 /// An encryption operation failed.
-public struct GlueEncryptionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct GlueEncryptionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2584,9 +2584,9 @@ public struct GetTableObjectsOutput: Swift.Sendable {
 }
 
 /// The engine does not support filtering data based on the enforced permissions. For example, if you call the GetTemporaryGlueTableCredentials operation with SupportedPermissionType equal to ColumnPermission, but cell-level permissions exist on the table, this exception is thrown.
-public struct PermissionTypeMismatchException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PermissionTypeMismatchException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2849,7 +2849,7 @@ public struct GetWorkUnitResultsOutput: Swift.Sendable {
     public var resultStream: Smithy.ByteStream?
 
     public init(
-        resultStream: Smithy.ByteStream? = Smithy.ByteStream.data(Foundation.Data("".utf8))
+        resultStream: Smithy.ByteStream? = Smithy.ByteStream.data(Foundation.Data(base64Encoded: ""))
     )
     {
         self.resultStream = resultStream
@@ -2857,9 +2857,9 @@ public struct GetWorkUnitResultsOutput: Swift.Sendable {
 }
 
 /// Contains details about an error related to work units not being ready.
-public struct WorkUnitsNotReadyYetException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WorkUnitsNotReadyYetException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the error.
         public internal(set) var message: Swift.String? = nil
     }

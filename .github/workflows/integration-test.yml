@@ -1,6 +1,8 @@
 name: Integration Tests
 
 on:
+  push:
+    branches: [ main ]
   pull_request:
   workflow_dispatch:
 
@@ -9,9 +11,12 @@ env:
 
 permissions:
   id-token: write
+  contents: read
+  actions: read
 
 jobs:
   apple:
+    if: github.repository == 'awslabs/aws-sdk-swift' || github.event_name == 'pull_request'
     runs-on: ${{ matrix.runner }}
     strategy:
       fail-fast: false
@@ -68,22 +73,16 @@ jobs:
           role-to-assume: ${{ secrets.INTEGRATION_TEST_ROLE_ARN }}
           aws-region: us-west-2
       - name: Checkout aws-sdk-swift
-        uses: actions/checkout@v3
-      - name: Select smithy-swift branch
-        run: |
-          ORIGINAL_REPO_HEAD_REF="$GITHUB_HEAD_REF" \
-          DEPENDENCY_REPO_URL="https://github.com/smithy-lang/smithy-swift.git" \
-          ./scripts/ci_steps/select_dependency_branch.sh
-      - name: Checkout smithy-swift
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
-          repository: smithy-lang/smithy-swift
-          ref: ${{ env.DEPENDENCY_REPO_SHA }}
-          path: smithy-swift
-      - name: Move smithy-swift into place
-        run: mv smithy-swift ..
+          path: aws-sdk-swift
+      - name: Checkout smithy-swift with composite action
+        uses: ./aws-sdk-swift/.github/actions/checkout-smithy-swift-composite-action
+        with:
+          AUTOMATION_USER_SSH_PRIVATE_KEY: ${{ secrets.AUTOMATION_USER_SSH_PRIVATE_KEY }}
+          STAGING_PARTNER_REPO: ${{ secrets.STAGING_PARTNER_REPO }}
       - name: Cache Gradle
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             ~/.gradle/caches
@@ -93,7 +92,7 @@ jobs:
             2-${{ runner.os }}-gradle-${{ hashFiles('*.gradle.kts', 'gradle/wrapper/gradle-wrapper.properties') }}
             2-${{ runner.os }}-gradle-
       - name: Cache Swift
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             ~/Library/Caches/org.swift.swiftpm
@@ -103,14 +102,15 @@ jobs:
             1-${{ runner.os }}-${{ matrix.xcode }}-${{ hashFiles('Package.swift', 'AWSSDKSwiftCLI/Package.swift') }}
             1-${{ runner.os }}-${{ matrix.xcode }}-
       - name: Setup Java
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           distribution: corretto
           java-version: 17
       - name: Tools Versions
-        run: ./scripts/ci_steps/log_tool_versions.sh
+        run: ./aws-sdk-swift/scripts/ci_steps/log_tool_versions.sh
       - name: Add Credentials to Test Plan
         run: |
+          cd aws-sdk-swift
           # JSON-escape the credentials.  They are also surrounded with double quotes.
           AKID_ESCAPED=`echo -n "$AWS_ACCESS_KEY_ID" | jq -Rsa .`
           SECRET_ESCAPED=`echo -n "$AWS_SECRET_ACCESS_KEY" | jq -Rsa .`
@@ -121,10 +121,12 @@ jobs:
           jq ".defaultOptions.environmentVariableEntries += [{\"key\": \"AWS_ACCESS_KEY_ID\", \"value\": $AKID_ESCAPED}, {\"key\": \"AWS_SECRET_ACCESS_KEY\", \"value\": $SECRET_ESCAPED}, {\"key\": \"AWS_DEFAULT_REGION\", \"value\": $REGION_ESCAPED}, {\"key\": \"AWS_SESSION_TOKEN\", \"value\": $TOKEN_ESCAPED}]" IntegrationTests/XCTestPlans/AWSIntegrationTestsOnCI.xctestplan > testplan.tmp
           mv testplan.tmp IntegrationTests/XCTestPlans/AWSIntegrationTestsOnCI.xctestplan
       - name: Prepare Integration Tests
-        run: ./scripts/ci_steps/prepare_integration_tests.sh
+        run: |
+          cd aws-sdk-swift
+          ./scripts/ci_steps/prepare_integration_tests.sh
       - name: Run Integration Tests
         run: |
-          cd IntegrationTests
+          cd aws-sdk-swift/IntegrationTests
           set -o pipefail && \
           NSUnbufferedIO=YES xcodebuild \
             -scheme AWSIntegrationTestsOnCI \
@@ -134,6 +136,8 @@ jobs:
             | xcbeautify
 
   linux:
+    # Details on why AL2 isn't included: https://github.com/awslabs/aws-sdk-swift/pull/1833
+    if: github.repository == 'awslabs/aws-sdk-swift' || github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     container: swift:${{ matrix.version }}-${{ matrix.os }}
     strategy:
@@ -155,22 +159,16 @@ jobs:
           role-to-assume: ${{ secrets.INTEGRATION_TEST_ROLE_ARN }}
           aws-region: us-west-2
       - name: Checkout aws-sdk-swift
-        uses: actions/checkout@v3
-      - name: Select smithy-swift branch
-        run: |
-          ORIGINAL_REPO_HEAD_REF="${GITHUB_HEAD_REF:-${GITHUB_REF_NAME:-main}}" \
-          DEPENDENCY_REPO_URL="https://github.com/smithy-lang/smithy-swift.git" \
-          ./scripts/ci_steps/select_dependency_branch.sh
-      - name: Checkout smithy-swift
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
-          repository: smithy-lang/smithy-swift
-          ref: ${{ env.DEPENDENCY_REPO_SHA }}
-          path: smithy-swift
-      - name: Move smithy-swift into place
-        run: mv smithy-swift ..
+          path: aws-sdk-swift
+      - name: Checkout smithy-swift with composite action
+        uses: ./aws-sdk-swift/.github/actions/checkout-smithy-swift-composite-action
+        with:
+          AUTOMATION_USER_SSH_PRIVATE_KEY: ${{ secrets.AUTOMATION_USER_SSH_PRIVATE_KEY }}
+          STAGING_PARTNER_REPO: ${{ secrets.STAGING_PARTNER_REPO }}
       - name: Cache Gradle
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             ~/.gradle/caches
@@ -180,7 +178,7 @@ jobs:
             2-${{ runner.os }}-gradle-${{ hashFiles('*.gradle.kts', 'gradle/wrapper/gradle-wrapper.properties') }}
             2-${{ runner.os }}-gradle-
       - name: Cache Swift
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             ~/Library/Caches/org.swift.swiftpm
@@ -190,23 +188,23 @@ jobs:
             1-${{ runner.os }}-swift-${{ matrix.version }}-spm-${{ hashFiles('Package.swift', 'AWSSDKSwiftCLI/Package.swift') }}
             1-${{ runner.os }}-swift-${{ matrix.version }}-spm-
       - name: Setup Java
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           distribution: corretto
           java-version: 17
       - name: Install OpenSSL (all OS) and which (AL2 only)
-        run: ./scripts/ci_steps/install_native_linux_dependencies.sh
+        run: ./aws-sdk-swift/scripts/ci_steps/install_native_linux_dependencies.sh
       - name: Tools Versions
-        run: ./scripts/ci_steps/log_tool_versions.sh
+        run: ./aws-sdk-swift/scripts/ci_steps/log_tool_versions.sh
       - name: Prepare Integration Tests
-        run: ./scripts/ci_steps/prepare_integration_tests.sh
+        run: |
+          cd aws-sdk-swift
+          ./scripts/ci_steps/prepare_integration_tests.sh
       - name: Build Integration Tests
         run: |
-          cd IntegrationTests
+          cd aws-sdk-swift/IntegrationTests
           swift build --build-tests
-          cd ..
       - name: Run Integration Tests
         run: |
-          cd IntegrationTests
+          cd aws-sdk-swift/IntegrationTests
           swift test
-          cd ..

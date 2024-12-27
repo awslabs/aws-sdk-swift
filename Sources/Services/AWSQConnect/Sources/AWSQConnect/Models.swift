@@ -30,9 +30,9 @@ import struct Smithy.URIQueryItem
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// You do not have sufficient access to perform this action.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -54,9 +54,9 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 }
 
 /// The request could not be processed because of conflict in the current state of the resource. For example, if you're using a Create API (such as CreateAssistant) that accepts name, a conflicting resource (usually with the same name) is being created or mutated.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -78,9 +78,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 /// The specified resource does not exist.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// The specified resource name.
         public internal(set) var resourceName: Swift.String? = nil
@@ -106,9 +106,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// The throttling limit has been exceeded.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -130,9 +130,9 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 /// The input fails to satisfy the constraints specified by a service.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -225,9 +225,9 @@ extension QConnectClientTypes.AgentAttributes: Swift.CustomDebugStringConvertibl
 }
 
 /// You've exceeded your service quota. To perform the requested action, remove some of the relevant resources, or use service quotas to request a service quota increase.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -420,6 +420,8 @@ extension QConnectClientTypes {
         public var associationConfigurations: [QConnectClientTypes.AssociationConfiguration]?
         /// The AI Prompt identifier for the Intent Labeling prompt used by the ANSWER_RECOMMENDATION AI Agent.
         public var intentLabelingGenerationAIPromptId: Swift.String?
+        /// The locale to which specifies the language and region settings that determine the response language for [QueryAssistant](https://docs.aws.amazon.com/connect/latest/APIReference/API_amazon-q-connect_QueryAssistant.html). Changing this locale to anything other than en_US will turn off recommendations triggered by contact transcripts for agent assistance, as this feature is not supported in multiple languages.
+        public var locale: Swift.String?
         /// The AI Prompt identifier for the Query Reformulation prompt used by the ANSWER_RECOMMENDATION AI Agent.
         public var queryReformulationAIPromptId: Swift.String?
 
@@ -428,6 +430,7 @@ extension QConnectClientTypes {
             answerGenerationAIPromptId: Swift.String? = nil,
             associationConfigurations: [QConnectClientTypes.AssociationConfiguration]? = nil,
             intentLabelingGenerationAIPromptId: Swift.String? = nil,
+            locale: Swift.String? = nil,
             queryReformulationAIPromptId: Swift.String? = nil
         )
         {
@@ -435,6 +438,7 @@ extension QConnectClientTypes {
             self.answerGenerationAIPromptId = answerGenerationAIPromptId
             self.associationConfigurations = associationConfigurations
             self.intentLabelingGenerationAIPromptId = intentLabelingGenerationAIPromptId
+            self.locale = locale
             self.queryReformulationAIPromptId = queryReformulationAIPromptId
         }
     }
@@ -450,16 +454,20 @@ extension QConnectClientTypes {
         public var answerGenerationAIPromptId: Swift.String?
         /// The association configurations for overriding behavior on this AI Agent.
         public var associationConfigurations: [QConnectClientTypes.AssociationConfiguration]?
+        /// The locale to which specifies the language and region settings that determine the response language for [QueryAssistant](https://docs.aws.amazon.com/connect/latest/APIReference/API_amazon-q-connect_QueryAssistant.html).
+        public var locale: Swift.String?
 
         public init(
             answerGenerationAIGuardrailId: Swift.String? = nil,
             answerGenerationAIPromptId: Swift.String? = nil,
-            associationConfigurations: [QConnectClientTypes.AssociationConfiguration]? = nil
+            associationConfigurations: [QConnectClientTypes.AssociationConfiguration]? = nil,
+            locale: Swift.String? = nil
         )
         {
             self.answerGenerationAIGuardrailId = answerGenerationAIGuardrailId
             self.answerGenerationAIPromptId = answerGenerationAIPromptId
             self.associationConfigurations = associationConfigurations
+            self.locale = locale
         }
     }
 }
@@ -1532,7 +1540,7 @@ extension QConnectClientTypes {
         ///
         /// * Finance
         ///
-        /// * REDIT_DEBIT_CARD_CVV A three-digit card verification code (CVV) that is present on VISA, MasterCard, and Discover credit and debit cards. For American Express credit or debit cards, the CVV is a four-digit numeric code.
+        /// * CREDIT_DEBIT_CARD_CVV A three-digit card verification code (CVV) that is present on VISA, MasterCard, and Discover credit and debit cards. For American Express credit or debit cards, the CVV is a four-digit numeric code.
         ///
         /// * CREDIT_DEBIT_CARD_EXPIRY The expiration date for a credit or debit card. This number is usually four digits long and is often formatted as month/year or MM/YY. AI Guardrail recognizes expiration dates such as 01/21, 01/2021, and Jan 2021.
         ///
@@ -4545,9 +4553,9 @@ public struct PutFeedbackOutput: Swift.Sendable {
 }
 
 /// The request reached the service more than 15 minutes after the date stamp on the request or more than 15 minutes after the request expiration date (such as for pre-signed URLs), or the date stamp on the request is more than 15 minutes in the future.
-public struct RequestTimeoutException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct RequestTimeoutException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -6663,9 +6671,9 @@ public struct ListContentsOutput: Swift.Sendable {
 }
 
 /// The provided revisionId does not match, indicating the content has been modified since it was last read.
-public struct PreconditionFailedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PreconditionFailedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -10646,9 +10654,9 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 }
 
 /// Amazon Q in Connect throws this exception if you have too many tags in your tag set.
-public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// The specified resource name.
         public internal(set) var resourceName: Swift.String? = nil
@@ -15757,6 +15765,7 @@ extension QConnectClientTypes.AnswerRecommendationAIAgentConfiguration {
         try writer["answerGenerationAIPromptId"].write(value.answerGenerationAIPromptId)
         try writer["associationConfigurations"].writeList(value.associationConfigurations, memberWritingClosure: QConnectClientTypes.AssociationConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["intentLabelingGenerationAIPromptId"].write(value.intentLabelingGenerationAIPromptId)
+        try writer["locale"].write(value.locale)
         try writer["queryReformulationAIPromptId"].write(value.queryReformulationAIPromptId)
     }
 
@@ -15768,6 +15777,7 @@ extension QConnectClientTypes.AnswerRecommendationAIAgentConfiguration {
         value.answerGenerationAIPromptId = try reader["answerGenerationAIPromptId"].readIfPresent()
         value.answerGenerationAIGuardrailId = try reader["answerGenerationAIGuardrailId"].readIfPresent()
         value.associationConfigurations = try reader["associationConfigurations"].readListIfPresent(memberReadingClosure: QConnectClientTypes.AssociationConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.locale = try reader["locale"].readIfPresent()
         return value
     }
 }
@@ -15779,6 +15789,7 @@ extension QConnectClientTypes.ManualSearchAIAgentConfiguration {
         try writer["answerGenerationAIGuardrailId"].write(value.answerGenerationAIGuardrailId)
         try writer["answerGenerationAIPromptId"].write(value.answerGenerationAIPromptId)
         try writer["associationConfigurations"].writeList(value.associationConfigurations, memberWritingClosure: QConnectClientTypes.AssociationConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["locale"].write(value.locale)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ManualSearchAIAgentConfiguration {
@@ -15787,6 +15798,7 @@ extension QConnectClientTypes.ManualSearchAIAgentConfiguration {
         value.answerGenerationAIPromptId = try reader["answerGenerationAIPromptId"].readIfPresent()
         value.answerGenerationAIGuardrailId = try reader["answerGenerationAIGuardrailId"].readIfPresent()
         value.associationConfigurations = try reader["associationConfigurations"].readListIfPresent(memberReadingClosure: QConnectClientTypes.AssociationConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.locale = try reader["locale"].readIfPresent()
         return value
     }
 }

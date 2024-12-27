@@ -50,9 +50,9 @@ extension ResiliencehubClientTypes {
 }
 
 /// You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -74,9 +74,9 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 }
 
 /// This exception occurs when there is an internal failure in the Resilience Hub service.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -98,9 +98,9 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 /// This exception occurs when the specified resource could not be found.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// The identifier of the resource that the exception applies to.
         public internal(set) var resourceId: Swift.String? = nil
@@ -130,9 +130,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// This exception occurs when you have exceeded the limit on the number of requests per second.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// The number of seconds to wait before retrying the operation.
         public internal(set) var retryAfterSeconds: Swift.Int? = nil
@@ -158,9 +158,9 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 /// This exception occurs when a request is not valid.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -240,9 +240,9 @@ public struct AcceptResourceGroupingRecommendationsOutput: Swift.Sendable {
 }
 
 /// This exception occurs when a conflict with a previous successful write is detected. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// The identifier of the resource that the exception applies to.
         public internal(set) var resourceId: Swift.String? = nil
@@ -272,9 +272,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 /// This exception occurs when you have exceeded your service quota. To perform the requested action, remove some of the relevant resources, or use Service Quotas to request a service quota increase.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -535,6 +535,26 @@ public struct AddDraftAppVersionResourceMappingsOutput: Swift.Sendable {
 
 extension ResiliencehubClientTypes {
 
+    /// Indicates the Amazon CloudWatch alarm detected while running an assessment.
+    public struct Alarm: Swift.Sendable {
+        /// Amazon Resource Name (ARN) of the Amazon CloudWatch alarm.
+        public var alarmArn: Swift.String?
+        /// Indicates the source of the Amazon CloudWatch alarm. That is, it indicates if the alarm was created using Resilience Hub recommendation (AwsResilienceHub), or if you had created the alarm in Amazon CloudWatch (Customer).
+        public var source: Swift.String?
+
+        public init(
+            alarmArn: Swift.String? = nil,
+            source: Swift.String? = nil
+        )
+        {
+            self.alarmArn = alarmArn
+            self.source = source
+        }
+    }
+}
+
+extension ResiliencehubClientTypes {
+
     public enum ExcludeRecommendationReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case alreadyImplemented
         case complexityOfImplementation
@@ -567,14 +587,38 @@ extension ResiliencehubClientTypes {
 
 extension ResiliencehubClientTypes {
 
+    /// Indicates the FIS experiment detected while running an assessment.
+    public struct Experiment: Swift.Sendable {
+        /// Amazon Resource Name (ARN) of the FIS experiment.
+        public var experimentArn: Swift.String?
+        /// Identifier of the FIS experiment template.
+        public var experimentTemplateId: Swift.String?
+
+        public init(
+            experimentArn: Swift.String? = nil,
+            experimentTemplateId: Swift.String? = nil
+        )
+        {
+            self.experimentArn = experimentArn
+            self.experimentTemplateId = experimentTemplateId
+        }
+    }
+}
+
+extension ResiliencehubClientTypes {
+
     /// Defines a recommendation.
     public struct RecommendationItem: Swift.Sendable {
         /// Specifies if the recommendation has already been implemented.
         public var alreadyImplemented: Swift.Bool?
+        /// Indicates the previously implemented Amazon CloudWatch alarm discovered by Resilience Hub.
+        public var discoveredAlarm: ResiliencehubClientTypes.Alarm?
         /// Indicates the reason for excluding an operational recommendation.
         public var excludeReason: ResiliencehubClientTypes.ExcludeRecommendationReason?
         /// Indicates if an operational recommendation item is excluded.
         public var excluded: Swift.Bool?
+        /// Indicates the experiment created in FIS that was discovered by Resilience Hub, which matches the recommendation.
+        public var latestDiscoveredExperiment: ResiliencehubClientTypes.Experiment?
         /// Identifier of the resource.
         public var resourceId: Swift.String?
         /// Identifier of the target account.
@@ -584,16 +628,20 @@ extension ResiliencehubClientTypes {
 
         public init(
             alreadyImplemented: Swift.Bool? = nil,
+            discoveredAlarm: ResiliencehubClientTypes.Alarm? = nil,
             excludeReason: ResiliencehubClientTypes.ExcludeRecommendationReason? = nil,
             excluded: Swift.Bool? = nil,
+            latestDiscoveredExperiment: ResiliencehubClientTypes.Experiment? = nil,
             resourceId: Swift.String? = nil,
             targetAccountId: Swift.String? = nil,
             targetRegion: Swift.String? = nil
         )
         {
             self.alreadyImplemented = alreadyImplemented
+            self.discoveredAlarm = discoveredAlarm
             self.excludeReason = excludeReason
             self.excluded = excluded
+            self.latestDiscoveredExperiment = latestDiscoveredExperiment
             self.resourceId = resourceId
             self.targetAccountId = targetAccountId
             self.targetRegion = targetRegion
@@ -927,7 +975,7 @@ extension ResiliencehubClientTypes {
         ///
         /// * These roles must have a trust policy with iam:AssumeRole permission to the invoker role in the primary account.
         public var crossAccountRoleArns: [Swift.String]?
-        /// Existing Amazon Web Services IAM role name in the primary Amazon Web Services account that will be assumed by Resilience Hub Service Principle to obtain a read-only access to your application resources while running an assessment.
+        /// Existing Amazon Web Services IAM role name in the primary Amazon Web Services account that will be assumed by Resilience Hub Service Principle to obtain a read-only access to your application resources while running an assessment. If your IAM role includes a path, you must include the path in the invokerRoleName parameter. For example, if your IAM role's ARN is arn:aws:iam:123456789012:role/my-path/role-name, you should pass my-path/role-name.
         ///
         /// * You must have iam:passRole permission for this role while creating or updating the application.
         ///
@@ -1676,7 +1724,7 @@ extension ResiliencehubClientTypes {
 
     /// Indicates a specific risk identified in the Resilience Hub assessment and the corresponding recommendation provided to address that risk. The assessment summary generated by large language models (LLMs) on Amazon Bedrock are only suggestions. The current level of generative AI technology is not perfect and LLMs are not infallible. Bias and incorrect answers, although rare, should be expected. Review each recommendation in the assessment summary before you use the output from an LLM. This property is available only in the US East (N. Virginia) Region.
     public struct AssessmentRiskRecommendation: Swift.Sendable {
-        /// Indicates the Application Components (AppComponents) that were assessed as part of the assessnent and are associated with the identified risk and recommendation. This property is available only in the US East (N. Virginia) Region.
+        /// Indicates the Application Components (AppComponents) that were assessed as part of the assessment and are associated with the identified risk and recommendation. This property is available only in the US East (N. Virginia) Region.
         public var appComponents: [Swift.String]?
         /// Indicates the recommendation provided by the Resilience Hub to address the identified risks in the application. This property is available only in the US East (N. Virginia) Region.
         public var recommendation: Swift.String?
@@ -2148,6 +2196,8 @@ extension ResiliencehubClientTypes {
 
     /// Defines the operational recommendation item that is to be included or excluded.
     public struct UpdateRecommendationStatusRequestEntry: Swift.Sendable {
+        /// Indicates the identifier of the AppComponent.
+        public var appComponentId: Swift.String?
         /// An identifier for an entry in this batch that is used to communicate the result. The entryIds of a batch request need to be unique within a request.
         /// This member is required.
         public var entryId: Swift.String?
@@ -2163,6 +2213,7 @@ extension ResiliencehubClientTypes {
         public var referenceId: Swift.String?
 
         public init(
+            appComponentId: Swift.String? = nil,
             entryId: Swift.String? = nil,
             excludeReason: ResiliencehubClientTypes.ExcludeRecommendationReason? = nil,
             excluded: Swift.Bool? = nil,
@@ -2170,6 +2221,7 @@ extension ResiliencehubClientTypes {
             referenceId: Swift.String? = nil
         )
         {
+            self.appComponentId = appComponentId
             self.entryId = entryId
             self.excludeReason = excludeReason
             self.excluded = excluded
@@ -2223,6 +2275,8 @@ extension ResiliencehubClientTypes {
 
     /// List of operational recommendations that were successfully included or excluded.
     public struct BatchUpdateRecommendationStatusSuccessfulEntry: Swift.Sendable {
+        /// Indicates the identifier of an AppComponent.
+        public var appComponentId: Swift.String?
         /// An identifier for an entry in this batch that is used to communicate the result. The entryIds of a batch request need to be unique within a request.
         /// This member is required.
         public var entryId: Swift.String?
@@ -2238,6 +2292,7 @@ extension ResiliencehubClientTypes {
         public var referenceId: Swift.String?
 
         public init(
+            appComponentId: Swift.String? = nil,
             entryId: Swift.String? = nil,
             excludeReason: ResiliencehubClientTypes.ExcludeRecommendationReason? = nil,
             excluded: Swift.Bool? = nil,
@@ -2245,6 +2300,7 @@ extension ResiliencehubClientTypes {
             referenceId: Swift.String? = nil
         )
         {
+            self.appComponentId = appComponentId
             self.entryId = entryId
             self.excludeReason = excludeReason
             self.excluded = excluded
@@ -5710,6 +5766,8 @@ extension ResiliencehubClientTypes {
 
     /// Defines a test recommendation.
     public struct TestRecommendation: Swift.Sendable {
+        /// Indicates the identifier of the AppComponent.
+        public var appComponentId: Swift.String?
         /// Name of the Application Component.
         public var appComponentName: Swift.String?
         /// A list of recommended alarms that are used in the test and must be exported before or with the test.
@@ -5737,6 +5795,7 @@ extension ResiliencehubClientTypes {
         public var type: ResiliencehubClientTypes.TestType?
 
         public init(
+            appComponentId: Swift.String? = nil,
             appComponentName: Swift.String? = nil,
             dependsOnAlarms: [Swift.String]? = nil,
             description: Swift.String? = nil,
@@ -5751,6 +5810,7 @@ extension ResiliencehubClientTypes {
             type: ResiliencehubClientTypes.TestType? = nil
         )
         {
+            self.appComponentId = appComponentId
             self.appComponentName = appComponentName
             self.dependsOnAlarms = dependsOnAlarms
             self.description = description
@@ -10009,6 +10069,7 @@ extension ResiliencehubClientTypes.BatchUpdateRecommendationStatusSuccessfulEntr
         value.referenceId = try reader["referenceId"].readIfPresent() ?? ""
         value.item = try reader["item"].readIfPresent(with: ResiliencehubClientTypes.UpdateRecommendationStatusItem.read(from:))
         value.excluded = try reader["excluded"].readIfPresent() ?? false
+        value.appComponentId = try reader["appComponentId"].readIfPresent()
         value.excludeReason = try reader["excludeReason"].readIfPresent()
         return value
     }
@@ -10467,6 +10528,30 @@ extension ResiliencehubClientTypes.RecommendationItem {
         value.alreadyImplemented = try reader["alreadyImplemented"].readIfPresent()
         value.excluded = try reader["excluded"].readIfPresent()
         value.excludeReason = try reader["excludeReason"].readIfPresent()
+        value.latestDiscoveredExperiment = try reader["latestDiscoveredExperiment"].readIfPresent(with: ResiliencehubClientTypes.Experiment.read(from:))
+        value.discoveredAlarm = try reader["discoveredAlarm"].readIfPresent(with: ResiliencehubClientTypes.Alarm.read(from:))
+        return value
+    }
+}
+
+extension ResiliencehubClientTypes.Alarm {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ResiliencehubClientTypes.Alarm {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ResiliencehubClientTypes.Alarm()
+        value.alarmArn = try reader["alarmArn"].readIfPresent()
+        value.source = try reader["source"].readIfPresent()
+        return value
+    }
+}
+
+extension ResiliencehubClientTypes.Experiment {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ResiliencehubClientTypes.Experiment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ResiliencehubClientTypes.Experiment()
+        value.experimentArn = try reader["experimentArn"].readIfPresent()
+        value.experimentTemplateId = try reader["experimentTemplateId"].readIfPresent()
         return value
     }
 }
@@ -10702,6 +10787,7 @@ extension ResiliencehubClientTypes.TestRecommendation {
         var value = ResiliencehubClientTypes.TestRecommendation()
         value.recommendationId = try reader["recommendationId"].readIfPresent()
         value.referenceId = try reader["referenceId"].readIfPresent() ?? ""
+        value.appComponentId = try reader["appComponentId"].readIfPresent()
         value.appComponentName = try reader["appComponentName"].readIfPresent()
         value.name = try reader["name"].readIfPresent()
         value.intent = try reader["intent"].readIfPresent()
@@ -10741,6 +10827,7 @@ extension ResiliencehubClientTypes.UpdateRecommendationStatusRequestEntry {
 
     static func write(value: ResiliencehubClientTypes.UpdateRecommendationStatusRequestEntry?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["appComponentId"].write(value.appComponentId)
         try writer["entryId"].write(value.entryId)
         try writer["excludeReason"].write(value.excludeReason)
         try writer["excluded"].write(value.excluded)

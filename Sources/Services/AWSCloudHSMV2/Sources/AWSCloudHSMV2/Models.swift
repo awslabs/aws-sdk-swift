@@ -254,9 +254,9 @@ extension CloudHSMV2ClientTypes {
 }
 
 /// The request was rejected because the requester does not have permission to perform the requested operation.
-public struct CloudHsmAccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CloudHsmAccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -278,9 +278,9 @@ public struct CloudHsmAccessDeniedException: ClientRuntime.ModeledError, AWSClie
 }
 
 /// The request was rejected because of an CloudHSM internal failure. The request can be retried.
-public struct CloudHsmInternalFailureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CloudHsmInternalFailureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -302,9 +302,9 @@ public struct CloudHsmInternalFailureException: ClientRuntime.ModeledError, AWSC
 }
 
 /// The request was rejected because it is not a valid request.
-public struct CloudHsmInvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CloudHsmInvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -326,9 +326,9 @@ public struct CloudHsmInvalidRequestException: ClientRuntime.ModeledError, AWSCl
 }
 
 /// The request was rejected because it refers to a resource that cannot be found.
-public struct CloudHsmResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CloudHsmResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -350,9 +350,9 @@ public struct CloudHsmResourceNotFoundException: ClientRuntime.ModeledError, AWS
 }
 
 /// The request was rejected because an error occurred.
-public struct CloudHsmServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CloudHsmServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -374,9 +374,9 @@ public struct CloudHsmServiceException: ClientRuntime.ModeledError, AWSClientRun
 }
 
 /// The request was rejected because of a tagging failure. Verify the tag conditions in all applicable policies, and then retry the request.
-public struct CloudHsmTagException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CloudHsmTagException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1245,9 +1245,9 @@ public struct RestoreBackupOutput: Swift.Sendable {
 }
 
 /// The request was rejected because it exceeds an CloudHSM limit.
-public struct CloudHsmResourceLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CloudHsmResourceLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 

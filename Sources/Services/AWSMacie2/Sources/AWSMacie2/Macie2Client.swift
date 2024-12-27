@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class Macie2Client: ClientRuntime.Client {
     public static let clientName = "Macie2Client"
-    public static let version = "1.0.60"
+    public static let version = "1.0.67"
     let client: ClientRuntime.SdkHttpClient
     let config: Macie2Client.Macie2ClientConfiguration
     let serviceName = "Macie2"
@@ -4121,7 +4121,7 @@ extension Macie2Client {
 
     /// Performs the `ListCustomDataIdentifiers` operation on the `Macie2` service.
     ///
-    /// Retrieves a subset of information about all the custom data identifiers for an account.
+    /// Retrieves a subset of information about the custom data identifiers for an account.
     ///
     /// - Parameter ListCustomDataIdentifiersInput : [no documentation found]
     ///
@@ -5053,7 +5053,7 @@ extension Macie2Client {
 
     /// Performs the `SearchResources` operation on the `Macie2` service.
     ///
-    /// Retrieves (queries) statistical data and other information about Amazon Web Services resources that Amazon Macie monitors and analyzes.
+    /// Retrieves (queries) statistical data and other information about Amazon Web Services resources that Amazon Macie monitors and analyzes for an account.
     ///
     /// - Parameter SearchResourcesInput : [no documentation found]
     ///

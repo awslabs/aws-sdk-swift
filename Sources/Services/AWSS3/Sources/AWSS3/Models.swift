@@ -262,7 +262,7 @@ extension S3ClientTypes {
 }
 
 /// The specified multipart upload does not exist.
-public struct NoSuchUpload: ClientRuntime.ModeledError, AWSClientRuntime.AWSS3ServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NoSuchUpload: ClientRuntime.ModeledError, AWSClientRuntime.AWSS3ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
     public static var typeName: Swift.String { "NoSuchUpload" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
@@ -899,7 +899,7 @@ extension CompleteMultipartUploadOutput: Swift.CustomDebugStringConvertible {
 }
 
 /// The source object of the COPY action is not in the active tier and is only stored in Amazon S3 Glacier.
-public struct ObjectNotInActiveTierError: ClientRuntime.ModeledError, AWSClientRuntime.AWSS3ServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ObjectNotInActiveTierError: ClientRuntime.ModeledError, AWSClientRuntime.AWSS3ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
     public static var typeName: Swift.String { "ObjectNotInActiveTierError" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
@@ -1548,7 +1548,7 @@ extension CopyObjectOutput: Swift.CustomDebugStringConvertible {
 }
 
 /// The requested bucket name is not available. The bucket namespace is shared by all users of the system. Select a different name and try again.
-public struct BucketAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSS3ServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BucketAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSS3ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
     public static var typeName: Swift.String { "BucketAlreadyExists" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
@@ -1562,7 +1562,7 @@ public struct BucketAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 /// The bucket you tried to create already exists, and you own it. Amazon S3 returns this error in all Amazon Web Services Regions except in the North Virginia Region. For legacy compatibility, if you re-create an existing bucket that you already own in the North Virginia Region, Amazon S3 returns 200 OK and resets the bucket access control lists (ACLs).
-public struct BucketAlreadyOwnedByYou: ClientRuntime.ModeledError, AWSClientRuntime.AWSS3ServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BucketAlreadyOwnedByYou: ClientRuntime.ModeledError, AWSClientRuntime.AWSS3ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
     public static var typeName: Swift.String { "BucketAlreadyOwnedByYou" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
@@ -2367,7 +2367,7 @@ extension CreateMultipartUploadOutput: Swift.CustomDebugStringConvertible {
 }
 
 /// The specified bucket does not exist.
-public struct NoSuchBucket: ClientRuntime.ModeledError, AWSClientRuntime.AWSS3ServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NoSuchBucket: ClientRuntime.ModeledError, AWSClientRuntime.AWSS3ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
     public static var typeName: Swift.String { "NoSuchBucket" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
@@ -7412,9 +7412,9 @@ public struct GetBucketWebsiteOutput: Swift.Sendable {
 }
 
 /// Object is archived and inaccessible until restored. If the object you are retrieving is stored in the S3 Glacier Flexible Retrieval storage class, the S3 Glacier Deep Archive storage class, the S3 Intelligent-Tiering Archive Access tier, or the S3 Intelligent-Tiering Deep Archive Access tier, before you can retrieve the object you must first restore a copy using [RestoreObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_RestoreObject.html). Otherwise, this operation returns an InvalidObjectState error. For information about restoring archived objects, see [Restoring Archived Objects](https://docs.aws.amazon.com/AmazonS3/latest/dev/restoring-objects.html) in the Amazon S3 User Guide.
-public struct InvalidObjectState: ClientRuntime.ModeledError, AWSClientRuntime.AWSS3ServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidObjectState: ClientRuntime.ModeledError, AWSClientRuntime.AWSS3ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var accessTier: S3ClientTypes.IntelligentTieringAccessTier? = nil
         public internal(set) var storageClass: S3ClientTypes.StorageClass? = nil
     }
@@ -7440,7 +7440,7 @@ public struct InvalidObjectState: ClientRuntime.ModeledError, AWSClientRuntime.A
 }
 
 /// The specified key does not exist.
-public struct NoSuchKey: ClientRuntime.ModeledError, AWSClientRuntime.AWSS3ServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NoSuchKey: ClientRuntime.ModeledError, AWSClientRuntime.AWSS3ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
     public static var typeName: Swift.String { "NoSuchKey" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
@@ -7732,7 +7732,7 @@ public struct GetObjectOutput: Swift.Sendable {
 
     public init(
         acceptRanges: Swift.String? = nil,
-        body: Smithy.ByteStream? = Smithy.ByteStream.data(Foundation.Data("".utf8)),
+        body: Smithy.ByteStream? = Smithy.ByteStream.data(Foundation.Data(base64Encoded: "")),
         bucketKeyEnabled: Swift.Bool? = nil,
         cacheControl: Swift.String? = nil,
         checksumCRC32: Swift.String? = nil,
@@ -8457,7 +8457,7 @@ public struct GetObjectTorrentOutput: Swift.Sendable {
     public var requestCharged: S3ClientTypes.RequestCharged?
 
     public init(
-        body: Smithy.ByteStream? = Smithy.ByteStream.data(Foundation.Data("".utf8)),
+        body: Smithy.ByteStream? = Smithy.ByteStream.data(Foundation.Data(base64Encoded: "")),
         requestCharged: S3ClientTypes.RequestCharged? = nil
     )
     {
@@ -8533,7 +8533,7 @@ public struct GetPublicAccessBlockOutput: Swift.Sendable {
 }
 
 /// The specified content does not exist.
-public struct NotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSS3ServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSS3ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
     public static var typeName: Swift.String { "NotFound" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
@@ -10930,7 +10930,7 @@ public struct PutBucketWebsiteInput: Swift.Sendable {
 }
 
 /// The existing object was created with a different encryption type. Subsequent write requests must include the appropriate encryption parameters in the request or while creating the session.
-public struct EncryptionTypeMismatch: ClientRuntime.ModeledError, AWSClientRuntime.AWSS3ServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct EncryptionTypeMismatch: ClientRuntime.ModeledError, AWSClientRuntime.AWSS3ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
     public static var typeName: Swift.String { "EncryptionTypeMismatch" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
@@ -10950,7 +10950,7 @@ public struct EncryptionTypeMismatch: ClientRuntime.ModeledError, AWSClientRunti
 /// * Checksum Type mismatch occurred, expected checksum Type: sha1, actual checksum Type: crc32c.
 ///
 /// * Request body cannot be empty when 'write offset' is specified.
-public struct InvalidRequest: ClientRuntime.ModeledError, AWSClientRuntime.AWSS3ServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidRequest: ClientRuntime.ModeledError, AWSClientRuntime.AWSS3ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
     public static var typeName: Swift.String { "InvalidRequest" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
@@ -10964,7 +10964,7 @@ public struct InvalidRequest: ClientRuntime.ModeledError, AWSClientRuntime.AWSS3
 }
 
 /// The write offset value that you specified does not match the current object size.
-public struct InvalidWriteOffset: ClientRuntime.ModeledError, AWSClientRuntime.AWSS3ServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidWriteOffset: ClientRuntime.ModeledError, AWSClientRuntime.AWSS3ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
     public static var typeName: Swift.String { "InvalidWriteOffset" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
@@ -10978,7 +10978,7 @@ public struct InvalidWriteOffset: ClientRuntime.ModeledError, AWSClientRuntime.A
 }
 
 /// You have attempted to add more parts than the maximum of 10000 that are allowed for this object. You can use the CopyObject operation to copy this object to another and then add more data to the newly copied object.
-public struct TooManyParts: ClientRuntime.ModeledError, AWSClientRuntime.AWSS3ServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyParts: ClientRuntime.ModeledError, AWSClientRuntime.AWSS3ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
     public static var typeName: Swift.String { "TooManyParts" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
@@ -11603,7 +11603,7 @@ public struct PutPublicAccessBlockInput: Swift.Sendable {
 }
 
 /// This action is not allowed against this storage tier.
-public struct ObjectAlreadyInActiveTierError: ClientRuntime.ModeledError, AWSClientRuntime.AWSS3ServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ObjectAlreadyInActiveTierError: ClientRuntime.ModeledError, AWSClientRuntime.AWSS3ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
     public static var typeName: Swift.String { "ObjectAlreadyInActiveTierError" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }

@@ -43,9 +43,9 @@ public struct StartRecommendationsOutput: Swift.Sendable {
 }
 
 /// DMS was denied access to the endpoint. Check that the role is correctly configured.
-public struct AccessDeniedFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         ///
         public internal(set) var message: Swift.String? = nil
     }
@@ -92,9 +92,9 @@ extension DatabaseMigrationClientTypes {
 }
 
 /// The resource is in a state that prevents it from being used for database migration.
-public struct InvalidResourceStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidResourceStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         ///
         public internal(set) var message: Swift.String? = nil
     }
@@ -117,9 +117,9 @@ public struct InvalidResourceStateFault: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// The resource could not be found.
-public struct ResourceNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         ///
         public internal(set) var message: Swift.String? = nil
     }
@@ -557,9 +557,9 @@ public struct CancelReplicationTaskAssessmentRunOutput: Swift.Sendable {
 }
 
 /// A dependency threw an exception.
-public struct FailedDependencyFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct FailedDependencyFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -581,9 +581,9 @@ public struct FailedDependencyFault: ClientRuntime.ModeledError, AWSClientRuntim
 }
 
 /// The action or operation requested isn't valid.
-public struct InvalidOperationFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidOperationFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -605,9 +605,9 @@ public struct InvalidOperationFault: ClientRuntime.ModeledError, AWSClientRuntim
 }
 
 /// The resource you are attempting to create already exists.
-public struct ResourceAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         ///
         public internal(set) var message: Swift.String? = nil
         ///
@@ -634,9 +634,9 @@ public struct ResourceAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientR
 }
 
 /// The quota for this resource quota has been exceeded.
-public struct ResourceQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         ///
         public internal(set) var message: Swift.String? = nil
     }
@@ -1417,9 +1417,9 @@ public struct CreateDataProviderOutput: Swift.Sendable {
 }
 
 /// DMS cannot access the KMS key.
-public struct KMSKeyNotAccessibleFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct KMSKeyNotAccessibleFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         ///
         public internal(set) var message: Swift.String? = nil
     }
@@ -1442,9 +1442,9 @@ public struct KMSKeyNotAccessibleFault: ClientRuntime.ModeledError, AWSClientRun
 }
 
 /// Insufficient privileges are preventing access to an Amazon S3 object.
-public struct S3AccessDeniedFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct S3AccessDeniedFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4119,9 +4119,9 @@ public struct CreateEndpointOutput: Swift.Sendable {
 }
 
 /// The ciphertext references a key that doesn't exist or that the DMS account doesn't have access to.
-public struct KMSAccessDeniedFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct KMSAccessDeniedFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4143,9 +4143,9 @@ public struct KMSAccessDeniedFault: ClientRuntime.ModeledError, AWSClientRuntime
 }
 
 /// The specified KMS key isn't enabled.
-public struct KMSDisabledFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct KMSDisabledFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4167,9 +4167,9 @@ public struct KMSDisabledFault: ClientRuntime.ModeledError, AWSClientRuntime.AWS
 }
 
 /// The state of the specified KMS resource isn't valid for this request.
-public struct KMSInvalidStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct KMSInvalidStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4191,9 +4191,9 @@ public struct KMSInvalidStateFault: ClientRuntime.ModeledError, AWSClientRuntime
 }
 
 /// The specified KMS entity or resource can't be found.
-public struct KMSNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct KMSNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4215,9 +4215,9 @@ public struct KMSNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWS
 }
 
 /// This request triggered KMS request throttling.
-public struct KMSThrottlingFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct KMSThrottlingFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4239,9 +4239,9 @@ public struct KMSThrottlingFault: ClientRuntime.ModeledError, AWSClientRuntime.A
 }
 
 /// The SNS topic is invalid.
-public struct SNSInvalidTopicFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SNSInvalidTopicFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         ///
         public internal(set) var message: Swift.String? = nil
     }
@@ -4264,9 +4264,9 @@ public struct SNSInvalidTopicFault: ClientRuntime.ModeledError, AWSClientRuntime
 }
 
 /// You are not authorized for the SNS subscription.
-public struct SNSNoAuthorizationFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SNSNoAuthorizationFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         ///
         public internal(set) var message: Swift.String? = nil
     }
@@ -4389,9 +4389,9 @@ public struct CreateEventSubscriptionOutput: Swift.Sendable {
 }
 
 /// A specified Amazon S3 bucket, bucket folder, or other object can't be found.
-public struct S3ResourceNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct S3ResourceNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4756,9 +4756,9 @@ public struct CreateMigrationProjectOutput: Swift.Sendable {
 }
 
 /// The subnet provided isn't valid.
-public struct InvalidSubnet: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidSubnet: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         ///
         public internal(set) var message: Swift.String? = nil
     }
@@ -4781,9 +4781,9 @@ public struct InvalidSubnet: ClientRuntime.ModeledError, AWSClientRuntime.AWSSer
 }
 
 /// The replication subnet group does not cover enough Availability Zones (AZs). Edit the replication subnet group and add more AZs.
-public struct ReplicationSubnetGroupDoesNotCoverEnoughAZs: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ReplicationSubnetGroupDoesNotCoverEnoughAZs: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         ///
         public internal(set) var message: Swift.String? = nil
     }
@@ -4984,9 +4984,9 @@ public struct CreateReplicationConfigOutput: Swift.Sendable {
 }
 
 /// There are not enough resources allocated to the database migration.
-public struct InsufficientResourceCapacityFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InsufficientResourceCapacityFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         ///
         public internal(set) var message: Swift.String? = nil
     }
@@ -5009,9 +5009,9 @@ public struct InsufficientResourceCapacityFault: ClientRuntime.ModeledError, AWS
 }
 
 /// The storage quota has been exceeded.
-public struct StorageQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct StorageQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         ///
         public internal(set) var message: Swift.String? = nil
     }
@@ -6026,9 +6026,9 @@ public struct DeleteEventSubscriptionOutput: Swift.Sendable {
 }
 
 /// The specified collector doesn't exist.
-public struct CollectorNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CollectorNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -9695,9 +9695,9 @@ public struct ExportMetadataModelAssessmentOutput: Swift.Sendable {
 }
 
 /// The certificate was not valid.
-public struct InvalidCertificateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidCertificateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -10317,9 +10317,9 @@ public struct ModifyReplicationConfigOutput: Swift.Sendable {
 }
 
 /// An upgrade dependency is preventing the database migration.
-public struct UpgradeDependencyFailureFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UpgradeDependencyFailureFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         ///
         public internal(set) var message: Swift.String? = nil
     }
@@ -10423,9 +10423,9 @@ public struct ModifyReplicationInstanceOutput: Swift.Sendable {
 }
 
 /// The specified subnet is already in use.
-public struct SubnetAlreadyInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SubnetAlreadyInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         ///
         public internal(set) var message: Swift.String? = nil
     }
@@ -11261,9 +11261,9 @@ public struct StartReplicationTaskAssessmentOutput: Swift.Sendable {
 }
 
 /// An Key Management Service (KMS) error is preventing access to KMS.
-public struct KMSFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct KMSFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 

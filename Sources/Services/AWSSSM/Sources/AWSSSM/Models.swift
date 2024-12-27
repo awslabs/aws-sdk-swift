@@ -127,9 +127,9 @@ extension SSMClientTypes {
 }
 
 /// An error occurred on the server side.
-public struct InternalServerError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -151,7 +151,7 @@ public struct InternalServerError: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 /// The resource ID isn't valid. Verify that you entered the correct ID and try again.
-public struct InvalidResourceId: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidResourceId: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
     public static var typeName: Swift.String { "InvalidResourceId" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
@@ -164,7 +164,7 @@ public struct InvalidResourceId: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 /// The resource type isn't valid. For example, if you are attempting to tag an EC2 instance, the instance must be a registered managed node.
-public struct InvalidResourceType: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidResourceType: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
     public static var typeName: Swift.String { "InvalidResourceType" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
@@ -177,7 +177,7 @@ public struct InvalidResourceType: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 /// The Targets parameter includes too many tags. Remove one or more tags and try the command again.
-public struct TooManyTagsError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyTagsError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
     public static var typeName: Swift.String { "TooManyTagsError" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
@@ -190,9 +190,9 @@ public struct TooManyTagsError: ClientRuntime.ModeledError, AWSClientRuntime.AWS
 }
 
 /// There are concurrent updates for a resource that supports one update at a time.
-public struct TooManyUpdates: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyUpdates: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -381,9 +381,9 @@ extension SSMClientTypes {
 }
 
 /// Error returned if an attempt is made to register a patch group with a patch baseline that is already registered with a different patch baseline.
-public struct AlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -405,9 +405,9 @@ public struct AlreadyExistsException: ClientRuntime.ModeledError, AWSClientRunti
 }
 
 /// The specified OpsItem is in the process of being deleted.
-public struct OpsItemConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct OpsItemConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -429,9 +429,9 @@ public struct OpsItemConflictException: ClientRuntime.ModeledError, AWSClientRun
 }
 
 /// A specified parameter argument isn't valid. Verify the available arguments and try again.
-public struct OpsItemInvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct OpsItemInvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         public internal(set) var parameterNames: [Swift.String]? = nil
     }
@@ -456,9 +456,9 @@ public struct OpsItemInvalidParameterException: ClientRuntime.ModeledError, AWSC
 }
 
 /// The request caused OpsItems to exceed one or more quotas.
-public struct OpsItemLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct OpsItemLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var limit: Swift.Int = 0
         public internal(set) var limitType: Swift.String? = nil
         public internal(set) var message: Swift.String? = nil
@@ -489,9 +489,9 @@ public struct OpsItemLimitExceededException: ClientRuntime.ModeledError, AWSClie
 }
 
 /// The specified OpsItem ID doesn't exist. Verify the ID and try again.
-public struct OpsItemNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct OpsItemNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -513,9 +513,9 @@ public struct OpsItemNotFoundException: ClientRuntime.ModeledError, AWSClientRun
 }
 
 /// The Amazon Resource Name (ARN) is already associated with the OpsItem.
-public struct OpsItemRelatedItemAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct OpsItemRelatedItemAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         public internal(set) var opsItemId: Swift.String? = nil
         public internal(set) var resourceUri: Swift.String? = nil
@@ -583,7 +583,7 @@ public struct AssociateOpsItemRelatedItemOutput: Swift.Sendable {
 }
 
 /// You can't specify a managed node ID in more than one association.
-public struct DuplicateInstanceId: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DuplicateInstanceId: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
     public static var typeName: Swift.String { "DuplicateInstanceId" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
@@ -596,7 +596,7 @@ public struct DuplicateInstanceId: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 /// The specified command ID isn't valid. Verify the ID and try again.
-public struct InvalidCommandId: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidCommandId: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
     public static var typeName: Swift.String { "InvalidCommandId" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
@@ -617,9 +617,9 @@ public struct InvalidCommandId: ClientRuntime.ModeledError, AWSClientRuntime.AWS
 /// * SSM Agent isn't registered with the SSM endpoint. Try reinstalling SSM Agent.
 ///
 /// * The managed node isn't in a valid state. Valid states are: Running, Pending, Stopped, and Stopping. Invalid states are: Shutting-down and Terminated.
-public struct InvalidInstanceId: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidInstanceId: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -665,9 +665,9 @@ public struct CancelCommandOutput: Swift.Sendable {
 }
 
 /// Error returned when the ID specified for a resource, such as a maintenance window or patch baseline, doesn't exist. For information about resource quotas in Amazon Web Services Systems Manager, see [Systems Manager service quotas](https://docs.aws.amazon.com/general/latest/gr/ssm.html#limits_ssm) in the Amazon Web Services General Reference.
-public struct DoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -714,9 +714,9 @@ public struct CancelMaintenanceWindowExecutionOutput: Swift.Sendable {
 }
 
 /// You must specify values for all required parameters in the Amazon Web Services Systems Manager document (SSM document). You can only supply values to parameters defined in the SSM document.
-public struct InvalidParameters: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidParameters: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -820,7 +820,7 @@ public struct CreateActivationOutput: Swift.Sendable {
 }
 
 /// The specified association already exists.
-public struct AssociationAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AssociationAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
     public static var typeName: Swift.String { "AssociationAlreadyExists" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
@@ -833,7 +833,7 @@ public struct AssociationAlreadyExists: ClientRuntime.ModeledError, AWSClientRun
 }
 
 /// You can have at most 2,000 active associations.
-public struct AssociationLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AssociationLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
     public static var typeName: Swift.String { "AssociationLimitExceeded" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
@@ -846,9 +846,9 @@ public struct AssociationLimitExceeded: ClientRuntime.ModeledError, AWSClientRun
 }
 
 /// The specified SSM document doesn't exist.
-public struct InvalidDocument: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidDocument: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The SSM document doesn't exist or the document isn't available to the user. This exception can be issued by various API operations.
         public internal(set) var message: Swift.String? = nil
     }
@@ -871,9 +871,9 @@ public struct InvalidDocument: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
 }
 
 /// The document version isn't valid or doesn't exist.
-public struct InvalidDocumentVersion: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidDocumentVersion: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -895,7 +895,7 @@ public struct InvalidDocumentVersion: ClientRuntime.ModeledError, AWSClientRunti
 }
 
 /// The output location isn't valid or doesn't exist.
-public struct InvalidOutputLocation: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidOutputLocation: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
     public static var typeName: Swift.String { "InvalidOutputLocation" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
@@ -908,9 +908,9 @@ public struct InvalidOutputLocation: ClientRuntime.ModeledError, AWSClientRuntim
 }
 
 /// The schedule is invalid. Verify your cron or rate expression and try again.
-public struct InvalidSchedule: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidSchedule: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -932,9 +932,9 @@ public struct InvalidSchedule: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
 }
 
 /// The specified tag key or value isn't valid.
-public struct InvalidTag: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidTag: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -956,9 +956,9 @@ public struct InvalidTag: ClientRuntime.ModeledError, AWSClientRuntime.AWSServic
 }
 
 /// The target isn't valid or doesn't exist. It might not be configured for Systems Manager or you might not have permission to perform the operation.
-public struct InvalidTarget: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidTarget: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -980,9 +980,9 @@ public struct InvalidTarget: ClientRuntime.ModeledError, AWSClientRuntime.AWSSer
 }
 
 /// TargetMap parameter isn't valid.
-public struct InvalidTargetMaps: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidTargetMaps: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1004,9 +1004,9 @@ public struct InvalidTargetMaps: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 /// The document doesn't support the platform type of the given managed node IDs. For example, you sent an document for a Windows managed node to a Linux node.
-public struct UnsupportedPlatformType: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnsupportedPlatformType: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1785,9 +1785,9 @@ public struct CreateAssociationBatchOutput: Swift.Sendable {
 }
 
 /// The specified document already exists.
-public struct DocumentAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DocumentAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1809,9 +1809,9 @@ public struct DocumentAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntim
 }
 
 /// You can have at most 500 active SSM documents.
-public struct DocumentLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DocumentLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1833,9 +1833,9 @@ public struct DocumentLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntim
 }
 
 /// The content for the document isn't valid.
-public struct InvalidDocumentContent: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidDocumentContent: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A description of the validation error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1858,9 +1858,9 @@ public struct InvalidDocumentContent: ClientRuntime.ModeledError, AWSClientRunti
 }
 
 /// The version of the document schema isn't supported.
-public struct InvalidDocumentSchemaVersion: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidDocumentSchemaVersion: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1882,9 +1882,9 @@ public struct InvalidDocumentSchemaVersion: ClientRuntime.ModeledError, AWSClien
 }
 
 /// The size limit of a document is 64 KB.
-public struct MaxDocumentSizeExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MaxDocumentSizeExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2548,9 +2548,9 @@ public struct CreateDocumentOutput: Swift.Sendable {
 }
 
 /// Error returned when an idempotent operation is retried and the parameters don't match the original call to the API with the same idempotency token.
-public struct IdempotentParameterMismatch: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct IdempotentParameterMismatch: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2572,9 +2572,9 @@ public struct IdempotentParameterMismatch: ClientRuntime.ModeledError, AWSClient
 }
 
 /// Error returned when the caller has exceeded the default resource quotas. For example, too many maintenance windows or patch baselines have been created. For information about resource quotas in Systems Manager, see [Systems Manager service quotas](https://docs.aws.amazon.com/general/latest/gr/ssm.html#limits_ssm) in the Amazon Web Services General Reference.
-public struct ResourceLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2683,9 +2683,9 @@ public struct CreateMaintenanceWindowOutput: Swift.Sendable {
 }
 
 /// You don't have permission to view OpsItems in the specified account. Verify that your account is configured either as a Systems Manager delegated administrator or that you are logged into the Organizations management account.
-public struct OpsItemAccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct OpsItemAccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2707,9 +2707,9 @@ public struct OpsItemAccessDeniedException: ClientRuntime.ModeledError, AWSClien
 }
 
 /// The OpsItem already exists.
-public struct OpsItemAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct OpsItemAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         public internal(set) var opsItemId: Swift.String? = nil
     }
@@ -2913,9 +2913,9 @@ public struct CreateOpsItemOutput: Swift.Sendable {
 }
 
 /// An OpsMetadata object already exists for the selected resource.
-public struct OpsMetadataAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct OpsMetadataAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2937,9 +2937,9 @@ public struct OpsMetadataAlreadyExistsException: ClientRuntime.ModeledError, AWS
 }
 
 /// One of the arguments passed is invalid.
-public struct OpsMetadataInvalidArgumentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct OpsMetadataInvalidArgumentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2961,9 +2961,9 @@ public struct OpsMetadataInvalidArgumentException: ClientRuntime.ModeledError, A
 }
 
 /// Your account reached the maximum number of OpsMetadata objects allowed by Application Manager. The maximum is 200 OpsMetadata objects. Delete one or more OpsMetadata object and try again.
-public struct OpsMetadataLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct OpsMetadataLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2985,9 +2985,9 @@ public struct OpsMetadataLimitExceededException: ClientRuntime.ModeledError, AWS
 }
 
 /// The system is processing too many concurrent updates. Wait a few moments and try again.
-public struct OpsMetadataTooManyUpdatesException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct OpsMetadataTooManyUpdatesException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3487,9 +3487,9 @@ public struct CreatePatchBaselineOutput: Swift.Sendable {
 }
 
 /// A sync configuration with the same name already exists.
-public struct ResourceDataSyncAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceDataSyncAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var syncName: Swift.String? = nil
     }
 
@@ -3511,9 +3511,9 @@ public struct ResourceDataSyncAlreadyExistsException: ClientRuntime.ModeledError
 }
 
 /// You have exceeded the allowed maximum sync configurations.
-public struct ResourceDataSyncCountExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceDataSyncCountExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3535,9 +3535,9 @@ public struct ResourceDataSyncCountExceededException: ClientRuntime.ModeledError
 }
 
 /// The specified sync configuration is invalid.
-public struct ResourceDataSyncInvalidConfigurationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceDataSyncInvalidConfigurationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3741,9 +3741,9 @@ public struct CreateResourceDataSyncOutput: Swift.Sendable {
 }
 
 /// The activation isn't valid. The activation might have been deleted, or the ActivationId and the ActivationCode don't match.
-public struct InvalidActivation: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidActivation: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3765,9 +3765,9 @@ public struct InvalidActivation: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 /// The activation ID isn't valid. Verify that you entered the correct ActivationId or ActivationCode and try again.
-public struct InvalidActivationId: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidActivationId: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3807,9 +3807,9 @@ public struct DeleteActivationOutput: Swift.Sendable {
 }
 
 /// The specified association doesn't exist.
-public struct AssociationDoesNotExist: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AssociationDoesNotExist: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3856,7 +3856,7 @@ public struct DeleteAssociationOutput: Swift.Sendable {
 }
 
 /// You must disassociate a document from all managed nodes before you can delete it.
-public struct AssociatedInstances: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AssociatedInstances: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
     public static var typeName: Swift.String { "AssociatedInstances" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
@@ -3869,9 +3869,9 @@ public struct AssociatedInstances: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 /// You attempted to delete a document while it is still shared. You must stop sharing the document before you can delete it.
-public struct InvalidDocumentOperation: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidDocumentOperation: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3923,9 +3923,9 @@ public struct DeleteDocumentOutput: Swift.Sendable {
 }
 
 /// One or more of the parameters specified for the delete operation isn't valid. Verify all parameters and try again.
-public struct InvalidDeleteInventoryParametersException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidDeleteInventoryParametersException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3947,9 +3947,9 @@ public struct InvalidDeleteInventoryParametersException: ClientRuntime.ModeledEr
 }
 
 /// The request isn't valid.
-public struct InvalidInventoryRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidInventoryRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3971,9 +3971,9 @@ public struct InvalidInventoryRequestException: ClientRuntime.ModeledError, AWSC
 }
 
 /// The delete inventory option specified isn't valid. Verify the option and try again.
-public struct InvalidOptionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidOptionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3995,9 +3995,9 @@ public struct InvalidOptionException: ClientRuntime.ModeledError, AWSClientRunti
 }
 
 /// The parameter type name isn't valid.
-public struct InvalidTypeNameException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidTypeNameException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4184,9 +4184,9 @@ public struct DeleteOpsItemOutput: Swift.Sendable {
 }
 
 /// The OpsMetadata object doesn't exist.
-public struct OpsMetadataNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct OpsMetadataNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4226,9 +4226,9 @@ public struct DeleteOpsMetadataOutput: Swift.Sendable {
 }
 
 /// The parameter couldn't be found. Verify the name and try again.
-public struct ParameterNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ParameterNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4297,9 +4297,9 @@ public struct DeleteParametersOutput: Swift.Sendable {
 }
 
 /// Error returned if an attempt is made to delete a patch baseline that is registered for a patch group.
-public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4346,9 +4346,9 @@ public struct DeletePatchBaselineOutput: Swift.Sendable {
 }
 
 /// The specified sync name wasn't found.
-public struct ResourceDataSyncNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceDataSyncNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         public internal(set) var syncName: Swift.String? = nil
         public internal(set) var syncType: Swift.String? = nil
@@ -4398,9 +4398,9 @@ public struct DeleteResourceDataSyncOutput: Swift.Sendable {
 }
 
 /// The specified policy document is malformed or invalid, or excessive PutResourcePolicy or DeleteResourcePolicy calls have been made.
-public struct MalformedResourcePolicyDocumentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MalformedResourcePolicyDocumentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4422,9 +4422,9 @@ public struct MalformedResourcePolicyDocumentException: ClientRuntime.ModeledErr
 }
 
 /// The specified parameter to be shared could not be found.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4446,9 +4446,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// The hash provided in the call doesn't match the stored hash. This exception is thrown when trying to update an obsolete policy version or when multiple requests to update a policy are sent.
-public struct ResourcePolicyConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourcePolicyConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4470,9 +4470,9 @@ public struct ResourcePolicyConflictException: ClientRuntime.ModeledError, AWSCl
 }
 
 /// One or more parameters specified for the call aren't valid. Verify the parameters and their values and try again.
-public struct ResourcePolicyInvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourcePolicyInvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         public internal(set) var parameterNames: [Swift.String]? = nil
     }
@@ -4497,9 +4497,9 @@ public struct ResourcePolicyInvalidParameterException: ClientRuntime.ModeledErro
 }
 
 /// No policies with the specified policy ID and hash could be found.
-public struct ResourcePolicyNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourcePolicyNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4601,9 +4601,9 @@ public struct DeregisterPatchBaselineForPatchGroupOutput: Swift.Sendable {
 }
 
 /// You specified the Safe option for the DeregisterTargetFromMaintenanceWindow operation, but the target is still referenced in a task.
-public struct TargetInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TargetInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4697,9 +4697,9 @@ public struct DeregisterTaskFromMaintenanceWindowOutput: Swift.Sendable {
 }
 
 /// The filter name isn't valid. Verify that you entered the correct name and try again.
-public struct InvalidFilter: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidFilter: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4721,9 +4721,9 @@ public struct InvalidFilter: ClientRuntime.ModeledError, AWSClientRuntime.AWSSer
 }
 
 /// The specified token isn't valid.
-public struct InvalidNextToken: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidNextToken: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4833,9 +4833,9 @@ public struct DescribeActivationsOutput: Swift.Sendable {
 }
 
 /// The version you specified isn't valid. Use ListAssociationVersions to view all versions of an association according to the association ID. Or, use the $LATEST parameter to view the latest version of the association.
-public struct InvalidAssociationVersion: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidAssociationVersion: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -5077,9 +5077,9 @@ public struct DescribeAssociationExecutionsOutput: Swift.Sendable {
 }
 
 /// The specified execution ID doesn't exist. Verify the ID number and try again.
-public struct AssociationExecutionDoesNotExist: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AssociationExecutionDoesNotExist: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -5269,7 +5269,7 @@ public struct DescribeAssociationExecutionTargetsOutput: Swift.Sendable {
 }
 
 /// The specified key isn't valid.
-public struct InvalidFilterKey: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidFilterKey: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
     public static var typeName: Swift.String { "InvalidFilterKey" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
@@ -5282,9 +5282,9 @@ public struct InvalidFilterKey: ClientRuntime.ModeledError, AWSClientRuntime.AWS
 }
 
 /// The filter value isn't valid. Verify the value and try again.
-public struct InvalidFilterValue: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidFilterValue: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -5792,9 +5792,9 @@ public struct DescribeAutomationExecutionsOutput: Swift.Sendable {
 }
 
 /// There is no automation execution information for the requested automation execution ID.
-public struct AutomationExecutionNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AutomationExecutionNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -6335,9 +6335,9 @@ public struct DescribeDocumentOutput: Swift.Sendable {
 }
 
 /// The permission type isn't supported. Share is the only supported permission type.
-public struct InvalidPermissionType: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidPermissionType: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -6496,9 +6496,9 @@ public struct DescribeEffectiveInstanceAssociationsOutput: Swift.Sendable {
 }
 
 /// The operating systems you specified isn't supported, or the operation isn't supported for the operating system.
-public struct UnsupportedOperatingSystem: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnsupportedOperatingSystem: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -6765,9 +6765,9 @@ public struct DescribeInstanceAssociationsStatusOutput: Swift.Sendable {
 }
 
 /// The specified filter value isn't valid.
-public struct InvalidInstanceInformationFilterValue: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidInstanceInformationFilterValue: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -7644,9 +7644,9 @@ public struct DescribeInstancePatchStatesForPatchGroupOutput: Swift.Sendable {
 }
 
 /// The specified filter value isn't valid.
-public struct InvalidInstancePropertyFilterValue: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidInstancePropertyFilterValue: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -7965,9 +7965,9 @@ public struct DescribeInstancePropertiesOutput: Swift.Sendable {
 }
 
 /// The ID specified for the delete operation doesn't exist or isn't valid. Verify the ID and try again.
-public struct InvalidDeletionIdException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidDeletionIdException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -9440,9 +9440,9 @@ public struct DescribeOpsItemsOutput: Swift.Sendable {
 }
 
 /// The specified filter option isn't valid. Valid options are Equals and BeginsWith. For Path filter, valid options are Recursive and OneLevel.
-public struct InvalidFilterOption: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidFilterOption: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The specified filter option isn't valid. Valid options are Equals and BeginsWith. For Path filter, valid options are Recursive and OneLevel.
         public internal(set) var message: Swift.String? = nil
     }
@@ -10336,9 +10336,9 @@ public struct DescribeSessionsOutput: Swift.Sendable {
 }
 
 /// The association wasn't found using the parameters you specified in the call. Verify the information and try again.
-public struct OpsItemRelatedItemAssociationNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct OpsItemRelatedItemAssociationNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -10592,9 +10592,9 @@ public struct GetAutomationExecutionOutput: Swift.Sendable {
 }
 
 /// The SSM document type isn't valid. Valid document types are described in the DocumentType property.
-public struct InvalidDocumentType: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidDocumentType: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -10616,9 +10616,9 @@ public struct InvalidDocumentType: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 /// The calendar entry contained in the specified SSM document isn't supported.
-public struct UnsupportedCalendarException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnsupportedCalendarException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -10706,7 +10706,7 @@ public struct GetCalendarStateOutput: Swift.Sendable {
 }
 
 /// The plugin name isn't valid.
-public struct InvalidPluginName: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidPluginName: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
     public static var typeName: Swift.String { "InvalidPluginName" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
@@ -10719,7 +10719,7 @@ public struct InvalidPluginName: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 /// The command ID and managed node ID you specified didn't match any invocations. Verify the command ID and the managed node ID and try again.
-public struct InvocationDoesNotExist: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvocationDoesNotExist: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
     public static var typeName: Swift.String { "InvocationDoesNotExist" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
@@ -11003,9 +11003,9 @@ public struct GetDefaultPatchBaselineOutput: Swift.Sendable {
 }
 
 /// Patching for applications released by Microsoft is only available on EC2 instances and advanced instances. To patch applications released by Microsoft on on-premises servers and VMs, you must enable advanced instances. For more information, see [Turning on the advanced-instances tier](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-managedinstances-advanced.html) in the Amazon Web Services Systems Manager User Guide.
-public struct UnsupportedFeatureRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnsupportedFeatureRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -11436,9 +11436,9 @@ public struct GetExecutionPreviewOutput: Swift.Sendable {
 }
 
 /// The specified aggregator isn't valid for the group type. Verify that the aggregator you provided is supported.
-public struct InvalidAggregatorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidAggregatorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -11460,9 +11460,9 @@ public struct InvalidAggregatorException: ClientRuntime.ModeledError, AWSClientR
 }
 
 /// The specified inventory group isn't valid.
-public struct InvalidInventoryGroupException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidInventoryGroupException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -11484,9 +11484,9 @@ public struct InvalidInventoryGroupException: ClientRuntime.ModeledError, AWSCli
 }
 
 /// The specified inventory item result attribute isn't valid.
-public struct InvalidResultAttributeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidResultAttributeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -12796,9 +12796,9 @@ public struct GetOpsSummaryOutput: Swift.Sendable {
 }
 
 /// The query key ID isn't valid.
-public struct InvalidKeyId: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidKeyId: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -12820,9 +12820,9 @@ public struct InvalidKeyId: ClientRuntime.ModeledError, AWSClientRuntime.AWSServ
 }
 
 /// The specified parameter version wasn't found. Verify the parameter name and version, and try again.
-public struct ParameterVersionNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ParameterVersionNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -13297,9 +13297,9 @@ public struct GetResourcePoliciesOutput: Swift.Sendable {
 }
 
 /// The specified service setting wasn't found. Either the service name or the setting hasn't been provisioned by the Amazon Web Services service team.
-public struct ServiceSettingNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceSettingNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -13410,9 +13410,9 @@ public struct GetServiceSettingOutput: Swift.Sendable {
 }
 
 /// A parameter version can have a maximum of ten labels.
-public struct ParameterVersionLabelLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ParameterVersionLabelLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -15339,9 +15339,9 @@ public struct ListInventoryEntriesOutput: Swift.Sendable {
 }
 
 /// This operation is not supported for the current account. You must first enable the Systems Manager integrated experience in your account.
-public struct UnsupportedOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnsupportedOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -16493,9 +16493,9 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 }
 
 /// The document can't be shared with more Amazon Web Services accounts. You can specify a maximum of 20 accounts per API operation to share a private document. By default, you can share a private document with a maximum of 1,000 accounts and publicly share up to five documents. If you need to increase the quota for privately or publicly shared Systems Manager documents, contact Amazon Web Services Support.
-public struct DocumentPermissionLimit: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DocumentPermissionLimit: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -16552,9 +16552,9 @@ public struct ModifyDocumentPermissionOutput: Swift.Sendable {
 }
 
 /// You specified too many custom compliance types. You can specify a maximum of 10 different types.
-public struct ComplianceTypeCountLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ComplianceTypeCountLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -16576,9 +16576,9 @@ public struct ComplianceTypeCountLimitExceededException: ClientRuntime.ModeledEr
 }
 
 /// One or more content items isn't valid.
-public struct InvalidItemContentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidItemContentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         public internal(set) var typeName: Swift.String? = nil
     }
@@ -16603,9 +16603,9 @@ public struct InvalidItemContentException: ClientRuntime.ModeledError, AWSClient
 }
 
 /// The inventory item size has exceeded the size limit.
-public struct ItemSizeLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ItemSizeLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         public internal(set) var typeName: Swift.String? = nil
     }
@@ -16630,9 +16630,9 @@ public struct ItemSizeLimitExceededException: ClientRuntime.ModeledError, AWSCli
 }
 
 /// The size of inventory data has exceeded the total size limit for the resource.
-public struct TotalSizeLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TotalSizeLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -16763,9 +16763,9 @@ public struct PutComplianceItemsOutput: Swift.Sendable {
 }
 
 /// You have exceeded the limit for custom schemas. Delete one or more custom schemas and try again.
-public struct CustomSchemaCountLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CustomSchemaCountLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -16787,9 +16787,9 @@ public struct CustomSchemaCountLimitExceededException: ClientRuntime.ModeledErro
 }
 
 /// You specified invalid keys or values in the Context attribute for InventoryItem. Verify the keys and values, and try again.
-public struct InvalidInventoryItemContextException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidInventoryItemContextException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -16811,9 +16811,9 @@ public struct InvalidInventoryItemContextException: ClientRuntime.ModeledError, 
 }
 
 /// The inventory item has invalid content.
-public struct ItemContentMismatchException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ItemContentMismatchException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         public internal(set) var typeName: Swift.String? = nil
     }
@@ -16838,9 +16838,9 @@ public struct ItemContentMismatchException: ClientRuntime.ModeledError, AWSClien
 }
 
 /// The sub-type count exceeded the limit for the inventory type.
-public struct SubTypeCountLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SubTypeCountLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -16862,9 +16862,9 @@ public struct SubTypeCountLimitExceededException: ClientRuntime.ModeledError, AW
 }
 
 /// The Context attribute that you specified for the InventoryItem isn't allowed for this inventory type. You can only use the Context attribute with inventory types like AWS:ComplianceItem.
-public struct UnsupportedInventoryItemContextException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnsupportedInventoryItemContextException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         public internal(set) var typeName: Swift.String? = nil
     }
@@ -16889,9 +16889,9 @@ public struct UnsupportedInventoryItemContextException: ClientRuntime.ModeledErr
 }
 
 /// Inventory item type schema version has to match supported versions in the service. Check output of GetInventorySchema to see the available schema version for each type.
-public struct UnsupportedInventorySchemaVersionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnsupportedInventorySchemaVersionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -16982,9 +16982,9 @@ public struct PutInventoryOutput: Swift.Sendable {
 }
 
 /// A hierarchy can have a maximum of 15 levels. For more information, see [Requirements and constraints for parameter names](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-parameter-name-constraints.html) in the Amazon Web Services Systems Manager User Guide.
-public struct HierarchyLevelLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct HierarchyLevelLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A hierarchy can have a maximum of 15 levels. For more information, see [About requirements and constraints for parameter names](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-paramstore-su-create.html#sysman-parameter-name-constraints) in the Amazon Web Services Systems Manager User Guide.
         public internal(set) var message: Swift.String? = nil
     }
@@ -17007,9 +17007,9 @@ public struct HierarchyLevelLimitExceededException: ClientRuntime.ModeledError, 
 }
 
 /// Parameter Store doesn't support changing a parameter type in a hierarchy. For example, you can't change a parameter from a String type to a SecureString type. You must create a new, unique parameter.
-public struct HierarchyTypeMismatchException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct HierarchyTypeMismatchException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Parameter Store doesn't support changing a parameter type in a hierarchy. For example, you can't change a parameter from a String type to a SecureString type. You must create a new, unique parameter.
         public internal(set) var message: Swift.String? = nil
     }
@@ -17032,9 +17032,9 @@ public struct HierarchyTypeMismatchException: ClientRuntime.ModeledError, AWSCli
 }
 
 /// There is a conflict in the policies specified for this parameter. You can't, for example, specify two Expiration policies for a parameter. Review your policies, and try again.
-public struct IncompatiblePolicyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct IncompatiblePolicyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -17056,9 +17056,9 @@ public struct IncompatiblePolicyException: ClientRuntime.ModeledError, AWSClient
 }
 
 /// The request doesn't meet the regular expression requirement.
-public struct InvalidAllowedPatternException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidAllowedPatternException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The request doesn't meet the regular expression requirement.
         public internal(set) var message: Swift.String? = nil
     }
@@ -17081,9 +17081,9 @@ public struct InvalidAllowedPatternException: ClientRuntime.ModeledError, AWSCli
 }
 
 /// A policy attribute or its value is invalid.
-public struct InvalidPolicyAttributeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidPolicyAttributeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -17105,9 +17105,9 @@ public struct InvalidPolicyAttributeException: ClientRuntime.ModeledError, AWSCl
 }
 
 /// The policy type isn't supported. Parameter Store supports the following policy types: Expiration, ExpirationNotification, and NoChangeNotification.
-public struct InvalidPolicyTypeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidPolicyTypeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -17129,9 +17129,9 @@ public struct InvalidPolicyTypeException: ClientRuntime.ModeledError, AWSClientR
 }
 
 /// The parameter already exists. You can't create duplicate parameters.
-public struct ParameterAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ParameterAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -17153,9 +17153,9 @@ public struct ParameterAlreadyExists: ClientRuntime.ModeledError, AWSClientRunti
 }
 
 /// You have exceeded the number of parameters for this Amazon Web Services account. Delete one or more parameters and try again.
-public struct ParameterLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ParameterLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -17177,9 +17177,9 @@ public struct ParameterLimitExceeded: ClientRuntime.ModeledError, AWSClientRunti
 }
 
 /// Parameter Store retains the 100 most recently created versions of a parameter. After this number of versions has been created, Parameter Store deletes the oldest version when a new one is created. However, if the oldest version has a label attached to it, Parameter Store won't delete the version and instead presents this error message: An error occurred (ParameterMaxVersionLimitExceeded) when calling the PutParameter operation: You attempted to create a new version of parameter-name by calling the PutParameter API with the overwrite flag. Version version-number, the oldest version, can't be deleted because it has a label associated with it. Move the label to another version of the parameter, and try again. This safeguard is to prevent parameter versions with mission critical labels assigned to them from being deleted. To continue creating new parameters, first move the label from the oldest version of the parameter to a newer one for use in your operations. For information about moving parameter labels, see [Move a parameter label (console)](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-paramstore-labels.html#sysman-paramstore-labels-console-move) or [Move a parameter label (CLI)](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-paramstore-labels.html#sysman-paramstore-labels-cli-move) in the Amazon Web Services Systems Manager User Guide.
-public struct ParameterMaxVersionLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ParameterMaxVersionLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -17201,9 +17201,9 @@ public struct ParameterMaxVersionLimitExceeded: ClientRuntime.ModeledError, AWSC
 }
 
 /// The parameter name isn't valid.
-public struct ParameterPatternMismatchException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ParameterPatternMismatchException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The parameter name isn't valid.
         public internal(set) var message: Swift.String? = nil
     }
@@ -17226,9 +17226,9 @@ public struct ParameterPatternMismatchException: ClientRuntime.ModeledError, AWS
 }
 
 /// You specified more than the maximum number of allowed policies for the parameter. The maximum is 10.
-public struct PoliciesLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PoliciesLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -17250,9 +17250,9 @@ public struct PoliciesLimitExceededException: ClientRuntime.ModeledError, AWSCli
 }
 
 /// The parameter type isn't supported.
-public struct UnsupportedParameterType: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnsupportedParameterType: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -17400,9 +17400,9 @@ public struct PutParameterOutput: Swift.Sendable {
 }
 
 /// The [PutResourcePolicy] API action enforces two limits. A policy can't be greater than 1024 bytes in size. And only one policy can be attached to OpsItemGroup. Verify these limits and try again.
-public struct ResourcePolicyLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourcePolicyLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var limit: Swift.Int = 0
         public internal(set) var limitType: Swift.String? = nil
         public internal(set) var message: Swift.String? = nil
@@ -17587,9 +17587,9 @@ public struct RegisterTargetWithMaintenanceWindowOutput: Swift.Sendable {
 }
 
 /// You attempted to register a LAMBDA or STEP_FUNCTIONS task in a region where the corresponding service isn't available.
-public struct FeatureNotAvailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct FeatureNotAvailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -17822,9 +17822,9 @@ public struct ResumeSessionOutput: Swift.Sendable {
 }
 
 /// The specified step name and execution ID don't exist. Verify the information and try again.
-public struct AutomationStepNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AutomationStepNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -17846,9 +17846,9 @@ public struct AutomationStepNotFoundException: ClientRuntime.ModeledError, AWSCl
 }
 
 /// The signal isn't valid for the current Automation execution.
-public struct InvalidAutomationSignalException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidAutomationSignalException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -17935,9 +17935,9 @@ public struct SendAutomationSignalOutput: Swift.Sendable {
 }
 
 /// One or more configuration items isn't valid. Verify that a valid Amazon Resource Name (ARN) was provided for an Amazon Simple Notification Service topic.
-public struct InvalidNotificationConfig: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidNotificationConfig: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -17959,7 +17959,7 @@ public struct InvalidNotificationConfig: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// The S3 bucket doesn't exist.
-public struct InvalidOutputFolder: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidOutputFolder: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
     public static var typeName: Swift.String { "InvalidOutputFolder" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
@@ -17972,9 +17972,9 @@ public struct InvalidOutputFolder: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 /// The role name can't contain invalid characters. Also verify that you specified an IAM role for notifications that includes the required trust policy. For information about configuring the IAM role for Run Command notifications, see [Monitoring Systems Manager status changes using Amazon SNS notifications](https://docs.aws.amazon.com/systems-manager/latest/userguide/monitoring-sns-notifications.html) in the Amazon Web Services Systems Manager User Guide.
-public struct InvalidRole: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidRole: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -18094,9 +18094,9 @@ public struct SendCommandOutput: Swift.Sendable {
 }
 
 /// The association isn't valid or doesn't exist.
-public struct InvalidAssociation: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidAssociation: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -18136,9 +18136,9 @@ public struct StartAssociationsOnceOutput: Swift.Sendable {
 }
 
 /// An Automation runbook with the specified name couldn't be found.
-public struct AutomationDefinitionNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AutomationDefinitionNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -18160,9 +18160,9 @@ public struct AutomationDefinitionNotFoundException: ClientRuntime.ModeledError,
 }
 
 /// An Automation runbook with the specified name and version couldn't be found.
-public struct AutomationDefinitionVersionNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AutomationDefinitionVersionNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -18184,9 +18184,9 @@ public struct AutomationDefinitionVersionNotFoundException: ClientRuntime.Modele
 }
 
 /// The number of simultaneously running Automation executions exceeded the allowable limit.
-public struct AutomationExecutionLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AutomationExecutionLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -18208,9 +18208,9 @@ public struct AutomationExecutionLimitExceededException: ClientRuntime.ModeledEr
 }
 
 /// The supplied parameters for invoking the specified Automation runbook are incorrect. For example, they may not match the set of parameters permitted for the specified Automation document.
-public struct InvalidAutomationExecutionParametersException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidAutomationExecutionParametersException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -18316,9 +18316,9 @@ public struct StartAutomationExecutionOutput: Swift.Sendable {
 }
 
 /// Indicates that the Change Manager change template used in the change request was rejected or is still in a pending state.
-public struct AutomationDefinitionNotApprovedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AutomationDefinitionNotApprovedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -18410,9 +18410,9 @@ public struct StartChangeRequestExecutionOutput: Swift.Sendable {
 }
 
 /// The request isn't valid. Verify that you entered valid contents for the command and try again.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// The reason code for the invalid request.
         public internal(set) var reasonCode: Swift.String? = nil
@@ -18517,9 +18517,9 @@ public struct StartExecutionPreviewOutput: Swift.Sendable {
 }
 
 /// The specified target managed node for the session isn't fully configured for use with Session Manager. For more information, see [Setting up Session Manager](https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-getting-started.html) in the Amazon Web Services Systems Manager User Guide. This error is also returned if you attempt to start a session on a managed node that is located in a different account or Region
-public struct TargetNotConnected: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TargetNotConnected: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -18586,9 +18586,9 @@ public struct StartSessionOutput: Swift.Sendable {
 }
 
 /// The specified update status operation isn't valid.
-public struct InvalidAutomationStatusUpdateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidAutomationStatusUpdateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -18725,9 +18725,9 @@ public struct UnlabelParameterVersionOutput: Swift.Sendable {
 }
 
 /// You have reached the maximum number versions allowed for an association. Each association has a limit of 1,000 versions.
-public struct AssociationVersionLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AssociationVersionLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -18749,9 +18749,9 @@ public struct AssociationVersionLimitExceeded: ClientRuntime.ModeledError, AWSCl
 }
 
 /// The update isn't valid.
-public struct InvalidUpdate: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidUpdate: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -18887,7 +18887,7 @@ public struct UpdateAssociationOutput: Swift.Sendable {
 }
 
 /// The updated status is the same as the current status.
-public struct StatusUnchanged: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct StatusUnchanged: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
     public static var typeName: Swift.String { "StatusUnchanged" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
@@ -18935,9 +18935,9 @@ public struct UpdateAssociationStatusOutput: Swift.Sendable {
 }
 
 /// The document has too many versions. Delete one or more document versions and try again.
-public struct DocumentVersionLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DocumentVersionLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -18959,9 +18959,9 @@ public struct DocumentVersionLimitExceeded: ClientRuntime.ModeledError, AWSClien
 }
 
 /// The content of the association document matches another document. Change the content of the document and try again.
-public struct DuplicateDocumentContent: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DuplicateDocumentContent: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -18983,9 +18983,9 @@ public struct DuplicateDocumentContent: ClientRuntime.ModeledError, AWSClientRun
 }
 
 /// The version name has already been used in this document. Specify a different version name, and then try again.
-public struct DuplicateDocumentVersionName: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DuplicateDocumentVersionName: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -19669,9 +19669,9 @@ public struct UpdateOpsItemOutput: Swift.Sendable {
 }
 
 /// The OpsMetadata object exceeds the maximum number of OpsMetadata keys that you can assign to an application in Application Manager.
-public struct OpsMetadataKeyLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct OpsMetadataKeyLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -19847,9 +19847,9 @@ public struct UpdatePatchBaselineOutput: Swift.Sendable {
 }
 
 /// Another UpdateResourceDataSync request is being processed. Wait a few minutes and try again.
-public struct ResourceDataSyncConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceDataSyncConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
