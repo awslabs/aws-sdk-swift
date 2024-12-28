@@ -63,7 +63,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class XRayClient: ClientRuntime.Client {
     public static let clientName = "XRayClient"
-    public static let version = "1.0.68"
+    public static let version = "1.0.69"
     let client: ClientRuntime.SdkHttpClient
     let config: XRayClient.XRayClientConfiguration
     let serviceName = "XRay"
