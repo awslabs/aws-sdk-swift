@@ -26,7 +26,9 @@ extension CborValidateResponseHeaderMiddleware: Interceptor {
     public typealias RequestType = HTTPRequest
     public typealias ResponseType = HTTPResponse
 
-    public func readBeforeDeserialization(context: some BeforeDeserialization<InputType, RequestType, ResponseType>) async throws {
+    public func readBeforeDeserialization(
+        context: some BeforeDeserialization<InputType, RequestType, ResponseType>
+    ) async throws {
         let response = context.getResponse()
         let smithyProtocolHeader = response.headers.value(for: "smithy-protocol")
 

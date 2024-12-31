@@ -29,22 +29,20 @@ class RpcV2CborProtocolGenerator : AWSHTTPBindingProtocolGenerator(RpcV2CborCust
     override fun addProtocolSpecificMiddleware(ctx: ProtocolGenerator.GenerationContext, operation: OperationShape) {
         super.addProtocolSpecificMiddleware(ctx, operation)
 
-        // Original instance of OperationInputBodyMiddleware checks if there is an HTTP Body, but for AWSJson protocols
-        // we always need to have an InputBodyMiddleware
         operationMiddleware.removeMiddleware(operation, "OperationInputBodyMiddleware")
         operationMiddleware.appendMiddleware(operation, OperationInputBodyMiddleware(ctx.model, ctx.symbolProvider, true))
 
         val hasEventStreamResponse = ctx.model.expectShape(operation.outputShape).hasTrait<StreamingTrait>()
         val hasEventStreamRequest = ctx.model.expectShape(operation.inputShape).hasTrait<StreamingTrait>()
 
-        // Determine the value of the Accept header
+        // Determine the value of the Accept header based on output shape
         val acceptHeaderValue = if (hasEventStreamResponse) {
             "application/vnd.amazon.eventstream"
         } else {
             "application/cbor"
         }
 
-        // Determine the value of the Content-Type header
+        // Determine the value of the Content-Type header based on input shape
         val contentTypeValue = if (hasEventStreamRequest) {
             "application/vnd.amazon.eventstream"
         } else {

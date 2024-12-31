@@ -21,8 +21,6 @@ public struct RpcV2CborError: BaseError {
 
     @_spi(SmithyReadWrite)
     public init(httpResponse: HTTPResponse, responseReader: Reader, noErrorWrapping: Bool, code: String? = nil) throws {
-
-        // Improve this code
         switch responseReader.cborValue {
         case .map(let errorDetails):
             if case let .text(errorCode) = errorDetails["__type"] {
