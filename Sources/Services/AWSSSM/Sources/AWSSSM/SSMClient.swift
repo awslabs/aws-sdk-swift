@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SSMClient: ClientRuntime.Client {
     public static let clientName = "SSMClient"
-    public static let version = "1.0.67"
+    public static let version = "1.0.69"
     let client: ClientRuntime.SdkHttpClient
     let config: SSMClient.SSMClientConfiguration
     let serviceName = "SSM"

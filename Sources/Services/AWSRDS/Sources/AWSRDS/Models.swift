@@ -3998,7 +3998,7 @@ extension RDSClientTypes {
 public struct CreateDBClusterInput: Swift.Sendable {
     /// The amount of storage in gibibytes (GiB) to allocate to each DB instance in the Multi-AZ DB cluster. Valid for Cluster Type: Multi-AZ DB clusters only This setting is required to create a Multi-AZ DB cluster.
     public var allocatedStorage: Swift.Int?
-    /// Specifies whether minor engine upgrades are applied automatically to the DB cluster during the maintenance window. By default, minor engine upgrades are applied automatically. Valid for Cluster Type: Multi-AZ DB clusters only
+    /// Specifies whether minor engine upgrades are applied automatically to the DB cluster during the maintenance window. By default, minor engine upgrades are applied automatically. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB cluster
     public var autoMinorVersionUpgrade: Swift.Bool?
     /// A list of Availability Zones (AZs) where you specifically want to create DB instances in the DB cluster. For information on AZs, see [Availability Zones](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Concepts.RegionsAndAvailabilityZones.html#Concepts.RegionsAndAvailabilityZones.AvailabilityZones) in the Amazon Aurora User Guide. Valid for Cluster Type: Aurora DB clusters only Constraints:
     ///
@@ -4020,7 +4020,7 @@ public struct CreateDBClusterInput: Swift.Sendable {
     public var clusterScalabilityType: RDSClientTypes.ClusterScalabilityType?
     /// Specifies whether to copy all tags from the DB cluster to snapshots of the DB cluster. The default is not to copy them. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
     public var copyTagsToSnapshot: Swift.Bool?
-    /// Specifies the mode of Database Insights to enable for the cluster.
+    /// The mode of Database Insights to enable for the DB cluster. If you set this value to advanced, you must also set the PerformanceInsightsEnabled parameter to true and the PerformanceInsightsRetentionPeriod parameter to 465. Valid for Cluster Type: Aurora DB clusters only
     public var databaseInsightsMode: RDSClientTypes.DatabaseInsightsMode?
     /// The name for your database of up to 64 alphanumeric characters. A database named postgres is always created. If this parameter is specified, an additional database with this name is created. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
     public var databaseName: Swift.String?
@@ -4087,7 +4087,7 @@ public struct CreateDBClusterInput: Swift.Sendable {
     public var enableLimitlessDatabase: Swift.Bool?
     /// Specifies whether read replicas can forward write operations to the writer DB instance in the DB cluster. By default, write operations aren't allowed on reader DB instances. Valid for: Aurora DB clusters only
     public var enableLocalWriteForwarding: Swift.Bool?
-    /// Specifies whether to turn on Performance Insights for the DB cluster. For more information, see [ Using Amazon Performance Insights](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_PerfInsights.html) in the Amazon RDS User Guide. Valid for Cluster Type: Multi-AZ DB clusters only
+    /// Specifies whether to turn on Performance Insights for the DB cluster. For more information, see [ Using Amazon Performance Insights](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_PerfInsights.html) in the Amazon RDS User Guide. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
     public var enablePerformanceInsights: Swift.Bool?
     /// The database engine to use for this DB cluster. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Valid Values:
     ///
@@ -4170,17 +4170,17 @@ public struct CreateDBClusterInput: Swift.Sendable {
     ///
     /// * Can't be a reserved word for the chosen database engine.
     public var masterUsername: Swift.String?
-    /// The interval, in seconds, between points when Enhanced Monitoring metrics are collected for the DB cluster. To turn off collecting Enhanced Monitoring metrics, specify 0. If MonitoringRoleArn is specified, also set MonitoringInterval to a value other than 0. Valid for Cluster Type: Multi-AZ DB clusters only Valid Values: 0 | 1 | 5 | 10 | 15 | 30 | 60 Default: 0
+    /// The interval, in seconds, between points when Enhanced Monitoring metrics are collected for the DB cluster. To turn off collecting Enhanced Monitoring metrics, specify 0. If MonitoringRoleArn is specified, also set MonitoringInterval to a value other than 0. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Valid Values: 0 | 1 | 5 | 10 | 15 | 30 | 60 Default: 0
     public var monitoringInterval: Swift.Int?
-    /// The Amazon Resource Name (ARN) for the IAM role that permits RDS to send Enhanced Monitoring metrics to Amazon CloudWatch Logs. An example is arn:aws:iam:123456789012:role/emaccess. For information on creating a monitoring role, see [Setting up and enabling Enhanced Monitoring](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Monitoring.OS.html#USER_Monitoring.OS.Enabling) in the Amazon RDS User Guide. If MonitoringInterval is set to a value other than 0, supply a MonitoringRoleArn value. Valid for Cluster Type: Multi-AZ DB clusters only
+    /// The Amazon Resource Name (ARN) for the IAM role that permits RDS to send Enhanced Monitoring metrics to Amazon CloudWatch Logs. An example is arn:aws:iam:123456789012:role/emaccess. For information on creating a monitoring role, see [Setting up and enabling Enhanced Monitoring](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Monitoring.OS.html#USER_Monitoring.OS.Enabling) in the Amazon RDS User Guide. If MonitoringInterval is set to a value other than 0, supply a MonitoringRoleArn value. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
     public var monitoringRoleArn: Swift.String?
     /// The network type of the DB cluster. The network type is determined by the DBSubnetGroup specified for the DB cluster. A DBSubnetGroup can support only the IPv4 protocol or the IPv4 and the IPv6 protocols (DUAL). For more information, see [ Working with a DB instance in a VPC](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_VPC.WorkingWithRDSInstanceinaVPC.html) in the Amazon Aurora User Guide. Valid for Cluster Type: Aurora DB clusters only Valid Values: IPV4 | DUAL
     public var networkType: Swift.String?
     /// The option group to associate the DB cluster with. DB clusters are associated with a default option group that can't be modified.
     public var optionGroupName: Swift.String?
-    /// The Amazon Web Services KMS key identifier for encryption of Performance Insights data. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. If you don't specify a value for PerformanceInsightsKMSKeyId, then Amazon RDS uses your default KMS key. There is a default KMS key for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region. Valid for Cluster Type: Multi-AZ DB clusters only
+    /// The Amazon Web Services KMS key identifier for encryption of Performance Insights data. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. If you don't specify a value for PerformanceInsightsKMSKeyId, then Amazon RDS uses your default KMS key. There is a default KMS key for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
     public var performanceInsightsKMSKeyId: Swift.String?
-    /// The number of days to retain Performance Insights data. Valid for Cluster Type: Multi-AZ DB clusters only Valid Values:
+    /// The number of days to retain Performance Insights data. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Valid Values:
     ///
     /// * 7
     ///
@@ -4883,7 +4883,7 @@ extension RDSClientTypes {
         public var allocatedStorage: Swift.Int?
         /// A list of the Amazon Web Services Identity and Access Management (IAM) roles that are associated with the DB cluster. IAM roles that are associated with a DB cluster grant permission for the DB cluster to access other Amazon Web Services on your behalf.
         public var associatedRoles: [RDSClientTypes.DBClusterRole]?
-        /// Indicates whether minor version patches are applied automatically. This setting is only for non-Aurora Multi-AZ DB clusters.
+        /// Indicates whether minor version patches are applied automatically. This setting is for Aurora DB clusters and Multi-AZ DB clusters.
         public var autoMinorVersionUpgrade: Swift.Bool?
         /// The time when a stopped DB cluster is restarted automatically.
         public var automaticRestartTime: Foundation.Date?
@@ -4915,7 +4915,7 @@ extension RDSClientTypes {
         public var crossAccountClone: Swift.Bool?
         /// The custom endpoints associated with the DB cluster.
         public var customEndpoints: [Swift.String]?
-        /// The mode of Database Insights that is enabled for the cluster.
+        /// The mode of Database Insights that is enabled for the DB cluster.
         public var databaseInsightsMode: RDSClientTypes.DatabaseInsightsMode?
         /// The name of the initial database that was specified for the DB cluster when it was created, if one was provided. This same name is returned for the life of the DB cluster.
         public var databaseName: Swift.String?
@@ -4983,9 +4983,9 @@ extension RDSClientTypes {
         public var masterUserSecret: RDSClientTypes.MasterUserSecret?
         /// The master username for the DB cluster.
         public var masterUsername: Swift.String?
-        /// The interval, in seconds, between points when Enhanced Monitoring metrics are collected for the DB cluster. This setting is only for non-Aurora Multi-AZ DB clusters.
+        /// The interval, in seconds, between points when Enhanced Monitoring metrics are collected for the DB cluster. This setting is only for -Aurora DB clusters and Multi-AZ DB clusters.
         public var monitoringInterval: Swift.Int?
-        /// The ARN for the IAM role that permits RDS to send Enhanced Monitoring metrics to Amazon CloudWatch Logs. This setting is only for non-Aurora Multi-AZ DB clusters.
+        /// The ARN for the IAM role that permits RDS to send Enhanced Monitoring metrics to Amazon CloudWatch Logs. This setting is only for Aurora DB clusters and Multi-AZ DB clusters.
         public var monitoringRoleArn: Swift.String?
         /// Indicates whether the DB cluster has instances in multiple Availability Zones.
         public var multiAZ: Swift.Bool?
@@ -4995,11 +4995,11 @@ extension RDSClientTypes {
         public var pendingModifiedValues: RDSClientTypes.ClusterPendingModifiedValues?
         /// The progress of the operation as a percentage.
         public var percentProgress: Swift.String?
-        /// Indicates whether Performance Insights is enabled for the DB cluster. This setting is only for non-Aurora Multi-AZ DB clusters.
+        /// Indicates whether Performance Insights is enabled for the DB cluster. This setting is only for Aurora DB clusters and Multi-AZ DB clusters.
         public var performanceInsightsEnabled: Swift.Bool?
-        /// The Amazon Web Services KMS key identifier for encryption of Performance Insights data. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. This setting is only for non-Aurora Multi-AZ DB clusters.
+        /// The Amazon Web Services KMS key identifier for encryption of Performance Insights data. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. This setting is only for Aurora DB clusters and Multi-AZ DB clusters.
         public var performanceInsightsKMSKeyId: Swift.String?
-        /// The number of days to retain Performance Insights data. This setting is only for non-Aurora Multi-AZ DB clusters. Valid Values:
+        /// The number of days to retain Performance Insights data. This setting is only for Aurora DB clusters and Multi-AZ DB clusters. Valid Values:
         ///
         /// * 7
         ///
@@ -5792,7 +5792,7 @@ public struct CreateDBInstanceInput: Swift.Sendable {
     ///
     /// For the list of permissions required for the IAM role, see [ Configure IAM and your VPC](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-setup-orcl.html#custom-setup-orcl.iam-vpc) in the Amazon RDS User Guide.
     public var customIamInstanceProfile: Swift.String?
-    /// Specifies the mode of Database Insights to enable for the instance.
+    /// The mode of Database Insights to enable for the DB instance. This setting only applies to Amazon Aurora DB instances. Currently, this value is inherited from the DB cluster and can't be changed.
     public var databaseInsightsMode: RDSClientTypes.DatabaseInsightsMode?
     /// The identifier of the DB cluster that this DB instance will belong to. This setting doesn't apply to RDS Custom DB instances.
     public var dbClusterIdentifier: Swift.String?
@@ -7152,7 +7152,7 @@ public struct DBSubnetGroupNotAllowedFault: ClientRuntime.ModeledError, AWSClien
 }
 
 public struct CreateDBInstanceReadReplicaInput: Swift.Sendable {
-    /// The amount of storage (in gibibytes) to allocate initially for the read replica. Follow the allocation rules specified in CreateDBInstance. Be sure to allocate enough storage for your read replica so that the create operation can succeed. You can also allocate additional storage for future growth.
+    /// The amount of storage (in gibibytes) to allocate initially for the read replica. Follow the allocation rules specified in CreateDBInstance. This setting isn't valid for RDS for SQL Server. Be sure to allocate enough storage for your read replica so that the create operation can succeed. You can also allocate additional storage for future growth.
     public var allocatedStorage: Swift.Int?
     /// Specifies whether to automatically apply minor engine upgrades to the read replica during the maintenance window. This setting doesn't apply to RDS Custom DB instances. Default: Inherits the value from the source DB instance.
     public var autoMinorVersionUpgrade: Swift.Bool?
@@ -7173,7 +7173,7 @@ public struct CreateDBInstanceReadReplicaInput: Swift.Sendable {
     ///
     /// For the list of permissions required for the IAM role, see [ Configure IAM and your VPC](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-setup-orcl.html#custom-setup-orcl.iam-vpc) in the Amazon RDS User Guide. This setting is required for RDS Custom DB instances.
     public var customIamInstanceProfile: Swift.String?
-    /// Specifies the mode of Database Insights.
+    /// The mode of Database Insights to enable for the read replica. Currently, this setting is not supported.
     public var databaseInsightsMode: RDSClientTypes.DatabaseInsightsMode?
     /// The compute and memory capacity of the read replica, for example db.m4.large. Not all DB instance classes are available in all Amazon Web Services Regions, or for all database engines. For the full list of DB instance classes, and availability for your engine, see [DB Instance Class](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.html) in the Amazon RDS User Guide. Default: Inherits the value from the source DB instance.
     public var dbInstanceClass: Swift.String?
@@ -11928,7 +11928,7 @@ public struct DescribeDBClusterParametersInput: Swift.Sendable {
     /// * If supplied, must match the name of an existing DBClusterParameterGroup.
     /// This member is required.
     public var dbClusterParameterGroupName: Swift.String?
-    /// This parameter isn't currently supported.
+    /// A filter that specifies one or more DB cluster parameters to describe. The only supported filter is parameter-name. The results list only includes information about the DB cluster parameters with these names.
     public var filters: [RDSClientTypes.Filter]?
     /// An optional pagination token provided by a previous DescribeDBClusterParameters request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
     public var marker: Swift.String?
@@ -11936,11 +11936,11 @@ public struct DescribeDBClusterParametersInput: Swift.Sendable {
     public var maxRecords: Swift.Int?
     /// A specific source to return parameters for. Valid Values:
     ///
-    /// * customer
+    /// * engine-default
     ///
-    /// * engine
+    /// * system
     ///
-    /// * service
+    /// * user
     public var source: Swift.String?
 
     public init(
@@ -12833,7 +12833,7 @@ public struct DescribeDBParametersInput: Swift.Sendable {
     /// * If supplied, must match the name of an existing DBParameterGroup.
     /// This member is required.
     public var dbParameterGroupName: Swift.String?
-    /// This parameter isn't currently supported.
+    /// A filter that specifies one or more DB parameters to describe. The only supported filter is parameter-name. The results list only includes information about the DB parameters with these names.
     public var filters: [RDSClientTypes.Filter]?
     /// An optional pagination token provided by a previous DescribeDBParameters request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
     public var marker: Swift.String?
@@ -14539,7 +14539,7 @@ public struct DescribeEngineDefaultParametersInput: Swift.Sendable {
     /// * sqlserver-web-15.0
     /// This member is required.
     public var dbParameterGroupFamily: Swift.String?
-    /// This parameter isn't currently supported.
+    /// A filter that specifies one or more parameters to describe. The only supported filter is parameter-name. The results list only includes information about the parameters with these names.
     public var filters: [RDSClientTypes.Filter]?
     /// An optional pagination token provided by a previous DescribeEngineDefaultParameters request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
     public var marker: Swift.String?
@@ -17062,9 +17062,25 @@ extension RDSClientTypes {
 
     /// The configuration setting for the log types to be enabled for export to CloudWatch Logs for a specific DB instance or DB cluster. The EnableLogTypes and DisableLogTypes arrays determine which logs will be exported (or not exported) to CloudWatch Logs. The values within these arrays depend on the DB engine being used. For more information about exporting CloudWatch Logs for Amazon RDS DB instances, see [Publishing Database Logs to Amazon CloudWatch Logs ](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_LogAccess.html#USER_LogAccess.Procedural.UploadtoCloudWatch) in the Amazon RDS User Guide. For more information about exporting CloudWatch Logs for Amazon Aurora DB clusters, see [Publishing Database Logs to Amazon CloudWatch Logs](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_LogAccess.html#USER_LogAccess.Procedural.UploadtoCloudWatch) in the Amazon Aurora User Guide.
     public struct CloudwatchLogsExportConfiguration: Swift.Sendable {
-        /// The list of log types to disable.
+        /// The list of log types to disable. The following values are valid for each DB engine:
+        ///
+        /// * Aurora MySQL - audit | error | general | slowquery
+        ///
+        /// * Aurora PostgreSQL - postgresql
+        ///
+        /// * RDS for MySQL - error | general | slowquery
+        ///
+        /// * RDS for PostgreSQL - postgresql | upgrade
         public var disableLogTypes: [Swift.String]?
-        /// The list of log types to enable.
+        /// The list of log types to enable. The following values are valid for each DB engine:
+        ///
+        /// * Aurora MySQL - audit | error | general | slowquery
+        ///
+        /// * Aurora PostgreSQL - postgresql
+        ///
+        /// * RDS for MySQL - error | general | slowquery
+        ///
+        /// * RDS for PostgreSQL - postgresql | upgrade
         public var enableLogTypes: [Swift.String]?
 
         public init(
@@ -17092,7 +17108,7 @@ public struct ModifyDBClusterInput: Swift.Sendable {
     public var allowMajorVersionUpgrade: Swift.Bool?
     /// Specifies whether the modifications in this request are asynchronously applied as soon as possible, regardless of the PreferredMaintenanceWindow setting for the DB cluster. If this parameter is disabled, changes to the DB cluster are applied during the next maintenance window. Most modifications can be applied immediately or during the next scheduled maintenance window. Some modifications, such as turning on deletion protection and changing the master password, are applied immediately—regardless of when you choose to apply them. By default, this parameter is disabled. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
     public var applyImmediately: Swift.Bool?
-    /// Specifies whether minor engine upgrades are applied automatically to the DB cluster during the maintenance window. By default, minor engine upgrades are applied automatically. Valid for Cluster Type: Multi-AZ DB clusters only
+    /// Specifies whether minor engine upgrades are applied automatically to the DB cluster during the maintenance window. By default, minor engine upgrades are applied automatically. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
     public var autoMinorVersionUpgrade: Swift.Bool?
     /// The Amazon Resource Name (ARN) of the recovery point in Amazon Web Services Backup.
     public var awsBackupRecoveryPointArn: Swift.String?
@@ -17121,7 +17137,7 @@ public struct ModifyDBClusterInput: Swift.Sendable {
     public var cloudwatchLogsExportConfiguration: RDSClientTypes.CloudwatchLogsExportConfiguration?
     /// Specifies whether to copy all tags from the DB cluster to snapshots of the DB cluster. The default is not to copy them. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
     public var copyTagsToSnapshot: Swift.Bool?
-    /// Specifies the mode of Database Insights to enable for the cluster.
+    /// Specifies the mode of Database Insights to enable for the DB cluster. If you change the value from standard to advanced, you must set the PerformanceInsightsEnabled parameter to true and the PerformanceInsightsRetentionPeriod parameter to 465. If you change the value from advanced to standard, you must set the PerformanceInsightsEnabled parameter to false. Valid for Cluster Type: Aurora DB clusters only
     public var databaseInsightsMode: RDSClientTypes.DatabaseInsightsMode?
     /// The DB cluster identifier for the cluster being modified. This parameter isn't case-sensitive. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Constraints:
     ///
@@ -17202,9 +17218,9 @@ public struct ModifyDBClusterInput: Swift.Sendable {
     public var newDBClusterIdentifier: Swift.String?
     /// The option group to associate the DB cluster with. DB clusters are associated with a default option group that can't be modified.
     public var optionGroupName: Swift.String?
-    /// The Amazon Web Services KMS key identifier for encryption of Performance Insights data. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. If you don't specify a value for PerformanceInsightsKMSKeyId, then Amazon RDS uses your default KMS key. There is a default KMS key for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region. Valid for Cluster Type: Multi-AZ DB clusters only
+    /// The Amazon Web Services KMS key identifier for encryption of Performance Insights data. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. If you don't specify a value for PerformanceInsightsKMSKeyId, then Amazon RDS uses your default KMS key. There is a default KMS key for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
     public var performanceInsightsKMSKeyId: Swift.String?
-    /// The number of days to retain Performance Insights data. Valid for Cluster Type: Multi-AZ DB clusters only Valid Values:
+    /// The number of days to retain Performance Insights data. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Valid Values:
     ///
     /// * 7
     ///
@@ -17630,11 +17646,22 @@ public struct ModifyDBInstanceInput: Swift.Sendable {
     ///
     /// This setting doesn't apply to RDS Custom DB instances.
     public var certificateRotationRestart: Swift.Bool?
-    /// The log types to be enabled for export to CloudWatch Logs for a specific DB instance. A change to the CloudwatchLogsExportConfiguration parameter is always applied to the DB instance immediately. Therefore, the ApplyImmediately parameter has no effect. This setting doesn't apply to RDS Custom DB instances.
+    /// The log types to be enabled for export to CloudWatch Logs for a specific DB instance. A change to the CloudwatchLogsExportConfiguration parameter is always applied to the DB instance immediately. Therefore, the ApplyImmediately parameter has no effect. This setting doesn't apply to RDS Custom DB instances. The following values are valid for each DB engine:
+    ///
+    /// * Aurora MySQL - audit | error | general | slowquery
+    ///
+    /// * Aurora PostgreSQL - postgresql
+    ///
+    /// * RDS for MySQL - error | general | slowquery
+    ///
+    /// * RDS for PostgreSQL - postgresql | upgrade
+    ///
+    ///
+    /// For more information about exporting CloudWatch Logs for Amazon RDS, see [ Publishing Database Logs to Amazon CloudWatch Logs](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_LogAccess.html#USER_LogAccess.Procedural.UploadtoCloudWatch) in the Amazon RDS User Guide. For more information about exporting CloudWatch Logs for Amazon Aurora, see [Publishing Database Logs to Amazon CloudWatch Logs](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_LogAccess.html#USER_LogAccess.Procedural.UploadtoCloudWatch) in the Amazon Aurora User Guide.
     public var cloudwatchLogsExportConfiguration: RDSClientTypes.CloudwatchLogsExportConfiguration?
     /// Specifies whether to copy all tags from the DB instance to snapshots of the DB instance. By default, tags aren't copied. This setting doesn't apply to Amazon Aurora DB instances. Copying tags to snapshots is managed by the DB cluster. Setting this value for an Aurora DB instance has no effect on the DB cluster setting. For more information, see ModifyDBCluster.
     public var copyTagsToSnapshot: Swift.Bool?
-    /// Specifies the mode of Database Insights to enable for the instance.
+    /// Specifies the mode of Database Insights to enable for the DB instance. This setting only applies to Amazon Aurora DB instances. Currently, this value is inherited from the DB cluster and can't be changed.
     public var databaseInsightsMode: RDSClientTypes.DatabaseInsightsMode?
     /// The new compute and memory capacity of the DB instance, for example db.m4.large. Not all DB instance classes are available in all Amazon Web Services Regions, or for all database engines. For the full list of DB instance classes, and availability for your engine, see [DB Instance Class](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.html) in the Amazon RDS User Guide or [Aurora DB instance classes](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Concepts.DBInstanceClass.html) in the Amazon Aurora User Guide. For RDS Custom, see [DB instance class support for RDS Custom for Oracle](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-reqs-limits.html#custom-reqs-limits.instances) and [ DB instance class support for RDS Custom for SQL Server](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-reqs-limits-MS.html#custom-reqs-limits.instancesMS). If you modify the DB instance class, an outage occurs during the change. The change is applied during the next maintenance window, unless you specify ApplyImmediately in your request. Default: Uses existing setting Constraints:
     ///
@@ -20278,7 +20305,7 @@ public struct RestoreDBClusterToPointInTimeOutput: Swift.Sendable {
 
 ///
 public struct RestoreDBInstanceFromDBSnapshotInput: Swift.Sendable {
-    /// The amount of storage (in gibibytes) to allocate initially for the DB instance. Follow the allocation rules specified in CreateDBInstance. Be sure to allocate enough storage for your new DB instance so that the restore operation can succeed. You can also allocate additional storage for future growth.
+    /// The amount of storage (in gibibytes) to allocate initially for the DB instance. Follow the allocation rules specified in CreateDBInstance. This setting isn't valid for RDS for SQL Server. Be sure to allocate enough storage for your new DB instance so that the restore operation can succeed. You can also allocate additional storage for future growth.
     public var allocatedStorage: Swift.Int?
     /// Specifies whether to automatically apply minor version upgrades to the DB instance during the maintenance window. If you restore an RDS Custom DB instance, you must disable this parameter.
     public var autoMinorVersionUpgrade: Swift.Bool?
@@ -20586,7 +20613,7 @@ public struct RestoreDBInstanceFromDBSnapshotOutput: Swift.Sendable {
 }
 
 public struct RestoreDBInstanceFromS3Input: Swift.Sendable {
-    /// The amount of storage (in gibibytes) to allocate initially for the DB instance. Follow the allocation rules specified in CreateDBInstance. Be sure to allocate enough storage for your new DB instance so that the restore operation can succeed. You can also allocate additional storage for future growth.
+    /// The amount of storage (in gibibytes) to allocate initially for the DB instance. Follow the allocation rules specified in CreateDBInstance. This setting isn't valid for RDS for SQL Server. Be sure to allocate enough storage for your new DB instance so that the restore operation can succeed. You can also allocate additional storage for future growth.
     public var allocatedStorage: Swift.Int?
     /// Specifies whether to automatically apply minor engine upgrades to the DB instance during the maintenance window. By default, minor engine upgrades are not applied automatically.
     public var autoMinorVersionUpgrade: Swift.Bool?
@@ -20598,7 +20625,7 @@ public struct RestoreDBInstanceFromS3Input: Swift.Sendable {
     public var caCertificateIdentifier: Swift.String?
     /// Specifies whether to copy all tags from the DB instance to snapshots of the DB instance. By default, tags are not copied.
     public var copyTagsToSnapshot: Swift.Bool?
-    /// Specifies the mode of Database Insights to enable for the instance.
+    /// Specifies the mode of Database Insights to enable for the DB instance. This setting only applies to Amazon Aurora DB instances. Currently, this value is inherited from the DB cluster and can't be changed.
     public var databaseInsightsMode: RDSClientTypes.DatabaseInsightsMode?
     /// The compute and memory capacity of the DB instance, for example db.m4.large. Not all DB instance classes are available in all Amazon Web Services Regions, or for all database engines. For the full list of DB instance classes, and availability for your engine, see [DB Instance Class](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.html) in the Amazon RDS User Guide. Importing from Amazon S3 isn't supported on the db.t2.micro DB instance class.
     /// This member is required.
@@ -20927,7 +20954,7 @@ public struct PointInTimeRestoreNotEnabledFault: ClientRuntime.ModeledError, AWS
 
 ///
 public struct RestoreDBInstanceToPointInTimeInput: Swift.Sendable {
-    /// The amount of storage (in gibibytes) to allocate initially for the DB instance. Follow the allocation rules specified in CreateDBInstance. Be sure to allocate enough storage for your new DB instance so that the restore operation can succeed. You can also allocate additional storage for future growth.
+    /// The amount of storage (in gibibytes) to allocate initially for the DB instance. Follow the allocation rules specified in CreateDBInstance. This setting isn't valid for RDS for SQL Server. Be sure to allocate enough storage for your new DB instance so that the restore operation can succeed. You can also allocate additional storage for future growth.
     public var allocatedStorage: Swift.Int?
     /// Specifies whether minor version upgrades are applied automatically to the DB instance during the maintenance window. This setting doesn't apply to RDS Custom.
     public var autoMinorVersionUpgrade: Swift.Bool?
