@@ -663,6 +663,8 @@ extension SageMakerClientTypes {
     public struct AdditionalS3DataSource: Swift.Sendable {
         /// The type of compression used for an additional data source used in inference or training. Specify None if your additional data source is not compressed.
         public var compressionType: SageMakerClientTypes.CompressionType?
+        /// The ETag associated with S3 URI.
+        public var eTag: Swift.String?
         /// The data type of the additional data source that you specify for use in inference or training.
         /// This member is required.
         public var s3DataType: SageMakerClientTypes.AdditionalS3DataSourceDataType?
@@ -672,11 +674,13 @@ extension SageMakerClientTypes {
 
         public init(
             compressionType: SageMakerClientTypes.CompressionType? = nil,
+            eTag: Swift.String? = nil,
             s3DataType: SageMakerClientTypes.AdditionalS3DataSourceDataType? = nil,
             s3Uri: Swift.String? = nil
         )
         {
             self.compressionType = compressionType
+            self.eTag = eTag
             self.s3DataType = s3DataType
             self.s3Uri = s3Uri
         }
@@ -809,8 +813,12 @@ extension SageMakerClientTypes {
         /// * Do not organize the model artifacts in [S3 console using folders](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-folders.html). When you create a folder in S3 console, S3 creates a 0-byte object with a key set to the folder name you provide. They key of the 0-byte object ends with a slash (/) which violates SageMaker restrictions on model artifact file names, leading to model deployment failure.
         /// This member is required.
         public var compressionType: SageMakerClientTypes.ModelCompressionType?
+        /// The ETag associated with S3 URI.
+        public var eTag: Swift.String?
         /// Configuration information for hub access.
         public var hubAccessConfig: SageMakerClientTypes.InferenceHubAccessConfig?
+        /// The ETag associated with Manifest S3URI.
+        public var manifestEtag: Swift.String?
         /// The Amazon S3 URI of the manifest file. The manifest file is a CSV file that stores the artifact locations.
         public var manifestS3Uri: Swift.String?
         /// Specifies the access configuration file for the ML model. You can explicitly accept the model end-user license agreement (EULA) within the ModelAccessConfig. You are responsible for reviewing and complying with any applicable license terms and making sure they are acceptable for your use case before downloading or using a model.
@@ -824,7 +832,9 @@ extension SageMakerClientTypes {
 
         public init(
             compressionType: SageMakerClientTypes.ModelCompressionType? = nil,
+            eTag: Swift.String? = nil,
             hubAccessConfig: SageMakerClientTypes.InferenceHubAccessConfig? = nil,
+            manifestEtag: Swift.String? = nil,
             manifestS3Uri: Swift.String? = nil,
             modelAccessConfig: SageMakerClientTypes.ModelAccessConfig? = nil,
             s3DataType: SageMakerClientTypes.S3ModelDataType? = nil,
@@ -832,7 +842,9 @@ extension SageMakerClientTypes {
         )
         {
             self.compressionType = compressionType
+            self.eTag = eTag
             self.hubAccessConfig = hubAccessConfig
+            self.manifestEtag = manifestEtag
             self.manifestS3Uri = manifestS3Uri
             self.modelAccessConfig = modelAccessConfig
             self.s3DataType = s3DataType
@@ -893,6 +905,8 @@ extension SageMakerClientTypes {
         public var image: Swift.String?
         /// An MD5 hash of the training algorithm that identifies the Docker image used for training.
         public var imageDigest: Swift.String?
+        /// The ETag associated with Model Data URL.
+        public var modelDataETag: Swift.String?
         /// Specifies the location of ML model data to deploy during endpoint creation.
         public var modelDataSource: SageMakerClientTypes.ModelDataSource?
         /// The Amazon S3 path where the model artifacts, which result from model training, are stored. This path must point to a single gzip compressed tar archive (.tar.gz suffix). The model artifacts must be in an S3 bucket that is in the same region as the model package.
@@ -912,6 +926,7 @@ extension SageMakerClientTypes {
             frameworkVersion: Swift.String? = nil,
             image: Swift.String? = nil,
             imageDigest: Swift.String? = nil,
+            modelDataETag: Swift.String? = nil,
             modelDataSource: SageMakerClientTypes.ModelDataSource? = nil,
             modelDataUrl: Swift.String? = nil,
             modelInput: SageMakerClientTypes.ModelInput? = nil,
@@ -926,6 +941,7 @@ extension SageMakerClientTypes {
             self.frameworkVersion = frameworkVersion
             self.image = image
             self.imageDigest = imageDigest
+            self.modelDataETag = modelDataETag
             self.modelDataSource = modelDataSource
             self.modelDataUrl = modelDataUrl
             self.modelInput = modelInput
@@ -21889,6 +21905,8 @@ extension SageMakerClientTypes {
         /// The name of an algorithm that was used to create the model package. The algorithm must be either an algorithm resource in your SageMaker account or an algorithm in Amazon Web Services Marketplace that you are subscribed to.
         /// This member is required.
         public var algorithmName: Swift.String?
+        /// The ETag associated with Model Data URL.
+        public var modelDataETag: Swift.String?
         /// Specifies the location of ML model data to deploy during endpoint creation.
         public var modelDataSource: SageMakerClientTypes.ModelDataSource?
         /// The Amazon S3 path where the model artifacts, which result from model training, are stored. This path must point to a single gzip compressed tar archive (.tar.gz suffix). The model artifacts must be in an S3 bucket that is in the same Amazon Web Services region as the algorithm.
@@ -21896,11 +21914,13 @@ extension SageMakerClientTypes {
 
         public init(
             algorithmName: Swift.String? = nil,
+            modelDataETag: Swift.String? = nil,
             modelDataSource: SageMakerClientTypes.ModelDataSource? = nil,
             modelDataUrl: Swift.String? = nil
         )
         {
             self.algorithmName = algorithmName
+            self.modelDataETag = modelDataETag
             self.modelDataSource = modelDataSource
             self.modelDataUrl = modelDataUrl
         }
@@ -68907,6 +68927,7 @@ extension SageMakerClientTypes.ModelPackageContainerDefinition {
         try writer["FrameworkVersion"].write(value.frameworkVersion)
         try writer["Image"].write(value.image)
         try writer["ImageDigest"].write(value.imageDigest)
+        try writer["ModelDataETag"].write(value.modelDataETag)
         try writer["ModelDataSource"].write(value.modelDataSource, with: SageMakerClientTypes.ModelDataSource.write(value:to:))
         try writer["ModelDataUrl"].write(value.modelDataUrl)
         try writer["ModelInput"].write(value.modelInput, with: SageMakerClientTypes.ModelInput.write(value:to:))
@@ -68929,6 +68950,7 @@ extension SageMakerClientTypes.ModelPackageContainerDefinition {
         value.frameworkVersion = try reader["FrameworkVersion"].readIfPresent()
         value.nearestModelName = try reader["NearestModelName"].readIfPresent()
         value.additionalS3DataSource = try reader["AdditionalS3DataSource"].readIfPresent(with: SageMakerClientTypes.AdditionalS3DataSource.read(from:))
+        value.modelDataETag = try reader["ModelDataETag"].readIfPresent()
         return value
     }
 }
@@ -68938,6 +68960,7 @@ extension SageMakerClientTypes.AdditionalS3DataSource {
     static func write(value: SageMakerClientTypes.AdditionalS3DataSource?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["CompressionType"].write(value.compressionType)
+        try writer["ETag"].write(value.eTag)
         try writer["S3DataType"].write(value.s3DataType)
         try writer["S3Uri"].write(value.s3Uri)
     }
@@ -68948,6 +68971,7 @@ extension SageMakerClientTypes.AdditionalS3DataSource {
         value.s3DataType = try reader["S3DataType"].readIfPresent() ?? .sdkUnknown("")
         value.s3Uri = try reader["S3Uri"].readIfPresent() ?? ""
         value.compressionType = try reader["CompressionType"].readIfPresent()
+        value.eTag = try reader["ETag"].readIfPresent()
         return value
     }
 }
@@ -68987,7 +69011,9 @@ extension SageMakerClientTypes.S3ModelDataSource {
     static func write(value: SageMakerClientTypes.S3ModelDataSource?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["CompressionType"].write(value.compressionType)
+        try writer["ETag"].write(value.eTag)
         try writer["HubAccessConfig"].write(value.hubAccessConfig, with: SageMakerClientTypes.InferenceHubAccessConfig.write(value:to:))
+        try writer["ManifestEtag"].write(value.manifestEtag)
         try writer["ManifestS3Uri"].write(value.manifestS3Uri)
         try writer["ModelAccessConfig"].write(value.modelAccessConfig, with: SageMakerClientTypes.ModelAccessConfig.write(value:to:))
         try writer["S3DataType"].write(value.s3DataType)
@@ -69003,6 +69029,8 @@ extension SageMakerClientTypes.S3ModelDataSource {
         value.modelAccessConfig = try reader["ModelAccessConfig"].readIfPresent(with: SageMakerClientTypes.ModelAccessConfig.read(from:))
         value.hubAccessConfig = try reader["HubAccessConfig"].readIfPresent(with: SageMakerClientTypes.InferenceHubAccessConfig.read(from:))
         value.manifestS3Uri = try reader["ManifestS3Uri"].readIfPresent()
+        value.eTag = try reader["ETag"].readIfPresent()
+        value.manifestEtag = try reader["ManifestEtag"].readIfPresent()
         return value
     }
 }
@@ -74754,6 +74782,7 @@ extension SageMakerClientTypes.SourceAlgorithm {
     static func write(value: SageMakerClientTypes.SourceAlgorithm?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["AlgorithmName"].write(value.algorithmName)
+        try writer["ModelDataETag"].write(value.modelDataETag)
         try writer["ModelDataSource"].write(value.modelDataSource, with: SageMakerClientTypes.ModelDataSource.write(value:to:))
         try writer["ModelDataUrl"].write(value.modelDataUrl)
     }
@@ -74763,6 +74792,7 @@ extension SageMakerClientTypes.SourceAlgorithm {
         var value = SageMakerClientTypes.SourceAlgorithm()
         value.modelDataUrl = try reader["ModelDataUrl"].readIfPresent()
         value.modelDataSource = try reader["ModelDataSource"].readIfPresent(with: SageMakerClientTypes.ModelDataSource.read(from:))
+        value.modelDataETag = try reader["ModelDataETag"].readIfPresent()
         value.algorithmName = try reader["AlgorithmName"].readIfPresent() ?? ""
         return value
     }
