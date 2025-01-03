@@ -100,6 +100,14 @@ class AWSHttpProtocolServiceClient(
                         { it.format("AWSClientConfigDefaultsProvider.httpClientConfiguration()") },
                     )
                 }
+                "endpoint" -> {
+                    ConfigProperty(
+                        "endpoint",
+                        SwiftTypes.String.toOptional(),
+                        { it.format("AWSClientConfigDefaultsProvider.configuredEndpoint(\$S, ignoreConfiguredEndpointURLs)", ctx.settings.sdkId) },
+                        true
+                    )
+                }
                 else -> it
             }
         }
@@ -129,6 +137,9 @@ class AWSHttpProtocolServiceClient(
                         }
                         "retryStrategyOptions" -> {
                             "try AWSClientConfigDefaultsProvider.retryStrategyOptions()"
+                        }
+                        "endpoint" -> {
+                            "try AWSClientConfigDefaultsProvider.configuredEndpoint(\"${ctx.settings.sdkId}\")"
                         }
                         else -> {
                             it.default?.render(writer) ?: "nil"
