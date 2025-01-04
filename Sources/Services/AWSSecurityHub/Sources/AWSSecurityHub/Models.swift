@@ -401,29 +401,9 @@ extension SecurityHubClientTypes {
         public var callerType: Swift.String?
         /// Provided if CallerType is domain. Provides information about the DNS domain that the API call originated from.
         public var domainDetails: SecurityHubClientTypes.AwsApiCallActionDomainDetails?
-        /// A timestamp that indicates when the API call was first observed. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// A timestamp that indicates when the API call was first observed. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var firstSeen: Swift.String?
-        /// A timestamp that indicates when the API call was most recently observed. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// A timestamp that indicates when the API call was most recently observed. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var lastSeen: Swift.String?
         /// Provided if CallerType is remoteip. Provides information about the remote IP address that the API call originated from.
         public var remoteIpDetails: SecurityHubClientTypes.ActionRemoteIpDetails?
@@ -1040,7 +1020,7 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes {
 
-    /// Contains information about the authenticated session used by the threat actor identified in an Amazon GuardDuty Extended Threat Detection attack sequence. GuardDuty generates an attack sequence finding when multiple events align to a potentially suspicious activity. To receive GuardDuty attack sequence findings in Security Hub, you must have GuardDuty and GuardDuty S3 Protection enabled. For more information, see [GuardDuty Extended Threat Detection ](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty-extended-threat-detection.html) in the Amazon GuardDuty User Guide.
+    /// Contains information about the authenticated session used by the threat actor identified in an Amazon GuardDuty Extended Threat Detection attack sequence. GuardDuty generates an attack sequence finding when multiple events align to a potentially suspicious activity. To receive GuardDuty attack sequence findings in Security Hub, you must have GuardDuty enabled. For more information, see [GuardDuty Extended Threat Detection ](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty-extended-threat-detection.html) in the Amazon GuardDuty User Guide.
     public struct ActorSession: Swift.Sendable {
         /// The timestamp for when the session was created. In CloudTrail, you can find this value as userIdentity.sessionContext.attributes.creationDate.
         public var createdTime: Swift.Int?
@@ -1068,7 +1048,7 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes {
 
-    /// Provides Amazon Web Services account information of the user involved in an Amazon GuardDuty Extended Threat Detection attack sequence. GuardDuty generates an attack sequence finding when multiple events align to a potentially suspicious activity. To receive GuardDuty attack sequence findings in Security Hub, you must have GuardDuty and GuardDuty S3 Protection enabled. For more information, see [GuardDuty Extended Threat Detection ](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty-extended-threat-detection.html) in the Amazon GuardDuty User Guide.
+    /// Provides Amazon Web Services account information of the user involved in an Amazon GuardDuty Extended Threat Detection attack sequence. GuardDuty generates an attack sequence finding when multiple events align to a potentially suspicious activity. To receive GuardDuty attack sequence findings in Security Hub, you must have GuardDuty enabled. For more information, see [GuardDuty Extended Threat Detection ](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty-extended-threat-detection.html) in the Amazon GuardDuty User Guide.
     public struct UserAccount: Swift.Sendable {
         /// The name of the user account involved in the attack sequence.
         public var name: Swift.String?
@@ -1088,7 +1068,7 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes {
 
-    /// Contains information about the credentials used by the threat actor identified in an Amazon GuardDuty Extended Threat Detection attack sequence. GuardDuty generates an attack sequence finding when multiple events align to a potentially suspicious activity. To receive GuardDuty attack sequence findings in Security Hub, you must have GuardDuty and GuardDuty S3 Protection enabled. For more information, see [GuardDuty Extended Threat Detection ](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty-extended-threat-detection.html) in the Amazon GuardDuty User Guide.
+    /// Contains information about the credentials used by the threat actor identified in an Amazon GuardDuty Extended Threat Detection attack sequence. GuardDuty generates an attack sequence finding when multiple events align to a potentially suspicious activity. To receive GuardDuty attack sequence findings in Security Hub, you must have GuardDuty enabled. For more information, see [GuardDuty Extended Threat Detection ](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty-extended-threat-detection.html) in the Amazon GuardDuty User Guide.
     public struct ActorUser: Swift.Sendable {
         /// The account of the threat actor.
         public var account: SecurityHubClientTypes.UserAccount?
@@ -1120,7 +1100,7 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes {
 
-    /// Information about the threat actor identified in an Amazon GuardDuty Extended Threat Detection attack sequence. GuardDuty generates an attack sequence finding when multiple events align to a potentially suspicious activity. To receive GuardDuty attack sequence findings in Security Hub, you must have GuardDuty and GuardDuty S3 Protection enabled. For more information, see [GuardDuty Extended Threat Detection ](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty-extended-threat-detection.html) in the Amazon GuardDuty User Guide.
+    /// Information about the threat actor identified in an Amazon GuardDuty Extended Threat Detection attack sequence. GuardDuty generates an attack sequence finding when multiple events align to a potentially suspicious activity. To receive GuardDuty attack sequence findings in Security Hub, you must have GuardDuty enabled. For more information, see [GuardDuty Extended Threat Detection ](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty-extended-threat-detection.html) in the Amazon GuardDuty User Guide.
     public struct Actor: Swift.Sendable {
         /// The ID of the threat actor.
         public var id: Swift.String?
@@ -1600,29 +1580,9 @@ extension SecurityHubClientTypes {
     public struct DateFilter: Swift.Sendable {
         /// A date range for the date filter.
         public var dateRange: SecurityHubClientTypes.DateRange?
-        /// A timestamp that provides the end date for the date filter. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// A timestamp that provides the end date for the date filter. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var end: Swift.String?
-        /// A timestamp that provides the start date for the date filter. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// A timestamp that provides the start date for the date filter. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var start: Swift.String?
 
         public init(
@@ -1729,75 +1689,23 @@ extension SecurityHubClientTypes {
         public var complianceStatus: [SecurityHubClientTypes.StringFilter]?
         /// The likelihood that a finding accurately identifies the behavior or issue that it was intended to identify. Confidence is scored on a 0–100 basis using a ratio scale. A value of 0 means 0 percent confidence, and a value of 100 means 100 percent confidence. For example, a data exfiltration detection based on a statistical deviation of network traffic has low confidence because an actual exfiltration hasn't been verified. For more information, see [Confidence](https://docs.aws.amazon.com/securityhub/latest/userguide/asff-top-level-attributes.html#asff-confidence) in the Security Hub User Guide. Array Members: Minimum number of 1 item. Maximum number of 20 items.
         public var confidence: [SecurityHubClientTypes.NumberFilter]?
-        /// A timestamp that indicates when this finding record was created. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
-        ///
-        ///
-        /// Array Members: Minimum number of 1 item. Maximum number of 20 items.
+        /// A timestamp that indicates when this finding record was created. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps). Array Members: Minimum number of 1 item. Maximum number of 20 items.
         public var createdAt: [SecurityHubClientTypes.DateFilter]?
         /// The level of importance that is assigned to the resources that are associated with a finding. Criticality is scored on a 0–100 basis, using a ratio scale that supports only full integers. A score of 0 means that the underlying resources have no criticality, and a score of 100 is reserved for the most critical resources. For more information, see [Criticality](https://docs.aws.amazon.com/securityhub/latest/userguide/asff-top-level-attributes.html#asff-criticality) in the Security Hub User Guide. Array Members: Minimum number of 1 item. Maximum number of 20 items.
         public var criticality: [SecurityHubClientTypes.NumberFilter]?
         /// A finding's description. Array Members: Minimum number of 1 item. Maximum number of 20 items.
         public var description: [SecurityHubClientTypes.StringFilter]?
-        /// A timestamp that indicates when the potential security issue captured by a finding was first observed by the security findings product. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
-        ///
-        ///
-        /// Array Members: Minimum number of 1 item. Maximum number of 20 items.
+        /// A timestamp that indicates when the potential security issue captured by a finding was first observed by the security findings product. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps). Array Members: Minimum number of 1 item. Maximum number of 20 items.
         public var firstObservedAt: [SecurityHubClientTypes.DateFilter]?
         /// The identifier for the solution-specific component that generated a finding. Array Members: Minimum number of 1 item. Maximum number of 100 items.
         public var generatorId: [SecurityHubClientTypes.StringFilter]?
         /// The product-specific identifier for a finding. Array Members: Minimum number of 1 item. Maximum number of 20 items.
         public var id: [SecurityHubClientTypes.StringFilter]?
-        /// A timestamp that indicates when the potential security issue captured by a finding was most recently observed by the security findings product. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
-        ///
-        ///
-        /// Array Members: Minimum number of 1 item. Maximum number of 20 items.
+        /// A timestamp that indicates when the security findings provider most recently observed a change in the resource that is involved in the finding. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps). Array Members: Minimum number of 1 item. Maximum number of 20 items.
         public var lastObservedAt: [SecurityHubClientTypes.DateFilter]?
         /// The text of a user-defined note that's added to a finding. Array Members: Minimum number of 1 item. Maximum number of 20 items.
         public var noteText: [SecurityHubClientTypes.StringFilter]?
-        /// The timestamp of when the note was updated. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
-        ///
-        ///
-        /// Array Members: Minimum number of 1 item. Maximum number of 20 items.
+        /// The timestamp of when the note was updated. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps). Array Members: Minimum number of 1 item. Maximum number of 20 items.
         public var noteUpdatedAt: [SecurityHubClientTypes.DateFilter]?
         /// The principal that created a note. Array Members: Minimum number of 1 item. Maximum number of 20 items.
         public var noteUpdatedBy: [SecurityHubClientTypes.StringFilter]?
@@ -1835,20 +1743,7 @@ extension SecurityHubClientTypes {
         public var title: [SecurityHubClientTypes.StringFilter]?
         /// One or more finding types in the format of namespace/category/classifier that classify a finding. For a list of namespaces, classifiers, and categories, see [Types taxonomy for ASFF](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-findings-format-type-taxonomy.html) in the Security Hub User Guide. Array Members: Minimum number of 1 item. Maximum number of 20 items.
         public var type: [SecurityHubClientTypes.StringFilter]?
-        /// A timestamp that indicates when the finding record was most recently updated. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
-        ///
-        ///
-        /// Array Members: Minimum number of 1 item. Maximum number of 20 items.
+        /// A timestamp that indicates when the finding record was most recently updated. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps). Array Members: Minimum number of 1 item. Maximum number of 20 items.
         public var updatedAt: [SecurityHubClientTypes.DateFilter]?
         /// A list of user-defined name and value string pairs added to a finding. Array Members: Minimum number of 1 item. Maximum number of 20 items.
         public var userDefinedFields: [SecurityHubClientTypes.MapFilter]?
@@ -1975,17 +1870,7 @@ extension SecurityHubClientTypes {
     public struct AutomationRulesConfig: Swift.Sendable {
         /// One or more actions to update finding fields if a finding matches the defined criteria of the rule.
         public var actions: [SecurityHubClientTypes.AutomationRulesAction]?
-        /// A timestamp that indicates when the rule was created. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// A timestamp that indicates when the rule was created. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var createdAt: Foundation.Date?
         /// The principal that created a rule.
         public var createdBy: Swift.String?
@@ -2003,17 +1888,7 @@ extension SecurityHubClientTypes {
         public var ruleOrder: Swift.Int?
         /// Whether the rule is active after it is created. If this parameter is equal to ENABLED, Security Hub starts applying the rule to findings and finding updates after the rule is created.
         public var ruleStatus: SecurityHubClientTypes.RuleStatus?
-        /// A timestamp that indicates when the rule was most recently updated. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// A timestamp that indicates when the rule was most recently updated. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var updatedAt: Foundation.Date?
 
         public init(
@@ -2049,17 +1924,7 @@ extension SecurityHubClientTypes {
 
     /// Metadata for automation rules in the calling account. The response includes rules with a RuleStatus of ENABLED and DISABLED.
     public struct AutomationRulesMetadata: Swift.Sendable {
-        /// A timestamp that indicates when the rule was created. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// A timestamp that indicates when the rule was created. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var createdAt: Foundation.Date?
         /// The principal that created a rule.
         public var createdBy: Swift.String?
@@ -2075,17 +1940,7 @@ extension SecurityHubClientTypes {
         public var ruleOrder: Swift.Int?
         /// Whether the rule is active after it is created. If this parameter is equal to ENABLED, Security Hub starts applying the rule to findings and finding updates after the rule is created. To change the value of this parameter after creating a rule, use [BatchUpdateAutomationRules](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchUpdateAutomationRules.html).
         public var ruleStatus: SecurityHubClientTypes.RuleStatus?
-        /// A timestamp that indicates when the rule was most recently updated. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// A timestamp that indicates when the rule was most recently updated. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var updatedAt: Foundation.Date?
 
         public init(
@@ -2517,17 +2372,7 @@ extension SecurityHubClientTypes {
         public var apiKeySource: Swift.String?
         /// The list of binary media types supported by the REST API.
         public var binaryMediaTypes: [Swift.String]?
-        /// Indicates when the API was created. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// Indicates when the API was created. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var createdDate: Swift.String?
         /// A description of the REST API.
         public var description: Swift.String?
@@ -2583,17 +2428,7 @@ extension SecurityHubClientTypes {
         public var canarySettings: SecurityHubClientTypes.AwsApiGatewayCanarySettings?
         /// The identifier of the client certificate for the stage.
         public var clientCertificateId: Swift.String?
-        /// Indicates when the stage was created. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// Indicates when the stage was created. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var createdDate: Swift.String?
         /// The identifier of the deployment that the stage points to.
         public var deploymentId: Swift.String?
@@ -2601,17 +2436,7 @@ extension SecurityHubClientTypes {
         public var description: Swift.String?
         /// The version of the API documentation that is associated with the stage.
         public var documentationVersion: Swift.String?
-        /// Indicates when the stage was most recently updated. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// Indicates when the stage was most recently updated. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var lastUpdatedDate: Swift.String?
         /// Defines the method settings for the stage.
         public var methodSettings: [SecurityHubClientTypes.AwsApiGatewayMethodSettings]?
@@ -2717,17 +2542,7 @@ extension SecurityHubClientTypes {
         public var apiKeySelectionExpression: Swift.String?
         /// A cross-origin resource sharing (CORS) configuration. Supported only for HTTP APIs.
         public var corsConfiguration: SecurityHubClientTypes.AwsCorsConfiguration?
-        /// Indicates when the API was created. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// Indicates when the API was created. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var createdDate: Swift.String?
         /// A description of the API.
         public var description: Swift.String?
@@ -2811,17 +2626,7 @@ extension SecurityHubClientTypes {
         public var autoDeploy: Swift.Bool?
         /// The identifier of a client certificate for a stage. Supported only for WebSocket API calls.
         public var clientCertificateId: Swift.String?
-        /// Indicates when the stage was created. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// Indicates when the stage was created. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var createdDate: Swift.String?
         /// Default route settings for the stage.
         public var defaultRouteSettings: SecurityHubClientTypes.AwsApiGatewayV2RouteSettings?
@@ -2831,17 +2636,7 @@ extension SecurityHubClientTypes {
         public var description: Swift.String?
         /// The status of the last deployment of a stage. Supported only if the stage has automatic deployment enabled.
         public var lastDeploymentStatusMessage: Swift.String?
-        /// Indicates when the stage was most recently updated. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// Indicates when the stage was most recently updated. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var lastUpdatedDate: Swift.String?
         /// The route settings for the stage.
         public var routeSettings: SecurityHubClientTypes.AwsApiGatewayV2RouteSettings?
@@ -3335,17 +3130,7 @@ extension SecurityHubClientTypes {
         public var availabilityZones: [SecurityHubClientTypes.AwsAutoScalingAutoScalingGroupAvailabilityZonesListDetails]?
         /// Indicates whether capacity rebalancing is enabled.
         public var capacityRebalance: Swift.Bool?
-        /// Indicates when the auto scaling group was created. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// Indicates when the auto scaling group was created. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var createdTime: Swift.String?
         /// The amount of time, in seconds, that Amazon EC2 Auto Scaling waits before it checks the health status of an EC2 instance that has come into service.
         public var healthCheckGracePeriod: Swift.Int?
@@ -3524,17 +3309,7 @@ extension SecurityHubClientTypes {
         public var classicLinkVpcId: Swift.String?
         /// The identifiers of one or more security groups for the VPC that is specified in ClassicLinkVPCId.
         public var classicLinkVpcSecurityGroups: [Swift.String]?
-        /// The creation date and time for the launch configuration. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// The creation date and time for the launch configuration. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var createdTime: Swift.String?
         /// Whether the launch configuration is optimized for Amazon EBS I/O.
         public var ebsOptimized: Swift.Bool?
@@ -4130,17 +3905,7 @@ extension SecurityHubClientTypes {
         public var renewalStatus: Swift.String?
         /// The reason that a renewal request was unsuccessful. This attribute is used only when RenewalStatus is FAILED. Valid values: NO_AVAILABLE_CONTACTS | ADDITIONAL_VERIFICATION_REQUIRED | DOMAIN_NOT_ALLOWED | INVALID_PUBLIC_DOMAIN | DOMAIN_VALIDATION_DENIED | CAA_ERROR | PCA_LIMIT_EXCEEDED | PCA_INVALID_ARN | PCA_INVALID_STATE | PCA_REQUEST_FAILED | PCA_NAME_CONSTRAINTS_VALIDATION | PCA_RESOURCE_NOT_FOUND | PCA_INVALID_ARGS | PCA_INVALID_DURATION | PCA_ACCESS_DENIED | SLR_NOT_FOUND | OTHER
         public var renewalStatusReason: Swift.String?
-        /// Indicates when the renewal summary was last updated. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// Indicates when the renewal summary was last updated. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var updatedAt: Swift.String?
 
         public init(
@@ -4164,17 +3929,7 @@ extension SecurityHubClientTypes {
     public struct AwsCertificateManagerCertificateDetails: Swift.Sendable {
         /// The ARN of the private certificate authority (CA) that will be used to issue the certificate.
         public var certificateAuthorityArn: Swift.String?
-        /// Indicates when the certificate was requested. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// Indicates when the certificate was requested. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var createdAt: Swift.String?
         /// The fully qualified domain name (FQDN), such as www.example.com, that is secured by the certificate.
         public var domainName: Swift.String?
@@ -4184,31 +3939,11 @@ extension SecurityHubClientTypes {
         public var extendedKeyUsages: [SecurityHubClientTypes.AwsCertificateManagerCertificateExtendedKeyUsage]?
         /// For a failed certificate request, the reason for the failure. Valid values: NO_AVAILABLE_CONTACTS | ADDITIONAL_VERIFICATION_REQUIRED | DOMAIN_NOT_ALLOWED | INVALID_PUBLIC_DOMAIN | DOMAIN_VALIDATION_DENIED | CAA_ERROR | PCA_LIMIT_EXCEEDED | PCA_INVALID_ARN | PCA_INVALID_STATE | PCA_REQUEST_FAILED | PCA_NAME_CONSTRAINTS_VALIDATION | PCA_RESOURCE_NOT_FOUND | PCA_INVALID_ARGS | PCA_INVALID_DURATION | PCA_ACCESS_DENIED | SLR_NOT_FOUND | OTHER
         public var failureReason: Swift.String?
-        /// Indicates when the certificate was imported. Provided if the certificate type is IMPORTED. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// Indicates when the certificate was imported. Provided if the certificate type is IMPORTED. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var importedAt: Swift.String?
         /// The list of ARNs for the Amazon Web Services resources that use the certificate.
         public var inUseBy: [Swift.String]?
-        /// Indicates when the certificate was issued. Provided if the certificate type is AMAZON_ISSUED. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// Indicates when the certificate was issued. Provided if the certificate type is AMAZON_ISSUED. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var issuedAt: Swift.String?
         /// The name of the certificate authority that issued and signed the certificate.
         public var issuer: Swift.String?
@@ -4216,29 +3951,9 @@ extension SecurityHubClientTypes {
         public var keyAlgorithm: Swift.String?
         /// A list of key usage X.509 v3 extension objects.
         public var keyUsages: [SecurityHubClientTypes.AwsCertificateManagerCertificateKeyUsage]?
-        /// The time after which the certificate becomes invalid. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// The time after which the certificate becomes invalid. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var notAfter: Swift.String?
-        /// The time before which the certificate is not valid. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// The time before which the certificate is not valid. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var notBefore: Swift.String?
         /// Provides a value that specifies whether to add the certificate to a transparency log.
         public var options: SecurityHubClientTypes.AwsCertificateManagerCertificateOptions?
@@ -4754,17 +4469,7 @@ extension SecurityHubClientTypes {
         public var domainName: Swift.String?
         /// The entity tag is a hash of the object.
         public var eTag: Swift.String?
-        /// Indicates when that the distribution was last modified. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// Indicates when that the distribution was last modified. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var lastModifiedTime: Swift.String?
         /// A complex type that controls whether access logs are written for the distribution.
         public var logging: SecurityHubClientTypes.AwsCloudFrontDistributionLogging?
@@ -5582,17 +5287,7 @@ extension SecurityHubClientTypes {
     public struct AwsDynamoDbTableBillingModeSummary: Swift.Sendable {
         /// The method used to charge for read and write throughput and to manage capacity.
         public var billingMode: Swift.String?
-        /// If the billing mode is PAY_PER_REQUEST, indicates when the billing mode was set to that value. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// If the billing mode is PAY_PER_REQUEST, indicates when the billing mode was set to that value. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var lastUpdateToPayPerRequestDateTime: Swift.String?
 
         public init(
@@ -5656,29 +5351,9 @@ extension SecurityHubClientTypes {
 
     /// Information about the provisioned throughput for the table or for a global secondary index.
     public struct AwsDynamoDbTableProvisionedThroughput: Swift.Sendable {
-        /// Indicates when the provisioned throughput was last decreased. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// Indicates when the provisioned throughput was last decreased. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var lastDecreaseDateTime: Swift.String?
-        /// Indicates when the provisioned throughput was last increased. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// Indicates when the provisioned throughput was last increased. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var lastIncreaseDateTime: Swift.String?
         /// The number of times during the current UTC calendar day that the provisioned throughput was decreased.
         public var numberOfDecreasesToday: Swift.Int?
@@ -5874,17 +5549,7 @@ extension SecurityHubClientTypes {
 
     /// Information about the restore for the table.
     public struct AwsDynamoDbTableRestoreSummary: Swift.Sendable {
-        /// Indicates the point in time that the table was restored to. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// Indicates the point in time that the table was restored to. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var restoreDateTime: Swift.String?
         /// Whether a restore is currently in progress.
         public var restoreInProgress: Swift.Bool?
@@ -5912,17 +5577,7 @@ extension SecurityHubClientTypes {
 
     /// Information about the server-side encryption for the table.
     public struct AwsDynamoDbTableSseDescription: Swift.Sendable {
-        /// If the key is inaccessible, the date and time when DynamoDB detected that the key was inaccessible. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// If the key is inaccessible, the date and time when DynamoDB detected that the key was inaccessible. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var inaccessibleEncryptionDateTime: Swift.String?
         /// The ARN of the KMS key that is used for the KMS encryption.
         public var kmsMasterKeyArn: Swift.String?
@@ -5974,17 +5629,7 @@ extension SecurityHubClientTypes {
         public var attributeDefinitions: [SecurityHubClientTypes.AwsDynamoDbTableAttributeDefinition]?
         /// Information about the billing for read/write capacity on the table.
         public var billingModeSummary: SecurityHubClientTypes.AwsDynamoDbTableBillingModeSummary?
-        /// Indicates when the table was created. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// Indicates when the table was created. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var creationDateTime: Swift.String?
         /// Indicates whether deletion protection is to be enabled (true) or disabled (false) on the table.
         public var deletionProtectionEnabled: Swift.Bool?
@@ -6456,17 +6101,7 @@ extension SecurityHubClientTypes {
         public var ipV6Addresses: [Swift.String]?
         /// The key name associated with the instance.
         public var keyName: Swift.String?
-        /// Indicates when the instance was launched. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// Indicates when the instance was launched. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var launchedAt: Swift.String?
         /// Details about the metadata options for the Amazon EC2 instance.
         public var metadataOptions: SecurityHubClientTypes.AwsEc2InstanceMetadataOptions?
@@ -7676,17 +7311,7 @@ extension SecurityHubClientTypes {
 
     /// Information about the network interface attachment.
     public struct AwsEc2NetworkInterfaceAttachment: Swift.Sendable {
-        /// Indicates when the attachment initiated. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// Indicates when the attachment initiated. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var attachTime: Swift.String?
         /// The identifier of the network interface attachment
         public var attachmentId: Swift.String?
@@ -8314,17 +7939,7 @@ extension SecurityHubClientTypes {
     public struct AwsEc2VolumeDetails: Swift.Sendable {
         /// The volume attachments.
         public var attachments: [SecurityHubClientTypes.AwsEc2VolumeAttachment]?
-        /// Indicates when the volume was created. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// Indicates when the volume was created. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var createTime: Swift.String?
         /// The device name for the volume that is attached to the instance.
         public var deviceName: Swift.String?
@@ -8792,17 +8407,7 @@ extension SecurityHubClientTypes {
         public var acceptedRouteCount: Swift.Int?
         /// The ARN of the VPN tunnel endpoint certificate.
         public var certificateArn: Swift.String?
-        /// The date and time of the last change in status. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// The date and time of the last change in status. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var lastStatusChange: Swift.String?
         /// The Internet-routable IP address of the virtual private gateway's outside interface.
         public var outsideIpAddress: Swift.String?
@@ -8908,17 +8513,7 @@ extension SecurityHubClientTypes {
         public var architecture: Swift.String?
         /// The sha256 digest of the image manifest.
         public var imageDigest: Swift.String?
-        /// The date and time when the image was pushed to the repository. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// The date and time when the image was pushed to the repository. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var imagePublishedAt: Swift.String?
         /// The list of tags that are associated with the image.
         public var imageTags: [Swift.String]?
@@ -11697,17 +11292,7 @@ extension SecurityHubClientTypes {
         public var canonicalHostedZoneName: Swift.String?
         /// The ID of the Amazon Route 53 hosted zone for the load balancer.
         public var canonicalHostedZoneNameID: Swift.String?
-        /// Indicates when the load balancer was created. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// Indicates when the load balancer was created. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var createdTime: Swift.String?
         /// The DNS name of the load balancer.
         public var dnsName: Swift.String?
@@ -11823,17 +11408,7 @@ extension SecurityHubClientTypes {
         public var availabilityZones: [SecurityHubClientTypes.AvailabilityZone]?
         /// The ID of the Amazon Route 53 hosted zone associated with the load balancer.
         public var canonicalHostedZoneId: Swift.String?
-        /// Indicates when the load balancer was created. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// Indicates when the load balancer was created. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var createdTime: Swift.String?
         /// The public DNS name of the load balancer.
         public var dnsName: Swift.String?
@@ -12329,17 +11904,7 @@ extension SecurityHubClientTypes {
 
     /// Attributes of the session that the key was used for.
     public struct AwsIamAccessKeySessionContextAttributes: Swift.Sendable {
-        /// Indicates when the session was created. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// Indicates when the session was created. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var creationDate: Swift.String?
         /// Indicates whether the session used multi-factor authentication (MFA).
         public var mfaAuthenticated: Swift.Bool?
@@ -12444,17 +12009,7 @@ extension SecurityHubClientTypes {
         public var accessKeyId: Swift.String?
         /// The Amazon Web Services account ID of the account for the key.
         public var accountId: Swift.String?
-        /// Indicates when the IAM access key was created. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// Indicates when the IAM access key was created. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var createdAt: Swift.String?
         /// The ID of the principal associated with an access key.
         public var principalId: Swift.String?
@@ -12537,17 +12092,7 @@ extension SecurityHubClientTypes {
     public struct AwsIamGroupDetails: Swift.Sendable {
         /// A list of the managed policies that are attached to the IAM group.
         public var attachedManagedPolicies: [SecurityHubClientTypes.AwsIamAttachedManagedPolicy]?
-        /// Indicates when the IAM group was created. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// Indicates when the IAM group was created. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var createDate: Swift.String?
         /// The identifier of the IAM group.
         public var groupId: Swift.String?
@@ -12585,17 +12130,7 @@ extension SecurityHubClientTypes {
         public var arn: Swift.String?
         /// The policy that grants an entity permission to assume the role.
         public var assumeRolePolicyDocument: Swift.String?
-        /// Indicates when the role was created. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// Indicates when the role was created. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var createDate: Swift.String?
         /// The path to the role.
         public var path: Swift.String?
@@ -12629,17 +12164,7 @@ extension SecurityHubClientTypes {
     public struct AwsIamInstanceProfile: Swift.Sendable {
         /// The ARN of the instance profile.
         public var arn: Swift.String?
-        /// Indicates when the instance profile was created. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// Indicates when the instance profile was created. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var createDate: Swift.String?
         /// The identifier of the instance profile.
         public var instanceProfileId: Swift.String?
@@ -12693,17 +12218,7 @@ extension SecurityHubClientTypes {
 
     /// A version of an IAM policy.
     public struct AwsIamPolicyVersion: Swift.Sendable {
-        /// Indicates when the version was created. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// Indicates when the version was created. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var createDate: Swift.String?
         /// Whether the version is the default version.
         public var isDefaultVersion: Swift.Bool?
@@ -12729,17 +12244,7 @@ extension SecurityHubClientTypes {
     public struct AwsIamPolicyDetails: Swift.Sendable {
         /// The number of users, groups, and roles that the policy is attached to.
         public var attachmentCount: Swift.Int?
-        /// When the policy was created. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// When the policy was created. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var createDate: Swift.String?
         /// The identifier of the default version of the policy.
         public var defaultVersionId: Swift.String?
@@ -12757,17 +12262,7 @@ extension SecurityHubClientTypes {
         public var policyName: Swift.String?
         /// List of versions of the policy.
         public var policyVersionList: [SecurityHubClientTypes.AwsIamPolicyVersion]?
-        /// When the policy was most recently updated. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// When the policy was most recently updated. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var updateDate: Swift.String?
 
         public init(
@@ -12823,17 +12318,7 @@ extension SecurityHubClientTypes {
         public var assumeRolePolicyDocument: Swift.String?
         /// The list of the managed policies that are attached to the role.
         public var attachedManagedPolicies: [SecurityHubClientTypes.AwsIamAttachedManagedPolicy]?
-        /// Indicates when the role was created. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// Indicates when the role was created. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var createDate: Swift.String?
         /// The list of instance profiles that contain this role.
         public var instanceProfileList: [SecurityHubClientTypes.AwsIamInstanceProfile]?
@@ -12899,17 +12384,7 @@ extension SecurityHubClientTypes {
     public struct AwsIamUserDetails: Swift.Sendable {
         /// A list of the managed policies that are attached to the user.
         public var attachedManagedPolicies: [SecurityHubClientTypes.AwsIamAttachedManagedPolicy]?
-        /// Indicates when the user was created. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// Indicates when the user was created. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var createDate: Swift.String?
         /// A list of IAM groups that the user belongs to.
         public var groupList: [Swift.String]?
@@ -13005,17 +12480,7 @@ extension SecurityHubClientTypes {
     public struct AwsKmsKeyDetails: Swift.Sendable {
         /// The twelve-digit account ID of the Amazon Web Services account that owns the KMS key.
         public var awsAccountId: Swift.String?
-        /// Indicates when the KMS key was created. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// Indicates when the KMS key was created. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var creationDate: Swift.Double?
         /// A description of the KMS key.
         public var description: Swift.String?
@@ -13227,17 +12692,7 @@ extension SecurityHubClientTypes {
         public var handler: Swift.String?
         /// The KMS key that is used to encrypt the function's environment variables. This key is only returned if you've configured a customer managed customer managed key.
         public var kmsKeyArn: Swift.String?
-        /// Indicates when the function was last updated. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// Indicates when the function was last updated. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var lastModified: Swift.String?
         /// The function's layers.
         public var layers: [SecurityHubClientTypes.AwsLambdaFunctionLayer]?
@@ -13315,17 +12770,7 @@ extension SecurityHubClientTypes {
     public struct AwsLambdaLayerVersionDetails: Swift.Sendable {
         /// The layer's compatible [function runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html). The following list includes deprecated runtimes. For more information, see [Runtime deprecation policy](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-support-policy) in the Lambda Developer Guide. Array Members: Maximum number of 5 items. Valid Values: nodejs | nodejs4.3 | nodejs6.10 | nodejs8.10 | nodejs10.x | nodejs12.x | nodejs14.x | nodejs16.x | java8 | java8.al2 | java11 | python2.7 | python3.6 | python3.7 | python3.8 | python3.9 | dotnetcore1.0 | dotnetcore2.0 | dotnetcore2.1 | dotnetcore3.1 | dotnet6 | nodejs4.3-edge | go1.x | ruby2.5 | ruby2.7 | provided | provided.al2 | nodejs18.x | python3.10 | java17 | ruby3.2 | python3.11 | nodejs20.x | provided.al2023 | python3.12 | java21
         public var compatibleRuntimes: [Swift.String]?
-        /// Indicates when the version was created. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// Indicates when the version was created. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var createdDate: Swift.String?
         /// The version number.
         public var version: Swift.Int?
@@ -14771,17 +14216,7 @@ extension SecurityHubClientTypes {
         public var availabilityZones: [Swift.String]?
         /// The number of days for which automated backups are retained.
         public var backupRetentionPeriod: Swift.Int?
-        /// Indicates when the DB cluster was created, in Universal Coordinated Time (UTC). This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// Indicates when the DB cluster was created, in Universal Coordinated Time (UTC). For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var clusterCreateTime: Swift.String?
         /// Whether tags are copied from the DB cluster to snapshots of the DB cluster.
         public var copyTagsToSnapshot: Swift.Bool?
@@ -14973,17 +14408,7 @@ extension SecurityHubClientTypes {
         public var allocatedStorage: Swift.Int?
         /// A list of Availability Zones where instances in the DB cluster can be created.
         public var availabilityZones: [Swift.String]?
-        /// Indicates when the DB cluster was created, in Universal Coordinated Time (UTC). This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// Indicates when the DB cluster was created, in Universal Coordinated Time (UTC). For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var clusterCreateTime: Swift.String?
         /// The DB cluster identifier.
         public var dbClusterIdentifier: Swift.String?
@@ -15007,17 +14432,7 @@ extension SecurityHubClientTypes {
         public var percentProgress: Swift.Int?
         /// The port number on which the DB instances in the DB cluster accept connections.
         public var port: Swift.Int?
-        /// Indicates when the snapshot was taken. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// Indicates when the snapshot was taken. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var snapshotCreateTime: Swift.String?
         /// The type of DB cluster snapshot.
         public var snapshotType: Swift.String?
@@ -15445,33 +14860,13 @@ extension SecurityHubClientTypes {
         ///
         /// * Aurora 5.6 or higher
         public var iamDatabaseAuthenticationEnabled: Swift.Bool?
-        /// Indicates when the DB instance was created. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// Indicates when the DB instance was created. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var instanceCreateTime: Swift.String?
         /// Specifies the provisioned IOPS (I/O operations per second) for this DB instance.
         public var iops: Swift.Int?
         /// If StorageEncrypted is true, the KMS key identifier for the encrypted DB instance.
         public var kmsKeyId: Swift.String?
-        /// Specifies the latest time to which a database can be restored with point-in-time restore. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// Specifies the latest time to which a database can be restored with point-in-time restore. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var latestRestorableTime: Swift.String?
         /// License model information for this DB instance.
         public var licenseModel: Swift.String?
@@ -15913,17 +15308,7 @@ extension SecurityHubClientTypes {
         public var sourceType: Swift.String?
         /// The status of the event notification subscription. Valid values: creating | modifying | deleting | active | no-permission | topic-not-exist
         public var status: Swift.String?
-        /// The datetime when the event notification subscription was created. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// The datetime when the event notification subscription was created. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var subscriptionCreationTime: Swift.String?
 
         public init(
@@ -16077,31 +15462,11 @@ extension SecurityHubClientTypes {
 
     /// A time windows during which maintenance was deferred for an Amazon Redshift cluster.
     public struct AwsRedshiftClusterDeferredMaintenanceWindow: Swift.Sendable {
-        /// The end of the time window for which maintenance was deferred. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// The end of the time window for which maintenance was deferred. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var deferMaintenanceEndTime: Swift.String?
         /// The identifier of the maintenance window.
         public var deferMaintenanceIdentifier: Swift.String?
-        /// The start of the time window for which maintenance was deferred. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// The start of the time window for which maintenance was deferred. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var deferMaintenanceStartTime: Swift.String?
 
         public init(
@@ -16209,29 +15574,9 @@ extension SecurityHubClientTypes {
         public var bucketName: Swift.String?
         /// The message indicating that the logs failed to be delivered.
         public var lastFailureMessage: Swift.String?
-        /// The last time when logs failed to be delivered. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// The last time when logs failed to be delivered. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var lastFailureTime: Swift.String?
-        /// The last time that logs were delivered successfully. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// The last time that logs were delivered successfully. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var lastSuccessfulDeliveryTime: Swift.String?
         /// Indicates whether logging is enabled.
         public var loggingEnabled: Swift.Bool?
@@ -16411,17 +15756,7 @@ extension SecurityHubClientTypes {
         ///
         /// * Failed - The cluster failed and is not available for queries.
         public var clusterAvailabilityStatus: Swift.String?
-        /// Indicates when the cluster was created. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// Indicates when the cluster was created. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var clusterCreateTime: Swift.String?
         /// The unique identifier of the cluster.
         public var clusterIdentifier: Swift.String?
@@ -16457,17 +15792,7 @@ extension SecurityHubClientTypes {
         public var endpoint: SecurityHubClientTypes.AwsRedshiftClusterEndpoint?
         /// Indicates whether to create the cluster with enhanced VPC routing enabled.
         public var enhancedVpcRouting: Swift.Bool?
-        /// Indicates when the next snapshot is expected to be taken. The cluster must have a valid snapshot schedule and have backups enabled. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// Indicates when the next snapshot is expected to be taken. The cluster must have a valid snapshot schedule and have backups enabled. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var expectedNextSnapshotScheduleTime: Swift.String?
         /// The status of the next expected snapshot. Valid values: OnTrack | Pending
         public var expectedNextSnapshotScheduleTimeStatus: Swift.String?
@@ -16485,17 +15810,7 @@ extension SecurityHubClientTypes {
         public var manualSnapshotRetentionPeriod: Swift.Int?
         /// The master user name for the cluster. This name is used to connect to the database that is specified in as the value of DBName.
         public var masterUsername: Swift.String?
-        /// Indicates the start of the next maintenance window. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// Indicates the start of the next maintenance window. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var nextMaintenanceWindowStartTime: Swift.String?
         /// The node type for the nodes in the cluster.
         public var nodeType: Swift.String?
@@ -16981,17 +16296,7 @@ extension SecurityHubClientTypes {
 
     /// A rule for when objects transition to specific storage classes.
     public struct AwsS3BucketBucketLifecycleConfigurationRulesTransitionsDetails: Swift.Sendable {
-        /// A date on which to transition objects to the specified storage class. If you provide Date, you cannot provide Days. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// A date on which to transition objects to the specified storage class. If you provide Date, you cannot provide Days. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var date: Swift.String?
         /// The number of days after which to transition the object to the specified storage class. If you provide Days, you cannot provide Date.
         public var days: Swift.Int?
@@ -17027,17 +16332,7 @@ extension SecurityHubClientTypes {
     public struct AwsS3BucketBucketLifecycleConfigurationRulesDetails: Swift.Sendable {
         /// How Amazon S3 responds when a multipart upload is incomplete. Specifically, provides a number of days before Amazon S3 cancels the entire upload.
         public var abortIncompleteMultipartUpload: SecurityHubClientTypes.AwsS3BucketBucketLifecycleConfigurationRulesAbortIncompleteMultipartUploadDetails?
-        /// The date when objects are moved or deleted. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// The date when objects are moved or deleted. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var expirationDate: Swift.String?
         /// The length in days of the lifetime for objects that are subject to the rule.
         public var expirationInDays: Swift.Int?
@@ -17522,17 +16817,7 @@ extension SecurityHubClientTypes {
         public var bucketVersioningConfiguration: SecurityHubClientTypes.AwsS3BucketBucketVersioningConfiguration?
         /// The website configuration parameters for the S3 bucket.
         public var bucketWebsiteConfiguration: SecurityHubClientTypes.AwsS3BucketWebsiteConfiguration?
-        /// Indicates when the S3 bucket was created. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// Indicates when the S3 bucket was created. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var createdAt: Swift.String?
         /// The name of the bucket.
         public var name: Swift.String?
@@ -17592,17 +16877,7 @@ extension SecurityHubClientTypes {
         public var contentType: Swift.String?
         /// The opaque identifier assigned by a web server to a specific version of a resource found at a URL.
         public var eTag: Swift.String?
-        /// Indicates when the object was last modified. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// Indicates when the object was last modified. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var lastModified: Swift.String?
         /// If the object is stored using server-side encryption, the value of the server-side encryption algorithm used when storing this object in Amazon S3.
         public var serverSideEncryption: Swift.String?
@@ -17648,15 +16923,15 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes {
 
-    /// Provides details about an Amazon SageMaker notebook instance.
+    /// Provides details about an Amazon SageMaker AI notebook instance.
     public struct AwsSageMakerNotebookInstanceDetails: Swift.Sendable {
         /// A list of Amazon Elastic Inference instance types to associate with the notebook instance. Currently, only one instance type can be associated with a notebook instance.
         public var acceleratorTypes: [Swift.String]?
-        /// An array of up to three Git repositories associated with the notebook instance. These can be either the names of Git repositories stored as resources in your account, or the URL of Git repositories in [CodeCommit](https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html) or in any other Git repository. These repositories are cloned at the same level as the default repository of your notebook instance. For more information, see [Associating Git repositories with SageMaker notebook instances](https://docs.aws.amazon.com/sagemaker/latest/dg/nbi-git-repo.html) in the Amazon SageMaker Developer Guide.
+        /// An array of up to three Git repositories associated with the notebook instance. These can be either the names of Git repositories stored as resources in your account, or the URL of Git repositories in [CodeCommit](https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html) or in any other Git repository. These repositories are cloned at the same level as the default repository of your notebook instance. For more information, see [Associating Git repositories with SageMaker AI notebook instances](https://docs.aws.amazon.com/sagemaker/latest/dg/nbi-git-repo.html) in the Amazon SageMaker AI Developer Guide.
         public var additionalCodeRepositories: [Swift.String]?
-        /// The Git repository associated with the notebook instance as its default code repository. This can be either the name of a Git repository stored as a resource in your account, or the URL of a Git repository in [CodeCommit](https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html) or in any other Git repository. When you open a notebook instance, it opens in the directory that contains this repository. For more information, see [Associating Git repositories with SageMaker notebook instances](https://docs.aws.amazon.com/sagemaker/latest/dg/nbi-git-repo.html) in the Amazon SageMaker Developer Guide.
+        /// The Git repository associated with the notebook instance as its default code repository. This can be either the name of a Git repository stored as a resource in your account, or the URL of a Git repository in [CodeCommit](https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html) or in any other Git repository. When you open a notebook instance, it opens in the directory that contains this repository. For more information, see [Associating Git repositories with SageMaker AI notebook instances](https://docs.aws.amazon.com/sagemaker/latest/dg/nbi-git-repo.html) in the Amazon SageMaker AI Developer Guide.
         public var defaultCodeRepository: Swift.String?
-        /// Sets whether SageMaker provides internet access to the notebook instance. If you set this to Disabled, this notebook instance is able to access resources only in your VPC, and is not be able to connect to SageMaker training and endpoint services unless you configure a Network Address Translation (NAT) Gateway in your VPC.
+        /// Sets whether SageMaker AI provides internet access to the notebook instance. If you set this to Disabled, this notebook instance is able to access resources only in your VPC, and is not be able to connect to SageMaker AI training and endpoint services unless you configure a Network Address Translation (NAT) Gateway in your VPC.
         public var directInternetAccess: Swift.String?
         /// If status of the instance is Failed, the reason it failed.
         public var failureReason: Swift.String?
@@ -17664,9 +16939,9 @@ extension SecurityHubClientTypes {
         public var instanceMetadataServiceConfiguration: SecurityHubClientTypes.AwsSageMakerNotebookInstanceMetadataServiceConfigurationDetails?
         /// The type of machine learning (ML) compute instance to launch for the notebook instance.
         public var instanceType: Swift.String?
-        /// The Amazon Resource Name (ARN) of an Key Management Service (KMS) key that SageMaker uses to encrypt data on the storage volume attached to your notebook instance. The KMS key you provide must be enabled. For information, see [Enabling and disabling keys](https://docs.aws.amazon.com/kms/latest/developerguide/enabling-keys.html) in the Key Management Service Developer Guide.
+        /// The Amazon Resource Name (ARN) of an Key Management Service (KMS) key that SageMaker AI uses to encrypt data on the storage volume attached to your notebook instance. The KMS key you provide must be enabled. For information, see [Enabling and disabling keys](https://docs.aws.amazon.com/kms/latest/developerguide/enabling-keys.html) in the Key Management Service Developer Guide.
         public var kmsKeyId: Swift.String?
-        /// The network interface ID that SageMaker created when the instance was created.
+        /// The network interface ID that SageMaker AI created when the instance was created.
         public var networkInterfaceId: Swift.String?
         /// The Amazon Resource Name (ARN) of the notebook instance.
         public var notebookInstanceArn: Swift.String?
@@ -17921,7 +17196,7 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes {
 
-    /// Contains information about the Autonomous System (AS) of the network endpoints involved in an Amazon GuardDuty Extended Threat Detection attack sequence. GuardDuty generates an attack sequence finding when multiple events align to a potentially suspicious activity. To receive GuardDuty attack sequence findings in Security Hub, you must have GuardDuty and GuardDuty S3 Protection enabled. For more information, see [GuardDuty Extended Threat Detection ](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty-extended-threat-detection.html) in the Amazon GuardDuty User Guide.
+    /// Contains information about the Autonomous System (AS) of the network endpoints involved in an Amazon GuardDuty Extended Threat Detection attack sequence. GuardDuty generates an attack sequence finding when multiple events align to a potentially suspicious activity. To receive GuardDuty attack sequence findings in Security Hub, you must have GuardDuty enabled. For more information, see [GuardDuty Extended Threat Detection ](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty-extended-threat-detection.html) in the Amazon GuardDuty User Guide.
     public struct NetworkAutonomousSystem: Swift.Sendable {
         /// The name associated with the AS.
         public var name: Swift.String?
@@ -17970,7 +17245,7 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes {
 
-    /// Contains information about the network connection involved in an Amazon GuardDuty Extended Threat Detection attack sequence. GuardDuty generates an attack sequence finding when multiple events align to a potentially suspicious activity. To receive GuardDuty attack sequence findings in Security Hub, you must have GuardDuty and GuardDuty S3 Protection enabled. For more information, see [GuardDuty Extended Threat Detection ](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty-extended-threat-detection.html) in the Amazon GuardDuty User Guide.
+    /// Contains information about the network connection involved in an Amazon GuardDuty Extended Threat Detection attack sequence. GuardDuty generates an attack sequence finding when multiple events align to a potentially suspicious activity. To receive GuardDuty attack sequence findings in Security Hub, you must have GuardDuty enabled. For more information, see [GuardDuty Extended Threat Detection ](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty-extended-threat-detection.html) in the Amazon GuardDuty User Guide.
     public struct NetworkConnection: Swift.Sendable {
         /// The direction in which the network traffic is flowing.
         public var direction: SecurityHubClientTypes.ConnectionDirection?
@@ -17986,7 +17261,7 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes {
 
-    /// Contains information about the location of a network endpoint involved in an Amazon GuardDuty Extended Threat Detection attack sequence. GuardDuty generates an attack sequence finding when multiple events align to a potentially suspicious activity. To receive GuardDuty attack sequence findings in Security Hub, you must have GuardDuty and GuardDuty S3 Protection enabled. For more information, see [GuardDuty Extended Threat Detection ](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty-extended-threat-detection.html) in the Amazon GuardDuty User Guide.
+    /// Contains information about the location of a network endpoint involved in an Amazon GuardDuty Extended Threat Detection attack sequence. GuardDuty generates an attack sequence finding when multiple events align to a potentially suspicious activity. To receive GuardDuty attack sequence findings in Security Hub, you must have GuardDuty enabled. For more information, see [GuardDuty Extended Threat Detection ](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty-extended-threat-detection.html) in the Amazon GuardDuty User Guide.
     public struct NetworkGeoLocation: Swift.Sendable {
         /// The name of the city.
         public var city: Swift.String?
@@ -18014,7 +17289,7 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes {
 
-    /// Contains information about network endpoints involved in an Amazon GuardDuty Extended Threat Detection attack sequence. GuardDuty generates an attack sequence finding when multiple events align to a potentially suspicious activity. To receive GuardDuty attack sequence findings in Security Hub, you must have GuardDuty and GuardDuty S3 Protection enabled. For more information, see [GuardDuty Extended Threat Detection ](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty-extended-threat-detection.html) in the Amazon GuardDuty User Guide. This field can provide information about the network endpoints associated with the resource in the attack sequence finding, or about a specific network endpoint used for the attack.
+    /// Contains information about network endpoints involved in an Amazon GuardDuty Extended Threat Detection attack sequence. GuardDuty generates an attack sequence finding when multiple events align to a potentially suspicious activity. To receive GuardDuty attack sequence findings in Security Hub, you must have GuardDuty enabled. For more information, see [GuardDuty Extended Threat Detection ](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty-extended-threat-detection.html) in the Amazon GuardDuty User Guide. This field can provide information about the network endpoints associated with the resource in the attack sequence finding, or about a specific network endpoint used for the attack.
     public struct NetworkEndpoint: Swift.Sendable {
         /// The Autonomous System Number (ASN) of the network endpoint.
         public var autonomousSystem: SecurityHubClientTypes.NetworkAutonomousSystem?
@@ -18104,7 +17379,7 @@ extension SecurityHubClientTypes {
         public var productArn: Swift.String?
         /// The ARN or ID of the Amazon Web Services resource associated with the signal.
         public var resourceIds: [Swift.String]?
-        /// The severity associated with the signal. For more information about severity, see [Findings severity levels](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_findings-severity.html) in the Amazon GuardDuty User Guide.
+        /// The severity associated with the signal. For more information about severity, see [Severity levels for GuardDuty findings](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_findings-severity.html) in the Amazon GuardDuty User Guide.
         public var severity: Swift.Double?
         /// Contains information about the indicators associated with the signals in this attack sequence finding. The values for SignalIndicators are a subset of the values for [SequenceIndicators](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_Sequence.html), but the values for these fields don't always match 1:1.
         public var signalIndicators: [SecurityHubClientTypes.Indicator]?
@@ -18160,7 +17435,7 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes {
 
-    /// Contains information about an Amazon GuardDuty Extended Threat Detection attack sequence finding. GuardDuty generates an attack sequence finding when multiple events align to a potentially suspicious activity. To receive GuardDuty attack sequence findings in Security Hub, you must have GuardDuty and GuardDuty S3 Protection enabled. For more information, see [GuardDuty Extended Threat Detection ](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty-extended-threat-detection.html) in the Amazon GuardDuty User Guide.
+    /// Contains information about an Amazon GuardDuty Extended Threat Detection attack sequence finding. GuardDuty generates an attack sequence finding when multiple events align to a potentially suspicious activity. To receive GuardDuty attack sequence findings in Security Hub, you must have GuardDuty enabled. For more information, see [GuardDuty Extended Threat Detection ](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty-extended-threat-detection.html) in the Amazon GuardDuty User Guide.
     public struct Sequence: Swift.Sendable {
         /// Provides information about the actors involved in the attack sequence.
         public var actors: [SecurityHubClientTypes.Actor]?
@@ -18192,7 +17467,7 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes {
 
-    /// A top-level object field that provides details about an Amazon GuardDuty Extended Threat Detection attack sequence. GuardDuty generates an attack sequence finding when multiple events align to a potentially suspicious activity. To receive GuardDuty attack sequence findings in Security Hub, you must have GuardDuty and GuardDuty S3 Protection enabled. For more information, see [GuardDuty Extended Threat Detection ](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty-extended-threat-detection.html) in the Amazon GuardDuty User Guide.
+    /// A top-level object field that provides details about an Amazon GuardDuty Extended Threat Detection attack sequence. GuardDuty generates an attack sequence finding when multiple events align to a potentially suspicious activity. To receive GuardDuty attack sequence findings in Security Hub, you must have GuardDuty enabled. For more information, see [GuardDuty Extended Threat Detection ](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty-extended-threat-detection.html) in the Amazon GuardDuty User Guide.
     public struct Detection: Swift.Sendable {
         /// Provides details about an attack sequence.
         public var sequence: SecurityHubClientTypes.Sequence?
@@ -18623,17 +17898,7 @@ extension SecurityHubClientTypes {
         /// The text of a note. Length Constraints: Minimum of 1. Maximum of 512.
         /// This member is required.
         public var text: Swift.String?
-        /// A timestamp that indicates when the note was updated. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// A timestamp that indicates when the note was updated. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         /// This member is required.
         public var updatedAt: Swift.String?
         /// The principal that created a note.
@@ -18674,29 +17939,9 @@ extension SecurityHubClientTypes {
         public var missingCount: Swift.Int?
         /// The type of patch operation performed. For Patch Manager, the values are SCAN and INSTALL. Length Constraints: Minimum length of 1. Maximum length of 256.
         public var operation: Swift.String?
-        /// Indicates when the operation completed. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// Indicates when the operation completed. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var operationEndTime: Swift.String?
-        /// Indicates when the operation started. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// Indicates when the operation started. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var operationStartTime: Swift.String?
         /// The reboot option specified for the instance. Length Constraints: Minimum length of 1. Maximum length of 256.
         public var rebootOption: Swift.String?
@@ -18734,17 +17979,7 @@ extension SecurityHubClientTypes {
 
     /// The details of process-related information about a finding.
     public struct ProcessDetails: Swift.Sendable {
-        /// Indicates when the process was launched. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// Indicates when the process was launched. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var launchedAt: Swift.String?
         /// The name of the process. Length Constraints: Minimum of 1. Maximum of 64.
         public var name: Swift.String?
@@ -18754,17 +17989,7 @@ extension SecurityHubClientTypes {
         public var path: Swift.String?
         /// The process ID.
         public var pid: Swift.Int?
-        /// Indicates when the process was terminated. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// Indicates when the process was terminated. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var terminatedAt: Swift.String?
 
         public init(
@@ -20525,17 +19750,7 @@ extension SecurityHubClientTypes {
         public var imageId: Swift.String?
         /// The name of the container image related to a finding.
         public var imageName: Swift.String?
-        /// Indicates when the container started. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// Indicates when the container started. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var launchedAt: Swift.String?
         /// The name of the container related to a finding.
         public var name: Swift.String?
@@ -20729,7 +19944,7 @@ extension SecurityHubClientTypes {
         public var awsS3Bucket: SecurityHubClientTypes.AwsS3BucketDetails?
         /// Details about an S3 object related to a finding.
         public var awsS3Object: SecurityHubClientTypes.AwsS3ObjectDetails?
-        /// Provides details about an Amazon SageMaker notebook instance.
+        /// Provides details about an Amazon SageMaker AI notebook instance.
         public var awsSageMakerNotebookInstance: SecurityHubClientTypes.AwsSageMakerNotebookInstanceDetails?
         /// Details about a Secrets Manager secret.
         public var awsSecretsManagerSecret: SecurityHubClientTypes.AwsSecretsManagerSecretDetails?
@@ -21227,17 +20442,7 @@ extension SecurityHubClientTypes {
     public struct ThreatIntelIndicator: Swift.Sendable {
         /// The category of a threat intelligence indicator.
         public var category: SecurityHubClientTypes.ThreatIntelIndicatorCategory?
-        /// Indicates when the most recent instance of a threat intelligence indicator was observed. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// Indicates when the most recent instance of a threat intelligence indicator was observed. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var lastObservedAt: Swift.String?
         /// The source of the threat intelligence indicator. Length Constraints: Minimum of 1 length. Maximum of 64 length.
         public var source: Swift.String?
@@ -21477,31 +20682,11 @@ extension SecurityHubClientTypes {
         public var name: Swift.String?
         /// The URL of the vulnerability advisory.
         public var url: Swift.String?
-        /// Indicates when the vulnerability advisory was created. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// Indicates when the vulnerability advisory was created. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var vendorCreatedAt: Swift.String?
         /// The severity that the vendor assigned to the vulnerability.
         public var vendorSeverity: Swift.String?
-        /// Indicates when the vulnerability advisory was last updated. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// Indicates when the vulnerability advisory was last updated. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var vendorUpdatedAt: Swift.String?
 
         public init(
@@ -21727,17 +20912,7 @@ extension SecurityHubClientTypes {
         public var compliance: SecurityHubClientTypes.Compliance?
         /// A finding's confidence. Confidence is defined as the likelihood that a finding accurately identifies the behavior or issue that it was intended to identify. Confidence is scored on a 0-100 basis using a ratio scale, where 0 means zero percent confidence and 100 means 100 percent confidence.
         public var confidence: Swift.Int?
-        /// Indicates when the security findings provider created the potential security issue that a finding captured. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// Indicates when the security findings provider created the potential security issue that a finding captured. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         /// This member is required.
         public var createdAt: Swift.String?
         /// The level of importance assigned to the resources associated with the finding. A score of 0 means that the underlying resources have no criticality, and a score of 100 is reserved for the most critical resources.
@@ -21745,21 +20920,11 @@ extension SecurityHubClientTypes {
         /// A finding's description. Description is a required property. Length Constraints: Minimum length of 1. Maximum length of 1024.
         /// This member is required.
         public var description: Swift.String?
-        /// Provides details about an Amazon GuardDuty Extended Threat Detection attack sequence. GuardDuty generates an attack sequence finding when multiple events align to a potentially suspicious activity. To receive GuardDuty attack sequence findings in Security Hub, you must have GuardDuty and GuardDuty S3 Protection enabled. For more information, see [GuardDuty Extended Threat Detection ](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty-extended-threat-detection.html) in the Amazon GuardDuty User Guide.
+        /// Provides details about an Amazon GuardDuty Extended Threat Detection attack sequence. GuardDuty generates an attack sequence finding when multiple events align to a potentially suspicious activity. To receive GuardDuty attack sequence findings in Security Hub, you must have GuardDuty enabled. For more information, see [GuardDuty Extended Threat Detection ](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty-extended-threat-detection.html) in the Amazon GuardDuty User Guide.
         public var detection: SecurityHubClientTypes.Detection?
         /// In a BatchImportFindings request, finding providers use FindingProviderFields to provide and update their own values for confidence, criticality, related findings, severity, and types.
         public var findingProviderFields: SecurityHubClientTypes.FindingProviderFields?
-        /// Indicates when the security findings provider first observed the potential security issue that a finding captured. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// Indicates when the security findings provider first observed the potential security issue that a finding captured. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var firstObservedAt: Swift.String?
         /// Provides metadata for the Amazon CodeGuru detector associated with a finding. This field pertains to findings that relate to Lambda functions. Amazon Inspector identifies policy violations and vulnerabilities in Lambda function code based on internal detectors developed in collaboration with Amazon CodeGuru. Security Hub receives those findings.
         public var generatorDetails: SecurityHubClientTypes.GeneratorDetails?
@@ -21769,17 +20934,7 @@ extension SecurityHubClientTypes {
         /// The security findings provider-specific identifier for a finding. Length Constraints: Minimum length of 1. Maximum length of 512.
         /// This member is required.
         public var id: Swift.String?
-        /// Indicates when the security findings provider most recently observed the potential security issue that a finding captured. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// Indicates when the security findings provider most recently observed a change in the resource that is involved in the finding. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var lastObservedAt: Swift.String?
         /// A list of malware related to a finding. Array Members: Maximum number of 5 items.
         public var malware: [SecurityHubClientTypes.Malware]?
@@ -21793,17 +20948,7 @@ extension SecurityHubClientTypes {
         public var patchSummary: SecurityHubClientTypes.PatchSummary?
         /// The details of process-related information about a finding.
         public var process: SecurityHubClientTypes.ProcessDetails?
-        /// A timestamp that indicates when Security Hub received a finding and begins to process it. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// A timestamp that indicates when Security Hub received a finding and begins to process it. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var processedAt: Swift.String?
         /// The ARN generated by Security Hub that uniquely identifies a product that generates findings. This can be the ARN for a third-party product that is integrated with Security Hub, or the ARN for a custom integration. Length Constraints: Minimum length of 12. Maximum length of 2048.
         /// This member is required.
@@ -21841,17 +20986,7 @@ extension SecurityHubClientTypes {
         public var title: Swift.String?
         /// One or more finding types in the format of namespace/category/classifier that classify a finding. Valid namespace values are: Software and Configuration Checks | TTPs | Effects | Unusual Behaviors | Sensitive Data Identifications Array Members: Maximum number of 50 items.
         public var types: [Swift.String]?
-        /// Indicates when the security findings provider last updated the finding record. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// Indicates when the security findings provider last updated the finding record. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         /// This member is required.
         public var updatedAt: Swift.String?
         /// A list of name/value string pairs associated with the finding. These are custom, user-defined fields added to a finding. Can contain up to 50 key-value pairs. For each key-value pair, the key can contain up to 128 characters, and the value can contain up to 1024 characters.
@@ -22033,17 +21168,7 @@ extension SecurityHubClientTypes {
         public var complianceStatus: [SecurityHubClientTypes.StringFilter]?
         /// A finding's confidence. Confidence is defined as the likelihood that a finding accurately identifies the behavior or issue that it was intended to identify. Confidence is scored on a 0-100 basis using a ratio scale, where 0 means zero percent confidence and 100 means 100 percent confidence.
         public var confidence: [SecurityHubClientTypes.NumberFilter]?
-        /// A timestamp that indicates when the security findings provider created the potential security issue that a finding reflects. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// A timestamp that indicates when the security findings provider created the potential security issue that a finding reflects. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var createdAt: [SecurityHubClientTypes.DateFilter]?
         /// The level of importance assigned to the resources associated with the finding. A score of 0 means that the underlying resources have no criticality, and a score of 100 is reserved for the most critical resources.
         public var criticality: [SecurityHubClientTypes.NumberFilter]?
@@ -22063,17 +21188,7 @@ extension SecurityHubClientTypes {
         public var findingProviderFieldsSeverityOriginal: [SecurityHubClientTypes.StringFilter]?
         /// One or more finding types that the finding provider assigned to the finding. Uses the format of namespace/category/classifier that classify a finding. Valid namespace values are: Software and Configuration Checks | TTPs | Effects | Unusual Behaviors | Sensitive Data Identifications
         public var findingProviderFieldsTypes: [SecurityHubClientTypes.StringFilter]?
-        /// A timestamp that indicates when the security findings provider first observed the potential security issue that a finding captured. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// A timestamp that indicates when the security findings provider first observed the potential security issue that a finding captured. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var firstObservedAt: [SecurityHubClientTypes.DateFilter]?
         /// The identifier for the solution-specific component (a discrete unit of logic) that generated a finding. In various security findings providers' solutions, this generator can be called a rule, a check, a detector, a plugin, etc.
         public var generatorId: [SecurityHubClientTypes.StringFilter]?
@@ -22082,17 +21197,7 @@ extension SecurityHubClientTypes {
         /// A keyword for a finding.
         @available(*, deprecated, message: "The Keyword property is deprecated.")
         public var keyword: [SecurityHubClientTypes.KeywordFilter]?
-        /// A timestamp that indicates when the security findings provider most recently observed the potential security issue that a finding captured. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// A timestamp that indicates when the security findings provider most recently observed a change in the resource that is involved in the finding. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var lastObservedAt: [SecurityHubClientTypes.DateFilter]?
         /// The name of the malware that was observed.
         public var malwareName: [SecurityHubClientTypes.StringFilter]?
@@ -22130,17 +21235,7 @@ extension SecurityHubClientTypes {
         public var noteUpdatedAt: [SecurityHubClientTypes.DateFilter]?
         /// The principal that created a note.
         public var noteUpdatedBy: [SecurityHubClientTypes.StringFilter]?
-        /// A timestamp that identifies when the process was launched. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// A timestamp that identifies when the process was launched. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var processLaunchedAt: [SecurityHubClientTypes.DateFilter]?
         /// The name of the process.
         public var processName: [SecurityHubClientTypes.StringFilter]?
@@ -22150,17 +21245,7 @@ extension SecurityHubClientTypes {
         public var processPath: [SecurityHubClientTypes.StringFilter]?
         /// The process ID.
         public var processPid: [SecurityHubClientTypes.NumberFilter]?
-        /// A timestamp that identifies when the process was terminated. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// A timestamp that identifies when the process was terminated. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var processTerminatedAt: [SecurityHubClientTypes.DateFilter]?
         /// The ARN generated by Security Hub that uniquely identifies a third-party company (security findings provider) after this provider's product (solution that generates findings) is registered with Security Hub.
         public var productArn: [SecurityHubClientTypes.StringFilter]?
@@ -22219,17 +21304,7 @@ extension SecurityHubClientTypes {
         public var resourceContainerImageId: [SecurityHubClientTypes.StringFilter]?
         /// The name of the image related to a finding.
         public var resourceContainerImageName: [SecurityHubClientTypes.StringFilter]?
-        /// A timestamp that identifies when the container was started. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// A timestamp that identifies when the container was started. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var resourceContainerLaunchedAt: [SecurityHubClientTypes.DateFilter]?
         /// The name of the container related to a finding.
         public var resourceContainerName: [SecurityHubClientTypes.StringFilter]?
@@ -22259,7 +21334,7 @@ extension SecurityHubClientTypes {
         public var sourceUrl: [SecurityHubClientTypes.StringFilter]?
         /// The category of a threat intelligence indicator.
         public var threatIntelIndicatorCategory: [SecurityHubClientTypes.StringFilter]?
-        /// A timestamp that identifies the last observation of a threat intelligence indicator.
+        /// A timestamp that identifies the last observation of a threat intelligence indicator. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var threatIntelIndicatorLastObservedAt: [SecurityHubClientTypes.DateFilter]?
         /// The source of the threat intelligence.
         public var threatIntelIndicatorSource: [SecurityHubClientTypes.StringFilter]?
@@ -22273,17 +21348,7 @@ extension SecurityHubClientTypes {
         public var title: [SecurityHubClientTypes.StringFilter]?
         /// A finding type in the format of namespace/category/classifier that classifies a finding.
         public var type: [SecurityHubClientTypes.StringFilter]?
-        /// A timestamp that indicates when the security findings provider last updated the finding record. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// A timestamp that indicates when the security findings provider last updated the finding record. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var updatedAt: [SecurityHubClientTypes.DateFilter]?
         /// A list of name/value string pairs associated with the finding. These are custom, user-defined fields added to a finding.
         public var userDefinedFields: [SecurityHubClientTypes.MapFilter]?
@@ -24713,7 +23778,7 @@ public struct DescribeHubInput: Swift.Sendable {
 }
 
 public struct DescribeHubOutput: Swift.Sendable {
-    /// Whether to automatically enable new controls when they are added to standards that are enabled. If set to true, then new controls for enabled standards are enabled automatically. If set to false, then new controls are not enabled.
+    /// Whether to automatically enable new controls when they are added to standards that are enabled. If set to true, then new controls for enabled standards are enabled automatically. If set to false, then new controls are not enabled. When you automatically enable new controls, you can interact with the controls in the console and programmatically immediately after release. However, automatically enabled controls have a temporary default status of DISABLED. It can take up to several days for Security Hub to process the control release and designate the control as ENABLED in your account. During the processing period, you can manually enable or disable a control, and Security Hub will maintain that designation regardless of whether you have AutoEnableControls set to true.
     public var autoEnableControls: Swift.Bool?
     /// Specifies whether the calling account has consolidated control findings turned on. If the value for this field is set to SECURITY_CONTROL, Security Hub generates a single finding for a control check even when the check applies to multiple enabled standards. If the value for this field is set to STANDARD_CONTROL, Security Hub generates separate findings for a control check when the check applies to multiple enabled standards. The value for this field in a member account matches the value in the administrator account. For accounts that aren't part of an organization, the default value of this field is SECURITY_CONTROL if you enabled Security Hub on or after February 23, 2023.
     public var controlFindingGenerator: SecurityHubClientTypes.ControlFindingGenerator?
@@ -25400,17 +24465,7 @@ extension SecurityHubClientTypes {
         public var nextToken: Swift.String?
         /// Identifies the source of the event that changed the finding. For example, an integrated Amazon Web Services service or third-party partner integration may call [BatchImportFindings](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchImportFindings.html), or an Security Hub customer may call [BatchUpdateFindings](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchUpdateFindings.html).
         public var updateSource: SecurityHubClientTypes.FindingHistoryUpdateSource?
-        /// A timestamp that indicates when Security Hub processed the updated finding record. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-        ///
-        /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-        ///
-        /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+        /// A timestamp that indicates when Security Hub processed the updated finding record. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var updateTime: Foundation.Date?
         /// An array of objects that provides details about the finding change event, including the Amazon Web Services Security Finding Format (ASFF) field that changed, the value of the field before the change, and the value of the field after the change.
         public var updates: [SecurityHubClientTypes.FindingHistoryUpdate]?
@@ -25651,17 +24706,7 @@ public struct GetFindingAggregatorOutput: Swift.Sendable {
 }
 
 public struct GetFindingHistoryInput: Swift.Sendable {
-    /// An ISO 8601-formatted timestamp that indicates the end time of the requested finding history. If you provide values for both StartTime and EndTime, Security Hub returns finding history for the specified time period. If you provide a value for StartTime but not for EndTime, Security Hub returns finding history from the StartTime to the time at which the API is called. If you provide a value for EndTime but not for StartTime, Security Hub returns finding history from the [CreatedAt](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_AwsSecurityFindingFilters.html#securityhub-Type-AwsSecurityFindingFilters-CreatedAt) timestamp of the finding to the EndTime. If you provide neither StartTime nor EndTime, Security Hub returns finding history from the CreatedAt timestamp of the finding to the time at which the API is called. In all of these scenarios, the response is limited to 100 results, and the maximum time period is limited to 90 days. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-    ///
-    /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-    ///
-    /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-    ///
-    /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-    ///
-    /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-    ///
-    /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+    /// An ISO 8601-formatted timestamp that indicates the end time of the requested finding history. If you provide values for both StartTime and EndTime, Security Hub returns finding history for the specified time period. If you provide a value for StartTime but not for EndTime, Security Hub returns finding history from the StartTime to the time at which the API is called. If you provide a value for EndTime but not for StartTime, Security Hub returns finding history from the [CreatedAt](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_AwsSecurityFindingFilters.html#securityhub-Type-AwsSecurityFindingFilters-CreatedAt) timestamp of the finding to the EndTime. If you provide neither StartTime nor EndTime, Security Hub returns finding history from the CreatedAt timestamp of the finding to the time at which the API is called. In all of these scenarios, the response is limited to 100 results, and the maximum time period is limited to 90 days. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
     public var endTime: Foundation.Date?
     /// Identifies which finding to get the finding history for.
     /// This member is required.
@@ -25670,17 +24715,7 @@ public struct GetFindingHistoryInput: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// A token for pagination purposes. Provide NULL as the initial value. In subsequent requests, provide the token included in the response to get up to an additional 100 results of finding history. If you don’t provide NextToken, Security Hub returns up to 100 results of finding history for each request.
     public var nextToken: Swift.String?
-    /// A timestamp that indicates the start time of the requested finding history. If you provide values for both StartTime and EndTime, Security Hub returns finding history for the specified time period. If you provide a value for StartTime but not for EndTime, Security Hub returns finding history from the StartTime to the time at which the API is called. If you provide a value for EndTime but not for StartTime, Security Hub returns finding history from the [CreatedAt](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_AwsSecurityFindingFilters.html#securityhub-Type-AwsSecurityFindingFilters-CreatedAt) timestamp of the finding to the EndTime. If you provide neither StartTime nor EndTime, Security Hub returns finding history from the CreatedAt timestamp of the finding to the time at which the API is called. In all of these scenarios, the response is limited to 100 results, and the maximum time period is limited to 90 days. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
-    ///
-    /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
-    ///
-    /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)
-    ///
-    /// * YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)
-    ///
-    /// * YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)
-    ///
-    /// * YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
+    /// A timestamp that indicates the start time of the requested finding history. If you provide values for both StartTime and EndTime, Security Hub returns finding history for the specified time period. If you provide a value for StartTime but not for EndTime, Security Hub returns finding history from the StartTime to the time at which the API is called. If you provide a value for EndTime but not for StartTime, Security Hub returns finding history from the [CreatedAt](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_AwsSecurityFindingFilters.html#securityhub-Type-AwsSecurityFindingFilters-CreatedAt) timestamp of the finding to the EndTime. If you provide neither StartTime nor EndTime, Security Hub returns finding history from the CreatedAt timestamp of the finding to the time at which the API is called. In all of these scenarios, the response is limited to 100 results, and the maximum time period is limited to 90 days. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
     public var startTime: Foundation.Date?
 
     public init(
@@ -27039,7 +26074,7 @@ public struct UpdateSecurityControlOutput: Swift.Sendable {
 }
 
 public struct UpdateSecurityHubConfigurationInput: Swift.Sendable {
-    /// Whether to automatically enable new controls when they are added to standards that are enabled. By default, this is set to true, and new controls are enabled automatically. To not automatically enable new controls, set this to false.
+    /// Whether to automatically enable new controls when they are added to standards that are enabled. By default, this is set to true, and new controls are enabled automatically. To not automatically enable new controls, set this to false. When you automatically enable new controls, you can interact with the controls in the console and programmatically immediately after release. However, automatically enabled controls have a temporary default status of DISABLED. It can take up to several days for Security Hub to process the control release and designate the control as ENABLED in your account. During the processing period, you can manually enable or disable a control, and Security Hub will maintain that designation regardless of whether you have AutoEnableControls set to true.
     public var autoEnableControls: Swift.Bool?
     /// Updates whether the calling account has consolidated control findings turned on. If the value for this field is set to SECURITY_CONTROL, Security Hub generates a single finding for a control check even when the check applies to multiple enabled standards. If the value for this field is set to STANDARD_CONTROL, Security Hub generates separate findings for a control check when the check applies to multiple enabled standards. For accounts that are part of an organization, this value can only be updated in the administrator account.
     public var controlFindingGenerator: SecurityHubClientTypes.ControlFindingGenerator?

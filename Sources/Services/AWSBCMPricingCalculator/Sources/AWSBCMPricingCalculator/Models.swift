@@ -5426,6 +5426,7 @@ enum DeleteBillEstimateOutputError {
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
+            case "ConflictCode": return try ConflictException.makeError(baseError: baseError)
             case "DataUnavailableException": return try DataUnavailableException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }

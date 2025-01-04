@@ -3264,7 +3264,7 @@ public struct DescribeRepositoryCreationTemplatesOutput: Swift.Sendable {
 }
 
 public struct GetAccountSettingInput: Swift.Sendable {
-    /// Basic scan type version name.
+    /// The name of the account setting, such as BASIC_SCAN_TYPE_VERSION or REGISTRY_POLICY_SCOPE.
     /// This member is required.
     public var name: Swift.String?
 
@@ -3277,9 +3277,9 @@ public struct GetAccountSettingInput: Swift.Sendable {
 }
 
 public struct GetAccountSettingOutput: Swift.Sendable {
-    /// Retrieves the basic scan type version name.
+    /// Retrieves the name of the account setting.
     public var name: Swift.String?
-    /// Retrieves the value that specifies what basic scan type is being used: AWS_NATIVE or CLAIR.
+    /// The setting value for the setting name. The following are valid values for the basic scan type being used: AWS_NATIVE or CLAIR. The following are valid values for the registry policy scope being used: V1 or V2.
     public var value: Swift.String?
 
     public init(
@@ -3998,10 +3998,10 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 }
 
 public struct PutAccountSettingInput: Swift.Sendable {
-    /// Basic scan type version name.
+    /// The name of the account setting, such as BASIC_SCAN_TYPE_VERSION or REGISTRY_POLICY_SCOPE.
     /// This member is required.
     public var name: Swift.String?
-    /// Setting value that determines what basic scan type is being used: AWS_NATIVE or CLAIR.
+    /// Setting value that is specified. The following are valid values for the basic scan type being used: AWS_NATIVE or CLAIR. The following are valid values for the registry policy scope being used: V1 or V2.
     /// This member is required.
     public var value: Swift.String?
 
@@ -4016,9 +4016,9 @@ public struct PutAccountSettingInput: Swift.Sendable {
 }
 
 public struct PutAccountSettingOutput: Swift.Sendable {
-    /// Retrieves the the basic scan type version name.
+    /// Retrieves the name of the account setting.
     public var name: Swift.String?
-    /// Retrieves the basic scan type value, either AWS_NATIVE or -.
+    /// Retrieves the value of the specified account setting.
     public var value: Swift.String?
 
     public init(

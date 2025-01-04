@@ -1419,9 +1419,9 @@ extension ECSClientTypes {
     public struct AwsVpcConfiguration: Swift.Sendable {
         /// Whether the task's elastic network interface receives a public IP address. The default value is ENABLED.
         public var assignPublicIp: ECSClientTypes.AssignPublicIp?
-        /// The IDs of the security groups associated with the task or service. If you don't specify a security group, the default security group for the VPC is used. There's a limit of 5 security groups that can be specified per awsvpcConfiguration. All specified security groups must be from the same VPC.
+        /// The IDs of the security groups associated with the task or service. If you don't specify a security group, the default security group for the VPC is used. There's a limit of 5 security groups that can be specified. All specified security groups must be from the same VPC.
         public var securityGroups: [Swift.String]?
-        /// The IDs of the subnets associated with the task or service. There's a limit of 16 subnets that can be specified per awsvpcConfiguration. All specified subnets must be from the same VPC.
+        /// The IDs of the subnets associated with the task or service. There's a limit of 16 subnets that can be specified. All specified subnets must be from the same VPC.
         /// This member is required.
         public var subnets: [Swift.String]?
 

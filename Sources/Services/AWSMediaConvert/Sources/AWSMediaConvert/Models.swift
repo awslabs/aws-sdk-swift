@@ -15218,6 +15218,36 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
+    /// Specify how SPS and PPS NAL units are written in your output MP4 container, according to ISO/IEC 14496-15. If the location of these parameters doesn't matter in your workflow: Keep the default value, AVC1. MediaConvert writes SPS and PPS NAL units in the sample description ('stsd') box (but not into samples directly). To write SPS and PPS NAL units directly into samples (but not in the 'stsd' box): Choose AVC3. When you do, note that your output might not play properly with some downstream systems or players.
+    public enum H264WriteMp4PackagingType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case avc1
+        case avc3
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [H264WriteMp4PackagingType] {
+            return [
+                .avc1,
+                .avc3
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .avc1: return "AVC1"
+            case .avc3: return "AVC3"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
     /// Required when you set Codec to the value H_264.
     public struct H264Settings: Swift.Sendable {
         /// Keep the default value, Auto, for this setting to have MediaConvert automatically apply the best types of quantization for your video content. When you want to apply your quantization settings manually, you must set H264AdaptiveQuantization to a value other than Auto. Use this setting to specify the strength of any adaptive quantization filters that you enable. If you don't want MediaConvert to do any adaptive quantization in this transcode, set Adaptive quantization to Off. Related settings: The value that you choose here applies to the following settings: H264FlickerAdaptiveQuantization, H264SpatialAdaptiveQuantization, and H264TemporalAdaptiveQuantization.
@@ -15308,6 +15338,8 @@ extension MediaConvertClientTypes {
         public var temporalAdaptiveQuantization: MediaConvertClientTypes.H264TemporalAdaptiveQuantization?
         /// Inserts timecode for each frame as 4 bytes of an unregistered SEI message.
         public var unregisteredSeiTimecode: MediaConvertClientTypes.H264UnregisteredSeiTimecode?
+        /// Specify how SPS and PPS NAL units are written in your output MP4 container, according to ISO/IEC 14496-15. If the location of these parameters doesn't matter in your workflow: Keep the default value, AVC1. MediaConvert writes SPS and PPS NAL units in the sample description ('stsd') box (but not into samples directly). To write SPS and PPS NAL units directly into samples (but not in the 'stsd' box): Choose AVC3. When you do, note that your output might not play properly with some downstream systems or players.
+        public var writeMp4PackagingType: MediaConvertClientTypes.H264WriteMp4PackagingType?
 
         public init(
             adaptiveQuantization: MediaConvertClientTypes.H264AdaptiveQuantization? = nil,
@@ -15353,7 +15385,8 @@ extension MediaConvertClientTypes {
             syntax: MediaConvertClientTypes.H264Syntax? = nil,
             telecine: MediaConvertClientTypes.H264Telecine? = nil,
             temporalAdaptiveQuantization: MediaConvertClientTypes.H264TemporalAdaptiveQuantization? = nil,
-            unregisteredSeiTimecode: MediaConvertClientTypes.H264UnregisteredSeiTimecode? = nil
+            unregisteredSeiTimecode: MediaConvertClientTypes.H264UnregisteredSeiTimecode? = nil,
+            writeMp4PackagingType: MediaConvertClientTypes.H264WriteMp4PackagingType? = nil
         )
         {
             self.adaptiveQuantization = adaptiveQuantization
@@ -15400,6 +15433,7 @@ extension MediaConvertClientTypes {
             self.telecine = telecine
             self.temporalAdaptiveQuantization = temporalAdaptiveQuantization
             self.unregisteredSeiTimecode = unregisteredSeiTimecode
+            self.writeMp4PackagingType = writeMp4PackagingType
         }
     }
 }
@@ -25968,6 +26002,7 @@ extension MediaConvertClientTypes.H264Settings {
         try writer["telecine"].write(value.telecine)
         try writer["temporalAdaptiveQuantization"].write(value.temporalAdaptiveQuantization)
         try writer["unregisteredSeiTimecode"].write(value.unregisteredSeiTimecode)
+        try writer["writeMp4PackagingType"].write(value.writeMp4PackagingType)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.H264Settings {
@@ -26017,6 +26052,7 @@ extension MediaConvertClientTypes.H264Settings {
         value.telecine = try reader["telecine"].readIfPresent()
         value.temporalAdaptiveQuantization = try reader["temporalAdaptiveQuantization"].readIfPresent()
         value.unregisteredSeiTimecode = try reader["unregisteredSeiTimecode"].readIfPresent()
+        value.writeMp4PackagingType = try reader["writeMp4PackagingType"].readIfPresent()
         return value
     }
 }

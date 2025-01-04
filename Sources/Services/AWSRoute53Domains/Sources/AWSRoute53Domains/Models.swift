@@ -400,7 +400,7 @@ extension Route53DomainsClientTypes {
         public var billDate: Foundation.Date?
         /// The name of the domain that the billing record applies to. If the domain name contains characters other than a-z, 0-9, and - (hyphen), such as an internationalized domain name, then this value is in Punycode. For more information, see [DNS Domain Name Format](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DomainNameFormat.html) in the Amazon Route 53 Developer Guide.
         public var domainName: Swift.String?
-        /// The ID of the invoice that is associated with the billing record.
+        /// Deprecated property. This field is retained in report structure for backwards compatibility, but will appear blank.
         public var invoiceId: Swift.String?
         /// The operation that you were charged for.
         public var operation: Route53DomainsClientTypes.OperationType?
