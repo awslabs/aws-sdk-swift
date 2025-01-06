@@ -7,7 +7,6 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import Foundation
 import PackageDescription
 
 // MARK: - Target dependencies
@@ -52,73 +51,17 @@ let package = Package(
         .iOS(.v13),
         .tvOS(.v13),
         .watchOS(.v6)
-    ]
+    ],
+    dependencies: [
+        .package(path: "../../smithy-swift"),
+        .package(path: "../../aws-sdk-swift"),
+        .package(url: "https://github.com/awslabs/aws-crt-swift", .upToNextMajor(from: "0.0.0")),
+    ],
+    targets: protocolTestTargets
 )
 
-// MARK: - CRT, Smithy ClientRuntime, AWS ClientRuntime Dependencies
+private var protocolTestTargets: [Target] {
 
-func addDependencies() {
-    addClientRuntimeDependency()
-    addAWSClientRuntimeDependency()
-    addCRTDependency()
-}
-
-func addClientRuntimeDependency() {
-    let smithySwiftURL = "https://github.com/smithy-lang/smithy-swift"
-    let useLocalDeps = ProcessInfo.processInfo.environment["AWS_SWIFT_SDK_USE_LOCAL_DEPS"] != nil
-    let useMainDeps = ProcessInfo.processInfo.environment["AWS_SWIFT_SDK_USE_MAIN_DEPS"] != nil
-    switch (useLocalDeps, useMainDeps) {
-    case (true, true):
-        fatalError("Unable to determine which dependencies to use. Please only specify one of AWS_SWIFT_SDK_USE_LOCAL_DEPS or AWS_SWIFT_SDK_USE_MAIN_DEPS.")
-    case (true, false):
-        package.dependencies += [
-            .package(path: "../../smithy-swift")
-        ]
-    case (false, true):
-        package.dependencies += [
-            .package(url: smithySwiftURL, branch: "main")
-        ]
-    case (false, false):
-        package.dependencies += [
-            .package(url: smithySwiftURL, .upToNextMajor(from: "0.0.0"))
-        ]
-    }
-}
-
-func addAWSClientRuntimeDependency() {
-    package.dependencies += [
-        .package(path: "../../aws-sdk-swift")
-    ]
-}
-
-func addCRTDependency() {
-    package.dependencies += [
-        .package(url: "https://github.com/awslabs/aws-crt-swift", .upToNextMajor(from: "0.0.0"))
-    ]
-}
-
-let serviceTargetDependencies: [Target.Dependency] = [
-    .clientRuntime,
-    .awsClientRuntime,
-    .smithyRetriesAPI,
-    .smithyRetries,
-    .smithy,
-    .smithyIdentity,
-    .smithyIdentityAPI,
-    .smithyEventStreamsAPI,
-    .smithyEventStreamsAuthAPI,
-    .smithyEventStreams,
-    .smithyChecksumsAPI,
-    .smithyChecksums,
-    .smithyWaitersAPI,
-    .awsSDKCommon,
-    .awsSDKIdentity,
-    .awsSDKHTTPAuth,
-    .awsSDKEventStreamsAuth,
-    .awsSDKChecksums,
-]
-
-func addProtocolTests() {
     struct ProtocolTest {
         let name: String
         let sourcePath: String
@@ -156,20 +99,41 @@ func addProtocolTests() {
         .init(name: "Waiters", sourcePath: "\(baseDirLocal)/Waiters", testPath: "../codegen/protocol-test-codegen-local/Tests"),
         .init(name: "StringArrayEndpointParam", sourcePath: "\(baseDirLocal)/StringArrayEndpointParam")
     ]
-    for protocolTest in protocolTests {
+    return protocolTests.flatMap { protocolTest in
         let target = Target.target(
             name: protocolTest.name,
-            dependencies: serviceTargetDependencies,
+            dependencies: [
+                .clientRuntime,
+                .awsClientRuntime,
+                .smithyRetriesAPI,
+                .smithyRetries,
+                .smithy,
+                .smithyIdentity,
+                .smithyIdentityAPI,
+                .smithyEventStreamsAPI,
+                .smithyEventStreamsAuthAPI,
+                .smithyEventStreams,
+                .smithyChecksumsAPI,
+                .smithyChecksums,
+                .smithyWaitersAPI,
+                .awsSDKCommon,
+                .awsSDKIdentity,
+                .awsSDKHTTPAuth,
+                .awsSDKEventStreamsAuth,
+                .awsSDKChecksums,
+            ],
             path: "\(protocolTest.sourcePath)/swift-codegen/Sources/\(protocolTest.name)"
         )
         let testTarget = protocolTest.buildOnly ? nil : Target.testTarget(
             name: "\(protocolTest.name)Tests",
-            dependencies: [.smithyTestUtils, .smithyStreams, .smithyWaitersAPI, .byNameItem(name: protocolTest.name, condition: nil)],
+            dependencies: [
+                .smithyTestUtils,
+                .smithyStreams,
+                .smithyWaitersAPI,
+                .byNameItem(name: protocolTest.name, condition: nil)
+            ],
             path: "\(protocolTest.testPath ?? protocolTest.sourcePath)/swift-codegen/Tests/\(protocolTest.name)Tests"
         )
-        package.targets += [target, testTarget].compactMap { $0 }
+        return [target, testTarget].compactMap { $0 }
     }
 }
-
-addDependencies()
-addProtocolTests()
