@@ -435,10 +435,6 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSIoT](../../../../../swift/api/awsiot/latest)
 
-[AWSIoT1ClickDevicesService](../../../../../swift/api/awsiot1clickdevicesservice/latest)
-
-[AWSIoT1ClickProjects](../../../../../swift/api/awsiot1clickprojects/latest)
-
 [AWSIoTAnalytics](../../../../../swift/api/awsiotanalytics/latest)
 
 [AWSIoTDataPlane](../../../../../swift/api/awsiotdataplane/latest)
