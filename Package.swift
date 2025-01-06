@@ -202,8 +202,6 @@ let serviceTargets: [String] = [
     "AWSInternetMonitor",
     "AWSInvoicing",
     "AWSIoT",
-    "AWSIoT1ClickDevicesService",
-    "AWSIoT1ClickProjects",
     "AWSIoTAnalytics",
     "AWSIoTDataPlane",
     "AWSIoTEvents",
