@@ -63,7 +63,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class RAMClient: ClientRuntime.Client {
     public static let clientName = "RAMClient"
-    public static let version = "1.0.71"
+    public static let version = "1.0.72"
     let client: ClientRuntime.SdkHttpClient
     let config: RAMClient.RAMClientConfiguration
     let serviceName = "RAM"
