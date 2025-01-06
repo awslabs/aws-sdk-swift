@@ -12,7 +12,7 @@ import PackageDescription
 // MARK: - Target dependencies
 
 extension Target.Dependency {
-    // AWS modules
+    // aws-sdk-swift modules
     static var awsClientRuntime: Self { .product(name: "AWSClientRuntime", package: "aws-sdk-swift") }
     static var awsSDKCommon: Self { .product(name: "AWSSDKCommon", package: "aws-sdk-swift") }
     static var awsSDKEventStreamsAuth: Self { .product(name: "AWSSDKEventStreamsAuth", package: "aws-sdk-swift") }
@@ -20,10 +20,7 @@ extension Target.Dependency {
     static var awsSDKIdentity: Self { .product(name: "AWSSDKIdentity", package: "aws-sdk-swift") }
     static var awsSDKChecksums: Self { .product(name: "AWSSDKChecksums", package: "aws-sdk-swift") }
 
-    // CRT module
-    static var crt: Self { .product(name: "AwsCommonRuntimeKit", package: "aws-crt-swift") }
-
-    // Smithy modules
+    // smithy-swift modules
     static var clientRuntime: Self { .product(name: "ClientRuntime", package: "smithy-swift") }
     static var smithy: Self { .product(name: "Smithy", package: "smithy-swift") }
     static var smithyChecksumsAPI: Self { .product(name: "SmithyChecksumsAPI", package: "smithy-swift") }
@@ -55,7 +52,6 @@ let package = Package(
     dependencies: [
         .package(path: "../../smithy-swift"),
         .package(path: "../../aws-sdk-swift"),
-        .package(url: "https://github.com/awslabs/aws-crt-swift", .upToNextMajor(from: "0.0.0")),
     ],
     targets: protocolTestTargets
 )
@@ -110,6 +106,8 @@ private var protocolTestTargets: [Target] {
                 .smithy,
                 .smithyIdentity,
                 .smithyIdentityAPI,
+                .smithyHTTPAPI,
+                .smithyHTTPAuth,
                 .smithyEventStreamsAPI,
                 .smithyEventStreamsAuthAPI,
                 .smithyEventStreams,
