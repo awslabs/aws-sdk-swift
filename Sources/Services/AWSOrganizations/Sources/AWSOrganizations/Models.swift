@@ -1123,6 +1123,7 @@ extension OrganizationsClientTypes {
         case accountCreationNotComplete
         case accountCreationRateLimitExceeded
         case accountNumberLimitExceeded
+        case allFeaturesMigrationOrganizationSizeLimitExceeded
         case cannotCloseManagementAccount
         case cannotRegisterMasterAsDelegatedAdministrator
         case cannotRegisterSuspendedAccountAsDelegatedAdministrator
@@ -1162,6 +1163,7 @@ extension OrganizationsClientTypes {
                 .accountCreationNotComplete,
                 .accountCreationRateLimitExceeded,
                 .accountNumberLimitExceeded,
+                .allFeaturesMigrationOrganizationSizeLimitExceeded,
                 .cannotCloseManagementAccount,
                 .cannotRegisterMasterAsDelegatedAdministrator,
                 .cannotRegisterSuspendedAccountAsDelegatedAdministrator,
@@ -1207,6 +1209,7 @@ extension OrganizationsClientTypes {
             case .accountCreationNotComplete: return "ACCOUNT_CREATION_NOT_COMPLETE"
             case .accountCreationRateLimitExceeded: return "ACCOUNT_CREATION_RATE_LIMIT_EXCEEDED"
             case .accountNumberLimitExceeded: return "ACCOUNT_NUMBER_LIMIT_EXCEEDED"
+            case .allFeaturesMigrationOrganizationSizeLimitExceeded: return "ALL_FEATURES_MIGRATION_ORGANIZATION_SIZE_LIMIT_EXCEEDED"
             case .cannotCloseManagementAccount: return "CANNOT_CLOSE_MANAGEMENT_ACCOUNT"
             case .cannotRegisterMasterAsDelegatedAdministrator: return "CANNOT_REGISTER_MASTER_AS_DELEGATED_ADMINISTRATOR"
             case .cannotRegisterSuspendedAccountAsDelegatedAdministrator: return "CANNOT_REGISTER_SUSPENDED_ACCOUNT_AS_DELEGATED_ADMINISTRATOR"
@@ -1253,6 +1256,8 @@ extension OrganizationsClientTypes {
 /// * ACCOUNT_CREATION_NOT_COMPLETE: Your account setup isn't complete or your account isn't fully active. You must complete the account setup before you create an organization.
 ///
 /// * ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of accounts in an organization. If you need more accounts, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/) to request an increase in your limit. Or the number of invitations that you tried to send would cause you to exceed the limit of accounts in your organization. Send fewer invitations or contact Amazon Web Services Support to request an increase in the number of accounts. Deleted and closed accounts still count toward your limit. If you get this exception when running a command immediately after creating the organization, wait one hour and try again. After an hour, if the command continues to fail with this error, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
+///
+/// * ALL_FEATURES_MIGRATION_ORGANIZATION_SIZE_LIMIT_EXCEEDED: Your organization has more than 5000 accounts, and you can only use the standard migration process for organizations with less than 5000 accounts. Use the assisted migration process to enable all features mode, or create a support case for assistance if you are unable to use assisted migration.
 ///
 /// * CANNOT_REGISTER_SUSPENDED_ACCOUNT_AS_DELEGATED_ADMINISTRATOR: You cannot register a suspended account as a delegated administrator.
 ///
@@ -6728,6 +6733,7 @@ enum EnableAllFeaturesOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "AWSOrganizationsNotInUseException": return try AWSOrganizationsNotInUseException.makeError(baseError: baseError)
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
+            case "ConstraintViolationException": return try ConstraintViolationException.makeError(baseError: baseError)
             case "HandshakeConstraintViolationException": return try HandshakeConstraintViolationException.makeError(baseError: baseError)
             case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
             case "ServiceException": return try ServiceException.makeError(baseError: baseError)

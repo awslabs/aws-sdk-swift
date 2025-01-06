@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ECSClient: ClientRuntime.Client {
     public static let clientName = "ECSClient"
-    public static let version = "1.0.67"
+    public static let version = "1.0.71"
     let client: ClientRuntime.SdkHttpClient
     let config: ECSClient.ECSClientConfiguration
     let serviceName = "ECS"
@@ -2545,7 +2545,7 @@ extension ECSClient {
 
     /// Performs the `ListServiceDeployments` operation on the `AmazonEC2ContainerServiceV20141113` service.
     ///
-    /// This operation lists all the service deployments that meet the specified filter criteria. A service deployment happens when you release a softwre update for the service. You route traffic from the running service revisions to the new service revison and control the number of running tasks. This API returns the values that you use for the request parameters in [DescribeServiceRevisions](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DescribeServiceRevisions.html).
+    /// This operation lists all the service deployments that meet the specified filter criteria. A service deployment happens when you release a software update for the service. You route traffic from the running service revisions to the new service revison and control the number of running tasks. This API returns the values that you use for the request parameters in [DescribeServiceRevisions](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DescribeServiceRevisions.html).
     ///
     /// - Parameter ListServiceDeploymentsInput : [no documentation found]
     ///

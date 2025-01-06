@@ -1716,7 +1716,7 @@ extension S3ClientTypes {
 
 extension S3ClientTypes {
 
-    /// Specifies the location where the bucket will be created. For directory buckets, the location type is Availability Zone or Local Zone. For more information about directory buckets, see [Directory buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-buckets-overview.html) in the Amazon S3 User Guide. This functionality is only supported by directory buckets.
+    /// Specifies the location where the bucket will be created. For directory buckets, the location type is Availability Zone or Local Zone. For more information about directory buckets, see [Working with directory buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-buckets-overview.html) in the Amazon S3 User Guide. This functionality is only supported by directory buckets.
     public struct LocationInfo: Swift.Sendable {
         /// The name of the location where the bucket will be created. For directory buckets, the name of the location is the Zone ID of the Availability Zone (AZ) or Local Zone (LZ) where the bucket will be created. An example AZ ID value is usw2-az1.
         public var name: Swift.String?
@@ -1847,9 +1847,9 @@ extension S3ClientTypes {
     public struct CreateBucketConfiguration: Swift.Sendable {
         /// Specifies the information about the bucket that will be created. This functionality is only supported by directory buckets.
         public var bucket: S3ClientTypes.BucketInfo?
-        /// Specifies the location where the bucket will be created. Directory buckets - The location type is Availability Zone or Local Zone. When the location type is Local Zone, your Local Zone must be in opt-in status. Otherwise, you get an HTTP 400 Bad Request error with the error code Access denied. To learn more about opt-in Local Zones, see [Opt-in Dedicated Local Zones](https://docs.aws.amazon.com/AmazonS3/latest/userguide/opt-in-directory-bucket-lz.html)in the Amazon S3 User Guide. This functionality is only supported by directory buckets.
+        /// Specifies the location where the bucket will be created. Directory buckets - The location type is Availability Zone or Local Zone. To use the Local Zone location type, your account must be enabled for Dedicated Local Zones. Otherwise, you get an HTTP 403 Forbidden error with the error code AccessDenied. To learn more, see [Enable accounts for Dedicated Local Zones](https://docs.aws.amazon.com/AmazonS3/latest/userguide/opt-in-directory-bucket-lz.html) in the Amazon S3 User Guide. This functionality is only supported by directory buckets.
         public var location: S3ClientTypes.LocationInfo?
-        /// Specifies the Region where the bucket will be created. You might choose a Region to optimize latency, minimize costs, or address regulatory requirements. For example, if you reside in Europe, you will probably find it advantageous to create buckets in the Europe (Ireland) Region. For more information, see [Accessing a bucket](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingBucket.html#access-bucket-intro) in the Amazon S3 User Guide. If you don't specify a Region, the bucket is created in the US East (N. Virginia) Region (us-east-1) by default. This functionality is not supported for directory buckets.
+        /// Specifies the Region where the bucket will be created. You might choose a Region to optimize latency, minimize costs, or address regulatory requirements. For example, if you reside in Europe, you will probably find it advantageous to create buckets in the Europe (Ireland) Region. If you don't specify a Region, the bucket is created in the US East (N. Virginia) Region (us-east-1) by default. For a list of the valid values for all of the Amazon Web Services Regions, see [Regions and Endpoints](https://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region). This functionality is not supported for directory buckets.
         public var locationConstraint: S3ClientTypes.BucketLocationConstraint?
 
         public init(

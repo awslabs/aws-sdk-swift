@@ -5707,6 +5707,7 @@ public struct UpdateGraphqlApiInput: Swift.Sendable {
     /// This member is required.
     public var apiId: Swift.String?
     /// The new authentication type for the GraphqlApi object.
+    /// This member is required.
     public var authenticationType: AppSyncClientTypes.AuthenticationType?
     /// The enhancedMetricsConfig object.
     public var enhancedMetricsConfig: AppSyncClientTypes.EnhancedMetricsConfig?
