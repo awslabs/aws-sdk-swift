@@ -134,6 +134,23 @@ private var runtimeTargets: [Target] {
             name: "AWSSDKChecksums",
             dependencies: [.crt, .smithy, .clientRuntime, .smithyChecksumsAPI, .smithyChecksums, .smithyHTTPAPI],
             path: "Sources/Core/AWSSDKChecksums/Sources"
+        ),
+        .target(
+            name: "AWSServiceExtensions",
+            dependencies: [
+                .crt,
+                .clientRuntime,
+                .smithyRetriesAPI,
+                .smithyRetries,
+                .smithyEventStreamsAPI,
+                .smithyEventStreamsAuthAPI,
+                .awsSDKCommon,
+                .awsSDKHTTPAuth,
+                .awsSDKIdentity,
+                .awsClientRuntime,
+                "AWSS3"
+            ],
+            path: "Sources/Core/AWSServiceExtensions/Sources"
         )
     ]
 }
