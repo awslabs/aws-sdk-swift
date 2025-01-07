@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class LexRuntimeV2Client: ClientRuntime.Client {
     public static let clientName = "LexRuntimeV2Client"
-    public static let version = "1.0.72"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: LexRuntimeV2Client.LexRuntimeV2ClientConfiguration
     let serviceName = "Lex Runtime V2"
@@ -334,7 +334,7 @@ extension LexRuntimeV2Client {
 }
 
 extension LexRuntimeV2Client {
-    /// Performs the `DeleteSession` operation on the `AWSDeepSenseRunTimeServiceApi2_0` service.
+    /// Performs the `DeleteSession` operation on the `LexRuntimeV2` service.
     ///
     /// Removes session information for a specified bot, alias, and user ID. You can use this operation to restart a conversation with a bot. When you remove a session, the entire history of the session is removed so that you can start again. You don't need to delete a session. Sessions have a time limit and will expire. Set the session time limit when you create the bot. The default is 5 minutes, but you can specify anything between 1 minute and 24 hours. If you specify a bot or alias ID that doesn't exist, you receive a BadRequestException. If the locale doesn't exist in the bot, or if the locale hasn't been enables for the alias, you receive a BadRequestException.
     ///
@@ -405,7 +405,7 @@ extension LexRuntimeV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetSession` operation on the `AWSDeepSenseRunTimeServiceApi2_0` service.
+    /// Performs the `GetSession` operation on the `LexRuntimeV2` service.
     ///
     /// Returns session information for a specified bot, alias, and user. For example, you can use this operation to retrieve session information for a user that has left a long-running session in use. If the bot, alias, or session identifier doesn't exist, Amazon Lex V2 returns a BadRequestException. If the locale doesn't exist or is not enabled for the alias, you receive a BadRequestException.
     ///
@@ -475,7 +475,7 @@ extension LexRuntimeV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutSession` operation on the `AWSDeepSenseRunTimeServiceApi2_0` service.
+    /// Performs the `PutSession` operation on the `LexRuntimeV2` service.
     ///
     /// Creates a new session or modifies an existing session with an Amazon Lex V2 bot. Use this operation to enable your application to set the state of the bot.
     ///
@@ -552,7 +552,7 @@ extension LexRuntimeV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RecognizeText` operation on the `AWSDeepSenseRunTimeServiceApi2_0` service.
+    /// Performs the `RecognizeText` operation on the `LexRuntimeV2` service.
     ///
     /// Sends user input to Amazon Lex V2. Client applications use this API to send requests to Amazon Lex V2 at runtime. Amazon Lex V2 then interprets the user input using the machine learning model that it build for the bot. In response, Amazon Lex V2 returns the next message to convey to the user and an optional response card to display. If the optional post-fulfillment response is specified, the messages are returned as follows. For more information, see [PostFulfillmentStatusSpecification](https://docs.aws.amazon.com/lexv2/latest/dg/API_PostFulfillmentStatusSpecification.html).
     ///
@@ -637,7 +637,7 @@ extension LexRuntimeV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RecognizeUtterance` operation on the `AWSDeepSenseRunTimeServiceApi2_0` service.
+    /// Performs the `RecognizeUtterance` operation on the `LexRuntimeV2` service.
     ///
     /// Sends user input to Amazon Lex V2. You can send text or speech. Clients use this API to send text and audio requests to Amazon Lex V2 at runtime. Amazon Lex V2 interprets the user input using the machine learning model built for the bot. The following request fields must be compressed with gzip and then base64 encoded before you send them to Amazon Lex V2.
     ///
@@ -743,7 +743,7 @@ extension LexRuntimeV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartConversation` operation on the `AWSDeepSenseRunTimeServiceApi2_0` service.
+    /// Performs the `StartConversation` operation on the `LexRuntimeV2` service.
     ///
     /// Starts an HTTP/2 bidirectional event stream that enables you to send audio, text, or DTMF input in real time. After your application starts a conversation, users send input to Amazon Lex V2 as a stream of events. Amazon Lex V2 processes the incoming events and responds with streaming text or audio events. Audio input must be in the following format: audio/lpcm sample-rate=8000 sample-size-bits=16 channel-count=1; is-big-endian=false. If the optional post-fulfillment response is specified, the messages are returned as follows. For more information, see [PostFulfillmentStatusSpecification](https://docs.aws.amazon.com/lexv2/latest/dg/API_PostFulfillmentStatusSpecification.html).
     ///

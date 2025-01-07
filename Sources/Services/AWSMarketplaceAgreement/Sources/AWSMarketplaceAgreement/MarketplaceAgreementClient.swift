@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MarketplaceAgreementClient: ClientRuntime.Client {
     public static let clientName = "MarketplaceAgreementClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: MarketplaceAgreementClient.MarketplaceAgreementClientConfiguration
     let serviceName = "Marketplace Agreement"
@@ -330,7 +330,7 @@ extension MarketplaceAgreementClient {
 }
 
 extension MarketplaceAgreementClient {
-    /// Performs the `DescribeAgreement` operation on the `AWSMPCommerceService_v20200301` service.
+    /// Performs the `DescribeAgreement` operation on the `MarketplaceAgreement` service.
     ///
     /// Provides details about an agreement, such as the proposer, acceptor, start date, and end date.
     ///
@@ -404,7 +404,7 @@ extension MarketplaceAgreementClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAgreementTerms` operation on the `AWSMPCommerceService_v20200301` service.
+    /// Performs the `GetAgreementTerms` operation on the `MarketplaceAgreement` service.
     ///
     /// Obtains details about the terms in an agreement that you participated in as proposer or acceptor. The details include:
     ///
@@ -489,7 +489,7 @@ extension MarketplaceAgreementClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SearchAgreements` operation on the `AWSMPCommerceService_v20200301` service.
+    /// Performs the `SearchAgreements` operation on the `MarketplaceAgreement` service.
     ///
     /// Searches across all agreements that a proposer or an acceptor has in AWS Marketplace. The search returns a list of agreements with basic agreement information. The following filter combinations are supported:
     ///

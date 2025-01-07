@@ -63,7 +63,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class IoTEventsDataClient: ClientRuntime.Client {
     public static let clientName = "IoTEventsDataClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: IoTEventsDataClient.IoTEventsDataClientConfiguration
     let serviceName = "IoT Events Data"
@@ -329,7 +329,7 @@ extension IoTEventsDataClient {
 }
 
 extension IoTEventsDataClient {
-    /// Performs the `BatchAcknowledgeAlarm` operation on the `IotColumboDataService` service.
+    /// Performs the `BatchAcknowledgeAlarm` operation on the `IoTEventsData` service.
     ///
     /// Acknowledges one or more alarms. The alarms change to the ACKNOWLEDGED state after you acknowledge them.
     ///
@@ -401,7 +401,7 @@ extension IoTEventsDataClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchDeleteDetector` operation on the `IotColumboDataService` service.
+    /// Performs the `BatchDeleteDetector` operation on the `IoTEventsData` service.
     ///
     /// Deletes one or more detectors that were created. When a detector is deleted, its state will be cleared and the detector will be removed from the list of detectors. The deleted detector will no longer appear if referenced in the [ListDetectors](https://docs.aws.amazon.com/iotevents/latest/apireference/API_iotevents-data_ListDetectors.html) API call.
     ///
@@ -473,7 +473,7 @@ extension IoTEventsDataClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchDisableAlarm` operation on the `IotColumboDataService` service.
+    /// Performs the `BatchDisableAlarm` operation on the `IoTEventsData` service.
     ///
     /// Disables one or more alarms. The alarms change to the DISABLED state after you disable them.
     ///
@@ -545,7 +545,7 @@ extension IoTEventsDataClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchEnableAlarm` operation on the `IotColumboDataService` service.
+    /// Performs the `BatchEnableAlarm` operation on the `IoTEventsData` service.
     ///
     /// Enables one or more alarms. The alarms change to the NORMAL state after you enable them.
     ///
@@ -617,7 +617,7 @@ extension IoTEventsDataClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchPutMessage` operation on the `IotColumboDataService` service.
+    /// Performs the `BatchPutMessage` operation on the `IoTEventsData` service.
     ///
     /// Sends a set of messages to the IoT Events system. Each message payload is transformed into the input you specify ("inputName") and ingested into any detectors that monitor that input. If multiple messages are sent, the order in which the messages are processed isn't guaranteed. To guarantee ordering, you must send messages one at a time and wait for a successful response.
     ///
@@ -689,7 +689,7 @@ extension IoTEventsDataClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchResetAlarm` operation on the `IotColumboDataService` service.
+    /// Performs the `BatchResetAlarm` operation on the `IoTEventsData` service.
     ///
     /// Resets one or more alarms. The alarms return to the NORMAL state after you reset them.
     ///
@@ -761,7 +761,7 @@ extension IoTEventsDataClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchSnoozeAlarm` operation on the `IotColumboDataService` service.
+    /// Performs the `BatchSnoozeAlarm` operation on the `IoTEventsData` service.
     ///
     /// Changes one or more alarms to the snooze mode. The alarms change to the SNOOZE_DISABLED state after you set them to the snooze mode.
     ///
@@ -833,7 +833,7 @@ extension IoTEventsDataClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchUpdateDetector` operation on the `IotColumboDataService` service.
+    /// Performs the `BatchUpdateDetector` operation on the `IoTEventsData` service.
     ///
     /// Updates the state, variable values, and timer settings of one or more detectors (instances) of a specified detector model.
     ///
@@ -905,7 +905,7 @@ extension IoTEventsDataClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeAlarm` operation on the `IotColumboDataService` service.
+    /// Performs the `DescribeAlarm` operation on the `IoTEventsData` service.
     ///
     /// Retrieves information about an alarm.
     ///
@@ -976,7 +976,7 @@ extension IoTEventsDataClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeDetector` operation on the `IotColumboDataService` service.
+    /// Performs the `DescribeDetector` operation on the `IoTEventsData` service.
     ///
     /// Returns information about the specified detector (instance).
     ///
@@ -1047,7 +1047,7 @@ extension IoTEventsDataClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAlarms` operation on the `IotColumboDataService` service.
+    /// Performs the `ListAlarms` operation on the `IoTEventsData` service.
     ///
     /// Lists one or more alarms. The operation returns only the metadata associated with each alarm.
     ///
@@ -1118,7 +1118,7 @@ extension IoTEventsDataClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDetectors` operation on the `IotColumboDataService` service.
+    /// Performs the `ListDetectors` operation on the `IoTEventsData` service.
     ///
     /// Lists detectors (the instances of a detector model).
     ///

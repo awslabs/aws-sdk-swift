@@ -63,7 +63,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class GeoRoutesClient: ClientRuntime.Client {
     public static let clientName = "GeoRoutesClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: GeoRoutesClient.GeoRoutesClientConfiguration
     let serviceName = "Geo Routes"
@@ -329,7 +329,7 @@ extension GeoRoutesClient {
 }
 
 extension GeoRoutesClient {
-    /// Performs the `CalculateIsolines` operation on the `RoutesService` service.
+    /// Performs the `CalculateIsolines` operation on the `GeoRoutes` service.
     ///
     /// Use the CalculateIsolines action to find service areas that can be reached in a given threshold of time, distance.
     ///
@@ -402,7 +402,7 @@ extension GeoRoutesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CalculateRouteMatrix` operation on the `RoutesService` service.
+    /// Performs the `CalculateRouteMatrix` operation on the `GeoRoutes` service.
     ///
     /// Calculates route matrix containing the results for all pairs of Origins to Destinations. Each row corresponds to one entry in Origins. Each entry in the row corresponds to the route from that entry in Origins to an entry in Destinations positions.
     ///
@@ -475,7 +475,7 @@ extension GeoRoutesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CalculateRoutes` operation on the `RoutesService` service.
+    /// Performs the `CalculateRoutes` operation on the `GeoRoutes` service.
     ///
     /// Calculates a route given the following required parameters: Origin and Destination.
     ///
@@ -548,7 +548,7 @@ extension GeoRoutesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `OptimizeWaypoints` operation on the `RoutesService` service.
+    /// Performs the `OptimizeWaypoints` operation on the `GeoRoutes` service.
     ///
     /// Calculates the optimal order to travel between a set of waypoints to minimize either the travel time or the distance travelled during the journey, based on road network restrictions and the traffic pattern data.
     ///
@@ -621,7 +621,7 @@ extension GeoRoutesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SnapToRoads` operation on the `RoutesService` service.
+    /// Performs the `SnapToRoads` operation on the `GeoRoutes` service.
     ///
     /// The SnapToRoads action matches GPS trace to roads most likely traveled on.
     ///

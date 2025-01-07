@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ECRPUBLICClient: ClientRuntime.Client {
     public static let clientName = "ECRPUBLICClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: ECRPUBLICClient.ECRPUBLICClientConfiguration
     let serviceName = "ECR PUBLIC"
@@ -330,7 +330,7 @@ extension ECRPUBLICClient {
 }
 
 extension ECRPUBLICClient {
-    /// Performs the `BatchCheckLayerAvailability` operation on the `SpencerFrontendService` service.
+    /// Performs the `BatchCheckLayerAvailability` operation on the `ECRPUBLIC` service.
     ///
     /// Checks the availability of one or more image layers that are within a repository in a public registry. When an image is pushed to a repository, each image layer is checked to verify if it has been uploaded before. If it has been uploaded, then the image layer is skipped. This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images.
     ///
@@ -404,7 +404,7 @@ extension ECRPUBLICClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchDeleteImage` operation on the `SpencerFrontendService` service.
+    /// Performs the `BatchDeleteImage` operation on the `ECRPUBLIC` service.
     ///
     /// Deletes a list of specified images that are within a repository in a public registry. Images are specified with either an imageTag or imageDigest. You can remove a tag from an image by specifying the image's tag in your request. When you remove the last tag from an image, the image is deleted from your repository. You can completely delete an image (and all of its tags) by specifying the digest of the image in your request.
     ///
@@ -477,7 +477,7 @@ extension ECRPUBLICClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CompleteLayerUpload` operation on the `SpencerFrontendService` service.
+    /// Performs the `CompleteLayerUpload` operation on the `ECRPUBLIC` service.
     ///
     /// Informs Amazon ECR that the image layer upload is complete for a specified public registry, repository name, and upload ID. You can optionally provide a sha256 digest of the image layer for data validation purposes. When an image is pushed, the CompleteLayerUpload API is called once for each new image layer to verify that the upload is complete. This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images.
     ///
@@ -556,7 +556,7 @@ extension ECRPUBLICClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateRepository` operation on the `SpencerFrontendService` service.
+    /// Performs the `CreateRepository` operation on the `ECRPUBLIC` service.
     ///
     /// Creates a repository in a public registry. For more information, see [Amazon ECR repositories](https://docs.aws.amazon.com/AmazonECR/latest/userguide/Repositories.html) in the Amazon Elastic Container Registry User Guide.
     ///
@@ -632,7 +632,7 @@ extension ECRPUBLICClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteRepository` operation on the `SpencerFrontendService` service.
+    /// Performs the `DeleteRepository` operation on the `ECRPUBLIC` service.
     ///
     /// Deletes a repository in a public registry. If the repository contains images, you must either manually delete all images in the repository or use the force option. This option deletes all images on your behalf before deleting the repository.
     ///
@@ -706,7 +706,7 @@ extension ECRPUBLICClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteRepositoryPolicy` operation on the `SpencerFrontendService` service.
+    /// Performs the `DeleteRepositoryPolicy` operation on the `ECRPUBLIC` service.
     ///
     /// Deletes the repository policy that's associated with the specified repository.
     ///
@@ -780,7 +780,7 @@ extension ECRPUBLICClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeImageTags` operation on the `SpencerFrontendService` service.
+    /// Performs the `DescribeImageTags` operation on the `ECRPUBLIC` service.
     ///
     /// Returns the image tag details for a repository in a public registry.
     ///
@@ -853,7 +853,7 @@ extension ECRPUBLICClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeImages` operation on the `SpencerFrontendService` service.
+    /// Performs the `DescribeImages` operation on the `ECRPUBLIC` service.
     ///
     /// Returns metadata that's related to the images in a repository in a public registry. Beginning with Docker version 1.9, the Docker client compresses image layers before pushing them to a V2 Docker registry. The output of the docker images command shows the uncompressed image size. Therefore, it might return a larger image size than the image sizes that are returned by [DescribeImages].
     ///
@@ -927,7 +927,7 @@ extension ECRPUBLICClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeRegistries` operation on the `SpencerFrontendService` service.
+    /// Performs the `DescribeRegistries` operation on the `ECRPUBLIC` service.
     ///
     /// Returns details for a public registry.
     ///
@@ -999,7 +999,7 @@ extension ECRPUBLICClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeRepositories` operation on the `SpencerFrontendService` service.
+    /// Performs the `DescribeRepositories` operation on the `ECRPUBLIC` service.
     ///
     /// Describes repositories that are in a public registry.
     ///
@@ -1072,7 +1072,7 @@ extension ECRPUBLICClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAuthorizationToken` operation on the `SpencerFrontendService` service.
+    /// Performs the `GetAuthorizationToken` operation on the `ECRPUBLIC` service.
     ///
     /// Retrieves an authorization token. An authorization token represents your IAM authentication credentials. You can use it to access any Amazon ECR registry that your IAM principal has access to. The authorization token is valid for 12 hours. This API requires the ecr-public:GetAuthorizationToken and sts:GetServiceBearerToken permissions.
     ///
@@ -1144,7 +1144,7 @@ extension ECRPUBLICClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetRegistryCatalogData` operation on the `SpencerFrontendService` service.
+    /// Performs the `GetRegistryCatalogData` operation on the `ECRPUBLIC` service.
     ///
     /// Retrieves catalog metadata for a public registry.
     ///
@@ -1215,7 +1215,7 @@ extension ECRPUBLICClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetRepositoryCatalogData` operation on the `SpencerFrontendService` service.
+    /// Performs the `GetRepositoryCatalogData` operation on the `ECRPUBLIC` service.
     ///
     /// Retrieve catalog metadata for a repository in a public registry. This metadata is displayed publicly in the Amazon ECR Public Gallery.
     ///
@@ -1289,7 +1289,7 @@ extension ECRPUBLICClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetRepositoryPolicy` operation on the `SpencerFrontendService` service.
+    /// Performs the `GetRepositoryPolicy` operation on the `ECRPUBLIC` service.
     ///
     /// Retrieves the repository policy for the specified repository.
     ///
@@ -1363,7 +1363,7 @@ extension ECRPUBLICClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `InitiateLayerUpload` operation on the `SpencerFrontendService` service.
+    /// Performs the `InitiateLayerUpload` operation on the `ECRPUBLIC` service.
     ///
     /// Notifies Amazon ECR that you intend to upload an image layer. When an image is pushed, the InitiateLayerUpload API is called once for each image layer that hasn't already been uploaded. Whether an image layer uploads is determined by the BatchCheckLayerAvailability API action. This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images.
     ///
@@ -1437,7 +1437,7 @@ extension ECRPUBLICClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `SpencerFrontendService` service.
+    /// Performs the `ListTagsForResource` operation on the `ECRPUBLIC` service.
     ///
     /// List the tags for an Amazon ECR Public resource.
     ///
@@ -1510,7 +1510,7 @@ extension ECRPUBLICClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutImage` operation on the `SpencerFrontendService` service.
+    /// Performs the `PutImage` operation on the `ECRPUBLIC` service.
     ///
     /// Creates or updates the image manifest and tags that are associated with an image. When an image is pushed and all new image layers have been uploaded, the PutImage API is called once to create or update the image manifest and the tags that are associated with the image. This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images.
     ///
@@ -1590,7 +1590,7 @@ extension ECRPUBLICClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutRegistryCatalogData` operation on the `SpencerFrontendService` service.
+    /// Performs the `PutRegistryCatalogData` operation on the `ECRPUBLIC` service.
     ///
     /// Create or update the catalog data for a public registry.
     ///
@@ -1662,7 +1662,7 @@ extension ECRPUBLICClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutRepositoryCatalogData` operation on the `SpencerFrontendService` service.
+    /// Performs the `PutRepositoryCatalogData` operation on the `ECRPUBLIC` service.
     ///
     /// Creates or updates the catalog data for a repository in a public registry.
     ///
@@ -1735,7 +1735,7 @@ extension ECRPUBLICClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SetRepositoryPolicy` operation on the `SpencerFrontendService` service.
+    /// Performs the `SetRepositoryPolicy` operation on the `ECRPUBLIC` service.
     ///
     /// Applies a repository policy to the specified public repository to control access permissions. For more information, see [Amazon ECR Repository Policies](https://docs.aws.amazon.com/AmazonECR/latest/userguide/repository-policies.html) in the Amazon Elastic Container Registry User Guide.
     ///
@@ -1808,7 +1808,7 @@ extension ECRPUBLICClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `SpencerFrontendService` service.
+    /// Performs the `TagResource` operation on the `ECRPUBLIC` service.
     ///
     /// Associates the specified tags to a resource with the specified resourceArn. If existing tags on a resource aren't specified in the request parameters, they aren't changed. When a resource is deleted, the tags associated with that resource are also deleted.
     ///
@@ -1883,7 +1883,7 @@ extension ECRPUBLICClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `SpencerFrontendService` service.
+    /// Performs the `UntagResource` operation on the `ECRPUBLIC` service.
     ///
     /// Deletes specified tags from a resource.
     ///
@@ -1958,7 +1958,7 @@ extension ECRPUBLICClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UploadLayerPart` operation on the `SpencerFrontendService` service.
+    /// Performs the `UploadLayerPart` operation on the `ECRPUBLIC` service.
     ///
     /// Uploads an image layer part to Amazon ECR. When an image is pushed, each new image layer is uploaded in parts. The maximum size of each image layer part can be 20971520 bytes (about 20MB). The UploadLayerPart API is called once for each new image layer part. This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images.
     ///

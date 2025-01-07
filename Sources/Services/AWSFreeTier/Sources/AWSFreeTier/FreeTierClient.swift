@@ -63,7 +63,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class FreeTierClient: ClientRuntime.Client {
     public static let clientName = "FreeTierClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: FreeTierClient.FreeTierClientConfiguration
     let serviceName = "FreeTier"
@@ -329,7 +329,7 @@ extension FreeTierClient {
 }
 
 extension FreeTierClient {
-    /// Performs the `GetFreeTierUsage` operation on the `AWSFreeTierService` service.
+    /// Performs the `GetFreeTierUsage` operation on the `FreeTier` service.
     ///
     /// Returns a list of all Free Tier usage objects that match your filters.
     ///

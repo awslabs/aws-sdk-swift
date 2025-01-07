@@ -63,7 +63,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CodeBuildClient: ClientRuntime.Client {
     public static let clientName = "CodeBuildClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: CodeBuildClient.CodeBuildClientConfiguration
     let serviceName = "CodeBuild"
@@ -329,7 +329,7 @@ extension CodeBuildClient {
 }
 
 extension CodeBuildClient {
-    /// Performs the `BatchDeleteBuilds` operation on the `CodeBuild_20161006` service.
+    /// Performs the `BatchDeleteBuilds` operation on the `CodeBuild` service.
     ///
     /// Deletes one or more builds.
     ///
@@ -399,7 +399,7 @@ extension CodeBuildClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchGetBuildBatches` operation on the `CodeBuild_20161006` service.
+    /// Performs the `BatchGetBuildBatches` operation on the `CodeBuild` service.
     ///
     /// Retrieves information about one or more batch builds.
     ///
@@ -469,7 +469,7 @@ extension CodeBuildClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchGetBuilds` operation on the `CodeBuild_20161006` service.
+    /// Performs the `BatchGetBuilds` operation on the `CodeBuild` service.
     ///
     /// Gets information about one or more builds.
     ///
@@ -539,7 +539,7 @@ extension CodeBuildClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchGetFleets` operation on the `CodeBuild_20161006` service.
+    /// Performs the `BatchGetFleets` operation on the `CodeBuild` service.
     ///
     /// Gets information about one or more compute fleets.
     ///
@@ -609,7 +609,7 @@ extension CodeBuildClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchGetProjects` operation on the `CodeBuild_20161006` service.
+    /// Performs the `BatchGetProjects` operation on the `CodeBuild` service.
     ///
     /// Gets information about one or more build projects.
     ///
@@ -679,7 +679,7 @@ extension CodeBuildClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchGetReportGroups` operation on the `CodeBuild_20161006` service.
+    /// Performs the `BatchGetReportGroups` operation on the `CodeBuild` service.
     ///
     /// Returns an array of report groups.
     ///
@@ -749,7 +749,7 @@ extension CodeBuildClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchGetReports` operation on the `CodeBuild_20161006` service.
+    /// Performs the `BatchGetReports` operation on the `CodeBuild` service.
     ///
     /// Returns an array of reports.
     ///
@@ -819,7 +819,7 @@ extension CodeBuildClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateFleet` operation on the `CodeBuild_20161006` service.
+    /// Performs the `CreateFleet` operation on the `CodeBuild` service.
     ///
     /// Creates a compute fleet.
     ///
@@ -891,7 +891,7 @@ extension CodeBuildClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateProject` operation on the `CodeBuild_20161006` service.
+    /// Performs the `CreateProject` operation on the `CodeBuild` service.
     ///
     /// Creates a build project.
     ///
@@ -963,7 +963,7 @@ extension CodeBuildClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateReportGroup` operation on the `CodeBuild_20161006` service.
+    /// Performs the `CreateReportGroup` operation on the `CodeBuild` service.
     ///
     /// Creates a report group. A report group contains a collection of reports.
     ///
@@ -1035,7 +1035,7 @@ extension CodeBuildClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateWebhook` operation on the `CodeBuild_20161006` service.
+    /// Performs the `CreateWebhook` operation on the `CodeBuild` service.
     ///
     /// For an existing CodeBuild build project that has its source code stored in a GitHub or Bitbucket repository, enables CodeBuild to start rebuilding the source code every time a code change is pushed to the repository. If you enable webhooks for an CodeBuild project, and the project is used as a build step in CodePipeline, then two identical builds are created for each commit. One build is triggered through webhooks, and one through CodePipeline. Because billing is on a per-build basis, you are billed for both builds. Therefore, if you are using CodePipeline, we recommend that you disable webhooks in CodeBuild. In the CodeBuild console, clear the Webhook box. For more information, see step 5 in [Change a Build Project's Settings](https://docs.aws.amazon.com/codebuild/latest/userguide/change-project.html#change-project-console).
     ///
@@ -1108,7 +1108,7 @@ extension CodeBuildClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteBuildBatch` operation on the `CodeBuild_20161006` service.
+    /// Performs the `DeleteBuildBatch` operation on the `CodeBuild` service.
     ///
     /// Deletes a batch build.
     ///
@@ -1178,7 +1178,7 @@ extension CodeBuildClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteFleet` operation on the `CodeBuild_20161006` service.
+    /// Performs the `DeleteFleet` operation on the `CodeBuild` service.
     ///
     /// Deletes a compute fleet. When you delete a compute fleet, its builds are not deleted.
     ///
@@ -1248,7 +1248,7 @@ extension CodeBuildClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteProject` operation on the `CodeBuild_20161006` service.
+    /// Performs the `DeleteProject` operation on the `CodeBuild` service.
     ///
     /// Deletes a build project. When you delete a project, its builds are not deleted.
     ///
@@ -1318,7 +1318,7 @@ extension CodeBuildClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteReport` operation on the `CodeBuild_20161006` service.
+    /// Performs the `DeleteReport` operation on the `CodeBuild` service.
     ///
     /// Deletes a report.
     ///
@@ -1388,7 +1388,7 @@ extension CodeBuildClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteReportGroup` operation on the `CodeBuild_20161006` service.
+    /// Performs the `DeleteReportGroup` operation on the `CodeBuild` service.
     ///
     /// Deletes a report group. Before you delete a report group, you must delete its reports.
     ///
@@ -1458,7 +1458,7 @@ extension CodeBuildClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteResourcePolicy` operation on the `CodeBuild_20161006` service.
+    /// Performs the `DeleteResourcePolicy` operation on the `CodeBuild` service.
     ///
     /// Deletes a resource policy that is identified by its resource ARN.
     ///
@@ -1528,7 +1528,7 @@ extension CodeBuildClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteSourceCredentials` operation on the `CodeBuild_20161006` service.
+    /// Performs the `DeleteSourceCredentials` operation on the `CodeBuild` service.
     ///
     /// Deletes a set of GitHub, GitHub Enterprise, or Bitbucket source credentials.
     ///
@@ -1599,7 +1599,7 @@ extension CodeBuildClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteWebhook` operation on the `CodeBuild_20161006` service.
+    /// Performs the `DeleteWebhook` operation on the `CodeBuild` service.
     ///
     /// For an existing CodeBuild build project that has its source code stored in a GitHub or Bitbucket repository, stops CodeBuild from rebuilding the source code every time a code change is pushed to the repository.
     ///
@@ -1671,7 +1671,7 @@ extension CodeBuildClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeCodeCoverages` operation on the `CodeBuild_20161006` service.
+    /// Performs the `DescribeCodeCoverages` operation on the `CodeBuild` service.
     ///
     /// Retrieves one or more code coverage reports.
     ///
@@ -1741,7 +1741,7 @@ extension CodeBuildClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeTestCases` operation on the `CodeBuild_20161006` service.
+    /// Performs the `DescribeTestCases` operation on the `CodeBuild` service.
     ///
     /// Returns a list of details about test cases for a report.
     ///
@@ -1812,7 +1812,7 @@ extension CodeBuildClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetReportGroupTrend` operation on the `CodeBuild_20161006` service.
+    /// Performs the `GetReportGroupTrend` operation on the `CodeBuild` service.
     ///
     /// Analyzes and accumulates test report values for the specified test reports.
     ///
@@ -1883,7 +1883,7 @@ extension CodeBuildClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetResourcePolicy` operation on the `CodeBuild_20161006` service.
+    /// Performs the `GetResourcePolicy` operation on the `CodeBuild` service.
     ///
     /// Gets a resource policy that is identified by its resource ARN.
     ///
@@ -1954,7 +1954,7 @@ extension CodeBuildClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ImportSourceCredentials` operation on the `CodeBuild_20161006` service.
+    /// Performs the `ImportSourceCredentials` operation on the `CodeBuild` service.
     ///
     /// Imports the source repository credentials for an CodeBuild project that has its source code stored in a GitHub, GitHub Enterprise, GitLab, GitLab Self Managed, or Bitbucket repository.
     ///
@@ -2026,7 +2026,7 @@ extension CodeBuildClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `InvalidateProjectCache` operation on the `CodeBuild_20161006` service.
+    /// Performs the `InvalidateProjectCache` operation on the `CodeBuild` service.
     ///
     /// Resets the cache for a project.
     ///
@@ -2097,7 +2097,7 @@ extension CodeBuildClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListBuildBatches` operation on the `CodeBuild_20161006` service.
+    /// Performs the `ListBuildBatches` operation on the `CodeBuild` service.
     ///
     /// Retrieves the identifiers of your build batches in the current region.
     ///
@@ -2167,7 +2167,7 @@ extension CodeBuildClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListBuildBatchesForProject` operation on the `CodeBuild_20161006` service.
+    /// Performs the `ListBuildBatchesForProject` operation on the `CodeBuild` service.
     ///
     /// Retrieves the identifiers of the build batches for a specific project.
     ///
@@ -2238,7 +2238,7 @@ extension CodeBuildClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListBuilds` operation on the `CodeBuild_20161006` service.
+    /// Performs the `ListBuilds` operation on the `CodeBuild` service.
     ///
     /// Gets a list of build IDs, with each build ID representing a single build.
     ///
@@ -2308,7 +2308,7 @@ extension CodeBuildClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListBuildsForProject` operation on the `CodeBuild_20161006` service.
+    /// Performs the `ListBuildsForProject` operation on the `CodeBuild` service.
     ///
     /// Gets a list of build identifiers for the specified build project, with each build identifier representing a single build.
     ///
@@ -2379,7 +2379,7 @@ extension CodeBuildClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListCuratedEnvironmentImages` operation on the `CodeBuild_20161006` service.
+    /// Performs the `ListCuratedEnvironmentImages` operation on the `CodeBuild` service.
     ///
     /// Gets information about Docker images that are managed by CodeBuild.
     ///
@@ -2444,7 +2444,7 @@ extension CodeBuildClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListFleets` operation on the `CodeBuild_20161006` service.
+    /// Performs the `ListFleets` operation on the `CodeBuild` service.
     ///
     /// Gets a list of compute fleet names with each compute fleet name representing a single compute fleet.
     ///
@@ -2514,7 +2514,7 @@ extension CodeBuildClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListProjects` operation on the `CodeBuild_20161006` service.
+    /// Performs the `ListProjects` operation on the `CodeBuild` service.
     ///
     /// Gets a list of build project names, with each build project name representing a single build project.
     ///
@@ -2584,7 +2584,7 @@ extension CodeBuildClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListReportGroups` operation on the `CodeBuild_20161006` service.
+    /// Performs the `ListReportGroups` operation on the `CodeBuild` service.
     ///
     /// Gets a list ARNs for the report groups in the current Amazon Web Services account.
     ///
@@ -2654,7 +2654,7 @@ extension CodeBuildClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListReports` operation on the `CodeBuild_20161006` service.
+    /// Performs the `ListReports` operation on the `CodeBuild` service.
     ///
     /// Returns a list of ARNs for the reports in the current Amazon Web Services account.
     ///
@@ -2724,7 +2724,7 @@ extension CodeBuildClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListReportsForReportGroup` operation on the `CodeBuild_20161006` service.
+    /// Performs the `ListReportsForReportGroup` operation on the `CodeBuild` service.
     ///
     /// Returns a list of ARNs for the reports that belong to a ReportGroup.
     ///
@@ -2795,7 +2795,7 @@ extension CodeBuildClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListSharedProjects` operation on the `CodeBuild_20161006` service.
+    /// Performs the `ListSharedProjects` operation on the `CodeBuild` service.
     ///
     /// Gets a list of projects that are shared with other Amazon Web Services accounts or users.
     ///
@@ -2865,7 +2865,7 @@ extension CodeBuildClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListSharedReportGroups` operation on the `CodeBuild_20161006` service.
+    /// Performs the `ListSharedReportGroups` operation on the `CodeBuild` service.
     ///
     /// Gets a list of report groups that are shared with other Amazon Web Services accounts or users.
     ///
@@ -2935,7 +2935,7 @@ extension CodeBuildClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListSourceCredentials` operation on the `CodeBuild_20161006` service.
+    /// Performs the `ListSourceCredentials` operation on the `CodeBuild` service.
     ///
     /// Returns a list of SourceCredentialsInfo objects.
     ///
@@ -3005,7 +3005,7 @@ extension CodeBuildClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutResourcePolicy` operation on the `CodeBuild_20161006` service.
+    /// Performs the `PutResourcePolicy` operation on the `CodeBuild` service.
     ///
     /// Stores a resource policy for the ARN of a Project or ReportGroup object.
     ///
@@ -3076,7 +3076,7 @@ extension CodeBuildClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RetryBuild` operation on the `CodeBuild_20161006` service.
+    /// Performs the `RetryBuild` operation on the `CodeBuild` service.
     ///
     /// Restarts a build.
     ///
@@ -3148,7 +3148,7 @@ extension CodeBuildClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RetryBuildBatch` operation on the `CodeBuild_20161006` service.
+    /// Performs the `RetryBuildBatch` operation on the `CodeBuild` service.
     ///
     /// Restarts a failed batch build. Only batch builds that have failed can be retried.
     ///
@@ -3219,7 +3219,7 @@ extension CodeBuildClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartBuild` operation on the `CodeBuild_20161006` service.
+    /// Performs the `StartBuild` operation on the `CodeBuild` service.
     ///
     /// Starts running a build with the settings defined in the project. These setting include: how to run a build, where to get the source code, which build environment to use, which build commands to run, and where to store the build output. You can also start a build run by overriding some of the build settings in the project. The overrides only apply for that specific start build request. The settings in the project are unaltered.
     ///
@@ -3291,7 +3291,7 @@ extension CodeBuildClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartBuildBatch` operation on the `CodeBuild_20161006` service.
+    /// Performs the `StartBuildBatch` operation on the `CodeBuild` service.
     ///
     /// Starts a batch build for a project.
     ///
@@ -3362,7 +3362,7 @@ extension CodeBuildClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopBuild` operation on the `CodeBuild_20161006` service.
+    /// Performs the `StopBuild` operation on the `CodeBuild` service.
     ///
     /// Attempts to stop running a build.
     ///
@@ -3433,7 +3433,7 @@ extension CodeBuildClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopBuildBatch` operation on the `CodeBuild_20161006` service.
+    /// Performs the `StopBuildBatch` operation on the `CodeBuild` service.
     ///
     /// Stops a running batch build.
     ///
@@ -3504,7 +3504,7 @@ extension CodeBuildClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateFleet` operation on the `CodeBuild_20161006` service.
+    /// Performs the `UpdateFleet` operation on the `CodeBuild` service.
     ///
     /// Updates a compute fleet.
     ///
@@ -3576,7 +3576,7 @@ extension CodeBuildClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateProject` operation on the `CodeBuild_20161006` service.
+    /// Performs the `UpdateProject` operation on the `CodeBuild` service.
     ///
     /// Changes the settings of a build project.
     ///
@@ -3647,7 +3647,7 @@ extension CodeBuildClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateProjectVisibility` operation on the `CodeBuild_20161006` service.
+    /// Performs the `UpdateProjectVisibility` operation on the `CodeBuild` service.
     ///
     /// Changes the public visibility for a project. The project's build results, logs, and artifacts are available to the general public. For more information, see [Public build projects](https://docs.aws.amazon.com/codebuild/latest/userguide/public-builds.html) in the CodeBuild User Guide. The following should be kept in mind when making your projects public:
     ///
@@ -3731,7 +3731,7 @@ extension CodeBuildClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateReportGroup` operation on the `CodeBuild_20161006` service.
+    /// Performs the `UpdateReportGroup` operation on the `CodeBuild` service.
     ///
     /// Updates a report group.
     ///
@@ -3802,7 +3802,7 @@ extension CodeBuildClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateWebhook` operation on the `CodeBuild_20161006` service.
+    /// Performs the `UpdateWebhook` operation on the `CodeBuild` service.
     ///
     /// Updates the webhook associated with an CodeBuild build project. If you use Bitbucket for your repository, rotateSecret is ignored.
     ///
