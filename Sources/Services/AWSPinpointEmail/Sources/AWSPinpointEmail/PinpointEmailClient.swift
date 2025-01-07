@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class PinpointEmailClient: ClientRuntime.Client {
     public static let clientName = "PinpointEmailClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: PinpointEmailClient.PinpointEmailClientConfiguration
     let serviceName = "Pinpoint Email"
@@ -330,7 +330,7 @@ extension PinpointEmailClient {
 }
 
 extension PinpointEmailClient {
-    /// Performs the `CreateConfigurationSet` operation on the `AmazonPinpointEmailService` service.
+    /// Performs the `CreateConfigurationSet` operation on the `PinpointEmail` service.
     ///
     /// Create a configuration set. Configuration sets are groups of rules that you can apply to the emails you send using Amazon Pinpoint. You apply a configuration set to an email by including a reference to the configuration set in the headers of the email. When you apply a configuration set to an email, all of the rules in that configuration set are applied to the email.
     ///
@@ -404,7 +404,7 @@ extension PinpointEmailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateConfigurationSetEventDestination` operation on the `AmazonPinpointEmailService` service.
+    /// Performs the `CreateConfigurationSetEventDestination` operation on the `PinpointEmail` service.
     ///
     /// Create an event destination. In Amazon Pinpoint, events include message sends, deliveries, opens, clicks, bounces, and complaints. Event destinations are places that you can send information about these events to. For example, you can send event data to Amazon SNS to receive notifications when you receive bounces or complaints, or you can use Amazon Kinesis Data Firehose to stream data to Amazon S3 for long-term storage. A single configuration set can include more than one event destination.
     ///
@@ -477,7 +477,7 @@ extension PinpointEmailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateDedicatedIpPool` operation on the `AmazonPinpointEmailService` service.
+    /// Performs the `CreateDedicatedIpPool` operation on the `PinpointEmail` service.
     ///
     /// Create a new pool of dedicated IP addresses. A pool can include one or more dedicated IP addresses that are associated with your Amazon Pinpoint account. You can associate a pool with a configuration set. When you send an email that uses that configuration set, Amazon Pinpoint sends it using only the IP addresses in the associated pool.
     ///
@@ -550,7 +550,7 @@ extension PinpointEmailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateDeliverabilityTestReport` operation on the `AmazonPinpointEmailService` service.
+    /// Performs the `CreateDeliverabilityTestReport` operation on the `PinpointEmail` service.
     ///
     /// Create a new predictive inbox placement test. Predictive inbox placement tests can help you predict how your messages will be handled by various email providers around the world. When you perform a predictive inbox placement test, you provide a sample message that contains the content that you plan to send to your customers. Amazon Pinpoint then sends that message to special email addresses spread across several major email providers. After about 24 hours, the test is complete, and you can use the GetDeliverabilityTestReport operation to view the results of the test.
     ///
@@ -627,7 +627,7 @@ extension PinpointEmailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateEmailIdentity` operation on the `AmazonPinpointEmailService` service.
+    /// Performs the `CreateEmailIdentity` operation on the `PinpointEmail` service.
     ///
     /// Verifies an email identity for use with Amazon Pinpoint. In Amazon Pinpoint, an identity is an email address or domain that you use when you send email. Before you can use an identity to send email with Amazon Pinpoint, you first have to verify it. By verifying an address, you demonstrate that you're the owner of the address, and that you've given Amazon Pinpoint permission to send email from the address. When you verify an email address, Amazon Pinpoint sends an email to the address. Your email address is verified as soon as you follow the link in the verification email. When you verify a domain, this operation provides a set of DKIM tokens, which you can convert into CNAME tokens. You add these CNAME tokens to the DNS configuration for your domain. Your domain is verified when Amazon Pinpoint detects these records in the DNS configuration for your domain. It usually takes around 72 hours to complete the domain verification process.
     ///
@@ -699,7 +699,7 @@ extension PinpointEmailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteConfigurationSet` operation on the `AmazonPinpointEmailService` service.
+    /// Performs the `DeleteConfigurationSet` operation on the `PinpointEmail` service.
     ///
     /// Delete an existing configuration set. In Amazon Pinpoint, configuration sets are groups of rules that you can apply to the emails you send. You apply a configuration set to an email by including a reference to the configuration set in the headers of the email. When you apply a configuration set to an email, all of the rules in that configuration set are applied to the email.
     ///
@@ -768,7 +768,7 @@ extension PinpointEmailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteConfigurationSetEventDestination` operation on the `AmazonPinpointEmailService` service.
+    /// Performs the `DeleteConfigurationSetEventDestination` operation on the `PinpointEmail` service.
     ///
     /// Delete an event destination. In Amazon Pinpoint, events include message sends, deliveries, opens, clicks, bounces, and complaints. Event destinations are places that you can send information about these events to. For example, you can send event data to Amazon SNS to receive notifications when you receive bounces or complaints, or you can use Amazon Kinesis Data Firehose to stream data to Amazon S3 for long-term storage.
     ///
@@ -836,7 +836,7 @@ extension PinpointEmailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteDedicatedIpPool` operation on the `AmazonPinpointEmailService` service.
+    /// Performs the `DeleteDedicatedIpPool` operation on the `PinpointEmail` service.
     ///
     /// Delete a dedicated IP pool.
     ///
@@ -905,7 +905,7 @@ extension PinpointEmailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteEmailIdentity` operation on the `AmazonPinpointEmailService` service.
+    /// Performs the `DeleteEmailIdentity` operation on the `PinpointEmail` service.
     ///
     /// Deletes an email identity that you previously verified for use with Amazon Pinpoint. An identity can be either an email address or a domain name.
     ///
@@ -974,7 +974,7 @@ extension PinpointEmailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAccount` operation on the `AmazonPinpointEmailService` service.
+    /// Performs the `GetAccount` operation on the `PinpointEmail` service.
     ///
     /// Obtain information about the email-sending status and capabilities of your Amazon Pinpoint account in the current AWS Region.
     ///
@@ -1041,7 +1041,7 @@ extension PinpointEmailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetBlacklistReports` operation on the `AmazonPinpointEmailService` service.
+    /// Performs the `GetBlacklistReports` operation on the `PinpointEmail` service.
     ///
     /// Retrieve a list of the blacklists that your dedicated IP addresses appear on.
     ///
@@ -1110,7 +1110,7 @@ extension PinpointEmailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetConfigurationSet` operation on the `AmazonPinpointEmailService` service.
+    /// Performs the `GetConfigurationSet` operation on the `PinpointEmail` service.
     ///
     /// Get information about an existing configuration set, including the dedicated IP pool that it's associated with, whether or not it's enabled for sending email, and more. In Amazon Pinpoint, configuration sets are groups of rules that you can apply to the emails you send. You apply a configuration set to an email by including a reference to the configuration set in the headers of the email. When you apply a configuration set to an email, all of the rules in that configuration set are applied to the email.
     ///
@@ -1178,7 +1178,7 @@ extension PinpointEmailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetConfigurationSetEventDestinations` operation on the `AmazonPinpointEmailService` service.
+    /// Performs the `GetConfigurationSetEventDestinations` operation on the `PinpointEmail` service.
     ///
     /// Retrieve a list of event destinations that are associated with a configuration set. In Amazon Pinpoint, events include message sends, deliveries, opens, clicks, bounces, and complaints. Event destinations are places that you can send information about these events to. For example, you can send event data to Amazon SNS to receive notifications when you receive bounces or complaints, or you can use Amazon Kinesis Data Firehose to stream data to Amazon S3 for long-term storage.
     ///
@@ -1246,7 +1246,7 @@ extension PinpointEmailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDedicatedIp` operation on the `AmazonPinpointEmailService` service.
+    /// Performs the `GetDedicatedIp` operation on the `PinpointEmail` service.
     ///
     /// Get information about a dedicated IP address, including the name of the dedicated IP pool that it's associated with, as well information about the automatic warm-up process for the address.
     ///
@@ -1314,7 +1314,7 @@ extension PinpointEmailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDedicatedIps` operation on the `AmazonPinpointEmailService` service.
+    /// Performs the `GetDedicatedIps` operation on the `PinpointEmail` service.
     ///
     /// List the dedicated IP addresses that are associated with your Amazon Pinpoint account.
     ///
@@ -1383,7 +1383,7 @@ extension PinpointEmailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDeliverabilityDashboardOptions` operation on the `AmazonPinpointEmailService` service.
+    /// Performs the `GetDeliverabilityDashboardOptions` operation on the `PinpointEmail` service.
     ///
     /// Retrieve information about the status of the Deliverability dashboard for your Amazon Pinpoint account. When the Deliverability dashboard is enabled, you gain access to reputation, deliverability, and other metrics for the domains that you use to send email using Amazon Pinpoint. You also gain the ability to perform predictive inbox placement tests. When you use the Deliverability dashboard, you pay a monthly subscription charge, in addition to any other fees that you accrue by using Amazon Pinpoint. For more information about the features and cost of a Deliverability dashboard subscription, see [Amazon Pinpoint Pricing](http://aws.amazon.com/pinpoint/pricing/).
     ///
@@ -1451,7 +1451,7 @@ extension PinpointEmailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDeliverabilityTestReport` operation on the `AmazonPinpointEmailService` service.
+    /// Performs the `GetDeliverabilityTestReport` operation on the `PinpointEmail` service.
     ///
     /// Retrieve the results of a predictive inbox placement test.
     ///
@@ -1519,7 +1519,7 @@ extension PinpointEmailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDomainDeliverabilityCampaign` operation on the `AmazonPinpointEmailService` service.
+    /// Performs the `GetDomainDeliverabilityCampaign` operation on the `PinpointEmail` service.
     ///
     /// Retrieve all the deliverability data for a specific campaign. This data is available for a campaign only if the campaign sent email by using a domain that the Deliverability dashboard is enabled for (PutDeliverabilityDashboardOption operation).
     ///
@@ -1587,7 +1587,7 @@ extension PinpointEmailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDomainStatisticsReport` operation on the `AmazonPinpointEmailService` service.
+    /// Performs the `GetDomainStatisticsReport` operation on the `PinpointEmail` service.
     ///
     /// Retrieve inbox placement and engagement rates for the domains that you use to send email.
     ///
@@ -1656,7 +1656,7 @@ extension PinpointEmailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetEmailIdentity` operation on the `AmazonPinpointEmailService` service.
+    /// Performs the `GetEmailIdentity` operation on the `PinpointEmail` service.
     ///
     /// Provides information about a specific identity associated with your Amazon Pinpoint account, including the identity's verification status, its DKIM authentication status, and its custom Mail-From settings.
     ///
@@ -1724,7 +1724,7 @@ extension PinpointEmailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListConfigurationSets` operation on the `AmazonPinpointEmailService` service.
+    /// Performs the `ListConfigurationSets` operation on the `PinpointEmail` service.
     ///
     /// List all of the configuration sets associated with your Amazon Pinpoint account in the current region. In Amazon Pinpoint, configuration sets are groups of rules that you can apply to the emails you send. You apply a configuration set to an email by including a reference to the configuration set in the headers of the email. When you apply a configuration set to an email, all of the rules in that configuration set are applied to the email.
     ///
@@ -1792,7 +1792,7 @@ extension PinpointEmailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDedicatedIpPools` operation on the `AmazonPinpointEmailService` service.
+    /// Performs the `ListDedicatedIpPools` operation on the `PinpointEmail` service.
     ///
     /// List all of the dedicated IP pools that exist in your Amazon Pinpoint account in the current AWS Region.
     ///
@@ -1860,7 +1860,7 @@ extension PinpointEmailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDeliverabilityTestReports` operation on the `AmazonPinpointEmailService` service.
+    /// Performs the `ListDeliverabilityTestReports` operation on the `PinpointEmail` service.
     ///
     /// Show a list of the predictive inbox placement tests that you've performed, regardless of their statuses. For predictive inbox placement tests that are complete, you can use the GetDeliverabilityTestReport operation to view the results.
     ///
@@ -1929,7 +1929,7 @@ extension PinpointEmailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDomainDeliverabilityCampaigns` operation on the `AmazonPinpointEmailService` service.
+    /// Performs the `ListDomainDeliverabilityCampaigns` operation on the `PinpointEmail` service.
     ///
     /// Retrieve deliverability data for all the campaigns that used a specific domain to send email during a specified time range. This data is available for a domain only if you enabled the Deliverability dashboard (PutDeliverabilityDashboardOption operation) for the domain.
     ///
@@ -1998,7 +1998,7 @@ extension PinpointEmailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListEmailIdentities` operation on the `AmazonPinpointEmailService` service.
+    /// Performs the `ListEmailIdentities` operation on the `PinpointEmail` service.
     ///
     /// Returns a list of all of the email identities that are associated with your Amazon Pinpoint account. An identity can be either an email address or a domain. This operation returns identities that are verified as well as those that aren't.
     ///
@@ -2066,7 +2066,7 @@ extension PinpointEmailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `AmazonPinpointEmailService` service.
+    /// Performs the `ListTagsForResource` operation on the `PinpointEmail` service.
     ///
     /// Retrieve a list of the tags (keys and values) that are associated with a specified resource. A tag is a label that you optionally define and associate with a resource in Amazon Pinpoint. Each tag consists of a required tag key and an optional associated tag value. A tag key is a general label that acts as a category for more specific tag values. A tag value acts as a descriptor within a tag key.
     ///
@@ -2135,7 +2135,7 @@ extension PinpointEmailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutAccountDedicatedIpWarmupAttributes` operation on the `AmazonPinpointEmailService` service.
+    /// Performs the `PutAccountDedicatedIpWarmupAttributes` operation on the `PinpointEmail` service.
     ///
     /// Enable or disable the automatic warm-up feature for dedicated IP addresses.
     ///
@@ -2205,7 +2205,7 @@ extension PinpointEmailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutAccountSendingAttributes` operation on the `AmazonPinpointEmailService` service.
+    /// Performs the `PutAccountSendingAttributes` operation on the `PinpointEmail` service.
     ///
     /// Enable or disable the ability of your account to send email.
     ///
@@ -2275,7 +2275,7 @@ extension PinpointEmailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutConfigurationSetDeliveryOptions` operation on the `AmazonPinpointEmailService` service.
+    /// Performs the `PutConfigurationSetDeliveryOptions` operation on the `PinpointEmail` service.
     ///
     /// Associate a configuration set with a dedicated IP pool. You can use dedicated IP pools to create groups of dedicated IP addresses for sending specific types of email.
     ///
@@ -2346,7 +2346,7 @@ extension PinpointEmailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutConfigurationSetReputationOptions` operation on the `AmazonPinpointEmailService` service.
+    /// Performs the `PutConfigurationSetReputationOptions` operation on the `PinpointEmail` service.
     ///
     /// Enable or disable collection of reputation metrics for emails that you send using a particular configuration set in a specific AWS Region.
     ///
@@ -2417,7 +2417,7 @@ extension PinpointEmailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutConfigurationSetSendingOptions` operation on the `AmazonPinpointEmailService` service.
+    /// Performs the `PutConfigurationSetSendingOptions` operation on the `PinpointEmail` service.
     ///
     /// Enable or disable email sending for messages that use a particular configuration set in a specific AWS Region.
     ///
@@ -2488,7 +2488,7 @@ extension PinpointEmailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutConfigurationSetTrackingOptions` operation on the `AmazonPinpointEmailService` service.
+    /// Performs the `PutConfigurationSetTrackingOptions` operation on the `PinpointEmail` service.
     ///
     /// Specify a custom domain to use for open and click tracking elements in email that you send using Amazon Pinpoint.
     ///
@@ -2559,7 +2559,7 @@ extension PinpointEmailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutDedicatedIpInPool` operation on the `AmazonPinpointEmailService` service.
+    /// Performs the `PutDedicatedIpInPool` operation on the `PinpointEmail` service.
     ///
     /// Move a dedicated IP address to an existing dedicated IP pool. The dedicated IP address that you specify must already exist, and must be associated with your Amazon Pinpoint account. The dedicated IP pool you specify must already exist. You can create a new pool by using the CreateDedicatedIpPool operation.
     ///
@@ -2630,7 +2630,7 @@ extension PinpointEmailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutDedicatedIpWarmupAttributes` operation on the `AmazonPinpointEmailService` service.
+    /// Performs the `PutDedicatedIpWarmupAttributes` operation on the `PinpointEmail` service.
     ///
     ///
     ///
@@ -2701,7 +2701,7 @@ extension PinpointEmailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutDeliverabilityDashboardOption` operation on the `AmazonPinpointEmailService` service.
+    /// Performs the `PutDeliverabilityDashboardOption` operation on the `PinpointEmail` service.
     ///
     /// Enable or disable the Deliverability dashboard for your Amazon Pinpoint account. When you enable the Deliverability dashboard, you gain access to reputation, deliverability, and other metrics for the domains that you use to send email using Amazon Pinpoint. You also gain the ability to perform predictive inbox placement tests. When you use the Deliverability dashboard, you pay a monthly subscription charge, in addition to any other fees that you accrue by using Amazon Pinpoint. For more information about the features and cost of a Deliverability dashboard subscription, see [Amazon Pinpoint Pricing](http://aws.amazon.com/pinpoint/pricing/).
     ///
@@ -2774,7 +2774,7 @@ extension PinpointEmailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutEmailIdentityDkimAttributes` operation on the `AmazonPinpointEmailService` service.
+    /// Performs the `PutEmailIdentityDkimAttributes` operation on the `PinpointEmail` service.
     ///
     /// Used to enable or disable DKIM authentication for an email identity.
     ///
@@ -2845,7 +2845,7 @@ extension PinpointEmailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutEmailIdentityFeedbackAttributes` operation on the `AmazonPinpointEmailService` service.
+    /// Performs the `PutEmailIdentityFeedbackAttributes` operation on the `PinpointEmail` service.
     ///
     /// Used to enable or disable feedback forwarding for an identity. This setting determines what happens when an identity is used to send an email that results in a bounce or complaint event. When you enable feedback forwarding, Amazon Pinpoint sends you email notifications when bounce or complaint events occur. Amazon Pinpoint sends this notification to the address that you specified in the Return-Path header of the original email. When you disable feedback forwarding, Amazon Pinpoint sends notifications through other mechanisms, such as by notifying an Amazon SNS topic. You're required to have a method of tracking bounces and complaints. If you haven't set up another mechanism for receiving bounce or complaint notifications, Amazon Pinpoint sends an email notification when these events occur (even if this setting is disabled).
     ///
@@ -2916,7 +2916,7 @@ extension PinpointEmailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutEmailIdentityMailFromAttributes` operation on the `AmazonPinpointEmailService` service.
+    /// Performs the `PutEmailIdentityMailFromAttributes` operation on the `PinpointEmail` service.
     ///
     /// Used to enable or disable the custom Mail-From domain configuration for an email identity.
     ///
@@ -2987,7 +2987,7 @@ extension PinpointEmailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SendEmail` operation on the `AmazonPinpointEmailService` service.
+    /// Performs the `SendEmail` operation on the `PinpointEmail` service.
     ///
     /// Sends an email message. You can use the Amazon Pinpoint Email API to send two types of messages:
     ///
@@ -3067,7 +3067,7 @@ extension PinpointEmailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `AmazonPinpointEmailService` service.
+    /// Performs the `TagResource` operation on the `PinpointEmail` service.
     ///
     /// Add one or more tags (keys and values) to a specified resource. A tag is a label that you optionally define and associate with a resource in Amazon Pinpoint. Tags can help you categorize and manage resources in different ways, such as by purpose, owner, environment, or other criteria. A resource can have as many as 50 tags. Each tag consists of a required tag key and an associated tag value, both of which you define. A tag key is a general label that acts as a category for more specific tag values. A tag value acts as a descriptor within a tag key.
     ///
@@ -3139,7 +3139,7 @@ extension PinpointEmailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `AmazonPinpointEmailService` service.
+    /// Performs the `UntagResource` operation on the `PinpointEmail` service.
     ///
     /// Remove one or more tags (keys and values) from a specified resource.
     ///
@@ -3209,7 +3209,7 @@ extension PinpointEmailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateConfigurationSetEventDestination` operation on the `AmazonPinpointEmailService` service.
+    /// Performs the `UpdateConfigurationSetEventDestination` operation on the `PinpointEmail` service.
     ///
     /// Update the configuration of an event destination for a configuration set. In Amazon Pinpoint, events include message sends, deliveries, opens, clicks, bounces, and complaints. Event destinations are places that you can send information about these events to. For example, you can send event data to Amazon SNS to receive notifications when you receive bounces or complaints, or you can use Amazon Kinesis Data Firehose to stream data to Amazon S3 for long-term storage.
     ///

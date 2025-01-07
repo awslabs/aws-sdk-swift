@@ -63,7 +63,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ResourceGroupsTaggingAPIClient: ClientRuntime.Client {
     public static let clientName = "ResourceGroupsTaggingAPIClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: ResourceGroupsTaggingAPIClient.ResourceGroupsTaggingAPIClientConfiguration
     let serviceName = "Resource Groups Tagging API"
@@ -329,7 +329,7 @@ extension ResourceGroupsTaggingAPIClient {
 }
 
 extension ResourceGroupsTaggingAPIClient {
-    /// Performs the `DescribeReportCreation` operation on the `ResourceGroupsTaggingAPI_20170126` service.
+    /// Performs the `DescribeReportCreation` operation on the `ResourceGroupsTaggingAPI` service.
     ///
     /// Describes the status of the StartReportCreation operation. You can call this operation only from the organization's management account and from the us-east-1 Region.
     ///
@@ -418,7 +418,7 @@ extension ResourceGroupsTaggingAPIClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetComplianceSummary` operation on the `ResourceGroupsTaggingAPI_20170126` service.
+    /// Performs the `GetComplianceSummary` operation on the `ResourceGroupsTaggingAPI` service.
     ///
     /// Returns a table that shows counts of resources that are noncompliant with their tag policies. For more information on tag policies, see [Tag Policies](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html) in the Organizations User Guide. You can call this operation only from the organization's management account and from the us-east-1 Region. This operation supports pagination, where the response can be sent in multiple pages. You should check the PaginationToken response parameter to determine if there are additional results available to return. Repeat the query, passing the PaginationToken response parameter value as an input to the next request until you recieve a null value. A null value for PaginationToken indicates that there are no more results waiting to be returned.
     ///
@@ -507,7 +507,7 @@ extension ResourceGroupsTaggingAPIClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetResources` operation on the `ResourceGroupsTaggingAPI_20170126` service.
+    /// Performs the `GetResources` operation on the `ResourceGroupsTaggingAPI` service.
     ///
     /// Returns all the tagged or previously tagged resources that are located in the specified Amazon Web Services Region for the account. Depending on what information you want returned, you can also specify the following:
     ///
@@ -597,7 +597,7 @@ extension ResourceGroupsTaggingAPIClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetTagKeys` operation on the `ResourceGroupsTaggingAPI_20170126` service.
+    /// Performs the `GetTagKeys` operation on the `ResourceGroupsTaggingAPI` service.
     ///
     /// Returns all tag keys currently in use in the specified Amazon Web Services Region for the calling account. This operation supports pagination, where the response can be sent in multiple pages. You should check the PaginationToken response parameter to determine if there are additional results available to return. Repeat the query, passing the PaginationToken response parameter value as an input to the next request until you recieve a null value. A null value for PaginationToken indicates that there are no more results waiting to be returned.
     ///
@@ -680,7 +680,7 @@ extension ResourceGroupsTaggingAPIClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetTagValues` operation on the `ResourceGroupsTaggingAPI_20170126` service.
+    /// Performs the `GetTagValues` operation on the `ResourceGroupsTaggingAPI` service.
     ///
     /// Returns all tag values for the specified key that are used in the specified Amazon Web Services Region for the calling account. This operation supports pagination, where the response can be sent in multiple pages. You should check the PaginationToken response parameter to determine if there are additional results available to return. Repeat the query, passing the PaginationToken response parameter value as an input to the next request until you recieve a null value. A null value for PaginationToken indicates that there are no more results waiting to be returned.
     ///
@@ -763,7 +763,7 @@ extension ResourceGroupsTaggingAPIClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartReportCreation` operation on the `ResourceGroupsTaggingAPI_20170126` service.
+    /// Performs the `StartReportCreation` operation on the `ResourceGroupsTaggingAPI` service.
     ///
     /// Generates a report that lists all tagged resources in the accounts across your organization and tells whether each resource is compliant with the effective tag policy. Compliance data is refreshed daily. The report is generated asynchronously. The generated report is saved to the following location: s3://example-bucket/AwsTagPolicies/o-exampleorgid/YYYY-MM-ddTHH:mm:ssZ/report.csv You can call this operation only from the organization's management account and from the us-east-1 Region.
     ///
@@ -853,7 +853,7 @@ extension ResourceGroupsTaggingAPIClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResources` operation on the `ResourceGroupsTaggingAPI_20170126` service.
+    /// Performs the `TagResources` operation on the `ResourceGroupsTaggingAPI` service.
     ///
     /// Applies one or more tags to the specified resources. Note the following:
     ///
@@ -950,7 +950,7 @@ extension ResourceGroupsTaggingAPIClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResources` operation on the `ResourceGroupsTaggingAPI_20170126` service.
+    /// Performs the `UntagResources` operation on the `ResourceGroupsTaggingAPI` service.
     ///
     /// Removes the specified tags from the specified resources. When you specify a tag key, the action removes both that key and its associated value. The operation succeeds even if you attempt to remove tags from a resource that were already removed. Note the following:
     ///

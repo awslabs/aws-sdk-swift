@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class LexModelsV2Client: ClientRuntime.Client {
     public static let clientName = "LexModelsV2Client"
-    public static let version = "1.0.72"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: LexModelsV2Client.LexModelsV2ClientConfiguration
     let serviceName = "Lex Models V2"
@@ -330,7 +330,7 @@ extension LexModelsV2Client {
 }
 
 extension LexModelsV2Client {
-    /// Performs the `BatchCreateCustomVocabularyItem` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `BatchCreateCustomVocabularyItem` operation on the `LexModelsV2` service.
     ///
     /// Create a batch of custom vocabulary items for a given bot locale's custom vocabulary.
     ///
@@ -403,7 +403,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchDeleteCustomVocabularyItem` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `BatchDeleteCustomVocabularyItem` operation on the `LexModelsV2` service.
     ///
     /// Delete a batch of custom vocabulary items for a given bot locale's custom vocabulary.
     ///
@@ -476,7 +476,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchUpdateCustomVocabularyItem` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `BatchUpdateCustomVocabularyItem` operation on the `LexModelsV2` service.
     ///
     /// Update a batch of custom vocabulary items for a given bot locale's custom vocabulary.
     ///
@@ -549,7 +549,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BuildBotLocale` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `BuildBotLocale` operation on the `LexModelsV2` service.
     ///
     /// Builds a bot, its intents, and its slot types into a specific locale. A bot can be built into multiple locales. At runtime the locale is used to choose a specific build of the bot.
     ///
@@ -620,7 +620,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateBot` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `CreateBot` operation on the `LexModelsV2` service.
     ///
     /// Creates an Amazon Lex conversational bot.
     ///
@@ -694,7 +694,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateBotAlias` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `CreateBotAlias` operation on the `LexModelsV2` service.
     ///
     /// Creates an alias for the specified version of a bot. Use an alias to enable you to change the version of a bot without updating applications that use the bot. For example, you can create an alias called "PROD" that your applications use to call the Amazon Lex bot.
     ///
@@ -768,7 +768,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateBotLocale` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `CreateBotLocale` operation on the `LexModelsV2` service.
     ///
     /// Creates a locale in the bot. The locale contains the intents and slot types that the bot uses in conversations with users in the specified language and locale. You must add a locale to a bot before you can add intents and slot types to the bot.
     ///
@@ -842,7 +842,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateBotReplica` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `CreateBotReplica` operation on the `LexModelsV2` service.
     ///
     /// Action to create a replication of the source bot in the secondary region.
     ///
@@ -916,7 +916,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateBotVersion` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `CreateBotVersion` operation on the `LexModelsV2` service.
     ///
     /// Creates an immutable version of the bot. When you create the first version of a bot, Amazon Lex sets the version number to 1. Subsequent bot versions increase in an increment of 1. The version number will always represent the total number of versions created of the bot, not the current number of versions. If a bot version is deleted, that bot version number will not be reused.
     ///
@@ -990,7 +990,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateExport` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `CreateExport` operation on the `LexModelsV2` service.
     ///
     /// Creates a zip archive containing the contents of a bot or a bot locale. The archive contains a directory structure that contains JSON files that define the bot. You can create an archive that contains the complete definition of a bot, or you can specify that the archive contain only the definition of a single bot locale. For more information about exporting bots, and about the structure of the export archive, see [ Importing and exporting bots ](https://docs.aws.amazon.com/lexv2/latest/dg/importing-exporting.html)
     ///
@@ -1064,7 +1064,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateIntent` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `CreateIntent` operation on the `LexModelsV2` service.
     ///
     /// Creates an intent. To define the interaction between the user and your bot, you define one or more intents. For example, for a pizza ordering bot you would create an OrderPizza intent. When you create an intent, you must provide a name. You can optionally provide the following:
     ///
@@ -1150,7 +1150,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateResourcePolicy` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `CreateResourcePolicy` operation on the `LexModelsV2` service.
     ///
     /// Creates a new resource policy with the specified policy statements.
     ///
@@ -1224,7 +1224,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateResourcePolicyStatement` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `CreateResourcePolicyStatement` operation on the `LexModelsV2` service.
     ///
     /// Adds a new resource policy statement to a bot or bot alias. If a resource policy exists, the statement is added to the current resource policy. If a policy doesn't exist, a new policy is created. You can't create a resource policy statement that allows cross-account access. You need to add the CreateResourcePolicy or UpdateResourcePolicy action to the bot role in order to call the API.
     ///
@@ -1300,7 +1300,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateSlot` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `CreateSlot` operation on the `LexModelsV2` service.
     ///
     /// Creates a slot in an intent. A slot is a variable needed to fulfill an intent. For example, an OrderPizza intent might need slots for size, crust, and number of pizzas. For each slot, you define one or more utterances that Amazon Lex uses to elicit a response from the user.
     ///
@@ -1374,7 +1374,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateSlotType` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `CreateSlotType` operation on the `LexModelsV2` service.
     ///
     /// Creates a custom slot type To create a custom slot type, specify a name for the slot type and a set of enumeration values, the values that a slot of this type can assume.
     ///
@@ -1448,7 +1448,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateTestSetDiscrepancyReport` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `CreateTestSetDiscrepancyReport` operation on the `LexModelsV2` service.
     ///
     /// Create a report that describes the differences between the bot and the test set.
     ///
@@ -1522,7 +1522,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateUploadUrl` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `CreateUploadUrl` operation on the `LexModelsV2` service.
     ///
     /// Gets a pre-signed S3 write URL that you use to upload the zip archive when importing a bot or a bot locale.
     ///
@@ -1592,7 +1592,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteBot` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `DeleteBot` operation on the `LexModelsV2` service.
     ///
     /// Deletes all versions of a bot, including the Draft version. To delete a specific version, use the DeleteBotVersion operation. When you delete a bot, all of the resources contained in the bot are also deleted. Deleting a bot removes all locales, intents, slot, and slot types defined for the bot. If a bot has an alias, the DeleteBot operation returns a ResourceInUseException exception. If you want to delete the bot and the alias, set the skipResourceInUseCheck parameter to true.
     ///
@@ -1664,7 +1664,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteBotAlias` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `DeleteBotAlias` operation on the `LexModelsV2` service.
     ///
     /// Deletes the specified bot alias.
     ///
@@ -1736,7 +1736,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteBotLocale` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `DeleteBotLocale` operation on the `LexModelsV2` service.
     ///
     /// Removes a locale from a bot. When you delete a locale, all intents, slots, and slot types defined for the locale are also deleted.
     ///
@@ -1807,7 +1807,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteBotReplica` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `DeleteBotReplica` operation on the `LexModelsV2` service.
     ///
     /// The action to delete the replicated bot in the secondary region.
     ///
@@ -1878,7 +1878,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteBotVersion` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `DeleteBotVersion` operation on the `LexModelsV2` service.
     ///
     /// Deletes a specific version of a bot. To delete all versions of a bot, use the [DeleteBot](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_DeleteBot.html) operation.
     ///
@@ -1950,7 +1950,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteCustomVocabulary` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `DeleteCustomVocabulary` operation on the `LexModelsV2` service.
     ///
     /// Removes a custom vocabulary from the specified locale in the specified bot.
     ///
@@ -2021,7 +2021,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteExport` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `DeleteExport` operation on the `LexModelsV2` service.
     ///
     /// Removes a previous export and the associated files stored in an S3 bucket.
     ///
@@ -2091,7 +2091,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteImport` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `DeleteImport` operation on the `LexModelsV2` service.
     ///
     /// Removes a previous import and the associated file stored in an S3 bucket.
     ///
@@ -2161,7 +2161,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteIntent` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `DeleteIntent` operation on the `LexModelsV2` service.
     ///
     /// Removes the specified intent. Deleting an intent also deletes the slots associated with the intent.
     ///
@@ -2232,7 +2232,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteResourcePolicy` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `DeleteResourcePolicy` operation on the `LexModelsV2` service.
     ///
     /// Removes an existing policy from a bot or bot alias. If the resource doesn't have a policy attached, Amazon Lex returns an exception.
     ///
@@ -2302,7 +2302,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteResourcePolicyStatement` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `DeleteResourcePolicyStatement` operation on the `LexModelsV2` service.
     ///
     /// Deletes a policy statement from a resource policy. If you delete the last statement from a policy, the policy is deleted. If you specify a statement ID that doesn't exist in the policy, or if the bot or bot alias doesn't have a policy attached, Amazon Lex returns an exception. You need to add the DeleteResourcePolicy or UpdateResourcePolicy action to the bot role in order to call the API.
     ///
@@ -2372,7 +2372,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteSlot` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `DeleteSlot` operation on the `LexModelsV2` service.
     ///
     /// Deletes the specified slot from an intent.
     ///
@@ -2443,7 +2443,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteSlotType` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `DeleteSlotType` operation on the `LexModelsV2` service.
     ///
     /// Deletes a slot type from a bot locale. If a slot is using the slot type, Amazon Lex throws a ResourceInUseException exception. To avoid the exception, set the skipResourceInUseCheck parameter to true.
     ///
@@ -2515,7 +2515,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteTestSet` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `DeleteTestSet` operation on the `LexModelsV2` service.
     ///
     /// The action to delete the selected test set.
     ///
@@ -2586,7 +2586,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteUtterances` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `DeleteUtterances` operation on the `LexModelsV2` service.
     ///
     /// Deletes stored utterances. Amazon Lex stores the utterances that users send to your bot. Utterances are stored for 15 days for use with the [ListAggregatedUtterances](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_ListAggregatedUtterances.html) operation, and then stored indefinitely for use in improving the ability of your bot to respond to user input.. Use the DeleteUtterances operation to manually delete utterances for a specific session. When you use the DeleteUtterances operation, utterances stored for improving your bot's ability to respond to user input are deleted immediately. Utterances stored for use with the ListAggregatedUtterances operation are deleted after 15 days.
     ///
@@ -2655,7 +2655,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeBot` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `DescribeBot` operation on the `LexModelsV2` service.
     ///
     /// Provides metadata information about a bot.
     ///
@@ -2725,7 +2725,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeBotAlias` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `DescribeBotAlias` operation on the `LexModelsV2` service.
     ///
     /// Get information about a specific bot alias.
     ///
@@ -2795,7 +2795,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeBotLocale` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `DescribeBotLocale` operation on the `LexModelsV2` service.
     ///
     /// Describes the settings that a bot has for a specific locale.
     ///
@@ -2865,7 +2865,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeBotRecommendation` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `DescribeBotRecommendation` operation on the `LexModelsV2` service.
     ///
     /// Provides metadata information about a bot recommendation. This information will enable you to get a description on the request inputs, to download associated transcripts after processing is complete, and to download intents and slot-types generated by the bot recommendation.
     ///
@@ -2934,7 +2934,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeBotReplica` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `DescribeBotReplica` operation on the `LexModelsV2` service.
     ///
     /// Monitors the bot replication status through the UI console.
     ///
@@ -3004,7 +3004,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeBotResourceGeneration` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `DescribeBotResourceGeneration` operation on the `LexModelsV2` service.
     ///
     /// Returns information about a request to generate a bot through natural language description, made through the StartBotResource API. Use the generatedBotLocaleUrl to retrieve the Amazon S3 object containing the bot locale configuration. You can then modify and import this configuration.
     ///
@@ -3073,7 +3073,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeBotVersion` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `DescribeBotVersion` operation on the `LexModelsV2` service.
     ///
     /// Provides metadata about a version of a bot.
     ///
@@ -3143,7 +3143,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeCustomVocabularyMetadata` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `DescribeCustomVocabularyMetadata` operation on the `LexModelsV2` service.
     ///
     /// Provides metadata information about a custom vocabulary.
     ///
@@ -3213,7 +3213,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeExport` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `DescribeExport` operation on the `LexModelsV2` service.
     ///
     /// Gets information about a specific export.
     ///
@@ -3282,7 +3282,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeImport` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `DescribeImport` operation on the `LexModelsV2` service.
     ///
     /// Gets information about a specific import.
     ///
@@ -3351,7 +3351,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeIntent` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `DescribeIntent` operation on the `LexModelsV2` service.
     ///
     /// Returns metadata about an intent.
     ///
@@ -3421,7 +3421,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeResourcePolicy` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `DescribeResourcePolicy` operation on the `LexModelsV2` service.
     ///
     /// Gets the resource policy and policy revision for a bot or bot alias.
     ///
@@ -3489,7 +3489,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeSlot` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `DescribeSlot` operation on the `LexModelsV2` service.
     ///
     /// Gets metadata information about a slot.
     ///
@@ -3559,7 +3559,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeSlotType` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `DescribeSlotType` operation on the `LexModelsV2` service.
     ///
     /// Gets metadata information about a slot type.
     ///
@@ -3629,7 +3629,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeTestExecution` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `DescribeTestExecution` operation on the `LexModelsV2` service.
     ///
     /// Gets metadata information about the test execution.
     ///
@@ -3699,7 +3699,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeTestSet` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `DescribeTestSet` operation on the `LexModelsV2` service.
     ///
     /// Gets metadata information about the test set.
     ///
@@ -3769,7 +3769,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeTestSetDiscrepancyReport` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `DescribeTestSetDiscrepancyReport` operation on the `LexModelsV2` service.
     ///
     /// Gets metadata information about the test set discrepancy report.
     ///
@@ -3839,7 +3839,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeTestSetGeneration` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `DescribeTestSetGeneration` operation on the `LexModelsV2` service.
     ///
     /// Gets metadata information about the test set generation.
     ///
@@ -3909,7 +3909,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GenerateBotElement` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `GenerateBotElement` operation on the `LexModelsV2` service.
     ///
     /// Generates sample utterances for an intent.
     ///
@@ -3984,7 +3984,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetTestExecutionArtifactsUrl` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `GetTestExecutionArtifactsUrl` operation on the `LexModelsV2` service.
     ///
     /// The pre-signed Amazon S3 URL to download the test execution result artifacts.
     ///
@@ -4054,7 +4054,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAggregatedUtterances` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `ListAggregatedUtterances` operation on the `LexModelsV2` service.
     ///
     /// Provides a list of utterances that users have sent to the bot. Utterances are aggregated by the text of the utterance. For example, all instances where customers used the phrase "I want to order pizza" are aggregated into the same line in the response. You can see both detected utterances and missed utterances. A detected utterance is where the bot properly recognized the utterance and activated the associated intent. A missed utterance was not recognized by the bot and didn't activate an intent. Utterances can be aggregated for a bot alias or for a bot version, but not both at the same time. Utterances statistics are not generated under the following conditions:
     ///
@@ -4132,7 +4132,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListBotAliasReplicas` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `ListBotAliasReplicas` operation on the `LexModelsV2` service.
     ///
     /// The action to list the replicated bots created from the source bot alias.
     ///
@@ -4204,7 +4204,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListBotAliases` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `ListBotAliases` operation on the `LexModelsV2` service.
     ///
     /// Gets a list of aliases for the specified bot.
     ///
@@ -4276,7 +4276,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListBotLocales` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `ListBotLocales` operation on the `LexModelsV2` service.
     ///
     /// Gets a list of locales for the specified bot.
     ///
@@ -4348,7 +4348,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListBotRecommendations` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `ListBotRecommendations` operation on the `LexModelsV2` service.
     ///
     /// Get a list of bot recommendations that meet the specified criteria.
     ///
@@ -4420,7 +4420,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListBotReplicas` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `ListBotReplicas` operation on the `LexModelsV2` service.
     ///
     /// The action to list the replicated bots.
     ///
@@ -4489,7 +4489,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListBotResourceGenerations` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `ListBotResourceGenerations` operation on the `LexModelsV2` service.
     ///
     /// Lists the generation requests made for a bot locale.
     ///
@@ -4561,7 +4561,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListBotVersionReplicas` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `ListBotVersionReplicas` operation on the `LexModelsV2` service.
     ///
     /// Contains information about all the versions replication statuses applicable for Global Resiliency.
     ///
@@ -4633,7 +4633,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListBotVersions` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `ListBotVersions` operation on the `LexModelsV2` service.
     ///
     /// Gets information about all of the versions of a bot. The ListBotVersions operation returns a summary of each version of a bot. For example, if a bot has three numbered versions, the ListBotVersions operation returns for summaries, one for each numbered version and one for the DRAFT version. The ListBotVersions operation always returns at least one version, the DRAFT version.
     ///
@@ -4705,7 +4705,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListBots` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `ListBots` operation on the `LexModelsV2` service.
     ///
     /// Gets a list of available bots.
     ///
@@ -4777,7 +4777,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListBuiltInIntents` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `ListBuiltInIntents` operation on the `LexModelsV2` service.
     ///
     /// Gets a list of built-in intents provided by Amazon Lex that you can use in your bot. To use a built-in intent as a the base for your own intent, include the built-in intent signature in the parentIntentSignature parameter when you call the CreateIntent operation. For more information, see [CreateIntent](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_CreateIntent.html).
     ///
@@ -4849,7 +4849,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListBuiltInSlotTypes` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `ListBuiltInSlotTypes` operation on the `LexModelsV2` service.
     ///
     /// Gets a list of built-in slot types that meet the specified criteria.
     ///
@@ -4921,7 +4921,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListCustomVocabularyItems` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `ListCustomVocabularyItems` operation on the `LexModelsV2` service.
     ///
     /// Paginated list of custom vocabulary items for a given bot locale's custom vocabulary.
     ///
@@ -4994,7 +4994,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListExports` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `ListExports` operation on the `LexModelsV2` service.
     ///
     /// Lists the exports for a bot, bot locale, or custom vocabulary. Exports are kept in the list for 7 days.
     ///
@@ -5065,7 +5065,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListImports` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `ListImports` operation on the `LexModelsV2` service.
     ///
     /// Lists the imports for a bot, bot locale, or custom vocabulary. Imports are kept in the list for 7 days.
     ///
@@ -5136,7 +5136,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListIntentMetrics` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `ListIntentMetrics` operation on the `LexModelsV2` service.
     ///
     /// Retrieves summary metrics for the intents in your bot. The following fields are required:
     ///
@@ -5223,7 +5223,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListIntentPaths` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `ListIntentPaths` operation on the `LexModelsV2` service.
     ///
     /// Retrieves summary statistics for a path of intents that users take over sessions with your bot. The following fields are required:
     ///
@@ -5303,7 +5303,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListIntentStageMetrics` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `ListIntentStageMetrics` operation on the `LexModelsV2` service.
     ///
     /// Retrieves summary metrics for the stages within intents in your bot. The following fields are required:
     ///
@@ -5390,7 +5390,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListIntents` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `ListIntents` operation on the `LexModelsV2` service.
     ///
     /// Get a list of intents that meet the specified criteria.
     ///
@@ -5462,7 +5462,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListRecommendedIntents` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `ListRecommendedIntents` operation on the `LexModelsV2` service.
     ///
     /// Gets a list of recommended intents provided by the bot recommendation that you can use in your bot. Intents in the response are ordered by relevance.
     ///
@@ -5535,7 +5535,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListSessionAnalyticsData` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `ListSessionAnalyticsData` operation on the `LexModelsV2` service.
     ///
     /// Retrieves a list of metadata for individual user sessions with your bot. The startDateTime and endDateTime fields are required. These fields define a time range for which you want to retrieve results. Of the optional fields, you can organize the results in the following ways:
     ///
@@ -5612,7 +5612,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListSessionMetrics` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `ListSessionMetrics` operation on the `LexModelsV2` service.
     ///
     /// Retrieves summary metrics for the user sessions with your bot. The following fields are required:
     ///
@@ -5699,7 +5699,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListSlotTypes` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `ListSlotTypes` operation on the `LexModelsV2` service.
     ///
     /// Gets a list of slot types that match the specified criteria.
     ///
@@ -5771,7 +5771,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListSlots` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `ListSlots` operation on the `LexModelsV2` service.
     ///
     /// Gets a list of slots that match the specified criteria.
     ///
@@ -5843,7 +5843,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `ListTagsForResource` operation on the `LexModelsV2` service.
     ///
     /// Gets a list of tags associated with a resource. Only bots, bot aliases, and bot channels can have tags associated with them.
     ///
@@ -5912,7 +5912,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTestExecutionResultItems` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `ListTestExecutionResultItems` operation on the `LexModelsV2` service.
     ///
     /// Gets a list of test execution result items.
     ///
@@ -5985,7 +5985,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTestExecutions` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `ListTestExecutions` operation on the `LexModelsV2` service.
     ///
     /// The list of test set executions.
     ///
@@ -6057,7 +6057,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTestSetRecords` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `ListTestSetRecords` operation on the `LexModelsV2` service.
     ///
     /// The list of test set records.
     ///
@@ -6130,7 +6130,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTestSets` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `ListTestSets` operation on the `LexModelsV2` service.
     ///
     /// The list of the test sets
     ///
@@ -6202,7 +6202,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListUtteranceAnalyticsData` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `ListUtteranceAnalyticsData` operation on the `LexModelsV2` service.
     ///
     /// To use this API operation, your IAM role must have permissions to perform the [ListAggregatedUtterances](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_ListAggregatedUtterances.html) operation, which provides access to utterance-related analytics. See [Viewing utterance statistics](https://docs.aws.amazon.com/lexv2/latest/dg/monitoring-utterances.html) for the IAM policy to apply to the IAM role. Retrieves a list of metadata for individual user utterances to your bot. The following fields are required:
     ///
@@ -6284,7 +6284,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListUtteranceMetrics` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `ListUtteranceMetrics` operation on the `LexModelsV2` service.
     ///
     /// To use this API operation, your IAM role must have permissions to perform the [ListAggregatedUtterances](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_ListAggregatedUtterances.html) operation, which provides access to utterance-related analytics. See [Viewing utterance statistics](https://docs.aws.amazon.com/lexv2/latest/dg/monitoring-utterances.html) for the IAM policy to apply to the IAM role. Retrieves summary metrics for the utterances in your bot. The following fields are required:
     ///
@@ -6371,7 +6371,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SearchAssociatedTranscripts` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `SearchAssociatedTranscripts` operation on the `LexModelsV2` service.
     ///
     /// Search for associated transcripts that meet the specified criteria.
     ///
@@ -6444,7 +6444,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartBotRecommendation` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `StartBotRecommendation` operation on the `LexModelsV2` service.
     ///
     /// Use this to provide your transcript data, and to start the bot recommendation process.
     ///
@@ -6519,7 +6519,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartBotResourceGeneration` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `StartBotResourceGeneration` operation on the `LexModelsV2` service.
     ///
     /// Starts a request for the descriptive bot builder to generate a bot locale configuration based on the prompt you provide it. After you make this call, use the DescribeBotResourceGeneration operation to check on the status of the generation and for the generatedBotLocaleUrl when the generation is complete. Use that value to retrieve the Amazon S3 object containing the bot locale configuration. You can then modify and import this configuration.
     ///
@@ -6593,7 +6593,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartImport` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `StartImport` operation on the `LexModelsV2` service.
     ///
     /// Starts importing a bot, bot locale, or custom vocabulary from a zip archive that you uploaded to an S3 bucket.
     ///
@@ -6667,7 +6667,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartTestExecution` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `StartTestExecution` operation on the `LexModelsV2` service.
     ///
     /// The action to start test set execution.
     ///
@@ -6741,7 +6741,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartTestSetGeneration` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `StartTestSetGeneration` operation on the `LexModelsV2` service.
     ///
     /// The action to start the generation of test set.
     ///
@@ -6815,7 +6815,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopBotRecommendation` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `StopBotRecommendation` operation on the `LexModelsV2` service.
     ///
     /// Stop an already running Bot Recommendation request.
     ///
@@ -6887,7 +6887,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `TagResource` operation on the `LexModelsV2` service.
     ///
     /// Adds the specified tags to the specified resource. If a tag key already exists, the existing value is replaced with the new value.
     ///
@@ -6959,7 +6959,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `UntagResource` operation on the `LexModelsV2` service.
     ///
     /// Removes tags from a bot, bot alias, or bot channel.
     ///
@@ -7029,7 +7029,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateBot` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `UpdateBot` operation on the `LexModelsV2` service.
     ///
     /// Updates the configuration of an existing bot.
     ///
@@ -7103,7 +7103,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateBotAlias` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `UpdateBotAlias` operation on the `LexModelsV2` service.
     ///
     /// Updates the configuration of an existing bot alias.
     ///
@@ -7177,7 +7177,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateBotLocale` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `UpdateBotLocale` operation on the `LexModelsV2` service.
     ///
     /// Updates the settings that a bot has for a specific locale.
     ///
@@ -7251,7 +7251,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateBotRecommendation` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `UpdateBotRecommendation` operation on the `LexModelsV2` service.
     ///
     /// Updates an existing bot recommendation request.
     ///
@@ -7326,7 +7326,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateExport` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `UpdateExport` operation on the `LexModelsV2` service.
     ///
     /// Updates the password used to protect an export zip archive. The password is not required. If you don't supply a password, Amazon Lex generates a zip file that is not protected by a password. This is the archive that is available at the pre-signed S3 URL provided by the [DescribeExport](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_DescribeExport.html) operation.
     ///
@@ -7400,7 +7400,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateIntent` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `UpdateIntent` operation on the `LexModelsV2` service.
     ///
     /// Updates the settings for an intent.
     ///
@@ -7474,7 +7474,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateResourcePolicy` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `UpdateResourcePolicy` operation on the `LexModelsV2` service.
     ///
     /// Replaces the existing resource policy for a bot or bot alias with a new one. If the policy doesn't exist, Amazon Lex returns an exception.
     ///
@@ -7549,7 +7549,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateSlot` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `UpdateSlot` operation on the `LexModelsV2` service.
     ///
     /// Updates the settings for a slot.
     ///
@@ -7623,7 +7623,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateSlotType` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `UpdateSlotType` operation on the `LexModelsV2` service.
     ///
     /// Updates the configuration of an existing slot type.
     ///
@@ -7697,7 +7697,7 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateTestSet` operation on the `LexModelBuildingServiceV2` service.
+    /// Performs the `UpdateTestSet` operation on the `LexModelsV2` service.
     ///
     /// The action to update the test set.
     ///

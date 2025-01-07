@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class PCSClient: ClientRuntime.Client {
     public static let clientName = "PCSClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: PCSClient.PCSClientConfiguration
     let serviceName = "PCS"
@@ -330,7 +330,7 @@ extension PCSClient {
 }
 
 extension PCSClient {
-    /// Performs the `CreateCluster` operation on the `AWSParallelComputingService` service.
+    /// Performs the `CreateCluster` operation on the `PCS` service.
     ///
     /// Creates a cluster in your account. Amazon Web Services PCS creates the cluster controller in a service-owned account. The cluster controller communicates with the cluster resources in your account. The subnets and security groups for the cluster must already exist before you use this API action. It takes time for Amazon Web Services PCS to create the cluster. The cluster is in a Creating state until it is ready to use. There can only be 1 cluster in a Creating state per Amazon Web Services Region per Amazon Web Services account. CreateCluster fails with a ServiceQuotaExceededException if there is already a cluster in a Creating state.
     ///
@@ -436,7 +436,7 @@ extension PCSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateComputeNodeGroup` operation on the `AWSParallelComputingService` service.
+    /// Performs the `CreateComputeNodeGroup` operation on the `PCS` service.
     ///
     /// Creates a managed set of compute nodes. You associate a compute node group with a cluster through 1 or more Amazon Web Services PCS queues or as part of the login fleet. A compute node group includes the definition of the compute properties and lifecycle management. Amazon Web Services PCS uses the information you provide to this API action to launch compute nodes in your account. You can only specify subnets in the same Amazon VPC as your cluster. You receive billing charges for the compute nodes that Amazon Web Services PCS launches in your account. You must already have a launch template before you call this API. For more information, see [Launch an instance from a launch template](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-launch-templates.html) in the Amazon Elastic Compute Cloud User Guide for Linux Instances.
     ///
@@ -543,7 +543,7 @@ extension PCSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateQueue` operation on the `AWSParallelComputingService` service.
+    /// Performs the `CreateQueue` operation on the `PCS` service.
     ///
     /// Creates a job queue. You must associate 1 or more compute node groups with the queue. You can associate 1 compute node group with multiple queues.
     ///
@@ -650,7 +650,7 @@ extension PCSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteCluster` operation on the `AWSParallelComputingService` service.
+    /// Performs the `DeleteCluster` operation on the `PCS` service.
     ///
     /// Deletes a cluster and all its linked resources. You must delete all queues and compute node groups associated with the cluster before you can delete the cluster.
     ///
@@ -750,7 +750,7 @@ extension PCSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteComputeNodeGroup` operation on the `AWSParallelComputingService` service.
+    /// Performs the `DeleteComputeNodeGroup` operation on the `PCS` service.
     ///
     /// Deletes a compute node group. You must delete all queues associated with the compute node group first.
     ///
@@ -850,7 +850,7 @@ extension PCSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteQueue` operation on the `AWSParallelComputingService` service.
+    /// Performs the `DeleteQueue` operation on the `PCS` service.
     ///
     /// Deletes a job queue. If the compute node group associated with this queue isn't associated with any other queues, Amazon Web Services PCS terminates all the compute nodes for this queue.
     ///
@@ -950,7 +950,7 @@ extension PCSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetCluster` operation on the `AWSParallelComputingService` service.
+    /// Performs the `GetCluster` operation on the `PCS` service.
     ///
     /// Returns detailed information about a running cluster in your account. This API action provides networking information, endpoint information for communication with the scheduler, and provisioning status.
     ///
@@ -1049,7 +1049,7 @@ extension PCSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetComputeNodeGroup` operation on the `AWSParallelComputingService` service.
+    /// Performs the `GetComputeNodeGroup` operation on the `PCS` service.
     ///
     /// Returns detailed information about a compute node group. This API action provides networking information, EC2 instance type, compute node group status, and scheduler (such as Slurm) configuration.
     ///
@@ -1148,7 +1148,7 @@ extension PCSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetQueue` operation on the `AWSParallelComputingService` service.
+    /// Performs the `GetQueue` operation on the `PCS` service.
     ///
     /// Returns detailed information about a queue. The information includes the compute node groups that the queue uses to schedule jobs.
     ///
@@ -1247,7 +1247,7 @@ extension PCSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListClusters` operation on the `AWSParallelComputingService` service.
+    /// Performs the `ListClusters` operation on the `PCS` service.
     ///
     /// Returns a list of running clusters in your account.
     ///
@@ -1346,7 +1346,7 @@ extension PCSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListComputeNodeGroups` operation on the `AWSParallelComputingService` service.
+    /// Performs the `ListComputeNodeGroups` operation on the `PCS` service.
     ///
     /// Returns a list of all compute node groups associated with a cluster.
     ///
@@ -1445,7 +1445,7 @@ extension PCSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListQueues` operation on the `AWSParallelComputingService` service.
+    /// Performs the `ListQueues` operation on the `PCS` service.
     ///
     /// Returns a list of all queues associated with a cluster.
     ///
@@ -1544,7 +1544,7 @@ extension PCSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `AWSParallelComputingService` service.
+    /// Performs the `ListTagsForResource` operation on the `PCS` service.
     ///
     /// Returns a list of all tags on an Amazon Web Services PCS resource.
     ///
@@ -1614,7 +1614,7 @@ extension PCSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RegisterComputeNodeGroupInstance` operation on the `AWSParallelComputingService` service.
+    /// Performs the `RegisterComputeNodeGroupInstance` operation on the `PCS` service.
     ///
     /// This API action isn't intended for you to use. Amazon Web Services PCS uses this API action to register the compute nodes it launches in your account.
     ///
@@ -1693,7 +1693,7 @@ extension PCSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `AWSParallelComputingService` service.
+    /// Performs the `TagResource` operation on the `PCS` service.
     ///
     /// Adds or edits tags on an Amazon Web Services PCS resource. Each tag consists of a tag key and a tag value. The tag key and tag value are case-sensitive strings. The tag value can be an empty (null) string. To add a tag, specify a new tag key and a tag value. To edit a tag, specify an existing tag key and a new tag value.
     ///
@@ -1763,7 +1763,7 @@ extension PCSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `AWSParallelComputingService` service.
+    /// Performs the `UntagResource` operation on the `PCS` service.
     ///
     /// Deletes tags from an Amazon Web Services PCS resource. To delete a tag, specify the tag key and the Amazon Resource Name (ARN) of the Amazon Web Services PCS resource.
     ///
@@ -1833,7 +1833,7 @@ extension PCSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateComputeNodeGroup` operation on the `AWSParallelComputingService` service.
+    /// Performs the `UpdateComputeNodeGroup` operation on the `PCS` service.
     ///
     /// Updates a compute node group. You can update many of the fields related to your compute node group including the configurations for networking, compute nodes, and settings specific to your scheduler (such as Slurm).
     ///
@@ -1940,7 +1940,7 @@ extension PCSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateQueue` operation on the `AWSParallelComputingService` service.
+    /// Performs the `UpdateQueue` operation on the `PCS` service.
     ///
     /// Updates the compute node group configuration of a queue. Use this API to change the compute node groups that the queue can send jobs to.
     ///

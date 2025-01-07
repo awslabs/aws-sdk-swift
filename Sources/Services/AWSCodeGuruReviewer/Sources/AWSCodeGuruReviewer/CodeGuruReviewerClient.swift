@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CodeGuruReviewerClient: ClientRuntime.Client {
     public static let clientName = "CodeGuruReviewerClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: CodeGuruReviewerClient.CodeGuruReviewerClientConfiguration
     let serviceName = "CodeGuru Reviewer"
@@ -330,7 +330,7 @@ extension CodeGuruReviewerClient {
 }
 
 extension CodeGuruReviewerClient {
-    /// Performs the `AssociateRepository` operation on the `AWSGuruFrontendService` service.
+    /// Performs the `AssociateRepository` operation on the `CodeGuruReviewer` service.
     ///
     /// Use to associate an Amazon Web Services CodeCommit repository or a repository managed by Amazon Web Services CodeStar Connections with Amazon CodeGuru Reviewer. When you associate a repository, CodeGuru Reviewer reviews source code changes in the repository's pull requests and provides automatic recommendations. You can view recommendations using the CodeGuru Reviewer console. For more information, see [Recommendations in Amazon CodeGuru Reviewer](https://docs.aws.amazon.com/codeguru/latest/reviewer-ug/recommendations.html) in the Amazon CodeGuru Reviewer User Guide. If you associate a CodeCommit or S3 repository, it must be in the same Amazon Web Services Region and Amazon Web Services account where its CodeGuru Reviewer code reviews are configured. Bitbucket and GitHub Enterprise Server repositories are managed by Amazon Web Services CodeStar Connections to connect to CodeGuru Reviewer. For more information, see [Associate a repository](https://docs.aws.amazon.com/codeguru/latest/reviewer-ug/getting-started-associate-repository.html) in the Amazon CodeGuru Reviewer User Guide. You cannot use the CodeGuru Reviewer SDK or the Amazon Web Services CLI to associate a GitHub repository with Amazon CodeGuru Reviewer. To associate a GitHub repository, use the console. For more information, see [Getting started with CodeGuru Reviewer](https://docs.aws.amazon.com/codeguru/latest/reviewer-ug/getting-started-with-guru.html) in the CodeGuru Reviewer User Guide.
     ///
@@ -404,7 +404,7 @@ extension CodeGuruReviewerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateCodeReview` operation on the `AWSGuruFrontendService` service.
+    /// Performs the `CreateCodeReview` operation on the `CodeGuruReviewer` service.
     ///
     /// Use to create a code review with a [CodeReviewType](https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_CodeReviewType.html) of RepositoryAnalysis. This type of code review analyzes all code under a specified branch in an associated repository. PullRequest code reviews are automatically triggered by a pull request.
     ///
@@ -479,7 +479,7 @@ extension CodeGuruReviewerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeCodeReview` operation on the `AWSGuruFrontendService` service.
+    /// Performs the `DescribeCodeReview` operation on the `CodeGuruReviewer` service.
     ///
     /// Returns the metadata associated with the code review along with its status.
     ///
@@ -549,7 +549,7 @@ extension CodeGuruReviewerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeRecommendationFeedback` operation on the `AWSGuruFrontendService` service.
+    /// Performs the `DescribeRecommendationFeedback` operation on the `CodeGuruReviewer` service.
     ///
     /// Describes the customer feedback for a CodeGuru Reviewer recommendation.
     ///
@@ -620,7 +620,7 @@ extension CodeGuruReviewerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeRepositoryAssociation` operation on the `AWSGuruFrontendService` service.
+    /// Performs the `DescribeRepositoryAssociation` operation on the `CodeGuruReviewer` service.
     ///
     /// Returns a [RepositoryAssociation](https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_RepositoryAssociation.html) object that contains information about the requested repository association.
     ///
@@ -690,7 +690,7 @@ extension CodeGuruReviewerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateRepository` operation on the `AWSGuruFrontendService` service.
+    /// Performs the `DisassociateRepository` operation on the `CodeGuruReviewer` service.
     ///
     /// Removes the association between Amazon CodeGuru Reviewer and a repository.
     ///
@@ -761,7 +761,7 @@ extension CodeGuruReviewerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListCodeReviews` operation on the `AWSGuruFrontendService` service.
+    /// Performs the `ListCodeReviews` operation on the `CodeGuruReviewer` service.
     ///
     /// Lists all the code reviews that the customer has created in the past 90 days.
     ///
@@ -831,7 +831,7 @@ extension CodeGuruReviewerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListRecommendationFeedback` operation on the `AWSGuruFrontendService` service.
+    /// Performs the `ListRecommendationFeedback` operation on the `CodeGuruReviewer` service.
     ///
     /// Returns a list of [RecommendationFeedbackSummary](https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_RecommendationFeedbackSummary.html) objects that contain customer recommendation feedback for all CodeGuru Reviewer users.
     ///
@@ -902,7 +902,7 @@ extension CodeGuruReviewerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListRecommendations` operation on the `AWSGuruFrontendService` service.
+    /// Performs the `ListRecommendations` operation on the `CodeGuruReviewer` service.
     ///
     /// Returns the list of all recommendations for a completed code review.
     ///
@@ -973,7 +973,7 @@ extension CodeGuruReviewerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListRepositoryAssociations` operation on the `AWSGuruFrontendService` service.
+    /// Performs the `ListRepositoryAssociations` operation on the `CodeGuruReviewer` service.
     ///
     /// Returns a list of [RepositoryAssociationSummary](https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_RepositoryAssociationSummary.html) objects that contain summary information about a repository association. You can filter the returned list by [ProviderType](https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_RepositoryAssociationSummary.html#reviewer-Type-RepositoryAssociationSummary-ProviderType), [Name](https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_RepositoryAssociationSummary.html#reviewer-Type-RepositoryAssociationSummary-Name), [State](https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_RepositoryAssociationSummary.html#reviewer-Type-RepositoryAssociationSummary-State), and [Owner](https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_RepositoryAssociationSummary.html#reviewer-Type-RepositoryAssociationSummary-Owner).
     ///
@@ -1042,7 +1042,7 @@ extension CodeGuruReviewerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `AWSGuruFrontendService` service.
+    /// Performs the `ListTagsForResource` operation on the `CodeGuruReviewer` service.
     ///
     /// Returns the list of tags associated with an associated repository resource.
     ///
@@ -1110,7 +1110,7 @@ extension CodeGuruReviewerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutRecommendationFeedback` operation on the `AWSGuruFrontendService` service.
+    /// Performs the `PutRecommendationFeedback` operation on the `CodeGuruReviewer` service.
     ///
     /// Stores customer feedback for a CodeGuru Reviewer recommendation. When this API is called again with different reactions the previous feedback is overwritten.
     ///
@@ -1183,7 +1183,7 @@ extension CodeGuruReviewerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `AWSGuruFrontendService` service.
+    /// Performs the `TagResource` operation on the `CodeGuruReviewer` service.
     ///
     /// Adds one or more tags to an associated repository.
     ///
@@ -1254,7 +1254,7 @@ extension CodeGuruReviewerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `AWSGuruFrontendService` service.
+    /// Performs the `UntagResource` operation on the `CodeGuruReviewer` service.
     ///
     /// Removes a tag from an associated repository.
     ///
