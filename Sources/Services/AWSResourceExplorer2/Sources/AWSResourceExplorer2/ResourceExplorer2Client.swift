@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ResourceExplorer2Client: ClientRuntime.Client {
     public static let clientName = "ResourceExplorer2Client"
-    public static let version = "1.0.71"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: ResourceExplorer2Client.ResourceExplorer2ClientConfiguration
     let serviceName = "Resource Explorer 2"
@@ -331,7 +331,7 @@ extension ResourceExplorer2Client {
 }
 
 extension ResourceExplorer2Client {
-    /// Performs the `AssociateDefaultView` operation on the `ResourceExplorer` service.
+    /// Performs the `AssociateDefaultView` operation on the `ResourceExplorer2` service.
     ///
     /// Sets the specified view as the default for the Amazon Web Services Region in which you call this operation. When a user performs a [Search] that doesn't explicitly specify which view to use, then Amazon Web Services Resource Explorer automatically chooses this default view for searches performed in this Amazon Web Services Region. If an Amazon Web Services Region doesn't have a default view configured, then users must explicitly specify a view with every Search operation performed in that Region.
     ///
@@ -404,7 +404,7 @@ extension ResourceExplorer2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchGetView` operation on the `ResourceExplorer` service.
+    /// Performs the `BatchGetView` operation on the `ResourceExplorer2` service.
     ///
     /// Retrieves details about a list of views.
     ///
@@ -477,7 +477,7 @@ extension ResourceExplorer2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateIndex` operation on the `ResourceExplorer` service.
+    /// Performs the `CreateIndex` operation on the `ResourceExplorer2` service.
     ///
     /// Turns on Amazon Web Services Resource Explorer in the Amazon Web Services Region in which you called this operation by creating an index. Resource Explorer begins discovering the resources in this Region and stores the details about the resources in the index so that they can be queried by using the [Search] operation. You can create only one index in a Region. This operation creates only a local index. To promote the local index in one Amazon Web Services Region into the aggregator index for the Amazon Web Services account, use the [UpdateIndexType] operation. For more information, see [Turning on cross-Region search by creating an aggregator index](https://docs.aws.amazon.com/resource-explorer/latest/userguide/manage-aggregator-region.html) in the Amazon Web Services Resource Explorer User Guide. For more details about what happens when you turn on Resource Explorer in an Amazon Web Services Region, see [Turn on Resource Explorer to index your resources in an Amazon Web Services Region](https://docs.aws.amazon.com/resource-explorer/latest/userguide/manage-service-activate.html) in the Amazon Web Services Resource Explorer User Guide. If this is the first Amazon Web Services Region in which you've created an index for Resource Explorer, then this operation also [creates a service-linked role](https://docs.aws.amazon.com/resource-explorer/latest/userguide/security_iam_service-linked-roles.html) in your Amazon Web Services account that allows Resource Explorer to enumerate your resources to populate the index.
     ///
@@ -555,7 +555,7 @@ extension ResourceExplorer2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateView` operation on the `ResourceExplorer` service.
+    /// Performs the `CreateView` operation on the `ResourceExplorer2` service.
     ///
     /// Creates a view that users can query by using the [Search] operation. Results from queries that you make using this view include only resources that match the view's Filters. For more information about Amazon Web Services Resource Explorer views, see [Managing views](https://docs.aws.amazon.com/resource-explorer/latest/userguide/manage-views.html) in the Amazon Web Services Resource Explorer User Guide. Only the principals with an IAM identity-based policy that grants Allow to the Search action on a Resource with the [Amazon resource name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of this view can [Search] using views you create with this operation.
     ///
@@ -631,7 +631,7 @@ extension ResourceExplorer2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteIndex` operation on the `ResourceExplorer` service.
+    /// Performs the `DeleteIndex` operation on the `ResourceExplorer2` service.
     ///
     /// Deletes the specified index and turns off Amazon Web Services Resource Explorer in the specified Amazon Web Services Region. When you delete an index, Resource Explorer stops discovering and indexing resources in that Region. Resource Explorer also deletes all views in that Region. These actions occur as asynchronous background tasks. You can check to see when the actions are complete by using the [GetIndex] operation and checking the Status response value. If the index you delete is the aggregator index for the Amazon Web Services account, you must wait 24 hours before you can promote another local index to be the aggregator index for the account. Users can't perform account-wide searches using Resource Explorer until another aggregator index is configured.
     ///
@@ -704,7 +704,7 @@ extension ResourceExplorer2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteView` operation on the `ResourceExplorer` service.
+    /// Performs the `DeleteView` operation on the `ResourceExplorer2` service.
     ///
     /// Deletes the specified view. If the specified view is the default view for its Amazon Web Services Region, then all [Search] operations in that Region must explicitly specify the view to use until you configure a new default by calling the [AssociateDefaultView] operation.
     ///
@@ -778,7 +778,7 @@ extension ResourceExplorer2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateDefaultView` operation on the `ResourceExplorer` service.
+    /// Performs the `DisassociateDefaultView` operation on the `ResourceExplorer2` service.
     ///
     /// After you call this operation, the affected Amazon Web Services Region no longer has a default view. All [Search] operations in that Region must explicitly specify a view or the operation fails. You can configure a new default by calling the [AssociateDefaultView] operation. If an Amazon Web Services Region doesn't have a default view configured, then users must explicitly specify a view with every Search operation performed in that Region.
     ///
@@ -848,7 +848,7 @@ extension ResourceExplorer2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAccountLevelServiceConfiguration` operation on the `ResourceExplorer` service.
+    /// Performs the `GetAccountLevelServiceConfiguration` operation on the `ResourceExplorer2` service.
     ///
     /// Retrieves the status of your account's Amazon Web Services service access, and validates the service linked role required to access the multi-account search feature. Only the management account can invoke this API call.
     ///
@@ -917,7 +917,7 @@ extension ResourceExplorer2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDefaultView` operation on the `ResourceExplorer` service.
+    /// Performs the `GetDefaultView` operation on the `ResourceExplorer2` service.
     ///
     /// Retrieves the Amazon Resource Name (ARN) of the view that is the default for the Amazon Web Services Region in which you call this operation. You can then call [GetView] to retrieve the details of that view.
     ///
@@ -987,7 +987,7 @@ extension ResourceExplorer2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetIndex` operation on the `ResourceExplorer` service.
+    /// Performs the `GetIndex` operation on the `ResourceExplorer2` service.
     ///
     /// Retrieves details about the Amazon Web Services Resource Explorer index in the Amazon Web Services Region in which you invoked the operation.
     ///
@@ -1057,7 +1057,7 @@ extension ResourceExplorer2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetManagedView` operation on the `ResourceExplorer` service.
+    /// Performs the `GetManagedView` operation on the `ResourceExplorer2` service.
     ///
     /// Retrieves details of the specified [Amazon Web Services-managed view](https://docs.aws.amazon.com/resource-explorer/latest/userguide/aws-managed-views.html).
     ///
@@ -1131,7 +1131,7 @@ extension ResourceExplorer2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetView` operation on the `ResourceExplorer` service.
+    /// Performs the `GetView` operation on the `ResourceExplorer2` service.
     ///
     /// Retrieves details of the specified view.
     ///
@@ -1205,7 +1205,7 @@ extension ResourceExplorer2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListIndexes` operation on the `ResourceExplorer` service.
+    /// Performs the `ListIndexes` operation on the `ResourceExplorer2` service.
     ///
     /// Retrieves a list of all of the indexes in Amazon Web Services Regions that are currently collecting resource information for Amazon Web Services Resource Explorer.
     ///
@@ -1277,7 +1277,7 @@ extension ResourceExplorer2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListIndexesForMembers` operation on the `ResourceExplorer` service.
+    /// Performs the `ListIndexesForMembers` operation on the `ResourceExplorer2` service.
     ///
     /// Retrieves a list of a member's indexes in all Amazon Web Services Regions that are currently collecting resource information for Amazon Web Services Resource Explorer. Only the management account or a delegated administrator with service access enabled can invoke this API call.
     ///
@@ -1349,7 +1349,7 @@ extension ResourceExplorer2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListManagedViews` operation on the `ResourceExplorer` service.
+    /// Performs the `ListManagedViews` operation on the `ResourceExplorer2` service.
     ///
     /// Lists the Amazon resource names (ARNs) of the [Amazon Web Services-managed views](https://docs.aws.amazon.com/resource-explorer/latest/userguide/aws-managed-views.html) available in the Amazon Web Services Region in which you call this operation.
     ///
@@ -1422,7 +1422,7 @@ extension ResourceExplorer2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListResources` operation on the `ResourceExplorer` service.
+    /// Performs the `ListResources` operation on the `ResourceExplorer2` service.
     ///
     /// Returns a list of resources and their details that match the specified criteria. This query must use a view. If you don’t explicitly specify a view, then Resource Explorer uses the default view for the Amazon Web Services Region in which you call this operation.
     ///
@@ -1496,7 +1496,7 @@ extension ResourceExplorer2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListSupportedResourceTypes` operation on the `ResourceExplorer` service.
+    /// Performs the `ListSupportedResourceTypes` operation on the `ResourceExplorer2` service.
     ///
     /// Retrieves a list of all resource types currently supported by Amazon Web Services Resource Explorer.
     ///
@@ -1568,7 +1568,7 @@ extension ResourceExplorer2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `ResourceExplorer` service.
+    /// Performs the `ListTagsForResource` operation on the `ResourceExplorer2` service.
     ///
     /// Lists the tags that are attached to the specified resource.
     ///
@@ -1639,7 +1639,7 @@ extension ResourceExplorer2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListViews` operation on the `ResourceExplorer` service.
+    /// Performs the `ListViews` operation on the `ResourceExplorer2` service.
     ///
     /// Lists the [Amazon resource names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the views available in the Amazon Web Services Region in which you call this operation. Always check the NextToken response parameter for a null value when calling a paginated operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display.
     ///
@@ -1711,7 +1711,7 @@ extension ResourceExplorer2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `Search` operation on the `ResourceExplorer` service.
+    /// Performs the `Search` operation on the `ResourceExplorer2` service.
     ///
     /// Searches for resources and displays details about all resources that match the specified criteria. You must specify a query string. All search queries must use a view. If you don't explicitly specify a view, then Amazon Web Services Resource Explorer uses the default view for the Amazon Web Services Region in which you call this operation. The results are the logical intersection of the results that match both the QueryString parameter supplied to this operation and the SearchFilter parameter attached to the view. For the complete syntax supported by the QueryString parameter, see [Search query syntax reference for Resource Explorer](https://docs.aws.amazon.com/resource-explorer/latest/APIReference/about-query-syntax.html). If your search results are empty, or are missing results that you think should be there, see [Troubleshooting Resource Explorer search](https://docs.aws.amazon.com/resource-explorer/latest/userguide/troubleshooting_search.html).
     ///
@@ -1785,7 +1785,7 @@ extension ResourceExplorer2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `ResourceExplorer` service.
+    /// Performs the `TagResource` operation on the `ResourceExplorer2` service.
     ///
     /// Adds one or more tag key and value pairs to an Amazon Web Services Resource Explorer view or index.
     ///
@@ -1859,7 +1859,7 @@ extension ResourceExplorer2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `ResourceExplorer` service.
+    /// Performs the `UntagResource` operation on the `ResourceExplorer2` service.
     ///
     /// Removes one or more tag key and value pairs from an Amazon Web Services Resource Explorer view or index.
     ///
@@ -1931,7 +1931,7 @@ extension ResourceExplorer2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateIndexType` operation on the `ResourceExplorer` service.
+    /// Performs the `UpdateIndexType` operation on the `ResourceExplorer2` service.
     ///
     /// Changes the type of the index from one of the following types to the other. For more information about indexes and the role they perform in Amazon Web Services Resource Explorer, see [Turning on cross-Region search by creating an aggregator index](https://docs.aws.amazon.com/resource-explorer/latest/userguide/manage-aggregator-region.html) in the Amazon Web Services Resource Explorer User Guide.
     ///
@@ -2010,7 +2010,7 @@ extension ResourceExplorer2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateView` operation on the `ResourceExplorer` service.
+    /// Performs the `UpdateView` operation on the `ResourceExplorer2` service.
     ///
     /// Modifies some of the details of a view. You can change the filter string and the list of included properties. You can't change the name of the view.
     ///

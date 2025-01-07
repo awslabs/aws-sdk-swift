@@ -63,7 +63,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class DocDBClient: ClientRuntime.Client {
     public static let clientName = "DocDBClient"
-    public static let version = "1.0.71"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: DocDBClient.DocDBClientConfiguration
     let serviceName = "DocDB"
@@ -329,7 +329,7 @@ extension DocDBClient {
 }
 
 extension DocDBClient {
-    /// Performs the `AddSourceIdentifierToSubscription` operation on the `AmazonRDSv19` service.
+    /// Performs the `AddSourceIdentifierToSubscription` operation on the `DocDB` service.
     ///
     /// Adds a source identifier to an existing event notification subscription.
     ///
@@ -399,7 +399,7 @@ extension DocDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AddTagsToResource` operation on the `AmazonRDSv19` service.
+    /// Performs the `AddTagsToResource` operation on the `DocDB` service.
     ///
     /// Adds metadata tags to an Amazon DocumentDB resource. You can use these tags with cost allocation reporting to track costs that are associated with Amazon DocumentDB resources or in a Condition statement in an Identity and Access Management (IAM) policy for Amazon DocumentDB.
     ///
@@ -470,7 +470,7 @@ extension DocDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ApplyPendingMaintenanceAction` operation on the `AmazonRDSv19` service.
+    /// Performs the `ApplyPendingMaintenanceAction` operation on the `DocDB` service.
     ///
     /// Applies a pending maintenance action to a resource (for example, to an Amazon DocumentDB instance).
     ///
@@ -541,7 +541,7 @@ extension DocDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CopyDBClusterParameterGroup` operation on the `AmazonRDSv19` service.
+    /// Performs the `CopyDBClusterParameterGroup` operation on the `DocDB` service.
     ///
     /// Copies the specified cluster parameter group.
     ///
@@ -612,7 +612,7 @@ extension DocDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CopyDBClusterSnapshot` operation on the `AmazonRDSv19` service.
+    /// Performs the `CopyDBClusterSnapshot` operation on the `DocDB` service.
     ///
     /// Copies a snapshot of a cluster. To copy a cluster snapshot from a shared manual cluster snapshot, SourceDBClusterSnapshotIdentifier must be the Amazon Resource Name (ARN) of the shared cluster snapshot. You can only copy a shared DB cluster snapshot, whether encrypted or not, in the same Amazon Web Services Region. To cancel the copy operation after it is in progress, delete the target cluster snapshot identified by TargetDBClusterSnapshotIdentifier while that cluster snapshot is in the copying status.
     ///
@@ -686,7 +686,7 @@ extension DocDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateDBCluster` operation on the `AmazonRDSv19` service.
+    /// Performs the `CreateDBCluster` operation on the `DocDB` service.
     ///
     /// Creates a new Amazon DocumentDB cluster.
     ///
@@ -771,7 +771,7 @@ extension DocDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateDBClusterParameterGroup` operation on the `AmazonRDSv19` service.
+    /// Performs the `CreateDBClusterParameterGroup` operation on the `DocDB` service.
     ///
     /// Creates a new cluster parameter group. Parameters in a cluster parameter group apply to all of the instances in a cluster. A cluster parameter group is initially created with the default parameters for the database engine used by instances in the cluster. In Amazon DocumentDB, you cannot make modifications directly to the default.docdb3.6 cluster parameter group. If your Amazon DocumentDB cluster is using the default cluster parameter group and you want to modify a value in it, you must first [ create a new parameter group](https://docs.aws.amazon.com/documentdb/latest/developerguide/cluster_parameter_group-create.html) or [ copy an existing parameter group](https://docs.aws.amazon.com/documentdb/latest/developerguide/cluster_parameter_group-copy.html), modify it, and then apply the modified parameter group to your cluster. For the new cluster parameter group and associated settings to take effect, you must then reboot the instances in the cluster without failover. For more information, see [ Modifying Amazon DocumentDB Cluster Parameter Groups](https://docs.aws.amazon.com/documentdb/latest/developerguide/cluster_parameter_group-modify.html).
     ///
@@ -841,7 +841,7 @@ extension DocDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateDBClusterSnapshot` operation on the `AmazonRDSv19` service.
+    /// Performs the `CreateDBClusterSnapshot` operation on the `DocDB` service.
     ///
     /// Creates a snapshot of a cluster.
     ///
@@ -914,7 +914,7 @@ extension DocDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateDBInstance` operation on the `AmazonRDSv19` service.
+    /// Performs the `CreateDBInstance` operation on the `DocDB` service.
     ///
     /// Creates a new instance.
     ///
@@ -997,7 +997,7 @@ extension DocDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateDBSubnetGroup` operation on the `AmazonRDSv19` service.
+    /// Performs the `CreateDBSubnetGroup` operation on the `DocDB` service.
     ///
     /// Creates a new subnet group. subnet groups must contain at least one subnet in at least two Availability Zones in the Amazon Web Services Region.
     ///
@@ -1070,7 +1070,7 @@ extension DocDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateEventSubscription` operation on the `AmazonRDSv19` service.
+    /// Performs the `CreateEventSubscription` operation on the `DocDB` service.
     ///
     /// Creates an Amazon DocumentDB event notification subscription. This action requires a topic Amazon Resource Name (ARN) created by using the Amazon DocumentDB console, the Amazon SNS console, or the Amazon SNS API. To obtain an ARN with Amazon SNS, you must create a topic in Amazon SNS and subscribe to the topic. The ARN is displayed in the Amazon SNS console. You can specify the type of source (SourceType) that you want to be notified of. You can also provide a list of Amazon DocumentDB sources (SourceIds) that trigger the events, and you can provide a list of event categories (EventCategories) for events that you want to be notified of. For example, you can specify SourceType = db-instance, SourceIds = mydbinstance1, mydbinstance2 and EventCategories = Availability, Backup. If you specify both the SourceType and SourceIds (such as SourceType = db-instance and SourceIdentifier = myDBInstance1), you are notified of all the db-instance events for the specified source. If you specify a SourceType but do not specify a SourceIdentifier, you receive notice of the events for that source type for all your Amazon DocumentDB sources. If you do not specify either the SourceType or the SourceIdentifier, you are notified of events generated from all Amazon DocumentDB sources belonging to your customer account.
     ///
@@ -1145,7 +1145,7 @@ extension DocDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateGlobalCluster` operation on the `AmazonRDSv19` service.
+    /// Performs the `CreateGlobalCluster` operation on the `DocDB` service.
     ///
     /// Creates an Amazon DocumentDB global cluster that can span multiple multiple Amazon Web Services Regions. The global cluster contains one primary cluster with read-write capability, and up-to give read-only secondary clusters. Global clusters uses storage-based fast replication across regions with latencies less than one second, using dedicated infrastructure with no impact to your workload’s performance. You can create a global cluster that is initially empty, and then add a primary and a secondary to it. Or you can specify an existing cluster during the create operation, and this cluster becomes the primary of the global cluster. This action only applies to Amazon DocumentDB clusters.
     ///
@@ -1217,7 +1217,7 @@ extension DocDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteDBCluster` operation on the `AmazonRDSv19` service.
+    /// Performs the `DeleteDBCluster` operation on the `DocDB` service.
     ///
     /// Deletes a previously provisioned cluster. When you delete a cluster, all automated backups for that cluster are deleted and can't be recovered. Manual DB cluster snapshots of the specified cluster are not deleted.
     ///
@@ -1290,7 +1290,7 @@ extension DocDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteDBClusterParameterGroup` operation on the `AmazonRDSv19` service.
+    /// Performs the `DeleteDBClusterParameterGroup` operation on the `DocDB` service.
     ///
     /// Deletes a specified cluster parameter group. The cluster parameter group to be deleted can't be associated with any clusters.
     ///
@@ -1360,7 +1360,7 @@ extension DocDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteDBClusterSnapshot` operation on the `AmazonRDSv19` service.
+    /// Performs the `DeleteDBClusterSnapshot` operation on the `DocDB` service.
     ///
     /// Deletes a cluster snapshot. If the snapshot is being copied, the copy operation is terminated. The cluster snapshot must be in the available state to be deleted.
     ///
@@ -1430,7 +1430,7 @@ extension DocDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteDBInstance` operation on the `AmazonRDSv19` service.
+    /// Performs the `DeleteDBInstance` operation on the `DocDB` service.
     ///
     /// Deletes a previously provisioned instance.
     ///
@@ -1503,7 +1503,7 @@ extension DocDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteDBSubnetGroup` operation on the `AmazonRDSv19` service.
+    /// Performs the `DeleteDBSubnetGroup` operation on the `DocDB` service.
     ///
     /// Deletes a subnet group. The specified database subnet group must not be associated with any DB instances.
     ///
@@ -1574,7 +1574,7 @@ extension DocDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteEventSubscription` operation on the `AmazonRDSv19` service.
+    /// Performs the `DeleteEventSubscription` operation on the `DocDB` service.
     ///
     /// Deletes an Amazon DocumentDB event notification subscription.
     ///
@@ -1644,7 +1644,7 @@ extension DocDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteGlobalCluster` operation on the `AmazonRDSv19` service.
+    /// Performs the `DeleteGlobalCluster` operation on the `DocDB` service.
     ///
     /// Deletes a global cluster. The primary and secondary clusters must already be detached or deleted before attempting to delete a global cluster. This action only applies to Amazon DocumentDB clusters.
     ///
@@ -1714,7 +1714,7 @@ extension DocDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeCertificates` operation on the `AmazonRDSv19` service.
+    /// Performs the `DescribeCertificates` operation on the `DocDB` service.
     ///
     /// Returns a list of certificate authority (CA) certificates provided by Amazon DocumentDB for this Amazon Web Services account.
     ///
@@ -1783,7 +1783,7 @@ extension DocDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeDBClusterParameterGroups` operation on the `AmazonRDSv19` service.
+    /// Performs the `DescribeDBClusterParameterGroups` operation on the `DocDB` service.
     ///
     /// Returns a list of DBClusterParameterGroup descriptions. If a DBClusterParameterGroupName parameter is specified, the list contains only the description of the specified cluster parameter group.
     ///
@@ -1852,7 +1852,7 @@ extension DocDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeDBClusterParameters` operation on the `AmazonRDSv19` service.
+    /// Performs the `DescribeDBClusterParameters` operation on the `DocDB` service.
     ///
     /// Returns the detailed parameter list for a particular cluster parameter group.
     ///
@@ -1921,7 +1921,7 @@ extension DocDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeDBClusterSnapshotAttributes` operation on the `AmazonRDSv19` service.
+    /// Performs the `DescribeDBClusterSnapshotAttributes` operation on the `DocDB` service.
     ///
     /// Returns a list of cluster snapshot attribute names and values for a manual DB cluster snapshot. When you share snapshots with other Amazon Web Services accounts, DescribeDBClusterSnapshotAttributes returns the restore attribute and a list of IDs for the Amazon Web Services accounts that are authorized to copy or restore the manual cluster snapshot. If all is included in the list of values for the restore attribute, then the manual cluster snapshot is public and can be copied or restored by all Amazon Web Services accounts.
     ///
@@ -1990,7 +1990,7 @@ extension DocDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeDBClusterSnapshots` operation on the `AmazonRDSv19` service.
+    /// Performs the `DescribeDBClusterSnapshots` operation on the `DocDB` service.
     ///
     /// Returns information about cluster snapshots. This API operation supports pagination.
     ///
@@ -2059,7 +2059,7 @@ extension DocDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeDBClusters` operation on the `AmazonRDSv19` service.
+    /// Performs the `DescribeDBClusters` operation on the `DocDB` service.
     ///
     /// Returns information about provisioned Amazon DocumentDB clusters. This API operation supports pagination. For certain management features such as cluster and instance lifecycle management, Amazon DocumentDB leverages operational technology that is shared with Amazon RDS and Amazon Neptune. Use the filterName=engine,Values=docdb filter parameter to return only Amazon DocumentDB clusters.
     ///
@@ -2128,7 +2128,7 @@ extension DocDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeDBEngineVersions` operation on the `AmazonRDSv19` service.
+    /// Performs the `DescribeDBEngineVersions` operation on the `DocDB` service.
     ///
     /// Returns a list of the available engines.
     ///
@@ -2192,7 +2192,7 @@ extension DocDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeDBInstances` operation on the `AmazonRDSv19` service.
+    /// Performs the `DescribeDBInstances` operation on the `DocDB` service.
     ///
     /// Returns information about provisioned Amazon DocumentDB instances. This API supports pagination.
     ///
@@ -2261,7 +2261,7 @@ extension DocDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeDBSubnetGroups` operation on the `AmazonRDSv19` service.
+    /// Performs the `DescribeDBSubnetGroups` operation on the `DocDB` service.
     ///
     /// Returns a list of DBSubnetGroup descriptions. If a DBSubnetGroupName is specified, the list will contain only the descriptions of the specified DBSubnetGroup.
     ///
@@ -2330,7 +2330,7 @@ extension DocDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeEngineDefaultClusterParameters` operation on the `AmazonRDSv19` service.
+    /// Performs the `DescribeEngineDefaultClusterParameters` operation on the `DocDB` service.
     ///
     /// Returns the default engine and system parameter information for the cluster database engine.
     ///
@@ -2394,7 +2394,7 @@ extension DocDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeEventCategories` operation on the `AmazonRDSv19` service.
+    /// Performs the `DescribeEventCategories` operation on the `DocDB` service.
     ///
     /// Displays a list of categories for all event source types, or, if specified, for a specified source type.
     ///
@@ -2458,7 +2458,7 @@ extension DocDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeEventSubscriptions` operation on the `AmazonRDSv19` service.
+    /// Performs the `DescribeEventSubscriptions` operation on the `DocDB` service.
     ///
     /// Lists all the subscription descriptions for a customer account. The description for a subscription includes SubscriptionName, SNSTopicARN, CustomerID, SourceType, SourceID, CreationTime, and Status. If you specify a SubscriptionName, lists the description for that subscription.
     ///
@@ -2527,7 +2527,7 @@ extension DocDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeEvents` operation on the `AmazonRDSv19` service.
+    /// Performs the `DescribeEvents` operation on the `DocDB` service.
     ///
     /// Returns events related to instances, security groups, snapshots, and DB parameter groups for the past 14 days. You can obtain events specific to a particular DB instance, security group, snapshot, or parameter group by providing the name as a parameter. By default, the events of the past hour are returned.
     ///
@@ -2591,7 +2591,7 @@ extension DocDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeGlobalClusters` operation on the `AmazonRDSv19` service.
+    /// Performs the `DescribeGlobalClusters` operation on the `DocDB` service.
     ///
     /// Returns information about Amazon DocumentDB global clusters. This API supports pagination. This action only applies to Amazon DocumentDB clusters.
     ///
@@ -2660,7 +2660,7 @@ extension DocDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeOrderableDBInstanceOptions` operation on the `AmazonRDSv19` service.
+    /// Performs the `DescribeOrderableDBInstanceOptions` operation on the `DocDB` service.
     ///
     /// Returns a list of orderable instance options for the specified engine.
     ///
@@ -2724,7 +2724,7 @@ extension DocDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribePendingMaintenanceActions` operation on the `AmazonRDSv19` service.
+    /// Performs the `DescribePendingMaintenanceActions` operation on the `DocDB` service.
     ///
     /// Returns a list of resources (for example, instances) that have at least one pending maintenance action.
     ///
@@ -2793,7 +2793,7 @@ extension DocDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `FailoverDBCluster` operation on the `AmazonRDSv19` service.
+    /// Performs the `FailoverDBCluster` operation on the `DocDB` service.
     ///
     /// Forces a failover for a cluster. A failover for a cluster promotes one of the Amazon DocumentDB replicas (read-only instances) in the cluster to be the primary instance (the cluster writer). If the primary instance fails, Amazon DocumentDB automatically fails over to an Amazon DocumentDB replica, if one exists. You can force a failover when you want to simulate a failure of a primary instance for testing.
     ///
@@ -2864,7 +2864,7 @@ extension DocDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `FailoverGlobalCluster` operation on the `AmazonRDSv19` service.
+    /// Performs the `FailoverGlobalCluster` operation on the `DocDB` service.
     ///
     /// Promotes the specified secondary DB cluster to be the primary DB cluster in the global cluster when failing over a global cluster occurs. Use this operation to respond to an unplanned event, such as a regional disaster in the primary region. Failing over can result in a loss of write transaction data that wasn't replicated to the chosen secondary before the failover event occurred. However, the recovery process that promotes a DB instance on the chosen seconday DB cluster to be the primary writer DB instance guarantees that the data is in a transactionally consistent state.
     ///
@@ -2936,7 +2936,7 @@ extension DocDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `AmazonRDSv19` service.
+    /// Performs the `ListTagsForResource` operation on the `DocDB` service.
     ///
     /// Lists all tags on an Amazon DocumentDB resource.
     ///
@@ -3007,7 +3007,7 @@ extension DocDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyDBCluster` operation on the `AmazonRDSv19` service.
+    /// Performs the `ModifyDBCluster` operation on the `DocDB` service.
     ///
     /// Modifies a setting for an Amazon DocumentDB cluster. You can change one or more database configuration parameters by specifying these parameters and the new values in the request.
     ///
@@ -3086,7 +3086,7 @@ extension DocDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyDBClusterParameterGroup` operation on the `AmazonRDSv19` service.
+    /// Performs the `ModifyDBClusterParameterGroup` operation on the `DocDB` service.
     ///
     /// Modifies the parameters of a cluster parameter group. To modify more than one parameter, submit a list of the following: ParameterName, ParameterValue, and ApplyMethod. A maximum of 20 parameters can be modified in a single request. Changes to dynamic parameters are applied immediately. Changes to static parameters require a reboot or maintenance window before the change can take effect. After you create a cluster parameter group, you should wait at least 5 minutes before creating your first cluster that uses that cluster parameter group as the default parameter group. This allows Amazon DocumentDB to fully complete the create action before the parameter group is used as the default for a new cluster. This step is especially important for parameters that are critical when creating the default database for a cluster, such as the character set for the default database defined by the character_set_database parameter.
     ///
@@ -3156,7 +3156,7 @@ extension DocDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyDBClusterSnapshotAttribute` operation on the `AmazonRDSv19` service.
+    /// Performs the `ModifyDBClusterSnapshotAttribute` operation on the `DocDB` service.
     ///
     /// Adds an attribute and values to, or removes an attribute and values from, a manual cluster snapshot. To share a manual cluster snapshot with other Amazon Web Services accounts, specify restore as the AttributeName, and use the ValuesToAdd parameter to add a list of IDs of the Amazon Web Services accounts that are authorized to restore the manual cluster snapshot. Use the value all to make the manual cluster snapshot public, which means that it can be copied or restored by all Amazon Web Services accounts. Do not add the all value for any manual cluster snapshots that contain private information that you don't want available to all Amazon Web Services accounts. If a manual cluster snapshot is encrypted, it can be shared, but only by specifying a list of authorized Amazon Web Services account IDs for the ValuesToAdd parameter. You can't use all as a value for that parameter in this case.
     ///
@@ -3227,7 +3227,7 @@ extension DocDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyDBInstance` operation on the `AmazonRDSv19` service.
+    /// Performs the `ModifyDBInstance` operation on the `DocDB` service.
     ///
     /// Modifies settings for an instance. You can change one or more database configuration parameters by specifying these parameters and the new values in the request.
     ///
@@ -3308,7 +3308,7 @@ extension DocDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyDBSubnetGroup` operation on the `AmazonRDSv19` service.
+    /// Performs the `ModifyDBSubnetGroup` operation on the `DocDB` service.
     ///
     /// Modifies an existing subnet group. subnet groups must contain at least one subnet in at least two Availability Zones in the Amazon Web Services Region.
     ///
@@ -3381,7 +3381,7 @@ extension DocDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyEventSubscription` operation on the `AmazonRDSv19` service.
+    /// Performs the `ModifyEventSubscription` operation on the `DocDB` service.
     ///
     /// Modifies an existing Amazon DocumentDB event notification subscription.
     ///
@@ -3455,7 +3455,7 @@ extension DocDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyGlobalCluster` operation on the `AmazonRDSv19` service.
+    /// Performs the `ModifyGlobalCluster` operation on the `DocDB` service.
     ///
     /// Modify a setting for an Amazon DocumentDB global cluster. You can change one or more configuration parameters (for example: deletion protection), or the global cluster identifier by specifying these parameters and the new values in the request. This action only applies to Amazon DocumentDB clusters.
     ///
@@ -3525,7 +3525,7 @@ extension DocDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RebootDBInstance` operation on the `AmazonRDSv19` service.
+    /// Performs the `RebootDBInstance` operation on the `DocDB` service.
     ///
     /// You might need to reboot your instance, usually for maintenance reasons. For example, if you make certain changes, or if you change the cluster parameter group that is associated with the instance, you must reboot the instance for the changes to take effect. Rebooting an instance restarts the database engine service. Rebooting an instance results in a momentary outage, during which the instance status is set to rebooting.
     ///
@@ -3595,7 +3595,7 @@ extension DocDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RemoveFromGlobalCluster` operation on the `AmazonRDSv19` service.
+    /// Performs the `RemoveFromGlobalCluster` operation on the `DocDB` service.
     ///
     /// Detaches an Amazon DocumentDB secondary cluster from a global cluster. The cluster becomes a standalone cluster with read-write capability instead of being read-only and receiving data from a primary in a different region. This action only applies to Amazon DocumentDB clusters.
     ///
@@ -3666,7 +3666,7 @@ extension DocDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RemoveSourceIdentifierFromSubscription` operation on the `AmazonRDSv19` service.
+    /// Performs the `RemoveSourceIdentifierFromSubscription` operation on the `DocDB` service.
     ///
     /// Removes a source identifier from an existing Amazon DocumentDB event notification subscription.
     ///
@@ -3736,7 +3736,7 @@ extension DocDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RemoveTagsFromResource` operation on the `AmazonRDSv19` service.
+    /// Performs the `RemoveTagsFromResource` operation on the `DocDB` service.
     ///
     /// Removes metadata tags from an Amazon DocumentDB resource.
     ///
@@ -3807,7 +3807,7 @@ extension DocDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ResetDBClusterParameterGroup` operation on the `AmazonRDSv19` service.
+    /// Performs the `ResetDBClusterParameterGroup` operation on the `DocDB` service.
     ///
     /// Modifies the parameters of a cluster parameter group to the default value. To reset specific parameters, submit a list of the following: ParameterName and ApplyMethod. To reset the entire cluster parameter group, specify the DBClusterParameterGroupName and ResetAllParameters parameters. When you reset the entire group, dynamic parameters are updated immediately and static parameters are set to pending-reboot to take effect on the next DB instance reboot.
     ///
@@ -3877,7 +3877,7 @@ extension DocDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RestoreDBClusterFromSnapshot` operation on the `AmazonRDSv19` service.
+    /// Performs the `RestoreDBClusterFromSnapshot` operation on the `DocDB` service.
     ///
     /// Creates a new cluster from a snapshot or cluster snapshot. If a snapshot is specified, the target cluster is created from the source DB snapshot with a default configuration and default security group. If a cluster snapshot is specified, the target cluster is created from the source cluster restore point with the same configuration as the original source DB cluster, except that the new cluster is created with the default security group.
     ///
@@ -3959,7 +3959,7 @@ extension DocDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RestoreDBClusterToPointInTime` operation on the `AmazonRDSv19` service.
+    /// Performs the `RestoreDBClusterToPointInTime` operation on the `DocDB` service.
     ///
     /// Restores a cluster to an arbitrary point in time. Users can restore to any point in time before LatestRestorableTime for up to BackupRetentionPeriod days. The target cluster is created from the source cluster with the same configuration as the original cluster, except that the new cluster is created with the default security group.
     ///
@@ -4042,7 +4042,7 @@ extension DocDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartDBCluster` operation on the `AmazonRDSv19` service.
+    /// Performs the `StartDBCluster` operation on the `DocDB` service.
     ///
     /// Restarts the stopped cluster that is specified by DBClusterIdentifier. For more information, see [Stopping and Starting an Amazon DocumentDB Cluster](https://docs.aws.amazon.com/documentdb/latest/developerguide/db-cluster-stop-start.html).
     ///
@@ -4113,7 +4113,7 @@ extension DocDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopDBCluster` operation on the `AmazonRDSv19` service.
+    /// Performs the `StopDBCluster` operation on the `DocDB` service.
     ///
     /// Stops the running cluster that is specified by DBClusterIdentifier. The cluster must be in the available state. For more information, see [Stopping and Starting an Amazon DocumentDB Cluster](https://docs.aws.amazon.com/documentdb/latest/developerguide/db-cluster-stop-start.html).
     ///
@@ -4184,7 +4184,7 @@ extension DocDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SwitchoverGlobalCluster` operation on the `AmazonRDSv19` service.
+    /// Performs the `SwitchoverGlobalCluster` operation on the `DocDB` service.
     ///
     /// Switches over the specified secondary Amazon DocumentDB cluster to be the new primary Amazon DocumentDB cluster in the global database cluster.
     ///

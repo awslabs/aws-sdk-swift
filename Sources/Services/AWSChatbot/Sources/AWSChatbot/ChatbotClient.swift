@@ -63,7 +63,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ChatbotClient: ClientRuntime.Client {
     public static let clientName = "ChatbotClient"
-    public static let version = "1.0.71"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: ChatbotClient.ChatbotClientConfiguration
     let serviceName = "chatbot"
@@ -329,7 +329,7 @@ extension ChatbotClient {
 }
 
 extension ChatbotClient {
-    /// Performs the `AssociateToConfiguration` operation on the `WheatleyOrchestration_20171011` service.
+    /// Performs the `AssociateToConfiguration` operation on the `Chatbot` service.
     ///
     /// Links a resource (for example, a custom action) to a channel configuration.
     ///
@@ -400,7 +400,7 @@ extension ChatbotClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateChimeWebhookConfiguration` operation on the `WheatleyOrchestration_20171011` service.
+    /// Performs the `CreateChimeWebhookConfiguration` operation on the `Chatbot` service.
     ///
     /// Creates an AWS Chatbot configuration for Amazon Chime.
     ///
@@ -473,7 +473,7 @@ extension ChatbotClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateCustomAction` operation on the `WheatleyOrchestration_20171011` service.
+    /// Performs the `CreateCustomAction` operation on the `Chatbot` service.
     ///
     /// Creates a custom action that can be invoked as an alias or as a button on a notification.
     ///
@@ -547,7 +547,7 @@ extension ChatbotClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateMicrosoftTeamsChannelConfiguration` operation on the `WheatleyOrchestration_20171011` service.
+    /// Performs the `CreateMicrosoftTeamsChannelConfiguration` operation on the `Chatbot` service.
     ///
     /// Creates an AWS Chatbot configuration for Microsoft Teams.
     ///
@@ -620,7 +620,7 @@ extension ChatbotClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateSlackChannelConfiguration` operation on the `WheatleyOrchestration_20171011` service.
+    /// Performs the `CreateSlackChannelConfiguration` operation on the `Chatbot` service.
     ///
     /// Creates an AWS Chatbot confugration for Slack.
     ///
@@ -693,7 +693,7 @@ extension ChatbotClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteChimeWebhookConfiguration` operation on the `WheatleyOrchestration_20171011` service.
+    /// Performs the `DeleteChimeWebhookConfiguration` operation on the `Chatbot` service.
     ///
     /// Deletes a Amazon Chime webhook configuration for AWS Chatbot.
     ///
@@ -765,7 +765,7 @@ extension ChatbotClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteCustomAction` operation on the `WheatleyOrchestration_20171011` service.
+    /// Performs the `DeleteCustomAction` operation on the `Chatbot` service.
     ///
     /// Deletes a custom action.
     ///
@@ -837,7 +837,7 @@ extension ChatbotClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteMicrosoftTeamsChannelConfiguration` operation on the `WheatleyOrchestration_20171011` service.
+    /// Performs the `DeleteMicrosoftTeamsChannelConfiguration` operation on the `Chatbot` service.
     ///
     /// Deletes a Microsoft Teams channel configuration for AWS Chatbot
     ///
@@ -909,7 +909,7 @@ extension ChatbotClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteMicrosoftTeamsConfiguredTeam` operation on the `WheatleyOrchestration_20171011` service.
+    /// Performs the `DeleteMicrosoftTeamsConfiguredTeam` operation on the `Chatbot` service.
     ///
     /// Deletes the Microsoft Teams team authorization allowing for channels to be configured in that Microsoft Teams team. Note that the Microsoft Teams team must have no channels configured to remove it.
     ///
@@ -979,7 +979,7 @@ extension ChatbotClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteMicrosoftTeamsUserIdentity` operation on the `WheatleyOrchestration_20171011` service.
+    /// Performs the `DeleteMicrosoftTeamsUserIdentity` operation on the `Chatbot` service.
     ///
     /// Identifes a user level permission for a channel configuration.
     ///
@@ -1050,7 +1050,7 @@ extension ChatbotClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteSlackChannelConfiguration` operation on the `WheatleyOrchestration_20171011` service.
+    /// Performs the `DeleteSlackChannelConfiguration` operation on the `Chatbot` service.
     ///
     /// Deletes a Slack channel configuration for AWS Chatbot
     ///
@@ -1122,7 +1122,7 @@ extension ChatbotClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteSlackUserIdentity` operation on the `WheatleyOrchestration_20171011` service.
+    /// Performs the `DeleteSlackUserIdentity` operation on the `Chatbot` service.
     ///
     /// Deletes a user level permission for a Slack channel configuration.
     ///
@@ -1193,7 +1193,7 @@ extension ChatbotClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteSlackWorkspaceAuthorization` operation on the `WheatleyOrchestration_20171011` service.
+    /// Performs the `DeleteSlackWorkspaceAuthorization` operation on the `Chatbot` service.
     ///
     /// Deletes the Slack workspace authorization that allows channels to be configured in that workspace. This requires all configured channels in the workspace to be deleted.
     ///
@@ -1263,7 +1263,7 @@ extension ChatbotClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeChimeWebhookConfigurations` operation on the `WheatleyOrchestration_20171011` service.
+    /// Performs the `DescribeChimeWebhookConfigurations` operation on the `Chatbot` service.
     ///
     /// Lists Amazon Chime webhook configurations optionally filtered by ChatConfigurationArn
     ///
@@ -1334,7 +1334,7 @@ extension ChatbotClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeSlackChannelConfigurations` operation on the `WheatleyOrchestration_20171011` service.
+    /// Performs the `DescribeSlackChannelConfigurations` operation on the `Chatbot` service.
     ///
     /// Lists Slack channel configurations optionally filtered by ChatConfigurationArn
     ///
@@ -1405,7 +1405,7 @@ extension ChatbotClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeSlackUserIdentities` operation on the `WheatleyOrchestration_20171011` service.
+    /// Performs the `DescribeSlackUserIdentities` operation on the `Chatbot` service.
     ///
     /// Lists all Slack user identities with a mapped role.
     ///
@@ -1476,7 +1476,7 @@ extension ChatbotClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeSlackWorkspaces` operation on the `WheatleyOrchestration_20171011` service.
+    /// Performs the `DescribeSlackWorkspaces` operation on the `Chatbot` service.
     ///
     /// List all authorized Slack workspaces connected to the AWS Account onboarded with AWS Chatbot.
     ///
@@ -1547,7 +1547,7 @@ extension ChatbotClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateFromConfiguration` operation on the `WheatleyOrchestration_20171011` service.
+    /// Performs the `DisassociateFromConfiguration` operation on the `Chatbot` service.
     ///
     /// Unlink a resource, for example a custom action, from a channel configuration.
     ///
@@ -1618,7 +1618,7 @@ extension ChatbotClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAccountPreferences` operation on the `WheatleyOrchestration_20171011` service.
+    /// Performs the `GetAccountPreferences` operation on the `Chatbot` service.
     ///
     /// Returns AWS Chatbot account preferences.
     ///
@@ -1685,7 +1685,7 @@ extension ChatbotClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetCustomAction` operation on the `WheatleyOrchestration_20171011` service.
+    /// Performs the `GetCustomAction` operation on the `Chatbot` service.
     ///
     /// Returns a custom action.
     ///
@@ -1757,7 +1757,7 @@ extension ChatbotClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetMicrosoftTeamsChannelConfiguration` operation on the `WheatleyOrchestration_20171011` service.
+    /// Performs the `GetMicrosoftTeamsChannelConfiguration` operation on the `Chatbot` service.
     ///
     /// Returns a Microsoft Teams channel configuration in an AWS account.
     ///
@@ -1828,7 +1828,7 @@ extension ChatbotClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAssociations` operation on the `WheatleyOrchestration_20171011` service.
+    /// Performs the `ListAssociations` operation on the `Chatbot` service.
     ///
     /// Lists resources associated with a channel configuration.
     ///
@@ -1892,7 +1892,7 @@ extension ChatbotClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListCustomActions` operation on the `WheatleyOrchestration_20171011` service.
+    /// Performs the `ListCustomActions` operation on the `Chatbot` service.
     ///
     /// Lists custom actions defined in this account.
     ///
@@ -1963,7 +1963,7 @@ extension ChatbotClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListMicrosoftTeamsChannelConfigurations` operation on the `WheatleyOrchestration_20171011` service.
+    /// Performs the `ListMicrosoftTeamsChannelConfigurations` operation on the `Chatbot` service.
     ///
     /// Lists all AWS Chatbot Microsoft Teams channel configurations in an AWS account.
     ///
@@ -2034,7 +2034,7 @@ extension ChatbotClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListMicrosoftTeamsConfiguredTeams` operation on the `WheatleyOrchestration_20171011` service.
+    /// Performs the `ListMicrosoftTeamsConfiguredTeams` operation on the `Chatbot` service.
     ///
     /// Lists all authorized Microsoft Teams for an AWS Account
     ///
@@ -2105,7 +2105,7 @@ extension ChatbotClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListMicrosoftTeamsUserIdentities` operation on the `WheatleyOrchestration_20171011` service.
+    /// Performs the `ListMicrosoftTeamsUserIdentities` operation on the `Chatbot` service.
     ///
     /// A list all Microsoft Teams user identities with a mapped role.
     ///
@@ -2176,7 +2176,7 @@ extension ChatbotClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `WheatleyOrchestration_20171011` service.
+    /// Performs the `ListTagsForResource` operation on the `Chatbot` service.
     ///
     /// Lists all of the tags associated with the Amazon Resource Name (ARN) that you specify. The resource can be a user, server, or role.
     ///
@@ -2247,7 +2247,7 @@ extension ChatbotClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `WheatleyOrchestration_20171011` service.
+    /// Performs the `TagResource` operation on the `Chatbot` service.
     ///
     /// Attaches a key-value pair to a resource, as identified by its Amazon Resource Name (ARN). Resources are users, servers, roles, and other entities.
     ///
@@ -2319,7 +2319,7 @@ extension ChatbotClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `WheatleyOrchestration_20171011` service.
+    /// Performs the `UntagResource` operation on the `Chatbot` service.
     ///
     /// Detaches a key-value pair from a resource, as identified by its Amazon Resource Name (ARN). Resources are users, servers, roles, and other entities.
     ///
@@ -2390,7 +2390,7 @@ extension ChatbotClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateAccountPreferences` operation on the `WheatleyOrchestration_20171011` service.
+    /// Performs the `UpdateAccountPreferences` operation on the `Chatbot` service.
     ///
     /// Updates AWS Chatbot account preferences.
     ///
@@ -2461,7 +2461,7 @@ extension ChatbotClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateChimeWebhookConfiguration` operation on the `WheatleyOrchestration_20171011` service.
+    /// Performs the `UpdateChimeWebhookConfiguration` operation on the `Chatbot` service.
     ///
     /// Updates a Amazon Chime webhook configuration.
     ///
@@ -2533,7 +2533,7 @@ extension ChatbotClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateCustomAction` operation on the `WheatleyOrchestration_20171011` service.
+    /// Performs the `UpdateCustomAction` operation on the `Chatbot` service.
     ///
     /// Updates a custom action.
     ///
@@ -2605,7 +2605,7 @@ extension ChatbotClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateMicrosoftTeamsChannelConfiguration` operation on the `WheatleyOrchestration_20171011` service.
+    /// Performs the `UpdateMicrosoftTeamsChannelConfiguration` operation on the `Chatbot` service.
     ///
     /// Updates an Microsoft Teams channel configuration.
     ///
@@ -2677,7 +2677,7 @@ extension ChatbotClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateSlackChannelConfiguration` operation on the `WheatleyOrchestration_20171011` service.
+    /// Performs the `UpdateSlackChannelConfiguration` operation on the `Chatbot` service.
     ///
     /// Updates a Slack channel configuration.
     ///

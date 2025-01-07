@@ -63,7 +63,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ElasticBeanstalkClient: ClientRuntime.Client {
     public static let clientName = "ElasticBeanstalkClient"
-    public static let version = "1.0.71"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: ElasticBeanstalkClient.ElasticBeanstalkClientConfiguration
     let serviceName = "Elastic Beanstalk"
@@ -329,7 +329,7 @@ extension ElasticBeanstalkClient {
 }
 
 extension ElasticBeanstalkClient {
-    /// Performs the `AbortEnvironmentUpdate` operation on the `AWSElasticBeanstalkService` service.
+    /// Performs the `AbortEnvironmentUpdate` operation on the `ElasticBeanstalk` service.
     ///
     /// Cancels in-progress environment configuration update or application version deployment.
     ///
@@ -398,7 +398,7 @@ extension ElasticBeanstalkClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ApplyEnvironmentManagedAction` operation on the `AWSElasticBeanstalkService` service.
+    /// Performs the `ApplyEnvironmentManagedAction` operation on the `ElasticBeanstalk` service.
     ///
     /// Applies a scheduled managed action immediately. A managed action can be applied only if its status is Scheduled. Get the status and action ID of a managed action with [DescribeEnvironmentManagedActions].
     ///
@@ -468,7 +468,7 @@ extension ElasticBeanstalkClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssociateEnvironmentOperationsRole` operation on the `AWSElasticBeanstalkService` service.
+    /// Performs the `AssociateEnvironmentOperationsRole` operation on the `ElasticBeanstalk` service.
     ///
     /// Add or change the operations role used by an environment. After this call is made, Elastic Beanstalk uses the associated operations role for permissions to downstream services during subsequent calls acting on this environment. For more information, see [Operations roles](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/iam-operationsrole.html) in the AWS Elastic Beanstalk Developer Guide.
     ///
@@ -537,7 +537,7 @@ extension ElasticBeanstalkClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CheckDNSAvailability` operation on the `AWSElasticBeanstalkService` service.
+    /// Performs the `CheckDNSAvailability` operation on the `ElasticBeanstalk` service.
     ///
     /// Checks if the specified CNAME is available.
     ///
@@ -601,7 +601,7 @@ extension ElasticBeanstalkClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ComposeEnvironments` operation on the `AWSElasticBeanstalkService` service.
+    /// Performs the `ComposeEnvironments` operation on the `ElasticBeanstalk` service.
     ///
     /// Create or update a group of environments that each run a separate component of a single application. Takes a list of version labels that specify application source bundles for each of the environments to create or update. The name of each environment and other required information must be included in the source bundles in an environment manifest named env.yaml. See [Compose Environments](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/environment-mgmt-compose.html) for details.
     ///
@@ -671,7 +671,7 @@ extension ElasticBeanstalkClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateApplication` operation on the `AWSElasticBeanstalkService` service.
+    /// Performs the `CreateApplication` operation on the `ElasticBeanstalk` service.
     ///
     /// Creates an application that has one configuration template named default and no application versions.
     ///
@@ -740,7 +740,7 @@ extension ElasticBeanstalkClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateApplicationVersion` operation on the `AWSElasticBeanstalkService` service.
+    /// Performs the `CreateApplicationVersion` operation on the `ElasticBeanstalk` service.
     ///
     /// Creates an application version for the specified application. You can create an application version from a source bundle in Amazon S3, a commit in AWS CodeCommit, or the output of an AWS CodeBuild build as follows: Specify a commit in an AWS CodeCommit repository with SourceBuildInformation. Specify a build in an AWS CodeBuild with SourceBuildInformation and BuildConfiguration. Specify a source bundle in S3 with SourceBundle Omit both SourceBuildInformation and SourceBundle to use the default sample application. After you create an application version with a specified Amazon S3 bucket and key location, you can't change that Amazon S3 location. If you change the Amazon S3 location, you receive an exception when you attempt to launch an environment from the application version.
     ///
@@ -819,7 +819,7 @@ extension ElasticBeanstalkClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateConfigurationTemplate` operation on the `AWSElasticBeanstalkService` service.
+    /// Performs the `CreateConfigurationTemplate` operation on the `ElasticBeanstalk` service.
     ///
     /// Creates an AWS Elastic Beanstalk configuration template, associated with a specific Elastic Beanstalk application. You define application configuration settings in a configuration template. You can then use the configuration template to deploy different versions of the application with the same configuration settings. Templates aren't associated with any environment. The EnvironmentName response element is always null. Related Topics
     ///
@@ -896,7 +896,7 @@ extension ElasticBeanstalkClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateEnvironment` operation on the `AWSElasticBeanstalkService` service.
+    /// Performs the `CreateEnvironment` operation on the `ElasticBeanstalk` service.
     ///
     /// Launches an AWS Elastic Beanstalk environment for the specified application using the specified configuration.
     ///
@@ -966,7 +966,7 @@ extension ElasticBeanstalkClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreatePlatformVersion` operation on the `AWSElasticBeanstalkService` service.
+    /// Performs the `CreatePlatformVersion` operation on the `ElasticBeanstalk` service.
     ///
     /// Create a new version of your custom platform.
     ///
@@ -1037,7 +1037,7 @@ extension ElasticBeanstalkClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateStorageLocation` operation on the `AWSElasticBeanstalkService` service.
+    /// Performs the `CreateStorageLocation` operation on the `ElasticBeanstalk` service.
     ///
     /// Creates a bucket in Amazon S3 to store application versions, logs, and other files used by Elastic Beanstalk environments. The Elastic Beanstalk console and EB CLI call this API the first time you create an environment in a region. If the storage location already exists, CreateStorageLocation still returns the bucket name but does not create a new bucket.
     ///
@@ -1108,7 +1108,7 @@ extension ElasticBeanstalkClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteApplication` operation on the `AWSElasticBeanstalkService` service.
+    /// Performs the `DeleteApplication` operation on the `ElasticBeanstalk` service.
     ///
     /// Deletes the specified application along with all associated versions and configurations. The application versions will not be deleted from your Amazon S3 bucket. You cannot delete an application that has a running environment.
     ///
@@ -1177,7 +1177,7 @@ extension ElasticBeanstalkClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteApplicationVersion` operation on the `AWSElasticBeanstalkService` service.
+    /// Performs the `DeleteApplicationVersion` operation on the `ElasticBeanstalk` service.
     ///
     /// Deletes the specified version from the specified application. You cannot delete an application version that is associated with a running environment.
     ///
@@ -1255,7 +1255,7 @@ extension ElasticBeanstalkClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteConfigurationTemplate` operation on the `AWSElasticBeanstalkService` service.
+    /// Performs the `DeleteConfigurationTemplate` operation on the `ElasticBeanstalk` service.
     ///
     /// Deletes the specified configuration template. When you launch an environment using a configuration template, the environment gets a copy of the template. You can delete or modify the environment's copy of the template without affecting the running environment.
     ///
@@ -1324,7 +1324,7 @@ extension ElasticBeanstalkClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteEnvironmentConfiguration` operation on the `AWSElasticBeanstalkService` service.
+    /// Performs the `DeleteEnvironmentConfiguration` operation on the `ElasticBeanstalk` service.
     ///
     /// Deletes the draft configuration associated with the running environment. Updating a running environment with any configuration changes creates a draft configuration set. You can get the draft configuration using [DescribeConfigurationSettings] while the update is in progress or if the update fails. The DeploymentStatus for the draft configuration indicates whether the deployment is in process or has failed. The draft configuration remains in existence until it is deleted with this action.
     ///
@@ -1388,7 +1388,7 @@ extension ElasticBeanstalkClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeletePlatformVersion` operation on the `AWSElasticBeanstalkService` service.
+    /// Performs the `DeletePlatformVersion` operation on the `ElasticBeanstalk` service.
     ///
     /// Deletes the specified version of a custom platform.
     ///
@@ -1460,7 +1460,7 @@ extension ElasticBeanstalkClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeAccountAttributes` operation on the `AWSElasticBeanstalkService` service.
+    /// Performs the `DescribeAccountAttributes` operation on the `ElasticBeanstalk` service.
     ///
     /// Returns attributes related to AWS Elastic Beanstalk that are associated with the calling AWS account. The result currently has one set of attributes—resource quotas.
     ///
@@ -1529,7 +1529,7 @@ extension ElasticBeanstalkClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeApplicationVersions` operation on the `AWSElasticBeanstalkService` service.
+    /// Performs the `DescribeApplicationVersions` operation on the `ElasticBeanstalk` service.
     ///
     /// Retrieve a list of application versions.
     ///
@@ -1593,7 +1593,7 @@ extension ElasticBeanstalkClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeApplications` operation on the `AWSElasticBeanstalkService` service.
+    /// Performs the `DescribeApplications` operation on the `ElasticBeanstalk` service.
     ///
     /// Returns the descriptions of existing applications.
     ///
@@ -1657,7 +1657,7 @@ extension ElasticBeanstalkClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeConfigurationOptions` operation on the `AWSElasticBeanstalkService` service.
+    /// Performs the `DescribeConfigurationOptions` operation on the `ElasticBeanstalk` service.
     ///
     /// Describes the configuration options that are used in a particular configuration template or environment, or that a specified solution stack defines. The description includes the values the options, their default values, and an indication of the required action on a running environment if an option value is changed.
     ///
@@ -1726,7 +1726,7 @@ extension ElasticBeanstalkClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeConfigurationSettings` operation on the `AWSElasticBeanstalkService` service.
+    /// Performs the `DescribeConfigurationSettings` operation on the `ElasticBeanstalk` service.
     ///
     /// Returns a description of the settings for the specified configuration set, that is, either a configuration template or the configuration set associated with a running environment. When describing the settings for the configuration set associated with a running environment, it is possible to receive two sets of setting descriptions. One is the deployed configuration set, and the other is a draft configuration of an environment that is either in the process of deployment or that failed to deploy. Related Topics
     ///
@@ -1797,7 +1797,7 @@ extension ElasticBeanstalkClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeEnvironmentHealth` operation on the `AWSElasticBeanstalkService` service.
+    /// Performs the `DescribeEnvironmentHealth` operation on the `ElasticBeanstalk` service.
     ///
     /// Returns information about the overall health of the specified environment. The DescribeEnvironmentHealth operation is only available with AWS Elastic Beanstalk Enhanced Health.
     ///
@@ -1867,7 +1867,7 @@ extension ElasticBeanstalkClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeEnvironmentManagedActionHistory` operation on the `AWSElasticBeanstalkService` service.
+    /// Performs the `DescribeEnvironmentManagedActionHistory` operation on the `ElasticBeanstalk` service.
     ///
     /// Lists an environment's completed and failed managed actions.
     ///
@@ -1936,7 +1936,7 @@ extension ElasticBeanstalkClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeEnvironmentManagedActions` operation on the `AWSElasticBeanstalkService` service.
+    /// Performs the `DescribeEnvironmentManagedActions` operation on the `ElasticBeanstalk` service.
     ///
     /// Lists an environment's upcoming and in-progress managed actions.
     ///
@@ -2005,7 +2005,7 @@ extension ElasticBeanstalkClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeEnvironmentResources` operation on the `AWSElasticBeanstalkService` service.
+    /// Performs the `DescribeEnvironmentResources` operation on the `ElasticBeanstalk` service.
     ///
     /// Returns AWS resources for this environment.
     ///
@@ -2074,7 +2074,7 @@ extension ElasticBeanstalkClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeEnvironments` operation on the `AWSElasticBeanstalkService` service.
+    /// Performs the `DescribeEnvironments` operation on the `ElasticBeanstalk` service.
     ///
     /// Returns descriptions for existing environments.
     ///
@@ -2138,7 +2138,7 @@ extension ElasticBeanstalkClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeEvents` operation on the `AWSElasticBeanstalkService` service.
+    /// Performs the `DescribeEvents` operation on the `ElasticBeanstalk` service.
     ///
     /// Returns list of event descriptions matching criteria up to the last 6 weeks. This action returns the most recent 1,000 events from the specified NextToken.
     ///
@@ -2202,7 +2202,7 @@ extension ElasticBeanstalkClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeInstancesHealth` operation on the `AWSElasticBeanstalkService` service.
+    /// Performs the `DescribeInstancesHealth` operation on the `ElasticBeanstalk` service.
     ///
     /// Retrieves detailed information about the health of instances in your AWS Elastic Beanstalk. This operation requires [enhanced health reporting](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/health-enhanced.html).
     ///
@@ -2272,7 +2272,7 @@ extension ElasticBeanstalkClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribePlatformVersion` operation on the `AWSElasticBeanstalkService` service.
+    /// Performs the `DescribePlatformVersion` operation on the `ElasticBeanstalk` service.
     ///
     /// Describes a platform version. Provides full details. Compare to [ListPlatformVersions], which provides summary information about a list of platform versions. For definitions of platform version and other platform-related terms, see [AWS Elastic Beanstalk Platforms Glossary](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/platforms-glossary.html).
     ///
@@ -2342,7 +2342,7 @@ extension ElasticBeanstalkClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateEnvironmentOperationsRole` operation on the `AWSElasticBeanstalkService` service.
+    /// Performs the `DisassociateEnvironmentOperationsRole` operation on the `ElasticBeanstalk` service.
     ///
     /// Disassociate the operations role from an environment. After this call is made, Elastic Beanstalk uses the caller's permissions for permissions to downstream services during subsequent calls acting on this environment. For more information, see [Operations roles](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/iam-operationsrole.html) in the AWS Elastic Beanstalk Developer Guide.
     ///
@@ -2411,7 +2411,7 @@ extension ElasticBeanstalkClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAvailableSolutionStacks` operation on the `AWSElasticBeanstalkService` service.
+    /// Performs the `ListAvailableSolutionStacks` operation on the `ElasticBeanstalk` service.
     ///
     /// Returns a list of the available solution stack names, with the public version first and then in reverse chronological order.
     ///
@@ -2475,7 +2475,7 @@ extension ElasticBeanstalkClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListPlatformBranches` operation on the `AWSElasticBeanstalkService` service.
+    /// Performs the `ListPlatformBranches` operation on the `ElasticBeanstalk` service.
     ///
     /// Lists the platform branches available for your account in an AWS Region. Provides summary information about each platform branch. For definitions of platform branch and other platform-related terms, see [AWS Elastic Beanstalk Platforms Glossary](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/platforms-glossary.html).
     ///
@@ -2539,7 +2539,7 @@ extension ElasticBeanstalkClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListPlatformVersions` operation on the `AWSElasticBeanstalkService` service.
+    /// Performs the `ListPlatformVersions` operation on the `ElasticBeanstalk` service.
     ///
     /// Lists the platform versions available for your account in an AWS Region. Provides summary information about each platform version. Compare to [DescribePlatformVersion], which provides full details about a single platform version. For definitions of platform version and other platform-related terms, see [AWS Elastic Beanstalk Platforms Glossary](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/platforms-glossary.html).
     ///
@@ -2609,7 +2609,7 @@ extension ElasticBeanstalkClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `AWSElasticBeanstalkService` service.
+    /// Performs the `ListTagsForResource` operation on the `ElasticBeanstalk` service.
     ///
     /// Return the tags applied to an AWS Elastic Beanstalk resource. The response contains a list of tag key-value pairs. Elastic Beanstalk supports tagging of all of its resources. For details about resource tagging, see [Tagging Application Resources](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/applications-tagging-resources.html).
     ///
@@ -2680,7 +2680,7 @@ extension ElasticBeanstalkClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RebuildEnvironment` operation on the `AWSElasticBeanstalkService` service.
+    /// Performs the `RebuildEnvironment` operation on the `ElasticBeanstalk` service.
     ///
     /// Deletes and recreates all of the AWS resources (for example: the Auto Scaling group, load balancer, etc.) for a specified environment and forces a restart.
     ///
@@ -2749,7 +2749,7 @@ extension ElasticBeanstalkClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RequestEnvironmentInfo` operation on the `AWSElasticBeanstalkService` service.
+    /// Performs the `RequestEnvironmentInfo` operation on the `ElasticBeanstalk` service.
     ///
     /// Initiates a request to compile the specified type of information of the deployed environment. Setting the InfoType to tail compiles the last lines from the application server log files of every Amazon EC2 instance in your environment. Setting the InfoType to bundle compresses the application server log files for every Amazon EC2 instance into a .zip file. Legacy and .NET containers do not support bundle logs. Use [RetrieveEnvironmentInfo] to obtain the set of logs. Related Topics
     ///
@@ -2815,7 +2815,7 @@ extension ElasticBeanstalkClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RestartAppServer` operation on the `AWSElasticBeanstalkService` service.
+    /// Performs the `RestartAppServer` operation on the `ElasticBeanstalk` service.
     ///
     /// Causes the environment to restart the application container server running on each Amazon EC2 instance.
     ///
@@ -2879,7 +2879,7 @@ extension ElasticBeanstalkClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RetrieveEnvironmentInfo` operation on the `AWSElasticBeanstalkService` service.
+    /// Performs the `RetrieveEnvironmentInfo` operation on the `ElasticBeanstalk` service.
     ///
     /// Retrieves the compiled information from a [RequestEnvironmentInfo] request. Related Topics
     ///
@@ -2945,7 +2945,7 @@ extension ElasticBeanstalkClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SwapEnvironmentCNAMEs` operation on the `AWSElasticBeanstalkService` service.
+    /// Performs the `SwapEnvironmentCNAMEs` operation on the `ElasticBeanstalk` service.
     ///
     /// Swaps the CNAMEs of two environments.
     ///
@@ -3009,7 +3009,7 @@ extension ElasticBeanstalkClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TerminateEnvironment` operation on the `AWSElasticBeanstalkService` service.
+    /// Performs the `TerminateEnvironment` operation on the `ElasticBeanstalk` service.
     ///
     /// Terminates the specified environment.
     ///
@@ -3078,7 +3078,7 @@ extension ElasticBeanstalkClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateApplication` operation on the `AWSElasticBeanstalkService` service.
+    /// Performs the `UpdateApplication` operation on the `ElasticBeanstalk` service.
     ///
     /// Updates the specified application to have the specified properties. If a property (for example, description) is not provided, the value remains unchanged. To clear these properties, specify an empty string.
     ///
@@ -3142,7 +3142,7 @@ extension ElasticBeanstalkClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateApplicationResourceLifecycle` operation on the `AWSElasticBeanstalkService` service.
+    /// Performs the `UpdateApplicationResourceLifecycle` operation on the `ElasticBeanstalk` service.
     ///
     /// Modifies lifecycle settings for an application.
     ///
@@ -3211,7 +3211,7 @@ extension ElasticBeanstalkClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateApplicationVersion` operation on the `AWSElasticBeanstalkService` service.
+    /// Performs the `UpdateApplicationVersion` operation on the `ElasticBeanstalk` service.
     ///
     /// Updates the specified application version to have the specified properties. If a property (for example, description) is not provided, the value remains unchanged. To clear properties, specify an empty string.
     ///
@@ -3275,7 +3275,7 @@ extension ElasticBeanstalkClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateConfigurationTemplate` operation on the `AWSElasticBeanstalkService` service.
+    /// Performs the `UpdateConfigurationTemplate` operation on the `ElasticBeanstalk` service.
     ///
     /// Updates the specified configuration template to have the specified properties or configuration option values. If a property (for example, ApplicationName) is not provided, its value remains unchanged. To clear such properties, specify an empty string. Related Topics
     ///
@@ -3347,7 +3347,7 @@ extension ElasticBeanstalkClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateEnvironment` operation on the `AWSElasticBeanstalkService` service.
+    /// Performs the `UpdateEnvironment` operation on the `ElasticBeanstalk` service.
     ///
     /// Updates the environment description, deploys a new application version, updates the configuration settings to an entirely new configuration template, or updates select configuration option values in the running environment. Attempting to update both the release and configuration is not allowed and AWS Elastic Beanstalk returns an InvalidParameterCombination error. When updating the configuration settings to a new template or individual settings, a draft configuration is created and [DescribeConfigurationSettings] for this environment returns two setting descriptions with different DeploymentStatus values.
     ///
@@ -3417,7 +3417,7 @@ extension ElasticBeanstalkClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateTagsForResource` operation on the `AWSElasticBeanstalkService` service.
+    /// Performs the `UpdateTagsForResource` operation on the `ElasticBeanstalk` service.
     ///
     /// Update the list of tags applied to an AWS Elastic Beanstalk resource. Two lists can be passed: TagsToAdd for tags to add or update, and TagsToRemove. Elastic Beanstalk supports tagging of all of its resources. For details about resource tagging, see [Tagging Application Resources](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/applications-tagging-resources.html). If you create a custom IAM user policy to control permission to this operation, specify one of the following two virtual actions (or both) instead of the API operation name: elasticbeanstalk:AddTags Controls permission to call UpdateTagsForResource and pass a list of tags to add in the TagsToAdd parameter. elasticbeanstalk:RemoveTags Controls permission to call UpdateTagsForResource and pass a list of tag keys to remove in the TagsToRemove parameter. For details about creating a custom user policy, see [Creating a Custom User Policy](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/AWSHowTo.iam.managed-policies.html#AWSHowTo.iam.policies).
     ///
@@ -3490,7 +3490,7 @@ extension ElasticBeanstalkClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ValidateConfigurationSettings` operation on the `AWSElasticBeanstalkService` service.
+    /// Performs the `ValidateConfigurationSettings` operation on the `ElasticBeanstalk` service.
     ///
     /// Takes a set of configuration settings and either a configuration template or environment, and determines whether those values are valid. This action returns a list of messages indicating any errors or warnings associated with the selection of option values.
     ///

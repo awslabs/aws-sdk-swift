@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class InternetMonitorClient: ClientRuntime.Client {
     public static let clientName = "InternetMonitorClient"
-    public static let version = "1.0.71"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: InternetMonitorClient.InternetMonitorClientConfiguration
     let serviceName = "InternetMonitor"
@@ -331,7 +331,7 @@ extension InternetMonitorClient {
 }
 
 extension InternetMonitorClient {
-    /// Performs the `CreateMonitor` operation on the `InternetMonitor20210603` service.
+    /// Performs the `CreateMonitor` operation on the `InternetMonitor` service.
     ///
     /// Creates a monitor in Amazon CloudWatch Internet Monitor. A monitor is built based on information from the application resources that you add: VPCs, Network Load Balancers (NLBs), Amazon CloudFront distributions, and Amazon WorkSpaces directories. Internet Monitor then publishes internet measurements from Amazon Web Services that are specific to the city-networks. That is, the locations and ASNs (typically internet service providers or ISPs), where clients access your application. For more information, see [Using Amazon CloudWatch Internet Monitor](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-InternetMonitor.html) in the Amazon CloudWatch User Guide. When you create a monitor, you choose the percentage of traffic that you want to monitor. You can also set a maximum limit for the number of city-networks where client traffic is monitored, that caps the total traffic that Internet Monitor monitors. A city-network maximum is the limit of city-networks, but you only pay for the number of city-networks that are actually monitored. You can update your monitor at any time to change the percentage of traffic to monitor or the city-networks maximum. For more information, see [Choosing a city-network maximum value](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/IMCityNetworksMaximum.html) in the Amazon CloudWatch User Guide.
     ///
@@ -406,7 +406,7 @@ extension InternetMonitorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteMonitor` operation on the `InternetMonitor20210603` service.
+    /// Performs the `DeleteMonitor` operation on the `InternetMonitor` service.
     ///
     /// Deletes a monitor in Amazon CloudWatch Internet Monitor.
     ///
@@ -475,7 +475,7 @@ extension InternetMonitorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetHealthEvent` operation on the `InternetMonitor20210603` service.
+    /// Performs the `GetHealthEvent` operation on the `InternetMonitor` service.
     ///
     /// Gets information that Amazon CloudWatch Internet Monitor has created and stored about a health event for a specified monitor. This information includes the impacted locations, and all the information related to the event, by location. The information returned includes the impact on performance, availability, and round-trip time, information about the network providers (ASNs), the event type, and so on. Information rolled up at the global traffic level is also returned, including the impact type and total traffic impact.
     ///
@@ -545,7 +545,7 @@ extension InternetMonitorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetInternetEvent` operation on the `InternetMonitor20210603` service.
+    /// Performs the `GetInternetEvent` operation on the `InternetMonitor` service.
     ///
     /// Gets information that Amazon CloudWatch Internet Monitor has generated about an internet event. Internet Monitor displays information about recent global health events, called internet events, on a global outages map that is available to all Amazon Web Services customers. The information returned here includes the impacted location, when the event started and (if the event is over) ended, the type of event (PERFORMANCE or AVAILABILITY), and the status (ACTIVE or RESOLVED).
     ///
@@ -614,7 +614,7 @@ extension InternetMonitorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetMonitor` operation on the `InternetMonitor20210603` service.
+    /// Performs the `GetMonitor` operation on the `InternetMonitor` service.
     ///
     /// Gets information about a monitor in Amazon CloudWatch Internet Monitor based on a monitor name. The information returned includes the Amazon Resource Name (ARN), create time, modified time, resources included in the monitor, and status information.
     ///
@@ -684,7 +684,7 @@ extension InternetMonitorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetQueryResults` operation on the `InternetMonitor20210603` service.
+    /// Performs the `GetQueryResults` operation on the `InternetMonitor` service.
     ///
     /// Return the data for a query with the Amazon CloudWatch Internet Monitor query interface. Specify the query that you want to return results for by providing a QueryId and a monitor name. For more information about using the query interface, including examples, see [Using the Amazon CloudWatch Internet Monitor query interface](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-IM-view-cw-tools-cwim-query.html) in the Amazon CloudWatch Internet Monitor User Guide.
     ///
@@ -755,7 +755,7 @@ extension InternetMonitorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetQueryStatus` operation on the `InternetMonitor20210603` service.
+    /// Performs the `GetQueryStatus` operation on the `InternetMonitor` service.
     ///
     /// Returns the current status of a query for the Amazon CloudWatch Internet Monitor query interface, for a specified query ID and monitor. When you run a query, check the status to make sure that the query has SUCCEEDED before you review the results.
     ///
@@ -835,7 +835,7 @@ extension InternetMonitorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListHealthEvents` operation on the `InternetMonitor20210603` service.
+    /// Performs the `ListHealthEvents` operation on the `InternetMonitor` service.
     ///
     /// Lists all health events for a monitor in Amazon CloudWatch Internet Monitor. Returns information for health events including the event start and end times, and the status. Health events that have start times during the time frame that is requested are not included in the list of health events.
     ///
@@ -905,7 +905,7 @@ extension InternetMonitorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListInternetEvents` operation on the `InternetMonitor20210603` service.
+    /// Performs the `ListInternetEvents` operation on the `InternetMonitor` service.
     ///
     /// Lists internet events that cause performance or availability issues for client locations. Amazon CloudWatch Internet Monitor displays information about recent global health events, called internet events, on a global outages map that is available to all Amazon Web Services customers. You can constrain the list of internet events returned by providing a start time and end time to define a total time frame for events you want to list. Both start time and end time specify the time when an event started. End time is optional. If you don't include it, the default end time is the current time. You can also limit the events returned to a specific status (ACTIVE or RESOLVED) or type (PERFORMANCE or AVAILABILITY).
     ///
@@ -975,7 +975,7 @@ extension InternetMonitorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListMonitors` operation on the `InternetMonitor20210603` service.
+    /// Performs the `ListMonitors` operation on the `InternetMonitor` service.
     ///
     /// Lists all of your monitors for Amazon CloudWatch Internet Monitor and their statuses, along with the Amazon Resource Name (ARN) and name of each monitor.
     ///
@@ -1045,7 +1045,7 @@ extension InternetMonitorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `InternetMonitor20210603` service.
+    /// Performs the `ListTagsForResource` operation on the `InternetMonitor` service.
     ///
     /// Lists the tags for a resource. Tags are supported only for monitors in Amazon CloudWatch Internet Monitor.
     ///
@@ -1115,7 +1115,7 @@ extension InternetMonitorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartQuery` operation on the `InternetMonitor20210603` service.
+    /// Performs the `StartQuery` operation on the `InternetMonitor` service.
     ///
     /// Start a query to return data for a specific query type for the Amazon CloudWatch Internet Monitor query interface. Specify a time period for the data that you want returned by using StartTime and EndTime. You filter the query results to return by providing parameters that you specify with FilterParameters. For more information about using the query interface, including examples, see [Using the Amazon CloudWatch Internet Monitor query interface](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-IM-view-cw-tools-cwim-query.html) in the Amazon CloudWatch Internet Monitor User Guide.
     ///
@@ -1188,7 +1188,7 @@ extension InternetMonitorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopQuery` operation on the `InternetMonitor20210603` service.
+    /// Performs the `StopQuery` operation on the `InternetMonitor` service.
     ///
     /// Stop a query that is progress for a specific monitor.
     ///
@@ -1258,7 +1258,7 @@ extension InternetMonitorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `InternetMonitor20210603` service.
+    /// Performs the `TagResource` operation on the `InternetMonitor` service.
     ///
     /// Adds a tag to a resource. Tags are supported only for monitors in Amazon CloudWatch Internet Monitor. You can add a maximum of 50 tags in Internet Monitor. A minimum of one tag is required for this call. It returns an error if you use the TagResource request with 0 tags.
     ///
@@ -1331,7 +1331,7 @@ extension InternetMonitorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `InternetMonitor20210603` service.
+    /// Performs the `UntagResource` operation on the `InternetMonitor` service.
     ///
     /// Removes a tag from a resource.
     ///
@@ -1402,7 +1402,7 @@ extension InternetMonitorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateMonitor` operation on the `InternetMonitor20210603` service.
+    /// Performs the `UpdateMonitor` operation on the `InternetMonitor` service.
     ///
     /// Updates a monitor. You can update a monitor to change the percentage of traffic to monitor or the maximum number of city-networks (locations and ASNs), to add or remove resources, or to change the status of the monitor. Note that you can't change the name of a monitor. The city-network maximum that you choose is the limit, but you only pay for the number of city-networks that are actually monitored. For more information, see [Choosing a city-network maximum value](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/IMCityNetworksMaximum.html) in the Amazon CloudWatch User Guide.
     ///

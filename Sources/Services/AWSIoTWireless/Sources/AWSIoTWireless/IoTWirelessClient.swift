@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class IoTWirelessClient: ClientRuntime.Client {
     public static let clientName = "IoTWirelessClient"
-    public static let version = "1.0.71"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: IoTWirelessClient.IoTWirelessClientConfiguration
     let serviceName = "IoT Wireless"
@@ -333,7 +333,7 @@ extension IoTWirelessClient {
 }
 
 extension IoTWirelessClient {
-    /// Performs the `AssociateAwsAccountWithPartnerAccount` operation on the `iotwireless` service.
+    /// Performs the `AssociateAwsAccountWithPartnerAccount` operation on the `IoTWireless` service.
     ///
     /// Associates a partner account with your AWS account.
     ///
@@ -408,7 +408,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssociateMulticastGroupWithFuotaTask` operation on the `iotwireless` service.
+    /// Performs the `AssociateMulticastGroupWithFuotaTask` operation on the `IoTWireless` service.
     ///
     /// Associate a multicast group with a FUOTA task.
     ///
@@ -482,7 +482,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssociateWirelessDeviceWithFuotaTask` operation on the `iotwireless` service.
+    /// Performs the `AssociateWirelessDeviceWithFuotaTask` operation on the `IoTWireless` service.
     ///
     /// Associate a wireless device with a FUOTA task.
     ///
@@ -556,7 +556,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssociateWirelessDeviceWithMulticastGroup` operation on the `iotwireless` service.
+    /// Performs the `AssociateWirelessDeviceWithMulticastGroup` operation on the `IoTWireless` service.
     ///
     /// Associates a wireless device with a multicast group.
     ///
@@ -630,7 +630,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssociateWirelessDeviceWithThing` operation on the `iotwireless` service.
+    /// Performs the `AssociateWirelessDeviceWithThing` operation on the `IoTWireless` service.
     ///
     /// Associates a wireless device with a thing.
     ///
@@ -704,7 +704,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssociateWirelessGatewayWithCertificate` operation on the `iotwireless` service.
+    /// Performs the `AssociateWirelessGatewayWithCertificate` operation on the `IoTWireless` service.
     ///
     /// Associates a wireless gateway with a certificate.
     ///
@@ -778,7 +778,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssociateWirelessGatewayWithThing` operation on the `iotwireless` service.
+    /// Performs the `AssociateWirelessGatewayWithThing` operation on the `IoTWireless` service.
     ///
     /// Associates a wireless gateway with a thing.
     ///
@@ -852,7 +852,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CancelMulticastGroupSession` operation on the `iotwireless` service.
+    /// Performs the `CancelMulticastGroupSession` operation on the `IoTWireless` service.
     ///
     /// Cancels an existing multicast group session.
     ///
@@ -923,7 +923,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateDestination` operation on the `iotwireless` service.
+    /// Performs the `CreateDestination` operation on the `IoTWireless` service.
     ///
     /// Creates a new destination that maps a device message to an AWS IoT rule.
     ///
@@ -998,7 +998,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateDeviceProfile` operation on the `iotwireless` service.
+    /// Performs the `CreateDeviceProfile` operation on the `IoTWireless` service.
     ///
     /// Creates a new device profile.
     ///
@@ -1072,7 +1072,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateFuotaTask` operation on the `iotwireless` service.
+    /// Performs the `CreateFuotaTask` operation on the `IoTWireless` service.
     ///
     /// Creates a FUOTA task.
     ///
@@ -1147,7 +1147,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateMulticastGroup` operation on the `iotwireless` service.
+    /// Performs the `CreateMulticastGroup` operation on the `IoTWireless` service.
     ///
     /// Creates a multicast group.
     ///
@@ -1222,7 +1222,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateNetworkAnalyzerConfiguration` operation on the `iotwireless` service.
+    /// Performs the `CreateNetworkAnalyzerConfiguration` operation on the `IoTWireless` service.
     ///
     /// Creates a new network analyzer configuration.
     ///
@@ -1297,7 +1297,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateServiceProfile` operation on the `iotwireless` service.
+    /// Performs the `CreateServiceProfile` operation on the `IoTWireless` service.
     ///
     /// Creates a new service profile.
     ///
@@ -1371,7 +1371,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateWirelessDevice` operation on the `iotwireless` service.
+    /// Performs the `CreateWirelessDevice` operation on the `IoTWireless` service.
     ///
     /// Provisions a wireless device.
     ///
@@ -1446,7 +1446,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateWirelessGateway` operation on the `iotwireless` service.
+    /// Performs the `CreateWirelessGateway` operation on the `IoTWireless` service.
     ///
     /// Provisions a wireless gateway. When provisioning a wireless gateway, you might run into duplication errors for the following reasons.
     ///
@@ -1527,7 +1527,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateWirelessGatewayTask` operation on the `iotwireless` service.
+    /// Performs the `CreateWirelessGatewayTask` operation on the `IoTWireless` service.
     ///
     /// Creates a task for a wireless gateway.
     ///
@@ -1601,7 +1601,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateWirelessGatewayTaskDefinition` operation on the `iotwireless` service.
+    /// Performs the `CreateWirelessGatewayTaskDefinition` operation on the `IoTWireless` service.
     ///
     /// Creates a gateway task definition.
     ///
@@ -1676,7 +1676,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteDestination` operation on the `iotwireless` service.
+    /// Performs the `DeleteDestination` operation on the `IoTWireless` service.
     ///
     /// Deletes a destination.
     ///
@@ -1747,7 +1747,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteDeviceProfile` operation on the `iotwireless` service.
+    /// Performs the `DeleteDeviceProfile` operation on the `IoTWireless` service.
     ///
     /// Deletes a device profile.
     ///
@@ -1818,7 +1818,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteFuotaTask` operation on the `iotwireless` service.
+    /// Performs the `DeleteFuotaTask` operation on the `IoTWireless` service.
     ///
     /// Deletes a FUOTA task.
     ///
@@ -1888,7 +1888,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteMulticastGroup` operation on the `iotwireless` service.
+    /// Performs the `DeleteMulticastGroup` operation on the `IoTWireless` service.
     ///
     /// Deletes a multicast group if it is not in use by a fuota task.
     ///
@@ -1959,7 +1959,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteNetworkAnalyzerConfiguration` operation on the `iotwireless` service.
+    /// Performs the `DeleteNetworkAnalyzerConfiguration` operation on the `IoTWireless` service.
     ///
     /// Deletes a network analyzer configuration.
     ///
@@ -2030,7 +2030,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteQueuedMessages` operation on the `iotwireless` service.
+    /// Performs the `DeleteQueuedMessages` operation on the `IoTWireless` service.
     ///
     /// Remove queued messages from the downlink queue.
     ///
@@ -2101,7 +2101,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteServiceProfile` operation on the `iotwireless` service.
+    /// Performs the `DeleteServiceProfile` operation on the `IoTWireless` service.
     ///
     /// Deletes a service profile.
     ///
@@ -2172,7 +2172,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteWirelessDevice` operation on the `iotwireless` service.
+    /// Performs the `DeleteWirelessDevice` operation on the `IoTWireless` service.
     ///
     /// Deletes a wireless device.
     ///
@@ -2242,7 +2242,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteWirelessDeviceImportTask` operation on the `iotwireless` service.
+    /// Performs the `DeleteWirelessDeviceImportTask` operation on the `IoTWireless` service.
     ///
     /// Delete an import task.
     ///
@@ -2313,7 +2313,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteWirelessGateway` operation on the `iotwireless` service.
+    /// Performs the `DeleteWirelessGateway` operation on the `IoTWireless` service.
     ///
     /// Deletes a wireless gateway. When deleting a wireless gateway, you might run into duplication errors for the following reasons.
     ///
@@ -2390,7 +2390,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteWirelessGatewayTask` operation on the `iotwireless` service.
+    /// Performs the `DeleteWirelessGatewayTask` operation on the `IoTWireless` service.
     ///
     /// Deletes a wireless gateway task.
     ///
@@ -2460,7 +2460,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteWirelessGatewayTaskDefinition` operation on the `iotwireless` service.
+    /// Performs the `DeleteWirelessGatewayTaskDefinition` operation on the `IoTWireless` service.
     ///
     /// Deletes a wireless gateway task definition. Deleting this task definition does not affect tasks that are currently in progress.
     ///
@@ -2530,7 +2530,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeregisterWirelessDevice` operation on the `iotwireless` service.
+    /// Performs the `DeregisterWirelessDevice` operation on the `IoTWireless` service.
     ///
     /// Deregister a wireless device from AWS IoT Wireless.
     ///
@@ -2600,7 +2600,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateAwsAccountFromPartnerAccount` operation on the `iotwireless` service.
+    /// Performs the `DisassociateAwsAccountFromPartnerAccount` operation on the `IoTWireless` service.
     ///
     /// Disassociates your AWS account from a partner account. If PartnerAccountId and PartnerType are null, disassociates your AWS account from all partner accounts.
     ///
@@ -2670,7 +2670,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateMulticastGroupFromFuotaTask` operation on the `iotwireless` service.
+    /// Performs the `DisassociateMulticastGroupFromFuotaTask` operation on the `IoTWireless` service.
     ///
     /// Disassociates a multicast group from a fuota task.
     ///
@@ -2740,7 +2740,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateWirelessDeviceFromFuotaTask` operation on the `iotwireless` service.
+    /// Performs the `DisassociateWirelessDeviceFromFuotaTask` operation on the `IoTWireless` service.
     ///
     /// Disassociates a wireless device from a FUOTA task.
     ///
@@ -2811,7 +2811,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateWirelessDeviceFromMulticastGroup` operation on the `iotwireless` service.
+    /// Performs the `DisassociateWirelessDeviceFromMulticastGroup` operation on the `IoTWireless` service.
     ///
     /// Disassociates a wireless device from a multicast group.
     ///
@@ -2881,7 +2881,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateWirelessDeviceFromThing` operation on the `iotwireless` service.
+    /// Performs the `DisassociateWirelessDeviceFromThing` operation on the `IoTWireless` service.
     ///
     /// Disassociates a wireless device from its currently associated thing.
     ///
@@ -2952,7 +2952,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateWirelessGatewayFromCertificate` operation on the `iotwireless` service.
+    /// Performs the `DisassociateWirelessGatewayFromCertificate` operation on the `IoTWireless` service.
     ///
     /// Disassociates a wireless gateway from its currently associated certificate.
     ///
@@ -3022,7 +3022,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateWirelessGatewayFromThing` operation on the `iotwireless` service.
+    /// Performs the `DisassociateWirelessGatewayFromThing` operation on the `IoTWireless` service.
     ///
     /// Disassociates a wireless gateway from its currently associated thing.
     ///
@@ -3093,7 +3093,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDestination` operation on the `iotwireless` service.
+    /// Performs the `GetDestination` operation on the `IoTWireless` service.
     ///
     /// Gets information about a destination.
     ///
@@ -3163,7 +3163,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDeviceProfile` operation on the `iotwireless` service.
+    /// Performs the `GetDeviceProfile` operation on the `IoTWireless` service.
     ///
     /// Gets information about a device profile.
     ///
@@ -3233,7 +3233,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetEventConfigurationByResourceTypes` operation on the `iotwireless` service.
+    /// Performs the `GetEventConfigurationByResourceTypes` operation on the `IoTWireless` service.
     ///
     /// Get the event configuration based on resource types.
     ///
@@ -3301,7 +3301,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetFuotaTask` operation on the `iotwireless` service.
+    /// Performs the `GetFuotaTask` operation on the `IoTWireless` service.
     ///
     /// Gets information about a FUOTA task.
     ///
@@ -3371,7 +3371,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetLogLevelsByResourceTypes` operation on the `iotwireless` service.
+    /// Performs the `GetLogLevelsByResourceTypes` operation on the `IoTWireless` service.
     ///
     /// Returns current default log levels or log levels by resource types. Based on resource types, log levels can be for wireless device log options or wireless gateway log options.
     ///
@@ -3441,7 +3441,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetMetricConfiguration` operation on the `iotwireless` service.
+    /// Performs the `GetMetricConfiguration` operation on the `IoTWireless` service.
     ///
     /// Get the metric configuration status for this AWS account.
     ///
@@ -3512,7 +3512,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetMetrics` operation on the `iotwireless` service.
+    /// Performs the `GetMetrics` operation on the `IoTWireless` service.
     ///
     /// Get the summary metrics for this AWS account.
     ///
@@ -3586,7 +3586,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetMulticastGroup` operation on the `iotwireless` service.
+    /// Performs the `GetMulticastGroup` operation on the `IoTWireless` service.
     ///
     /// Gets information about a multicast group.
     ///
@@ -3656,7 +3656,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetMulticastGroupSession` operation on the `iotwireless` service.
+    /// Performs the `GetMulticastGroupSession` operation on the `IoTWireless` service.
     ///
     /// Gets information about a multicast group session.
     ///
@@ -3726,7 +3726,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetNetworkAnalyzerConfiguration` operation on the `iotwireless` service.
+    /// Performs the `GetNetworkAnalyzerConfiguration` operation on the `IoTWireless` service.
     ///
     /// Get network analyzer configuration.
     ///
@@ -3796,7 +3796,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetPartnerAccount` operation on the `iotwireless` service.
+    /// Performs the `GetPartnerAccount` operation on the `IoTWireless` service.
     ///
     /// Gets information about a partner account. If PartnerAccountId and PartnerType are null, returns all partner accounts.
     ///
@@ -3866,7 +3866,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetPosition` operation on the `iotwireless` service.
+    /// Performs the `GetPosition` operation on the `IoTWireless` service.
     ///
     /// Get the position information for a given resource. This action is no longer supported. Calls to retrieve the position information should use the [GetResourcePosition](https://docs.aws.amazon.com/iot-wireless/2020-11-22/apireference/API_GetResourcePosition.html) API operation instead.
     @available(*, deprecated, message: "This operation is no longer supported.")
@@ -3938,7 +3938,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetPositionConfiguration` operation on the `iotwireless` service.
+    /// Performs the `GetPositionConfiguration` operation on the `IoTWireless` service.
     ///
     /// Get position configuration for a given resource. This action is no longer supported. Calls to retrieve the position configuration should use the [GetResourcePosition](https://docs.aws.amazon.com/iot-wireless/2020-11-22/apireference/API_GetResourcePosition.html) API operation instead.
     @available(*, deprecated, message: "This operation is no longer supported.")
@@ -4010,7 +4010,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetPositionEstimate` operation on the `iotwireless` service.
+    /// Performs the `GetPositionEstimate` operation on the `IoTWireless` service.
     ///
     /// Get estimated position information as a payload in GeoJSON format. The payload measurement data is resolved using solvers that are provided by third-party vendors.
     ///
@@ -4083,7 +4083,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetResourceEventConfiguration` operation on the `iotwireless` service.
+    /// Performs the `GetResourceEventConfiguration` operation on the `IoTWireless` service.
     ///
     /// Get the event configuration for a particular resource identifier.
     ///
@@ -4154,7 +4154,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetResourceLogLevel` operation on the `iotwireless` service.
+    /// Performs the `GetResourceLogLevel` operation on the `IoTWireless` service.
     ///
     /// Fetches the log-level override, if any, for a given resource-ID and resource-type. It can be used for a wireless device, wireless gateway or fuota task.
     ///
@@ -4225,7 +4225,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetResourcePosition` operation on the `iotwireless` service.
+    /// Performs the `GetResourcePosition` operation on the `IoTWireless` service.
     ///
     /// Get the position information for a given wireless device or a wireless gateway resource. The position information uses the [ World Geodetic System (WGS84)](https://gisgeography.com/wgs84-world-geodetic-system/).
     ///
@@ -4296,7 +4296,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetServiceEndpoint` operation on the `iotwireless` service.
+    /// Performs the `GetServiceEndpoint` operation on the `IoTWireless` service.
     ///
     /// Gets the account-specific endpoint for Configuration and Update Server (CUPS) protocol or LoRaWAN Network Server (LNS) connections.
     ///
@@ -4366,7 +4366,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetServiceProfile` operation on the `iotwireless` service.
+    /// Performs the `GetServiceProfile` operation on the `IoTWireless` service.
     ///
     /// Gets information about a service profile.
     ///
@@ -4436,7 +4436,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetWirelessDevice` operation on the `iotwireless` service.
+    /// Performs the `GetWirelessDevice` operation on the `IoTWireless` service.
     ///
     /// Gets information about a wireless device.
     ///
@@ -4507,7 +4507,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetWirelessDeviceImportTask` operation on the `iotwireless` service.
+    /// Performs the `GetWirelessDeviceImportTask` operation on the `IoTWireless` service.
     ///
     /// Get information about an import task and count of device onboarding summary information for the import task.
     ///
@@ -4578,7 +4578,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetWirelessDeviceStatistics` operation on the `iotwireless` service.
+    /// Performs the `GetWirelessDeviceStatistics` operation on the `IoTWireless` service.
     ///
     /// Gets operating information about a wireless device.
     ///
@@ -4648,7 +4648,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetWirelessGateway` operation on the `iotwireless` service.
+    /// Performs the `GetWirelessGateway` operation on the `IoTWireless` service.
     ///
     /// Gets information about a wireless gateway.
     ///
@@ -4719,7 +4719,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetWirelessGatewayCertificate` operation on the `iotwireless` service.
+    /// Performs the `GetWirelessGatewayCertificate` operation on the `IoTWireless` service.
     ///
     /// Gets the ID of the certificate that is currently associated with a wireless gateway.
     ///
@@ -4789,7 +4789,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetWirelessGatewayFirmwareInformation` operation on the `iotwireless` service.
+    /// Performs the `GetWirelessGatewayFirmwareInformation` operation on the `IoTWireless` service.
     ///
     /// Gets the firmware version and other information about a wireless gateway.
     ///
@@ -4859,7 +4859,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetWirelessGatewayStatistics` operation on the `iotwireless` service.
+    /// Performs the `GetWirelessGatewayStatistics` operation on the `IoTWireless` service.
     ///
     /// Gets operating information about a wireless gateway.
     ///
@@ -4929,7 +4929,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetWirelessGatewayTask` operation on the `iotwireless` service.
+    /// Performs the `GetWirelessGatewayTask` operation on the `IoTWireless` service.
     ///
     /// Gets information about a wireless gateway task.
     ///
@@ -4999,7 +4999,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetWirelessGatewayTaskDefinition` operation on the `iotwireless` service.
+    /// Performs the `GetWirelessGatewayTaskDefinition` operation on the `IoTWireless` service.
     ///
     /// Gets information about a wireless gateway task definition.
     ///
@@ -5069,7 +5069,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDestinations` operation on the `iotwireless` service.
+    /// Performs the `ListDestinations` operation on the `IoTWireless` service.
     ///
     /// Lists the destinations registered to your AWS account.
     ///
@@ -5139,7 +5139,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDeviceProfiles` operation on the `iotwireless` service.
+    /// Performs the `ListDeviceProfiles` operation on the `IoTWireless` service.
     ///
     /// Lists the device profiles registered to your AWS account.
     ///
@@ -5209,7 +5209,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDevicesForWirelessDeviceImportTask` operation on the `iotwireless` service.
+    /// Performs the `ListDevicesForWirelessDeviceImportTask` operation on the `IoTWireless` service.
     ///
     /// List the Sidewalk devices in an import task and their onboarding status.
     ///
@@ -5281,7 +5281,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListEventConfigurations` operation on the `iotwireless` service.
+    /// Performs the `ListEventConfigurations` operation on the `IoTWireless` service.
     ///
     /// List event configurations where at least one event topic has been enabled.
     ///
@@ -5351,7 +5351,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListFuotaTasks` operation on the `iotwireless` service.
+    /// Performs the `ListFuotaTasks` operation on the `IoTWireless` service.
     ///
     /// Lists the FUOTA tasks registered to your AWS account.
     ///
@@ -5421,7 +5421,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListMulticastGroups` operation on the `iotwireless` service.
+    /// Performs the `ListMulticastGroups` operation on the `IoTWireless` service.
     ///
     /// Lists the multicast groups registered to your AWS account.
     ///
@@ -5491,7 +5491,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListMulticastGroupsByFuotaTask` operation on the `iotwireless` service.
+    /// Performs the `ListMulticastGroupsByFuotaTask` operation on the `IoTWireless` service.
     ///
     /// List all multicast groups associated with a fuota task.
     ///
@@ -5562,7 +5562,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListNetworkAnalyzerConfigurations` operation on the `iotwireless` service.
+    /// Performs the `ListNetworkAnalyzerConfigurations` operation on the `IoTWireless` service.
     ///
     /// Lists the network analyzer configurations.
     ///
@@ -5632,7 +5632,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListPartnerAccounts` operation on the `iotwireless` service.
+    /// Performs the `ListPartnerAccounts` operation on the `IoTWireless` service.
     ///
     /// Lists the partner accounts associated with your AWS account.
     ///
@@ -5702,7 +5702,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListPositionConfigurations` operation on the `iotwireless` service.
+    /// Performs the `ListPositionConfigurations` operation on the `IoTWireless` service.
     ///
     /// List position configurations for a given resource, such as positioning solvers. This action is no longer supported. Calls to retrieve position information should use the [GetResourcePosition](https://docs.aws.amazon.com/iot-wireless/2020-11-22/apireference/API_GetResourcePosition.html) API operation instead.
     @available(*, deprecated, message: "This operation is no longer supported.")
@@ -5773,7 +5773,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListQueuedMessages` operation on the `iotwireless` service.
+    /// Performs the `ListQueuedMessages` operation on the `IoTWireless` service.
     ///
     /// List queued messages in the downlink queue.
     ///
@@ -5844,7 +5844,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListServiceProfiles` operation on the `iotwireless` service.
+    /// Performs the `ListServiceProfiles` operation on the `IoTWireless` service.
     ///
     /// Lists the service profiles registered to your AWS account.
     ///
@@ -5914,7 +5914,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `iotwireless` service.
+    /// Performs the `ListTagsForResource` operation on the `IoTWireless` service.
     ///
     /// Lists the tags (metadata) you have assigned to the resource.
     ///
@@ -5985,7 +5985,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListWirelessDeviceImportTasks` operation on the `iotwireless` service.
+    /// Performs the `ListWirelessDeviceImportTasks` operation on the `IoTWireless` service.
     ///
     /// List wireless devices that have been added to an import task.
     ///
@@ -6057,7 +6057,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListWirelessDevices` operation on the `iotwireless` service.
+    /// Performs the `ListWirelessDevices` operation on the `IoTWireless` service.
     ///
     /// Lists the wireless devices registered to your AWS account.
     ///
@@ -6127,7 +6127,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListWirelessGatewayTaskDefinitions` operation on the `iotwireless` service.
+    /// Performs the `ListWirelessGatewayTaskDefinitions` operation on the `IoTWireless` service.
     ///
     /// List the wireless gateway tasks definitions registered to your AWS account.
     ///
@@ -6197,7 +6197,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListWirelessGateways` operation on the `iotwireless` service.
+    /// Performs the `ListWirelessGateways` operation on the `IoTWireless` service.
     ///
     /// Lists the wireless gateways registered to your AWS account.
     ///
@@ -6267,7 +6267,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutPositionConfiguration` operation on the `iotwireless` service.
+    /// Performs the `PutPositionConfiguration` operation on the `IoTWireless` service.
     ///
     /// Put position configuration for a given resource. This action is no longer supported. Calls to update the position configuration should use the [UpdateResourcePosition](https://docs.aws.amazon.com/iot-wireless/2020-11-22/apireference/API_UpdateResourcePosition.html) API operation instead.
     @available(*, deprecated, message: "This operation is no longer supported.")
@@ -6342,7 +6342,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutResourceLogLevel` operation on the `iotwireless` service.
+    /// Performs the `PutResourceLogLevel` operation on the `IoTWireless` service.
     ///
     /// Sets the log-level override for a resource-ID and resource-type. This option can be specified for a wireless gateway or a wireless device. A limit of 200 log level override can be set per account.
     ///
@@ -6416,7 +6416,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ResetAllResourceLogLevels` operation on the `iotwireless` service.
+    /// Performs the `ResetAllResourceLogLevels` operation on the `IoTWireless` service.
     ///
     /// Removes the log-level overrides for all resources; wireless devices, wireless gateways, and fuota tasks.
     ///
@@ -6486,7 +6486,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ResetResourceLogLevel` operation on the `iotwireless` service.
+    /// Performs the `ResetResourceLogLevel` operation on the `IoTWireless` service.
     ///
     /// Removes the log-level override, if any, for a specific resource-ID and resource-type. It can be used for a wireless device, a wireless gateway, or a fuota task.
     ///
@@ -6557,7 +6557,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SendDataToMulticastGroup` operation on the `iotwireless` service.
+    /// Performs the `SendDataToMulticastGroup` operation on the `IoTWireless` service.
     ///
     /// Sends the specified data to a multicast group.
     ///
@@ -6631,7 +6631,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SendDataToWirelessDevice` operation on the `iotwireless` service.
+    /// Performs the `SendDataToWirelessDevice` operation on the `IoTWireless` service.
     ///
     /// Sends a decrypted application data frame to a device.
     ///
@@ -6703,7 +6703,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartBulkAssociateWirelessDeviceWithMulticastGroup` operation on the `iotwireless` service.
+    /// Performs the `StartBulkAssociateWirelessDeviceWithMulticastGroup` operation on the `IoTWireless` service.
     ///
     /// Starts a bulk association of all qualifying wireless devices with a multicast group.
     ///
@@ -6776,7 +6776,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartBulkDisassociateWirelessDeviceFromMulticastGroup` operation on the `iotwireless` service.
+    /// Performs the `StartBulkDisassociateWirelessDeviceFromMulticastGroup` operation on the `IoTWireless` service.
     ///
     /// Starts a bulk disassociatin of all qualifying wireless devices from a multicast group.
     ///
@@ -6849,7 +6849,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartFuotaTask` operation on the `iotwireless` service.
+    /// Performs the `StartFuotaTask` operation on the `IoTWireless` service.
     ///
     /// Starts a FUOTA task.
     ///
@@ -6923,7 +6923,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartMulticastGroupSession` operation on the `iotwireless` service.
+    /// Performs the `StartMulticastGroupSession` operation on the `IoTWireless` service.
     ///
     /// Starts a multicast group session.
     ///
@@ -6997,7 +6997,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartSingleWirelessDeviceImportTask` operation on the `iotwireless` service.
+    /// Performs the `StartSingleWirelessDeviceImportTask` operation on the `IoTWireless` service.
     ///
     /// Start import task for a single wireless device.
     ///
@@ -7072,7 +7072,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartWirelessDeviceImportTask` operation on the `iotwireless` service.
+    /// Performs the `StartWirelessDeviceImportTask` operation on the `IoTWireless` service.
     ///
     /// Start import task for provisioning Sidewalk devices in bulk using an S3 CSV file.
     ///
@@ -7147,7 +7147,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `iotwireless` service.
+    /// Performs the `TagResource` operation on the `IoTWireless` service.
     ///
     /// Adds a tag to a resource.
     ///
@@ -7222,7 +7222,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TestWirelessDevice` operation on the `iotwireless` service.
+    /// Performs the `TestWirelessDevice` operation on the `IoTWireless` service.
     ///
     /// Simulates a provisioned device by sending an uplink data payload of Hello.
     ///
@@ -7291,7 +7291,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `iotwireless` service.
+    /// Performs the `UntagResource` operation on the `IoTWireless` service.
     ///
     /// Removes one or more tags from a resource.
     ///
@@ -7362,7 +7362,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateDestination` operation on the `iotwireless` service.
+    /// Performs the `UpdateDestination` operation on the `IoTWireless` service.
     ///
     /// Updates properties of a destination.
     ///
@@ -7435,7 +7435,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateEventConfigurationByResourceTypes` operation on the `iotwireless` service.
+    /// Performs the `UpdateEventConfigurationByResourceTypes` operation on the `IoTWireless` service.
     ///
     /// Update the event configuration based on resource types.
     ///
@@ -7507,7 +7507,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateFuotaTask` operation on the `iotwireless` service.
+    /// Performs the `UpdateFuotaTask` operation on the `IoTWireless` service.
     ///
     /// Updates properties of a FUOTA task.
     ///
@@ -7581,7 +7581,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateLogLevelsByResourceTypes` operation on the `iotwireless` service.
+    /// Performs the `UpdateLogLevelsByResourceTypes` operation on the `IoTWireless` service.
     ///
     /// Set default log level, or log levels by resource types. This can be for wireless device log options or wireless gateways log options and is used to control the log messages that'll be displayed in CloudWatch.
     ///
@@ -7655,7 +7655,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateMetricConfiguration` operation on the `iotwireless` service.
+    /// Performs the `UpdateMetricConfiguration` operation on the `IoTWireless` service.
     ///
     /// Update the summary metric configuration.
     ///
@@ -7729,7 +7729,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateMulticastGroup` operation on the `iotwireless` service.
+    /// Performs the `UpdateMulticastGroup` operation on the `IoTWireless` service.
     ///
     /// Updates properties of a multicast group session.
     ///
@@ -7803,7 +7803,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateNetworkAnalyzerConfiguration` operation on the `iotwireless` service.
+    /// Performs the `UpdateNetworkAnalyzerConfiguration` operation on the `IoTWireless` service.
     ///
     /// Update network analyzer configuration.
     ///
@@ -7876,7 +7876,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdatePartnerAccount` operation on the `iotwireless` service.
+    /// Performs the `UpdatePartnerAccount` operation on the `IoTWireless` service.
     ///
     /// Updates properties of a partner account.
     ///
@@ -7949,7 +7949,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdatePosition` operation on the `iotwireless` service.
+    /// Performs the `UpdatePosition` operation on the `IoTWireless` service.
     ///
     /// Update the position information of a resource. This action is no longer supported. Calls to update the position information should use the [UpdateResourcePosition](https://docs.aws.amazon.com/iot-wireless/2020-11-22/apireference/API_UpdateResourcePosition.html) API operation instead.
     @available(*, deprecated, message: "This operation is no longer supported.")
@@ -8024,7 +8024,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateResourceEventConfiguration` operation on the `iotwireless` service.
+    /// Performs the `UpdateResourceEventConfiguration` operation on the `IoTWireless` service.
     ///
     /// Update the event configuration for a particular resource identifier.
     ///
@@ -8099,7 +8099,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateResourcePosition` operation on the `iotwireless` service.
+    /// Performs the `UpdateResourcePosition` operation on the `IoTWireless` service.
     ///
     /// Update the position information of a given wireless device or a wireless gateway resource. The position coordinates are based on the [ World Geodetic System (WGS84)](https://gisgeography.com/wgs84-world-geodetic-system/).
     ///
@@ -8173,7 +8173,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateWirelessDevice` operation on the `iotwireless` service.
+    /// Performs the `UpdateWirelessDevice` operation on the `IoTWireless` service.
     ///
     /// Updates properties of a wireless device.
     ///
@@ -8246,7 +8246,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateWirelessDeviceImportTask` operation on the `iotwireless` service.
+    /// Performs the `UpdateWirelessDeviceImportTask` operation on the `IoTWireless` service.
     ///
     /// Update an import task to add more devices to the task.
     ///
@@ -8320,7 +8320,7 @@ extension IoTWirelessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateWirelessGateway` operation on the `iotwireless` service.
+    /// Performs the `UpdateWirelessGateway` operation on the `IoTWireless` service.
     ///
     /// Updates properties of a wireless gateway.
     ///

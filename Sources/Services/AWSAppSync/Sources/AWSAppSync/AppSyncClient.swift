@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class AppSyncClient: ClientRuntime.Client {
     public static let clientName = "AppSyncClient"
-    public static let version = "1.0.71"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: AppSyncClient.AppSyncClientConfiguration
     let serviceName = "AppSync"
@@ -330,7 +330,7 @@ extension AppSyncClient {
 }
 
 extension AppSyncClient {
-    /// Performs the `AssociateApi` operation on the `AWSDeepdishControlPlaneService` service.
+    /// Performs the `AssociateApi` operation on the `AppSync` service.
     ///
     /// Maps an endpoint to your custom domain.
     ///
@@ -402,7 +402,7 @@ extension AppSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssociateMergedGraphqlApi` operation on the `AWSDeepdishControlPlaneService` service.
+    /// Performs the `AssociateMergedGraphqlApi` operation on the `AppSync` service.
     ///
     /// Creates an association between a Merged API and source API using the source API's identifier.
     ///
@@ -476,7 +476,7 @@ extension AppSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssociateSourceGraphqlApi` operation on the `AWSDeepdishControlPlaneService` service.
+    /// Performs the `AssociateSourceGraphqlApi` operation on the `AppSync` service.
     ///
     /// Creates an association between a Merged API and source API using the Merged API's identifier.
     ///
@@ -550,7 +550,7 @@ extension AppSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateApi` operation on the `AWSDeepdishControlPlaneService` service.
+    /// Performs the `CreateApi` operation on the `AppSync` service.
     ///
     /// Creates an Api object. Use this operation to create an AppSync API with your preferred configuration, such as an Event API that provides real-time message publishing and message subscriptions over WebSockets.
     ///
@@ -623,7 +623,7 @@ extension AppSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateApiCache` operation on the `AWSDeepdishControlPlaneService` service.
+    /// Performs the `CreateApiCache` operation on the `AppSync` service.
     ///
     /// Creates a cache for the GraphQL API.
     ///
@@ -696,7 +696,7 @@ extension AppSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateApiKey` operation on the `AWSDeepdishControlPlaneService` service.
+    /// Performs the `CreateApiKey` operation on the `AppSync` service.
     ///
     /// Creates a unique key that you can distribute to clients who invoke your API.
     ///
@@ -771,7 +771,7 @@ extension AppSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateChannelNamespace` operation on the `AWSDeepdishControlPlaneService` service.
+    /// Performs the `CreateChannelNamespace` operation on the `AppSync` service.
     ///
     /// Creates a ChannelNamespace for an Api.
     ///
@@ -846,7 +846,7 @@ extension AppSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateDataSource` operation on the `AWSDeepdishControlPlaneService` service.
+    /// Performs the `CreateDataSource` operation on the `AppSync` service.
     ///
     /// Creates a DataSource object.
     ///
@@ -919,7 +919,7 @@ extension AppSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateDomainName` operation on the `AWSDeepdishControlPlaneService` service.
+    /// Performs the `CreateDomainName` operation on the `AppSync` service.
     ///
     /// Creates a custom DomainName object.
     ///
@@ -990,7 +990,7 @@ extension AppSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateFunction` operation on the `AWSDeepdishControlPlaneService` service.
+    /// Performs the `CreateFunction` operation on the `AppSync` service.
     ///
     /// Creates a Function object. A function is a reusable entity. You can use multiple functions to compose the resolver logic.
     ///
@@ -1063,7 +1063,7 @@ extension AppSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateGraphqlApi` operation on the `AWSDeepdishControlPlaneService` service.
+    /// Performs the `CreateGraphqlApi` operation on the `AppSync` service.
     ///
     /// Creates a GraphqlApi object.
     ///
@@ -1137,7 +1137,7 @@ extension AppSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateResolver` operation on the `AWSDeepdishControlPlaneService` service.
+    /// Performs the `CreateResolver` operation on the `AppSync` service.
     ///
     /// Creates a Resolver object. A resolver converts incoming requests into a format that a data source can understand, and converts the data source's responses into GraphQL.
     ///
@@ -1210,7 +1210,7 @@ extension AppSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateType` operation on the `AWSDeepdishControlPlaneService` service.
+    /// Performs the `CreateType` operation on the `AppSync` service.
     ///
     /// Creates a Type object.
     ///
@@ -1283,7 +1283,7 @@ extension AppSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteApi` operation on the `AWSDeepdishControlPlaneService` service.
+    /// Performs the `DeleteApi` operation on the `AppSync` service.
     ///
     /// Deletes an Api object
     ///
@@ -1354,7 +1354,7 @@ extension AppSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteApiCache` operation on the `AWSDeepdishControlPlaneService` service.
+    /// Performs the `DeleteApiCache` operation on the `AppSync` service.
     ///
     /// Deletes an ApiCache object.
     ///
@@ -1424,7 +1424,7 @@ extension AppSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteApiKey` operation on the `AWSDeepdishControlPlaneService` service.
+    /// Performs the `DeleteApiKey` operation on the `AppSync` service.
     ///
     /// Deletes an API key.
     ///
@@ -1493,7 +1493,7 @@ extension AppSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteChannelNamespace` operation on the `AWSDeepdishControlPlaneService` service.
+    /// Performs the `DeleteChannelNamespace` operation on the `AppSync` service.
     ///
     /// Deletes a ChannelNamespace.
     ///
@@ -1564,7 +1564,7 @@ extension AppSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteDataSource` operation on the `AWSDeepdishControlPlaneService` service.
+    /// Performs the `DeleteDataSource` operation on the `AppSync` service.
     ///
     /// Deletes a DataSource object.
     ///
@@ -1634,7 +1634,7 @@ extension AppSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteDomainName` operation on the `AWSDeepdishControlPlaneService` service.
+    /// Performs the `DeleteDomainName` operation on the `AppSync` service.
     ///
     /// Deletes a custom DomainName object.
     ///
@@ -1704,7 +1704,7 @@ extension AppSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteFunction` operation on the `AWSDeepdishControlPlaneService` service.
+    /// Performs the `DeleteFunction` operation on the `AppSync` service.
     ///
     /// Deletes a Function.
     ///
@@ -1774,7 +1774,7 @@ extension AppSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteGraphqlApi` operation on the `AWSDeepdishControlPlaneService` service.
+    /// Performs the `DeleteGraphqlApi` operation on the `AppSync` service.
     ///
     /// Deletes a GraphqlApi object.
     ///
@@ -1845,7 +1845,7 @@ extension AppSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteResolver` operation on the `AWSDeepdishControlPlaneService` service.
+    /// Performs the `DeleteResolver` operation on the `AppSync` service.
     ///
     /// Deletes a Resolver object.
     ///
@@ -1915,7 +1915,7 @@ extension AppSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteType` operation on the `AWSDeepdishControlPlaneService` service.
+    /// Performs the `DeleteType` operation on the `AppSync` service.
     ///
     /// Deletes a Type object.
     ///
@@ -1985,7 +1985,7 @@ extension AppSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateApi` operation on the `AWSDeepdishControlPlaneService` service.
+    /// Performs the `DisassociateApi` operation on the `AppSync` service.
     ///
     /// Removes an ApiAssociation object from a custom domain.
     ///
@@ -2055,7 +2055,7 @@ extension AppSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateMergedGraphqlApi` operation on the `AWSDeepdishControlPlaneService` service.
+    /// Performs the `DisassociateMergedGraphqlApi` operation on the `AppSync` service.
     ///
     /// Deletes an association between a Merged API and source API using the source API's identifier and the association ID.
     ///
@@ -2125,7 +2125,7 @@ extension AppSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateSourceGraphqlApi` operation on the `AWSDeepdishControlPlaneService` service.
+    /// Performs the `DisassociateSourceGraphqlApi` operation on the `AppSync` service.
     ///
     /// Deletes an association between a Merged API and source API using the Merged API's identifier and the association ID.
     ///
@@ -2195,7 +2195,7 @@ extension AppSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `EvaluateCode` operation on the `AWSDeepdishControlPlaneService` service.
+    /// Performs the `EvaluateCode` operation on the `AppSync` service.
     ///
     /// Evaluates the given code and returns the response. The code definition requirements depend on the specified runtime. For APPSYNC_JS runtimes, the code defines the request and response functions. The request function takes the incoming request after a GraphQL operation is parsed and converts it into a request configuration for the selected data source operation. The response function interprets responses from the data source and maps it to the shape of the GraphQL field output type.
     ///
@@ -2266,7 +2266,7 @@ extension AppSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `EvaluateMappingTemplate` operation on the `AWSDeepdishControlPlaneService` service.
+    /// Performs the `EvaluateMappingTemplate` operation on the `AppSync` service.
     ///
     /// Evaluates a given template and returns the response. The mapping template can be a request or response template. Request templates take the incoming request after a GraphQL operation is parsed and convert it into a request configuration for the selected data source operation. Response templates interpret responses from the data source and map it to the shape of the GraphQL field output type. Mapping templates are written in the Apache Velocity Template Language (VTL).
     ///
@@ -2337,7 +2337,7 @@ extension AppSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `FlushApiCache` operation on the `AWSDeepdishControlPlaneService` service.
+    /// Performs the `FlushApiCache` operation on the `AppSync` service.
     ///
     /// Flushes an ApiCache object.
     ///
@@ -2407,7 +2407,7 @@ extension AppSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetApi` operation on the `AWSDeepdishControlPlaneService` service.
+    /// Performs the `GetApi` operation on the `AppSync` service.
     ///
     /// Retrieves an Api object.
     ///
@@ -2477,7 +2477,7 @@ extension AppSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetApiAssociation` operation on the `AWSDeepdishControlPlaneService` service.
+    /// Performs the `GetApiAssociation` operation on the `AppSync` service.
     ///
     /// Retrieves an ApiAssociation object.
     ///
@@ -2546,7 +2546,7 @@ extension AppSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetApiCache` operation on the `AWSDeepdishControlPlaneService` service.
+    /// Performs the `GetApiCache` operation on the `AppSync` service.
     ///
     /// Retrieves an ApiCache object.
     ///
@@ -2616,7 +2616,7 @@ extension AppSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetChannelNamespace` operation on the `AWSDeepdishControlPlaneService` service.
+    /// Performs the `GetChannelNamespace` operation on the `AppSync` service.
     ///
     /// Retrieves the channel namespace for a specified Api.
     ///
@@ -2686,7 +2686,7 @@ extension AppSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDataSource` operation on the `AWSDeepdishControlPlaneService` service.
+    /// Performs the `GetDataSource` operation on the `AppSync` service.
     ///
     /// Retrieves a DataSource object.
     ///
@@ -2756,7 +2756,7 @@ extension AppSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDataSourceIntrospection` operation on the `AWSDeepdishControlPlaneService` service.
+    /// Performs the `GetDataSourceIntrospection` operation on the `AppSync` service.
     ///
     /// Retrieves the record of an existing introspection. If the retrieval is successful, the result of the instrospection will also be returned. If the retrieval fails the operation, an error message will be returned instead.
     ///
@@ -2825,7 +2825,7 @@ extension AppSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDomainName` operation on the `AWSDeepdishControlPlaneService` service.
+    /// Performs the `GetDomainName` operation on the `AppSync` service.
     ///
     /// Retrieves a custom DomainName object.
     ///
@@ -2894,7 +2894,7 @@ extension AppSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetFunction` operation on the `AWSDeepdishControlPlaneService` service.
+    /// Performs the `GetFunction` operation on the `AppSync` service.
     ///
     /// Get a Function.
     ///
@@ -2962,7 +2962,7 @@ extension AppSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetGraphqlApi` operation on the `AWSDeepdishControlPlaneService` service.
+    /// Performs the `GetGraphqlApi` operation on the `AppSync` service.
     ///
     /// Retrieves a GraphqlApi object.
     ///
@@ -3032,7 +3032,7 @@ extension AppSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetGraphqlApiEnvironmentVariables` operation on the `AWSDeepdishControlPlaneService` service.
+    /// Performs the `GetGraphqlApiEnvironmentVariables` operation on the `AppSync` service.
     ///
     /// Retrieves the list of environmental variable key-value pairs associated with an API by its ID value.
     ///
@@ -3102,7 +3102,7 @@ extension AppSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetIntrospectionSchema` operation on the `AWSDeepdishControlPlaneService` service.
+    /// Performs the `GetIntrospectionSchema` operation on the `AppSync` service.
     ///
     /// Retrieves the introspection schema for a GraphQL API.
     ///
@@ -3172,7 +3172,7 @@ extension AppSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetResolver` operation on the `AWSDeepdishControlPlaneService` service.
+    /// Performs the `GetResolver` operation on the `AppSync` service.
     ///
     /// Retrieves a Resolver object.
     ///
@@ -3240,7 +3240,7 @@ extension AppSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetSchemaCreationStatus` operation on the `AWSDeepdishControlPlaneService` service.
+    /// Performs the `GetSchemaCreationStatus` operation on the `AppSync` service.
     ///
     /// Retrieves the current status of a schema creation operation.
     ///
@@ -3309,7 +3309,7 @@ extension AppSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetSourceApiAssociation` operation on the `AWSDeepdishControlPlaneService` service.
+    /// Performs the `GetSourceApiAssociation` operation on the `AppSync` service.
     ///
     /// Retrieves a SourceApiAssociation object.
     ///
@@ -3378,7 +3378,7 @@ extension AppSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetType` operation on the `AWSDeepdishControlPlaneService` service.
+    /// Performs the `GetType` operation on the `AppSync` service.
     ///
     /// Retrieves a Type object.
     ///
@@ -3449,7 +3449,7 @@ extension AppSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListApiKeys` operation on the `AWSDeepdishControlPlaneService` service.
+    /// Performs the `ListApiKeys` operation on the `AppSync` service.
     ///
     /// Lists the API keys for a given API. API keys are deleted automatically 60 days after they expire. However, they may still be included in the response until they have actually been deleted. You can safely call DeleteApiKey to manually delete a key before it's automatically deleted.
     ///
@@ -3519,7 +3519,7 @@ extension AppSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListApis` operation on the `AWSDeepdishControlPlaneService` service.
+    /// Performs the `ListApis` operation on the `AppSync` service.
     ///
     /// Lists the APIs in your AppSync account. ListApis returns only the high level API details. For more detailed information about an API, use GetApi.
     ///
@@ -3588,7 +3588,7 @@ extension AppSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListChannelNamespaces` operation on the `AWSDeepdishControlPlaneService` service.
+    /// Performs the `ListChannelNamespaces` operation on the `AppSync` service.
     ///
     /// Lists the channel namespaces for a specified Api. ListChannelNamespaces returns only high level details for the channel namespace. To retrieve code handlers, use GetChannelNamespace.
     ///
@@ -3658,7 +3658,7 @@ extension AppSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDataSources` operation on the `AWSDeepdishControlPlaneService` service.
+    /// Performs the `ListDataSources` operation on the `AppSync` service.
     ///
     /// Lists the data sources for a given API.
     ///
@@ -3728,7 +3728,7 @@ extension AppSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDomainNames` operation on the `AWSDeepdishControlPlaneService` service.
+    /// Performs the `ListDomainNames` operation on the `AppSync` service.
     ///
     /// Lists multiple custom domain names.
     ///
@@ -3797,7 +3797,7 @@ extension AppSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListFunctions` operation on the `AWSDeepdishControlPlaneService` service.
+    /// Performs the `ListFunctions` operation on the `AppSync` service.
     ///
     /// List multiple functions.
     ///
@@ -3867,7 +3867,7 @@ extension AppSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListGraphqlApis` operation on the `AWSDeepdishControlPlaneService` service.
+    /// Performs the `ListGraphqlApis` operation on the `AppSync` service.
     ///
     /// Lists your GraphQL APIs.
     ///
@@ -3936,7 +3936,7 @@ extension AppSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListResolvers` operation on the `AWSDeepdishControlPlaneService` service.
+    /// Performs the `ListResolvers` operation on the `AppSync` service.
     ///
     /// Lists the resolvers for a given API and type.
     ///
@@ -4006,7 +4006,7 @@ extension AppSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListResolversByFunction` operation on the `AWSDeepdishControlPlaneService` service.
+    /// Performs the `ListResolversByFunction` operation on the `AppSync` service.
     ///
     /// List the resolvers that are associated with a specific function.
     ///
@@ -4076,7 +4076,7 @@ extension AppSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListSourceApiAssociations` operation on the `AWSDeepdishControlPlaneService` service.
+    /// Performs the `ListSourceApiAssociations` operation on the `AppSync` service.
     ///
     /// Lists the SourceApiAssociationSummary data.
     ///
@@ -4146,7 +4146,7 @@ extension AppSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `AWSDeepdishControlPlaneService` service.
+    /// Performs the `ListTagsForResource` operation on the `AppSync` service.
     ///
     /// Lists the tags for a resource.
     ///
@@ -4217,7 +4217,7 @@ extension AppSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTypes` operation on the `AWSDeepdishControlPlaneService` service.
+    /// Performs the `ListTypes` operation on the `AppSync` service.
     ///
     /// Lists the types for a given API.
     ///
@@ -4288,7 +4288,7 @@ extension AppSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTypesByAssociation` operation on the `AWSDeepdishControlPlaneService` service.
+    /// Performs the `ListTypesByAssociation` operation on the `AppSync` service.
     ///
     /// Lists Type objects by the source API association ID.
     ///
@@ -4359,7 +4359,7 @@ extension AppSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutGraphqlApiEnvironmentVariables` operation on the `AWSDeepdishControlPlaneService` service.
+    /// Performs the `PutGraphqlApiEnvironmentVariables` operation on the `AppSync` service.
     ///
     /// Creates a list of environmental variables in an API by its ID value. When creating an environmental variable, it must follow the constraints below:
     ///
@@ -4459,7 +4459,7 @@ extension AppSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartDataSourceIntrospection` operation on the `AWSDeepdishControlPlaneService` service.
+    /// Performs the `StartDataSourceIntrospection` operation on the `AppSync` service.
     ///
     /// Creates a new introspection. Returns the introspectionId of the new introspection after its creation.
     ///
@@ -4531,7 +4531,7 @@ extension AppSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartSchemaCreation` operation on the `AWSDeepdishControlPlaneService` service.
+    /// Performs the `StartSchemaCreation` operation on the `AppSync` service.
     ///
     /// Adds a new schema to your GraphQL API. This operation is asynchronous. Use to determine when it has completed.
     ///
@@ -4604,7 +4604,7 @@ extension AppSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartSchemaMerge` operation on the `AWSDeepdishControlPlaneService` service.
+    /// Performs the `StartSchemaMerge` operation on the `AppSync` service.
     ///
     /// Initiates a merge operation. Returns a status that shows the result of the merge operation.
     ///
@@ -4674,7 +4674,7 @@ extension AppSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `AWSDeepdishControlPlaneService` service.
+    /// Performs the `TagResource` operation on the `AppSync` service.
     ///
     /// Tags a resource with user-supplied tags.
     ///
@@ -4748,7 +4748,7 @@ extension AppSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `AWSDeepdishControlPlaneService` service.
+    /// Performs the `UntagResource` operation on the `AppSync` service.
     ///
     /// Untags a resource.
     ///
@@ -4820,7 +4820,7 @@ extension AppSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateApi` operation on the `AWSDeepdishControlPlaneService` service.
+    /// Performs the `UpdateApi` operation on the `AppSync` service.
     ///
     /// Updates an Api.
     ///
@@ -4894,7 +4894,7 @@ extension AppSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateApiCache` operation on the `AWSDeepdishControlPlaneService` service.
+    /// Performs the `UpdateApiCache` operation on the `AppSync` service.
     ///
     /// Updates the cache for the GraphQL API.
     ///
@@ -4967,7 +4967,7 @@ extension AppSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateApiKey` operation on the `AWSDeepdishControlPlaneService` service.
+    /// Performs the `UpdateApiKey` operation on the `AppSync` service.
     ///
     /// Updates an API key. You can update the key as long as it's not deleted.
     ///
@@ -5041,7 +5041,7 @@ extension AppSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateChannelNamespace` operation on the `AWSDeepdishControlPlaneService` service.
+    /// Performs the `UpdateChannelNamespace` operation on the `AppSync` service.
     ///
     /// Updates a ChannelNamespace associated with an Api.
     ///
@@ -5115,7 +5115,7 @@ extension AppSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateDataSource` operation on the `AWSDeepdishControlPlaneService` service.
+    /// Performs the `UpdateDataSource` operation on the `AppSync` service.
     ///
     /// Updates a DataSource object.
     ///
@@ -5188,7 +5188,7 @@ extension AppSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateDomainName` operation on the `AWSDeepdishControlPlaneService` service.
+    /// Performs the `UpdateDomainName` operation on the `AppSync` service.
     ///
     /// Updates a custom DomainName object.
     ///
@@ -5261,7 +5261,7 @@ extension AppSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateFunction` operation on the `AWSDeepdishControlPlaneService` service.
+    /// Performs the `UpdateFunction` operation on the `AppSync` service.
     ///
     /// Updates a Function object.
     ///
@@ -5334,7 +5334,7 @@ extension AppSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateGraphqlApi` operation on the `AWSDeepdishControlPlaneService` service.
+    /// Performs the `UpdateGraphqlApi` operation on the `AppSync` service.
     ///
     /// Updates a GraphqlApi object.
     ///
@@ -5408,7 +5408,7 @@ extension AppSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateResolver` operation on the `AWSDeepdishControlPlaneService` service.
+    /// Performs the `UpdateResolver` operation on the `AppSync` service.
     ///
     /// Updates a Resolver object.
     ///
@@ -5481,7 +5481,7 @@ extension AppSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateSourceApiAssociation` operation on the `AWSDeepdishControlPlaneService` service.
+    /// Performs the `UpdateSourceApiAssociation` operation on the `AppSync` service.
     ///
     /// Updates some of the configuration choices of a particular source API association.
     ///
@@ -5554,7 +5554,7 @@ extension AppSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateType` operation on the `AWSDeepdishControlPlaneService` service.
+    /// Performs the `UpdateType` operation on the `AppSync` service.
     ///
     /// Updates a Type object.
     ///

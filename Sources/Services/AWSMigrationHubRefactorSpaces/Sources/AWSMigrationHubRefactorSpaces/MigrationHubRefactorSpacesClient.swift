@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MigrationHubRefactorSpacesClient: ClientRuntime.Client {
     public static let clientName = "MigrationHubRefactorSpacesClient"
-    public static let version = "1.0.71"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: MigrationHubRefactorSpacesClient.MigrationHubRefactorSpacesClientConfiguration
     let serviceName = "Migration Hub Refactor Spaces"
@@ -331,7 +331,7 @@ extension MigrationHubRefactorSpacesClient {
 }
 
 extension MigrationHubRefactorSpacesClient {
-    /// Performs the `CreateApplication` operation on the `RefactorSpaces` service.
+    /// Performs the `CreateApplication` operation on the `MigrationHubRefactorSpaces` service.
     ///
     /// Creates an Amazon Web Services Migration Hub Refactor Spaces application. The account that owns the environment also owns the applications created inside the environment, regardless of the account that creates the application. Refactor Spaces provisions an Amazon API Gateway, API Gateway VPC link, and Network Load Balancer for the application proxy inside your account. In environments created with a [CreateEnvironment:NetworkFabricType](https://docs.aws.amazon.com/migrationhub-refactor-spaces/latest/APIReference/API_CreateEnvironment.html#migrationhubrefactorspaces-CreateEnvironment-request-NetworkFabricType) of NONE you need to configure [ VPC to VPC connectivity](https://docs.aws.amazon.com/whitepapers/latest/aws-vpc-connectivity-options/amazon-vpc-to-amazon-vpc-connectivity-options.html) between your service VPC and the application proxy VPC to route traffic through the application proxy to a service with a private URL endpoint. For more information, see [ Create an application](https://docs.aws.amazon.com/migrationhub-refactor-spaces/latest/userguide/getting-started-create-application.html) in the Refactor Spaces User Guide.
     ///
@@ -407,7 +407,7 @@ extension MigrationHubRefactorSpacesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateEnvironment` operation on the `RefactorSpaces` service.
+    /// Performs the `CreateEnvironment` operation on the `MigrationHubRefactorSpaces` service.
     ///
     /// Creates an Amazon Web Services Migration Hub Refactor Spaces environment. The caller owns the environment resource, and all Refactor Spaces applications, services, and routes created within the environment. They are referred to as the environment owner. The environment owner has cross-account visibility and control of Refactor Spaces resources that are added to the environment by other accounts that the environment is shared with. When creating an environment with a [CreateEnvironment:NetworkFabricType](https://docs.aws.amazon.com/migrationhub-refactor-spaces/latest/APIReference/API_CreateEnvironment.html#migrationhubrefactorspaces-CreateEnvironment-request-NetworkFabricType) of TRANSIT_GATEWAY, Refactor Spaces provisions a transit gateway to enable services in VPCs to communicate directly across accounts. If [CreateEnvironment:NetworkFabricType](https://docs.aws.amazon.com/migrationhub-refactor-spaces/latest/APIReference/API_CreateEnvironment.html#migrationhubrefactorspaces-CreateEnvironment-request-NetworkFabricType) is NONE, Refactor Spaces does not create a transit gateway and you must use your network infrastructure to route traffic to services with private URL endpoints.
     ///
@@ -483,7 +483,7 @@ extension MigrationHubRefactorSpacesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateRoute` operation on the `RefactorSpaces` service.
+    /// Performs the `CreateRoute` operation on the `MigrationHubRefactorSpaces` service.
     ///
     /// Creates an Amazon Web Services Migration Hub Refactor Spaces route. The account owner of the service resource is always the environment owner, regardless of which account creates the route. Routes target a service in the application. If an application does not have any routes, then the first route must be created as a DEFAULTRouteType. When created, the default route defaults to an active state so state is not a required input. However, like all other state values the state of the default route can be updated after creation, but only when all other routes are also inactive. Conversely, no route can be active without the default route also being active. When you create a route, Refactor Spaces configures the Amazon API Gateway to send traffic to the target service as follows:
     ///
@@ -566,7 +566,7 @@ extension MigrationHubRefactorSpacesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateService` operation on the `RefactorSpaces` service.
+    /// Performs the `CreateService` operation on the `MigrationHubRefactorSpaces` service.
     ///
     /// Creates an Amazon Web Services Migration Hub Refactor Spaces service. The account owner of the service is always the environment owner, regardless of which account in the environment creates the service. Services have either a URL endpoint in a virtual private cloud (VPC), or a Lambda function endpoint. If an Amazon Web Services resource is launched in a service VPC, and you want it to be accessible to all of an environment’s services with VPCs and routes, apply the RefactorSpacesSecurityGroup to the resource. Alternatively, to add more cross-account constraints, apply your own security group.
     ///
@@ -642,7 +642,7 @@ extension MigrationHubRefactorSpacesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteApplication` operation on the `RefactorSpaces` service.
+    /// Performs the `DeleteApplication` operation on the `MigrationHubRefactorSpaces` service.
     ///
     /// Deletes an Amazon Web Services Migration Hub Refactor Spaces application. Before you can delete an application, you must first delete any services or routes within the application.
     ///
@@ -713,7 +713,7 @@ extension MigrationHubRefactorSpacesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteEnvironment` operation on the `RefactorSpaces` service.
+    /// Performs the `DeleteEnvironment` operation on the `MigrationHubRefactorSpaces` service.
     ///
     /// Deletes an Amazon Web Services Migration Hub Refactor Spaces environment. Before you can delete an environment, you must first delete any applications and services within the environment.
     ///
@@ -784,7 +784,7 @@ extension MigrationHubRefactorSpacesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteResourcePolicy` operation on the `RefactorSpaces` service.
+    /// Performs the `DeleteResourcePolicy` operation on the `MigrationHubRefactorSpaces` service.
     ///
     /// Deletes the resource policy set for the environment.
     ///
@@ -854,7 +854,7 @@ extension MigrationHubRefactorSpacesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteRoute` operation on the `RefactorSpaces` service.
+    /// Performs the `DeleteRoute` operation on the `MigrationHubRefactorSpaces` service.
     ///
     /// Deletes an Amazon Web Services Migration Hub Refactor Spaces route.
     ///
@@ -925,7 +925,7 @@ extension MigrationHubRefactorSpacesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteService` operation on the `RefactorSpaces` service.
+    /// Performs the `DeleteService` operation on the `MigrationHubRefactorSpaces` service.
     ///
     /// Deletes an Amazon Web Services Migration Hub Refactor Spaces service.
     ///
@@ -996,7 +996,7 @@ extension MigrationHubRefactorSpacesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetApplication` operation on the `RefactorSpaces` service.
+    /// Performs the `GetApplication` operation on the `MigrationHubRefactorSpaces` service.
     ///
     /// Gets an Amazon Web Services Migration Hub Refactor Spaces application.
     ///
@@ -1066,7 +1066,7 @@ extension MigrationHubRefactorSpacesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetEnvironment` operation on the `RefactorSpaces` service.
+    /// Performs the `GetEnvironment` operation on the `MigrationHubRefactorSpaces` service.
     ///
     /// Gets an Amazon Web Services Migration Hub Refactor Spaces environment.
     ///
@@ -1136,7 +1136,7 @@ extension MigrationHubRefactorSpacesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetResourcePolicy` operation on the `RefactorSpaces` service.
+    /// Performs the `GetResourcePolicy` operation on the `MigrationHubRefactorSpaces` service.
     ///
     /// Gets the resource-based permission policy that is set for the given environment.
     ///
@@ -1206,7 +1206,7 @@ extension MigrationHubRefactorSpacesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetRoute` operation on the `RefactorSpaces` service.
+    /// Performs the `GetRoute` operation on the `MigrationHubRefactorSpaces` service.
     ///
     /// Gets an Amazon Web Services Migration Hub Refactor Spaces route.
     ///
@@ -1276,7 +1276,7 @@ extension MigrationHubRefactorSpacesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetService` operation on the `RefactorSpaces` service.
+    /// Performs the `GetService` operation on the `MigrationHubRefactorSpaces` service.
     ///
     /// Gets an Amazon Web Services Migration Hub Refactor Spaces service.
     ///
@@ -1346,7 +1346,7 @@ extension MigrationHubRefactorSpacesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListApplications` operation on the `RefactorSpaces` service.
+    /// Performs the `ListApplications` operation on the `MigrationHubRefactorSpaces` service.
     ///
     /// Lists all the Amazon Web Services Migration Hub Refactor Spaces applications within an environment.
     ///
@@ -1419,7 +1419,7 @@ extension MigrationHubRefactorSpacesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListEnvironmentVpcs` operation on the `RefactorSpaces` service.
+    /// Performs the `ListEnvironmentVpcs` operation on the `MigrationHubRefactorSpaces` service.
     ///
     /// Lists all Amazon Web Services Migration Hub Refactor Spaces service virtual private clouds (VPCs) that are part of the environment.
     ///
@@ -1490,7 +1490,7 @@ extension MigrationHubRefactorSpacesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListEnvironments` operation on the `RefactorSpaces` service.
+    /// Performs the `ListEnvironments` operation on the `MigrationHubRefactorSpaces` service.
     ///
     /// Lists Amazon Web Services Migration Hub Refactor Spaces environments owned by a caller account or shared with the caller account.
     ///
@@ -1561,7 +1561,7 @@ extension MigrationHubRefactorSpacesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListRoutes` operation on the `RefactorSpaces` service.
+    /// Performs the `ListRoutes` operation on the `MigrationHubRefactorSpaces` service.
     ///
     /// Lists all the Amazon Web Services Migration Hub Refactor Spaces routes within an application.
     ///
@@ -1634,7 +1634,7 @@ extension MigrationHubRefactorSpacesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListServices` operation on the `RefactorSpaces` service.
+    /// Performs the `ListServices` operation on the `MigrationHubRefactorSpaces` service.
     ///
     /// Lists all the Amazon Web Services Migration Hub Refactor Spaces services within an application.
     ///
@@ -1707,7 +1707,7 @@ extension MigrationHubRefactorSpacesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `RefactorSpaces` service.
+    /// Performs the `ListTagsForResource` operation on the `MigrationHubRefactorSpaces` service.
     ///
     /// Lists the tags of a resource. The caller account must be the same as the resource’s OwnerAccountId. Listing tags in other accounts is not supported.
     ///
@@ -1775,7 +1775,7 @@ extension MigrationHubRefactorSpacesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutResourcePolicy` operation on the `RefactorSpaces` service.
+    /// Performs the `PutResourcePolicy` operation on the `MigrationHubRefactorSpaces` service.
     ///
     /// Attaches a resource-based permission policy to the Amazon Web Services Migration Hub Refactor Spaces environment. The policy must contain the same actions and condition statements as the arn:aws:ram::aws:permission/AWSRAMDefaultPermissionRefactorSpacesEnvironment permission in Resource Access Manager. The policy must not contain new lines or blank lines.
     ///
@@ -1849,7 +1849,7 @@ extension MigrationHubRefactorSpacesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `RefactorSpaces` service.
+    /// Performs the `TagResource` operation on the `MigrationHubRefactorSpaces` service.
     ///
     /// Removes the tags of a given resource. Tags are metadata which can be used to manage a resource. To tag a resource, the caller account must be the same as the resource’s OwnerAccountId. Tagging resources in other accounts is not supported. Amazon Web Services Migration Hub Refactor Spaces does not propagate tags to orchestrated resources, such as an environment’s transit gateway.
     ///
@@ -1920,7 +1920,7 @@ extension MigrationHubRefactorSpacesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `RefactorSpaces` service.
+    /// Performs the `UntagResource` operation on the `MigrationHubRefactorSpaces` service.
     ///
     /// Adds to or modifies the tags of the given resource. Tags are metadata which can be used to manage a resource. To untag a resource, the caller account must be the same as the resource’s OwnerAccountId. Untagging resources across accounts is not supported.
     ///
@@ -1989,7 +1989,7 @@ extension MigrationHubRefactorSpacesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateRoute` operation on the `RefactorSpaces` service.
+    /// Performs the `UpdateRoute` operation on the `MigrationHubRefactorSpaces` service.
     ///
     /// Updates an Amazon Web Services Migration Hub Refactor Spaces route.
     ///

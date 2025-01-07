@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class LexRuntimeClient: ClientRuntime.Client {
     public static let clientName = "LexRuntimeClient"
-    public static let version = "1.0.71"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: LexRuntimeClient.LexRuntimeClientConfiguration
     let serviceName = "Lex Runtime"
@@ -333,7 +333,7 @@ extension LexRuntimeClient {
 }
 
 extension LexRuntimeClient {
-    /// Performs the `DeleteSession` operation on the `AWSDeepSenseRunTimeService` service.
+    /// Performs the `DeleteSession` operation on the `LexRuntime` service.
     ///
     /// Removes session information for a specified bot, alias, and user ID.
     ///
@@ -403,7 +403,7 @@ extension LexRuntimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetSession` operation on the `AWSDeepSenseRunTimeService` service.
+    /// Performs the `GetSession` operation on the `LexRuntime` service.
     ///
     /// Returns session information for a specified bot, alias, and user ID.
     ///
@@ -473,7 +473,7 @@ extension LexRuntimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PostContent` operation on the `AWSDeepSenseRunTimeService` service.
+    /// Performs the `PostContent` operation on the `LexRuntime` service.
     ///
     /// Sends user input (text or speech) to Amazon Lex. Clients use this API to send text and audio requests to Amazon Lex at runtime. Amazon Lex interprets the user input using the machine learning model that it built for the bot. The PostContent operation supports audio input at 8kHz and 16kHz. You can use 8kHz audio to achieve higher speech recognition accuracy in telephone audio applications. In response, Amazon Lex returns the next message to convey to the user. Consider the following example messages:
     ///
@@ -588,7 +588,7 @@ extension LexRuntimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PostText` operation on the `AWSDeepSenseRunTimeService` service.
+    /// Performs the `PostText` operation on the `LexRuntime` service.
     ///
     /// Sends user input to Amazon Lex. Client applications can use this API to send requests to Amazon Lex at runtime. Amazon Lex then interprets the user input using the machine learning model it built for the bot. In response, Amazon Lex returns the next message to convey to the user an optional responseCard to display. Consider the following example messages:
     ///
@@ -699,7 +699,7 @@ extension LexRuntimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutSession` operation on the `AWSDeepSenseRunTimeService` service.
+    /// Performs the `PutSession` operation on the `LexRuntime` service.
     ///
     /// Creates a new session or modifies an existing session with an Amazon Lex bot. Use this operation to enable your application to set the state of the bot. For more information, see [Managing Sessions](https://docs.aws.amazon.com/lex/latest/dg/how-session-api.html).
     ///

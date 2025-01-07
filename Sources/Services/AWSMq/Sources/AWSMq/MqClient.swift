@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MqClient: ClientRuntime.Client {
     public static let clientName = "MqClient"
-    public static let version = "1.0.71"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: MqClient.MqClientConfiguration
     let serviceName = "mq"
@@ -331,7 +331,7 @@ extension MqClient {
 }
 
 extension MqClient {
-    /// Performs the `CreateBroker` operation on the `mq` service.
+    /// Performs the `CreateBroker` operation on the `Mq` service.
     ///
     /// Creates a broker. Note: This API is asynchronous. To create a broker, you must either use the AmazonMQFullAccess IAM policy or include the following EC2 permissions in your IAM policy.
     ///
@@ -432,7 +432,7 @@ extension MqClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateConfiguration` operation on the `mq` service.
+    /// Performs the `CreateConfiguration` operation on the `Mq` service.
     ///
     /// Creates a new configuration for the specified configuration name. Amazon MQ uses the default configuration (the engine type and version).
     ///
@@ -504,7 +504,7 @@ extension MqClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateTags` operation on the `mq` service.
+    /// Performs the `CreateTags` operation on the `Mq` service.
     ///
     /// Add a tag to a resource.
     ///
@@ -576,7 +576,7 @@ extension MqClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateUser` operation on the `mq` service.
+    /// Performs the `CreateUser` operation on the `Mq` service.
     ///
     /// Creates an ActiveMQ user. Do not add personally identifiable information (PII) or other confidential or sensitive information in broker usernames. Broker usernames are accessible to other Amazon Web Services services, including CloudWatch Logs. Broker usernames are not intended to be used for private or sensitive data.
     ///
@@ -649,7 +649,7 @@ extension MqClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteBroker` operation on the `mq` service.
+    /// Performs the `DeleteBroker` operation on the `Mq` service.
     ///
     /// Deletes a broker. Note: This API is asynchronous.
     ///
@@ -718,7 +718,7 @@ extension MqClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteTags` operation on the `mq` service.
+    /// Performs the `DeleteTags` operation on the `Mq` service.
     ///
     /// Removes a tag from a resource.
     ///
@@ -788,7 +788,7 @@ extension MqClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteUser` operation on the `mq` service.
+    /// Performs the `DeleteUser` operation on the `Mq` service.
     ///
     /// Deletes an ActiveMQ user.
     ///
@@ -857,7 +857,7 @@ extension MqClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeBroker` operation on the `mq` service.
+    /// Performs the `DescribeBroker` operation on the `Mq` service.
     ///
     /// Returns information about the specified broker.
     ///
@@ -926,7 +926,7 @@ extension MqClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeBrokerEngineTypes` operation on the `mq` service.
+    /// Performs the `DescribeBrokerEngineTypes` operation on the `Mq` service.
     ///
     /// Describe available engine types and versions.
     ///
@@ -995,7 +995,7 @@ extension MqClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeBrokerInstanceOptions` operation on the `mq` service.
+    /// Performs the `DescribeBrokerInstanceOptions` operation on the `Mq` service.
     ///
     /// Describe available broker instance options.
     ///
@@ -1064,7 +1064,7 @@ extension MqClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeConfiguration` operation on the `mq` service.
+    /// Performs the `DescribeConfiguration` operation on the `Mq` service.
     ///
     /// Returns information about the specified configuration.
     ///
@@ -1133,7 +1133,7 @@ extension MqClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeConfigurationRevision` operation on the `mq` service.
+    /// Performs the `DescribeConfigurationRevision` operation on the `Mq` service.
     ///
     /// Returns the specified configuration revision for the specified configuration.
     ///
@@ -1202,7 +1202,7 @@ extension MqClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeUser` operation on the `mq` service.
+    /// Performs the `DescribeUser` operation on the `Mq` service.
     ///
     /// Returns information about an ActiveMQ user.
     ///
@@ -1271,7 +1271,7 @@ extension MqClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListBrokers` operation on the `mq` service.
+    /// Performs the `ListBrokers` operation on the `Mq` service.
     ///
     /// Returns a list of all brokers.
     ///
@@ -1340,7 +1340,7 @@ extension MqClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListConfigurationRevisions` operation on the `mq` service.
+    /// Performs the `ListConfigurationRevisions` operation on the `Mq` service.
     ///
     /// Returns a list of all revisions for the specified configuration.
     ///
@@ -1410,7 +1410,7 @@ extension MqClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListConfigurations` operation on the `mq` service.
+    /// Performs the `ListConfigurations` operation on the `Mq` service.
     ///
     /// Returns a list of all configurations.
     ///
@@ -1479,7 +1479,7 @@ extension MqClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTags` operation on the `mq` service.
+    /// Performs the `ListTags` operation on the `Mq` service.
     ///
     /// Lists tags for a resource.
     ///
@@ -1548,7 +1548,7 @@ extension MqClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListUsers` operation on the `mq` service.
+    /// Performs the `ListUsers` operation on the `Mq` service.
     ///
     /// Returns a list of all ActiveMQ users.
     ///
@@ -1618,7 +1618,7 @@ extension MqClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `Promote` operation on the `mq` service.
+    /// Performs the `Promote` operation on the `Mq` service.
     ///
     /// Promotes a data replication replica broker to the primary broker role.
     ///
@@ -1690,7 +1690,7 @@ extension MqClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RebootBroker` operation on the `mq` service.
+    /// Performs the `RebootBroker` operation on the `Mq` service.
     ///
     /// Reboots a broker. Note: This API is asynchronous.
     ///
@@ -1759,7 +1759,7 @@ extension MqClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateBroker` operation on the `mq` service.
+    /// Performs the `UpdateBroker` operation on the `Mq` service.
     ///
     /// Adds a pending configuration change to a broker.
     ///
@@ -1832,7 +1832,7 @@ extension MqClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateConfiguration` operation on the `mq` service.
+    /// Performs the `UpdateConfiguration` operation on the `Mq` service.
     ///
     /// Updates the specified configuration.
     ///
@@ -1905,7 +1905,7 @@ extension MqClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateUser` operation on the `mq` service.
+    /// Performs the `UpdateUser` operation on the `Mq` service.
     ///
     /// Updates the information for an ActiveMQ user.
     ///

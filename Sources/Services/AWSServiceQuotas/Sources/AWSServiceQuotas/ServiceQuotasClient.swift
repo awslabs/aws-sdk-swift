@@ -63,7 +63,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ServiceQuotasClient: ClientRuntime.Client {
     public static let clientName = "ServiceQuotasClient"
-    public static let version = "1.0.71"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: ServiceQuotasClient.ServiceQuotasClientConfiguration
     let serviceName = "Service Quotas"
@@ -329,7 +329,7 @@ extension ServiceQuotasClient {
 }
 
 extension ServiceQuotasClient {
-    /// Performs the `AssociateServiceQuotaTemplate` operation on the `ServiceQuotasV20190624` service.
+    /// Performs the `AssociateServiceQuotaTemplate` operation on the `ServiceQuotas` service.
     ///
     /// Associates your quota request template with your organization. When a new Amazon Web Services account is created in your organization, the quota increase requests in the template are automatically applied to the account. You can add a quota increase request for any adjustable quota to your template.
     ///
@@ -406,7 +406,7 @@ extension ServiceQuotasClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteServiceQuotaIncreaseRequestFromTemplate` operation on the `ServiceQuotasV20190624` service.
+    /// Performs the `DeleteServiceQuotaIncreaseRequestFromTemplate` operation on the `ServiceQuotas` service.
     ///
     /// Deletes the quota increase request for the specified quota from your quota request template.
     ///
@@ -484,7 +484,7 @@ extension ServiceQuotasClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateServiceQuotaTemplate` operation on the `ServiceQuotasV20190624` service.
+    /// Performs the `DisassociateServiceQuotaTemplate` operation on the `ServiceQuotas` service.
     ///
     /// Disables your quota request template. After a template is disabled, the quota increase requests in the template are not applied to new Amazon Web Services accounts in your organization. Disabling a quota request template does not apply its quota increase requests.
     ///
@@ -561,7 +561,7 @@ extension ServiceQuotasClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAWSDefaultServiceQuota` operation on the `ServiceQuotasV20190624` service.
+    /// Performs the `GetAWSDefaultServiceQuota` operation on the `ServiceQuotas` service.
     ///
     /// Retrieves the default value for the specified quota. The default value does not reflect any quota increases.
     ///
@@ -635,7 +635,7 @@ extension ServiceQuotasClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAssociationForServiceQuotaTemplate` operation on the `ServiceQuotasV20190624` service.
+    /// Performs the `GetAssociationForServiceQuotaTemplate` operation on the `ServiceQuotas` service.
     ///
     /// Retrieves the status of the association for the quota request template.
     ///
@@ -712,7 +712,7 @@ extension ServiceQuotasClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetRequestedServiceQuotaChange` operation on the `ServiceQuotasV20190624` service.
+    /// Performs the `GetRequestedServiceQuotaChange` operation on the `ServiceQuotas` service.
     ///
     /// Retrieves information about the specified quota increase request.
     ///
@@ -786,7 +786,7 @@ extension ServiceQuotasClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetServiceQuota` operation on the `ServiceQuotasV20190624` service.
+    /// Performs the `GetServiceQuota` operation on the `ServiceQuotas` service.
     ///
     /// Retrieves the applied quota value for the specified quota. For some quotas, only the default values are available. If the applied quota value is not available for a quota, the quota is not retrieved.
     ///
@@ -860,7 +860,7 @@ extension ServiceQuotasClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetServiceQuotaIncreaseRequestFromTemplate` operation on the `ServiceQuotasV20190624` service.
+    /// Performs the `GetServiceQuotaIncreaseRequestFromTemplate` operation on the `ServiceQuotas` service.
     ///
     /// Retrieves information about the specified quota increase request in your quota request template.
     ///
@@ -938,7 +938,7 @@ extension ServiceQuotasClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAWSDefaultServiceQuotas` operation on the `ServiceQuotasV20190624` service.
+    /// Performs the `ListAWSDefaultServiceQuotas` operation on the `ServiceQuotas` service.
     ///
     /// Lists the default values for the quotas for the specified Amazon Web Service. A default value does not reflect any quota increases.
     ///
@@ -1013,7 +1013,7 @@ extension ServiceQuotasClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListRequestedServiceQuotaChangeHistory` operation on the `ServiceQuotasV20190624` service.
+    /// Performs the `ListRequestedServiceQuotaChangeHistory` operation on the `ServiceQuotas` service.
     ///
     /// Retrieves the quota increase requests for the specified Amazon Web Service.
     ///
@@ -1088,7 +1088,7 @@ extension ServiceQuotasClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListRequestedServiceQuotaChangeHistoryByQuota` operation on the `ServiceQuotasV20190624` service.
+    /// Performs the `ListRequestedServiceQuotaChangeHistoryByQuota` operation on the `ServiceQuotas` service.
     ///
     /// Retrieves the quota increase requests for the specified quota.
     ///
@@ -1163,7 +1163,7 @@ extension ServiceQuotasClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListServiceQuotaIncreaseRequestsInTemplate` operation on the `ServiceQuotasV20190624` service.
+    /// Performs the `ListServiceQuotaIncreaseRequestsInTemplate` operation on the `ServiceQuotas` service.
     ///
     /// Lists the quota increase requests in the specified quota request template.
     ///
@@ -1240,7 +1240,7 @@ extension ServiceQuotasClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListServiceQuotas` operation on the `ServiceQuotasV20190624` service.
+    /// Performs the `ListServiceQuotas` operation on the `ServiceQuotas` service.
     ///
     /// Lists the applied quota values for the specified Amazon Web Service. For some quotas, only the default values are available. If the applied quota value is not available for a quota, the quota is not retrieved.
     ///
@@ -1315,7 +1315,7 @@ extension ServiceQuotasClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListServices` operation on the `ServiceQuotasV20190624` service.
+    /// Performs the `ListServices` operation on the `ServiceQuotas` service.
     ///
     /// Lists the names and codes for the Amazon Web Services integrated with Service Quotas.
     ///
@@ -1389,7 +1389,7 @@ extension ServiceQuotasClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `ServiceQuotasV20190624` service.
+    /// Performs the `ListTagsForResource` operation on the `ServiceQuotas` service.
     ///
     /// Returns a list of the tags assigned to the specified applied quota.
     ///
@@ -1463,7 +1463,7 @@ extension ServiceQuotasClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutServiceQuotaIncreaseRequestIntoTemplate` operation on the `ServiceQuotasV20190624` service.
+    /// Performs the `PutServiceQuotaIncreaseRequestIntoTemplate` operation on the `ServiceQuotas` service.
     ///
     /// Adds a quota increase request to your quota request template.
     ///
@@ -1542,7 +1542,7 @@ extension ServiceQuotasClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RequestServiceQuotaIncrease` operation on the `ServiceQuotasV20190624` service.
+    /// Performs the `RequestServiceQuotaIncrease` operation on the `ServiceQuotas` service.
     ///
     /// Submits a quota increase request for the specified quota.
     ///
@@ -1620,7 +1620,7 @@ extension ServiceQuotasClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `ServiceQuotasV20190624` service.
+    /// Performs the `TagResource` operation on the `ServiceQuotas` service.
     ///
     /// Adds tags to the specified applied quota. You can include one or more tags to add to the quota.
     ///
@@ -1696,7 +1696,7 @@ extension ServiceQuotasClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `ServiceQuotasV20190624` service.
+    /// Performs the `UntagResource` operation on the `ServiceQuotas` service.
     ///
     /// Removes tags from the specified applied quota. You can specify one or more tags to remove.
     ///

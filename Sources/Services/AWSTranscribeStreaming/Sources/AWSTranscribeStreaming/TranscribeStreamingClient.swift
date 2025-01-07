@@ -62,7 +62,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class TranscribeStreamingClient: ClientRuntime.Client {
     public static let clientName = "TranscribeStreamingClient"
-    public static let version = "1.0.71"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: TranscribeStreamingClient.TranscribeStreamingClientConfiguration
     let serviceName = "Transcribe Streaming"
@@ -328,7 +328,7 @@ extension TranscribeStreamingClient {
 }
 
 extension TranscribeStreamingClient {
-    /// Performs the `StartCallAnalyticsStreamTranscription` operation on the `Transcribe` service.
+    /// Performs the `StartCallAnalyticsStreamTranscription` operation on the `TranscribeStreaming` service.
     ///
     /// Starts a bidirectional HTTP/2 or WebSocket stream where audio is streamed to Amazon Transcribe and the transcription results are streamed to your application. Use this operation for [Call Analytics](https://docs.aws.amazon.com/transcribe/latest/dg/call-analytics.html) transcriptions. The following parameters are required:
     ///
@@ -412,7 +412,7 @@ extension TranscribeStreamingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartMedicalStreamTranscription` operation on the `Transcribe` service.
+    /// Performs the `StartMedicalStreamTranscription` operation on the `TranscribeStreaming` service.
     ///
     /// Starts a bidirectional HTTP/2 or WebSocket stream where audio is streamed to Amazon Transcribe Medical and the transcription results are streamed to your application. The following parameters are required:
     ///
@@ -496,7 +496,7 @@ extension TranscribeStreamingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartStreamTranscription` operation on the `Transcribe` service.
+    /// Performs the `StartStreamTranscription` operation on the `TranscribeStreaming` service.
     ///
     /// Starts a bidirectional HTTP/2 or WebSocket stream where audio is streamed to Amazon Transcribe and the transcription results are streamed to your application. The following parameters are required:
     ///

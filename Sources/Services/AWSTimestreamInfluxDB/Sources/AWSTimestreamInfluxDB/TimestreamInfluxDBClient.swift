@@ -63,7 +63,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class TimestreamInfluxDBClient: ClientRuntime.Client {
     public static let clientName = "TimestreamInfluxDBClient"
-    public static let version = "1.0.71"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: TimestreamInfluxDBClient.TimestreamInfluxDBClientConfiguration
     let serviceName = "Timestream InfluxDB"
@@ -329,7 +329,7 @@ extension TimestreamInfluxDBClient {
 }
 
 extension TimestreamInfluxDBClient {
-    /// Performs the `CreateDbInstance` operation on the `AmazonTimestreamInfluxDB` service.
+    /// Performs the `CreateDbInstance` operation on the `TimestreamInfluxDB` service.
     ///
     /// Creates a new Timestream for InfluxDB DB instance.
     ///
@@ -405,7 +405,7 @@ extension TimestreamInfluxDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateDbParameterGroup` operation on the `AmazonTimestreamInfluxDB` service.
+    /// Performs the `CreateDbParameterGroup` operation on the `TimestreamInfluxDB` service.
     ///
     /// Creates a new Timestream for InfluxDB DB parameter group to associate with DB instances.
     ///
@@ -481,7 +481,7 @@ extension TimestreamInfluxDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteDbInstance` operation on the `AmazonTimestreamInfluxDB` service.
+    /// Performs the `DeleteDbInstance` operation on the `TimestreamInfluxDB` service.
     ///
     /// Deletes a Timestream for InfluxDB DB instance.
     ///
@@ -556,7 +556,7 @@ extension TimestreamInfluxDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDbInstance` operation on the `AmazonTimestreamInfluxDB` service.
+    /// Performs the `GetDbInstance` operation on the `TimestreamInfluxDB` service.
     ///
     /// Returns a Timestream for InfluxDB DB instance.
     ///
@@ -630,7 +630,7 @@ extension TimestreamInfluxDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDbParameterGroup` operation on the `AmazonTimestreamInfluxDB` service.
+    /// Performs the `GetDbParameterGroup` operation on the `TimestreamInfluxDB` service.
     ///
     /// Returns a Timestream for InfluxDB DB parameter group.
     ///
@@ -704,7 +704,7 @@ extension TimestreamInfluxDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDbInstances` operation on the `AmazonTimestreamInfluxDB` service.
+    /// Performs the `ListDbInstances` operation on the `TimestreamInfluxDB` service.
     ///
     /// Returns a list of Timestream for InfluxDB DB instances.
     ///
@@ -778,7 +778,7 @@ extension TimestreamInfluxDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDbParameterGroups` operation on the `AmazonTimestreamInfluxDB` service.
+    /// Performs the `ListDbParameterGroups` operation on the `TimestreamInfluxDB` service.
     ///
     /// Returns a list of Timestream for InfluxDB DB parameter groups.
     ///
@@ -852,7 +852,7 @@ extension TimestreamInfluxDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `AmazonTimestreamInfluxDB` service.
+    /// Performs the `ListTagsForResource` operation on the `TimestreamInfluxDB` service.
     ///
     /// A list of tags applied to the resource.
     ///
@@ -922,7 +922,7 @@ extension TimestreamInfluxDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `AmazonTimestreamInfluxDB` service.
+    /// Performs the `TagResource` operation on the `TimestreamInfluxDB` service.
     ///
     /// Tags are composed of a Key/Value pairs. You can use tags to categorize and track your Timestream for InfluxDB resources.
     ///
@@ -993,7 +993,7 @@ extension TimestreamInfluxDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `AmazonTimestreamInfluxDB` service.
+    /// Performs the `UntagResource` operation on the `TimestreamInfluxDB` service.
     ///
     /// Removes the tag from the specified resource.
     ///
@@ -1063,7 +1063,7 @@ extension TimestreamInfluxDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateDbInstance` operation on the `AmazonTimestreamInfluxDB` service.
+    /// Performs the `UpdateDbInstance` operation on the `TimestreamInfluxDB` service.
     ///
     /// Updates a Timestream for InfluxDB DB instance.
     ///

@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ChimeSDKMessagingClient: ClientRuntime.Client {
     public static let clientName = "ChimeSDKMessagingClient"
-    public static let version = "1.0.71"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: ChimeSDKMessagingClient.ChimeSDKMessagingClientConfiguration
     let serviceName = "Chime SDK Messaging"
@@ -332,7 +332,7 @@ extension ChimeSDKMessagingClient {
 }
 
 extension ChimeSDKMessagingClient {
-    /// Performs the `AssociateChannelFlow` operation on the `ChimeMessagingService` service.
+    /// Performs the `AssociateChannelFlow` operation on the `ChimeSDKMessaging` service.
     ///
     /// Associates a channel flow with a channel. Once associated, all messages to that channel go through channel flow processors. To stop processing, use the DisassociateChannelFlow API. Only administrators or channel moderators can associate a channel flow. The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     ///
@@ -409,7 +409,7 @@ extension ChimeSDKMessagingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchCreateChannelMembership` operation on the `ChimeMessagingService` service.
+    /// Performs the `BatchCreateChannelMembership` operation on the `ChimeSDKMessaging` service.
     ///
     /// Adds a specified number of users and bots to a channel.
     ///
@@ -487,7 +487,7 @@ extension ChimeSDKMessagingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ChannelFlowCallback` operation on the `ChimeMessagingService` service.
+    /// Performs the `ChannelFlowCallback` operation on the `ChimeSDKMessaging` service.
     ///
     /// Calls back Amazon Chime SDK messaging with a processing response message. This should be invoked from the processor Lambda. This is a developer API. You can return one of the following processing responses:
     ///
@@ -570,7 +570,7 @@ extension ChimeSDKMessagingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateChannel` operation on the `ChimeMessagingService` service.
+    /// Performs the `CreateChannel` operation on the `ChimeSDKMessaging` service.
     ///
     /// Creates a channel to which you can add users and send messages. Restriction: You can't change a channel's privacy. The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     ///
@@ -648,7 +648,7 @@ extension ChimeSDKMessagingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateChannelBan` operation on the `ChimeMessagingService` service.
+    /// Performs the `CreateChannelBan` operation on the `ChimeSDKMessaging` service.
     ///
     /// Permanently bans a member from a channel. Moderators can't add banned members to a channel. To undo a ban, you first have to DeleteChannelBan, and then CreateChannelMembership. Bans are cleaned up when you delete users or channels. If you ban a user who is already part of a channel, that user is automatically kicked from the channel. The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     ///
@@ -725,7 +725,7 @@ extension ChimeSDKMessagingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateChannelFlow` operation on the `ChimeMessagingService` service.
+    /// Performs the `CreateChannelFlow` operation on the `ChimeSDKMessaging` service.
     ///
     /// Creates a channel flow, a container for processors. Processors are AWS Lambda functions that perform actions on chat messages, such as stripping out profanity. You can associate channel flows with channels, and the processors in the channel flow then take action on all messages sent to that channel. This is a developer API. Channel flows process the following items:
     ///
@@ -811,7 +811,7 @@ extension ChimeSDKMessagingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateChannelMembership` operation on the `ChimeMessagingService` service.
+    /// Performs the `CreateChannelMembership` operation on the `ChimeSDKMessaging` service.
     ///
     /// Adds a member to a channel. The InvitedBy field in ChannelMembership is derived from the request header. A channel member can:
     ///
@@ -909,7 +909,7 @@ extension ChimeSDKMessagingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateChannelModerator` operation on the `ChimeMessagingService` service.
+    /// Performs the `CreateChannelModerator` operation on the `ChimeSDKMessaging` service.
     ///
     /// Creates a new ChannelModerator. A channel moderator can:
     ///
@@ -999,7 +999,7 @@ extension ChimeSDKMessagingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteChannel` operation on the `ChimeMessagingService` service.
+    /// Performs the `DeleteChannel` operation on the `ChimeSDKMessaging` service.
     ///
     /// Immediately makes a channel and its memberships inaccessible and marks them for deletion. This is an irreversible process. The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUserArn or AppInstanceBot that makes the API call as the value in the header.
     ///
@@ -1072,7 +1072,7 @@ extension ChimeSDKMessagingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteChannelBan` operation on the `ChimeMessagingService` service.
+    /// Performs the `DeleteChannelBan` operation on the `ChimeSDKMessaging` service.
     ///
     /// Removes a member from a channel's ban list. The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     ///
@@ -1144,7 +1144,7 @@ extension ChimeSDKMessagingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteChannelFlow` operation on the `ChimeMessagingService` service.
+    /// Performs the `DeleteChannelFlow` operation on the `ChimeSDKMessaging` service.
     ///
     /// Deletes a channel flow, an irreversible process. This is a developer API. This API works only when the channel flow is not associated with any channel. To get a list of all channels that a channel flow is associated with, use the ListChannelsAssociatedWithChannelFlow API. Use the DisassociateChannelFlow API to disassociate a channel flow from all channels.
     ///
@@ -1216,7 +1216,7 @@ extension ChimeSDKMessagingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteChannelMembership` operation on the `ChimeMessagingService` service.
+    /// Performs the `DeleteChannelMembership` operation on the `ChimeSDKMessaging` service.
     ///
     /// Removes a member from a channel. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
     ///
@@ -1290,7 +1290,7 @@ extension ChimeSDKMessagingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteChannelMessage` operation on the `ChimeMessagingService` service.
+    /// Performs the `DeleteChannelMessage` operation on the `ChimeSDKMessaging` service.
     ///
     /// Deletes a channel message. Only admins can perform this action. Deletion makes messages inaccessible immediately. A background process deletes any revisions created by UpdateChannelMessage. The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     ///
@@ -1363,7 +1363,7 @@ extension ChimeSDKMessagingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteChannelModerator` operation on the `ChimeMessagingService` service.
+    /// Performs the `DeleteChannelModerator` operation on the `ChimeSDKMessaging` service.
     ///
     /// Deletes a channel moderator. The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     ///
@@ -1435,7 +1435,7 @@ extension ChimeSDKMessagingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteMessagingStreamingConfigurations` operation on the `ChimeMessagingService` service.
+    /// Performs the `DeleteMessagingStreamingConfigurations` operation on the `ChimeSDKMessaging` service.
     ///
     /// Deletes the streaming configurations for an AppInstance. For more information, see [Streaming messaging data](https://docs.aws.amazon.com/chime-sdk/latest/dg/streaming-export.html) in the Amazon Chime SDK Developer Guide.
     ///
@@ -1506,7 +1506,7 @@ extension ChimeSDKMessagingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeChannel` operation on the `ChimeMessagingService` service.
+    /// Performs the `DescribeChannel` operation on the `ChimeSDKMessaging` service.
     ///
     /// Returns the full details of a channel in an Amazon Chime AppInstance. The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     ///
@@ -1578,7 +1578,7 @@ extension ChimeSDKMessagingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeChannelBan` operation on the `ChimeMessagingService` service.
+    /// Performs the `DescribeChannelBan` operation on the `ChimeSDKMessaging` service.
     ///
     /// Returns the full details of a channel ban. The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     ///
@@ -1651,7 +1651,7 @@ extension ChimeSDKMessagingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeChannelFlow` operation on the `ChimeMessagingService` service.
+    /// Performs the `DescribeChannelFlow` operation on the `ChimeSDKMessaging` service.
     ///
     /// Returns the full details of a channel flow in an Amazon Chime AppInstance. This is a developer API.
     ///
@@ -1722,7 +1722,7 @@ extension ChimeSDKMessagingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeChannelMembership` operation on the `ChimeMessagingService` service.
+    /// Performs the `DescribeChannelMembership` operation on the `ChimeSDKMessaging` service.
     ///
     /// Returns the full details of a user's channel membership. The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     ///
@@ -1796,7 +1796,7 @@ extension ChimeSDKMessagingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeChannelMembershipForAppInstanceUser` operation on the `ChimeMessagingService` service.
+    /// Performs the `DescribeChannelMembershipForAppInstanceUser` operation on the `ChimeSDKMessaging` service.
     ///
     /// Returns the details of a channel based on the membership of the specified AppInstanceUser or AppInstanceBot. The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     ///
@@ -1869,7 +1869,7 @@ extension ChimeSDKMessagingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeChannelModeratedByAppInstanceUser` operation on the `ChimeMessagingService` service.
+    /// Performs the `DescribeChannelModeratedByAppInstanceUser` operation on the `ChimeSDKMessaging` service.
     ///
     /// Returns the full details of a channel moderated by the specified AppInstanceUser or AppInstanceBot. The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     ///
@@ -1942,7 +1942,7 @@ extension ChimeSDKMessagingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeChannelModerator` operation on the `ChimeMessagingService` service.
+    /// Performs the `DescribeChannelModerator` operation on the `ChimeSDKMessaging` service.
     ///
     /// Returns the full details of a single ChannelModerator. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
     ///
@@ -2015,7 +2015,7 @@ extension ChimeSDKMessagingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateChannelFlow` operation on the `ChimeMessagingService` service.
+    /// Performs the `DisassociateChannelFlow` operation on the `ChimeSDKMessaging` service.
     ///
     /// Disassociates a channel flow from all its channels. Once disassociated, all messages to that channel stop going through the channel flow processor. Only administrators or channel moderators can disassociate a channel flow. The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     ///
@@ -2089,7 +2089,7 @@ extension ChimeSDKMessagingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetChannelMembershipPreferences` operation on the `ChimeMessagingService` service.
+    /// Performs the `GetChannelMembershipPreferences` operation on the `ChimeSDKMessaging` service.
     ///
     /// Gets the membership preferences of an AppInstanceUser or AppInstanceBot for the specified channel. A user or a bot must be a member of the channel and own the membership in order to retrieve membership preferences. Users or bots in the AppInstanceAdmin and channel moderator roles can't retrieve preferences for other users or bots. Banned users or bots can't retrieve membership preferences for the channel from which they are banned. The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     ///
@@ -2161,7 +2161,7 @@ extension ChimeSDKMessagingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetChannelMessage` operation on the `ChimeMessagingService` service.
+    /// Performs the `GetChannelMessage` operation on the `ChimeSDKMessaging` service.
     ///
     /// Gets the full details of a channel message. The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     ///
@@ -2235,7 +2235,7 @@ extension ChimeSDKMessagingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetChannelMessageStatus` operation on the `ChimeMessagingService` service.
+    /// Performs the `GetChannelMessageStatus` operation on the `ChimeSDKMessaging` service.
     ///
     /// Gets message status for a specified messageId. Use this API to determine the intermediate status of messages going through channel flow processing. The API provides an alternative to retrieving message status if the event was not received because a client wasn't connected to a websocket. Messages can have any one of these statuses. SENT Message processed successfully PENDING Ongoing processing FAILED Processing failed DENIED Message denied by the processor
     ///
@@ -2314,7 +2314,7 @@ extension ChimeSDKMessagingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetMessagingSessionEndpoint` operation on the `ChimeMessagingService` service.
+    /// Performs the `GetMessagingSessionEndpoint` operation on the `ChimeSDKMessaging` service.
     ///
     /// The details of the endpoint for the messaging session.
     ///
@@ -2384,7 +2384,7 @@ extension ChimeSDKMessagingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetMessagingStreamingConfigurations` operation on the `ChimeMessagingService` service.
+    /// Performs the `GetMessagingStreamingConfigurations` operation on the `ChimeSDKMessaging` service.
     ///
     /// Retrieves the data streaming configuration for an AppInstance. For more information, see [Streaming messaging data](https://docs.aws.amazon.com/chime-sdk/latest/dg/streaming-export.html) in the Amazon Chime SDK Developer Guide.
     ///
@@ -2456,7 +2456,7 @@ extension ChimeSDKMessagingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListChannelBans` operation on the `ChimeMessagingService` service.
+    /// Performs the `ListChannelBans` operation on the `ChimeSDKMessaging` service.
     ///
     /// Lists all the users and bots banned from a particular channel. The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     ///
@@ -2529,7 +2529,7 @@ extension ChimeSDKMessagingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListChannelFlows` operation on the `ChimeMessagingService` service.
+    /// Performs the `ListChannelFlows` operation on the `ChimeSDKMessaging` service.
     ///
     /// Returns a paginated lists of all the channel flows created under a single Chime. This is a developer API.
     ///
@@ -2601,7 +2601,7 @@ extension ChimeSDKMessagingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListChannelMemberships` operation on the `ChimeMessagingService` service.
+    /// Performs the `ListChannelMemberships` operation on the `ChimeSDKMessaging` service.
     ///
     /// Lists all channel memberships in a channel. The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header. If you want to list the channels to which a specific app instance user belongs, see the [ListChannelMembershipsForAppInstanceUser](https://docs.aws.amazon.com/chime/latest/APIReference/API_messaging-chime_ListChannelMembershipsForAppInstanceUser.html) API.
     ///
@@ -2674,7 +2674,7 @@ extension ChimeSDKMessagingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListChannelMembershipsForAppInstanceUser` operation on the `ChimeMessagingService` service.
+    /// Performs the `ListChannelMembershipsForAppInstanceUser` operation on the `ChimeSDKMessaging` service.
     ///
     /// Lists all channels that an AppInstanceUser or AppInstanceBot is a part of. Only an AppInstanceAdmin can call the API with a user ARN that is not their own. The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     ///
@@ -2747,7 +2747,7 @@ extension ChimeSDKMessagingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListChannelMessages` operation on the `ChimeMessagingService` service.
+    /// Performs the `ListChannelMessages` operation on the `ChimeSDKMessaging` service.
     ///
     /// List all the messages in a channel. Returns a paginated list of ChannelMessages. By default, sorted by creation timestamp in descending order. Redacted messages appear in the results as empty, since they are only redacted, not deleted. Deleted messages do not appear in the results. This action always returns the latest version of an edited message. Also, the x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     ///
@@ -2820,7 +2820,7 @@ extension ChimeSDKMessagingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListChannelModerators` operation on the `ChimeMessagingService` service.
+    /// Performs the `ListChannelModerators` operation on the `ChimeSDKMessaging` service.
     ///
     /// Lists all the moderators for a channel. The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     ///
@@ -2893,7 +2893,7 @@ extension ChimeSDKMessagingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListChannels` operation on the `ChimeMessagingService` service.
+    /// Performs the `ListChannels` operation on the `ChimeSDKMessaging` service.
     ///
     /// Lists all Channels created under a single Chime App as a paginated list. You can specify filters to narrow results. Functionality & restrictions
     ///
@@ -2973,7 +2973,7 @@ extension ChimeSDKMessagingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListChannelsAssociatedWithChannelFlow` operation on the `ChimeMessagingService` service.
+    /// Performs the `ListChannelsAssociatedWithChannelFlow` operation on the `ChimeSDKMessaging` service.
     ///
     /// Lists all channels associated with a specified channel flow. You can associate a channel flow with multiple channels, but you can only associate a channel with one channel flow. This is a developer API.
     ///
@@ -3045,7 +3045,7 @@ extension ChimeSDKMessagingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListChannelsModeratedByAppInstanceUser` operation on the `ChimeMessagingService` service.
+    /// Performs the `ListChannelsModeratedByAppInstanceUser` operation on the `ChimeSDKMessaging` service.
     ///
     /// A list of the channels moderated by an AppInstanceUser. The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     ///
@@ -3118,7 +3118,7 @@ extension ChimeSDKMessagingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListSubChannels` operation on the `ChimeMessagingService` service.
+    /// Performs the `ListSubChannels` operation on the `ChimeSDKMessaging` service.
     ///
     /// Lists all the SubChannels in an elastic channel when given a channel ID. Available only to the app instance admins and channel moderators of elastic channels.
     ///
@@ -3191,7 +3191,7 @@ extension ChimeSDKMessagingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `ChimeMessagingService` service.
+    /// Performs the `ListTagsForResource` operation on the `ChimeSDKMessaging` service.
     ///
     /// Lists the tags applied to an Amazon Chime SDK messaging resource.
     ///
@@ -3263,7 +3263,7 @@ extension ChimeSDKMessagingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutChannelExpirationSettings` operation on the `ChimeMessagingService` service.
+    /// Performs the `PutChannelExpirationSettings` operation on the `ChimeSDKMessaging` service.
     ///
     /// Sets the number of days before the channel is automatically deleted.
     ///
@@ -3345,7 +3345,7 @@ extension ChimeSDKMessagingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutChannelMembershipPreferences` operation on the `ChimeMessagingService` service.
+    /// Performs the `PutChannelMembershipPreferences` operation on the `ChimeSDKMessaging` service.
     ///
     /// Sets the membership preferences of an AppInstanceUser or AppInstanceBot for the specified channel. The user or bot must be a member of the channel. Only the user or bot who owns the membership can set preferences. Users or bots in the AppInstanceAdmin and channel moderator roles can't set preferences for other users. Banned users or bots can't set membership preferences for the channel from which they are banned. The x-amz-chime-bearer request header is mandatory. Use the ARN of an AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     ///
@@ -3421,7 +3421,7 @@ extension ChimeSDKMessagingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutMessagingStreamingConfigurations` operation on the `ChimeMessagingService` service.
+    /// Performs the `PutMessagingStreamingConfigurations` operation on the `ChimeSDKMessaging` service.
     ///
     /// Sets the data streaming configuration for an AppInstance. For more information, see [Streaming messaging data](https://docs.aws.amazon.com/chime-sdk/latest/dg/streaming-export.html) in the Amazon Chime SDK Developer Guide.
     ///
@@ -3497,7 +3497,7 @@ extension ChimeSDKMessagingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RedactChannelMessage` operation on the `ChimeMessagingService` service.
+    /// Performs the `RedactChannelMessage` operation on the `ChimeSDKMessaging` service.
     ///
     /// Redacts message content, but not metadata. The message exists in the back end, but the action returns null content, and the state shows as redacted. The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     ///
@@ -3574,7 +3574,7 @@ extension ChimeSDKMessagingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SearchChannels` operation on the `ChimeMessagingService` service.
+    /// Performs the `SearchChannels` operation on the `ChimeSDKMessaging` service.
     ///
     /// Allows the ChimeBearer to search channels by channel members. Users or bots can search across the channels that they belong to. Users in the AppInstanceAdmin role can search across all channels. The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     ///
@@ -3650,7 +3650,7 @@ extension ChimeSDKMessagingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SendChannelMessage` operation on the `ChimeMessagingService` service.
+    /// Performs the `SendChannelMessage` operation on the `ChimeSDKMessaging` service.
     ///
     /// Sends a message to a particular channel that the member is a part of. The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header. Also, STANDARD messages can be up to 4KB in size and contain metadata. Metadata is arbitrary, and you can use it in a variety of ways, such as containing a link to an attachment. CONTROL messages are limited to 30 bytes and do not contain metadata.
     ///
@@ -3727,7 +3727,7 @@ extension ChimeSDKMessagingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `ChimeMessagingService` service.
+    /// Performs the `TagResource` operation on the `ChimeSDKMessaging` service.
     ///
     /// Applies the specified tags to the specified Amazon Chime SDK messaging resource.
     ///
@@ -3803,7 +3803,7 @@ extension ChimeSDKMessagingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `ChimeMessagingService` service.
+    /// Performs the `UntagResource` operation on the `ChimeSDKMessaging` service.
     ///
     /// Removes the specified tags from the specified Amazon Chime SDK messaging resource.
     ///
@@ -3878,7 +3878,7 @@ extension ChimeSDKMessagingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateChannel` operation on the `ChimeMessagingService` service.
+    /// Performs the `UpdateChannel` operation on the `ChimeSDKMessaging` service.
     ///
     /// Update a channel's attributes. Restriction: You can't change a channel's privacy. The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     ///
@@ -3954,7 +3954,7 @@ extension ChimeSDKMessagingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateChannelFlow` operation on the `ChimeMessagingService` service.
+    /// Performs the `UpdateChannelFlow` operation on the `ChimeSDKMessaging` service.
     ///
     /// Updates channel flow attributes. This is a developer API.
     ///
@@ -4029,7 +4029,7 @@ extension ChimeSDKMessagingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateChannelMessage` operation on the `ChimeMessagingService` service.
+    /// Performs the `UpdateChannelMessage` operation on the `ChimeSDKMessaging` service.
     ///
     /// Updates the content of a message. The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     ///
@@ -4105,7 +4105,7 @@ extension ChimeSDKMessagingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateChannelReadMarker` operation on the `ChimeMessagingService` service.
+    /// Performs the `UpdateChannelReadMarker` operation on the `ChimeSDKMessaging` service.
     ///
     /// The details of the time when a user last read messages in a channel. The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     ///

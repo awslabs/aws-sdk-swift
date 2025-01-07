@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class PricingClient: ClientRuntime.Client {
     public static let clientName = "PricingClient"
-    public static let version = "1.0.71"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: PricingClient.PricingClientConfiguration
     let serviceName = "Pricing"
@@ -330,7 +330,7 @@ extension PricingClient {
 }
 
 extension PricingClient {
-    /// Performs the `DescribeServices` operation on the `AWSPriceListService` service.
+    /// Performs the `DescribeServices` operation on the `Pricing` service.
     ///
     /// Returns the metadata for one service or a list of the metadata for all services. Use this without a service code to get the service codes for all services. Use it with a service code, such as AmazonEC2, to get information specific to that service, such as the attribute names available for that service. For example, some of the attribute names available for EC2 are volumeType, maxIopsVolume, operation, locationType, and instanceCapacity10xlarge.
     ///
@@ -405,7 +405,7 @@ extension PricingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAttributeValues` operation on the `AWSPriceListService` service.
+    /// Performs the `GetAttributeValues` operation on the `Pricing` service.
     ///
     /// Returns a list of attribute values. Attributes are similar to the details in a Price List API offer file. For a list of available attributes, see [Offer File Definitions](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/reading-an-offer.html#pps-defs) in the [Billing and Cost Management User Guide](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/billing-what-is.html).
     ///
@@ -480,7 +480,7 @@ extension PricingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetPriceListFileUrl` operation on the `AWSPriceListService` service.
+    /// Performs the `GetPriceListFileUrl` operation on the `Pricing` service.
     ///
     /// This feature is in preview release and is subject to change. Your use of Amazon Web Services Price List API is subject to the Beta Service Participation terms of the [Amazon Web Services Service Terms](https://aws.amazon.com/service-terms/) (Section 1.10). This returns the URL that you can retrieve your Price List file from. This URL is based on the PriceListArn and FileFormat that you retrieve from the [ListPriceLists](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_pricing_ListPriceLists.html) response.
     ///
@@ -555,7 +555,7 @@ extension PricingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetProducts` operation on the `AWSPriceListService` service.
+    /// Performs the `GetProducts` operation on the `Pricing` service.
     ///
     /// Returns a list of all products that match the filter criteria.
     ///
@@ -630,7 +630,7 @@ extension PricingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListPriceLists` operation on the `AWSPriceListService` service.
+    /// Performs the `ListPriceLists` operation on the `Pricing` service.
     ///
     /// This feature is in preview release and is subject to change. Your use of Amazon Web Services Price List API is subject to the Beta Service Participation terms of the [Amazon Web Services Service Terms](https://aws.amazon.com/service-terms/) (Section 1.10). This returns a list of Price List references that the requester if authorized to view, given a ServiceCode, CurrencyCode, and an EffectiveDate. Use without a RegionCode filter to list Price List references from all available Amazon Web Services Regions. Use with a RegionCode filter to get the Price List reference that's specific to a specific Amazon Web Services Region. You can use the PriceListArn from the response to get your preferred Price List files through the [GetPriceListFileUrl](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_pricing_GetPriceListFileUrl.html) API.
     ///

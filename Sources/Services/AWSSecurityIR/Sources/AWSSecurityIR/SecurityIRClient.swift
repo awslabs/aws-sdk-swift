@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SecurityIRClient: ClientRuntime.Client {
     public static let clientName = "SecurityIRClient"
-    public static let version = "1.0.71"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: SecurityIRClient.SecurityIRClientConfiguration
     let serviceName = "Security IR"
@@ -331,7 +331,7 @@ extension SecurityIRClient {
 }
 
 extension SecurityIRClient {
-    /// Performs the `BatchGetMemberAccountDetails` operation on the `SecurityIncidentResponse` service.
+    /// Performs the `BatchGetMemberAccountDetails` operation on the `SecurityIR` service.
     ///
     /// Grants permission to view an existing membership.
     ///
@@ -408,7 +408,7 @@ extension SecurityIRClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CancelMembership` operation on the `SecurityIncidentResponse` service.
+    /// Performs the `CancelMembership` operation on the `SecurityIR` service.
     ///
     /// Grants permissions to cancel an existing membership.
     ///
@@ -482,7 +482,7 @@ extension SecurityIRClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CloseCase` operation on the `SecurityIncidentResponse` service.
+    /// Performs the `CloseCase` operation on the `SecurityIR` service.
     ///
     /// Grants permission to close an existing case.
     ///
@@ -556,7 +556,7 @@ extension SecurityIRClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateCase` operation on the `SecurityIncidentResponse` service.
+    /// Performs the `CreateCase` operation on the `SecurityIR` service.
     ///
     /// Grants permission to create a new case.
     ///
@@ -634,7 +634,7 @@ extension SecurityIRClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateCaseComment` operation on the `SecurityIncidentResponse` service.
+    /// Performs the `CreateCaseComment` operation on the `SecurityIR` service.
     ///
     /// Grants permission to add a comment to an existing case.
     ///
@@ -712,7 +712,7 @@ extension SecurityIRClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateMembership` operation on the `SecurityIncidentResponse` service.
+    /// Performs the `CreateMembership` operation on the `SecurityIR` service.
     ///
     /// Grants permissions to create a new membership.
     ///
@@ -790,7 +790,7 @@ extension SecurityIRClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetCase` operation on the `SecurityIncidentResponse` service.
+    /// Performs the `GetCase` operation on the `SecurityIR` service.
     ///
     /// Grant permission to view a designated case.
     ///
@@ -864,7 +864,7 @@ extension SecurityIRClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetCaseAttachmentDownloadUrl` operation on the `SecurityIncidentResponse` service.
+    /// Performs the `GetCaseAttachmentDownloadUrl` operation on the `SecurityIR` service.
     ///
     /// Grants permission to obtain an Amazon S3 presigned URL to download an attachment.
     ///
@@ -938,7 +938,7 @@ extension SecurityIRClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetCaseAttachmentUploadUrl` operation on the `SecurityIncidentResponse` service.
+    /// Performs the `GetCaseAttachmentUploadUrl` operation on the `SecurityIR` service.
     ///
     /// Grants permission to upload an attachment to a case.
     ///
@@ -1016,7 +1016,7 @@ extension SecurityIRClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetMembership` operation on the `SecurityIncidentResponse` service.
+    /// Performs the `GetMembership` operation on the `SecurityIR` service.
     ///
     /// Grants permission to get details of a designated service membership.
     ///
@@ -1090,7 +1090,7 @@ extension SecurityIRClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListCaseEdits` operation on the `SecurityIncidentResponse` service.
+    /// Performs the `ListCaseEdits` operation on the `SecurityIR` service.
     ///
     /// Grants permissions to view the aidt log for edits made to a designated case.
     ///
@@ -1167,7 +1167,7 @@ extension SecurityIRClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListCases` operation on the `SecurityIncidentResponse` service.
+    /// Performs the `ListCases` operation on the `SecurityIR` service.
     ///
     /// Grants permission to list all cases the requester has access to.
     ///
@@ -1244,7 +1244,7 @@ extension SecurityIRClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListComments` operation on the `SecurityIncidentResponse` service.
+    /// Performs the `ListComments` operation on the `SecurityIR` service.
     ///
     /// Grants permissions to list and view comments for a designated case.
     ///
@@ -1321,7 +1321,7 @@ extension SecurityIRClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListMemberships` operation on the `SecurityIncidentResponse` service.
+    /// Performs the `ListMemberships` operation on the `SecurityIR` service.
     ///
     /// Grants permission to query the memberships a principal has access to.
     ///
@@ -1398,7 +1398,7 @@ extension SecurityIRClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `SecurityIncidentResponse` service.
+    /// Performs the `ListTagsForResource` operation on the `SecurityIR` service.
     ///
     /// Grants permission to view currently configured tags on a resource.
     ///
@@ -1472,7 +1472,7 @@ extension SecurityIRClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `SecurityIncidentResponse` service.
+    /// Performs the `TagResource` operation on the `SecurityIR` service.
     ///
     /// Grants permission to add a tag(s) to a designated resource.
     ///
@@ -1549,7 +1549,7 @@ extension SecurityIRClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `SecurityIncidentResponse` service.
+    /// Performs the `UntagResource` operation on the `SecurityIR` service.
     ///
     /// Grants permission to remove a tag(s) from a designate resource.
     ///
@@ -1624,7 +1624,7 @@ extension SecurityIRClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateCase` operation on the `SecurityIncidentResponse` service.
+    /// Performs the `UpdateCase` operation on the `SecurityIR` service.
     ///
     /// Grants permission to update an existing case.
     ///
@@ -1701,7 +1701,7 @@ extension SecurityIRClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateCaseComment` operation on the `SecurityIncidentResponse` service.
+    /// Performs the `UpdateCaseComment` operation on the `SecurityIR` service.
     ///
     /// Grants permission to update an existing case comment.
     ///
@@ -1778,7 +1778,7 @@ extension SecurityIRClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateCaseStatus` operation on the `SecurityIncidentResponse` service.
+    /// Performs the `UpdateCaseStatus` operation on the `SecurityIR` service.
     ///
     /// Grants permission to update the status for a designated cases. Options include Submitted | Detection and Analysis | Eradication, Containment and Recovery | Post-Incident Activities | Closed.
     ///
@@ -1855,7 +1855,7 @@ extension SecurityIRClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateMembership` operation on the `SecurityIncidentResponse` service.
+    /// Performs the `UpdateMembership` operation on the `SecurityIR` service.
     ///
     /// Grants access to UpdateMembership to change membership configuration.
     ///
@@ -1932,7 +1932,7 @@ extension SecurityIRClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateResolverType` operation on the `SecurityIncidentResponse` service.
+    /// Performs the `UpdateResolverType` operation on the `SecurityIR` service.
     ///
     /// Grants permission to update the resolver type for a case. This is a one-way action and cannot be reversed. Options include self-supported > AWS-supported.
     ///

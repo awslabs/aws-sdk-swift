@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class EMRcontainersClient: ClientRuntime.Client {
     public static let clientName = "EMRcontainersClient"
-    public static let version = "1.0.71"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: EMRcontainersClient.EMRcontainersClientConfiguration
     let serviceName = "EMR containers"
@@ -331,7 +331,7 @@ extension EMRcontainersClient {
 }
 
 extension EMRcontainersClient {
-    /// Performs the `CancelJobRun` operation on the `AwsChicagoWebService` service.
+    /// Performs the `CancelJobRun` operation on the `EMRcontainers` service.
     ///
     /// Cancels a job run. A job run is a unit of work, such as a Spark jar, PySpark script, or SparkSQL query, that you submit to Amazon EMR on EKS.
     ///
@@ -398,7 +398,7 @@ extension EMRcontainersClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateJobTemplate` operation on the `AwsChicagoWebService` service.
+    /// Performs the `CreateJobTemplate` operation on the `EMRcontainers` service.
     ///
     /// Creates a job template. Job template stores values of StartJobRun API request in a template and can be used to start a job run. Job template allows two use cases: avoid repeating recurring StartJobRun API request values, enforcing certain values in StartJobRun API request.
     ///
@@ -470,7 +470,7 @@ extension EMRcontainersClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateManagedEndpoint` operation on the `AwsChicagoWebService` service.
+    /// Performs the `CreateManagedEndpoint` operation on the `EMRcontainers` service.
     ///
     /// Creates a managed endpoint. A managed endpoint is a gateway that connects Amazon EMR Studio to Amazon EMR on EKS so that Amazon EMR Studio can communicate with your virtual cluster.
     ///
@@ -542,7 +542,7 @@ extension EMRcontainersClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateSecurityConfiguration` operation on the `AwsChicagoWebService` service.
+    /// Performs the `CreateSecurityConfiguration` operation on the `EMRcontainers` service.
     ///
     /// Creates a security configuration. Security configurations in Amazon EMR on EKS are templates for different security setups. You can use security configurations to configure the Lake Formation integration setup. You can also create a security configuration to re-use a security setup each time you create a virtual cluster.
     ///
@@ -613,7 +613,7 @@ extension EMRcontainersClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateVirtualCluster` operation on the `AwsChicagoWebService` service.
+    /// Performs the `CreateVirtualCluster` operation on the `EMRcontainers` service.
     ///
     /// Creates a virtual cluster. Virtual cluster is a managed entity on Amazon EMR on EKS. You can create, describe, list and delete virtual clusters. They do not consume any additional resource in your system. A single virtual cluster maps to a single Kubernetes namespace. Given this relationship, you can model virtual clusters the same way you model Kubernetes namespaces to meet your requirements.
     ///
@@ -686,7 +686,7 @@ extension EMRcontainersClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteJobTemplate` operation on the `AwsChicagoWebService` service.
+    /// Performs the `DeleteJobTemplate` operation on the `EMRcontainers` service.
     ///
     /// Deletes a job template. Job template stores values of StartJobRun API request in a template and can be used to start a job run. Job template allows two use cases: avoid repeating recurring StartJobRun API request values, enforcing certain values in StartJobRun API request.
     ///
@@ -753,7 +753,7 @@ extension EMRcontainersClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteManagedEndpoint` operation on the `AwsChicagoWebService` service.
+    /// Performs the `DeleteManagedEndpoint` operation on the `EMRcontainers` service.
     ///
     /// Deletes a managed endpoint. A managed endpoint is a gateway that connects Amazon EMR Studio to Amazon EMR on EKS so that Amazon EMR Studio can communicate with your virtual cluster.
     ///
@@ -820,7 +820,7 @@ extension EMRcontainersClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteVirtualCluster` operation on the `AwsChicagoWebService` service.
+    /// Performs the `DeleteVirtualCluster` operation on the `EMRcontainers` service.
     ///
     /// Deletes a virtual cluster. Virtual cluster is a managed entity on Amazon EMR on EKS. You can create, describe, list and delete virtual clusters. They do not consume any additional resource in your system. A single virtual cluster maps to a single Kubernetes namespace. Given this relationship, you can model virtual clusters the same way you model Kubernetes namespaces to meet your requirements.
     ///
@@ -887,7 +887,7 @@ extension EMRcontainersClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeJobRun` operation on the `AwsChicagoWebService` service.
+    /// Performs the `DescribeJobRun` operation on the `EMRcontainers` service.
     ///
     /// Displays detailed information about a job run. A job run is a unit of work, such as a Spark jar, PySpark script, or SparkSQL query, that you submit to Amazon EMR on EKS.
     ///
@@ -955,7 +955,7 @@ extension EMRcontainersClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeJobTemplate` operation on the `AwsChicagoWebService` service.
+    /// Performs the `DescribeJobTemplate` operation on the `EMRcontainers` service.
     ///
     /// Displays detailed information about a specified job template. Job template stores values of StartJobRun API request in a template and can be used to start a job run. Job template allows two use cases: avoid repeating recurring StartJobRun API request values, enforcing certain values in StartJobRun API request.
     ///
@@ -1023,7 +1023,7 @@ extension EMRcontainersClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeManagedEndpoint` operation on the `AwsChicagoWebService` service.
+    /// Performs the `DescribeManagedEndpoint` operation on the `EMRcontainers` service.
     ///
     /// Displays detailed information about a managed endpoint. A managed endpoint is a gateway that connects Amazon EMR Studio to Amazon EMR on EKS so that Amazon EMR Studio can communicate with your virtual cluster.
     ///
@@ -1091,7 +1091,7 @@ extension EMRcontainersClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeSecurityConfiguration` operation on the `AwsChicagoWebService` service.
+    /// Performs the `DescribeSecurityConfiguration` operation on the `EMRcontainers` service.
     ///
     /// Displays detailed information about a specified security configuration. Security configurations in Amazon EMR on EKS are templates for different security setups. You can use security configurations to configure the Lake Formation integration setup. You can also create a security configuration to re-use a security setup each time you create a virtual cluster.
     ///
@@ -1159,7 +1159,7 @@ extension EMRcontainersClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeVirtualCluster` operation on the `AwsChicagoWebService` service.
+    /// Performs the `DescribeVirtualCluster` operation on the `EMRcontainers` service.
     ///
     /// Displays detailed information about a specified virtual cluster. Virtual cluster is a managed entity on Amazon EMR on EKS. You can create, describe, list and delete virtual clusters. They do not consume any additional resource in your system. A single virtual cluster maps to a single Kubernetes namespace. Given this relationship, you can model virtual clusters the same way you model Kubernetes namespaces to meet your requirements.
     ///
@@ -1227,7 +1227,7 @@ extension EMRcontainersClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetManagedEndpointSessionCredentials` operation on the `AwsChicagoWebService` service.
+    /// Performs the `GetManagedEndpointSessionCredentials` operation on the `EMRcontainers` service.
     ///
     /// Generate a session token to connect to a managed endpoint.
     ///
@@ -1300,7 +1300,7 @@ extension EMRcontainersClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListJobRuns` operation on the `AwsChicagoWebService` service.
+    /// Performs the `ListJobRuns` operation on the `EMRcontainers` service.
     ///
     /// Lists job runs based on a set of parameters. A job run is a unit of work, such as a Spark jar, PySpark script, or SparkSQL query, that you submit to Amazon EMR on EKS.
     ///
@@ -1368,7 +1368,7 @@ extension EMRcontainersClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListJobTemplates` operation on the `AwsChicagoWebService` service.
+    /// Performs the `ListJobTemplates` operation on the `EMRcontainers` service.
     ///
     /// Lists job templates based on a set of parameters. Job template stores values of StartJobRun API request in a template and can be used to start a job run. Job template allows two use cases: avoid repeating recurring StartJobRun API request values, enforcing certain values in StartJobRun API request.
     ///
@@ -1436,7 +1436,7 @@ extension EMRcontainersClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListManagedEndpoints` operation on the `AwsChicagoWebService` service.
+    /// Performs the `ListManagedEndpoints` operation on the `EMRcontainers` service.
     ///
     /// Lists managed endpoints based on a set of parameters. A managed endpoint is a gateway that connects Amazon EMR Studio to Amazon EMR on EKS so that Amazon EMR Studio can communicate with your virtual cluster.
     ///
@@ -1504,7 +1504,7 @@ extension EMRcontainersClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListSecurityConfigurations` operation on the `AwsChicagoWebService` service.
+    /// Performs the `ListSecurityConfigurations` operation on the `EMRcontainers` service.
     ///
     /// Lists security configurations based on a set of parameters. Security configurations in Amazon EMR on EKS are templates for different security setups. You can use security configurations to configure the Lake Formation integration setup. You can also create a security configuration to re-use a security setup each time you create a virtual cluster.
     ///
@@ -1572,7 +1572,7 @@ extension EMRcontainersClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `AwsChicagoWebService` service.
+    /// Performs the `ListTagsForResource` operation on the `EMRcontainers` service.
     ///
     /// Lists the tags assigned to the resources.
     ///
@@ -1640,7 +1640,7 @@ extension EMRcontainersClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListVirtualClusters` operation on the `AwsChicagoWebService` service.
+    /// Performs the `ListVirtualClusters` operation on the `EMRcontainers` service.
     ///
     /// Lists information about the specified virtual cluster. Virtual cluster is a managed entity on Amazon EMR on EKS. You can create, describe, list and delete virtual clusters. They do not consume any additional resource in your system. A single virtual cluster maps to a single Kubernetes namespace. Given this relationship, you can model virtual clusters the same way you model Kubernetes namespaces to meet your requirements.
     ///
@@ -1708,7 +1708,7 @@ extension EMRcontainersClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartJobRun` operation on the `AwsChicagoWebService` service.
+    /// Performs the `StartJobRun` operation on the `EMRcontainers` service.
     ///
     /// Starts a job run. A job run is a unit of work, such as a Spark jar, PySpark script, or SparkSQL query, that you submit to Amazon EMR on EKS.
     ///
@@ -1780,7 +1780,7 @@ extension EMRcontainersClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `AwsChicagoWebService` service.
+    /// Performs the `TagResource` operation on the `EMRcontainers` service.
     ///
     /// Assigns tags to resources. A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value, both of which you define. Tags enable you to categorize your Amazon Web Services resources by attributes such as purpose, owner, or environment. When you have many resources of the same type, you can quickly identify a specific resource based on the tags you've assigned to it. For example, you can define a set of tags for your Amazon EMR on EKS clusters to help you track each cluster's owner and stack level. We recommend that you devise a consistent set of tag keys for each resource type. You can then search and filter the resources based on the tags that you add.
     ///
@@ -1851,7 +1851,7 @@ extension EMRcontainersClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `AwsChicagoWebService` service.
+    /// Performs the `UntagResource` operation on the `EMRcontainers` service.
     ///
     /// Removes tags from resources.
     ///

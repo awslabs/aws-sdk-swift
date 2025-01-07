@@ -63,7 +63,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class XRayClient: ClientRuntime.Client {
     public static let clientName = "XRayClient"
-    public static let version = "1.0.71"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: XRayClient.XRayClientConfiguration
     let serviceName = "XRay"
@@ -329,7 +329,7 @@ extension XRayClient {
 }
 
 extension XRayClient {
-    /// Performs the `BatchGetTraces` operation on the `AWSXRay` service.
+    /// Performs the `BatchGetTraces` operation on the `XRay` service.
     ///
     /// You cannot find traces through this API if Transaction Search is enabled since trace is not indexed in X-Ray. Retrieves a list of traces specified by ID. Each trace is a collection of segment documents that originates from a single request. Use GetTraceSummaries to get a list of trace IDs.
     ///
@@ -399,7 +399,7 @@ extension XRayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CancelTraceRetrieval` operation on the `AWSXRay` service.
+    /// Performs the `CancelTraceRetrieval` operation on the `XRay` service.
     ///
     /// Cancels an ongoing trace retrieval job initiated by StartTraceRetrieval using the provided RetrievalToken. A successful cancellation will return an HTTP 200 response.
     ///
@@ -470,7 +470,7 @@ extension XRayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateGroup` operation on the `AWSXRay` service.
+    /// Performs the `CreateGroup` operation on the `XRay` service.
     ///
     /// Creates a group resource with a name and a filter expression.
     ///
@@ -540,7 +540,7 @@ extension XRayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateSamplingRule` operation on the `AWSXRay` service.
+    /// Performs the `CreateSamplingRule` operation on the `XRay` service.
     ///
     /// Creates a rule to control sampling behavior for instrumented applications. Services retrieve rules with [GetSamplingRules](https://docs.aws.amazon.com/xray/latest/api/API_GetSamplingRules.html), and evaluate each rule in ascending order of priority for each request. If a rule matches, the service records a trace, borrowing it from the reservoir size. After 10 seconds, the service reports back to X-Ray with [GetSamplingTargets](https://docs.aws.amazon.com/xray/latest/api/API_GetSamplingTargets.html) to get updated versions of each in-use rule. The updated rule contains a trace quota that the service can use instead of borrowing from the reservoir.
     ///
@@ -611,7 +611,7 @@ extension XRayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteGroup` operation on the `AWSXRay` service.
+    /// Performs the `DeleteGroup` operation on the `XRay` service.
     ///
     /// Deletes a group resource.
     ///
@@ -681,7 +681,7 @@ extension XRayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteResourcePolicy` operation on the `AWSXRay` service.
+    /// Performs the `DeleteResourcePolicy` operation on the `XRay` service.
     ///
     /// Deletes a resource policy from the target Amazon Web Services account.
     ///
@@ -752,7 +752,7 @@ extension XRayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteSamplingRule` operation on the `AWSXRay` service.
+    /// Performs the `DeleteSamplingRule` operation on the `XRay` service.
     ///
     /// Deletes a sampling rule.
     ///
@@ -822,7 +822,7 @@ extension XRayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetEncryptionConfig` operation on the `AWSXRay` service.
+    /// Performs the `GetEncryptionConfig` operation on the `XRay` service.
     ///
     /// Retrieves the current encryption configuration for X-Ray data.
     ///
@@ -889,7 +889,7 @@ extension XRayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetGroup` operation on the `AWSXRay` service.
+    /// Performs the `GetGroup` operation on the `XRay` service.
     ///
     /// Retrieves group resource details.
     ///
@@ -959,7 +959,7 @@ extension XRayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetGroups` operation on the `AWSXRay` service.
+    /// Performs the `GetGroups` operation on the `XRay` service.
     ///
     /// Retrieves all active group details.
     ///
@@ -1029,7 +1029,7 @@ extension XRayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetIndexingRules` operation on the `AWSXRay` service.
+    /// Performs the `GetIndexingRules` operation on the `XRay` service.
     ///
     /// Retrieves all indexing rules. Indexing rules are used to determine the server-side sampling rate for spans ingested through the CloudWatchLogs destination and indexed by X-Ray. For more information, see [Transaction Search](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Transaction-Search.html).
     ///
@@ -1099,7 +1099,7 @@ extension XRayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetInsight` operation on the `AWSXRay` service.
+    /// Performs the `GetInsight` operation on the `XRay` service.
     ///
     /// Retrieves the summary information of an insight. This includes impact to clients and root cause services, the top anomalous services, the category, the state of the insight, and the start and end time of the insight.
     ///
@@ -1169,7 +1169,7 @@ extension XRayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetInsightEvents` operation on the `AWSXRay` service.
+    /// Performs the `GetInsightEvents` operation on the `XRay` service.
     ///
     /// X-Ray reevaluates insights periodically until they're resolved, and records each intermediate state as an event. You can review an insight's events in the Impact Timeline on the Inspect page in the X-Ray console.
     ///
@@ -1239,7 +1239,7 @@ extension XRayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetInsightImpactGraph` operation on the `AWSXRay` service.
+    /// Performs the `GetInsightImpactGraph` operation on the `XRay` service.
     ///
     /// Retrieves a service graph structure filtered by the specified insight. The service graph is limited to only structural information. For a complete service graph, use this API with the GetServiceGraph API.
     ///
@@ -1309,7 +1309,7 @@ extension XRayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetInsightSummaries` operation on the `AWSXRay` service.
+    /// Performs the `GetInsightSummaries` operation on the `XRay` service.
     ///
     /// Retrieves the summaries of all insights in the specified group matching the provided filter values.
     ///
@@ -1379,7 +1379,7 @@ extension XRayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetRetrievedTracesGraph` operation on the `AWSXRay` service.
+    /// Performs the `GetRetrievedTracesGraph` operation on the `XRay` service.
     ///
     /// Retrieves a service graph for traces based on the specified RetrievalToken from the CloudWatch log group generated by Transaction Search. This API does not initiate a retrieval job. You must first execute StartTraceRetrieval to obtain the required RetrievalToken. The trace graph describes services that process incoming requests and any downstream services they call, which may include Amazon Web Services resources, external APIs, or databases. The response is empty until the RetrievalStatus is COMPLETE. Retry the request after the status changes from RUNNING or SCHEDULED to COMPLETE to access the full service graph. When CloudWatch log is the destination, this API can support cross-account observability and service graph retrieval across linked accounts. For retrieving graphs from X-Ray directly as opposed to the Transaction-Search Log group, see [GetTraceGraph](https://docs.aws.amazon.com/xray/latest/api/API_GetTraceGraph.html).
     ///
@@ -1450,7 +1450,7 @@ extension XRayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetSamplingRules` operation on the `AWSXRay` service.
+    /// Performs the `GetSamplingRules` operation on the `XRay` service.
     ///
     /// Retrieves all sampling rules.
     ///
@@ -1520,7 +1520,7 @@ extension XRayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetSamplingStatisticSummaries` operation on the `AWSXRay` service.
+    /// Performs the `GetSamplingStatisticSummaries` operation on the `XRay` service.
     ///
     /// Retrieves information about recent sampling results for all sampling rules.
     ///
@@ -1590,7 +1590,7 @@ extension XRayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetSamplingTargets` operation on the `AWSXRay` service.
+    /// Performs the `GetSamplingTargets` operation on the `XRay` service.
     ///
     /// Requests a sampling quota for rules that the service is using to sample requests.
     ///
@@ -1660,7 +1660,7 @@ extension XRayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetServiceGraph` operation on the `AWSXRay` service.
+    /// Performs the `GetServiceGraph` operation on the `XRay` service.
     ///
     /// Retrieves a document that describes services that process incoming requests, and downstream services that they call as a result. Root services process incoming requests and make calls to downstream services. Root services are applications that use the [Amazon Web Services X-Ray SDK](https://docs.aws.amazon.com/xray/index.html). Downstream services can be other applications, Amazon Web Services resources, HTTP web APIs, or SQL databases.
     ///
@@ -1730,7 +1730,7 @@ extension XRayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetTimeSeriesServiceStatistics` operation on the `AWSXRay` service.
+    /// Performs the `GetTimeSeriesServiceStatistics` operation on the `XRay` service.
     ///
     /// Get an aggregation of service statistics defined by a specific time range.
     ///
@@ -1800,7 +1800,7 @@ extension XRayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetTraceGraph` operation on the `AWSXRay` service.
+    /// Performs the `GetTraceGraph` operation on the `XRay` service.
     ///
     /// Retrieves a service graph for one or more specific trace IDs.
     ///
@@ -1870,7 +1870,7 @@ extension XRayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetTraceSegmentDestination` operation on the `AWSXRay` service.
+    /// Performs the `GetTraceSegmentDestination` operation on the `XRay` service.
     ///
     /// Retrieves the current destination of data sent to PutTraceSegments and OpenTelemetry API. The Transaction Search feature requires a CloudWatchLogs destination. For more information, see [Transaction Search](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Transaction-Search.html) and [OpenTelemetry](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-OpenTelemetry-Sections.html).
     ///
@@ -1937,7 +1937,7 @@ extension XRayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetTraceSummaries` operation on the `AWSXRay` service.
+    /// Performs the `GetTraceSummaries` operation on the `XRay` service.
     ///
     /// Retrieves IDs and annotations for traces available for a specified time frame using an optional filter. To get the full traces, pass the trace IDs to BatchGetTraces. A filter expression can target traced requests that hit specific service nodes or edges, have errors, or come from a known user. For example, the following filter expression targets traces that pass through api.example.com: service("api.example.com") This filter expression finds traces that have an annotation named account with the value 12345: annotation.account = "12345" For a full list of indexed fields and keywords that you can use in filter expressions, see [Use filter expressions](https://docs.aws.amazon.com/xray/latest/devguide/aws-xray-interface-console.html#xray-console-filters) in the Amazon Web Services X-Ray Developer Guide.
     ///
@@ -2007,7 +2007,7 @@ extension XRayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListResourcePolicies` operation on the `AWSXRay` service.
+    /// Performs the `ListResourcePolicies` operation on the `XRay` service.
     ///
     /// Returns the list of resource policies in the target Amazon Web Services account.
     ///
@@ -2077,7 +2077,7 @@ extension XRayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListRetrievedTraces` operation on the `AWSXRay` service.
+    /// Performs the `ListRetrievedTraces` operation on the `XRay` service.
     ///
     /// Retrieves a list of traces for a given RetrievalToken from the CloudWatch log group generated by Transaction Search. For information on what each trace returns, see [BatchGetTraces](https://docs.aws.amazon.com/xray/latest/api/API_BatchGetTraces.html). This API does not initiate a retrieval job. To start a trace retrieval, use StartTraceRetrieval, which generates the required RetrievalToken. When the RetrievalStatus is not COMPLETE, the API will return an empty response. Retry the request once the retrieval has completed to access the full list of traces. For cross-account observability, this API can retrieve traces from linked accounts when CloudWatch log is the destination across relevant accounts. For more details, see [CloudWatch cross-account observability](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Unified-Cross-Account.html). For retrieving data from X-Ray directly as opposed to the Transaction-Search Log group, see [BatchGetTraces](https://docs.aws.amazon.com/xray/latest/api/API_BatchGetTraces.html).
     ///
@@ -2148,7 +2148,7 @@ extension XRayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `AWSXRay` service.
+    /// Performs the `ListTagsForResource` operation on the `XRay` service.
     ///
     /// Returns a list of tags that are applied to the specified Amazon Web Services X-Ray group or sampling rule.
     ///
@@ -2219,7 +2219,7 @@ extension XRayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutEncryptionConfig` operation on the `AWSXRay` service.
+    /// Performs the `PutEncryptionConfig` operation on the `XRay` service.
     ///
     /// Updates the encryption configuration for X-Ray data.
     ///
@@ -2289,7 +2289,7 @@ extension XRayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutResourcePolicy` operation on the `AWSXRay` service.
+    /// Performs the `PutResourcePolicy` operation on the `XRay` service.
     ///
     /// Sets the resource policy to grant one or more Amazon Web Services services and accounts permissions to access X-Ray. Each resource policy will be associated with a specific Amazon Web Services account. Each Amazon Web Services account can have a maximum of 5 resource policies, and each policy name must be unique within that account. The maximum size of each resource policy is 5KB.
     ///
@@ -2363,7 +2363,7 @@ extension XRayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutTelemetryRecords` operation on the `AWSXRay` service.
+    /// Performs the `PutTelemetryRecords` operation on the `XRay` service.
     ///
     /// Used by the Amazon Web Services X-Ray daemon to upload telemetry.
     ///
@@ -2433,7 +2433,7 @@ extension XRayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutTraceSegments` operation on the `AWSXRay` service.
+    /// Performs the `PutTraceSegments` operation on the `XRay` service.
     ///
     /// Uploads segment documents to Amazon Web Services X-Ray. A segment document can be a completed segment, an in-progress segment, or an array of subsegments. Segments must include the following fields. For the full segment document schema, see [Amazon Web Services X-Ray Segment Documents](https://docs.aws.amazon.com/xray/latest/devguide/aws-xray-interface-api.html#xray-api-segmentdocuments.html) in the Amazon Web Services X-Ray Developer Guide. Required segment document fields
     ///
@@ -2527,7 +2527,7 @@ extension XRayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartTraceRetrieval` operation on the `AWSXRay` service.
+    /// Performs the `StartTraceRetrieval` operation on the `XRay` service.
     ///
     /// Initiates a trace retrieval process using the specified time range and for the give trace IDs on Transaction Search generated by the CloudWatch log group. For more information, see [Transaction Search](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Transaction-Search.html). API returns a RetrievalToken, which can be used with ListRetrievedTraces or GetRetrievedTracesGraph to fetch results. Retrievals will time out after 60 minutes. To execute long time ranges, consider segmenting into multiple retrievals. If you are using [CloudWatch cross-account observability](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Unified-Cross-Account.html), you can use this operation in a monitoring account to retrieve data from a linked source account, as long as both accounts have transaction search enabled. For retrieving data from X-Ray directly as opposed to the Transaction-Search Log group, see [BatchGetTraces](https://docs.aws.amazon.com/xray/latest/api/API_BatchGetTraces.html).
     ///
@@ -2598,7 +2598,7 @@ extension XRayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `AWSXRay` service.
+    /// Performs the `TagResource` operation on the `XRay` service.
     ///
     /// Applies tags to an existing Amazon Web Services X-Ray group or sampling rule.
     ///
@@ -2670,7 +2670,7 @@ extension XRayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `AWSXRay` service.
+    /// Performs the `UntagResource` operation on the `XRay` service.
     ///
     /// Removes tags from an Amazon Web Services X-Ray group or sampling rule. You cannot edit or delete system tags (those with an aws: prefix).
     ///
@@ -2741,7 +2741,7 @@ extension XRayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateGroup` operation on the `AWSXRay` service.
+    /// Performs the `UpdateGroup` operation on the `XRay` service.
     ///
     /// Updates a group resource.
     ///
@@ -2811,7 +2811,7 @@ extension XRayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateIndexingRule` operation on the `AWSXRay` service.
+    /// Performs the `UpdateIndexingRule` operation on the `XRay` service.
     ///
     /// Modifies an indexing rule’s configuration. Indexing rules are used for determining the sampling rate for spans indexed from CloudWatch Logs. For more information, see [Transaction Search](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Transaction-Search.html).
     ///
@@ -2882,7 +2882,7 @@ extension XRayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateSamplingRule` operation on the `AWSXRay` service.
+    /// Performs the `UpdateSamplingRule` operation on the `XRay` service.
     ///
     /// Modifies a sampling rule's configuration.
     ///
@@ -2952,7 +2952,7 @@ extension XRayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateTraceSegmentDestination` operation on the `AWSXRay` service.
+    /// Performs the `UpdateTraceSegmentDestination` operation on the `XRay` service.
     ///
     /// Modifies the destination of data sent to PutTraceSegments. The Transaction Search feature requires the CloudWatchLogs destination. For more information, see [Transaction Search](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Transaction-Search.html).
     ///

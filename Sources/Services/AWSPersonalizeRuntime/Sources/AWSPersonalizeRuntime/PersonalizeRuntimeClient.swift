@@ -62,7 +62,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class PersonalizeRuntimeClient: ClientRuntime.Client {
     public static let clientName = "PersonalizeRuntimeClient"
-    public static let version = "1.0.71"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: PersonalizeRuntimeClient.PersonalizeRuntimeClientConfiguration
     let serviceName = "Personalize Runtime"
@@ -328,7 +328,7 @@ extension PersonalizeRuntimeClient {
 }
 
 extension PersonalizeRuntimeClient {
-    /// Performs the `GetActionRecommendations` operation on the `AmazonPersonalizeRuntime` service.
+    /// Performs the `GetActionRecommendations` operation on the `PersonalizeRuntime` service.
     ///
     /// Returns a list of recommended actions in sorted in descending order by prediction score. Use the GetActionRecommendations API if you have a custom campaign that deploys a solution version trained with a PERSONALIZED_ACTIONS recipe. For more information about PERSONALIZED_ACTIONS recipes, see [PERSONALIZED_ACTIONS recipes](https://docs.aws.amazon.com/personalize/latest/dg/nexts-best-action-recipes.html). For more information about getting action recommendations, see [Getting action recommendations](https://docs.aws.amazon.com/personalize/latest/dg/get-action-recommendations.html).
     ///
@@ -398,7 +398,7 @@ extension PersonalizeRuntimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetPersonalizedRanking` operation on the `AmazonPersonalizeRuntime` service.
+    /// Performs the `GetPersonalizedRanking` operation on the `PersonalizeRuntime` service.
     ///
     /// Re-ranks a list of recommended items for the given user. The first item in the list is deemed the most likely item to be of interest to the user. The solution backing the campaign must have been created using a recipe of type PERSONALIZED_RANKING.
     ///
@@ -468,7 +468,7 @@ extension PersonalizeRuntimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetRecommendations` operation on the `AmazonPersonalizeRuntime` service.
+    /// Performs the `GetRecommendations` operation on the `PersonalizeRuntime` service.
     ///
     /// Returns a list of recommended items. For campaigns, the campaign's Amazon Resource Name (ARN) is required and the required user and item input depends on the recipe type used to create the solution backing the campaign as follows:
     ///

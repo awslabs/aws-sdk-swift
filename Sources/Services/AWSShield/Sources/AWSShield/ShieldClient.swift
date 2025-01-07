@@ -63,7 +63,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ShieldClient: ClientRuntime.Client {
     public static let clientName = "ShieldClient"
-    public static let version = "1.0.71"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: ShieldClient.ShieldClientConfiguration
     let serviceName = "Shield"
@@ -329,7 +329,7 @@ extension ShieldClient {
 }
 
 extension ShieldClient {
-    /// Performs the `AssociateDRTLogBucket` operation on the `AWSShield_20160616` service.
+    /// Performs the `AssociateDRTLogBucket` operation on the `Shield` service.
     ///
     /// Authorizes the Shield Response Team (SRT) to access the specified Amazon S3 bucket containing log data such as Application Load Balancer access logs, CloudFront logs, or logs from third party sources. You can associate up to 10 Amazon S3 buckets with your subscription. To use the services of the SRT and make an AssociateDRTLogBucket request, you must be subscribed to the [Business Support plan](http://aws.amazon.com/premiumsupport/business-support/) or the [Enterprise Support plan](http://aws.amazon.com/premiumsupport/enterprise-support/).
     ///
@@ -406,7 +406,7 @@ extension ShieldClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssociateDRTRole` operation on the `AWSShield_20160616` service.
+    /// Performs the `AssociateDRTRole` operation on the `Shield` service.
     ///
     /// Authorizes the Shield Response Team (SRT) using the specified role, to access your Amazon Web Services account to assist with DDoS attack mitigation during potential attacks. This enables the SRT to inspect your WAF configuration and create or update WAF rules and web ACLs. You can associate only one RoleArn with your subscription. If you submit an AssociateDRTRole request for an account that already has an associated role, the new RoleArn will replace the existing RoleArn. Prior to making the AssociateDRTRole request, you must attach the AWSShieldDRTAccessPolicy managed policy to the role that you'll specify in the request. You can access this policy in the IAM console at [AWSShieldDRTAccessPolicy](https://console.aws.amazon.com/iam/home?#/policies/arn:aws:iam::aws:policy/service-role/AWSShieldDRTAccessPolicy). For more information see [Adding and removing IAM identity permissions](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_manage-attach-detach.html). The role must also trust the service principal drt.shield.amazonaws.com. For more information, see [IAM JSON policy elements: Principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_principal.html). The SRT will have access only to your WAF and Shield resources. By submitting this request, you authorize the SRT to inspect your WAF and Shield configuration and create and update WAF rules and web ACLs on your behalf. The SRT takes these actions only if explicitly authorized by you. You must have the iam:PassRole permission to make an AssociateDRTRole request. For more information, see [Granting a user permissions to pass a role to an Amazon Web Services service](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_passrole.html). To use the services of the SRT and make an AssociateDRTRole request, you must be subscribed to the [Business Support plan](http://aws.amazon.com/premiumsupport/business-support/) or the [Enterprise Support plan](http://aws.amazon.com/premiumsupport/enterprise-support/).
     ///
@@ -481,7 +481,7 @@ extension ShieldClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssociateHealthCheck` operation on the `AWSShield_20160616` service.
+    /// Performs the `AssociateHealthCheck` operation on the `Shield` service.
     ///
     /// Adds health-based detection to the Shield Advanced protection for a resource. Shield Advanced health-based detection uses the health of your Amazon Web Services resource to improve responsiveness and accuracy in attack detection and response. You define the health check in Route 53 and then associate it with your Shield Advanced protection. For more information, see [Shield Advanced Health-Based Detection](https://docs.aws.amazon.com/waf/latest/developerguide/ddos-overview.html#ddos-advanced-health-check-option) in the WAF Developer Guide.
     ///
@@ -556,7 +556,7 @@ extension ShieldClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssociateProactiveEngagementDetails` operation on the `AWSShield_20160616` service.
+    /// Performs the `AssociateProactiveEngagementDetails` operation on the `Shield` service.
     ///
     /// Initializes proactive engagement and sets the list of contacts for the Shield Response Team (SRT) to use. You must provide at least one phone number in the emergency contact list. After you have initialized proactive engagement using this call, to disable or enable proactive engagement, use the calls DisableProactiveEngagement and EnableProactiveEngagement. This call defines the list of email addresses and phone numbers that the SRT can use to contact you for escalations to the SRT and to initiate proactive customer support. The contacts that you provide in the request replace any contacts that were already defined. If you already have contacts defined and want to use them, retrieve the list using DescribeEmergencyContactSettings and then provide it to this call.
     ///
@@ -630,7 +630,7 @@ extension ShieldClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateProtection` operation on the `AWSShield_20160616` service.
+    /// Performs the `CreateProtection` operation on the `Shield` service.
     ///
     /// Enables Shield Advanced for a specific Amazon Web Services resource. The resource can be an Amazon CloudFront distribution, Amazon Route 53 hosted zone, Global Accelerator standard accelerator, Elastic IP Address, Application Load Balancer, or a Classic Load Balancer. You can protect Amazon EC2 instances and Network Load Balancers by association with protected Amazon EC2 Elastic IP addresses. You can add protection to only a single resource with each CreateProtection request. You can add protection to multiple resources at once through the Shield Advanced console at [https://console.aws.amazon.com/wafv2/shieldv2#/](https://console.aws.amazon.com/wafv2/shieldv2#/). For more information see [Getting Started with Shield Advanced](https://docs.aws.amazon.com/waf/latest/developerguide/getting-started-ddos.html) and [Adding Shield Advanced protection to Amazon Web Services resources](https://docs.aws.amazon.com/waf/latest/developerguide/configure-new-protection.html).
     ///
@@ -707,7 +707,7 @@ extension ShieldClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateProtectionGroup` operation on the `AWSShield_20160616` service.
+    /// Performs the `CreateProtectionGroup` operation on the `Shield` service.
     ///
     /// Creates a grouping of protected resources so they can be handled as a collective. This resource grouping improves the accuracy of detection and reduces false positives.
     ///
@@ -782,7 +782,7 @@ extension ShieldClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateSubscription` operation on the `AWSShield_20160616` service.
+    /// Performs the `CreateSubscription` operation on the `Shield` service.
     ///
     /// Activates Shield Advanced for an account. For accounts that are members of an Organizations organization, Shield Advanced subscriptions are billed against the organization's payer account, regardless of whether the payer account itself is subscribed. When you initially create a subscription, your subscription is set to be automatically renewed at the end of the existing subscription period. You can change this by submitting an UpdateSubscription request.
     ///
@@ -853,7 +853,7 @@ extension ShieldClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteProtection` operation on the `AWSShield_20160616` service.
+    /// Performs the `DeleteProtection` operation on the `Shield` service.
     ///
     /// Deletes an Shield Advanced [Protection].
     ///
@@ -925,7 +925,7 @@ extension ShieldClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteProtectionGroup` operation on the `AWSShield_20160616` service.
+    /// Performs the `DeleteProtectionGroup` operation on the `Shield` service.
     ///
     /// Removes the specified protection group.
     ///
@@ -997,7 +997,7 @@ extension ShieldClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteSubscription` operation on the `AWSShield_20160616` service.
+    /// Performs the `DeleteSubscription` operation on the `Shield` service.
     ///
     /// Removes Shield Advanced from an account. Shield Advanced requires a 1-year subscription commitment. You cannot delete a subscription prior to the completion of that commitment.
     @available(*, deprecated)
@@ -1070,7 +1070,7 @@ extension ShieldClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeAttack` operation on the `AWSShield_20160616` service.
+    /// Performs the `DescribeAttack` operation on the `Shield` service.
     ///
     /// Describes the details of a DDoS attack.
     ///
@@ -1141,7 +1141,7 @@ extension ShieldClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeAttackStatistics` operation on the `AWSShield_20160616` service.
+    /// Performs the `DescribeAttackStatistics` operation on the `Shield` service.
     ///
     /// Provides information about the number and type of attacks Shield has detected in the last year for all resources that belong to your account, regardless of whether you've defined Shield protections for them. This operation is available to Shield customers as well as to Shield Advanced customers. The operation returns data for the time range of midnight UTC, one year ago, to midnight UTC, today. For example, if the current time is 2020-10-26 15:39:32 PDT, equal to 2020-10-26 22:39:32 UTC, then the time range for the attack data returned is from 2019-10-26 00:00:00 UTC to 2020-10-26 00:00:00 UTC. The time range indicates the period covered by the attack statistics data items.
     ///
@@ -1211,7 +1211,7 @@ extension ShieldClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeDRTAccess` operation on the `AWSShield_20160616` service.
+    /// Performs the `DescribeDRTAccess` operation on the `Shield` service.
     ///
     /// Returns the current role and list of Amazon S3 log buckets used by the Shield Response Team (SRT) to access your Amazon Web Services account while assisting with attack mitigation.
     ///
@@ -1282,7 +1282,7 @@ extension ShieldClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeEmergencyContactSettings` operation on the `AWSShield_20160616` service.
+    /// Performs the `DescribeEmergencyContactSettings` operation on the `Shield` service.
     ///
     /// A list of email addresses and phone numbers that the Shield Response Team (SRT) can use to contact you if you have proactive engagement enabled, for escalations to the SRT and to initiate proactive customer support.
     ///
@@ -1353,7 +1353,7 @@ extension ShieldClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeProtection` operation on the `AWSShield_20160616` service.
+    /// Performs the `DescribeProtection` operation on the `Shield` service.
     ///
     /// Lists the details of a [Protection] object.
     ///
@@ -1425,7 +1425,7 @@ extension ShieldClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeProtectionGroup` operation on the `AWSShield_20160616` service.
+    /// Performs the `DescribeProtectionGroup` operation on the `Shield` service.
     ///
     /// Returns the specification for the specified protection group.
     ///
@@ -1496,7 +1496,7 @@ extension ShieldClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeSubscription` operation on the `AWSShield_20160616` service.
+    /// Performs the `DescribeSubscription` operation on the `Shield` service.
     ///
     /// Provides details about the Shield Advanced subscription for an account.
     ///
@@ -1567,7 +1567,7 @@ extension ShieldClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisableApplicationLayerAutomaticResponse` operation on the `AWSShield_20160616` service.
+    /// Performs the `DisableApplicationLayerAutomaticResponse` operation on the `Shield` service.
     ///
     /// Disable the Shield Advanced automatic application layer DDoS mitigation feature for the protected resource. This stops Shield Advanced from creating, verifying, and applying WAF rules for attacks that it detects for the resource.
     ///
@@ -1641,7 +1641,7 @@ extension ShieldClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisableProactiveEngagement` operation on the `AWSShield_20160616` service.
+    /// Performs the `DisableProactiveEngagement` operation on the `Shield` service.
     ///
     /// Removes authorization from the Shield Response Team (SRT) to notify contacts about escalations to the SRT and to initiate proactive customer support.
     ///
@@ -1715,7 +1715,7 @@ extension ShieldClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateDRTLogBucket` operation on the `AWSShield_20160616` service.
+    /// Performs the `DisassociateDRTLogBucket` operation on the `Shield` service.
     ///
     /// Removes the Shield Response Team's (SRT) access to the specified Amazon S3 bucket containing the logs that you shared previously.
     ///
@@ -1790,7 +1790,7 @@ extension ShieldClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateDRTRole` operation on the `AWSShield_20160616` service.
+    /// Performs the `DisassociateDRTRole` operation on the `Shield` service.
     ///
     /// Removes the Shield Response Team's (SRT) access to your Amazon Web Services account.
     ///
@@ -1863,7 +1863,7 @@ extension ShieldClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateHealthCheck` operation on the `AWSShield_20160616` service.
+    /// Performs the `DisassociateHealthCheck` operation on the `Shield` service.
     ///
     /// Removes health-based detection from the Shield Advanced protection for a resource. Shield Advanced health-based detection uses the health of your Amazon Web Services resource to improve responsiveness and accuracy in attack detection and response. You define the health check in Route 53 and then associate or disassociate it with your Shield Advanced protection. For more information, see [Shield Advanced Health-Based Detection](https://docs.aws.amazon.com/waf/latest/developerguide/ddos-overview.html#ddos-advanced-health-check-option) in the WAF Developer Guide.
     ///
@@ -1937,7 +1937,7 @@ extension ShieldClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `EnableApplicationLayerAutomaticResponse` operation on the `AWSShield_20160616` service.
+    /// Performs the `EnableApplicationLayerAutomaticResponse` operation on the `Shield` service.
     ///
     /// Enable the Shield Advanced automatic application layer DDoS mitigation for the protected resource. This feature is available for Amazon CloudFront distributions and Application Load Balancers only. This causes Shield Advanced to create, verify, and apply WAF rules for DDoS attacks that it detects for the resource. Shield Advanced applies the rules in a Shield rule group inside the web ACL that you've associated with the resource. For information about how automatic mitigation works and the requirements for using it, see [Shield Advanced automatic application layer DDoS mitigation](https://docs.aws.amazon.com/waf/latest/developerguide/ddos-advanced-automatic-app-layer-response.html). Don't use this action to make changes to automatic mitigation settings when it's already enabled for a resource. Instead, use [UpdateApplicationLayerAutomaticResponse]. To use this feature, you must associate a web ACL with the protected resource. The web ACL must be created using the latest version of WAF (v2). You can associate the web ACL through the Shield Advanced console at [https://console.aws.amazon.com/wafv2/shieldv2#/](https://console.aws.amazon.com/wafv2/shieldv2#/). For more information, see [Getting Started with Shield Advanced](https://docs.aws.amazon.com/waf/latest/developerguide/getting-started-ddos.html). You can also associate the web ACL to the resource through the WAF console or the WAF API, but you must manage Shield Advanced automatic mitigation through Shield Advanced. For information about WAF, see [WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/).
     ///
@@ -2012,7 +2012,7 @@ extension ShieldClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `EnableProactiveEngagement` operation on the `AWSShield_20160616` service.
+    /// Performs the `EnableProactiveEngagement` operation on the `Shield` service.
     ///
     /// Authorizes the Shield Response Team (SRT) to use email and phone to notify contacts about escalations to the SRT and to initiate proactive customer support.
     ///
@@ -2086,7 +2086,7 @@ extension ShieldClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetSubscriptionState` operation on the `AWSShield_20160616` service.
+    /// Performs the `GetSubscriptionState` operation on the `Shield` service.
     ///
     /// Returns the SubscriptionState, either Active or Inactive.
     ///
@@ -2156,7 +2156,7 @@ extension ShieldClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAttacks` operation on the `AWSShield_20160616` service.
+    /// Performs the `ListAttacks` operation on the `Shield` service.
     ///
     /// Returns all ongoing DDoS attacks or all DDoS attacks during a specified time period.
     ///
@@ -2228,7 +2228,7 @@ extension ShieldClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListProtectionGroups` operation on the `AWSShield_20160616` service.
+    /// Performs the `ListProtectionGroups` operation on the `Shield` service.
     ///
     /// Retrieves [ProtectionGroup] objects for the account. You can retrieve all protection groups or you can provide filtering criteria and retrieve just the subset of protection groups that match the criteria.
     ///
@@ -2300,7 +2300,7 @@ extension ShieldClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListProtections` operation on the `AWSShield_20160616` service.
+    /// Performs the `ListProtections` operation on the `Shield` service.
     ///
     /// Retrieves [Protection] objects for the account. You can retrieve all protections or you can provide filtering criteria and retrieve just the subset of protections that match the criteria.
     ///
@@ -2372,7 +2372,7 @@ extension ShieldClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListResourcesInProtectionGroup` operation on the `AWSShield_20160616` service.
+    /// Performs the `ListResourcesInProtectionGroup` operation on the `Shield` service.
     ///
     /// Retrieves the resources that are included in the protection group.
     ///
@@ -2444,7 +2444,7 @@ extension ShieldClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `AWSShield_20160616` service.
+    /// Performs the `ListTagsForResource` operation on the `Shield` service.
     ///
     /// Gets information about Amazon Web Services tags for a specified Amazon Resource Name (ARN) in Shield.
     ///
@@ -2516,7 +2516,7 @@ extension ShieldClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `AWSShield_20160616` service.
+    /// Performs the `TagResource` operation on the `Shield` service.
     ///
     /// Adds or updates tags for a resource in Shield.
     ///
@@ -2589,7 +2589,7 @@ extension ShieldClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `AWSShield_20160616` service.
+    /// Performs the `UntagResource` operation on the `Shield` service.
     ///
     /// Removes tags from a resource in Shield.
     ///
@@ -2662,7 +2662,7 @@ extension ShieldClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateApplicationLayerAutomaticResponse` operation on the `AWSShield_20160616` service.
+    /// Performs the `UpdateApplicationLayerAutomaticResponse` operation on the `Shield` service.
     ///
     /// Updates an existing Shield Advanced automatic application layer DDoS mitigation configuration for the specified resource.
     ///
@@ -2736,7 +2736,7 @@ extension ShieldClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateEmergencyContactSettings` operation on the `AWSShield_20160616` service.
+    /// Performs the `UpdateEmergencyContactSettings` operation on the `Shield` service.
     ///
     /// Updates the details of the list of email addresses and phone numbers that the Shield Response Team (SRT) can use to contact you if you have proactive engagement enabled, for escalations to the SRT and to initiate proactive customer support.
     ///
@@ -2809,7 +2809,7 @@ extension ShieldClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateProtectionGroup` operation on the `AWSShield_20160616` service.
+    /// Performs the `UpdateProtectionGroup` operation on the `Shield` service.
     ///
     /// Updates an existing protection group. A protection group is a grouping of protected resources so they can be handled as a collective. This resource grouping improves the accuracy of detection and reduces false positives.
     ///
@@ -2882,7 +2882,7 @@ extension ShieldClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateSubscription` operation on the `AWSShield_20160616` service.
+    /// Performs the `UpdateSubscription` operation on the `Shield` service.
     ///
     /// Updates the details of an existing subscription. Only enter values for parameters you want to change. Empty parameters are not updated. For accounts that are members of an Organizations organization, Shield Advanced subscriptions are billed against the organization's payer account, regardless of whether the payer account itself is subscribed.
     ///

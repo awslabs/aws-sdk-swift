@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class IoTFleetHubClient: ClientRuntime.Client {
     public static let clientName = "IoTFleetHubClient"
-    public static let version = "1.0.71"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: IoTFleetHubClient.IoTFleetHubClientConfiguration
     let serviceName = "IoTFleetHub"
@@ -330,7 +330,7 @@ extension IoTFleetHubClient {
 }
 
 extension IoTFleetHubClient {
-    /// Performs the `CreateApplication` operation on the `AWSIoTFleetHub` service.
+    /// Performs the `CreateApplication` operation on the `IoTFleetHub` service.
     ///
     /// Creates a Fleet Hub for IoT Device Management web application. When creating a Fleet Hub application, you must create an organization instance of IAM Identity Center if you don't already have one. The Fleet Hub application you create must also be in the same Amazon Web Services Region of the organization instance of IAM Identity Center. For more information see [Enabling IAM Identity Center](https://docs.aws.amazon.com/singlesignon/latest/userguide/get-set-up-for-idc.html) and [Organization instances of IAM Identity Center](https://docs.aws.amazon.com/singlesignon/latest/userguide/organization-instances-identity-center.html).
     ///
@@ -403,7 +403,7 @@ extension IoTFleetHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteApplication` operation on the `AWSIoTFleetHub` service.
+    /// Performs the `DeleteApplication` operation on the `IoTFleetHub` service.
     ///
     /// Deletes a Fleet Hub for IoT Device Management web application.
     ///
@@ -474,7 +474,7 @@ extension IoTFleetHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeApplication` operation on the `AWSIoTFleetHub` service.
+    /// Performs the `DescribeApplication` operation on the `IoTFleetHub` service.
     ///
     /// Gets information about a Fleet Hub for IoT Device Management web application.
     ///
@@ -543,7 +543,7 @@ extension IoTFleetHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListApplications` operation on the `AWSIoTFleetHub` service.
+    /// Performs the `ListApplications` operation on the `IoTFleetHub` service.
     ///
     /// Gets a list of Fleet Hub for IoT Device Management web applications for the current account.
     ///
@@ -612,7 +612,7 @@ extension IoTFleetHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `AWSIoTFleetHub` service.
+    /// Performs the `ListTagsForResource` operation on the `IoTFleetHub` service.
     ///
     /// Lists the tags for the specified resource.
     ///
@@ -680,7 +680,7 @@ extension IoTFleetHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `AWSIoTFleetHub` service.
+    /// Performs the `TagResource` operation on the `IoTFleetHub` service.
     ///
     /// Adds to or modifies the tags of the specified resource. Tags are metadata which can be used to manage a resource.
     ///
@@ -751,7 +751,7 @@ extension IoTFleetHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `AWSIoTFleetHub` service.
+    /// Performs the `UntagResource` operation on the `IoTFleetHub` service.
     ///
     /// Removes the specified tags (metadata) from the resource.
     ///
@@ -820,7 +820,7 @@ extension IoTFleetHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateApplication` operation on the `AWSIoTFleetHub` service.
+    /// Performs the `UpdateApplication` operation on the `IoTFleetHub` service.
     ///
     /// Updates information about a Fleet Hub for IoT Device Management web application.
     ///

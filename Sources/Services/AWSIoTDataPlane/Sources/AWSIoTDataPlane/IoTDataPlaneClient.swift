@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class IoTDataPlaneClient: ClientRuntime.Client {
     public static let clientName = "IoTDataPlaneClient"
-    public static let version = "1.0.71"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: IoTDataPlaneClient.IoTDataPlaneClientConfiguration
     let serviceName = "IoT Data Plane"
@@ -330,7 +330,7 @@ extension IoTDataPlaneClient {
 }
 
 extension IoTDataPlaneClient {
-    /// Performs the `DeleteThingShadow` operation on the `IotMoonrakerService` service.
+    /// Performs the `DeleteThingShadow` operation on the `IoTDataPlane` service.
     ///
     /// Deletes the shadow for the specified thing. Requires permission to access the [DeleteThingShadow](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action. For more information, see [DeleteThingShadow](http://docs.aws.amazon.com/iot/latest/developerguide/API_DeleteThingShadow.html) in the IoT Developer Guide.
     ///
@@ -404,7 +404,7 @@ extension IoTDataPlaneClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetRetainedMessage` operation on the `IotMoonrakerService` service.
+    /// Performs the `GetRetainedMessage` operation on the `IoTDataPlane` service.
     ///
     /// Gets the details of a single retained message for the specified topic. This action returns the message payload of the retained message, which can incur messaging costs. To list only the topic names of the retained messages, call [ListRetainedMessages](https://docs.aws.amazon.com/iot/latest/apireference/API_iotdata_ListRetainedMessages.html). Requires permission to access the [GetRetainedMessage](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiotfleethubfordevicemanagement.html#awsiotfleethubfordevicemanagement-actions-as-permissions) action. For more information about messaging costs, see [Amazon Web Services IoT Core pricing - Messaging](http://aws.amazon.com/iot-core/pricing/#Messaging).
     ///
@@ -476,7 +476,7 @@ extension IoTDataPlaneClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetThingShadow` operation on the `IotMoonrakerService` service.
+    /// Performs the `GetThingShadow` operation on the `IoTDataPlane` service.
     ///
     /// Gets the shadow for the specified thing. Requires permission to access the [GetThingShadow](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action. For more information, see [GetThingShadow](http://docs.aws.amazon.com/iot/latest/developerguide/API_GetThingShadow.html) in the IoT Developer Guide.
     ///
@@ -550,7 +550,7 @@ extension IoTDataPlaneClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListNamedShadowsForThing` operation on the `IotMoonrakerService` service.
+    /// Performs the `ListNamedShadowsForThing` operation on the `IoTDataPlane` service.
     ///
     /// Lists the shadows for the specified thing. Requires permission to access the [ListNamedShadowsForThing](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -623,7 +623,7 @@ extension IoTDataPlaneClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListRetainedMessages` operation on the `IotMoonrakerService` service.
+    /// Performs the `ListRetainedMessages` operation on the `IoTDataPlane` service.
     ///
     /// Lists summary information about the retained messages stored for the account. This action returns only the topic names of the retained messages. It doesn't return any message payloads. Although this action doesn't return a message payload, it can still incur messaging costs. To get the message payload of a retained message, call [GetRetainedMessage](https://docs.aws.amazon.com/iot/latest/apireference/API_iotdata_GetRetainedMessage.html) with the topic name of the retained message. Requires permission to access the [ListRetainedMessages](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiotfleethubfordevicemanagement.html#awsiotfleethubfordevicemanagement-actions-as-permissions) action. For more information about messaging costs, see [Amazon Web Services IoT Core pricing - Messaging](http://aws.amazon.com/iot-core/pricing/#Messaging).
     ///
@@ -695,7 +695,7 @@ extension IoTDataPlaneClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `Publish` operation on the `IotMoonrakerService` service.
+    /// Performs the `Publish` operation on the `IoTDataPlane` service.
     ///
     /// Publishes an MQTT message. Requires permission to access the [Publish](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action. For more information about MQTT messages, see [MQTT Protocol](http://docs.aws.amazon.com/iot/latest/developerguide/mqtt.html) in the IoT Developer Guide. For more information about messaging costs, see [Amazon Web Services IoT Core pricing - Messaging](http://aws.amazon.com/iot-core/pricing/#Messaging).
     ///
@@ -770,7 +770,7 @@ extension IoTDataPlaneClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateThingShadow` operation on the `IotMoonrakerService` service.
+    /// Performs the `UpdateThingShadow` operation on the `IoTDataPlane` service.
     ///
     /// Updates the shadow for the specified thing. Requires permission to access the [UpdateThingShadow](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action. For more information, see [UpdateThingShadow](http://docs.aws.amazon.com/iot/latest/developerguide/API_UpdateThingShadow.html) in the IoT Developer Guide.
     ///

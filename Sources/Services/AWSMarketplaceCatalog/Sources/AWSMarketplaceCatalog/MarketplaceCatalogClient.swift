@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MarketplaceCatalogClient: ClientRuntime.Client {
     public static let clientName = "MarketplaceCatalogClient"
-    public static let version = "1.0.71"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: MarketplaceCatalogClient.MarketplaceCatalogClientConfiguration
     let serviceName = "Marketplace Catalog"
@@ -331,7 +331,7 @@ extension MarketplaceCatalogClient {
 }
 
 extension MarketplaceCatalogClient {
-    /// Performs the `BatchDescribeEntities` operation on the `AWSMPSeymour` service.
+    /// Performs the `BatchDescribeEntities` operation on the `MarketplaceCatalog` service.
     ///
     /// Returns metadata and content for multiple entities. This is the Batch version of the DescribeEntity API and uses the same IAM permission action as DescribeEntity API.
     ///
@@ -403,7 +403,7 @@ extension MarketplaceCatalogClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CancelChangeSet` operation on the `AWSMPSeymour` service.
+    /// Performs the `CancelChangeSet` operation on the `MarketplaceCatalog` service.
     ///
     /// Used to cancel an open change request. Must be sent before the status of the request changes to APPLYING, the final stage of completing your change request. You can describe a change during the 60-day request history retention period for API calls.
     ///
@@ -475,7 +475,7 @@ extension MarketplaceCatalogClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteResourcePolicy` operation on the `AWSMPSeymour` service.
+    /// Performs the `DeleteResourcePolicy` operation on the `MarketplaceCatalog` service.
     ///
     /// Deletes a resource-based policy on an entity that is identified by its resource ARN.
     ///
@@ -546,7 +546,7 @@ extension MarketplaceCatalogClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeChangeSet` operation on the `AWSMPSeymour` service.
+    /// Performs the `DescribeChangeSet` operation on the `MarketplaceCatalog` service.
     ///
     /// Provides information about a given change set.
     ///
@@ -617,7 +617,7 @@ extension MarketplaceCatalogClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeEntity` operation on the `AWSMPSeymour` service.
+    /// Performs the `DescribeEntity` operation on the `MarketplaceCatalog` service.
     ///
     /// Returns the metadata and content of the entity.
     ///
@@ -689,7 +689,7 @@ extension MarketplaceCatalogClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetResourcePolicy` operation on the `AWSMPSeymour` service.
+    /// Performs the `GetResourcePolicy` operation on the `MarketplaceCatalog` service.
     ///
     /// Gets a resource-based policy of an entity that is identified by its resource ARN.
     ///
@@ -760,7 +760,7 @@ extension MarketplaceCatalogClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListChangeSets` operation on the `AWSMPSeymour` service.
+    /// Performs the `ListChangeSets` operation on the `MarketplaceCatalog` service.
     ///
     /// Returns the list of change sets owned by the account being used to make the call. You can filter this list by providing any combination of entityId, ChangeSetName, and status. If you provide more than one filter, the API operation applies a logical AND between the filters. You can describe a change during the 60-day request history retention period for API calls.
     ///
@@ -832,7 +832,7 @@ extension MarketplaceCatalogClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListEntities` operation on the `AWSMPSeymour` service.
+    /// Performs the `ListEntities` operation on the `MarketplaceCatalog` service.
     ///
     /// Provides the list of entities of a given type.
     ///
@@ -905,7 +905,7 @@ extension MarketplaceCatalogClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `AWSMPSeymour` service.
+    /// Performs the `ListTagsForResource` operation on the `MarketplaceCatalog` service.
     ///
     /// Lists all tags that have been added to a resource (either an [entity](https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/welcome.html#catalog-api-entities) or [change set](https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/welcome.html#working-with-change-sets)).
     ///
@@ -978,7 +978,7 @@ extension MarketplaceCatalogClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutResourcePolicy` operation on the `AWSMPSeymour` service.
+    /// Performs the `PutResourcePolicy` operation on the `MarketplaceCatalog` service.
     ///
     /// Attaches a resource-based policy to an entity. Examples of an entity include: AmiProduct and ContainerProduct.
     ///
@@ -1051,7 +1051,7 @@ extension MarketplaceCatalogClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartChangeSet` operation on the `AWSMPSeymour` service.
+    /// Performs the `StartChangeSet` operation on the `MarketplaceCatalog` service.
     ///
     /// Allows you to request changes for your entities. Within a single ChangeSet, you can't start the same change type against the same entity multiple times. Additionally, when a ChangeSet is running, all the entities targeted by the different changes are locked until the change set has completed (either succeeded, cancelled, or failed). If you try to start a change set containing a change against an entity that is already locked, you will receive a ResourceInUseException error. For example, you can't start the ChangeSet described in the [example](https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/API_StartChangeSet.html#API_StartChangeSet_Examples) later in this topic because it contains two changes to run the same change type (AddRevisions) against the same entity (entity-id@1). For more information about working with change sets, see [ Working with change sets](https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/welcome.html#working-with-change-sets). For information about change types for single-AMI products, see [Working with single-AMI products](https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/ami-products.html#working-with-single-AMI-products). Also, for more information about change types available for container-based products, see [Working with container products](https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/container-products.html#working-with-container-products).
     ///
@@ -1127,7 +1127,7 @@ extension MarketplaceCatalogClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `AWSMPSeymour` service.
+    /// Performs the `TagResource` operation on the `MarketplaceCatalog` service.
     ///
     /// Tags a resource (either an [entity](https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/welcome.html#catalog-api-entities) or [change set](https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/welcome.html#working-with-change-sets)).
     ///
@@ -1200,7 +1200,7 @@ extension MarketplaceCatalogClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `AWSMPSeymour` service.
+    /// Performs the `UntagResource` operation on the `MarketplaceCatalog` service.
     ///
     /// Removes a tag or list of tags from a resource (either an [entity](https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/welcome.html#catalog-api-entities) or [change set](https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/welcome.html#working-with-change-sets)).
     ///

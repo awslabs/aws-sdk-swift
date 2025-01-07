@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class KendraRankingClient: ClientRuntime.Client {
     public static let clientName = "KendraRankingClient"
-    public static let version = "1.0.71"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: KendraRankingClient.KendraRankingClientConfiguration
     let serviceName = "Kendra Ranking"
@@ -332,7 +332,7 @@ extension KendraRankingClient {
 }
 
 extension KendraRankingClient {
-    /// Performs the `CreateRescoreExecutionPlan` operation on the `AWSKendraRerankingFrontendService` service.
+    /// Performs the `CreateRescoreExecutionPlan` operation on the `KendraRanking` service.
     ///
     /// Creates a rescore execution plan. A rescore execution plan is an Amazon Kendra Intelligent Ranking resource used for provisioning the Rescore API. You set the number of capacity units that you require for Amazon Kendra Intelligent Ranking to rescore or re-rank a search service's results. For an example of using the CreateRescoreExecutionPlan API, including using the Python and Java SDKs, see [Semantically ranking a search service's results](https://docs.aws.amazon.com/kendra/latest/dg/search-service-rerank.html).
     ///
@@ -408,7 +408,7 @@ extension KendraRankingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteRescoreExecutionPlan` operation on the `AWSKendraRerankingFrontendService` service.
+    /// Performs the `DeleteRescoreExecutionPlan` operation on the `KendraRanking` service.
     ///
     /// Deletes a rescore execution plan. A rescore execution plan is an Amazon Kendra Intelligent Ranking resource used for provisioning the Rescore API.
     ///
@@ -483,7 +483,7 @@ extension KendraRankingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeRescoreExecutionPlan` operation on the `AWSKendraRerankingFrontendService` service.
+    /// Performs the `DescribeRescoreExecutionPlan` operation on the `KendraRanking` service.
     ///
     /// Gets information about a rescore execution plan. A rescore execution plan is an Amazon Kendra Intelligent Ranking resource used for provisioning the Rescore API.
     ///
@@ -557,7 +557,7 @@ extension KendraRankingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListRescoreExecutionPlans` operation on the `AWSKendraRerankingFrontendService` service.
+    /// Performs the `ListRescoreExecutionPlans` operation on the `KendraRanking` service.
     ///
     /// Lists your rescore execution plans. A rescore execution plan is an Amazon Kendra Intelligent Ranking resource used for provisioning the Rescore API.
     ///
@@ -631,7 +631,7 @@ extension KendraRankingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `AWSKendraRerankingFrontendService` service.
+    /// Performs the `ListTagsForResource` operation on the `KendraRanking` service.
     ///
     /// Gets a list of tags associated with a specified resource. A rescore execution plan is an example of a resource that can have tags associated with it.
     ///
@@ -705,7 +705,7 @@ extension KendraRankingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `Rescore` operation on the `AWSKendraRerankingFrontendService` service.
+    /// Performs the `Rescore` operation on the `KendraRanking` service.
     ///
     /// Rescores or re-ranks search results from a search service such as OpenSearch (self managed). You use the semantic search capabilities of Amazon Kendra Intelligent Ranking to improve the search service's results.
     ///
@@ -780,7 +780,7 @@ extension KendraRankingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `AWSKendraRerankingFrontendService` service.
+    /// Performs the `TagResource` operation on the `KendraRanking` service.
     ///
     /// Adds a specified tag to a specified rescore execution plan. A rescore execution plan is an Amazon Kendra Intelligent Ranking resource used for provisioning the Rescore API. If the tag already exists, the existing value is replaced with the new value.
     ///
@@ -854,7 +854,7 @@ extension KendraRankingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `AWSKendraRerankingFrontendService` service.
+    /// Performs the `UntagResource` operation on the `KendraRanking` service.
     ///
     /// Removes a tag from a rescore execution plan. A rescore execution plan is an Amazon Kendra Intelligent Ranking resource used for provisioning the Rescore operation.
     ///
@@ -928,7 +928,7 @@ extension KendraRankingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateRescoreExecutionPlan` operation on the `AWSKendraRerankingFrontendService` service.
+    /// Performs the `UpdateRescoreExecutionPlan` operation on the `KendraRanking` service.
     ///
     /// Updates a rescore execution plan. A rescore execution plan is an Amazon Kendra Intelligent Ranking resource used for provisioning the Rescore API. You can update the number of capacity units you require for Amazon Kendra Intelligent Ranking to rescore or re-rank a search service's results.
     ///

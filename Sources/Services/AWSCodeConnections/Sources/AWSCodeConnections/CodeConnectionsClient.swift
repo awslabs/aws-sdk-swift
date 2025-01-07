@@ -63,7 +63,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CodeConnectionsClient: ClientRuntime.Client {
     public static let clientName = "CodeConnectionsClient"
-    public static let version = "1.0.71"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: CodeConnectionsClient.CodeConnectionsClientConfiguration
     let serviceName = "CodeConnections"
@@ -329,7 +329,7 @@ extension CodeConnectionsClient {
 }
 
 extension CodeConnectionsClient {
-    /// Performs the `CreateConnection` operation on the `CodeConnections_20231201` service.
+    /// Performs the `CreateConnection` operation on the `CodeConnections` service.
     ///
     /// Creates a connection that can then be given to other Amazon Web Services services like CodePipeline so that it can access third-party code repositories. The connection is in pending status until the third-party connection handshake is completed from the console.
     ///
@@ -401,7 +401,7 @@ extension CodeConnectionsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateHost` operation on the `CodeConnections_20231201` service.
+    /// Performs the `CreateHost` operation on the `CodeConnections` service.
     ///
     /// Creates a resource that represents the infrastructure where a third-party provider is installed. The host is used when you create connections to an installed third-party provider type, such as GitHub Enterprise Server. You create one host for all connections to that provider. A host created through the CLI or the SDK is in `PENDING` status by default. You can make its status `AVAILABLE` by setting up the host in the console.
     ///
@@ -471,7 +471,7 @@ extension CodeConnectionsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateRepositoryLink` operation on the `CodeConnections_20231201` service.
+    /// Performs the `CreateRepositoryLink` operation on the `CodeConnections` service.
     ///
     /// Creates a link to a specified external Git repository. A repository link allows Git sync to monitor and sync changes to files in a specified Git repository.
     ///
@@ -547,7 +547,7 @@ extension CodeConnectionsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateSyncConfiguration` operation on the `CodeConnections_20231201` service.
+    /// Performs the `CreateSyncConfiguration` operation on the `CodeConnections` service.
     ///
     /// Creates a sync configuration which allows Amazon Web Services to sync content from a Git repository to update a specified Amazon Web Services resource. Parameters for the sync configuration are determined by the sync type.
     ///
@@ -623,7 +623,7 @@ extension CodeConnectionsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteConnection` operation on the `CodeConnections_20231201` service.
+    /// Performs the `DeleteConnection` operation on the `CodeConnections` service.
     ///
     /// The connection to be deleted.
     ///
@@ -693,7 +693,7 @@ extension CodeConnectionsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteHost` operation on the `CodeConnections_20231201` service.
+    /// Performs the `DeleteHost` operation on the `CodeConnections` service.
     ///
     /// The host to be deleted. Before you delete a host, all connections associated to the host must be deleted. A host cannot be deleted if it is in the VPC_CONFIG_INITIALIZING or VPC_CONFIG_DELETING state.
     ///
@@ -764,7 +764,7 @@ extension CodeConnectionsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteRepositoryLink` operation on the `CodeConnections_20231201` service.
+    /// Performs the `DeleteRepositoryLink` operation on the `CodeConnections` service.
     ///
     /// Deletes the association between your connection and a specified external Git repository.
     ///
@@ -841,7 +841,7 @@ extension CodeConnectionsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteSyncConfiguration` operation on the `CodeConnections_20231201` service.
+    /// Performs the `DeleteSyncConfiguration` operation on the `CodeConnections` service.
     ///
     /// Deletes the sync configuration for a specified repository and connection.
     ///
@@ -916,7 +916,7 @@ extension CodeConnectionsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetConnection` operation on the `CodeConnections_20231201` service.
+    /// Performs the `GetConnection` operation on the `CodeConnections` service.
     ///
     /// Returns the connection ARN and details such as status, owner, and provider type.
     ///
@@ -987,7 +987,7 @@ extension CodeConnectionsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetHost` operation on the `CodeConnections_20231201` service.
+    /// Performs the `GetHost` operation on the `CodeConnections` service.
     ///
     /// Returns the host ARN and details such as status, provider type, endpoint, and, if applicable, the VPC configuration.
     ///
@@ -1058,7 +1058,7 @@ extension CodeConnectionsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetRepositoryLink` operation on the `CodeConnections_20231201` service.
+    /// Performs the `GetRepositoryLink` operation on the `CodeConnections` service.
     ///
     /// Returns details about a repository link. A repository link allows Git sync to monitor and sync changes from files in a specified Git repository.
     ///
@@ -1133,7 +1133,7 @@ extension CodeConnectionsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetRepositorySyncStatus` operation on the `CodeConnections_20231201` service.
+    /// Performs the `GetRepositorySyncStatus` operation on the `CodeConnections` service.
     ///
     /// Returns details about the sync status for a repository. A repository sync uses Git sync to push and pull changes from your remote repository.
     ///
@@ -1207,7 +1207,7 @@ extension CodeConnectionsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetResourceSyncStatus` operation on the `CodeConnections_20231201` service.
+    /// Performs the `GetResourceSyncStatus` operation on the `CodeConnections` service.
     ///
     /// Returns the status of the sync with the Git repository for a specific Amazon Web Services resource.
     ///
@@ -1281,7 +1281,7 @@ extension CodeConnectionsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetSyncBlockerSummary` operation on the `CodeConnections_20231201` service.
+    /// Performs the `GetSyncBlockerSummary` operation on the `CodeConnections` service.
     ///
     /// Returns a list of the most recent sync blockers.
     ///
@@ -1355,7 +1355,7 @@ extension CodeConnectionsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetSyncConfiguration` operation on the `CodeConnections_20231201` service.
+    /// Performs the `GetSyncConfiguration` operation on the `CodeConnections` service.
     ///
     /// Returns details about a sync configuration, including the sync type and resource name. A sync configuration allows the configuration to sync (push and pull) changes from the remote repository for a specified branch in a Git repository.
     ///
@@ -1429,7 +1429,7 @@ extension CodeConnectionsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListConnections` operation on the `CodeConnections_20231201` service.
+    /// Performs the `ListConnections` operation on the `CodeConnections` service.
     ///
     /// Lists the connections associated with your account.
     ///
@@ -1499,7 +1499,7 @@ extension CodeConnectionsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListHosts` operation on the `CodeConnections_20231201` service.
+    /// Performs the `ListHosts` operation on the `CodeConnections` service.
     ///
     /// Lists the hosts associated with your account.
     ///
@@ -1564,7 +1564,7 @@ extension CodeConnectionsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListRepositoryLinks` operation on the `CodeConnections_20231201` service.
+    /// Performs the `ListRepositoryLinks` operation on the `CodeConnections` service.
     ///
     /// Lists the repository links created for connections in your account.
     ///
@@ -1639,7 +1639,7 @@ extension CodeConnectionsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListRepositorySyncDefinitions` operation on the `CodeConnections_20231201` service.
+    /// Performs the `ListRepositorySyncDefinitions` operation on the `CodeConnections` service.
     ///
     /// Lists the repository sync definitions for repository links in your account.
     ///
@@ -1713,7 +1713,7 @@ extension CodeConnectionsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListSyncConfigurations` operation on the `CodeConnections_20231201` service.
+    /// Performs the `ListSyncConfigurations` operation on the `CodeConnections` service.
     ///
     /// Returns a list of sync configurations for a specified repository.
     ///
@@ -1787,7 +1787,7 @@ extension CodeConnectionsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `CodeConnections_20231201` service.
+    /// Performs the `ListTagsForResource` operation on the `CodeConnections` service.
     ///
     /// Gets the set of key-value pairs (metadata) that are used to manage the resource.
     ///
@@ -1857,7 +1857,7 @@ extension CodeConnectionsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `CodeConnections_20231201` service.
+    /// Performs the `TagResource` operation on the `CodeConnections` service.
     ///
     /// Adds to or modifies the tags of the given resource. Tags are metadata that can be used to manage a resource.
     ///
@@ -1928,7 +1928,7 @@ extension CodeConnectionsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `CodeConnections_20231201` service.
+    /// Performs the `UntagResource` operation on the `CodeConnections` service.
     ///
     /// Removes tags from an Amazon Web Services resource.
     ///
@@ -1998,7 +1998,7 @@ extension CodeConnectionsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateHost` operation on the `CodeConnections_20231201` service.
+    /// Performs the `UpdateHost` operation on the `CodeConnections` service.
     ///
     /// Updates a specified host with the provided configurations.
     ///
@@ -2071,7 +2071,7 @@ extension CodeConnectionsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateRepositoryLink` operation on the `CodeConnections_20231201` service.
+    /// Performs the `UpdateRepositoryLink` operation on the `CodeConnections` service.
     ///
     /// Updates the association between your connection and a specified external Git repository. A repository link allows Git sync to monitor and sync changes to files in a specified Git repository.
     ///
@@ -2147,7 +2147,7 @@ extension CodeConnectionsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateSyncBlocker` operation on the `CodeConnections_20231201` service.
+    /// Performs the `UpdateSyncBlocker` operation on the `CodeConnections` service.
     ///
     /// Allows you to update the status of a sync blocker, resolving the blocker and allowing syncing to continue.
     ///
@@ -2223,7 +2223,7 @@ extension CodeConnectionsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateSyncConfiguration` operation on the `CodeConnections_20231201` service.
+    /// Performs the `UpdateSyncConfiguration` operation on the `CodeConnections` service.
     ///
     /// Updates the sync configuration for your connection and a specified external Git repository.
     ///

@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class QLDBClient: ClientRuntime.Client {
     public static let clientName = "QLDBClient"
-    public static let version = "1.0.71"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: QLDBClient.QLDBClientConfiguration
     let serviceName = "QLDB"
@@ -330,7 +330,7 @@ extension QLDBClient {
 }
 
 extension QLDBClient {
-    /// Performs the `CancelJournalKinesisStream` operation on the `AmazonQLDB` service.
+    /// Performs the `CancelJournalKinesisStream` operation on the `QLDB` service.
     ///
     /// Ends a given Amazon QLDB journal stream. Before a stream can be canceled, its current status must be ACTIVE. You can't restart a stream after you cancel it. Canceled QLDB stream resources are subject to a 7-day retention period, so they are automatically deleted after this limit expires.
     ///
@@ -398,7 +398,7 @@ extension QLDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateLedger` operation on the `AmazonQLDB` service.
+    /// Performs the `CreateLedger` operation on the `QLDB` service.
     ///
     /// Creates a new ledger in your Amazon Web Services account in the current Region.
     ///
@@ -470,7 +470,7 @@ extension QLDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteLedger` operation on the `AmazonQLDB` service.
+    /// Performs the `DeleteLedger` operation on the `QLDB` service.
     ///
     /// Deletes a ledger and all of its contents. This action is irreversible. If deletion protection is enabled, you must first disable it before you can delete the ledger. You can disable it by calling the UpdateLedger operation to set this parameter to false.
     ///
@@ -539,7 +539,7 @@ extension QLDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeJournalKinesisStream` operation on the `AmazonQLDB` service.
+    /// Performs the `DescribeJournalKinesisStream` operation on the `QLDB` service.
     ///
     /// Returns detailed information about a given Amazon QLDB journal stream. The output includes the Amazon Resource Name (ARN), stream name, current status, creation time, and the parameters of the original stream creation request. This action does not return any expired journal streams. For more information, see [Expiration for terminal streams](https://docs.aws.amazon.com/qldb/latest/developerguide/streams.create.html#streams.create.states.expiration) in the Amazon QLDB Developer Guide.
     ///
@@ -607,7 +607,7 @@ extension QLDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeJournalS3Export` operation on the `AmazonQLDB` service.
+    /// Performs the `DescribeJournalS3Export` operation on the `QLDB` service.
     ///
     /// Returns information about a journal export job, including the ledger name, export ID, creation time, current status, and the parameters of the original export creation request. This action does not return any expired export jobs. For more information, see [Export job expiration](https://docs.aws.amazon.com/qldb/latest/developerguide/export-journal.request.html#export-journal.request.expiration) in the Amazon QLDB Developer Guide. If the export job with the given ExportId doesn't exist, then throws ResourceNotFoundException. If the ledger with the given Name doesn't exist, then throws ResourceNotFoundException.
     ///
@@ -673,7 +673,7 @@ extension QLDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeLedger` operation on the `AmazonQLDB` service.
+    /// Performs the `DescribeLedger` operation on the `QLDB` service.
     ///
     /// Returns information about a ledger, including its state, permissions mode, encryption at rest settings, and when it was created.
     ///
@@ -740,7 +740,7 @@ extension QLDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ExportJournalToS3` operation on the `AmazonQLDB` service.
+    /// Performs the `ExportJournalToS3` operation on the `QLDB` service.
     ///
     /// Exports journal contents within a date and time range from a ledger into a specified Amazon Simple Storage Service (Amazon S3) bucket. A journal export job can write the data objects in either the text or binary representation of Amazon Ion format, or in JSON Lines text format. If the ledger with the given Name doesn't exist, then throws ResourceNotFoundException. If the ledger with the given Name is in CREATING status, then throws ResourcePreconditionNotMetException. You can initiate up to two concurrent journal export requests for each ledger. Beyond this limit, journal export requests throw LimitExceededException.
     ///
@@ -810,7 +810,7 @@ extension QLDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetBlock` operation on the `AmazonQLDB` service.
+    /// Performs the `GetBlock` operation on the `QLDB` service.
     ///
     /// Returns a block object at a specified address in a journal. Also returns a proof of the specified block for verification if DigestTipAddress is provided. For information about the data contents in a block, see [Journal contents](https://docs.aws.amazon.com/qldb/latest/developerguide/journal-contents.html) in the Amazon QLDB Developer Guide. If the specified ledger doesn't exist or is in DELETING status, then throws ResourceNotFoundException. If the specified ledger is in CREATING status, then throws ResourcePreconditionNotMetException. If no block exists with the specified address, then throws InvalidParameterException.
     ///
@@ -881,7 +881,7 @@ extension QLDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDigest` operation on the `AmazonQLDB` service.
+    /// Performs the `GetDigest` operation on the `QLDB` service.
     ///
     /// Returns the digest of a ledger at the latest committed block in the journal. The response includes a 256-bit hash value and a block address.
     ///
@@ -949,7 +949,7 @@ extension QLDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetRevision` operation on the `AmazonQLDB` service.
+    /// Performs the `GetRevision` operation on the `QLDB` service.
     ///
     /// Returns a revision data object for a specified document ID and block address. Also returns a proof of the specified revision for verification if DigestTipAddress is provided.
     ///
@@ -1020,7 +1020,7 @@ extension QLDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListJournalKinesisStreamsForLedger` operation on the `AmazonQLDB` service.
+    /// Performs the `ListJournalKinesisStreamsForLedger` operation on the `QLDB` service.
     ///
     /// Returns all Amazon QLDB journal streams for a given ledger. This action does not return any expired journal streams. For more information, see [Expiration for terminal streams](https://docs.aws.amazon.com/qldb/latest/developerguide/streams.create.html#streams.create.states.expiration) in the Amazon QLDB Developer Guide. This action returns a maximum of MaxResults items. It is paginated so that you can retrieve all the items by calling ListJournalKinesisStreamsForLedger multiple times.
     ///
@@ -1089,7 +1089,7 @@ extension QLDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListJournalS3Exports` operation on the `AmazonQLDB` service.
+    /// Performs the `ListJournalS3Exports` operation on the `QLDB` service.
     ///
     /// Returns all journal export jobs for all ledgers that are associated with the current Amazon Web Services account and Region. This action returns a maximum of MaxResults items, and is paginated so that you can retrieve all the items by calling ListJournalS3Exports multiple times. This action does not return any expired export jobs. For more information, see [Export job expiration](https://docs.aws.amazon.com/qldb/latest/developerguide/export-journal.request.html#export-journal.request.expiration) in the Amazon QLDB Developer Guide.
     ///
@@ -1151,7 +1151,7 @@ extension QLDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListJournalS3ExportsForLedger` operation on the `AmazonQLDB` service.
+    /// Performs the `ListJournalS3ExportsForLedger` operation on the `QLDB` service.
     ///
     /// Returns all journal export jobs for a specified ledger. This action returns a maximum of MaxResults items, and is paginated so that you can retrieve all the items by calling ListJournalS3ExportsForLedger multiple times. This action does not return any expired export jobs. For more information, see [Export job expiration](https://docs.aws.amazon.com/qldb/latest/developerguide/export-journal.request.html#export-journal.request.expiration) in the Amazon QLDB Developer Guide.
     ///
@@ -1213,7 +1213,7 @@ extension QLDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListLedgers` operation on the `AmazonQLDB` service.
+    /// Performs the `ListLedgers` operation on the `QLDB` service.
     ///
     /// Returns all ledgers that are associated with the current Amazon Web Services account and Region. This action returns a maximum of MaxResults items and is paginated so that you can retrieve all the items by calling ListLedgers multiple times.
     ///
@@ -1275,7 +1275,7 @@ extension QLDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `AmazonQLDB` service.
+    /// Performs the `ListTagsForResource` operation on the `QLDB` service.
     ///
     /// Returns all tags for a specified Amazon QLDB resource.
     ///
@@ -1342,7 +1342,7 @@ extension QLDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StreamJournalToKinesis` operation on the `AmazonQLDB` service.
+    /// Performs the `StreamJournalToKinesis` operation on the `QLDB` service.
     ///
     /// Creates a journal stream for a given Amazon QLDB ledger. The stream captures every document revision that is committed to the ledger's journal and delivers the data to a specified Amazon Kinesis Data Streams resource.
     ///
@@ -1413,7 +1413,7 @@ extension QLDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `AmazonQLDB` service.
+    /// Performs the `TagResource` operation on the `QLDB` service.
     ///
     /// Adds one or more tags to a specified Amazon QLDB resource. A resource can have up to 50 tags. If you try to create more than 50 tags for a resource, your request fails and returns an error.
     ///
@@ -1483,7 +1483,7 @@ extension QLDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `AmazonQLDB` service.
+    /// Performs the `UntagResource` operation on the `QLDB` service.
     ///
     /// Removes one or more tags from a specified Amazon QLDB resource. You can specify up to 50 tag keys to remove.
     ///
@@ -1551,7 +1551,7 @@ extension QLDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateLedger` operation on the `AmazonQLDB` service.
+    /// Performs the `UpdateLedger` operation on the `QLDB` service.
     ///
     /// Updates properties on a ledger.
     ///
@@ -1621,7 +1621,7 @@ extension QLDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateLedgerPermissionsMode` operation on the `AmazonQLDB` service.
+    /// Performs the `UpdateLedgerPermissionsMode` operation on the `QLDB` service.
     ///
     /// Updates the permissions mode of a ledger. Before you switch to the STANDARD permissions mode, you must first create all required IAM policies and table tags to avoid disruption to your users. To learn more, see [Migrating to the standard permissions mode](https://docs.aws.amazon.com/qldb/latest/developerguide/ledger-management.basics.html#ledger-mgmt.basics.update-permissions.migrating) in the Amazon QLDB Developer Guide.
     ///

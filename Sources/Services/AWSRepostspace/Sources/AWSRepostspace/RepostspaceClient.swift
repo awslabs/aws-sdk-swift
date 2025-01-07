@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class RepostspaceClient: ClientRuntime.Client {
     public static let clientName = "RepostspaceClient"
-    public static let version = "1.0.71"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: RepostspaceClient.RepostspaceClientConfiguration
     let serviceName = "repostspace"
@@ -330,7 +330,7 @@ extension RepostspaceClient {
 }
 
 extension RepostspaceClient {
-    /// Performs the `BatchAddRole` operation on the `RepostSpace` service.
+    /// Performs the `BatchAddRole` operation on the `Repostspace` service.
     ///
     /// Add role to multiple users or groups in a private re:Post.
     ///
@@ -403,7 +403,7 @@ extension RepostspaceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchRemoveRole` operation on the `RepostSpace` service.
+    /// Performs the `BatchRemoveRole` operation on the `Repostspace` service.
     ///
     /// Remove role from multiple users or groups in a private re:Post.
     ///
@@ -476,7 +476,7 @@ extension RepostspaceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateSpace` operation on the `RepostSpace` service.
+    /// Performs the `CreateSpace` operation on the `Repostspace` service.
     ///
     /// Creates an AWS re:Post Private private re:Post.
     ///
@@ -551,7 +551,7 @@ extension RepostspaceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteSpace` operation on the `RepostSpace` service.
+    /// Performs the `DeleteSpace` operation on the `Repostspace` service.
     ///
     /// Deletes an AWS re:Post Private private re:Post.
     ///
@@ -621,7 +621,7 @@ extension RepostspaceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeregisterAdmin` operation on the `RepostSpace` service.
+    /// Performs the `DeregisterAdmin` operation on the `Repostspace` service.
     ///
     /// Removes the user or group from the list of administrators of the private re:Post.
     ///
@@ -691,7 +691,7 @@ extension RepostspaceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetSpace` operation on the `RepostSpace` service.
+    /// Performs the `GetSpace` operation on the `Repostspace` service.
     ///
     /// Displays information about the AWS re:Post Private private re:Post.
     ///
@@ -761,7 +761,7 @@ extension RepostspaceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListSpaces` operation on the `RepostSpace` service.
+    /// Performs the `ListSpaces` operation on the `Repostspace` service.
     ///
     /// Returns a list of AWS re:Post Private private re:Posts in the account with some information about each private re:Post.
     ///
@@ -831,7 +831,7 @@ extension RepostspaceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `RepostSpace` service.
+    /// Performs the `ListTagsForResource` operation on the `Repostspace` service.
     ///
     /// Returns the tags that are associated with the AWS re:Post Private resource specified by the resourceArn. The only resource that can be tagged is a private re:Post.
     ///
@@ -901,7 +901,7 @@ extension RepostspaceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RegisterAdmin` operation on the `RepostSpace` service.
+    /// Performs the `RegisterAdmin` operation on the `Repostspace` service.
     ///
     /// Adds a user or group to the list of administrators of the private re:Post.
     ///
@@ -971,7 +971,7 @@ extension RepostspaceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SendInvites` operation on the `RepostSpace` service.
+    /// Performs the `SendInvites` operation on the `Repostspace` service.
     ///
     /// Sends an invitation email to selected users and groups.
     ///
@@ -1044,7 +1044,7 @@ extension RepostspaceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `RepostSpace` service.
+    /// Performs the `TagResource` operation on the `Repostspace` service.
     ///
     /// Associates tags with an AWS re:Post Private resource. Currently, the only resource that can be tagged is the private re:Post. If you specify a new tag key for the resource, the tag is appended to the list of tags that are associated with the resource. If you specify a tag key that’s already associated with the resource, the new tag value that you specify replaces the previous value for that tag.
     ///
@@ -1117,7 +1117,7 @@ extension RepostspaceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `RepostSpace` service.
+    /// Performs the `UntagResource` operation on the `Repostspace` service.
     ///
     /// Removes the association of the tag with the AWS re:Post Private resource.
     ///
@@ -1188,7 +1188,7 @@ extension RepostspaceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateSpace` operation on the `RepostSpace` service.
+    /// Performs the `UpdateSpace` operation on the `Repostspace` service.
     ///
     /// Modifies an existing AWS re:Post Private private re:Post.
     ///

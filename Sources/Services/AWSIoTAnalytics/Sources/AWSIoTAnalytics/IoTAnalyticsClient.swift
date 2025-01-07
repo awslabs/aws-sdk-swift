@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class IoTAnalyticsClient: ClientRuntime.Client {
     public static let clientName = "IoTAnalyticsClient"
-    public static let version = "1.0.71"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: IoTAnalyticsClient.IoTAnalyticsClientConfiguration
     let serviceName = "IoTAnalytics"
@@ -330,7 +330,7 @@ extension IoTAnalyticsClient {
 }
 
 extension IoTAnalyticsClient {
-    /// Performs the `BatchPutMessage` operation on the `AWSIoTAnalytics` service.
+    /// Performs the `BatchPutMessage` operation on the `IoTAnalytics` service.
     ///
     /// Sends messages to a channel.
     ///
@@ -403,7 +403,7 @@ extension IoTAnalyticsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CancelPipelineReprocessing` operation on the `AWSIoTAnalytics` service.
+    /// Performs the `CancelPipelineReprocessing` operation on the `IoTAnalytics` service.
     ///
     /// Cancels the reprocessing of data through the pipeline.
     ///
@@ -473,7 +473,7 @@ extension IoTAnalyticsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateChannel` operation on the `AWSIoTAnalytics` service.
+    /// Performs the `CreateChannel` operation on the `IoTAnalytics` service.
     ///
     /// Used to create a channel. A channel collects data from an MQTT topic and archives the raw, unprocessed messages before publishing the data to a pipeline.
     ///
@@ -547,7 +547,7 @@ extension IoTAnalyticsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateDataset` operation on the `AWSIoTAnalytics` service.
+    /// Performs the `CreateDataset` operation on the `IoTAnalytics` service.
     ///
     /// Used to create a dataset. A dataset stores data retrieved from a data store by applying a queryAction (a SQL query) or a containerAction (executing a containerized application). This operation creates the skeleton of a dataset. The dataset can be populated manually by calling CreateDatasetContent or automatically according to a trigger you specify.
     ///
@@ -621,7 +621,7 @@ extension IoTAnalyticsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateDatasetContent` operation on the `AWSIoTAnalytics` service.
+    /// Performs the `CreateDatasetContent` operation on the `IoTAnalytics` service.
     ///
     /// Creates the content of a dataset by applying a queryAction (a SQL query) or a containerAction (executing a containerized application).
     ///
@@ -694,7 +694,7 @@ extension IoTAnalyticsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateDatastore` operation on the `AWSIoTAnalytics` service.
+    /// Performs the `CreateDatastore` operation on the `IoTAnalytics` service.
     ///
     /// Creates a data store, which is a repository for messages.
     ///
@@ -768,7 +768,7 @@ extension IoTAnalyticsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreatePipeline` operation on the `AWSIoTAnalytics` service.
+    /// Performs the `CreatePipeline` operation on the `IoTAnalytics` service.
     ///
     /// Creates a pipeline. A pipeline consumes messages from a channel and allows you to process the messages before storing them in a data store. You must specify both a channel and a datastore activity and, optionally, as many as 23 additional activities in the pipelineActivities array.
     ///
@@ -842,7 +842,7 @@ extension IoTAnalyticsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteChannel` operation on the `AWSIoTAnalytics` service.
+    /// Performs the `DeleteChannel` operation on the `IoTAnalytics` service.
     ///
     /// Deletes the specified channel.
     ///
@@ -912,7 +912,7 @@ extension IoTAnalyticsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteDataset` operation on the `AWSIoTAnalytics` service.
+    /// Performs the `DeleteDataset` operation on the `IoTAnalytics` service.
     ///
     /// Deletes the specified dataset. You do not have to delete the content of the dataset before you perform this operation.
     ///
@@ -982,7 +982,7 @@ extension IoTAnalyticsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteDatasetContent` operation on the `AWSIoTAnalytics` service.
+    /// Performs the `DeleteDatasetContent` operation on the `IoTAnalytics` service.
     ///
     /// Deletes the content of the specified dataset.
     ///
@@ -1053,7 +1053,7 @@ extension IoTAnalyticsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteDatastore` operation on the `AWSIoTAnalytics` service.
+    /// Performs the `DeleteDatastore` operation on the `IoTAnalytics` service.
     ///
     /// Deletes the specified data store.
     ///
@@ -1123,7 +1123,7 @@ extension IoTAnalyticsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeletePipeline` operation on the `AWSIoTAnalytics` service.
+    /// Performs the `DeletePipeline` operation on the `IoTAnalytics` service.
     ///
     /// Deletes the specified pipeline.
     ///
@@ -1193,7 +1193,7 @@ extension IoTAnalyticsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeChannel` operation on the `AWSIoTAnalytics` service.
+    /// Performs the `DescribeChannel` operation on the `IoTAnalytics` service.
     ///
     /// Retrieves information about a channel.
     ///
@@ -1264,7 +1264,7 @@ extension IoTAnalyticsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeDataset` operation on the `AWSIoTAnalytics` service.
+    /// Performs the `DescribeDataset` operation on the `IoTAnalytics` service.
     ///
     /// Retrieves information about a dataset.
     ///
@@ -1334,7 +1334,7 @@ extension IoTAnalyticsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeDatastore` operation on the `AWSIoTAnalytics` service.
+    /// Performs the `DescribeDatastore` operation on the `IoTAnalytics` service.
     ///
     /// Retrieves information about a data store.
     ///
@@ -1405,7 +1405,7 @@ extension IoTAnalyticsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeLoggingOptions` operation on the `AWSIoTAnalytics` service.
+    /// Performs the `DescribeLoggingOptions` operation on the `IoTAnalytics` service.
     ///
     /// Retrieves the current settings of the IoT Analytics logging options.
     ///
@@ -1475,7 +1475,7 @@ extension IoTAnalyticsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribePipeline` operation on the `AWSIoTAnalytics` service.
+    /// Performs the `DescribePipeline` operation on the `IoTAnalytics` service.
     ///
     /// Retrieves information about a pipeline.
     ///
@@ -1545,7 +1545,7 @@ extension IoTAnalyticsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDatasetContent` operation on the `AWSIoTAnalytics` service.
+    /// Performs the `GetDatasetContent` operation on the `IoTAnalytics` service.
     ///
     /// Retrieves the contents of a dataset as presigned URIs.
     ///
@@ -1616,7 +1616,7 @@ extension IoTAnalyticsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListChannels` operation on the `AWSIoTAnalytics` service.
+    /// Performs the `ListChannels` operation on the `IoTAnalytics` service.
     ///
     /// Retrieves a list of channels.
     ///
@@ -1686,7 +1686,7 @@ extension IoTAnalyticsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDatasetContents` operation on the `AWSIoTAnalytics` service.
+    /// Performs the `ListDatasetContents` operation on the `IoTAnalytics` service.
     ///
     /// Lists information about dataset contents that have been created.
     ///
@@ -1757,7 +1757,7 @@ extension IoTAnalyticsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDatasets` operation on the `AWSIoTAnalytics` service.
+    /// Performs the `ListDatasets` operation on the `IoTAnalytics` service.
     ///
     /// Retrieves information about datasets.
     ///
@@ -1827,7 +1827,7 @@ extension IoTAnalyticsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDatastores` operation on the `AWSIoTAnalytics` service.
+    /// Performs the `ListDatastores` operation on the `IoTAnalytics` service.
     ///
     /// Retrieves a list of data stores.
     ///
@@ -1897,7 +1897,7 @@ extension IoTAnalyticsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListPipelines` operation on the `AWSIoTAnalytics` service.
+    /// Performs the `ListPipelines` operation on the `IoTAnalytics` service.
     ///
     /// Retrieves a list of pipelines.
     ///
@@ -1967,7 +1967,7 @@ extension IoTAnalyticsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `AWSIoTAnalytics` service.
+    /// Performs the `ListTagsForResource` operation on the `IoTAnalytics` service.
     ///
     /// Lists the tags (metadata) that you have assigned to the resource.
     ///
@@ -2039,7 +2039,7 @@ extension IoTAnalyticsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutLoggingOptions` operation on the `AWSIoTAnalytics` service.
+    /// Performs the `PutLoggingOptions` operation on the `IoTAnalytics` service.
     ///
     /// Sets or updates the IoT Analytics logging options. If you update the value of any loggingOptions field, it takes up to one minute for the change to take effect. Also, if you change the policy attached to the role you specified in the roleArn field (for example, to correct an invalid policy), it takes up to five minutes for that change to take effect.
     ///
@@ -2111,7 +2111,7 @@ extension IoTAnalyticsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RunPipelineActivity` operation on the `AWSIoTAnalytics` service.
+    /// Performs the `RunPipelineActivity` operation on the `IoTAnalytics` service.
     ///
     /// Simulates the results of running a pipeline activity on a message payload.
     ///
@@ -2183,7 +2183,7 @@ extension IoTAnalyticsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SampleChannelData` operation on the `AWSIoTAnalytics` service.
+    /// Performs the `SampleChannelData` operation on the `IoTAnalytics` service.
     ///
     /// Retrieves a sample of messages from the specified channel ingested during the specified timeframe. Up to 10 messages can be retrieved.
     ///
@@ -2254,7 +2254,7 @@ extension IoTAnalyticsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartPipelineReprocessing` operation on the `AWSIoTAnalytics` service.
+    /// Performs the `StartPipelineReprocessing` operation on the `IoTAnalytics` service.
     ///
     /// Starts the reprocessing of raw message data through the pipeline.
     ///
@@ -2328,7 +2328,7 @@ extension IoTAnalyticsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `AWSIoTAnalytics` service.
+    /// Performs the `TagResource` operation on the `IoTAnalytics` service.
     ///
     /// Adds to or modifies the tags of the given resource. Tags are metadata that can be used to manage a resource.
     ///
@@ -2403,7 +2403,7 @@ extension IoTAnalyticsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `AWSIoTAnalytics` service.
+    /// Performs the `UntagResource` operation on the `IoTAnalytics` service.
     ///
     /// Removes the given tags (metadata) from the resource.
     ///
@@ -2475,7 +2475,7 @@ extension IoTAnalyticsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateChannel` operation on the `AWSIoTAnalytics` service.
+    /// Performs the `UpdateChannel` operation on the `IoTAnalytics` service.
     ///
     /// Used to update the settings of a channel.
     ///
@@ -2548,7 +2548,7 @@ extension IoTAnalyticsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateDataset` operation on the `AWSIoTAnalytics` service.
+    /// Performs the `UpdateDataset` operation on the `IoTAnalytics` service.
     ///
     /// Updates the settings of a dataset.
     ///
@@ -2621,7 +2621,7 @@ extension IoTAnalyticsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateDatastore` operation on the `AWSIoTAnalytics` service.
+    /// Performs the `UpdateDatastore` operation on the `IoTAnalytics` service.
     ///
     /// Used to update the settings of a data store.
     ///
@@ -2694,7 +2694,7 @@ extension IoTAnalyticsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdatePipeline` operation on the `AWSIoTAnalytics` service.
+    /// Performs the `UpdatePipeline` operation on the `IoTAnalytics` service.
     ///
     /// Updates the settings of a pipeline. You must specify both a channel and a datastore activity and, optionally, as many as 23 additional activities in the pipelineActivities array.
     ///

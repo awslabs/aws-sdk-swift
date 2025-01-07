@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SESv2Client: ClientRuntime.Client {
     public static let clientName = "SESv2Client"
-    public static let version = "1.0.71"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: SESv2Client.SESv2ClientConfiguration
     let serviceName = "SESv2"
@@ -332,7 +332,7 @@ extension SESv2Client {
 }
 
 extension SESv2Client {
-    /// Performs the `BatchGetMetricData` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `BatchGetMetricData` operation on the `SESv2` service.
     ///
     /// Retrieves batches of metric data collected based on your sending activity. You can execute this operation no more than 16 times per second, and with at most 160 queries from the batches per second (cumulative).
     ///
@@ -405,7 +405,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CancelExportJob` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `CancelExportJob` operation on the `SESv2` service.
     ///
     /// Cancels an export job.
     ///
@@ -474,7 +474,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateConfigurationSet` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `CreateConfigurationSet` operation on the `SESv2` service.
     ///
     /// Create a configuration set. Configuration sets are groups of rules that you can apply to the emails that you send. You apply a configuration set to an email by specifying the name of the configuration set when you call the Amazon SES API v2. When you apply a configuration set to an email, all of the rules in that configuration set are applied to the email.
     ///
@@ -549,7 +549,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateConfigurationSetEventDestination` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `CreateConfigurationSetEventDestination` operation on the `SESv2` service.
     ///
     /// Create an event destination. Events include message sends, deliveries, opens, clicks, bounces, and complaints. Event destinations are places that you can send information about these events to. For example, you can send event data to Amazon EventBridge and associate a rule to send the event to the specified target. A single configuration set can include more than one event destination.
     ///
@@ -623,7 +623,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateContact` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `CreateContact` operation on the `SESv2` service.
     ///
     /// Creates a contact, which is an end-user who is receiving the email, and adds them to a contact list.
     ///
@@ -696,7 +696,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateContactList` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `CreateContactList` operation on the `SESv2` service.
     ///
     /// Creates a contact list.
     ///
@@ -769,7 +769,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateCustomVerificationEmailTemplate` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `CreateCustomVerificationEmailTemplate` operation on the `SESv2` service.
     ///
     /// Creates a new custom verification email template. For more information about custom verification email templates, see [Using custom verification email templates](https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#send-email-verify-address-custom) in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
     ///
@@ -843,7 +843,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateDedicatedIpPool` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `CreateDedicatedIpPool` operation on the `SESv2` service.
     ///
     /// Create a new pool of dedicated IP addresses. A pool can include one or more dedicated IP addresses that are associated with your Amazon Web Services account. You can associate a pool with a configuration set. When you send an email that uses that configuration set, the message is sent from one of the addresses in the associated pool.
     ///
@@ -917,7 +917,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateDeliverabilityTestReport` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `CreateDeliverabilityTestReport` operation on the `SESv2` service.
     ///
     /// Create a new predictive inbox placement test. Predictive inbox placement tests can help you predict how your messages will be handled by various email providers around the world. When you perform a predictive inbox placement test, you provide a sample message that contains the content that you plan to send to your customers. Amazon SES then sends that message to special email addresses spread across several major email providers. After about 24 hours, the test is complete, and you can use the GetDeliverabilityTestReport operation to view the results of the test.
     ///
@@ -995,7 +995,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateEmailIdentity` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `CreateEmailIdentity` operation on the `SESv2` service.
     ///
     /// Starts the process of verifying an email identity. An identity is an email address or domain that you use when you send email. Before you can use an identity to send email, you first have to verify it. By verifying an identity, you demonstrate that you're the owner of the identity, and that you've given Amazon SES API v2 permission to send email from the identity. When you verify an email address, Amazon SES sends an email to the address. Your email address is verified as soon as you follow the link in the verification email. When you verify a domain without specifying the DkimSigningAttributes object, this operation provides a set of DKIM tokens. You can convert these tokens into CNAME records, which you then add to the DNS configuration for your domain. Your domain is verified when Amazon SES detects these records in the DNS configuration for your domain. This verification method is known as [Easy DKIM](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/easy-dkim.html). Alternatively, you can perform the verification process by providing your own public-private key pair. This verification method is known as Bring Your Own DKIM (BYODKIM). To use BYODKIM, your call to the CreateEmailIdentity operation has to include the DkimSigningAttributes object. When you specify this object, you provide a selector (a component of the DNS record name that identifies the public key to use for DKIM authentication) and a private key. When you verify a domain, this operation provides a set of DKIM tokens, which you can convert into CNAME tokens. You add these CNAME tokens to the DNS configuration for your domain. Your domain is verified when Amazon SES detects these records in the DNS configuration for your domain. For some DNS providers, it can take 72 hours or more to complete the domain verification process. Additionally, you can associate an existing configuration set with the email identity that you're verifying.
     ///
@@ -1070,7 +1070,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateEmailIdentityPolicy` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `CreateEmailIdentityPolicy` operation on the `SESv2` service.
     ///
     /// Creates the specified sending authorization policy for the given identity (an email address or a domain). This API is for the identity owner only. If you have not verified the identity, this API will return an error. Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html). You can execute this operation no more than once per second.
     ///
@@ -1144,7 +1144,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateEmailTemplate` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `CreateEmailTemplate` operation on the `SESv2` service.
     ///
     /// Creates an email template. Email templates enable you to send personalized email to one or more destinations in a single API operation. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-personalized-email-api.html). You can execute this operation no more than once per second.
     ///
@@ -1217,7 +1217,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateExportJob` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `CreateExportJob` operation on the `SESv2` service.
     ///
     /// Creates an export job for a data source and destination. You can execute this operation no more than once per second.
     ///
@@ -1290,7 +1290,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateImportJob` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `CreateImportJob` operation on the `SESv2` service.
     ///
     /// Creates an import job for a data destination.
     ///
@@ -1362,7 +1362,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateMultiRegionEndpoint` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `CreateMultiRegionEndpoint` operation on the `SESv2` service.
     ///
     /// Creates a multi-region endpoint (global-endpoint). The primary region is going to be the AWS-Region where the operation is executed. The secondary region has to be provided in request's parameters. From the data flow standpoint there is no difference between primary and secondary regions - sending traffic will be split equally between the two. The primary region is the region where the resource has been created and where it can be managed.
     ///
@@ -1435,7 +1435,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteConfigurationSet` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `DeleteConfigurationSet` operation on the `SESv2` service.
     ///
     /// Delete an existing configuration set. Configuration sets are groups of rules that you can apply to the emails you send. You apply a configuration set to an email by including a reference to the configuration set in the headers of the email. When you apply a configuration set to an email, all of the rules in that configuration set are applied to the email.
     ///
@@ -1505,7 +1505,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteConfigurationSetEventDestination` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `DeleteConfigurationSetEventDestination` operation on the `SESv2` service.
     ///
     /// Delete an event destination. Events include message sends, deliveries, opens, clicks, bounces, and complaints. Event destinations are places that you can send information about these events to. For example, you can send event data to Amazon EventBridge and associate a rule to send the event to the specified target.
     ///
@@ -1574,7 +1574,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteContact` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `DeleteContact` operation on the `SESv2` service.
     ///
     /// Removes a contact from a contact list.
     ///
@@ -1643,7 +1643,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteContactList` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `DeleteContactList` operation on the `SESv2` service.
     ///
     /// Deletes a contact list and all of the contacts on that list.
     ///
@@ -1713,7 +1713,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteCustomVerificationEmailTemplate` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `DeleteCustomVerificationEmailTemplate` operation on the `SESv2` service.
     ///
     /// Deletes an existing custom verification email template. For more information about custom verification email templates, see [Using custom verification email templates](https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#send-email-verify-address-custom) in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
     ///
@@ -1782,7 +1782,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteDedicatedIpPool` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `DeleteDedicatedIpPool` operation on the `SESv2` service.
     ///
     /// Delete a dedicated IP pool.
     ///
@@ -1852,7 +1852,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteEmailIdentity` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `DeleteEmailIdentity` operation on the `SESv2` service.
     ///
     /// Deletes an email identity. An identity can be either an email address or a domain name.
     ///
@@ -1922,7 +1922,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteEmailIdentityPolicy` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `DeleteEmailIdentityPolicy` operation on the `SESv2` service.
     ///
     /// Deletes the specified sending authorization policy for the given identity (an email address or a domain). This API returns successfully even if a policy with the specified name does not exist. This API is for the identity owner only. If you have not verified the identity, this API will return an error. Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html). You can execute this operation no more than once per second.
     ///
@@ -1991,7 +1991,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteEmailTemplate` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `DeleteEmailTemplate` operation on the `SESv2` service.
     ///
     /// Deletes an email template. You can execute this operation no more than once per second.
     ///
@@ -2060,7 +2060,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteMultiRegionEndpoint` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `DeleteMultiRegionEndpoint` operation on the `SESv2` service.
     ///
     /// Deletes a multi-region endpoint (global-endpoint). Only multi-region endpoints (global-endpoints) whose primary region is the AWS-Region where operation is executed can be deleted.
     ///
@@ -2130,7 +2130,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteSuppressedDestination` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `DeleteSuppressedDestination` operation on the `SESv2` service.
     ///
     /// Removes an email address from the suppression list for your account.
     ///
@@ -2199,7 +2199,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAccount` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `GetAccount` operation on the `SESv2` service.
     ///
     /// Obtain information about the email-sending status and capabilities of your Amazon SES account in the current Amazon Web Services Region.
     ///
@@ -2267,7 +2267,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetBlacklistReports` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `GetBlacklistReports` operation on the `SESv2` service.
     ///
     /// Retrieve a list of the blacklists that your dedicated IP addresses appear on.
     ///
@@ -2337,7 +2337,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetConfigurationSet` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `GetConfigurationSet` operation on the `SESv2` service.
     ///
     /// Get information about an existing configuration set, including the dedicated IP pool that it's associated with, whether or not it's enabled for sending email, and more. Configuration sets are groups of rules that you can apply to the emails you send. You apply a configuration set to an email by including a reference to the configuration set in the headers of the email. When you apply a configuration set to an email, all of the rules in that configuration set are applied to the email.
     ///
@@ -2406,7 +2406,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetConfigurationSetEventDestinations` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `GetConfigurationSetEventDestinations` operation on the `SESv2` service.
     ///
     /// Retrieve a list of event destinations that are associated with a configuration set. Events include message sends, deliveries, opens, clicks, bounces, and complaints. Event destinations are places that you can send information about these events to. For example, you can send event data to Amazon EventBridge and associate a rule to send the event to the specified target.
     ///
@@ -2475,7 +2475,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetContact` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `GetContact` operation on the `SESv2` service.
     ///
     /// Returns a contact from a contact list.
     ///
@@ -2544,7 +2544,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetContactList` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `GetContactList` operation on the `SESv2` service.
     ///
     /// Returns contact list metadata. It does not return any information about the contacts present in the list.
     ///
@@ -2613,7 +2613,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetCustomVerificationEmailTemplate` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `GetCustomVerificationEmailTemplate` operation on the `SESv2` service.
     ///
     /// Returns the custom email verification template for the template name you specify. For more information about custom verification email templates, see [Using custom verification email templates](https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#send-email-verify-address-custom) in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
     ///
@@ -2682,7 +2682,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDedicatedIp` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `GetDedicatedIp` operation on the `SESv2` service.
     ///
     /// Get information about a dedicated IP address, including the name of the dedicated IP pool that it's associated with, as well information about the automatic warm-up process for the address.
     ///
@@ -2751,7 +2751,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDedicatedIpPool` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `GetDedicatedIpPool` operation on the `SESv2` service.
     ///
     /// Retrieve information about the dedicated pool.
     ///
@@ -2820,7 +2820,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDedicatedIps` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `GetDedicatedIps` operation on the `SESv2` service.
     ///
     /// List the dedicated IP addresses that are associated with your Amazon Web Services account.
     ///
@@ -2890,7 +2890,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDeliverabilityDashboardOptions` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `GetDeliverabilityDashboardOptions` operation on the `SESv2` service.
     ///
     /// Retrieve information about the status of the Deliverability dashboard for your account. When the Deliverability dashboard is enabled, you gain access to reputation, deliverability, and other metrics for the domains that you use to send email. You also gain the ability to perform predictive inbox placement tests. When you use the Deliverability dashboard, you pay a monthly subscription charge, in addition to any other fees that you accrue by using Amazon SES and other Amazon Web Services services. For more information about the features and cost of a Deliverability dashboard subscription, see [Amazon SES Pricing](http://aws.amazon.com/ses/pricing/).
     ///
@@ -2959,7 +2959,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDeliverabilityTestReport` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `GetDeliverabilityTestReport` operation on the `SESv2` service.
     ///
     /// Retrieve the results of a predictive inbox placement test.
     ///
@@ -3028,7 +3028,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDomainDeliverabilityCampaign` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `GetDomainDeliverabilityCampaign` operation on the `SESv2` service.
     ///
     /// Retrieve all the deliverability data for a specific campaign. This data is available for a campaign only if the campaign sent email by using a domain that the Deliverability dashboard is enabled for.
     ///
@@ -3097,7 +3097,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDomainStatisticsReport` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `GetDomainStatisticsReport` operation on the `SESv2` service.
     ///
     /// Retrieve inbox placement and engagement rates for the domains that you use to send email.
     ///
@@ -3167,7 +3167,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetEmailIdentity` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `GetEmailIdentity` operation on the `SESv2` service.
     ///
     /// Provides information about a specific identity, including the identity's verification status, sending authorization policies, its DKIM authentication status, and its custom Mail-From settings.
     ///
@@ -3236,7 +3236,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetEmailIdentityPolicies` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `GetEmailIdentityPolicies` operation on the `SESv2` service.
     ///
     /// Returns the requested sending authorization policies for the given identity (an email address or a domain). The policies are returned as a map of policy names to policy contents. You can retrieve a maximum of 20 policies at a time. This API is for the identity owner only. If you have not verified the identity, this API will return an error. Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html). You can execute this operation no more than once per second.
     ///
@@ -3305,7 +3305,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetEmailTemplate` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `GetEmailTemplate` operation on the `SESv2` service.
     ///
     /// Displays the template object (which includes the subject line, HTML part and text part) for the template you specify. You can execute this operation no more than once per second.
     ///
@@ -3374,7 +3374,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetExportJob` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `GetExportJob` operation on the `SESv2` service.
     ///
     /// Provides information about an export job.
     ///
@@ -3443,7 +3443,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetImportJob` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `GetImportJob` operation on the `SESv2` service.
     ///
     /// Provides information about an import job.
     ///
@@ -3512,7 +3512,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetMessageInsights` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `GetMessageInsights` operation on the `SESv2` service.
     ///
     /// Provides information about a specific message, including the from address, the subject, the recipient address, email tags, as well as events associated with the message. You can execute this operation no more than once per second.
     ///
@@ -3581,7 +3581,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetMultiRegionEndpoint` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `GetMultiRegionEndpoint` operation on the `SESv2` service.
     ///
     /// Displays the multi-region endpoint (global-endpoint) configuration. Only multi-region endpoints (global-endpoints) whose primary region is the AWS-Region where operation is executed can be displayed.
     ///
@@ -3650,7 +3650,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetSuppressedDestination` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `GetSuppressedDestination` operation on the `SESv2` service.
     ///
     /// Retrieves information about a specific email address that's on the suppression list for your account.
     ///
@@ -3719,7 +3719,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListConfigurationSets` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `ListConfigurationSets` operation on the `SESv2` service.
     ///
     /// List all of the configuration sets associated with your account in the current region. Configuration sets are groups of rules that you can apply to the emails you send. You apply a configuration set to an email by including a reference to the configuration set in the headers of the email. When you apply a configuration set to an email, all of the rules in that configuration set are applied to the email.
     ///
@@ -3788,7 +3788,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListContactLists` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `ListContactLists` operation on the `SESv2` service.
     ///
     /// Lists all of the contact lists available.
     ///
@@ -3857,7 +3857,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListContacts` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `ListContacts` operation on the `SESv2` service.
     ///
     /// Lists the contacts present in a specific contact list.
     ///
@@ -3929,7 +3929,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListCustomVerificationEmailTemplates` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `ListCustomVerificationEmailTemplates` operation on the `SESv2` service.
     ///
     /// Lists the existing custom verification email templates for your account in the current Amazon Web Services Region. For more information about custom verification email templates, see [Using custom verification email templates](https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#send-email-verify-address-custom) in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
     ///
@@ -3998,7 +3998,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDedicatedIpPools` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `ListDedicatedIpPools` operation on the `SESv2` service.
     ///
     /// List all of the dedicated IP pools that exist in your Amazon Web Services account in the current Region.
     ///
@@ -4067,7 +4067,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDeliverabilityTestReports` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `ListDeliverabilityTestReports` operation on the `SESv2` service.
     ///
     /// Show a list of the predictive inbox placement tests that you've performed, regardless of their statuses. For predictive inbox placement tests that are complete, you can use the GetDeliverabilityTestReport operation to view the results.
     ///
@@ -4137,7 +4137,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDomainDeliverabilityCampaigns` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `ListDomainDeliverabilityCampaigns` operation on the `SESv2` service.
     ///
     /// Retrieve deliverability data for all the campaigns that used a specific domain to send email during a specified time range. This data is available for a domain only if you enabled the Deliverability dashboard for the domain.
     ///
@@ -4207,7 +4207,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListEmailIdentities` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `ListEmailIdentities` operation on the `SESv2` service.
     ///
     /// Returns a list of all of the email identities that are associated with your Amazon Web Services account. An identity can be either an email address or a domain. This operation returns identities that are verified as well as those that aren't. This operation returns identities that are associated with Amazon SES and Amazon Pinpoint.
     ///
@@ -4276,7 +4276,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListEmailTemplates` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `ListEmailTemplates` operation on the `SESv2` service.
     ///
     /// Lists the email templates present in your Amazon SES account in the current Amazon Web Services Region. You can execute this operation no more than once per second.
     ///
@@ -4345,7 +4345,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListExportJobs` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `ListExportJobs` operation on the `SESv2` service.
     ///
     /// Lists all of the export jobs.
     ///
@@ -4416,7 +4416,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListImportJobs` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `ListImportJobs` operation on the `SESv2` service.
     ///
     /// Lists all of the import jobs.
     ///
@@ -4487,7 +4487,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListMultiRegionEndpoints` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `ListMultiRegionEndpoints` operation on the `SESv2` service.
     ///
     /// List the multi-region endpoints (global-endpoints). Only multi-region endpoints (global-endpoints) whose primary region is the AWS-Region where operation is executed will be listed.
     ///
@@ -4556,7 +4556,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListRecommendations` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `ListRecommendations` operation on the `SESv2` service.
     ///
     /// Lists the recommendations present in your Amazon SES account in the current Amazon Web Services Region. You can execute this operation no more than once per second.
     ///
@@ -4628,7 +4628,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListSuppressedDestinations` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `ListSuppressedDestinations` operation on the `SESv2` service.
     ///
     /// Retrieves a list of email addresses that are on the suppression list for your account.
     ///
@@ -4698,7 +4698,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `ListTagsForResource` operation on the `SESv2` service.
     ///
     /// Retrieve a list of the tags (keys and values) that are associated with a specified resource. A tag is a label that you optionally define and associate with a resource. Each tag consists of a required tag key and an optional associated tag value. A tag key is a general label that acts as a category for more specific tag values. A tag value acts as a descriptor within a tag key.
     ///
@@ -4768,7 +4768,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutAccountDedicatedIpWarmupAttributes` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `PutAccountDedicatedIpWarmupAttributes` operation on the `SESv2` service.
     ///
     /// Enable or disable the automatic warm-up feature for dedicated IP addresses.
     ///
@@ -4839,7 +4839,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutAccountDetails` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `PutAccountDetails` operation on the `SESv2` service.
     ///
     /// Update your Amazon SES account details.
     ///
@@ -4911,7 +4911,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutAccountSendingAttributes` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `PutAccountSendingAttributes` operation on the `SESv2` service.
     ///
     /// Enable or disable the ability of your account to send email.
     ///
@@ -4982,7 +4982,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutAccountSuppressionAttributes` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `PutAccountSuppressionAttributes` operation on the `SESv2` service.
     ///
     /// Change the settings for the account-level suppression list.
     ///
@@ -5053,7 +5053,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutAccountVdmAttributes` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `PutAccountVdmAttributes` operation on the `SESv2` service.
     ///
     /// Update your Amazon SES account VDM attributes. You can execute this operation no more than once per second.
     ///
@@ -5124,7 +5124,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutConfigurationSetDeliveryOptions` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `PutConfigurationSetDeliveryOptions` operation on the `SESv2` service.
     ///
     /// Associate a configuration set with a dedicated IP pool. You can use dedicated IP pools to create groups of dedicated IP addresses for sending specific types of email.
     ///
@@ -5196,7 +5196,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutConfigurationSetReputationOptions` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `PutConfigurationSetReputationOptions` operation on the `SESv2` service.
     ///
     /// Enable or disable collection of reputation metrics for emails that you send using a particular configuration set in a specific Amazon Web Services Region.
     ///
@@ -5268,7 +5268,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutConfigurationSetSendingOptions` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `PutConfigurationSetSendingOptions` operation on the `SESv2` service.
     ///
     /// Enable or disable email sending for messages that use a particular configuration set in a specific Amazon Web Services Region.
     ///
@@ -5340,7 +5340,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutConfigurationSetSuppressionOptions` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `PutConfigurationSetSuppressionOptions` operation on the `SESv2` service.
     ///
     /// Specify the account suppression list preferences for a configuration set.
     ///
@@ -5412,7 +5412,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutConfigurationSetTrackingOptions` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `PutConfigurationSetTrackingOptions` operation on the `SESv2` service.
     ///
     /// Specify a custom domain to use for open and click tracking elements in email that you send.
     ///
@@ -5484,7 +5484,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutConfigurationSetVdmOptions` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `PutConfigurationSetVdmOptions` operation on the `SESv2` service.
     ///
     /// Specify VDM preferences for email that you send using the configuration set. You can execute this operation no more than once per second.
     ///
@@ -5556,7 +5556,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutDedicatedIpInPool` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `PutDedicatedIpInPool` operation on the `SESv2` service.
     ///
     /// Move a dedicated IP address to an existing dedicated IP pool. The dedicated IP address that you specify must already exist, and must be associated with your Amazon Web Services account. The dedicated IP pool you specify must already exist. You can create a new pool by using the CreateDedicatedIpPool operation.
     ///
@@ -5628,7 +5628,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutDedicatedIpPoolScalingAttributes` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `PutDedicatedIpPoolScalingAttributes` operation on the `SESv2` service.
     ///
     /// Used to convert a dedicated IP pool to a different scaling mode. MANAGED pools cannot be converted to STANDARD scaling mode.
     ///
@@ -5701,7 +5701,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutDedicatedIpWarmupAttributes` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `PutDedicatedIpWarmupAttributes` operation on the `SESv2` service.
     ///
     ///
     ///
@@ -5773,7 +5773,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutDeliverabilityDashboardOption` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `PutDeliverabilityDashboardOption` operation on the `SESv2` service.
     ///
     /// Enable or disable the Deliverability dashboard. When you enable the Deliverability dashboard, you gain access to reputation, deliverability, and other metrics for the domains that you use to send email. You also gain the ability to perform predictive inbox placement tests. When you use the Deliverability dashboard, you pay a monthly subscription charge, in addition to any other fees that you accrue by using Amazon SES and other Amazon Web Services services. For more information about the features and cost of a Deliverability dashboard subscription, see [Amazon SES Pricing](http://aws.amazon.com/ses/pricing/).
     ///
@@ -5847,7 +5847,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutEmailIdentityConfigurationSetAttributes` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `PutEmailIdentityConfigurationSetAttributes` operation on the `SESv2` service.
     ///
     /// Used to associate a configuration set with an email identity.
     ///
@@ -5919,7 +5919,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutEmailIdentityDkimAttributes` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `PutEmailIdentityDkimAttributes` operation on the `SESv2` service.
     ///
     /// Used to enable or disable DKIM authentication for an email identity.
     ///
@@ -5991,7 +5991,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutEmailIdentityDkimSigningAttributes` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `PutEmailIdentityDkimSigningAttributes` operation on the `SESv2` service.
     ///
     /// Used to configure or change the DKIM authentication settings for an email domain identity. You can use this operation to do any of the following:
     ///
@@ -6075,7 +6075,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutEmailIdentityFeedbackAttributes` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `PutEmailIdentityFeedbackAttributes` operation on the `SESv2` service.
     ///
     /// Used to enable or disable feedback forwarding for an identity. This setting determines what happens when an identity is used to send an email that results in a bounce or complaint event. If the value is true, you receive email notifications when bounce or complaint events occur. These notifications are sent to the address that you specified in the Return-Path header of the original email. You're required to have a method of tracking bounces and complaints. If you haven't set up another mechanism for receiving bounce or complaint notifications (for example, by setting up an event destination), you receive an email notification when these events occur (even if this setting is disabled).
     ///
@@ -6147,7 +6147,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutEmailIdentityMailFromAttributes` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `PutEmailIdentityMailFromAttributes` operation on the `SESv2` service.
     ///
     /// Used to enable or disable the custom Mail-From domain configuration for an email identity.
     ///
@@ -6219,7 +6219,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutSuppressedDestination` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `PutSuppressedDestination` operation on the `SESv2` service.
     ///
     /// Adds an email address to the suppression list for your account.
     ///
@@ -6290,7 +6290,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SendBulkEmail` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `SendBulkEmail` operation on the `SESv2` service.
     ///
     /// Composes an email message to multiple destinations.
     ///
@@ -6367,7 +6367,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SendCustomVerificationEmail` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `SendCustomVerificationEmail` operation on the `SESv2` service.
     ///
     /// Adds an email address to the list of identities for your Amazon SES account in the current Amazon Web Services Region and attempts to verify it. As a result of executing this operation, a customized verification email is sent to the specified address. To use this operation, you must first create a custom verification email template. For more information about creating and using custom verification email templates, see [Using custom verification email templates](https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#send-email-verify-address-custom) in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
     ///
@@ -6443,7 +6443,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SendEmail` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `SendEmail` operation on the `SESv2` service.
     ///
     /// Sends an email message. You can use the Amazon SES API v2 to send the following types of messages:
     ///
@@ -6526,7 +6526,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `TagResource` operation on the `SESv2` service.
     ///
     /// Add one or more tags (keys and values) to a specified resource. A tag is a label that you optionally define and associate with a resource. Tags can help you categorize and manage resources in different ways, such as by purpose, owner, environment, or other criteria. A resource can have as many as 50 tags. Each tag consists of a required tag key and an associated tag value, both of which you define. A tag key is a general label that acts as a category for more specific tag values. A tag value acts as a descriptor within a tag key.
     ///
@@ -6599,7 +6599,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TestRenderEmailTemplate` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `TestRenderEmailTemplate` operation on the `SESv2` service.
     ///
     /// Creates a preview of the MIME content of an email when provided with a template and a set of replacement data. You can execute this operation no more than once per second.
     ///
@@ -6671,7 +6671,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `UntagResource` operation on the `SESv2` service.
     ///
     /// Remove one or more tags (keys and values) from a specified resource.
     ///
@@ -6742,7 +6742,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateConfigurationSetEventDestination` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `UpdateConfigurationSetEventDestination` operation on the `SESv2` service.
     ///
     /// Update the configuration of an event destination for a configuration set. Events include message sends, deliveries, opens, clicks, bounces, and complaints. Event destinations are places that you can send information about these events to. For example, you can send event data to Amazon EventBridge and associate a rule to send the event to the specified target.
     ///
@@ -6814,7 +6814,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateContact` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `UpdateContact` operation on the `SESv2` service.
     ///
     /// Updates a contact's preferences for a list. You must specify all existing topic preferences in the TopicPreferences object, not just the ones that need updating; otherwise, all your existing preferences will be removed.
     ///
@@ -6887,7 +6887,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateContactList` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `UpdateContactList` operation on the `SESv2` service.
     ///
     /// Updates contact list metadata. This operation does a complete replacement.
     ///
@@ -6960,7 +6960,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateCustomVerificationEmailTemplate` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `UpdateCustomVerificationEmailTemplate` operation on the `SESv2` service.
     ///
     /// Updates an existing custom verification email template. For more information about custom verification email templates, see [Using custom verification email templates](https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#send-email-verify-address-custom) in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
     ///
@@ -7032,7 +7032,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateEmailIdentityPolicy` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `UpdateEmailIdentityPolicy` operation on the `SESv2` service.
     ///
     /// Updates the specified sending authorization policy for the given identity (an email address or a domain). This API returns successfully even if a policy with the specified name does not exist. This API is for the identity owner only. If you have not verified the identity, this API will return an error. Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html). You can execute this operation no more than once per second.
     ///
@@ -7104,7 +7104,7 @@ extension SESv2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateEmailTemplate` operation on the `SimpleEmailService_v2` service.
+    /// Performs the `UpdateEmailTemplate` operation on the `SESv2` service.
     ///
     /// Updates an email template. Email templates enable you to send personalized email to one or more destinations in a single API operation. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-personalized-email-api.html). You can execute this operation no more than once per second.
     ///

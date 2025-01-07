@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ServiceCatalogAppRegistryClient: ClientRuntime.Client {
     public static let clientName = "ServiceCatalogAppRegistryClient"
-    public static let version = "1.0.71"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: ServiceCatalogAppRegistryClient.ServiceCatalogAppRegistryClientConfiguration
     let serviceName = "Service Catalog AppRegistry"
@@ -331,7 +331,7 @@ extension ServiceCatalogAppRegistryClient {
 }
 
 extension ServiceCatalogAppRegistryClient {
-    /// Performs the `AssociateAttributeGroup` operation on the `AWS242AppRegistry` service.
+    /// Performs the `AssociateAttributeGroup` operation on the `ServiceCatalogAppRegistry` service.
     ///
     /// Associates an attribute group with an application to augment the application's metadata with the group's attributes. This feature enables applications to be described with user-defined details that are machine-readable, such as third-party integrations.
     ///
@@ -401,7 +401,7 @@ extension ServiceCatalogAppRegistryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssociateResource` operation on the `AWS242AppRegistry` service.
+    /// Performs the `AssociateResource` operation on the `ServiceCatalogAppRegistry` service.
     ///
     /// Associates a resource with an application. The resource can be specified by its ARN or name. The application can be specified by ARN, ID, or name. Minimum permissions You must have the following permissions to associate a resource using the OPTIONS parameter set to APPLY_APPLICATION_TAG.
     ///
@@ -491,7 +491,7 @@ extension ServiceCatalogAppRegistryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateApplication` operation on the `AWS242AppRegistry` service.
+    /// Performs the `CreateApplication` operation on the `ServiceCatalogAppRegistry` service.
     ///
     /// Creates a new application that is the top-level node in a hierarchy of related cloud resource abstractions.
     ///
@@ -565,7 +565,7 @@ extension ServiceCatalogAppRegistryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateAttributeGroup` operation on the `AWS242AppRegistry` service.
+    /// Performs the `CreateAttributeGroup` operation on the `ServiceCatalogAppRegistry` service.
     ///
     /// Creates a new attribute group as a container for user-defined attributes. This feature enables users to have full control over their cloud application's metadata in a rich machine-readable format to facilitate integration with automated workflows and third-party tools.
     ///
@@ -638,7 +638,7 @@ extension ServiceCatalogAppRegistryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteApplication` operation on the `AWS242AppRegistry` service.
+    /// Performs the `DeleteApplication` operation on the `ServiceCatalogAppRegistry` service.
     ///
     /// Deletes an application that is specified either by its application ID, name, or ARN. All associated attribute groups and resources must be disassociated from it before deleting an application.
     ///
@@ -706,7 +706,7 @@ extension ServiceCatalogAppRegistryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAttributeGroup` operation on the `AWS242AppRegistry` service.
+    /// Performs the `DeleteAttributeGroup` operation on the `ServiceCatalogAppRegistry` service.
     ///
     /// Deletes an attribute group, specified either by its attribute group ID, name, or ARN.
     ///
@@ -774,7 +774,7 @@ extension ServiceCatalogAppRegistryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateAttributeGroup` operation on the `AWS242AppRegistry` service.
+    /// Performs the `DisassociateAttributeGroup` operation on the `ServiceCatalogAppRegistry` service.
     ///
     /// Disassociates an attribute group from an application to remove the extra attributes contained in the attribute group from the application's metadata. This operation reverts AssociateAttributeGroup.
     ///
@@ -842,7 +842,7 @@ extension ServiceCatalogAppRegistryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateResource` operation on the `AWS242AppRegistry` service.
+    /// Performs the `DisassociateResource` operation on the `ServiceCatalogAppRegistry` service.
     ///
     /// Disassociates a resource from application. Both the resource and the application can be specified either by ID or name. Minimum permissions You must have the following permissions to remove a resource that's been associated with an application using the APPLY_APPLICATION_TAG option for [AssociateResource](https://docs.aws.amazon.com/servicecatalog/latest/dg/API_app-registry_AssociateResource.html).
     ///
@@ -927,7 +927,7 @@ extension ServiceCatalogAppRegistryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetApplication` operation on the `AWS242AppRegistry` service.
+    /// Performs the `GetApplication` operation on the `ServiceCatalogAppRegistry` service.
     ///
     /// Retrieves metadata information about one of your applications. The application can be specified by its ARN, ID, or name (which is unique within one account in one region at a given point in time). Specify by ARN or ID in automated workflows if you want to make sure that the exact same application is returned or a ResourceNotFoundException is thrown, avoiding the ABA addressing problem.
     ///
@@ -996,7 +996,7 @@ extension ServiceCatalogAppRegistryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAssociatedResource` operation on the `AWS242AppRegistry` service.
+    /// Performs the `GetAssociatedResource` operation on the `ServiceCatalogAppRegistry` service.
     ///
     /// Gets the resource associated with the application.
     ///
@@ -1065,7 +1065,7 @@ extension ServiceCatalogAppRegistryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAttributeGroup` operation on the `AWS242AppRegistry` service.
+    /// Performs the `GetAttributeGroup` operation on the `ServiceCatalogAppRegistry` service.
     ///
     /// Retrieves an attribute group by its ARN, ID, or name. The attribute group can be specified by its ARN, ID, or name.
     ///
@@ -1134,7 +1134,7 @@ extension ServiceCatalogAppRegistryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetConfiguration` operation on the `AWS242AppRegistry` service.
+    /// Performs the `GetConfiguration` operation on the `ServiceCatalogAppRegistry` service.
     ///
     /// Retrieves a TagKey configuration from an account.
     ///
@@ -1200,7 +1200,7 @@ extension ServiceCatalogAppRegistryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListApplications` operation on the `AWS242AppRegistry` service.
+    /// Performs the `ListApplications` operation on the `ServiceCatalogAppRegistry` service.
     ///
     /// Retrieves a list of all of your applications. Results are paginated.
     ///
@@ -1268,7 +1268,7 @@ extension ServiceCatalogAppRegistryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAssociatedAttributeGroups` operation on the `AWS242AppRegistry` service.
+    /// Performs the `ListAssociatedAttributeGroups` operation on the `ServiceCatalogAppRegistry` service.
     ///
     /// Lists all attribute groups that are associated with specified application. Results are paginated.
     ///
@@ -1337,7 +1337,7 @@ extension ServiceCatalogAppRegistryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAssociatedResources` operation on the `AWS242AppRegistry` service.
+    /// Performs the `ListAssociatedResources` operation on the `ServiceCatalogAppRegistry` service.
     ///
     /// Lists all of the resources that are associated with the specified application. Results are paginated. If you share an application, and a consumer account associates a tag query to the application, all of the users who can access the application can also view the tag values in all accounts that are associated with it using this API.
     ///
@@ -1406,7 +1406,7 @@ extension ServiceCatalogAppRegistryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAttributeGroups` operation on the `AWS242AppRegistry` service.
+    /// Performs the `ListAttributeGroups` operation on the `ServiceCatalogAppRegistry` service.
     ///
     /// Lists all attribute groups which you have access to. Results are paginated.
     ///
@@ -1474,7 +1474,7 @@ extension ServiceCatalogAppRegistryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAttributeGroupsForApplication` operation on the `AWS242AppRegistry` service.
+    /// Performs the `ListAttributeGroupsForApplication` operation on the `ServiceCatalogAppRegistry` service.
     ///
     /// Lists the details of all attribute groups associated with a specific application. The results display in pages.
     ///
@@ -1543,7 +1543,7 @@ extension ServiceCatalogAppRegistryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `AWS242AppRegistry` service.
+    /// Performs the `ListTagsForResource` operation on the `ServiceCatalogAppRegistry` service.
     ///
     /// Lists all of the tags on the resource.
     ///
@@ -1611,7 +1611,7 @@ extension ServiceCatalogAppRegistryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutConfiguration` operation on the `AWS242AppRegistry` service.
+    /// Performs the `PutConfiguration` operation on the `ServiceCatalogAppRegistry` service.
     ///
     /// Associates a TagKey configuration to an account.
     ///
@@ -1682,7 +1682,7 @@ extension ServiceCatalogAppRegistryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SyncResource` operation on the `AWS242AppRegistry` service.
+    /// Performs the `SyncResource` operation on the `ServiceCatalogAppRegistry` service.
     ///
     /// Syncs the resource with current AppRegistry records. Specifically, the resource’s AppRegistry system tags sync with its associated application. We remove the resource's AppRegistry system tags if it does not associate with the application. The caller must have permissions to read and update the resource.
     ///
@@ -1752,7 +1752,7 @@ extension ServiceCatalogAppRegistryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `AWS242AppRegistry` service.
+    /// Performs the `TagResource` operation on the `ServiceCatalogAppRegistry` service.
     ///
     /// Assigns one or more tags (key-value pairs) to the specified resource. Each tag consists of a key and an optional value. If a tag with the same key is already associated with the resource, this action updates its value. This operation returns an empty response if the call was successful.
     ///
@@ -1823,7 +1823,7 @@ extension ServiceCatalogAppRegistryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `AWS242AppRegistry` service.
+    /// Performs the `UntagResource` operation on the `ServiceCatalogAppRegistry` service.
     ///
     /// Removes tags from a resource. This operation returns an empty response if the call was successful.
     ///
@@ -1892,7 +1892,7 @@ extension ServiceCatalogAppRegistryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateApplication` operation on the `AWS242AppRegistry` service.
+    /// Performs the `UpdateApplication` operation on the `ServiceCatalogAppRegistry` service.
     ///
     /// Updates an existing application with new attributes.
     ///
@@ -1965,7 +1965,7 @@ extension ServiceCatalogAppRegistryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateAttributeGroup` operation on the `AWS242AppRegistry` service.
+    /// Performs the `UpdateAttributeGroup` operation on the `ServiceCatalogAppRegistry` service.
     ///
     /// Updates an existing attribute group with new details.
     ///

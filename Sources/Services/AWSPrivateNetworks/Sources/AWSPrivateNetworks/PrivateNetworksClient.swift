@@ -63,7 +63,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class PrivateNetworksClient: ClientRuntime.Client {
     public static let clientName = "PrivateNetworksClient"
-    public static let version = "1.0.71"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: PrivateNetworksClient.PrivateNetworksClientConfiguration
     let serviceName = "PrivateNetworks"
@@ -329,7 +329,7 @@ extension PrivateNetworksClient {
 }
 
 extension PrivateNetworksClient {
-    /// Performs the `AcknowledgeOrderReceipt` operation on the `E5GNetworkControllerLambda` service.
+    /// Performs the `AcknowledgeOrderReceipt` operation on the `PrivateNetworks` service.
     ///
     /// Acknowledges that the specified network order was received.
     ///
@@ -400,7 +400,7 @@ extension PrivateNetworksClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ActivateDeviceIdentifier` operation on the `E5GNetworkControllerLambda` service.
+    /// Performs the `ActivateDeviceIdentifier` operation on the `PrivateNetworks` service.
     ///
     /// Activates the specified device identifier.
     ///
@@ -471,7 +471,7 @@ extension PrivateNetworksClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ActivateNetworkSite` operation on the `E5GNetworkControllerLambda` service.
+    /// Performs the `ActivateNetworkSite` operation on the `PrivateNetworks` service.
     ///
     /// Activates the specified network site.
     ///
@@ -542,7 +542,7 @@ extension PrivateNetworksClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ConfigureAccessPoint` operation on the `E5GNetworkControllerLambda` service.
+    /// Performs the `ConfigureAccessPoint` operation on the `PrivateNetworks` service.
     ///
     /// Configures the specified network resource. Use this action to specify the geographic position of the hardware. You must provide Certified Professional Installer (CPI) credentials in the request so that we can obtain spectrum grants. For more information, see [Radio units](https://docs.aws.amazon.com/private-networks/latest/userguide/radio-units.html) in the Amazon Web Services Private 5G User Guide.
     ///
@@ -613,7 +613,7 @@ extension PrivateNetworksClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateNetwork` operation on the `E5GNetworkControllerLambda` service.
+    /// Performs the `CreateNetwork` operation on the `PrivateNetworks` service.
     ///
     /// Creates a network.
     ///
@@ -684,7 +684,7 @@ extension PrivateNetworksClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateNetworkSite` operation on the `E5GNetworkControllerLambda` service.
+    /// Performs the `CreateNetworkSite` operation on the `PrivateNetworks` service.
     ///
     /// Creates a network site.
     ///
@@ -755,7 +755,7 @@ extension PrivateNetworksClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeactivateDeviceIdentifier` operation on the `E5GNetworkControllerLambda` service.
+    /// Performs the `DeactivateDeviceIdentifier` operation on the `PrivateNetworks` service.
     ///
     /// Deactivates the specified device identifier.
     ///
@@ -826,7 +826,7 @@ extension PrivateNetworksClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteNetwork` operation on the `E5GNetworkControllerLambda` service.
+    /// Performs the `DeleteNetwork` operation on the `PrivateNetworks` service.
     ///
     /// Deletes the specified network. You must delete network sites before you delete the network. For more information, see [DeleteNetworkSite](https://docs.aws.amazon.com/private-networks/latest/APIReference/API_DeleteNetworkSite.html) in the API Reference for Amazon Web Services Private 5G.
     ///
@@ -896,7 +896,7 @@ extension PrivateNetworksClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteNetworkSite` operation on the `E5GNetworkControllerLambda` service.
+    /// Performs the `DeleteNetworkSite` operation on the `PrivateNetworks` service.
     ///
     /// Deletes the specified network site. Return the hardware after you delete the network site. You are responsible for minimum charges. For more information, see [Hardware returns](https://docs.aws.amazon.com/private-networks/latest/userguide/hardware-maintenance.html) in the Amazon Web Services Private 5G User Guide.
     ///
@@ -966,7 +966,7 @@ extension PrivateNetworksClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDeviceIdentifier` operation on the `E5GNetworkControllerLambda` service.
+    /// Performs the `GetDeviceIdentifier` operation on the `PrivateNetworks` service.
     ///
     /// Gets the specified device identifier.
     ///
@@ -1034,7 +1034,7 @@ extension PrivateNetworksClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetNetwork` operation on the `E5GNetworkControllerLambda` service.
+    /// Performs the `GetNetwork` operation on the `PrivateNetworks` service.
     ///
     /// Gets the specified network.
     ///
@@ -1102,7 +1102,7 @@ extension PrivateNetworksClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetNetworkResource` operation on the `E5GNetworkControllerLambda` service.
+    /// Performs the `GetNetworkResource` operation on the `PrivateNetworks` service.
     ///
     /// Gets the specified network resource.
     ///
@@ -1170,7 +1170,7 @@ extension PrivateNetworksClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetNetworkSite` operation on the `E5GNetworkControllerLambda` service.
+    /// Performs the `GetNetworkSite` operation on the `PrivateNetworks` service.
     ///
     /// Gets the specified network site.
     ///
@@ -1238,7 +1238,7 @@ extension PrivateNetworksClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetOrder` operation on the `E5GNetworkControllerLambda` service.
+    /// Performs the `GetOrder` operation on the `PrivateNetworks` service.
     ///
     /// Gets the specified order.
     ///
@@ -1306,7 +1306,7 @@ extension PrivateNetworksClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDeviceIdentifiers` operation on the `E5GNetworkControllerLambda` service.
+    /// Performs the `ListDeviceIdentifiers` operation on the `PrivateNetworks` service.
     ///
     /// Lists device identifiers. Add filters to your request to return a more specific list of results. Use filters to match the Amazon Resource Name (ARN) of an order, the status of device identifiers, or the ARN of the traffic group. If you specify multiple filters, filters are joined with an OR, and the request returns results that match all of the specified filters.
     ///
@@ -1377,7 +1377,7 @@ extension PrivateNetworksClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListNetworkResources` operation on the `E5GNetworkControllerLambda` service.
+    /// Performs the `ListNetworkResources` operation on the `PrivateNetworks` service.
     ///
     /// Lists network resources. Add filters to your request to return a more specific list of results. Use filters to match the Amazon Resource Name (ARN) of an order or the status of network resources. If you specify multiple filters, filters are joined with an OR, and the request returns results that match all of the specified filters.
     ///
@@ -1448,7 +1448,7 @@ extension PrivateNetworksClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListNetworkSites` operation on the `E5GNetworkControllerLambda` service.
+    /// Performs the `ListNetworkSites` operation on the `PrivateNetworks` service.
     ///
     /// Lists network sites. Add filters to your request to return a more specific list of results. Use filters to match the status of the network site.
     ///
@@ -1519,7 +1519,7 @@ extension PrivateNetworksClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListNetworks` operation on the `E5GNetworkControllerLambda` service.
+    /// Performs the `ListNetworks` operation on the `PrivateNetworks` service.
     ///
     /// Lists networks. Add filters to your request to return a more specific list of results. Use filters to match the status of the network.
     ///
@@ -1590,7 +1590,7 @@ extension PrivateNetworksClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListOrders` operation on the `E5GNetworkControllerLambda` service.
+    /// Performs the `ListOrders` operation on the `PrivateNetworks` service.
     ///
     /// Lists orders. Add filters to your request to return a more specific list of results. Use filters to match the Amazon Resource Name (ARN) of the network site or the status of the order. If you specify multiple filters, filters are joined with an OR, and the request returns results that match all of the specified filters.
     ///
@@ -1661,7 +1661,7 @@ extension PrivateNetworksClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `E5GNetworkControllerLambda` service.
+    /// Performs the `ListTagsForResource` operation on the `PrivateNetworks` service.
     ///
     /// Lists the tags for the specified resource.
     ///
@@ -1731,7 +1731,7 @@ extension PrivateNetworksClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `Ping` operation on the `E5GNetworkControllerLambda` service.
+    /// Performs the `Ping` operation on the `PrivateNetworks` service.
     ///
     /// Checks the health of the service.
     ///
@@ -1797,7 +1797,7 @@ extension PrivateNetworksClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartNetworkResourceUpdate` operation on the `E5GNetworkControllerLambda` service.
+    /// Performs the `StartNetworkResourceUpdate` operation on the `PrivateNetworks` service.
     ///
     /// Use this action to do the following tasks:
     ///
@@ -1877,7 +1877,7 @@ extension PrivateNetworksClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `E5GNetworkControllerLambda` service.
+    /// Performs the `TagResource` operation on the `PrivateNetworks` service.
     ///
     /// Adds tags to the specified resource.
     ///
@@ -1950,7 +1950,7 @@ extension PrivateNetworksClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `E5GNetworkControllerLambda` service.
+    /// Performs the `UntagResource` operation on the `PrivateNetworks` service.
     ///
     /// Removes tags from the specified resource.
     ///
@@ -2021,7 +2021,7 @@ extension PrivateNetworksClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateNetworkSite` operation on the `E5GNetworkControllerLambda` service.
+    /// Performs the `UpdateNetworkSite` operation on the `PrivateNetworks` service.
     ///
     /// Updates the specified network site.
     ///
@@ -2092,7 +2092,7 @@ extension PrivateNetworksClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateNetworkSitePlan` operation on the `E5GNetworkControllerLambda` service.
+    /// Performs the `UpdateNetworkSitePlan` operation on the `PrivateNetworks` service.
     ///
     /// Updates the specified network site plan.
     ///

@@ -63,7 +63,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class BatchClient: ClientRuntime.Client {
     public static let clientName = "BatchClient"
-    public static let version = "1.0.71"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: BatchClient.BatchClientConfiguration
     let serviceName = "Batch"
@@ -329,7 +329,7 @@ extension BatchClient {
 }
 
 extension BatchClient {
-    /// Performs the `CancelJob` operation on the `AWSBatchV20160810` service.
+    /// Performs the `CancelJob` operation on the `Batch` service.
     ///
     /// Cancels a job in an Batch job queue. Jobs that are in a SUBMITTED, PENDING, or RUNNABLE state are cancelled and the job status is updated to FAILED. A PENDING job is canceled after all dependency jobs are completed. Therefore, it may take longer than expected to cancel a job in PENDING status. When you try to cancel an array parent job in PENDING, Batch attempts to cancel all child jobs. The array parent job is canceled when all child jobs are completed. Jobs that progressed to the STARTING or RUNNING state aren't canceled. However, the API operation still succeeds, even if no job is canceled. These jobs must be terminated with the [TerminateJob] operation.
     ///
@@ -399,7 +399,7 @@ extension BatchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateComputeEnvironment` operation on the `AWSBatchV20160810` service.
+    /// Performs the `CreateComputeEnvironment` operation on the `Batch` service.
     ///
     /// Creates an Batch compute environment. You can create MANAGED or UNMANAGED compute environments. MANAGED compute environments can use Amazon EC2 or Fargate resources. UNMANAGED compute environments can only use EC2 resources. In a managed compute environment, Batch manages the capacity and instance types of the compute resources within the environment. This is based on the compute resource specification that you define or the [launch template](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-launch-templates.html) that you specify when you create the compute environment. Either, you can choose to use EC2 On-Demand Instances and EC2 Spot Instances. Or, you can use Fargate and Fargate Spot capacity in your managed compute environment. You can optionally set a maximum price so that Spot Instances only launch when the Spot Instance price is less than a specified percentage of the On-Demand price. Multi-node parallel jobs aren't supported on Spot Instances. In an unmanaged compute environment, you can manage your own EC2 compute resources and have flexibility with how you configure your compute resources. For example, you can use custom AMIs. However, you must verify that each of your AMIs meet the Amazon ECS container instance AMI specification. For more information, see [container instance AMIs](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/container_instance_AMIs.html) in the Amazon Elastic Container Service Developer Guide. After you created your unmanaged compute environment, you can use the [DescribeComputeEnvironments] operation to find the Amazon ECS cluster that's associated with it. Then, launch your container instances into that Amazon ECS cluster. For more information, see [Launching an Amazon ECS container instance](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/launch_container_instance.html) in the Amazon Elastic Container Service Developer Guide. To create a compute environment that uses EKS resources, the caller must have permissions to call eks:DescribeCluster. Batch doesn't automatically upgrade the AMIs in a compute environment after it's created. For example, it also doesn't update the AMIs in your compute environment when a newer version of the Amazon ECS optimized AMI is available. You're responsible for the management of the guest operating system. This includes any updates and security patches. You're also responsible for any additional application software or utilities that you install on the compute resources. There are two ways to use a new AMI for your Batch jobs. The original method is to complete these steps:
     ///
@@ -491,7 +491,7 @@ extension BatchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateJobQueue` operation on the `AWSBatchV20160810` service.
+    /// Performs the `CreateJobQueue` operation on the `Batch` service.
     ///
     /// Creates an Batch job queue. When you create a job queue, you associate one or more compute environments to the queue and assign an order of preference for the compute environments. You also set a priority to the job queue that determines the order that the Batch scheduler places jobs onto its associated compute environments. For example, if a compute environment is associated with more than one job queue, the job queue with a higher priority is given preference for scheduling jobs to that compute environment.
     ///
@@ -561,7 +561,7 @@ extension BatchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateSchedulingPolicy` operation on the `AWSBatchV20160810` service.
+    /// Performs the `CreateSchedulingPolicy` operation on the `Batch` service.
     ///
     /// Creates an Batch scheduling policy.
     ///
@@ -631,7 +631,7 @@ extension BatchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteComputeEnvironment` operation on the `AWSBatchV20160810` service.
+    /// Performs the `DeleteComputeEnvironment` operation on the `Batch` service.
     ///
     /// Deletes an Batch compute environment. Before you can delete a compute environment, you must set its state to DISABLED with the [UpdateComputeEnvironment] API operation and disassociate it from any job queues with the [UpdateJobQueue] API operation. Compute environments that use Fargate resources must terminate all active jobs on that compute environment before deleting the compute environment. If this isn't done, the compute environment enters an invalid state.
     ///
@@ -701,7 +701,7 @@ extension BatchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteJobQueue` operation on the `AWSBatchV20160810` service.
+    /// Performs the `DeleteJobQueue` operation on the `Batch` service.
     ///
     /// Deletes the specified job queue. You must first disable submissions for a queue with the [UpdateJobQueue] operation. All jobs in the queue are eventually terminated when you delete a job queue. The jobs are terminated at a rate of about 16 jobs each second. It's not necessary to disassociate compute environments from a queue before submitting a DeleteJobQueue request.
     ///
@@ -771,7 +771,7 @@ extension BatchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteSchedulingPolicy` operation on the `AWSBatchV20160810` service.
+    /// Performs the `DeleteSchedulingPolicy` operation on the `Batch` service.
     ///
     /// Deletes the specified scheduling policy. You can't delete a scheduling policy that's used in any job queues.
     ///
@@ -841,7 +841,7 @@ extension BatchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeregisterJobDefinition` operation on the `AWSBatchV20160810` service.
+    /// Performs the `DeregisterJobDefinition` operation on the `Batch` service.
     ///
     /// Deregisters an Batch job definition. Job definitions are permanently deleted after 180 days.
     ///
@@ -911,7 +911,7 @@ extension BatchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeComputeEnvironments` operation on the `AWSBatchV20160810` service.
+    /// Performs the `DescribeComputeEnvironments` operation on the `Batch` service.
     ///
     /// Describes one or more of your compute environments. If you're using an unmanaged compute environment, you can use the DescribeComputeEnvironment operation to determine the ecsClusterArn that you launch your Amazon ECS container instances into.
     ///
@@ -981,7 +981,7 @@ extension BatchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeJobDefinitions` operation on the `AWSBatchV20160810` service.
+    /// Performs the `DescribeJobDefinitions` operation on the `Batch` service.
     ///
     /// Describes a list of job definitions. You can specify a status (such as ACTIVE) to only return job definitions that match that status.
     ///
@@ -1051,7 +1051,7 @@ extension BatchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeJobQueues` operation on the `AWSBatchV20160810` service.
+    /// Performs the `DescribeJobQueues` operation on the `Batch` service.
     ///
     /// Describes one or more of your job queues.
     ///
@@ -1121,7 +1121,7 @@ extension BatchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeJobs` operation on the `AWSBatchV20160810` service.
+    /// Performs the `DescribeJobs` operation on the `Batch` service.
     ///
     /// Describes a list of Batch jobs.
     ///
@@ -1191,7 +1191,7 @@ extension BatchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeSchedulingPolicies` operation on the `AWSBatchV20160810` service.
+    /// Performs the `DescribeSchedulingPolicies` operation on the `Batch` service.
     ///
     /// Describes one or more of your scheduling policies.
     ///
@@ -1261,7 +1261,7 @@ extension BatchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetJobQueueSnapshot` operation on the `AWSBatchV20160810` service.
+    /// Performs the `GetJobQueueSnapshot` operation on the `Batch` service.
     ///
     /// Provides a list of the first 100 RUNNABLE jobs associated to a single job queue.
     ///
@@ -1331,7 +1331,7 @@ extension BatchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListJobs` operation on the `AWSBatchV20160810` service.
+    /// Performs the `ListJobs` operation on the `Batch` service.
     ///
     /// Returns a list of Batch jobs. You must specify only one of the following items:
     ///
@@ -1410,7 +1410,7 @@ extension BatchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListSchedulingPolicies` operation on the `AWSBatchV20160810` service.
+    /// Performs the `ListSchedulingPolicies` operation on the `Batch` service.
     ///
     /// Returns a list of Batch scheduling policies.
     ///
@@ -1480,7 +1480,7 @@ extension BatchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `AWSBatchV20160810` service.
+    /// Performs the `ListTagsForResource` operation on the `Batch` service.
     ///
     /// Lists the tags for an Batch resource. Batch resources that support tags are compute environments, jobs, job definitions, job queues, and scheduling policies. ARNs for child jobs of array and multi-node parallel (MNP) jobs aren't supported.
     ///
@@ -1547,7 +1547,7 @@ extension BatchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RegisterJobDefinition` operation on the `AWSBatchV20160810` service.
+    /// Performs the `RegisterJobDefinition` operation on the `Batch` service.
     ///
     /// Registers an Batch job definition.
     ///
@@ -1617,7 +1617,7 @@ extension BatchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SubmitJob` operation on the `AWSBatchV20160810` service.
+    /// Performs the `SubmitJob` operation on the `Batch` service.
     ///
     /// Submits an Batch job from a job definition. Parameters that are specified during [SubmitJob] override parameters defined in the job definition. vCPU and memory requirements that are specified in the resourceRequirements objects in the job definition are the exception. They can't be overridden this way using the memory and vcpus parameters. Rather, you must specify updates to job definition parameters in a resourceRequirements object that's included in the containerOverrides parameter. Job queues with a scheduling policy are limited to 500 active fair share identifiers at a time. Jobs that run on Fargate resources can't be guaranteed to run for more than 14 days. This is because, after 14 days, Fargate resources might become unavailable and job might be terminated.
     ///
@@ -1687,7 +1687,7 @@ extension BatchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `AWSBatchV20160810` service.
+    /// Performs the `TagResource` operation on the `Batch` service.
     ///
     /// Associates the specified tags to a resource with the specified resourceArn. If existing tags on a resource aren't specified in the request parameters, they aren't changed. When a resource is deleted, the tags that are associated with that resource are deleted as well. Batch resources that support tags are compute environments, jobs, job definitions, job queues, and scheduling policies. ARNs for child jobs of array and multi-node parallel (MNP) jobs aren't supported.
     ///
@@ -1757,7 +1757,7 @@ extension BatchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TerminateJob` operation on the `AWSBatchV20160810` service.
+    /// Performs the `TerminateJob` operation on the `Batch` service.
     ///
     /// Terminates a job in a job queue. Jobs that are in the STARTING or RUNNING state are terminated, which causes them to transition to FAILED. Jobs that have not progressed to the STARTING state are cancelled.
     ///
@@ -1827,7 +1827,7 @@ extension BatchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `AWSBatchV20160810` service.
+    /// Performs the `UntagResource` operation on the `Batch` service.
     ///
     /// Deletes specified tags from an Batch resource.
     ///
@@ -1895,7 +1895,7 @@ extension BatchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateComputeEnvironment` operation on the `AWSBatchV20160810` service.
+    /// Performs the `UpdateComputeEnvironment` operation on the `Batch` service.
     ///
     /// Updates an Batch compute environment.
     ///
@@ -1965,7 +1965,7 @@ extension BatchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateJobQueue` operation on the `AWSBatchV20160810` service.
+    /// Performs the `UpdateJobQueue` operation on the `Batch` service.
     ///
     /// Updates a job queue.
     ///
@@ -2035,7 +2035,7 @@ extension BatchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateSchedulingPolicy` operation on the `AWSBatchV20160810` service.
+    /// Performs the `UpdateSchedulingPolicy` operation on the `Batch` service.
     ///
     /// Updates a scheduling policy.
     ///

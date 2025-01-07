@@ -63,7 +63,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class DirectoryClient: ClientRuntime.Client {
     public static let clientName = "DirectoryClient"
-    public static let version = "1.0.71"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: DirectoryClient.DirectoryClientConfiguration
     let serviceName = "Directory"
@@ -329,7 +329,7 @@ extension DirectoryClient {
 }
 
 extension DirectoryClient {
-    /// Performs the `AcceptSharedDirectory` operation on the `DirectoryService_20150416` service.
+    /// Performs the `AcceptSharedDirectory` operation on the `Directory` service.
     ///
     /// Accepts a directory sharing request that was sent from the directory owner account.
     ///
@@ -403,7 +403,7 @@ extension DirectoryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AddIpRoutes` operation on the `DirectoryService_20150416` service.
+    /// Performs the `AddIpRoutes` operation on the `Directory` service.
     ///
     /// If the DNS server for your self-managed domain uses a publicly addressable IP address, you must add a CIDR address block to correctly route traffic to and from your Microsoft AD on Amazon Web Services. AddIpRoutes adds this address block. You can also use AddIpRoutes to facilitate routing traffic that uses public IP ranges from your Microsoft AD on Amazon Web Services to a peer VPC. Before you call AddIpRoutes, ensure that all of the required permissions have been explicitly granted through a policy. For details about what permissions are required to run the AddIpRoutes operation, see [Directory Service API Permissions: Actions, Resources, and Conditions Reference](http://docs.aws.amazon.com/directoryservice/latest/admin-guide/UsingWithDS_IAM_ResourcePermissions.html).
     ///
@@ -479,7 +479,7 @@ extension DirectoryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AddRegion` operation on the `DirectoryService_20150416` service.
+    /// Performs the `AddRegion` operation on the `Directory` service.
     ///
     /// Adds two domain controllers in the specified Region for the specified directory.
     ///
@@ -558,7 +558,7 @@ extension DirectoryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AddTagsToResource` operation on the `DirectoryService_20150416` service.
+    /// Performs the `AddTagsToResource` operation on the `Directory` service.
     ///
     /// Adds or overwrites one or more tags for the specified directory. Each directory can have a maximum of 50 tags. Each tag consists of a key and optional value. Tag keys must be unique to each resource.
     ///
@@ -632,7 +632,7 @@ extension DirectoryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CancelSchemaExtension` operation on the `DirectoryService_20150416` service.
+    /// Performs the `CancelSchemaExtension` operation on the `Directory` service.
     ///
     /// Cancels an in-progress schema extension to a Microsoft AD directory. Once a schema extension has started replicating to all domain controllers, the task can no longer be canceled. A schema extension can be canceled during any of the following states; Initializing, CreatingSnapshot, and UpdatingSchema.
     ///
@@ -704,7 +704,7 @@ extension DirectoryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ConnectDirectory` operation on the `DirectoryService_20150416` service.
+    /// Performs the `ConnectDirectory` operation on the `Directory` service.
     ///
     /// Creates an AD Connector to connect to a self-managed directory. Before you call ConnectDirectory, ensure that all of the required permissions have been explicitly granted through a policy. For details about what permissions are required to run the ConnectDirectory operation, see [Directory Service API Permissions: Actions, Resources, and Conditions Reference](http://docs.aws.amazon.com/directoryservice/latest/admin-guide/UsingWithDS_IAM_ResourcePermissions.html).
     ///
@@ -777,7 +777,7 @@ extension DirectoryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateAlias` operation on the `DirectoryService_20150416` service.
+    /// Performs the `CreateAlias` operation on the `Directory` service.
     ///
     /// Creates an alias for a directory and assigns the alias to the directory. The alias is used to construct the access URL for the directory, such as http://.awsapps.com. After an alias has been created, it cannot be deleted or reused, so this operation should only be used when absolutely necessary.
     ///
@@ -851,7 +851,7 @@ extension DirectoryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateComputer` operation on the `DirectoryService_20150416` service.
+    /// Performs the `CreateComputer` operation on the `Directory` service.
     ///
     /// Creates an Active Directory computer object in the specified directory.
     ///
@@ -928,7 +928,7 @@ extension DirectoryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateConditionalForwarder` operation on the `DirectoryService_20150416` service.
+    /// Performs the `CreateConditionalForwarder` operation on the `Directory` service.
     ///
     /// Creates a conditional forwarder associated with your Amazon Web Services directory. Conditional forwarders are required in order to set up a trust relationship with another domain. The conditional forwarder points to the trusted domain.
     ///
@@ -1004,7 +1004,7 @@ extension DirectoryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateDirectory` operation on the `DirectoryService_20150416` service.
+    /// Performs the `CreateDirectory` operation on the `Directory` service.
     ///
     /// Creates a Simple AD directory. For more information, see [Simple Active Directory](https://docs.aws.amazon.com/directoryservice/latest/admin-guide/directory_simple_ad.html) in the Directory Service Admin Guide. Before you call CreateDirectory, ensure that all of the required permissions have been explicitly granted through a policy. For details about what permissions are required to run the CreateDirectory operation, see [Directory Service API Permissions: Actions, Resources, and Conditions Reference](http://docs.aws.amazon.com/directoryservice/latest/admin-guide/UsingWithDS_IAM_ResourcePermissions.html).
     ///
@@ -1077,7 +1077,7 @@ extension DirectoryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateLogSubscription` operation on the `DirectoryService_20150416` service.
+    /// Performs the `CreateLogSubscription` operation on the `Directory` service.
     ///
     /// Creates a subscription to forward real-time Directory Service domain controller security logs to the specified Amazon CloudWatch log group in your Amazon Web Services account.
     ///
@@ -1152,7 +1152,7 @@ extension DirectoryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateMicrosoftAD` operation on the `DirectoryService_20150416` service.
+    /// Performs the `CreateMicrosoftAD` operation on the `Directory` service.
     ///
     /// Creates a Microsoft AD directory in the Amazon Web Services Cloud. For more information, see [Managed Microsoft AD](https://docs.aws.amazon.com/directoryservice/latest/admin-guide/directory_microsoft_ad.html) in the Directory Service Admin Guide. Before you call CreateMicrosoftAD, ensure that all of the required permissions have been explicitly granted through a policy. For details about what permissions are required to run the CreateMicrosoftAD operation, see [Directory Service API Permissions: Actions, Resources, and Conditions Reference](http://docs.aws.amazon.com/directoryservice/latest/admin-guide/UsingWithDS_IAM_ResourcePermissions.html).
     ///
@@ -1226,7 +1226,7 @@ extension DirectoryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateSnapshot` operation on the `DirectoryService_20150416` service.
+    /// Performs the `CreateSnapshot` operation on the `Directory` service.
     ///
     /// Creates a snapshot of a Simple AD or Microsoft AD directory in the Amazon Web Services cloud. You cannot take snapshots of AD Connector directories.
     ///
@@ -1300,7 +1300,7 @@ extension DirectoryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateTrust` operation on the `DirectoryService_20150416` service.
+    /// Performs the `CreateTrust` operation on the `Directory` service.
     ///
     /// Directory Service for Microsoft Active Directory allows you to configure trust relationships. For example, you can establish a trust between your Managed Microsoft AD directory, and your existing self-managed Microsoft Active Directory. This would allow you to provide users and groups access to resources in either domain, with a single set of credentials. This action initiates the creation of the Amazon Web Services side of a trust relationship between an Managed Microsoft AD directory and an external domain. You can create either a forest trust or an external trust.
     ///
@@ -1375,7 +1375,7 @@ extension DirectoryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteConditionalForwarder` operation on the `DirectoryService_20150416` service.
+    /// Performs the `DeleteConditionalForwarder` operation on the `Directory` service.
     ///
     /// Deletes a conditional forwarder that has been set up for your Amazon Web Services directory.
     ///
@@ -1450,7 +1450,7 @@ extension DirectoryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteDirectory` operation on the `DirectoryService_20150416` service.
+    /// Performs the `DeleteDirectory` operation on the `Directory` service.
     ///
     /// Deletes an Directory Service directory. Before you call DeleteDirectory, ensure that all of the required permissions have been explicitly granted through a policy. For details about what permissions are required to run the DeleteDirectory operation, see [Directory Service API Permissions: Actions, Resources, and Conditions Reference](http://docs.aws.amazon.com/directoryservice/latest/admin-guide/UsingWithDS_IAM_ResourcePermissions.html).
     ///
@@ -1522,7 +1522,7 @@ extension DirectoryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteLogSubscription` operation on the `DirectoryService_20150416` service.
+    /// Performs the `DeleteLogSubscription` operation on the `Directory` service.
     ///
     /// Deletes the specified log subscription.
     ///
@@ -1595,7 +1595,7 @@ extension DirectoryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteSnapshot` operation on the `DirectoryService_20150416` service.
+    /// Performs the `DeleteSnapshot` operation on the `Directory` service.
     ///
     /// Deletes a directory snapshot.
     ///
@@ -1668,7 +1668,7 @@ extension DirectoryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteTrust` operation on the `DirectoryService_20150416` service.
+    /// Performs the `DeleteTrust` operation on the `Directory` service.
     ///
     /// Deletes an existing trust relationship between your Managed Microsoft AD directory and an external domain.
     ///
@@ -1742,7 +1742,7 @@ extension DirectoryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeregisterCertificate` operation on the `DirectoryService_20150416` service.
+    /// Performs the `DeregisterCertificate` operation on the `Directory` service.
     ///
     /// Deletes from the system the certificate that was registered for secure LDAP or client certificate authentication.
     ///
@@ -1819,7 +1819,7 @@ extension DirectoryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeregisterEventTopic` operation on the `DirectoryService_20150416` service.
+    /// Performs the `DeregisterEventTopic` operation on the `Directory` service.
     ///
     /// Removes the specified directory as a publisher to the specified Amazon SNS topic.
     ///
@@ -1892,7 +1892,7 @@ extension DirectoryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeCertificate` operation on the `DirectoryService_20150416` service.
+    /// Performs the `DescribeCertificate` operation on the `Directory` service.
     ///
     /// Displays information about the certificate registered for secure LDAP or client certificate authentication.
     ///
@@ -1967,7 +1967,7 @@ extension DirectoryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeClientAuthenticationSettings` operation on the `DirectoryService_20150416` service.
+    /// Performs the `DescribeClientAuthenticationSettings` operation on the `Directory` service.
     ///
     /// Retrieves information about the type of client authentication for the specified directory, if the type is specified. If no type is specified, information about all client authentication types that are supported for the specified directory is retrieved. Currently, only SmartCard is supported.
     ///
@@ -2042,7 +2042,7 @@ extension DirectoryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeConditionalForwarders` operation on the `DirectoryService_20150416` service.
+    /// Performs the `DescribeConditionalForwarders` operation on the `Directory` service.
     ///
     /// Obtains information about the conditional forwarders for this account. If no input parameters are provided for RemoteDomainNames, this request describes all conditional forwarders for the specified directory ID.
     ///
@@ -2117,7 +2117,7 @@ extension DirectoryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeDirectories` operation on the `DirectoryService_20150416` service.
+    /// Performs the `DescribeDirectories` operation on the `Directory` service.
     ///
     /// Obtains information about the directories that belong to this account. You can retrieve information about specific directories by passing the directory identifiers in the DirectoryIds parameter. Otherwise, all directories that belong to the current account are returned. This operation supports pagination with the use of the NextToken request and response parameters. If more results are available, the DescribeDirectoriesResult.NextToken member contains a token that you pass in the next call to [DescribeDirectories] to retrieve the next set of items. You can also specify a maximum number of return results with the Limit parameter.
     ///
@@ -2191,7 +2191,7 @@ extension DirectoryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeDirectoryDataAccess` operation on the `DirectoryService_20150416` service.
+    /// Performs the `DescribeDirectoryDataAccess` operation on the `Directory` service.
     ///
     /// Obtains status of directory data access enablement through the Directory Service Data API for the specified directory.
     ///
@@ -2265,7 +2265,7 @@ extension DirectoryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeDomainControllers` operation on the `DirectoryService_20150416` service.
+    /// Performs the `DescribeDomainControllers` operation on the `Directory` service.
     ///
     /// Provides information about any domain controllers in your directory.
     ///
@@ -2340,7 +2340,7 @@ extension DirectoryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeEventTopics` operation on the `DirectoryService_20150416` service.
+    /// Performs the `DescribeEventTopics` operation on the `Directory` service.
     ///
     /// Obtains information about which Amazon SNS topics receive status messages from the specified directory. If no input parameters are provided, such as DirectoryId or TopicName, this request describes all of the associations in the account.
     ///
@@ -2413,7 +2413,7 @@ extension DirectoryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeLDAPSSettings` operation on the `DirectoryService_20150416` service.
+    /// Performs the `DescribeLDAPSSettings` operation on the `Directory` service.
     ///
     /// Describes the status of LDAP security for the specified directory.
     ///
@@ -2488,7 +2488,7 @@ extension DirectoryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeRegions` operation on the `DirectoryService_20150416` service.
+    /// Performs the `DescribeRegions` operation on the `Directory` service.
     ///
     /// Provides information about the Regions that are configured for multi-Region replication.
     ///
@@ -2564,7 +2564,7 @@ extension DirectoryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeSettings` operation on the `DirectoryService_20150416` service.
+    /// Performs the `DescribeSettings` operation on the `Directory` service.
     ///
     /// Retrieves information about the configurable settings for the specified directory.
     ///
@@ -2639,7 +2639,7 @@ extension DirectoryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeSharedDirectories` operation on the `DirectoryService_20150416` service.
+    /// Performs the `DescribeSharedDirectories` operation on the `Directory` service.
     ///
     /// Returns the shared directories in your account.
     ///
@@ -2714,7 +2714,7 @@ extension DirectoryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeSnapshots` operation on the `DirectoryService_20150416` service.
+    /// Performs the `DescribeSnapshots` operation on the `Directory` service.
     ///
     /// Obtains information about the directory snapshots that belong to this account. This operation supports pagination with the use of the NextToken request and response parameters. If more results are available, the DescribeSnapshots.NextToken member contains a token that you pass in the next call to [DescribeSnapshots] to retrieve the next set of items. You can also specify a maximum number of return results with the Limit parameter.
     ///
@@ -2788,7 +2788,7 @@ extension DirectoryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeTrusts` operation on the `DirectoryService_20150416` service.
+    /// Performs the `DescribeTrusts` operation on the `Directory` service.
     ///
     /// Obtains information about the trust relationships for this account. If no input parameters are provided, such as DirectoryId or TrustIds, this request describes all the trust relationships belonging to the account.
     ///
@@ -2863,7 +2863,7 @@ extension DirectoryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeUpdateDirectory` operation on the `DirectoryService_20150416` service.
+    /// Performs the `DescribeUpdateDirectory` operation on the `Directory` service.
     ///
     /// Describes the updates of a directory for a particular update type.
     ///
@@ -2938,7 +2938,7 @@ extension DirectoryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisableClientAuthentication` operation on the `DirectoryService_20150416` service.
+    /// Performs the `DisableClientAuthentication` operation on the `Directory` service.
     ///
     /// Disables alternative client authentication methods for the specified directory.
     ///
@@ -3013,7 +3013,7 @@ extension DirectoryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisableDirectoryDataAccess` operation on the `DirectoryService_20150416` service.
+    /// Performs the `DisableDirectoryDataAccess` operation on the `Directory` service.
     ///
     /// Deactivates access to directory data via the Directory Service Data API for the specified directory.
     ///
@@ -3089,7 +3089,7 @@ extension DirectoryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisableLDAPS` operation on the `DirectoryService_20150416` service.
+    /// Performs the `DisableLDAPS` operation on the `Directory` service.
     ///
     /// Deactivates LDAP secure calls for the specified directory.
     ///
@@ -3165,7 +3165,7 @@ extension DirectoryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisableRadius` operation on the `DirectoryService_20150416` service.
+    /// Performs the `DisableRadius` operation on the `Directory` service.
     ///
     /// Disables multi-factor authentication (MFA) with the Remote Authentication Dial In User Service (RADIUS) server for an AD Connector or Microsoft AD directory.
     ///
@@ -3237,7 +3237,7 @@ extension DirectoryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisableSso` operation on the `DirectoryService_20150416` service.
+    /// Performs the `DisableSso` operation on the `Directory` service.
     ///
     /// Disables single-sign on for a directory.
     ///
@@ -3311,7 +3311,7 @@ extension DirectoryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `EnableClientAuthentication` operation on the `DirectoryService_20150416` service.
+    /// Performs the `EnableClientAuthentication` operation on the `Directory` service.
     ///
     /// Enables alternative client authentication methods for the specified directory.
     ///
@@ -3387,7 +3387,7 @@ extension DirectoryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `EnableDirectoryDataAccess` operation on the `DirectoryService_20150416` service.
+    /// Performs the `EnableDirectoryDataAccess` operation on the `Directory` service.
     ///
     /// Enables access to directory data via the Directory Service Data API for the specified directory.
     ///
@@ -3463,7 +3463,7 @@ extension DirectoryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `EnableLDAPS` operation on the `DirectoryService_20150416` service.
+    /// Performs the `EnableLDAPS` operation on the `Directory` service.
     ///
     /// Activates the switch for the specific directory to always use LDAP secure calls.
     ///
@@ -3540,7 +3540,7 @@ extension DirectoryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `EnableRadius` operation on the `DirectoryService_20150416` service.
+    /// Performs the `EnableRadius` operation on the `Directory` service.
     ///
     /// Enables multi-factor authentication (MFA) with the Remote Authentication Dial In User Service (RADIUS) server for an AD Connector or Microsoft AD directory.
     ///
@@ -3614,7 +3614,7 @@ extension DirectoryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `EnableSso` operation on the `DirectoryService_20150416` service.
+    /// Performs the `EnableSso` operation on the `Directory` service.
     ///
     /// Enables single sign-on for a directory. Single sign-on allows users in your directory to access certain Amazon Web Services services from a computer joined to the directory without having to enter their credentials separately.
     ///
@@ -3688,7 +3688,7 @@ extension DirectoryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDirectoryLimits` operation on the `DirectoryService_20150416` service.
+    /// Performs the `GetDirectoryLimits` operation on the `Directory` service.
     ///
     /// Obtains directory limit information for the current Region.
     ///
@@ -3760,7 +3760,7 @@ extension DirectoryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetSnapshotLimits` operation on the `DirectoryService_20150416` service.
+    /// Performs the `GetSnapshotLimits` operation on the `Directory` service.
     ///
     /// Obtains the manual snapshot limits for a directory.
     ///
@@ -3832,7 +3832,7 @@ extension DirectoryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListCertificates` operation on the `DirectoryService_20150416` service.
+    /// Performs the `ListCertificates` operation on the `Directory` service.
     ///
     /// For the specified directory, lists all the certificates registered for a secure LDAP or client certificate authentication.
     ///
@@ -3907,7 +3907,7 @@ extension DirectoryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListIpRoutes` operation on the `DirectoryService_20150416` service.
+    /// Performs the `ListIpRoutes` operation on the `Directory` service.
     ///
     /// Lists the address blocks that you have added to a directory.
     ///
@@ -3981,7 +3981,7 @@ extension DirectoryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListLogSubscriptions` operation on the `DirectoryService_20150416` service.
+    /// Performs the `ListLogSubscriptions` operation on the `Directory` service.
     ///
     /// Lists the active log subscriptions for the Amazon Web Services account.
     ///
@@ -4054,7 +4054,7 @@ extension DirectoryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListSchemaExtensions` operation on the `DirectoryService_20150416` service.
+    /// Performs the `ListSchemaExtensions` operation on the `Directory` service.
     ///
     /// Lists all schema extensions applied to a Microsoft AD Directory.
     ///
@@ -4127,7 +4127,7 @@ extension DirectoryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `DirectoryService_20150416` service.
+    /// Performs the `ListTagsForResource` operation on the `Directory` service.
     ///
     /// Lists all tags on a directory.
     ///
@@ -4201,7 +4201,7 @@ extension DirectoryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RegisterCertificate` operation on the `DirectoryService_20150416` service.
+    /// Performs the `RegisterCertificate` operation on the `Directory` service.
     ///
     /// Registers a certificate for a secure LDAP or client certificate authentication.
     ///
@@ -4279,7 +4279,7 @@ extension DirectoryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RegisterEventTopic` operation on the `DirectoryService_20150416` service.
+    /// Performs the `RegisterEventTopic` operation on the `Directory` service.
     ///
     /// Associates a directory with an Amazon SNS topic. This establishes the directory as a publisher to the specified Amazon SNS topic. You can then receive email or text (SMS) messages when the status of your directory changes. You get notified if your directory goes from an Active status to an Impaired or Inoperable status. You also receive a notification when the directory returns to an Active status.
     ///
@@ -4352,7 +4352,7 @@ extension DirectoryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RejectSharedDirectory` operation on the `DirectoryService_20150416` service.
+    /// Performs the `RejectSharedDirectory` operation on the `Directory` service.
     ///
     /// Rejects a directory sharing request that was sent from the directory owner account.
     ///
@@ -4426,7 +4426,7 @@ extension DirectoryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RemoveIpRoutes` operation on the `DirectoryService_20150416` service.
+    /// Performs the `RemoveIpRoutes` operation on the `Directory` service.
     ///
     /// Removes IP address blocks from a directory.
     ///
@@ -4500,7 +4500,7 @@ extension DirectoryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RemoveRegion` operation on the `DirectoryService_20150416` service.
+    /// Performs the `RemoveRegion` operation on the `Directory` service.
     ///
     /// Stops all replication and removes the domain controllers from the specified Region. You cannot remove the primary Region with this operation. Instead, use the DeleteDirectory API.
     ///
@@ -4575,7 +4575,7 @@ extension DirectoryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RemoveTagsFromResource` operation on the `DirectoryService_20150416` service.
+    /// Performs the `RemoveTagsFromResource` operation on the `Directory` service.
     ///
     /// Removes tags from a directory.
     ///
@@ -4648,7 +4648,7 @@ extension DirectoryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ResetUserPassword` operation on the `DirectoryService_20150416` service.
+    /// Performs the `ResetUserPassword` operation on the `Directory` service.
     ///
     /// Resets the password for any user in your Managed Microsoft AD or Simple AD directory. Disabled users will become enabled and can be authenticated following the API call. You can reset the password for any user in your directory with the following exceptions:
     ///
@@ -4728,7 +4728,7 @@ extension DirectoryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RestoreFromSnapshot` operation on the `DirectoryService_20150416` service.
+    /// Performs the `RestoreFromSnapshot` operation on the `Directory` service.
     ///
     /// Restores a directory using an existing directory snapshot. When you restore a directory from a snapshot, any changes made to the directory after the snapshot date are overwritten. This action returns as soon as the restore operation is initiated. You can monitor the progress of the restore operation by calling the [DescribeDirectories] operation with the directory identifier. When the DirectoryDescription.Stage value changes to Active, the restore operation is complete.
     ///
@@ -4801,7 +4801,7 @@ extension DirectoryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ShareDirectory` operation on the `DirectoryService_20150416` service.
+    /// Performs the `ShareDirectory` operation on the `Directory` service.
     ///
     /// Shares a specified directory (DirectoryId) in your Amazon Web Services account (directory owner) with another Amazon Web Services account (directory consumer). With this operation you can use your directory from any Amazon Web Services account and from any Amazon VPC within an Amazon Web Services Region. When you share your Managed Microsoft AD directory, Directory Service creates a shared directory in the directory consumer account. This shared directory contains the metadata to provide access to the directory within the directory owner account. The shared directory is visible in all VPCs in the directory consumer account. The ShareMethod parameter determines whether the specified directory can be shared between Amazon Web Services accounts inside the same Amazon Web Services organization (ORGANIZATIONS). It also determines whether you can share the directory with any other Amazon Web Services account either inside or outside of the organization (HANDSHAKE). The ShareNotes parameter is only used when HANDSHAKE is called, which sends a directory sharing request to the directory consumer.
     ///
@@ -4880,7 +4880,7 @@ extension DirectoryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartSchemaExtension` operation on the `DirectoryService_20150416` service.
+    /// Performs the `StartSchemaExtension` operation on the `Directory` service.
     ///
     /// Applies a schema extension to a Microsoft AD directory.
     ///
@@ -4955,7 +4955,7 @@ extension DirectoryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UnshareDirectory` operation on the `DirectoryService_20150416` service.
+    /// Performs the `UnshareDirectory` operation on the `Directory` service.
     ///
     /// Stops the directory sharing between the directory owner and consumer accounts.
     ///
@@ -5029,7 +5029,7 @@ extension DirectoryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateConditionalForwarder` operation on the `DirectoryService_20150416` service.
+    /// Performs the `UpdateConditionalForwarder` operation on the `Directory` service.
     ///
     /// Updates a conditional forwarder that has been set up for your Amazon Web Services directory.
     ///
@@ -5104,7 +5104,7 @@ extension DirectoryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateDirectorySetup` operation on the `DirectoryService_20150416` service.
+    /// Performs the `UpdateDirectorySetup` operation on the `Directory` service.
     ///
     /// Updates the directory for a particular update type.
     ///
@@ -5182,7 +5182,7 @@ extension DirectoryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateNumberOfDomainControllers` operation on the `DirectoryService_20150416` service.
+    /// Performs the `UpdateNumberOfDomainControllers` operation on the `Directory` service.
     ///
     /// Adds or removes domain controllers to or from the directory. Based on the difference between current value and new value (provided through this API call), domain controllers will be added or removed. It may take up to 45 minutes for any new domain controllers to become fully active once the requested number of domain controllers is updated. During this time, you cannot make another update request.
     ///
@@ -5258,7 +5258,7 @@ extension DirectoryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateRadius` operation on the `DirectoryService_20150416` service.
+    /// Performs the `UpdateRadius` operation on the `Directory` service.
     ///
     /// Updates the Remote Authentication Dial In User Service (RADIUS) server information for an AD Connector or Microsoft AD directory.
     ///
@@ -5331,7 +5331,7 @@ extension DirectoryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateSettings` operation on the `DirectoryService_20150416` service.
+    /// Performs the `UpdateSettings` operation on the `Directory` service.
     ///
     /// Updates the configurable settings for the specified directory.
     ///
@@ -5408,7 +5408,7 @@ extension DirectoryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateTrust` operation on the `DirectoryService_20150416` service.
+    /// Performs the `UpdateTrust` operation on the `Directory` service.
     ///
     /// Updates the trust that has been set up between your Managed Microsoft AD directory and an self-managed Active Directory.
     ///
@@ -5481,7 +5481,7 @@ extension DirectoryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `VerifyTrust` operation on the `DirectoryService_20150416` service.
+    /// Performs the `VerifyTrust` operation on the `Directory` service.
     ///
     /// Directory Service for Microsoft Active Directory allows you to configure and verify trust relationships. This action verifies a trust relationship between your Managed Microsoft AD directory and an external domain.
     ///

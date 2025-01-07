@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class APIGatewayClient: ClientRuntime.Client {
     public static let clientName = "APIGatewayClient"
-    public static let version = "1.0.71"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: APIGatewayClient.APIGatewayClientConfiguration
     let serviceName = "API Gateway"
@@ -334,7 +334,7 @@ extension APIGatewayClient {
 }
 
 extension APIGatewayClient {
-    /// Performs the `CreateApiKey` operation on the `BackplaneControlService` service.
+    /// Performs the `CreateApiKey` operation on the `APIGateway` service.
     ///
     /// Create an ApiKey resource.
     ///
@@ -409,7 +409,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateAuthorizer` operation on the `BackplaneControlService` service.
+    /// Performs the `CreateAuthorizer` operation on the `APIGateway` service.
     ///
     /// Adds a new Authorizer resource to an existing RestApi resource.
     ///
@@ -484,7 +484,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateBasePathMapping` operation on the `BackplaneControlService` service.
+    /// Performs the `CreateBasePathMapping` operation on the `APIGateway` service.
     ///
     /// Creates a new BasePathMapping resource.
     ///
@@ -560,7 +560,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateDeployment` operation on the `BackplaneControlService` service.
+    /// Performs the `CreateDeployment` operation on the `APIGateway` service.
     ///
     /// Creates a Deployment resource, which makes a specified RestApi callable over the internet.
     ///
@@ -636,7 +636,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateDocumentationPart` operation on the `BackplaneControlService` service.
+    /// Performs the `CreateDocumentationPart` operation on the `APIGateway` service.
     ///
     /// Creates a documentation part.
     ///
@@ -711,7 +711,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateDocumentationVersion` operation on the `BackplaneControlService` service.
+    /// Performs the `CreateDocumentationVersion` operation on the `APIGateway` service.
     ///
     /// Creates a documentation version
     ///
@@ -786,7 +786,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateDomainName` operation on the `BackplaneControlService` service.
+    /// Performs the `CreateDomainName` operation on the `APIGateway` service.
     ///
     /// Creates a new domain name.
     ///
@@ -860,7 +860,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateDomainNameAccessAssociation` operation on the `BackplaneControlService` service.
+    /// Performs the `CreateDomainNameAccessAssociation` operation on the `APIGateway` service.
     ///
     /// Creates a domain name access association resource between an access association source and a private custom domain name.
     ///
@@ -934,7 +934,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateModel` operation on the `BackplaneControlService` service.
+    /// Performs the `CreateModel` operation on the `APIGateway` service.
     ///
     /// Adds a new Model resource to an existing RestApi resource.
     ///
@@ -1009,7 +1009,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateRequestValidator` operation on the `BackplaneControlService` service.
+    /// Performs the `CreateRequestValidator` operation on the `APIGateway` service.
     ///
     /// Creates a RequestValidator of a given RestApi.
     ///
@@ -1084,7 +1084,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateResource` operation on the `BackplaneControlService` service.
+    /// Performs the `CreateResource` operation on the `APIGateway` service.
     ///
     /// Creates a Resource resource.
     ///
@@ -1159,7 +1159,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateRestApi` operation on the `BackplaneControlService` service.
+    /// Performs the `CreateRestApi` operation on the `APIGateway` service.
     ///
     /// Creates a new RestApi resource.
     ///
@@ -1233,7 +1233,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateStage` operation on the `BackplaneControlService` service.
+    /// Performs the `CreateStage` operation on the `APIGateway` service.
     ///
     /// Creates a new Stage resource that references a pre-existing Deployment for the API.
     ///
@@ -1308,7 +1308,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateUsagePlan` operation on the `BackplaneControlService` service.
+    /// Performs the `CreateUsagePlan` operation on the `APIGateway` service.
     ///
     /// Creates a usage plan with the throttle and quota limits, as well as the associated API stages, specified in the payload.
     ///
@@ -1383,7 +1383,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateUsagePlanKey` operation on the `BackplaneControlService` service.
+    /// Performs the `CreateUsagePlanKey` operation on the `APIGateway` service.
     ///
     /// Creates a usage plan key for adding an existing API key to a usage plan.
     ///
@@ -1458,7 +1458,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateVpcLink` operation on the `BackplaneControlService` service.
+    /// Performs the `CreateVpcLink` operation on the `APIGateway` service.
     ///
     /// Creates a VPC link, under the caller's account in a selected region, in an asynchronous operation that typically takes 2-4 minutes to complete and become operational. The caller must have permissions to create and update VPC Endpoint services.
     ///
@@ -1532,7 +1532,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteApiKey` operation on the `BackplaneControlService` service.
+    /// Performs the `DeleteApiKey` operation on the `APIGateway` service.
     ///
     /// Deletes the ApiKey resource.
     ///
@@ -1603,7 +1603,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAuthorizer` operation on the `BackplaneControlService` service.
+    /// Performs the `DeleteAuthorizer` operation on the `APIGateway` service.
     ///
     /// Deletes an existing Authorizer resource.
     ///
@@ -1674,7 +1674,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteBasePathMapping` operation on the `BackplaneControlService` service.
+    /// Performs the `DeleteBasePathMapping` operation on the `APIGateway` service.
     ///
     /// Deletes the BasePathMapping resource.
     ///
@@ -1746,7 +1746,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteClientCertificate` operation on the `BackplaneControlService` service.
+    /// Performs the `DeleteClientCertificate` operation on the `APIGateway` service.
     ///
     /// Deletes the ClientCertificate resource.
     ///
@@ -1817,7 +1817,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteDeployment` operation on the `BackplaneControlService` service.
+    /// Performs the `DeleteDeployment` operation on the `APIGateway` service.
     ///
     /// Deletes a Deployment resource. Deleting a deployment will only succeed if there are no Stage resources associated with it.
     ///
@@ -1889,7 +1889,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteDocumentationPart` operation on the `BackplaneControlService` service.
+    /// Performs the `DeleteDocumentationPart` operation on the `APIGateway` service.
     ///
     /// Deletes a documentation part
     ///
@@ -1960,7 +1960,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteDocumentationVersion` operation on the `BackplaneControlService` service.
+    /// Performs the `DeleteDocumentationVersion` operation on the `APIGateway` service.
     ///
     /// Deletes a documentation version.
     ///
@@ -2031,7 +2031,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteDomainName` operation on the `BackplaneControlService` service.
+    /// Performs the `DeleteDomainName` operation on the `APIGateway` service.
     ///
     /// Deletes the DomainName resource.
     ///
@@ -2103,7 +2103,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteDomainNameAccessAssociation` operation on the `BackplaneControlService` service.
+    /// Performs the `DeleteDomainNameAccessAssociation` operation on the `APIGateway` service.
     ///
     /// Deletes the DomainNameAccessAssociation resource. Only the AWS account that created the DomainNameAccessAssociation resource can delete it. To stop an access association source in another AWS account from accessing your private custom domain name, use the RejectDomainNameAccessAssociation operation.
     ///
@@ -2174,7 +2174,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteGatewayResponse` operation on the `BackplaneControlService` service.
+    /// Performs the `DeleteGatewayResponse` operation on the `APIGateway` service.
     ///
     /// Clears any customization of a GatewayResponse of a specified response type on the given RestApi and resets it with the default settings.
     ///
@@ -2245,7 +2245,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteIntegration` operation on the `BackplaneControlService` service.
+    /// Performs the `DeleteIntegration` operation on the `APIGateway` service.
     ///
     /// Represents a delete integration.
     ///
@@ -2316,7 +2316,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteIntegrationResponse` operation on the `BackplaneControlService` service.
+    /// Performs the `DeleteIntegrationResponse` operation on the `APIGateway` service.
     ///
     /// Represents a delete integration response.
     ///
@@ -2387,7 +2387,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteMethod` operation on the `BackplaneControlService` service.
+    /// Performs the `DeleteMethod` operation on the `APIGateway` service.
     ///
     /// Deletes an existing Method resource.
     ///
@@ -2457,7 +2457,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteMethodResponse` operation on the `BackplaneControlService` service.
+    /// Performs the `DeleteMethodResponse` operation on the `APIGateway` service.
     ///
     /// Deletes an existing MethodResponse resource.
     ///
@@ -2528,7 +2528,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteModel` operation on the `BackplaneControlService` service.
+    /// Performs the `DeleteModel` operation on the `APIGateway` service.
     ///
     /// Deletes a model.
     ///
@@ -2599,7 +2599,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteRequestValidator` operation on the `BackplaneControlService` service.
+    /// Performs the `DeleteRequestValidator` operation on the `APIGateway` service.
     ///
     /// Deletes a RequestValidator of a given RestApi.
     ///
@@ -2670,7 +2670,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteResource` operation on the `BackplaneControlService` service.
+    /// Performs the `DeleteResource` operation on the `APIGateway` service.
     ///
     /// Deletes a Resource resource.
     ///
@@ -2741,7 +2741,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteRestApi` operation on the `BackplaneControlService` service.
+    /// Performs the `DeleteRestApi` operation on the `APIGateway` service.
     ///
     /// Deletes the specified API.
     ///
@@ -2812,7 +2812,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteStage` operation on the `BackplaneControlService` service.
+    /// Performs the `DeleteStage` operation on the `APIGateway` service.
     ///
     /// Deletes a Stage resource.
     ///
@@ -2884,7 +2884,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteUsagePlan` operation on the `BackplaneControlService` service.
+    /// Performs the `DeleteUsagePlan` operation on the `APIGateway` service.
     ///
     /// Deletes a usage plan of a given plan Id.
     ///
@@ -2955,7 +2955,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteUsagePlanKey` operation on the `BackplaneControlService` service.
+    /// Performs the `DeleteUsagePlanKey` operation on the `APIGateway` service.
     ///
     /// Deletes a usage plan key and remove the underlying API key from the associated usage plan.
     ///
@@ -3026,7 +3026,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteVpcLink` operation on the `BackplaneControlService` service.
+    /// Performs the `DeleteVpcLink` operation on the `APIGateway` service.
     ///
     /// Deletes an existing VpcLink of a specified identifier.
     ///
@@ -3097,7 +3097,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `FlushStageAuthorizersCache` operation on the `BackplaneControlService` service.
+    /// Performs the `FlushStageAuthorizersCache` operation on the `APIGateway` service.
     ///
     /// Flushes all authorizer cache entries on a stage.
     ///
@@ -3169,7 +3169,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `FlushStageCache` operation on the `BackplaneControlService` service.
+    /// Performs the `FlushStageCache` operation on the `APIGateway` service.
     ///
     /// Flushes a stage's cache.
     ///
@@ -3241,7 +3241,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GenerateClientCertificate` operation on the `BackplaneControlService` service.
+    /// Performs the `GenerateClientCertificate` operation on the `APIGateway` service.
     ///
     /// Generates a ClientCertificate resource.
     ///
@@ -3315,7 +3315,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAccount` operation on the `BackplaneControlService` service.
+    /// Performs the `GetAccount` operation on the `APIGateway` service.
     ///
     /// Gets information about the current Account resource.
     ///
@@ -3385,7 +3385,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetApiKey` operation on the `BackplaneControlService` service.
+    /// Performs the `GetApiKey` operation on the `APIGateway` service.
     ///
     /// Gets information about the current ApiKey resource.
     ///
@@ -3456,7 +3456,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetApiKeys` operation on the `BackplaneControlService` service.
+    /// Performs the `GetApiKeys` operation on the `APIGateway` service.
     ///
     /// Gets information about the current ApiKeys resource.
     ///
@@ -3527,7 +3527,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAuthorizer` operation on the `BackplaneControlService` service.
+    /// Performs the `GetAuthorizer` operation on the `APIGateway` service.
     ///
     /// Describe an existing Authorizer resource.
     ///
@@ -3597,7 +3597,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAuthorizers` operation on the `BackplaneControlService` service.
+    /// Performs the `GetAuthorizers` operation on the `APIGateway` service.
     ///
     /// Describe an existing Authorizers resource.
     ///
@@ -3668,7 +3668,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetBasePathMapping` operation on the `BackplaneControlService` service.
+    /// Performs the `GetBasePathMapping` operation on the `APIGateway` service.
     ///
     /// Describe a BasePathMapping resource.
     ///
@@ -3739,7 +3739,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetBasePathMappings` operation on the `BackplaneControlService` service.
+    /// Performs the `GetBasePathMappings` operation on the `APIGateway` service.
     ///
     /// Represents a collection of BasePathMapping resources.
     ///
@@ -3810,7 +3810,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetClientCertificate` operation on the `BackplaneControlService` service.
+    /// Performs the `GetClientCertificate` operation on the `APIGateway` service.
     ///
     /// Gets information about the current ClientCertificate resource.
     ///
@@ -3880,7 +3880,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetClientCertificates` operation on the `BackplaneControlService` service.
+    /// Performs the `GetClientCertificates` operation on the `APIGateway` service.
     ///
     /// Gets a collection of ClientCertificate resources.
     ///
@@ -3951,7 +3951,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDeployment` operation on the `BackplaneControlService` service.
+    /// Performs the `GetDeployment` operation on the `APIGateway` service.
     ///
     /// Gets information about a Deployment resource.
     ///
@@ -4023,7 +4023,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDeployments` operation on the `BackplaneControlService` service.
+    /// Performs the `GetDeployments` operation on the `APIGateway` service.
     ///
     /// Gets information about a Deployments collection.
     ///
@@ -4095,7 +4095,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDocumentationPart` operation on the `BackplaneControlService` service.
+    /// Performs the `GetDocumentationPart` operation on the `APIGateway` service.
     ///
     /// Gets a documentation part.
     ///
@@ -4165,7 +4165,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDocumentationParts` operation on the `BackplaneControlService` service.
+    /// Performs the `GetDocumentationParts` operation on the `APIGateway` service.
     ///
     /// Gets documentation parts.
     ///
@@ -4236,7 +4236,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDocumentationVersion` operation on the `BackplaneControlService` service.
+    /// Performs the `GetDocumentationVersion` operation on the `APIGateway` service.
     ///
     /// Gets a documentation version.
     ///
@@ -4305,7 +4305,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDocumentationVersions` operation on the `BackplaneControlService` service.
+    /// Performs the `GetDocumentationVersions` operation on the `APIGateway` service.
     ///
     /// Gets documentation versions.
     ///
@@ -4376,7 +4376,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDomainName` operation on the `BackplaneControlService` service.
+    /// Performs the `GetDomainName` operation on the `APIGateway` service.
     ///
     /// Represents a domain name that is contained in a simpler, more intuitive URL that can be called.
     ///
@@ -4447,7 +4447,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDomainNameAccessAssociations` operation on the `BackplaneControlService` service.
+    /// Performs the `GetDomainNameAccessAssociations` operation on the `APIGateway` service.
     ///
     /// Represents a collection on DomainNameAccessAssociations resources.
     ///
@@ -4518,7 +4518,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDomainNames` operation on the `BackplaneControlService` service.
+    /// Performs the `GetDomainNames` operation on the `APIGateway` service.
     ///
     /// Represents a collection of DomainName resources.
     ///
@@ -4589,7 +4589,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetExport` operation on the `BackplaneControlService` service.
+    /// Performs the `GetExport` operation on the `APIGateway` service.
     ///
     /// Exports a deployed version of a RestApi in a specified format.
     ///
@@ -4663,7 +4663,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetGatewayResponse` operation on the `BackplaneControlService` service.
+    /// Performs the `GetGatewayResponse` operation on the `APIGateway` service.
     ///
     /// Gets a GatewayResponse of a specified response type on the given RestApi.
     ///
@@ -4733,7 +4733,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetGatewayResponses` operation on the `BackplaneControlService` service.
+    /// Performs the `GetGatewayResponses` operation on the `APIGateway` service.
     ///
     /// Gets the GatewayResponses collection on the given RestApi. If an API developer has not added any definitions for gateway responses, the result will be the API Gateway-generated default GatewayResponses collection for the supported response types.
     ///
@@ -4804,7 +4804,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetIntegration` operation on the `BackplaneControlService` service.
+    /// Performs the `GetIntegration` operation on the `APIGateway` service.
     ///
     /// Get the integration settings.
     ///
@@ -4874,7 +4874,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetIntegrationResponse` operation on the `BackplaneControlService` service.
+    /// Performs the `GetIntegrationResponse` operation on the `APIGateway` service.
     ///
     /// Represents a get integration response.
     ///
@@ -4944,7 +4944,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetMethod` operation on the `BackplaneControlService` service.
+    /// Performs the `GetMethod` operation on the `APIGateway` service.
     ///
     /// Describe an existing Method resource.
     ///
@@ -5013,7 +5013,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetMethodResponse` operation on the `BackplaneControlService` service.
+    /// Performs the `GetMethodResponse` operation on the `APIGateway` service.
     ///
     /// Describes a MethodResponse resource.
     ///
@@ -5082,7 +5082,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetModel` operation on the `BackplaneControlService` service.
+    /// Performs the `GetModel` operation on the `APIGateway` service.
     ///
     /// Describes an existing model defined for a RestApi resource.
     ///
@@ -5153,7 +5153,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetModelTemplate` operation on the `BackplaneControlService` service.
+    /// Performs the `GetModelTemplate` operation on the `APIGateway` service.
     ///
     /// Generates a sample mapping template that can be used to transform a payload into the structure of a model.
     ///
@@ -5223,7 +5223,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetModels` operation on the `BackplaneControlService` service.
+    /// Performs the `GetModels` operation on the `APIGateway` service.
     ///
     /// Describes existing Models defined for a RestApi resource.
     ///
@@ -5294,7 +5294,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetRequestValidator` operation on the `BackplaneControlService` service.
+    /// Performs the `GetRequestValidator` operation on the `APIGateway` service.
     ///
     /// Gets a RequestValidator of a given RestApi.
     ///
@@ -5364,7 +5364,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetRequestValidators` operation on the `BackplaneControlService` service.
+    /// Performs the `GetRequestValidators` operation on the `APIGateway` service.
     ///
     /// Gets the RequestValidators collection of a given RestApi.
     ///
@@ -5435,7 +5435,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetResource` operation on the `BackplaneControlService` service.
+    /// Performs the `GetResource` operation on the `APIGateway` service.
     ///
     /// Lists information about a resource.
     ///
@@ -5505,7 +5505,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetResources` operation on the `BackplaneControlService` service.
+    /// Performs the `GetResources` operation on the `APIGateway` service.
     ///
     /// Lists information about a collection of Resource resources.
     ///
@@ -5576,7 +5576,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetRestApi` operation on the `BackplaneControlService` service.
+    /// Performs the `GetRestApi` operation on the `APIGateway` service.
     ///
     /// Lists the RestApi resource in the collection.
     ///
@@ -5646,7 +5646,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetRestApis` operation on the `BackplaneControlService` service.
+    /// Performs the `GetRestApis` operation on the `APIGateway` service.
     ///
     /// Lists the RestApis resources for your collection.
     ///
@@ -5717,7 +5717,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetSdk` operation on the `BackplaneControlService` service.
+    /// Performs the `GetSdk` operation on the `APIGateway` service.
     ///
     /// Generates a client SDK for a RestApi and Stage.
     ///
@@ -5790,7 +5790,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetSdkType` operation on the `BackplaneControlService` service.
+    /// Performs the `GetSdkType` operation on the `APIGateway` service.
     ///
     /// Gets an SDK type.
     ///
@@ -5860,7 +5860,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetSdkTypes` operation on the `BackplaneControlService` service.
+    /// Performs the `GetSdkTypes` operation on the `APIGateway` service.
     ///
     /// Gets SDK types
     ///
@@ -5931,7 +5931,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetStage` operation on the `BackplaneControlService` service.
+    /// Performs the `GetStage` operation on the `APIGateway` service.
     ///
     /// Gets information about a Stage resource.
     ///
@@ -6003,7 +6003,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetStages` operation on the `BackplaneControlService` service.
+    /// Performs the `GetStages` operation on the `APIGateway` service.
     ///
     /// Gets information about one or more Stage resources.
     ///
@@ -6076,7 +6076,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetTags` operation on the `BackplaneControlService` service.
+    /// Performs the `GetTags` operation on the `APIGateway` service.
     ///
     /// Gets the Tags collection for a given resource.
     ///
@@ -6147,7 +6147,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetUsage` operation on the `BackplaneControlService` service.
+    /// Performs the `GetUsage` operation on the `APIGateway` service.
     ///
     /// Gets the usage data of a usage plan in a specified time interval.
     ///
@@ -6218,7 +6218,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetUsagePlan` operation on the `BackplaneControlService` service.
+    /// Performs the `GetUsagePlan` operation on the `APIGateway` service.
     ///
     /// Gets a usage plan of a given plan identifier.
     ///
@@ -6288,7 +6288,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetUsagePlanKey` operation on the `BackplaneControlService` service.
+    /// Performs the `GetUsagePlanKey` operation on the `APIGateway` service.
     ///
     /// Gets a usage plan key of a given key identifier.
     ///
@@ -6358,7 +6358,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetUsagePlanKeys` operation on the `BackplaneControlService` service.
+    /// Performs the `GetUsagePlanKeys` operation on the `APIGateway` service.
     ///
     /// Gets all the usage plan keys representing the API keys added to a specified usage plan.
     ///
@@ -6429,7 +6429,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetUsagePlans` operation on the `BackplaneControlService` service.
+    /// Performs the `GetUsagePlans` operation on the `APIGateway` service.
     ///
     /// Gets all the usage plans of the caller's account.
     ///
@@ -6500,7 +6500,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetVpcLink` operation on the `BackplaneControlService` service.
+    /// Performs the `GetVpcLink` operation on the `APIGateway` service.
     ///
     /// Gets a specified VPC link under the caller's account in a region.
     ///
@@ -6570,7 +6570,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetVpcLinks` operation on the `BackplaneControlService` service.
+    /// Performs the `GetVpcLinks` operation on the `APIGateway` service.
     ///
     /// Gets the VpcLinks collection under the caller's account in a selected region.
     ///
@@ -6641,7 +6641,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ImportApiKeys` operation on the `BackplaneControlService` service.
+    /// Performs the `ImportApiKeys` operation on the `APIGateway` service.
     ///
     /// Import API keys from an external source, such as a CSV-formatted file.
     ///
@@ -6717,7 +6717,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ImportDocumentationParts` operation on the `BackplaneControlService` service.
+    /// Performs the `ImportDocumentationParts` operation on the `APIGateway` service.
     ///
     /// Imports documentation parts
     ///
@@ -6793,7 +6793,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ImportRestApi` operation on the `BackplaneControlService` service.
+    /// Performs the `ImportRestApi` operation on the `APIGateway` service.
     ///
     /// A feature of the API Gateway control service for creating a new API from an external API definition file.
     ///
@@ -6869,7 +6869,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutGatewayResponse` operation on the `BackplaneControlService` service.
+    /// Performs the `PutGatewayResponse` operation on the `APIGateway` service.
     ///
     /// Creates a customization of a GatewayResponse of a specified response type and status code on the given RestApi.
     ///
@@ -6944,7 +6944,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutIntegration` operation on the `BackplaneControlService` service.
+    /// Performs the `PutIntegration` operation on the `APIGateway` service.
     ///
     /// Sets up a method's integration.
     ///
@@ -7019,7 +7019,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutIntegrationResponse` operation on the `BackplaneControlService` service.
+    /// Performs the `PutIntegrationResponse` operation on the `APIGateway` service.
     ///
     /// Represents a put integration.
     ///
@@ -7094,7 +7094,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutMethod` operation on the `BackplaneControlService` service.
+    /// Performs the `PutMethod` operation on the `APIGateway` service.
     ///
     /// Add a method to an existing Resource resource.
     ///
@@ -7169,7 +7169,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutMethodResponse` operation on the `BackplaneControlService` service.
+    /// Performs the `PutMethodResponse` operation on the `APIGateway` service.
     ///
     /// Adds a MethodResponse to an existing Method resource.
     ///
@@ -7244,7 +7244,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutRestApi` operation on the `BackplaneControlService` service.
+    /// Performs the `PutRestApi` operation on the `APIGateway` service.
     ///
     /// A feature of the API Gateway control service for updating an existing API with an input of external API definitions. The update can take the form of merging the supplied definition into the existing API or overwriting the existing API.
     ///
@@ -7320,7 +7320,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RejectDomainNameAccessAssociation` operation on the `BackplaneControlService` service.
+    /// Performs the `RejectDomainNameAccessAssociation` operation on the `APIGateway` service.
     ///
     /// Rejects a domain name access association with a private custom domain name. To reject a domain name access association with an access association source in another AWS account, use this operation. To remove a domain name access association with an access association source in your own account, use the DeleteDomainNameAccessAssociation operation.
     ///
@@ -7392,7 +7392,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `BackplaneControlService` service.
+    /// Performs the `TagResource` operation on the `APIGateway` service.
     ///
     /// Adds or updates a tag on a given resource.
     ///
@@ -7467,7 +7467,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TestInvokeAuthorizer` operation on the `BackplaneControlService` service.
+    /// Performs the `TestInvokeAuthorizer` operation on the `APIGateway` service.
     ///
     /// Simulate the execution of an Authorizer in your RestApi with headers, parameters, and an incoming request body.
     ///
@@ -7540,7 +7540,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TestInvokeMethod` operation on the `BackplaneControlService` service.
+    /// Performs the `TestInvokeMethod` operation on the `APIGateway` service.
     ///
     /// Simulate the invocation of a Method in your RestApi with headers, parameters, and an incoming request body.
     ///
@@ -7613,7 +7613,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `BackplaneControlService` service.
+    /// Performs the `UntagResource` operation on the `APIGateway` service.
     ///
     /// Removes a tag from a given resource.
     ///
@@ -7686,7 +7686,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateAccount` operation on the `BackplaneControlService` service.
+    /// Performs the `UpdateAccount` operation on the `APIGateway` service.
     ///
     /// Changes information about the current Account resource.
     ///
@@ -7761,7 +7761,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateApiKey` operation on the `BackplaneControlService` service.
+    /// Performs the `UpdateApiKey` operation on the `APIGateway` service.
     ///
     /// Changes information about an ApiKey resource.
     ///
@@ -7836,7 +7836,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateAuthorizer` operation on the `BackplaneControlService` service.
+    /// Performs the `UpdateAuthorizer` operation on the `APIGateway` service.
     ///
     /// Updates an existing Authorizer resource.
     ///
@@ -7911,7 +7911,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateBasePathMapping` operation on the `BackplaneControlService` service.
+    /// Performs the `UpdateBasePathMapping` operation on the `APIGateway` service.
     ///
     /// Changes information about the BasePathMapping resource.
     ///
@@ -7987,7 +7987,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateClientCertificate` operation on the `BackplaneControlService` service.
+    /// Performs the `UpdateClientCertificate` operation on the `APIGateway` service.
     ///
     /// Changes information about an ClientCertificate resource.
     ///
@@ -8062,7 +8062,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateDeployment` operation on the `BackplaneControlService` service.
+    /// Performs the `UpdateDeployment` operation on the `APIGateway` service.
     ///
     /// Changes information about a Deployment resource.
     ///
@@ -8138,7 +8138,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateDocumentationPart` operation on the `BackplaneControlService` service.
+    /// Performs the `UpdateDocumentationPart` operation on the `APIGateway` service.
     ///
     /// Updates a documentation part.
     ///
@@ -8213,7 +8213,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateDocumentationVersion` operation on the `BackplaneControlService` service.
+    /// Performs the `UpdateDocumentationVersion` operation on the `APIGateway` service.
     ///
     /// Updates a documentation version.
     ///
@@ -8288,7 +8288,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateDomainName` operation on the `BackplaneControlService` service.
+    /// Performs the `UpdateDomainName` operation on the `APIGateway` service.
     ///
     /// Changes information about the DomainName resource.
     ///
@@ -8364,7 +8364,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateGatewayResponse` operation on the `BackplaneControlService` service.
+    /// Performs the `UpdateGatewayResponse` operation on the `APIGateway` service.
     ///
     /// Updates a GatewayResponse of a specified response type on the given RestApi.
     ///
@@ -8439,7 +8439,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateIntegration` operation on the `BackplaneControlService` service.
+    /// Performs the `UpdateIntegration` operation on the `APIGateway` service.
     ///
     /// Represents an update integration.
     ///
@@ -8514,7 +8514,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateIntegrationResponse` operation on the `BackplaneControlService` service.
+    /// Performs the `UpdateIntegrationResponse` operation on the `APIGateway` service.
     ///
     /// Represents an update integration response.
     ///
@@ -8589,7 +8589,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateMethod` operation on the `BackplaneControlService` service.
+    /// Performs the `UpdateMethod` operation on the `APIGateway` service.
     ///
     /// Updates an existing Method resource.
     ///
@@ -8663,7 +8663,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateMethodResponse` operation on the `BackplaneControlService` service.
+    /// Performs the `UpdateMethodResponse` operation on the `APIGateway` service.
     ///
     /// Updates an existing MethodResponse resource.
     ///
@@ -8738,7 +8738,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateModel` operation on the `BackplaneControlService` service.
+    /// Performs the `UpdateModel` operation on the `APIGateway` service.
     ///
     /// Changes information about a model. The maximum size of the model is 400 KB.
     ///
@@ -8813,7 +8813,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateRequestValidator` operation on the `BackplaneControlService` service.
+    /// Performs the `UpdateRequestValidator` operation on the `APIGateway` service.
     ///
     /// Updates a RequestValidator of a given RestApi.
     ///
@@ -8888,7 +8888,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateResource` operation on the `BackplaneControlService` service.
+    /// Performs the `UpdateResource` operation on the `APIGateway` service.
     ///
     /// Changes information about a Resource resource.
     ///
@@ -8962,7 +8962,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateRestApi` operation on the `BackplaneControlService` service.
+    /// Performs the `UpdateRestApi` operation on the `APIGateway` service.
     ///
     /// Changes information about the specified API.
     ///
@@ -9037,7 +9037,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateStage` operation on the `BackplaneControlService` service.
+    /// Performs the `UpdateStage` operation on the `APIGateway` service.
     ///
     /// Changes information about a Stage resource.
     ///
@@ -9112,7 +9112,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateUsage` operation on the `BackplaneControlService` service.
+    /// Performs the `UpdateUsage` operation on the `APIGateway` service.
     ///
     /// Grants a temporary extension to the remaining quota of a usage plan associated with a specified API key.
     ///
@@ -9187,7 +9187,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateUsagePlan` operation on the `BackplaneControlService` service.
+    /// Performs the `UpdateUsagePlan` operation on the `APIGateway` service.
     ///
     /// Updates a usage plan of a given plan Id.
     ///
@@ -9262,7 +9262,7 @@ extension APIGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateVpcLink` operation on the `BackplaneControlService` service.
+    /// Performs the `UpdateVpcLink` operation on the `APIGateway` service.
     ///
     /// Updates an existing VpcLink of a specified identifier.
     ///

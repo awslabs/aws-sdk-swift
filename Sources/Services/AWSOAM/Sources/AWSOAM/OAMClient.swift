@@ -63,7 +63,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class OAMClient: ClientRuntime.Client {
     public static let clientName = "OAMClient"
-    public static let version = "1.0.71"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: OAMClient.OAMClientConfiguration
     let serviceName = "OAM"
@@ -329,7 +329,7 @@ extension OAMClient {
 }
 
 extension OAMClient {
-    /// Performs the `CreateLink` operation on the `oamservice` service.
+    /// Performs the `CreateLink` operation on the `OAM` service.
     ///
     /// Creates a link between a source account and a sink that you have created in a monitoring account. After the link is created, data is sent from the source account to the monitoring account. When you create a link, you can optionally specify filters that specify which metric namespaces and which log groups are shared from the source account to the monitoring account. Before you create a link, you must create a sink in the monitoring account and create a sink policy in that account. The sink policy must permit the source account to link to it. You can grant permission to source accounts by granting permission to an entire organization or to individual accounts. For more information, see [CreateSink](https://docs.aws.amazon.com/OAM/latest/APIReference/API_CreateSink.html) and [PutSinkPolicy](https://docs.aws.amazon.com/OAM/latest/APIReference/API_PutSinkPolicy.html). Each monitoring account can be linked to as many as 100,000 source accounts. Each source account can be linked to as many as five monitoring accounts.
     ///
@@ -402,7 +402,7 @@ extension OAMClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateSink` operation on the `oamservice` service.
+    /// Performs the `CreateSink` operation on the `OAM` service.
     ///
     /// Use this to create a sink in the current account, so that it can be used as a monitoring account in CloudWatch cross-account observability. A sink is a resource that represents an attachment point in a monitoring account. Source accounts can link to the sink to send observability data. After you create a sink, you must create a sink policy that allows source accounts to attach to it. For more information, see [PutSinkPolicy](https://docs.aws.amazon.com/OAM/latest/APIReference/API_PutSinkPolicy.html). Each account can contain one sink per Region. If you delete a sink, you can then create a new one in that Region.
     ///
@@ -475,7 +475,7 @@ extension OAMClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteLink` operation on the `oamservice` service.
+    /// Performs the `DeleteLink` operation on the `OAM` service.
     ///
     /// Deletes a link between a monitoring account sink and a source account. You must run this operation in the source account.
     ///
@@ -547,7 +547,7 @@ extension OAMClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteSink` operation on the `oamservice` service.
+    /// Performs the `DeleteSink` operation on the `OAM` service.
     ///
     /// Deletes a sink. You must delete all links to a sink before you can delete that sink.
     ///
@@ -620,7 +620,7 @@ extension OAMClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetLink` operation on the `oamservice` service.
+    /// Performs the `GetLink` operation on the `OAM` service.
     ///
     /// Returns complete information about one link. To use this operation, provide the link ARN. To retrieve a list of link ARNs, use [ListLinks](https://docs.aws.amazon.com/OAM/latest/APIReference/API_ListLinks.html).
     ///
@@ -692,7 +692,7 @@ extension OAMClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetSink` operation on the `oamservice` service.
+    /// Performs the `GetSink` operation on the `OAM` service.
     ///
     /// Returns complete information about one monitoring account sink. To use this operation, provide the sink ARN. To retrieve a list of sink ARNs, use [ListSinks](https://docs.aws.amazon.com/OAM/latest/APIReference/API_ListSinks.html).
     ///
@@ -764,7 +764,7 @@ extension OAMClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetSinkPolicy` operation on the `oamservice` service.
+    /// Performs the `GetSinkPolicy` operation on the `OAM` service.
     ///
     /// Returns the current sink policy attached to this sink. The sink policy specifies what accounts can attach to this sink as source accounts, and what types of data they can share.
     ///
@@ -836,7 +836,7 @@ extension OAMClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAttachedLinks` operation on the `oamservice` service.
+    /// Performs the `ListAttachedLinks` operation on the `OAM` service.
     ///
     /// Returns a list of source account links that are linked to this monitoring account sink. To use this operation, provide the sink ARN. To retrieve a list of sink ARNs, use [ListSinks](https://docs.aws.amazon.com/OAM/latest/APIReference/API_ListSinks.html). To find a list of links for one source account, use [ListLinks](https://docs.aws.amazon.com/OAM/latest/APIReference/API_ListLinks.html).
     ///
@@ -908,7 +908,7 @@ extension OAMClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListLinks` operation on the `oamservice` service.
+    /// Performs the `ListLinks` operation on the `OAM` service.
     ///
     /// Use this operation in a source account to return a list of links to monitoring account sinks that this source account has. To find a list of links for one monitoring account sink, use [ListAttachedLinks](https://docs.aws.amazon.com/OAM/latest/APIReference/API_ListAttachedLinks.html) from within the monitoring account.
     ///
@@ -979,7 +979,7 @@ extension OAMClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListSinks` operation on the `oamservice` service.
+    /// Performs the `ListSinks` operation on the `OAM` service.
     ///
     /// Use this operation in a monitoring account to return the list of sinks created in that account.
     ///
@@ -1050,7 +1050,7 @@ extension OAMClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `oamservice` service.
+    /// Performs the `ListTagsForResource` operation on the `OAM` service.
     ///
     /// Displays the tags associated with a resource. Both sinks and links support tagging.
     ///
@@ -1117,7 +1117,7 @@ extension OAMClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutSinkPolicy` operation on the `oamservice` service.
+    /// Performs the `PutSinkPolicy` operation on the `OAM` service.
     ///
     /// Creates or updates the resource policy that grants permissions to source accounts to link to the monitoring account sink. When you create a sink policy, you can grant permissions to all accounts in an organization or to individual accounts. You can also use a sink policy to limit the types of data that is shared. The three types that you can allow or deny are:
     ///
@@ -1200,7 +1200,7 @@ extension OAMClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `oamservice` service.
+    /// Performs the `TagResource` operation on the `OAM` service.
     ///
     /// Assigns one or more tags (key-value pairs) to the specified resource. Both sinks and links can be tagged. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can use the TagResource action with a resource that already has tags. If you specify a new tag key for the alarm, this tag is appended to the list of tags associated with the alarm. If you specify a tag key that is already associated with the alarm, the new tag value that you specify replaces the previous value for that tag. You can associate as many as 50 tags with a resource. Unlike tagging permissions in other Amazon Web Services services, to tag or untag links and sinks you must have the oam:ResourceTag permission. The iam:ResourceTag permission does not allow you to tag and untag links and sinks.
     ///
@@ -1271,7 +1271,7 @@ extension OAMClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `oamservice` service.
+    /// Performs the `UntagResource` operation on the `OAM` service.
     ///
     /// Removes one or more tags from the specified resource. Unlike tagging permissions in other Amazon Web Services services, to tag or untag links and sinks you must have the oam:ResourceTag permission. The iam:TagResource permission does not allow you to tag and untag links and sinks.
     ///
@@ -1339,7 +1339,7 @@ extension OAMClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateLink` operation on the `oamservice` service.
+    /// Performs the `UpdateLink` operation on the `OAM` service.
     ///
     /// Use this operation to change what types of data are shared from a source account to its linked monitoring account sink. You can't change the sink or change the monitoring account with this operation. When you update a link, you can optionally specify filters that specify which metric namespaces and which log groups are shared from the source account to the monitoring account. To update the list of tags associated with the sink, use [TagResource](https://docs.aws.amazon.com/OAM/latest/APIReference/API_TagResource.html).
     ///

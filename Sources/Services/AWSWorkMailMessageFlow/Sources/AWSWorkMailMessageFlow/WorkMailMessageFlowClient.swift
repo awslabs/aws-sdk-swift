@@ -63,7 +63,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class WorkMailMessageFlowClient: ClientRuntime.Client {
     public static let clientName = "WorkMailMessageFlowClient"
-    public static let version = "1.0.71"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: WorkMailMessageFlowClient.WorkMailMessageFlowClientConfiguration
     let serviceName = "WorkMailMessageFlow"
@@ -329,7 +329,7 @@ extension WorkMailMessageFlowClient {
 }
 
 extension WorkMailMessageFlowClient {
-    /// Performs the `GetRawMessageContent` operation on the `GiraffeMessageInTransitService` service.
+    /// Performs the `GetRawMessageContent` operation on the `WorkMailMessageFlow` service.
     ///
     /// Retrieves the raw content of an in-transit email message, in MIME format.
     ///
@@ -395,7 +395,7 @@ extension WorkMailMessageFlowClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutRawMessageContent` operation on the `GiraffeMessageInTransitService` service.
+    /// Performs the `PutRawMessageContent` operation on the `WorkMailMessageFlow` service.
     ///
     /// Updates the raw content of an in-transit email message, in MIME format. This example describes how to update in-transit email message. For more information and examples for using this API, see [ Updating message content with AWS Lambda](https://docs.aws.amazon.com/workmail/latest/adminguide/update-with-lambda.html). Updates to an in-transit message only appear when you call PutRawMessageContent from an AWS Lambda function configured with a synchronous [ Run Lambda](https://docs.aws.amazon.com/workmail/latest/adminguide/lambda.html#synchronous-rules) rule. If you call PutRawMessageContent on a delivered or sent message, the message remains unchanged, even though [GetRawMessageContent](https://docs.aws.amazon.com/workmail/latest/APIReference/API_messageflow_GetRawMessageContent.html) returns an updated message.
     ///

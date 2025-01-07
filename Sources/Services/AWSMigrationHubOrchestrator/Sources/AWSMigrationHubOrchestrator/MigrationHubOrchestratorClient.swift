@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MigrationHubOrchestratorClient: ClientRuntime.Client {
     public static let clientName = "MigrationHubOrchestratorClient"
-    public static let version = "1.0.71"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: MigrationHubOrchestratorClient.MigrationHubOrchestratorClientConfiguration
     let serviceName = "MigrationHubOrchestrator"
@@ -331,7 +331,7 @@ extension MigrationHubOrchestratorClient {
 }
 
 extension MigrationHubOrchestratorClient {
-    /// Performs the `CreateTemplate` operation on the `AWSMigrationHubOrchestrator` service.
+    /// Performs the `CreateTemplate` operation on the `MigrationHubOrchestrator` service.
     ///
     /// Creates a migration workflow template.
     ///
@@ -405,7 +405,7 @@ extension MigrationHubOrchestratorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateWorkflow` operation on the `AWSMigrationHubOrchestrator` service.
+    /// Performs the `CreateWorkflow` operation on the `MigrationHubOrchestrator` service.
     ///
     /// Create a workflow to orchestrate your migrations.
     ///
@@ -477,7 +477,7 @@ extension MigrationHubOrchestratorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateWorkflowStep` operation on the `AWSMigrationHubOrchestrator` service.
+    /// Performs the `CreateWorkflowStep` operation on the `MigrationHubOrchestrator` service.
     ///
     /// Create a step in the migration workflow.
     ///
@@ -549,7 +549,7 @@ extension MigrationHubOrchestratorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateWorkflowStepGroup` operation on the `AWSMigrationHubOrchestrator` service.
+    /// Performs the `CreateWorkflowStepGroup` operation on the `MigrationHubOrchestrator` service.
     ///
     /// Create a step group in a migration workflow.
     ///
@@ -621,7 +621,7 @@ extension MigrationHubOrchestratorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteTemplate` operation on the `AWSMigrationHubOrchestrator` service.
+    /// Performs the `DeleteTemplate` operation on the `MigrationHubOrchestrator` service.
     ///
     /// Deletes a migration workflow template.
     ///
@@ -691,7 +691,7 @@ extension MigrationHubOrchestratorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteWorkflow` operation on the `AWSMigrationHubOrchestrator` service.
+    /// Performs the `DeleteWorkflow` operation on the `MigrationHubOrchestrator` service.
     ///
     /// Delete a migration workflow. You must pause a running workflow in Migration Hub Orchestrator console to delete it.
     ///
@@ -761,7 +761,7 @@ extension MigrationHubOrchestratorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteWorkflowStep` operation on the `AWSMigrationHubOrchestrator` service.
+    /// Performs the `DeleteWorkflowStep` operation on the `MigrationHubOrchestrator` service.
     ///
     /// Delete a step in a migration workflow. Pause the workflow to delete a running step.
     ///
@@ -832,7 +832,7 @@ extension MigrationHubOrchestratorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteWorkflowStepGroup` operation on the `AWSMigrationHubOrchestrator` service.
+    /// Performs the `DeleteWorkflowStepGroup` operation on the `MigrationHubOrchestrator` service.
     ///
     /// Delete a step group in a migration workflow.
     ///
@@ -903,7 +903,7 @@ extension MigrationHubOrchestratorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetTemplate` operation on the `AWSMigrationHubOrchestrator` service.
+    /// Performs the `GetTemplate` operation on the `MigrationHubOrchestrator` service.
     ///
     /// Get the template you want to use for creating a migration workflow.
     ///
@@ -972,7 +972,7 @@ extension MigrationHubOrchestratorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetTemplateStep` operation on the `AWSMigrationHubOrchestrator` service.
+    /// Performs the `GetTemplateStep` operation on the `MigrationHubOrchestrator` service.
     ///
     /// Get a specific step in a template.
     ///
@@ -1043,7 +1043,7 @@ extension MigrationHubOrchestratorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetTemplateStepGroup` operation on the `AWSMigrationHubOrchestrator` service.
+    /// Performs the `GetTemplateStepGroup` operation on the `MigrationHubOrchestrator` service.
     ///
     /// Get a step group in a template.
     ///
@@ -1113,7 +1113,7 @@ extension MigrationHubOrchestratorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetWorkflow` operation on the `AWSMigrationHubOrchestrator` service.
+    /// Performs the `GetWorkflow` operation on the `MigrationHubOrchestrator` service.
     ///
     /// Get migration workflow.
     ///
@@ -1183,7 +1183,7 @@ extension MigrationHubOrchestratorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetWorkflowStep` operation on the `AWSMigrationHubOrchestrator` service.
+    /// Performs the `GetWorkflowStep` operation on the `MigrationHubOrchestrator` service.
     ///
     /// Get a step in the migration workflow.
     ///
@@ -1253,7 +1253,7 @@ extension MigrationHubOrchestratorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetWorkflowStepGroup` operation on the `AWSMigrationHubOrchestrator` service.
+    /// Performs the `GetWorkflowStepGroup` operation on the `MigrationHubOrchestrator` service.
     ///
     /// Get the step group of a migration workflow.
     ///
@@ -1324,7 +1324,7 @@ extension MigrationHubOrchestratorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListPlugins` operation on the `AWSMigrationHubOrchestrator` service.
+    /// Performs the `ListPlugins` operation on the `MigrationHubOrchestrator` service.
     ///
     /// List AWS Migration Hub Orchestrator plugins.
     ///
@@ -1393,7 +1393,7 @@ extension MigrationHubOrchestratorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `AWSMigrationHubOrchestrator` service.
+    /// Performs the `ListTagsForResource` operation on the `MigrationHubOrchestrator` service.
     ///
     /// List the tags added to a resource.
     ///
@@ -1460,7 +1460,7 @@ extension MigrationHubOrchestratorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTemplateStepGroups` operation on the `AWSMigrationHubOrchestrator` service.
+    /// Performs the `ListTemplateStepGroups` operation on the `MigrationHubOrchestrator` service.
     ///
     /// List the step groups in a template.
     ///
@@ -1530,7 +1530,7 @@ extension MigrationHubOrchestratorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTemplateSteps` operation on the `AWSMigrationHubOrchestrator` service.
+    /// Performs the `ListTemplateSteps` operation on the `MigrationHubOrchestrator` service.
     ///
     /// List the steps in a template.
     ///
@@ -1601,7 +1601,7 @@ extension MigrationHubOrchestratorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTemplates` operation on the `AWSMigrationHubOrchestrator` service.
+    /// Performs the `ListTemplates` operation on the `MigrationHubOrchestrator` service.
     ///
     /// List the templates available in Migration Hub Orchestrator to create a migration workflow.
     ///
@@ -1670,7 +1670,7 @@ extension MigrationHubOrchestratorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListWorkflowStepGroups` operation on the `AWSMigrationHubOrchestrator` service.
+    /// Performs the `ListWorkflowStepGroups` operation on the `MigrationHubOrchestrator` service.
     ///
     /// List the step groups in a migration workflow.
     ///
@@ -1741,7 +1741,7 @@ extension MigrationHubOrchestratorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListWorkflowSteps` operation on the `AWSMigrationHubOrchestrator` service.
+    /// Performs the `ListWorkflowSteps` operation on the `MigrationHubOrchestrator` service.
     ///
     /// List the steps in a workflow.
     ///
@@ -1811,7 +1811,7 @@ extension MigrationHubOrchestratorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListWorkflows` operation on the `AWSMigrationHubOrchestrator` service.
+    /// Performs the `ListWorkflows` operation on the `MigrationHubOrchestrator` service.
     ///
     /// List the migration workflows.
     ///
@@ -1882,7 +1882,7 @@ extension MigrationHubOrchestratorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RetryWorkflowStep` operation on the `AWSMigrationHubOrchestrator` service.
+    /// Performs the `RetryWorkflowStep` operation on the `MigrationHubOrchestrator` service.
     ///
     /// Retry a failed step in a migration workflow.
     ///
@@ -1952,7 +1952,7 @@ extension MigrationHubOrchestratorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartWorkflow` operation on the `AWSMigrationHubOrchestrator` service.
+    /// Performs the `StartWorkflow` operation on the `MigrationHubOrchestrator` service.
     ///
     /// Start a migration workflow.
     ///
@@ -2022,7 +2022,7 @@ extension MigrationHubOrchestratorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopWorkflow` operation on the `AWSMigrationHubOrchestrator` service.
+    /// Performs the `StopWorkflow` operation on the `MigrationHubOrchestrator` service.
     ///
     /// Stop an ongoing migration workflow.
     ///
@@ -2092,7 +2092,7 @@ extension MigrationHubOrchestratorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `AWSMigrationHubOrchestrator` service.
+    /// Performs the `TagResource` operation on the `MigrationHubOrchestrator` service.
     ///
     /// Tag a resource by specifying its Amazon Resource Name (ARN).
     ///
@@ -2162,7 +2162,7 @@ extension MigrationHubOrchestratorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `AWSMigrationHubOrchestrator` service.
+    /// Performs the `UntagResource` operation on the `MigrationHubOrchestrator` service.
     ///
     /// Deletes the tags for a resource.
     ///
@@ -2230,7 +2230,7 @@ extension MigrationHubOrchestratorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateTemplate` operation on the `AWSMigrationHubOrchestrator` service.
+    /// Performs the `UpdateTemplate` operation on the `MigrationHubOrchestrator` service.
     ///
     /// Updates a migration workflow template.
     ///
@@ -2304,7 +2304,7 @@ extension MigrationHubOrchestratorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateWorkflow` operation on the `AWSMigrationHubOrchestrator` service.
+    /// Performs the `UpdateWorkflow` operation on the `MigrationHubOrchestrator` service.
     ///
     /// Update a migration workflow.
     ///
@@ -2377,7 +2377,7 @@ extension MigrationHubOrchestratorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateWorkflowStep` operation on the `AWSMigrationHubOrchestrator` service.
+    /// Performs the `UpdateWorkflowStep` operation on the `MigrationHubOrchestrator` service.
     ///
     /// Update a step in a migration workflow.
     ///
@@ -2449,7 +2449,7 @@ extension MigrationHubOrchestratorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateWorkflowStepGroup` operation on the `AWSMigrationHubOrchestrator` service.
+    /// Performs the `UpdateWorkflowStepGroup` operation on the `MigrationHubOrchestrator` service.
     ///
     /// Update the step group in a migration workflow.
     ///

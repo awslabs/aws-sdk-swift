@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class IoTClient: ClientRuntime.Client {
     public static let clientName = "IoTClient"
-    public static let version = "1.0.71"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: IoTClient.IoTClientConfiguration
     let serviceName = "IoT"
@@ -333,7 +333,7 @@ extension IoTClient {
 }
 
 extension IoTClient {
-    /// Performs the `AcceptCertificateTransfer` operation on the `AWSIotService` service.
+    /// Performs the `AcceptCertificateTransfer` operation on the `IoT` service.
     ///
     /// Accepts a pending certificate transfer. The default state of the certificate is INACTIVE. To check for pending certificate transfers, call [ListCertificates] to enumerate your certificates. Requires permission to access the [AcceptCertificateTransfer](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -406,7 +406,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AddThingToBillingGroup` operation on the `AWSIotService` service.
+    /// Performs the `AddThingToBillingGroup` operation on the `IoT` service.
     ///
     /// Adds a thing to a billing group. Requires permission to access the [AddThingToBillingGroup](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -478,7 +478,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AddThingToThingGroup` operation on the `AWSIotService` service.
+    /// Performs the `AddThingToThingGroup` operation on the `IoT` service.
     ///
     /// Adds a thing to a thing group. Requires permission to access the [AddThingToThingGroup](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -550,7 +550,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssociateSbomWithPackageVersion` operation on the `AWSIotService` service.
+    /// Performs the `AssociateSbomWithPackageVersion` operation on the `IoT` service.
     ///
     /// Associates the selected software bill of materials (SBOM) with a specific software package version. Requires permission to access the [AssociateSbomWithPackageVersion](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -626,7 +626,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssociateTargetsWithJob` operation on the `AWSIotService` service.
+    /// Performs the `AssociateTargetsWithJob` operation on the `IoT` service.
     ///
     /// Associates a group with a continuous job. The following criteria must be met:
     ///
@@ -709,7 +709,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AttachPolicy` operation on the `AWSIotService` service.
+    /// Performs the `AttachPolicy` operation on the `IoT` service.
     ///
     /// Attaches the specified policy to the specified principal (certificate or other credential). Requires permission to access the [AttachPolicy](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -784,7 +784,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AttachPrincipalPolicy` operation on the `AWSIotService` service.
+    /// Performs the `AttachPrincipalPolicy` operation on the `IoT` service.
     ///
     /// Attaches the specified policy to the specified principal (certificate or other credential). Note: This action is deprecated and works as expected for backward compatibility, but we won't add enhancements. Use [AttachPolicy] instead. Requires permission to access the [AttachPrincipalPolicy](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     @available(*, deprecated)
@@ -858,7 +858,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AttachSecurityProfile` operation on the `AWSIotService` service.
+    /// Performs the `AttachSecurityProfile` operation on the `IoT` service.
     ///
     /// Associates a Device Defender security profile with a thing group or this account. Each thing group or account can have up to five security profiles associated with it. Requires permission to access the [AttachSecurityProfile](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -930,7 +930,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AttachThingPrincipal` operation on the `AWSIotService` service.
+    /// Performs the `AttachThingPrincipal` operation on the `IoT` service.
     ///
     /// Attaches the specified principal to the specified thing. A principal can be X.509 certificates, Amazon Cognito identities or federated identities. Requires permission to access the [AttachThingPrincipal](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -1003,7 +1003,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CancelAuditMitigationActionsTask` operation on the `AWSIotService` service.
+    /// Performs the `CancelAuditMitigationActionsTask` operation on the `IoT` service.
     ///
     /// Cancels a mitigation action task that is in progress. If the task is not in progress, an InvalidRequestException occurs. Requires permission to access the [CancelAuditMitigationActionsTask](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -1072,7 +1072,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CancelAuditTask` operation on the `AWSIotService` service.
+    /// Performs the `CancelAuditTask` operation on the `IoT` service.
     ///
     /// Cancels an audit that is in progress. The audit can be either scheduled or on demand. If the audit isn't in progress, an "InvalidRequestException" occurs. Requires permission to access the [CancelAuditTask](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -1141,7 +1141,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CancelCertificateTransfer` operation on the `AWSIotService` service.
+    /// Performs the `CancelCertificateTransfer` operation on the `IoT` service.
     ///
     /// Cancels a pending transfer for the specified certificate. Note Only the transfer source account can use this operation to cancel a transfer. (Transfer destinations can use [RejectCertificateTransfer] instead.) After transfer, IoT returns the certificate to the source account in the INACTIVE state. After the destination account has accepted the transfer, the transfer cannot be cancelled. After a certificate transfer is cancelled, the status of the certificate changes from PENDING_TRANSFER to INACTIVE. Requires permission to access the [CancelCertificateTransfer](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -1213,7 +1213,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CancelDetectMitigationActionsTask` operation on the `AWSIotService` service.
+    /// Performs the `CancelDetectMitigationActionsTask` operation on the `IoT` service.
     ///
     /// Cancels a Device Defender ML Detect mitigation action. Requires permission to access the [CancelDetectMitigationActionsTask](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -1282,7 +1282,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CancelJob` operation on the `AWSIotService` service.
+    /// Performs the `CancelJob` operation on the `IoT` service.
     ///
     /// Cancels a job. Requires permission to access the [CancelJob](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -1356,7 +1356,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CancelJobExecution` operation on the `AWSIotService` service.
+    /// Performs the `CancelJobExecution` operation on the `IoT` service.
     ///
     /// Cancels the execution of a job for a given thing. Requires permission to access the [CancelJobExecution](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -1431,7 +1431,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ClearDefaultAuthorizer` operation on the `AWSIotService` service.
+    /// Performs the `ClearDefaultAuthorizer` operation on the `IoT` service.
     ///
     /// Clears the default authorizer. Requires permission to access the [ClearDefaultAuthorizer](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -1502,7 +1502,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ConfirmTopicRuleDestination` operation on the `AWSIotService` service.
+    /// Performs the `ConfirmTopicRuleDestination` operation on the `IoT` service.
     ///
     /// Confirms a topic rule destination. When you create a rule requiring a destination, IoT sends a confirmation message to the endpoint or base address you specify. The message includes a token which you pass back when calling ConfirmTopicRuleDestination to confirm that you own or have access to the endpoint. Requires permission to access the [ConfirmTopicRuleDestination](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -1572,7 +1572,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateAuditSuppression` operation on the `AWSIotService` service.
+    /// Performs the `CreateAuditSuppression` operation on the `IoT` service.
     ///
     /// Creates a Device Defender audit suppression. Requires permission to access the [CreateAuditSuppression](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -1646,7 +1646,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateAuthorizer` operation on the `AWSIotService` service.
+    /// Performs the `CreateAuthorizer` operation on the `IoT` service.
     ///
     /// Creates an authorizer. Requires permission to access the [CreateAuthorizer](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -1721,7 +1721,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateBillingGroup` operation on the `AWSIotService` service.
+    /// Performs the `CreateBillingGroup` operation on the `IoT` service.
     ///
     /// Creates a billing group. If this call is made multiple times using the same billing group name and configuration, the call will succeed. If this call is made with the same billing group name but different configuration a ResourceAlreadyExistsException is thrown. Requires permission to access the [CreateBillingGroup](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -1793,7 +1793,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateCertificateFromCsr` operation on the `AWSIotService` service.
+    /// Performs the `CreateCertificateFromCsr` operation on the `IoT` service.
     ///
     /// Creates an X.509 certificate using the specified certificate signing request. Requires permission to access the [CreateCertificateFromCsr](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action. The CSR must include a public key that is either an RSA key with a length of at least 2048 bits or an ECC key from NIST P-256, NIST P-384, or NIST P-521 curves. For supported certificates, consult [ Certificate signing algorithms supported by IoT](https://docs.aws.amazon.com/iot/latest/developerguide/x509-client-certs.html#x509-cert-algorithms). Reusing the same certificate signing request (CSR) results in a distinct certificate. You can create multiple certificates in a batch by creating a directory, copying multiple .csr files into that directory, and then specifying that directory on the command line. The following commands show how to create a batch of certificates given a batch of CSRs. In the following commands, we assume that a set of CSRs are located inside of the directory my-csr-directory: On Linux and OS X, the command is: $ ls my-csr-directory/ | xargs -I {} aws iot create-certificate-from-csr --certificate-signing-request file://my-csr-directory/{} This command lists all of the CSRs in my-csr-directory and pipes each CSR file name to the aws iot create-certificate-from-csr Amazon Web Services CLI command to create a certificate for the corresponding CSR. You can also run the aws iot create-certificate-from-csr part of the command in parallel to speed up the certificate creation process: $ ls my-csr-directory/ | xargs -P 10 -I {} aws iot create-certificate-from-csr --certificate-signing-request file://my-csr-directory/{}  On Windows PowerShell, the command to create certificates for all CSRs in my-csr-directory is: > ls -Name my-csr-directory | %{aws iot create-certificate-from-csr --certificate-signing-request file://my-csr-directory/$_}  On a Windows command prompt, the command to create certificates for all CSRs in my-csr-directory is: > forfiles /p my-csr-directory /c "cmd /c aws iot create-certificate-from-csr --certificate-signing-request file://@path"
     ///
@@ -1867,7 +1867,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateCertificateProvider` operation on the `AWSIotService` service.
+    /// Performs the `CreateCertificateProvider` operation on the `IoT` service.
     ///
     /// Creates an Amazon Web Services IoT Core certificate provider. You can use Amazon Web Services IoT Core certificate provider to customize how to sign a certificate signing request (CSR) in IoT fleet provisioning. For more information, see [Customizing certificate signing using Amazon Web Services IoT Core certificate provider](https://docs.aws.amazon.com/iot/latest/developerguide/provisioning-cert-provider.html) from Amazon Web Services IoT Core Developer Guide. Requires permission to access the [CreateCertificateProvider](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action. After you create a certificate provider, the behavior of [CreateCertificateFromCsr] API for fleet provisioning(https://docs.aws.amazon.com/iot/latest/developerguide/fleet-provision-api.html#create-cert-csr) will change and all API calls to CreateCertificateFromCsr will invoke the certificate provider to create the certificates. It can take up to a few minutes for this behavior to change after a certificate provider is created.
     ///
@@ -1943,7 +1943,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateCommand` operation on the `AWSIotService` service.
+    /// Performs the `CreateCommand` operation on the `IoT` service.
     ///
     /// Creates a command. A command contains reusable configurations that can be applied before they are sent to the devices.
     ///
@@ -2016,7 +2016,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateCustomMetric` operation on the `AWSIotService` service.
+    /// Performs the `CreateCustomMetric` operation on the `IoT` service.
     ///
     /// Use this API to define a Custom Metric published by your devices to Device Defender. Requires permission to access the [CreateCustomMetric](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -2090,7 +2090,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateDimension` operation on the `AWSIotService` service.
+    /// Performs the `CreateDimension` operation on the `IoT` service.
     ///
     /// Create a dimension that you can use to limit the scope of a metric used in a security profile for IoT Device Defender. For example, using a TOPIC_FILTER dimension, you can narrow down the scope of the metric only to MQTT topics whose name match the pattern specified in the dimension. Requires permission to access the [CreateDimension](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -2164,7 +2164,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateDomainConfiguration` operation on the `AWSIotService` service.
+    /// Performs the `CreateDomainConfiguration` operation on the `IoT` service.
     ///
     /// Creates a domain configuration. Requires permission to access the [CreateDomainConfiguration](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -2240,7 +2240,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateDynamicThingGroup` operation on the `AWSIotService` service.
+    /// Performs the `CreateDynamicThingGroup` operation on the `IoT` service.
     ///
     /// Creates a dynamic thing group. Requires permission to access the [CreateDynamicThingGroup](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -2315,7 +2315,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateFleetMetric` operation on the `AWSIotService` service.
+    /// Performs the `CreateFleetMetric` operation on the `IoT` service.
     ///
     /// Creates a fleet metric. Requires permission to access the [CreateFleetMetric](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -2394,7 +2394,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateJob` operation on the `AWSIotService` service.
+    /// Performs the `CreateJob` operation on the `IoT` service.
     ///
     /// Creates a job. Requires permission to access the [CreateJob](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -2468,7 +2468,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateJobTemplate` operation on the `AWSIotService` service.
+    /// Performs the `CreateJobTemplate` operation on the `IoT` service.
     ///
     /// Creates a job template. Requires permission to access the [CreateJobTemplate](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -2542,7 +2542,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateKeysAndCertificate` operation on the `AWSIotService` service.
+    /// Performs the `CreateKeysAndCertificate` operation on the `IoT` service.
     ///
     /// Creates a 2048-bit RSA key pair and issues an X.509 certificate using the issued public key. You can also call CreateKeysAndCertificate over MQTT from a device, for more information, see [Provisioning MQTT API](https://docs.aws.amazon.com/iot/latest/developerguide/provision-wo-cert.html#provision-mqtt-api). Note This is the only time IoT issues the private key for this certificate, so it is important to keep it in a secure location. Requires permission to access the [CreateKeysAndCertificate](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -2613,7 +2613,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateMitigationAction` operation on the `AWSIotService` service.
+    /// Performs the `CreateMitigationAction` operation on the `IoT` service.
     ///
     /// Defines an action that can be applied to audit findings by using StartAuditMitigationActionsTask. Only certain types of mitigation actions can be applied to specific check names. For more information, see [Mitigation actions](https://docs.aws.amazon.com/iot/latest/developerguide/device-defender-mitigation-actions.html). Each mitigation action can apply only one type of change. Requires permission to access the [CreateMitigationAction](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -2686,7 +2686,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateOTAUpdate` operation on the `AWSIotService` service.
+    /// Performs the `CreateOTAUpdate` operation on the `IoT` service.
     ///
     /// Creates an IoT OTA update on a target group of things or groups. Requires permission to access the [CreateOTAUpdate](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -2762,7 +2762,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreatePackage` operation on the `AWSIotService` service.
+    /// Performs the `CreatePackage` operation on the `IoT` service.
     ///
     /// Creates an IoT software package that can be deployed to your fleet. Requires permission to access the [CreatePackage](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) and [GetIndexingConfiguration](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) actions.
     ///
@@ -2837,7 +2837,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreatePackageVersion` operation on the `AWSIotService` service.
+    /// Performs the `CreatePackageVersion` operation on the `IoT` service.
     ///
     /// Creates a new version for an existing IoT software package. Requires permission to access the [CreatePackageVersion](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) and [GetIndexingConfiguration](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) actions.
     ///
@@ -2912,7 +2912,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreatePolicy` operation on the `AWSIotService` service.
+    /// Performs the `CreatePolicy` operation on the `IoT` service.
     ///
     /// Creates an IoT policy. The created policy is the default version for the policy. This operation creates a policy version with a version identifier of 1 and sets 1 as the policy's default version. Requires permission to access the [CreatePolicy](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -2987,7 +2987,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreatePolicyVersion` operation on the `AWSIotService` service.
+    /// Performs the `CreatePolicyVersion` operation on the `IoT` service.
     ///
     /// Creates a new version of the specified IoT policy. To update a policy, create a new policy version. A managed policy can have up to five versions. If the policy has five versions, you must use [DeletePolicyVersion] to delete an existing version before you create a new one. Optionally, you can set the new version as the policy's default version. The default version is the operative version (that is, the version that is in effect for the certificates to which the policy is attached). Requires permission to access the [CreatePolicyVersion](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -3064,7 +3064,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateProvisioningClaim` operation on the `AWSIotService` service.
+    /// Performs the `CreateProvisioningClaim` operation on the `IoT` service.
     ///
     /// Creates a provisioning claim. Requires permission to access the [CreateProvisioningClaim](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -3135,7 +3135,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateProvisioningTemplate` operation on the `AWSIotService` service.
+    /// Performs the `CreateProvisioningTemplate` operation on the `IoT` service.
     ///
     /// Creates a provisioning template. Requires permission to access the [CreateProvisioningTemplate](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -3209,7 +3209,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateProvisioningTemplateVersion` operation on the `AWSIotService` service.
+    /// Performs the `CreateProvisioningTemplateVersion` operation on the `IoT` service.
     ///
     /// Creates a new version of a provisioning template. Requires permission to access the [CreateProvisioningTemplateVersion](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -3285,7 +3285,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateRoleAlias` operation on the `AWSIotService` service.
+    /// Performs the `CreateRoleAlias` operation on the `IoT` service.
     ///
     /// Creates a role alias. Requires permission to access the [CreateRoleAlias](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action. The value of [credentialDurationSeconds](https://docs.aws.amazon.com/iot/latest/apireference/API_CreateRoleAlias.html#iot-CreateRoleAlias-request-credentialDurationSeconds) must be less than or equal to the maximum session duration of the IAM role that the role alias references. For more information, see [ Modifying a role maximum session duration (Amazon Web Services API)](https://docs.aws.amazon.com/IAM/latest/UserGuide/roles-managingrole-editing-api.html#roles-modify_max-session-duration-api) from the Amazon Web Services Identity and Access Management User Guide.
     ///
@@ -3360,7 +3360,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateScheduledAudit` operation on the `AWSIotService` service.
+    /// Performs the `CreateScheduledAudit` operation on the `IoT` service.
     ///
     /// Creates a scheduled audit that is run at a specified time interval. Requires permission to access the [CreateScheduledAudit](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -3433,7 +3433,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateSecurityProfile` operation on the `AWSIotService` service.
+    /// Performs the `CreateSecurityProfile` operation on the `IoT` service.
     ///
     /// Creates a Device Defender security profile. Requires permission to access the [CreateSecurityProfile](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -3505,7 +3505,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateStream` operation on the `AWSIotService` service.
+    /// Performs the `CreateStream` operation on the `IoT` service.
     ///
     /// Creates a stream for delivering one or more large files in chunks over MQTT. A stream transports data bytes in chunks or blocks packaged as MQTT messages from a source like S3. You can have one or more files associated with a stream. Requires permission to access the [CreateStream](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -3581,7 +3581,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateThing` operation on the `AWSIotService` service.
+    /// Performs the `CreateThing` operation on the `IoT` service.
     ///
     /// Creates a thing record in the registry. If this call is made multiple times using the same thing name and configuration, the call will succeed. If this call is made with the same thing name but different configuration a ResourceAlreadyExistsException is thrown. This is a control plane operation. See [Authorization](https://docs.aws.amazon.com/iot/latest/developerguide/iot-authorization.html) for information about authorizing control plane actions. Requires permission to access the [CreateThing](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -3656,7 +3656,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateThingGroup` operation on the `AWSIotService` service.
+    /// Performs the `CreateThingGroup` operation on the `IoT` service.
     ///
     /// Create a thing group. This is a control plane operation. See [Authorization](https://docs.aws.amazon.com/iot/latest/developerguide/iot-authorization.html) for information about authorizing control plane actions. If the ThingGroup that you create has the exact same attributes as an existing ThingGroup, you will get a 200 success response. Requires permission to access the [CreateThingGroup](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -3728,7 +3728,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateThingType` operation on the `AWSIotService` service.
+    /// Performs the `CreateThingType` operation on the `IoT` service.
     ///
     /// Creates a new thing type. If this call is made multiple times using the same thing type name and configuration, the call will succeed. If this call is made with the same thing type name but different configuration a ResourceAlreadyExistsException is thrown. Requires permission to access the [CreateThingType](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -3802,7 +3802,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateTopicRule` operation on the `AWSIotService` service.
+    /// Performs the `CreateTopicRule` operation on the `IoT` service.
     ///
     /// Creates a rule. Creating rules is an administrator-level action. Any user who has permission to create rules will be able to access data processed by the rule. Requires permission to access the [CreateTopicRule](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -3877,7 +3877,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateTopicRuleDestination` operation on the `AWSIotService` service.
+    /// Performs the `CreateTopicRuleDestination` operation on the `IoT` service.
     ///
     /// Creates a topic rule destination. The destination must be confirmed prior to use. Requires permission to access the [CreateTopicRuleDestination](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -3950,7 +3950,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAccountAuditConfiguration` operation on the `AWSIotService` service.
+    /// Performs the `DeleteAccountAuditConfiguration` operation on the `IoT` service.
     ///
     /// Restores the default settings for Device Defender audits for this account. Any configuration data you entered is deleted and all audit checks are reset to disabled. Requires permission to access the [DeleteAccountAuditConfiguration](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -4020,7 +4020,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAuditSuppression` operation on the `AWSIotService` service.
+    /// Performs the `DeleteAuditSuppression` operation on the `IoT` service.
     ///
     /// Deletes a Device Defender audit suppression. Requires permission to access the [DeleteAuditSuppression](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -4091,7 +4091,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAuthorizer` operation on the `AWSIotService` service.
+    /// Performs the `DeleteAuthorizer` operation on the `IoT` service.
     ///
     /// Deletes an authorizer. Requires permission to access the [DeleteAuthorizer](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -4163,7 +4163,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteBillingGroup` operation on the `AWSIotService` service.
+    /// Performs the `DeleteBillingGroup` operation on the `IoT` service.
     ///
     /// Deletes the billing group. Requires permission to access the [DeleteBillingGroup](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -4233,7 +4233,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteCACertificate` operation on the `AWSIotService` service.
+    /// Performs the `DeleteCACertificate` operation on the `IoT` service.
     ///
     /// Deletes a registered CA certificate. Requires permission to access the [DeleteCACertificate](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -4305,7 +4305,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteCertificate` operation on the `AWSIotService` service.
+    /// Performs the `DeleteCertificate` operation on the `IoT` service.
     ///
     /// Deletes the specified certificate. A certificate cannot be deleted if it has a policy or IoT thing attached to it or if its status is set to ACTIVE. To delete a certificate, first use the [DetachPolicy] action to detach all policies. Next, use the [UpdateCertificate] action to set the certificate to the INACTIVE status. Requires permission to access the [DeleteCertificate](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -4379,7 +4379,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteCertificateProvider` operation on the `AWSIotService` service.
+    /// Performs the `DeleteCertificateProvider` operation on the `IoT` service.
     ///
     /// Deletes a certificate provider. Requires permission to access the [DeleteCertificateProvider](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action. If you delete the certificate provider resource, the behavior of CreateCertificateFromCsr will resume, and IoT will create certificates signed by IoT from a certificate signing request (CSR).
     ///
@@ -4451,7 +4451,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteCommand` operation on the `AWSIotService` service.
+    /// Performs the `DeleteCommand` operation on the `IoT` service.
     ///
     /// Delete a command resource.
     ///
@@ -4520,7 +4520,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteCommandExecution` operation on the `AWSIotService` service.
+    /// Performs the `DeleteCommandExecution` operation on the `IoT` service.
     ///
     /// Delete a command execution. Only command executions that enter a terminal state can be deleted from your account.
     ///
@@ -4590,7 +4590,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteCustomMetric` operation on the `AWSIotService` service.
+    /// Performs the `DeleteCustomMetric` operation on the `IoT` service.
     ///
     /// Deletes a Device Defender detect custom metric. Requires permission to access the [DeleteCustomMetric](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action. Before you can delete a custom metric, you must first remove the custom metric from all security profiles it's a part of. The security profile associated with the custom metric can be found using the [ListSecurityProfiles](https://docs.aws.amazon.com/iot/latest/apireference/API_ListSecurityProfiles.html) API with metricName set to your custom metric name.
     ///
@@ -4658,7 +4658,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteDimension` operation on the `AWSIotService` service.
+    /// Performs the `DeleteDimension` operation on the `IoT` service.
     ///
     /// Removes the specified dimension from your Amazon Web Services accounts. Requires permission to access the [DeleteDimension](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -4726,7 +4726,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteDomainConfiguration` operation on the `AWSIotService` service.
+    /// Performs the `DeleteDomainConfiguration` operation on the `IoT` service.
     ///
     /// Deletes the specified domain configuration. Requires permission to access the [DeleteDomainConfiguration](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -4797,7 +4797,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteDynamicThingGroup` operation on the `AWSIotService` service.
+    /// Performs the `DeleteDynamicThingGroup` operation on the `IoT` service.
     ///
     /// Deletes a dynamic thing group. Requires permission to access the [DeleteDynamicThingGroup](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -4867,7 +4867,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteFleetMetric` operation on the `AWSIotService` service.
+    /// Performs the `DeleteFleetMetric` operation on the `IoT` service.
     ///
     /// Deletes the specified fleet metric. Returns successfully with no error if the deletion is successful or you specify a fleet metric that doesn't exist. Requires permission to access the [DeleteFleetMetric](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -4939,7 +4939,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteJob` operation on the `AWSIotService` service.
+    /// Performs the `DeleteJob` operation on the `IoT` service.
     ///
     /// Deletes a job and its related job executions. Deleting a job may take time, depending on the number of job executions created for the job and various other factors. While the job is being deleted, the status of the job will be shown as "DELETION_IN_PROGRESS". Attempting to delete or cancel a job whose status is already "DELETION_IN_PROGRESS" will result in an error. Only 10 jobs may have status "DELETION_IN_PROGRESS" at the same time, or a LimitExceededException will occur. Requires permission to access the [DeleteJob](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -5011,7 +5011,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteJobExecution` operation on the `AWSIotService` service.
+    /// Performs the `DeleteJobExecution` operation on the `IoT` service.
     ///
     /// Deletes a job execution. Requires permission to access the [DeleteJobExecution](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -5082,7 +5082,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteJobTemplate` operation on the `AWSIotService` service.
+    /// Performs the `DeleteJobTemplate` operation on the `IoT` service.
     ///
     /// Deletes the specified job template.
     ///
@@ -5151,7 +5151,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteMitigationAction` operation on the `AWSIotService` service.
+    /// Performs the `DeleteMitigationAction` operation on the `IoT` service.
     ///
     /// Deletes a defined mitigation action from your Amazon Web Services accounts. Requires permission to access the [DeleteMitigationAction](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -5219,7 +5219,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteOTAUpdate` operation on the `AWSIotService` service.
+    /// Performs the `DeleteOTAUpdate` operation on the `IoT` service.
     ///
     /// Delete an OTA update. Requires permission to access the [DeleteOTAUpdate](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -5292,7 +5292,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeletePackage` operation on the `AWSIotService` service.
+    /// Performs the `DeletePackage` operation on the `IoT` service.
     ///
     /// Deletes a specific version from a software package. Note: All package versions must be deleted before deleting the software package. Requires permission to access the [DeletePackageVersion](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -5362,7 +5362,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeletePackageVersion` operation on the `AWSIotService` service.
+    /// Performs the `DeletePackageVersion` operation on the `IoT` service.
     ///
     /// Deletes a specific version from a software package. Note: If a package version is designated as default, you must remove the designation from the software package using the [UpdatePackage] action.
     ///
@@ -5432,7 +5432,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeletePolicy` operation on the `AWSIotService` service.
+    /// Performs the `DeletePolicy` operation on the `IoT` service.
     ///
     /// Deletes the specified policy. A policy cannot be deleted if it has non-default versions or it is attached to any certificate. To delete a policy, use the [DeletePolicyVersion] action to delete all non-default versions of the policy; use the [DetachPolicy] action to detach the policy from any certificate; and then use the DeletePolicy action to delete the policy. When a policy is deleted using DeletePolicy, its default version is deleted with it. Because of the distributed nature of Amazon Web Services, it can take up to five minutes after a policy is detached before it's ready to be deleted. Requires permission to access the [DeletePolicy](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -5504,7 +5504,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeletePolicyVersion` operation on the `AWSIotService` service.
+    /// Performs the `DeletePolicyVersion` operation on the `IoT` service.
     ///
     /// Deletes the specified version of the specified policy. You cannot delete the default version of a policy using this action. To delete the default version of a policy, use [DeletePolicy]. To find out which version of a policy is marked as the default version, use ListPolicyVersions. Requires permission to access the [DeletePolicyVersion](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -5576,7 +5576,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteProvisioningTemplate` operation on the `AWSIotService` service.
+    /// Performs the `DeleteProvisioningTemplate` operation on the `IoT` service.
     ///
     /// Deletes a provisioning template. Requires permission to access the [DeleteProvisioningTemplate](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -5648,7 +5648,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteProvisioningTemplateVersion` operation on the `AWSIotService` service.
+    /// Performs the `DeleteProvisioningTemplateVersion` operation on the `IoT` service.
     ///
     /// Deletes a provisioning template version. Requires permission to access the [DeleteProvisioningTemplateVersion](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -5720,7 +5720,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteRegistrationCode` operation on the `AWSIotService` service.
+    /// Performs the `DeleteRegistrationCode` operation on the `IoT` service.
     ///
     /// Deletes a CA certificate registration code. Requires permission to access the [DeleteRegistrationCode](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -5790,7 +5790,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteRoleAlias` operation on the `AWSIotService` service.
+    /// Performs the `DeleteRoleAlias` operation on the `IoT` service.
     ///
     /// Deletes a role alias Requires permission to access the [DeleteRoleAlias](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -5862,7 +5862,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteScheduledAudit` operation on the `AWSIotService` service.
+    /// Performs the `DeleteScheduledAudit` operation on the `IoT` service.
     ///
     /// Deletes a scheduled audit. Requires permission to access the [DeleteScheduledAudit](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -5931,7 +5931,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteSecurityProfile` operation on the `AWSIotService` service.
+    /// Performs the `DeleteSecurityProfile` operation on the `IoT` service.
     ///
     /// Deletes a Device Defender security profile. Requires permission to access the [DeleteSecurityProfile](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -6001,7 +6001,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteStream` operation on the `AWSIotService` service.
+    /// Performs the `DeleteStream` operation on the `IoT` service.
     ///
     /// Deletes a stream. Requires permission to access the [DeleteStream](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -6073,7 +6073,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteThing` operation on the `AWSIotService` service.
+    /// Performs the `DeleteThing` operation on the `IoT` service.
     ///
     /// Deletes the specified thing. Returns successfully with no error if the deletion is successful or you specify a thing that doesn't exist. Requires permission to access the [DeleteThing](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -6146,7 +6146,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteThingGroup` operation on the `AWSIotService` service.
+    /// Performs the `DeleteThingGroup` operation on the `IoT` service.
     ///
     /// Deletes a thing group. Requires permission to access the [DeleteThingGroup](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -6216,7 +6216,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteThingType` operation on the `AWSIotService` service.
+    /// Performs the `DeleteThingType` operation on the `IoT` service.
     ///
     /// Deletes the specified thing type. You cannot delete a thing type if it has things associated with it. To delete a thing type, first mark it as deprecated by calling [DeprecateThingType], then remove any associated things by calling [UpdateThing] to change the thing type on any associated thing, and finally use [DeleteThingType] to delete the thing type. Requires permission to access the [DeleteThingType](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -6287,7 +6287,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteTopicRule` operation on the `AWSIotService` service.
+    /// Performs the `DeleteTopicRule` operation on the `IoT` service.
     ///
     /// Deletes the rule. Requires permission to access the [DeleteTopicRule](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -6357,7 +6357,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteTopicRuleDestination` operation on the `AWSIotService` service.
+    /// Performs the `DeleteTopicRuleDestination` operation on the `IoT` service.
     ///
     /// Deletes a topic rule destination. Requires permission to access the [DeleteTopicRuleDestination](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -6427,7 +6427,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteV2LoggingLevel` operation on the `AWSIotService` service.
+    /// Performs the `DeleteV2LoggingLevel` operation on the `IoT` service.
     ///
     /// Deletes a logging level. Requires permission to access the [DeleteV2LoggingLevel](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -6496,7 +6496,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeprecateThingType` operation on the `AWSIotService` service.
+    /// Performs the `DeprecateThingType` operation on the `IoT` service.
     ///
     /// Deprecates a thing type. You can not associate new things with deprecated thing type. Requires permission to access the [DeprecateThingType](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -6570,7 +6570,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeAccountAuditConfiguration` operation on the `AWSIotService` service.
+    /// Performs the `DescribeAccountAuditConfiguration` operation on the `IoT` service.
     ///
     /// Gets information about the Device Defender audit settings for this account. Settings include how audit notifications are sent and which audit checks are enabled or disabled. Requires permission to access the [DescribeAccountAuditConfiguration](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -6637,7 +6637,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeAuditFinding` operation on the `AWSIotService` service.
+    /// Performs the `DescribeAuditFinding` operation on the `IoT` service.
     ///
     /// Gets information about a single audit finding. Properties include the reason for noncompliance, the severity of the issue, and the start time when the audit that returned the finding. Requires permission to access the [DescribeAuditFinding](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -6706,7 +6706,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeAuditMitigationActionsTask` operation on the `AWSIotService` service.
+    /// Performs the `DescribeAuditMitigationActionsTask` operation on the `IoT` service.
     ///
     /// Gets information about an audit mitigation task that is used to apply mitigation actions to a set of audit findings. Properties include the actions being applied, the audit checks to which they're being applied, the task status, and aggregated task statistics.
     ///
@@ -6775,7 +6775,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeAuditSuppression` operation on the `AWSIotService` service.
+    /// Performs the `DescribeAuditSuppression` operation on the `IoT` service.
     ///
     /// Gets information about a Device Defender audit suppression.
     ///
@@ -6847,7 +6847,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeAuditTask` operation on the `AWSIotService` service.
+    /// Performs the `DescribeAuditTask` operation on the `IoT` service.
     ///
     /// Gets information about a Device Defender audit. Requires permission to access the [DescribeAuditTask](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -6916,7 +6916,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeAuthorizer` operation on the `AWSIotService` service.
+    /// Performs the `DescribeAuthorizer` operation on the `IoT` service.
     ///
     /// Describes an authorizer. Requires permission to access the [DescribeAuthorizer](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -6987,7 +6987,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeBillingGroup` operation on the `AWSIotService` service.
+    /// Performs the `DescribeBillingGroup` operation on the `IoT` service.
     ///
     /// Returns information about a billing group. Requires permission to access the [DescribeBillingGroup](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -7056,7 +7056,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeCACertificate` operation on the `AWSIotService` service.
+    /// Performs the `DescribeCACertificate` operation on the `IoT` service.
     ///
     /// Describes a registered CA certificate. Requires permission to access the [DescribeCACertificate](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -7127,7 +7127,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeCertificate` operation on the `AWSIotService` service.
+    /// Performs the `DescribeCertificate` operation on the `IoT` service.
     ///
     /// Gets information about the specified certificate. Requires permission to access the [DescribeCertificate](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -7198,7 +7198,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeCertificateProvider` operation on the `AWSIotService` service.
+    /// Performs the `DescribeCertificateProvider` operation on the `IoT` service.
     ///
     /// Describes a certificate provider. Requires permission to access the [DescribeCertificateProvider](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -7269,7 +7269,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeCustomMetric` operation on the `AWSIotService` service.
+    /// Performs the `DescribeCustomMetric` operation on the `IoT` service.
     ///
     /// Gets information about a Device Defender detect custom metric. Requires permission to access the [DescribeCustomMetric](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -7338,7 +7338,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeDefaultAuthorizer` operation on the `AWSIotService` service.
+    /// Performs the `DescribeDefaultAuthorizer` operation on the `IoT` service.
     ///
     /// Describes the default authorizer. Requires permission to access the [DescribeDefaultAuthorizer](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -7409,7 +7409,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeDetectMitigationActionsTask` operation on the `AWSIotService` service.
+    /// Performs the `DescribeDetectMitigationActionsTask` operation on the `IoT` service.
     ///
     /// Gets information about a Device Defender ML Detect mitigation action. Requires permission to access the [DescribeDetectMitigationActionsTask](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -7478,7 +7478,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeDimension` operation on the `AWSIotService` service.
+    /// Performs the `DescribeDimension` operation on the `IoT` service.
     ///
     /// Provides details about a dimension that is defined in your Amazon Web Services accounts. Requires permission to access the [DescribeDimension](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -7547,7 +7547,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeDomainConfiguration` operation on the `AWSIotService` service.
+    /// Performs the `DescribeDomainConfiguration` operation on the `IoT` service.
     ///
     /// Gets summary information about a domain configuration. Requires permission to access the [DescribeDomainConfiguration](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -7618,7 +7618,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeEndpoint` operation on the `AWSIotService` service.
+    /// Performs the `DescribeEndpoint` operation on the `IoT` service.
     ///
     /// Returns or creates a unique endpoint specific to the Amazon Web Services account making the call. The first time DescribeEndpoint is called, an endpoint is created. All subsequent calls to DescribeEndpoint return the same endpoint. Requires permission to access the [DescribeEndpoint](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -7688,7 +7688,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeEventConfigurations` operation on the `AWSIotService` service.
+    /// Performs the `DescribeEventConfigurations` operation on the `IoT` service.
     ///
     /// Describes event configurations. Requires permission to access the [DescribeEventConfigurations](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -7755,7 +7755,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeFleetMetric` operation on the `AWSIotService` service.
+    /// Performs the `DescribeFleetMetric` operation on the `IoT` service.
     ///
     /// Gets information about the specified fleet metric. Requires permission to access the [DescribeFleetMetric](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -7826,7 +7826,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeIndex` operation on the `AWSIotService` service.
+    /// Performs the `DescribeIndex` operation on the `IoT` service.
     ///
     /// Describes a search index. Requires permission to access the [DescribeIndex](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -7897,7 +7897,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeJob` operation on the `AWSIotService` service.
+    /// Performs the `DescribeJob` operation on the `IoT` service.
     ///
     /// Describes a job. Requires permission to access the [DescribeJob](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -7967,7 +7967,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeJobExecution` operation on the `AWSIotService` service.
+    /// Performs the `DescribeJobExecution` operation on the `IoT` service.
     ///
     /// Describes a job execution. Requires permission to access the [DescribeJobExecution](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -8037,7 +8037,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeJobTemplate` operation on the `AWSIotService` service.
+    /// Performs the `DescribeJobTemplate` operation on the `IoT` service.
     ///
     /// Returns information about a job template.
     ///
@@ -8106,7 +8106,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeManagedJobTemplate` operation on the `AWSIotService` service.
+    /// Performs the `DescribeManagedJobTemplate` operation on the `IoT` service.
     ///
     /// View details of a managed job template.
     ///
@@ -8176,7 +8176,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeMitigationAction` operation on the `AWSIotService` service.
+    /// Performs the `DescribeMitigationAction` operation on the `IoT` service.
     ///
     /// Gets information about a mitigation action. Requires permission to access the [DescribeMitigationAction](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -8245,7 +8245,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeProvisioningTemplate` operation on the `AWSIotService` service.
+    /// Performs the `DescribeProvisioningTemplate` operation on the `IoT` service.
     ///
     /// Returns information about a provisioning template. Requires permission to access the [DescribeProvisioningTemplate](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -8315,7 +8315,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeProvisioningTemplateVersion` operation on the `AWSIotService` service.
+    /// Performs the `DescribeProvisioningTemplateVersion` operation on the `IoT` service.
     ///
     /// Returns information about a provisioning template version. Requires permission to access the [DescribeProvisioningTemplateVersion](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -8385,7 +8385,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeRoleAlias` operation on the `AWSIotService` service.
+    /// Performs the `DescribeRoleAlias` operation on the `IoT` service.
     ///
     /// Describes a role alias. Requires permission to access the [DescribeRoleAlias](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -8456,7 +8456,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeScheduledAudit` operation on the `AWSIotService` service.
+    /// Performs the `DescribeScheduledAudit` operation on the `IoT` service.
     ///
     /// Gets information about a scheduled audit. Requires permission to access the [DescribeScheduledAudit](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -8525,7 +8525,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeSecurityProfile` operation on the `AWSIotService` service.
+    /// Performs the `DescribeSecurityProfile` operation on the `IoT` service.
     ///
     /// Gets information about a Device Defender security profile. Requires permission to access the [DescribeSecurityProfile](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -8594,7 +8594,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeStream` operation on the `AWSIotService` service.
+    /// Performs the `DescribeStream` operation on the `IoT` service.
     ///
     /// Gets information about a stream. Requires permission to access the [DescribeStream](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -8665,7 +8665,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeThing` operation on the `AWSIotService` service.
+    /// Performs the `DescribeThing` operation on the `IoT` service.
     ///
     /// Gets information about the specified thing. Requires permission to access the [DescribeThing](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -8736,7 +8736,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeThingGroup` operation on the `AWSIotService` service.
+    /// Performs the `DescribeThingGroup` operation on the `IoT` service.
     ///
     /// Describe a thing group. Requires permission to access the [DescribeThingGroup](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -8805,7 +8805,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeThingRegistrationTask` operation on the `AWSIotService` service.
+    /// Performs the `DescribeThingRegistrationTask` operation on the `IoT` service.
     ///
     /// Describes a bulk thing provisioning task. Requires permission to access the [DescribeThingRegistrationTask](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -8875,7 +8875,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeThingType` operation on the `AWSIotService` service.
+    /// Performs the `DescribeThingType` operation on the `IoT` service.
     ///
     /// Gets information about the specified thing type. Requires permission to access the [DescribeThingType](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -8946,7 +8946,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DetachPolicy` operation on the `AWSIotService` service.
+    /// Performs the `DetachPolicy` operation on the `IoT` service.
     ///
     /// Detaches a policy from the specified target. Because of the distributed nature of Amazon Web Services, it can take up to five minutes after a policy is detached before it's ready to be deleted. Requires permission to access the [DetachPolicy](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -9020,7 +9020,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DetachPrincipalPolicy` operation on the `AWSIotService` service.
+    /// Performs the `DetachPrincipalPolicy` operation on the `IoT` service.
     ///
     /// Removes the specified policy from the specified certificate. Note: This action is deprecated and works as expected for backward compatibility, but we won't add enhancements. Use [DetachPolicy] instead. Requires permission to access the [DetachPrincipalPolicy](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     @available(*, deprecated)
@@ -9093,7 +9093,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DetachSecurityProfile` operation on the `AWSIotService` service.
+    /// Performs the `DetachSecurityProfile` operation on the `IoT` service.
     ///
     /// Disassociates a Device Defender security profile from a thing group or from this account. Requires permission to access the [DetachSecurityProfile](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -9163,7 +9163,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DetachThingPrincipal` operation on the `AWSIotService` service.
+    /// Performs the `DetachThingPrincipal` operation on the `IoT` service.
     ///
     /// Detaches the specified principal from the specified thing. A principal can be X.509 certificates, IAM users, groups, and roles, Amazon Cognito identities or federated identities. This call is asynchronous. It might take several seconds for the detachment to propagate. Requires permission to access the [DetachThingPrincipal](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -9235,7 +9235,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisableTopicRule` operation on the `AWSIotService` service.
+    /// Performs the `DisableTopicRule` operation on the `IoT` service.
     ///
     /// Disables the rule. Requires permission to access the [DisableTopicRule](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -9305,7 +9305,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateSbomFromPackageVersion` operation on the `AWSIotService` service.
+    /// Performs the `DisassociateSbomFromPackageVersion` operation on the `IoT` service.
     ///
     /// Disassociates the selected software bill of materials (SBOM) from a specific software package version. Requires permission to access the [DisassociateSbomWithPackageVersion](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -9377,7 +9377,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `EnableTopicRule` operation on the `AWSIotService` service.
+    /// Performs the `EnableTopicRule` operation on the `IoT` service.
     ///
     /// Enables the rule. Requires permission to access the [EnableTopicRule](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -9447,7 +9447,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetBehaviorModelTrainingSummaries` operation on the `AWSIotService` service.
+    /// Performs the `GetBehaviorModelTrainingSummaries` operation on the `IoT` service.
     ///
     /// Returns a Device Defender's ML Detect Security Profile training model's status. Requires permission to access the [GetBehaviorModelTrainingSummaries](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -9517,7 +9517,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetBucketsAggregation` operation on the `AWSIotService` service.
+    /// Performs the `GetBucketsAggregation` operation on the `IoT` service.
     ///
     /// Aggregates on indexed data with search queries pertaining to particular fields. Requires permission to access the [GetBucketsAggregation](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -9594,7 +9594,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetCardinality` operation on the `AWSIotService` service.
+    /// Performs the `GetCardinality` operation on the `IoT` service.
     ///
     /// Returns the approximate count of unique values that match the query. Requires permission to access the [GetCardinality](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -9671,7 +9671,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetCommand` operation on the `AWSIotService` service.
+    /// Performs the `GetCommand` operation on the `IoT` service.
     ///
     /// Gets information about the specified command.
     ///
@@ -9740,7 +9740,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetCommandExecution` operation on the `AWSIotService` service.
+    /// Performs the `GetCommandExecution` operation on the `IoT` service.
     ///
     /// Gets information about the specific command execution on a single device.
     ///
@@ -9810,7 +9810,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetEffectivePolicies` operation on the `AWSIotService` service.
+    /// Performs the `GetEffectivePolicies` operation on the `IoT` service.
     ///
     /// Gets a list of the policies that have an effect on the authorization behavior of the specified device when it connects to the IoT device gateway. Requires permission to access the [GetEffectivePolicies](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -9886,7 +9886,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetIndexingConfiguration` operation on the `AWSIotService` service.
+    /// Performs the `GetIndexingConfiguration` operation on the `IoT` service.
     ///
     /// Gets the indexing configuration. Requires permission to access the [GetIndexingConfiguration](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -9956,7 +9956,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetJobDocument` operation on the `AWSIotService` service.
+    /// Performs the `GetJobDocument` operation on the `IoT` service.
     ///
     /// Gets a job document. Requires permission to access the [GetJobDocument](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -10026,7 +10026,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetLoggingOptions` operation on the `AWSIotService` service.
+    /// Performs the `GetLoggingOptions` operation on the `IoT` service.
     ///
     /// Gets the logging options. NOTE: use of this command is not recommended. Use GetV2LoggingOptions instead. Requires permission to access the [GetLoggingOptions](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -10094,7 +10094,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetOTAUpdate` operation on the `AWSIotService` service.
+    /// Performs the `GetOTAUpdate` operation on the `IoT` service.
     ///
     /// Gets an OTA update. Requires permission to access the [GetOTAUpdate](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -10165,7 +10165,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetPackage` operation on the `AWSIotService` service.
+    /// Performs the `GetPackage` operation on the `IoT` service.
     ///
     /// Gets information about the specified software package. Requires permission to access the [GetPackage](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -10234,7 +10234,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetPackageConfiguration` operation on the `AWSIotService` service.
+    /// Performs the `GetPackageConfiguration` operation on the `IoT` service.
     ///
     /// Gets information about the specified software package's configuration. Requires permission to access the [GetPackageConfiguration](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -10301,7 +10301,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetPackageVersion` operation on the `AWSIotService` service.
+    /// Performs the `GetPackageVersion` operation on the `IoT` service.
     ///
     /// Gets information about the specified package version. Requires permission to access the [GetPackageVersion](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -10370,7 +10370,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetPercentiles` operation on the `AWSIotService` service.
+    /// Performs the `GetPercentiles` operation on the `IoT` service.
     ///
     /// Groups the aggregated values that match the query into percentile groupings. The default percentile groupings are: 1,5,25,50,75,95,99, although you can specify your own when you call GetPercentiles. This function returns a value for each percentile group specified (or the default percentile groupings). The percentile group "1" contains the aggregated field value that occurs in approximately one percent of the values that match the query. The percentile group "5" contains the aggregated field value that occurs in approximately five percent of the values that match the query, and so on. The result is an approximation, the more values that match the query, the more accurate the percentile values. Requires permission to access the [GetPercentiles](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -10447,7 +10447,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetPolicy` operation on the `AWSIotService` service.
+    /// Performs the `GetPolicy` operation on the `IoT` service.
     ///
     /// Gets information about the specified policy with the policy document of the default version. Requires permission to access the [GetPolicy](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -10518,7 +10518,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetPolicyVersion` operation on the `AWSIotService` service.
+    /// Performs the `GetPolicyVersion` operation on the `IoT` service.
     ///
     /// Gets information about the specified policy version. Requires permission to access the [GetPolicyVersion](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -10589,7 +10589,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetRegistrationCode` operation on the `AWSIotService` service.
+    /// Performs the `GetRegistrationCode` operation on the `IoT` service.
     ///
     /// Gets a registration code used to register a CA certificate with IoT. IoT will create a registration code as part of this API call if the registration code doesn't exist or has been deleted. If you already have a registration code, this API call will return the same registration code. Requires permission to access the [GetRegistrationCode](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -10659,7 +10659,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetStatistics` operation on the `AWSIotService` service.
+    /// Performs the `GetStatistics` operation on the `IoT` service.
     ///
     /// Returns the count, average, sum, minimum, maximum, sum of squares, variance, and standard deviation for the specified aggregated field. If the aggregation field is of type String, only the count statistic is returned. Requires permission to access the [GetStatistics](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -10736,7 +10736,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetThingConnectivityData` operation on the `AWSIotService` service.
+    /// Performs the `GetThingConnectivityData` operation on the `IoT` service.
     ///
     /// Retrieves the live connectivity status per device.
     ///
@@ -10808,7 +10808,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetTopicRule` operation on the `AWSIotService` service.
+    /// Performs the `GetTopicRule` operation on the `IoT` service.
     ///
     /// Gets information about the rule. Requires permission to access the [GetTopicRule](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -10877,7 +10877,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetTopicRuleDestination` operation on the `AWSIotService` service.
+    /// Performs the `GetTopicRuleDestination` operation on the `IoT` service.
     ///
     /// Gets information about a topic rule destination. Requires permission to access the [GetTopicRuleDestination](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -10946,7 +10946,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetV2LoggingOptions` operation on the `AWSIotService` service.
+    /// Performs the `GetV2LoggingOptions` operation on the `IoT` service.
     ///
     /// Gets the fine grained logging options. Requires permission to access the [GetV2LoggingOptions](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -11014,7 +11014,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListActiveViolations` operation on the `AWSIotService` service.
+    /// Performs the `ListActiveViolations` operation on the `IoT` service.
     ///
     /// Lists the active violations for a given Device Defender security profile. Requires permission to access the [ListActiveViolations](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -11084,7 +11084,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAttachedPolicies` operation on the `AWSIotService` service.
+    /// Performs the `ListAttachedPolicies` operation on the `IoT` service.
     ///
     /// Lists the policies attached to the specified thing group. Requires permission to access the [ListAttachedPolicies](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -11157,7 +11157,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAuditFindings` operation on the `AWSIotService` service.
+    /// Performs the `ListAuditFindings` operation on the `IoT` service.
     ///
     /// Lists the findings (results) of a Device Defender audit or of the audits performed during a specified time period. (Findings are retained for 90 days.) Requires permission to access the [ListAuditFindings](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -11228,7 +11228,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAuditMitigationActionsExecutions` operation on the `AWSIotService` service.
+    /// Performs the `ListAuditMitigationActionsExecutions` operation on the `IoT` service.
     ///
     /// Gets the status of audit mitigation action tasks that were executed. Requires permission to access the [ListAuditMitigationActionsExecutions](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -11297,7 +11297,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAuditMitigationActionsTasks` operation on the `AWSIotService` service.
+    /// Performs the `ListAuditMitigationActionsTasks` operation on the `IoT` service.
     ///
     /// Gets a list of audit mitigation action tasks that match the specified filters. Requires permission to access the [ListAuditMitigationActionsTasks](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -11366,7 +11366,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAuditSuppressions` operation on the `AWSIotService` service.
+    /// Performs the `ListAuditSuppressions` operation on the `IoT` service.
     ///
     /// Lists your Device Defender audit listings. Requires permission to access the [ListAuditSuppressions](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -11437,7 +11437,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAuditTasks` operation on the `AWSIotService` service.
+    /// Performs the `ListAuditTasks` operation on the `IoT` service.
     ///
     /// Lists the Device Defender audits that have been performed during a given time period. Requires permission to access the [ListAuditTasks](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -11506,7 +11506,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAuthorizers` operation on the `AWSIotService` service.
+    /// Performs the `ListAuthorizers` operation on the `IoT` service.
     ///
     /// Lists the authorizers registered in your account. Requires permission to access the [ListAuthorizers](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -11577,7 +11577,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListBillingGroups` operation on the `AWSIotService` service.
+    /// Performs the `ListBillingGroups` operation on the `IoT` service.
     ///
     /// Lists the billing groups you have created. Requires permission to access the [ListBillingGroups](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -11647,7 +11647,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListCACertificates` operation on the `AWSIotService` service.
+    /// Performs the `ListCACertificates` operation on the `IoT` service.
     ///
     /// Lists the CA certificates registered for your Amazon Web Services account. The results are paginated with a default page size of 25. You can use the returned marker to retrieve additional results. Requires permission to access the [ListCACertificates](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -11718,7 +11718,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListCertificateProviders` operation on the `AWSIotService` service.
+    /// Performs the `ListCertificateProviders` operation on the `IoT` service.
     ///
     /// Lists all your certificate providers in your Amazon Web Services account. Requires permission to access the [ListCertificateProviders](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -11789,7 +11789,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListCertificates` operation on the `AWSIotService` service.
+    /// Performs the `ListCertificates` operation on the `IoT` service.
     ///
     /// Lists the certificates registered in your Amazon Web Services account. The results are paginated with a default page size of 25. You can use the returned marker to retrieve additional results. Requires permission to access the [ListCertificates](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -11860,7 +11860,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListCertificatesByCA` operation on the `AWSIotService` service.
+    /// Performs the `ListCertificatesByCA` operation on the `IoT` service.
     ///
     /// List the device certificates signed by the specified CA certificate. Requires permission to access the [ListCertificatesByCA](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -11931,7 +11931,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListCommandExecutions` operation on the `AWSIotService` service.
+    /// Performs the `ListCommandExecutions` operation on the `IoT` service.
     ///
     /// List all command executions.
     ///
@@ -12011,7 +12011,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListCommands` operation on the `AWSIotService` service.
+    /// Performs the `ListCommands` operation on the `IoT` service.
     ///
     /// List all commands in your account.
     ///
@@ -12080,7 +12080,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListCustomMetrics` operation on the `AWSIotService` service.
+    /// Performs the `ListCustomMetrics` operation on the `IoT` service.
     ///
     /// Lists your Device Defender detect custom metrics. Requires permission to access the [ListCustomMetrics](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -12149,7 +12149,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDetectMitigationActionsExecutions` operation on the `AWSIotService` service.
+    /// Performs the `ListDetectMitigationActionsExecutions` operation on the `IoT` service.
     ///
     /// Lists mitigation actions executions for a Device Defender ML Detect Security Profile. Requires permission to access the [ListDetectMitigationActionsExecutions](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -12218,7 +12218,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDetectMitigationActionsTasks` operation on the `AWSIotService` service.
+    /// Performs the `ListDetectMitigationActionsTasks` operation on the `IoT` service.
     ///
     /// List of Device Defender ML Detect mitigation actions tasks. Requires permission to access the [ListDetectMitigationActionsTasks](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -12287,7 +12287,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDimensions` operation on the `AWSIotService` service.
+    /// Performs the `ListDimensions` operation on the `IoT` service.
     ///
     /// List the set of dimensions that are defined for your Amazon Web Services accounts. Requires permission to access the [ListDimensions](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -12356,7 +12356,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDomainConfigurations` operation on the `AWSIotService` service.
+    /// Performs the `ListDomainConfigurations` operation on the `IoT` service.
     ///
     /// Gets a list of domain configurations for the user. This list is sorted alphabetically by domain configuration name. Requires permission to access the [ListDomainConfigurations](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -12427,7 +12427,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListFleetMetrics` operation on the `AWSIotService` service.
+    /// Performs the `ListFleetMetrics` operation on the `IoT` service.
     ///
     /// Lists all your fleet metrics. Requires permission to access the [ListFleetMetrics](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -12498,7 +12498,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListIndices` operation on the `AWSIotService` service.
+    /// Performs the `ListIndices` operation on the `IoT` service.
     ///
     /// Lists the search indices. Requires permission to access the [ListIndices](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -12569,7 +12569,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListJobExecutionsForJob` operation on the `AWSIotService` service.
+    /// Performs the `ListJobExecutionsForJob` operation on the `IoT` service.
     ///
     /// Lists the job executions for a job. Requires permission to access the [ListJobExecutionsForJob](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -12639,7 +12639,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListJobExecutionsForThing` operation on the `AWSIotService` service.
+    /// Performs the `ListJobExecutionsForThing` operation on the `IoT` service.
     ///
     /// Lists the job executions for the specified thing. Requires permission to access the [ListJobExecutionsForThing](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -12709,7 +12709,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListJobTemplates` operation on the `AWSIotService` service.
+    /// Performs the `ListJobTemplates` operation on the `IoT` service.
     ///
     /// Returns a list of job templates. Requires permission to access the [ListJobTemplates](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -12778,7 +12778,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListJobs` operation on the `AWSIotService` service.
+    /// Performs the `ListJobs` operation on the `IoT` service.
     ///
     /// Lists jobs. Requires permission to access the [ListJobs](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -12848,7 +12848,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListManagedJobTemplates` operation on the `AWSIotService` service.
+    /// Performs the `ListManagedJobTemplates` operation on the `IoT` service.
     ///
     /// Returns a list of managed job templates.
     ///
@@ -12918,7 +12918,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListMetricValues` operation on the `AWSIotService` service.
+    /// Performs the `ListMetricValues` operation on the `IoT` service.
     ///
     /// Lists the values reported for an IoT Device Defender metric (device-side metric, cloud-side metric, or custom metric) by the given thing during the specified time period.
     ///
@@ -12988,7 +12988,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListMitigationActions` operation on the `AWSIotService` service.
+    /// Performs the `ListMitigationActions` operation on the `IoT` service.
     ///
     /// Gets a list of all mitigation actions that match the specified filter criteria. Requires permission to access the [ListMitigationActions](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -13057,7 +13057,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListOTAUpdates` operation on the `AWSIotService` service.
+    /// Performs the `ListOTAUpdates` operation on the `IoT` service.
     ///
     /// Lists OTA updates. Requires permission to access the [ListOTAUpdates](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -13128,7 +13128,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListOutgoingCertificates` operation on the `AWSIotService` service.
+    /// Performs the `ListOutgoingCertificates` operation on the `IoT` service.
     ///
     /// Lists certificates that are being transferred but not yet accepted. Requires permission to access the [ListOutgoingCertificates](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -13199,7 +13199,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListPackageVersions` operation on the `AWSIotService` service.
+    /// Performs the `ListPackageVersions` operation on the `IoT` service.
     ///
     /// Lists the software package versions associated to the account. Requires permission to access the [ListPackageVersions](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -13268,7 +13268,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListPackages` operation on the `AWSIotService` service.
+    /// Performs the `ListPackages` operation on the `IoT` service.
     ///
     /// Lists the software packages associated to the account. Requires permission to access the [ListPackages](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -13337,7 +13337,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListPolicies` operation on the `AWSIotService` service.
+    /// Performs the `ListPolicies` operation on the `IoT` service.
     ///
     /// Lists your policies. Requires permission to access the [ListPolicies](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -13408,7 +13408,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListPolicyPrincipals` operation on the `AWSIotService` service.
+    /// Performs the `ListPolicyPrincipals` operation on the `IoT` service.
     ///
     /// Lists the principals associated with the specified policy. Note: This action is deprecated and works as expected for backward compatibility, but we won't add enhancements. Use [ListTargetsForPolicy] instead. Requires permission to access the [ListPolicyPrincipals](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     @available(*, deprecated)
@@ -13482,7 +13482,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListPolicyVersions` operation on the `AWSIotService` service.
+    /// Performs the `ListPolicyVersions` operation on the `IoT` service.
     ///
     /// Lists the versions of the specified policy and identifies the default version. Requires permission to access the [ListPolicyVersions](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -13553,7 +13553,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListPrincipalPolicies` operation on the `AWSIotService` service.
+    /// Performs the `ListPrincipalPolicies` operation on the `IoT` service.
     ///
     /// Lists the policies attached to the specified principal. If you use an Cognito identity, the ID must be in [AmazonCognito Identity format](https://docs.aws.amazon.com/cognitoidentity/latest/APIReference/API_GetCredentialsForIdentity.html#API_GetCredentialsForIdentity_RequestSyntax). Note: This action is deprecated and works as expected for backward compatibility, but we won't add enhancements. Use [ListAttachedPolicies] instead. Requires permission to access the [ListPrincipalPolicies](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     @available(*, deprecated)
@@ -13627,7 +13627,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListPrincipalThings` operation on the `AWSIotService` service.
+    /// Performs the `ListPrincipalThings` operation on the `IoT` service.
     ///
     /// Lists the things associated with the specified principal. A principal can be X.509 certificates, IAM users, groups, and roles, Amazon Cognito identities or federated identities. Requires permission to access the [ListPrincipalThings](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -13700,7 +13700,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListPrincipalThingsV2` operation on the `AWSIotService` service.
+    /// Performs the `ListPrincipalThingsV2` operation on the `IoT` service.
     ///
     /// Lists the things associated with the specified principal. A principal can be an X.509 certificate or an Amazon Cognito ID. Requires permission to access the [ListPrincipalThings](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -13773,7 +13773,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListProvisioningTemplateVersions` operation on the `AWSIotService` service.
+    /// Performs the `ListProvisioningTemplateVersions` operation on the `IoT` service.
     ///
     /// A list of provisioning template versions. Requires permission to access the [ListProvisioningTemplateVersions](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -13844,7 +13844,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListProvisioningTemplates` operation on the `AWSIotService` service.
+    /// Performs the `ListProvisioningTemplates` operation on the `IoT` service.
     ///
     /// Lists the provisioning templates in your Amazon Web Services account. Requires permission to access the [ListProvisioningTemplates](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -13914,7 +13914,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListRelatedResourcesForAuditFinding` operation on the `AWSIotService` service.
+    /// Performs the `ListRelatedResourcesForAuditFinding` operation on the `IoT` service.
     ///
     /// The related resources of an Audit finding. The following resources can be returned from calling this API:
     ///
@@ -14005,7 +14005,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListRoleAliases` operation on the `AWSIotService` service.
+    /// Performs the `ListRoleAliases` operation on the `IoT` service.
     ///
     /// Lists the role aliases registered in your account. Requires permission to access the [ListRoleAliases](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -14076,7 +14076,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListSbomValidationResults` operation on the `AWSIotService` service.
+    /// Performs the `ListSbomValidationResults` operation on the `IoT` service.
     ///
     /// The validation results for all software bill of materials (SBOM) attached to a specific software package version. Requires permission to access the [ListSbomValidationResults](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -14146,7 +14146,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListScheduledAudits` operation on the `AWSIotService` service.
+    /// Performs the `ListScheduledAudits` operation on the `IoT` service.
     ///
     /// Lists all of your scheduled audits. Requires permission to access the [ListScheduledAudits](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -14215,7 +14215,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListSecurityProfiles` operation on the `AWSIotService` service.
+    /// Performs the `ListSecurityProfiles` operation on the `IoT` service.
     ///
     /// Lists the Device Defender security profiles you've created. You can filter security profiles by dimension or custom metric. Requires permission to access the [ListSecurityProfiles](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action. dimensionName and metricName cannot be used in the same request.
     ///
@@ -14285,7 +14285,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListSecurityProfilesForTarget` operation on the `AWSIotService` service.
+    /// Performs the `ListSecurityProfilesForTarget` operation on the `IoT` service.
     ///
     /// Lists the Device Defender security profiles attached to a target (thing group). Requires permission to access the [ListSecurityProfilesForTarget](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -14355,7 +14355,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListStreams` operation on the `AWSIotService` service.
+    /// Performs the `ListStreams` operation on the `IoT` service.
     ///
     /// Lists all of the streams in your Amazon Web Services account. Requires permission to access the [ListStreams](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -14426,7 +14426,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `AWSIotService` service.
+    /// Performs the `ListTagsForResource` operation on the `IoT` service.
     ///
     /// Lists the tags (metadata) you have assigned to the resource. Requires permission to access the [ListTagsForResource](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -14496,7 +14496,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTargetsForPolicy` operation on the `AWSIotService` service.
+    /// Performs the `ListTargetsForPolicy` operation on the `IoT` service.
     ///
     /// List targets for the specified policy. Requires permission to access the [ListTargetsForPolicy](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -14569,7 +14569,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTargetsForSecurityProfile` operation on the `AWSIotService` service.
+    /// Performs the `ListTargetsForSecurityProfile` operation on the `IoT` service.
     ///
     /// Lists the targets (thing groups) associated with a given Device Defender security profile. Requires permission to access the [ListTargetsForSecurityProfile](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -14639,7 +14639,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListThingGroups` operation on the `AWSIotService` service.
+    /// Performs the `ListThingGroups` operation on the `IoT` service.
     ///
     /// List the thing groups in your account. Requires permission to access the [ListThingGroups](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -14709,7 +14709,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListThingGroupsForThing` operation on the `AWSIotService` service.
+    /// Performs the `ListThingGroupsForThing` operation on the `IoT` service.
     ///
     /// List the thing groups to which the specified thing belongs. Requires permission to access the [ListThingGroupsForThing](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -14779,7 +14779,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListThingPrincipals` operation on the `AWSIotService` service.
+    /// Performs the `ListThingPrincipals` operation on the `IoT` service.
     ///
     /// Lists the principals associated with the specified thing. A principal can be X.509 certificates, IAM users, groups, and roles, Amazon Cognito identities or federated identities. Requires permission to access the [ListThingPrincipals](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -14851,7 +14851,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListThingPrincipalsV2` operation on the `AWSIotService` service.
+    /// Performs the `ListThingPrincipalsV2` operation on the `IoT` service.
     ///
     /// Lists the principals associated with the specified thing. A principal can be an X.509 certificate or an Amazon Cognito ID. Requires permission to access the [ListThingPrincipals](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -14923,7 +14923,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListThingRegistrationTaskReports` operation on the `AWSIotService` service.
+    /// Performs the `ListThingRegistrationTaskReports` operation on the `IoT` service.
     ///
     /// Information about the thing registration tasks.
     ///
@@ -14993,7 +14993,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListThingRegistrationTasks` operation on the `AWSIotService` service.
+    /// Performs the `ListThingRegistrationTasks` operation on the `IoT` service.
     ///
     /// List bulk thing provisioning tasks. Requires permission to access the [ListThingRegistrationTasks](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -15063,7 +15063,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListThingTypes` operation on the `AWSIotService` service.
+    /// Performs the `ListThingTypes` operation on the `IoT` service.
     ///
     /// Lists the existing thing types. Requires permission to access the [ListThingTypes](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -15134,7 +15134,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListThings` operation on the `AWSIotService` service.
+    /// Performs the `ListThings` operation on the `IoT` service.
     ///
     /// Lists your things. Use the attributeName and attributeValue parameters to filter your things. For example, calling ListThings with attributeName=Color and attributeValue=Red retrieves all things in the registry that contain an attribute Color with the value Red. For more information, see [List Things](https://docs.aws.amazon.com/iot/latest/developerguide/thing-registry.html#list-things) from the Amazon Web Services IoT Core Developer Guide. Requires permission to access the [ListThings](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action. You will not be charged for calling this API if an Access denied error is returned. You will also not be charged if no attributes or pagination token was provided in request and no pagination token and no results were returned.
     ///
@@ -15205,7 +15205,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListThingsInBillingGroup` operation on the `AWSIotService` service.
+    /// Performs the `ListThingsInBillingGroup` operation on the `IoT` service.
     ///
     /// Lists the things you have added to the given billing group. Requires permission to access the [ListThingsInBillingGroup](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -15275,7 +15275,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListThingsInThingGroup` operation on the `AWSIotService` service.
+    /// Performs the `ListThingsInThingGroup` operation on the `IoT` service.
     ///
     /// Lists the things in the specified group. Requires permission to access the [ListThingsInThingGroup](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -15345,7 +15345,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTopicRuleDestinations` operation on the `AWSIotService` service.
+    /// Performs the `ListTopicRuleDestinations` operation on the `IoT` service.
     ///
     /// Lists all the topic rule destinations in your Amazon Web Services account. Requires permission to access the [ListTopicRuleDestinations](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -15415,7 +15415,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTopicRules` operation on the `AWSIotService` service.
+    /// Performs the `ListTopicRules` operation on the `IoT` service.
     ///
     /// Lists the rules for the specific topic. Requires permission to access the [ListTopicRules](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -15484,7 +15484,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListV2LoggingLevels` operation on the `AWSIotService` service.
+    /// Performs the `ListV2LoggingLevels` operation on the `IoT` service.
     ///
     /// Lists logging levels. Requires permission to access the [ListV2LoggingLevels](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -15554,7 +15554,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListViolationEvents` operation on the `AWSIotService` service.
+    /// Performs the `ListViolationEvents` operation on the `IoT` service.
     ///
     /// Lists the Device Defender security profile violations discovered during the given time period. You can use filters to limit the results to those alerts issued for a particular security profile, behavior, or thing (device). Requires permission to access the [ListViolationEvents](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -15623,7 +15623,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutVerificationStateOnViolation` operation on the `AWSIotService` service.
+    /// Performs the `PutVerificationStateOnViolation` operation on the `IoT` service.
     ///
     /// Set a verification state and provide a description of that verification state on a violation (detect alarm).
     ///
@@ -15694,7 +15694,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RegisterCACertificate` operation on the `AWSIotService` service.
+    /// Performs the `RegisterCACertificate` operation on the `IoT` service.
     ///
     /// Registers a CA certificate with Amazon Web Services IoT Core. There is no limit to the number of CA certificates you can register in your Amazon Web Services account. You can register up to 10 CA certificates with the same CA subject field per Amazon Web Services account. Requires permission to access the [RegisterCACertificate](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -15773,7 +15773,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RegisterCertificate` operation on the `AWSIotService` service.
+    /// Performs the `RegisterCertificate` operation on the `IoT` service.
     ///
     /// Registers a device certificate with IoT in the same [certificate mode](https://docs.aws.amazon.com/iot/latest/apireference/API_CertificateDescription.html#iot-Type-CertificateDescription-certificateMode) as the signing CA. If you have more than one CA certificate that has the same subject field, you must specify the CA certificate that was used to sign the device certificate being registered. Requires permission to access the [RegisterCertificate](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -15851,7 +15851,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RegisterCertificateWithoutCA` operation on the `AWSIotService` service.
+    /// Performs the `RegisterCertificateWithoutCA` operation on the `IoT` service.
     ///
     /// Register a certificate that does not have a certificate authority (CA). For supported certificates, consult [ Certificate signing algorithms supported by IoT](https://docs.aws.amazon.com/iot/latest/developerguide/x509-client-certs.html#x509-cert-algorithms).
     ///
@@ -15927,7 +15927,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RegisterThing` operation on the `AWSIotService` service.
+    /// Performs the `RegisterThing` operation on the `IoT` service.
     ///
     /// Provisions a thing in the device registry. RegisterThing calls other IoT control plane APIs. These calls might exceed your account level [ IoT Throttling Limits](https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html#limits_iot) and cause throttle errors. Please contact [Amazon Web Services Customer Support](https://console.aws.amazon.com/support/home) to raise your throttling limits if necessary. Requires permission to access the [RegisterThing](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -16002,7 +16002,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RejectCertificateTransfer` operation on the `AWSIotService` service.
+    /// Performs the `RejectCertificateTransfer` operation on the `IoT` service.
     ///
     /// Rejects a pending certificate transfer. After IoT rejects a certificate transfer, the certificate status changes from PENDING_TRANSFER to INACTIVE. To check for pending certificate transfers, call [ListCertificates] to enumerate your certificates. This operation can only be called by the transfer destination. After it is called, the certificate will be returned to the source's account in the INACTIVE state. Requires permission to access the [RejectCertificateTransfer](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -16077,7 +16077,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RemoveThingFromBillingGroup` operation on the `AWSIotService` service.
+    /// Performs the `RemoveThingFromBillingGroup` operation on the `IoT` service.
     ///
     /// Removes the given thing from the billing group. Requires permission to access the [RemoveThingFromBillingGroup](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action. This call is asynchronous. It might take several seconds for the detachment to propagate.
     ///
@@ -16149,7 +16149,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RemoveThingFromThingGroup` operation on the `AWSIotService` service.
+    /// Performs the `RemoveThingFromThingGroup` operation on the `IoT` service.
     ///
     /// Remove the specified thing from the specified group. You must specify either a thingGroupArn or a thingGroupName to identify the thing group and either a thingArn or a thingName to identify the thing to remove from the thing group. Requires permission to access the [RemoveThingFromThingGroup](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -16221,7 +16221,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ReplaceTopicRule` operation on the `AWSIotService` service.
+    /// Performs the `ReplaceTopicRule` operation on the `IoT` service.
     ///
     /// Replaces the rule. You must specify all parameters for the new rule. Creating rules is an administrator-level action. Any user who has permission to create rules will be able to access data processed by the rule. Requires permission to access the [ReplaceTopicRule](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -16295,7 +16295,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SearchIndex` operation on the `AWSIotService` service.
+    /// Performs the `SearchIndex` operation on the `IoT` service.
     ///
     /// The query search index. Requires permission to access the [SearchIndex](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -16371,7 +16371,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SetDefaultAuthorizer` operation on the `AWSIotService` service.
+    /// Performs the `SetDefaultAuthorizer` operation on the `IoT` service.
     ///
     /// Sets the default authorizer. This will be used if a websocket connection is made without specifying an authorizer. Requires permission to access the [SetDefaultAuthorizer](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -16446,7 +16446,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SetDefaultPolicyVersion` operation on the `AWSIotService` service.
+    /// Performs the `SetDefaultPolicyVersion` operation on the `IoT` service.
     ///
     /// Sets the specified version of the specified policy as the policy's default (operative) version. This action affects all certificates to which the policy is attached. To list the principals the policy is attached to, use the [ListPrincipalPolicies] action. Requires permission to access the [SetDefaultPolicyVersion](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -16517,7 +16517,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SetLoggingOptions` operation on the `AWSIotService` service.
+    /// Performs the `SetLoggingOptions` operation on the `IoT` service.
     ///
     /// Sets the logging options. NOTE: use of this command is not recommended. Use SetV2LoggingOptions instead. Requires permission to access the [SetLoggingOptions](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -16588,7 +16588,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SetV2LoggingLevel` operation on the `AWSIotService` service.
+    /// Performs the `SetV2LoggingLevel` operation on the `IoT` service.
     ///
     /// Sets the logging level. Requires permission to access the [SetV2LoggingLevel](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -16661,7 +16661,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SetV2LoggingOptions` operation on the `AWSIotService` service.
+    /// Performs the `SetV2LoggingOptions` operation on the `IoT` service.
     ///
     /// Sets the logging options for the V2 logging service. Requires permission to access the [SetV2LoggingOptions](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -16732,7 +16732,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartAuditMitigationActionsTask` operation on the `AWSIotService` service.
+    /// Performs the `StartAuditMitigationActionsTask` operation on the `IoT` service.
     ///
     /// Starts a task that applies a set of mitigation actions to the specified target. Requires permission to access the [StartAuditMitigationActionsTask](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -16806,7 +16806,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartDetectMitigationActionsTask` operation on the `AWSIotService` service.
+    /// Performs the `StartDetectMitigationActionsTask` operation on the `IoT` service.
     ///
     /// Starts a Device Defender ML Detect mitigation actions task. Requires permission to access the [StartDetectMitigationActionsTask](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -16880,7 +16880,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartOnDemandAuditTask` operation on the `AWSIotService` service.
+    /// Performs the `StartOnDemandAuditTask` operation on the `IoT` service.
     ///
     /// Starts an on-demand Device Defender audit. Requires permission to access the [StartOnDemandAuditTask](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -16952,7 +16952,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartThingRegistrationTask` operation on the `AWSIotService` service.
+    /// Performs the `StartThingRegistrationTask` operation on the `IoT` service.
     ///
     /// Creates a bulk thing provisioning task. Requires permission to access the [StartThingRegistrationTask](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -17024,7 +17024,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopThingRegistrationTask` operation on the `AWSIotService` service.
+    /// Performs the `StopThingRegistrationTask` operation on the `IoT` service.
     ///
     /// Cancels a bulk thing provisioning task. Requires permission to access the [StopThingRegistrationTask](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -17094,7 +17094,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `AWSIotService` service.
+    /// Performs the `TagResource` operation on the `IoT` service.
     ///
     /// Adds to or modifies the tags of the given resource. Tags are metadata which can be used to manage a resource. Requires permission to access the [TagResource](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -17167,7 +17167,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TestAuthorization` operation on the `AWSIotService` service.
+    /// Performs the `TestAuthorization` operation on the `IoT` service.
     ///
     /// Tests if a specified principal is authorized to perform an IoT action on a specified resource. Use this to test and debug the authorization behavior of devices that connect to the IoT device gateway. Requires permission to access the [TestAuthorization](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -17243,7 +17243,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TestInvokeAuthorizer` operation on the `AWSIotService` service.
+    /// Performs the `TestInvokeAuthorizer` operation on the `IoT` service.
     ///
     /// Tests a custom authorization behavior by invoking a specified custom authorizer. Use this to test and debug the custom authorization behavior of devices that connect to the IoT device gateway. Requires permission to access the [TestInvokeAuthorizer](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -17318,7 +17318,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TransferCertificate` operation on the `AWSIotService` service.
+    /// Performs the `TransferCertificate` operation on the `IoT` service.
     ///
     /// Transfers the specified certificate to the specified Amazon Web Services account. Requires permission to access the [TransferCertificate](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action. You can cancel the transfer until it is acknowledged by the recipient. No notification is sent to the transfer destination's account. It is up to the caller to notify the transfer target. The certificate being transferred must not be in the ACTIVE state. You can use the [UpdateCertificate] action to deactivate it. The certificate must not have any policies attached to it. You can use the [DetachPolicy] action to detach them.
     ///
@@ -17395,7 +17395,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `AWSIotService` service.
+    /// Performs the `UntagResource` operation on the `IoT` service.
     ///
     /// Removes the given tags (metadata) from the resource. Requires permission to access the [UntagResource](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -17467,7 +17467,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateAccountAuditConfiguration` operation on the `AWSIotService` service.
+    /// Performs the `UpdateAccountAuditConfiguration` operation on the `IoT` service.
     ///
     /// Configures or reconfigures the Device Defender audit settings for this account. Settings include how audit notifications are sent and which audit checks are enabled or disabled. Requires permission to access the [UpdateAccountAuditConfiguration](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -17538,7 +17538,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateAuditSuppression` operation on the `AWSIotService` service.
+    /// Performs the `UpdateAuditSuppression` operation on the `IoT` service.
     ///
     /// Updates a Device Defender audit suppression.
     ///
@@ -17610,7 +17610,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateAuthorizer` operation on the `AWSIotService` service.
+    /// Performs the `UpdateAuthorizer` operation on the `IoT` service.
     ///
     /// Updates an authorizer. Requires permission to access the [UpdateAuthorizer](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -17685,7 +17685,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateBillingGroup` operation on the `AWSIotService` service.
+    /// Performs the `UpdateBillingGroup` operation on the `IoT` service.
     ///
     /// Updates information about the billing group. Requires permission to access the [UpdateBillingGroup](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -17758,7 +17758,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateCACertificate` operation on the `AWSIotService` service.
+    /// Performs the `UpdateCACertificate` operation on the `IoT` service.
     ///
     /// Updates a registered CA certificate. Requires permission to access the [UpdateCACertificate](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -17833,7 +17833,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateCertificate` operation on the `AWSIotService` service.
+    /// Performs the `UpdateCertificate` operation on the `IoT` service.
     ///
     /// Updates the status of the specified certificate. This operation is idempotent. Requires permission to access the [UpdateCertificate](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action. Certificates must be in the ACTIVE state to authenticate devices that use a certificate to connect to IoT. Within a few minutes of updating a certificate from the ACTIVE state to any other state, IoT disconnects all devices that used that certificate to connect. Devices cannot use a certificate that is not in the ACTIVE state to reconnect.
     ///
@@ -17906,7 +17906,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateCertificateProvider` operation on the `AWSIotService` service.
+    /// Performs the `UpdateCertificateProvider` operation on the `IoT` service.
     ///
     /// Updates a certificate provider. Requires permission to access the [UpdateCertificateProvider](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -17980,7 +17980,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateCommand` operation on the `AWSIotService` service.
+    /// Performs the `UpdateCommand` operation on the `IoT` service.
     ///
     /// Update information about a command or mark a command for deprecation.
     ///
@@ -18053,7 +18053,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateCustomMetric` operation on the `AWSIotService` service.
+    /// Performs the `UpdateCustomMetric` operation on the `IoT` service.
     ///
     /// Updates a Device Defender detect custom metric. Requires permission to access the [UpdateCustomMetric](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -18125,7 +18125,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateDimension` operation on the `AWSIotService` service.
+    /// Performs the `UpdateDimension` operation on the `IoT` service.
     ///
     /// Updates the definition for a dimension. You cannot change the type of a dimension after it is created (you can delete it and recreate it). Requires permission to access the [UpdateDimension](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -18197,7 +18197,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateDomainConfiguration` operation on the `AWSIotService` service.
+    /// Performs the `UpdateDomainConfiguration` operation on the `IoT` service.
     ///
     /// Updates values stored in the domain configuration. Domain configurations for default endpoints can't be updated. Requires permission to access the [UpdateDomainConfiguration](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -18272,7 +18272,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateDynamicThingGroup` operation on the `AWSIotService` service.
+    /// Performs the `UpdateDynamicThingGroup` operation on the `IoT` service.
     ///
     /// Updates a dynamic thing group. Requires permission to access the [UpdateDynamicThingGroup](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -18346,7 +18346,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateEventConfigurations` operation on the `AWSIotService` service.
+    /// Performs the `UpdateEventConfigurations` operation on the `IoT` service.
     ///
     /// Updates the event configurations. Requires permission to access the [UpdateEventConfigurations](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -18417,7 +18417,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateFleetMetric` operation on the `AWSIotService` service.
+    /// Performs the `UpdateFleetMetric` operation on the `IoT` service.
     ///
     /// Updates the data for a fleet metric. Requires permission to access the [UpdateFleetMetric](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -18495,7 +18495,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateIndexingConfiguration` operation on the `AWSIotService` service.
+    /// Performs the `UpdateIndexingConfiguration` operation on the `IoT` service.
     ///
     /// Updates the search configuration. Requires permission to access the [UpdateIndexingConfiguration](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -18568,7 +18568,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateJob` operation on the `AWSIotService` service.
+    /// Performs the `UpdateJob` operation on the `IoT` service.
     ///
     /// Updates supported fields of the specified job. Requires permission to access the [UpdateJob](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -18641,7 +18641,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateMitigationAction` operation on the `AWSIotService` service.
+    /// Performs the `UpdateMitigationAction` operation on the `IoT` service.
     ///
     /// Updates the definition for the specified mitigation action. Requires permission to access the [UpdateMitigationAction](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -18713,7 +18713,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdatePackage` operation on the `AWSIotService` service.
+    /// Performs the `UpdatePackage` operation on the `IoT` service.
     ///
     /// Updates the supported fields for a specific software package. Requires permission to access the [UpdatePackage](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) and [GetIndexingConfiguration](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) actions.
     ///
@@ -18788,7 +18788,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdatePackageConfiguration` operation on the `AWSIotService` service.
+    /// Performs the `UpdatePackageConfiguration` operation on the `IoT` service.
     ///
     /// Updates the software package configuration. Requires permission to access the [UpdatePackageConfiguration](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) and [iam:PassRole](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_passrole.html) actions.
     ///
@@ -18862,7 +18862,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdatePackageVersion` operation on the `AWSIotService` service.
+    /// Performs the `UpdatePackageVersion` operation on the `IoT` service.
     ///
     /// Updates the supported fields for a specific package version. Requires permission to access the [UpdatePackageVersion](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) and [GetIndexingConfiguration](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) actions.
     ///
@@ -18937,7 +18937,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateProvisioningTemplate` operation on the `AWSIotService` service.
+    /// Performs the `UpdateProvisioningTemplate` operation on the `IoT` service.
     ///
     /// Updates a provisioning template. Requires permission to access the [UpdateProvisioningTemplate](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -19010,7 +19010,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateRoleAlias` operation on the `AWSIotService` service.
+    /// Performs the `UpdateRoleAlias` operation on the `IoT` service.
     ///
     /// Updates a role alias. Requires permission to access the [UpdateRoleAlias](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action. The value of [credentialDurationSeconds](https://docs.aws.amazon.com/iot/latest/apireference/API_UpdateRoleAlias.html#iot-UpdateRoleAlias-request-credentialDurationSeconds) must be less than or equal to the maximum session duration of the IAM role that the role alias references. For more information, see [ Modifying a role maximum session duration (Amazon Web Services API)](https://docs.aws.amazon.com/IAM/latest/UserGuide/roles-managingrole-editing-api.html#roles-modify_max-session-duration-api) from the Amazon Web Services Identity and Access Management User Guide.
     ///
@@ -19084,7 +19084,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateScheduledAudit` operation on the `AWSIotService` service.
+    /// Performs the `UpdateScheduledAudit` operation on the `IoT` service.
     ///
     /// Updates a scheduled audit, including which checks are performed and how often the audit takes place. Requires permission to access the [UpdateScheduledAudit](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -19156,7 +19156,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateSecurityProfile` operation on the `AWSIotService` service.
+    /// Performs the `UpdateSecurityProfile` operation on the `IoT` service.
     ///
     /// Updates a Device Defender security profile. Requires permission to access the [UpdateSecurityProfile](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -19230,7 +19230,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateStream` operation on the `AWSIotService` service.
+    /// Performs the `UpdateStream` operation on the `IoT` service.
     ///
     /// Updates an existing stream. The stream version will be incremented by one. Requires permission to access the [UpdateStream](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -19305,7 +19305,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateThing` operation on the `AWSIotService` service.
+    /// Performs the `UpdateThing` operation on the `IoT` service.
     ///
     /// Updates the data for a thing. Requires permission to access the [UpdateThing](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -19380,7 +19380,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateThingGroup` operation on the `AWSIotService` service.
+    /// Performs the `UpdateThingGroup` operation on the `IoT` service.
     ///
     /// Update a thing group. Requires permission to access the [UpdateThingGroup](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -19453,7 +19453,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateThingGroupsForThing` operation on the `AWSIotService` service.
+    /// Performs the `UpdateThingGroupsForThing` operation on the `IoT` service.
     ///
     /// Updates the groups to which the thing belongs. Requires permission to access the [UpdateThingGroupsForThing](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -19525,7 +19525,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateThingType` operation on the `AWSIotService` service.
+    /// Performs the `UpdateThingType` operation on the `IoT` service.
     ///
     /// Updates a thing type.
     ///
@@ -19599,7 +19599,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateTopicRuleDestination` operation on the `AWSIotService` service.
+    /// Performs the `UpdateTopicRuleDestination` operation on the `IoT` service.
     ///
     /// Updates a topic rule destination. You use this to change the status, endpoint URL, or confirmation URL of the destination. Requires permission to access the [UpdateTopicRuleDestination](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -19672,7 +19672,7 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ValidateSecurityProfileBehaviors` operation on the `AWSIotService` service.
+    /// Performs the `ValidateSecurityProfileBehaviors` operation on the `IoT` service.
     ///
     /// Validates a Device Defender security profile behaviors specification. Requires permission to access the [ValidateSecurityProfileBehaviors](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///

@@ -63,7 +63,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ElastiCacheClient: ClientRuntime.Client {
     public static let clientName = "ElastiCacheClient"
-    public static let version = "1.0.71"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: ElastiCacheClient.ElastiCacheClientConfiguration
     let serviceName = "ElastiCache"
@@ -329,7 +329,7 @@ extension ElastiCacheClient {
 }
 
 extension ElastiCacheClient {
-    /// Performs the `AddTagsToResource` operation on the `AmazonElastiCacheV9` service.
+    /// Performs the `AddTagsToResource` operation on the `ElastiCache` service.
     ///
     /// A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track all your ElastiCache resources, with the exception of global replication group. When you add or remove tags on replication groups, those actions will be replicated to all nodes in the replication group. For more information, see [Resource-level permissions](http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/IAM.ResourceLevelPermissions.html). For example, you can use cost-allocation tags to your ElastiCache resources, Amazon generates a cost allocation report as a comma-separated value (CSV) file with your usage and costs aggregated by your tags. You can apply tags that represent business categories (such as cost centers, application names, or owners) to organize your costs across multiple services. For more information, see [Using Cost Allocation Tags in Amazon ElastiCache](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Tagging.html) in the ElastiCache User Guide.
     ///
@@ -413,7 +413,7 @@ extension ElastiCacheClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AuthorizeCacheSecurityGroupIngress` operation on the `AmazonElastiCacheV9` service.
+    /// Performs the `AuthorizeCacheSecurityGroupIngress` operation on the `ElastiCache` service.
     ///
     /// Allows network ingress to a cache security group. Applications using ElastiCache must be running on Amazon EC2, and Amazon EC2 security groups are used as the authorization mechanism. You cannot authorize ingress from an Amazon EC2 security group in one region to an ElastiCache cluster in another region.
     ///
@@ -486,7 +486,7 @@ extension ElastiCacheClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchApplyUpdateAction` operation on the `AmazonElastiCacheV9` service.
+    /// Performs the `BatchApplyUpdateAction` operation on the `ElastiCache` service.
     ///
     /// Apply the service update. For more information on service updates and applying them, see [Applying Service Updates](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/applying-updates.html).
     ///
@@ -556,7 +556,7 @@ extension ElastiCacheClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchStopUpdateAction` operation on the `AmazonElastiCacheV9` service.
+    /// Performs the `BatchStopUpdateAction` operation on the `ElastiCache` service.
     ///
     /// Stop the service update. For more information on service updates and stopping them, see [Stopping Service Updates](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/stopping-self-service-updates.html).
     ///
@@ -626,7 +626,7 @@ extension ElastiCacheClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CompleteMigration` operation on the `AmazonElastiCacheV9` service.
+    /// Performs the `CompleteMigration` operation on the `ElastiCache` service.
     ///
     /// Complete the migration of data.
     ///
@@ -697,7 +697,7 @@ extension ElastiCacheClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CopyServerlessCacheSnapshot` operation on the `AmazonElastiCacheV9` service.
+    /// Performs the `CopyServerlessCacheSnapshot` operation on the `ElastiCache` service.
     ///
     /// Creates a copy of an existing serverless cache’s snapshot. Available for Valkey, Redis OSS and Serverless Memcached only.
     ///
@@ -773,7 +773,7 @@ extension ElastiCacheClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CopySnapshot` operation on the `AmazonElastiCacheV9` service.
+    /// Performs the `CopySnapshot` operation on the `ElastiCache` service.
     ///
     /// Makes a copy of an existing snapshot. This operation is valid for Valkey or Redis OSS only. Users or groups that have permissions to use the CopySnapshot operation can create their own Amazon S3 buckets and copy snapshots to it. To control access to your snapshots, use an IAM policy to control who has the ability to use the CopySnapshot operation. For more information about using IAM to control the use of ElastiCache operations, see [Exporting Snapshots](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/backups-exporting.html) and [Authentication & Access Control](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/IAM.html). You could receive the following error messages. Error Messages
     ///
@@ -864,7 +864,7 @@ extension ElastiCacheClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateCacheCluster` operation on the `AmazonElastiCacheV9` service.
+    /// Performs the `CreateCacheCluster` operation on the `ElastiCache` service.
     ///
     /// Creates a cluster. All nodes in the cluster run the same protocol-compliant cache engine software, either Memcached, Valkey or Redis OSS. This operation is not supported for Valkey or Redis OSS (cluster mode enabled) clusters.
     ///
@@ -946,7 +946,7 @@ extension ElastiCacheClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateCacheParameterGroup` operation on the `AmazonElastiCacheV9` service.
+    /// Performs the `CreateCacheParameterGroup` operation on the `ElastiCache` service.
     ///
     /// Creates a new Amazon ElastiCache cache parameter group. An ElastiCache cache parameter group is a collection of parameters and their values that are applied to all of the nodes in any cluster or replication group using the CacheParameterGroup. A newly created CacheParameterGroup is an exact duplicate of the default parameter group for the CacheParameterGroupFamily. To customize the newly created CacheParameterGroup you can change the values of specific parameters. For more information, see:
     ///
@@ -1024,7 +1024,7 @@ extension ElastiCacheClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateCacheSecurityGroup` operation on the `AmazonElastiCacheV9` service.
+    /// Performs the `CreateCacheSecurityGroup` operation on the `ElastiCache` service.
     ///
     /// Creates a new cache security group. Use a cache security group to control access to one or more clusters. Cache security groups are only used when you are creating a cluster outside of an Amazon Virtual Private Cloud (Amazon VPC). If you are creating a cluster inside of a VPC, use a cache subnet group instead. For more information, see [CreateCacheSubnetGroup](https://docs.aws.amazon.com/AmazonElastiCache/latest/APIReference/API_CreateCacheSubnetGroup.html).
     ///
@@ -1097,7 +1097,7 @@ extension ElastiCacheClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateCacheSubnetGroup` operation on the `AmazonElastiCacheV9` service.
+    /// Performs the `CreateCacheSubnetGroup` operation on the `ElastiCache` service.
     ///
     /// Creates a new cache subnet group. Use this parameter only when you are creating a cluster in an Amazon Virtual Private Cloud (Amazon VPC).
     ///
@@ -1171,7 +1171,7 @@ extension ElastiCacheClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateGlobalReplicationGroup` operation on the `AmazonElastiCacheV9` service.
+    /// Performs the `CreateGlobalReplicationGroup` operation on the `ElastiCache` service.
     ///
     /// Global Datastore offers fully managed, fast, reliable and secure cross-region replication. Using Global Datastore with Valkey or Redis OSS, you can create cross-region read replica clusters for ElastiCache to enable low-latency reads and disaster recovery across regions. For more information, see [Replication Across Regions Using Global Datastore](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Redis-Global-Datastore.html).
     ///
@@ -1248,7 +1248,7 @@ extension ElastiCacheClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateReplicationGroup` operation on the `AmazonElastiCacheV9` service.
+    /// Performs the `CreateReplicationGroup` operation on the `ElastiCache` service.
     ///
     /// Creates a Valkey or Redis OSS (cluster mode disabled) or a Valkey or Redis OSS (cluster mode enabled) replication group. This API can be used to create a standalone regional replication group or a secondary replication group associated with a Global datastore. A Valkey or Redis OSS (cluster mode disabled) replication group is a collection of nodes, where one of the nodes is a read/write primary and the others are read-only replicas. Writes to the primary are asynchronously propagated to the replicas. A Valkey or Redis OSS cluster-mode enabled cluster is comprised of from 1 to 90 shards (API/CLI: node groups). Each shard has a primary node and up to 5 read-only replica nodes. The configuration can range from 90 shards and 0 replicas to 15 shards and 5 replicas, which is the maximum number or replicas allowed. The node or shard limit can be increased to a maximum of 500 per cluster if the Valkey or Redis OSS engine version is 5.0.6 or higher. For example, you can choose to configure a 500 node cluster that ranges between 83 shards (one primary and 5 replicas per shard) and 500 shards (single primary and no replicas). Make sure there are enough available IP addresses to accommodate the increase. Common pitfalls include the subnets in the subnet group have too small a CIDR range or the subnets are shared and heavily used by other clusters. For more information, see [Creating a Subnet Group](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/SubnetGroups.Creating.html). For versions below 5.0.6, the limit is 250 per cluster. To request a limit increase, see [Amazon Service Limits](https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html) and choose the limit type Nodes per cluster per instance type. When a Valkey or Redis OSS (cluster mode disabled) replication group has been successfully created, you can add one or more read replicas to it, up to a total of 5 read replicas. If you need to increase or decrease the number of node groups (console: shards), you can use scaling. For more information, see [Scaling self-designed clusters](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Scaling.html) in the ElastiCache User Guide. This operation is valid for Valkey and Redis OSS only.
     ///
@@ -1335,7 +1335,7 @@ extension ElastiCacheClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateServerlessCache` operation on the `AmazonElastiCacheV9` service.
+    /// Performs the `CreateServerlessCache` operation on the `ElastiCache` service.
     ///
     /// Creates a serverless cache.
     ///
@@ -1414,7 +1414,7 @@ extension ElastiCacheClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateServerlessCacheSnapshot` operation on the `AmazonElastiCacheV9` service.
+    /// Performs the `CreateServerlessCacheSnapshot` operation on the `ElastiCache` service.
     ///
     /// This API creates a copy of an entire ServerlessCache at a specific moment in time. Available for Valkey, Redis OSS and Serverless Memcached only.
     ///
@@ -1490,7 +1490,7 @@ extension ElastiCacheClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateSnapshot` operation on the `AmazonElastiCacheV9` service.
+    /// Performs the `CreateSnapshot` operation on the `ElastiCache` service.
     ///
     /// Creates a copy of an entire cluster or replication group at a specific moment in time. This operation is valid for Valkey or Redis OSS only.
     ///
@@ -1575,7 +1575,7 @@ extension ElastiCacheClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateUser` operation on the `AmazonElastiCacheV9` service.
+    /// Performs the `CreateUser` operation on the `ElastiCache` service.
     ///
     /// For Valkey engine version 7.2 onwards and Redis OSS 6.0 and onwards: Creates a user. For more information, see [Using Role Based Access Control (RBAC)](http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Clusters.RBAC.html).
     ///
@@ -1650,7 +1650,7 @@ extension ElastiCacheClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateUserGroup` operation on the `AmazonElastiCacheV9` service.
+    /// Performs the `CreateUserGroup` operation on the `ElastiCache` service.
     ///
     /// For Valkey engine version 7.2 onwards and Redis OSS 6.0 onwards: Creates a user group. For more information, see [Using Role Based Access Control (RBAC)](http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Clusters.RBAC.html)
     ///
@@ -1726,7 +1726,7 @@ extension ElastiCacheClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DecreaseNodeGroupsInGlobalReplicationGroup` operation on the `AmazonElastiCacheV9` service.
+    /// Performs the `DecreaseNodeGroupsInGlobalReplicationGroup` operation on the `ElastiCache` service.
     ///
     /// Decreases the number of node groups in a Global datastore
     ///
@@ -1798,7 +1798,7 @@ extension ElastiCacheClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DecreaseReplicaCount` operation on the `AmazonElastiCacheV9` service.
+    /// Performs the `DecreaseReplicaCount` operation on the `ElastiCache` service.
     ///
     /// Dynamically decreases the number of replicas in a Valkey or Redis OSS (cluster mode disabled) replication group or the number of replica nodes in one or more node groups (shards) of a Valkey or Redis OSS (cluster mode enabled) replication group. This operation is performed with no cluster down time.
     ///
@@ -1878,7 +1878,7 @@ extension ElastiCacheClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteCacheCluster` operation on the `AmazonElastiCacheV9` service.
+    /// Performs the `DeleteCacheCluster` operation on the `ElastiCache` service.
     ///
     /// Deletes a previously provisioned cluster. DeleteCacheCluster deletes all associated cache nodes, node endpoints and the cluster itself. When you receive a successful response from this operation, Amazon ElastiCache immediately begins deleting the cluster; you cannot cancel or revert this operation. This operation is not valid for:
     ///
@@ -1974,7 +1974,7 @@ extension ElastiCacheClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteCacheParameterGroup` operation on the `AmazonElastiCacheV9` service.
+    /// Performs the `DeleteCacheParameterGroup` operation on the `ElastiCache` service.
     ///
     /// Deletes the specified cache parameter group. You cannot delete a cache parameter group if it is associated with any cache clusters. You cannot delete the default cache parameter groups in your account.
     ///
@@ -2046,7 +2046,7 @@ extension ElastiCacheClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteCacheSecurityGroup` operation on the `AmazonElastiCacheV9` service.
+    /// Performs the `DeleteCacheSecurityGroup` operation on the `ElastiCache` service.
     ///
     /// Deletes a cache security group. You cannot delete a cache security group if it is associated with any clusters.
     ///
@@ -2118,7 +2118,7 @@ extension ElastiCacheClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteCacheSubnetGroup` operation on the `AmazonElastiCacheV9` service.
+    /// Performs the `DeleteCacheSubnetGroup` operation on the `ElastiCache` service.
     ///
     /// Deletes a cache subnet group. You cannot delete a default cache subnet group or one that is associated with any clusters.
     ///
@@ -2188,7 +2188,7 @@ extension ElastiCacheClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteGlobalReplicationGroup` operation on the `AmazonElastiCacheV9` service.
+    /// Performs the `DeleteGlobalReplicationGroup` operation on the `ElastiCache` service.
     ///
     /// Deleting a Global datastore is a two-step process:
     ///
@@ -2266,7 +2266,7 @@ extension ElastiCacheClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteReplicationGroup` operation on the `AmazonElastiCacheV9` service.
+    /// Performs the `DeleteReplicationGroup` operation on the `ElastiCache` service.
     ///
     /// Deletes an existing replication group. By default, this operation deletes the entire replication group, including the primary/primaries and all of the read replicas. If the replication group has only one primary, you can optionally delete only the read replicas, while retaining the primary by setting RetainPrimaryCluster=true. When you receive a successful response from this operation, Amazon ElastiCache immediately begins deleting the selected resources; you cannot cancel or revert this operation.
     ///
@@ -2352,7 +2352,7 @@ extension ElastiCacheClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteServerlessCache` operation on the `AmazonElastiCacheV9` service.
+    /// Performs the `DeleteServerlessCache` operation on the `ElastiCache` service.
     ///
     /// Deletes a specified existing serverless cache. CreateServerlessCacheSnapshot permission is required to create a final snapshot. Without this permission, the API call will fail with an Access Denied exception.
     ///
@@ -2427,7 +2427,7 @@ extension ElastiCacheClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteServerlessCacheSnapshot` operation on the `AmazonElastiCacheV9` service.
+    /// Performs the `DeleteServerlessCacheSnapshot` operation on the `ElastiCache` service.
     ///
     /// Deletes an existing serverless cache snapshot. Available for Valkey, Redis OSS and Serverless Memcached only.
     ///
@@ -2499,7 +2499,7 @@ extension ElastiCacheClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteSnapshot` operation on the `AmazonElastiCacheV9` service.
+    /// Performs the `DeleteSnapshot` operation on the `ElastiCache` service.
     ///
     /// Deletes an existing snapshot. When you receive a successful response from this operation, ElastiCache immediately begins deleting the snapshot; you cannot cancel or revert this operation. This operation is valid for Valkey or Redis OSS only.
     ///
@@ -2571,7 +2571,7 @@ extension ElastiCacheClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteUser` operation on the `AmazonElastiCacheV9` service.
+    /// Performs the `DeleteUser` operation on the `ElastiCache` service.
     ///
     /// For Valkey engine version 7.2 onwards and Redis OSS 6.0 onwards: Deletes a user. The user will be removed from all user groups and in turn removed from all replication groups. For more information, see [Using Role Based Access Control (RBAC)](http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Clusters.RBAC.html).
     ///
@@ -2644,7 +2644,7 @@ extension ElastiCacheClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteUserGroup` operation on the `AmazonElastiCacheV9` service.
+    /// Performs the `DeleteUserGroup` operation on the `ElastiCache` service.
     ///
     /// For Valkey engine version 7.2 onwards and Redis OSS 6.0 onwards: Deletes a user group. The user group must first be disassociated from the replication group before it can be deleted. For more information, see [Using Role Based Access Control (RBAC)](http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Clusters.RBAC.html).
     ///
@@ -2716,7 +2716,7 @@ extension ElastiCacheClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeCacheClusters` operation on the `AmazonElastiCacheV9` service.
+    /// Performs the `DescribeCacheClusters` operation on the `ElastiCache` service.
     ///
     /// Returns information about all provisioned clusters if no cluster identifier is specified, or about a specific cache cluster if a cluster identifier is supplied. By default, abbreviated information about the clusters is returned. You can use the optional ShowCacheNodeInfo flag to retrieve detailed information about the cache nodes associated with the clusters. These details include the DNS address and port for the cache node endpoint. If the cluster is in the creating state, only cluster-level information is displayed until all of the nodes are successfully provisioned. If the cluster is in the deleting state, only cluster-level information is displayed. If cache nodes are currently being added to the cluster, node endpoint information and creation time for the additional nodes are not displayed until they are completely provisioned. When the cluster state is available, the cluster is ready for use. If cache nodes are currently being removed from the cluster, no endpoint information for the removed nodes is displayed.
     ///
@@ -2787,7 +2787,7 @@ extension ElastiCacheClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeCacheEngineVersions` operation on the `AmazonElastiCacheV9` service.
+    /// Performs the `DescribeCacheEngineVersions` operation on the `ElastiCache` service.
     ///
     /// Returns a list of the available cache engines and their versions.
     ///
@@ -2851,7 +2851,7 @@ extension ElastiCacheClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeCacheParameterGroups` operation on the `AmazonElastiCacheV9` service.
+    /// Performs the `DescribeCacheParameterGroups` operation on the `ElastiCache` service.
     ///
     /// Returns a list of cache parameter group descriptions. If a cache parameter group name is specified, the list contains only the descriptions for that group.
     ///
@@ -2922,7 +2922,7 @@ extension ElastiCacheClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeCacheParameters` operation on the `AmazonElastiCacheV9` service.
+    /// Performs the `DescribeCacheParameters` operation on the `ElastiCache` service.
     ///
     /// Returns the detailed parameter list for a particular cache parameter group.
     ///
@@ -2993,7 +2993,7 @@ extension ElastiCacheClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeCacheSecurityGroups` operation on the `AmazonElastiCacheV9` service.
+    /// Performs the `DescribeCacheSecurityGroups` operation on the `ElastiCache` service.
     ///
     /// Returns a list of cache security group descriptions. If a cache security group name is specified, the list contains only the description of that group. This applicable only when you have ElastiCache in Classic setup
     ///
@@ -3064,7 +3064,7 @@ extension ElastiCacheClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeCacheSubnetGroups` operation on the `AmazonElastiCacheV9` service.
+    /// Performs the `DescribeCacheSubnetGroups` operation on the `ElastiCache` service.
     ///
     /// Returns a list of cache subnet group descriptions. If a subnet group name is specified, the list contains only the description of that group. This is applicable only when you have ElastiCache in VPC setup. All ElastiCache clusters now launch in VPC by default.
     ///
@@ -3133,7 +3133,7 @@ extension ElastiCacheClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeEngineDefaultParameters` operation on the `AmazonElastiCacheV9` service.
+    /// Performs the `DescribeEngineDefaultParameters` operation on the `ElastiCache` service.
     ///
     /// Returns the default engine and system parameter information for the specified cache engine.
     ///
@@ -3203,7 +3203,7 @@ extension ElastiCacheClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeEvents` operation on the `AmazonElastiCacheV9` service.
+    /// Performs the `DescribeEvents` operation on the `ElastiCache` service.
     ///
     /// Returns events related to clusters, cache security groups, and cache parameter groups. You can obtain events specific to a particular cluster, cache security group, or cache parameter group by providing the name as a parameter. By default, only the events occurring within the last hour are returned; however, you can retrieve up to 14 days' worth of events if necessary.
     ///
@@ -3273,7 +3273,7 @@ extension ElastiCacheClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeGlobalReplicationGroups` operation on the `AmazonElastiCacheV9` service.
+    /// Performs the `DescribeGlobalReplicationGroups` operation on the `ElastiCache` service.
     ///
     /// Returns information about a particular global replication group. If no identifier is specified, returns information about all Global datastores.
     ///
@@ -3344,7 +3344,7 @@ extension ElastiCacheClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeReplicationGroups` operation on the `AmazonElastiCacheV9` service.
+    /// Performs the `DescribeReplicationGroups` operation on the `ElastiCache` service.
     ///
     /// Returns information about a particular replication group. If no identifier is specified, DescribeReplicationGroups returns information about all replication groups. This operation is valid for Valkey or Redis OSS only.
     ///
@@ -3415,7 +3415,7 @@ extension ElastiCacheClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeReservedCacheNodes` operation on the `AmazonElastiCacheV9` service.
+    /// Performs the `DescribeReservedCacheNodes` operation on the `ElastiCache` service.
     ///
     /// Returns information about reserved cache nodes for this account, or about a specified reserved cache node.
     ///
@@ -3486,7 +3486,7 @@ extension ElastiCacheClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeReservedCacheNodesOfferings` operation on the `AmazonElastiCacheV9` service.
+    /// Performs the `DescribeReservedCacheNodesOfferings` operation on the `ElastiCache` service.
     ///
     /// Lists available reserved cache node offerings.
     ///
@@ -3557,7 +3557,7 @@ extension ElastiCacheClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeServerlessCacheSnapshots` operation on the `AmazonElastiCacheV9` service.
+    /// Performs the `DescribeServerlessCacheSnapshots` operation on the `ElastiCache` service.
     ///
     /// Returns information about serverless cache snapshots. By default, this API lists all of the customer’s serverless cache snapshots. It can also describe a single serverless cache snapshot, or the snapshots associated with a particular serverless cache. Available for Valkey, Redis OSS and Serverless Memcached only.
     ///
@@ -3629,7 +3629,7 @@ extension ElastiCacheClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeServerlessCaches` operation on the `AmazonElastiCacheV9` service.
+    /// Performs the `DescribeServerlessCaches` operation on the `ElastiCache` service.
     ///
     /// Returns information about a specific serverless cache. If no identifier is specified, then the API returns information on all the serverless caches belonging to this Amazon Web Services account.
     ///
@@ -3700,7 +3700,7 @@ extension ElastiCacheClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeServiceUpdates` operation on the `AmazonElastiCacheV9` service.
+    /// Performs the `DescribeServiceUpdates` operation on the `ElastiCache` service.
     ///
     /// Returns details of the service updates
     ///
@@ -3771,7 +3771,7 @@ extension ElastiCacheClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeSnapshots` operation on the `AmazonElastiCacheV9` service.
+    /// Performs the `DescribeSnapshots` operation on the `ElastiCache` service.
     ///
     /// Returns information about cluster or replication group snapshots. By default, DescribeSnapshots lists all of your snapshots; it can optionally describe a single snapshot, or just the snapshots associated with a particular cache cluster. This operation is valid for Valkey or Redis OSS only.
     ///
@@ -3843,7 +3843,7 @@ extension ElastiCacheClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeUpdateActions` operation on the `AmazonElastiCacheV9` service.
+    /// Performs the `DescribeUpdateActions` operation on the `ElastiCache` service.
     ///
     /// Returns details of the update actions
     ///
@@ -3913,7 +3913,7 @@ extension ElastiCacheClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeUserGroups` operation on the `AmazonElastiCacheV9` service.
+    /// Performs the `DescribeUserGroups` operation on the `ElastiCache` service.
     ///
     /// Returns a list of user groups.
     ///
@@ -3984,7 +3984,7 @@ extension ElastiCacheClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeUsers` operation on the `AmazonElastiCacheV9` service.
+    /// Performs the `DescribeUsers` operation on the `ElastiCache` service.
     ///
     /// Returns a list of users.
     ///
@@ -4055,7 +4055,7 @@ extension ElastiCacheClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateGlobalReplicationGroup` operation on the `AmazonElastiCacheV9` service.
+    /// Performs the `DisassociateGlobalReplicationGroup` operation on the `ElastiCache` service.
     ///
     /// Remove a secondary cluster from the Global datastore using the Global datastore name. The secondary cluster will no longer receive updates from the primary cluster, but will remain as a standalone cluster in that Amazon region.
     ///
@@ -4127,7 +4127,7 @@ extension ElastiCacheClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ExportServerlessCacheSnapshot` operation on the `AmazonElastiCacheV9` service.
+    /// Performs the `ExportServerlessCacheSnapshot` operation on the `ElastiCache` service.
     ///
     /// Provides the functionality to export the serverless cache snapshot data to Amazon S3. Available for Valkey and Redis OSS only.
     ///
@@ -4199,7 +4199,7 @@ extension ElastiCacheClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `FailoverGlobalReplicationGroup` operation on the `AmazonElastiCacheV9` service.
+    /// Performs the `FailoverGlobalReplicationGroup` operation on the `ElastiCache` service.
     ///
     /// Used to failover the primary region to a secondary region. The secondary region will become primary, and all other clusters will become secondary.
     ///
@@ -4271,7 +4271,7 @@ extension ElastiCacheClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `IncreaseNodeGroupsInGlobalReplicationGroup` operation on the `AmazonElastiCacheV9` service.
+    /// Performs the `IncreaseNodeGroupsInGlobalReplicationGroup` operation on the `ElastiCache` service.
     ///
     /// Increase the number of node groups in the Global datastore
     ///
@@ -4342,7 +4342,7 @@ extension ElastiCacheClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `IncreaseReplicaCount` operation on the `AmazonElastiCacheV9` service.
+    /// Performs the `IncreaseReplicaCount` operation on the `ElastiCache` service.
     ///
     /// Dynamically increases the number of replicas in a Valkey or Redis OSS (cluster mode disabled) replication group or the number of replica nodes in one or more node groups (shards) of a Valkey or Redis OSS (cluster mode enabled) replication group. This operation is performed with no cluster down time.
     ///
@@ -4422,7 +4422,7 @@ extension ElastiCacheClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAllowedNodeTypeModifications` operation on the `AmazonElastiCacheV9` service.
+    /// Performs the `ListAllowedNodeTypeModifications` operation on the `ElastiCache` service.
     ///
     /// Lists all available node types that you can scale with your cluster's replication group's current node type. When you use the ModifyCacheCluster or ModifyReplicationGroup operations to scale your cluster or replication group, the value of the CacheNodeType parameter must be one of the node types returned by this operation.
     ///
@@ -4494,7 +4494,7 @@ extension ElastiCacheClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `AmazonElastiCacheV9` service.
+    /// Performs the `ListTagsForResource` operation on the `ElastiCache` service.
     ///
     /// Lists all tags currently on a named resource. A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track all your ElastiCache resources, with the exception of global replication group. When you add or remove tags on replication groups, those actions will be replicated to all nodes in the replication group. For more information, see [Resource-level permissions](http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/IAM.ResourceLevelPermissions.html). If the cluster is not in the available state, ListTagsForResource returns an error.
     ///
@@ -4577,7 +4577,7 @@ extension ElastiCacheClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyCacheCluster` operation on the `AmazonElastiCacheV9` service.
+    /// Performs the `ModifyCacheCluster` operation on the `ElastiCache` service.
     ///
     /// Modifies the settings for a cluster. You can use this operation to change one or more cluster configuration parameters by specifying the parameters and the new values.
     ///
@@ -4656,7 +4656,7 @@ extension ElastiCacheClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyCacheParameterGroup` operation on the `AmazonElastiCacheV9` service.
+    /// Performs the `ModifyCacheParameterGroup` operation on the `ElastiCache` service.
     ///
     /// Modifies the parameters of a cache parameter group. You can modify up to 20 parameters in a single request by submitting a list parameter name and value pairs.
     ///
@@ -4733,7 +4733,7 @@ extension ElastiCacheClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyCacheSubnetGroup` operation on the `AmazonElastiCacheV9` service.
+    /// Performs the `ModifyCacheSubnetGroup` operation on the `ElastiCache` service.
     ///
     /// Modifies an existing cache subnet group.
     ///
@@ -4806,7 +4806,7 @@ extension ElastiCacheClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyGlobalReplicationGroup` operation on the `AmazonElastiCacheV9` service.
+    /// Performs the `ModifyGlobalReplicationGroup` operation on the `ElastiCache` service.
     ///
     /// Modifies the settings for a Global datastore.
     ///
@@ -4877,7 +4877,7 @@ extension ElastiCacheClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyReplicationGroup` operation on the `AmazonElastiCacheV9` service.
+    /// Performs the `ModifyReplicationGroup` operation on the `ElastiCache` service.
     ///
     /// Modifies the settings for a replication group. This is limited to Valkey and Redis OSS 7 and above.
     ///
@@ -4968,7 +4968,7 @@ extension ElastiCacheClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyReplicationGroupShardConfiguration` operation on the `AmazonElastiCacheV9` service.
+    /// Performs the `ModifyReplicationGroupShardConfiguration` operation on the `ElastiCache` service.
     ///
     /// Modifies a replication group's shards (node groups) by allowing you to add shards, remove shards, or rebalance the keyspaces among existing shards.
     ///
@@ -5046,7 +5046,7 @@ extension ElastiCacheClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyServerlessCache` operation on the `AmazonElastiCacheV9` service.
+    /// Performs the `ModifyServerlessCache` operation on the `ElastiCache` service.
     ///
     /// This API modifies the attributes of a serverless cache.
     ///
@@ -5122,7 +5122,7 @@ extension ElastiCacheClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyUser` operation on the `AmazonElastiCacheV9` service.
+    /// Performs the `ModifyUser` operation on the `ElastiCache` service.
     ///
     /// Changes user password(s) and/or access string.
     ///
@@ -5195,7 +5195,7 @@ extension ElastiCacheClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyUserGroup` operation on the `AmazonElastiCacheV9` service.
+    /// Performs the `ModifyUserGroup` operation on the `ElastiCache` service.
     ///
     /// Changes the list of users that belong to the user group.
     ///
@@ -5271,7 +5271,7 @@ extension ElastiCacheClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PurchaseReservedCacheNodesOffering` operation on the `AmazonElastiCacheV9` service.
+    /// Performs the `PurchaseReservedCacheNodesOffering` operation on the `ElastiCache` service.
     ///
     /// Allows you to purchase a reserved cache node offering. Reserved nodes are not eligible for cancellation and are non-refundable. For more information, see [Managing Costs with Reserved Nodes](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/reserved-nodes.html).
     ///
@@ -5345,7 +5345,7 @@ extension ElastiCacheClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RebalanceSlotsInGlobalReplicationGroup` operation on the `AmazonElastiCacheV9` service.
+    /// Performs the `RebalanceSlotsInGlobalReplicationGroup` operation on the `ElastiCache` service.
     ///
     /// Redistribute slots to ensure uniform distribution across existing shards in the cluster.
     ///
@@ -5416,7 +5416,7 @@ extension ElastiCacheClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RebootCacheCluster` operation on the `AmazonElastiCacheV9` service.
+    /// Performs the `RebootCacheCluster` operation on the `ElastiCache` service.
     ///
     /// Reboots some, or all, of the cache nodes within a provisioned cluster. This operation applies any modified cache parameter groups to the cluster. The reboot operation takes place as soon as possible, and results in a momentary outage to the cluster. During the reboot, the cluster status is set to REBOOTING. The reboot causes the contents of the cache (for each cache node being rebooted) to be lost. When the reboot is complete, a cluster event is created. Rebooting a cluster is currently supported on Memcached, Valkey and Redis OSS (cluster mode disabled) clusters. Rebooting is not supported on Valkey or Redis OSS (cluster mode enabled) clusters. If you make changes to parameters that require a Valkey or Redis OSS (cluster mode enabled) cluster reboot for the changes to be applied, see [Rebooting a Cluster](http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/nodes.rebooting.html) for an alternate process.
     ///
@@ -5486,7 +5486,7 @@ extension ElastiCacheClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RemoveTagsFromResource` operation on the `AmazonElastiCacheV9` service.
+    /// Performs the `RemoveTagsFromResource` operation on the `ElastiCache` service.
     ///
     /// Removes the tags identified by the TagKeys list from the named resource. A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track all your ElastiCache resources, with the exception of global replication group. When you add or remove tags on replication groups, those actions will be replicated to all nodes in the replication group. For more information, see [Resource-level permissions](http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/IAM.ResourceLevelPermissions.html).
     ///
@@ -5570,7 +5570,7 @@ extension ElastiCacheClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ResetCacheParameterGroup` operation on the `AmazonElastiCacheV9` service.
+    /// Performs the `ResetCacheParameterGroup` operation on the `ElastiCache` service.
     ///
     /// Modifies the parameters of a cache parameter group to the engine or system default value. You can reset specific parameters by submitting a list of parameter names. To reset the entire cache parameter group, specify the ResetAllParameters and CacheParameterGroupName parameters.
     ///
@@ -5647,7 +5647,7 @@ extension ElastiCacheClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RevokeCacheSecurityGroupIngress` operation on the `AmazonElastiCacheV9` service.
+    /// Performs the `RevokeCacheSecurityGroupIngress` operation on the `ElastiCache` service.
     ///
     /// Revokes ingress from a cache security group. Use this operation to disallow access from an Amazon EC2 security group that had been previously authorized.
     ///
@@ -5720,7 +5720,7 @@ extension ElastiCacheClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartMigration` operation on the `AmazonElastiCacheV9` service.
+    /// Performs the `StartMigration` operation on the `ElastiCache` service.
     ///
     /// Start the migration of data.
     ///
@@ -5792,7 +5792,7 @@ extension ElastiCacheClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TestFailover` operation on the `AmazonElastiCacheV9` service.
+    /// Performs the `TestFailover` operation on the `ElastiCache` service.
     ///
     /// Represents the input of a TestFailover operation which tests automatic failover on a specified node group (called shard in the console) in a replication group (called cluster in the console). This API is designed for testing the behavior of your application in case of ElastiCache failover. It is not designed to be an operational tool for initiating a failover to overcome a problem you may have with the cluster. Moreover, in certain conditions such as large-scale operational events, Amazon may block this API. Note the following
     ///
@@ -5900,7 +5900,7 @@ extension ElastiCacheClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TestMigration` operation on the `AmazonElastiCacheV9` service.
+    /// Performs the `TestMigration` operation on the `ElastiCache` service.
     ///
     /// Async API to test connection between source and target replication group.
     ///

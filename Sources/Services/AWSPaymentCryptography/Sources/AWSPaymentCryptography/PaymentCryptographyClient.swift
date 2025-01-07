@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class PaymentCryptographyClient: ClientRuntime.Client {
     public static let clientName = "PaymentCryptographyClient"
-    public static let version = "1.0.71"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: PaymentCryptographyClient.PaymentCryptographyClientConfiguration
     let serviceName = "Payment Cryptography"
@@ -330,7 +330,7 @@ extension PaymentCryptographyClient {
 }
 
 extension PaymentCryptographyClient {
-    /// Performs the `CreateAlias` operation on the `PaymentCryptographyControlPlane` service.
+    /// Performs the `CreateAlias` operation on the `PaymentCryptography` service.
     ///
     /// Creates an alias, or a friendly name, for an Amazon Web Services Payment Cryptography key. You can use an alias to identify a key in the console and when you call cryptographic operations such as [EncryptData](https://docs.aws.amazon.com/payment-cryptography/latest/DataAPIReference/API_EncryptData.html) or [DecryptData](https://docs.aws.amazon.com/payment-cryptography/latest/DataAPIReference/API_DecryptData.html). You can associate the alias with any key in the same Amazon Web Services Region. Each alias is associated with only one key at a time, but a key can have multiple aliases. You can't create an alias without a key. The alias must be unique in the account and Amazon Web Services Region, but you can create another alias with the same name in a different Amazon Web Services Region. To change the key that's associated with the alias, call [UpdateAlias](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_UpdateAlias.html). To delete the alias, call [DeleteAlias](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_DeleteAlias.html). These operations don't affect the underlying key. To get the alias that you created, call [ListAliases](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ListAliases.html). Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations:
     ///
@@ -415,7 +415,7 @@ extension PaymentCryptographyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateKey` operation on the `PaymentCryptographyControlPlane` service.
+    /// Performs the `CreateKey` operation on the `PaymentCryptography` service.
     ///
     /// Creates an Amazon Web Services Payment Cryptography key, a logical representation of a cryptographic key, that is unique in your account and Amazon Web Services Region. You use keys for cryptographic functions such as encryption and decryption. In addition to the key material used in cryptographic operations, an Amazon Web Services Payment Cryptography key includes metadata such as the key ARN, key usage, key origin, creation date, description, and key state. When you create a key, you specify both immutable and mutable data about the key. The immutable data contains key attributes that define the scope and cryptographic operations that you can perform using the key, for example key class (example: SYMMETRIC_KEY), key algorithm (example: TDES_2KEY), key usage (example: TR31_P0_PIN_ENCRYPTION_KEY) and key modes of use (example: Encrypt). For information about valid combinations of key attributes, see [Understanding key attributes](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/keys-validattributes.html) in the Amazon Web Services Payment Cryptography User Guide. The mutable data contained within a key includes usage timestamp and key deletion timestamp and can be modified after creation. Amazon Web Services Payment Cryptography binds key attributes to keys using key blocks when you store or export them. Amazon Web Services Payment Cryptography stores the key contents wrapped and never stores or transmits them in the clear. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations:
     ///
@@ -498,7 +498,7 @@ extension PaymentCryptographyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAlias` operation on the `PaymentCryptographyControlPlane` service.
+    /// Performs the `DeleteAlias` operation on the `PaymentCryptography` service.
     ///
     /// Deletes the alias, but doesn't affect the underlying key. Each key can have multiple aliases. To get the aliases of all keys, use the [UpdateAlias](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_UpdateAlias.html) operation. To change the alias of a key, first use [DeleteAlias](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_DeleteAlias.html) to delete the current alias and then use [CreateAlias](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_CreateAlias.html) to create a new alias. To associate an existing alias with a different key, call [UpdateAlias](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_UpdateAlias.html). Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations:
     ///
@@ -582,7 +582,7 @@ extension PaymentCryptographyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteKey` operation on the `PaymentCryptographyControlPlane` service.
+    /// Performs the `DeleteKey` operation on the `PaymentCryptography` service.
     ///
     /// Deletes the key material and metadata associated with Amazon Web Services Payment Cryptography key. Key deletion is irreversible. After a key is deleted, you can't perform cryptographic operations using the key. For example, you can't decrypt data that was encrypted by a deleted Amazon Web Services Payment Cryptography key, and the data may become unrecoverable. Because key deletion is destructive, Amazon Web Services Payment Cryptography has a safety mechanism to prevent accidental deletion of a key. When you call this operation, Amazon Web Services Payment Cryptography disables the specified key but doesn't delete it until after a waiting period set using DeleteKeyInDays. The default waiting period is 7 days. During the waiting period, the KeyState is DELETE_PENDING. After the key is deleted, the KeyState is DELETE_COMPLETE. You should delete a key only when you are sure that you don't need to use it anymore and no other parties are utilizing this key. If you aren't sure, consider deactivating it instead by calling [StopKeyUsage](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_StopKeyUsage.html). Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations:
     ///
@@ -664,7 +664,7 @@ extension PaymentCryptographyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ExportKey` operation on the `PaymentCryptographyControlPlane` service.
+    /// Performs the `ExportKey` operation on the `PaymentCryptography` service.
     ///
     /// Exports a key from Amazon Web Services Payment Cryptography. Amazon Web Services Payment Cryptography simplifies key exchange by replacing the existing paper-based approach with a modern electronic approach. With ExportKey you can export symmetric keys using either symmetric and asymmetric key exchange mechanisms. Using this operation, you can share your Amazon Web Services Payment Cryptography generated keys with other service partners to perform cryptographic operations outside of Amazon Web Services Payment Cryptography For symmetric key exchange, Amazon Web Services Payment Cryptography uses the ANSI X9 TR-31 norm in accordance with PCI PIN guidelines. And for asymmetric key exchange, Amazon Web Services Payment Cryptography supports ANSI X9 TR-34 norm and RSA wrap and unwrap key exchange mechanism. Asymmetric key exchange methods are typically used to establish bi-directional trust between the two parties exhanging keys and are used for initial key exchange such as Key Encryption Key (KEK). After which you can export working keys using symmetric method to perform various cryptographic operations within Amazon Web Services Payment Cryptography. The TR-34 norm is intended for exchanging 3DES keys only and keys are imported in a WrappedKeyBlock format. Key attributes (such as KeyUsage, KeyAlgorithm, KeyModesOfUse, Exportability) are contained within the key block. With RSA wrap and unwrap, you can exchange both 3DES and AES-128 keys. The keys are imported in a WrappedKeyCryptogram format and you will need to specify the key attributes during import. You can also use ExportKey functionality to generate and export an IPEK (Initial Pin Encryption Key) from Amazon Web Services Payment Cryptography using either TR-31 or TR-34 export key exchange. IPEK is generated from BDK (Base Derivation Key) and ExportDukptInitialKey attribute KSN (KeySerialNumber). The generated IPEK does not persist within Amazon Web Services Payment Cryptography and has to be re-generated each time during export. For key exchange using TR-31 or TR-34 key blocks, you can also export optional blocks within the key block header which contain additional attribute information about the key. The KeyVersion within KeyBlockHeaders indicates the version of the key within the key block. Furthermore, KeyExportability within KeyBlockHeaders can be used to further restrict exportability of the key after export from Amazon Web Services Payment Cryptography. The OptionalBlocks contain the additional data related to the key. For information on data type that can be included within optional blocks, refer to [ASC X9.143-2022](https://webstore.ansi.org/standards/ascx9/ansix91432022). Data included in key block headers is signed but transmitted in clear text. Sensitive or confidential information should not be included in optional blocks. Refer to ASC X9.143-2022 standard for information on allowed data type. To export initial keys (KEK) or IPEK using TR-34 Using this operation, you can export initial key using TR-34 asymmetric key exchange. You can only export KEK generated within Amazon Web Services Payment Cryptography. In TR-34 terminology, the sending party of the key is called Key Distribution Host (KDH) and the receiving party of the key is called Key Receiving Device (KRD). During key export process, KDH is Amazon Web Services Payment Cryptography which initiates key export and KRD is the user receiving the key. To initiate TR-34 key export, the KRD must obtain an export token by calling [GetParametersForExport](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_GetParametersForExport.html). This operation also generates a key pair for the purpose of key export, signs the key and returns back the signing public key certificate (also known as KDH signing certificate) and root certificate chain. The KDH uses the private key to sign the the export payload and the signing public key certificate is provided to KRD to verify the signature. The KRD can import the root certificate into its Hardware Security Module (HSM), as required. The export token and the associated KDH signing certificate expires after 7 days. Next the KRD generates a key pair for the the purpose of encrypting the KDH key and provides the public key cerificate (also known as KRD wrapping certificate) back to KDH. The KRD will also import the root cerificate chain into Amazon Web Services Payment Cryptography by calling [ImportKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ImportKey.html) for RootCertificatePublicKey. The KDH, Amazon Web Services Payment Cryptography, will use the KRD wrapping cerificate to encrypt (wrap) the key under export and signs it with signing private key to generate a TR-34 WrappedKeyBlock. For more information on TR-34 key export, see section [Exporting symmetric keys](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/keys-export.html) in the Amazon Web Services Payment Cryptography User Guide. Set the following parameters:
     ///
@@ -777,7 +777,7 @@ extension PaymentCryptographyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAlias` operation on the `PaymentCryptographyControlPlane` service.
+    /// Performs the `GetAlias` operation on the `PaymentCryptography` service.
     ///
     /// Gets the Amazon Web Services Payment Cryptography key associated with the alias. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations:
     ///
@@ -860,7 +860,7 @@ extension PaymentCryptographyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetKey` operation on the `PaymentCryptographyControlPlane` service.
+    /// Performs the `GetKey` operation on the `PaymentCryptography` service.
     ///
     /// Gets the key material for an Amazon Web Services Payment Cryptography key, including the immutable and mutable data specified when the key was created. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations:
     ///
@@ -941,7 +941,7 @@ extension PaymentCryptographyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetParametersForExport` operation on the `PaymentCryptographyControlPlane` service.
+    /// Performs the `GetParametersForExport` operation on the `PaymentCryptography` service.
     ///
     /// Gets the export token and the signing key certificate to initiate a TR-34 key export from Amazon Web Services Payment Cryptography. The signing key certificate signs the wrapped key under export within the TR-34 key payload. The export token and signing key certificate must be in place and operational before calling [ExportKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ExportKey.html). The export token expires in 7 days. You can use the same export token to export multiple keys from your service account. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations:
     ///
@@ -1022,7 +1022,7 @@ extension PaymentCryptographyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetParametersForImport` operation on the `PaymentCryptographyControlPlane` service.
+    /// Performs the `GetParametersForImport` operation on the `PaymentCryptography` service.
     ///
     /// Gets the import token and the wrapping key certificate in PEM format (base64 encoded) to initiate a TR-34 WrappedKeyBlock or a RSA WrappedKeyCryptogram import into Amazon Web Services Payment Cryptography. The wrapping key certificate wraps the key under import. The import token and wrapping key certificate must be in place and operational before calling [ImportKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ImportKey.html). The import token expires in 7 days. You can use the same import token to import multiple keys into your service account. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations:
     ///
@@ -1103,7 +1103,7 @@ extension PaymentCryptographyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetPublicKeyCertificate` operation on the `PaymentCryptographyControlPlane` service.
+    /// Performs the `GetPublicKeyCertificate` operation on the `PaymentCryptography` service.
     ///
     /// Gets the public key certificate of the asymmetric key pair that exists within Amazon Web Services Payment Cryptography. Unlike the private key of an asymmetric key, which never leaves Amazon Web Services Payment Cryptography unencrypted, callers with GetPublicKeyCertificate permission can download the public key certificate of the asymmetric key. You can share the public key certificate to allow others to encrypt messages and verify signatures outside of Amazon Web Services Payment Cryptography Cross-account use: This operation can't be used across different Amazon Web Services accounts.
     ///
@@ -1178,7 +1178,7 @@ extension PaymentCryptographyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ImportKey` operation on the `PaymentCryptographyControlPlane` service.
+    /// Performs the `ImportKey` operation on the `PaymentCryptography` service.
     ///
     /// Imports symmetric keys and public key certificates in PEM format (base64 encoded) into Amazon Web Services Payment Cryptography. Amazon Web Services Payment Cryptography simplifies key exchange by replacing the existing paper-based approach with a modern electronic approach. With ImportKey you can import symmetric keys using either symmetric and asymmetric key exchange mechanisms. For symmetric key exchange, Amazon Web Services Payment Cryptography uses the ANSI X9 TR-31 norm in accordance with PCI PIN guidelines. And for asymmetric key exchange, Amazon Web Services Payment Cryptography supports ANSI X9 TR-34 norm and RSA wrap and unwrap key exchange mechanisms. Asymmetric key exchange methods are typically used to establish bi-directional trust between the two parties exhanging keys and are used for initial key exchange such as Key Encryption Key (KEK) or Zone Master Key (ZMK). After which you can import working keys using symmetric method to perform various cryptographic operations within Amazon Web Services Payment Cryptography. The TR-34 norm is intended for exchanging 3DES keys only and keys are imported in a WrappedKeyBlock format. Key attributes (such as KeyUsage, KeyAlgorithm, KeyModesOfUse, Exportability) are contained within the key block. With RSA wrap and unwrap, you can exchange both 3DES and AES-128 keys. The keys are imported in a WrappedKeyCryptogram format and you will need to specify the key attributes during import. You can also import a root public key certificate, used to sign other public key certificates, or a trusted public key certificate under an already established root public key certificate. To import a public root key certificate You can also import a root public key certificate, used to sign other public key certificates, or a trusted public key certificate under an already established root public key certificate. To import a public root key certificate Using this operation, you can import the public component (in PEM cerificate format) of your private root key. You can use the imported public root key certificate for digital signatures, for example signing wrapping key or signing key in TR-34, within your Amazon Web Services Payment Cryptography account. Set the following parameters:
     ///
@@ -1305,7 +1305,7 @@ extension PaymentCryptographyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAliases` operation on the `PaymentCryptographyControlPlane` service.
+    /// Performs the `ListAliases` operation on the `PaymentCryptography` service.
     ///
     /// Lists the aliases for all keys in the caller's Amazon Web Services account and Amazon Web Services Region. You can filter the aliases by keyARN. For more information, see [Using aliases](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/keys-managealias.html) in the Amazon Web Services Payment Cryptography User Guide. This is a paginated operation, which means that each response might contain only a subset of all the aliases. When the response contains only a subset of aliases, it includes a NextToken value. Use this value in a subsequent ListAliases request to get more aliases. When you receive a response with no NextToken (or an empty or null value), that means there are no more aliases to get. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations:
     ///
@@ -1388,7 +1388,7 @@ extension PaymentCryptographyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListKeys` operation on the `PaymentCryptographyControlPlane` service.
+    /// Performs the `ListKeys` operation on the `PaymentCryptography` service.
     ///
     /// Lists the keys in the caller's Amazon Web Services account and Amazon Web Services Region. You can filter the list of keys. This is a paginated operation, which means that each response might contain only a subset of all the keys. When the response contains only a subset of keys, it includes a NextToken value. Use this value in a subsequent ListKeys request to get more keys. When you receive a response with no NextToken (or an empty or null value), that means there are no more keys to get. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations:
     ///
@@ -1469,7 +1469,7 @@ extension PaymentCryptographyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `PaymentCryptographyControlPlane` service.
+    /// Performs the `ListTagsForResource` operation on the `PaymentCryptography` service.
     ///
     /// Lists the tags for an Amazon Web Services resource. This is a paginated operation, which means that each response might contain only a subset of all the tags. When the response contains only a subset of tags, it includes a NextToken value. Use this value in a subsequent ListTagsForResource request to get more tags. When you receive a response with no NextToken (or an empty or null value), that means there are no more tags to get. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations:
     ///
@@ -1548,7 +1548,7 @@ extension PaymentCryptographyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RestoreKey` operation on the `PaymentCryptographyControlPlane` service.
+    /// Performs the `RestoreKey` operation on the `PaymentCryptography` service.
     ///
     /// Cancels a scheduled key deletion during the waiting period. Use this operation to restore a Key that is scheduled for deletion. During the waiting period, the KeyState is DELETE_PENDING and deletePendingTimestamp contains the date and time after which the Key will be deleted. After Key is restored, the KeyState is CREATE_COMPLETE, and the value for deletePendingTimestamp is removed. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations:
     ///
@@ -1631,7 +1631,7 @@ extension PaymentCryptographyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartKeyUsage` operation on the `PaymentCryptographyControlPlane` service.
+    /// Performs the `StartKeyUsage` operation on the `PaymentCryptography` service.
     ///
     /// Enables an Amazon Web Services Payment Cryptography key, which makes it active for cryptographic operations within Amazon Web Services Payment Cryptography Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations:
     ///
@@ -1710,7 +1710,7 @@ extension PaymentCryptographyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopKeyUsage` operation on the `PaymentCryptographyControlPlane` service.
+    /// Performs the `StopKeyUsage` operation on the `PaymentCryptography` service.
     ///
     /// Disables an Amazon Web Services Payment Cryptography key, which makes it inactive within Amazon Web Services Payment Cryptography. You can use this operation instead of [DeleteKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_DeleteKey.html) to deactivate a key. You can enable the key in the future by calling [StartKeyUsage](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_StartKeyUsage.html). Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations:
     ///
@@ -1791,7 +1791,7 @@ extension PaymentCryptographyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `PaymentCryptographyControlPlane` service.
+    /// Performs the `TagResource` operation on the `PaymentCryptography` service.
     ///
     /// Adds or edits tags on an Amazon Web Services Payment Cryptography key. Tagging or untagging an Amazon Web Services Payment Cryptography key can allow or deny permission to the key. Each tag consists of a tag key and a tag value, both of which are case-sensitive strings. The tag value can be an empty (null) string. To add a tag, specify a new tag key and a tag value. To edit a tag, specify an existing tag key and a new tag value. You can also add tags to an Amazon Web Services Payment Cryptography key when you create it with [CreateKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_CreateKey.html). Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations:
     ///
@@ -1872,7 +1872,7 @@ extension PaymentCryptographyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `PaymentCryptographyControlPlane` service.
+    /// Performs the `UntagResource` operation on the `PaymentCryptography` service.
     ///
     /// Deletes a tag from an Amazon Web Services Payment Cryptography key. Tagging or untagging an Amazon Web Services Payment Cryptography key can allow or deny permission to the key. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations:
     ///
@@ -1952,7 +1952,7 @@ extension PaymentCryptographyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateAlias` operation on the `PaymentCryptographyControlPlane` service.
+    /// Performs the `UpdateAlias` operation on the `PaymentCryptography` service.
     ///
     /// Associates an existing Amazon Web Services Payment Cryptography alias with a different key. Each alias is associated with only one Amazon Web Services Payment Cryptography key at a time, although a key can have multiple aliases. The alias and the Amazon Web Services Payment Cryptography key must be in the same Amazon Web Services account and Amazon Web Services Region Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations:
     ///

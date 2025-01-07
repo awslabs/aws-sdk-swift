@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class B2biClient: ClientRuntime.Client {
     public static let clientName = "B2biClient"
-    public static let version = "1.0.71"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: B2biClient.B2biClientConfiguration
     let serviceName = "b2bi"
@@ -332,7 +332,7 @@ extension B2biClient {
 }
 
 extension B2biClient {
-    /// Performs the `CreateCapability` operation on the `B2BI` service.
+    /// Performs the `CreateCapability` operation on the `B2bi` service.
     ///
     /// Instantiates a capability based on the specified parameters. A trading capability contains the information required to transform incoming EDI documents into JSON or XML outputs.
     ///
@@ -409,7 +409,7 @@ extension B2biClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreatePartnership` operation on the `B2BI` service.
+    /// Performs the `CreatePartnership` operation on the `B2bi` service.
     ///
     /// Creates a partnership between a customer and a trading partner, based on the supplied parameters. A partnership represents the connection between you and your trading partner. It ties together a profile and one or more trading capabilities.
     ///
@@ -486,7 +486,7 @@ extension B2biClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateProfile` operation on the `B2BI` service.
+    /// Performs the `CreateProfile` operation on the `B2bi` service.
     ///
     /// Creates a customer profile. You can have up to five customer profiles, each representing a distinct private network. A profile is the mechanism used to create the concept of a private network.
     ///
@@ -563,7 +563,7 @@ extension B2biClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateStarterMappingTemplate` operation on the `B2BI` service.
+    /// Performs the `CreateStarterMappingTemplate` operation on the `B2bi` service.
     ///
     /// Amazon Web Services B2B Data Interchange uses a mapping template in JSONata or XSLT format to transform a customer input file into a JSON or XML file that can be converted to EDI. If you provide a sample EDI file with the same structure as the EDI files that you wish to generate, then the service can generate a mapping template. The starter template contains placeholder values which you can replace with JSONata or XSLT expressions to take data from your input file and insert it into the JSON or XML file that is used to generate the EDI. If you do not provide a sample EDI file, then the service can generate a mapping template based on the EDI settings in the templateDetails parameter. Currently, we only support generating a template that can generate the input to produce an Outbound X12 EDI file.
     ///
@@ -636,7 +636,7 @@ extension B2biClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateTransformer` operation on the `B2BI` service.
+    /// Performs the `CreateTransformer` operation on the `B2bi` service.
     ///
     /// Creates a transformer. Amazon Web Services B2B Data Interchange currently supports two scenarios:
     ///
@@ -726,7 +726,7 @@ extension B2biClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteCapability` operation on the `B2BI` service.
+    /// Performs the `DeleteCapability` operation on the `B2bi` service.
     ///
     /// Deletes the specified capability. A trading capability contains the information required to transform incoming EDI documents into JSON or XML outputs.
     ///
@@ -801,7 +801,7 @@ extension B2biClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeletePartnership` operation on the `B2BI` service.
+    /// Performs the `DeletePartnership` operation on the `B2bi` service.
     ///
     /// Deletes the specified partnership. A partnership represents the connection between you and your trading partner. It ties together a profile and one or more trading capabilities.
     ///
@@ -876,7 +876,7 @@ extension B2biClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteProfile` operation on the `B2BI` service.
+    /// Performs the `DeleteProfile` operation on the `B2bi` service.
     ///
     /// Deletes the specified profile. A profile is the mechanism used to create the concept of a private network.
     ///
@@ -951,7 +951,7 @@ extension B2biClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteTransformer` operation on the `B2BI` service.
+    /// Performs the `DeleteTransformer` operation on the `B2bi` service.
     ///
     /// Deletes the specified transformer. A transformer can take an EDI file as input and transform it into a JSON-or XML-formatted document. Alternatively, a transformer can take a JSON-or XML-formatted document as input and transform it into an EDI file.
     ///
@@ -1026,7 +1026,7 @@ extension B2biClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GenerateMapping` operation on the `B2BI` service.
+    /// Performs the `GenerateMapping` operation on the `B2bi` service.
     ///
     /// Takes sample input and output documents and uses Amazon Bedrock to generate a mapping automatically. Depending on the accuracy and other factors, you can then edit the mapping for your needs. Before you can use the AI-assisted feature for Amazon Web Services B2B Data Interchange you must enable models in Amazon Bedrock. For details, see [AI-assisted template mapping prerequisites](https://docs.aws.amazon.com/b2bi/latest/userguide/ai-assisted-mapping.html#ai-assist-prereq) in the Amazon Web Services B2B Data Interchange User guide.
     ///
@@ -1099,7 +1099,7 @@ extension B2biClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetCapability` operation on the `B2BI` service.
+    /// Performs the `GetCapability` operation on the `B2bi` service.
     ///
     /// Retrieves the details for the specified capability. A trading capability contains the information required to transform incoming EDI documents into JSON or XML outputs.
     ///
@@ -1173,7 +1173,7 @@ extension B2biClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetPartnership` operation on the `B2BI` service.
+    /// Performs the `GetPartnership` operation on the `B2bi` service.
     ///
     /// Retrieves the details for a partnership, based on the partner and profile IDs specified. A partnership represents the connection between you and your trading partner. It ties together a profile and one or more trading capabilities.
     ///
@@ -1247,7 +1247,7 @@ extension B2biClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetProfile` operation on the `B2BI` service.
+    /// Performs the `GetProfile` operation on the `B2bi` service.
     ///
     /// Retrieves the details for the profile specified by the profile ID. A profile is the mechanism used to create the concept of a private network.
     ///
@@ -1321,7 +1321,7 @@ extension B2biClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetTransformer` operation on the `B2BI` service.
+    /// Performs the `GetTransformer` operation on the `B2bi` service.
     ///
     /// Retrieves the details for the transformer specified by the transformer ID. A transformer can take an EDI file as input and transform it into a JSON-or XML-formatted document. Alternatively, a transformer can take a JSON-or XML-formatted document as input and transform it into an EDI file.
     ///
@@ -1395,7 +1395,7 @@ extension B2biClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetTransformerJob` operation on the `B2BI` service.
+    /// Performs the `GetTransformerJob` operation on the `B2bi` service.
     ///
     /// Returns the details of the transformer run, based on the Transformer job ID.
     ///
@@ -1470,7 +1470,7 @@ extension B2biClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListCapabilities` operation on the `B2BI` service.
+    /// Performs the `ListCapabilities` operation on the `B2bi` service.
     ///
     /// Lists the capabilities associated with your Amazon Web Services account for your current or specified region. A trading capability contains the information required to transform incoming EDI documents into JSON or XML outputs.
     ///
@@ -1544,7 +1544,7 @@ extension B2biClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListPartnerships` operation on the `B2BI` service.
+    /// Performs the `ListPartnerships` operation on the `B2bi` service.
     ///
     /// Lists the partnerships associated with your Amazon Web Services account for your current or specified region. A partnership represents the connection between you and your trading partner. It ties together a profile and one or more trading capabilities.
     ///
@@ -1619,7 +1619,7 @@ extension B2biClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListProfiles` operation on the `B2BI` service.
+    /// Performs the `ListProfiles` operation on the `B2bi` service.
     ///
     /// Lists the profiles associated with your Amazon Web Services account for your current or specified region. A profile is the mechanism used to create the concept of a private network.
     ///
@@ -1693,7 +1693,7 @@ extension B2biClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `B2BI` service.
+    /// Performs the `ListTagsForResource` operation on the `B2bi` service.
     ///
     /// Lists all of the tags associated with the Amazon Resource Name (ARN) that you specify. The resource can be a capability, partnership, profile, or transformer.
     ///
@@ -1765,7 +1765,7 @@ extension B2biClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTransformers` operation on the `B2BI` service.
+    /// Performs the `ListTransformers` operation on the `B2bi` service.
     ///
     /// Lists the available transformers. A transformer can take an EDI file as input and transform it into a JSON-or XML-formatted document. Alternatively, a transformer can take a JSON-or XML-formatted document as input and transform it into an EDI file.
     ///
@@ -1839,7 +1839,7 @@ extension B2biClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartTransformerJob` operation on the `B2BI` service.
+    /// Performs the `StartTransformerJob` operation on the `B2bi` service.
     ///
     /// Runs a job, using a transformer, to parse input EDI (electronic data interchange) file into the output structures used by Amazon Web Services B2B Data Interchange. If you only want to transform EDI (electronic data interchange) documents, you don't need to create profiles, partnerships or capabilities. Just create and configure a transformer, and then run the StartTransformerJob API to process your files.
     ///
@@ -1915,7 +1915,7 @@ extension B2biClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `B2BI` service.
+    /// Performs the `TagResource` operation on the `B2bi` service.
     ///
     /// Attaches a key-value pair to a resource, as identified by its Amazon Resource Name (ARN). Resources are capability, partnership, profile, transformers and other entities. There is no response returned from this call.
     ///
@@ -1988,7 +1988,7 @@ extension B2biClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TestConversion` operation on the `B2BI` service.
+    /// Performs the `TestConversion` operation on the `B2bi` service.
     ///
     /// This operation mimics the latter half of a typical Outbound EDI request. It takes an input JSON/XML in the B2Bi shape as input, converts it to an X12 EDI string, and return that string.
     ///
@@ -2062,7 +2062,7 @@ extension B2biClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TestMapping` operation on the `B2BI` service.
+    /// Performs the `TestMapping` operation on the `B2bi` service.
     ///
     /// Maps the input file according to the provided template file. The API call downloads the file contents from the Amazon S3 location, and passes the contents in as a string, to the inputFileContent parameter.
     ///
@@ -2136,7 +2136,7 @@ extension B2biClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TestParsing` operation on the `B2BI` service.
+    /// Performs the `TestParsing` operation on the `B2bi` service.
     ///
     /// Parses the input EDI (electronic data interchange) file. The input file has a file size limit of 250 KB.
     ///
@@ -2210,7 +2210,7 @@ extension B2biClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `B2BI` service.
+    /// Performs the `UntagResource` operation on the `B2bi` service.
     ///
     /// Detaches a key-value pair from the specified resource, as identified by its Amazon Resource Name (ARN). Resources are capability, partnership, profile, transformers and other entities.
     ///
@@ -2283,7 +2283,7 @@ extension B2biClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateCapability` operation on the `B2BI` service.
+    /// Performs the `UpdateCapability` operation on the `B2bi` service.
     ///
     /// Updates some of the parameters for a capability, based on the specified parameters. A trading capability contains the information required to transform incoming EDI documents into JSON or XML outputs.
     ///
@@ -2359,7 +2359,7 @@ extension B2biClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdatePartnership` operation on the `B2BI` service.
+    /// Performs the `UpdatePartnership` operation on the `B2bi` service.
     ///
     /// Updates some of the parameters for a partnership between a customer and trading partner. A partnership represents the connection between you and your trading partner. It ties together a profile and one or more trading capabilities.
     ///
@@ -2435,7 +2435,7 @@ extension B2biClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateProfile` operation on the `B2BI` service.
+    /// Performs the `UpdateProfile` operation on the `B2bi` service.
     ///
     /// Updates the specified parameters for a profile. A profile is the mechanism used to create the concept of a private network.
     ///
@@ -2511,7 +2511,7 @@ extension B2biClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateTransformer` operation on the `B2BI` service.
+    /// Performs the `UpdateTransformer` operation on the `B2bi` service.
     ///
     /// Updates the specified parameters for a transformer. A transformer can take an EDI file as input and transform it into a JSON-or XML-formatted document. Alternatively, a transformer can take a JSON-or XML-formatted document as input and transform it into an EDI file.
     ///

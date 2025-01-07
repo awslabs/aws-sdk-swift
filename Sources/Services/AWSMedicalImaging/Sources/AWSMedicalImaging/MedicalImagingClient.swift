@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MedicalImagingClient: ClientRuntime.Client {
     public static let clientName = "MedicalImagingClient"
-    public static let version = "1.0.71"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: MedicalImagingClient.MedicalImagingClientConfiguration
     let serviceName = "Medical Imaging"
@@ -333,7 +333,7 @@ extension MedicalImagingClient {
 }
 
 extension MedicalImagingClient {
-    /// Performs the `CopyImageSet` operation on the `AHIGatewayService` service.
+    /// Performs the `CopyImageSet` operation on the `MedicalImaging` service.
     ///
     /// Copy an image set.
     ///
@@ -409,7 +409,7 @@ extension MedicalImagingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateDatastore` operation on the `AHIGatewayService` service.
+    /// Performs the `CreateDatastore` operation on the `MedicalImaging` service.
     ///
     /// Create a data store.
     ///
@@ -484,7 +484,7 @@ extension MedicalImagingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteDatastore` operation on the `AHIGatewayService` service.
+    /// Performs the `DeleteDatastore` operation on the `MedicalImaging` service.
     ///
     /// Delete a data store. Before a data store can be deleted, you must first delete all image sets within it.
     ///
@@ -555,7 +555,7 @@ extension MedicalImagingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteImageSet` operation on the `AHIGatewayService` service.
+    /// Performs the `DeleteImageSet` operation on the `MedicalImaging` service.
     ///
     /// Delete an image set.
     ///
@@ -626,7 +626,7 @@ extension MedicalImagingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDICOMImportJob` operation on the `AHIGatewayService` service.
+    /// Performs the `GetDICOMImportJob` operation on the `MedicalImaging` service.
     ///
     /// Get the import job properties to learn more about the job or job progress. The jobStatus refers to the execution of the import job. Therefore, an import job can return a jobStatus as COMPLETED even if validation issues are discovered during the import process. If a jobStatus returns as COMPLETED, we still recommend you review the output manifests written to S3, as they provide details on the success or failure of individual P10 object imports.
     ///
@@ -697,7 +697,7 @@ extension MedicalImagingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDatastore` operation on the `AHIGatewayService` service.
+    /// Performs the `GetDatastore` operation on the `MedicalImaging` service.
     ///
     /// Get data store properties.
     ///
@@ -767,7 +767,7 @@ extension MedicalImagingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetImageFrame` operation on the `AHIGatewayService` service.
+    /// Performs the `GetImageFrame` operation on the `MedicalImaging` service.
     ///
     /// Get an image frame (pixel data) for an image set.
     ///
@@ -841,7 +841,7 @@ extension MedicalImagingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetImageSet` operation on the `AHIGatewayService` service.
+    /// Performs the `GetImageSet` operation on the `MedicalImaging` service.
     ///
     /// Get image set properties.
     ///
@@ -913,7 +913,7 @@ extension MedicalImagingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetImageSetMetadata` operation on the `AHIGatewayService` service.
+    /// Performs the `GetImageSetMetadata` operation on the `MedicalImaging` service.
     ///
     /// Get metadata attributes for an image set.
     ///
@@ -985,7 +985,7 @@ extension MedicalImagingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDICOMImportJobs` operation on the `AHIGatewayService` service.
+    /// Performs the `ListDICOMImportJobs` operation on the `MedicalImaging` service.
     ///
     /// List import jobs created for a specific data store.
     ///
@@ -1057,7 +1057,7 @@ extension MedicalImagingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDatastores` operation on the `AHIGatewayService` service.
+    /// Performs the `ListDatastores` operation on the `MedicalImaging` service.
     ///
     /// List data stores.
     ///
@@ -1127,7 +1127,7 @@ extension MedicalImagingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListImageSetVersions` operation on the `AHIGatewayService` service.
+    /// Performs the `ListImageSetVersions` operation on the `MedicalImaging` service.
     ///
     /// List image set versions.
     ///
@@ -1199,7 +1199,7 @@ extension MedicalImagingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `AHIGatewayService` service.
+    /// Performs the `ListTagsForResource` operation on the `MedicalImaging` service.
     ///
     /// Lists all tags associated with a medical imaging resource.
     ///
@@ -1269,7 +1269,7 @@ extension MedicalImagingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SearchImageSets` operation on the `AHIGatewayService` service.
+    /// Performs the `SearchImageSets` operation on the `MedicalImaging` service.
     ///
     /// Search image sets based on defined input attributes. SearchImageSets accepts a single search query parameter and returns a paginated response of all image sets that have the matching criteria. All date range queries must be input as (lowerBound, upperBound). By default, SearchImageSets uses the updatedAt field for sorting in descending order from newest to oldest.
     ///
@@ -1344,7 +1344,7 @@ extension MedicalImagingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartDICOMImportJob` operation on the `AHIGatewayService` service.
+    /// Performs the `StartDICOMImportJob` operation on the `MedicalImaging` service.
     ///
     /// Start importing bulk data into an ACTIVE data store. The import job imports DICOM P10 files found in the S3 prefix specified by the inputS3Uri parameter. The import job stores processing results in the file specified by the outputS3Uri parameter.
     ///
@@ -1420,7 +1420,7 @@ extension MedicalImagingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `AHIGatewayService` service.
+    /// Performs the `TagResource` operation on the `MedicalImaging` service.
     ///
     /// Adds a user-specifed key and value tag to a medical imaging resource.
     ///
@@ -1493,7 +1493,7 @@ extension MedicalImagingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `AHIGatewayService` service.
+    /// Performs the `UntagResource` operation on the `MedicalImaging` service.
     ///
     /// Removes tags from a medical imaging resource.
     ///
@@ -1564,7 +1564,7 @@ extension MedicalImagingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateImageSetMetadata` operation on the `AHIGatewayService` service.
+    /// Performs the `UpdateImageSetMetadata` operation on the `MedicalImaging` service.
     ///
     /// Update image set metadata attributes.
     ///

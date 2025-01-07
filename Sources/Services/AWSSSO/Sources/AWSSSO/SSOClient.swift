@@ -59,7 +59,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SSOClient: ClientRuntime.Client {
     public static let clientName = "SSOClient"
-    public static let version = "1.0.71"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: SSOClient.SSOClientConfiguration
     let serviceName = "SSO"
@@ -325,7 +325,7 @@ extension SSOClient {
 }
 
 extension SSOClient {
-    /// Performs the `GetRoleCredentials` operation on the `SWBPortalService` service.
+    /// Performs the `GetRoleCredentials` operation on the `SSO` service.
     ///
     /// Returns the STS short-term credentials for a given role name that is assigned to the user.
     ///
@@ -394,7 +394,7 @@ extension SSOClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAccountRoles` operation on the `SWBPortalService` service.
+    /// Performs the `ListAccountRoles` operation on the `SSO` service.
     ///
     /// Lists all roles that are assigned to the user for a given AWS account.
     ///
@@ -463,7 +463,7 @@ extension SSOClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAccounts` operation on the `SWBPortalService` service.
+    /// Performs the `ListAccounts` operation on the `SSO` service.
     ///
     /// Lists all AWS accounts assigned to the user. These AWS accounts are assigned by the administrator of the account. For more information, see [Assign User Access](https://docs.aws.amazon.com/singlesignon/latest/userguide/useraccess.html#assignusers) in the IAM Identity Center User Guide. This operation returns a paginated response.
     ///
@@ -532,7 +532,7 @@ extension SSOClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `Logout` operation on the `SWBPortalService` service.
+    /// Performs the `Logout` operation on the `SSO` service.
     ///
     /// Removes the locally stored SSO tokens from the client-side cache and sends an API call to the IAM Identity Center service to invalidate the corresponding server-side IAM Identity Center sign in session. If a user uses IAM Identity Center to access the AWS CLI, the user’s IAM Identity Center sign in session is used to obtain an IAM session, as specified in the corresponding IAM Identity Center permission set. More specifically, IAM Identity Center assumes an IAM role in the target account on behalf of the user, and the corresponding temporary AWS credentials are returned to the client. After user logout, any existing IAM role sessions that were created by using IAM Identity Center permission sets continue based on the duration configured in the permission set. For more information, see [User authentications](https://docs.aws.amazon.com/singlesignon/latest/userguide/authconcept.html) in the IAM Identity Center User Guide.
     ///

@@ -63,7 +63,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class GeoPlacesClient: ClientRuntime.Client {
     public static let clientName = "GeoPlacesClient"
-    public static let version = "1.0.71"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: GeoPlacesClient.GeoPlacesClientConfiguration
     let serviceName = "Geo Places"
@@ -329,7 +329,7 @@ extension GeoPlacesClient {
 }
 
 extension GeoPlacesClient {
-    /// Performs the `Autocomplete` operation on the `PlacesService` service.
+    /// Performs the `Autocomplete` operation on the `GeoPlaces` service.
     ///
     /// The autocomplete operation speeds up and increases the accuracy of entering addresses by providing a list of address candidates matching a partially entered address. Results are sorted from most to least matching. Filtering and biasing can be used to increase the relevance of the results if additional search context is known
     ///
@@ -402,7 +402,7 @@ extension GeoPlacesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `Geocode` operation on the `PlacesService` service.
+    /// Performs the `Geocode` operation on the `GeoPlaces` service.
     ///
     /// The Geocode action allows you to obtain coordinates, addresses, and other information about places.
     ///
@@ -475,7 +475,7 @@ extension GeoPlacesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetPlace` operation on the `PlacesService` service.
+    /// Performs the `GetPlace` operation on the `GeoPlaces` service.
     ///
     /// Finds a place by its unique ID. A PlaceId is returned by other place operations.
     ///
@@ -545,7 +545,7 @@ extension GeoPlacesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ReverseGeocode` operation on the `PlacesService` service.
+    /// Performs the `ReverseGeocode` operation on the `GeoPlaces` service.
     ///
     /// The ReverseGeocode operation allows you to retrieve addresses and place information from coordinates.
     ///
@@ -618,7 +618,7 @@ extension GeoPlacesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SearchNearby` operation on the `PlacesService` service.
+    /// Performs the `SearchNearby` operation on the `GeoPlaces` service.
     ///
     /// Search nearby a specified location.
     ///
@@ -691,7 +691,7 @@ extension GeoPlacesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SearchText` operation on the `PlacesService` service.
+    /// Performs the `SearchText` operation on the `GeoPlaces` service.
     ///
     /// Use the SearchText operation to search for geocode and place information. You can then complete a follow-up query suggested from the Suggest API via a query id.
     ///
@@ -764,7 +764,7 @@ extension GeoPlacesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `Suggest` operation on the `PlacesService` service.
+    /// Performs the `Suggest` operation on the `GeoPlaces` service.
     ///
     /// The Suggest operation finds addresses or place candidates based on incomplete or misspelled queries. You then select the best query to submit based on the returned results.
     ///

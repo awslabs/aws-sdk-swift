@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class AppTestClient: ClientRuntime.Client {
     public static let clientName = "AppTestClient"
-    public static let version = "1.0.71"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: AppTestClient.AppTestClientConfiguration
     let serviceName = "AppTest"
@@ -331,7 +331,7 @@ extension AppTestClient {
 }
 
 extension AppTestClient {
-    /// Performs the `CreateTestCase` operation on the `AwsApptestControlPlaneService` service.
+    /// Performs the `CreateTestCase` operation on the `AppTest` service.
     ///
     /// Creates a test case.
     ///
@@ -406,7 +406,7 @@ extension AppTestClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateTestConfiguration` operation on the `AwsApptestControlPlaneService` service.
+    /// Performs the `CreateTestConfiguration` operation on the `AppTest` service.
     ///
     /// Creates a test configuration.
     ///
@@ -481,7 +481,7 @@ extension AppTestClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateTestSuite` operation on the `AwsApptestControlPlaneService` service.
+    /// Performs the `CreateTestSuite` operation on the `AppTest` service.
     ///
     /// Creates a test suite.
     ///
@@ -556,7 +556,7 @@ extension AppTestClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteTestCase` operation on the `AwsApptestControlPlaneService` service.
+    /// Performs the `DeleteTestCase` operation on the `AppTest` service.
     ///
     /// Deletes a test case.
     ///
@@ -627,7 +627,7 @@ extension AppTestClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteTestConfiguration` operation on the `AwsApptestControlPlaneService` service.
+    /// Performs the `DeleteTestConfiguration` operation on the `AppTest` service.
     ///
     /// Deletes a test configuration.
     ///
@@ -698,7 +698,7 @@ extension AppTestClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteTestRun` operation on the `AwsApptestControlPlaneService` service.
+    /// Performs the `DeleteTestRun` operation on the `AppTest` service.
     ///
     /// Deletes a test run.
     ///
@@ -768,7 +768,7 @@ extension AppTestClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteTestSuite` operation on the `AwsApptestControlPlaneService` service.
+    /// Performs the `DeleteTestSuite` operation on the `AppTest` service.
     ///
     /// Deletes a test suite.
     ///
@@ -839,7 +839,7 @@ extension AppTestClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetTestCase` operation on the `AwsApptestControlPlaneService` service.
+    /// Performs the `GetTestCase` operation on the `AppTest` service.
     ///
     /// Gets a test case.
     ///
@@ -910,7 +910,7 @@ extension AppTestClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetTestConfiguration` operation on the `AwsApptestControlPlaneService` service.
+    /// Performs the `GetTestConfiguration` operation on the `AppTest` service.
     ///
     /// Gets a test configuration.
     ///
@@ -981,7 +981,7 @@ extension AppTestClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetTestRunStep` operation on the `AwsApptestControlPlaneService` service.
+    /// Performs the `GetTestRunStep` operation on the `AppTest` service.
     ///
     /// Gets a test run step.
     ///
@@ -1052,7 +1052,7 @@ extension AppTestClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetTestSuite` operation on the `AwsApptestControlPlaneService` service.
+    /// Performs the `GetTestSuite` operation on the `AppTest` service.
     ///
     /// Gets a test suite.
     ///
@@ -1123,7 +1123,7 @@ extension AppTestClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `AwsApptestControlPlaneService` service.
+    /// Performs the `ListTagsForResource` operation on the `AppTest` service.
     ///
     /// Lists tags for a resource.
     ///
@@ -1193,7 +1193,7 @@ extension AppTestClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTestCases` operation on the `AwsApptestControlPlaneService` service.
+    /// Performs the `ListTestCases` operation on the `AppTest` service.
     ///
     /// Lists test cases.
     ///
@@ -1264,7 +1264,7 @@ extension AppTestClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTestConfigurations` operation on the `AwsApptestControlPlaneService` service.
+    /// Performs the `ListTestConfigurations` operation on the `AppTest` service.
     ///
     /// Lists test configurations.
     ///
@@ -1335,7 +1335,7 @@ extension AppTestClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTestRunSteps` operation on the `AwsApptestControlPlaneService` service.
+    /// Performs the `ListTestRunSteps` operation on the `AppTest` service.
     ///
     /// Lists test run steps.
     ///
@@ -1406,7 +1406,7 @@ extension AppTestClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTestRunTestCases` operation on the `AwsApptestControlPlaneService` service.
+    /// Performs the `ListTestRunTestCases` operation on the `AppTest` service.
     ///
     /// Lists test run test cases.
     ///
@@ -1477,7 +1477,7 @@ extension AppTestClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTestRuns` operation on the `AwsApptestControlPlaneService` service.
+    /// Performs the `ListTestRuns` operation on the `AppTest` service.
     ///
     /// Lists test runs.
     ///
@@ -1548,7 +1548,7 @@ extension AppTestClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTestSuites` operation on the `AwsApptestControlPlaneService` service.
+    /// Performs the `ListTestSuites` operation on the `AppTest` service.
     ///
     /// Lists test suites.
     ///
@@ -1619,7 +1619,7 @@ extension AppTestClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartTestRun` operation on the `AwsApptestControlPlaneService` service.
+    /// Performs the `StartTestRun` operation on the `AppTest` service.
     ///
     /// Starts a test run.
     ///
@@ -1695,7 +1695,7 @@ extension AppTestClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `AwsApptestControlPlaneService` service.
+    /// Performs the `TagResource` operation on the `AppTest` service.
     ///
     /// Specifies tags of a resource.
     ///
@@ -1769,7 +1769,7 @@ extension AppTestClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `AwsApptestControlPlaneService` service.
+    /// Performs the `UntagResource` operation on the `AppTest` service.
     ///
     /// Untags a resource.
     ///
@@ -1840,7 +1840,7 @@ extension AppTestClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateTestCase` operation on the `AwsApptestControlPlaneService` service.
+    /// Performs the `UpdateTestCase` operation on the `AppTest` service.
     ///
     /// Updates a test case.
     ///
@@ -1914,7 +1914,7 @@ extension AppTestClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateTestConfiguration` operation on the `AwsApptestControlPlaneService` service.
+    /// Performs the `UpdateTestConfiguration` operation on the `AppTest` service.
     ///
     /// Updates a test configuration.
     ///
@@ -1988,7 +1988,7 @@ extension AppTestClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateTestSuite` operation on the `AwsApptestControlPlaneService` service.
+    /// Performs the `UpdateTestSuite` operation on the `AppTest` service.
     ///
     /// Updates a test suite.
     ///

@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SageMakerA2IRuntimeClient: ClientRuntime.Client {
     public static let clientName = "SageMakerA2IRuntimeClient"
-    public static let version = "1.0.71"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: SageMakerA2IRuntimeClient.SageMakerA2IRuntimeClientConfiguration
     let serviceName = "SageMaker A2I Runtime"
@@ -330,7 +330,7 @@ extension SageMakerA2IRuntimeClient {
 }
 
 extension SageMakerA2IRuntimeClient {
-    /// Performs the `DeleteHumanLoop` operation on the `AmazonSageMakerA2IRuntime` service.
+    /// Performs the `DeleteHumanLoop` operation on the `SageMakerA2IRuntime` service.
     ///
     /// Deletes the specified human loop for a flow definition. If the human loop was deleted, this operation will return a ResourceNotFoundException.
     ///
@@ -399,7 +399,7 @@ extension SageMakerA2IRuntimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeHumanLoop` operation on the `AmazonSageMakerA2IRuntime` service.
+    /// Performs the `DescribeHumanLoop` operation on the `SageMakerA2IRuntime` service.
     ///
     /// Returns information about the specified human loop. If the human loop was deleted, this operation will return a ResourceNotFoundException error.
     ///
@@ -468,7 +468,7 @@ extension SageMakerA2IRuntimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListHumanLoops` operation on the `AmazonSageMakerA2IRuntime` service.
+    /// Performs the `ListHumanLoops` operation on the `SageMakerA2IRuntime` service.
     ///
     /// Returns information about human loops, given the specified parameters. If a human loop was deleted, it will not be included.
     ///
@@ -538,7 +538,7 @@ extension SageMakerA2IRuntimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartHumanLoop` operation on the `AmazonSageMakerA2IRuntime` service.
+    /// Performs the `StartHumanLoop` operation on the `SageMakerA2IRuntime` service.
     ///
     /// Starts a human loop, provided that at least one activation condition is met.
     ///
@@ -611,7 +611,7 @@ extension SageMakerA2IRuntimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopHumanLoop` operation on the `AmazonSageMakerA2IRuntime` service.
+    /// Performs the `StopHumanLoop` operation on the `SageMakerA2IRuntime` service.
     ///
     /// Stops the specified human loop.
     ///

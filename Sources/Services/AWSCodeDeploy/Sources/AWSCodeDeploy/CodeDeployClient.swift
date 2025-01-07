@@ -63,7 +63,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CodeDeployClient: ClientRuntime.Client {
     public static let clientName = "CodeDeployClient"
-    public static let version = "1.0.71"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: CodeDeployClient.CodeDeployClientConfiguration
     let serviceName = "CodeDeploy"
@@ -329,7 +329,7 @@ extension CodeDeployClient {
 }
 
 extension CodeDeployClient {
-    /// Performs the `AddTagsToOnPremisesInstances` operation on the `CodeDeploy_20141006` service.
+    /// Performs the `AddTagsToOnPremisesInstances` operation on the `CodeDeploy` service.
     ///
     /// Adds tags to on-premises instances.
     ///
@@ -405,7 +405,7 @@ extension CodeDeployClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchGetApplicationRevisions` operation on the `CodeDeploy_20141006` service.
+    /// Performs the `BatchGetApplicationRevisions` operation on the `CodeDeploy` service.
     ///
     /// Gets information about one or more application revisions. The maximum number of application revisions that can be returned is 25.
     ///
@@ -480,7 +480,7 @@ extension CodeDeployClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchGetApplications` operation on the `CodeDeploy_20141006` service.
+    /// Performs the `BatchGetApplications` operation on the `CodeDeploy` service.
     ///
     /// Gets information about one or more applications. The maximum number of applications that can be returned is 100.
     ///
@@ -553,7 +553,7 @@ extension CodeDeployClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchGetDeploymentGroups` operation on the `CodeDeploy_20141006` service.
+    /// Performs the `BatchGetDeploymentGroups` operation on the `CodeDeploy` service.
     ///
     /// Gets information about one or more deployment groups.
     ///
@@ -629,7 +629,7 @@ extension CodeDeployClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchGetDeploymentInstances` operation on the `CodeDeploy_20141006` service.
+    /// Performs the `BatchGetDeploymentInstances` operation on the `CodeDeploy` service.
     ///
     /// This method works, but is deprecated. Use BatchGetDeploymentTargets instead. Returns an array of one or more instances associated with a deployment. This method works with EC2/On-premises and Lambda compute platforms. The newer BatchGetDeploymentTargets works with all compute platforms. The maximum number of instances that can be returned is 25.
     @available(*, deprecated, message: "This operation is deprecated, use BatchGetDeploymentTargets instead.")
@@ -706,7 +706,7 @@ extension CodeDeployClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchGetDeploymentTargets` operation on the `CodeDeploy_20141006` service.
+    /// Performs the `BatchGetDeploymentTargets` operation on the `CodeDeploy` service.
     ///
     /// Returns an array of one or more targets associated with a deployment. This method works with all compute types and should be used instead of the deprecated BatchGetDeploymentInstances. The maximum number of targets that can be returned is 25. The type of targets returned depends on the deployment's compute platform or deployment method:
     ///
@@ -792,7 +792,7 @@ extension CodeDeployClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchGetDeployments` operation on the `CodeDeploy_20141006` service.
+    /// Performs the `BatchGetDeployments` operation on the `CodeDeploy` service.
     ///
     /// Gets information about one or more deployments. The maximum number of deployments that can be returned is 25.
     ///
@@ -864,7 +864,7 @@ extension CodeDeployClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchGetOnPremisesInstances` operation on the `CodeDeploy_20141006` service.
+    /// Performs the `BatchGetOnPremisesInstances` operation on the `CodeDeploy` service.
     ///
     /// Gets information about one or more on-premises instances. The maximum number of on-premises instances that can be returned is 25.
     ///
@@ -936,7 +936,7 @@ extension CodeDeployClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ContinueDeployment` operation on the `CodeDeploy_20141006` service.
+    /// Performs the `ContinueDeployment` operation on the `CodeDeploy` service.
     ///
     /// For a blue/green deployment, starts the process of rerouting traffic from instances in the original environment to instances in the replacement environment without waiting for a specified wait time to elapse. (Traffic rerouting, which is achieved by registering instances in the replacement environment with the load balancer, can start as soon as all instances have a status of Ready.)
     ///
@@ -1013,7 +1013,7 @@ extension CodeDeployClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateApplication` operation on the `CodeDeploy_20141006` service.
+    /// Performs the `CreateApplication` operation on the `CodeDeploy` service.
     ///
     /// Creates an application.
     ///
@@ -1088,7 +1088,7 @@ extension CodeDeployClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateDeployment` operation on the `CodeDeploy_20141006` service.
+    /// Performs the `CreateDeployment` operation on the `CodeDeploy` service.
     ///
     /// Deploys an application revision through the specified deployment group.
     ///
@@ -1201,7 +1201,7 @@ extension CodeDeployClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateDeploymentConfig` operation on the `CodeDeploy_20141006` service.
+    /// Performs the `CreateDeploymentConfig` operation on the `CodeDeploy` service.
     ///
     /// Creates a deployment configuration.
     ///
@@ -1278,7 +1278,7 @@ extension CodeDeployClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateDeploymentGroup` operation on the `CodeDeploy_20141006` service.
+    /// Performs the `CreateDeploymentGroup` operation on the `CodeDeploy` service.
     ///
     /// Creates a deployment group to which application revisions are deployed.
     ///
@@ -1390,7 +1390,7 @@ extension CodeDeployClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteApplication` operation on the `CodeDeploy_20141006` service.
+    /// Performs the `DeleteApplication` operation on the `CodeDeploy` service.
     ///
     /// Deletes an application.
     ///
@@ -1462,7 +1462,7 @@ extension CodeDeployClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteDeploymentConfig` operation on the `CodeDeploy_20141006` service.
+    /// Performs the `DeleteDeploymentConfig` operation on the `CodeDeploy` service.
     ///
     /// Deletes a deployment configuration. A deployment configuration cannot be deleted if it is currently in use. Predefined configurations cannot be deleted.
     ///
@@ -1535,7 +1535,7 @@ extension CodeDeployClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteDeploymentGroup` operation on the `CodeDeploy_20141006` service.
+    /// Performs the `DeleteDeploymentGroup` operation on the `CodeDeploy` service.
     ///
     /// Deletes a deployment group.
     ///
@@ -1609,7 +1609,7 @@ extension CodeDeployClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteGitHubAccountToken` operation on the `CodeDeploy_20141006` service.
+    /// Performs the `DeleteGitHubAccountToken` operation on the `CodeDeploy` service.
     ///
     /// Deletes a GitHub account connection.
     ///
@@ -1683,7 +1683,7 @@ extension CodeDeployClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteResourcesByExternalId` operation on the `CodeDeploy_20141006` service.
+    /// Performs the `DeleteResourcesByExternalId` operation on the `CodeDeploy` service.
     ///
     /// Deletes resources linked to an external ID. This action only applies if you have configured blue/green deployments through CloudFormation. It is not necessary to call this action directly. CloudFormation calls it on your behalf when it needs to delete stack resources. This action is offered publicly in case you need to delete resources to comply with General Data Protection Regulation (GDPR) requirements.
     ///
@@ -1748,7 +1748,7 @@ extension CodeDeployClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeregisterOnPremisesInstance` operation on the `CodeDeploy_20141006` service.
+    /// Performs the `DeregisterOnPremisesInstance` operation on the `CodeDeploy` service.
     ///
     /// Deregisters an on-premises instance.
     ///
@@ -1819,7 +1819,7 @@ extension CodeDeployClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetApplication` operation on the `CodeDeploy_20141006` service.
+    /// Performs the `GetApplication` operation on the `CodeDeploy` service.
     ///
     /// Gets information about an application.
     ///
@@ -1891,7 +1891,7 @@ extension CodeDeployClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetApplicationRevision` operation on the `CodeDeploy_20141006` service.
+    /// Performs the `GetApplicationRevision` operation on the `CodeDeploy` service.
     ///
     /// Gets information about an application revision.
     ///
@@ -1966,7 +1966,7 @@ extension CodeDeployClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDeployment` operation on the `CodeDeploy_20141006` service.
+    /// Performs the `GetDeployment` operation on the `CodeDeploy` service.
     ///
     /// Gets information about a deployment. The content property of the appSpecContent object in the returned revision is always null. Use GetApplicationRevision and the sha256 property of the returned appSpecContent object to get the content of the deployment’s AppSpec file.
     ///
@@ -2038,7 +2038,7 @@ extension CodeDeployClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDeploymentConfig` operation on the `CodeDeploy_20141006` service.
+    /// Performs the `GetDeploymentConfig` operation on the `CodeDeploy` service.
     ///
     /// Gets information about a deployment configuration.
     ///
@@ -2111,7 +2111,7 @@ extension CodeDeployClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDeploymentGroup` operation on the `CodeDeploy_20141006` service.
+    /// Performs the `GetDeploymentGroup` operation on the `CodeDeploy` service.
     ///
     /// Gets information about a deployment group.
     ///
@@ -2187,7 +2187,7 @@ extension CodeDeployClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDeploymentInstance` operation on the `CodeDeploy_20141006` service.
+    /// Performs the `GetDeploymentInstance` operation on the `CodeDeploy` service.
     ///
     /// Gets information about an instance as part of a deployment.
     @available(*, deprecated, message: "This operation is deprecated, use GetDeploymentTarget instead.")
@@ -2264,7 +2264,7 @@ extension CodeDeployClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDeploymentTarget` operation on the `CodeDeploy_20141006` service.
+    /// Performs the `GetDeploymentTarget` operation on the `CodeDeploy` service.
     ///
     /// Returns information about a deployment target.
     ///
@@ -2341,7 +2341,7 @@ extension CodeDeployClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetOnPremisesInstance` operation on the `CodeDeploy_20141006` service.
+    /// Performs the `GetOnPremisesInstance` operation on the `CodeDeploy` service.
     ///
     /// Gets information about an on-premises instance.
     ///
@@ -2413,7 +2413,7 @@ extension CodeDeployClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListApplicationRevisions` operation on the `CodeDeploy_20141006` service.
+    /// Performs the `ListApplicationRevisions` operation on the `CodeDeploy` service.
     ///
     /// Lists information about revisions for an application.
     ///
@@ -2492,7 +2492,7 @@ extension CodeDeployClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListApplications` operation on the `CodeDeploy_20141006` service.
+    /// Performs the `ListApplications` operation on the `CodeDeploy` service.
     ///
     /// Lists the applications registered with the user or Amazon Web Services account.
     ///
@@ -2562,7 +2562,7 @@ extension CodeDeployClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDeploymentConfigs` operation on the `CodeDeploy_20141006` service.
+    /// Performs the `ListDeploymentConfigs` operation on the `CodeDeploy` service.
     ///
     /// Lists the deployment configurations with the user or Amazon Web Services account.
     ///
@@ -2632,7 +2632,7 @@ extension CodeDeployClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDeploymentGroups` operation on the `CodeDeploy_20141006` service.
+    /// Performs the `ListDeploymentGroups` operation on the `CodeDeploy` service.
     ///
     /// Lists the deployment groups for an application registered with the Amazon Web Services user or Amazon Web Services account.
     ///
@@ -2705,7 +2705,7 @@ extension CodeDeployClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDeploymentInstances` operation on the `CodeDeploy_20141006` service.
+    /// Performs the `ListDeploymentInstances` operation on the `CodeDeploy` service.
     ///
     /// The newer BatchGetDeploymentTargets should be used instead because it works with all compute types. ListDeploymentInstances throws an exception if it is used with a compute platform other than EC2/On-premises or Lambda. Lists the instance for a deployment associated with the user or Amazon Web Services account.
     @available(*, deprecated, message: "This operation is deprecated, use ListDeploymentTargets instead.")
@@ -2785,7 +2785,7 @@ extension CodeDeployClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDeploymentTargets` operation on the `CodeDeploy_20141006` service.
+    /// Performs the `ListDeploymentTargets` operation on the `CodeDeploy` service.
     ///
     /// Returns an array of target IDs that are associated a deployment.
     ///
@@ -2863,7 +2863,7 @@ extension CodeDeployClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDeployments` operation on the `CodeDeploy_20141006` service.
+    /// Performs the `ListDeployments` operation on the `CodeDeploy` service.
     ///
     /// Lists the deployments in a deployment group for an application registered with the user or Amazon Web Services account.
     ///
@@ -2943,7 +2943,7 @@ extension CodeDeployClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListGitHubAccountTokenNames` operation on the `CodeDeploy_20141006` service.
+    /// Performs the `ListGitHubAccountTokenNames` operation on the `CodeDeploy` service.
     ///
     /// Lists the names of stored connections to GitHub accounts.
     ///
@@ -3015,7 +3015,7 @@ extension CodeDeployClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListOnPremisesInstances` operation on the `CodeDeploy_20141006` service.
+    /// Performs the `ListOnPremisesInstances` operation on the `CodeDeploy` service.
     ///
     /// Gets a list of names for one or more on-premises instances. Unless otherwise specified, both registered and deregistered on-premises instance names are listed. To list only registered or deregistered on-premises instance names, use the registration status parameter.
     ///
@@ -3087,7 +3087,7 @@ extension CodeDeployClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `CodeDeploy_20141006` service.
+    /// Performs the `ListTagsForResource` operation on the `CodeDeploy` service.
     ///
     /// Returns a list of tags for the resource identified by a specified Amazon Resource Name (ARN). Tags are used to organize and categorize your CodeDeploy resources.
     ///
@@ -3159,7 +3159,7 @@ extension CodeDeployClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutLifecycleEventHookExecutionStatus` operation on the `CodeDeploy_20141006` service.
+    /// Performs the `PutLifecycleEventHookExecutionStatus` operation on the `CodeDeploy` service.
     ///
     /// Sets the result of a Lambda validation function. The function validates lifecycle hooks during a deployment that uses the Lambda or Amazon ECS compute platform. For Lambda deployments, the available lifecycle hooks are BeforeAllowTraffic and AfterAllowTraffic. For Amazon ECS deployments, the available lifecycle hooks are BeforeInstall, AfterInstall, AfterAllowTestTraffic, BeforeAllowTraffic, and AfterAllowTraffic. Lambda validation functions return Succeeded or Failed. For more information, see [AppSpec 'hooks' Section for an Lambda Deployment ](https://docs.aws.amazon.com/codedeploy/latest/userguide/reference-appspec-file-structure-hooks.html#appspec-hooks-lambda) and [AppSpec 'hooks' Section for an Amazon ECS Deployment](https://docs.aws.amazon.com/codedeploy/latest/userguide/reference-appspec-file-structure-hooks.html#appspec-hooks-ecs).
     ///
@@ -3235,7 +3235,7 @@ extension CodeDeployClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RegisterApplicationRevision` operation on the `CodeDeploy_20141006` service.
+    /// Performs the `RegisterApplicationRevision` operation on the `CodeDeploy` service.
     ///
     /// Registers with CodeDeploy a revision for the specified application.
     ///
@@ -3310,7 +3310,7 @@ extension CodeDeployClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RegisterOnPremisesInstance` operation on the `CodeDeploy_20141006` service.
+    /// Performs the `RegisterOnPremisesInstance` operation on the `CodeDeploy` service.
     ///
     /// Registers an on-premises instance. Only one IAM ARN (an IAM session ARN or IAM user ARN) is supported in the request. You cannot use both.
     ///
@@ -3389,7 +3389,7 @@ extension CodeDeployClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RemoveTagsFromOnPremisesInstances` operation on the `CodeDeploy_20141006` service.
+    /// Performs the `RemoveTagsFromOnPremisesInstances` operation on the `CodeDeploy` service.
     ///
     /// Removes one or more tags from one or more on-premises instances.
     ///
@@ -3465,7 +3465,7 @@ extension CodeDeployClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SkipWaitTimeForInstanceTermination` operation on the `CodeDeploy_20141006` service.
+    /// Performs the `SkipWaitTimeForInstanceTermination` operation on the `CodeDeploy` service.
     ///
     /// In a blue/green deployment, overrides any specified wait time and starts terminating instances immediately after the traffic routing is complete.
     @available(*, deprecated, message: "This operation is deprecated, use ContinueDeployment with DeploymentWaitType instead.")
@@ -3541,7 +3541,7 @@ extension CodeDeployClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopDeployment` operation on the `CodeDeploy_20141006` service.
+    /// Performs the `StopDeployment` operation on the `CodeDeploy` service.
     ///
     /// Attempts to stop an ongoing deployment.
     ///
@@ -3616,7 +3616,7 @@ extension CodeDeployClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `CodeDeploy_20141006` service.
+    /// Performs the `TagResource` operation on the `CodeDeploy` service.
     ///
     /// Associates the list of tags in the input Tags parameter with the resource identified by the ResourceArn input parameter.
     ///
@@ -3693,7 +3693,7 @@ extension CodeDeployClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `CodeDeploy_20141006` service.
+    /// Performs the `UntagResource` operation on the `CodeDeploy` service.
     ///
     /// Disassociates a resource from a list of tags. The resource is identified by the ResourceArn input parameter. The tags are identified by the list of keys in the TagKeys input parameter.
     ///
@@ -3770,7 +3770,7 @@ extension CodeDeployClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateApplication` operation on the `CodeDeploy_20141006` service.
+    /// Performs the `UpdateApplication` operation on the `CodeDeploy` service.
     ///
     /// Changes the name of an application.
     ///
@@ -3843,7 +3843,7 @@ extension CodeDeployClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateDeploymentGroup` operation on the `CodeDeploy_20141006` service.
+    /// Performs the `UpdateDeploymentGroup` operation on the `CodeDeploy` service.
     ///
     /// Changes information about a deployment group.
     ///

@@ -63,7 +63,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class BackupGatewayClient: ClientRuntime.Client {
     public static let clientName = "BackupGatewayClient"
-    public static let version = "1.0.71"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: BackupGatewayClient.BackupGatewayClientConfiguration
     let serviceName = "Backup Gateway"
@@ -329,7 +329,7 @@ extension BackupGatewayClient {
 }
 
 extension BackupGatewayClient {
-    /// Performs the `AssociateGatewayToServer` operation on the `BackupOnPremises_v20210101` service.
+    /// Performs the `AssociateGatewayToServer` operation on the `BackupGateway` service.
     ///
     /// Associates a backup gateway with your server. After you complete the association process, you can back up and restore your VMs through the gateway.
     ///
@@ -402,7 +402,7 @@ extension BackupGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateGateway` operation on the `BackupOnPremises_v20210101` service.
+    /// Performs the `CreateGateway` operation on the `BackupGateway` service.
     ///
     /// Creates a backup gateway. After you create a gateway, you can associate it with a server using the AssociateGatewayToServer operation.
     ///
@@ -474,7 +474,7 @@ extension BackupGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteGateway` operation on the `BackupOnPremises_v20210101` service.
+    /// Performs the `DeleteGateway` operation on the `BackupGateway` service.
     ///
     /// Deletes a backup gateway.
     ///
@@ -547,7 +547,7 @@ extension BackupGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteHypervisor` operation on the `BackupOnPremises_v20210101` service.
+    /// Performs the `DeleteHypervisor` operation on the `BackupGateway` service.
     ///
     /// Deletes a hypervisor.
     ///
@@ -622,7 +622,7 @@ extension BackupGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateGatewayFromServer` operation on the `BackupOnPremises_v20210101` service.
+    /// Performs the `DisassociateGatewayFromServer` operation on the `BackupGateway` service.
     ///
     /// Disassociates a backup gateway from the specified server. After the disassociation process finishes, the gateway can no longer access the virtual machines on the server.
     ///
@@ -696,7 +696,7 @@ extension BackupGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetBandwidthRateLimitSchedule` operation on the `BackupOnPremises_v20210101` service.
+    /// Performs the `GetBandwidthRateLimitSchedule` operation on the `BackupGateway` service.
     ///
     /// Retrieves the bandwidth rate limit schedule for a specified gateway. By default, gateways do not have bandwidth rate limit schedules, which means no bandwidth rate limiting is in effect. Use this to get a gateway's bandwidth rate limit schedule.
     ///
@@ -769,7 +769,7 @@ extension BackupGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetGateway` operation on the `BackupOnPremises_v20210101` service.
+    /// Performs the `GetGateway` operation on the `BackupGateway` service.
     ///
     /// By providing the ARN (Amazon Resource Name), this API returns the gateway.
     ///
@@ -842,7 +842,7 @@ extension BackupGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetHypervisor` operation on the `BackupOnPremises_v20210101` service.
+    /// Performs the `GetHypervisor` operation on the `BackupGateway` service.
     ///
     /// This action requests information about the specified hypervisor to which the gateway will connect. A hypervisor is hardware, software, or firmware that creates and manages virtual machines, and allocates resources to them.
     ///
@@ -915,7 +915,7 @@ extension BackupGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetHypervisorPropertyMappings` operation on the `BackupOnPremises_v20210101` service.
+    /// Performs the `GetHypervisorPropertyMappings` operation on the `BackupGateway` service.
     ///
     /// This action retrieves the property mappings for the specified hypervisor. A hypervisor property mapping displays the relationship of entity properties available from the on-premises hypervisor to the properties available in Amazon Web Services.
     ///
@@ -988,7 +988,7 @@ extension BackupGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetVirtualMachine` operation on the `BackupOnPremises_v20210101` service.
+    /// Performs the `GetVirtualMachine` operation on the `BackupGateway` service.
     ///
     /// By providing the ARN (Amazon Resource Name), this API returns the virtual machine.
     ///
@@ -1061,7 +1061,7 @@ extension BackupGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ImportHypervisorConfiguration` operation on the `BackupOnPremises_v20210101` service.
+    /// Performs the `ImportHypervisorConfiguration` operation on the `BackupGateway` service.
     ///
     /// Connect to a hypervisor by importing its configuration.
     ///
@@ -1135,7 +1135,7 @@ extension BackupGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListGateways` operation on the `BackupOnPremises_v20210101` service.
+    /// Performs the `ListGateways` operation on the `BackupGateway` service.
     ///
     /// Lists backup gateways owned by an Amazon Web Services account in an Amazon Web Services Region. The returned list is ordered by gateway Amazon Resource Name (ARN).
     ///
@@ -1207,7 +1207,7 @@ extension BackupGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListHypervisors` operation on the `BackupOnPremises_v20210101` service.
+    /// Performs the `ListHypervisors` operation on the `BackupGateway` service.
     ///
     /// Lists your hypervisors.
     ///
@@ -1279,7 +1279,7 @@ extension BackupGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `BackupOnPremises_v20210101` service.
+    /// Performs the `ListTagsForResource` operation on the `BackupGateway` service.
     ///
     /// Lists the tags applied to the resource identified by its Amazon Resource Name (ARN).
     ///
@@ -1352,7 +1352,7 @@ extension BackupGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListVirtualMachines` operation on the `BackupOnPremises_v20210101` service.
+    /// Performs the `ListVirtualMachines` operation on the `BackupGateway` service.
     ///
     /// Lists your virtual machines.
     ///
@@ -1424,7 +1424,7 @@ extension BackupGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutBandwidthRateLimitSchedule` operation on the `BackupOnPremises_v20210101` service.
+    /// Performs the `PutBandwidthRateLimitSchedule` operation on the `BackupGateway` service.
     ///
     /// This action sets the bandwidth rate limit schedule for a specified gateway. By default, gateways do not have a bandwidth rate limit schedule, which means no bandwidth rate limiting is in effect. Use this to initiate a gateway's bandwidth rate limit schedule.
     ///
@@ -1497,7 +1497,7 @@ extension BackupGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutHypervisorPropertyMappings` operation on the `BackupOnPremises_v20210101` service.
+    /// Performs the `PutHypervisorPropertyMappings` operation on the `BackupGateway` service.
     ///
     /// This action sets the property mappings for the specified hypervisor. A hypervisor property mapping displays the relationship of entity properties available from the on-premises hypervisor to the properties available in Amazon Web Services.
     ///
@@ -1572,7 +1572,7 @@ extension BackupGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutMaintenanceStartTime` operation on the `BackupOnPremises_v20210101` service.
+    /// Performs the `PutMaintenanceStartTime` operation on the `BackupGateway` service.
     ///
     /// Set the maintenance start time for a gateway.
     ///
@@ -1646,7 +1646,7 @@ extension BackupGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartVirtualMachinesMetadataSync` operation on the `BackupOnPremises_v20210101` service.
+    /// Performs the `StartVirtualMachinesMetadataSync` operation on the `BackupGateway` service.
     ///
     /// This action sends a request to sync metadata across the specified virtual machines.
     ///
@@ -1720,7 +1720,7 @@ extension BackupGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `BackupOnPremises_v20210101` service.
+    /// Performs the `TagResource` operation on the `BackupGateway` service.
     ///
     /// Tag the resource.
     ///
@@ -1793,7 +1793,7 @@ extension BackupGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TestHypervisorConfiguration` operation on the `BackupOnPremises_v20210101` service.
+    /// Performs the `TestHypervisorConfiguration` operation on the `BackupGateway` service.
     ///
     /// Tests your hypervisor configuration to validate that backup gateway can connect with the hypervisor and its resources.
     ///
@@ -1867,7 +1867,7 @@ extension BackupGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `BackupOnPremises_v20210101` service.
+    /// Performs the `UntagResource` operation on the `BackupGateway` service.
     ///
     /// Removes tags from the resource.
     ///
@@ -1940,7 +1940,7 @@ extension BackupGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateGatewayInformation` operation on the `BackupOnPremises_v20210101` service.
+    /// Performs the `UpdateGatewayInformation` operation on the `BackupGateway` service.
     ///
     /// Updates a gateway's name. Specify which gateway to update using the Amazon Resource Name (ARN) of the gateway in your request.
     ///
@@ -2014,7 +2014,7 @@ extension BackupGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateGatewaySoftwareNow` operation on the `BackupOnPremises_v20210101` service.
+    /// Performs the `UpdateGatewaySoftwareNow` operation on the `BackupGateway` service.
     ///
     /// Updates the gateway virtual machine (VM) software. The request immediately triggers the software update. When you make this request, you get a 200 OK success response immediately. However, it might take some time for the update to complete.
     ///
@@ -2087,7 +2087,7 @@ extension BackupGatewayClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateHypervisor` operation on the `BackupOnPremises_v20210101` service.
+    /// Performs the `UpdateHypervisor` operation on the `BackupGateway` service.
     ///
     /// Updates a hypervisor metadata, including its host, username, and password. Specify which hypervisor to update using the Amazon Resource Name (ARN) of the hypervisor in your request.
     ///

@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ChimeSDKMediaPipelinesClient: ClientRuntime.Client {
     public static let clientName = "ChimeSDKMediaPipelinesClient"
-    public static let version = "1.0.71"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: ChimeSDKMediaPipelinesClient.ChimeSDKMediaPipelinesClientConfiguration
     let serviceName = "Chime SDK Media Pipelines"
@@ -330,7 +330,7 @@ extension ChimeSDKMediaPipelinesClient {
 }
 
 extension ChimeSDKMediaPipelinesClient {
-    /// Performs the `CreateMediaCapturePipeline` operation on the `ChimeSDKMediaPipelinesService` service.
+    /// Performs the `CreateMediaCapturePipeline` operation on the `ChimeSDKMediaPipelines` service.
     ///
     /// Creates a media pipeline.
     ///
@@ -406,7 +406,7 @@ extension ChimeSDKMediaPipelinesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateMediaConcatenationPipeline` operation on the `ChimeSDKMediaPipelinesService` service.
+    /// Performs the `CreateMediaConcatenationPipeline` operation on the `ChimeSDKMediaPipelines` service.
     ///
     /// Creates a media concatenation pipeline.
     ///
@@ -482,7 +482,7 @@ extension ChimeSDKMediaPipelinesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateMediaInsightsPipeline` operation on the `ChimeSDKMediaPipelinesService` service.
+    /// Performs the `CreateMediaInsightsPipeline` operation on the `ChimeSDKMediaPipelines` service.
     ///
     /// Creates a media insights pipeline.
     ///
@@ -559,7 +559,7 @@ extension ChimeSDKMediaPipelinesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateMediaInsightsPipelineConfiguration` operation on the `ChimeSDKMediaPipelinesService` service.
+    /// Performs the `CreateMediaInsightsPipelineConfiguration` operation on the `ChimeSDKMediaPipelines` service.
     ///
     /// A structure that contains the static configurations for a media insights pipeline.
     ///
@@ -636,7 +636,7 @@ extension ChimeSDKMediaPipelinesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateMediaLiveConnectorPipeline` operation on the `ChimeSDKMediaPipelinesService` service.
+    /// Performs the `CreateMediaLiveConnectorPipeline` operation on the `ChimeSDKMediaPipelines` service.
     ///
     /// Creates a media live connector pipeline in an Amazon Chime SDK meeting.
     ///
@@ -712,7 +712,7 @@ extension ChimeSDKMediaPipelinesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateMediaPipelineKinesisVideoStreamPool` operation on the `ChimeSDKMediaPipelinesService` service.
+    /// Performs the `CreateMediaPipelineKinesisVideoStreamPool` operation on the `ChimeSDKMediaPipelines` service.
     ///
     /// Creates an Amazon Kinesis Video Stream pool for use with media stream pipelines. If a meeting uses an opt-in Region as its [MediaRegion](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_CreateMeeting.html#chimesdk-meeting-chime_CreateMeeting-request-MediaRegion), the KVS stream must be in that same Region. For example, if a meeting uses the af-south-1 Region, the KVS stream must also be in af-south-1. However, if the meeting uses a Region that AWS turns on by default, the KVS stream can be in any available Region, including an opt-in Region. For example, if the meeting uses ca-central-1, the KVS stream can be in eu-west-2, us-east-1, af-south-1, or any other Region that the Amazon Chime SDK supports. To learn which AWS Region a meeting uses, call the [GetMeeting](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_GetMeeting.html) API and use the [MediaRegion](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_CreateMeeting.html#chimesdk-meeting-chime_CreateMeeting-request-MediaRegion) parameter from the response. For more information about opt-in Regions, refer to [Available Regions](https://docs.aws.amazon.com/chime-sdk/latest/dg/sdk-available-regions.html) in the Amazon Chime SDK Developer Guide, and [Specify which AWS Regions your account can use](https://docs.aws.amazon.com/accounts/latest/reference/manage-acct-regions.html#rande-manage-enable.html), in the AWS Account Management Reference Guide.
     ///
@@ -789,7 +789,7 @@ extension ChimeSDKMediaPipelinesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateMediaStreamPipeline` operation on the `ChimeSDKMediaPipelinesService` service.
+    /// Performs the `CreateMediaStreamPipeline` operation on the `ChimeSDKMediaPipelines` service.
     ///
     /// Creates a streaming media pipeline.
     ///
@@ -866,7 +866,7 @@ extension ChimeSDKMediaPipelinesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteMediaCapturePipeline` operation on the `ChimeSDKMediaPipelinesService` service.
+    /// Performs the `DeleteMediaCapturePipeline` operation on the `ChimeSDKMediaPipelines` service.
     ///
     /// Deletes the media pipeline.
     ///
@@ -938,7 +938,7 @@ extension ChimeSDKMediaPipelinesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteMediaInsightsPipelineConfiguration` operation on the `ChimeSDKMediaPipelinesService` service.
+    /// Performs the `DeleteMediaInsightsPipelineConfiguration` operation on the `ChimeSDKMediaPipelines` service.
     ///
     /// Deletes the specified configuration settings.
     ///
@@ -1011,7 +1011,7 @@ extension ChimeSDKMediaPipelinesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteMediaPipeline` operation on the `ChimeSDKMediaPipelinesService` service.
+    /// Performs the `DeleteMediaPipeline` operation on the `ChimeSDKMediaPipelines` service.
     ///
     /// Deletes the media pipeline.
     ///
@@ -1084,7 +1084,7 @@ extension ChimeSDKMediaPipelinesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteMediaPipelineKinesisVideoStreamPool` operation on the `ChimeSDKMediaPipelinesService` service.
+    /// Performs the `DeleteMediaPipelineKinesisVideoStreamPool` operation on the `ChimeSDKMediaPipelines` service.
     ///
     /// Deletes an Amazon Kinesis Video Stream pool.
     ///
@@ -1157,7 +1157,7 @@ extension ChimeSDKMediaPipelinesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetMediaCapturePipeline` operation on the `ChimeSDKMediaPipelinesService` service.
+    /// Performs the `GetMediaCapturePipeline` operation on the `ChimeSDKMediaPipelines` service.
     ///
     /// Gets an existing media pipeline.
     ///
@@ -1229,7 +1229,7 @@ extension ChimeSDKMediaPipelinesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetMediaInsightsPipelineConfiguration` operation on the `ChimeSDKMediaPipelinesService` service.
+    /// Performs the `GetMediaInsightsPipelineConfiguration` operation on the `ChimeSDKMediaPipelines` service.
     ///
     /// Gets the configuration settings for a media insights pipeline.
     ///
@@ -1301,7 +1301,7 @@ extension ChimeSDKMediaPipelinesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetMediaPipeline` operation on the `ChimeSDKMediaPipelinesService` service.
+    /// Performs the `GetMediaPipeline` operation on the `ChimeSDKMediaPipelines` service.
     ///
     /// Gets an existing media pipeline.
     ///
@@ -1373,7 +1373,7 @@ extension ChimeSDKMediaPipelinesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetMediaPipelineKinesisVideoStreamPool` operation on the `ChimeSDKMediaPipelinesService` service.
+    /// Performs the `GetMediaPipelineKinesisVideoStreamPool` operation on the `ChimeSDKMediaPipelines` service.
     ///
     /// Gets an Kinesis video stream pool.
     ///
@@ -1445,7 +1445,7 @@ extension ChimeSDKMediaPipelinesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetSpeakerSearchTask` operation on the `ChimeSDKMediaPipelinesService` service.
+    /// Performs the `GetSpeakerSearchTask` operation on the `ChimeSDKMediaPipelines` service.
     ///
     /// Retrieves the details of the specified speaker search task.
     ///
@@ -1517,7 +1517,7 @@ extension ChimeSDKMediaPipelinesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetVoiceToneAnalysisTask` operation on the `ChimeSDKMediaPipelinesService` service.
+    /// Performs the `GetVoiceToneAnalysisTask` operation on the `ChimeSDKMediaPipelines` service.
     ///
     /// Retrieves the details of a voice tone analysis task.
     ///
@@ -1589,7 +1589,7 @@ extension ChimeSDKMediaPipelinesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListMediaCapturePipelines` operation on the `ChimeSDKMediaPipelinesService` service.
+    /// Performs the `ListMediaCapturePipelines` operation on the `ChimeSDKMediaPipelines` service.
     ///
     /// Returns a list of media pipelines.
     ///
@@ -1662,7 +1662,7 @@ extension ChimeSDKMediaPipelinesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListMediaInsightsPipelineConfigurations` operation on the `ChimeSDKMediaPipelinesService` service.
+    /// Performs the `ListMediaInsightsPipelineConfigurations` operation on the `ChimeSDKMediaPipelines` service.
     ///
     /// Lists the available media insights pipeline configurations.
     ///
@@ -1735,7 +1735,7 @@ extension ChimeSDKMediaPipelinesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListMediaPipelineKinesisVideoStreamPools` operation on the `ChimeSDKMediaPipelinesService` service.
+    /// Performs the `ListMediaPipelineKinesisVideoStreamPools` operation on the `ChimeSDKMediaPipelines` service.
     ///
     /// Lists the video stream pools in the media pipeline.
     ///
@@ -1808,7 +1808,7 @@ extension ChimeSDKMediaPipelinesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListMediaPipelines` operation on the `ChimeSDKMediaPipelinesService` service.
+    /// Performs the `ListMediaPipelines` operation on the `ChimeSDKMediaPipelines` service.
     ///
     /// Returns a list of media pipelines.
     ///
@@ -1881,7 +1881,7 @@ extension ChimeSDKMediaPipelinesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `ChimeSDKMediaPipelinesService` service.
+    /// Performs the `ListTagsForResource` operation on the `ChimeSDKMediaPipelines` service.
     ///
     /// Lists the tags available for a media pipeline.
     ///
@@ -1954,7 +1954,7 @@ extension ChimeSDKMediaPipelinesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartSpeakerSearchTask` operation on the `ChimeSDKMediaPipelinesService` service.
+    /// Performs the `StartSpeakerSearchTask` operation on the `ChimeSDKMediaPipelines` service.
     ///
     /// Starts a speaker search task. Before starting any speaker search tasks, you must provide all notices and obtain all consents from the speaker as required under applicable privacy and biometrics laws, and as required under the [AWS service terms](https://aws.amazon.com/service-terms/) for the Amazon Chime SDK.
     ///
@@ -2032,7 +2032,7 @@ extension ChimeSDKMediaPipelinesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartVoiceToneAnalysisTask` operation on the `ChimeSDKMediaPipelinesService` service.
+    /// Performs the `StartVoiceToneAnalysisTask` operation on the `ChimeSDKMediaPipelines` service.
     ///
     /// Starts a voice tone analysis task. For more information about voice tone analysis, see [Using Amazon Chime SDK voice analytics](https://docs.aws.amazon.com/chime-sdk/latest/dg/voice-analytics.html) in the Amazon Chime SDK Developer Guide. Before starting any voice tone analysis tasks, you must provide all notices and obtain all consents from the speaker as required under applicable privacy and biometrics laws, and as required under the [AWS service terms](https://aws.amazon.com/service-terms/) for the Amazon Chime SDK.
     ///
@@ -2110,7 +2110,7 @@ extension ChimeSDKMediaPipelinesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopSpeakerSearchTask` operation on the `ChimeSDKMediaPipelinesService` service.
+    /// Performs the `StopSpeakerSearchTask` operation on the `ChimeSDKMediaPipelines` service.
     ///
     /// Stops a speaker search task.
     ///
@@ -2184,7 +2184,7 @@ extension ChimeSDKMediaPipelinesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopVoiceToneAnalysisTask` operation on the `ChimeSDKMediaPipelinesService` service.
+    /// Performs the `StopVoiceToneAnalysisTask` operation on the `ChimeSDKMediaPipelines` service.
     ///
     /// Stops a voice tone analysis task.
     ///
@@ -2258,7 +2258,7 @@ extension ChimeSDKMediaPipelinesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `ChimeSDKMediaPipelinesService` service.
+    /// Performs the `TagResource` operation on the `ChimeSDKMediaPipelines` service.
     ///
     /// The ARN of the media pipeline that you want to tag. Consists of the pipeline's endpoint region, resource ID, and pipeline ID.
     ///
@@ -2334,7 +2334,7 @@ extension ChimeSDKMediaPipelinesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `ChimeSDKMediaPipelinesService` service.
+    /// Performs the `UntagResource` operation on the `ChimeSDKMediaPipelines` service.
     ///
     /// Removes any tags from a media pipeline.
     ///
@@ -2410,7 +2410,7 @@ extension ChimeSDKMediaPipelinesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateMediaInsightsPipelineConfiguration` operation on the `ChimeSDKMediaPipelinesService` service.
+    /// Performs the `UpdateMediaInsightsPipelineConfiguration` operation on the `ChimeSDKMediaPipelines` service.
     ///
     /// Updates the media insights pipeline's configuration settings.
     ///
@@ -2486,7 +2486,7 @@ extension ChimeSDKMediaPipelinesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateMediaInsightsPipelineStatus` operation on the `ChimeSDKMediaPipelinesService` service.
+    /// Performs the `UpdateMediaInsightsPipelineStatus` operation on the `ChimeSDKMediaPipelines` service.
     ///
     /// Updates the status of a media insights pipeline.
     ///
@@ -2562,7 +2562,7 @@ extension ChimeSDKMediaPipelinesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateMediaPipelineKinesisVideoStreamPool` operation on the `ChimeSDKMediaPipelinesService` service.
+    /// Performs the `UpdateMediaPipelineKinesisVideoStreamPool` operation on the `ChimeSDKMediaPipelines` service.
     ///
     /// Updates an Amazon Kinesis Video Stream pool in a media pipeline.
     ///

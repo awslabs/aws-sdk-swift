@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class BedrockDataAutomationRuntimeClient: ClientRuntime.Client {
     public static let clientName = "BedrockDataAutomationRuntimeClient"
-    public static let version = "1.0.71"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: BedrockDataAutomationRuntimeClient.BedrockDataAutomationRuntimeClientConfiguration
     let serviceName = "Bedrock Data Automation Runtime"
@@ -330,7 +330,7 @@ extension BedrockDataAutomationRuntimeClient {
 }
 
 extension BedrockDataAutomationRuntimeClient {
-    /// Performs the `GetDataAutomationStatus` operation on the `AmazonBedrockKeystoneRuntimeService` service.
+    /// Performs the `GetDataAutomationStatus` operation on the `BedrockDataAutomationRuntime` service.
     ///
     /// API used to get data automation status.
     ///
@@ -404,7 +404,7 @@ extension BedrockDataAutomationRuntimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `InvokeDataAutomationAsync` operation on the `AmazonBedrockKeystoneRuntimeService` service.
+    /// Performs the `InvokeDataAutomationAsync` operation on the `BedrockDataAutomationRuntime` service.
     ///
     /// Async API: Invoke data automation.
     ///

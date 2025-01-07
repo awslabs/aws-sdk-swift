@@ -62,7 +62,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SESClient: ClientRuntime.Client {
     public static let clientName = "SESClient"
-    public static let version = "1.0.71"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: SESClient.SESClientConfiguration
     let serviceName = "SES"
@@ -328,7 +328,7 @@ extension SESClient {
 }
 
 extension SESClient {
-    /// Performs the `CloneReceiptRuleSet` operation on the `SimpleEmailService` service.
+    /// Performs the `CloneReceiptRuleSet` operation on the `SES` service.
     ///
     /// Creates a receipt rule set by cloning an existing one. All receipt rules and configurations are copied to the new receipt rule set and are completely independent of the source rule set. For information about setting up rule sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html#receiving-email-concepts-rules). You can execute this operation no more than once per second.
     ///
@@ -399,7 +399,7 @@ extension SESClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateConfigurationSet` operation on the `SimpleEmailService` service.
+    /// Performs the `CreateConfigurationSet` operation on the `SES` service.
     ///
     /// Creates a configuration set. Configuration sets enable you to publish email sending events. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html). You can execute this operation no more than once per second.
     ///
@@ -470,7 +470,7 @@ extension SESClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateConfigurationSetEventDestination` operation on the `SimpleEmailService` service.
+    /// Performs the `CreateConfigurationSetEventDestination` operation on the `SES` service.
     ///
     /// Creates a configuration set event destination. When you create or update an event destination, you must provide one, and only one, destination. The destination can be CloudWatch, Amazon Kinesis Firehose, or Amazon Simple Notification Service (Amazon SNS). An event destination is the Amazon Web Services service to which Amazon SES publishes the email sending events associated with a configuration set. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html). You can execute this operation no more than once per second.
     ///
@@ -544,7 +544,7 @@ extension SESClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateConfigurationSetTrackingOptions` operation on the `SimpleEmailService` service.
+    /// Performs the `CreateConfigurationSetTrackingOptions` operation on the `SES` service.
     ///
     /// Creates an association between a configuration set and a custom domain for open and click event tracking. By default, images and links used for tracking open and click events are hosted on domains operated by Amazon SES. You can configure a subdomain of your own to handle these events. For information about using custom domains, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/configure-custom-open-click-domains.html).
     ///
@@ -619,7 +619,7 @@ extension SESClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateCustomVerificationEmailTemplate` operation on the `SimpleEmailService` service.
+    /// Performs the `CreateCustomVerificationEmailTemplate` operation on the `SES` service.
     ///
     /// Creates a new custom verification email template. For more information about custom verification email templates, see [Using Custom Verification Email Templates](https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#send-email-verify-address-custom) in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
     ///
@@ -691,7 +691,7 @@ extension SESClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateReceiptFilter` operation on the `SimpleEmailService` service.
+    /// Performs the `CreateReceiptFilter` operation on the `SES` service.
     ///
     /// Creates a new IP address filter. For information about setting up IP address filters, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-ip-filtering-console-walkthrough.html). You can execute this operation no more than once per second.
     ///
@@ -761,7 +761,7 @@ extension SESClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateReceiptRule` operation on the `SimpleEmailService` service.
+    /// Performs the `CreateReceiptRule` operation on the `SES` service.
     ///
     /// Creates a receipt rule. For information about setting up receipt rules, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-receipt-rules-console-walkthrough.html). You can execute this operation no more than once per second.
     ///
@@ -836,7 +836,7 @@ extension SESClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateReceiptRuleSet` operation on the `SimpleEmailService` service.
+    /// Performs the `CreateReceiptRuleSet` operation on the `SES` service.
     ///
     /// Creates an empty receipt rule set. For information about setting up receipt rule sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html#receiving-email-concepts-rules). You can execute this operation no more than once per second.
     ///
@@ -906,7 +906,7 @@ extension SESClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateTemplate` operation on the `SimpleEmailService` service.
+    /// Performs the `CreateTemplate` operation on the `SES` service.
     ///
     /// Creates an email template. Email templates enable you to send personalized email to one or more destinations in a single operation. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/send-personalized-email-api.html). You can execute this operation no more than once per second.
     ///
@@ -977,7 +977,7 @@ extension SESClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteConfigurationSet` operation on the `SimpleEmailService` service.
+    /// Performs the `DeleteConfigurationSet` operation on the `SES` service.
     ///
     /// Deletes a configuration set. Configuration sets enable you to publish email sending events. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html). You can execute this operation no more than once per second.
     ///
@@ -1046,7 +1046,7 @@ extension SESClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteConfigurationSetEventDestination` operation on the `SimpleEmailService` service.
+    /// Performs the `DeleteConfigurationSetEventDestination` operation on the `SES` service.
     ///
     /// Deletes a configuration set event destination. Configuration set event destinations are associated with configuration sets, which enable you to publish email sending events. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html). You can execute this operation no more than once per second.
     ///
@@ -1116,7 +1116,7 @@ extension SESClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteConfigurationSetTrackingOptions` operation on the `SimpleEmailService` service.
+    /// Performs the `DeleteConfigurationSetTrackingOptions` operation on the `SES` service.
     ///
     /// Deletes an association between a configuration set and a custom domain for open and click event tracking. By default, images and links used for tracking open and click events are hosted on domains operated by Amazon SES. You can configure a subdomain of your own to handle these events. For information about using custom domains, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/configure-custom-open-click-domains.html). Deleting this kind of association results in emails sent using the specified configuration set to capture open and click events using the standard, Amazon SES-operated domains.
     ///
@@ -1186,7 +1186,7 @@ extension SESClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteCustomVerificationEmailTemplate` operation on the `SimpleEmailService` service.
+    /// Performs the `DeleteCustomVerificationEmailTemplate` operation on the `SES` service.
     ///
     /// Deletes an existing custom verification email template. For more information about custom verification email templates, see [Using Custom Verification Email Templates](https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#send-email-verify-address-custom) in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
     ///
@@ -1250,7 +1250,7 @@ extension SESClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteIdentity` operation on the `SimpleEmailService` service.
+    /// Performs the `DeleteIdentity` operation on the `SES` service.
     ///
     /// Deletes the specified identity (an email address or a domain) from the list of verified identities. You can execute this operation no more than once per second.
     ///
@@ -1314,7 +1314,7 @@ extension SESClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteIdentityPolicy` operation on the `SimpleEmailService` service.
+    /// Performs the `DeleteIdentityPolicy` operation on the `SES` service.
     ///
     /// Deletes the specified sending authorization policy for the given identity (an email address or a domain). This operation returns successfully even if a policy with the specified name does not exist. This operation is for the identity owner only. If you have not verified the identity, it returns an error. Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/sending-authorization.html). You can execute this operation no more than once per second.
     ///
@@ -1378,7 +1378,7 @@ extension SESClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteReceiptFilter` operation on the `SimpleEmailService` service.
+    /// Performs the `DeleteReceiptFilter` operation on the `SES` service.
     ///
     /// Deletes the specified IP address filter. For information about managing IP address filters, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-ip-filtering-console-walkthrough.html). You can execute this operation no more than once per second.
     ///
@@ -1442,7 +1442,7 @@ extension SESClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteReceiptRule` operation on the `SimpleEmailService` service.
+    /// Performs the `DeleteReceiptRule` operation on the `SES` service.
     ///
     /// Deletes the specified receipt rule. For information about managing receipt rules, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-receipt-rules-console-walkthrough.html). You can execute this operation no more than once per second.
     ///
@@ -1511,7 +1511,7 @@ extension SESClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteReceiptRuleSet` operation on the `SimpleEmailService` service.
+    /// Performs the `DeleteReceiptRuleSet` operation on the `SES` service.
     ///
     /// Deletes the specified receipt rule set and all of the receipt rules it contains. The currently active rule set cannot be deleted. For information about managing receipt rule sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-receipt-rules-console-walkthrough.html). You can execute this operation no more than once per second.
     ///
@@ -1580,7 +1580,7 @@ extension SESClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteTemplate` operation on the `SimpleEmailService` service.
+    /// Performs the `DeleteTemplate` operation on the `SES` service.
     ///
     /// Deletes an email template. You can execute this operation no more than once per second.
     ///
@@ -1644,7 +1644,7 @@ extension SESClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteVerifiedEmailAddress` operation on the `SimpleEmailService` service.
+    /// Performs the `DeleteVerifiedEmailAddress` operation on the `SES` service.
     ///
     /// Deprecated. Use the DeleteIdentity operation to delete email addresses and domains.
     ///
@@ -1708,7 +1708,7 @@ extension SESClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeActiveReceiptRuleSet` operation on the `SimpleEmailService` service.
+    /// Performs the `DescribeActiveReceiptRuleSet` operation on the `SES` service.
     ///
     /// Returns the metadata and receipt rules for the receipt rule set that is currently active. For information about setting up receipt rule sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html#receiving-email-concepts-rules). You can execute this operation no more than once per second.
     ///
@@ -1772,7 +1772,7 @@ extension SESClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeConfigurationSet` operation on the `SimpleEmailService` service.
+    /// Performs the `DescribeConfigurationSet` operation on the `SES` service.
     ///
     /// Returns the details of the specified configuration set. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html). You can execute this operation no more than once per second.
     ///
@@ -1841,7 +1841,7 @@ extension SESClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeReceiptRule` operation on the `SimpleEmailService` service.
+    /// Performs the `DescribeReceiptRule` operation on the `SES` service.
     ///
     /// Returns the details of the specified receipt rule. For information about setting up receipt rules, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-receipt-rules-console-walkthrough.html). You can execute this operation no more than once per second.
     ///
@@ -1911,7 +1911,7 @@ extension SESClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeReceiptRuleSet` operation on the `SimpleEmailService` service.
+    /// Performs the `DescribeReceiptRuleSet` operation on the `SES` service.
     ///
     /// Returns the details of the specified receipt rule set. For information about managing receipt rule sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-receipt-rules-console-walkthrough.html). You can execute this operation no more than once per second.
     ///
@@ -1980,7 +1980,7 @@ extension SESClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAccountSendingEnabled` operation on the `SimpleEmailService` service.
+    /// Performs the `GetAccountSendingEnabled` operation on the `SES` service.
     ///
     /// Returns the email sending status of the Amazon SES account for the current Region. You can execute this operation no more than once per second.
     ///
@@ -2044,7 +2044,7 @@ extension SESClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetCustomVerificationEmailTemplate` operation on the `SimpleEmailService` service.
+    /// Performs the `GetCustomVerificationEmailTemplate` operation on the `SES` service.
     ///
     /// Returns the custom email verification template for the template name you specify. For more information about custom verification email templates, see [Using Custom Verification Email Templates](https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#send-email-verify-address-custom) in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
     ///
@@ -2113,7 +2113,7 @@ extension SESClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetIdentityDkimAttributes` operation on the `SimpleEmailService` service.
+    /// Performs the `GetIdentityDkimAttributes` operation on the `SES` service.
     ///
     /// Returns the current status of Easy DKIM signing for an entity. For domain name identities, this operation also returns the DKIM tokens that are required for Easy DKIM signing, and whether Amazon SES has successfully verified that these tokens have been published. This operation takes a list of identities as input and returns the following information for each:
     ///
@@ -2186,7 +2186,7 @@ extension SESClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetIdentityMailFromDomainAttributes` operation on the `SimpleEmailService` service.
+    /// Performs the `GetIdentityMailFromDomainAttributes` operation on the `SES` service.
     ///
     /// Returns the custom MAIL FROM attributes for a list of identities (email addresses : domains). This operation is throttled at one request per second and can only get custom MAIL FROM attributes for up to 100 identities at a time.
     ///
@@ -2250,7 +2250,7 @@ extension SESClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetIdentityNotificationAttributes` operation on the `SimpleEmailService` service.
+    /// Performs the `GetIdentityNotificationAttributes` operation on the `SES` service.
     ///
     /// Given a list of verified identities (email addresses and/or domains), returns a structure describing identity notification attributes. This operation is throttled at one request per second and can only get notification attributes for up to 100 identities at a time. For more information about using notifications with Amazon SES, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity-using-notifications.html).
     ///
@@ -2314,7 +2314,7 @@ extension SESClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetIdentityPolicies` operation on the `SimpleEmailService` service.
+    /// Performs the `GetIdentityPolicies` operation on the `SES` service.
     ///
     /// Returns the requested sending authorization policies for the given identity (an email address or a domain). The policies are returned as a map of policy names to policy contents. You can retrieve a maximum of 20 policies at a time. This operation is for the identity owner only. If you have not verified the identity, it returns an error. Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/sending-authorization.html). You can execute this operation no more than once per second.
     ///
@@ -2378,7 +2378,7 @@ extension SESClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetIdentityVerificationAttributes` operation on the `SimpleEmailService` service.
+    /// Performs the `GetIdentityVerificationAttributes` operation on the `SES` service.
     ///
     /// Given a list of identities (email addresses and/or domains), returns the verification status and (for domain identities) the verification token for each identity. The verification status of an email address is "Pending" until the email address owner clicks the link within the verification email that Amazon SES sent to that address. If the email address owner clicks the link within 24 hours, the verification status of the email address changes to "Success". If the link is not clicked within 24 hours, the verification status changes to "Failed." In that case, to verify the email address, you must restart the verification process from the beginning. For domain identities, the domain's verification status is "Pending" as Amazon SES searches for the required TXT record in the DNS settings of the domain. When Amazon SES detects the record, the domain's verification status changes to "Success". If Amazon SES is unable to detect the record within 72 hours, the domain's verification status changes to "Failed." In that case, to verify the domain, you must restart the verification process from the beginning. This operation is throttled at one request per second and can only get verification attributes for up to 100 identities at a time.
     ///
@@ -2442,7 +2442,7 @@ extension SESClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetSendQuota` operation on the `SimpleEmailService` service.
+    /// Performs the `GetSendQuota` operation on the `SES` service.
     ///
     /// Provides the sending limits for the Amazon SES account. You can execute this operation no more than once per second.
     ///
@@ -2506,7 +2506,7 @@ extension SESClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetSendStatistics` operation on the `SimpleEmailService` service.
+    /// Performs the `GetSendStatistics` operation on the `SES` service.
     ///
     /// Provides sending statistics for the current Amazon Web Services Region. The result is a list of data points, representing the last two weeks of sending activity. Each data point in the list contains statistics for a 15-minute period of time. You can execute this operation no more than once per second.
     ///
@@ -2570,7 +2570,7 @@ extension SESClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetTemplate` operation on the `SimpleEmailService` service.
+    /// Performs the `GetTemplate` operation on the `SES` service.
     ///
     /// Displays the template object (which includes the Subject line, HTML part and text part) for the template you specify. You can execute this operation no more than once per second.
     ///
@@ -2639,7 +2639,7 @@ extension SESClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListConfigurationSets` operation on the `SimpleEmailService` service.
+    /// Performs the `ListConfigurationSets` operation on the `SES` service.
     ///
     /// Provides a list of the configuration sets associated with your Amazon SES account in the current Amazon Web Services Region. For information about using configuration sets, see [Monitoring Your Amazon SES Sending Activity](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html) in the Amazon SES Developer Guide. You can execute this operation no more than once per second. This operation returns up to 1,000 configuration sets each time it is run. If your Amazon SES account has more than 1,000 configuration sets, this operation also returns NextToken. You can then execute the ListConfigurationSets operation again, passing the NextToken parameter and the value of the NextToken element to retrieve additional results.
     ///
@@ -2703,7 +2703,7 @@ extension SESClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListCustomVerificationEmailTemplates` operation on the `SimpleEmailService` service.
+    /// Performs the `ListCustomVerificationEmailTemplates` operation on the `SES` service.
     ///
     /// Lists the existing custom verification email templates for your account in the current Amazon Web Services Region. For more information about custom verification email templates, see [Using Custom Verification Email Templates](https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#send-email-verify-address-custom) in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
     ///
@@ -2767,7 +2767,7 @@ extension SESClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListIdentities` operation on the `SimpleEmailService` service.
+    /// Performs the `ListIdentities` operation on the `SES` service.
     ///
     /// Returns a list containing all of the identities (email addresses and domains) for your Amazon Web Services account in the current Amazon Web Services Region, regardless of verification status. You can execute this operation no more than once per second. It's recommended that for successive pagination calls of this API, you continue to the use the same parameter/value pairs as used in the original call, e.g., if you used IdentityType=Domain in the the original call and received a NextToken in the response, you should continue providing the IdentityType=Domain parameter for further NextToken calls; however, if you didn't provide the IdentityType parameter in the original call, then continue to not provide it for successive pagination calls. Using this protocol will ensure consistent results.
     ///
@@ -2831,7 +2831,7 @@ extension SESClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListIdentityPolicies` operation on the `SimpleEmailService` service.
+    /// Performs the `ListIdentityPolicies` operation on the `SES` service.
     ///
     /// Returns a list of sending authorization policies that are attached to the given identity (an email address or a domain). This operation returns only a list. To get the actual policy content, use GetIdentityPolicies. This operation is for the identity owner only. If you have not verified the identity, it returns an error. Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/sending-authorization.html). You can execute this operation no more than once per second.
     ///
@@ -2895,7 +2895,7 @@ extension SESClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListReceiptFilters` operation on the `SimpleEmailService` service.
+    /// Performs the `ListReceiptFilters` operation on the `SES` service.
     ///
     /// Lists the IP address filters associated with your Amazon Web Services account in the current Amazon Web Services Region. For information about managing IP address filters, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-ip-filtering-console-walkthrough.html). You can execute this operation no more than once per second.
     ///
@@ -2959,7 +2959,7 @@ extension SESClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListReceiptRuleSets` operation on the `SimpleEmailService` service.
+    /// Performs the `ListReceiptRuleSets` operation on the `SES` service.
     ///
     /// Lists the receipt rule sets that exist under your Amazon Web Services account in the current Amazon Web Services Region. If there are additional receipt rule sets to be retrieved, you receive a NextToken that you can provide to the next call to ListReceiptRuleSets to retrieve the additional entries. For information about managing receipt rule sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-receipt-rules-console-walkthrough.html). You can execute this operation no more than once per second.
     ///
@@ -3023,7 +3023,7 @@ extension SESClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTemplates` operation on the `SimpleEmailService` service.
+    /// Performs the `ListTemplates` operation on the `SES` service.
     ///
     /// Lists the email templates present in your Amazon SES account in the current Amazon Web Services Region. You can execute this operation no more than once per second.
     ///
@@ -3087,7 +3087,7 @@ extension SESClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListVerifiedEmailAddresses` operation on the `SimpleEmailService` service.
+    /// Performs the `ListVerifiedEmailAddresses` operation on the `SES` service.
     ///
     /// Deprecated. Use the ListIdentities operation to list the email addresses and domains associated with your account.
     ///
@@ -3151,7 +3151,7 @@ extension SESClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutConfigurationSetDeliveryOptions` operation on the `SimpleEmailService` service.
+    /// Performs the `PutConfigurationSetDeliveryOptions` operation on the `SES` service.
     ///
     /// Adds or updates the delivery options for a configuration set.
     ///
@@ -3221,7 +3221,7 @@ extension SESClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutIdentityPolicy` operation on the `SimpleEmailService` service.
+    /// Performs the `PutIdentityPolicy` operation on the `SES` service.
     ///
     /// Adds or updates a sending authorization policy for the specified identity (an email address or a domain). This operation is for the identity owner only. If you have not verified the identity, it returns an error. Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/sending-authorization.html). You can execute this operation no more than once per second.
     ///
@@ -3290,7 +3290,7 @@ extension SESClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ReorderReceiptRuleSet` operation on the `SimpleEmailService` service.
+    /// Performs the `ReorderReceiptRuleSet` operation on the `SES` service.
     ///
     /// Reorders the receipt rules within a receipt rule set. All of the rules in the rule set must be represented in this request. That is, it is error if the reorder request doesn't explicitly position all of the rules. For information about managing receipt rule sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-receipt-rules-console-walkthrough.html). You can execute this operation no more than once per second.
     ///
@@ -3360,7 +3360,7 @@ extension SESClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SendBounce` operation on the `SimpleEmailService` service.
+    /// Performs the `SendBounce` operation on the `SES` service.
     ///
     /// Generates and sends a bounce message to the sender of an email you received through Amazon SES. You can only use this operation on an email up to 24 hours after you receive it. You cannot use this operation to send generic bounces for mail that was not received by Amazon SES. For information about receiving email through Amazon SES, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email.html). You can execute this operation no more than once per second.
     ///
@@ -3429,7 +3429,7 @@ extension SESClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SendBulkTemplatedEmail` operation on the `SimpleEmailService` service.
+    /// Performs the `SendBulkTemplatedEmail` operation on the `SES` service.
     ///
     /// Composes an email message to multiple destinations. The message body is created using an email template. To send email using this operation, your call must meet the following requirements:
     ///
@@ -3517,7 +3517,7 @@ extension SESClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SendCustomVerificationEmail` operation on the `SimpleEmailService` service.
+    /// Performs the `SendCustomVerificationEmail` operation on the `SES` service.
     ///
     /// Adds an email address to the list of identities for your Amazon SES account in the current Amazon Web Services Region and attempts to verify it. As a result of executing this operation, a customized verification email is sent to the specified address. To use this operation, you must first create a custom verification email template. For more information about creating and using custom verification email templates, see [Using Custom Verification Email Templates](https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#send-email-verify-address-custom) in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
     ///
@@ -3590,7 +3590,7 @@ extension SESClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SendEmail` operation on the `SimpleEmailService` service.
+    /// Performs the `SendEmail` operation on the `SES` service.
     ///
     /// Composes an email message and immediately queues it for sending. To send email using this operation, your message must meet the following requirements:
     ///
@@ -3676,7 +3676,7 @@ extension SESClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SendRawEmail` operation on the `SimpleEmailService` service.
+    /// Performs the `SendRawEmail` operation on the `SES` service.
     ///
     /// Composes an email message and immediately queues it for sending. This operation is more flexible than the SendEmail operation. When you use the SendRawEmail operation, you can specify the headers of the message as well as its content. This flexibility is useful, for example, when you need to send a multipart MIME email (such a message that contains both a text and an HTML version). You can also use this operation to send messages that include attachments. The SendRawEmail operation has the following requirements:
     ///
@@ -3781,7 +3781,7 @@ extension SESClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SendTemplatedEmail` operation on the `SimpleEmailService` service.
+    /// Performs the `SendTemplatedEmail` operation on the `SES` service.
     ///
     /// Composes an email message using an email template and immediately queues it for sending. To send email using this operation, your call must meet the following requirements:
     ///
@@ -3870,7 +3870,7 @@ extension SESClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SetActiveReceiptRuleSet` operation on the `SimpleEmailService` service.
+    /// Performs the `SetActiveReceiptRuleSet` operation on the `SES` service.
     ///
     /// Sets the specified receipt rule set as the active receipt rule set. To disable your email-receiving through Amazon SES completely, you can call this operation with RuleSetName set to null. For information about managing receipt rule sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-receipt-rules-console-walkthrough.html). You can execute this operation no more than once per second.
     ///
@@ -3939,7 +3939,7 @@ extension SESClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SetIdentityDkimEnabled` operation on the `SimpleEmailService` service.
+    /// Performs the `SetIdentityDkimEnabled` operation on the `SES` service.
     ///
     /// Enables or disables Easy DKIM signing of email sent from an identity. If Easy DKIM signing is enabled for a domain, then Amazon SES uses DKIM to sign all email that it sends from addresses on that domain. If Easy DKIM signing is enabled for an email address, then Amazon SES uses DKIM to sign all email it sends from that address. For email addresses (for example, user@example.com), you can only enable DKIM signing if the corresponding domain (in this case, example.com) has been set up to use Easy DKIM. You can enable DKIM signing for an identity at any time after you start the verification process for the identity, even if the verification process isn't complete. You can execute this operation no more than once per second. For more information about Easy DKIM signing, go to the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/send-email-authentication-dkim-easy.html).
     ///
@@ -4003,7 +4003,7 @@ extension SESClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SetIdentityFeedbackForwardingEnabled` operation on the `SimpleEmailService` service.
+    /// Performs the `SetIdentityFeedbackForwardingEnabled` operation on the `SES` service.
     ///
     /// Given an identity (an email address or a domain), enables or disables whether Amazon SES forwards bounce and complaint notifications as email. Feedback forwarding can only be disabled when Amazon Simple Notification Service (Amazon SNS) topics are specified for both bounces and complaints. Feedback forwarding does not apply to delivery notifications. Delivery notifications are only available through Amazon SNS. You can execute this operation no more than once per second. For more information about using notifications with Amazon SES, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity-using-notifications.html).
     ///
@@ -4067,7 +4067,7 @@ extension SESClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SetIdentityHeadersInNotificationsEnabled` operation on the `SimpleEmailService` service.
+    /// Performs the `SetIdentityHeadersInNotificationsEnabled` operation on the `SES` service.
     ///
     /// Given an identity (an email address or a domain), sets whether Amazon SES includes the original email headers in the Amazon Simple Notification Service (Amazon SNS) notifications of a specified type. You can execute this operation no more than once per second. For more information about using notifications with Amazon SES, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity-using-notifications.html).
     ///
@@ -4131,7 +4131,7 @@ extension SESClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SetIdentityMailFromDomain` operation on the `SimpleEmailService` service.
+    /// Performs the `SetIdentityMailFromDomain` operation on the `SES` service.
     ///
     /// Enables or disables the custom MAIL FROM domain setup for a verified identity (an email address or a domain). To send emails using the specified MAIL FROM domain, you must add an MX record to your MAIL FROM domain's DNS settings. To ensure that your emails pass Sender Policy Framework (SPF) checks, you must also add or update an SPF record. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/mail-from.html). You can execute this operation no more than once per second.
     ///
@@ -4195,7 +4195,7 @@ extension SESClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SetIdentityNotificationTopic` operation on the `SimpleEmailService` service.
+    /// Performs the `SetIdentityNotificationTopic` operation on the `SES` service.
     ///
     /// Sets an Amazon Simple Notification Service (Amazon SNS) topic to use when delivering notifications. When you use this operation, you specify a verified identity, such as an email address or domain. When you send an email that uses the chosen identity in the Source field, Amazon SES sends notifications to the topic you specified. You can send bounce, complaint, or delivery notifications (or any combination of the three) to the Amazon SNS topic that you specify. You can execute this operation no more than once per second. For more information about feedback notification, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity-using-notifications.html).
     ///
@@ -4259,7 +4259,7 @@ extension SESClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SetReceiptRulePosition` operation on the `SimpleEmailService` service.
+    /// Performs the `SetReceiptRulePosition` operation on the `SES` service.
     ///
     /// Sets the position of the specified receipt rule in the receipt rule set. For information about managing receipt rules, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-receipt-rules-console-walkthrough.html). You can execute this operation no more than once per second.
     ///
@@ -4329,7 +4329,7 @@ extension SESClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TestRenderTemplate` operation on the `SimpleEmailService` service.
+    /// Performs the `TestRenderTemplate` operation on the `SES` service.
     ///
     /// Creates a preview of the MIME content of an email when provided with a template and a set of replacement data. You can execute this operation no more than once per second.
     ///
@@ -4400,7 +4400,7 @@ extension SESClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateAccountSendingEnabled` operation on the `SimpleEmailService` service.
+    /// Performs the `UpdateAccountSendingEnabled` operation on the `SES` service.
     ///
     /// Enables or disables email sending across your entire Amazon SES account in the current Amazon Web Services Region. You can use this operation in conjunction with Amazon CloudWatch alarms to temporarily pause email sending across your Amazon SES account in a given Amazon Web Services Region when reputation metrics (such as your bounce or complaint rates) reach certain thresholds. You can execute this operation no more than once per second.
     ///
@@ -4464,7 +4464,7 @@ extension SESClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateConfigurationSetEventDestination` operation on the `SimpleEmailService` service.
+    /// Performs the `UpdateConfigurationSetEventDestination` operation on the `SES` service.
     ///
     /// Updates the event destination of a configuration set. Event destinations are associated with configuration sets, which enable you to publish email sending events to Amazon CloudWatch, Amazon Kinesis Firehose, or Amazon Simple Notification Service (Amazon SNS). For information about using configuration sets, see [Monitoring Your Amazon SES Sending Activity](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html) in the Amazon SES Developer Guide. When you create or update an event destination, you must provide one, and only one, destination. The destination can be Amazon CloudWatch, Amazon Kinesis Firehose, or Amazon Simple Notification Service (Amazon SNS). You can execute this operation no more than once per second.
     ///
@@ -4537,7 +4537,7 @@ extension SESClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateConfigurationSetReputationMetricsEnabled` operation on the `SimpleEmailService` service.
+    /// Performs the `UpdateConfigurationSetReputationMetricsEnabled` operation on the `SES` service.
     ///
     /// Enables or disables the publishing of reputation metrics for emails sent using a specific configuration set in a given Amazon Web Services Region. Reputation metrics include bounce and complaint rates. These metrics are published to Amazon CloudWatch. By using CloudWatch, you can create alarms when bounce or complaint rates exceed certain thresholds. You can execute this operation no more than once per second.
     ///
@@ -4606,7 +4606,7 @@ extension SESClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateConfigurationSetSendingEnabled` operation on the `SimpleEmailService` service.
+    /// Performs the `UpdateConfigurationSetSendingEnabled` operation on the `SES` service.
     ///
     /// Enables or disables email sending for messages sent using a specific configuration set in a given Amazon Web Services Region. You can use this operation in conjunction with Amazon CloudWatch alarms to temporarily pause email sending for a configuration set when the reputation metrics for that configuration set (such as your bounce on complaint rate) exceed certain thresholds. You can execute this operation no more than once per second.
     ///
@@ -4675,7 +4675,7 @@ extension SESClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateConfigurationSetTrackingOptions` operation on the `SimpleEmailService` service.
+    /// Performs the `UpdateConfigurationSetTrackingOptions` operation on the `SES` service.
     ///
     /// Modifies an association between a configuration set and a custom domain for open and click event tracking. By default, images and links used for tracking open and click events are hosted on domains operated by Amazon SES. You can configure a subdomain of your own to handle these events. For information about using custom domains, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/configure-custom-open-click-domains.html).
     ///
@@ -4750,7 +4750,7 @@ extension SESClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateCustomVerificationEmailTemplate` operation on the `SimpleEmailService` service.
+    /// Performs the `UpdateCustomVerificationEmailTemplate` operation on the `SES` service.
     ///
     /// Updates an existing custom verification email template. For more information about custom verification email templates, see [Using Custom Verification Email Templates](https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#send-email-verify-address-custom) in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
     ///
@@ -4821,7 +4821,7 @@ extension SESClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateReceiptRule` operation on the `SimpleEmailService` service.
+    /// Performs the `UpdateReceiptRule` operation on the `SES` service.
     ///
     /// Updates a receipt rule. For information about managing receipt rules, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-receipt-rules-console-walkthrough.html). You can execute this operation no more than once per second.
     ///
@@ -4895,7 +4895,7 @@ extension SESClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateTemplate` operation on the `SimpleEmailService` service.
+    /// Performs the `UpdateTemplate` operation on the `SES` service.
     ///
     /// Updates an email template. Email templates enable you to send personalized email to one or more destinations in a single operation. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/send-personalized-email-api.html). You can execute this operation no more than once per second.
     ///
@@ -4965,7 +4965,7 @@ extension SESClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `VerifyDomainDkim` operation on the `SimpleEmailService` service.
+    /// Performs the `VerifyDomainDkim` operation on the `SES` service.
     ///
     /// Returns a set of DKIM tokens for a domain identity. When you execute the VerifyDomainDkim operation, the domain that you specify is added to the list of identities that are associated with your account. This is true even if you haven't already associated the domain with your account by using the VerifyDomainIdentity operation. However, you can't send email from the domain until you either successfully [verify it](https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#verify-domain-procedure) or you successfully [set up DKIM for it](https://docs.aws.amazon.com/ses/latest/dg/send-email-authentication-dkim-easy.html). You use the tokens that are generated by this operation to create CNAME records. When Amazon SES detects that you've added these records to the DNS configuration for a domain, you can start sending email from that domain. You can start sending email even if you haven't added the TXT record provided by the VerifyDomainIdentity operation to the DNS configuration for your domain. All email that you send from the domain is authenticated using DKIM. To create the CNAME records for DKIM authentication, use the following values:
     ///
@@ -5038,7 +5038,7 @@ extension SESClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `VerifyDomainIdentity` operation on the `SimpleEmailService` service.
+    /// Performs the `VerifyDomainIdentity` operation on the `SES` service.
     ///
     /// Adds a domain to the list of identities for your Amazon SES account in the current Amazon Web Services Region and attempts to verify it. For more information about verifying domains, see [Verifying Email Addresses and Domains](https://docs.aws.amazon.com/ses/latest/dg/verify-addresses-and-domains.html) in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
     ///
@@ -5102,7 +5102,7 @@ extension SESClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `VerifyEmailAddress` operation on the `SimpleEmailService` service.
+    /// Performs the `VerifyEmailAddress` operation on the `SES` service.
     ///
     /// Deprecated. Use the VerifyEmailIdentity operation to verify a new email address.
     ///
@@ -5166,7 +5166,7 @@ extension SESClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `VerifyEmailIdentity` operation on the `SimpleEmailService` service.
+    /// Performs the `VerifyEmailIdentity` operation on the `SES` service.
     ///
     /// Adds an email address to the list of identities for your Amazon SES account in the current Amazon Web Services Region and attempts to verify it. As a result of executing this operation, a verification email is sent to the specified address. You can execute this operation no more than once per second.
     ///

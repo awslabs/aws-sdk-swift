@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CodePipelineClient: ClientRuntime.Client {
     public static let clientName = "CodePipelineClient"
-    public static let version = "1.0.71"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: CodePipelineClient.CodePipelineClientConfiguration
     let serviceName = "CodePipeline"
@@ -331,7 +331,7 @@ extension CodePipelineClient {
 }
 
 extension CodePipelineClient {
-    /// Performs the `AcknowledgeJob` operation on the `CodePipeline_20150709` service.
+    /// Performs the `AcknowledgeJob` operation on the `CodePipeline` service.
     ///
     /// Returns information about a specified job and whether that job has been received by the job worker. Used for custom actions only.
     ///
@@ -403,7 +403,7 @@ extension CodePipelineClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AcknowledgeThirdPartyJob` operation on the `CodePipeline_20150709` service.
+    /// Performs the `AcknowledgeThirdPartyJob` operation on the `CodePipeline` service.
     ///
     /// Confirms a job worker has received the specified job. Used for partner actions only.
     ///
@@ -476,7 +476,7 @@ extension CodePipelineClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateCustomActionType` operation on the `CodePipeline_20150709` service.
+    /// Performs the `CreateCustomActionType` operation on the `CodePipeline` service.
     ///
     /// Creates a new custom action that can be used in all pipelines associated with the Amazon Web Services account. Only used for custom actions.
     ///
@@ -550,7 +550,7 @@ extension CodePipelineClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreatePipeline` operation on the `CodePipeline_20150709` service.
+    /// Performs the `CreatePipeline` operation on the `CodePipeline` service.
     ///
     /// Creates a pipeline. In the pipeline structure, you must include either artifactStore or artifactStores in your pipeline, but you cannot use both. If you create a cross-region action in your pipeline, you must use artifactStores.
     ///
@@ -629,7 +629,7 @@ extension CodePipelineClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteCustomActionType` operation on the `CodePipeline_20150709` service.
+    /// Performs the `DeleteCustomActionType` operation on the `CodePipeline` service.
     ///
     /// Marks a custom action as deleted. PollForJobs for the custom action fails after the action is marked for deletion. Used for custom actions only. To re-create a custom action after it has been deleted you must use a string in the version field that has never been used before. This string can be an incremented version number, for example. To restore a deleted custom action, use a JSON file that is identical to the deleted action, including the original string in the version field.
     ///
@@ -700,7 +700,7 @@ extension CodePipelineClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeletePipeline` operation on the `CodePipeline_20150709` service.
+    /// Performs the `DeletePipeline` operation on the `CodePipeline` service.
     ///
     /// Deletes the specified pipeline.
     ///
@@ -771,7 +771,7 @@ extension CodePipelineClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteWebhook` operation on the `CodePipeline_20150709` service.
+    /// Performs the `DeleteWebhook` operation on the `CodePipeline` service.
     ///
     /// Deletes a previously created webhook by name. Deleting the webhook stops CodePipeline from starting a pipeline every time an external event occurs. The API returns successfully when trying to delete a webhook that is already deleted. If a deleted webhook is re-created by calling PutWebhook with the same name, it will have a different URL.
     ///
@@ -842,7 +842,7 @@ extension CodePipelineClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeregisterWebhookWithThirdParty` operation on the `CodePipeline_20150709` service.
+    /// Performs the `DeregisterWebhookWithThirdParty` operation on the `CodePipeline` service.
     ///
     /// Removes the connection between the webhook that was created by CodePipeline and the external tool with events to be detected. Currently supported only for webhooks that target an action type of GitHub.
     ///
@@ -913,7 +913,7 @@ extension CodePipelineClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisableStageTransition` operation on the `CodePipeline_20150709` service.
+    /// Performs the `DisableStageTransition` operation on the `CodePipeline` service.
     ///
     /// Prevents artifacts in a pipeline from transitioning to the next stage in the pipeline.
     ///
@@ -985,7 +985,7 @@ extension CodePipelineClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `EnableStageTransition` operation on the `CodePipeline_20150709` service.
+    /// Performs the `EnableStageTransition` operation on the `CodePipeline` service.
     ///
     /// Enables artifacts in a pipeline to transition to a stage in a pipeline.
     ///
@@ -1057,7 +1057,7 @@ extension CodePipelineClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetActionType` operation on the `CodePipeline_20150709` service.
+    /// Performs the `GetActionType` operation on the `CodePipeline` service.
     ///
     /// Returns information about an action type created for an external provider, where the action is to be used by customers of the external provider. The action can be created with any supported integration model.
     ///
@@ -1128,7 +1128,7 @@ extension CodePipelineClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetJobDetails` operation on the `CodePipeline_20150709` service.
+    /// Performs the `GetJobDetails` operation on the `CodePipeline` service.
     ///
     /// Returns information about a job. Used for custom actions only. When this API is called, CodePipeline returns temporary credentials for the S3 bucket used to store artifacts for the pipeline, if the action requires access to that S3 bucket for input or output artifacts. This API also returns any secret values defined for the action.
     ///
@@ -1199,7 +1199,7 @@ extension CodePipelineClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetPipeline` operation on the `CodePipeline_20150709` service.
+    /// Performs the `GetPipeline` operation on the `CodePipeline` service.
     ///
     /// Returns the metadata, structure, stages, and actions of a pipeline. Can be used to return the entire structure of a pipeline in JSON format, which can then be modified and used to update the pipeline structure with [UpdatePipeline].
     ///
@@ -1271,7 +1271,7 @@ extension CodePipelineClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetPipelineExecution` operation on the `CodePipeline_20150709` service.
+    /// Performs the `GetPipelineExecution` operation on the `CodePipeline` service.
     ///
     /// Returns information about an execution of a pipeline, including details about artifacts, the pipeline execution ID, and the name, version, and status of the pipeline.
     ///
@@ -1343,7 +1343,7 @@ extension CodePipelineClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetPipelineState` operation on the `CodePipeline_20150709` service.
+    /// Performs the `GetPipelineState` operation on the `CodePipeline` service.
     ///
     /// Returns information about the state of a pipeline, including the stages and actions. Values returned in the revisionId and revisionUrl fields indicate the source revision information, such as the commit ID, for the current state.
     ///
@@ -1414,7 +1414,7 @@ extension CodePipelineClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetThirdPartyJobDetails` operation on the `CodePipeline_20150709` service.
+    /// Performs the `GetThirdPartyJobDetails` operation on the `CodePipeline` service.
     ///
     /// Requests the details of a job for a third party action. Used for partner actions only. When this API is called, CodePipeline returns temporary credentials for the S3 bucket used to store artifacts for the pipeline, if the action requires access to that S3 bucket for input or output artifacts. This API also returns any secret values defined for the action.
     ///
@@ -1487,7 +1487,7 @@ extension CodePipelineClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListActionExecutions` operation on the `CodePipeline_20150709` service.
+    /// Performs the `ListActionExecutions` operation on the `CodePipeline` service.
     ///
     /// Lists the action executions that have occurred in a pipeline.
     ///
@@ -1560,7 +1560,7 @@ extension CodePipelineClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListActionTypes` operation on the `CodePipeline_20150709` service.
+    /// Performs the `ListActionTypes` operation on the `CodePipeline` service.
     ///
     /// Gets a summary of all CodePipeline action types associated with your account.
     ///
@@ -1631,7 +1631,7 @@ extension CodePipelineClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListPipelineExecutions` operation on the `CodePipeline_20150709` service.
+    /// Performs the `ListPipelineExecutions` operation on the `CodePipeline` service.
     ///
     /// Gets a summary of the most recent executions for a pipeline. When applying the filter for pipeline executions that have succeeded in the stage, the operation returns all executions in the current pipeline version beginning on February 1, 2024.
     ///
@@ -1703,7 +1703,7 @@ extension CodePipelineClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListPipelines` operation on the `CodePipeline_20150709` service.
+    /// Performs the `ListPipelines` operation on the `CodePipeline` service.
     ///
     /// Gets a summary of all of the pipelines associated with your account.
     ///
@@ -1774,7 +1774,7 @@ extension CodePipelineClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListRuleExecutions` operation on the `CodePipeline_20150709` service.
+    /// Performs the `ListRuleExecutions` operation on the `CodePipeline` service.
     ///
     /// Lists the rule executions that have occurred in a pipeline configured for conditions with rules.
     ///
@@ -1847,7 +1847,7 @@ extension CodePipelineClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListRuleTypes` operation on the `CodePipeline_20150709` service.
+    /// Performs the `ListRuleTypes` operation on the `CodePipeline` service.
     ///
     /// Lists the rules for the condition. For more information about conditions, see [Stage conditions](https://docs.aws.amazon.com/codepipeline/latest/userguide/stage-conditions.html). For more information about rules, see the [CodePipeline rule reference](https://docs.aws.amazon.com/codepipeline/latest/userguide/rule-reference.html).
     ///
@@ -1918,7 +1918,7 @@ extension CodePipelineClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `CodePipeline_20150709` service.
+    /// Performs the `ListTagsForResource` operation on the `CodePipeline` service.
     ///
     /// Gets the set of key-value pairs (metadata) that are used to manage the resource.
     ///
@@ -1991,7 +1991,7 @@ extension CodePipelineClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListWebhooks` operation on the `CodePipeline_20150709` service.
+    /// Performs the `ListWebhooks` operation on the `CodePipeline` service.
     ///
     /// Gets a listing of all the webhooks in this Amazon Web Services Region for this account. The output lists all webhooks and includes the webhook URL and ARN and the configuration for each webhook. If a secret token was provided, it will be redacted in the response.
     ///
@@ -2062,7 +2062,7 @@ extension CodePipelineClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `OverrideStageCondition` operation on the `CodePipeline_20150709` service.
+    /// Performs the `OverrideStageCondition` operation on the `CodePipeline` service.
     ///
     /// Used to override a stage condition.
     ///
@@ -2138,7 +2138,7 @@ extension CodePipelineClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PollForJobs` operation on the `CodePipeline_20150709` service.
+    /// Performs the `PollForJobs` operation on the `CodePipeline` service.
     ///
     /// Returns information about any jobs for CodePipeline to act on. PollForJobs is valid only for action types with "Custom" in the owner field. If the action type contains AWS or ThirdParty in the owner field, the PollForJobs action returns an error. When this API is called, CodePipeline returns temporary credentials for the S3 bucket used to store artifacts for the pipeline, if the action requires access to that S3 bucket for input or output artifacts. This API also returns any secret values defined for the action.
     ///
@@ -2209,7 +2209,7 @@ extension CodePipelineClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PollForThirdPartyJobs` operation on the `CodePipeline_20150709` service.
+    /// Performs the `PollForThirdPartyJobs` operation on the `CodePipeline` service.
     ///
     /// Determines whether there are any third party jobs for a job worker to act on. Used for partner actions only. When this API is called, CodePipeline returns temporary credentials for the S3 bucket used to store artifacts for the pipeline, if the action requires access to that S3 bucket for input or output artifacts.
     ///
@@ -2280,7 +2280,7 @@ extension CodePipelineClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutActionRevision` operation on the `CodePipeline_20150709` service.
+    /// Performs the `PutActionRevision` operation on the `CodePipeline` service.
     ///
     /// Provides information to CodePipeline about new revisions to a source.
     ///
@@ -2354,7 +2354,7 @@ extension CodePipelineClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutApprovalResult` operation on the `CodePipeline_20150709` service.
+    /// Performs the `PutApprovalResult` operation on the `CodePipeline` service.
     ///
     /// Provides the response to a manual approval request to CodePipeline. Valid responses include Approved and Rejected.
     ///
@@ -2429,7 +2429,7 @@ extension CodePipelineClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutJobFailureResult` operation on the `CodePipeline_20150709` service.
+    /// Performs the `PutJobFailureResult` operation on the `CodePipeline` service.
     ///
     /// Represents the failure of a job as returned to the pipeline by a job worker. Used for custom actions only.
     ///
@@ -2501,7 +2501,7 @@ extension CodePipelineClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutJobSuccessResult` operation on the `CodePipeline_20150709` service.
+    /// Performs the `PutJobSuccessResult` operation on the `CodePipeline` service.
     ///
     /// Represents the success of a job as returned to the pipeline by a job worker. Used for custom actions only.
     ///
@@ -2574,7 +2574,7 @@ extension CodePipelineClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutThirdPartyJobFailureResult` operation on the `CodePipeline_20150709` service.
+    /// Performs the `PutThirdPartyJobFailureResult` operation on the `CodePipeline` service.
     ///
     /// Represents the failure of a third party job as returned to the pipeline by a job worker. Used for partner actions only.
     ///
@@ -2647,7 +2647,7 @@ extension CodePipelineClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutThirdPartyJobSuccessResult` operation on the `CodePipeline_20150709` service.
+    /// Performs the `PutThirdPartyJobSuccessResult` operation on the `CodePipeline` service.
     ///
     /// Represents the success of a third party job as returned to the pipeline by a job worker. Used for partner actions only.
     ///
@@ -2720,7 +2720,7 @@ extension CodePipelineClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutWebhook` operation on the `CodePipeline_20150709` service.
+    /// Performs the `PutWebhook` operation on the `CodePipeline` service.
     ///
     /// Defines a webhook and returns a unique webhook URL generated by CodePipeline. This URL can be supplied to third party source hosting providers to call every time there's a code change. When CodePipeline receives a POST request on this URL, the pipeline defined in the webhook is started as long as the POST request satisfied the authentication and filtering requirements supplied when defining the webhook. RegisterWebhookWithThirdParty and DeregisterWebhookWithThirdParty APIs can be used to automatically configure supported third parties to call the generated webhook URL. When creating CodePipeline webhooks, do not use your own credentials or reuse the same secret token across multiple webhooks. For optimal security, generate a unique secret token for each webhook you create. The secret token is an arbitrary string that you provide, which GitHub uses to compute and sign the webhook payloads sent to CodePipeline, for protecting the integrity and authenticity of the webhook payloads. Using your own credentials or reusing the same token across multiple webhooks can lead to security vulnerabilities. If a secret token was provided, it will be redacted in the response.
     ///
@@ -2797,7 +2797,7 @@ extension CodePipelineClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RegisterWebhookWithThirdParty` operation on the `CodePipeline_20150709` service.
+    /// Performs the `RegisterWebhookWithThirdParty` operation on the `CodePipeline` service.
     ///
     /// Configures a connection between the webhook that was created and the external tool with events to be detected.
     ///
@@ -2868,7 +2868,7 @@ extension CodePipelineClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RetryStageExecution` operation on the `CodePipeline_20150709` service.
+    /// Performs the `RetryStageExecution` operation on the `CodePipeline` service.
     ///
     /// You can retry a stage that has failed without having to run a pipeline again from the beginning. You do this by either retrying the failed actions in a stage or by retrying all actions in the stage starting from the first action in the stage. When you retry the failed actions in a stage, all actions that are still in progress continue working, and failed actions are triggered again. When you retry a failed stage from the first action in the stage, the stage cannot have any actions in progress. Before a stage can be retried, it must either have all actions failed or some actions failed and some succeeded.
     ///
@@ -2944,7 +2944,7 @@ extension CodePipelineClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RollbackStage` operation on the `CodePipeline_20150709` service.
+    /// Performs the `RollbackStage` operation on the `CodePipeline` service.
     ///
     /// Rolls back a stage execution.
     ///
@@ -3020,7 +3020,7 @@ extension CodePipelineClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartPipelineExecution` operation on the `CodePipeline_20150709` service.
+    /// Performs the `StartPipelineExecution` operation on the `CodePipeline` service.
     ///
     /// Starts the specified pipeline. Specifically, it begins processing the latest commit to the source location specified as part of the pipeline.
     ///
@@ -3094,7 +3094,7 @@ extension CodePipelineClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopPipelineExecution` operation on the `CodePipeline_20150709` service.
+    /// Performs the `StopPipelineExecution` operation on the `CodePipeline` service.
     ///
     /// Stops the specified pipeline execution. You choose to either stop the pipeline execution by completing in-progress actions without starting subsequent actions, or by abandoning in-progress actions. While completing or abandoning in-progress actions, the pipeline execution is in a Stopping state. After all in-progress actions are completed or abandoned, the pipeline execution is in a Stopped state.
     ///
@@ -3168,7 +3168,7 @@ extension CodePipelineClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `CodePipeline_20150709` service.
+    /// Performs the `TagResource` operation on the `CodePipeline` service.
     ///
     /// Adds to or modifies the tags of the given resource. Tags are metadata that can be used to manage a resource.
     ///
@@ -3243,7 +3243,7 @@ extension CodePipelineClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `CodePipeline_20150709` service.
+    /// Performs the `UntagResource` operation on the `CodePipeline` service.
     ///
     /// Removes tags from an Amazon Web Services resource.
     ///
@@ -3317,7 +3317,7 @@ extension CodePipelineClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateActionType` operation on the `CodePipeline_20150709` service.
+    /// Performs the `UpdateActionType` operation on the `CodePipeline` service.
     ///
     /// Updates an action type that was created with any supported integration model, where the action type is to be used by customers of the action type provider. Use a JSON file with the action definition and UpdateActionType to provide the full structure.
     ///
@@ -3389,7 +3389,7 @@ extension CodePipelineClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdatePipeline` operation on the `CodePipeline_20150709` service.
+    /// Performs the `UpdatePipeline` operation on the `CodePipeline` service.
     ///
     /// Updates a specified pipeline with edits or changes to its structure. Use a JSON file with the pipeline structure and UpdatePipeline to provide the full structure of the pipeline. Updating the pipeline increases the version number of the pipeline by 1.
     ///

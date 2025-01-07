@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class BedrockClient: ClientRuntime.Client {
     public static let clientName = "BedrockClient"
-    public static let version = "1.0.71"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: BedrockClient.BedrockClientConfiguration
     let serviceName = "Bedrock"
@@ -331,7 +331,7 @@ extension BedrockClient {
 }
 
 extension BedrockClient {
-    /// Performs the `BatchDeleteEvaluationJob` operation on the `AmazonBedrockControlPlaneService` service.
+    /// Performs the `BatchDeleteEvaluationJob` operation on the `Bedrock` service.
     ///
     /// Deletes a batch of evaluation jobs. An evaluation job can only be deleted if it has following status FAILED, COMPLETED, and STOPPED. You can request up to 25 model evaluation jobs be deleted in a single request.
     ///
@@ -405,7 +405,7 @@ extension BedrockClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateEvaluationJob` operation on the `AmazonBedrockControlPlaneService` service.
+    /// Performs the `CreateEvaluationJob` operation on the `Bedrock` service.
     ///
     /// Creates an evaluation job.
     ///
@@ -481,7 +481,7 @@ extension BedrockClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateGuardrail` operation on the `AmazonBedrockControlPlaneService` service.
+    /// Performs the `CreateGuardrail` operation on the `Bedrock` service.
     ///
     /// Creates a guardrail to block topics and to implement safeguards for your generative AI applications. You can configure the following policies in a guardrail to avoid undesirable and harmful content, filter out denied topics and words, and remove sensitive information for privacy protection.
     ///
@@ -569,7 +569,7 @@ extension BedrockClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateGuardrailVersion` operation on the `AmazonBedrockControlPlaneService` service.
+    /// Performs the `CreateGuardrailVersion` operation on the `Bedrock` service.
     ///
     /// Creates a version of the guardrail. Use this API to create a snapshot of the guardrail when you are satisfied with a configuration, or to compare the configuration with another version.
     ///
@@ -645,7 +645,7 @@ extension BedrockClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateInferenceProfile` operation on the `AmazonBedrockControlPlaneService` service.
+    /// Performs the `CreateInferenceProfile` operation on the `Bedrock` service.
     ///
     /// Creates an application inference profile to track metrics and costs when invoking a model. To create an application inference profile for a foundation model in one region, specify the ARN of the model in that region. To create an application inference profile for a foundation model across multiple regions, specify the ARN of the system-defined inference profile that contains the regions that you want to route requests to. For more information, see [Increase throughput and resilience with cross-region inference in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/cross-region-inference.html). in the Amazon Bedrock User Guide.
     ///
@@ -722,7 +722,7 @@ extension BedrockClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateMarketplaceModelEndpoint` operation on the `AmazonBedrockControlPlaneService` service.
+    /// Performs the `CreateMarketplaceModelEndpoint` operation on the `Bedrock` service.
     ///
     /// Creates an endpoint for a model from Amazon Bedrock Marketplace. The endpoint is hosted by Amazon SageMaker.
     ///
@@ -798,7 +798,7 @@ extension BedrockClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateModelCopyJob` operation on the `AmazonBedrockControlPlaneService` service.
+    /// Performs the `CreateModelCopyJob` operation on the `Bedrock` service.
     ///
     /// Copies a model to another region so that it can be used there. For more information, see [Copy models to be used in other regions](https://docs.aws.amazon.com/bedrock/latest/userguide/copy-model.html) in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
     ///
@@ -871,7 +871,7 @@ extension BedrockClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateModelCustomizationJob` operation on the `AmazonBedrockControlPlaneService` service.
+    /// Performs the `CreateModelCustomizationJob` operation on the `Bedrock` service.
     ///
     /// Creates a fine-tuning job to customize a base model. You specify the base foundation model and the location of the training data. After the model-customization job completes successfully, your custom model resource will be ready to use. Amazon Bedrock returns validation loss metrics and output generations after the job completes. For information on the format of training and validation data, see [Prepare the datasets](https://docs.aws.amazon.com/bedrock/latest/userguide/model-customization-prepare.html). Model-customization jobs are asynchronous and the completion time depends on the base model and the training/validation data size. To monitor a job, use the GetModelCustomizationJob operation to retrieve the job status. For more information, see [Custom models](https://docs.aws.amazon.com/bedrock/latest/userguide/custom-models.html) in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
     ///
@@ -948,7 +948,7 @@ extension BedrockClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateModelImportJob` operation on the `AmazonBedrockControlPlaneService` service.
+    /// Performs the `CreateModelImportJob` operation on the `Bedrock` service.
     ///
     /// Creates a model import job to import model that you have customized in other environments, such as Amazon SageMaker. For more information, see [Import a customized model](https://docs.aws.amazon.com/bedrock/latest/userguide/model-customization-import-model.html)
     ///
@@ -1024,7 +1024,7 @@ extension BedrockClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateModelInvocationJob` operation on the `AmazonBedrockControlPlaneService` service.
+    /// Performs the `CreateModelInvocationJob` operation on the `Bedrock` service.
     ///
     /// Creates a batch inference job to invoke a model on multiple prompts. Format your data according to [Format your inference data](https://docs.aws.amazon.com/bedrock/latest/userguide/batch-inference-data) and upload it to an Amazon S3 bucket. For more information, see [Process multiple prompts with batch inference](https://docs.aws.amazon.com/bedrock/latest/userguide/batch-inference.html). The response returns a jobArn that you can use to stop or get details about the job.
     ///
@@ -1100,7 +1100,7 @@ extension BedrockClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateProvisionedModelThroughput` operation on the `AmazonBedrockControlPlaneService` service.
+    /// Performs the `CreateProvisionedModelThroughput` operation on the `Bedrock` service.
     ///
     /// Creates dedicated throughput for a base or custom model with the model units and for the duration that you specify. For pricing details, see [Amazon Bedrock Pricing](http://aws.amazon.com/bedrock/pricing/). For more information, see [Provisioned Throughput](https://docs.aws.amazon.com/bedrock/latest/userguide/prov-throughput.html) in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
     ///
@@ -1176,7 +1176,7 @@ extension BedrockClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteCustomModel` operation on the `AmazonBedrockControlPlaneService` service.
+    /// Performs the `DeleteCustomModel` operation on the `Bedrock` service.
     ///
     /// Deletes a custom model that you created earlier. For more information, see [Custom models](https://docs.aws.amazon.com/bedrock/latest/userguide/custom-models.html) in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
     ///
@@ -1247,7 +1247,7 @@ extension BedrockClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteGuardrail` operation on the `AmazonBedrockControlPlaneService` service.
+    /// Performs the `DeleteGuardrail` operation on the `Bedrock` service.
     ///
     /// Deletes a guardrail.
     ///
@@ -1323,7 +1323,7 @@ extension BedrockClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteImportedModel` operation on the `AmazonBedrockControlPlaneService` service.
+    /// Performs the `DeleteImportedModel` operation on the `Bedrock` service.
     ///
     /// Deletes a custom model that you imported earlier. For more information, see [Import a customized model](https://docs.aws.amazon.com/bedrock/latest/userguide/model-customization-import-model.html) in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
     ///
@@ -1394,7 +1394,7 @@ extension BedrockClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteInferenceProfile` operation on the `AmazonBedrockControlPlaneService` service.
+    /// Performs the `DeleteInferenceProfile` operation on the `Bedrock` service.
     ///
     /// Deletes an application inference profile. For more information, see [Increase throughput and resilience with cross-region inference in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/cross-region-inference.html). in the Amazon Bedrock User Guide.
     ///
@@ -1465,7 +1465,7 @@ extension BedrockClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteMarketplaceModelEndpoint` operation on the `AmazonBedrockControlPlaneService` service.
+    /// Performs the `DeleteMarketplaceModelEndpoint` operation on the `Bedrock` service.
     ///
     /// Deletes an endpoint for a model from Amazon Bedrock Marketplace.
     ///
@@ -1535,7 +1535,7 @@ extension BedrockClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteModelInvocationLoggingConfiguration` operation on the `AmazonBedrockControlPlaneService` service.
+    /// Performs the `DeleteModelInvocationLoggingConfiguration` operation on the `Bedrock` service.
     ///
     /// Delete the invocation logging.
     ///
@@ -1603,7 +1603,7 @@ extension BedrockClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteProvisionedModelThroughput` operation on the `AmazonBedrockControlPlaneService` service.
+    /// Performs the `DeleteProvisionedModelThroughput` operation on the `Bedrock` service.
     ///
     /// Deletes a Provisioned Throughput. You can't delete a Provisioned Throughput before the commitment term is over. For more information, see [Provisioned Throughput](https://docs.aws.amazon.com/bedrock/latest/userguide/prov-throughput.html) in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
     ///
@@ -1674,7 +1674,7 @@ extension BedrockClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeregisterMarketplaceModelEndpoint` operation on the `AmazonBedrockControlPlaneService` service.
+    /// Performs the `DeregisterMarketplaceModelEndpoint` operation on the `Bedrock` service.
     ///
     /// Deregisters an endpoint for a model from Amazon Bedrock Marketplace. This operation removes the endpoint's association with Amazon Bedrock but does not delete the underlying Amazon SageMaker endpoint.
     ///
@@ -1745,7 +1745,7 @@ extension BedrockClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetCustomModel` operation on the `AmazonBedrockControlPlaneService` service.
+    /// Performs the `GetCustomModel` operation on the `Bedrock` service.
     ///
     /// Get the properties associated with a Amazon Bedrock custom model that you have created.For more information, see [Custom models](https://docs.aws.amazon.com/bedrock/latest/userguide/custom-models.html) in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
     ///
@@ -1815,7 +1815,7 @@ extension BedrockClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetEvaluationJob` operation on the `AmazonBedrockControlPlaneService` service.
+    /// Performs the `GetEvaluationJob` operation on the `Bedrock` service.
     ///
     /// Gets information about an evaluation job, such as the status of the job.
     ///
@@ -1885,7 +1885,7 @@ extension BedrockClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetFoundationModel` operation on the `AmazonBedrockControlPlaneService` service.
+    /// Performs the `GetFoundationModel` operation on the `Bedrock` service.
     ///
     /// Get details about a Amazon Bedrock foundation model.
     ///
@@ -1955,7 +1955,7 @@ extension BedrockClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetGuardrail` operation on the `AmazonBedrockControlPlaneService` service.
+    /// Performs the `GetGuardrail` operation on the `Bedrock` service.
     ///
     /// Gets details about a guardrail. If you don't specify a version, the response returns details for the DRAFT version.
     ///
@@ -2026,7 +2026,7 @@ extension BedrockClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetImportedModel` operation on the `AmazonBedrockControlPlaneService` service.
+    /// Performs the `GetImportedModel` operation on the `Bedrock` service.
     ///
     /// Gets properties associated with a customized model you imported.
     ///
@@ -2096,7 +2096,7 @@ extension BedrockClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetInferenceProfile` operation on the `AmazonBedrockControlPlaneService` service.
+    /// Performs the `GetInferenceProfile` operation on the `Bedrock` service.
     ///
     /// Gets information about an inference profile. For more information, see [Increase throughput and resilience with cross-region inference in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/cross-region-inference.html). in the Amazon Bedrock User Guide.
     ///
@@ -2166,7 +2166,7 @@ extension BedrockClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetMarketplaceModelEndpoint` operation on the `AmazonBedrockControlPlaneService` service.
+    /// Performs the `GetMarketplaceModelEndpoint` operation on the `Bedrock` service.
     ///
     /// Retrieves details about a specific endpoint for a model from Amazon Bedrock Marketplace.
     ///
@@ -2236,7 +2236,7 @@ extension BedrockClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetModelCopyJob` operation on the `AmazonBedrockControlPlaneService` service.
+    /// Performs the `GetModelCopyJob` operation on the `Bedrock` service.
     ///
     /// Retrieves information about a model copy job. For more information, see [Copy models to be used in other regions](https://docs.aws.amazon.com/bedrock/latest/userguide/copy-model.html) in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
     ///
@@ -2306,7 +2306,7 @@ extension BedrockClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetModelCustomizationJob` operation on the `AmazonBedrockControlPlaneService` service.
+    /// Performs the `GetModelCustomizationJob` operation on the `Bedrock` service.
     ///
     /// Retrieves the properties associated with a model-customization job, including the status of the job. For more information, see [Custom models](https://docs.aws.amazon.com/bedrock/latest/userguide/custom-models.html) in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
     ///
@@ -2376,7 +2376,7 @@ extension BedrockClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetModelImportJob` operation on the `AmazonBedrockControlPlaneService` service.
+    /// Performs the `GetModelImportJob` operation on the `Bedrock` service.
     ///
     /// Retrieves the properties associated with import model job, including the status of the job. For more information, see [Import a customized model](https://docs.aws.amazon.com/bedrock/latest/userguide/model-customization-import-model.html) in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
     ///
@@ -2446,7 +2446,7 @@ extension BedrockClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetModelInvocationJob` operation on the `AmazonBedrockControlPlaneService` service.
+    /// Performs the `GetModelInvocationJob` operation on the `Bedrock` service.
     ///
     /// Gets details about a batch inference job. For more information, see [Monitor batch inference jobs](https://docs.aws.amazon.com/bedrock/latest/userguide/batch-inference-monitor)
     ///
@@ -2516,7 +2516,7 @@ extension BedrockClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetModelInvocationLoggingConfiguration` operation on the `AmazonBedrockControlPlaneService` service.
+    /// Performs the `GetModelInvocationLoggingConfiguration` operation on the `Bedrock` service.
     ///
     /// Get the current configuration values for model invocation logging.
     ///
@@ -2584,7 +2584,7 @@ extension BedrockClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetPromptRouter` operation on the `AmazonBedrockControlPlaneService` service.
+    /// Performs the `GetPromptRouter` operation on the `Bedrock` service.
     ///
     /// Retrieves details about a prompt router.
     ///
@@ -2654,7 +2654,7 @@ extension BedrockClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetProvisionedModelThroughput` operation on the `AmazonBedrockControlPlaneService` service.
+    /// Performs the `GetProvisionedModelThroughput` operation on the `Bedrock` service.
     ///
     /// Returns details for a Provisioned Throughput. For more information, see [Provisioned Throughput](https://docs.aws.amazon.com/bedrock/latest/userguide/prov-throughput.html) in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
     ///
@@ -2724,7 +2724,7 @@ extension BedrockClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListCustomModels` operation on the `AmazonBedrockControlPlaneService` service.
+    /// Performs the `ListCustomModels` operation on the `Bedrock` service.
     ///
     /// Returns a list of the custom models that you have created with the CreateModelCustomizationJob operation. For more information, see [Custom models](https://docs.aws.amazon.com/bedrock/latest/userguide/custom-models.html) in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
     ///
@@ -2794,7 +2794,7 @@ extension BedrockClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListEvaluationJobs` operation on the `AmazonBedrockControlPlaneService` service.
+    /// Performs the `ListEvaluationJobs` operation on the `Bedrock` service.
     ///
     /// Lists all existing evaluation jobs.
     ///
@@ -2864,7 +2864,7 @@ extension BedrockClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListFoundationModels` operation on the `AmazonBedrockControlPlaneService` service.
+    /// Performs the `ListFoundationModels` operation on the `Bedrock` service.
     ///
     /// Lists Amazon Bedrock foundation models that you can use. You can filter the results with the request parameters. For more information, see [Foundation models](https://docs.aws.amazon.com/bedrock/latest/userguide/foundation-models.html) in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
     ///
@@ -2934,7 +2934,7 @@ extension BedrockClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListGuardrails` operation on the `AmazonBedrockControlPlaneService` service.
+    /// Performs the `ListGuardrails` operation on the `Bedrock` service.
     ///
     /// Lists details about all the guardrails in an account. To list the DRAFT version of all your guardrails, don't specify the guardrailIdentifier field. To list all versions of a guardrail, specify the ARN of the guardrail in the guardrailIdentifier field. You can set the maximum number of results to return in a response in the maxResults field. If there are more results than the number you set, the response returns a nextToken that you can send in another ListGuardrails request to see the next batch of results.
     ///
@@ -3005,7 +3005,7 @@ extension BedrockClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListImportedModels` operation on the `AmazonBedrockControlPlaneService` service.
+    /// Performs the `ListImportedModels` operation on the `Bedrock` service.
     ///
     /// Returns a list of models you've imported. You can filter the results to return based on one or more criteria. For more information, see [Import a customized model](https://docs.aws.amazon.com/bedrock/latest/userguide/model-customization-import-model.html) in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
     ///
@@ -3075,7 +3075,7 @@ extension BedrockClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListInferenceProfiles` operation on the `AmazonBedrockControlPlaneService` service.
+    /// Performs the `ListInferenceProfiles` operation on the `Bedrock` service.
     ///
     /// Returns a list of inference profiles that you can use. For more information, see [Increase throughput and resilience with cross-region inference in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/cross-region-inference.html). in the Amazon Bedrock User Guide.
     ///
@@ -3145,7 +3145,7 @@ extension BedrockClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListMarketplaceModelEndpoints` operation on the `AmazonBedrockControlPlaneService` service.
+    /// Performs the `ListMarketplaceModelEndpoints` operation on the `Bedrock` service.
     ///
     /// Lists the endpoints for models from Amazon Bedrock Marketplace in your Amazon Web Services account.
     ///
@@ -3216,7 +3216,7 @@ extension BedrockClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListModelCopyJobs` operation on the `AmazonBedrockControlPlaneService` service.
+    /// Performs the `ListModelCopyJobs` operation on the `Bedrock` service.
     ///
     /// Returns a list of model copy jobs that you have submitted. You can filter the jobs to return based on one or more criteria. For more information, see [Copy models to be used in other regions](https://docs.aws.amazon.com/bedrock/latest/userguide/copy-model.html) in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
     ///
@@ -3287,7 +3287,7 @@ extension BedrockClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListModelCustomizationJobs` operation on the `AmazonBedrockControlPlaneService` service.
+    /// Performs the `ListModelCustomizationJobs` operation on the `Bedrock` service.
     ///
     /// Returns a list of model customization jobs that you have submitted. You can filter the jobs to return based on one or more criteria. For more information, see [Custom models](https://docs.aws.amazon.com/bedrock/latest/userguide/custom-models.html) in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
     ///
@@ -3357,7 +3357,7 @@ extension BedrockClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListModelImportJobs` operation on the `AmazonBedrockControlPlaneService` service.
+    /// Performs the `ListModelImportJobs` operation on the `Bedrock` service.
     ///
     /// Returns a list of import jobs you've submitted. You can filter the results to return based on one or more criteria. For more information, see [Import a customized model](https://docs.aws.amazon.com/bedrock/latest/userguide/model-customization-import-model.html) in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
     ///
@@ -3427,7 +3427,7 @@ extension BedrockClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListModelInvocationJobs` operation on the `AmazonBedrockControlPlaneService` service.
+    /// Performs the `ListModelInvocationJobs` operation on the `Bedrock` service.
     ///
     /// Lists all batch inference jobs in the account. For more information, see [View details about a batch inference job](https://docs.aws.amazon.com/bedrock/latest/userguide/batch-inference-view.html).
     ///
@@ -3497,7 +3497,7 @@ extension BedrockClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListPromptRouters` operation on the `AmazonBedrockControlPlaneService` service.
+    /// Performs the `ListPromptRouters` operation on the `Bedrock` service.
     ///
     /// Retrieves a list of prompt routers.
     ///
@@ -3567,7 +3567,7 @@ extension BedrockClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListProvisionedModelThroughputs` operation on the `AmazonBedrockControlPlaneService` service.
+    /// Performs the `ListProvisionedModelThroughputs` operation on the `Bedrock` service.
     ///
     /// Lists the Provisioned Throughputs in the account. For more information, see [Provisioned Throughput](https://docs.aws.amazon.com/bedrock/latest/userguide/prov-throughput.html) in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
     ///
@@ -3637,7 +3637,7 @@ extension BedrockClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `AmazonBedrockControlPlaneService` service.
+    /// Performs the `ListTagsForResource` operation on the `Bedrock` service.
     ///
     /// List the tags associated with the specified resource. For more information, see [Tagging resources](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html) in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
     ///
@@ -3710,7 +3710,7 @@ extension BedrockClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutModelInvocationLoggingConfiguration` operation on the `AmazonBedrockControlPlaneService` service.
+    /// Performs the `PutModelInvocationLoggingConfiguration` operation on the `Bedrock` service.
     ///
     /// Set the configuration values for model invocation logging.
     ///
@@ -3782,7 +3782,7 @@ extension BedrockClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RegisterMarketplaceModelEndpoint` operation on the `AmazonBedrockControlPlaneService` service.
+    /// Performs the `RegisterMarketplaceModelEndpoint` operation on the `Bedrock` service.
     ///
     /// Registers an existing Amazon SageMaker endpoint with Amazon Bedrock Marketplace, allowing it to be used with Amazon Bedrock APIs.
     ///
@@ -3856,7 +3856,7 @@ extension BedrockClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopEvaluationJob` operation on the `AmazonBedrockControlPlaneService` service.
+    /// Performs the `StopEvaluationJob` operation on the `Bedrock` service.
     ///
     /// Stops an evaluation job that is current being created or running.
     ///
@@ -3927,7 +3927,7 @@ extension BedrockClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopModelCustomizationJob` operation on the `AmazonBedrockControlPlaneService` service.
+    /// Performs the `StopModelCustomizationJob` operation on the `Bedrock` service.
     ///
     /// Stops an active model customization job. For more information, see [Custom models](https://docs.aws.amazon.com/bedrock/latest/userguide/custom-models.html) in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
     ///
@@ -3998,7 +3998,7 @@ extension BedrockClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopModelInvocationJob` operation on the `AmazonBedrockControlPlaneService` service.
+    /// Performs the `StopModelInvocationJob` operation on the `Bedrock` service.
     ///
     /// Stops a batch inference job. You're only charged for tokens that were already processed. For more information, see [Stop a batch inference job](https://docs.aws.amazon.com/bedrock/latest/userguide/batch-inference-stop.html).
     ///
@@ -4069,7 +4069,7 @@ extension BedrockClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `AmazonBedrockControlPlaneService` service.
+    /// Performs the `TagResource` operation on the `Bedrock` service.
     ///
     /// Associate tags with a resource. For more information, see [Tagging resources](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html) in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
     ///
@@ -4143,7 +4143,7 @@ extension BedrockClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `AmazonBedrockControlPlaneService` service.
+    /// Performs the `UntagResource` operation on the `Bedrock` service.
     ///
     /// Remove one or more tags from a resource. For more information, see [Tagging resources](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html) in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
     ///
@@ -4216,7 +4216,7 @@ extension BedrockClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateGuardrail` operation on the `AmazonBedrockControlPlaneService` service.
+    /// Performs the `UpdateGuardrail` operation on the `Bedrock` service.
     ///
     /// Updates a guardrail with the values you specify.
     ///
@@ -4317,7 +4317,7 @@ extension BedrockClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateMarketplaceModelEndpoint` operation on the `AmazonBedrockControlPlaneService` service.
+    /// Performs the `UpdateMarketplaceModelEndpoint` operation on the `Bedrock` service.
     ///
     /// Updates the configuration of an existing endpoint for a model from Amazon Bedrock Marketplace.
     ///
@@ -4393,7 +4393,7 @@ extension BedrockClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateProvisionedModelThroughput` operation on the `AmazonBedrockControlPlaneService` service.
+    /// Performs the `UpdateProvisionedModelThroughput` operation on the `Bedrock` service.
     ///
     /// Updates the name or associated model for a Provisioned Throughput. For more information, see [Provisioned Throughput](https://docs.aws.amazon.com/bedrock/latest/userguide/prov-throughput.html) in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
     ///
