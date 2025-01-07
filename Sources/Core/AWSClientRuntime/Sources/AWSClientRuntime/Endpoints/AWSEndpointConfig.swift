@@ -54,7 +54,7 @@ public enum AWSEndpointConfig {
                    endpoint_url = https://abcde:9000
              */
             if let servicesSectionName = fileBasedConfig.section(for: profileName)?.string(for: "services") {
-                let servicesSection = fileBasedConfig.section(for: servicesSectionName, type: .profile) // Pending CRT change
+                let servicesSection = fileBasedConfig.section(for: servicesSectionName, type: .services)
                 let serviceSubsection = servicesSection?.subproperties(
                     for: FileBasedConfigurationKey(rawValue: removedSpaceID.lowercased(with: Locale(identifier: "en_US")))
                 )
