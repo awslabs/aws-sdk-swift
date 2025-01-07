@@ -26,7 +26,7 @@ public class AWSS3TransferManagerConfig {
     ///    - checksumAlgorithm: Specifies the checksum algorithm to use for upload operations. Default algorithm is CRC32.
     ///    - multipartDownloadTypes: Specifies the behavior of getObject for multipart download operations. Default value is `.part`, which configures getObject to use part numbers for multipart download. The other option is `.range`, which uses the actual byte range of the S3 object to download. If what you want to download was uploaded without using MPU (therefore there's no part number available), then you must use `.range`.
     public init(
-        s3ClientInstance: S3Client?,
+        s3ClientInstance: S3Client? = nil,
         targetPartSizeBytes: UInt64 = 8_000_000,
         multipartUploadThresholdBytes: UInt64 = 16_000_000,
         checksumValidationEnabled: Bool = true,

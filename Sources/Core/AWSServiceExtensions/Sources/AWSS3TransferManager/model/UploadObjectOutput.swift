@@ -7,7 +7,7 @@
 
 import AWSS3
 
-public struct UploadObjectOuput {
+public struct UploadObjectOutput {
     public let putObjectOutput: PutObjectOutput?
 
     /// Creates the output type for snigle file upload using PutObjectInput, used by AWS S3 Transfer Manager.
