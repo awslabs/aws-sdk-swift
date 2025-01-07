@@ -62,7 +62,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SageMakerMetricsClient: ClientRuntime.Client {
     public static let clientName = "SageMakerMetricsClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: SageMakerMetricsClient.SageMakerMetricsClientConfiguration
     let serviceName = "SageMaker Metrics"
@@ -328,7 +328,7 @@ extension SageMakerMetricsClient {
 }
 
 extension SageMakerMetricsClient {
-    /// Performs the `BatchGetMetrics` operation on the `SageMakerMetricsService` service.
+    /// Performs the `BatchGetMetrics` operation on the `SageMakerMetrics` service.
     ///
     /// Used to retrieve training metrics from SageMaker.
     ///
@@ -392,7 +392,7 @@ extension SageMakerMetricsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchPutMetrics` operation on the `SageMakerMetricsService` service.
+    /// Performs the `BatchPutMetrics` operation on the `SageMakerMetrics` service.
     ///
     /// Used to ingest training metrics into SageMaker. These metrics can be visualized in SageMaker Studio.
     ///

@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class EKSClient: ClientRuntime.Client {
     public static let clientName = "EKSClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: EKSClient.EKSClientConfiguration
     let serviceName = "EKS"
@@ -330,7 +330,7 @@ extension EKSClient {
 }
 
 extension EKSClient {
-    /// Performs the `AssociateAccessPolicy` operation on the `AWSWesleyFrontend` service.
+    /// Performs the `AssociateAccessPolicy` operation on the `EKS` service.
     ///
     /// Associates an access policy and its scope to an access entry. For more information about associating access policies, see [Associating and disassociating access policies to and from access entries](https://docs.aws.amazon.com/eks/latest/userguide/access-policies.html) in the Amazon EKS User Guide.
     ///
@@ -402,7 +402,7 @@ extension EKSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssociateEncryptionConfig` operation on the `AWSWesleyFrontend` service.
+    /// Performs the `AssociateEncryptionConfig` operation on the `EKS` service.
     ///
     /// Associates an encryption configuration to an existing cluster. Use this API to enable encryption on existing clusters that don't already have encryption enabled. This allows you to implement a defense-in-depth security strategy without migrating applications to new Amazon EKS clusters.
     ///
@@ -477,7 +477,7 @@ extension EKSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssociateIdentityProviderConfig` operation on the `AWSWesleyFrontend` service.
+    /// Performs the `AssociateIdentityProviderConfig` operation on the `EKS` service.
     ///
     /// Associates an identity provider configuration to a cluster. If you want to authenticate identities using an identity provider, you can create an identity provider configuration and associate it to your cluster. After configuring authentication to your cluster you can create Kubernetes Role and ClusterRole objects, assign permissions to them, and then bind them to the identities using Kubernetes RoleBinding and ClusterRoleBinding objects. For more information see [Using RBAC Authorization](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) in the Kubernetes documentation.
     ///
@@ -552,7 +552,7 @@ extension EKSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateAccessEntry` operation on the `AWSWesleyFrontend` service.
+    /// Performs the `CreateAccessEntry` operation on the `EKS` service.
     ///
     /// Creates an access entry. An access entry allows an IAM principal to access your cluster. Access entries can replace the need to maintain entries in the aws-authConfigMap for authentication. You have the following options for authorizing an IAM principal to access Kubernetes objects on your cluster: Kubernetes role-based access control (RBAC), Amazon EKS, or both. Kubernetes RBAC authorization requires you to create and manage Kubernetes Role, ClusterRole, RoleBinding, and ClusterRoleBinding objects, in addition to managing access entries. If you use Amazon EKS authorization exclusively, you don't need to create and manage Kubernetes Role, ClusterRole, RoleBinding, and ClusterRoleBinding objects. For more information about access entries, see [Access entries](https://docs.aws.amazon.com/eks/latest/userguide/access-entries.html) in the Amazon EKS User Guide.
     ///
@@ -627,7 +627,7 @@ extension EKSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateAddon` operation on the `AWSWesleyFrontend` service.
+    /// Performs the `CreateAddon` operation on the `EKS` service.
     ///
     /// Creates an Amazon EKS add-on. Amazon EKS add-ons help to automate the provisioning and lifecycle management of common operational software for Amazon EKS clusters. For more information, see [Amazon EKS add-ons](https://docs.aws.amazon.com/eks/latest/userguide/eks-add-ons.html) in the Amazon EKS User Guide.
     ///
@@ -702,7 +702,7 @@ extension EKSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateCluster` operation on the `AWSWesleyFrontend` service.
+    /// Performs the `CreateCluster` operation on the `EKS` service.
     ///
     /// Creates an Amazon EKS control plane. The Amazon EKS control plane consists of control plane instances that run the Kubernetes software, such as etcd and the API server. The control plane runs in an account managed by Amazon Web Services, and the Kubernetes API is exposed by the Amazon EKS API server endpoint. Each Amazon EKS cluster control plane is single tenant and unique. It runs on its own set of Amazon EC2 instances. The cluster control plane is provisioned across multiple Availability Zones and fronted by an Elastic Load Balancing Network Load Balancer. Amazon EKS also provisions elastic network interfaces in your VPC subnets to provide connectivity from the control plane instances to the nodes (for example, to support kubectl exec, logs, and proxy data flows). Amazon EKS nodes run in your Amazon Web Services account and connect to your cluster's control plane over the Kubernetes API server endpoint and a certificate file that is created for your cluster. You can use the endpointPublicAccess and endpointPrivateAccess parameters to enable or disable public and private access to your cluster's Kubernetes API server endpoint. By default, public access is enabled, and private access is disabled. For more information, see [Amazon EKS Cluster Endpoint Access Control](https://docs.aws.amazon.com/eks/latest/userguide/cluster-endpoint.html) in the Amazon EKS User Guide . You can use the logging parameter to enable or disable exporting the Kubernetes control plane logs for your cluster to CloudWatch Logs. By default, cluster control plane logs aren't exported to CloudWatch Logs. For more information, see [Amazon EKS Cluster Control Plane Logs](https://docs.aws.amazon.com/eks/latest/userguide/control-plane-logs.html) in the Amazon EKS User Guide . CloudWatch Logs ingestion, archive storage, and data scanning rates apply to exported control plane logs. For more information, see [CloudWatch Pricing](http://aws.amazon.com/cloudwatch/pricing/). In most cases, it takes several minutes to create a cluster. After you create an Amazon EKS cluster, you must configure your Kubernetes tooling to communicate with the API server and launch nodes into your cluster. For more information, see [Allowing users to access your cluster](https://docs.aws.amazon.com/eks/latest/userguide/cluster-auth.html) and [Launching Amazon EKS nodes](https://docs.aws.amazon.com/eks/latest/userguide/launch-workers.html) in the Amazon EKS User Guide.
     ///
@@ -778,7 +778,7 @@ extension EKSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateEksAnywhereSubscription` operation on the `AWSWesleyFrontend` service.
+    /// Performs the `CreateEksAnywhereSubscription` operation on the `EKS` service.
     ///
     /// Creates an EKS Anywhere subscription. When a subscription is created, it is a contract agreement for the length of the term specified in the request. Licenses that are used to validate support are provisioned in Amazon Web Services License Manager and the caller account is granted access to EKS Anywhere Curated Packages.
     ///
@@ -852,7 +852,7 @@ extension EKSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateFargateProfile` operation on the `AWSWesleyFrontend` service.
+    /// Performs the `CreateFargateProfile` operation on the `EKS` service.
     ///
     /// Creates an Fargate profile for your Amazon EKS cluster. You must have at least one Fargate profile in a cluster to be able to run pods on Fargate. The Fargate profile allows an administrator to declare which pods run on Fargate and specify which pods run on which Fargate profile. This declaration is done through the profile’s selectors. Each profile can have up to five selectors that contain a namespace and labels. A namespace is required for every selector. The label field consists of multiple optional key-value pairs. Pods that match the selectors are scheduled on Fargate. If a to-be-scheduled pod matches any of the selectors in the Fargate profile, then that pod is run on Fargate. When you create a Fargate profile, you must specify a pod execution role to use with the pods that are scheduled with the profile. This role is added to the cluster's Kubernetes [Role Based Access Control](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) (RBAC) for authorization so that the kubelet that is running on the Fargate infrastructure can register with your Amazon EKS cluster so that it can appear in your cluster as a node. The pod execution role also provides IAM permissions to the Fargate infrastructure to allow read access to Amazon ECR image repositories. For more information, see [Pod Execution Role](https://docs.aws.amazon.com/eks/latest/userguide/pod-execution-role.html) in the Amazon EKS User Guide. Fargate profiles are immutable. However, you can create a new updated profile to replace an existing profile and then delete the original after the updated profile has finished creating. If any Fargate profiles in a cluster are in the DELETING status, you must wait for that Fargate profile to finish deleting before you can create any other profiles in that cluster. For more information, see [Fargate profile](https://docs.aws.amazon.com/eks/latest/userguide/fargate-profile.html) in the Amazon EKS User Guide.
     ///
@@ -927,7 +927,7 @@ extension EKSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateNodegroup` operation on the `AWSWesleyFrontend` service.
+    /// Performs the `CreateNodegroup` operation on the `EKS` service.
     ///
     /// Creates a managed node group for an Amazon EKS cluster. You can only create a node group for your cluster that is equal to the current Kubernetes version for the cluster. All node groups are created with the latest AMI release version for the respective minor Kubernetes version of the cluster, unless you deploy a custom AMI using a launch template. For more information about using launch templates, see [Customizing managed nodes with launch templates](https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html). An Amazon EKS managed node group is an Amazon EC2 Auto Scaling group and associated Amazon EC2 instances that are managed by Amazon Web Services for an Amazon EKS cluster. For more information, see [Managed node groups](https://docs.aws.amazon.com/eks/latest/userguide/managed-node-groups.html) in the Amazon EKS User Guide. Windows AMI types are only supported for commercial Amazon Web Services Regions that support Windows on Amazon EKS.
     ///
@@ -1003,7 +1003,7 @@ extension EKSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreatePodIdentityAssociation` operation on the `AWSWesleyFrontend` service.
+    /// Performs the `CreatePodIdentityAssociation` operation on the `EKS` service.
     ///
     /// Creates an EKS Pod Identity association between a service account in an Amazon EKS cluster and an IAM role with EKS Pod Identity. Use EKS Pod Identity to give temporary IAM credentials to pods and the credentials are rotated automatically. Amazon EKS Pod Identity associations provide the ability to manage credentials for your applications, similar to the way that Amazon EC2 instance profiles provide credentials to Amazon EC2 instances. If a pod uses a service account that has an association, Amazon EKS sets environment variables in the containers of the pod. The environment variables configure the Amazon Web Services SDKs, including the Command Line Interface, to use the EKS Pod Identity credentials. Pod Identity is a simpler method than IAM roles for service accounts, as this method doesn't use OIDC identity providers. Additionally, you can configure a role for Pod Identity once, and reuse it across clusters.
     ///
@@ -1078,7 +1078,7 @@ extension EKSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAccessEntry` operation on the `AWSWesleyFrontend` service.
+    /// Performs the `DeleteAccessEntry` operation on the `EKS` service.
     ///
     /// Deletes an access entry. Deleting an access entry of a type other than Standard can cause your cluster to function improperly. If you delete an access entry in error, you can recreate it.
     ///
@@ -1146,7 +1146,7 @@ extension EKSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAddon` operation on the `AWSWesleyFrontend` service.
+    /// Performs the `DeleteAddon` operation on the `EKS` service.
     ///
     /// Deletes an Amazon EKS add-on. When you remove an add-on, it's deleted from the cluster. You can always manually start an add-on on the cluster using the Kubernetes API.
     ///
@@ -1217,7 +1217,7 @@ extension EKSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteCluster` operation on the `AWSWesleyFrontend` service.
+    /// Performs the `DeleteCluster` operation on the `EKS` service.
     ///
     /// Deletes an Amazon EKS cluster control plane. If you have active services in your cluster that are associated with a load balancer, you must delete those services before deleting the cluster so that the load balancers are deleted properly. Otherwise, you can have orphaned resources in your VPC that prevent you from being able to delete the VPC. For more information, see [Deleting a cluster](https://docs.aws.amazon.com/eks/latest/userguide/delete-cluster.html) in the Amazon EKS User Guide. If you have managed node groups or Fargate profiles attached to the cluster, you must delete them first. For more information, see DeleteNodgroup and DeleteFargateProfile.
     ///
@@ -1287,7 +1287,7 @@ extension EKSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteEksAnywhereSubscription` operation on the `AWSWesleyFrontend` service.
+    /// Performs the `DeleteEksAnywhereSubscription` operation on the `EKS` service.
     ///
     /// Deletes an expired or inactive subscription. Deleting inactive subscriptions removes them from the Amazon Web Services Management Console view and from list/describe API responses. Subscriptions can only be cancelled within 7 days of creation and are cancelled by creating a ticket in the Amazon Web Services Support Center.
     ///
@@ -1356,7 +1356,7 @@ extension EKSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteFargateProfile` operation on the `AWSWesleyFrontend` service.
+    /// Performs the `DeleteFargateProfile` operation on the `EKS` service.
     ///
     /// Deletes an Fargate profile. When you delete a Fargate profile, any Pod running on Fargate that was created with the profile is deleted. If the Pod matches another Fargate profile, then it is scheduled on Fargate with that profile. If it no longer matches any Fargate profiles, then it's not scheduled on Fargate and may remain in a pending state. Only one Fargate profile in a cluster can be in the DELETING status at a time. You must wait for a Fargate profile to finish deleting before you can delete any other profiles in that cluster.
     ///
@@ -1425,7 +1425,7 @@ extension EKSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteNodegroup` operation on the `AWSWesleyFrontend` service.
+    /// Performs the `DeleteNodegroup` operation on the `EKS` service.
     ///
     /// Deletes a managed node group.
     ///
@@ -1496,7 +1496,7 @@ extension EKSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeletePodIdentityAssociation` operation on the `AWSWesleyFrontend` service.
+    /// Performs the `DeletePodIdentityAssociation` operation on the `EKS` service.
     ///
     /// Deletes a EKS Pod Identity association. The temporary Amazon Web Services credentials from the previous IAM role session might still be valid until the session expiry. If you need to immediately revoke the temporary session credentials, then go to the role in the IAM console.
     ///
@@ -1565,7 +1565,7 @@ extension EKSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeregisterCluster` operation on the `AWSWesleyFrontend` service.
+    /// Performs the `DeregisterCluster` operation on the `EKS` service.
     ///
     /// Deregisters a connected cluster to remove it from the Amazon EKS control plane. A connected cluster is a Kubernetes cluster that you've connected to your control plane using the [Amazon EKS Connector](https://docs.aws.amazon.com/eks/latest/userguide/eks-connector.html).
     ///
@@ -1636,7 +1636,7 @@ extension EKSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeAccessEntry` operation on the `AWSWesleyFrontend` service.
+    /// Performs the `DescribeAccessEntry` operation on the `EKS` service.
     ///
     /// Describes an access entry.
     ///
@@ -1704,7 +1704,7 @@ extension EKSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeAddon` operation on the `AWSWesleyFrontend` service.
+    /// Performs the `DescribeAddon` operation on the `EKS` service.
     ///
     /// Describes an Amazon EKS add-on.
     ///
@@ -1774,7 +1774,7 @@ extension EKSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeAddonConfiguration` operation on the `AWSWesleyFrontend` service.
+    /// Performs the `DescribeAddonConfiguration` operation on the `EKS` service.
     ///
     /// Returns configuration options.
     ///
@@ -1843,7 +1843,7 @@ extension EKSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeAddonVersions` operation on the `AWSWesleyFrontend` service.
+    /// Performs the `DescribeAddonVersions` operation on the `EKS` service.
     ///
     /// Describes the versions for an add-on. Information such as the Kubernetes versions that you can use the add-on with, the owner, publisher, and the type of the add-on are returned.
     ///
@@ -1912,7 +1912,7 @@ extension EKSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeCluster` operation on the `AWSWesleyFrontend` service.
+    /// Performs the `DescribeCluster` operation on the `EKS` service.
     ///
     /// Describes an Amazon EKS cluster. The API server endpoint and certificate authority data returned by this operation are required for kubelet and kubectl to communicate with your Kubernetes API server. For more information, see [Creating or updating a ]kubeconfig file for an Amazon EKS cluster(https://docs.aws.amazon.com/eks/latest/userguide/create-kubeconfig.html). The API server endpoint and certificate authority data aren't available until the cluster reaches the ACTIVE state.
     ///
@@ -1981,7 +1981,7 @@ extension EKSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeClusterVersions` operation on the `AWSWesleyFrontend` service.
+    /// Performs the `DescribeClusterVersions` operation on the `EKS` service.
     ///
     /// Lists available Kubernetes versions for Amazon EKS clusters.
     ///
@@ -2050,7 +2050,7 @@ extension EKSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeEksAnywhereSubscription` operation on the `AWSWesleyFrontend` service.
+    /// Performs the `DescribeEksAnywhereSubscription` operation on the `EKS` service.
     ///
     /// Returns descriptive information about a subscription.
     ///
@@ -2119,7 +2119,7 @@ extension EKSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeFargateProfile` operation on the `AWSWesleyFrontend` service.
+    /// Performs the `DescribeFargateProfile` operation on the `EKS` service.
     ///
     /// Describes an Fargate profile.
     ///
@@ -2188,7 +2188,7 @@ extension EKSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeIdentityProviderConfig` operation on the `AWSWesleyFrontend` service.
+    /// Performs the `DescribeIdentityProviderConfig` operation on the `EKS` service.
     ///
     /// Describes an identity provider configuration.
     ///
@@ -2261,7 +2261,7 @@ extension EKSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeInsight` operation on the `AWSWesleyFrontend` service.
+    /// Performs the `DescribeInsight` operation on the `EKS` service.
     ///
     /// Returns details about an insight that you specify using its ID.
     ///
@@ -2330,7 +2330,7 @@ extension EKSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeNodegroup` operation on the `AWSWesleyFrontend` service.
+    /// Performs the `DescribeNodegroup` operation on the `EKS` service.
     ///
     /// Describes a managed node group.
     ///
@@ -2400,7 +2400,7 @@ extension EKSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribePodIdentityAssociation` operation on the `AWSWesleyFrontend` service.
+    /// Performs the `DescribePodIdentityAssociation` operation on the `EKS` service.
     ///
     /// Returns descriptive information about an EKS Pod Identity association. This action requires the ID of the association. You can get the ID from the response to the CreatePodIdentityAssocation for newly created associations. Or, you can list the IDs for associations with ListPodIdentityAssociations and filter the list by namespace or service account.
     ///
@@ -2469,7 +2469,7 @@ extension EKSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeUpdate` operation on the `AWSWesleyFrontend` service.
+    /// Performs the `DescribeUpdate` operation on the `EKS` service.
     ///
     /// Describes an update to an Amazon EKS resource. When the status of the update is Succeeded, the update is complete. If an update fails, the status is Failed, and an error detail explains the reason for the failure.
     ///
@@ -2539,7 +2539,7 @@ extension EKSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateAccessPolicy` operation on the `AWSWesleyFrontend` service.
+    /// Performs the `DisassociateAccessPolicy` operation on the `EKS` service.
     ///
     /// Disassociates an access policy from an access entry.
     ///
@@ -2607,7 +2607,7 @@ extension EKSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateIdentityProviderConfig` operation on the `AWSWesleyFrontend` service.
+    /// Performs the `DisassociateIdentityProviderConfig` operation on the `EKS` service.
     ///
     /// Disassociates an identity provider configuration from a cluster. If you disassociate an identity provider from your cluster, users included in the provider can no longer access the cluster. However, you can still access the cluster with IAM principals.
     ///
@@ -2682,7 +2682,7 @@ extension EKSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAccessEntries` operation on the `AWSWesleyFrontend` service.
+    /// Performs the `ListAccessEntries` operation on the `EKS` service.
     ///
     /// Lists the access entries for your cluster.
     ///
@@ -2752,7 +2752,7 @@ extension EKSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAccessPolicies` operation on the `AWSWesleyFrontend` service.
+    /// Performs the `ListAccessPolicies` operation on the `EKS` service.
     ///
     /// Lists the available access policies.
     ///
@@ -2819,7 +2819,7 @@ extension EKSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAddons` operation on the `AWSWesleyFrontend` service.
+    /// Performs the `ListAddons` operation on the `EKS` service.
     ///
     /// Lists the installed add-ons.
     ///
@@ -2890,7 +2890,7 @@ extension EKSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAssociatedAccessPolicies` operation on the `AWSWesleyFrontend` service.
+    /// Performs the `ListAssociatedAccessPolicies` operation on the `EKS` service.
     ///
     /// Lists the access policies associated with an access entry.
     ///
@@ -2959,7 +2959,7 @@ extension EKSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListClusters` operation on the `AWSWesleyFrontend` service.
+    /// Performs the `ListClusters` operation on the `EKS` service.
     ///
     /// Lists the Amazon EKS clusters in your Amazon Web Services account in the specified Amazon Web Services Region.
     ///
@@ -3029,7 +3029,7 @@ extension EKSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListEksAnywhereSubscriptions` operation on the `AWSWesleyFrontend` service.
+    /// Performs the `ListEksAnywhereSubscriptions` operation on the `EKS` service.
     ///
     /// Displays the full description of the subscription.
     ///
@@ -3099,7 +3099,7 @@ extension EKSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListFargateProfiles` operation on the `AWSWesleyFrontend` service.
+    /// Performs the `ListFargateProfiles` operation on the `EKS` service.
     ///
     /// Lists the Fargate profiles associated with the specified cluster in your Amazon Web Services account in the specified Amazon Web Services Region.
     ///
@@ -3169,7 +3169,7 @@ extension EKSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListIdentityProviderConfigs` operation on the `AWSWesleyFrontend` service.
+    /// Performs the `ListIdentityProviderConfigs` operation on the `EKS` service.
     ///
     /// Lists the identity provider configurations for your cluster.
     ///
@@ -3240,7 +3240,7 @@ extension EKSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListInsights` operation on the `AWSWesleyFrontend` service.
+    /// Performs the `ListInsights` operation on the `EKS` service.
     ///
     /// Returns a list of all insights checked for against the specified cluster. You can filter which insights are returned by category, associated Kubernetes version, and status.
     ///
@@ -3312,7 +3312,7 @@ extension EKSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListNodegroups` operation on the `AWSWesleyFrontend` service.
+    /// Performs the `ListNodegroups` operation on the `EKS` service.
     ///
     /// Lists the managed node groups associated with the specified cluster in your Amazon Web Services account in the specified Amazon Web Services Region. Self-managed node groups aren't listed.
     ///
@@ -3383,7 +3383,7 @@ extension EKSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListPodIdentityAssociations` operation on the `AWSWesleyFrontend` service.
+    /// Performs the `ListPodIdentityAssociations` operation on the `EKS` service.
     ///
     /// List the EKS Pod Identity associations in a cluster. You can filter the list by the namespace that the association is in or the service account that the association uses.
     ///
@@ -3453,7 +3453,7 @@ extension EKSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `AWSWesleyFrontend` service.
+    /// Performs the `ListTagsForResource` operation on the `EKS` service.
     ///
     /// List the tags for an Amazon EKS resource.
     ///
@@ -3520,7 +3520,7 @@ extension EKSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListUpdates` operation on the `AWSWesleyFrontend` service.
+    /// Performs the `ListUpdates` operation on the `EKS` service.
     ///
     /// Lists the updates associated with an Amazon EKS resource in your Amazon Web Services account, in the specified Amazon Web Services Region.
     ///
@@ -3590,7 +3590,7 @@ extension EKSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RegisterCluster` operation on the `AWSWesleyFrontend` service.
+    /// Performs the `RegisterCluster` operation on the `EKS` service.
     ///
     /// Connects a Kubernetes cluster to the Amazon EKS control plane. Any Kubernetes cluster can be connected to the Amazon EKS control plane to view current information about the cluster and its nodes. Cluster connection requires two steps. First, send a [RegisterClusterRequest] to add it to the Amazon EKS control plane. Second, a [Manifest](https://amazon-eks.s3.us-west-2.amazonaws.com/eks-connector/manifests/eks-connector/latest/eks-connector.yaml) containing the activationID and activationCode must be applied to the Kubernetes cluster through it's native provider to provide visibility. After the manifest is updated and applied, the connected cluster is visible to the Amazon EKS control plane. If the manifest isn't applied within three days, the connected cluster will no longer be visible and must be deregistered using DeregisterCluster.
     ///
@@ -3667,7 +3667,7 @@ extension EKSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `AWSWesleyFrontend` service.
+    /// Performs the `TagResource` operation on the `EKS` service.
     ///
     /// Associates the specified tags to an Amazon EKS resource with the specified resourceArn. If existing tags on a resource are not specified in the request parameters, they aren't changed. When a resource is deleted, the tags associated with that resource are also deleted. Tags that you create for Amazon EKS resources don't propagate to any other resources associated with the cluster. For example, if you tag a cluster with this operation, that tag doesn't automatically propagate to the subnets and nodes associated with the cluster.
     ///
@@ -3737,7 +3737,7 @@ extension EKSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `AWSWesleyFrontend` service.
+    /// Performs the `UntagResource` operation on the `EKS` service.
     ///
     /// Deletes specified tags from an Amazon EKS resource.
     ///
@@ -3805,7 +3805,7 @@ extension EKSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateAccessEntry` operation on the `AWSWesleyFrontend` service.
+    /// Performs the `UpdateAccessEntry` operation on the `EKS` service.
     ///
     /// Updates an access entry.
     ///
@@ -3878,7 +3878,7 @@ extension EKSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateAddon` operation on the `AWSWesleyFrontend` service.
+    /// Performs the `UpdateAddon` operation on the `EKS` service.
     ///
     /// Updates an Amazon EKS add-on.
     ///
@@ -3953,7 +3953,7 @@ extension EKSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateClusterConfig` operation on the `AWSWesleyFrontend` service.
+    /// Performs the `UpdateClusterConfig` operation on the `EKS` service.
     ///
     /// Updates an Amazon EKS cluster configuration. Your cluster continues to function during the update. The response output includes an update ID that you can use to track the status of your cluster update with DescribeUpdate"/>. You can use this API operation to enable or disable exporting the Kubernetes control plane logs for your cluster to CloudWatch Logs. By default, cluster control plane logs aren't exported to CloudWatch Logs. For more information, see [Amazon EKS Cluster control plane logs](https://docs.aws.amazon.com/eks/latest/userguide/control-plane-logs.html) in the Amazon EKS User Guide . CloudWatch Logs ingestion, archive storage, and data scanning rates apply to exported control plane logs. For more information, see [CloudWatch Pricing](http://aws.amazon.com/cloudwatch/pricing/). You can also use this API operation to enable or disable public and private access to your cluster's Kubernetes API server endpoint. By default, public access is enabled, and private access is disabled. For more information, see [Amazon EKS cluster endpoint access control](https://docs.aws.amazon.com/eks/latest/userguide/cluster-endpoint.html) in the Amazon EKS User Guide . You can also use this API operation to choose different subnets and security groups for the cluster. You must specify at least two subnets that are in different Availability Zones. You can't change which VPC the subnets are from, the subnets must be in the same VPC as the subnets that the cluster was created with. For more information about the VPC requirements, see [https://docs.aws.amazon.com/eks/latest/userguide/network_reqs.html](https://docs.aws.amazon.com/eks/latest/userguide/network_reqs.html) in the Amazon EKS User Guide . You can also use this API operation to enable or disable ARC zonal shift. If zonal shift is enabled, Amazon Web Services configures zonal autoshift for the cluster. Cluster updates are asynchronous, and they should finish within a few minutes. During an update, the cluster status moves to UPDATING (this status transition is eventually consistent). When the update is complete (either Failed or Successful), the cluster status moves to Active.
     ///
@@ -4028,7 +4028,7 @@ extension EKSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateClusterVersion` operation on the `AWSWesleyFrontend` service.
+    /// Performs the `UpdateClusterVersion` operation on the `EKS` service.
     ///
     /// Updates an Amazon EKS cluster to the specified Kubernetes version. Your cluster continues to function during the update. The response output includes an update ID that you can use to track the status of your cluster update with the [DescribeUpdate] API operation. Cluster updates are asynchronous, and they should finish within a few minutes. During an update, the cluster status moves to UPDATING (this status transition is eventually consistent). When the update is complete (either Failed or Successful), the cluster status moves to Active. If your cluster has managed node groups attached to it, all of your node groups’ Kubernetes versions must match the cluster’s Kubernetes version in order to update the cluster to a new Kubernetes version.
     ///
@@ -4103,7 +4103,7 @@ extension EKSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateEksAnywhereSubscription` operation on the `AWSWesleyFrontend` service.
+    /// Performs the `UpdateEksAnywhereSubscription` operation on the `EKS` service.
     ///
     /// Update an EKS Anywhere Subscription. Only auto renewal and tags can be updated after subscription creation.
     ///
@@ -4177,7 +4177,7 @@ extension EKSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateNodegroupConfig` operation on the `AWSWesleyFrontend` service.
+    /// Performs the `UpdateNodegroupConfig` operation on the `EKS` service.
     ///
     /// Updates an Amazon EKS managed node group configuration. Your node group continues to function during the update. The response output includes an update ID that you can use to track the status of your node group update with the [DescribeUpdate] API operation. Currently you can update the Kubernetes labels for a node group or the scaling configuration.
     ///
@@ -4252,7 +4252,7 @@ extension EKSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateNodegroupVersion` operation on the `AWSWesleyFrontend` service.
+    /// Performs the `UpdateNodegroupVersion` operation on the `EKS` service.
     ///
     /// Updates the Kubernetes version or AMI version of an Amazon EKS managed node group. You can update a node group using a launch template only if the node group was originally deployed with a launch template. If you need to update a custom AMI in a node group that was deployed with a launch template, then update your custom AMI, specify the new ID in a new version of the launch template, and then update the node group to the new version of the launch template. If you update without a launch template, then you can update to the latest available AMI version of a node group's current Kubernetes version by not specifying a Kubernetes version in the request. You can update to the latest AMI version of your cluster's current Kubernetes version by specifying your cluster's Kubernetes version in the request. For information about Linux versions, see [Amazon EKS optimized Amazon Linux AMI versions](https://docs.aws.amazon.com/eks/latest/userguide/eks-linux-ami-versions.html) in the Amazon EKS User Guide. For information about Windows versions, see [Amazon EKS optimized Windows AMI versions](https://docs.aws.amazon.com/eks/latest/userguide/eks-ami-versions-windows.html) in the Amazon EKS User Guide. You cannot roll back a node group to an earlier Kubernetes version or AMI version. When a node in a managed node group is terminated due to a scaling action or update, every Pod on that node is drained first. Amazon EKS attempts to drain the nodes gracefully and will fail if it is unable to do so. You can force the update if Amazon EKS is unable to drain the nodes as a result of a Pod disruption budget issue.
     ///
@@ -4327,7 +4327,7 @@ extension EKSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdatePodIdentityAssociation` operation on the `AWSWesleyFrontend` service.
+    /// Performs the `UpdatePodIdentityAssociation` operation on the `EKS` service.
     ///
     /// Updates a EKS Pod Identity association. Only the IAM role can be changed; an association can't be moved between clusters, namespaces, or service accounts. If you need to edit the namespace or service account, you need to delete the association and then create a new association with your desired settings.
     ///

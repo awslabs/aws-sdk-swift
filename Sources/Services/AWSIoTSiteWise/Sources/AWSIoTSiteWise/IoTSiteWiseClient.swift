@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class IoTSiteWiseClient: ClientRuntime.Client {
     public static let clientName = "IoTSiteWiseClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: IoTSiteWiseClient.IoTSiteWiseClientConfiguration
     let serviceName = "IoTSiteWise"
@@ -332,7 +332,7 @@ extension IoTSiteWiseClient {
 }
 
 extension IoTSiteWiseClient {
-    /// Performs the `AssociateAssets` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `AssociateAssets` operation on the `IoTSiteWise` service.
     ///
     /// Associates a child asset with the given parent asset through a hierarchy defined in the parent asset's model. For more information, see [Associating assets](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/add-associated-assets.html) in the IoT SiteWise User Guide.
     ///
@@ -408,7 +408,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssociateTimeSeriesToAssetProperty` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `AssociateTimeSeriesToAssetProperty` operation on the `IoTSiteWise` service.
     ///
     /// Associates a time series (data stream) with an asset property.
     ///
@@ -483,7 +483,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchAssociateProjectAssets` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `BatchAssociateProjectAssets` operation on the `IoTSiteWise` service.
     ///
     /// Associates a group (batch) of assets with an IoT SiteWise Monitor project.
     ///
@@ -557,7 +557,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchDisassociateProjectAssets` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `BatchDisassociateProjectAssets` operation on the `IoTSiteWise` service.
     ///
     /// Disassociates a group (batch) of assets from an IoT SiteWise Monitor project.
     ///
@@ -630,7 +630,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchGetAssetPropertyAggregates` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `BatchGetAssetPropertyAggregates` operation on the `IoTSiteWise` service.
     ///
     /// Gets aggregated values (for example, average, minimum, and maximum) for one or more asset properties. For more information, see [Querying aggregates](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/query-industrial-data.html#aggregates) in the IoT SiteWise User Guide.
     ///
@@ -702,7 +702,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchGetAssetPropertyValue` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `BatchGetAssetPropertyValue` operation on the `IoTSiteWise` service.
     ///
     /// Gets the current value for one or more asset properties. For more information, see [Querying current values](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/query-industrial-data.html#current-values) in the IoT SiteWise User Guide.
     ///
@@ -774,7 +774,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchGetAssetPropertyValueHistory` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `BatchGetAssetPropertyValueHistory` operation on the `IoTSiteWise` service.
     ///
     /// Gets the historical values for one or more asset properties. For more information, see [Querying historical values](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/query-industrial-data.html#historical-values) in the IoT SiteWise User Guide.
     ///
@@ -846,7 +846,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchPutAssetPropertyValue` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `BatchPutAssetPropertyValue` operation on the `IoTSiteWise` service.
     ///
     /// Sends a list of asset property values to IoT SiteWise. Each value is a timestamp-quality-value (TQV) data point. For more information, see [Ingesting data using the API](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/ingest-api.html) in the IoT SiteWise User Guide. To identify an asset property, you must specify one of the following:
     ///
@@ -928,7 +928,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateAccessPolicy` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `CreateAccessPolicy` operation on the `IoTSiteWise` service.
     ///
     /// Creates an access policy that grants the specified identity (IAM Identity Center user, IAM Identity Center group, or IAM user) access to the specified IoT SiteWise Monitor portal or project resource.
     ///
@@ -1002,7 +1002,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateAsset` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `CreateAsset` operation on the `IoTSiteWise` service.
     ///
     /// Creates an asset from an existing asset model. For more information, see [Creating assets](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/create-assets.html) in the IoT SiteWise User Guide.
     ///
@@ -1078,7 +1078,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateAssetModel` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `CreateAssetModel` operation on the `IoTSiteWise` service.
     ///
     /// Creates an asset model from specified property and hierarchy definitions. You create assets from asset models. With asset models, you can easily create assets of the same type that have standardized definitions. Each asset created from a model inherits the asset model's property and hierarchy definitions. For more information, see [Defining asset models](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/define-models.html) in the IoT SiteWise User Guide. You can create two types of asset models, ASSET_MODEL or COMPONENT_MODEL.
     ///
@@ -1158,7 +1158,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateAssetModelCompositeModel` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `CreateAssetModelCompositeModel` operation on the `IoTSiteWise` service.
     ///
     /// Creates a custom composite model from specified property and hierarchy definitions. There are two types of custom composite models, inline and component-model-based. Use component-model-based custom composite models to define standard, reusable components. A component-model-based custom composite model consists of a name, a description, and the ID of the component model it references. A component-model-based custom composite model has no properties of its own; its referenced component model provides its associated properties to any created assets. For more information, see [Custom composite models (Components)](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/custom-composite-models.html) in the IoT SiteWise User Guide. Use inline custom composite models to organize the properties of an asset model. The properties of inline custom composite models are local to the asset model where they are included and can't be used to create multiple assets. To create a component-model-based model, specify the composedAssetModelId of an existing asset model with assetModelType of COMPONENT_MODEL. To create an inline model, specify the assetModelCompositeModelProperties and don't include an composedAssetModelId.
     ///
@@ -1236,7 +1236,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateBulkImportJob` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `CreateBulkImportJob` operation on the `IoTSiteWise` service.
     ///
     /// Defines a job to ingest data to IoT SiteWise from Amazon S3. For more information, see [Create a bulk import job (CLI)](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/CreateBulkImportJob.html) in the Amazon Simple Storage Service User Guide. Before you create a bulk import job, you must enable IoT SiteWise warm tier or IoT SiteWise cold tier. For more information about how to configure storage settings, see [PutStorageConfiguration](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_PutStorageConfiguration.html). Bulk import is designed to store historical data to IoT SiteWise. It does not trigger computations or notifications on IoT SiteWise warm or cold tier storage.
     ///
@@ -1311,7 +1311,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateDashboard` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `CreateDashboard` operation on the `IoTSiteWise` service.
     ///
     /// Creates a dashboard in an IoT SiteWise Monitor project.
     ///
@@ -1385,7 +1385,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateDataset` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `CreateDataset` operation on the `IoTSiteWise` service.
     ///
     /// Creates a dataset to connect an external datasource.
     ///
@@ -1461,7 +1461,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateGateway` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `CreateGateway` operation on the `IoTSiteWise` service.
     ///
     /// Creates a gateway, which is a virtual or edge device that delivers industrial data streams from local servers to IoT SiteWise. For more information, see [Ingesting data using a gateway](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/gateway-connector.html) in the IoT SiteWise User Guide.
     ///
@@ -1534,7 +1534,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreatePortal` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `CreatePortal` operation on the `IoTSiteWise` service.
     ///
     /// Creates a portal, which can contain projects and dashboards. IoT SiteWise Monitor uses IAM Identity Center or IAM to authenticate portal users and manage user permissions. Before you can sign in to a new portal, you must add at least one identity to that portal. For more information, see [Adding or removing portal administrators](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/administer-portals.html#portal-change-admins) in the IoT SiteWise User Guide.
     ///
@@ -1608,7 +1608,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateProject` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `CreateProject` operation on the `IoTSiteWise` service.
     ///
     /// Creates a project in the specified portal. Make sure that the project name and description don't contain confidential information.
     ///
@@ -1682,7 +1682,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAccessPolicy` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `DeleteAccessPolicy` operation on the `IoTSiteWise` service.
     ///
     /// Deletes an access policy that grants the specified identity access to the specified IoT SiteWise Monitor resource. You can use this operation to revoke access to an IoT SiteWise Monitor resource.
     ///
@@ -1753,7 +1753,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAsset` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `DeleteAsset` operation on the `IoTSiteWise` service.
     ///
     /// Deletes an asset. This action can't be undone. For more information, see [Deleting assets and models](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/delete-assets-and-models.html) in the IoT SiteWise User Guide. You can't delete an asset that's associated to another asset. For more information, see [DisassociateAssets](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_DisassociateAssets.html).
     ///
@@ -1825,7 +1825,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAssetModel` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `DeleteAssetModel` operation on the `IoTSiteWise` service.
     ///
     /// Deletes an asset model. This action can't be undone. You must delete all assets created from an asset model before you can delete the model. Also, you can't delete an asset model if a parent asset model exists that contains a property formula expression that depends on the asset model that you want to delete. For more information, see [Deleting assets and models](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/delete-assets-and-models.html) in the IoT SiteWise User Guide.
     ///
@@ -1899,7 +1899,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAssetModelCompositeModel` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `DeleteAssetModelCompositeModel` operation on the `IoTSiteWise` service.
     ///
     /// Deletes a composite model. This action can't be undone. You must delete all assets created from a composite model before you can delete the model. Also, you can't delete a composite model if a parent asset model exists that contains a property formula expression that depends on the asset model that you want to delete. For more information, see [Deleting assets and models](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/delete-assets-and-models.html) in the IoT SiteWise User Guide.
     ///
@@ -1973,7 +1973,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteDashboard` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `DeleteDashboard` operation on the `IoTSiteWise` service.
     ///
     /// Deletes a dashboard from IoT SiteWise Monitor.
     ///
@@ -2044,7 +2044,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteDataset` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `DeleteDataset` operation on the `IoTSiteWise` service.
     ///
     /// Deletes a dataset. This cannot be undone.
     ///
@@ -2116,7 +2116,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteGateway` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `DeleteGateway` operation on the `IoTSiteWise` service.
     ///
     /// Deletes a gateway from IoT SiteWise. When you delete a gateway, some of the gateway's files remain in your gateway's file system.
     ///
@@ -2186,7 +2186,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeletePortal` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `DeletePortal` operation on the `IoTSiteWise` service.
     ///
     /// Deletes a portal from IoT SiteWise Monitor.
     ///
@@ -2258,7 +2258,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteProject` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `DeleteProject` operation on the `IoTSiteWise` service.
     ///
     /// Deletes a project from IoT SiteWise Monitor.
     ///
@@ -2329,7 +2329,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteTimeSeries` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `DeleteTimeSeries` operation on the `IoTSiteWise` service.
     ///
     /// Deletes a time series (data stream). If you delete a time series that's associated with an asset property, the asset property still exists, but the time series will no longer be associated with this asset property. To identify a time series, do one of the following:
     ///
@@ -2412,7 +2412,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeAccessPolicy` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `DescribeAccessPolicy` operation on the `IoTSiteWise` service.
     ///
     /// Describes an access policy, which specifies an identity's access to an IoT SiteWise Monitor portal or project.
     ///
@@ -2481,7 +2481,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeAction` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `DescribeAction` operation on the `IoTSiteWise` service.
     ///
     /// Retrieves information about an action.
     ///
@@ -2550,7 +2550,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeAsset` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `DescribeAsset` operation on the `IoTSiteWise` service.
     ///
     /// Retrieves information about an asset.
     ///
@@ -2620,7 +2620,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeAssetCompositeModel` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `DescribeAssetCompositeModel` operation on the `IoTSiteWise` service.
     ///
     /// Retrieves information about an asset composite model (also known as an asset component). An AssetCompositeModel is an instance of an AssetModelCompositeModel. If you want to see information about the model this is based on, call [DescribeAssetModelCompositeModel](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_DescribeAssetModelCompositeModel.html).
     ///
@@ -2689,7 +2689,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeAssetModel` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `DescribeAssetModel` operation on the `IoTSiteWise` service.
     ///
     /// Retrieves information about an asset model.
     ///
@@ -2759,7 +2759,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeAssetModelCompositeModel` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `DescribeAssetModelCompositeModel` operation on the `IoTSiteWise` service.
     ///
     /// Retrieves information about an asset model composite model (also known as an asset model component). For more information, see [Custom composite models (Components)](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/custom-composite-models.html) in the IoT SiteWise User Guide.
     ///
@@ -2829,7 +2829,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeAssetProperty` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `DescribeAssetProperty` operation on the `IoTSiteWise` service.
     ///
     /// Retrieves information about an asset property. When you call this operation for an attribute property, this response includes the default attribute value that you define in the asset model. If you update the default value in the model, this operation's response includes the new default value. This operation doesn't return the value of the asset property. To get the value of an asset property, use [GetAssetPropertyValue](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_GetAssetPropertyValue.html).
     ///
@@ -2898,7 +2898,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeBulkImportJob` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `DescribeBulkImportJob` operation on the `IoTSiteWise` service.
     ///
     /// Retrieves information about a bulk import job request. For more information, see [Describe a bulk import job (CLI)](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/DescribeBulkImportJob.html) in the Amazon Simple Storage Service User Guide.
     ///
@@ -2967,7 +2967,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeDashboard` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `DescribeDashboard` operation on the `IoTSiteWise` service.
     ///
     /// Retrieves information about a dashboard.
     ///
@@ -3036,7 +3036,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeDataset` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `DescribeDataset` operation on the `IoTSiteWise` service.
     ///
     /// Retrieves information about a dataset.
     ///
@@ -3105,7 +3105,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeDefaultEncryptionConfiguration` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `DescribeDefaultEncryptionConfiguration` operation on the `IoTSiteWise` service.
     ///
     /// Retrieves information about the default encryption configuration for the Amazon Web Services account in the default or specified Region. For more information, see [Key management](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/key-management.html) in the IoT SiteWise User Guide.
     ///
@@ -3173,7 +3173,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeGateway` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `DescribeGateway` operation on the `IoTSiteWise` service.
     ///
     /// Retrieves information about a gateway.
     ///
@@ -3242,7 +3242,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeGatewayCapabilityConfiguration` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `DescribeGatewayCapabilityConfiguration` operation on the `IoTSiteWise` service.
     ///
     /// Retrieves information about a gateway capability configuration. Each gateway capability defines data sources for a gateway. A capability configuration can contain multiple data source configurations. If you define OPC-UA sources for a gateway in the IoT SiteWise console, all of your OPC-UA sources are stored in one capability configuration. To list all capability configurations for a gateway, use [DescribeGateway](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_DescribeGateway.html).
     ///
@@ -3311,7 +3311,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeLoggingOptions` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `DescribeLoggingOptions` operation on the `IoTSiteWise` service.
     ///
     /// Retrieves the current IoT SiteWise logging options.
     ///
@@ -3380,7 +3380,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribePortal` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `DescribePortal` operation on the `IoTSiteWise` service.
     ///
     /// Retrieves information about a portal.
     ///
@@ -3449,7 +3449,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeProject` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `DescribeProject` operation on the `IoTSiteWise` service.
     ///
     /// Retrieves information about a project.
     ///
@@ -3518,7 +3518,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeStorageConfiguration` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `DescribeStorageConfiguration` operation on the `IoTSiteWise` service.
     ///
     /// Retrieves information about the storage configuration for IoT SiteWise.
     ///
@@ -3589,7 +3589,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeTimeSeries` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `DescribeTimeSeries` operation on the `IoTSiteWise` service.
     ///
     /// Retrieves information about a time series (data stream). To identify a time series, do one of the following:
     ///
@@ -3667,7 +3667,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateAssets` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `DisassociateAssets` operation on the `IoTSiteWise` service.
     ///
     /// Disassociates a child asset from the given parent asset through a hierarchy defined in the parent asset's model.
     ///
@@ -3741,7 +3741,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateTimeSeriesFromAssetProperty` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `DisassociateTimeSeriesFromAssetProperty` operation on the `IoTSiteWise` service.
     ///
     /// Disassociates a time series (data stream) from an asset property.
     ///
@@ -3816,7 +3816,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ExecuteAction` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `ExecuteAction` operation on the `IoTSiteWise` service.
     ///
     /// Executes an action on a target resource.
     ///
@@ -3890,7 +3890,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ExecuteQuery` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `ExecuteQuery` operation on the `IoTSiteWise` service.
     ///
     /// Run SQL queries to retrieve metadata and time-series data from asset models, assets, measurements, metrics, transforms, and aggregates.
     ///
@@ -3966,7 +3966,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAssetPropertyAggregates` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `GetAssetPropertyAggregates` operation on the `IoTSiteWise` service.
     ///
     /// Gets aggregated values for an asset property. For more information, see [Querying aggregates](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/query-industrial-data.html#aggregates) in the IoT SiteWise User Guide. To identify an asset property, you must specify one of the following:
     ///
@@ -4041,7 +4041,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAssetPropertyValue` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `GetAssetPropertyValue` operation on the `IoTSiteWise` service.
     ///
     /// Gets an asset property's current value. For more information, see [Querying current values](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/query-industrial-data.html#current-values) in the IoT SiteWise User Guide. To identify an asset property, you must specify one of the following:
     ///
@@ -4116,7 +4116,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAssetPropertyValueHistory` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `GetAssetPropertyValueHistory` operation on the `IoTSiteWise` service.
     ///
     /// Gets the history of an asset property's values. For more information, see [Querying historical values](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/query-industrial-data.html#historical-values) in the IoT SiteWise User Guide. To identify an asset property, you must specify one of the following:
     ///
@@ -4191,7 +4191,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetInterpolatedAssetPropertyValues` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `GetInterpolatedAssetPropertyValues` operation on the `IoTSiteWise` service.
     ///
     /// Get interpolated values for an asset property for a specified time interval, during a period of time. If your time series is missing data points during the specified time interval, you can use interpolation to estimate the missing data. For example, you can use this operation to return the interpolated temperature values for a wind turbine every 24 hours over a duration of 7 days. To identify an asset property, you must specify one of the following:
     ///
@@ -4266,7 +4266,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `InvokeAssistant` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `InvokeAssistant` operation on the `IoTSiteWise` service.
     ///
     /// Invokes SiteWise Assistant to start or continue a conversation.
     ///
@@ -4341,7 +4341,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAccessPolicies` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `ListAccessPolicies` operation on the `IoTSiteWise` service.
     ///
     /// Retrieves a paginated list of access policies for an identity (an IAM Identity Center user, an IAM Identity Center group, or an IAM user) or an IoT SiteWise Monitor resource (a portal or project).
     ///
@@ -4410,7 +4410,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListActions` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `ListActions` operation on the `IoTSiteWise` service.
     ///
     /// Retrieves a paginated list of actions for a specific target resource.
     ///
@@ -4480,7 +4480,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAssetModelCompositeModels` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `ListAssetModelCompositeModels` operation on the `IoTSiteWise` service.
     ///
     /// Retrieves a paginated list of composite models associated with the asset model
     ///
@@ -4550,7 +4550,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAssetModelProperties` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `ListAssetModelProperties` operation on the `IoTSiteWise` service.
     ///
     /// Retrieves a paginated list of properties associated with an asset model. If you update properties associated with the model before you finish listing all the properties, you need to start all over again.
     ///
@@ -4620,7 +4620,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAssetModels` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `ListAssetModels` operation on the `IoTSiteWise` service.
     ///
     /// Retrieves a paginated list of summaries of all asset models.
     ///
@@ -4689,7 +4689,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAssetProperties` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `ListAssetProperties` operation on the `IoTSiteWise` service.
     ///
     /// Retrieves a paginated list of properties associated with an asset. If you update properties associated with the model before you finish listing all the properties, you need to start all over again.
     ///
@@ -4759,7 +4759,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAssetRelationships` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `ListAssetRelationships` operation on the `IoTSiteWise` service.
     ///
     /// Retrieves a paginated list of asset relationships for an asset. You can use this operation to identify an asset's root asset and all associated assets between that asset and its root.
     ///
@@ -4829,7 +4829,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAssets` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `ListAssets` operation on the `IoTSiteWise` service.
     ///
     /// Retrieves a paginated list of asset summaries. You can use this operation to do the following:
     ///
@@ -4906,7 +4906,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAssociatedAssets` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `ListAssociatedAssets` operation on the `IoTSiteWise` service.
     ///
     /// Retrieves a paginated list of associated assets. You can use this operation to do the following:
     ///
@@ -4980,7 +4980,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListBulkImportJobs` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `ListBulkImportJobs` operation on the `IoTSiteWise` service.
     ///
     /// Retrieves a paginated list of bulk import job requests. For more information, see [List bulk import jobs (CLI)](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/ListBulkImportJobs.html) in the IoT SiteWise User Guide.
     ///
@@ -5050,7 +5050,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListCompositionRelationships` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `ListCompositionRelationships` operation on the `IoTSiteWise` service.
     ///
     /// Retrieves a paginated list of composition relationships for an asset model of type COMPONENT_MODEL.
     ///
@@ -5120,7 +5120,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDashboards` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `ListDashboards` operation on the `IoTSiteWise` service.
     ///
     /// Retrieves a paginated list of dashboards for an IoT SiteWise Monitor project.
     ///
@@ -5189,7 +5189,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDatasets` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `ListDatasets` operation on the `IoTSiteWise` service.
     ///
     /// Retrieves a paginated list of datasets for a specific target resource.
     ///
@@ -5258,7 +5258,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListGateways` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `ListGateways` operation on the `IoTSiteWise` service.
     ///
     /// Retrieves a paginated list of gateways.
     ///
@@ -5327,7 +5327,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListPortals` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `ListPortals` operation on the `IoTSiteWise` service.
     ///
     /// Retrieves a paginated list of IoT SiteWise Monitor portals.
     ///
@@ -5396,7 +5396,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListProjectAssets` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `ListProjectAssets` operation on the `IoTSiteWise` service.
     ///
     /// Retrieves a paginated list of assets associated with an IoT SiteWise Monitor project.
     ///
@@ -5465,7 +5465,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListProjects` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `ListProjects` operation on the `IoTSiteWise` service.
     ///
     /// Retrieves a paginated list of projects for an IoT SiteWise Monitor portal.
     ///
@@ -5534,7 +5534,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `ListTagsForResource` operation on the `IoTSiteWise` service.
     ///
     /// Retrieves the list of tags for an IoT SiteWise resource.
     ///
@@ -5607,7 +5607,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTimeSeries` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `ListTimeSeries` operation on the `IoTSiteWise` service.
     ///
     /// Retrieves a paginated list of time series (data streams).
     ///
@@ -5677,7 +5677,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutDefaultEncryptionConfiguration` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `PutDefaultEncryptionConfiguration` operation on the `IoTSiteWise` service.
     ///
     /// Sets the default encryption configuration for the Amazon Web Services account. For more information, see [Key management](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/key-management.html) in the IoT SiteWise User Guide.
     ///
@@ -5750,7 +5750,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutLoggingOptions` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `PutLoggingOptions` operation on the `IoTSiteWise` service.
     ///
     /// Sets logging options for IoT SiteWise.
     ///
@@ -5823,7 +5823,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutStorageConfiguration` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `PutStorageConfiguration` operation on the `IoTSiteWise` service.
     ///
     /// Configures storage settings for IoT SiteWise.
     ///
@@ -5898,7 +5898,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `TagResource` operation on the `IoTSiteWise` service.
     ///
     /// Adds tags to an IoT SiteWise resource. If a tag already exists for the resource, this operation updates the tag's value.
     ///
@@ -5975,7 +5975,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `UntagResource` operation on the `IoTSiteWise` service.
     ///
     /// Removes a tag from an IoT SiteWise resource.
     ///
@@ -6048,7 +6048,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateAccessPolicy` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `UpdateAccessPolicy` operation on the `IoTSiteWise` service.
     ///
     /// Updates an existing access policy that specifies an identity's access to an IoT SiteWise Monitor portal or project resource.
     ///
@@ -6121,7 +6121,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateAsset` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `UpdateAsset` operation on the `IoTSiteWise` service.
     ///
     /// Updates an asset's name. For more information, see [Updating assets and models](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/update-assets-and-models.html) in the IoT SiteWise User Guide.
     ///
@@ -6196,7 +6196,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateAssetModel` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `UpdateAssetModel` operation on the `IoTSiteWise` service.
     ///
     /// Updates an asset model and all of the assets that were created from the model. Each asset created from the model inherits the updated asset model's property and hierarchy definitions. For more information, see [Updating assets and models](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/update-assets-and-models.html) in the IoT SiteWise User Guide. If you remove a property from an asset model, IoT SiteWise deletes all previous data for that property. You can’t change the type or data type of an existing property. To replace an existing asset model property with a new one with the same name, do the following:
     ///
@@ -6278,7 +6278,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateAssetModelCompositeModel` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `UpdateAssetModelCompositeModel` operation on the `IoTSiteWise` service.
     ///
     /// Updates a composite model and all of the assets that were created from the model. Each asset created from the model inherits the updated asset model's property and hierarchy definitions. For more information, see [Updating assets and models](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/update-assets-and-models.html) in the IoT SiteWise User Guide. If you remove a property from a composite asset model, IoT SiteWise deletes all previous data for that property. You can’t change the type or data type of an existing property. To replace an existing composite asset model property with a new one with the same name, do the following:
     ///
@@ -6360,7 +6360,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateAssetProperty` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `UpdateAssetProperty` operation on the `IoTSiteWise` service.
     ///
     /// Updates an asset property's alias and notification state. This operation overwrites the property's existing alias and notification state. To keep your existing property's alias or notification state, you must include the existing values in the UpdateAssetProperty request. For more information, see [DescribeAssetProperty](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_DescribeAssetProperty.html).
     ///
@@ -6434,7 +6434,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateDashboard` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `UpdateDashboard` operation on the `IoTSiteWise` service.
     ///
     /// Updates an IoT SiteWise Monitor dashboard.
     ///
@@ -6507,7 +6507,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateDataset` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `UpdateDataset` operation on the `IoTSiteWise` service.
     ///
     /// Updates a dataset.
     ///
@@ -6582,7 +6582,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateGateway` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `UpdateGateway` operation on the `IoTSiteWise` service.
     ///
     /// Updates a gateway's name.
     ///
@@ -6655,7 +6655,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateGatewayCapabilityConfiguration` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `UpdateGatewayCapabilityConfiguration` operation on the `IoTSiteWise` service.
     ///
     /// Updates a gateway capability configuration or defines a new capability configuration. Each gateway capability defines data sources for a gateway. A capability configuration can contain multiple data source configurations. If you define OPC-UA sources for a gateway in the IoT SiteWise console, all of your OPC-UA sources are stored in one capability configuration. To list all capability configurations for a gateway, use [DescribeGateway](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_DescribeGateway.html).
     ///
@@ -6729,7 +6729,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdatePortal` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `UpdatePortal` operation on the `IoTSiteWise` service.
     ///
     /// Updates an IoT SiteWise Monitor portal.
     ///
@@ -6803,7 +6803,7 @@ extension IoTSiteWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateProject` operation on the `AWSIoTSiteWise` service.
+    /// Performs the `UpdateProject` operation on the `IoTSiteWise` service.
     ///
     /// Updates an IoT SiteWise Monitor project.
     ///

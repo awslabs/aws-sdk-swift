@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class BCMPricingCalculatorClient: ClientRuntime.Client {
     public static let clientName = "BCMPricingCalculatorClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: BCMPricingCalculatorClient.BCMPricingCalculatorClientConfiguration
     let serviceName = "BCM Pricing Calculator"
@@ -331,7 +331,7 @@ extension BCMPricingCalculatorClient {
 }
 
 extension BCMPricingCalculatorClient {
-    /// Performs the `BatchCreateBillScenarioCommitmentModification` operation on the `AWSBCMPricingCalculator` service.
+    /// Performs the `BatchCreateBillScenarioCommitmentModification` operation on the `BCMPricingCalculator` service.
     ///
     /// Create Compute Savings Plans, EC2 Instance Savings Plans, or EC2 Reserved Instances commitments that you want to model in a Bill Scenario.
     ///
@@ -408,7 +408,7 @@ extension BCMPricingCalculatorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchCreateBillScenarioUsageModification` operation on the `AWSBCMPricingCalculator` service.
+    /// Performs the `BatchCreateBillScenarioUsageModification` operation on the `BCMPricingCalculator` service.
     ///
     /// Create Amazon Web Services service usage that you want to model in a Bill Scenario.
     ///
@@ -486,7 +486,7 @@ extension BCMPricingCalculatorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchCreateWorkloadEstimateUsage` operation on the `AWSBCMPricingCalculator` service.
+    /// Performs the `BatchCreateWorkloadEstimateUsage` operation on the `BCMPricingCalculator` service.
     ///
     /// Create Amazon Web Services service usage that you want to model in a Workload Estimate.
     ///
@@ -564,7 +564,7 @@ extension BCMPricingCalculatorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchDeleteBillScenarioCommitmentModification` operation on the `AWSBCMPricingCalculator` service.
+    /// Performs the `BatchDeleteBillScenarioCommitmentModification` operation on the `BCMPricingCalculator` service.
     ///
     /// Delete commitment that you have created in a Bill Scenario. You can only delete a commitment that you had added and cannot model deletion (or removal) of a existing commitment. If you want model deletion of an existing commitment, see the negate [ BillScenarioCommitmentModificationAction](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_AWSBCMPricingCalculator_BillScenarioCommitmentModificationAction.html) of [ BatchCreateBillScenarioCommitmentModification](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_AWSBCMPricingCalculator_BatchCreateBillScenarioUsageModification.html) operation.
     ///
@@ -639,7 +639,7 @@ extension BCMPricingCalculatorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchDeleteBillScenarioUsageModification` operation on the `AWSBCMPricingCalculator` service.
+    /// Performs the `BatchDeleteBillScenarioUsageModification` operation on the `BCMPricingCalculator` service.
     ///
     /// Delete usage that you have created in a Bill Scenario. You can only delete usage that you had added and cannot model deletion (or removal) of a existing usage. If you want model removal of an existing usage, see [ BatchUpdateBillScenarioUsageModification](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_AWSBCMPricingCalculator_BatchUpdateBillScenarioUsageModification.html).
     ///
@@ -715,7 +715,7 @@ extension BCMPricingCalculatorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchDeleteWorkloadEstimateUsage` operation on the `AWSBCMPricingCalculator` service.
+    /// Performs the `BatchDeleteWorkloadEstimateUsage` operation on the `BCMPricingCalculator` service.
     ///
     /// Delete usage that you have created in a Workload estimate. You can only delete usage that you had added and cannot model deletion (or removal) of a existing usage. If you want model removal of an existing usage, see [ BatchUpdateWorkloadEstimateUsage](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_AWSBCMPricingCalculator_BatchUpdateWorkloadEstimateUsage.html).
     ///
@@ -791,7 +791,7 @@ extension BCMPricingCalculatorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchUpdateBillScenarioCommitmentModification` operation on the `AWSBCMPricingCalculator` service.
+    /// Performs the `BatchUpdateBillScenarioCommitmentModification` operation on the `BCMPricingCalculator` service.
     ///
     /// Update a newly added or existing commitment. You can update the commitment group based on a commitment ID and a Bill scenario ID.
     ///
@@ -866,7 +866,7 @@ extension BCMPricingCalculatorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchUpdateBillScenarioUsageModification` operation on the `AWSBCMPricingCalculator` service.
+    /// Performs the `BatchUpdateBillScenarioUsageModification` operation on the `BCMPricingCalculator` service.
     ///
     /// Update a newly added or existing usage lines. You can update the usage amounts, usage hour, and usage group based on a usage ID and a Bill scenario ID.
     ///
@@ -942,7 +942,7 @@ extension BCMPricingCalculatorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchUpdateWorkloadEstimateUsage` operation on the `AWSBCMPricingCalculator` service.
+    /// Performs the `BatchUpdateWorkloadEstimateUsage` operation on the `BCMPricingCalculator` service.
     ///
     /// Update a newly added or existing usage lines. You can update the usage amounts and usage group based on a usage ID and a Workload estimate ID.
     ///
@@ -1018,7 +1018,7 @@ extension BCMPricingCalculatorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateBillEstimate` operation on the `AWSBCMPricingCalculator` service.
+    /// Performs the `CreateBillEstimate` operation on the `BCMPricingCalculator` service.
     ///
     /// Create a Bill estimate from a Bill scenario. In the Bill scenario you can model usage addition, usage changes, and usage removal. You can also model commitment addition and commitment removal. After all changes in a Bill scenario is made satisfactorily, you can call this API with a Bill scenario ID to generate the Bill estimate. Bill estimate calculates the pre-tax cost for your consolidated billing family, incorporating all modeled usage and commitments alongside existing usage and commitments from your most recent completed anniversary bill, with any applicable discounts applied.
     ///
@@ -1095,7 +1095,7 @@ extension BCMPricingCalculatorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateBillScenario` operation on the `AWSBCMPricingCalculator` service.
+    /// Performs the `CreateBillScenario` operation on the `BCMPricingCalculator` service.
     ///
     /// Creates a new bill scenario to model potential changes to Amazon Web Services usage and costs.
     ///
@@ -1172,7 +1172,7 @@ extension BCMPricingCalculatorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateWorkloadEstimate` operation on the `AWSBCMPricingCalculator` service.
+    /// Performs the `CreateWorkloadEstimate` operation on the `BCMPricingCalculator` service.
     ///
     /// Creates a new workload estimate to model costs for a specific workload.
     ///
@@ -1249,7 +1249,7 @@ extension BCMPricingCalculatorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteBillEstimate` operation on the `AWSBCMPricingCalculator` service.
+    /// Performs the `DeleteBillEstimate` operation on the `BCMPricingCalculator` service.
     ///
     /// Deletes an existing bill estimate.
     ///
@@ -1324,7 +1324,7 @@ extension BCMPricingCalculatorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteBillScenario` operation on the `AWSBCMPricingCalculator` service.
+    /// Performs the `DeleteBillScenario` operation on the `BCMPricingCalculator` service.
     ///
     /// Deletes an existing bill scenario.
     ///
@@ -1398,7 +1398,7 @@ extension BCMPricingCalculatorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteWorkloadEstimate` operation on the `AWSBCMPricingCalculator` service.
+    /// Performs the `DeleteWorkloadEstimate` operation on the `BCMPricingCalculator` service.
     ///
     /// Deletes an existing workload estimate.
     ///
@@ -1472,7 +1472,7 @@ extension BCMPricingCalculatorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetBillEstimate` operation on the `AWSBCMPricingCalculator` service.
+    /// Performs the `GetBillEstimate` operation on the `BCMPricingCalculator` service.
     ///
     /// Retrieves details of a specific bill estimate.
     ///
@@ -1547,7 +1547,7 @@ extension BCMPricingCalculatorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetBillScenario` operation on the `AWSBCMPricingCalculator` service.
+    /// Performs the `GetBillScenario` operation on the `BCMPricingCalculator` service.
     ///
     /// Retrieves details of a specific bill scenario.
     ///
@@ -1622,7 +1622,7 @@ extension BCMPricingCalculatorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetPreferences` operation on the `AWSBCMPricingCalculator` service.
+    /// Performs the `GetPreferences` operation on the `BCMPricingCalculator` service.
     ///
     /// Retrieves the current preferences for the Amazon Web Services Cost Explorer service.
     ///
@@ -1696,7 +1696,7 @@ extension BCMPricingCalculatorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetWorkloadEstimate` operation on the `AWSBCMPricingCalculator` service.
+    /// Performs the `GetWorkloadEstimate` operation on the `BCMPricingCalculator` service.
     ///
     /// Retrieves details of a specific workload estimate.
     ///
@@ -1771,7 +1771,7 @@ extension BCMPricingCalculatorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListBillEstimateCommitments` operation on the `AWSBCMPricingCalculator` service.
+    /// Performs the `ListBillEstimateCommitments` operation on the `BCMPricingCalculator` service.
     ///
     /// Lists the commitments associated with a bill estimate.
     ///
@@ -1846,7 +1846,7 @@ extension BCMPricingCalculatorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListBillEstimateInputCommitmentModifications` operation on the `AWSBCMPricingCalculator` service.
+    /// Performs the `ListBillEstimateInputCommitmentModifications` operation on the `BCMPricingCalculator` service.
     ///
     /// Lists the input commitment modifications associated with a bill estimate.
     ///
@@ -1921,7 +1921,7 @@ extension BCMPricingCalculatorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListBillEstimateInputUsageModifications` operation on the `AWSBCMPricingCalculator` service.
+    /// Performs the `ListBillEstimateInputUsageModifications` operation on the `BCMPricingCalculator` service.
     ///
     /// Lists the input usage modifications associated with a bill estimate.
     ///
@@ -1996,7 +1996,7 @@ extension BCMPricingCalculatorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListBillEstimateLineItems` operation on the `AWSBCMPricingCalculator` service.
+    /// Performs the `ListBillEstimateLineItems` operation on the `BCMPricingCalculator` service.
     ///
     /// Lists the line items associated with a bill estimate.
     ///
@@ -2071,7 +2071,7 @@ extension BCMPricingCalculatorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListBillEstimates` operation on the `AWSBCMPricingCalculator` service.
+    /// Performs the `ListBillEstimates` operation on the `BCMPricingCalculator` service.
     ///
     /// Lists all bill estimates for the account.
     ///
@@ -2145,7 +2145,7 @@ extension BCMPricingCalculatorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListBillScenarioCommitmentModifications` operation on the `AWSBCMPricingCalculator` service.
+    /// Performs the `ListBillScenarioCommitmentModifications` operation on the `BCMPricingCalculator` service.
     ///
     /// Lists the commitment modifications associated with a bill scenario.
     ///
@@ -2220,7 +2220,7 @@ extension BCMPricingCalculatorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListBillScenarioUsageModifications` operation on the `AWSBCMPricingCalculator` service.
+    /// Performs the `ListBillScenarioUsageModifications` operation on the `BCMPricingCalculator` service.
     ///
     /// Lists the usage modifications associated with a bill scenario.
     ///
@@ -2295,7 +2295,7 @@ extension BCMPricingCalculatorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListBillScenarios` operation on the `AWSBCMPricingCalculator` service.
+    /// Performs the `ListBillScenarios` operation on the `BCMPricingCalculator` service.
     ///
     /// Lists all bill scenarios for the account.
     ///
@@ -2369,7 +2369,7 @@ extension BCMPricingCalculatorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `AWSBCMPricingCalculator` service.
+    /// Performs the `ListTagsForResource` operation on the `BCMPricingCalculator` service.
     ///
     /// Lists all tags associated with a specified resource.
     ///
@@ -2443,7 +2443,7 @@ extension BCMPricingCalculatorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListWorkloadEstimateUsage` operation on the `AWSBCMPricingCalculator` service.
+    /// Performs the `ListWorkloadEstimateUsage` operation on the `BCMPricingCalculator` service.
     ///
     /// Lists the usage associated with a workload estimate.
     ///
@@ -2518,7 +2518,7 @@ extension BCMPricingCalculatorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListWorkloadEstimates` operation on the `AWSBCMPricingCalculator` service.
+    /// Performs the `ListWorkloadEstimates` operation on the `BCMPricingCalculator` service.
     ///
     /// Lists all workload estimates for the account.
     ///
@@ -2592,7 +2592,7 @@ extension BCMPricingCalculatorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `AWSBCMPricingCalculator` service.
+    /// Performs the `TagResource` operation on the `BCMPricingCalculator` service.
     ///
     /// Adds one or more tags to a specified resource.
     ///
@@ -2667,7 +2667,7 @@ extension BCMPricingCalculatorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `AWSBCMPricingCalculator` service.
+    /// Performs the `UntagResource` operation on the `BCMPricingCalculator` service.
     ///
     /// Removes one or more tags from a specified resource.
     ///
@@ -2741,7 +2741,7 @@ extension BCMPricingCalculatorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateBillEstimate` operation on the `AWSBCMPricingCalculator` service.
+    /// Performs the `UpdateBillEstimate` operation on the `BCMPricingCalculator` service.
     ///
     /// Updates an existing bill estimate.
     ///
@@ -2817,7 +2817,7 @@ extension BCMPricingCalculatorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateBillScenario` operation on the `AWSBCMPricingCalculator` service.
+    /// Performs the `UpdateBillScenario` operation on the `BCMPricingCalculator` service.
     ///
     /// Updates an existing bill scenario.
     ///
@@ -2893,7 +2893,7 @@ extension BCMPricingCalculatorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdatePreferences` operation on the `AWSBCMPricingCalculator` service.
+    /// Performs the `UpdatePreferences` operation on the `BCMPricingCalculator` service.
     ///
     /// Updates the preferences for the Amazon Web Services Cost Explorer service.
     ///
@@ -2968,7 +2968,7 @@ extension BCMPricingCalculatorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateWorkloadEstimate` operation on the `AWSBCMPricingCalculator` service.
+    /// Performs the `UpdateWorkloadEstimate` operation on the `BCMPricingCalculator` service.
     ///
     /// Updates an existing workload estimate.
     ///

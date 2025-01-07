@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class AppStreamClient: ClientRuntime.Client {
     public static let clientName = "AppStreamClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: AppStreamClient.AppStreamClientConfiguration
     let serviceName = "AppStream"
@@ -330,7 +330,7 @@ extension AppStreamClient {
 }
 
 extension AppStreamClient {
-    /// Performs the `AssociateAppBlockBuilderAppBlock` operation on the `PhotonAdminProxyService` service.
+    /// Performs the `AssociateAppBlockBuilderAppBlock` operation on the `AppStream` service.
     ///
     /// Associates the specified app block builder with the specified app block.
     ///
@@ -404,7 +404,7 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssociateApplicationFleet` operation on the `PhotonAdminProxyService` service.
+    /// Performs the `AssociateApplicationFleet` operation on the `AppStream` service.
     ///
     /// Associates the specified application with the specified fleet. This is only supported for Elastic fleets.
     ///
@@ -478,7 +478,7 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssociateApplicationToEntitlement` operation on the `PhotonAdminProxyService` service.
+    /// Performs the `AssociateApplicationToEntitlement` operation on the `AppStream` service.
     ///
     /// Associates an application to entitle.
     ///
@@ -551,7 +551,7 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssociateFleet` operation on the `PhotonAdminProxyService` service.
+    /// Performs the `AssociateFleet` operation on the `AppStream` service.
     ///
     /// Associates the specified fleet with the specified stack.
     ///
@@ -626,7 +626,7 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchAssociateUserStack` operation on the `PhotonAdminProxyService` service.
+    /// Performs the `BatchAssociateUserStack` operation on the `AppStream` service.
     ///
     /// Associates the specified users with the specified stacks. Users in a user pool cannot be assigned to stacks with fleets that are joined to an Active Directory domain.
     ///
@@ -697,7 +697,7 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchDisassociateUserStack` operation on the `PhotonAdminProxyService` service.
+    /// Performs the `BatchDisassociateUserStack` operation on the `AppStream` service.
     ///
     /// Disassociates the specified users from the specified stacks.
     ///
@@ -768,7 +768,7 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CopyImage` operation on the `PhotonAdminProxyService` service.
+    /// Performs the `CopyImage` operation on the `AppStream` service.
     ///
     /// Copies the image within the same region or to a new region within the same AWS account. Note that any tags you added to the image will not be copied.
     ///
@@ -843,7 +843,7 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateAppBlock` operation on the `PhotonAdminProxyService` service.
+    /// Performs the `CreateAppBlock` operation on the `AppStream` service.
     ///
     /// Creates an app block. App blocks are an Amazon AppStream 2.0 resource that stores the details about the virtual hard disk in an S3 bucket. It also stores the setup script with details about how to mount the virtual hard disk. The virtual hard disk includes the application binaries and other files necessary to launch your applications. Multiple applications can be assigned to a single app block. This is only supported for Elastic fleets.
     ///
@@ -916,7 +916,7 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateAppBlockBuilder` operation on the `PhotonAdminProxyService` service.
+    /// Performs the `CreateAppBlockBuilder` operation on the `AppStream` service.
     ///
     /// Creates an app block builder.
     ///
@@ -995,7 +995,7 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateAppBlockBuilderStreamingURL` operation on the `PhotonAdminProxyService` service.
+    /// Performs the `CreateAppBlockBuilderStreamingURL` operation on the `AppStream` service.
     ///
     /// Creates a URL to start a create app block builder streaming session.
     ///
@@ -1066,7 +1066,7 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateApplication` operation on the `PhotonAdminProxyService` service.
+    /// Performs the `CreateApplication` operation on the `AppStream` service.
     ///
     /// Creates an application. Applications are an Amazon AppStream 2.0 resource that stores the details about how to launch applications on Elastic fleet streaming instances. An application consists of the launch details, icon, and display name. Applications are associated with an app block that contains the application binaries and other files. The applications assigned to an Elastic fleet are the applications users can launch. This is only supported for Elastic fleets.
     ///
@@ -1140,7 +1140,7 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateDirectoryConfig` operation on the `PhotonAdminProxyService` service.
+    /// Performs the `CreateDirectoryConfig` operation on the `AppStream` service.
     ///
     /// Creates a Directory Config object in AppStream 2.0. This object includes the configuration information required to join fleets and image builders to Microsoft Active Directory domains.
     ///
@@ -1215,7 +1215,7 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateEntitlement` operation on the `PhotonAdminProxyService` service.
+    /// Performs the `CreateEntitlement` operation on the `AppStream` service.
     ///
     /// Creates a new entitlement. Entitlements control access to specific applications within a stack, based on user attributes. Entitlements apply to SAML 2.0 federated user identities. Amazon AppStream 2.0 user pool and streaming URL users are entitled to all applications in a stack. Entitlements don't apply to the desktop stream view application, or to applications managed by a dynamic app provider using the Dynamic Application Framework.
     ///
@@ -1288,7 +1288,7 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateFleet` operation on the `PhotonAdminProxyService` service.
+    /// Performs the `CreateFleet` operation on the `AppStream` service.
     ///
     /// Creates a fleet. A fleet consists of streaming instances that your users access for their applications and desktops.
     ///
@@ -1368,7 +1368,7 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateImageBuilder` operation on the `PhotonAdminProxyService` service.
+    /// Performs the `CreateImageBuilder` operation on the `AppStream` service.
     ///
     /// Creates an image builder. An image builder is a virtual machine that is used to create an image. The initial state of the builder is PENDING. When it is ready, the state is RUNNING.
     ///
@@ -1448,7 +1448,7 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateImageBuilderStreamingURL` operation on the `PhotonAdminProxyService` service.
+    /// Performs the `CreateImageBuilderStreamingURL` operation on the `AppStream` service.
     ///
     /// Creates a URL to start an image builder streaming session.
     ///
@@ -1519,7 +1519,7 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateStack` operation on the `PhotonAdminProxyService` service.
+    /// Performs the `CreateStack` operation on the `AppStream` service.
     ///
     /// Creates a stack to start streaming applications to users. A stack consists of an associated fleet, user access policies, and storage configurations.
     ///
@@ -1596,7 +1596,7 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateStreamingURL` operation on the `PhotonAdminProxyService` service.
+    /// Performs the `CreateStreamingURL` operation on the `AppStream` service.
     ///
     /// Creates a temporary URL to start an AppStream 2.0 streaming session for the specified user. A streaming URL enables application streaming to be tested without user setup.
     ///
@@ -1669,7 +1669,7 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateThemeForStack` operation on the `PhotonAdminProxyService` service.
+    /// Performs the `CreateThemeForStack` operation on the `AppStream` service.
     ///
     /// Creates custom branding that customizes the appearance of the streaming application catalog page.
     ///
@@ -1744,7 +1744,7 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateUpdatedImage` operation on the `PhotonAdminProxyService` service.
+    /// Performs the `CreateUpdatedImage` operation on the `AppStream` service.
     ///
     /// Creates a new image with the latest Windows operating system updates, driver updates, and AppStream 2.0 agent software. For more information, see the "Update an Image by Using Managed AppStream 2.0 Image Updates" section in [Administer Your AppStream 2.0 Images](https://docs.aws.amazon.com/appstream2/latest/developerguide/administer-images.html), in the Amazon AppStream 2.0 Administration Guide.
     ///
@@ -1820,7 +1820,7 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateUsageReportSubscription` operation on the `PhotonAdminProxyService` service.
+    /// Performs the `CreateUsageReportSubscription` operation on the `AppStream` service.
     ///
     /// Creates a usage report subscription. Usage reports are generated daily.
     ///
@@ -1892,7 +1892,7 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateUser` operation on the `PhotonAdminProxyService` service.
+    /// Performs the `CreateUser` operation on the `AppStream` service.
     ///
     /// Creates a new user in the user pool.
     ///
@@ -1966,7 +1966,7 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAppBlock` operation on the `PhotonAdminProxyService` service.
+    /// Performs the `DeleteAppBlock` operation on the `AppStream` service.
     ///
     /// Deletes an app block.
     ///
@@ -2038,7 +2038,7 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAppBlockBuilder` operation on the `PhotonAdminProxyService` service.
+    /// Performs the `DeleteAppBlockBuilder` operation on the `AppStream` service.
     ///
     /// Deletes an app block builder. An app block builder can only be deleted when it has no association with an app block.
     ///
@@ -2111,7 +2111,7 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteApplication` operation on the `PhotonAdminProxyService` service.
+    /// Performs the `DeleteApplication` operation on the `AppStream` service.
     ///
     /// Deletes an application.
     ///
@@ -2184,7 +2184,7 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteDirectoryConfig` operation on the `PhotonAdminProxyService` service.
+    /// Performs the `DeleteDirectoryConfig` operation on the `AppStream` service.
     ///
     /// Deletes the specified Directory Config object from AppStream 2.0. This object includes the information required to join streaming instances to an Active Directory domain.
     ///
@@ -2255,7 +2255,7 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteEntitlement` operation on the `PhotonAdminProxyService` service.
+    /// Performs the `DeleteEntitlement` operation on the `AppStream` service.
     ///
     /// Deletes the specified entitlement.
     ///
@@ -2328,7 +2328,7 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteFleet` operation on the `PhotonAdminProxyService` service.
+    /// Performs the `DeleteFleet` operation on the `AppStream` service.
     ///
     /// Deletes the specified fleet.
     ///
@@ -2400,7 +2400,7 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteImage` operation on the `PhotonAdminProxyService` service.
+    /// Performs the `DeleteImage` operation on the `AppStream` service.
     ///
     /// Deletes the specified image. You cannot delete an image when it is in use. After you delete an image, you cannot provision new capacity using the image.
     ///
@@ -2473,7 +2473,7 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteImageBuilder` operation on the `PhotonAdminProxyService` service.
+    /// Performs the `DeleteImageBuilder` operation on the `AppStream` service.
     ///
     /// Deletes the specified image builder and releases the capacity.
     ///
@@ -2545,7 +2545,7 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteImagePermissions` operation on the `PhotonAdminProxyService` service.
+    /// Performs the `DeleteImagePermissions` operation on the `AppStream` service.
     ///
     /// Deletes permissions for the specified private image. After you delete permissions for an image, AWS accounts to which you previously granted these permissions can no longer use the image.
     ///
@@ -2616,7 +2616,7 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteStack` operation on the `PhotonAdminProxyService` service.
+    /// Performs the `DeleteStack` operation on the `AppStream` service.
     ///
     /// Deletes the specified stack. After the stack is deleted, the application streaming environment provided by the stack is no longer available to users. Also, any reservations made for application streaming sessions for the stack are released.
     ///
@@ -2689,7 +2689,7 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteThemeForStack` operation on the `PhotonAdminProxyService` service.
+    /// Performs the `DeleteThemeForStack` operation on the `AppStream` service.
     ///
     /// Deletes custom branding that customizes the appearance of the streaming application catalog page.
     ///
@@ -2761,7 +2761,7 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteUsageReportSubscription` operation on the `PhotonAdminProxyService` service.
+    /// Performs the `DeleteUsageReportSubscription` operation on the `AppStream` service.
     ///
     /// Disables usage report generation.
     ///
@@ -2832,7 +2832,7 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteUser` operation on the `PhotonAdminProxyService` service.
+    /// Performs the `DeleteUser` operation on the `AppStream` service.
     ///
     /// Deletes a user from the user pool.
     ///
@@ -2902,7 +2902,7 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeAppBlockBuilderAppBlockAssociations` operation on the `PhotonAdminProxyService` service.
+    /// Performs the `DescribeAppBlockBuilderAppBlockAssociations` operation on the `AppStream` service.
     ///
     /// Retrieves a list that describes one or more app block builder associations.
     ///
@@ -2973,7 +2973,7 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeAppBlockBuilders` operation on the `PhotonAdminProxyService` service.
+    /// Performs the `DescribeAppBlockBuilders` operation on the `AppStream` service.
     ///
     /// Retrieves a list that describes one or more app block builders.
     ///
@@ -3044,7 +3044,7 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeAppBlocks` operation on the `PhotonAdminProxyService` service.
+    /// Performs the `DescribeAppBlocks` operation on the `AppStream` service.
     ///
     /// Retrieves a list that describes one or more app blocks.
     ///
@@ -3115,7 +3115,7 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeApplicationFleetAssociations` operation on the `PhotonAdminProxyService` service.
+    /// Performs the `DescribeApplicationFleetAssociations` operation on the `AppStream` service.
     ///
     /// Retrieves a list that describes one or more application fleet associations. Either ApplicationArn or FleetName must be specified.
     ///
@@ -3186,7 +3186,7 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeApplications` operation on the `PhotonAdminProxyService` service.
+    /// Performs the `DescribeApplications` operation on the `AppStream` service.
     ///
     /// Retrieves a list that describes one or more applications.
     ///
@@ -3257,7 +3257,7 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeDirectoryConfigs` operation on the `PhotonAdminProxyService` service.
+    /// Performs the `DescribeDirectoryConfigs` operation on the `AppStream` service.
     ///
     /// Retrieves a list that describes one or more specified Directory Config objects for AppStream 2.0, if the names for these objects are provided. Otherwise, all Directory Config objects in the account are described. These objects include the configuration information required to join fleets and image builders to Microsoft Active Directory domains. Although the response syntax in this topic includes the account password, this password is not returned in the actual response.
     ///
@@ -3327,7 +3327,7 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeEntitlements` operation on the `PhotonAdminProxyService` service.
+    /// Performs the `DescribeEntitlements` operation on the `AppStream` service.
     ///
     /// Retrieves a list that describes one of more entitlements.
     ///
@@ -3399,7 +3399,7 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeFleets` operation on the `PhotonAdminProxyService` service.
+    /// Performs the `DescribeFleets` operation on the `AppStream` service.
     ///
     /// Retrieves a list that describes one or more specified fleets, if the fleet names are provided. Otherwise, all fleets in the account are described.
     ///
@@ -3469,7 +3469,7 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeImageBuilders` operation on the `PhotonAdminProxyService` service.
+    /// Performs the `DescribeImageBuilders` operation on the `AppStream` service.
     ///
     /// Retrieves a list that describes one or more specified image builders, if the image builder names are provided. Otherwise, all image builders in the account are described.
     ///
@@ -3539,7 +3539,7 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeImagePermissions` operation on the `PhotonAdminProxyService` service.
+    /// Performs the `DescribeImagePermissions` operation on the `AppStream` service.
     ///
     /// Retrieves a list that describes the permissions for shared AWS account IDs on a private image that you own.
     ///
@@ -3609,7 +3609,7 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeImages` operation on the `PhotonAdminProxyService` service.
+    /// Performs the `DescribeImages` operation on the `AppStream` service.
     ///
     /// Retrieves a list that describes one or more specified images, if the image names or image ARNs are provided. Otherwise, all images in the account are described.
     ///
@@ -3680,7 +3680,7 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeSessions` operation on the `PhotonAdminProxyService` service.
+    /// Performs the `DescribeSessions` operation on the `AppStream` service.
     ///
     /// Retrieves a list that describes the streaming sessions for a specified stack and fleet. If a UserId is provided for the stack and fleet, only streaming sessions for that user are described. If an authentication type is not provided, the default is to authenticate users using a streaming URL.
     ///
@@ -3750,7 +3750,7 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeStacks` operation on the `PhotonAdminProxyService` service.
+    /// Performs the `DescribeStacks` operation on the `AppStream` service.
     ///
     /// Retrieves a list that describes one or more specified stacks, if the stack names are provided. Otherwise, all stacks in the account are described.
     ///
@@ -3820,7 +3820,7 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeThemeForStack` operation on the `PhotonAdminProxyService` service.
+    /// Performs the `DescribeThemeForStack` operation on the `AppStream` service.
     ///
     /// Retrieves a list that describes the theme for a specified stack. A theme is custom branding that customizes the appearance of the streaming application catalog page.
     ///
@@ -3891,7 +3891,7 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeUsageReportSubscriptions` operation on the `PhotonAdminProxyService` service.
+    /// Performs the `DescribeUsageReportSubscriptions` operation on the `AppStream` service.
     ///
     /// Retrieves a list that describes one or more usage report subscriptions.
     ///
@@ -3962,7 +3962,7 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeUserStackAssociations` operation on the `PhotonAdminProxyService` service.
+    /// Performs the `DescribeUserStackAssociations` operation on the `AppStream` service.
     ///
     /// Retrieves a list that describes the UserStackAssociation objects. You must specify either or both of the following:
     ///
@@ -4037,7 +4037,7 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeUsers` operation on the `PhotonAdminProxyService` service.
+    /// Performs the `DescribeUsers` operation on the `AppStream` service.
     ///
     /// Retrieves a list that describes one or more specified users in the user pool.
     ///
@@ -4109,7 +4109,7 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisableUser` operation on the `PhotonAdminProxyService` service.
+    /// Performs the `DisableUser` operation on the `AppStream` service.
     ///
     /// Disables the specified user in the user pool. Users can't sign in to AppStream 2.0 until they are re-enabled. This action does not delete the user.
     ///
@@ -4179,7 +4179,7 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateAppBlockBuilderAppBlock` operation on the `PhotonAdminProxyService` service.
+    /// Performs the `DisassociateAppBlockBuilderAppBlock` operation on the `AppStream` service.
     ///
     /// Disassociates a specified app block builder from a specified app block.
     ///
@@ -4252,7 +4252,7 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateApplicationFleet` operation on the `PhotonAdminProxyService` service.
+    /// Performs the `DisassociateApplicationFleet` operation on the `AppStream` service.
     ///
     /// Disassociates the specified application from the fleet.
     ///
@@ -4324,7 +4324,7 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateApplicationFromEntitlement` operation on the `PhotonAdminProxyService` service.
+    /// Performs the `DisassociateApplicationFromEntitlement` operation on the `AppStream` service.
     ///
     /// Deletes the specified application from the specified entitlement.
     ///
@@ -4396,7 +4396,7 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateFleet` operation on the `PhotonAdminProxyService` service.
+    /// Performs the `DisassociateFleet` operation on the `AppStream` service.
     ///
     /// Disassociates the specified fleet from the specified stack.
     ///
@@ -4469,7 +4469,7 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `EnableUser` operation on the `PhotonAdminProxyService` service.
+    /// Performs the `EnableUser` operation on the `AppStream` service.
     ///
     /// Enables a user in the user pool. After being enabled, users can sign in to AppStream 2.0 and open applications from the stacks to which they are assigned.
     ///
@@ -4540,7 +4540,7 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ExpireSession` operation on the `PhotonAdminProxyService` service.
+    /// Performs the `ExpireSession` operation on the `AppStream` service.
     ///
     /// Immediately stops the specified streaming session.
     ///
@@ -4605,7 +4605,7 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAssociatedFleets` operation on the `PhotonAdminProxyService` service.
+    /// Performs the `ListAssociatedFleets` operation on the `AppStream` service.
     ///
     /// Retrieves the name of the fleet that is associated with the specified stack.
     ///
@@ -4670,7 +4670,7 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAssociatedStacks` operation on the `PhotonAdminProxyService` service.
+    /// Performs the `ListAssociatedStacks` operation on the `AppStream` service.
     ///
     /// Retrieves the name of the stack with which the specified fleet is associated.
     ///
@@ -4735,7 +4735,7 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListEntitledApplications` operation on the `PhotonAdminProxyService` service.
+    /// Performs the `ListEntitledApplications` operation on the `AppStream` service.
     ///
     /// Retrieves a list of entitled applications.
     ///
@@ -4807,7 +4807,7 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `PhotonAdminProxyService` service.
+    /// Performs the `ListTagsForResource` operation on the `AppStream` service.
     ///
     /// Retrieves a list of all tags for the specified AppStream 2.0 resource. You can tag AppStream 2.0 image builders, images, fleets, and stacks. For more information about tags, see [Tagging Your Resources](https://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html) in the Amazon AppStream 2.0 Administration Guide.
     ///
@@ -4877,7 +4877,7 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartAppBlockBuilder` operation on the `PhotonAdminProxyService` service.
+    /// Performs the `StartAppBlockBuilder` operation on the `AppStream` service.
     ///
     /// Starts an app block builder. An app block builder can only be started when it's associated with an app block. Starting an app block builder starts a new instance, which is equivalent to an elastic fleet instance with application builder assistance functionality.
     ///
@@ -4953,7 +4953,7 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartFleet` operation on the `PhotonAdminProxyService` service.
+    /// Performs the `StartFleet` operation on the `AppStream` service.
     ///
     /// Starts the specified fleet.
     ///
@@ -5030,7 +5030,7 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartImageBuilder` operation on the `PhotonAdminProxyService` service.
+    /// Performs the `StartImageBuilder` operation on the `AppStream` service.
     ///
     /// Starts the specified image builder.
     ///
@@ -5104,7 +5104,7 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopAppBlockBuilder` operation on the `PhotonAdminProxyService` service.
+    /// Performs the `StopAppBlockBuilder` operation on the `AppStream` service.
     ///
     /// Stops an app block builder. Stopping an app block builder terminates the instance, and the instance state is not persisted.
     ///
@@ -5176,7 +5176,7 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopFleet` operation on the `PhotonAdminProxyService` service.
+    /// Performs the `StopFleet` operation on the `AppStream` service.
     ///
     /// Stops the specified fleet.
     ///
@@ -5247,7 +5247,7 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopImageBuilder` operation on the `PhotonAdminProxyService` service.
+    /// Performs the `StopImageBuilder` operation on the `AppStream` service.
     ///
     /// Stops the specified image builder.
     ///
@@ -5319,7 +5319,7 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `PhotonAdminProxyService` service.
+    /// Performs the `TagResource` operation on the `AppStream` service.
     ///
     /// Adds or overwrites one or more tags for the specified AppStream 2.0 resource. You can tag AppStream 2.0 image builders, images, fleets, and stacks. Each tag consists of a key and an optional value. If a resource already has a tag with the same key, this operation updates its value. To list the current tags for your resources, use [ListTagsForResource]. To disassociate tags from your resources, use [UntagResource]. For more information about tags, see [Tagging Your Resources](https://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html) in the Amazon AppStream 2.0 Administration Guide.
     ///
@@ -5391,7 +5391,7 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `PhotonAdminProxyService` service.
+    /// Performs the `UntagResource` operation on the `AppStream` service.
     ///
     /// Disassociates one or more specified tags from the specified AppStream 2.0 resource. To list the current tags for your resources, use [ListTagsForResource]. For more information about tags, see [Tagging Your Resources](https://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html) in the Amazon AppStream 2.0 Administration Guide.
     ///
@@ -5461,7 +5461,7 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateAppBlockBuilder` operation on the `PhotonAdminProxyService` service.
+    /// Performs the `UpdateAppBlockBuilder` operation on the `AppStream` service.
     ///
     /// Updates an app block builder. If the app block builder is in the STARTING or STOPPING state, you can't update it. If the app block builder is in the RUNNING state, you can only update the DisplayName and Description. If the app block builder is in the STOPPED state, you can update any attribute except the Name.
     ///
@@ -5540,7 +5540,7 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateApplication` operation on the `PhotonAdminProxyService` service.
+    /// Performs the `UpdateApplication` operation on the `AppStream` service.
     ///
     /// Updates the specified application.
     ///
@@ -5612,7 +5612,7 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateDirectoryConfig` operation on the `PhotonAdminProxyService` service.
+    /// Performs the `UpdateDirectoryConfig` operation on the `AppStream` service.
     ///
     /// Updates the specified Directory Config object in AppStream 2.0. This object includes the configuration information required to join fleets and image builders to Microsoft Active Directory domains.
     ///
@@ -5686,7 +5686,7 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateEntitlement` operation on the `PhotonAdminProxyService` service.
+    /// Performs the `UpdateEntitlement` operation on the `AppStream` service.
     ///
     /// Updates the specified entitlement.
     ///
@@ -5759,7 +5759,7 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateFleet` operation on the `PhotonAdminProxyService` service.
+    /// Performs the `UpdateFleet` operation on the `AppStream` service.
     ///
     /// Updates the specified fleet. If the fleet is in the STOPPED state, you can update any attribute except the fleet name. If the fleet is in the RUNNING state, you can update the following based on the fleet type:
     ///
@@ -5846,7 +5846,7 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateImagePermissions` operation on the `PhotonAdminProxyService` service.
+    /// Performs the `UpdateImagePermissions` operation on the `AppStream` service.
     ///
     /// Adds or updates permissions for the specified private image.
     ///
@@ -5918,7 +5918,7 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateStack` operation on the `PhotonAdminProxyService` service.
+    /// Performs the `UpdateStack` operation on the `AppStream` service.
     ///
     /// Updates the specified fields for the specified stack.
     ///
@@ -5996,7 +5996,7 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateThemeForStack` operation on the `PhotonAdminProxyService` service.
+    /// Performs the `UpdateThemeForStack` operation on the `AppStream` service.
     ///
     /// Updates custom branding that customizes the appearance of the streaming application catalog page.
     ///

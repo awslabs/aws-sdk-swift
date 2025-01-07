@@ -294,6 +294,7 @@ extension ImagebuilderClientTypes {
 
     public enum BuildType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case `import`
+        case importIso
         case scheduled
         case userInitiated
         case sdkUnknown(Swift.String)
@@ -301,6 +302,7 @@ extension ImagebuilderClientTypes {
         public static var allCases: [BuildType] {
             return [
                 .import,
+                .importIso,
                 .scheduled,
                 .userInitiated
             ]
@@ -314,6 +316,7 @@ extension ImagebuilderClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .import: return "IMPORT"
+            case .importIso: return "IMPORT_ISO"
             case .scheduled: return "SCHEDULED"
             case .userInitiated: return "USER_INITIATED"
             case let .sdkUnknown(s): return s
@@ -2021,7 +2024,7 @@ extension ImagebuilderClientTypes {
     public struct ImageTestsConfiguration: Swift.Sendable {
         /// Determines if tests should run after building the image. Image Builder defaults to enable tests to run following the image build, before image distribution.
         public var imageTestsEnabled: Swift.Bool?
-        /// The maximum time in minutes that tests are permitted to run. The timeout attribute is not currently active. This value is ignored.
+        /// The maximum time in minutes that tests are permitted to run. The timeout property is not currently active. This value is ignored.
         public var timeoutMinutes: Swift.Int?
 
         public init(
@@ -2222,7 +2225,11 @@ extension ImagebuilderClientTypes {
 
     /// A schedule configures when and how often a pipeline will automatically create a new image.
     public struct Schedule: Swift.Sendable {
-        /// The condition configures when the pipeline should trigger a new image build. When the pipelineExecutionStartCondition is set to EXPRESSION_MATCH_AND_DEPENDENCY_UPDATES_AVAILABLE, and you use semantic version filters on the base image or components in your image recipe, EC2 Image Builder will build a new image only when there are new versions of the image or components in your recipe that match the semantic version filter. When it is set to EXPRESSION_MATCH_ONLY, it will build a new image every time the CRON expression matches the current time. For semantic version syntax, see [CreateComponent](https://docs.aws.amazon.com/imagebuilder/latest/APIReference/API_CreateComponent.html) in the EC2 Image Builder API Reference.
+        /// The start condition configures when the pipeline should trigger a new image build, as follows. If no value is set Image Builder defaults to EXPRESSION_MATCH_AND_DEPENDENCY_UPDATES_AVAILABLE.
+        ///
+        /// * EXPRESSION_MATCH_AND_DEPENDENCY_UPDATES_AVAILABLE (default) – When you use semantic version filters on the base image or components in your image recipe, EC2 Image Builder builds a new image only when there are new versions of the base image or components in your recipe that match the filter. For semantic version syntax, see [CreateComponent](https://docs.aws.amazon.com/imagebuilder/latest/APIReference/API_CreateComponent.html).
+        ///
+        /// * EXPRESSION_MATCH_ONLY – This condition builds a new image every time the CRON expression matches the current time.
         public var pipelineExecutionStartCondition: ImagebuilderClientTypes.PipelineExecutionStartCondition?
         /// The cron expression determines how often EC2 Image Builder evaluates your pipelineExecutionStartCondition. For information on how to format a cron expression in Image Builder, see [Use cron expressions in EC2 Image Builder](https://docs.aws.amazon.com/imagebuilder/latest/userguide/image-builder-cron.html).
         public var scheduleExpression: Swift.String?
@@ -4149,6 +4156,8 @@ extension ImagebuilderClientTypes {
         /// * SCHEDULED – A pipeline build initiated by a cron expression in the Image Builder pipeline, or from EventBridge.
         ///
         /// * IMPORT – A VM import created the image to use as the base image for the recipe.
+        ///
+        /// * IMPORT_ISO – An ISO disk import created the image.
         public var buildType: ImagebuilderClientTypes.BuildType?
         /// For container images, this is the container recipe that Image Builder used to create the image. For images that distribute an AMI, this is empty.
         public var containerRecipe: ImagebuilderClientTypes.ContainerRecipe?
@@ -5363,6 +5372,77 @@ public struct ImportComponentOutput: Swift.Sendable {
     }
 }
 
+public struct ImportDiskImageInput: Swift.Sendable {
+    /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html) in the Amazon EC2 API Reference.
+    /// This member is required.
+    public var clientToken: Swift.String?
+    /// The description for your disk image import.
+    public var description: Swift.String?
+    /// The name or Amazon Resource Name (ARN) for the IAM role you create that grants Image Builder access to perform workflow actions to import an image from a Microsoft ISO file.
+    public var executionRole: Swift.String?
+    /// The Amazon Resource Name (ARN) of the infrastructure configuration resource that's used for launching the EC2 instance on which the ISO image is built.
+    /// This member is required.
+    public var infrastructureConfigurationArn: Swift.String?
+    /// The name of the image resource that's created from the import.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The operating system version for the imported image. Allowed values include the following: Microsoft Windows 11.
+    /// This member is required.
+    public var osVersion: Swift.String?
+    /// The operating system platform for the imported image. Allowed values include the following: Windows.
+    /// This member is required.
+    public var platform: Swift.String?
+    /// The semantic version to attach to the image that's created during the import process. This version follows the semantic version syntax.
+    /// This member is required.
+    public var semanticVersion: Swift.String?
+    /// Tags that are attached to image resources created from the import.
+    public var tags: [Swift.String: Swift.String]?
+    /// The uri of the ISO disk file that's stored in Amazon S3.
+    /// This member is required.
+    public var uri: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        executionRole: Swift.String? = nil,
+        infrastructureConfigurationArn: Swift.String? = nil,
+        name: Swift.String? = nil,
+        osVersion: Swift.String? = nil,
+        platform: Swift.String? = nil,
+        semanticVersion: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        uri: Swift.String? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.description = description
+        self.executionRole = executionRole
+        self.infrastructureConfigurationArn = infrastructureConfigurationArn
+        self.name = name
+        self.osVersion = osVersion
+        self.platform = platform
+        self.semanticVersion = semanticVersion
+        self.tags = tags
+        self.uri = uri
+    }
+}
+
+public struct ImportDiskImageOutput: Swift.Sendable {
+    /// The client token that uniquely identifies the request.
+    public var clientToken: Swift.String?
+    /// The Amazon Resource Name (ARN) of the output AMI that was created from the ISO disk file.
+    public var imageBuildVersionArn: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        imageBuildVersionArn: Swift.String? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.imageBuildVersionArn = imageBuildVersionArn
+    }
+}
+
 public struct ImportVmImageInput: Swift.Sendable {
     /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html) in the Amazon EC2 API Reference.
     /// This member is required.
@@ -5731,6 +5811,8 @@ extension ImagebuilderClientTypes {
         /// * SCHEDULED – A pipeline build initiated by a cron expression in the Image Builder pipeline, or from EventBridge.
         ///
         /// * IMPORT – A VM import created the image to use as the base image for the recipe.
+        ///
+        /// * IMPORT_ISO – An ISO disk import created the image.
         public var buildType: ImagebuilderClientTypes.BuildType?
         /// The date on which Image Builder created this image.
         public var dateCreated: Swift.String?
@@ -6129,6 +6211,8 @@ extension ImagebuilderClientTypes {
         /// * SCHEDULED – A pipeline build initiated by a cron expression in the Image Builder pipeline, or from EventBridge.
         ///
         /// * IMPORT – A VM import created the image to use as the base image for the recipe.
+        ///
+        /// * IMPORT_ISO – An ISO disk import created the image.
         public var buildType: ImagebuilderClientTypes.BuildType?
         /// The date on which this specific version of the Image Builder image was created.
         public var dateCreated: Swift.String?
@@ -8945,6 +9029,13 @@ extension ImportComponentInput {
     }
 }
 
+extension ImportDiskImageInput {
+
+    static func urlPathProvider(_ value: ImportDiskImageInput) -> Swift.String? {
+        return "/ImportDiskImage"
+    }
+}
+
 extension ImportVmImageInput {
 
     static func urlPathProvider(_ value: ImportVmImageInput) -> Swift.String? {
@@ -9430,6 +9521,23 @@ extension ImportComponentInput {
         try writer["semanticVersion"].write(value.semanticVersion)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["type"].write(value.type)
+        try writer["uri"].write(value.uri)
+    }
+}
+
+extension ImportDiskImageInput {
+
+    static func write(value: ImportDiskImageInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["description"].write(value.description)
+        try writer["executionRole"].write(value.executionRole)
+        try writer["infrastructureConfigurationArn"].write(value.infrastructureConfigurationArn)
+        try writer["name"].write(value.name)
+        try writer["osVersion"].write(value.osVersion)
+        try writer["platform"].write(value.platform)
+        try writer["semanticVersion"].write(value.semanticVersion)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["uri"].write(value.uri)
     }
 }
@@ -10337,6 +10445,19 @@ extension ImportComponentOutput {
         value.clientToken = try reader["clientToken"].readIfPresent()
         value.componentBuildVersionArn = try reader["componentBuildVersionArn"].readIfPresent()
         value.requestId = try reader["requestId"].readIfPresent()
+        return value
+    }
+}
+
+extension ImportDiskImageOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ImportDiskImageOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ImportDiskImageOutput()
+        value.clientToken = try reader["clientToken"].readIfPresent()
+        value.imageBuildVersionArn = try reader["imageBuildVersionArn"].readIfPresent()
         return value
     }
 }
@@ -11597,6 +11718,22 @@ enum ImportComponentOutputError {
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "InvalidVersionNumberException": return try InvalidVersionNumberException.makeError(baseError: baseError)
             case "ResourceInUseException": return try ResourceInUseException.makeError(baseError: baseError)
+            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ImportDiskImageOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
             case "ServiceException": return try ServiceException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)

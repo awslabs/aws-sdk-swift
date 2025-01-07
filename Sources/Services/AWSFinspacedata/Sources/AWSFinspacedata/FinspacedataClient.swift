@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class FinspacedataClient: ClientRuntime.Client {
     public static let clientName = "FinspacedataClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: FinspacedataClient.FinspacedataClientConfiguration
     let serviceName = "finspace data"
@@ -330,7 +330,7 @@ extension FinspacedataClient {
 }
 
 extension FinspacedataClient {
-    /// Performs the `AssociateUserToPermissionGroup` operation on the `AWSHabaneroPublicAPI` service.
+    /// Performs the `AssociateUserToPermissionGroup` operation on the `Finspacedata` service.
     ///
     /// Adds a user to a permission group to grant permissions for actions a user can perform in FinSpace.
     @available(*, deprecated, message: "This method will be discontinued.")
@@ -406,7 +406,7 @@ extension FinspacedataClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateChangeset` operation on the `AWSHabaneroPublicAPI` service.
+    /// Performs the `CreateChangeset` operation on the `Finspacedata` service.
     ///
     /// Creates a new Changeset in a FinSpace Dataset.
     @available(*, deprecated, message: "This method will be discontinued.")
@@ -483,7 +483,7 @@ extension FinspacedataClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateDataView` operation on the `AWSHabaneroPublicAPI` service.
+    /// Performs the `CreateDataView` operation on the `Finspacedata` service.
     ///
     /// Creates a Dataview for a Dataset.
     @available(*, deprecated, message: "This method will be discontinued.")
@@ -559,7 +559,7 @@ extension FinspacedataClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateDataset` operation on the `AWSHabaneroPublicAPI` service.
+    /// Performs the `CreateDataset` operation on the `Finspacedata` service.
     ///
     /// Creates a new FinSpace Dataset.
     @available(*, deprecated, message: "This method will be discontinued.")
@@ -636,7 +636,7 @@ extension FinspacedataClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreatePermissionGroup` operation on the `AWSHabaneroPublicAPI` service.
+    /// Performs the `CreatePermissionGroup` operation on the `Finspacedata` service.
     ///
     /// Creates a group of permissions for various actions that a user can perform in FinSpace.
     @available(*, deprecated, message: "This method will be discontinued.")
@@ -712,7 +712,7 @@ extension FinspacedataClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateUser` operation on the `AWSHabaneroPublicAPI` service.
+    /// Performs the `CreateUser` operation on the `Finspacedata` service.
     ///
     /// Creates a new user in FinSpace.
     @available(*, deprecated, message: "This method will be discontinued.")
@@ -788,7 +788,7 @@ extension FinspacedataClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteDataset` operation on the `AWSHabaneroPublicAPI` service.
+    /// Performs the `DeleteDataset` operation on the `Finspacedata` service.
     ///
     /// Deletes a FinSpace Dataset.
     @available(*, deprecated, message: "This method will be discontinued.")
@@ -863,7 +863,7 @@ extension FinspacedataClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeletePermissionGroup` operation on the `AWSHabaneroPublicAPI` service.
+    /// Performs the `DeletePermissionGroup` operation on the `Finspacedata` service.
     ///
     /// Deletes a permission group. This action is irreversible.
     @available(*, deprecated, message: "This method will be discontinued.")
@@ -938,7 +938,7 @@ extension FinspacedataClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisableUser` operation on the `AWSHabaneroPublicAPI` service.
+    /// Performs the `DisableUser` operation on the `Finspacedata` service.
     ///
     /// Denies access to the FinSpace web application and API for the specified user.
     @available(*, deprecated, message: "This method will be discontinued.")
@@ -1014,7 +1014,7 @@ extension FinspacedataClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateUserFromPermissionGroup` operation on the `AWSHabaneroPublicAPI` service.
+    /// Performs the `DisassociateUserFromPermissionGroup` operation on the `Finspacedata` service.
     ///
     /// Removes a user from a permission group.
     @available(*, deprecated, message: "This method will be discontinued.")
@@ -1088,7 +1088,7 @@ extension FinspacedataClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `EnableUser` operation on the `AWSHabaneroPublicAPI` service.
+    /// Performs the `EnableUser` operation on the `Finspacedata` service.
     ///
     /// Allows the specified user to access the FinSpace web application and API.
     @available(*, deprecated, message: "This method will be discontinued.")
@@ -1165,7 +1165,7 @@ extension FinspacedataClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetChangeset` operation on the `AWSHabaneroPublicAPI` service.
+    /// Performs the `GetChangeset` operation on the `Finspacedata` service.
     ///
     /// Get information about a Changeset.
     @available(*, deprecated, message: "This method will be discontinued.")
@@ -1237,7 +1237,7 @@ extension FinspacedataClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDataView` operation on the `AWSHabaneroPublicAPI` service.
+    /// Performs the `GetDataView` operation on the `Finspacedata` service.
     ///
     /// Gets information about a Dataview.
     @available(*, deprecated, message: "This method will be discontinued.")
@@ -1308,7 +1308,7 @@ extension FinspacedataClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDataset` operation on the `AWSHabaneroPublicAPI` service.
+    /// Performs the `GetDataset` operation on the `Finspacedata` service.
     ///
     /// Returns information about a Dataset.
     @available(*, deprecated, message: "This method will be discontinued.")
@@ -1380,7 +1380,7 @@ extension FinspacedataClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetExternalDataViewAccessDetails` operation on the `AWSHabaneroPublicAPI` service.
+    /// Performs the `GetExternalDataViewAccessDetails` operation on the `Finspacedata` service.
     ///
     /// Returns the credentials to access the external Dataview from an S3 location. To call this API:
     ///
@@ -1455,7 +1455,7 @@ extension FinspacedataClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetPermissionGroup` operation on the `AWSHabaneroPublicAPI` service.
+    /// Performs the `GetPermissionGroup` operation on the `Finspacedata` service.
     ///
     /// Retrieves the details of a specific permission group.
     @available(*, deprecated, message: "This method will be discontinued.")
@@ -1526,7 +1526,7 @@ extension FinspacedataClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetProgrammaticAccessCredentials` operation on the `AWSHabaneroPublicAPI` service.
+    /// Performs the `GetProgrammaticAccessCredentials` operation on the `Finspacedata` service.
     ///
     /// Request programmatic credentials to use with FinSpace SDK. For more information, see [Step 2. Access credentials programmatically using IAM access key id and secret access key](https://docs.aws.amazon.com/finspace/latest/data-api/fs-using-the-finspace-api.html#accessing-credentials).
     @available(*, deprecated, message: "This method will be discontinued.")
@@ -1597,7 +1597,7 @@ extension FinspacedataClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetUser` operation on the `AWSHabaneroPublicAPI` service.
+    /// Performs the `GetUser` operation on the `Finspacedata` service.
     ///
     /// Retrieves details for a specific user.
     @available(*, deprecated, message: "This method will be discontinued.")
@@ -1668,7 +1668,7 @@ extension FinspacedataClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetWorkingLocation` operation on the `AWSHabaneroPublicAPI` service.
+    /// Performs the `GetWorkingLocation` operation on the `Finspacedata` service.
     ///
     /// A temporary Amazon S3 location, where you can copy your files from a source location to stage or use as a scratch space in FinSpace notebook.
     @available(*, deprecated, message: "This method will be discontinued.")
@@ -1741,7 +1741,7 @@ extension FinspacedataClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListChangesets` operation on the `AWSHabaneroPublicAPI` service.
+    /// Performs the `ListChangesets` operation on the `Finspacedata` service.
     ///
     /// Lists the FinSpace Changesets for a Dataset.
     @available(*, deprecated, message: "This method will be discontinued.")
@@ -1814,7 +1814,7 @@ extension FinspacedataClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDataViews` operation on the `AWSHabaneroPublicAPI` service.
+    /// Performs the `ListDataViews` operation on the `Finspacedata` service.
     ///
     /// Lists all available Dataviews for a Dataset.
     @available(*, deprecated, message: "This method will be discontinued.")
@@ -1886,7 +1886,7 @@ extension FinspacedataClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDatasets` operation on the `AWSHabaneroPublicAPI` service.
+    /// Performs the `ListDatasets` operation on the `Finspacedata` service.
     ///
     /// Lists all of the active Datasets that a user has access to.
     @available(*, deprecated, message: "This method will be discontinued.")
@@ -1958,7 +1958,7 @@ extension FinspacedataClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListPermissionGroups` operation on the `AWSHabaneroPublicAPI` service.
+    /// Performs the `ListPermissionGroups` operation on the `Finspacedata` service.
     ///
     /// Lists all available permission groups in FinSpace.
     @available(*, deprecated, message: "This method will be discontinued.")
@@ -2029,7 +2029,7 @@ extension FinspacedataClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListPermissionGroupsByUser` operation on the `AWSHabaneroPublicAPI` service.
+    /// Performs the `ListPermissionGroupsByUser` operation on the `Finspacedata` service.
     ///
     /// Lists all the permission groups that are associated with a specific user.
     @available(*, deprecated, message: "This method will be discontinued.")
@@ -2101,7 +2101,7 @@ extension FinspacedataClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListUsers` operation on the `AWSHabaneroPublicAPI` service.
+    /// Performs the `ListUsers` operation on the `Finspacedata` service.
     ///
     /// Lists all available users in FinSpace.
     @available(*, deprecated, message: "This method will be discontinued.")
@@ -2172,7 +2172,7 @@ extension FinspacedataClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListUsersByPermissionGroup` operation on the `AWSHabaneroPublicAPI` service.
+    /// Performs the `ListUsersByPermissionGroup` operation on the `Finspacedata` service.
     ///
     /// Lists details of all the users in a specific permission group.
     @available(*, deprecated, message: "This method will be discontinued.")
@@ -2244,7 +2244,7 @@ extension FinspacedataClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ResetUserPassword` operation on the `AWSHabaneroPublicAPI` service.
+    /// Performs the `ResetUserPassword` operation on the `Finspacedata` service.
     ///
     /// Resets the password for a specified user ID and generates a temporary one. Only a superuser can reset password for other users. Resetting the password immediately invalidates the previous password associated with the user.
     @available(*, deprecated, message: "This method will be discontinued.")
@@ -2320,7 +2320,7 @@ extension FinspacedataClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateChangeset` operation on the `AWSHabaneroPublicAPI` service.
+    /// Performs the `UpdateChangeset` operation on the `Finspacedata` service.
     ///
     /// Updates a FinSpace Changeset.
     @available(*, deprecated, message: "This method will be discontinued.")
@@ -2396,7 +2396,7 @@ extension FinspacedataClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateDataset` operation on the `AWSHabaneroPublicAPI` service.
+    /// Performs the `UpdateDataset` operation on the `Finspacedata` service.
     ///
     /// Updates a FinSpace Dataset.
     @available(*, deprecated, message: "This method will be discontinued.")
@@ -2472,7 +2472,7 @@ extension FinspacedataClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdatePermissionGroup` operation on the `AWSHabaneroPublicAPI` service.
+    /// Performs the `UpdatePermissionGroup` operation on the `Finspacedata` service.
     ///
     /// Modifies the details of a permission group. You cannot modify a permissionGroupID.
     @available(*, deprecated, message: "This method will be discontinued.")
@@ -2548,7 +2548,7 @@ extension FinspacedataClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateUser` operation on the `AWSHabaneroPublicAPI` service.
+    /// Performs the `UpdateUser` operation on the `Finspacedata` service.
     ///
     /// Modifies the details of the specified user. You cannot update the userId for a user.
     @available(*, deprecated, message: "This method will be discontinued.")

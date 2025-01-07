@@ -63,7 +63,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class RAMClient: ClientRuntime.Client {
     public static let clientName = "RAMClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: RAMClient.RAMClientConfiguration
     let serviceName = "RAM"
@@ -329,7 +329,7 @@ extension RAMClient {
 }
 
 extension RAMClient {
-    /// Performs the `AcceptResourceShareInvitation` operation on the `AmazonResourceSharing` service.
+    /// Performs the `AcceptResourceShareInvitation` operation on the `RAM` service.
     ///
     /// Accepts an invitation to a resource share from another Amazon Web Services account. After you accept the invitation, the resources included in the resource share are available to interact with in the relevant Amazon Web Services Management Consoles and tools.
     ///
@@ -407,7 +407,7 @@ extension RAMClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssociateResourceShare` operation on the `AmazonResourceSharing` service.
+    /// Performs the `AssociateResourceShare` operation on the `RAM` service.
     ///
     /// Adds the specified list of principals and list of resources to a resource share. Principals that already have access to this resource share immediately receive access to the added resources. Newly added principals immediately receive access to the resources shared in this resource share.
     ///
@@ -486,7 +486,7 @@ extension RAMClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssociateResourceSharePermission` operation on the `AmazonResourceSharing` service.
+    /// Performs the `AssociateResourceSharePermission` operation on the `RAM` service.
     ///
     /// Adds or replaces the RAM permission for a resource type included in a resource share. You can have exactly one permission associated with each resource type in the resource share. You can add a new RAM permission only if there are currently no resources of that resource type currently in the resource share.
     ///
@@ -561,7 +561,7 @@ extension RAMClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreatePermission` operation on the `AmazonResourceSharing` service.
+    /// Performs the `CreatePermission` operation on the `RAM` service.
     ///
     /// Creates a customer managed permission for a specified resource type that you can attach to resource shares. It is created in the Amazon Web Services Region in which you call the operation.
     ///
@@ -639,7 +639,7 @@ extension RAMClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreatePermissionVersion` operation on the `AmazonResourceSharing` service.
+    /// Performs the `CreatePermissionVersion` operation on the `RAM` service.
     ///
     /// Creates a new version of the specified customer managed permission. The new version is automatically set as the default version of the customer managed permission. New resource shares automatically use the default permission. Existing resource shares continue to use their original permission versions, but you can use [ReplacePermissionAssociations] to update them. If the specified customer managed permission already has the maximum of 5 versions, then you must delete one of the existing versions before you can create a new one.
     ///
@@ -717,7 +717,7 @@ extension RAMClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateResourceShare` operation on the `AmazonResourceSharing` service.
+    /// Performs the `CreateResourceShare` operation on the `RAM` service.
     ///
     /// Creates a resource share. You can provide a list of the [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) for the resources that you want to share, a list of principals you want to share the resources with, and the permissions to grant those principals. Sharing a resource makes it available for use by principals outside of the Amazon Web Services account that created the resource. Sharing doesn't change any permissions or quotas that apply to the resource in the account that created it.
     ///
@@ -797,7 +797,7 @@ extension RAMClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeletePermission` operation on the `AmazonResourceSharing` service.
+    /// Performs the `DeletePermission` operation on the `RAM` service.
     ///
     /// Deletes the specified customer managed permission in the Amazon Web Services Region in which you call this operation. You can delete a customer managed permission only if it isn't attached to any resource share. The operation deletes all versions associated with the customer managed permission.
     ///
@@ -870,7 +870,7 @@ extension RAMClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeletePermissionVersion` operation on the `AmazonResourceSharing` service.
+    /// Performs the `DeletePermissionVersion` operation on the `RAM` service.
     ///
     /// Deletes one version of a customer managed permission. The version you specify must not be attached to any resource share and must not be the default version for the permission. If a customer managed permission has the maximum of 5 versions, then you must delete at least one version before you can create another.
     ///
@@ -944,7 +944,7 @@ extension RAMClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteResourceShare` operation on the `AmazonResourceSharing` service.
+    /// Performs the `DeleteResourceShare` operation on the `RAM` service.
     ///
     /// Deletes the specified resource share. This doesn't delete any of the resources that were associated with the resource share; it only stops the sharing of those resources through this resource share.
     ///
@@ -1019,7 +1019,7 @@ extension RAMClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateResourceShare` operation on the `AmazonResourceSharing` service.
+    /// Performs the `DisassociateResourceShare` operation on the `RAM` service.
     ///
     /// Removes the specified principals or resources from participating in the specified resource share.
     ///
@@ -1097,7 +1097,7 @@ extension RAMClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateResourceSharePermission` operation on the `AmazonResourceSharing` service.
+    /// Performs the `DisassociateResourceSharePermission` operation on the `RAM` service.
     ///
     /// Removes a managed permission from a resource share. Permission changes take effect immediately. You can remove a managed permission from a resource share only if there are currently no resources of the relevant resource type currently attached to the resource share.
     ///
@@ -1173,7 +1173,7 @@ extension RAMClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `EnableSharingWithAwsOrganization` operation on the `AmazonResourceSharing` service.
+    /// Performs the `EnableSharingWithAwsOrganization` operation on the `RAM` service.
     ///
     /// Enables resource sharing within your organization in Organizations. This operation creates a service-linked role called AWSServiceRoleForResourceAccessManager that has the IAM managed policy named AWSResourceAccessManagerServiceRolePolicy attached. This role permits RAM to retrieve information about the organization and its structure. This lets you share resources with all of the accounts in the calling account's organization by specifying the organization ID, or all of the accounts in an organizational unit (OU) by specifying the OU ID. Until you enable sharing within the organization, you can specify only individual Amazon Web Services accounts, or for supported resource types, IAM roles and users. You must call this operation from an IAM role or user in the organization's management account.
     ///
@@ -1241,7 +1241,7 @@ extension RAMClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetPermission` operation on the `AmazonResourceSharing` service.
+    /// Performs the `GetPermission` operation on the `RAM` service.
     ///
     /// Retrieves the contents of a managed permission in JSON format.
     ///
@@ -1315,7 +1315,7 @@ extension RAMClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetResourcePolicies` operation on the `AmazonResourceSharing` service.
+    /// Performs the `GetResourcePolicies` operation on the `RAM` service.
     ///
     /// Retrieves the resource policies for the specified resources that you own and have shared.
     ///
@@ -1389,7 +1389,7 @@ extension RAMClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetResourceShareAssociations` operation on the `AmazonResourceSharing` service.
+    /// Performs the `GetResourceShareAssociations` operation on the `RAM` service.
     ///
     /// Retrieves the lists of resources and principals that associated for resource shares that you own.
     ///
@@ -1464,7 +1464,7 @@ extension RAMClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetResourceShareInvitations` operation on the `AmazonResourceSharing` service.
+    /// Performs the `GetResourceShareInvitations` operation on the `RAM` service.
     ///
     /// Retrieves details about invitations that you have received for resource shares.
     ///
@@ -1540,7 +1540,7 @@ extension RAMClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetResourceShares` operation on the `AmazonResourceSharing` service.
+    /// Performs the `GetResourceShares` operation on the `RAM` service.
     ///
     /// Retrieves details about the resource shares that you own or that are shared with you.
     ///
@@ -1614,7 +1614,7 @@ extension RAMClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListPendingInvitationResources` operation on the `AmazonResourceSharing` service.
+    /// Performs the `ListPendingInvitationResources` operation on the `RAM` service.
     ///
     /// Lists the resources in a resource share that is shared with you but for which the invitation is still PENDING. That means that you haven't accepted or rejected the invitation and the invitation hasn't expired.
     ///
@@ -1691,7 +1691,7 @@ extension RAMClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListPermissionAssociations` operation on the `AmazonResourceSharing` service.
+    /// Performs the `ListPermissionAssociations` operation on the `RAM` service.
     ///
     /// Lists information about the managed permission and its associations to any resource shares that use this managed permission. This lets you see which resource shares use which versions of the specified managed permission.
     ///
@@ -1764,7 +1764,7 @@ extension RAMClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListPermissionVersions` operation on the `AmazonResourceSharing` service.
+    /// Performs the `ListPermissionVersions` operation on the `RAM` service.
     ///
     /// Lists the available versions of the specified RAM permission.
     ///
@@ -1839,7 +1839,7 @@ extension RAMClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListPermissions` operation on the `AmazonResourceSharing` service.
+    /// Performs the `ListPermissions` operation on the `RAM` service.
     ///
     /// Retrieves a list of available RAM permissions that you can use for the supported resource types.
     ///
@@ -1912,7 +1912,7 @@ extension RAMClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListPrincipals` operation on the `AmazonResourceSharing` service.
+    /// Performs the `ListPrincipals` operation on the `RAM` service.
     ///
     /// Lists the principals that you are sharing resources with or that are sharing resources with you.
     ///
@@ -1986,7 +1986,7 @@ extension RAMClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListReplacePermissionAssociationsWork` operation on the `AmazonResourceSharing` service.
+    /// Performs the `ListReplacePermissionAssociationsWork` operation on the `RAM` service.
     ///
     /// Retrieves the current status of the asynchronous tasks performed by RAM when you perform the [ReplacePermissionAssociationsWork] operation.
     ///
@@ -2058,7 +2058,7 @@ extension RAMClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListResourceSharePermissions` operation on the `AmazonResourceSharing` service.
+    /// Performs the `ListResourceSharePermissions` operation on the `RAM` service.
     ///
     /// Lists the RAM permissions that are associated with a resource share.
     ///
@@ -2133,7 +2133,7 @@ extension RAMClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListResourceTypes` operation on the `AmazonResourceSharing` service.
+    /// Performs the `ListResourceTypes` operation on the `RAM` service.
     ///
     /// Lists the resource types that can be shared by RAM.
     ///
@@ -2205,7 +2205,7 @@ extension RAMClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListResources` operation on the `AmazonResourceSharing` service.
+    /// Performs the `ListResources` operation on the `RAM` service.
     ///
     /// Lists the resources that you added to a resource share or the resources that are shared with you.
     ///
@@ -2280,7 +2280,7 @@ extension RAMClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PromotePermissionCreatedFromPolicy` operation on the `AmazonResourceSharing` service.
+    /// Performs the `PromotePermissionCreatedFromPolicy` operation on the `RAM` service.
     ///
     /// When you attach a resource-based policy to a resource, RAM automatically creates a resource share of featureSet=CREATED_FROM_POLICY with a managed permission that has the same IAM permissions as the original resource-based policy. However, this type of managed permission is visible to only the resource share owner, and the associated resource share can't be modified by using RAM. This operation creates a separate, fully manageable customer managed permission that has the same IAM permissions as the original resource-based policy. You can associate this customer managed permission to any resource shares. Before you use [PromoteResourceShareCreatedFromPolicy], you should first run this operation to ensure that you have an appropriate customer managed permission that can be associated with the promoted resource share.
     ///
@@ -2361,7 +2361,7 @@ extension RAMClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PromoteResourceShareCreatedFromPolicy` operation on the `AmazonResourceSharing` service.
+    /// Performs the `PromoteResourceShareCreatedFromPolicy` operation on the `RAM` service.
     ///
     /// When you attach a resource-based policy to a resource, RAM automatically creates a resource share of featureSet=CREATED_FROM_POLICY with a managed permission that has the same IAM permissions as the original resource-based policy. However, this type of managed permission is visible to only the resource share owner, and the associated resource share can't be modified by using RAM. This operation promotes the resource share to a STANDARD resource share that is fully manageable in RAM. When you promote a resource share, you can then manage the resource share in RAM and it becomes visible to all of the principals you shared it with. Before you perform this operation, you should first run [PromotePermissionCreatedFromPolicy]to ensure that you have an appropriate customer managed permission that can be associated with this resource share after its is promoted. If this operation can't find a managed permission that exactly matches the existing CREATED_FROM_POLICY permission, then this operation fails.
     ///
@@ -2437,7 +2437,7 @@ extension RAMClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RejectResourceShareInvitation` operation on the `AmazonResourceSharing` service.
+    /// Performs the `RejectResourceShareInvitation` operation on the `RAM` service.
     ///
     /// Rejects an invitation to a resource share from another Amazon Web Services account.
     ///
@@ -2515,7 +2515,7 @@ extension RAMClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ReplacePermissionAssociations` operation on the `AmazonResourceSharing` service.
+    /// Performs the `ReplacePermissionAssociations` operation on the `RAM` service.
     ///
     /// Updates all resource shares that use a managed permission to a different managed permission. This operation always applies the default version of the target managed permission. You can optionally specify that the update applies to only resource shares that currently use a specified version. This enables you to update to the latest version, without changing the which managed permission is used. You can use this operation to update all of your resource shares to use the current default version of the permission by specifying the same value for the fromPermissionArn and toPermissionArn parameters. You can use the optional fromPermissionVersion parameter to update only those resources that use a specified version of the managed permission to the new managed permission. To successfully perform this operation, you must have permission to update the resource-based policy on all affected resource types.
     ///
@@ -2591,7 +2591,7 @@ extension RAMClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SetDefaultPermissionVersion` operation on the `AmazonResourceSharing` service.
+    /// Performs the `SetDefaultPermissionVersion` operation on the `RAM` service.
     ///
     /// Designates the specified version number as the default version for the specified customer managed permission. New resource shares automatically use this new default permission. Existing resource shares continue to use their original permission version, but you can use [ReplacePermissionAssociations] to update them.
     ///
@@ -2666,7 +2666,7 @@ extension RAMClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `AmazonResourceSharing` service.
+    /// Performs the `TagResource` operation on the `RAM` service.
     ///
     /// Adds the specified tag keys and values to a resource share or managed permission. If you choose a resource share, the tags are attached to only the resource share, not to the resources that are in the resource share. The tags on a managed permission are the same for all versions of the managed permission.
     ///
@@ -2742,7 +2742,7 @@ extension RAMClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `AmazonResourceSharing` service.
+    /// Performs the `UntagResource` operation on the `RAM` service.
     ///
     /// Removes the specified tag key and value pairs from the specified resource share or managed permission.
     ///
@@ -2815,7 +2815,7 @@ extension RAMClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateResourceShare` operation on the `AmazonResourceSharing` service.
+    /// Performs the `UpdateResourceShare` operation on the `RAM` service.
     ///
     /// Modifies some of the properties of the specified resource share.
     ///

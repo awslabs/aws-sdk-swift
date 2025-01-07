@@ -62,7 +62,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class RDSDataClient: ClientRuntime.Client {
     public static let clientName = "RDSDataClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: RDSDataClient.RDSDataClientConfiguration
     let serviceName = "RDS Data"
@@ -328,7 +328,7 @@ extension RDSDataClient {
 }
 
 extension RDSDataClient {
-    /// Performs the `BatchExecuteStatement` operation on the `RdsDataService` service.
+    /// Performs the `BatchExecuteStatement` operation on the `RDSData` service.
     ///
     /// Runs a batch SQL statement over an array of data. You can run bulk update and insert operations for multiple records using a DML statement with different parameter sets. Bulk operations can provide a significant performance improvement over individual insert and update operations. If a call isn't part of a transaction because it doesn't include the transactionID parameter, changes that result from the call are committed automatically. There isn't a fixed upper limit on the number of parameter sets. However, the maximum size of the HTTP request submitted through the Data API is 4 MiB. If the request exceeds this limit, the Data API returns an error and doesn't process the request. This 4-MiB limit includes the size of the HTTP headers and the JSON notation in the request. Thus, the number of parameter sets that you can include depends on a combination of factors, such as the size of the SQL statement and the size of each parameter set. The response size limit is 1 MiB. If the call returns more than 1 MiB of response data, the call is terminated.
     ///
@@ -416,7 +416,7 @@ extension RDSDataClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BeginTransaction` operation on the `RdsDataService` service.
+    /// Performs the `BeginTransaction` operation on the `RDSData` service.
     ///
     /// Starts a SQL transaction. A transaction can run for a maximum of 24 hours. A transaction is terminated and rolled back automatically after 24 hours. A transaction times out if no calls use its transaction ID in three minutes. If a transaction times out before it's committed, it's rolled back automatically. For Aurora MySQL, DDL statements inside a transaction cause an implicit commit. We recommend that you run each MySQL DDL statement in a separate ExecuteStatement call with continueAfterTimeout enabled.
     ///
@@ -504,7 +504,7 @@ extension RDSDataClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CommitTransaction` operation on the `RdsDataService` service.
+    /// Performs the `CommitTransaction` operation on the `RDSData` service.
     ///
     /// Ends a SQL transaction started with the BeginTransaction operation and commits the changes.
     ///
@@ -592,7 +592,7 @@ extension RDSDataClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ExecuteStatement` operation on the `RdsDataService` service.
+    /// Performs the `ExecuteStatement` operation on the `RDSData` service.
     ///
     /// Runs a SQL statement against a database. If a call isn't part of a transaction because it doesn't include the transactionID parameter, changes that result from the call are committed automatically. If the binary response data from the database is more than 1 MB, the call is terminated.
     ///
@@ -687,7 +687,7 @@ extension RDSDataClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RollbackTransaction` operation on the `RdsDataService` service.
+    /// Performs the `RollbackTransaction` operation on the `RDSData` service.
     ///
     /// Performs a rollback of a transaction. Rolling back a transaction cancels its changes.
     ///

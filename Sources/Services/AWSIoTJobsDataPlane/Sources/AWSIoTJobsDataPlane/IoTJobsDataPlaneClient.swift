@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class IoTJobsDataPlaneClient: ClientRuntime.Client {
     public static let clientName = "IoTJobsDataPlaneClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: IoTJobsDataPlaneClient.IoTJobsDataPlaneClientConfiguration
     let serviceName = "IoT Jobs Data Plane"
@@ -330,7 +330,7 @@ extension IoTJobsDataPlaneClient {
 }
 
 extension IoTJobsDataPlaneClient {
-    /// Performs the `DescribeJobExecution` operation on the `IotLaserThingJobManagerExternalService` service.
+    /// Performs the `DescribeJobExecution` operation on the `IoTJobsDataPlane` service.
     ///
     /// Gets details of a job execution. Requires permission to access the [DescribeJobExecution](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -402,7 +402,7 @@ extension IoTJobsDataPlaneClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetPendingJobExecutions` operation on the `IotLaserThingJobManagerExternalService` service.
+    /// Performs the `GetPendingJobExecutions` operation on the `IoTJobsDataPlane` service.
     ///
     /// Gets the list of all jobs for a thing that are not in a terminal status. Requires permission to access the [GetPendingJobExecutions](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -472,7 +472,7 @@ extension IoTJobsDataPlaneClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartCommandExecution` operation on the `IotLaserThingJobManagerExternalService` service.
+    /// Performs the `StartCommandExecution` operation on the `IoTJobsDataPlane` service.
     ///
     /// Using the command created with the CreateCommand API, start a command execution on a specific device.
     ///
@@ -547,7 +547,7 @@ extension IoTJobsDataPlaneClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartNextPendingJobExecution` operation on the `IotLaserThingJobManagerExternalService` service.
+    /// Performs the `StartNextPendingJobExecution` operation on the `IoTJobsDataPlane` service.
     ///
     /// Gets and starts the next pending (status IN_PROGRESS or QUEUED) job execution for a thing. Requires permission to access the [StartNextPendingJobExecution](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -620,7 +620,7 @@ extension IoTJobsDataPlaneClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateJobExecution` operation on the `IotLaserThingJobManagerExternalService` service.
+    /// Performs the `UpdateJobExecution` operation on the `IoTJobsDataPlane` service.
     ///
     /// Updates the status of a job execution. Requires permission to access the [UpdateJobExecution](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiotjobsdataplane.html) action.
     ///
