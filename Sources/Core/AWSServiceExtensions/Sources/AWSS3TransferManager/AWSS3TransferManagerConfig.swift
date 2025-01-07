@@ -9,8 +9,6 @@ import AWSS3
 import SmithyChecksumsAPI
 
 public class AWSS3TransferManagerConfig {
-    let MEGABYTE: UInt64 = 1_000_000
-    
     var s3ClientInstance: S3Client
     var targetPartSizeBytes: UInt64
     var multipartUploadThresholdBytes: UInt64
