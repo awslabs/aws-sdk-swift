@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class BillingconductorClient: ClientRuntime.Client {
     public static let clientName = "BillingconductorClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: BillingconductorClient.BillingconductorClientConfiguration
     let serviceName = "billingconductor"
@@ -331,7 +331,7 @@ extension BillingconductorClient {
 }
 
 extension BillingconductorClient {
-    /// Performs the `AssociateAccounts` operation on the `AWSBillingConductor` service.
+    /// Performs the `AssociateAccounts` operation on the `Billingconductor` service.
     ///
     /// Connects an array of account IDs in a consolidated billing family to a predefined billing group. The account IDs must be a part of the consolidated billing family during the current month, and not already associated with another billing group. The maximum number of accounts that can be associated in one call is 30.
     ///
@@ -406,7 +406,7 @@ extension BillingconductorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssociatePricingRules` operation on the `AWSBillingConductor` service.
+    /// Performs the `AssociatePricingRules` operation on the `Billingconductor` service.
     ///
     /// Connects an array of PricingRuleArns to a defined PricingPlan. The maximum number PricingRuleArn that can be associated in one call is 30.
     ///
@@ -481,7 +481,7 @@ extension BillingconductorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchAssociateResourcesToCustomLineItem` operation on the `AWSBillingConductor` service.
+    /// Performs the `BatchAssociateResourcesToCustomLineItem` operation on the `Billingconductor` service.
     ///
     /// Associates a batch of resources to a percentage custom line item.
     ///
@@ -556,7 +556,7 @@ extension BillingconductorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchDisassociateResourcesFromCustomLineItem` operation on the `AWSBillingConductor` service.
+    /// Performs the `BatchDisassociateResourcesFromCustomLineItem` operation on the `Billingconductor` service.
     ///
     /// Disassociates a batch of resources from a percentage custom line item.
     ///
@@ -630,7 +630,7 @@ extension BillingconductorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateBillingGroup` operation on the `AWSBillingConductor` service.
+    /// Performs the `CreateBillingGroup` operation on the `Billingconductor` service.
     ///
     /// Creates a billing group that resembles a consolidated billing family that Amazon Web Services charges, based off of the predefined pricing plan computation.
     ///
@@ -706,7 +706,7 @@ extension BillingconductorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateCustomLineItem` operation on the `AWSBillingConductor` service.
+    /// Performs the `CreateCustomLineItem` operation on the `Billingconductor` service.
     ///
     /// Creates a custom line item that can be used to create a one-time fixed charge that can be applied to a single billing group for the current or previous billing period. The one-time fixed charge is either a fee or discount.
     ///
@@ -782,7 +782,7 @@ extension BillingconductorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreatePricingPlan` operation on the `AWSBillingConductor` service.
+    /// Performs the `CreatePricingPlan` operation on the `Billingconductor` service.
     ///
     /// Creates a pricing plan that is used for computing Amazon Web Services charges for billing groups.
     ///
@@ -859,7 +859,7 @@ extension BillingconductorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreatePricingRule` operation on the `AWSBillingConductor` service.
+    /// Performs the `CreatePricingRule` operation on the `Billingconductor` service.
     ///
     /// Creates a pricing rule can be associated to a pricing plan, or a set of pricing plans.
     ///
@@ -935,7 +935,7 @@ extension BillingconductorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteBillingGroup` operation on the `AWSBillingConductor` service.
+    /// Performs the `DeleteBillingGroup` operation on the `Billingconductor` service.
     ///
     /// Deletes a billing group.
     ///
@@ -1007,7 +1007,7 @@ extension BillingconductorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteCustomLineItem` operation on the `AWSBillingConductor` service.
+    /// Performs the `DeleteCustomLineItem` operation on the `Billingconductor` service.
     ///
     /// Deletes the custom line item identified by the given ARN in the current, or previous billing period.
     ///
@@ -1080,7 +1080,7 @@ extension BillingconductorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeletePricingPlan` operation on the `AWSBillingConductor` service.
+    /// Performs the `DeletePricingPlan` operation on the `Billingconductor` service.
     ///
     /// Deletes a pricing plan. The pricing plan must not be associated with any billing groups to delete successfully.
     ///
@@ -1153,7 +1153,7 @@ extension BillingconductorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeletePricingRule` operation on the `AWSBillingConductor` service.
+    /// Performs the `DeletePricingRule` operation on the `Billingconductor` service.
     ///
     /// Deletes the pricing rule that's identified by the input Amazon Resource Name (ARN).
     ///
@@ -1226,7 +1226,7 @@ extension BillingconductorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateAccounts` operation on the `AWSBillingConductor` service.
+    /// Performs the `DisassociateAccounts` operation on the `Billingconductor` service.
     ///
     /// Removes the specified list of account IDs from the given billing group.
     ///
@@ -1300,7 +1300,7 @@ extension BillingconductorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociatePricingRules` operation on the `AWSBillingConductor` service.
+    /// Performs the `DisassociatePricingRules` operation on the `Billingconductor` service.
     ///
     /// Disassociates a list of pricing rules from a pricing plan.
     ///
@@ -1374,7 +1374,7 @@ extension BillingconductorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetBillingGroupCostReport` operation on the `AWSBillingConductor` service.
+    /// Performs the `GetBillingGroupCostReport` operation on the `Billingconductor` service.
     ///
     /// Retrieves the margin summary report, which includes the Amazon Web Services cost and charged amount (pro forma cost) by Amazon Web Service for a specific billing group.
     ///
@@ -1447,7 +1447,7 @@ extension BillingconductorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAccountAssociations` operation on the `AWSBillingConductor` service.
+    /// Performs the `ListAccountAssociations` operation on the `Billingconductor` service.
     ///
     /// This is a paginated call to list linked accounts that are linked to the payer account for the specified time period. If no information is provided, the current billing period is used. The response will optionally include the billing group that's associated with the linked account.
     ///
@@ -1520,7 +1520,7 @@ extension BillingconductorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListBillingGroupCostReports` operation on the `AWSBillingConductor` service.
+    /// Performs the `ListBillingGroupCostReports` operation on the `Billingconductor` service.
     ///
     /// A paginated call to retrieve a summary report of actual Amazon Web Services charges and the calculated Amazon Web Services charges based on the associated pricing plan of a billing group.
     ///
@@ -1593,7 +1593,7 @@ extension BillingconductorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListBillingGroups` operation on the `AWSBillingConductor` service.
+    /// Performs the `ListBillingGroups` operation on the `Billingconductor` service.
     ///
     /// A paginated call to retrieve a list of billing groups for the given billing period. If you don't provide a billing group, the current billing period is used.
     ///
@@ -1666,7 +1666,7 @@ extension BillingconductorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListCustomLineItemVersions` operation on the `AWSBillingConductor` service.
+    /// Performs the `ListCustomLineItemVersions` operation on the `Billingconductor` service.
     ///
     /// A paginated call to get a list of all custom line item versions.
     ///
@@ -1738,7 +1738,7 @@ extension BillingconductorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListCustomLineItems` operation on the `AWSBillingConductor` service.
+    /// Performs the `ListCustomLineItems` operation on the `Billingconductor` service.
     ///
     /// A paginated call to get a list of all custom line items (FFLIs) for the given billing period. If you don't provide a billing period, the current billing period is used.
     ///
@@ -1811,7 +1811,7 @@ extension BillingconductorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListPricingPlans` operation on the `AWSBillingConductor` service.
+    /// Performs the `ListPricingPlans` operation on the `Billingconductor` service.
     ///
     /// A paginated call to get pricing plans for the given billing period. If you don't provide a billing period, the current billing period is used.
     ///
@@ -1883,7 +1883,7 @@ extension BillingconductorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListPricingPlansAssociatedWithPricingRule` operation on the `AWSBillingConductor` service.
+    /// Performs the `ListPricingPlansAssociatedWithPricingRule` operation on the `Billingconductor` service.
     ///
     /// A list of the pricing plans that are associated with a pricing rule.
     ///
@@ -1956,7 +1956,7 @@ extension BillingconductorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListPricingRules` operation on the `AWSBillingConductor` service.
+    /// Performs the `ListPricingRules` operation on the `Billingconductor` service.
     ///
     /// Describes a pricing rule that can be associated to a pricing plan, or set of pricing plans.
     ///
@@ -2028,7 +2028,7 @@ extension BillingconductorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListPricingRulesAssociatedToPricingPlan` operation on the `AWSBillingConductor` service.
+    /// Performs the `ListPricingRulesAssociatedToPricingPlan` operation on the `Billingconductor` service.
     ///
     /// Lists the pricing rules that are associated with a pricing plan.
     ///
@@ -2101,7 +2101,7 @@ extension BillingconductorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListResourcesAssociatedToCustomLineItem` operation on the `AWSBillingConductor` service.
+    /// Performs the `ListResourcesAssociatedToCustomLineItem` operation on the `Billingconductor` service.
     ///
     /// List the resources that are associated to a custom line item.
     ///
@@ -2174,7 +2174,7 @@ extension BillingconductorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `AWSBillingConductor` service.
+    /// Performs the `ListTagsForResource` operation on the `Billingconductor` service.
     ///
     /// A list the tags for a resource.
     ///
@@ -2244,7 +2244,7 @@ extension BillingconductorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `AWSBillingConductor` service.
+    /// Performs the `TagResource` operation on the `Billingconductor` service.
     ///
     /// Associates the specified tags to a resource with the specified resourceArn. If existing tags on a resource are not specified in the request parameters, they are not changed.
     ///
@@ -2317,7 +2317,7 @@ extension BillingconductorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `AWSBillingConductor` service.
+    /// Performs the `UntagResource` operation on the `Billingconductor` service.
     ///
     /// Deletes specified tags from a resource.
     ///
@@ -2388,7 +2388,7 @@ extension BillingconductorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateBillingGroup` operation on the `AWSBillingConductor` service.
+    /// Performs the `UpdateBillingGroup` operation on the `Billingconductor` service.
     ///
     /// This updates an existing billing group.
     ///
@@ -2462,7 +2462,7 @@ extension BillingconductorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateCustomLineItem` operation on the `AWSBillingConductor` service.
+    /// Performs the `UpdateCustomLineItem` operation on the `Billingconductor` service.
     ///
     /// Update an existing custom line item in the current or previous billing period.
     ///
@@ -2535,7 +2535,7 @@ extension BillingconductorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdatePricingPlan` operation on the `AWSBillingConductor` service.
+    /// Performs the `UpdatePricingPlan` operation on the `Billingconductor` service.
     ///
     /// This updates an existing pricing plan.
     ///
@@ -2609,7 +2609,7 @@ extension BillingconductorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdatePricingRule` operation on the `AWSBillingConductor` service.
+    /// Performs the `UpdatePricingRule` operation on the `Billingconductor` service.
     ///
     /// Updates an existing pricing rule.
     ///

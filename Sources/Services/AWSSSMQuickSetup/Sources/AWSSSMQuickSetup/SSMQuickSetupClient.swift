@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SSMQuickSetupClient: ClientRuntime.Client {
     public static let clientName = "SSMQuickSetupClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: SSMQuickSetupClient.SSMQuickSetupClientConfiguration
     let serviceName = "SSM QuickSetup"
@@ -330,7 +330,7 @@ extension SSMQuickSetupClient {
 }
 
 extension SSMQuickSetupClient {
-    /// Performs the `CreateConfigurationManager` operation on the `QuickSetup` service.
+    /// Performs the `CreateConfigurationManager` operation on the `SSMQuickSetup` service.
     ///
     /// Creates a Quick Setup configuration manager resource. This object is a collection of desired state configurations for multiple configuration definitions and summaries describing the deployments of those definitions.
     ///
@@ -403,7 +403,7 @@ extension SSMQuickSetupClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteConfigurationManager` operation on the `QuickSetup` service.
+    /// Performs the `DeleteConfigurationManager` operation on the `SSMQuickSetup` service.
     ///
     /// Deletes a configuration manager.
     ///
@@ -474,7 +474,7 @@ extension SSMQuickSetupClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetConfiguration` operation on the `QuickSetup` service.
+    /// Performs the `GetConfiguration` operation on the `SSMQuickSetup` service.
     ///
     /// Returns details about the specified configuration.
     ///
@@ -545,7 +545,7 @@ extension SSMQuickSetupClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetConfigurationManager` operation on the `QuickSetup` service.
+    /// Performs the `GetConfigurationManager` operation on the `SSMQuickSetup` service.
     ///
     /// Returns a configuration manager.
     ///
@@ -616,7 +616,7 @@ extension SSMQuickSetupClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetServiceSettings` operation on the `QuickSetup` service.
+    /// Performs the `GetServiceSettings` operation on the `SSMQuickSetup` service.
     ///
     /// Returns settings configured for Quick Setup in the requesting Amazon Web Services account and Amazon Web Services Region.
     ///
@@ -685,7 +685,7 @@ extension SSMQuickSetupClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListConfigurationManagers` operation on the `QuickSetup` service.
+    /// Performs the `ListConfigurationManagers` operation on the `SSMQuickSetup` service.
     ///
     /// Returns Quick Setup configuration managers.
     ///
@@ -758,7 +758,7 @@ extension SSMQuickSetupClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListConfigurations` operation on the `QuickSetup` service.
+    /// Performs the `ListConfigurations` operation on the `SSMQuickSetup` service.
     ///
     /// Returns configurations deployed by Quick Setup in the requesting Amazon Web Services account and Amazon Web Services Region.
     ///
@@ -831,7 +831,7 @@ extension SSMQuickSetupClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListQuickSetupTypes` operation on the `QuickSetup` service.
+    /// Performs the `ListQuickSetupTypes` operation on the `SSMQuickSetup` service.
     ///
     /// Returns the available Quick Setup types.
     ///
@@ -900,7 +900,7 @@ extension SSMQuickSetupClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `QuickSetup` service.
+    /// Performs the `ListTagsForResource` operation on the `SSMQuickSetup` service.
     ///
     /// Returns tags assigned to the resource.
     ///
@@ -971,7 +971,7 @@ extension SSMQuickSetupClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `QuickSetup` service.
+    /// Performs the `TagResource` operation on the `SSMQuickSetup` service.
     ///
     /// Assigns key-value pairs of metadata to Amazon Web Services resources.
     ///
@@ -1045,7 +1045,7 @@ extension SSMQuickSetupClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `QuickSetup` service.
+    /// Performs the `UntagResource` operation on the `SSMQuickSetup` service.
     ///
     /// Removes tags from the specified resource.
     ///
@@ -1117,7 +1117,7 @@ extension SSMQuickSetupClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateConfigurationDefinition` operation on the `QuickSetup` service.
+    /// Performs the `UpdateConfigurationDefinition` operation on the `SSMQuickSetup` service.
     ///
     /// Updates a Quick Setup configuration definition.
     ///
@@ -1191,7 +1191,7 @@ extension SSMQuickSetupClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateConfigurationManager` operation on the `QuickSetup` service.
+    /// Performs the `UpdateConfigurationManager` operation on the `SSMQuickSetup` service.
     ///
     /// Updates a Quick Setup configuration manager.
     ///
@@ -1265,7 +1265,7 @@ extension SSMQuickSetupClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateServiceSettings` operation on the `QuickSetup` service.
+    /// Performs the `UpdateServiceSettings` operation on the `SSMQuickSetup` service.
     ///
     /// Updates settings configured for Quick Setup.
     ///

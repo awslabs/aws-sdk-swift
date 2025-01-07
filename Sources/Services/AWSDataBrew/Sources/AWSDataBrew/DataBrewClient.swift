@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class DataBrewClient: ClientRuntime.Client {
     public static let clientName = "DataBrewClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: DataBrewClient.DataBrewClientConfiguration
     let serviceName = "DataBrew"
@@ -330,7 +330,7 @@ extension DataBrewClient {
 }
 
 extension DataBrewClient {
-    /// Performs the `BatchDeleteRecipeVersion` operation on the `AWSGlueDataBrew` service.
+    /// Performs the `BatchDeleteRecipeVersion` operation on the `DataBrew` service.
     ///
     /// Deletes one or more versions of a recipe at a time. The entire request will be rejected if:
     ///
@@ -425,7 +425,7 @@ extension DataBrewClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateDataset` operation on the `AWSGlueDataBrew` service.
+    /// Performs the `CreateDataset` operation on the `DataBrew` service.
     ///
     /// Creates a new DataBrew dataset.
     ///
@@ -497,7 +497,7 @@ extension DataBrewClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateProfileJob` operation on the `AWSGlueDataBrew` service.
+    /// Performs the `CreateProfileJob` operation on the `DataBrew` service.
     ///
     /// Creates a new job to analyze a dataset and create its data profile.
     ///
@@ -570,7 +570,7 @@ extension DataBrewClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateProject` operation on the `AWSGlueDataBrew` service.
+    /// Performs the `CreateProject` operation on the `DataBrew` service.
     ///
     /// Creates a new DataBrew project.
     ///
@@ -642,7 +642,7 @@ extension DataBrewClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateRecipe` operation on the `AWSGlueDataBrew` service.
+    /// Performs the `CreateRecipe` operation on the `DataBrew` service.
     ///
     /// Creates a new DataBrew recipe.
     ///
@@ -713,7 +713,7 @@ extension DataBrewClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateRecipeJob` operation on the `AWSGlueDataBrew` service.
+    /// Performs the `CreateRecipeJob` operation on the `DataBrew` service.
     ///
     /// Creates a new job to transform input data, using steps defined in an existing Glue DataBrew recipe
     ///
@@ -786,7 +786,7 @@ extension DataBrewClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateRuleset` operation on the `AWSGlueDataBrew` service.
+    /// Performs the `CreateRuleset` operation on the `DataBrew` service.
     ///
     /// Creates a new ruleset that can be used in a profile job to validate the data quality of a dataset.
     ///
@@ -857,7 +857,7 @@ extension DataBrewClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateSchedule` operation on the `AWSGlueDataBrew` service.
+    /// Performs the `CreateSchedule` operation on the `DataBrew` service.
     ///
     /// Creates a new schedule for one or more DataBrew jobs. Jobs can be run at a specific date and time, or at regular intervals.
     ///
@@ -928,7 +928,7 @@ extension DataBrewClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteDataset` operation on the `AWSGlueDataBrew` service.
+    /// Performs the `DeleteDataset` operation on the `DataBrew` service.
     ///
     /// Deletes a dataset from DataBrew.
     ///
@@ -996,7 +996,7 @@ extension DataBrewClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteJob` operation on the `AWSGlueDataBrew` service.
+    /// Performs the `DeleteJob` operation on the `DataBrew` service.
     ///
     /// Deletes the specified DataBrew job.
     ///
@@ -1064,7 +1064,7 @@ extension DataBrewClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteProject` operation on the `AWSGlueDataBrew` service.
+    /// Performs the `DeleteProject` operation on the `DataBrew` service.
     ///
     /// Deletes an existing DataBrew project.
     ///
@@ -1132,7 +1132,7 @@ extension DataBrewClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteRecipeVersion` operation on the `AWSGlueDataBrew` service.
+    /// Performs the `DeleteRecipeVersion` operation on the `DataBrew` service.
     ///
     /// Deletes a single version of a DataBrew recipe.
     ///
@@ -1200,7 +1200,7 @@ extension DataBrewClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteRuleset` operation on the `AWSGlueDataBrew` service.
+    /// Performs the `DeleteRuleset` operation on the `DataBrew` service.
     ///
     /// Deletes a ruleset.
     ///
@@ -1268,7 +1268,7 @@ extension DataBrewClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteSchedule` operation on the `AWSGlueDataBrew` service.
+    /// Performs the `DeleteSchedule` operation on the `DataBrew` service.
     ///
     /// Deletes the specified DataBrew schedule.
     ///
@@ -1335,7 +1335,7 @@ extension DataBrewClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeDataset` operation on the `AWSGlueDataBrew` service.
+    /// Performs the `DescribeDataset` operation on the `DataBrew` service.
     ///
     /// Returns the definition of a specific DataBrew dataset.
     ///
@@ -1402,7 +1402,7 @@ extension DataBrewClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeJob` operation on the `AWSGlueDataBrew` service.
+    /// Performs the `DescribeJob` operation on the `DataBrew` service.
     ///
     /// Returns the definition of a specific DataBrew job.
     ///
@@ -1469,7 +1469,7 @@ extension DataBrewClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeJobRun` operation on the `AWSGlueDataBrew` service.
+    /// Performs the `DescribeJobRun` operation on the `DataBrew` service.
     ///
     /// Represents one run of a DataBrew job.
     ///
@@ -1536,7 +1536,7 @@ extension DataBrewClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeProject` operation on the `AWSGlueDataBrew` service.
+    /// Performs the `DescribeProject` operation on the `DataBrew` service.
     ///
     /// Returns the definition of a specific DataBrew project.
     ///
@@ -1603,7 +1603,7 @@ extension DataBrewClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeRecipe` operation on the `AWSGlueDataBrew` service.
+    /// Performs the `DescribeRecipe` operation on the `DataBrew` service.
     ///
     /// Returns the definition of a specific DataBrew recipe corresponding to a particular version.
     ///
@@ -1671,7 +1671,7 @@ extension DataBrewClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeRuleset` operation on the `AWSGlueDataBrew` service.
+    /// Performs the `DescribeRuleset` operation on the `DataBrew` service.
     ///
     /// Retrieves detailed information about the ruleset.
     ///
@@ -1738,7 +1738,7 @@ extension DataBrewClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeSchedule` operation on the `AWSGlueDataBrew` service.
+    /// Performs the `DescribeSchedule` operation on the `DataBrew` service.
     ///
     /// Returns the definition of a specific DataBrew schedule.
     ///
@@ -1805,7 +1805,7 @@ extension DataBrewClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDatasets` operation on the `AWSGlueDataBrew` service.
+    /// Performs the `ListDatasets` operation on the `DataBrew` service.
     ///
     /// Lists all of the DataBrew datasets.
     ///
@@ -1872,7 +1872,7 @@ extension DataBrewClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListJobRuns` operation on the `AWSGlueDataBrew` service.
+    /// Performs the `ListJobRuns` operation on the `DataBrew` service.
     ///
     /// Lists all of the previous runs of a particular DataBrew job.
     ///
@@ -1940,7 +1940,7 @@ extension DataBrewClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListJobs` operation on the `AWSGlueDataBrew` service.
+    /// Performs the `ListJobs` operation on the `DataBrew` service.
     ///
     /// Lists all of the DataBrew jobs that are defined.
     ///
@@ -2007,7 +2007,7 @@ extension DataBrewClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListProjects` operation on the `AWSGlueDataBrew` service.
+    /// Performs the `ListProjects` operation on the `DataBrew` service.
     ///
     /// Lists all of the DataBrew projects that are defined.
     ///
@@ -2074,7 +2074,7 @@ extension DataBrewClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListRecipeVersions` operation on the `AWSGlueDataBrew` service.
+    /// Performs the `ListRecipeVersions` operation on the `DataBrew` service.
     ///
     /// Lists the versions of a particular DataBrew recipe, except for LATEST_WORKING.
     ///
@@ -2141,7 +2141,7 @@ extension DataBrewClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListRecipes` operation on the `AWSGlueDataBrew` service.
+    /// Performs the `ListRecipes` operation on the `DataBrew` service.
     ///
     /// Lists all of the DataBrew recipes that are defined.
     ///
@@ -2208,7 +2208,7 @@ extension DataBrewClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListRulesets` operation on the `AWSGlueDataBrew` service.
+    /// Performs the `ListRulesets` operation on the `DataBrew` service.
     ///
     /// List all rulesets available in the current account or rulesets associated with a specific resource (dataset).
     ///
@@ -2276,7 +2276,7 @@ extension DataBrewClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListSchedules` operation on the `AWSGlueDataBrew` service.
+    /// Performs the `ListSchedules` operation on the `DataBrew` service.
     ///
     /// Lists the DataBrew schedules that are defined.
     ///
@@ -2343,7 +2343,7 @@ extension DataBrewClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `AWSGlueDataBrew` service.
+    /// Performs the `ListTagsForResource` operation on the `DataBrew` service.
     ///
     /// Lists all the tags for a DataBrew resource.
     ///
@@ -2411,7 +2411,7 @@ extension DataBrewClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PublishRecipe` operation on the `AWSGlueDataBrew` service.
+    /// Performs the `PublishRecipe` operation on the `DataBrew` service.
     ///
     /// Publishes a new version of a DataBrew recipe.
     ///
@@ -2482,7 +2482,7 @@ extension DataBrewClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SendProjectSessionAction` operation on the `AWSGlueDataBrew` service.
+    /// Performs the `SendProjectSessionAction` operation on the `DataBrew` service.
     ///
     /// Performs a recipe step within an interactive DataBrew session that's currently open.
     ///
@@ -2553,7 +2553,7 @@ extension DataBrewClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartJobRun` operation on the `AWSGlueDataBrew` service.
+    /// Performs the `StartJobRun` operation on the `DataBrew` service.
     ///
     /// Runs a DataBrew job.
     ///
@@ -2622,7 +2622,7 @@ extension DataBrewClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartProjectSession` operation on the `AWSGlueDataBrew` service.
+    /// Performs the `StartProjectSession` operation on the `DataBrew` service.
     ///
     /// Creates an interactive session, enabling you to manipulate data in a DataBrew project.
     ///
@@ -2694,7 +2694,7 @@ extension DataBrewClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopJobRun` operation on the `AWSGlueDataBrew` service.
+    /// Performs the `StopJobRun` operation on the `DataBrew` service.
     ///
     /// Stops a particular run of a job.
     ///
@@ -2761,7 +2761,7 @@ extension DataBrewClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `AWSGlueDataBrew` service.
+    /// Performs the `TagResource` operation on the `DataBrew` service.
     ///
     /// Adds metadata tags to a DataBrew resource, such as a dataset, project, recipe, job, or schedule.
     ///
@@ -2832,7 +2832,7 @@ extension DataBrewClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `AWSGlueDataBrew` service.
+    /// Performs the `UntagResource` operation on the `DataBrew` service.
     ///
     /// Removes metadata tags from a DataBrew resource.
     ///
@@ -2901,7 +2901,7 @@ extension DataBrewClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateDataset` operation on the `AWSGlueDataBrew` service.
+    /// Performs the `UpdateDataset` operation on the `DataBrew` service.
     ///
     /// Modifies the definition of an existing DataBrew dataset.
     ///
@@ -2972,7 +2972,7 @@ extension DataBrewClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateProfileJob` operation on the `AWSGlueDataBrew` service.
+    /// Performs the `UpdateProfileJob` operation on the `DataBrew` service.
     ///
     /// Modifies the definition of an existing profile job.
     ///
@@ -3043,7 +3043,7 @@ extension DataBrewClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateProject` operation on the `AWSGlueDataBrew` service.
+    /// Performs the `UpdateProject` operation on the `DataBrew` service.
     ///
     /// Modifies the definition of an existing DataBrew project.
     ///
@@ -3113,7 +3113,7 @@ extension DataBrewClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateRecipe` operation on the `AWSGlueDataBrew` service.
+    /// Performs the `UpdateRecipe` operation on the `DataBrew` service.
     ///
     /// Modifies the definition of the LATEST_WORKING version of a DataBrew recipe.
     ///
@@ -3183,7 +3183,7 @@ extension DataBrewClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateRecipeJob` operation on the `AWSGlueDataBrew` service.
+    /// Performs the `UpdateRecipeJob` operation on the `DataBrew` service.
     ///
     /// Modifies the definition of an existing DataBrew recipe job.
     ///
@@ -3254,7 +3254,7 @@ extension DataBrewClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateRuleset` operation on the `AWSGlueDataBrew` service.
+    /// Performs the `UpdateRuleset` operation on the `DataBrew` service.
     ///
     /// Updates specified ruleset.
     ///
@@ -3324,7 +3324,7 @@ extension DataBrewClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateSchedule` operation on the `AWSGlueDataBrew` service.
+    /// Performs the `UpdateSchedule` operation on the `DataBrew` service.
     ///
     /// Modifies the definition of an existing DataBrew schedule.
     ///

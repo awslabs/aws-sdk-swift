@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class EC2Client: ClientRuntime.Client {
     public static let clientName = "EC2Client"
-    public static let version = "1.0.72"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: EC2Client.EC2ClientConfiguration
     let serviceName = "EC2"
@@ -330,7 +330,7 @@ extension EC2Client {
 }
 
 extension EC2Client {
-    /// Performs the `AcceptAddressTransfer` operation on the `AmazonEC2` service.
+    /// Performs the `AcceptAddressTransfer` operation on the `EC2` service.
     ///
     /// Accepts an Elastic IP address transfer. For more information, see [Accept a transferred Elastic IP address](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-eips.html#using-instance-addressing-eips-transfer-accept) in the Amazon VPC User Guide.
     ///
@@ -394,7 +394,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AcceptCapacityReservationBillingOwnership` operation on the `AmazonEC2` service.
+    /// Performs the `AcceptCapacityReservationBillingOwnership` operation on the `EC2` service.
     ///
     /// Accepts a request to assign billing of the available capacity of a shared Capacity Reservation to your account. For more information, see [ Billing assignment for shared Amazon EC2 Capacity Reservations](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/assign-billing.html).
     ///
@@ -458,7 +458,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AcceptReservedInstancesExchangeQuote` operation on the `AmazonEC2` service.
+    /// Performs the `AcceptReservedInstancesExchangeQuote` operation on the `EC2` service.
     ///
     /// Accepts the Convertible Reserved Instance exchange quote described in the [GetReservedInstancesExchangeQuote] call.
     ///
@@ -522,7 +522,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AcceptTransitGatewayMulticastDomainAssociations` operation on the `AmazonEC2` service.
+    /// Performs the `AcceptTransitGatewayMulticastDomainAssociations` operation on the `EC2` service.
     ///
     /// Accepts a request to associate subnets with a transit gateway multicast domain.
     ///
@@ -586,7 +586,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AcceptTransitGatewayPeeringAttachment` operation on the `AmazonEC2` service.
+    /// Performs the `AcceptTransitGatewayPeeringAttachment` operation on the `EC2` service.
     ///
     /// Accepts a transit gateway peering attachment request. The peering attachment must be in the pendingAcceptance state.
     ///
@@ -650,7 +650,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AcceptTransitGatewayVpcAttachment` operation on the `AmazonEC2` service.
+    /// Performs the `AcceptTransitGatewayVpcAttachment` operation on the `EC2` service.
     ///
     /// Accepts a request to attach a VPC to a transit gateway. The VPC attachment must be in the pendingAcceptance state. Use [DescribeTransitGatewayVpcAttachments] to view your pending VPC attachment requests. Use [RejectTransitGatewayVpcAttachment] to reject a VPC attachment request.
     ///
@@ -714,7 +714,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AcceptVpcEndpointConnections` operation on the `AmazonEC2` service.
+    /// Performs the `AcceptVpcEndpointConnections` operation on the `EC2` service.
     ///
     /// Accepts connection requests to your VPC endpoint service.
     ///
@@ -778,7 +778,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AcceptVpcPeeringConnection` operation on the `AmazonEC2` service.
+    /// Performs the `AcceptVpcPeeringConnection` operation on the `EC2` service.
     ///
     /// Accept a VPC peering connection request. To accept a request, the VPC peering connection must be in the pending-acceptance state, and you must be the owner of the peer VPC. Use [DescribeVpcPeeringConnections] to view your outstanding VPC peering connection requests. For an inter-Region VPC peering connection request, you must accept the VPC peering connection in the Region of the accepter VPC.
     ///
@@ -842,7 +842,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AdvertiseByoipCidr` operation on the `AmazonEC2` service.
+    /// Performs the `AdvertiseByoipCidr` operation on the `EC2` service.
     ///
     /// Advertises an IPv4 or IPv6 address range that is provisioned for use with your Amazon Web Services resources through bring your own IP addresses (BYOIP). You can perform this operation at most once every 10 seconds, even if you specify different address ranges each time. We recommend that you stop advertising the BYOIP CIDR from other locations when you advertise it from Amazon Web Services. To minimize down time, you can configure your Amazon Web Services resources to use an address from a BYOIP CIDR before it is advertised, and then simultaneously stop advertising it from the current location and start advertising it through Amazon Web Services. It can take a few minutes before traffic to the specified addresses starts routing to Amazon Web Services because of BGP propagation delays. To stop advertising the BYOIP CIDR, use [WithdrawByoipCidr].
     ///
@@ -906,7 +906,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AllocateAddress` operation on the `AmazonEC2` service.
+    /// Performs the `AllocateAddress` operation on the `EC2` service.
     ///
     /// Allocates an Elastic IP address to your Amazon Web Services account. After you allocate the Elastic IP address you can associate it with an instance or network interface. After you release an Elastic IP address, it is released to the IP address pool and can be allocated to a different Amazon Web Services account. You can allocate an Elastic IP address from an address pool owned by Amazon Web Services or from an address pool created from a public IPv4 address range that you have brought to Amazon Web Services for use with your Amazon Web Services resources using bring your own IP addresses (BYOIP). For more information, see [Bring Your Own IP Addresses (BYOIP)](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-byoip.html) in the Amazon EC2 User Guide. If you release an Elastic IP address, you might be able to recover it. You cannot recover an Elastic IP address that you released after it is allocated to another Amazon Web Services account. To attempt to recover an Elastic IP address that you released, specify it in this operation. For more information, see [Elastic IP Addresses](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html) in the Amazon EC2 User Guide. You can allocate a carrier IP address which is a public IP address from a telecommunication carrier, to a network interface which resides in a subnet in a Wavelength Zone (for example an EC2 instance).
     ///
@@ -970,7 +970,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AllocateHosts` operation on the `AmazonEC2` service.
+    /// Performs the `AllocateHosts` operation on the `EC2` service.
     ///
     /// Allocates a Dedicated Host to your account. At a minimum, specify the supported instance type or instance family, the Availability Zone in which to allocate the host, and the number of hosts to allocate.
     ///
@@ -1034,7 +1034,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AllocateIpamPoolCidr` operation on the `AmazonEC2` service.
+    /// Performs the `AllocateIpamPoolCidr` operation on the `EC2` service.
     ///
     /// Allocate a CIDR from an IPAM pool. The Region you use should be the IPAM pool locale. The locale is the Amazon Web Services Region where this IPAM pool is available for allocations. In IPAM, an allocation is a CIDR assignment from an IPAM pool to another IPAM pool or to a resource. For more information, see [Allocate CIDRs](https://docs.aws.amazon.com/vpc/latest/ipam/allocate-cidrs-ipam.html) in the Amazon VPC IPAM User Guide. This action creates an allocation with strong consistency. The returned CIDR will not overlap with any other allocations from the same pool.
     ///
@@ -1099,7 +1099,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ApplySecurityGroupsToClientVpnTargetNetwork` operation on the `AmazonEC2` service.
+    /// Performs the `ApplySecurityGroupsToClientVpnTargetNetwork` operation on the `EC2` service.
     ///
     /// Applies a security group to the association between the target network and the Client VPN endpoint. This action replaces the existing security groups with the specified security groups.
     ///
@@ -1163,7 +1163,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssignIpv6Addresses` operation on the `AmazonEC2` service.
+    /// Performs the `AssignIpv6Addresses` operation on the `EC2` service.
     ///
     /// Assigns one or more IPv6 addresses to the specified network interface. You can specify one or more specific IPv6 addresses, or you can specify the number of IPv6 addresses to be automatically assigned from within the subnet's IPv6 CIDR block range. You can assign as many IPv6 addresses to a network interface as you can assign private IPv4 addresses, and the limit varies per instance type. You must specify either the IPv6 addresses or the IPv6 address count in the request. You can optionally use Prefix Delegation on the network interface. You must specify either the IPV6 Prefix Delegation prefixes, or the IPv6 Prefix Delegation count. For information, see [ Assigning prefixes to network interfaces](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-prefix-eni.html) in the Amazon EC2 User Guide.
     ///
@@ -1227,7 +1227,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssignPrivateIpAddresses` operation on the `AmazonEC2` service.
+    /// Performs the `AssignPrivateIpAddresses` operation on the `EC2` service.
     ///
     /// Assigns one or more secondary private IP addresses to the specified network interface. You can specify one or more specific secondary IP addresses, or you can specify the number of secondary IP addresses to be automatically assigned within the subnet's CIDR block range. The number of secondary IP addresses that you can assign to an instance varies by instance type. For more information about Elastic IP addresses, see [Elastic IP Addresses](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html) in the Amazon EC2 User Guide. When you move a secondary private IP address to another network interface, any Elastic IP address that is associated with the IP address is also moved. Remapping an IP address is an asynchronous operation. When you move an IP address from one network interface to another, check network/interfaces/macs/mac/local-ipv4s in the instance metadata to confirm that the remapping is complete. You must specify either the IP addresses or the IP address count in the request. You can optionally use Prefix Delegation on the network interface. You must specify either the IPv4 Prefix Delegation prefixes, or the IPv4 Prefix Delegation count. For information, see [ Assigning prefixes to network interfaces](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-prefix-eni.html) in the Amazon EC2 User Guide.
     ///
@@ -1291,7 +1291,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssignPrivateNatGatewayAddress` operation on the `AmazonEC2` service.
+    /// Performs the `AssignPrivateNatGatewayAddress` operation on the `EC2` service.
     ///
     /// Assigns private IPv4 addresses to a private NAT gateway. For more information, see [Work with NAT gateways](https://docs.aws.amazon.com/vpc/latest/userguide/nat-gateway-working-with.html) in the Amazon VPC User Guide.
     ///
@@ -1355,7 +1355,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssociateAddress` operation on the `AmazonEC2` service.
+    /// Performs the `AssociateAddress` operation on the `EC2` service.
     ///
     /// Associates an Elastic IP address, or carrier IP address (for instances that are in subnets in Wavelength Zones) with an instance or a network interface. Before you can use an Elastic IP address, you must allocate it to your account. If the Elastic IP address is already associated with a different instance, it is disassociated from that instance and associated with the specified instance. If you associate an Elastic IP address with an instance that has an existing Elastic IP address, the existing address is disassociated from the instance, but remains allocated to your account. [Subnets in Wavelength Zones] You can associate an IP address from the telecommunication carrier to the instance or network interface. You cannot associate an Elastic IP address with an interface in a different network border group. This is an idempotent operation. If you perform the operation more than once, Amazon EC2 doesn't return an error, and you may be charged for each time the Elastic IP address is remapped to the same instance. For more information, see the Elastic IP Addresses section of [Amazon EC2 Pricing](http://aws.amazon.com/ec2/pricing/).
     ///
@@ -1419,7 +1419,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssociateCapacityReservationBillingOwner` operation on the `AmazonEC2` service.
+    /// Performs the `AssociateCapacityReservationBillingOwner` operation on the `EC2` service.
     ///
     /// Initiates a request to assign billing of the unused capacity of a shared Capacity Reservation to a consumer account that is consolidated under the same Amazon Web Services organizations payer account. For more information, see [Billing assignment for shared Amazon EC2 Capacity Reservations](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/assign-billing.html).
     ///
@@ -1483,7 +1483,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssociateClientVpnTargetNetwork` operation on the `AmazonEC2` service.
+    /// Performs the `AssociateClientVpnTargetNetwork` operation on the `EC2` service.
     ///
     /// Associates a target network with a Client VPN endpoint. A target network is a subnet in a VPC. You can associate multiple subnets from the same VPC with a Client VPN endpoint. You can associate only one subnet in each Availability Zone. We recommend that you associate at least two subnets to provide Availability Zone redundancy. If you specified a VPC when you created the Client VPN endpoint or if you have previous subnet associations, the specified subnet must be in the same VPC. To specify a subnet that's in a different VPC, you must first modify the Client VPN endpoint ([ModifyClientVpnEndpoint]) and change the VPC that's associated with it.
     ///
@@ -1548,7 +1548,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssociateDhcpOptions` operation on the `AmazonEC2` service.
+    /// Performs the `AssociateDhcpOptions` operation on the `EC2` service.
     ///
     /// Associates a set of DHCP options (that you've previously created) with the specified VPC, or associates no DHCP options with the VPC. After you associate the options with the VPC, any existing instances and all new instances that you launch in that VPC use the options. You don't need to restart or relaunch the instances. They automatically pick up the changes within a few hours, depending on how frequently the instance renews its DHCP lease. You can explicitly renew the lease using the operating system on the instance. For more information, see [DHCP option sets](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_DHCP_Options.html) in the Amazon VPC User Guide.
     ///
@@ -1612,7 +1612,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssociateEnclaveCertificateIamRole` operation on the `AmazonEC2` service.
+    /// Performs the `AssociateEnclaveCertificateIamRole` operation on the `EC2` service.
     ///
     /// Associates an Identity and Access Management (IAM) role with an Certificate Manager (ACM) certificate. This enables the certificate to be used by the ACM for Nitro Enclaves application inside an enclave. For more information, see [Certificate Manager for Nitro Enclaves](https://docs.aws.amazon.com/enclaves/latest/user/nitro-enclave-refapp.html) in the Amazon Web Services Nitro Enclaves User Guide. When the IAM role is associated with the ACM certificate, the certificate, certificate chain, and encrypted private key are placed in an Amazon S3 location that only the associated IAM role can access. The private key of the certificate is encrypted with an Amazon Web Services managed key that has an attached attestation-based key policy. To enable the IAM role to access the Amazon S3 object, you must grant it permission to call s3:GetObject on the Amazon S3 bucket returned by the command. To enable the IAM role to access the KMS key, you must grant it permission to call kms:Decrypt on the KMS key returned by the command. For more information, see [ Grant the role permission to access the certificate and encryption key](https://docs.aws.amazon.com/enclaves/latest/user/nitro-enclave-refapp.html#add-policy) in the Amazon Web Services Nitro Enclaves User Guide.
     ///
@@ -1676,7 +1676,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssociateIamInstanceProfile` operation on the `AmazonEC2` service.
+    /// Performs the `AssociateIamInstanceProfile` operation on the `EC2` service.
     ///
     /// Associates an IAM instance profile with a running or stopped instance. You cannot associate more than one IAM instance profile with an instance.
     ///
@@ -1740,7 +1740,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssociateInstanceEventWindow` operation on the `AmazonEC2` service.
+    /// Performs the `AssociateInstanceEventWindow` operation on the `EC2` service.
     ///
     /// Associates one or more targets with an event window. Only one type of target (instance IDs, Dedicated Host IDs, or tags) can be specified with an event window. For more information, see [Define event windows for scheduled events](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/event-windows.html) in the Amazon EC2 User Guide.
     ///
@@ -1804,7 +1804,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssociateIpamByoasn` operation on the `AmazonEC2` service.
+    /// Performs the `AssociateIpamByoasn` operation on the `EC2` service.
     ///
     /// Associates your Autonomous System Number (ASN) with a BYOIP CIDR that you own in the same Amazon Web Services Region. For more information, see [Tutorial: Bring your ASN to IPAM](https://docs.aws.amazon.com/vpc/latest/ipam/tutorials-byoasn.html) in the Amazon VPC IPAM guide. After the association succeeds, the ASN is eligible for advertisement. You can view the association with [DescribeByoipCidrs](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeByoipCidrs.html). You can advertise the CIDR with [AdvertiseByoipCidr](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_AdvertiseByoipCidr.html).
     ///
@@ -1868,7 +1868,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssociateIpamResourceDiscovery` operation on the `AmazonEC2` service.
+    /// Performs the `AssociateIpamResourceDiscovery` operation on the `EC2` service.
     ///
     /// Associates an IPAM resource discovery with an Amazon VPC IPAM. A resource discovery is an IPAM component that enables IPAM to manage and monitor resources that belong to the owning account.
     ///
@@ -1933,7 +1933,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssociateNatGatewayAddress` operation on the `AmazonEC2` service.
+    /// Performs the `AssociateNatGatewayAddress` operation on the `EC2` service.
     ///
     /// Associates Elastic IP addresses (EIPs) and private IPv4 addresses with a public NAT gateway. For more information, see [Work with NAT gateways](https://docs.aws.amazon.com/vpc/latest/userguide/nat-gateway-working-with.html) in the Amazon VPC User Guide. By default, you can associate up to 2 Elastic IP addresses per public NAT gateway. You can increase the limit by requesting a quota adjustment. For more information, see [Elastic IP address quotas](https://docs.aws.amazon.com/vpc/latest/userguide/amazon-vpc-limits.html#vpc-limits-eips) in the Amazon VPC User Guide. When you associate an EIP or secondary EIPs with a public NAT gateway, the network border group of the EIPs must match the network border group of the Availability Zone (AZ) that the public NAT gateway is in. If it's not the same, the EIP will fail to associate. You can see the network border group for the subnet's AZ by viewing the details of the subnet. Similarly, you can view the network border group of an EIP by viewing the details of the EIP address. For more information about network border groups and EIPs, see [Allocate an Elastic IP address](https://docs.aws.amazon.com/vpc/latest/userguide/WorkWithEIPs.html) in the Amazon VPC User Guide.
     ///
@@ -1997,7 +1997,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssociateRouteTable` operation on the `AmazonEC2` service.
+    /// Performs the `AssociateRouteTable` operation on the `EC2` service.
     ///
     /// Associates a subnet in your VPC or an internet gateway or virtual private gateway attached to your VPC with a route table in your VPC. This association causes traffic from the subnet or gateway to be routed according to the routes in the route table. The action returns an association ID, which you need in order to disassociate the route table later. A route table can be associated with multiple subnets. For more information, see [Route tables](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Route_Tables.html) in the Amazon VPC User Guide.
     ///
@@ -2061,7 +2061,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssociateSecurityGroupVpc` operation on the `AmazonEC2` service.
+    /// Performs the `AssociateSecurityGroupVpc` operation on the `EC2` service.
     ///
     /// Associates a security group with another VPC in the same Region. This enables you to use the same security group with network interfaces and instances in the specified VPC.
     ///
@@ -2135,7 +2135,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssociateSubnetCidrBlock` operation on the `AmazonEC2` service.
+    /// Performs the `AssociateSubnetCidrBlock` operation on the `EC2` service.
     ///
     /// Associates a CIDR block with your subnet. You can only associate a single IPv6 CIDR block with your subnet.
     ///
@@ -2199,7 +2199,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssociateTransitGatewayMulticastDomain` operation on the `AmazonEC2` service.
+    /// Performs the `AssociateTransitGatewayMulticastDomain` operation on the `EC2` service.
     ///
     /// Associates the specified subnets and transit gateway attachments with the specified transit gateway multicast domain. The transit gateway attachment must be in the available state before you can add a resource. Use [DescribeTransitGatewayAttachments](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeTransitGatewayAttachments.html) to see the state of the attachment.
     ///
@@ -2263,7 +2263,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssociateTransitGatewayPolicyTable` operation on the `AmazonEC2` service.
+    /// Performs the `AssociateTransitGatewayPolicyTable` operation on the `EC2` service.
     ///
     /// Associates the specified transit gateway attachment with a transit gateway policy table.
     ///
@@ -2327,7 +2327,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssociateTransitGatewayRouteTable` operation on the `AmazonEC2` service.
+    /// Performs the `AssociateTransitGatewayRouteTable` operation on the `EC2` service.
     ///
     /// Associates the specified attachment with the specified transit gateway route table. You can associate only one route table with an attachment.
     ///
@@ -2391,7 +2391,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssociateTrunkInterface` operation on the `AmazonEC2` service.
+    /// Performs the `AssociateTrunkInterface` operation on the `EC2` service.
     ///
     /// Associates a branch network interface with a trunk network interface. Before you create the association, use [CreateNetworkInterface](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateNetworkInterface.html) command and set the interface type to trunk. You must also create a network interface for each branch network interface that you want to associate with the trunk network interface.
     ///
@@ -2456,7 +2456,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssociateVpcCidrBlock` operation on the `AmazonEC2` service.
+    /// Performs the `AssociateVpcCidrBlock` operation on the `EC2` service.
     ///
     /// Associates a CIDR block with your VPC. You can associate a secondary IPv4 CIDR block, an Amazon-provided IPv6 CIDR block, or an IPv6 CIDR block from an IPv6 address pool that you provisioned through bring your own IP addresses ([BYOIP](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-byoip.html)). You must specify one of the following in the request: an IPv4 CIDR block, an IPv6 pool, or an Amazon-provided IPv6 CIDR block. For more information about associating CIDR blocks with your VPC and applicable restrictions, see [IP addressing for your VPCs and subnets](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html) in the Amazon VPC User Guide.
     ///
@@ -2520,7 +2520,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AttachClassicLinkVpc` operation on the `AmazonEC2` service.
+    /// Performs the `AttachClassicLinkVpc` operation on the `EC2` service.
     ///
     /// This action is deprecated. Links an EC2-Classic instance to a ClassicLink-enabled VPC through one or more of the VPC security groups. You cannot link an EC2-Classic instance to more than one VPC at a time. You can only link an instance that's in the running state. An instance is automatically unlinked from a VPC when it's stopped - you can link it to the VPC again when you restart it. After you've linked an instance, you cannot change the VPC security groups that are associated with it. To change the security groups, you must first unlink the instance, and then link it again. Linking your instance to a VPC is sometimes referred to as attaching your instance.
     ///
@@ -2584,7 +2584,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AttachInternetGateway` operation on the `AmazonEC2` service.
+    /// Performs the `AttachInternetGateway` operation on the `EC2` service.
     ///
     /// Attaches an internet gateway or a virtual private gateway to a VPC, enabling connectivity between the internet and the VPC. For more information, see [Internet gateways](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Internet_Gateway.html) in the Amazon VPC User Guide.
     ///
@@ -2648,7 +2648,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AttachNetworkInterface` operation on the `AmazonEC2` service.
+    /// Performs the `AttachNetworkInterface` operation on the `EC2` service.
     ///
     /// Attaches a network interface to an instance.
     ///
@@ -2712,7 +2712,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AttachVerifiedAccessTrustProvider` operation on the `AmazonEC2` service.
+    /// Performs the `AttachVerifiedAccessTrustProvider` operation on the `EC2` service.
     ///
     /// Attaches the specified Amazon Web Services Verified Access trust provider to the specified Amazon Web Services Verified Access instance.
     ///
@@ -2777,7 +2777,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AttachVolume` operation on the `AmazonEC2` service.
+    /// Performs the `AttachVolume` operation on the `EC2` service.
     ///
     /// Attaches an EBS volume to a running or stopped instance and exposes it to the instance with the specified device name. Encrypted EBS volumes must be attached to instances that support Amazon EBS encryption. For more information, see [Amazon EBS encryption](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-encryption.html) in the Amazon EBS User Guide. After you attach an EBS volume, you must make it available. For more information, see [Make an EBS volume available for use](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-using-volumes.html). If a volume has an Amazon Web Services Marketplace product code:
     ///
@@ -2852,7 +2852,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AttachVpnGateway` operation on the `AmazonEC2` service.
+    /// Performs the `AttachVpnGateway` operation on the `EC2` service.
     ///
     /// Attaches an available virtual private gateway to a VPC. You can attach one virtual private gateway to one VPC at a time. For more information, see [Amazon Web Services Site-to-Site VPN](https://docs.aws.amazon.com/vpn/latest/s2svpn/VPC_VPN.html) in the Amazon Web Services Site-to-Site VPN User Guide.
     ///
@@ -2916,7 +2916,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AuthorizeClientVpnIngress` operation on the `AmazonEC2` service.
+    /// Performs the `AuthorizeClientVpnIngress` operation on the `EC2` service.
     ///
     /// Adds an ingress authorization rule to a Client VPN endpoint. Ingress authorization rules act as firewall rules that grant access to networks. You must configure ingress authorization rules to enable clients to access resources in Amazon Web Services or on-premises networks.
     ///
@@ -2981,7 +2981,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AuthorizeSecurityGroupEgress` operation on the `AmazonEC2` service.
+    /// Performs the `AuthorizeSecurityGroupEgress` operation on the `EC2` service.
     ///
     /// Adds the specified outbound (egress) rules to a security group. An outbound rule permits instances to send traffic to the specified IPv4 or IPv6 address ranges, the IP address ranges specified by a prefix list, or the instances that are associated with a source security group. For more information, see [Security group rules](https://docs.aws.amazon.com/vpc/latest/userguide/security-group-rules.html). You must specify exactly one of the following destinations: an IPv4 or IPv6 address range, a prefix list, or a security group. You must specify a protocol for each rule (for example, TCP). If the protocol is TCP or UDP, you must also specify a port or port range. If the protocol is ICMP or ICMPv6, you must also specify the ICMP type and code. Rule changes are propagated to instances associated with the security group as quickly as possible. However, a small delay might occur. For examples of rules that you can add to security groups for specific access scenarios, see [Security group rules for different use cases](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/security-group-rules-reference.html) in the Amazon EC2 User Guide. For information about security group quotas, see [Amazon VPC quotas](https://docs.aws.amazon.com/vpc/latest/userguide/amazon-vpc-limits.html) in the Amazon VPC User Guide.
     ///
@@ -3045,7 +3045,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AuthorizeSecurityGroupIngress` operation on the `AmazonEC2` service.
+    /// Performs the `AuthorizeSecurityGroupIngress` operation on the `EC2` service.
     ///
     /// Adds the specified inbound (ingress) rules to a security group. An inbound rule permits instances to receive traffic from the specified IPv4 or IPv6 address range, the IP address ranges that are specified by a prefix list, or the instances that are associated with a destination security group. For more information, see [Security group rules](https://docs.aws.amazon.com/vpc/latest/userguide/security-group-rules.html). You must specify exactly one of the following sources: an IPv4 or IPv6 address range, a prefix list, or a security group. You must specify a protocol for each rule (for example, TCP). If the protocol is TCP or UDP, you must also specify a port or port range. If the protocol is ICMP or ICMPv6, you must also specify the ICMP/ICMPv6 type and code. Rule changes are propagated to instances associated with the security group as quickly as possible. However, a small delay might occur. For examples of rules that you can add to security groups for specific access scenarios, see [Security group rules for different use cases](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/security-group-rules-reference.html) in the Amazon EC2 User Guide. For more information about security group quotas, see [Amazon VPC quotas](https://docs.aws.amazon.com/vpc/latest/userguide/amazon-vpc-limits.html) in the Amazon VPC User Guide.
     ///
@@ -3109,7 +3109,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BundleInstance` operation on the `AmazonEC2` service.
+    /// Performs the `BundleInstance` operation on the `EC2` service.
     ///
     /// Bundles an Amazon instance store-backed Windows instance. During bundling, only the root device volume (C:\) is bundled. Data on other instance store volumes is not preserved. This action is not applicable for Linux/Unix instances or Windows instances that are backed by Amazon EBS.
     ///
@@ -3173,7 +3173,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CancelBundleTask` operation on the `AmazonEC2` service.
+    /// Performs the `CancelBundleTask` operation on the `EC2` service.
     ///
     /// Cancels a bundling operation for an instance store-backed Windows instance.
     ///
@@ -3237,7 +3237,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CancelCapacityReservation` operation on the `AmazonEC2` service.
+    /// Performs the `CancelCapacityReservation` operation on the `EC2` service.
     ///
     /// Cancels the specified Capacity Reservation, releases the reserved capacity, and changes the Capacity Reservation's state to cancelled. You can cancel a Capacity Reservation that is in the following states:
     ///
@@ -3308,7 +3308,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CancelCapacityReservationFleets` operation on the `AmazonEC2` service.
+    /// Performs the `CancelCapacityReservationFleets` operation on the `EC2` service.
     ///
     /// Cancels one or more Capacity Reservation Fleets. When you cancel a Capacity Reservation Fleet, the following happens:
     ///
@@ -3378,7 +3378,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CancelConversionTask` operation on the `AmazonEC2` service.
+    /// Performs the `CancelConversionTask` operation on the `EC2` service.
     ///
     /// Cancels an active conversion task. The task can be the import of an instance or volume. The action removes all artifacts of the conversion, including a partially uploaded volume or instance. If the conversion is complete or is in the process of transferring the final disk image, the command fails and returns an exception.
     ///
@@ -3442,7 +3442,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CancelDeclarativePoliciesReport` operation on the `AmazonEC2` service.
+    /// Performs the `CancelDeclarativePoliciesReport` operation on the `EC2` service.
     ///
     /// Cancels the generation of an account status report. You can only cancel a report while it has the running status. Reports with other statuses (complete, cancelled, or error) can't be canceled. For more information, see [Generating the account status report for declarative policies](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_declarative_status-report.html) in the Amazon Web Services Organizations User Guide.
     ///
@@ -3506,7 +3506,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CancelExportTask` operation on the `AmazonEC2` service.
+    /// Performs the `CancelExportTask` operation on the `EC2` service.
     ///
     /// Cancels an active export task. The request removes all artifacts of the export, including any partially-created Amazon S3 objects. If the export task is complete or is in the process of transferring the final disk image, the command fails and returns an error.
     ///
@@ -3570,7 +3570,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CancelImageLaunchPermission` operation on the `AmazonEC2` service.
+    /// Performs the `CancelImageLaunchPermission` operation on the `EC2` service.
     ///
     /// Removes your Amazon Web Services account from the launch permissions for the specified AMI. For more information, see [ Cancel having an AMI shared with your Amazon Web Services account](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/cancel-sharing-an-AMI.html) in the Amazon EC2 User Guide.
     ///
@@ -3634,7 +3634,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CancelImportTask` operation on the `AmazonEC2` service.
+    /// Performs the `CancelImportTask` operation on the `EC2` service.
     ///
     /// Cancels an in-process import virtual machine or import snapshot task.
     ///
@@ -3698,7 +3698,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CancelReservedInstancesListing` operation on the `AmazonEC2` service.
+    /// Performs the `CancelReservedInstancesListing` operation on the `EC2` service.
     ///
     /// Cancels the specified Reserved Instance listing in the Reserved Instance Marketplace. For more information, see [Sell in the Reserved Instance Marketplace](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ri-market-general.html) in the Amazon EC2 User Guide.
     ///
@@ -3762,7 +3762,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CancelSpotFleetRequests` operation on the `AmazonEC2` service.
+    /// Performs the `CancelSpotFleetRequests` operation on the `EC2` service.
     ///
     /// Cancels the specified Spot Fleet requests. After you cancel a Spot Fleet request, the Spot Fleet launches no new instances. You must also specify whether a canceled Spot Fleet request should terminate its instances. If you choose to terminate the instances, the Spot Fleet request enters the cancelled_terminating state. Otherwise, the Spot Fleet request enters the cancelled_running state and the instances continue to run until they are interrupted or you terminate them manually. Restrictions
     ///
@@ -3828,7 +3828,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CancelSpotInstanceRequests` operation on the `AmazonEC2` service.
+    /// Performs the `CancelSpotInstanceRequests` operation on the `EC2` service.
     ///
     /// Cancels one or more Spot Instance requests. Canceling a Spot Instance request does not terminate running Spot Instances associated with the request.
     ///
@@ -3892,7 +3892,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ConfirmProductInstance` operation on the `AmazonEC2` service.
+    /// Performs the `ConfirmProductInstance` operation on the `EC2` service.
     ///
     /// Determines whether a product code is associated with an instance. This action can only be used by the owner of the product code. It is useful when a product code owner must verify whether another user's instance is eligible for support.
     ///
@@ -3956,7 +3956,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CopyFpgaImage` operation on the `AmazonEC2` service.
+    /// Performs the `CopyFpgaImage` operation on the `EC2` service.
     ///
     /// Copies the specified Amazon FPGA Image (AFI) to the current Region.
     ///
@@ -4020,7 +4020,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CopyImage` operation on the `AmazonEC2` service.
+    /// Performs the `CopyImage` operation on the `EC2` service.
     ///
     /// Initiates an AMI copy operation. You can copy an AMI from one Region to another, or from a Region to an Outpost. You can't copy an AMI from an Outpost to a Region, from one Outpost to another, or within the same Outpost. To copy an AMI to another partition, see [CreateStoreImageTask](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateStoreImageTask.html). When you copy an AMI from one Region to another, the destination Region is the current Region. When you copy an AMI from a Region to an Outpost, specify the ARN of the Outpost as the destination. Backing snapshots copied to an Outpost are encrypted by default using the default encryption key for the Region or the key that you specify. Outposts do not support unencrypted snapshots. For information about the prerequisites when copying an AMI, see [Copy an AMI](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/CopyingAMIs.html) in the Amazon EC2 User Guide.
     ///
@@ -4084,7 +4084,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CopySnapshot` operation on the `AmazonEC2` service.
+    /// Performs the `CopySnapshot` operation on the `EC2` service.
     ///
     /// Copies a point-in-time snapshot of an EBS volume and stores it in Amazon S3. You can copy a snapshot within the same Region, from one Region to another, or from a Region to an Outpost. You can't copy a snapshot from an Outpost to a Region, from one Outpost to another, or within the same Outpost. You can use the snapshot to create EBS volumes or Amazon Machine Images (AMIs). When copying snapshots to a Region, copies of encrypted EBS snapshots remain encrypted. Copies of unencrypted snapshots remain unencrypted, unless you enable encryption for the snapshot copy operation. By default, encrypted snapshot copies use the default KMS key; however, you can specify a different KMS key. To copy an encrypted snapshot that has been shared from another account, you must have permissions for the KMS key used to encrypt the snapshot. Snapshots copied to an Outpost are encrypted by default using the default encryption key for the Region, or a different key that you specify in the request using KmsKeyId. Outposts do not support unencrypted snapshots. For more information, [ Amazon EBS local snapshots on Outposts](https://docs.aws.amazon.com/ebs/latest/userguide/snapshots-outposts.html#ami) in the Amazon EBS User Guide. Snapshots created by copying another snapshot have an arbitrary volume ID that should not be used for any purpose. For more information, see [Copy an Amazon EBS snapshot](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-copy-snapshot.html) in the Amazon EBS User Guide.
     ///
@@ -4148,7 +4148,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateCapacityReservation` operation on the `AmazonEC2` service.
+    /// Performs the `CreateCapacityReservation` operation on the `EC2` service.
     ///
     /// Creates a new Capacity Reservation with the specified attributes. Capacity Reservations enable you to reserve capacity for your Amazon EC2 instances in a specific Availability Zone for any duration. You can create a Capacity Reservation at any time, and you can choose when it starts. You can create a Capacity Reservation for immediate use or you can request a Capacity Reservation for a future date. For more information, see [ Reserve compute capacity with On-Demand Capacity Reservations](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-capacity-reservations.html) in the Amazon EC2 User Guide. Your request to create a Capacity Reservation could fail if:
     ///
@@ -4216,7 +4216,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateCapacityReservationBySplitting` operation on the `AmazonEC2` service.
+    /// Performs the `CreateCapacityReservationBySplitting` operation on the `EC2` service.
     ///
     /// Create a new Capacity Reservation by splitting the capacity of the source Capacity Reservation. The new Capacity Reservation will have the same attributes as the source Capacity Reservation except for tags. The source Capacity Reservation must be active and owned by your Amazon Web Services account.
     ///
@@ -4281,7 +4281,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateCapacityReservationFleet` operation on the `AmazonEC2` service.
+    /// Performs the `CreateCapacityReservationFleet` operation on the `EC2` service.
     ///
     /// Creates a Capacity Reservation Fleet. For more information, see [Create a Capacity Reservation Fleet](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/work-with-cr-fleets.html#create-crfleet) in the Amazon EC2 User Guide.
     ///
@@ -4346,7 +4346,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateCarrierGateway` operation on the `AmazonEC2` service.
+    /// Performs the `CreateCarrierGateway` operation on the `EC2` service.
     ///
     /// Creates a carrier gateway. For more information about carrier gateways, see [Carrier gateways](https://docs.aws.amazon.com/wavelength/latest/developerguide/how-wavelengths-work.html#wavelength-carrier-gateway) in the Amazon Web Services Wavelength Developer Guide.
     ///
@@ -4411,7 +4411,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateClientVpnEndpoint` operation on the `AmazonEC2` service.
+    /// Performs the `CreateClientVpnEndpoint` operation on the `EC2` service.
     ///
     /// Creates a Client VPN endpoint. A Client VPN endpoint is the resource you create and configure to enable and manage client VPN sessions. It is the destination endpoint at which all client VPN sessions are terminated.
     ///
@@ -4476,7 +4476,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateClientVpnRoute` operation on the `AmazonEC2` service.
+    /// Performs the `CreateClientVpnRoute` operation on the `EC2` service.
     ///
     /// Adds a route to a network to a Client VPN endpoint. Each Client VPN endpoint has a route table that describes the available destination network routes. Each route in the route table specifies the path for traﬃc to speciﬁc resources or networks.
     ///
@@ -4541,7 +4541,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateCoipCidr` operation on the `AmazonEC2` service.
+    /// Performs the `CreateCoipCidr` operation on the `EC2` service.
     ///
     /// Creates a range of customer-owned IP addresses.
     ///
@@ -4605,7 +4605,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateCoipPool` operation on the `AmazonEC2` service.
+    /// Performs the `CreateCoipPool` operation on the `EC2` service.
     ///
     /// Creates a pool of customer-owned IP (CoIP) addresses.
     ///
@@ -4669,7 +4669,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateCustomerGateway` operation on the `AmazonEC2` service.
+    /// Performs the `CreateCustomerGateway` operation on the `EC2` service.
     ///
     /// Provides information to Amazon Web Services about your customer gateway device. The customer gateway device is the appliance at your end of the VPN connection. You must provide the IP address of the customer gateway device’s external interface. The IP address must be static and can be behind a device performing network address translation (NAT). For devices that use Border Gateway Protocol (BGP), you can also provide the device's BGP Autonomous System Number (ASN). You can use an existing ASN assigned to your network. If you don't have an ASN already, you can use a private ASN. For more information, see [Customer gateway options for your Site-to-Site VPN connection](https://docs.aws.amazon.com/vpn/latest/s2svpn/cgw-options.html) in the Amazon Web Services Site-to-Site VPN User Guide. To create more than one customer gateway with the same VPN type, IP address, and BGP ASN, specify a unique device name for each customer gateway. An identical request returns information about the existing customer gateway; it doesn't create a new customer gateway.
     ///
@@ -4733,7 +4733,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateDefaultSubnet` operation on the `AmazonEC2` service.
+    /// Performs the `CreateDefaultSubnet` operation on the `EC2` service.
     ///
     /// Creates a default subnet with a size /20 IPv4 CIDR block in the specified Availability Zone in your default VPC. You can have only one default subnet per Availability Zone. For more information, see [Create a default subnet](https://docs.aws.amazon.com/vpc/latest/userguide/work-with-default-vpc.html#create-default-subnet) in the Amazon VPC User Guide.
     ///
@@ -4797,7 +4797,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateDefaultVpc` operation on the `AmazonEC2` service.
+    /// Performs the `CreateDefaultVpc` operation on the `EC2` service.
     ///
     /// Creates a default VPC with a size /16 IPv4 CIDR block and a default subnet in each Availability Zone. For more information about the components of a default VPC, see [Default VPCs](https://docs.aws.amazon.com/vpc/latest/userguide/default-vpc.html) in the Amazon VPC User Guide. You cannot specify the components of the default VPC yourself. If you deleted your previous default VPC, you can create a default VPC. You cannot have more than one default VPC per Region.
     ///
@@ -4861,7 +4861,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateDhcpOptions` operation on the `AmazonEC2` service.
+    /// Performs the `CreateDhcpOptions` operation on the `EC2` service.
     ///
     /// Creates a custom set of DHCP options. After you create a DHCP option set, you associate it with a VPC. After you associate a DHCP option set with a VPC, all existing and newly launched instances in the VPC use this set of DHCP options. The following are the individual DHCP options you can specify. For more information, see [DHCP option sets](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_DHCP_Options.html) in the Amazon VPC User Guide.
     ///
@@ -4937,7 +4937,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateEgressOnlyInternetGateway` operation on the `AmazonEC2` service.
+    /// Performs the `CreateEgressOnlyInternetGateway` operation on the `EC2` service.
     ///
     /// [IPv6 only] Creates an egress-only internet gateway for your VPC. An egress-only internet gateway is used to enable outbound communication over IPv6 from instances in your VPC to the internet, and prevents hosts outside of your VPC from initiating an IPv6 connection with your instance.
     ///
@@ -5001,7 +5001,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateFleet` operation on the `AmazonEC2` service.
+    /// Performs the `CreateFleet` operation on the `EC2` service.
     ///
     /// Creates an EC2 Fleet that contains the configuration information for On-Demand Instances and Spot Instances. Instances are launched immediately if there is available capacity. A single EC2 Fleet can include multiple launch specifications that vary by instance type, AMI, Availability Zone, or subnet. For more information, see [EC2 Fleet](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-fleet.html) in the Amazon EC2 User Guide.
     ///
@@ -5065,7 +5065,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateFlowLogs` operation on the `AmazonEC2` service.
+    /// Performs the `CreateFlowLogs` operation on the `EC2` service.
     ///
     /// Creates one or more flow logs to capture information about IP traffic for a specific network interface, subnet, or VPC. Flow log data for a monitored network interface is recorded as flow log records, which are log events consisting of fields that describe the traffic flow. For more information, see [Flow log records](https://docs.aws.amazon.com/vpc/latest/userguide/flow-log-records.html) in the Amazon VPC User Guide. When publishing to CloudWatch Logs, flow log records are published to a log group, and each network interface has a unique log stream in the log group. When publishing to Amazon S3, flow log records for all of the monitored network interfaces are published to a single log file object that is stored in the specified bucket. For more information, see [VPC Flow Logs](https://docs.aws.amazon.com/vpc/latest/userguide/flow-logs.html) in the Amazon VPC User Guide.
     ///
@@ -5129,7 +5129,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateFpgaImage` operation on the `AmazonEC2` service.
+    /// Performs the `CreateFpgaImage` operation on the `EC2` service.
     ///
     /// Creates an Amazon FPGA Image (AFI) from the specified design checkpoint (DCP). The create operation is asynchronous. To verify that the AFI is ready for use, check the output logs. An AFI contains the FPGA bitstream that is ready to download to an FPGA. You can securely deploy an AFI on multiple FPGA-accelerated instances. For more information, see the [Amazon Web Services FPGA Hardware Development Kit](https://github.com/aws/aws-fpga/).
     ///
@@ -5193,7 +5193,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateImage` operation on the `AmazonEC2` service.
+    /// Performs the `CreateImage` operation on the `EC2` service.
     ///
     /// Creates an Amazon EBS-backed AMI from an Amazon EBS-backed instance that is either running or stopped. If you customized your instance with instance store volumes or Amazon EBS volumes in addition to the root device volume, the new AMI contains block device mapping information for those volumes. When you launch an instance from this new AMI, the instance automatically launches with those additional volumes. For more information, see [Create an Amazon EBS-backed Linux AMI](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/creating-an-ami-ebs.html) in the Amazon Elastic Compute Cloud User Guide.
     ///
@@ -5257,7 +5257,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateInstanceConnectEndpoint` operation on the `AmazonEC2` service.
+    /// Performs the `CreateInstanceConnectEndpoint` operation on the `EC2` service.
     ///
     /// Creates an EC2 Instance Connect Endpoint. An EC2 Instance Connect Endpoint allows you to connect to an instance, without requiring the instance to have a public IPv4 address. For more information, see [Connect to your instances without requiring a public IPv4 address using EC2 Instance Connect Endpoint](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Connect-using-EC2-Instance-Connect-Endpoint.html) in the Amazon EC2 User Guide.
     ///
@@ -5322,7 +5322,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateInstanceEventWindow` operation on the `AmazonEC2` service.
+    /// Performs the `CreateInstanceEventWindow` operation on the `EC2` service.
     ///
     /// Creates an event window in which scheduled events for the associated Amazon EC2 instances can run. You can define either a set of time ranges or a cron expression when creating the event window, but not both. All event window times are in UTC. You can create up to 200 event windows per Amazon Web Services Region. When you create the event window, targets (instance IDs, Dedicated Host IDs, or tags) are not yet associated with it. To ensure that the event window can be used, you must associate one or more targets with it by using the [AssociateInstanceEventWindow] API. Event windows are applicable only for scheduled events that stop, reboot, or terminate instances. Event windows are not applicable for:
     ///
@@ -5393,7 +5393,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateInstanceExportTask` operation on the `AmazonEC2` service.
+    /// Performs the `CreateInstanceExportTask` operation on the `EC2` service.
     ///
     /// Exports a running or stopped instance to an Amazon S3 bucket. For information about the prerequisites for your Amazon S3 bucket, supported operating systems, image formats, and known limitations for the types of instances you can export, see [Exporting an instance as a VM Using VM Import/Export](https://docs.aws.amazon.com/vm-import/latest/userguide/vmexport.html) in the VM Import/Export User Guide.
     ///
@@ -5457,7 +5457,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateInternetGateway` operation on the `AmazonEC2` service.
+    /// Performs the `CreateInternetGateway` operation on the `EC2` service.
     ///
     /// Creates an internet gateway for use with a VPC. After creating the internet gateway, you attach it to a VPC using [AttachInternetGateway]. For more information, see [Internet gateways](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Internet_Gateway.html) in the Amazon VPC User Guide.
     ///
@@ -5521,7 +5521,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateIpam` operation on the `AmazonEC2` service.
+    /// Performs the `CreateIpam` operation on the `EC2` service.
     ///
     /// Create an IPAM. Amazon VPC IP Address Manager (IPAM) is a VPC feature that you can use to automate your IP address management workflows including assigning, tracking, troubleshooting, and auditing IP addresses across Amazon Web Services Regions and accounts throughout your Amazon Web Services Organization. For more information, see [Create an IPAM](https://docs.aws.amazon.com/vpc/latest/ipam/create-ipam.html) in the Amazon VPC IPAM User Guide.
     ///
@@ -5586,7 +5586,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateIpamExternalResourceVerificationToken` operation on the `AmazonEC2` service.
+    /// Performs the `CreateIpamExternalResourceVerificationToken` operation on the `EC2` service.
     ///
     /// Create a verification token. A verification token is an Amazon Web Services-generated random value that you can use to prove ownership of an external resource. For example, you can use a verification token to validate that you control a public IP address range when you bring an IP address range to Amazon Web Services (BYOIP).
     ///
@@ -5651,7 +5651,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateIpamPool` operation on the `AmazonEC2` service.
+    /// Performs the `CreateIpamPool` operation on the `EC2` service.
     ///
     /// Create an IP address pool for Amazon VPC IP Address Manager (IPAM). In IPAM, a pool is a collection of contiguous IP addresses CIDRs. Pools enable you to organize your IP addresses according to your routing and security needs. For example, if you have separate routing and security needs for development and production applications, you can create a pool for each. For more information, see [Create a top-level pool](https://docs.aws.amazon.com/vpc/latest/ipam/create-top-ipam.html) in the Amazon VPC IPAM User Guide.
     ///
@@ -5716,7 +5716,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateIpamResourceDiscovery` operation on the `AmazonEC2` service.
+    /// Performs the `CreateIpamResourceDiscovery` operation on the `EC2` service.
     ///
     /// Creates an IPAM resource discovery. A resource discovery is an IPAM component that enables IPAM to manage and monitor resources that belong to the owning account.
     ///
@@ -5781,7 +5781,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateIpamScope` operation on the `AmazonEC2` service.
+    /// Performs the `CreateIpamScope` operation on the `EC2` service.
     ///
     /// Create an IPAM scope. In IPAM, a scope is the highest-level container within IPAM. An IPAM contains two default scopes. Each scope represents the IP space for a single network. The private scope is intended for all private IP address space. The public scope is intended for all public IP address space. Scopes enable you to reuse IP addresses across multiple unconnected networks without causing IP address overlap or conflict. For more information, see [Add a scope](https://docs.aws.amazon.com/vpc/latest/ipam/add-scope-ipam.html) in the Amazon VPC IPAM User Guide.
     ///
@@ -5846,7 +5846,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateKeyPair` operation on the `AmazonEC2` service.
+    /// Performs the `CreateKeyPair` operation on the `EC2` service.
     ///
     /// Creates an ED25519 or 2048-bit RSA key pair with the specified name and in the specified format. Amazon EC2 stores the public key and displays the private key for you to save to a file. The private key is returned as an unencrypted PEM encoded PKCS#1 private key or an unencrypted PPK formatted private key for use with PuTTY. If a key with the specified name already exists, Amazon EC2 returns an error. The key pair returned to you is available only in the Amazon Web Services Region in which you create it. If you prefer, you can create your own key pair using a third-party tool and upload it to any Region using [ImportKeyPair]. You can have up to 5,000 key pairs per Amazon Web Services Region. For more information, see [Amazon EC2 key pairs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) in the Amazon EC2 User Guide.
     ///
@@ -5910,7 +5910,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateLaunchTemplate` operation on the `AmazonEC2` service.
+    /// Performs the `CreateLaunchTemplate` operation on the `EC2` service.
     ///
     /// Creates a launch template. A launch template contains the parameters to launch an instance. When you launch an instance using [RunInstances], you can specify a launch template instead of providing the launch parameters in the request. For more information, see [Launch an instance from a launch template](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-launch-templates.html) in the Amazon EC2 User Guide. To clone an existing launch template as the basis for a new launch template, use the Amazon EC2 console. The API, SDKs, and CLI do not support cloning a template. For more information, see [Create a launch template from an existing launch template](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-launch-templates.html#create-launch-template-from-existing-launch-template) in the Amazon EC2 User Guide.
     ///
@@ -5974,7 +5974,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateLaunchTemplateVersion` operation on the `AmazonEC2` service.
+    /// Performs the `CreateLaunchTemplateVersion` operation on the `EC2` service.
     ///
     /// Creates a new version of a launch template. You must specify an existing launch template, either by name or ID. You can determine whether the new version inherits parameters from a source version, and add or overwrite parameters as needed. Launch template versions are numbered in the order in which they are created. You can't specify, change, or replace the numbering of launch template versions. Launch templates are immutable; after you create a launch template, you can't modify it. Instead, you can create a new version of the launch template that includes the changes that you require. For more information, see [Modify a launch template (manage launch template versions)](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-launch-templates.html#manage-launch-template-versions) in the Amazon EC2 User Guide.
     ///
@@ -6038,7 +6038,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateLocalGatewayRoute` operation on the `AmazonEC2` service.
+    /// Performs the `CreateLocalGatewayRoute` operation on the `EC2` service.
     ///
     /// Creates a static route for the specified local gateway route table. You must specify one of the following targets:
     ///
@@ -6106,7 +6106,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateLocalGatewayRouteTable` operation on the `AmazonEC2` service.
+    /// Performs the `CreateLocalGatewayRouteTable` operation on the `EC2` service.
     ///
     /// Creates a local gateway route table.
     ///
@@ -6170,7 +6170,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateLocalGatewayRouteTableVirtualInterfaceGroupAssociation` operation on the `AmazonEC2` service.
+    /// Performs the `CreateLocalGatewayRouteTableVirtualInterfaceGroupAssociation` operation on the `EC2` service.
     ///
     /// Creates a local gateway route table virtual interface group association.
     ///
@@ -6234,7 +6234,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateLocalGatewayRouteTableVpcAssociation` operation on the `AmazonEC2` service.
+    /// Performs the `CreateLocalGatewayRouteTableVpcAssociation` operation on the `EC2` service.
     ///
     /// Associates the specified VPC with the specified local gateway route table.
     ///
@@ -6298,7 +6298,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateManagedPrefixList` operation on the `AmazonEC2` service.
+    /// Performs the `CreateManagedPrefixList` operation on the `EC2` service.
     ///
     /// Creates a managed prefix list. You can specify one or more entries for the prefix list. Each entry consists of a CIDR block and an optional description.
     ///
@@ -6363,7 +6363,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateNatGateway` operation on the `AmazonEC2` service.
+    /// Performs the `CreateNatGateway` operation on the `EC2` service.
     ///
     /// Creates a NAT gateway in the specified subnet. This action creates a network interface in the specified subnet with a private IP address from the IP address range of the subnet. You can create either a public NAT gateway or a private NAT gateway. With a public NAT gateway, internet-bound traffic from a private subnet can be routed to the NAT gateway, so that instances in a private subnet can connect to the internet. With a private NAT gateway, private communication is routed across VPCs and on-premises networks through a transit gateway or virtual private gateway. Common use cases include running large workloads behind a small pool of allowlisted IPv4 addresses, preserving private IPv4 addresses, and communicating between overlapping networks. For more information, see [NAT gateways](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html) in the Amazon VPC User Guide. When you create a public NAT gateway and assign it an EIP or secondary EIPs, the network border group of the EIPs must match the network border group of the Availability Zone (AZ) that the public NAT gateway is in. If it's not the same, the NAT gateway will fail to launch. You can see the network border group for the subnet's AZ by viewing the details of the subnet. Similarly, you can view the network border group of an EIP by viewing the details of the EIP address. For more information about network border groups and EIPs, see [Allocate an Elastic IP address](https://docs.aws.amazon.com/vpc/latest/userguide/WorkWithEIPs.html) in the Amazon VPC User Guide.
     ///
@@ -6428,7 +6428,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateNetworkAcl` operation on the `AmazonEC2` service.
+    /// Performs the `CreateNetworkAcl` operation on the `EC2` service.
     ///
     /// Creates a network ACL in a VPC. Network ACLs provide an optional layer of security (in addition to security groups) for the instances in your VPC. For more information, see [Network ACLs](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-network-acls.html) in the Amazon VPC User Guide.
     ///
@@ -6493,7 +6493,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateNetworkAclEntry` operation on the `AmazonEC2` service.
+    /// Performs the `CreateNetworkAclEntry` operation on the `EC2` service.
     ///
     /// Creates an entry (a rule) in a network ACL with the specified rule number. Each network ACL has a set of numbered ingress rules and a separate set of numbered egress rules. When determining whether a packet should be allowed in or out of a subnet associated with the ACL, we process the entries in the ACL according to the rule numbers, in ascending order. Each network ACL has a set of ingress rules and a separate set of egress rules. We recommend that you leave room between the rule numbers (for example, 100, 110, 120, ...), and not number them one right after the other (for example, 101, 102, 103, ...). This makes it easier to add a rule between existing ones without having to renumber the rules. After you add an entry, you can't modify it; you must either replace it, or create an entry and delete the old one. For more information about network ACLs, see [Network ACLs](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-network-acls.html) in the Amazon VPC User Guide.
     ///
@@ -6557,7 +6557,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateNetworkInsightsAccessScope` operation on the `AmazonEC2` service.
+    /// Performs the `CreateNetworkInsightsAccessScope` operation on the `EC2` service.
     ///
     /// Creates a Network Access Scope. Amazon Web Services Network Access Analyzer enables cloud networking and cloud operations teams to verify that their networks on Amazon Web Services conform to their network security and governance objectives. For more information, see the [Amazon Web Services Network Access Analyzer Guide](https://docs.aws.amazon.com/vpc/latest/network-access-analyzer/).
     ///
@@ -6622,7 +6622,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateNetworkInsightsPath` operation on the `AmazonEC2` service.
+    /// Performs the `CreateNetworkInsightsPath` operation on the `EC2` service.
     ///
     /// Creates a path to analyze for reachability. Reachability Analyzer enables you to analyze and debug network reachability between two resources in your virtual private cloud (VPC). For more information, see the [Reachability Analyzer Guide](https://docs.aws.amazon.com/vpc/latest/reachability/).
     ///
@@ -6687,7 +6687,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateNetworkInterface` operation on the `AmazonEC2` service.
+    /// Performs the `CreateNetworkInterface` operation on the `EC2` service.
     ///
     /// Creates a network interface in the specified subnet. The number of IP addresses you can assign to a network interface varies by instance type. For more information about network interfaces, see [Elastic network interfaces](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html) in the Amazon EC2 User Guide.
     ///
@@ -6752,7 +6752,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateNetworkInterfacePermission` operation on the `AmazonEC2` service.
+    /// Performs the `CreateNetworkInterfacePermission` operation on the `EC2` service.
     ///
     /// Grants an Amazon Web Services-authorized account permission to attach the specified network interface to an instance in their account. You can grant permission to a single Amazon Web Services account only, and only one account at a time.
     ///
@@ -6816,7 +6816,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreatePlacementGroup` operation on the `AmazonEC2` service.
+    /// Performs the `CreatePlacementGroup` operation on the `EC2` service.
     ///
     /// Creates a placement group in which to launch instances. The strategy of the placement group determines how the instances are organized within the group. A cluster placement group is a logical grouping of instances within a single Availability Zone that benefit from low network latency, high network throughput. A spread placement group places instances on distinct hardware. A partition placement group places groups of instances in different partitions, where instances in one partition do not share the same hardware with instances in another partition. For more information, see [Placement groups](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-groups.html) in the Amazon EC2 User Guide.
     ///
@@ -6880,7 +6880,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreatePublicIpv4Pool` operation on the `AmazonEC2` service.
+    /// Performs the `CreatePublicIpv4Pool` operation on the `EC2` service.
     ///
     /// Creates a public IPv4 address pool. A public IPv4 pool is an EC2 IP address pool required for the public IPv4 CIDRs that you own and bring to Amazon Web Services to manage with IPAM. IPv6 addresses you bring to Amazon Web Services, however, use IPAM pools only. To monitor the status of pool creation, use [DescribePublicIpv4Pools](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribePublicIpv4Pools.html).
     ///
@@ -6944,7 +6944,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateReplaceRootVolumeTask` operation on the `AmazonEC2` service.
+    /// Performs the `CreateReplaceRootVolumeTask` operation on the `EC2` service.
     ///
     /// Replaces the EBS-backed root volume for a running instance with a new volume that is restored to the original root volume's launch state, that is restored to a specific snapshot taken from the original root volume, or that is restored from an AMI that has the same key characteristics as that of the instance. For more information, see [Replace a root volume](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/replace-root.html) in the Amazon EC2 User Guide.
     ///
@@ -7009,7 +7009,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateReservedInstancesListing` operation on the `AmazonEC2` service.
+    /// Performs the `CreateReservedInstancesListing` operation on the `EC2` service.
     ///
     /// Creates a listing for Amazon EC2 Standard Reserved Instances to be sold in the Reserved Instance Marketplace. You can submit one Standard Reserved Instance listing at a time. To get a list of your Standard Reserved Instances, you can use the [DescribeReservedInstances] operation. Only Standard Reserved Instances can be sold in the Reserved Instance Marketplace. Convertible Reserved Instances cannot be sold. The Reserved Instance Marketplace matches sellers who want to resell Standard Reserved Instance capacity that they no longer need with buyers who want to purchase additional capacity. Reserved Instances bought and sold through the Reserved Instance Marketplace work like any other Reserved Instances. To sell your Standard Reserved Instances, you must first register as a seller in the Reserved Instance Marketplace. After completing the registration process, you can create a Reserved Instance Marketplace listing of some or all of your Standard Reserved Instances, and specify the upfront price to receive for them. Your Standard Reserved Instance listings then become available for purchase. To view the details of your Standard Reserved Instance listing, you can use the [DescribeReservedInstancesListings] operation. For more information, see [Sell in the Reserved Instance Marketplace](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ri-market-general.html) in the Amazon EC2 User Guide.
     ///
@@ -7073,7 +7073,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateRestoreImageTask` operation on the `AmazonEC2` service.
+    /// Performs the `CreateRestoreImageTask` operation on the `EC2` service.
     ///
     /// Starts a task that restores an AMI from an Amazon S3 object that was previously created by using [CreateStoreImageTask](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateStoreImageTask.html). To use this API, you must have the required permissions. For more information, see [Permissions for storing and restoring AMIs using Amazon S3](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ami-store-restore.html#ami-s3-permissions) in the Amazon EC2 User Guide. For more information, see [Store and restore an AMI using Amazon S3](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ami-store-restore.html) in the Amazon EC2 User Guide.
     ///
@@ -7137,7 +7137,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateRoute` operation on the `AmazonEC2` service.
+    /// Performs the `CreateRoute` operation on the `EC2` service.
     ///
     /// Creates a route in a route table within a VPC. You must specify either a destination CIDR block or a prefix list ID. You must also specify exactly one of the resources from the parameter list. When determining how to route traffic, we use the route with the most specific match. For example, traffic is destined for the IPv4 address 192.0.2.3, and the route table includes the following two IPv4 routes:
     ///
@@ -7208,7 +7208,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateRouteTable` operation on the `AmazonEC2` service.
+    /// Performs the `CreateRouteTable` operation on the `EC2` service.
     ///
     /// Creates a route table for the specified VPC. After you create a route table, you can add routes and associate the table with a subnet. For more information, see [Route tables](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Route_Tables.html) in the Amazon VPC User Guide.
     ///
@@ -7273,7 +7273,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateSecurityGroup` operation on the `AmazonEC2` service.
+    /// Performs the `CreateSecurityGroup` operation on the `EC2` service.
     ///
     /// Creates a security group. A security group acts as a virtual firewall for your instance to control inbound and outbound traffic. For more information, see [Amazon EC2 security groups](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-network-security.html) in the Amazon EC2 User Guide and [Security groups for your VPC](https://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_SecurityGroups.html) in the Amazon VPC User Guide. When you create a security group, you specify a friendly name of your choice. You can't have two security groups for the same VPC with the same name. You have a default security group for use in your VPC. If you don't specify a security group when you launch an instance, the instance is launched into the appropriate default security group. A default security group includes a default rule that grants instances unrestricted network access to each other. You can add or remove rules from your security groups using [AuthorizeSecurityGroupIngress], [AuthorizeSecurityGroupEgress], [RevokeSecurityGroupIngress], and [RevokeSecurityGroupEgress]. For more information about VPC security group limits, see [Amazon VPC Limits](https://docs.aws.amazon.com/vpc/latest/userguide/amazon-vpc-limits.html).
     ///
@@ -7337,7 +7337,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateSnapshot` operation on the `AmazonEC2` service.
+    /// Performs the `CreateSnapshot` operation on the `EC2` service.
     ///
     /// Creates a snapshot of an EBS volume and stores it in Amazon S3. You can use snapshots for backups, to make copies of EBS volumes, and to save data before shutting down an instance. The location of the source EBS volume determines where you can create the snapshot.
     ///
@@ -7410,7 +7410,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateSnapshots` operation on the `AmazonEC2` service.
+    /// Performs the `CreateSnapshots` operation on the `EC2` service.
     ///
     /// Creates crash-consistent snapshots of multiple EBS volumes attached to an Amazon EC2 instance. Volumes are chosen by specifying an instance. Each volume attached to the specified instance will produce one snapshot that is crash-consistent across the instance. You can include all of the volumes currently attached to the instance, or you can exclude the root volume or specific data (non-root) volumes from the multi-volume snapshot set. The location of the source instance determines where you can create the snapshots.
     ///
@@ -7480,7 +7480,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateSpotDatafeedSubscription` operation on the `AmazonEC2` service.
+    /// Performs the `CreateSpotDatafeedSubscription` operation on the `EC2` service.
     ///
     /// Creates a data feed for Spot Instances, enabling you to view Spot Instance usage logs. You can create one data feed per Amazon Web Services account. For more information, see [Spot Instance data feed](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-data-feeds.html) in the Amazon EC2 User Guide.
     ///
@@ -7544,7 +7544,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateStoreImageTask` operation on the `AmazonEC2` service.
+    /// Performs the `CreateStoreImageTask` operation on the `EC2` service.
     ///
     /// Stores an AMI as a single object in an Amazon S3 bucket. To use this API, you must have the required permissions. For more information, see [Permissions for storing and restoring AMIs using Amazon S3](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ami-store-restore.html#ami-s3-permissions) in the Amazon EC2 User Guide. For more information, see [Store and restore an AMI using Amazon S3](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ami-store-restore.html) in the Amazon EC2 User Guide.
     ///
@@ -7608,7 +7608,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateSubnet` operation on the `AmazonEC2` service.
+    /// Performs the `CreateSubnet` operation on the `EC2` service.
     ///
     /// Creates a subnet in the specified VPC. For an IPv4 only subnet, specify an IPv4 CIDR block. If the VPC has an IPv6 CIDR block, you can create an IPv6 only subnet or a dual stack subnet instead. For an IPv6 only subnet, specify an IPv6 CIDR block. For a dual stack subnet, specify both an IPv4 CIDR block and an IPv6 CIDR block. A subnet CIDR block must not overlap the CIDR block of an existing subnet in the VPC. After you create a subnet, you can't change its CIDR block. The allowed size for an IPv4 subnet is between a /28 netmask (16 IP addresses) and a /16 netmask (65,536 IP addresses). Amazon Web Services reserves both the first four and the last IPv4 address in each subnet's CIDR block. They're not available for your use. If you've associated an IPv6 CIDR block with your VPC, you can associate an IPv6 CIDR block with a subnet when you create it. If you add more than one subnet to a VPC, they're set up in a star topology with a logical router in the middle. When you stop an instance in a subnet, it retains its private IPv4 address. It's therefore possible to have a subnet with no running instances (they're all stopped), but no remaining IP addresses available. For more information, see [Subnets](https://docs.aws.amazon.com/vpc/latest/userguide/configure-subnets.html) in the Amazon VPC User Guide.
     ///
@@ -7672,7 +7672,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateSubnetCidrReservation` operation on the `AmazonEC2` service.
+    /// Performs the `CreateSubnetCidrReservation` operation on the `EC2` service.
     ///
     /// Creates a subnet CIDR reservation. For more information, see [Subnet CIDR reservations](https://docs.aws.amazon.com/vpc/latest/userguide/subnet-cidr-reservation.html) in the Amazon VPC User Guide and [Manage prefixes for your network interfaces](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/work-with-prefixes.html) in the Amazon EC2 User Guide.
     ///
@@ -7736,7 +7736,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateTags` operation on the `AmazonEC2` service.
+    /// Performs the `CreateTags` operation on the `EC2` service.
     ///
     /// Adds or overwrites only the specified tags for the specified Amazon EC2 resource or resources. When you specify an existing tag key, the value is overwritten with the new value. Each resource can have a maximum of 50 tags. Each tag consists of a key and optional value. Tag keys must be unique per resource. For more information about tags, see [Tag your Amazon EC2 resources](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html) in the Amazon Elastic Compute Cloud User Guide. For more information about creating IAM policies that control users' access to resources based on tags, see [Supported resource-level permissions for Amazon EC2 API actions](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-supported-iam-actions-resources.html) in the Amazon Elastic Compute Cloud User Guide.
     ///
@@ -7800,7 +7800,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateTrafficMirrorFilter` operation on the `AmazonEC2` service.
+    /// Performs the `CreateTrafficMirrorFilter` operation on the `EC2` service.
     ///
     /// Creates a Traffic Mirror filter. A Traffic Mirror filter is a set of rules that defines the traffic to mirror. By default, no traffic is mirrored. To mirror traffic, use [CreateTrafficMirrorFilterRule](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateTrafficMirrorFilterRule.htm) to add Traffic Mirror rules to the filter. The rules you add define what traffic gets mirrored. You can also use [ModifyTrafficMirrorFilterNetworkServices](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_ModifyTrafficMirrorFilterNetworkServices.html) to mirror supported network services.
     ///
@@ -7865,7 +7865,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateTrafficMirrorFilterRule` operation on the `AmazonEC2` service.
+    /// Performs the `CreateTrafficMirrorFilterRule` operation on the `EC2` service.
     ///
     /// Creates a Traffic Mirror filter rule. A Traffic Mirror rule defines the Traffic Mirror source traffic to mirror. You need the Traffic Mirror filter ID when you create the rule.
     ///
@@ -7930,7 +7930,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateTrafficMirrorSession` operation on the `AmazonEC2` service.
+    /// Performs the `CreateTrafficMirrorSession` operation on the `EC2` service.
     ///
     /// Creates a Traffic Mirror session. A Traffic Mirror session actively copies packets from a Traffic Mirror source to a Traffic Mirror target. Create a filter, and then assign it to the session to define a subset of the traffic to mirror, for example all TCP traffic. The Traffic Mirror source and the Traffic Mirror target (monitoring appliances) can be in the same VPC, or in a different VPC connected via VPC peering or a transit gateway. By default, no traffic is mirrored. Use [CreateTrafficMirrorFilter](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateTrafficMirrorFilter.html) to create filter rules that specify the traffic to mirror.
     ///
@@ -7995,7 +7995,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateTrafficMirrorTarget` operation on the `AmazonEC2` service.
+    /// Performs the `CreateTrafficMirrorTarget` operation on the `EC2` service.
     ///
     /// Creates a target for your Traffic Mirror session. A Traffic Mirror target is the destination for mirrored traffic. The Traffic Mirror source and the Traffic Mirror target (monitoring appliances) can be in the same VPC, or in different VPCs connected via VPC peering or a transit gateway. A Traffic Mirror target can be a network interface, a Network Load Balancer, or a Gateway Load Balancer endpoint. To use the target in a Traffic Mirror session, use [CreateTrafficMirrorSession](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateTrafficMirrorSession.htm).
     ///
@@ -8060,7 +8060,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateTransitGateway` operation on the `AmazonEC2` service.
+    /// Performs the `CreateTransitGateway` operation on the `EC2` service.
     ///
     /// Creates a transit gateway. You can use a transit gateway to interconnect your virtual private clouds (VPC) and on-premises networks. After the transit gateway enters the available state, you can attach your VPCs and VPN connections to the transit gateway. To attach your VPCs, use [CreateTransitGatewayVpcAttachment]. To attach a VPN connection, use [CreateCustomerGateway] to create a customer gateway and specify the ID of the customer gateway and the ID of the transit gateway in a call to [CreateVpnConnection]. When you create a transit gateway, we create a default transit gateway route table and use it as the default association route table and the default propagation route table. You can use [CreateTransitGatewayRouteTable] to create additional transit gateway route tables. If you disable automatic route propagation, we do not create a default transit gateway route table. You can use [EnableTransitGatewayRouteTablePropagation] to propagate routes from a resource attachment to a transit gateway route table. If you disable automatic associations, you can use [AssociateTransitGatewayRouteTable] to associate a resource attachment with a transit gateway route table.
     ///
@@ -8124,7 +8124,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateTransitGatewayConnect` operation on the `AmazonEC2` service.
+    /// Performs the `CreateTransitGatewayConnect` operation on the `EC2` service.
     ///
     /// Creates a Connect attachment from a specified transit gateway attachment. A Connect attachment is a GRE-based tunnel attachment that you can use to establish a connection between a transit gateway and an appliance. A Connect attachment uses an existing VPC or Amazon Web Services Direct Connect attachment as the underlying transport mechanism.
     ///
@@ -8188,7 +8188,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateTransitGatewayConnectPeer` operation on the `AmazonEC2` service.
+    /// Performs the `CreateTransitGatewayConnectPeer` operation on the `EC2` service.
     ///
     /// Creates a Connect peer for a specified transit gateway Connect attachment between a transit gateway and an appliance. The peer address and transit gateway address must be the same IP address family (IPv4 or IPv6). For more information, see [Connect peers](https://docs.aws.amazon.com/vpc/latest/tgw/tgw-connect.html#tgw-connect-peer) in the Amazon Web Services Transit Gateways Guide.
     ///
@@ -8252,7 +8252,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateTransitGatewayMulticastDomain` operation on the `AmazonEC2` service.
+    /// Performs the `CreateTransitGatewayMulticastDomain` operation on the `EC2` service.
     ///
     /// Creates a multicast domain using the specified transit gateway. The transit gateway must be in the available state before you create a domain. Use [DescribeTransitGateways](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeTransitGateways.html) to see the state of transit gateway.
     ///
@@ -8316,7 +8316,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateTransitGatewayPeeringAttachment` operation on the `AmazonEC2` service.
+    /// Performs the `CreateTransitGatewayPeeringAttachment` operation on the `EC2` service.
     ///
     /// Requests a transit gateway peering attachment between the specified transit gateway (requester) and a peer transit gateway (accepter). The peer transit gateway can be in your account or a different Amazon Web Services account. After you create the peering attachment, the owner of the accepter transit gateway must accept the attachment request.
     ///
@@ -8380,7 +8380,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateTransitGatewayPolicyTable` operation on the `AmazonEC2` service.
+    /// Performs the `CreateTransitGatewayPolicyTable` operation on the `EC2` service.
     ///
     /// Creates a transit gateway policy table.
     ///
@@ -8444,7 +8444,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateTransitGatewayPrefixListReference` operation on the `AmazonEC2` service.
+    /// Performs the `CreateTransitGatewayPrefixListReference` operation on the `EC2` service.
     ///
     /// Creates a reference (route) to a prefix list in a specified transit gateway route table.
     ///
@@ -8508,7 +8508,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateTransitGatewayRoute` operation on the `AmazonEC2` service.
+    /// Performs the `CreateTransitGatewayRoute` operation on the `EC2` service.
     ///
     /// Creates a static route for the specified transit gateway route table.
     ///
@@ -8572,7 +8572,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateTransitGatewayRouteTable` operation on the `AmazonEC2` service.
+    /// Performs the `CreateTransitGatewayRouteTable` operation on the `EC2` service.
     ///
     /// Creates a route table for the specified transit gateway.
     ///
@@ -8636,7 +8636,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateTransitGatewayRouteTableAnnouncement` operation on the `AmazonEC2` service.
+    /// Performs the `CreateTransitGatewayRouteTableAnnouncement` operation on the `EC2` service.
     ///
     /// Advertises a new transit gateway route table.
     ///
@@ -8700,7 +8700,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateTransitGatewayVpcAttachment` operation on the `AmazonEC2` service.
+    /// Performs the `CreateTransitGatewayVpcAttachment` operation on the `EC2` service.
     ///
     /// Attaches the specified VPC to the specified transit gateway. If you attach a VPC with a CIDR range that overlaps the CIDR range of a VPC that is already attached, the new VPC CIDR range is not propagated to the default propagation route table. To send VPC traffic to an attached transit gateway, add a route to the VPC route table using [CreateRoute].
     ///
@@ -8764,7 +8764,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateVerifiedAccessEndpoint` operation on the `AmazonEC2` service.
+    /// Performs the `CreateVerifiedAccessEndpoint` operation on the `EC2` service.
     ///
     /// An Amazon Web Services Verified Access endpoint is where you define your application along with an optional endpoint-level access policy.
     ///
@@ -8829,7 +8829,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateVerifiedAccessGroup` operation on the `AmazonEC2` service.
+    /// Performs the `CreateVerifiedAccessGroup` operation on the `EC2` service.
     ///
     /// An Amazon Web Services Verified Access group is a collection of Amazon Web Services Verified Access endpoints who's associated applications have similar security requirements. Each instance within a Verified Access group shares an Verified Access policy. For example, you can group all Verified Access instances associated with "sales" applications together and use one common Verified Access policy.
     ///
@@ -8894,7 +8894,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateVerifiedAccessInstance` operation on the `AmazonEC2` service.
+    /// Performs the `CreateVerifiedAccessInstance` operation on the `EC2` service.
     ///
     /// An Amazon Web Services Verified Access instance is a regional entity that evaluates application requests and grants access only when your security requirements are met.
     ///
@@ -8959,7 +8959,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateVerifiedAccessTrustProvider` operation on the `AmazonEC2` service.
+    /// Performs the `CreateVerifiedAccessTrustProvider` operation on the `EC2` service.
     ///
     /// A trust provider is a third-party entity that creates, maintains, and manages identity information for users and devices. When an application request is made, the identity information sent by the trust provider is evaluated by Verified Access before allowing or denying the application request.
     ///
@@ -9024,7 +9024,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateVolume` operation on the `AmazonEC2` service.
+    /// Performs the `CreateVolume` operation on the `EC2` service.
     ///
     /// Creates an EBS volume that can be attached to an instance in the same Availability Zone. You can create a new empty volume or restore a volume from an EBS snapshot. Any Amazon Web Services Marketplace product codes from the snapshot are propagated to the volume. You can create encrypted volumes. Encrypted volumes must be attached to instances that support Amazon EBS encryption. Volumes that are created from encrypted snapshots are also automatically encrypted. For more information, see [Amazon EBS encryption](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-encryption.html) in the Amazon EBS User Guide. You can tag your volumes during creation. For more information, see [Tag your Amazon EC2 resources](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html) in the Amazon EC2 User Guide. For more information, see [Create an Amazon EBS volume](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-creating-volume.html) in the Amazon EBS User Guide.
     ///
@@ -9089,7 +9089,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateVpc` operation on the `AmazonEC2` service.
+    /// Performs the `CreateVpc` operation on the `EC2` service.
     ///
     /// Creates a VPC with the specified CIDR blocks. For more information, see [IP addressing for your VPCs and subnets](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html) in the Amazon VPC User Guide. You can optionally request an IPv6 CIDR block for the VPC. You can request an Amazon-provided IPv6 CIDR block from Amazon's pool of IPv6 addresses or an IPv6 CIDR block from an IPv6 address pool that you provisioned through bring your own IP addresses ([BYOIP](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-byoip.html)). By default, each instance that you launch in the VPC has the default DHCP options, which include only a default DNS server that we provide (AmazonProvidedDNS). For more information, see [DHCP option sets](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_DHCP_Options.html) in the Amazon VPC User Guide. You can specify the instance tenancy value for the VPC when you create it. You can't change this value for the VPC after you create it. For more information, see [Dedicated Instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/dedicated-instance.html) in the Amazon EC2 User Guide.
     ///
@@ -9153,7 +9153,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateVpcBlockPublicAccessExclusion` operation on the `AmazonEC2` service.
+    /// Performs the `CreateVpcBlockPublicAccessExclusion` operation on the `EC2` service.
     ///
     /// Create a VPC Block Public Access (BPA) exclusion. A VPC BPA exclusion is a mode that can be applied to a single VPC or subnet that exempts it from the account’s BPA mode and will allow bidirectional or egress-only access. You can create BPA exclusions for VPCs and subnets even when BPA is not enabled on the account to ensure that there is no traffic disruption to the exclusions when VPC BPA is turned on. To learn more about VPC BPA, see [Block public access to VPCs and subnets](https://docs.aws.amazon.com/vpc/latest/userguide/security-vpc-bpa.html) in the Amazon VPC User Guide.
     ///
@@ -9217,7 +9217,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateVpcEndpoint` operation on the `AmazonEC2` service.
+    /// Performs the `CreateVpcEndpoint` operation on the `EC2` service.
     ///
     /// Creates a VPC endpoint. A VPC endpoint provides a private connection between the specified VPC and the specified endpoint service. You can use an endpoint service provided by Amazon Web Services, an Amazon Web Services Marketplace Partner, or another Amazon Web Services account. For more information, see the [Amazon Web Services PrivateLink User Guide](https://docs.aws.amazon.com/vpc/latest/privatelink/).
     ///
@@ -9281,7 +9281,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateVpcEndpointConnectionNotification` operation on the `AmazonEC2` service.
+    /// Performs the `CreateVpcEndpointConnectionNotification` operation on the `EC2` service.
     ///
     /// Creates a connection notification for a specified VPC endpoint or VPC endpoint service. A connection notification notifies you of specific endpoint events. You must create an SNS topic to receive notifications. For more information, see [Creating an Amazon SNS topic](https://docs.aws.amazon.com/sns/latest/dg/CreateTopic.html) in the Amazon SNS Developer Guide. You can create a connection notification for interface endpoints only.
     ///
@@ -9345,7 +9345,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateVpcEndpointServiceConfiguration` operation on the `AmazonEC2` service.
+    /// Performs the `CreateVpcEndpointServiceConfiguration` operation on the `EC2` service.
     ///
     /// Creates a VPC endpoint service to which service consumers (Amazon Web Services accounts, users, and IAM roles) can connect. Before you create an endpoint service, you must create one of the following for your service:
     ///
@@ -9416,7 +9416,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateVpcPeeringConnection` operation on the `AmazonEC2` service.
+    /// Performs the `CreateVpcPeeringConnection` operation on the `EC2` service.
     ///
     /// Requests a VPC peering connection between two VPCs: a requester VPC that you own and an accepter VPC with which to create the connection. The accepter VPC can belong to another Amazon Web Services account and can be in a different Region to the requester VPC. The requester VPC and accepter VPC cannot have overlapping CIDR blocks. Limitations and rules apply to a VPC peering connection. For more information, see the [VPC peering limitations](https://docs.aws.amazon.com/vpc/latest/peering/vpc-peering-basics.html#vpc-peering-limitations) in the VPC Peering Guide. The owner of the accepter VPC must accept the peering request to activate the peering connection. The VPC peering connection request expires after 7 days, after which it cannot be accepted or rejected. If you create a VPC peering connection request between VPCs with overlapping CIDR blocks, the VPC peering connection has a status of failed.
     ///
@@ -9480,7 +9480,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateVpnConnection` operation on the `AmazonEC2` service.
+    /// Performs the `CreateVpnConnection` operation on the `EC2` service.
     ///
     /// Creates a VPN connection between an existing virtual private gateway or transit gateway and a customer gateway. The supported connection type is ipsec.1. The response includes information that you need to give to your network administrator to configure your customer gateway. We strongly recommend that you use HTTPS when calling this operation because the response contains sensitive cryptographic information for configuring your customer gateway device. If you decide to shut down your VPN connection for any reason and later create a new VPN connection, you must reconfigure your customer gateway with the new information returned from this call. This is an idempotent operation. If you perform the operation more than once, Amazon EC2 doesn't return an error. For more information, see [Amazon Web Services Site-to-Site VPN](https://docs.aws.amazon.com/vpn/latest/s2svpn/VPC_VPN.html) in the Amazon Web Services Site-to-Site VPN User Guide.
     ///
@@ -9544,7 +9544,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateVpnConnectionRoute` operation on the `AmazonEC2` service.
+    /// Performs the `CreateVpnConnectionRoute` operation on the `EC2` service.
     ///
     /// Creates a static route associated with a VPN connection between an existing virtual private gateway and a VPN customer gateway. The static route allows traffic to be routed from the virtual private gateway to the VPN customer gateway. For more information, see [Amazon Web Services Site-to-Site VPN](https://docs.aws.amazon.com/vpn/latest/s2svpn/VPC_VPN.html) in the Amazon Web Services Site-to-Site VPN User Guide.
     ///
@@ -9608,7 +9608,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateVpnGateway` operation on the `AmazonEC2` service.
+    /// Performs the `CreateVpnGateway` operation on the `EC2` service.
     ///
     /// Creates a virtual private gateway. A virtual private gateway is the endpoint on the VPC side of your VPN connection. You can create a virtual private gateway before creating the VPC itself. For more information, see [Amazon Web Services Site-to-Site VPN](https://docs.aws.amazon.com/vpn/latest/s2svpn/VPC_VPN.html) in the Amazon Web Services Site-to-Site VPN User Guide.
     ///
@@ -9672,7 +9672,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteCarrierGateway` operation on the `AmazonEC2` service.
+    /// Performs the `DeleteCarrierGateway` operation on the `EC2` service.
     ///
     /// Deletes a carrier gateway. If you do not delete the route that contains the carrier gateway as the Target, the route is a blackhole route. For information about how to delete a route, see [DeleteRoute](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DeleteRoute.html).
     ///
@@ -9736,7 +9736,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteClientVpnEndpoint` operation on the `AmazonEC2` service.
+    /// Performs the `DeleteClientVpnEndpoint` operation on the `EC2` service.
     ///
     /// Deletes the specified Client VPN endpoint. You must disassociate all target networks before you can delete a Client VPN endpoint.
     ///
@@ -9800,7 +9800,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteClientVpnRoute` operation on the `AmazonEC2` service.
+    /// Performs the `DeleteClientVpnRoute` operation on the `EC2` service.
     ///
     /// Deletes a route from a Client VPN endpoint. You can only delete routes that you manually added using the CreateClientVpnRoute action. You cannot delete routes that were automatically added when associating a subnet. To remove routes that have been automatically added, disassociate the target subnet from the Client VPN endpoint.
     ///
@@ -9864,7 +9864,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteCoipCidr` operation on the `AmazonEC2` service.
+    /// Performs the `DeleteCoipCidr` operation on the `EC2` service.
     ///
     /// Deletes a range of customer-owned IP addresses.
     ///
@@ -9928,7 +9928,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteCoipPool` operation on the `AmazonEC2` service.
+    /// Performs the `DeleteCoipPool` operation on the `EC2` service.
     ///
     /// Deletes a pool of customer-owned IP (CoIP) addresses.
     ///
@@ -9992,7 +9992,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteCustomerGateway` operation on the `AmazonEC2` service.
+    /// Performs the `DeleteCustomerGateway` operation on the `EC2` service.
     ///
     /// Deletes the specified customer gateway. You must delete the VPN connection before you can delete the customer gateway.
     ///
@@ -10056,7 +10056,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteDhcpOptions` operation on the `AmazonEC2` service.
+    /// Performs the `DeleteDhcpOptions` operation on the `EC2` service.
     ///
     /// Deletes the specified set of DHCP options. You must disassociate the set of DHCP options before you can delete it. You can disassociate the set of DHCP options by associating either a new set of options or the default set of options with the VPC.
     ///
@@ -10120,7 +10120,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteEgressOnlyInternetGateway` operation on the `AmazonEC2` service.
+    /// Performs the `DeleteEgressOnlyInternetGateway` operation on the `EC2` service.
     ///
     /// Deletes an egress-only internet gateway.
     ///
@@ -10184,7 +10184,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteFleets` operation on the `AmazonEC2` service.
+    /// Performs the `DeleteFleets` operation on the `EC2` service.
     ///
     /// Deletes the specified EC2 Fleets. After you delete an EC2 Fleet, it launches no new instances. You must also specify whether a deleted EC2 Fleet should terminate its instances. If you choose to terminate the instances, the EC2 Fleet enters the deleted_terminating state. Otherwise, the EC2 Fleet enters the deleted_running state, and the instances continue to run until they are interrupted or you terminate them manually. For instant fleets, EC2 Fleet must terminate the instances when the fleet is deleted. Up to 1000 instances can be terminated in a single request to delete instant fleets. A deleted instant fleet with running instances is not supported. Restrictions
     ///
@@ -10259,7 +10259,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteFlowLogs` operation on the `AmazonEC2` service.
+    /// Performs the `DeleteFlowLogs` operation on the `EC2` service.
     ///
     /// Deletes one or more flow logs.
     ///
@@ -10323,7 +10323,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteFpgaImage` operation on the `AmazonEC2` service.
+    /// Performs the `DeleteFpgaImage` operation on the `EC2` service.
     ///
     /// Deletes the specified Amazon FPGA Image (AFI).
     ///
@@ -10387,7 +10387,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteInstanceConnectEndpoint` operation on the `AmazonEC2` service.
+    /// Performs the `DeleteInstanceConnectEndpoint` operation on the `EC2` service.
     ///
     /// Deletes the specified EC2 Instance Connect Endpoint.
     ///
@@ -10451,7 +10451,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteInstanceEventWindow` operation on the `AmazonEC2` service.
+    /// Performs the `DeleteInstanceEventWindow` operation on the `EC2` service.
     ///
     /// Deletes the specified event window. For more information, see [Define event windows for scheduled events](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/event-windows.html) in the Amazon EC2 User Guide.
     ///
@@ -10515,7 +10515,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteInternetGateway` operation on the `AmazonEC2` service.
+    /// Performs the `DeleteInternetGateway` operation on the `EC2` service.
     ///
     /// Deletes the specified internet gateway. You must detach the internet gateway from the VPC before you can delete it.
     ///
@@ -10579,7 +10579,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteIpam` operation on the `AmazonEC2` service.
+    /// Performs the `DeleteIpam` operation on the `EC2` service.
     ///
     /// Delete an IPAM. Deleting an IPAM removes all monitored data associated with the IPAM including the historical data for CIDRs. For more information, see [Delete an IPAM](https://docs.aws.amazon.com/vpc/latest/ipam/delete-ipam.html) in the Amazon VPC IPAM User Guide.
     ///
@@ -10643,7 +10643,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteIpamExternalResourceVerificationToken` operation on the `AmazonEC2` service.
+    /// Performs the `DeleteIpamExternalResourceVerificationToken` operation on the `EC2` service.
     ///
     /// Delete a verification token. A verification token is an Amazon Web Services-generated random value that you can use to prove ownership of an external resource. For example, you can use a verification token to validate that you control a public IP address range when you bring an IP address range to Amazon Web Services (BYOIP).
     ///
@@ -10707,7 +10707,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteIpamPool` operation on the `AmazonEC2` service.
+    /// Performs the `DeleteIpamPool` operation on the `EC2` service.
     ///
     /// Delete an IPAM pool. You cannot delete an IPAM pool if there are allocations in it or CIDRs provisioned to it. To release allocations, see [ReleaseIpamPoolAllocation](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_ReleaseIpamPoolAllocation.html). To deprovision pool CIDRs, see [DeprovisionIpamPoolCidr](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DeprovisionIpamPoolCidr.html). For more information, see [Delete a pool](https://docs.aws.amazon.com/vpc/latest/ipam/delete-pool-ipam.html) in the Amazon VPC IPAM User Guide.
     ///
@@ -10771,7 +10771,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteIpamResourceDiscovery` operation on the `AmazonEC2` service.
+    /// Performs the `DeleteIpamResourceDiscovery` operation on the `EC2` service.
     ///
     /// Deletes an IPAM resource discovery. A resource discovery is an IPAM component that enables IPAM to manage and monitor resources that belong to the owning account.
     ///
@@ -10835,7 +10835,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteIpamScope` operation on the `AmazonEC2` service.
+    /// Performs the `DeleteIpamScope` operation on the `EC2` service.
     ///
     /// Delete the scope for an IPAM. You cannot delete the default scopes. For more information, see [Delete a scope](https://docs.aws.amazon.com/vpc/latest/ipam/delete-scope-ipam.html) in the Amazon VPC IPAM User Guide.
     ///
@@ -10899,7 +10899,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteKeyPair` operation on the `AmazonEC2` service.
+    /// Performs the `DeleteKeyPair` operation on the `EC2` service.
     ///
     /// Deletes the specified key pair, by removing the public key from Amazon EC2.
     ///
@@ -10963,7 +10963,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteLaunchTemplate` operation on the `AmazonEC2` service.
+    /// Performs the `DeleteLaunchTemplate` operation on the `EC2` service.
     ///
     /// Deletes a launch template. Deleting a launch template deletes all of its versions.
     ///
@@ -11027,7 +11027,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteLaunchTemplateVersions` operation on the `AmazonEC2` service.
+    /// Performs the `DeleteLaunchTemplateVersions` operation on the `EC2` service.
     ///
     /// Deletes one or more versions of a launch template. You can't delete the default version of a launch template; you must first assign a different version as the default. If the default version is the only version for the launch template, you must delete the entire launch template using [DeleteLaunchTemplate]. You can delete up to 200 launch template versions in a single request. To delete more than 200 versions in a single request, use [DeleteLaunchTemplate], which deletes the launch template and all of its versions. For more information, see [Delete a launch template version](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/manage-launch-template-versions.html#delete-launch-template-version) in the Amazon EC2 User Guide.
     ///
@@ -11091,7 +11091,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteLocalGatewayRoute` operation on the `AmazonEC2` service.
+    /// Performs the `DeleteLocalGatewayRoute` operation on the `EC2` service.
     ///
     /// Deletes the specified route from the specified local gateway route table.
     ///
@@ -11155,7 +11155,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteLocalGatewayRouteTable` operation on the `AmazonEC2` service.
+    /// Performs the `DeleteLocalGatewayRouteTable` operation on the `EC2` service.
     ///
     /// Deletes a local gateway route table.
     ///
@@ -11219,7 +11219,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociation` operation on the `AmazonEC2` service.
+    /// Performs the `DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociation` operation on the `EC2` service.
     ///
     /// Deletes a local gateway route table virtual interface group association.
     ///
@@ -11283,7 +11283,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteLocalGatewayRouteTableVpcAssociation` operation on the `AmazonEC2` service.
+    /// Performs the `DeleteLocalGatewayRouteTableVpcAssociation` operation on the `EC2` service.
     ///
     /// Deletes the specified association between a VPC and local gateway route table.
     ///
@@ -11347,7 +11347,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteManagedPrefixList` operation on the `AmazonEC2` service.
+    /// Performs the `DeleteManagedPrefixList` operation on the `EC2` service.
     ///
     /// Deletes the specified managed prefix list. You must first remove all references to the prefix list in your resources.
     ///
@@ -11411,7 +11411,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteNatGateway` operation on the `AmazonEC2` service.
+    /// Performs the `DeleteNatGateway` operation on the `EC2` service.
     ///
     /// Deletes the specified NAT gateway. Deleting a public NAT gateway disassociates its Elastic IP address, but does not release the address from your account. Deleting a NAT gateway does not delete any NAT gateway routes in your route tables.
     ///
@@ -11475,7 +11475,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteNetworkAcl` operation on the `AmazonEC2` service.
+    /// Performs the `DeleteNetworkAcl` operation on the `EC2` service.
     ///
     /// Deletes the specified network ACL. You can't delete the ACL if it's associated with any subnets. You can't delete the default network ACL.
     ///
@@ -11539,7 +11539,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteNetworkAclEntry` operation on the `AmazonEC2` service.
+    /// Performs the `DeleteNetworkAclEntry` operation on the `EC2` service.
     ///
     /// Deletes the specified ingress or egress entry (rule) from the specified network ACL.
     ///
@@ -11603,7 +11603,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteNetworkInsightsAccessScope` operation on the `AmazonEC2` service.
+    /// Performs the `DeleteNetworkInsightsAccessScope` operation on the `EC2` service.
     ///
     /// Deletes the specified Network Access Scope.
     ///
@@ -11667,7 +11667,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteNetworkInsightsAccessScopeAnalysis` operation on the `AmazonEC2` service.
+    /// Performs the `DeleteNetworkInsightsAccessScopeAnalysis` operation on the `EC2` service.
     ///
     /// Deletes the specified Network Access Scope analysis.
     ///
@@ -11731,7 +11731,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteNetworkInsightsAnalysis` operation on the `AmazonEC2` service.
+    /// Performs the `DeleteNetworkInsightsAnalysis` operation on the `EC2` service.
     ///
     /// Deletes the specified network insights analysis.
     ///
@@ -11795,7 +11795,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteNetworkInsightsPath` operation on the `AmazonEC2` service.
+    /// Performs the `DeleteNetworkInsightsPath` operation on the `EC2` service.
     ///
     /// Deletes the specified path.
     ///
@@ -11859,7 +11859,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteNetworkInterface` operation on the `AmazonEC2` service.
+    /// Performs the `DeleteNetworkInterface` operation on the `EC2` service.
     ///
     /// Deletes the specified network interface. You must detach the network interface before you can delete it.
     ///
@@ -11923,7 +11923,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteNetworkInterfacePermission` operation on the `AmazonEC2` service.
+    /// Performs the `DeleteNetworkInterfacePermission` operation on the `EC2` service.
     ///
     /// Deletes a permission for a network interface. By default, you cannot delete the permission if the account for which you're removing the permission has attached the network interface to an instance. However, you can force delete the permission, regardless of any attachment.
     ///
@@ -11987,7 +11987,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeletePlacementGroup` operation on the `AmazonEC2` service.
+    /// Performs the `DeletePlacementGroup` operation on the `EC2` service.
     ///
     /// Deletes the specified placement group. You must terminate all instances in the placement group before you can delete the placement group. For more information, see [Placement groups](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-groups.html) in the Amazon EC2 User Guide.
     ///
@@ -12051,7 +12051,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeletePublicIpv4Pool` operation on the `AmazonEC2` service.
+    /// Performs the `DeletePublicIpv4Pool` operation on the `EC2` service.
     ///
     /// Delete a public IPv4 pool. A public IPv4 pool is an EC2 IP address pool required for the public IPv4 CIDRs that you own and bring to Amazon Web Services to manage with IPAM. IPv6 addresses you bring to Amazon Web Services, however, use IPAM pools only.
     ///
@@ -12115,7 +12115,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteQueuedReservedInstances` operation on the `AmazonEC2` service.
+    /// Performs the `DeleteQueuedReservedInstances` operation on the `EC2` service.
     ///
     /// Deletes the queued purchases for the specified Reserved Instances.
     ///
@@ -12179,7 +12179,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteRoute` operation on the `AmazonEC2` service.
+    /// Performs the `DeleteRoute` operation on the `EC2` service.
     ///
     /// Deletes the specified route from the specified route table.
     ///
@@ -12243,7 +12243,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteRouteTable` operation on the `AmazonEC2` service.
+    /// Performs the `DeleteRouteTable` operation on the `EC2` service.
     ///
     /// Deletes the specified route table. You must disassociate the route table from any subnets before you can delete it. You can't delete the main route table.
     ///
@@ -12307,7 +12307,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteSecurityGroup` operation on the `AmazonEC2` service.
+    /// Performs the `DeleteSecurityGroup` operation on the `EC2` service.
     ///
     /// Deletes a security group. If you attempt to delete a security group that is associated with an instance or network interface, is referenced by another security group in the same VPC, or has a VPC association, the operation fails with DependencyViolation.
     ///
@@ -12371,7 +12371,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteSnapshot` operation on the `AmazonEC2` service.
+    /// Performs the `DeleteSnapshot` operation on the `EC2` service.
     ///
     /// Deletes the specified snapshot. When you make periodic snapshots of a volume, the snapshots are incremental, and only the blocks on the device that have changed since your last snapshot are saved in the new snapshot. When you delete a snapshot, only the data not needed for any other snapshot is removed. So regardless of which prior snapshots have been deleted, all active snapshots will have access to all the information needed to restore the volume. You cannot delete a snapshot of the root device of an EBS volume used by a registered AMI. You must first de-register the AMI before you can delete the snapshot. For more information, see [Delete an Amazon EBS snapshot](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-deleting-snapshot.html) in the Amazon EBS User Guide.
     ///
@@ -12435,7 +12435,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteSpotDatafeedSubscription` operation on the `AmazonEC2` service.
+    /// Performs the `DeleteSpotDatafeedSubscription` operation on the `EC2` service.
     ///
     /// Deletes the data feed for Spot Instances.
     ///
@@ -12499,7 +12499,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteSubnet` operation on the `AmazonEC2` service.
+    /// Performs the `DeleteSubnet` operation on the `EC2` service.
     ///
     /// Deletes the specified subnet. You must terminate all running instances in the subnet before you can delete the subnet.
     ///
@@ -12563,7 +12563,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteSubnetCidrReservation` operation on the `AmazonEC2` service.
+    /// Performs the `DeleteSubnetCidrReservation` operation on the `EC2` service.
     ///
     /// Deletes a subnet CIDR reservation.
     ///
@@ -12627,7 +12627,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteTags` operation on the `AmazonEC2` service.
+    /// Performs the `DeleteTags` operation on the `EC2` service.
     ///
     /// Deletes the specified set of tags from the specified set of resources. To list the current tags, use [DescribeTags]. For more information about tags, see [Tag your Amazon EC2 resources](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html) in the Amazon Elastic Compute Cloud User Guide.
     ///
@@ -12691,7 +12691,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteTrafficMirrorFilter` operation on the `AmazonEC2` service.
+    /// Performs the `DeleteTrafficMirrorFilter` operation on the `EC2` service.
     ///
     /// Deletes the specified Traffic Mirror filter. You cannot delete a Traffic Mirror filter that is in use by a Traffic Mirror session.
     ///
@@ -12755,7 +12755,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteTrafficMirrorFilterRule` operation on the `AmazonEC2` service.
+    /// Performs the `DeleteTrafficMirrorFilterRule` operation on the `EC2` service.
     ///
     /// Deletes the specified Traffic Mirror rule.
     ///
@@ -12819,7 +12819,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteTrafficMirrorSession` operation on the `AmazonEC2` service.
+    /// Performs the `DeleteTrafficMirrorSession` operation on the `EC2` service.
     ///
     /// Deletes the specified Traffic Mirror session.
     ///
@@ -12883,7 +12883,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteTrafficMirrorTarget` operation on the `AmazonEC2` service.
+    /// Performs the `DeleteTrafficMirrorTarget` operation on the `EC2` service.
     ///
     /// Deletes the specified Traffic Mirror target. You cannot delete a Traffic Mirror target that is in use by a Traffic Mirror session.
     ///
@@ -12947,7 +12947,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteTransitGateway` operation on the `AmazonEC2` service.
+    /// Performs the `DeleteTransitGateway` operation on the `EC2` service.
     ///
     /// Deletes the specified transit gateway.
     ///
@@ -13011,7 +13011,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteTransitGatewayConnect` operation on the `AmazonEC2` service.
+    /// Performs the `DeleteTransitGatewayConnect` operation on the `EC2` service.
     ///
     /// Deletes the specified Connect attachment. You must first delete any Connect peers for the attachment.
     ///
@@ -13075,7 +13075,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteTransitGatewayConnectPeer` operation on the `AmazonEC2` service.
+    /// Performs the `DeleteTransitGatewayConnectPeer` operation on the `EC2` service.
     ///
     /// Deletes the specified Connect peer.
     ///
@@ -13139,7 +13139,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteTransitGatewayMulticastDomain` operation on the `AmazonEC2` service.
+    /// Performs the `DeleteTransitGatewayMulticastDomain` operation on the `EC2` service.
     ///
     /// Deletes the specified transit gateway multicast domain.
     ///
@@ -13203,7 +13203,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteTransitGatewayPeeringAttachment` operation on the `AmazonEC2` service.
+    /// Performs the `DeleteTransitGatewayPeeringAttachment` operation on the `EC2` service.
     ///
     /// Deletes a transit gateway peering attachment.
     ///
@@ -13267,7 +13267,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteTransitGatewayPolicyTable` operation on the `AmazonEC2` service.
+    /// Performs the `DeleteTransitGatewayPolicyTable` operation on the `EC2` service.
     ///
     /// Deletes the specified transit gateway policy table.
     ///
@@ -13331,7 +13331,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteTransitGatewayPrefixListReference` operation on the `AmazonEC2` service.
+    /// Performs the `DeleteTransitGatewayPrefixListReference` operation on the `EC2` service.
     ///
     /// Deletes a reference (route) to a prefix list in a specified transit gateway route table.
     ///
@@ -13395,7 +13395,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteTransitGatewayRoute` operation on the `AmazonEC2` service.
+    /// Performs the `DeleteTransitGatewayRoute` operation on the `EC2` service.
     ///
     /// Deletes the specified route from the specified transit gateway route table.
     ///
@@ -13459,7 +13459,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteTransitGatewayRouteTable` operation on the `AmazonEC2` service.
+    /// Performs the `DeleteTransitGatewayRouteTable` operation on the `EC2` service.
     ///
     /// Deletes the specified transit gateway route table. If there are any route tables associated with the transit gateway route table, you must first run [DisassociateRouteTable] before you can delete the transit gateway route table. This removes any route tables associated with the transit gateway route table.
     ///
@@ -13523,7 +13523,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteTransitGatewayRouteTableAnnouncement` operation on the `AmazonEC2` service.
+    /// Performs the `DeleteTransitGatewayRouteTableAnnouncement` operation on the `EC2` service.
     ///
     /// Advertises to the transit gateway that a transit gateway route table is deleted.
     ///
@@ -13587,7 +13587,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteTransitGatewayVpcAttachment` operation on the `AmazonEC2` service.
+    /// Performs the `DeleteTransitGatewayVpcAttachment` operation on the `EC2` service.
     ///
     /// Deletes the specified VPC attachment.
     ///
@@ -13651,7 +13651,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteVerifiedAccessEndpoint` operation on the `AmazonEC2` service.
+    /// Performs the `DeleteVerifiedAccessEndpoint` operation on the `EC2` service.
     ///
     /// Delete an Amazon Web Services Verified Access endpoint.
     ///
@@ -13716,7 +13716,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteVerifiedAccessGroup` operation on the `AmazonEC2` service.
+    /// Performs the `DeleteVerifiedAccessGroup` operation on the `EC2` service.
     ///
     /// Delete an Amazon Web Services Verified Access group.
     ///
@@ -13781,7 +13781,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteVerifiedAccessInstance` operation on the `AmazonEC2` service.
+    /// Performs the `DeleteVerifiedAccessInstance` operation on the `EC2` service.
     ///
     /// Delete an Amazon Web Services Verified Access instance.
     ///
@@ -13846,7 +13846,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteVerifiedAccessTrustProvider` operation on the `AmazonEC2` service.
+    /// Performs the `DeleteVerifiedAccessTrustProvider` operation on the `EC2` service.
     ///
     /// Delete an Amazon Web Services Verified Access trust provider.
     ///
@@ -13911,7 +13911,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteVolume` operation on the `AmazonEC2` service.
+    /// Performs the `DeleteVolume` operation on the `EC2` service.
     ///
     /// Deletes the specified EBS volume. The volume must be in the available state (not attached to an instance). The volume can remain in the deleting state for several minutes. For more information, see [Delete an Amazon EBS volume](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-deleting-volume.html) in the Amazon EBS User Guide.
     ///
@@ -13975,7 +13975,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteVpc` operation on the `AmazonEC2` service.
+    /// Performs the `DeleteVpc` operation on the `EC2` service.
     ///
     /// Deletes the specified VPC. You must detach or delete all gateways and resources that are associated with the VPC before you can delete it. For example, you must terminate all instances running in the VPC, delete all security groups associated with the VPC (except the default one), delete all route tables associated with the VPC (except the default one), and so on. When you delete the VPC, it deletes the default security group, network ACL, and route table for the VPC. If you created a flow log for the VPC that you are deleting, note that flow logs for deleted VPCs are eventually automatically removed.
     ///
@@ -14039,7 +14039,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteVpcBlockPublicAccessExclusion` operation on the `AmazonEC2` service.
+    /// Performs the `DeleteVpcBlockPublicAccessExclusion` operation on the `EC2` service.
     ///
     /// Delete a VPC Block Public Access (BPA) exclusion. A VPC BPA exclusion is a mode that can be applied to a single VPC or subnet that exempts it from the account’s BPA mode and will allow bidirectional or egress-only access. You can create BPA exclusions for VPCs and subnets even when BPA is not enabled on the account to ensure that there is no traffic disruption to the exclusions when VPC BPA is turned on. To learn more about VPC BPA, see [Block public access to VPCs and subnets](https://docs.aws.amazon.com/vpc/latest/userguide/security-vpc-bpa.html) in the Amazon VPC User Guide.
     ///
@@ -14103,7 +14103,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteVpcEndpointConnectionNotifications` operation on the `AmazonEC2` service.
+    /// Performs the `DeleteVpcEndpointConnectionNotifications` operation on the `EC2` service.
     ///
     /// Deletes the specified VPC endpoint connection notifications.
     ///
@@ -14167,7 +14167,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteVpcEndpointServiceConfigurations` operation on the `AmazonEC2` service.
+    /// Performs the `DeleteVpcEndpointServiceConfigurations` operation on the `EC2` service.
     ///
     /// Deletes the specified VPC endpoint service configurations. Before you can delete an endpoint service configuration, you must reject any Available or PendingAcceptance interface endpoint connections that are attached to the service.
     ///
@@ -14231,7 +14231,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteVpcEndpoints` operation on the `AmazonEC2` service.
+    /// Performs the `DeleteVpcEndpoints` operation on the `EC2` service.
     ///
     /// Deletes the specified VPC endpoints. When you delete a gateway endpoint, we delete the endpoint routes in the route tables for the endpoint. When you delete a Gateway Load Balancer endpoint, we delete its endpoint network interfaces. You can only delete Gateway Load Balancer endpoints when the routes that are associated with the endpoint are deleted. When you delete an interface endpoint, we delete its endpoint network interfaces.
     ///
@@ -14295,7 +14295,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteVpcPeeringConnection` operation on the `AmazonEC2` service.
+    /// Performs the `DeleteVpcPeeringConnection` operation on the `EC2` service.
     ///
     /// Deletes a VPC peering connection. Either the owner of the requester VPC or the owner of the accepter VPC can delete the VPC peering connection if it's in the active state. The owner of the requester VPC can delete a VPC peering connection in the pending-acceptance state. You cannot delete a VPC peering connection that's in the failed or rejected state.
     ///
@@ -14359,7 +14359,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteVpnConnection` operation on the `AmazonEC2` service.
+    /// Performs the `DeleteVpnConnection` operation on the `EC2` service.
     ///
     /// Deletes the specified VPN connection. If you're deleting the VPC and its associated components, we recommend that you detach the virtual private gateway from the VPC and delete the VPC before deleting the VPN connection. If you believe that the tunnel credentials for your VPN connection have been compromised, you can delete the VPN connection and create a new one that has new keys, without needing to delete the VPC or virtual private gateway. If you create a new VPN connection, you must reconfigure the customer gateway device using the new configuration information returned with the new VPN connection ID. For certificate-based authentication, delete all Certificate Manager (ACM) private certificates used for the Amazon Web Services-side tunnel endpoints for the VPN connection before deleting the VPN connection.
     ///
@@ -14423,7 +14423,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteVpnConnectionRoute` operation on the `AmazonEC2` service.
+    /// Performs the `DeleteVpnConnectionRoute` operation on the `EC2` service.
     ///
     /// Deletes the specified static route associated with a VPN connection between an existing virtual private gateway and a VPN customer gateway. The static route allows traffic to be routed from the virtual private gateway to the VPN customer gateway.
     ///
@@ -14487,7 +14487,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteVpnGateway` operation on the `AmazonEC2` service.
+    /// Performs the `DeleteVpnGateway` operation on the `EC2` service.
     ///
     /// Deletes the specified virtual private gateway. You must first detach the virtual private gateway from the VPC. Note that you don't need to delete the virtual private gateway if you plan to delete and recreate the VPN connection between your VPC and your network.
     ///
@@ -14551,7 +14551,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeprovisionByoipCidr` operation on the `AmazonEC2` service.
+    /// Performs the `DeprovisionByoipCidr` operation on the `EC2` service.
     ///
     /// Releases the specified address range that you provisioned for use with your Amazon Web Services resources through bring your own IP addresses (BYOIP) and deletes the corresponding address pool. Before you can release an address range, you must stop advertising it using [WithdrawByoipCidr] and you must not have any IP addresses allocated from its address range.
     ///
@@ -14615,7 +14615,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeprovisionIpamByoasn` operation on the `AmazonEC2` service.
+    /// Performs the `DeprovisionIpamByoasn` operation on the `EC2` service.
     ///
     /// Deprovisions your Autonomous System Number (ASN) from your Amazon Web Services account. This action can only be called after any BYOIP CIDR associations are removed from your Amazon Web Services account with [DisassociateIpamByoasn](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DisassociateIpamByoasn.html). For more information, see [Tutorial: Bring your ASN to IPAM](https://docs.aws.amazon.com/vpc/latest/ipam/tutorials-byoasn.html) in the Amazon VPC IPAM guide.
     ///
@@ -14679,7 +14679,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeprovisionIpamPoolCidr` operation on the `AmazonEC2` service.
+    /// Performs the `DeprovisionIpamPoolCidr` operation on the `EC2` service.
     ///
     /// Deprovision a CIDR provisioned from an IPAM pool. If you deprovision a CIDR from a pool that has a source pool, the CIDR is recycled back into the source pool. For more information, see [Deprovision pool CIDRs](https://docs.aws.amazon.com/vpc/latest/ipam/depro-pool-cidr-ipam.html) in the Amazon VPC IPAM User Guide.
     ///
@@ -14743,7 +14743,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeprovisionPublicIpv4PoolCidr` operation on the `AmazonEC2` service.
+    /// Performs the `DeprovisionPublicIpv4PoolCidr` operation on the `EC2` service.
     ///
     /// Deprovision a CIDR from a public IPv4 pool.
     ///
@@ -14807,7 +14807,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeregisterImage` operation on the `AmazonEC2` service.
+    /// Performs the `DeregisterImage` operation on the `EC2` service.
     ///
     /// Deregisters the specified AMI. After you deregister an AMI, it can't be used to launch new instances. If you deregister an AMI that matches a Recycle Bin retention rule, the AMI is retained in the Recycle Bin for the specified retention period. For more information, see [Recycle Bin](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/recycle-bin.html) in the Amazon EC2 User Guide. When you deregister an AMI, it doesn't affect any instances that you've already launched from the AMI. You'll continue to incur usage costs for those instances until you terminate them. When you deregister an Amazon EBS-backed AMI, it doesn't affect the snapshot that was created for the root volume of the instance during the AMI creation process. When you deregister an instance store-backed AMI, it doesn't affect the files that you uploaded to Amazon S3 when you created the AMI.
     ///
@@ -14871,7 +14871,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeregisterInstanceEventNotificationAttributes` operation on the `AmazonEC2` service.
+    /// Performs the `DeregisterInstanceEventNotificationAttributes` operation on the `EC2` service.
     ///
     /// Deregisters tag keys to prevent tags that have the specified tag keys from being included in scheduled event notifications for resources in the Region.
     ///
@@ -14935,7 +14935,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeregisterTransitGatewayMulticastGroupMembers` operation on the `AmazonEC2` service.
+    /// Performs the `DeregisterTransitGatewayMulticastGroupMembers` operation on the `EC2` service.
     ///
     /// Deregisters the specified members (network interfaces) from the transit gateway multicast group.
     ///
@@ -14999,7 +14999,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeregisterTransitGatewayMulticastGroupSources` operation on the `AmazonEC2` service.
+    /// Performs the `DeregisterTransitGatewayMulticastGroupSources` operation on the `EC2` service.
     ///
     /// Deregisters the specified sources (network interfaces) from the transit gateway multicast group.
     ///
@@ -15063,7 +15063,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeAccountAttributes` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeAccountAttributes` operation on the `EC2` service.
     ///
     /// Describes attributes of your Amazon Web Services account. The following are the supported account attributes:
     ///
@@ -15142,7 +15142,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeAddressTransfers` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeAddressTransfers` operation on the `EC2` service.
     ///
     /// Describes an Elastic IP address transfer. For more information, see [Transfer Elastic IP addresses](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-eips.html#transfer-EIPs-intro) in the Amazon VPC User Guide. When you transfer an Elastic IP address, there is a two-step handshake between the source and transfer Amazon Web Services accounts. When the source account starts the transfer, the transfer account has seven days to accept the Elastic IP address transfer. During those seven days, the source account can view the pending transfer by using this action. After seven days, the transfer expires and ownership of the Elastic IP address returns to the source account. Accepted transfers are visible to the source account for 14 days after the transfers have been accepted.
     ///
@@ -15206,7 +15206,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeAddresses` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeAddresses` operation on the `EC2` service.
     ///
     /// Describes the specified Elastic IP addresses or all of your Elastic IP addresses.
     ///
@@ -15270,7 +15270,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeAddressesAttribute` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeAddressesAttribute` operation on the `EC2` service.
     ///
     /// Describes the attributes of the specified Elastic IP addresses. For requirements, see [Using reverse DNS for email applications](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html#Using_Elastic_Addressing_Reverse_DNS).
     ///
@@ -15334,7 +15334,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeAggregateIdFormat` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeAggregateIdFormat` operation on the `EC2` service.
     ///
     /// Describes the longer ID format settings for all resource types in a specific Region. This request is useful for performing a quick audit to determine whether a specific Region is fully opted in for longer IDs (17-character IDs). This request only returns information about resource types that support longer IDs. The following resource types support longer IDs: bundle | conversion-task | customer-gateway | dhcp-options | elastic-ip-allocation | elastic-ip-association | export-task | flow-log | image | import-task | instance | internet-gateway | network-acl | network-acl-association | network-interface | network-interface-attachment | prefix-list | reservation | route-table | route-table-association | security-group | snapshot | subnet | subnet-cidr-block-association | volume | vpc | vpc-cidr-block-association | vpc-endpoint | vpc-peering-connection | vpn-connection | vpn-gateway.
     ///
@@ -15398,7 +15398,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeAvailabilityZones` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeAvailabilityZones` operation on the `EC2` service.
     ///
     /// Describes the Availability Zones, Local Zones, and Wavelength Zones that are available to you. If there is an event impacting a zone, you can use this request to view the state and any provided messages for that zone. For more information about Availability Zones, Local Zones, and Wavelength Zones, see [Regions and zones](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html) in the Amazon EC2 User Guide. The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     ///
@@ -15462,7 +15462,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeAwsNetworkPerformanceMetricSubscriptions` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeAwsNetworkPerformanceMetricSubscriptions` operation on the `EC2` service.
     ///
     /// Describes the current Infrastructure Performance metric subscriptions.
     ///
@@ -15526,7 +15526,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeBundleTasks` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeBundleTasks` operation on the `EC2` service.
     ///
     /// Describes the specified bundle tasks or all of your bundle tasks. Completed bundle tasks are listed for only a limited time. If your bundle task is no longer in the list, you can still register an AMI from it. Just use RegisterImage with the Amazon S3 bucket name and image manifest name you provided to the bundle task. The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     ///
@@ -15590,7 +15590,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeByoipCidrs` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeByoipCidrs` operation on the `EC2` service.
     ///
     /// Describes the IP address ranges that were specified in calls to [ProvisionByoipCidr]. To describe the address pools that were created when you provisioned the address ranges, use [DescribePublicIpv4Pools] or [DescribeIpv6Pools].
     ///
@@ -15654,7 +15654,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeCapacityBlockExtensionHistory` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeCapacityBlockExtensionHistory` operation on the `EC2` service.
     ///
     /// Describes the events for the specified Capacity Block extension during the specified time.
     ///
@@ -15718,7 +15718,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeCapacityBlockExtensionOfferings` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeCapacityBlockExtensionOfferings` operation on the `EC2` service.
     ///
     /// Describes Capacity Block extension offerings available for purchase in the Amazon Web Services Region that you're currently using.
     ///
@@ -15782,7 +15782,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeCapacityBlockOfferings` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeCapacityBlockOfferings` operation on the `EC2` service.
     ///
     /// Describes Capacity Block offerings available for purchase in the Amazon Web Services Region that you're currently using. With Capacity Blocks, you purchase a specific instance type for a period of time.
     ///
@@ -15846,7 +15846,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeCapacityReservationBillingRequests` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeCapacityReservationBillingRequests` operation on the `EC2` service.
     ///
     /// Describes a request to assign the billing of the unused capacity of a Capacity Reservation. For more information, see [ Billing assignment for shared Amazon EC2 Capacity Reservations](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/transfer-billing.html).
     ///
@@ -15910,7 +15910,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeCapacityReservationFleets` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeCapacityReservationFleets` operation on the `EC2` service.
     ///
     /// Describes one or more Capacity Reservation Fleets.
     ///
@@ -15974,7 +15974,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeCapacityReservations` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeCapacityReservations` operation on the `EC2` service.
     ///
     /// Describes one or more of your Capacity Reservations. The results describe only the Capacity Reservations in the Amazon Web Services Region that you're currently using.
     ///
@@ -16038,7 +16038,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeCarrierGateways` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeCarrierGateways` operation on the `EC2` service.
     ///
     /// Describes one or more of your carrier gateways.
     ///
@@ -16102,7 +16102,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeClassicLinkInstances` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeClassicLinkInstances` operation on the `EC2` service.
     ///
     /// This action is deprecated. Describes your linked EC2-Classic instances. This request only returns information about EC2-Classic instances linked to a VPC through ClassicLink. You cannot use this request to return information about other instances.
     ///
@@ -16166,7 +16166,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeClientVpnAuthorizationRules` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeClientVpnAuthorizationRules` operation on the `EC2` service.
     ///
     /// Describes the authorization rules for a specified Client VPN endpoint.
     ///
@@ -16230,7 +16230,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeClientVpnConnections` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeClientVpnConnections` operation on the `EC2` service.
     ///
     /// Describes active client connections and connections that have been terminated within the last 60 minutes for the specified Client VPN endpoint.
     ///
@@ -16294,7 +16294,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeClientVpnEndpoints` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeClientVpnEndpoints` operation on the `EC2` service.
     ///
     /// Describes one or more Client VPN endpoints in the account.
     ///
@@ -16358,7 +16358,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeClientVpnRoutes` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeClientVpnRoutes` operation on the `EC2` service.
     ///
     /// Describes the routes for the specified Client VPN endpoint.
     ///
@@ -16422,7 +16422,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeClientVpnTargetNetworks` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeClientVpnTargetNetworks` operation on the `EC2` service.
     ///
     /// Describes the target networks associated with the specified Client VPN endpoint.
     ///
@@ -16486,7 +16486,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeCoipPools` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeCoipPools` operation on the `EC2` service.
     ///
     /// Describes the specified customer-owned address pools or all of your customer-owned address pools.
     ///
@@ -16550,7 +16550,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeConversionTasks` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeConversionTasks` operation on the `EC2` service.
     ///
     /// Describes the specified conversion tasks or all your conversion tasks. For more information, see the [VM Import/Export User Guide](https://docs.aws.amazon.com/vm-import/latest/userguide/). For information about the import manifest referenced by this API action, see [VM Import Manifest](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/manifest.html).
     ///
@@ -16614,7 +16614,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeCustomerGateways` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeCustomerGateways` operation on the `EC2` service.
     ///
     /// Describes one or more of your VPN customer gateways. For more information, see [Amazon Web Services Site-to-Site VPN](https://docs.aws.amazon.com/vpn/latest/s2svpn/VPC_VPN.html) in the Amazon Web Services Site-to-Site VPN User Guide.
     ///
@@ -16678,7 +16678,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeDeclarativePoliciesReports` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeDeclarativePoliciesReports` operation on the `EC2` service.
     ///
     /// Describes the metadata of an account status report, including the status of the report. To view the full report, download it from the Amazon S3 bucket where it was saved. Reports are accessible only when they have the complete status. Reports with other statuses (running, cancelled, or error) are not available in the S3 bucket. For more information about downloading objects from an S3 bucket, see [Downloading objects](https://docs.aws.amazon.com/AmazonS3/latest/userguide/download-objects.html) in the Amazon Simple Storage Service User Guide. For more information, see [Generating the account status report for declarative policies](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_declarative_status-report.html) in the Amazon Web Services Organizations User Guide.
     ///
@@ -16742,7 +16742,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeDhcpOptions` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeDhcpOptions` operation on the `EC2` service.
     ///
     /// Describes your DHCP option sets. The default is to describe all your DHCP option sets. Alternatively, you can specify specific DHCP option set IDs or filter the results to include only the DHCP option sets that match specific criteria. For more information, see [DHCP option sets](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_DHCP_Options.html) in the Amazon VPC User Guide.
     ///
@@ -16806,7 +16806,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeEgressOnlyInternetGateways` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeEgressOnlyInternetGateways` operation on the `EC2` service.
     ///
     /// Describes your egress-only internet gateways. The default is to describe all your egress-only internet gateways. Alternatively, you can specify specific egress-only internet gateway IDs or filter the results to include only the egress-only internet gateways that match specific criteria.
     ///
@@ -16870,7 +16870,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeElasticGpus` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeElasticGpus` operation on the `EC2` service.
     ///
     /// Amazon Elastic Graphics reached end of life on January 8, 2024. Describes the Elastic Graphics accelerator associated with your instances.
     ///
@@ -16934,7 +16934,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeExportImageTasks` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeExportImageTasks` operation on the `EC2` service.
     ///
     /// Describes the specified export image tasks or all of your export image tasks.
     ///
@@ -16998,7 +16998,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeExportTasks` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeExportTasks` operation on the `EC2` service.
     ///
     /// Describes the specified export instance tasks or all of your export instance tasks.
     ///
@@ -17062,7 +17062,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeFastLaunchImages` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeFastLaunchImages` operation on the `EC2` service.
     ///
     /// Describe details for Windows AMIs that are configured for Windows fast launch.
     ///
@@ -17126,7 +17126,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeFastSnapshotRestores` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeFastSnapshotRestores` operation on the `EC2` service.
     ///
     /// Describes the state of fast snapshot restores for your snapshots.
     ///
@@ -17190,7 +17190,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeFleetHistory` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeFleetHistory` operation on the `EC2` service.
     ///
     /// Describes the events for the specified EC2 Fleet during the specified time. EC2 Fleet events are delayed by up to 30 seconds before they can be described. This ensures that you can query by the last evaluated time and not miss a recorded event. EC2 Fleet events are available for 48 hours. For more information, see [Monitor fleet events using Amazon EventBridge](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/fleet-monitor.html) in the Amazon EC2 User Guide.
     ///
@@ -17254,7 +17254,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeFleetInstances` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeFleetInstances` operation on the `EC2` service.
     ///
     /// Describes the running instances for the specified EC2 Fleet. Currently, DescribeFleetInstances does not support fleets of type instant. Instead, use DescribeFleets, specifying the instant fleet ID in the request. For more information, see [Describe your EC2 Fleet](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/manage-ec2-fleet.html#monitor-ec2-fleet) in the Amazon EC2 User Guide.
     ///
@@ -17318,7 +17318,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeFleets` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeFleets` operation on the `EC2` service.
     ///
     /// Describes the specified EC2 Fleet or all of your EC2 Fleets. If a fleet is of type instant, you must specify the fleet ID in the request, otherwise the fleet does not appear in the response. For more information, see [Describe your EC2 Fleet](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/manage-ec2-fleet.html#monitor-ec2-fleet) in the Amazon EC2 User Guide.
     ///
@@ -17382,7 +17382,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeFlowLogs` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeFlowLogs` operation on the `EC2` service.
     ///
     /// Describes one or more flow logs. To view the published flow log records, you must view the log destination. For example, the CloudWatch Logs log group, the Amazon S3 bucket, or the Kinesis Data Firehose delivery stream.
     ///
@@ -17446,7 +17446,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeFpgaImageAttribute` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeFpgaImageAttribute` operation on the `EC2` service.
     ///
     /// Describes the specified attribute of the specified Amazon FPGA Image (AFI).
     ///
@@ -17510,7 +17510,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeFpgaImages` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeFpgaImages` operation on the `EC2` service.
     ///
     /// Describes the Amazon FPGA Images (AFIs) available to you. These include public AFIs, private AFIs that you own, and AFIs owned by other Amazon Web Services accounts for which you have load permissions.
     ///
@@ -17574,7 +17574,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeHostReservationOfferings` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeHostReservationOfferings` operation on the `EC2` service.
     ///
     /// Describes the Dedicated Host reservations that are available to purchase. The results describe all of the Dedicated Host reservation offerings, including offerings that might not match the instance family and Region of your Dedicated Hosts. When purchasing an offering, ensure that the instance family and Region of the offering matches that of the Dedicated Hosts with which it is to be associated. For more information about supported instance types, see [Dedicated Hosts](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/dedicated-hosts-overview.html) in the Amazon EC2 User Guide.
     ///
@@ -17638,7 +17638,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeHostReservations` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeHostReservations` operation on the `EC2` service.
     ///
     /// Describes reservations that are associated with Dedicated Hosts in your account.
     ///
@@ -17702,7 +17702,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeHosts` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeHosts` operation on the `EC2` service.
     ///
     /// Describes the specified Dedicated Hosts or all your Dedicated Hosts. The results describe only the Dedicated Hosts in the Region you're currently using. All listed instances consume capacity on your Dedicated Host. Dedicated Hosts that have recently been released are listed with the state released.
     ///
@@ -17766,7 +17766,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeIamInstanceProfileAssociations` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeIamInstanceProfileAssociations` operation on the `EC2` service.
     ///
     /// Describes your IAM instance profile associations.
     ///
@@ -17830,7 +17830,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeIdFormat` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeIdFormat` operation on the `EC2` service.
     ///
     /// Describes the ID format settings for your resources on a per-Region basis, for example, to view which resource types are enabled for longer IDs. This request only returns information about resource types whose ID formats can be modified; it does not return information about other resource types. The following resource types support longer IDs: bundle | conversion-task | customer-gateway | dhcp-options | elastic-ip-allocation | elastic-ip-association | export-task | flow-log | image | import-task | instance | internet-gateway | network-acl | network-acl-association | network-interface | network-interface-attachment | prefix-list | reservation | route-table | route-table-association | security-group | snapshot | subnet | subnet-cidr-block-association | volume | vpc | vpc-cidr-block-association | vpc-endpoint | vpc-peering-connection | vpn-connection | vpn-gateway. These settings apply to the IAM user who makes the request; they do not apply to the entire Amazon Web Services account. By default, an IAM user defaults to the same settings as the root user, unless they explicitly override the settings by running the [ModifyIdFormat] command. Resources created with longer IDs are visible to all IAM users, regardless of these settings and provided that they have permission to use the relevant Describe command for the resource type.
     ///
@@ -17894,7 +17894,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeIdentityIdFormat` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeIdentityIdFormat` operation on the `EC2` service.
     ///
     /// Describes the ID format settings for resources for the specified IAM user, IAM role, or root user. For example, you can view the resource types that are enabled for longer IDs. This request only returns information about resource types whose ID formats can be modified; it does not return information about other resource types. For more information, see [Resource IDs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/resource-ids.html) in the Amazon Elastic Compute Cloud User Guide. The following resource types support longer IDs: bundle | conversion-task | customer-gateway | dhcp-options | elastic-ip-allocation | elastic-ip-association | export-task | flow-log | image | import-task | instance | internet-gateway | network-acl | network-acl-association | network-interface | network-interface-attachment | prefix-list | reservation | route-table | route-table-association | security-group | snapshot | subnet | subnet-cidr-block-association | volume | vpc | vpc-cidr-block-association | vpc-endpoint | vpc-peering-connection | vpn-connection | vpn-gateway. These settings apply to the principal specified in the request. They do not apply to the principal that makes the request.
     ///
@@ -17958,7 +17958,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeImageAttribute` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeImageAttribute` operation on the `EC2` service.
     ///
     /// Describes the specified attribute of the specified AMI. You can specify only one attribute at a time. The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     ///
@@ -18022,7 +18022,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeImages` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeImages` operation on the `EC2` service.
     ///
     /// Describes the specified images (AMIs, AKIs, and ARIs) available to you or all of the images available to you. The images available to you include public images, private images that you own, and private images owned by other Amazon Web Services accounts for which you have explicit launch permissions. Recently deregistered images appear in the returned results for a short interval and then return empty results. After all instances that reference a deregistered AMI are terminated, specifying the ID of the image will eventually return an error indicating that the AMI ID cannot be found. When Allowed AMIs is set to enabled, only allowed images are returned in the results, with the imageAllowed field set to true for each image. In audit-mode, the imageAllowed field is set to true for images that meet the account's Allowed AMIs criteria, and false for images that don't meet the criteria. For more information, see [EnableAllowedImagesSettings]. We strongly recommend using only paginated requests. Unpaginated requests are susceptible to throttling and timeouts. The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     ///
@@ -18086,7 +18086,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeImportImageTasks` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeImportImageTasks` operation on the `EC2` service.
     ///
     /// Displays details about an import virtual machine or import snapshot tasks that are already created.
     ///
@@ -18150,7 +18150,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeImportSnapshotTasks` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeImportSnapshotTasks` operation on the `EC2` service.
     ///
     /// Describes your import snapshot tasks.
     ///
@@ -18214,7 +18214,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeInstanceAttribute` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeInstanceAttribute` operation on the `EC2` service.
     ///
     /// Describes the specified attribute of the specified instance. You can specify only one attribute at a time. Valid attribute values are: instanceType | kernel | ramdisk | userData | disableApiTermination | instanceInitiatedShutdownBehavior | rootDeviceName | blockDeviceMapping | productCodes | sourceDestCheck | groupSet | ebsOptimized | sriovNetSupport
     ///
@@ -18278,7 +18278,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeInstanceConnectEndpoints` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeInstanceConnectEndpoints` operation on the `EC2` service.
     ///
     /// Describes the specified EC2 Instance Connect Endpoints or all EC2 Instance Connect Endpoints.
     ///
@@ -18342,7 +18342,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeInstanceCreditSpecifications` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeInstanceCreditSpecifications` operation on the `EC2` service.
     ///
     /// Describes the credit option for CPU usage of the specified burstable performance instances. The credit options are standard and unlimited. If you do not specify an instance ID, Amazon EC2 returns burstable performance instances with the unlimited credit option, as well as instances that were previously configured as T2, T3, and T3a with the unlimited credit option. For example, if you resize a T2 instance, while it is configured as unlimited, to an M4 instance, Amazon EC2 returns the M4 instance. If you specify one or more instance IDs, Amazon EC2 returns the credit option (standard or unlimited) of those instances. If you specify an instance ID that is not valid, such as an instance that is not a burstable performance instance, an error is returned. Recently terminated instances might appear in the returned results. This interval is usually less than one hour. If an Availability Zone is experiencing a service disruption and you specify instance IDs in the affected zone, or do not specify any instance IDs at all, the call fails. If you specify only instance IDs in an unaffected zone, the call works normally. For more information, see [Burstable performance instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-performance-instances.html) in the Amazon EC2 User Guide.
     ///
@@ -18406,7 +18406,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeInstanceEventNotificationAttributes` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeInstanceEventNotificationAttributes` operation on the `EC2` service.
     ///
     /// Describes the tag keys that are registered to appear in scheduled event notifications for resources in the current Region.
     ///
@@ -18470,7 +18470,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeInstanceEventWindows` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeInstanceEventWindows` operation on the `EC2` service.
     ///
     /// Describes the specified event windows or all event windows. If you specify event window IDs, the output includes information for only the specified event windows. If you specify filters, the output includes information for only those event windows that meet the filter criteria. If you do not specify event windows IDs or filters, the output includes information for all event windows, which can affect performance. We recommend that you use pagination to ensure that the operation returns quickly and successfully. For more information, see [Define event windows for scheduled events](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/event-windows.html) in the Amazon EC2 User Guide.
     ///
@@ -18534,7 +18534,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeInstanceImageMetadata` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeInstanceImageMetadata` operation on the `EC2` service.
     ///
     /// Describes the AMI that was used to launch an instance, even if the AMI is deprecated, deregistered, made private (no longer public or shared with your account), or not allowed. If you specify instance IDs, the output includes information for only the specified instances. If you specify filters, the output includes information for only those instances that meet the filter criteria. If you do not specify instance IDs or filters, the output includes information for all instances, which can affect performance. If you specify an instance ID that is not valid, an instance that doesn't exist, or an instance that you do not own, an error (InvalidInstanceID.NotFound) is returned. Recently terminated instances might appear in the returned results. This interval is usually less than one hour. In the rare case where an Availability Zone is experiencing a service disruption and you specify instance IDs that are in the affected Availability Zone, or do not specify any instance IDs at all, the call fails. If you specify only instance IDs that are in an unaffected Availability Zone, the call works normally. The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     ///
@@ -18598,7 +18598,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeInstanceStatus` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeInstanceStatus` operation on the `EC2` service.
     ///
     /// Describes the status of the specified instances or all of your instances. By default, only running instances are described, unless you specifically indicate to return the status of all instances. Instance status includes the following components:
     ///
@@ -18671,7 +18671,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeInstanceTopology` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeInstanceTopology` operation on the `EC2` service.
     ///
     /// Describes a tree-based hierarchy that represents the physical host placement of your EC2 instances within an Availability Zone or Local Zone. You can use this information to determine the relative proximity of your EC2 instances within the Amazon Web Services network to support your tightly coupled workloads. Limitations
     ///
@@ -18758,7 +18758,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeInstanceTypeOfferings` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeInstanceTypeOfferings` operation on the `EC2` service.
     ///
     /// Lists the instance types that are offered for the specified location. If no location is specified, the default is to list the instance types that are offered in the current Region.
     ///
@@ -18822,7 +18822,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeInstanceTypes` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeInstanceTypes` operation on the `EC2` service.
     ///
     /// Describes the specified instance types. By default, all instance types for the current Region are described. Alternatively, you can filter the results.
     ///
@@ -18886,7 +18886,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeInstances` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeInstances` operation on the `EC2` service.
     ///
     /// Describes the specified instances or all instances. If you specify instance IDs, the output includes information for only the specified instances. If you specify filters, the output includes information for only those instances that meet the filter criteria. If you do not specify instance IDs or filters, the output includes information for all instances, which can affect performance. We recommend that you use pagination to ensure that the operation returns quickly and successfully. If you specify an instance ID that is not valid, an error is returned. If you specify an instance that you do not own, it is not included in the output. Recently terminated instances might appear in the returned results. This interval is usually less than one hour. If you describe instances in the rare case where an Availability Zone is experiencing a service disruption and you specify instance IDs that are in the affected zone, or do not specify any instance IDs at all, the call fails. If you describe instances and specify only instance IDs that are in an unaffected zone, the call works normally. We strongly recommend using only paginated requests. Unpaginated requests are susceptible to throttling and timeouts. The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     ///
@@ -18950,7 +18950,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeInternetGateways` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeInternetGateways` operation on the `EC2` service.
     ///
     /// Describes your internet gateways. The default is to describe all your internet gateways. Alternatively, you can specify specific internet gateway IDs or filter the results to include only the internet gateways that match specific criteria.
     ///
@@ -19014,7 +19014,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeIpamByoasn` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeIpamByoasn` operation on the `EC2` service.
     ///
     /// Describes your Autonomous System Numbers (ASNs), their provisioning statuses, and the BYOIP CIDRs with which they are associated. For more information, see [Tutorial: Bring your ASN to IPAM](https://docs.aws.amazon.com/vpc/latest/ipam/tutorials-byoasn.html) in the Amazon VPC IPAM guide.
     ///
@@ -19078,7 +19078,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeIpamExternalResourceVerificationTokens` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeIpamExternalResourceVerificationTokens` operation on the `EC2` service.
     ///
     /// Describe verification tokens. A verification token is an Amazon Web Services-generated random value that you can use to prove ownership of an external resource. For example, you can use a verification token to validate that you control a public IP address range when you bring an IP address range to Amazon Web Services (BYOIP).
     ///
@@ -19142,7 +19142,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeIpamPools` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeIpamPools` operation on the `EC2` service.
     ///
     /// Get information about your IPAM pools.
     ///
@@ -19206,7 +19206,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeIpamResourceDiscoveries` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeIpamResourceDiscoveries` operation on the `EC2` service.
     ///
     /// Describes IPAM resource discoveries. A resource discovery is an IPAM component that enables IPAM to manage and monitor resources that belong to the owning account.
     ///
@@ -19270,7 +19270,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeIpamResourceDiscoveryAssociations` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeIpamResourceDiscoveryAssociations` operation on the `EC2` service.
     ///
     /// Describes resource discovery association with an Amazon VPC IPAM. An associated resource discovery is a resource discovery that has been associated with an IPAM..
     ///
@@ -19334,7 +19334,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeIpamScopes` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeIpamScopes` operation on the `EC2` service.
     ///
     /// Get information about your IPAM scopes.
     ///
@@ -19398,7 +19398,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeIpams` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeIpams` operation on the `EC2` service.
     ///
     /// Get information about your IPAM pools. For more information, see [What is IPAM?](https://docs.aws.amazon.com/vpc/latest/ipam/what-is-it-ipam.html) in the Amazon VPC IPAM User Guide.
     ///
@@ -19462,7 +19462,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeIpv6Pools` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeIpv6Pools` operation on the `EC2` service.
     ///
     /// Describes your IPv6 address pools.
     ///
@@ -19526,7 +19526,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeKeyPairs` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeKeyPairs` operation on the `EC2` service.
     ///
     /// Describes the specified key pairs or all of your key pairs. For more information about key pairs, see [Amazon EC2 key pairs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) in the Amazon EC2 User Guide.
     ///
@@ -19590,7 +19590,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeLaunchTemplateVersions` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeLaunchTemplateVersions` operation on the `EC2` service.
     ///
     /// Describes one or more versions of a specified launch template. You can describe all versions, individual versions, or a range of versions. You can also describe all the latest versions or all the default versions of all the launch templates in your account.
     ///
@@ -19654,7 +19654,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeLaunchTemplates` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeLaunchTemplates` operation on the `EC2` service.
     ///
     /// Describes one or more launch templates.
     ///
@@ -19718,7 +19718,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociations` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociations` operation on the `EC2` service.
     ///
     /// Describes the associations between virtual interface groups and local gateway route tables.
     ///
@@ -19782,7 +19782,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeLocalGatewayRouteTableVpcAssociations` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeLocalGatewayRouteTableVpcAssociations` operation on the `EC2` service.
     ///
     /// Describes the specified associations between VPCs and local gateway route tables.
     ///
@@ -19846,7 +19846,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeLocalGatewayRouteTables` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeLocalGatewayRouteTables` operation on the `EC2` service.
     ///
     /// Describes one or more local gateway route tables. By default, all local gateway route tables are described. Alternatively, you can filter the results.
     ///
@@ -19910,7 +19910,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeLocalGatewayVirtualInterfaceGroups` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeLocalGatewayVirtualInterfaceGroups` operation on the `EC2` service.
     ///
     /// Describes the specified local gateway virtual interface groups.
     ///
@@ -19974,7 +19974,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeLocalGatewayVirtualInterfaces` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeLocalGatewayVirtualInterfaces` operation on the `EC2` service.
     ///
     /// Describes the specified local gateway virtual interfaces.
     ///
@@ -20038,7 +20038,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeLocalGateways` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeLocalGateways` operation on the `EC2` service.
     ///
     /// Describes one or more local gateways. By default, all local gateways are described. Alternatively, you can filter the results.
     ///
@@ -20102,7 +20102,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeLockedSnapshots` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeLockedSnapshots` operation on the `EC2` service.
     ///
     /// Describes the lock status for a snapshot.
     ///
@@ -20166,7 +20166,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeMacHosts` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeMacHosts` operation on the `EC2` service.
     ///
     /// Describes the specified EC2 Mac Dedicated Host or all of your EC2 Mac Dedicated Hosts.
     ///
@@ -20230,7 +20230,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeManagedPrefixLists` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeManagedPrefixLists` operation on the `EC2` service.
     ///
     /// Describes your managed prefix lists and any Amazon Web Services-managed prefix lists. To view the entries for your prefix list, use [GetManagedPrefixListEntries].
     ///
@@ -20294,7 +20294,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeMovingAddresses` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeMovingAddresses` operation on the `EC2` service.
     ///
     /// This action is deprecated. Describes your Elastic IP addresses that are being moved from or being restored to the EC2-Classic platform. This request does not return information about any other Elastic IP addresses in your account.
     ///
@@ -20358,7 +20358,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeNatGateways` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeNatGateways` operation on the `EC2` service.
     ///
     /// Describes your NAT gateways. The default is to describe all your NAT gateways. Alternatively, you can specify specific NAT gateway IDs or filter the results to include only the NAT gateways that match specific criteria.
     ///
@@ -20422,7 +20422,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeNetworkAcls` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeNetworkAcls` operation on the `EC2` service.
     ///
     /// Describes your network ACLs. The default is to describe all your network ACLs. Alternatively, you can specify specific network ACL IDs or filter the results to include only the network ACLs that match specific criteria. For more information, see [Network ACLs](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-network-acls.html) in the Amazon VPC User Guide.
     ///
@@ -20486,7 +20486,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeNetworkInsightsAccessScopeAnalyses` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeNetworkInsightsAccessScopeAnalyses` operation on the `EC2` service.
     ///
     /// Describes the specified Network Access Scope analyses.
     ///
@@ -20550,7 +20550,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeNetworkInsightsAccessScopes` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeNetworkInsightsAccessScopes` operation on the `EC2` service.
     ///
     /// Describes the specified Network Access Scopes.
     ///
@@ -20614,7 +20614,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeNetworkInsightsAnalyses` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeNetworkInsightsAnalyses` operation on the `EC2` service.
     ///
     /// Describes one or more of your network insights analyses.
     ///
@@ -20678,7 +20678,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeNetworkInsightsPaths` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeNetworkInsightsPaths` operation on the `EC2` service.
     ///
     /// Describes one or more of your paths.
     ///
@@ -20742,7 +20742,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeNetworkInterfaceAttribute` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeNetworkInterfaceAttribute` operation on the `EC2` service.
     ///
     /// Describes a network interface attribute. You can specify only one attribute at a time.
     ///
@@ -20806,7 +20806,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeNetworkInterfacePermissions` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeNetworkInterfacePermissions` operation on the `EC2` service.
     ///
     /// Describes the permissions for your network interfaces.
     ///
@@ -20870,7 +20870,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeNetworkInterfaces` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeNetworkInterfaces` operation on the `EC2` service.
     ///
     /// Describes one or more of your network interfaces. If you have a large number of network interfaces, the operation fails unless you use pagination or one of the following filters: group-id, mac-address, private-dns-name, private-ip-address, private-dns-name, subnet-id, or vpc-id. We strongly recommend using only paginated requests. Unpaginated requests are susceptible to throttling and timeouts.
     ///
@@ -20934,7 +20934,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribePlacementGroups` operation on the `AmazonEC2` service.
+    /// Performs the `DescribePlacementGroups` operation on the `EC2` service.
     ///
     /// Describes the specified placement groups or all of your placement groups. To describe a specific placement group that is shared with your account, you must specify the ID of the placement group using the GroupId parameter. Specifying the name of a shared placement group using the GroupNames parameter will result in an error. For more information, see [Placement groups](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-groups.html) in the Amazon EC2 User Guide.
     ///
@@ -20998,7 +20998,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribePrefixLists` operation on the `AmazonEC2` service.
+    /// Performs the `DescribePrefixLists` operation on the `EC2` service.
     ///
     /// Describes available Amazon Web Services services in a prefix list format, which includes the prefix list name and prefix list ID of the service and the IP address range for the service. We recommend that you use [DescribeManagedPrefixLists] instead.
     ///
@@ -21062,7 +21062,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribePrincipalIdFormat` operation on the `AmazonEC2` service.
+    /// Performs the `DescribePrincipalIdFormat` operation on the `EC2` service.
     ///
     /// Describes the ID format settings for the root user and all IAM roles and IAM users that have explicitly specified a longer ID (17-character ID) preference. By default, all IAM roles and IAM users default to the same ID settings as the root user, unless they explicitly override the settings. This request is useful for identifying those IAM users and IAM roles that have overridden the default ID settings. The following resource types support longer IDs: bundle | conversion-task | customer-gateway | dhcp-options | elastic-ip-allocation | elastic-ip-association | export-task | flow-log | image | import-task | instance | internet-gateway | network-acl | network-acl-association | network-interface | network-interface-attachment | prefix-list | reservation | route-table | route-table-association | security-group | snapshot | subnet | subnet-cidr-block-association | volume | vpc | vpc-cidr-block-association | vpc-endpoint | vpc-peering-connection | vpn-connection | vpn-gateway.
     ///
@@ -21126,7 +21126,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribePublicIpv4Pools` operation on the `AmazonEC2` service.
+    /// Performs the `DescribePublicIpv4Pools` operation on the `EC2` service.
     ///
     /// Describes the specified IPv4 address pools.
     ///
@@ -21190,7 +21190,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeRegions` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeRegions` operation on the `EC2` service.
     ///
     /// Describes the Regions that are enabled for your account, or all Regions. For a list of the Regions supported by Amazon EC2, see [Amazon EC2 service endpoints](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-endpoints.html). For information about enabling and disabling Regions for your account, see [Specify which Amazon Web Services Regions your account can use](https://docs.aws.amazon.com/accounts/latest/reference/manage-acct-regions.html) in the Amazon Web Services Account Management Reference Guide. The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     ///
@@ -21254,7 +21254,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeReplaceRootVolumeTasks` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeReplaceRootVolumeTasks` operation on the `EC2` service.
     ///
     /// Describes a root volume replacement task. For more information, see [Replace a root volume](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/replace-root.html) in the Amazon EC2 User Guide.
     ///
@@ -21318,7 +21318,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeReservedInstances` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeReservedInstances` operation on the `EC2` service.
     ///
     /// Describes one or more of the Reserved Instances that you purchased. For more information about Reserved Instances, see [Reserved Instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/concepts-on-demand-reserved-instances.html) in the Amazon EC2 User Guide. The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     ///
@@ -21382,7 +21382,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeReservedInstancesListings` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeReservedInstancesListings` operation on the `EC2` service.
     ///
     /// Describes your account's Reserved Instance listings in the Reserved Instance Marketplace. The Reserved Instance Marketplace matches sellers who want to resell Reserved Instance capacity that they no longer need with buyers who want to purchase additional capacity. Reserved Instances bought and sold through the Reserved Instance Marketplace work like any other Reserved Instances. As a seller, you choose to list some or all of your Reserved Instances, and you specify the upfront price to receive for them. Your Reserved Instances are then listed in the Reserved Instance Marketplace and are available for purchase. As a buyer, you specify the configuration of the Reserved Instance to purchase, and the Marketplace matches what you're searching for with what's available. The Marketplace first sells the lowest priced Reserved Instances to you, and continues to sell available Reserved Instance listings to you until your demand is met. You are charged based on the total price of all of the listings that you purchase. For more information, see [Sell in the Reserved Instance Marketplace](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ri-market-general.html) in the Amazon EC2 User Guide. The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     ///
@@ -21446,7 +21446,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeReservedInstancesModifications` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeReservedInstancesModifications` operation on the `EC2` service.
     ///
     /// Describes the modifications made to your Reserved Instances. If no parameter is specified, information about all your Reserved Instances modification requests is returned. If a modification ID is specified, only information about the specific modification is returned. For more information, see [Modify Reserved Instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ri-modifying.html) in the Amazon EC2 User Guide. The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     ///
@@ -21510,7 +21510,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeReservedInstancesOfferings` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeReservedInstancesOfferings` operation on the `EC2` service.
     ///
     /// Describes Reserved Instance offerings that are available for purchase. With Reserved Instances, you purchase the right to launch instances for a period of time. During that time period, you do not receive insufficient capacity errors, and you pay a lower usage rate than the rate charged for On-Demand instances for the actual time used. If you have listed your own Reserved Instances for sale in the Reserved Instance Marketplace, they will be excluded from these results. This is to ensure that you do not purchase your own Reserved Instances. For more information, see [Sell in the Reserved Instance Marketplace](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ri-market-general.html) in the Amazon EC2 User Guide. The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     ///
@@ -21574,7 +21574,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeRouteTables` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeRouteTables` operation on the `EC2` service.
     ///
     /// Describes your route tables. The default is to describe all your route tables. Alternatively, you can specify specific route table IDs or filter the results to include only the route tables that match specific criteria. Each subnet in your VPC must be associated with a route table. If a subnet is not explicitly associated with any route table, it is implicitly associated with the main route table. This command does not return the subnet ID for implicit associations. For more information, see [Route tables](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Route_Tables.html) in the Amazon VPC User Guide.
     ///
@@ -21638,7 +21638,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeScheduledInstanceAvailability` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeScheduledInstanceAvailability` operation on the `EC2` service.
     ///
     /// Finds available schedules that meet the specified criteria. You can search for an available schedule no more than 3 months in advance. You must meet the minimum required duration of 1,200 hours per year. For example, the minimum daily schedule is 4 hours, the minimum weekly schedule is 24 hours, and the minimum monthly schedule is 100 hours. After you find a schedule that meets your needs, call [PurchaseScheduledInstances] to purchase Scheduled Instances with that schedule.
     ///
@@ -21702,7 +21702,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeScheduledInstances` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeScheduledInstances` operation on the `EC2` service.
     ///
     /// Describes the specified Scheduled Instances or all your Scheduled Instances.
     ///
@@ -21766,7 +21766,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeSecurityGroupReferences` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeSecurityGroupReferences` operation on the `EC2` service.
     ///
     /// Describes the VPCs on the other side of a VPC peering or Transit Gateway connection that are referencing the security groups you've specified in this request.
     ///
@@ -21830,7 +21830,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeSecurityGroupRules` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeSecurityGroupRules` operation on the `EC2` service.
     ///
     /// Describes one or more of your security group rules.
     ///
@@ -21894,7 +21894,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeSecurityGroupVpcAssociations` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeSecurityGroupVpcAssociations` operation on the `EC2` service.
     ///
     /// Describes security group VPC associations made with [AssociateSecurityGroupVpc](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_AssociateSecurityGroupVpc.html).
     ///
@@ -21958,7 +21958,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeSecurityGroups` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeSecurityGroups` operation on the `EC2` service.
     ///
     /// Describes the specified security groups or all of your security groups.
     ///
@@ -22022,7 +22022,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeSnapshotAttribute` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeSnapshotAttribute` operation on the `EC2` service.
     ///
     /// Describes the specified attribute of the specified snapshot. You can specify only one attribute at a time. For more information about EBS snapshots, see [Amazon EBS snapshots](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-snapshots.html) in the Amazon EBS User Guide.
     ///
@@ -22086,7 +22086,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeSnapshotTierStatus` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeSnapshotTierStatus` operation on the `EC2` service.
     ///
     /// Describes the storage tier status of one or more Amazon EBS snapshots.
     ///
@@ -22150,7 +22150,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeSnapshots` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeSnapshots` operation on the `EC2` service.
     ///
     /// Describes the specified EBS snapshots available to you or all of the EBS snapshots available to you. The snapshots available to you include public snapshots, private snapshots that you own, and private snapshots owned by other Amazon Web Services accounts for which you have explicit create volume permissions. The create volume permissions fall into the following categories:
     ///
@@ -22223,7 +22223,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeSpotDatafeedSubscription` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeSpotDatafeedSubscription` operation on the `EC2` service.
     ///
     /// Describes the data feed for Spot Instances. For more information, see [Spot Instance data feed](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-data-feeds.html) in the Amazon EC2 User Guide.
     ///
@@ -22287,7 +22287,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeSpotFleetInstances` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeSpotFleetInstances` operation on the `EC2` service.
     ///
     /// Describes the running instances for the specified Spot Fleet.
     ///
@@ -22351,7 +22351,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeSpotFleetRequestHistory` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeSpotFleetRequestHistory` operation on the `EC2` service.
     ///
     /// Describes the events for the specified Spot Fleet request during the specified time. Spot Fleet events are delayed by up to 30 seconds before they can be described. This ensures that you can query by the last evaluated time and not miss a recorded event. Spot Fleet events are available for 48 hours. For more information, see [Monitor fleet events using Amazon EventBridge](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/fleet-monitor.html) in the Amazon EC2 User Guide.
     ///
@@ -22415,7 +22415,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeSpotFleetRequests` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeSpotFleetRequests` operation on the `EC2` service.
     ///
     /// Describes your Spot Fleet requests. Spot Fleet requests are deleted 48 hours after they are canceled and their instances are terminated.
     ///
@@ -22479,7 +22479,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeSpotInstanceRequests` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeSpotInstanceRequests` operation on the `EC2` service.
     ///
     /// Describes the specified Spot Instance requests. You can use DescribeSpotInstanceRequests to find a running Spot Instance by examining the response. If the status of the Spot Instance is fulfilled, the instance ID appears in the response and contains the identifier of the instance. Alternatively, you can use [DescribeInstances](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeInstances) with a filter to look for instances where the instance lifecycle is spot. We recommend that you set MaxResults to a value between 5 and 1000 to limit the number of items returned. This paginates the output, which makes the list more manageable and returns the items faster. If the list of items exceeds your MaxResults value, then that number of items is returned along with a NextToken value that can be passed to a subsequent DescribeSpotInstanceRequests request to retrieve the remaining items. Spot Instance requests are deleted four hours after they are canceled and their instances are terminated.
     ///
@@ -22543,7 +22543,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeSpotPriceHistory` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeSpotPriceHistory` operation on the `EC2` service.
     ///
     /// Describes the Spot price history. For more information, see [Spot Instance pricing history](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-spot-instances-history.html) in the Amazon EC2 User Guide. When you specify a start and end time, the operation returns the prices of the instance types within that time range. It also returns the last price change before the start time, which is the effective price as of the start time.
     ///
@@ -22607,7 +22607,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeStaleSecurityGroups` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeStaleSecurityGroups` operation on the `EC2` service.
     ///
     /// Describes the stale security group rules for security groups referenced across a VPC peering connection, transit gateway connection, or with a security group VPC association. Rules are stale when they reference a deleted security group. Rules can also be stale if they reference a security group in a peer VPC for which the VPC peering connection has been deleted, across a transit gateway where the transit gateway has been deleted (or [the transit gateway security group referencing feature](https://docs.aws.amazon.com/vpc/latest/tgw/tgw-vpc-attachments.html#vpc-attachment-security) has been disabled), or if a security group VPC association has been disassociated.
     ///
@@ -22671,7 +22671,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeStoreImageTasks` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeStoreImageTasks` operation on the `EC2` service.
     ///
     /// Describes the progress of the AMI store tasks. You can describe the store tasks for specified AMIs. If you don't specify the AMIs, you get a paginated list of store tasks from the last 31 days. For each AMI task, the response indicates if the task is InProgress, Completed, or Failed. For tasks InProgress, the response shows the estimated progress as a percentage. Tasks are listed in reverse chronological order. Currently, only tasks from the past 31 days can be viewed. To use this API, you must have the required permissions. For more information, see [Permissions for storing and restoring AMIs using Amazon S3](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ami-store-restore.html#ami-s3-permissions) in the Amazon EC2 User Guide. For more information, see [Store and restore an AMI using Amazon S3](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ami-store-restore.html) in the Amazon EC2 User Guide.
     ///
@@ -22735,7 +22735,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeSubnets` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeSubnets` operation on the `EC2` service.
     ///
     /// Describes your subnets. The default is to describe all your subnets. Alternatively, you can specify specific subnet IDs or filter the results to include only the subnets that match specific criteria. For more information, see [Subnets](https://docs.aws.amazon.com/vpc/latest/userguide/configure-subnets.html) in the Amazon VPC User Guide.
     ///
@@ -22799,7 +22799,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeTags` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeTags` operation on the `EC2` service.
     ///
     /// Describes the specified tags for your EC2 resources. For more information about tags, see [Tag your Amazon EC2 resources](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html) in the Amazon Elastic Compute Cloud User Guide. We strongly recommend using only paginated requests. Unpaginated requests are susceptible to throttling and timeouts. The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     ///
@@ -22863,7 +22863,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeTrafficMirrorFilterRules` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeTrafficMirrorFilterRules` operation on the `EC2` service.
     ///
     /// Describe traffic mirror filters that determine the traffic that is mirrored.
     ///
@@ -22927,7 +22927,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeTrafficMirrorFilters` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeTrafficMirrorFilters` operation on the `EC2` service.
     ///
     /// Describes one or more Traffic Mirror filters.
     ///
@@ -22991,7 +22991,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeTrafficMirrorSessions` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeTrafficMirrorSessions` operation on the `EC2` service.
     ///
     /// Describes one or more Traffic Mirror sessions. By default, all Traffic Mirror sessions are described. Alternatively, you can filter the results.
     ///
@@ -23055,7 +23055,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeTrafficMirrorTargets` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeTrafficMirrorTargets` operation on the `EC2` service.
     ///
     /// Information about one or more Traffic Mirror targets.
     ///
@@ -23119,7 +23119,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeTransitGatewayAttachments` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeTransitGatewayAttachments` operation on the `EC2` service.
     ///
     /// Describes one or more attachments between resources and transit gateways. By default, all attachments are described. Alternatively, you can filter the results by attachment ID, attachment state, resource ID, or resource owner.
     ///
@@ -23183,7 +23183,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeTransitGatewayConnectPeers` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeTransitGatewayConnectPeers` operation on the `EC2` service.
     ///
     /// Describes one or more Connect peers.
     ///
@@ -23247,7 +23247,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeTransitGatewayConnects` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeTransitGatewayConnects` operation on the `EC2` service.
     ///
     /// Describes one or more Connect attachments.
     ///
@@ -23311,7 +23311,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeTransitGatewayMulticastDomains` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeTransitGatewayMulticastDomains` operation on the `EC2` service.
     ///
     /// Describes one or more transit gateway multicast domains.
     ///
@@ -23375,7 +23375,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeTransitGatewayPeeringAttachments` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeTransitGatewayPeeringAttachments` operation on the `EC2` service.
     ///
     /// Describes your transit gateway peering attachments.
     ///
@@ -23439,7 +23439,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeTransitGatewayPolicyTables` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeTransitGatewayPolicyTables` operation on the `EC2` service.
     ///
     /// Describes one or more transit gateway route policy tables.
     ///
@@ -23503,7 +23503,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeTransitGatewayRouteTableAnnouncements` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeTransitGatewayRouteTableAnnouncements` operation on the `EC2` service.
     ///
     /// Describes one or more transit gateway route table advertisements.
     ///
@@ -23567,7 +23567,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeTransitGatewayRouteTables` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeTransitGatewayRouteTables` operation on the `EC2` service.
     ///
     /// Describes one or more transit gateway route tables. By default, all transit gateway route tables are described. Alternatively, you can filter the results.
     ///
@@ -23631,7 +23631,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeTransitGatewayVpcAttachments` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeTransitGatewayVpcAttachments` operation on the `EC2` service.
     ///
     /// Describes one or more VPC attachments. By default, all VPC attachments are described. Alternatively, you can filter the results.
     ///
@@ -23695,7 +23695,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeTransitGateways` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeTransitGateways` operation on the `EC2` service.
     ///
     /// Describes one or more transit gateways. By default, all transit gateways are described. Alternatively, you can filter the results.
     ///
@@ -23759,7 +23759,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeTrunkInterfaceAssociations` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeTrunkInterfaceAssociations` operation on the `EC2` service.
     ///
     /// Describes one or more network interface trunk associations.
     ///
@@ -23823,7 +23823,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeVerifiedAccessEndpoints` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeVerifiedAccessEndpoints` operation on the `EC2` service.
     ///
     /// Describes the specified Amazon Web Services Verified Access endpoints.
     ///
@@ -23887,7 +23887,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeVerifiedAccessGroups` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeVerifiedAccessGroups` operation on the `EC2` service.
     ///
     /// Describes the specified Verified Access groups.
     ///
@@ -23951,7 +23951,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeVerifiedAccessInstanceLoggingConfigurations` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeVerifiedAccessInstanceLoggingConfigurations` operation on the `EC2` service.
     ///
     /// Describes the specified Amazon Web Services Verified Access instances.
     ///
@@ -24015,7 +24015,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeVerifiedAccessInstances` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeVerifiedAccessInstances` operation on the `EC2` service.
     ///
     /// Describes the specified Amazon Web Services Verified Access instances.
     ///
@@ -24079,7 +24079,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeVerifiedAccessTrustProviders` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeVerifiedAccessTrustProviders` operation on the `EC2` service.
     ///
     /// Describes the specified Amazon Web Services Verified Access trust providers.
     ///
@@ -24143,7 +24143,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeVolumeAttribute` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeVolumeAttribute` operation on the `EC2` service.
     ///
     /// Describes the specified attribute of the specified volume. You can specify only one attribute at a time. For more information about EBS volumes, see [Amazon EBS volumes](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-volumes.html) in the Amazon EBS User Guide.
     ///
@@ -24207,7 +24207,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeVolumeStatus` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeVolumeStatus` operation on the `EC2` service.
     ///
     /// Describes the status of the specified volumes. Volume status provides the result of the checks performed on your volumes to determine events that can impair the performance of your volumes. The performance of a volume can be affected if an issue occurs on the volume's underlying host. If the volume's underlying host experiences a power outage or system issue, after the system is restored, there could be data inconsistencies on the volume. Volume events notify you if this occurs. Volume actions notify you if any action needs to be taken in response to the event. The DescribeVolumeStatus operation provides the following information about the specified volumes: Status: Reflects the current status of the volume. The possible values are ok, impaired , warning, or insufficient-data. If all checks pass, the overall status of the volume is ok. If the check fails, the overall status is impaired. If the status is insufficient-data, then the checks might still be taking place on your volume at the time. We recommend that you retry the request. For more information about volume status, see [Monitor the status of your volumes](https://docs.aws.amazon.com/ebs/latest/userguide/monitoring-volume-status.html) in the Amazon EBS User Guide. Events: Reflect the cause of a volume status and might require you to take action. For example, if your volume returns an impaired status, then the volume event might be potential-data-inconsistency. This means that your volume has been affected by an issue with the underlying host, has all I/O operations disabled, and might have inconsistent data. Actions: Reflect the actions you might have to take in response to an event. For example, if the status of the volume is impaired and the volume event shows potential-data-inconsistency, then the action shows enable-volume-io. This means that you may want to enable the I/O operations for the volume by calling the [EnableVolumeIO] action and then check the volume for data consistency. Volume status is based on the volume status checks, and does not reflect the volume state. Therefore, volume status does not indicate volumes in the error state (for example, when a volume is incapable of accepting I/O.) The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     ///
@@ -24271,7 +24271,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeVolumes` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeVolumes` operation on the `EC2` service.
     ///
     /// Describes the specified EBS volumes or all of your EBS volumes. If you are describing a long list of volumes, we recommend that you paginate the output to make the list more manageable. For more information, see [Pagination](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Query-Requests.html#api-pagination). For more information about EBS volumes, see [Amazon EBS volumes](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-volumes.html) in the Amazon EBS User Guide. We strongly recommend using only paginated requests. Unpaginated requests are susceptible to throttling and timeouts. The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     ///
@@ -24335,7 +24335,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeVolumesModifications` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeVolumesModifications` operation on the `EC2` service.
     ///
     /// Describes the most recent volume modification request for the specified EBS volumes. For more information, see [ Monitor the progress of volume modifications](https://docs.aws.amazon.com/ebs/latest/userguide/monitoring-volume-modifications.html) in the Amazon EBS User Guide.
     ///
@@ -24399,7 +24399,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeVpcAttribute` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeVpcAttribute` operation on the `EC2` service.
     ///
     /// Describes the specified attribute of the specified VPC. You can specify only one attribute at a time.
     ///
@@ -24463,7 +24463,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeVpcBlockPublicAccessExclusions` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeVpcBlockPublicAccessExclusions` operation on the `EC2` service.
     ///
     /// Describe VPC Block Public Access (BPA) exclusions. A VPC BPA exclusion is a mode that can be applied to a single VPC or subnet that exempts it from the account’s BPA mode and will allow bidirectional or egress-only access. You can create BPA exclusions for VPCs and subnets even when BPA is not enabled on the account to ensure that there is no traffic disruption to the exclusions when VPC BPA is turned on. To learn more about VPC BPA, see [Block public access to VPCs and subnets](https://docs.aws.amazon.com/vpc/latest/userguide/security-vpc-bpa.html) in the Amazon VPC User Guide.
     ///
@@ -24527,7 +24527,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeVpcBlockPublicAccessOptions` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeVpcBlockPublicAccessOptions` operation on the `EC2` service.
     ///
     /// Describe VPC Block Public Access (BPA) options. VPC Block Public Access (BPA) enables you to block resources in VPCs and subnets that you own in a Region from reaching or being reached from the internet through internet gateways and egress-only internet gateways. To learn more about VPC BPA, see [Block public access to VPCs and subnets](https://docs.aws.amazon.com/vpc/latest/userguide/security-vpc-bpa.html) in the Amazon VPC User Guide.
     ///
@@ -24591,7 +24591,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeVpcClassicLink` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeVpcClassicLink` operation on the `EC2` service.
     ///
     /// This action is deprecated. Describes the ClassicLink status of the specified VPCs.
     ///
@@ -24655,7 +24655,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeVpcClassicLinkDnsSupport` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeVpcClassicLinkDnsSupport` operation on the `EC2` service.
     ///
     /// This action is deprecated. Describes the ClassicLink DNS support status of one or more VPCs. If enabled, the DNS hostname of a linked EC2-Classic instance resolves to its private IP address when addressed from an instance in the VPC to which it's linked. Similarly, the DNS hostname of an instance in a VPC resolves to its private IP address when addressed from a linked EC2-Classic instance.
     ///
@@ -24719,7 +24719,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeVpcEndpointAssociations` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeVpcEndpointAssociations` operation on the `EC2` service.
     ///
     /// Describes the VPC resources, VPC endpoint services, Amazon Lattice services, or service networks associated with the VPC endpoint.
     ///
@@ -24783,7 +24783,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeVpcEndpointConnectionNotifications` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeVpcEndpointConnectionNotifications` operation on the `EC2` service.
     ///
     /// Describes the connection notifications for VPC endpoints and VPC endpoint services.
     ///
@@ -24847,7 +24847,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeVpcEndpointConnections` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeVpcEndpointConnections` operation on the `EC2` service.
     ///
     /// Describes the VPC endpoint connections to your VPC endpoint services, including any endpoints that are pending your acceptance.
     ///
@@ -24911,7 +24911,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeVpcEndpointServiceConfigurations` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeVpcEndpointServiceConfigurations` operation on the `EC2` service.
     ///
     /// Describes the VPC endpoint service configurations in your account (your services).
     ///
@@ -24975,7 +24975,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeVpcEndpointServicePermissions` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeVpcEndpointServicePermissions` operation on the `EC2` service.
     ///
     /// Describes the principals (service consumers) that are permitted to discover your VPC endpoint service.
     ///
@@ -25039,7 +25039,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeVpcEndpointServices` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeVpcEndpointServices` operation on the `EC2` service.
     ///
     /// Describes available services to which you can create a VPC endpoint. When the service provider and the consumer have different accounts in multiple Availability Zones, and the consumer views the VPC endpoint service information, the response only includes the common Availability Zones. For example, when the service provider account uses us-east-1a and us-east-1c and the consumer uses us-east-1a and us-east-1b, the response includes the VPC endpoint services in the common Availability Zone, us-east-1a.
     ///
@@ -25103,7 +25103,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeVpcEndpoints` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeVpcEndpoints` operation on the `EC2` service.
     ///
     /// Describes your VPC endpoints. The default is to describe all your VPC endpoints. Alternatively, you can specify specific VPC endpoint IDs or filter the results to include only the VPC endpoints that match specific criteria.
     ///
@@ -25167,7 +25167,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeVpcPeeringConnections` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeVpcPeeringConnections` operation on the `EC2` service.
     ///
     /// Describes your VPC peering connections. The default is to describe all your VPC peering connections. Alternatively, you can specify specific VPC peering connection IDs or filter the results to include only the VPC peering connections that match specific criteria.
     ///
@@ -25231,7 +25231,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeVpcs` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeVpcs` operation on the `EC2` service.
     ///
     /// Describes your VPCs. The default is to describe all your VPCs. Alternatively, you can specify specific VPC IDs or filter the results to include only the VPCs that match specific criteria.
     ///
@@ -25295,7 +25295,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeVpnConnections` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeVpnConnections` operation on the `EC2` service.
     ///
     /// Describes one or more of your VPN connections. For more information, see [Amazon Web Services Site-to-Site VPN](https://docs.aws.amazon.com/vpn/latest/s2svpn/VPC_VPN.html) in the Amazon Web Services Site-to-Site VPN User Guide.
     ///
@@ -25359,7 +25359,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeVpnGateways` operation on the `AmazonEC2` service.
+    /// Performs the `DescribeVpnGateways` operation on the `EC2` service.
     ///
     /// Describes one or more of your virtual private gateways. For more information, see [Amazon Web Services Site-to-Site VPN](https://docs.aws.amazon.com/vpn/latest/s2svpn/VPC_VPN.html) in the Amazon Web Services Site-to-Site VPN User Guide.
     ///
@@ -25423,7 +25423,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DetachClassicLinkVpc` operation on the `AmazonEC2` service.
+    /// Performs the `DetachClassicLinkVpc` operation on the `EC2` service.
     ///
     /// This action is deprecated. Unlinks (detaches) a linked EC2-Classic instance from a VPC. After the instance has been unlinked, the VPC security groups are no longer associated with it. An instance is automatically unlinked from a VPC when it's stopped.
     ///
@@ -25487,7 +25487,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DetachInternetGateway` operation on the `AmazonEC2` service.
+    /// Performs the `DetachInternetGateway` operation on the `EC2` service.
     ///
     /// Detaches an internet gateway from a VPC, disabling connectivity between the internet and the VPC. The VPC must not contain any running instances with Elastic IP addresses or public IPv4 addresses.
     ///
@@ -25551,7 +25551,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DetachNetworkInterface` operation on the `AmazonEC2` service.
+    /// Performs the `DetachNetworkInterface` operation on the `EC2` service.
     ///
     /// Detaches a network interface from an instance.
     ///
@@ -25615,7 +25615,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DetachVerifiedAccessTrustProvider` operation on the `AmazonEC2` service.
+    /// Performs the `DetachVerifiedAccessTrustProvider` operation on the `EC2` service.
     ///
     /// Detaches the specified Amazon Web Services Verified Access trust provider from the specified Amazon Web Services Verified Access instance.
     ///
@@ -25680,7 +25680,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DetachVolume` operation on the `AmazonEC2` service.
+    /// Performs the `DetachVolume` operation on the `EC2` service.
     ///
     /// Detaches an EBS volume from an instance. Make sure to unmount any file systems on the device within your operating system before detaching the volume. Failure to do so can result in the volume becoming stuck in the busy state while detaching. If this happens, detachment can be delayed indefinitely until you unmount the volume, force detachment, reboot the instance, or all three. If an EBS volume is the root device of an instance, it can't be detached while the instance is running. To detach the root volume, stop the instance first. When a volume with an Amazon Web Services Marketplace product code is detached from an instance, the product code is no longer associated with the instance. You can't detach or force detach volumes that are attached to Amazon ECS or Fargate tasks. Attempting to do this results in the UnsupportedOperationException exception with the Unable to detach volume attached to ECS tasks error message. For more information, see [Detach an Amazon EBS volume](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-detaching-volume.html) in the Amazon EBS User Guide.
     ///
@@ -25744,7 +25744,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DetachVpnGateway` operation on the `AmazonEC2` service.
+    /// Performs the `DetachVpnGateway` operation on the `EC2` service.
     ///
     /// Detaches a virtual private gateway from a VPC. You do this if you're planning to turn off the VPC and not use it anymore. You can confirm a virtual private gateway has been completely detached from a VPC by describing the virtual private gateway (any attachments to the virtual private gateway are also described). You must wait for the attachment's state to switch to detached before you can delete the VPC or attach a different VPC to the virtual private gateway.
     ///
@@ -25808,7 +25808,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisableAddressTransfer` operation on the `AmazonEC2` service.
+    /// Performs the `DisableAddressTransfer` operation on the `EC2` service.
     ///
     /// Disables Elastic IP address transfer. For more information, see [Transfer Elastic IP addresses](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-eips.html#transfer-EIPs-intro) in the Amazon VPC User Guide.
     ///
@@ -25872,7 +25872,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisableAllowedImagesSettings` operation on the `AmazonEC2` service.
+    /// Performs the `DisableAllowedImagesSettings` operation on the `EC2` service.
     ///
     /// Disables Allowed AMIs for your account in the specified Amazon Web Services Region. When set to disabled, the image criteria in your Allowed AMIs settings do not apply, and no restrictions are placed on AMI discoverability or usage. Users in your account can launch instances using any public AMI or AMI shared with your account. The Allowed AMIs feature does not restrict the AMIs owned by your account. Regardless of the criteria you set, the AMIs created by your account will always be discoverable and usable by users in your account. For more information, see [Control the discovery and use of AMIs in Amazon EC2 with Allowed AMIs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-allowed-amis.html) in Amazon EC2 User Guide.
     ///
@@ -25936,7 +25936,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisableAwsNetworkPerformanceMetricSubscription` operation on the `AmazonEC2` service.
+    /// Performs the `DisableAwsNetworkPerformanceMetricSubscription` operation on the `EC2` service.
     ///
     /// Disables Infrastructure Performance metric subscriptions.
     ///
@@ -26000,7 +26000,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisableEbsEncryptionByDefault` operation on the `AmazonEC2` service.
+    /// Performs the `DisableEbsEncryptionByDefault` operation on the `EC2` service.
     ///
     /// Disables EBS encryption by default for your account in the current Region. After you disable encryption by default, you can still create encrypted volumes by enabling encryption when you create each volume. Disabling encryption by default does not change the encryption status of your existing volumes. For more information, see [Amazon EBS encryption](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-encryption.html) in the Amazon EBS User Guide.
     ///
@@ -26064,7 +26064,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisableFastLaunch` operation on the `AmazonEC2` service.
+    /// Performs the `DisableFastLaunch` operation on the `EC2` service.
     ///
     /// Discontinue Windows fast launch for a Windows AMI, and clean up existing pre-provisioned snapshots. After you disable Windows fast launch, the AMI uses the standard launch process for each new instance. Amazon EC2 must remove all pre-provisioned snapshots before you can enable Windows fast launch again. You can only change these settings for Windows AMIs that you own or that have been shared with you.
     ///
@@ -26128,7 +26128,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisableFastSnapshotRestores` operation on the `AmazonEC2` service.
+    /// Performs the `DisableFastSnapshotRestores` operation on the `EC2` service.
     ///
     /// Disables fast snapshot restores for the specified snapshots in the specified Availability Zones.
     ///
@@ -26192,7 +26192,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisableImage` operation on the `AmazonEC2` service.
+    /// Performs the `DisableImage` operation on the `EC2` service.
     ///
     /// Sets the AMI state to disabled and removes all launch permissions from the AMI. A disabled AMI can't be used for instance launches. A disabled AMI can't be shared. If an AMI was public or previously shared, it is made private. If an AMI was shared with an Amazon Web Services account, organization, or Organizational Unit, they lose access to the disabled AMI. A disabled AMI does not appear in [DescribeImages](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeImages.html) API calls by default. Only the AMI owner can disable an AMI. You can re-enable a disabled AMI using [EnableImage](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_EnableImage.html). For more information, see [Disable an AMI](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/disable-an-ami.html) in the Amazon EC2 User Guide.
     ///
@@ -26256,7 +26256,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisableImageBlockPublicAccess` operation on the `AmazonEC2` service.
+    /// Performs the `DisableImageBlockPublicAccess` operation on the `EC2` service.
     ///
     /// Disables block public access for AMIs at the account level in the specified Amazon Web Services Region. This removes the block public access restriction from your account. With the restriction removed, you can publicly share your AMIs in the specified Amazon Web Services Region. The API can take up to 10 minutes to configure this setting. During this time, if you run [GetImageBlockPublicAccessState](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_GetImageBlockPublicAccessState.html), the response will be block-new-sharing. When the API has completed the configuration, the response will be unblocked. For more information, see [Block public access to your AMIs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/sharingamis-intro.html#block-public-access-to-amis) in the Amazon EC2 User Guide.
     ///
@@ -26320,7 +26320,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisableImageDeprecation` operation on the `AmazonEC2` service.
+    /// Performs the `DisableImageDeprecation` operation on the `EC2` service.
     ///
     /// Cancels the deprecation of the specified AMI. For more information, see [Deprecate an AMI](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ami-deprecate.html) in the Amazon EC2 User Guide.
     ///
@@ -26384,7 +26384,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisableImageDeregistrationProtection` operation on the `AmazonEC2` service.
+    /// Performs the `DisableImageDeregistrationProtection` operation on the `EC2` service.
     ///
     /// Disables deregistration protection for an AMI. When deregistration protection is disabled, the AMI can be deregistered. If you chose to include a 24-hour cooldown period when you enabled deregistration protection for the AMI, then, when you disable deregistration protection, you won’t immediately be able to deregister the AMI. For more information, see [Protect an AMI from deregistration](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/deregister-ami.html#ami-deregistration-protection) in the Amazon EC2 User Guide.
     ///
@@ -26448,7 +26448,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisableIpamOrganizationAdminAccount` operation on the `AmazonEC2` service.
+    /// Performs the `DisableIpamOrganizationAdminAccount` operation on the `EC2` service.
     ///
     /// Disable the IPAM account. For more information, see [Enable integration with Organizations](https://docs.aws.amazon.com/vpc/latest/ipam/enable-integ-ipam.html) in the Amazon VPC IPAM User Guide.
     ///
@@ -26512,7 +26512,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisableSerialConsoleAccess` operation on the `AmazonEC2` service.
+    /// Performs the `DisableSerialConsoleAccess` operation on the `EC2` service.
     ///
     /// Disables access to the EC2 serial console of all instances for your account. By default, access to the EC2 serial console is disabled for your account. For more information, see [Manage account access to the EC2 serial console](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configure-access-to-serial-console.html#serial-console-account-access) in the Amazon EC2 User Guide.
     ///
@@ -26576,7 +26576,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisableSnapshotBlockPublicAccess` operation on the `AmazonEC2` service.
+    /// Performs the `DisableSnapshotBlockPublicAccess` operation on the `EC2` service.
     ///
     /// Disables the block public access for snapshots setting at the account level for the specified Amazon Web Services Region. After you disable block public access for snapshots in a Region, users can publicly share snapshots in that Region. Enabling block public access for snapshots in block-all-sharing mode does not change the permissions for snapshots that are already publicly shared. Instead, it prevents these snapshots from be publicly visible and publicly accessible. Therefore, the attributes for these snapshots still indicate that they are publicly shared, even though they are not publicly available. If you disable block public access , these snapshots will become publicly available again. For more information, see [ Block public access for snapshots](https://docs.aws.amazon.com/ebs/latest/userguide/block-public-access-snapshots.html) in the Amazon EBS User Guide .
     ///
@@ -26640,7 +26640,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisableTransitGatewayRouteTablePropagation` operation on the `AmazonEC2` service.
+    /// Performs the `DisableTransitGatewayRouteTablePropagation` operation on the `EC2` service.
     ///
     /// Disables the specified resource attachment from propagating routes to the specified propagation route table.
     ///
@@ -26704,7 +26704,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisableVgwRoutePropagation` operation on the `AmazonEC2` service.
+    /// Performs the `DisableVgwRoutePropagation` operation on the `EC2` service.
     ///
     /// Disables a virtual private gateway (VGW) from propagating routes to a specified route table of a VPC.
     ///
@@ -26768,7 +26768,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisableVpcClassicLink` operation on the `AmazonEC2` service.
+    /// Performs the `DisableVpcClassicLink` operation on the `EC2` service.
     ///
     /// This action is deprecated. Disables ClassicLink for a VPC. You cannot disable ClassicLink for a VPC that has EC2-Classic instances linked to it.
     ///
@@ -26832,7 +26832,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisableVpcClassicLinkDnsSupport` operation on the `AmazonEC2` service.
+    /// Performs the `DisableVpcClassicLinkDnsSupport` operation on the `EC2` service.
     ///
     /// This action is deprecated. Disables ClassicLink DNS support for a VPC. If disabled, DNS hostnames resolve to public IP addresses when addressed between a linked EC2-Classic instance and instances in the VPC to which it's linked. You must specify a VPC ID in the request.
     ///
@@ -26896,7 +26896,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateAddress` operation on the `AmazonEC2` service.
+    /// Performs the `DisassociateAddress` operation on the `EC2` service.
     ///
     /// Disassociates an Elastic IP address from the instance or network interface it's associated with. This is an idempotent operation. If you perform the operation more than once, Amazon EC2 doesn't return an error.
     ///
@@ -26960,7 +26960,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateCapacityReservationBillingOwner` operation on the `AmazonEC2` service.
+    /// Performs the `DisassociateCapacityReservationBillingOwner` operation on the `EC2` service.
     ///
     /// Cancels a pending request to assign billing of the unused capacity of a Capacity Reservation to a consumer account, or revokes a request that has already been accepted. For more information, see [Billing assignment for shared Amazon EC2 Capacity Reservations](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/assign-billing.html).
     ///
@@ -27024,7 +27024,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateClientVpnTargetNetwork` operation on the `AmazonEC2` service.
+    /// Performs the `DisassociateClientVpnTargetNetwork` operation on the `EC2` service.
     ///
     /// Disassociates a target network from the specified Client VPN endpoint. When you disassociate the last target network from a Client VPN, the following happens:
     ///
@@ -27096,7 +27096,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateEnclaveCertificateIamRole` operation on the `AmazonEC2` service.
+    /// Performs the `DisassociateEnclaveCertificateIamRole` operation on the `EC2` service.
     ///
     /// Disassociates an IAM role from an Certificate Manager (ACM) certificate. Disassociating an IAM role from an ACM certificate removes the Amazon S3 object that contains the certificate, certificate chain, and encrypted private key from the Amazon S3 bucket. It also revokes the IAM role's permission to use the KMS key used to encrypt the private key. This effectively revokes the role's permission to use the certificate.
     ///
@@ -27160,7 +27160,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateIamInstanceProfile` operation on the `AmazonEC2` service.
+    /// Performs the `DisassociateIamInstanceProfile` operation on the `EC2` service.
     ///
     /// Disassociates an IAM instance profile from a running or stopped instance. Use [DescribeIamInstanceProfileAssociations] to get the association ID.
     ///
@@ -27224,7 +27224,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateInstanceEventWindow` operation on the `AmazonEC2` service.
+    /// Performs the `DisassociateInstanceEventWindow` operation on the `EC2` service.
     ///
     /// Disassociates one or more targets from an event window. For more information, see [Define event windows for scheduled events](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/event-windows.html) in the Amazon EC2 User Guide.
     ///
@@ -27288,7 +27288,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateIpamByoasn` operation on the `AmazonEC2` service.
+    /// Performs the `DisassociateIpamByoasn` operation on the `EC2` service.
     ///
     /// Remove the association between your Autonomous System Number (ASN) and your BYOIP CIDR. You may want to use this action to disassociate an ASN from a CIDR or if you want to swap ASNs. For more information, see [Tutorial: Bring your ASN to IPAM](https://docs.aws.amazon.com/vpc/latest/ipam/tutorials-byoasn.html) in the Amazon VPC IPAM guide.
     ///
@@ -27352,7 +27352,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateIpamResourceDiscovery` operation on the `AmazonEC2` service.
+    /// Performs the `DisassociateIpamResourceDiscovery` operation on the `EC2` service.
     ///
     /// Disassociates a resource discovery from an Amazon VPC IPAM. A resource discovery is an IPAM component that enables IPAM to manage and monitor resources that belong to the owning account.
     ///
@@ -27416,7 +27416,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateNatGatewayAddress` operation on the `AmazonEC2` service.
+    /// Performs the `DisassociateNatGatewayAddress` operation on the `EC2` service.
     ///
     /// Disassociates secondary Elastic IP addresses (EIPs) from a public NAT gateway. You cannot disassociate your primary EIP. For more information, see [Edit secondary IP address associations](https://docs.aws.amazon.com/vpc/latest/userguide/nat-gateway-working-with.html#nat-gateway-edit-secondary) in the Amazon VPC User Guide. While disassociating is in progress, you cannot associate/disassociate additional EIPs while the connections are being drained. You are, however, allowed to delete the NAT gateway. An EIP is released only at the end of MaxDrainDurationSeconds. It stays associated and supports the existing connections but does not support any new connections (new connections are distributed across the remaining associated EIPs). As the existing connections drain out, the EIPs (and the corresponding private IP addresses mapped to them) are released.
     ///
@@ -27480,7 +27480,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateRouteTable` operation on the `AmazonEC2` service.
+    /// Performs the `DisassociateRouteTable` operation on the `EC2` service.
     ///
     /// Disassociates a subnet or gateway from a route table. After you perform this action, the subnet no longer uses the routes in the route table. Instead, it uses the routes in the VPC's main route table. For more information about route tables, see [Route tables](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Route_Tables.html) in the Amazon VPC User Guide.
     ///
@@ -27544,7 +27544,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateSecurityGroupVpc` operation on the `AmazonEC2` service.
+    /// Performs the `DisassociateSecurityGroupVpc` operation on the `EC2` service.
     ///
     /// Disassociates a security group from a VPC. You cannot disassociate the security group if any Elastic network interfaces in the associated VPC are still associated with the security group. Note that the disassociation is asynchronous and you can check the status of the request with [DescribeSecurityGroupVpcAssociations](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeSecurityGroupVpcAssociations.html).
     ///
@@ -27608,7 +27608,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateSubnetCidrBlock` operation on the `AmazonEC2` service.
+    /// Performs the `DisassociateSubnetCidrBlock` operation on the `EC2` service.
     ///
     /// Disassociates a CIDR block from a subnet. Currently, you can disassociate an IPv6 CIDR block only. You must detach or delete all gateways and resources that are associated with the CIDR block before you can disassociate it.
     ///
@@ -27672,7 +27672,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateTransitGatewayMulticastDomain` operation on the `AmazonEC2` service.
+    /// Performs the `DisassociateTransitGatewayMulticastDomain` operation on the `EC2` service.
     ///
     /// Disassociates the specified subnets from the transit gateway multicast domain.
     ///
@@ -27736,7 +27736,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateTransitGatewayPolicyTable` operation on the `AmazonEC2` service.
+    /// Performs the `DisassociateTransitGatewayPolicyTable` operation on the `EC2` service.
     ///
     /// Removes the association between an an attachment and a policy table.
     ///
@@ -27800,7 +27800,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateTransitGatewayRouteTable` operation on the `AmazonEC2` service.
+    /// Performs the `DisassociateTransitGatewayRouteTable` operation on the `EC2` service.
     ///
     /// Disassociates a resource attachment from a transit gateway route table.
     ///
@@ -27864,7 +27864,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateTrunkInterface` operation on the `AmazonEC2` service.
+    /// Performs the `DisassociateTrunkInterface` operation on the `EC2` service.
     ///
     /// Removes an association between a branch network interface with a trunk network interface.
     ///
@@ -27929,7 +27929,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateVpcCidrBlock` operation on the `AmazonEC2` service.
+    /// Performs the `DisassociateVpcCidrBlock` operation on the `EC2` service.
     ///
     /// Disassociates a CIDR block from a VPC. To disassociate the CIDR block, you must specify its association ID. You can get the association ID by using [DescribeVpcs]. You must detach or delete all gateways and resources that are associated with the CIDR block before you can disassociate it. You cannot disassociate the CIDR block with which you originally created the VPC (the primary CIDR block).
     ///
@@ -27993,7 +27993,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `EnableAddressTransfer` operation on the `AmazonEC2` service.
+    /// Performs the `EnableAddressTransfer` operation on the `EC2` service.
     ///
     /// Enables Elastic IP address transfer. For more information, see [Transfer Elastic IP addresses](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-eips.html#transfer-EIPs-intro) in the Amazon VPC User Guide.
     ///
@@ -28057,7 +28057,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `EnableAllowedImagesSettings` operation on the `AmazonEC2` service.
+    /// Performs the `EnableAllowedImagesSettings` operation on the `EC2` service.
     ///
     /// Enables Allowed AMIs for your account in the specified Amazon Web Services Region. Two values are accepted:
     ///
@@ -28128,7 +28128,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `EnableAwsNetworkPerformanceMetricSubscription` operation on the `AmazonEC2` service.
+    /// Performs the `EnableAwsNetworkPerformanceMetricSubscription` operation on the `EC2` service.
     ///
     /// Enables Infrastructure Performance subscriptions.
     ///
@@ -28192,7 +28192,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `EnableEbsEncryptionByDefault` operation on the `AmazonEC2` service.
+    /// Performs the `EnableEbsEncryptionByDefault` operation on the `EC2` service.
     ///
     /// Enables EBS encryption by default for your account in the current Region. After you enable encryption by default, the EBS volumes that you create are always encrypted, either using the default KMS key or the KMS key that you specified when you created each volume. For more information, see [Amazon EBS encryption](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-encryption.html) in the Amazon EBS User Guide. You can specify the default KMS key for encryption by default using [ModifyEbsDefaultKmsKeyId] or [ResetEbsDefaultKmsKeyId]. Enabling encryption by default has no effect on the encryption status of your existing volumes. After you enable encryption by default, you can no longer launch instances using instance types that do not support encryption. For more information, see [Supported instance types](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-encryption-requirements.html#ebs-encryption_supported_instances).
     ///
@@ -28256,7 +28256,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `EnableFastLaunch` operation on the `AmazonEC2` service.
+    /// Performs the `EnableFastLaunch` operation on the `EC2` service.
     ///
     /// When you enable Windows fast launch for a Windows AMI, images are pre-provisioned, using snapshots to launch instances up to 65% faster. To create the optimized Windows image, Amazon EC2 launches an instance and runs through Sysprep steps, rebooting as required. Then it creates a set of reserved snapshots that are used for subsequent launches. The reserved snapshots are automatically replenished as they are used, depending on your settings for launch frequency. You can only change these settings for Windows AMIs that you own or that have been shared with you.
     ///
@@ -28320,7 +28320,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `EnableFastSnapshotRestores` operation on the `AmazonEC2` service.
+    /// Performs the `EnableFastSnapshotRestores` operation on the `EC2` service.
     ///
     /// Enables fast snapshot restores for the specified snapshots in the specified Availability Zones. You get the full benefit of fast snapshot restores after they enter the enabled state. To get the current state of fast snapshot restores, use [DescribeFastSnapshotRestores]. To disable fast snapshot restores, use [DisableFastSnapshotRestores]. For more information, see [Amazon EBS fast snapshot restore](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-fast-snapshot-restore.html) in the Amazon EBS User Guide.
     ///
@@ -28384,7 +28384,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `EnableImage` operation on the `AmazonEC2` service.
+    /// Performs the `EnableImage` operation on the `EC2` service.
     ///
     /// Re-enables a disabled AMI. The re-enabled AMI is marked as available and can be used for instance launches, appears in describe operations, and can be shared. Amazon Web Services accounts, organizations, and Organizational Units that lost access to the AMI when it was disabled do not regain access automatically. Once the AMI is available, it can be shared with them again. Only the AMI owner can re-enable a disabled AMI. For more information, see [Disable an AMI](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/disable-an-ami.html) in the Amazon EC2 User Guide.
     ///
@@ -28448,7 +28448,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `EnableImageBlockPublicAccess` operation on the `AmazonEC2` service.
+    /// Performs the `EnableImageBlockPublicAccess` operation on the `EC2` service.
     ///
     /// Enables block public access for AMIs at the account level in the specified Amazon Web Services Region. This prevents the public sharing of your AMIs. However, if you already have public AMIs, they will remain publicly available. The API can take up to 10 minutes to configure this setting. During this time, if you run [GetImageBlockPublicAccessState](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_GetImageBlockPublicAccessState.html), the response will be unblocked. When the API has completed the configuration, the response will be block-new-sharing. For more information, see [Block public access to your AMIs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/sharingamis-intro.html#block-public-access-to-amis) in the Amazon EC2 User Guide.
     ///
@@ -28512,7 +28512,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `EnableImageDeprecation` operation on the `AmazonEC2` service.
+    /// Performs the `EnableImageDeprecation` operation on the `EC2` service.
     ///
     /// Enables deprecation of the specified AMI at the specified date and time. For more information, see [Deprecate an AMI](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ami-deprecate.html) in the Amazon EC2 User Guide.
     ///
@@ -28576,7 +28576,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `EnableImageDeregistrationProtection` operation on the `AmazonEC2` service.
+    /// Performs the `EnableImageDeregistrationProtection` operation on the `EC2` service.
     ///
     /// Enables deregistration protection for an AMI. When deregistration protection is enabled, the AMI can't be deregistered. To allow the AMI to be deregistered, you must first disable deregistration protection using [DisableImageDeregistrationProtection]. For more information, see [Protect an AMI from deregistration](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/deregister-ami.html#ami-deregistration-protection) in the Amazon EC2 User Guide.
     ///
@@ -28640,7 +28640,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `EnableIpamOrganizationAdminAccount` operation on the `AmazonEC2` service.
+    /// Performs the `EnableIpamOrganizationAdminAccount` operation on the `EC2` service.
     ///
     /// Enable an Organizations member account as the IPAM admin account. You cannot select the Organizations management account as the IPAM admin account. For more information, see [Enable integration with Organizations](https://docs.aws.amazon.com/vpc/latest/ipam/enable-integ-ipam.html) in the Amazon VPC IPAM User Guide.
     ///
@@ -28704,7 +28704,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `EnableReachabilityAnalyzerOrganizationSharing` operation on the `AmazonEC2` service.
+    /// Performs the `EnableReachabilityAnalyzerOrganizationSharing` operation on the `EC2` service.
     ///
     /// Establishes a trust relationship between Reachability Analyzer and Organizations. This operation must be performed by the management account for the organization. After you establish a trust relationship, a user in the management account or a delegated administrator account can run a cross-account analysis using resources from the member accounts.
     ///
@@ -28768,7 +28768,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `EnableSerialConsoleAccess` operation on the `AmazonEC2` service.
+    /// Performs the `EnableSerialConsoleAccess` operation on the `EC2` service.
     ///
     /// Enables access to the EC2 serial console of all instances for your account. By default, access to the EC2 serial console is disabled for your account. For more information, see [Manage account access to the EC2 serial console](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configure-access-to-serial-console.html#serial-console-account-access) in the Amazon EC2 User Guide.
     ///
@@ -28832,7 +28832,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `EnableSnapshotBlockPublicAccess` operation on the `AmazonEC2` service.
+    /// Performs the `EnableSnapshotBlockPublicAccess` operation on the `EC2` service.
     ///
     /// Enables or modifies the block public access for snapshots setting at the account level for the specified Amazon Web Services Region. After you enable block public access for snapshots in a Region, users can no longer request public sharing for snapshots in that Region. Snapshots that are already publicly shared are either treated as private or they remain publicly shared, depending on the State that you specify. Enabling block public access for snapshots in block all sharing mode does not change the permissions for snapshots that are already publicly shared. Instead, it prevents these snapshots from be publicly visible and publicly accessible. Therefore, the attributes for these snapshots still indicate that they are publicly shared, even though they are not publicly available. If you later disable block public access or change the mode to block new sharing, these snapshots will become publicly available again. For more information, see [ Block public access for snapshots](https://docs.aws.amazon.com/ebs/latest/userguide/block-public-access-snapshots.html) in the Amazon EBS User Guide.
     ///
@@ -28896,7 +28896,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `EnableTransitGatewayRouteTablePropagation` operation on the `AmazonEC2` service.
+    /// Performs the `EnableTransitGatewayRouteTablePropagation` operation on the `EC2` service.
     ///
     /// Enables the specified attachment to propagate routes to the specified propagation route table.
     ///
@@ -28960,7 +28960,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `EnableVgwRoutePropagation` operation on the `AmazonEC2` service.
+    /// Performs the `EnableVgwRoutePropagation` operation on the `EC2` service.
     ///
     /// Enables a virtual private gateway (VGW) to propagate routes to the specified route table of a VPC.
     ///
@@ -29024,7 +29024,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `EnableVolumeIO` operation on the `AmazonEC2` service.
+    /// Performs the `EnableVolumeIO` operation on the `EC2` service.
     ///
     /// Enables I/O operations for a volume that had I/O operations disabled because the data on the volume was potentially inconsistent.
     ///
@@ -29088,7 +29088,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `EnableVpcClassicLink` operation on the `AmazonEC2` service.
+    /// Performs the `EnableVpcClassicLink` operation on the `EC2` service.
     ///
     /// This action is deprecated. Enables a VPC for ClassicLink. You can then link EC2-Classic instances to your ClassicLink-enabled VPC to allow communication over private IP addresses. You cannot enable your VPC for ClassicLink if any of your VPC route tables have existing routes for address ranges within the 10.0.0.0/8 IP address range, excluding local routes for VPCs in the 10.0.0.0/16 and 10.1.0.0/16 IP address ranges.
     ///
@@ -29152,7 +29152,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `EnableVpcClassicLinkDnsSupport` operation on the `AmazonEC2` service.
+    /// Performs the `EnableVpcClassicLinkDnsSupport` operation on the `EC2` service.
     ///
     /// This action is deprecated. Enables a VPC to support DNS hostname resolution for ClassicLink. If enabled, the DNS hostname of a linked EC2-Classic instance resolves to its private IP address when addressed from an instance in the VPC to which it's linked. Similarly, the DNS hostname of an instance in a VPC resolves to its private IP address when addressed from a linked EC2-Classic instance. You must specify a VPC ID in the request.
     ///
@@ -29216,7 +29216,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ExportClientVpnClientCertificateRevocationList` operation on the `AmazonEC2` service.
+    /// Performs the `ExportClientVpnClientCertificateRevocationList` operation on the `EC2` service.
     ///
     /// Downloads the client certificate revocation list for the specified Client VPN endpoint.
     ///
@@ -29280,7 +29280,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ExportClientVpnClientConfiguration` operation on the `AmazonEC2` service.
+    /// Performs the `ExportClientVpnClientConfiguration` operation on the `EC2` service.
     ///
     /// Downloads the contents of the Client VPN endpoint configuration file for the specified Client VPN endpoint. The Client VPN endpoint configuration file includes the Client VPN endpoint and certificate information clients need to establish a connection with the Client VPN endpoint.
     ///
@@ -29344,7 +29344,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ExportImage` operation on the `AmazonEC2` service.
+    /// Performs the `ExportImage` operation on the `EC2` service.
     ///
     /// Exports an Amazon Machine Image (AMI) to a VM file. For more information, see [Exporting a VM directly from an Amazon Machine Image (AMI)](https://docs.aws.amazon.com/vm-import/latest/userguide/vmexport_image.html) in the VM Import/Export User Guide.
     ///
@@ -29409,7 +29409,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ExportTransitGatewayRoutes` operation on the `AmazonEC2` service.
+    /// Performs the `ExportTransitGatewayRoutes` operation on the `EC2` service.
     ///
     /// Exports routes from the specified transit gateway route table to the specified S3 bucket. By default, all routes are exported. Alternatively, you can filter by CIDR range. The routes are saved to the specified bucket in a JSON file. For more information, see [Export route tables to Amazon S3](https://docs.aws.amazon.com/vpc/latest/tgw/tgw-route-tables.html#tgw-export-route-tables) in the Amazon Web Services Transit Gateways Guide.
     ///
@@ -29473,7 +29473,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ExportVerifiedAccessInstanceClientConfiguration` operation on the `AmazonEC2` service.
+    /// Performs the `ExportVerifiedAccessInstanceClientConfiguration` operation on the `EC2` service.
     ///
     /// Exports the client configuration for a Verified Access instance.
     ///
@@ -29537,7 +29537,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAllowedImagesSettings` operation on the `AmazonEC2` service.
+    /// Performs the `GetAllowedImagesSettings` operation on the `EC2` service.
     ///
     /// Gets the current state of the Allowed AMIs setting and the list of Allowed AMIs criteria at the account level in the specified Region. The Allowed AMIs feature does not restrict the AMIs owned by your account. Regardless of the criteria you set, the AMIs created by your account will always be discoverable and usable by users in your account. For more information, see [Control the discovery and use of AMIs in Amazon EC2 with Allowed AMIs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-allowed-amis.html) in Amazon EC2 User Guide.
     ///
@@ -29601,7 +29601,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAssociatedEnclaveCertificateIamRoles` operation on the `AmazonEC2` service.
+    /// Performs the `GetAssociatedEnclaveCertificateIamRoles` operation on the `EC2` service.
     ///
     /// Returns the IAM roles that are associated with the specified ACM (ACM) certificate. It also returns the name of the Amazon S3 bucket and the Amazon S3 object key where the certificate, certificate chain, and encrypted private key bundle are stored, and the ARN of the KMS key that's used to encrypt the private key.
     ///
@@ -29665,7 +29665,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAssociatedIpv6PoolCidrs` operation on the `AmazonEC2` service.
+    /// Performs the `GetAssociatedIpv6PoolCidrs` operation on the `EC2` service.
     ///
     /// Gets information about the IPv6 CIDR block associations for a specified IPv6 address pool.
     ///
@@ -29729,7 +29729,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAwsNetworkPerformanceData` operation on the `AmazonEC2` service.
+    /// Performs the `GetAwsNetworkPerformanceData` operation on the `EC2` service.
     ///
     /// Gets network performance data.
     ///
@@ -29793,7 +29793,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetCapacityReservationUsage` operation on the `AmazonEC2` service.
+    /// Performs the `GetCapacityReservationUsage` operation on the `EC2` service.
     ///
     /// Gets usage information about a Capacity Reservation. If the Capacity Reservation is shared, it shows usage information for the Capacity Reservation owner and each Amazon Web Services account that is currently using the shared capacity. If the Capacity Reservation is not shared, it shows only the Capacity Reservation owner's usage.
     ///
@@ -29857,7 +29857,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetCoipPoolUsage` operation on the `AmazonEC2` service.
+    /// Performs the `GetCoipPoolUsage` operation on the `EC2` service.
     ///
     /// Describes the allocations from the specified customer-owned address pool.
     ///
@@ -29921,7 +29921,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetConsoleOutput` operation on the `AmazonEC2` service.
+    /// Performs the `GetConsoleOutput` operation on the `EC2` service.
     ///
     /// Gets the console output for the specified instance. For Linux instances, the instance console output displays the exact console output that would normally be displayed on a physical monitor attached to a computer. For Windows instances, the instance console output includes the last three system event log errors. For more information, see [Instance console output](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-console.html#instance-console-console-output) in the Amazon EC2 User Guide.
     ///
@@ -29985,7 +29985,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetConsoleScreenshot` operation on the `AmazonEC2` service.
+    /// Performs the `GetConsoleScreenshot` operation on the `EC2` service.
     ///
     /// Retrieve a JPG-format screenshot of a running instance to help with troubleshooting. The returned content is Base64-encoded. For more information, see [Instance console output](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/troubleshoot-unreachable-instance.html#instance-console-console-output) in the Amazon EC2 User Guide.
     ///
@@ -30049,7 +30049,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDeclarativePoliciesReportSummary` operation on the `AmazonEC2` service.
+    /// Performs the `GetDeclarativePoliciesReportSummary` operation on the `EC2` service.
     ///
     /// Retrieves a summary of the account status report. To view the full report, download it from the Amazon S3 bucket where it was saved. Reports are accessible only when they have the complete status. Reports with other statuses (running, cancelled, or error) are not available in the S3 bucket. For more information about downloading objects from an S3 bucket, see [Downloading objects](https://docs.aws.amazon.com/AmazonS3/latest/userguide/download-objects.html) in the Amazon Simple Storage Service User Guide. For more information, see [Generating the account status report for declarative policies](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_declarative_status-report.html) in the Amazon Web Services Organizations User Guide.
     ///
@@ -30113,7 +30113,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDefaultCreditSpecification` operation on the `AmazonEC2` service.
+    /// Performs the `GetDefaultCreditSpecification` operation on the `EC2` service.
     ///
     /// Describes the default credit option for CPU usage of a burstable performance instance family. For more information, see [Burstable performance instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-performance-instances.html) in the Amazon EC2 User Guide.
     ///
@@ -30177,7 +30177,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetEbsDefaultKmsKeyId` operation on the `AmazonEC2` service.
+    /// Performs the `GetEbsDefaultKmsKeyId` operation on the `EC2` service.
     ///
     /// Describes the default KMS key for EBS encryption by default for your account in this Region. You can change the default KMS key for encryption by default using [ModifyEbsDefaultKmsKeyId] or [ResetEbsDefaultKmsKeyId]. For more information, see [Amazon EBS encryption](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-encryption.html) in the Amazon EBS User Guide.
     ///
@@ -30241,7 +30241,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetEbsEncryptionByDefault` operation on the `AmazonEC2` service.
+    /// Performs the `GetEbsEncryptionByDefault` operation on the `EC2` service.
     ///
     /// Describes whether EBS encryption by default is enabled for your account in the current Region. For more information, see [Amazon EBS encryption](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-encryption.html) in the Amazon EBS User Guide.
     ///
@@ -30305,7 +30305,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetFlowLogsIntegrationTemplate` operation on the `AmazonEC2` service.
+    /// Performs the `GetFlowLogsIntegrationTemplate` operation on the `EC2` service.
     ///
     /// Generates a CloudFormation template that streamlines and automates the integration of VPC flow logs with Amazon Athena. This make it easier for you to query and gain insights from VPC flow logs data. Based on the information that you provide, we configure resources in the template to do the following:
     ///
@@ -30380,7 +30380,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetGroupsForCapacityReservation` operation on the `AmazonEC2` service.
+    /// Performs the `GetGroupsForCapacityReservation` operation on the `EC2` service.
     ///
     /// Lists the resource groups to which a Capacity Reservation has been added.
     ///
@@ -30444,7 +30444,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetHostReservationPurchasePreview` operation on the `AmazonEC2` service.
+    /// Performs the `GetHostReservationPurchasePreview` operation on the `EC2` service.
     ///
     /// Preview a reservation purchase with configurations that match those of your Dedicated Host. You must have active Dedicated Hosts in your account before you purchase a reservation. This is a preview of the [PurchaseHostReservation] action and does not result in the offering being purchased.
     ///
@@ -30508,7 +30508,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetImageBlockPublicAccessState` operation on the `AmazonEC2` service.
+    /// Performs the `GetImageBlockPublicAccessState` operation on the `EC2` service.
     ///
     /// Gets the current state of block public access for AMIs at the account level in the specified Amazon Web Services Region. For more information, see [Block public access to your AMIs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/sharingamis-intro.html#block-public-access-to-amis) in the Amazon EC2 User Guide.
     ///
@@ -30572,7 +30572,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetInstanceMetadataDefaults` operation on the `AmazonEC2` service.
+    /// Performs the `GetInstanceMetadataDefaults` operation on the `EC2` service.
     ///
     /// Gets the default instance metadata service (IMDS) settings that are set at the account level in the specified Amazon Web Services  Region. For more information, see [Order of precedence for instance metadata options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-instance-metadata-options.html#instance-metadata-options-order-of-precedence) in the Amazon EC2 User Guide.
     ///
@@ -30636,7 +30636,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetInstanceTpmEkPub` operation on the `AmazonEC2` service.
+    /// Performs the `GetInstanceTpmEkPub` operation on the `EC2` service.
     ///
     /// Gets the public endorsement key associated with the Nitro Trusted Platform Module (NitroTPM) for the specified instance.
     ///
@@ -30700,7 +30700,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetInstanceTypesFromInstanceRequirements` operation on the `AmazonEC2` service.
+    /// Performs the `GetInstanceTypesFromInstanceRequirements` operation on the `EC2` service.
     ///
     /// Returns a list of instance types with the specified instance attributes. You can use the response to preview the instance types without launching instances. Note that the response does not consider capacity. When you specify multiple parameters, you get instance types that satisfy all of the specified parameters. If you specify multiple values for a parameter, you get instance types that satisfy any of the specified values. For more information, see [Preview instance types with specified attributes](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-fleet-attribute-based-instance-type-selection.html#ec2fleet-get-instance-types-from-instance-requirements), [Specify attributes for instance type selection for EC2 Fleet or Spot Fleet](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-fleet-attribute-based-instance-type-selection.html), and [Spot placement score](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-placement-score.html) in the Amazon EC2 User Guide, and [Creating mixed instance groups using attribute-based instance type selection](https://docs.aws.amazon.com/autoscaling/ec2/userguide/create-asg-instance-type-requirements.html) in the Amazon EC2 Auto Scaling User Guide.
     ///
@@ -30764,7 +30764,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetInstanceUefiData` operation on the `AmazonEC2` service.
+    /// Performs the `GetInstanceUefiData` operation on the `EC2` service.
     ///
     /// A binary representation of the UEFI variable store. Only non-volatile variables are stored. This is a base64 encoded and zlib compressed binary value that must be properly encoded. When you use [register-image](https://docs.aws.amazon.com/cli/latest/reference/ec2/register-image.html) to create an AMI, you can create an exact copy of your variable store by passing the UEFI data in the UefiData parameter. You can modify the UEFI data by using the [python-uefivars tool](https://github.com/awslabs/python-uefivars) on GitHub. You can use the tool to convert the UEFI data into a human-readable format (JSON), which you can inspect and modify, and then convert back into the binary format to use with register-image. For more information, see [UEFI Secure Boot](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/uefi-secure-boot.html) in the Amazon EC2 User Guide.
     ///
@@ -30828,7 +30828,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetIpamAddressHistory` operation on the `AmazonEC2` service.
+    /// Performs the `GetIpamAddressHistory` operation on the `EC2` service.
     ///
     /// Retrieve historical information about a CIDR within an IPAM scope. For more information, see [View the history of IP addresses](https://docs.aws.amazon.com/vpc/latest/ipam/view-history-cidr-ipam.html) in the Amazon VPC IPAM User Guide.
     ///
@@ -30892,7 +30892,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetIpamDiscoveredAccounts` operation on the `AmazonEC2` service.
+    /// Performs the `GetIpamDiscoveredAccounts` operation on the `EC2` service.
     ///
     /// Gets IPAM discovered accounts. A discovered account is an Amazon Web Services account that is monitored under a resource discovery. If you have integrated IPAM with Amazon Web Services Organizations, all accounts in the organization are discovered accounts. Only the IPAM account can get all discovered accounts in the organization.
     ///
@@ -30956,7 +30956,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetIpamDiscoveredPublicAddresses` operation on the `AmazonEC2` service.
+    /// Performs the `GetIpamDiscoveredPublicAddresses` operation on the `EC2` service.
     ///
     /// Gets the public IP addresses that have been discovered by IPAM.
     ///
@@ -31020,7 +31020,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetIpamDiscoveredResourceCidrs` operation on the `AmazonEC2` service.
+    /// Performs the `GetIpamDiscoveredResourceCidrs` operation on the `EC2` service.
     ///
     /// Returns the resource CIDRs that are monitored as part of a resource discovery. A discovered resource is a resource CIDR monitored under a resource discovery. The following resources can be discovered: VPCs, Public IPv4 pools, VPC subnets, and Elastic IP addresses.
     ///
@@ -31084,7 +31084,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetIpamPoolAllocations` operation on the `AmazonEC2` service.
+    /// Performs the `GetIpamPoolAllocations` operation on the `EC2` service.
     ///
     /// Get a list of all the CIDR allocations in an IPAM pool. The Region you use should be the IPAM pool locale. The locale is the Amazon Web Services Region where this IPAM pool is available for allocations. If you use this action after [AllocateIpamPoolCidr](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_AllocateIpamPoolCidr.html) or [ReleaseIpamPoolAllocation](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_ReleaseIpamPoolAllocation.html), note that all EC2 API actions follow an [eventual consistency](https://docs.aws.amazon.com/ec2/latest/devguide/eventual-consistency.html) model.
     ///
@@ -31148,7 +31148,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetIpamPoolCidrs` operation on the `AmazonEC2` service.
+    /// Performs the `GetIpamPoolCidrs` operation on the `EC2` service.
     ///
     /// Get the CIDRs provisioned to an IPAM pool.
     ///
@@ -31212,7 +31212,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetIpamResourceCidrs` operation on the `AmazonEC2` service.
+    /// Performs the `GetIpamResourceCidrs` operation on the `EC2` service.
     ///
     /// Returns resource CIDRs managed by IPAM in a given scope. If an IPAM is associated with more than one resource discovery, the resource CIDRs across all of the resource discoveries is returned. A resource discovery is an IPAM component that enables IPAM to manage and monitor resources that belong to the owning account.
     ///
@@ -31276,7 +31276,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetLaunchTemplateData` operation on the `AmazonEC2` service.
+    /// Performs the `GetLaunchTemplateData` operation on the `EC2` service.
     ///
     /// Retrieves the configuration data of the specified instance. You can use this data to create a launch template. This action calls on other describe actions to get instance information. Depending on your instance configuration, you may need to allow the following actions in your IAM policy: DescribeSpotInstanceRequests, DescribeInstanceCreditSpecifications, DescribeVolumes, and DescribeInstanceAttribute. Or, you can allow describe* depending on your instance requirements.
     ///
@@ -31340,7 +31340,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetManagedPrefixListAssociations` operation on the `AmazonEC2` service.
+    /// Performs the `GetManagedPrefixListAssociations` operation on the `EC2` service.
     ///
     /// Gets information about the resources that are associated with the specified managed prefix list.
     ///
@@ -31404,7 +31404,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetManagedPrefixListEntries` operation on the `AmazonEC2` service.
+    /// Performs the `GetManagedPrefixListEntries` operation on the `EC2` service.
     ///
     /// Gets information about the entries for a specified managed prefix list.
     ///
@@ -31468,7 +31468,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetNetworkInsightsAccessScopeAnalysisFindings` operation on the `AmazonEC2` service.
+    /// Performs the `GetNetworkInsightsAccessScopeAnalysisFindings` operation on the `EC2` service.
     ///
     /// Gets the findings for the specified Network Access Scope analysis.
     ///
@@ -31532,7 +31532,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetNetworkInsightsAccessScopeContent` operation on the `AmazonEC2` service.
+    /// Performs the `GetNetworkInsightsAccessScopeContent` operation on the `EC2` service.
     ///
     /// Gets the content for the specified Network Access Scope.
     ///
@@ -31596,7 +31596,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetPasswordData` operation on the `AmazonEC2` service.
+    /// Performs the `GetPasswordData` operation on the `EC2` service.
     ///
     /// Retrieves the encrypted administrator password for a running Windows instance. The Windows password is generated at boot by the EC2Config service or EC2Launch scripts (Windows Server 2016 and later). This usually only happens the first time an instance is launched. For more information, see [EC2Config](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/UsingConfig_WinAMI.html) and [EC2Launch](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2launch.html) in the Amazon EC2 User Guide. For the EC2Config service, the password is not generated for rebundled AMIs unless Ec2SetPassword is enabled before bundling. The password is encrypted using the key pair that you specified when you launched the instance. You must provide the corresponding key pair file. When you launch an instance, password generation and encryption may take a few minutes. If you try to retrieve the password before it's available, the output returns an empty string. We recommend that you wait up to 15 minutes after launching an instance before trying to retrieve the generated password.
     ///
@@ -31660,7 +31660,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetReservedInstancesExchangeQuote` operation on the `AmazonEC2` service.
+    /// Performs the `GetReservedInstancesExchangeQuote` operation on the `EC2` service.
     ///
     /// Returns a quote and exchange information for exchanging one or more specified Convertible Reserved Instances for a new Convertible Reserved Instance. If the exchange cannot be performed, the reason is returned in the response. Use [AcceptReservedInstancesExchangeQuote] to perform the exchange.
     ///
@@ -31724,7 +31724,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetSecurityGroupsForVpc` operation on the `AmazonEC2` service.
+    /// Performs the `GetSecurityGroupsForVpc` operation on the `EC2` service.
     ///
     /// Gets security groups that can be associated by the Amazon Web Services account making the request with network interfaces in the specified VPC.
     ///
@@ -31788,7 +31788,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetSerialConsoleAccessStatus` operation on the `AmazonEC2` service.
+    /// Performs the `GetSerialConsoleAccessStatus` operation on the `EC2` service.
     ///
     /// Retrieves the access status of your account to the EC2 serial console of all instances. By default, access to the EC2 serial console is disabled for your account. For more information, see [Manage account access to the EC2 serial console](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configure-access-to-serial-console.html#serial-console-account-access) in the Amazon EC2 User Guide.
     ///
@@ -31852,7 +31852,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetSnapshotBlockPublicAccessState` operation on the `AmazonEC2` service.
+    /// Performs the `GetSnapshotBlockPublicAccessState` operation on the `EC2` service.
     ///
     /// Gets the current state of block public access for snapshots setting for the account and Region. For more information, see [ Block public access for snapshots](https://docs.aws.amazon.com/ebs/latest/userguide/block-public-access-snapshots.html) in the Amazon EBS User Guide.
     ///
@@ -31916,7 +31916,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetSpotPlacementScores` operation on the `AmazonEC2` service.
+    /// Performs the `GetSpotPlacementScores` operation on the `EC2` service.
     ///
     /// Calculates the Spot placement score for a Region or Availability Zone based on the specified target capacity and compute requirements. You can specify your compute requirements either by using InstanceRequirementsWithMetadata and letting Amazon EC2 choose the optimal instance types to fulfill your Spot request, or you can specify the instance types by using InstanceTypes. For more information, see [Spot placement score](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-placement-score.html) in the Amazon EC2 User Guide.
     ///
@@ -31980,7 +31980,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetSubnetCidrReservations` operation on the `AmazonEC2` service.
+    /// Performs the `GetSubnetCidrReservations` operation on the `EC2` service.
     ///
     /// Gets information about the subnet CIDR reservations.
     ///
@@ -32044,7 +32044,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetTransitGatewayAttachmentPropagations` operation on the `AmazonEC2` service.
+    /// Performs the `GetTransitGatewayAttachmentPropagations` operation on the `EC2` service.
     ///
     /// Lists the route tables to which the specified resource attachment propagates routes.
     ///
@@ -32108,7 +32108,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetTransitGatewayMulticastDomainAssociations` operation on the `AmazonEC2` service.
+    /// Performs the `GetTransitGatewayMulticastDomainAssociations` operation on the `EC2` service.
     ///
     /// Gets information about the associations for the transit gateway multicast domain.
     ///
@@ -32172,7 +32172,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetTransitGatewayPolicyTableAssociations` operation on the `AmazonEC2` service.
+    /// Performs the `GetTransitGatewayPolicyTableAssociations` operation on the `EC2` service.
     ///
     /// Gets a list of the transit gateway policy table associations.
     ///
@@ -32236,7 +32236,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetTransitGatewayPolicyTableEntries` operation on the `AmazonEC2` service.
+    /// Performs the `GetTransitGatewayPolicyTableEntries` operation on the `EC2` service.
     ///
     /// Returns a list of transit gateway policy table entries.
     ///
@@ -32300,7 +32300,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetTransitGatewayPrefixListReferences` operation on the `AmazonEC2` service.
+    /// Performs the `GetTransitGatewayPrefixListReferences` operation on the `EC2` service.
     ///
     /// Gets information about the prefix list references in a specified transit gateway route table.
     ///
@@ -32364,7 +32364,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetTransitGatewayRouteTableAssociations` operation on the `AmazonEC2` service.
+    /// Performs the `GetTransitGatewayRouteTableAssociations` operation on the `EC2` service.
     ///
     /// Gets information about the associations for the specified transit gateway route table.
     ///
@@ -32428,7 +32428,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetTransitGatewayRouteTablePropagations` operation on the `AmazonEC2` service.
+    /// Performs the `GetTransitGatewayRouteTablePropagations` operation on the `EC2` service.
     ///
     /// Gets information about the route table propagations for the specified transit gateway route table.
     ///
@@ -32492,7 +32492,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetVerifiedAccessEndpointPolicy` operation on the `AmazonEC2` service.
+    /// Performs the `GetVerifiedAccessEndpointPolicy` operation on the `EC2` service.
     ///
     /// Get the Verified Access policy associated with the endpoint.
     ///
@@ -32556,7 +32556,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetVerifiedAccessEndpointTargets` operation on the `AmazonEC2` service.
+    /// Performs the `GetVerifiedAccessEndpointTargets` operation on the `EC2` service.
     ///
     /// Gets the targets for the specified network CIDR endpoint for Verified Access.
     ///
@@ -32620,7 +32620,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetVerifiedAccessGroupPolicy` operation on the `AmazonEC2` service.
+    /// Performs the `GetVerifiedAccessGroupPolicy` operation on the `EC2` service.
     ///
     /// Shows the contents of the Verified Access policy associated with the group.
     ///
@@ -32684,7 +32684,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetVpnConnectionDeviceSampleConfiguration` operation on the `AmazonEC2` service.
+    /// Performs the `GetVpnConnectionDeviceSampleConfiguration` operation on the `EC2` service.
     ///
     /// Download an Amazon Web Services-provided sample configuration file to be used with the customer gateway device specified for your Site-to-Site VPN connection.
     ///
@@ -32748,7 +32748,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetVpnConnectionDeviceTypes` operation on the `AmazonEC2` service.
+    /// Performs the `GetVpnConnectionDeviceTypes` operation on the `EC2` service.
     ///
     /// Obtain a list of customer gateway devices for which sample configuration files can be provided. The request has no additional parameters. You can also see the list of device types with sample configuration files available under [Your customer gateway device](https://docs.aws.amazon.com/vpn/latest/s2svpn/your-cgw.html) in the Amazon Web Services Site-to-Site VPN User Guide.
     ///
@@ -32812,7 +32812,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetVpnTunnelReplacementStatus` operation on the `AmazonEC2` service.
+    /// Performs the `GetVpnTunnelReplacementStatus` operation on the `EC2` service.
     ///
     /// Get details of available tunnel endpoint maintenance.
     ///
@@ -32876,7 +32876,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ImportClientVpnClientCertificateRevocationList` operation on the `AmazonEC2` service.
+    /// Performs the `ImportClientVpnClientCertificateRevocationList` operation on the `EC2` service.
     ///
     /// Uploads a client certificate revocation list to the specified Client VPN endpoint. Uploading a client certificate revocation list overwrites the existing client certificate revocation list. Uploading a client certificate revocation list resets existing client connections.
     ///
@@ -32940,7 +32940,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ImportImage` operation on the `AmazonEC2` service.
+    /// Performs the `ImportImage` operation on the `EC2` service.
     ///
     /// To import your virtual machines (VMs) with a console-based experience, you can use the Import virtual machine images to Amazon Web Services template in the [Migration Hub Orchestrator console](https://console.aws.amazon.com/migrationhub/orchestrator). For more information, see the [ Migration Hub Orchestrator User Guide ](https://docs.aws.amazon.com/migrationhub-orchestrator/latest/userguide/import-vm-images.html). Import single or multi-volume disk images or EBS snapshots into an Amazon Machine Image (AMI). Amazon Web Services VM Import/Export strongly recommends specifying a value for either the --license-type or --usage-operation parameter when you create a new VM Import task. This ensures your operating system is licensed appropriately and your billing is optimized. For more information, see [Importing a VM as an image using VM Import/Export](https://docs.aws.amazon.com/vm-import/latest/userguide/vmimport-image-import.html) in the VM Import/Export User Guide.
     ///
@@ -33004,7 +33004,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ImportInstance` operation on the `AmazonEC2` service.
+    /// Performs the `ImportInstance` operation on the `EC2` service.
     ///
     /// We recommend that you use the [ImportImage](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_ImportImage.html) API instead. For more information, see [Importing a VM as an image using VM Import/Export](https://docs.aws.amazon.com/vm-import/latest/userguide/vmimport-image-import.html) in the VM Import/Export User Guide. Creates an import instance task using metadata from the specified disk image. This API action supports only single-volume VMs. To import multi-volume VMs, use [ImportImage] instead. For information about the import manifest referenced by this API action, see [VM Import Manifest](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/manifest.html). This API action is not supported by the Command Line Interface (CLI).
     ///
@@ -33068,7 +33068,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ImportKeyPair` operation on the `AmazonEC2` service.
+    /// Performs the `ImportKeyPair` operation on the `EC2` service.
     ///
     /// Imports the public key from an RSA or ED25519 key pair that you created using a third-party tool. You give Amazon Web Services only the public key. The private key is never transferred between you and Amazon Web Services. For more information about the requirements for importing a key pair, see [Create a key pair and import the public key to Amazon EC2](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/create-key-pairs.html#how-to-generate-your-own-key-and-import-it-to-aws) in the Amazon EC2 User Guide.
     ///
@@ -33132,7 +33132,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ImportSnapshot` operation on the `AmazonEC2` service.
+    /// Performs the `ImportSnapshot` operation on the `EC2` service.
     ///
     /// Imports a disk into an EBS snapshot. For more information, see [Importing a disk as a snapshot using VM Import/Export](https://docs.aws.amazon.com/vm-import/latest/userguide/vmimport-import-snapshot.html) in the VM Import/Export User Guide.
     ///
@@ -33196,7 +33196,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ImportVolume` operation on the `AmazonEC2` service.
+    /// Performs the `ImportVolume` operation on the `EC2` service.
     ///
     /// This API action supports only single-volume VMs. To import multi-volume VMs, use [ImportImage] instead. To import a disk to a snapshot, use [ImportSnapshot] instead. Creates an import volume task using metadata from the specified disk image. For information about the import manifest referenced by this API action, see [VM Import Manifest](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/manifest.html). This API action is not supported by the Command Line Interface (CLI).
     ///
@@ -33260,7 +33260,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListImagesInRecycleBin` operation on the `AmazonEC2` service.
+    /// Performs the `ListImagesInRecycleBin` operation on the `EC2` service.
     ///
     /// Lists one or more AMIs that are currently in the Recycle Bin. For more information, see [Recycle Bin](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/recycle-bin.html) in the Amazon EC2 User Guide.
     ///
@@ -33324,7 +33324,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListSnapshotsInRecycleBin` operation on the `AmazonEC2` service.
+    /// Performs the `ListSnapshotsInRecycleBin` operation on the `EC2` service.
     ///
     /// Lists one or more snapshots that are currently in the Recycle Bin.
     ///
@@ -33388,7 +33388,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `LockSnapshot` operation on the `AmazonEC2` service.
+    /// Performs the `LockSnapshot` operation on the `EC2` service.
     ///
     /// Locks an Amazon EBS snapshot in either governance or compliance mode to protect it against accidental or malicious deletions for a specific duration. A locked snapshot can't be deleted. You can also use this action to modify the lock settings for a snapshot that is already locked. The allowed modifications depend on the lock mode and lock state:
     ///
@@ -33458,7 +33458,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyAddressAttribute` operation on the `AmazonEC2` service.
+    /// Performs the `ModifyAddressAttribute` operation on the `EC2` service.
     ///
     /// Modifies an attribute of the specified Elastic IP address. For requirements, see [Using reverse DNS for email applications](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html#Using_Elastic_Addressing_Reverse_DNS).
     ///
@@ -33522,7 +33522,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyAvailabilityZoneGroup` operation on the `AmazonEC2` service.
+    /// Performs the `ModifyAvailabilityZoneGroup` operation on the `EC2` service.
     ///
     /// Changes the opt-in status of the specified zone group for your account.
     ///
@@ -33586,7 +33586,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyCapacityReservation` operation on the `AmazonEC2` service.
+    /// Performs the `ModifyCapacityReservation` operation on the `EC2` service.
     ///
     /// Modifies a Capacity Reservation's capacity, instance eligibility, and the conditions under which it is to be released. You can't modify a Capacity Reservation's instance type, EBS optimization, platform, instance store settings, Availability Zone, or tenancy. If you need to modify any of these attributes, we recommend that you cancel the Capacity Reservation, and then create a new one with the required attributes. For more information, see [ Modify an active Capacity Reservation](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/capacity-reservations-modify.html). The allowed modifications depend on the state of the Capacity Reservation:
     ///
@@ -33660,7 +33660,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyCapacityReservationFleet` operation on the `AmazonEC2` service.
+    /// Performs the `ModifyCapacityReservationFleet` operation on the `EC2` service.
     ///
     /// Modifies a Capacity Reservation Fleet. When you modify the total target capacity of a Capacity Reservation Fleet, the Fleet automatically creates new Capacity Reservations, or modifies or cancels existing Capacity Reservations in the Fleet to meet the new total target capacity. When you modify the end date for the Fleet, the end dates for all of the individual Capacity Reservations in the Fleet are updated accordingly.
     ///
@@ -33724,7 +33724,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyClientVpnEndpoint` operation on the `AmazonEC2` service.
+    /// Performs the `ModifyClientVpnEndpoint` operation on the `EC2` service.
     ///
     /// Modifies the specified Client VPN endpoint. Modifying the DNS server resets existing client connections.
     ///
@@ -33788,7 +33788,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyDefaultCreditSpecification` operation on the `AmazonEC2` service.
+    /// Performs the `ModifyDefaultCreditSpecification` operation on the `EC2` service.
     ///
     /// Modifies the default credit option for CPU usage of burstable performance instances. The default credit option is set at the account level per Amazon Web Services Region, and is specified per instance family. All new burstable performance instances in the account launch using the default credit option. ModifyDefaultCreditSpecification is an asynchronous operation, which works at an Amazon Web Services Region level and modifies the credit option for each Availability Zone. All zones in a Region are updated within five minutes. But if instances are launched during this operation, they might not get the new credit option until the zone is updated. To verify whether the update has occurred, you can call GetDefaultCreditSpecification and check DefaultCreditSpecification for updates. For more information, see [Burstable performance instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-performance-instances.html) in the Amazon EC2 User Guide.
     ///
@@ -33852,7 +33852,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyEbsDefaultKmsKeyId` operation on the `AmazonEC2` service.
+    /// Performs the `ModifyEbsDefaultKmsKeyId` operation on the `EC2` service.
     ///
     /// Changes the default KMS key for EBS encryption by default for your account in this Region. Amazon Web Services creates a unique Amazon Web Services managed KMS key in each Region for use with encryption by default. If you change the default KMS key to a symmetric customer managed KMS key, it is used instead of the Amazon Web Services managed KMS key. To reset the default KMS key to the Amazon Web Services managed KMS key for EBS, use [ResetEbsDefaultKmsKeyId]. Amazon EBS does not support asymmetric KMS keys. If you delete or disable the customer managed KMS key that you specified for use with encryption by default, your instances will fail to launch. For more information, see [Amazon EBS encryption](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-encryption.html) in the Amazon EBS User Guide.
     ///
@@ -33916,7 +33916,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyFleet` operation on the `AmazonEC2` service.
+    /// Performs the `ModifyFleet` operation on the `EC2` service.
     ///
     /// Modifies the specified EC2 Fleet. You can only modify an EC2 Fleet request of type maintain. While the EC2 Fleet is being modified, it is in the modifying state. To scale up your EC2 Fleet, increase its target capacity. The EC2 Fleet launches the additional Spot Instances according to the allocation strategy for the EC2 Fleet request. If the allocation strategy is lowest-price, the EC2 Fleet launches instances using the Spot Instance pool with the lowest price. If the allocation strategy is diversified, the EC2 Fleet distributes the instances across the Spot Instance pools. If the allocation strategy is capacity-optimized, EC2 Fleet launches instances from Spot Instance pools with optimal capacity for the number of instances that are launching. To scale down your EC2 Fleet, decrease its target capacity. First, the EC2 Fleet cancels any open requests that exceed the new target capacity. You can request that the EC2 Fleet terminate Spot Instances until the size of the fleet no longer exceeds the new target capacity. If the allocation strategy is lowest-price, the EC2 Fleet terminates the instances with the highest price per unit. If the allocation strategy is capacity-optimized, the EC2 Fleet terminates the instances in the Spot Instance pools that have the least available Spot Instance capacity. If the allocation strategy is diversified, the EC2 Fleet terminates instances across the Spot Instance pools. Alternatively, you can request that the EC2 Fleet keep the fleet at its current size, but not replace any Spot Instances that are interrupted or that you terminate manually. If you are finished with your EC2 Fleet for now, but will use it again later, you can set the target capacity to 0.
     ///
@@ -33980,7 +33980,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyFpgaImageAttribute` operation on the `AmazonEC2` service.
+    /// Performs the `ModifyFpgaImageAttribute` operation on the `EC2` service.
     ///
     /// Modifies the specified attribute of the specified Amazon FPGA Image (AFI).
     ///
@@ -34044,7 +34044,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyHosts` operation on the `AmazonEC2` service.
+    /// Performs the `ModifyHosts` operation on the `EC2` service.
     ///
     /// Modify the auto-placement setting of a Dedicated Host. When auto-placement is enabled, any instances that you launch with a tenancy of host but without a specific host ID are placed onto any available Dedicated Host in your account that has auto-placement enabled. When auto-placement is disabled, you need to provide a host ID to have the instance launch onto a specific host. If no host ID is provided, the instance is launched onto a suitable host with auto-placement enabled. You can also use this API action to modify a Dedicated Host to support either multiple instance types in an instance family, or to support a specific instance type only.
     ///
@@ -34108,7 +34108,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyIdFormat` operation on the `AmazonEC2` service.
+    /// Performs the `ModifyIdFormat` operation on the `EC2` service.
     ///
     /// Modifies the ID format for the specified resource on a per-Region basis. You can specify that resources should receive longer IDs (17-character IDs) when they are created. This request can only be used to modify longer ID settings for resource types that are within the opt-in period. Resources currently in their opt-in period include: bundle | conversion-task | customer-gateway | dhcp-options | elastic-ip-allocation | elastic-ip-association | export-task | flow-log | image | import-task | internet-gateway | network-acl | network-acl-association | network-interface | network-interface-attachment | prefix-list | route-table | route-table-association | security-group | subnet | subnet-cidr-block-association | vpc | vpc-cidr-block-association | vpc-endpoint | vpc-peering-connection | vpn-connection | vpn-gateway. This setting applies to the IAM user who makes the request; it does not apply to the entire Amazon Web Services account. By default, an IAM user defaults to the same settings as the root user. If you're using this action as the root user, then these settings apply to the entire account, unless an IAM user explicitly overrides these settings for themselves. For more information, see [Resource IDs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/resource-ids.html) in the Amazon Elastic Compute Cloud User Guide. Resources created with longer IDs are visible to all IAM roles and users, regardless of these settings and provided that they have permission to use the relevant Describe command for the resource type.
     ///
@@ -34172,7 +34172,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyIdentityIdFormat` operation on the `AmazonEC2` service.
+    /// Performs the `ModifyIdentityIdFormat` operation on the `EC2` service.
     ///
     /// Modifies the ID format of a resource for a specified IAM user, IAM role, or the root user for an account; or all IAM users, IAM roles, and the root user for an account. You can specify that resources should receive longer IDs (17-character IDs) when they are created. This request can only be used to modify longer ID settings for resource types that are within the opt-in period. Resources currently in their opt-in period include: bundle | conversion-task | customer-gateway | dhcp-options | elastic-ip-allocation | elastic-ip-association | export-task | flow-log | image | import-task | internet-gateway | network-acl | network-acl-association | network-interface | network-interface-attachment | prefix-list | route-table | route-table-association | security-group | subnet | subnet-cidr-block-association | vpc | vpc-cidr-block-association | vpc-endpoint | vpc-peering-connection | vpn-connection | vpn-gateway. For more information, see [Resource IDs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/resource-ids.html) in the Amazon Elastic Compute Cloud User Guide. This setting applies to the principal specified in the request; it does not apply to the principal that makes the request. Resources created with longer IDs are visible to all IAM roles and users, regardless of these settings and provided that they have permission to use the relevant Describe command for the resource type.
     ///
@@ -34236,7 +34236,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyImageAttribute` operation on the `AmazonEC2` service.
+    /// Performs the `ModifyImageAttribute` operation on the `EC2` service.
     ///
     /// Modifies the specified attribute of the specified AMI. You can specify only one attribute at a time. To specify the attribute, you can use the Attribute parameter, or one of the following parameters: Description, ImdsSupport, or LaunchPermission. Images with an Amazon Web Services Marketplace product code cannot be made public. To enable the SriovNetSupport enhanced networking attribute of an image, enable SriovNetSupport on an instance and create an AMI from the instance.
     ///
@@ -34300,7 +34300,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyInstanceAttribute` operation on the `AmazonEC2` service.
+    /// Performs the `ModifyInstanceAttribute` operation on the `EC2` service.
     ///
     /// Modifies the specified attribute of the specified instance. You can specify only one attribute at a time. Note: Using this action to change the security groups associated with an elastic network interface (ENI) attached to an instance can result in an error if the instance has more than one ENI. To change the security groups associated with an ENI attached to an instance that has multiple ENIs, we recommend that you use the [ModifyNetworkInterfaceAttribute] action. To modify some attributes, the instance must be stopped. For more information, see [Modify a stopped instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_ChangingAttributesWhileInstanceStopped.html) in the Amazon EC2 User Guide.
     ///
@@ -34364,7 +34364,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyInstanceCapacityReservationAttributes` operation on the `AmazonEC2` service.
+    /// Performs the `ModifyInstanceCapacityReservationAttributes` operation on the `EC2` service.
     ///
     /// Modifies the Capacity Reservation settings for a stopped instance. Use this action to configure an instance to target a specific Capacity Reservation, run in any open Capacity Reservation with matching attributes, run in On-Demand Instance capacity, or only run in a Capacity Reservation.
     ///
@@ -34428,7 +34428,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyInstanceCpuOptions` operation on the `AmazonEC2` service.
+    /// Performs the `ModifyInstanceCpuOptions` operation on the `EC2` service.
     ///
     /// By default, all vCPUs for the instance type are active when you launch an instance. When you configure the number of active vCPUs for the instance, it can help you save on licensing costs and optimize performance. The base cost of the instance remains unchanged. The number of active vCPUs equals the number of threads per CPU core multiplied by the number of cores. The instance must be in a Stopped state before you make changes. Some instance type options do not support this capability. For more information, see [Supported CPU options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/cpu-options-supported-instances-values.html) in the Amazon EC2 User Guide.
     ///
@@ -34492,7 +34492,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyInstanceCreditSpecification` operation on the `AmazonEC2` service.
+    /// Performs the `ModifyInstanceCreditSpecification` operation on the `EC2` service.
     ///
     /// Modifies the credit option for CPU usage on a running or stopped burstable performance instance. The credit options are standard and unlimited. For more information, see [Burstable performance instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-performance-instances.html) in the Amazon EC2 User Guide.
     ///
@@ -34556,7 +34556,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyInstanceEventStartTime` operation on the `AmazonEC2` service.
+    /// Performs the `ModifyInstanceEventStartTime` operation on the `EC2` service.
     ///
     /// Modifies the start time for a scheduled Amazon EC2 instance event.
     ///
@@ -34620,7 +34620,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyInstanceEventWindow` operation on the `AmazonEC2` service.
+    /// Performs the `ModifyInstanceEventWindow` operation on the `EC2` service.
     ///
     /// Modifies the specified event window. You can define either a set of time ranges or a cron expression when modifying the event window, but not both. To modify the targets associated with the event window, use the [AssociateInstanceEventWindow] and [DisassociateInstanceEventWindow] API. If Amazon Web Services has already scheduled an event, modifying an event window won't change the time of the scheduled event. For more information, see [Define event windows for scheduled events](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/event-windows.html) in the Amazon EC2 User Guide.
     ///
@@ -34684,7 +34684,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyInstanceMaintenanceOptions` operation on the `AmazonEC2` service.
+    /// Performs the `ModifyInstanceMaintenanceOptions` operation on the `EC2` service.
     ///
     /// Modifies the recovery behavior of your instance to disable simplified automatic recovery or set the recovery behavior to default. The default configuration will not enable simplified automatic recovery for an unsupported instance type. For more information, see [Simplified automatic recovery](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-recover.html#instance-configuration-recovery).
     ///
@@ -34748,7 +34748,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyInstanceMetadataDefaults` operation on the `AmazonEC2` service.
+    /// Performs the `ModifyInstanceMetadataDefaults` operation on the `EC2` service.
     ///
     /// Modifies the default instance metadata service (IMDS) settings at the account level in the specified Amazon Web Services  Region. To remove a parameter's account-level default setting, specify no-preference. If an account-level setting is cleared with no-preference, then the instance launch considers the other instance metadata settings. For more information, see [Order of precedence for instance metadata options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-instance-metadata-options.html#instance-metadata-options-order-of-precedence) in the Amazon EC2 User Guide.
     ///
@@ -34812,7 +34812,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyInstanceMetadataOptions` operation on the `AmazonEC2` service.
+    /// Performs the `ModifyInstanceMetadataOptions` operation on the `EC2` service.
     ///
     /// Modify the instance metadata parameters on a running or stopped instance. When you modify the parameters on a stopped instance, they are applied when the instance is started. When you modify the parameters on a running instance, the API responds with a state of “pending”. After the parameter modifications are successfully applied to the instance, the state of the modifications changes from “pending” to “applied” in subsequent describe-instances API calls. For more information, see [Instance metadata and user data](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-metadata.html) in the Amazon EC2 User Guide.
     ///
@@ -34876,7 +34876,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyInstanceNetworkPerformanceOptions` operation on the `AmazonEC2` service.
+    /// Performs the `ModifyInstanceNetworkPerformanceOptions` operation on the `EC2` service.
     ///
     /// Change the configuration of the network performance options for an existing instance.
     ///
@@ -34940,7 +34940,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyInstancePlacement` operation on the `AmazonEC2` service.
+    /// Performs the `ModifyInstancePlacement` operation on the `EC2` service.
     ///
     /// Modifies the placement attributes for a specified instance. You can do the following:
     ///
@@ -35015,7 +35015,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyIpam` operation on the `AmazonEC2` service.
+    /// Performs the `ModifyIpam` operation on the `EC2` service.
     ///
     /// Modify the configurations of an IPAM.
     ///
@@ -35079,7 +35079,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyIpamPool` operation on the `AmazonEC2` service.
+    /// Performs the `ModifyIpamPool` operation on the `EC2` service.
     ///
     /// Modify the configurations of an IPAM pool. For more information, see [Modify a pool](https://docs.aws.amazon.com/vpc/latest/ipam/mod-pool-ipam.html) in the Amazon VPC IPAM User Guide.
     ///
@@ -35143,7 +35143,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyIpamResourceCidr` operation on the `AmazonEC2` service.
+    /// Performs the `ModifyIpamResourceCidr` operation on the `EC2` service.
     ///
     /// Modify a resource CIDR. You can use this action to transfer resource CIDRs between scopes and ignore resource CIDRs that you do not want to manage. If set to false, the resource will not be tracked for overlap, it cannot be auto-imported into a pool, and it will be removed from any pool it has an allocation in. For more information, see [Move resource CIDRs between scopes](https://docs.aws.amazon.com/vpc/latest/ipam/move-resource-ipam.html) and [Change the monitoring state of resource CIDRs](https://docs.aws.amazon.com/vpc/latest/ipam/change-monitoring-state-ipam.html) in the Amazon VPC IPAM User Guide.
     ///
@@ -35207,7 +35207,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyIpamResourceDiscovery` operation on the `AmazonEC2` service.
+    /// Performs the `ModifyIpamResourceDiscovery` operation on the `EC2` service.
     ///
     /// Modifies a resource discovery. A resource discovery is an IPAM component that enables IPAM to manage and monitor resources that belong to the owning account.
     ///
@@ -35271,7 +35271,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyIpamScope` operation on the `AmazonEC2` service.
+    /// Performs the `ModifyIpamScope` operation on the `EC2` service.
     ///
     /// Modify an IPAM scope.
     ///
@@ -35335,7 +35335,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyLaunchTemplate` operation on the `AmazonEC2` service.
+    /// Performs the `ModifyLaunchTemplate` operation on the `EC2` service.
     ///
     /// Modifies a launch template. You can specify which version of the launch template to set as the default version. When launching an instance, the default version applies when a launch template version is not specified.
     ///
@@ -35399,7 +35399,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyLocalGatewayRoute` operation on the `AmazonEC2` service.
+    /// Performs the `ModifyLocalGatewayRoute` operation on the `EC2` service.
     ///
     /// Modifies the specified local gateway route.
     ///
@@ -35463,7 +35463,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyManagedPrefixList` operation on the `AmazonEC2` service.
+    /// Performs the `ModifyManagedPrefixList` operation on the `EC2` service.
     ///
     /// Modifies the specified managed prefix list. Adding or removing entries in a prefix list creates a new version of the prefix list. Changing the name of the prefix list does not affect the version. If you specify a current version number that does not match the true current version number, the request fails.
     ///
@@ -35527,7 +35527,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyNetworkInterfaceAttribute` operation on the `AmazonEC2` service.
+    /// Performs the `ModifyNetworkInterfaceAttribute` operation on the `EC2` service.
     ///
     /// Modifies the specified network interface attribute. You can specify only one attribute at a time. You can use this action to attach and detach security groups from an existing EC2 instance.
     ///
@@ -35591,7 +35591,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyPrivateDnsNameOptions` operation on the `AmazonEC2` service.
+    /// Performs the `ModifyPrivateDnsNameOptions` operation on the `EC2` service.
     ///
     /// Modifies the options for instance hostnames for the specified instance.
     ///
@@ -35655,7 +35655,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyReservedInstances` operation on the `AmazonEC2` service.
+    /// Performs the `ModifyReservedInstances` operation on the `EC2` service.
     ///
     /// Modifies the configuration of your Reserved Instances, such as the Availability Zone, instance count, or instance type. The Reserved Instances to be modified must be identical, except for Availability Zone, network platform, and instance type. For more information, see [Modify Reserved Instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ri-modifying.html) in the Amazon EC2 User Guide.
     ///
@@ -35719,7 +35719,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifySecurityGroupRules` operation on the `AmazonEC2` service.
+    /// Performs the `ModifySecurityGroupRules` operation on the `EC2` service.
     ///
     /// Modifies the rules of a security group.
     ///
@@ -35783,7 +35783,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifySnapshotAttribute` operation on the `AmazonEC2` service.
+    /// Performs the `ModifySnapshotAttribute` operation on the `EC2` service.
     ///
     /// Adds or removes permission settings for the specified snapshot. You may add or remove specified Amazon Web Services account IDs from a snapshot's list of create volume permissions, but you cannot do both in a single operation. If you need to both add and remove account IDs for a snapshot, you must use multiple operations. You can make up to 500 modifications to a snapshot in a single operation. Encrypted snapshots and snapshots with Amazon Web Services Marketplace product codes cannot be made public. Snapshots encrypted with your default KMS key cannot be shared with other accounts. For more information about modifying snapshot permissions, see [Share a snapshot](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-modifying-snapshot-permissions.html) in the Amazon EBS User Guide.
     ///
@@ -35847,7 +35847,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifySnapshotTier` operation on the `AmazonEC2` service.
+    /// Performs the `ModifySnapshotTier` operation on the `EC2` service.
     ///
     /// Archives an Amazon EBS snapshot. When you archive a snapshot, it is converted to a full snapshot that includes all of the blocks of data that were written to the volume at the time the snapshot was created, and moved from the standard tier to the archive tier. For more information, see [Archive Amazon EBS snapshots](https://docs.aws.amazon.com/ebs/latest/userguide/snapshot-archive.html) in the Amazon EBS User Guide.
     ///
@@ -35911,7 +35911,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifySpotFleetRequest` operation on the `AmazonEC2` service.
+    /// Performs the `ModifySpotFleetRequest` operation on the `EC2` service.
     ///
     /// Modifies the specified Spot Fleet request. You can only modify a Spot Fleet request of type maintain. While the Spot Fleet request is being modified, it is in the modifying state. To scale up your Spot Fleet, increase its target capacity. The Spot Fleet launches the additional Spot Instances according to the allocation strategy for the Spot Fleet request. If the allocation strategy is lowestPrice, the Spot Fleet launches instances using the Spot Instance pool with the lowest price. If the allocation strategy is diversified, the Spot Fleet distributes the instances across the Spot Instance pools. If the allocation strategy is capacityOptimized, Spot Fleet launches instances from Spot Instance pools with optimal capacity for the number of instances that are launching. To scale down your Spot Fleet, decrease its target capacity. First, the Spot Fleet cancels any open requests that exceed the new target capacity. You can request that the Spot Fleet terminate Spot Instances until the size of the fleet no longer exceeds the new target capacity. If the allocation strategy is lowestPrice, the Spot Fleet terminates the instances with the highest price per unit. If the allocation strategy is capacityOptimized, the Spot Fleet terminates the instances in the Spot Instance pools that have the least available Spot Instance capacity. If the allocation strategy is diversified, the Spot Fleet terminates instances across the Spot Instance pools. Alternatively, you can request that the Spot Fleet keep the fleet at its current size, but not replace any Spot Instances that are interrupted or that you terminate manually. If you are finished with your Spot Fleet for now, but will use it again later, you can set the target capacity to 0.
     ///
@@ -35975,7 +35975,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifySubnetAttribute` operation on the `AmazonEC2` service.
+    /// Performs the `ModifySubnetAttribute` operation on the `EC2` service.
     ///
     /// Modifies a subnet attribute. You can only modify one attribute at a time. Use this action to modify subnets on Amazon Web Services Outposts.
     ///
@@ -36050,7 +36050,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyTrafficMirrorFilterNetworkServices` operation on the `AmazonEC2` service.
+    /// Performs the `ModifyTrafficMirrorFilterNetworkServices` operation on the `EC2` service.
     ///
     /// Allows or restricts mirroring network services. By default, Amazon DNS network services are not eligible for Traffic Mirror. Use AddNetworkServices to add network services to a Traffic Mirror filter. When a network service is added to the Traffic Mirror filter, all traffic related to that network service will be mirrored. When you no longer want to mirror network services, use RemoveNetworkServices to remove the network services from the Traffic Mirror filter.
     ///
@@ -36114,7 +36114,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyTrafficMirrorFilterRule` operation on the `AmazonEC2` service.
+    /// Performs the `ModifyTrafficMirrorFilterRule` operation on the `EC2` service.
     ///
     /// Modifies the specified Traffic Mirror rule. DestinationCidrBlock and SourceCidrBlock must both be an IPv4 range or an IPv6 range.
     ///
@@ -36178,7 +36178,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyTrafficMirrorSession` operation on the `AmazonEC2` service.
+    /// Performs the `ModifyTrafficMirrorSession` operation on the `EC2` service.
     ///
     /// Modifies a Traffic Mirror session.
     ///
@@ -36242,7 +36242,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyTransitGateway` operation on the `AmazonEC2` service.
+    /// Performs the `ModifyTransitGateway` operation on the `EC2` service.
     ///
     /// Modifies the specified transit gateway. When you modify a transit gateway, the modified options are applied to new transit gateway attachments only. Your existing transit gateway attachments are not modified.
     ///
@@ -36306,7 +36306,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyTransitGatewayPrefixListReference` operation on the `AmazonEC2` service.
+    /// Performs the `ModifyTransitGatewayPrefixListReference` operation on the `EC2` service.
     ///
     /// Modifies a reference (route) to a prefix list in a specified transit gateway route table.
     ///
@@ -36370,7 +36370,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyTransitGatewayVpcAttachment` operation on the `AmazonEC2` service.
+    /// Performs the `ModifyTransitGatewayVpcAttachment` operation on the `EC2` service.
     ///
     /// Modifies the specified VPC attachment.
     ///
@@ -36434,7 +36434,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyVerifiedAccessEndpoint` operation on the `AmazonEC2` service.
+    /// Performs the `ModifyVerifiedAccessEndpoint` operation on the `EC2` service.
     ///
     /// Modifies the configuration of the specified Amazon Web Services Verified Access endpoint.
     ///
@@ -36499,7 +36499,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyVerifiedAccessEndpointPolicy` operation on the `AmazonEC2` service.
+    /// Performs the `ModifyVerifiedAccessEndpointPolicy` operation on the `EC2` service.
     ///
     /// Modifies the specified Amazon Web Services Verified Access endpoint policy.
     ///
@@ -36564,7 +36564,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyVerifiedAccessGroup` operation on the `AmazonEC2` service.
+    /// Performs the `ModifyVerifiedAccessGroup` operation on the `EC2` service.
     ///
     /// Modifies the specified Amazon Web Services Verified Access group configuration.
     ///
@@ -36629,7 +36629,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyVerifiedAccessGroupPolicy` operation on the `AmazonEC2` service.
+    /// Performs the `ModifyVerifiedAccessGroupPolicy` operation on the `EC2` service.
     ///
     /// Modifies the specified Amazon Web Services Verified Access group policy.
     ///
@@ -36694,7 +36694,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyVerifiedAccessInstance` operation on the `AmazonEC2` service.
+    /// Performs the `ModifyVerifiedAccessInstance` operation on the `EC2` service.
     ///
     /// Modifies the configuration of the specified Amazon Web Services Verified Access instance.
     ///
@@ -36759,7 +36759,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyVerifiedAccessInstanceLoggingConfiguration` operation on the `AmazonEC2` service.
+    /// Performs the `ModifyVerifiedAccessInstanceLoggingConfiguration` operation on the `EC2` service.
     ///
     /// Modifies the logging configuration for the specified Amazon Web Services Verified Access instance.
     ///
@@ -36824,7 +36824,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyVerifiedAccessTrustProvider` operation on the `AmazonEC2` service.
+    /// Performs the `ModifyVerifiedAccessTrustProvider` operation on the `EC2` service.
     ///
     /// Modifies the configuration of the specified Amazon Web Services Verified Access trust provider.
     ///
@@ -36889,7 +36889,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyVolume` operation on the `AmazonEC2` service.
+    /// Performs the `ModifyVolume` operation on the `EC2` service.
     ///
     /// You can modify several parameters of an existing EBS volume, including volume size, volume type, and IOPS capacity. If your EBS volume is attached to a current-generation EC2 instance type, you might be able to apply these changes without stopping the instance or detaching the volume from it. For more information about modifying EBS volumes, see [Amazon EBS Elastic Volumes](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-modify-volume.html) in the Amazon EBS User Guide. When you complete a resize operation on your volume, you need to extend the volume's file-system size to take advantage of the new storage capacity. For more information, see [Extend the file system](https://docs.aws.amazon.com/ebs/latest/userguide/recognize-expanded-volume-linux.html). For more information, see [Monitor the progress of volume modifications](https://docs.aws.amazon.com/ebs/latest/userguide/monitoring-volume-modifications.html) in the Amazon EBS User Guide. With previous-generation instance types, resizing an EBS volume might require detaching and reattaching the volume or stopping and restarting the instance. After modifying a volume, you must wait at least six hours and ensure that the volume is in the in-use or available state before you can modify the same volume. This is sometimes referred to as a cooldown period.
     ///
@@ -36953,7 +36953,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyVolumeAttribute` operation on the `AmazonEC2` service.
+    /// Performs the `ModifyVolumeAttribute` operation on the `EC2` service.
     ///
     /// Modifies a volume attribute. By default, all I/O operations for the volume are suspended when the data on the volume is determined to be potentially inconsistent, to prevent undetectable, latent data corruption. The I/O access to the volume can be resumed by first enabling I/O access and then checking the data consistency on your volume. You can change the default behavior to resume I/O operations. We recommend that you change this only for boot volumes or for volumes that are stateless or disposable.
     ///
@@ -37017,7 +37017,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyVpcAttribute` operation on the `AmazonEC2` service.
+    /// Performs the `ModifyVpcAttribute` operation on the `EC2` service.
     ///
     /// Modifies the specified attribute of the specified VPC.
     ///
@@ -37081,7 +37081,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyVpcBlockPublicAccessExclusion` operation on the `AmazonEC2` service.
+    /// Performs the `ModifyVpcBlockPublicAccessExclusion` operation on the `EC2` service.
     ///
     /// Modify VPC Block Public Access (BPA) exclusions. A VPC BPA exclusion is a mode that can be applied to a single VPC or subnet that exempts it from the account’s BPA mode and will allow bidirectional or egress-only access. You can create BPA exclusions for VPCs and subnets even when BPA is not enabled on the account to ensure that there is no traffic disruption to the exclusions when VPC BPA is turned on.
     ///
@@ -37145,7 +37145,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyVpcBlockPublicAccessOptions` operation on the `AmazonEC2` service.
+    /// Performs the `ModifyVpcBlockPublicAccessOptions` operation on the `EC2` service.
     ///
     /// Modify VPC Block Public Access (BPA) options. VPC Block Public Access (BPA) enables you to block resources in VPCs and subnets that you own in a Region from reaching or being reached from the internet through internet gateways and egress-only internet gateways. To learn more about VPC BPA, see [Block public access to VPCs and subnets](https://docs.aws.amazon.com/vpc/latest/userguide/security-vpc-bpa.html) in the Amazon VPC User Guide.
     ///
@@ -37209,7 +37209,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyVpcEndpoint` operation on the `AmazonEC2` service.
+    /// Performs the `ModifyVpcEndpoint` operation on the `EC2` service.
     ///
     /// Modifies attributes of a specified VPC endpoint. The attributes that you can modify depend on the type of VPC endpoint (interface, gateway, or Gateway Load Balancer). For more information, see the [Amazon Web Services PrivateLink Guide](https://docs.aws.amazon.com/vpc/latest/privatelink/).
     ///
@@ -37273,7 +37273,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyVpcEndpointConnectionNotification` operation on the `AmazonEC2` service.
+    /// Performs the `ModifyVpcEndpointConnectionNotification` operation on the `EC2` service.
     ///
     /// Modifies a connection notification for VPC endpoint or VPC endpoint service. You can change the SNS topic for the notification, or the events for which to be notified.
     ///
@@ -37337,7 +37337,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyVpcEndpointServiceConfiguration` operation on the `AmazonEC2` service.
+    /// Performs the `ModifyVpcEndpointServiceConfiguration` operation on the `EC2` service.
     ///
     /// Modifies the attributes of the specified VPC endpoint service configuration. If you set or modify the private DNS name, you must prove that you own the private DNS domain name.
     ///
@@ -37401,7 +37401,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyVpcEndpointServicePayerResponsibility` operation on the `AmazonEC2` service.
+    /// Performs the `ModifyVpcEndpointServicePayerResponsibility` operation on the `EC2` service.
     ///
     /// Modifies the payer responsibility for your VPC endpoint service.
     ///
@@ -37465,7 +37465,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyVpcEndpointServicePermissions` operation on the `AmazonEC2` service.
+    /// Performs the `ModifyVpcEndpointServicePermissions` operation on the `EC2` service.
     ///
     /// Modifies the permissions for your VPC endpoint service. You can add or remove permissions for service consumers (Amazon Web Services accounts, users, and IAM roles) to connect to your endpoint service. If you grant permissions to all principals, the service is public. Any users who know the name of a public service can send a request to attach an endpoint. If the service does not require manual approval, attachments are automatically approved.
     ///
@@ -37529,7 +37529,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyVpcPeeringConnectionOptions` operation on the `AmazonEC2` service.
+    /// Performs the `ModifyVpcPeeringConnectionOptions` operation on the `EC2` service.
     ///
     /// Modifies the VPC peering connection options on one side of a VPC peering connection. If the peered VPCs are in the same Amazon Web Services account, you can enable DNS resolution for queries from the local VPC. This ensures that queries from the local VPC resolve to private IP addresses in the peer VPC. This option is not available if the peered VPCs are in different Amazon Web Services accounts or different Regions. For peered VPCs in different Amazon Web Services accounts, each Amazon Web Services account owner must initiate a separate request to modify the peering connection options. For inter-region peering connections, you must use the Region for the requester VPC to modify the requester VPC peering options and the Region for the accepter VPC to modify the accepter VPC peering options. To verify which VPCs are the accepter and the requester for a VPC peering connection, use the [DescribeVpcPeeringConnections] command.
     ///
@@ -37593,7 +37593,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyVpcTenancy` operation on the `AmazonEC2` service.
+    /// Performs the `ModifyVpcTenancy` operation on the `EC2` service.
     ///
     /// Modifies the instance tenancy attribute of the specified VPC. You can change the instance tenancy attribute of a VPC to default only. You cannot change the instance tenancy attribute to dedicated. After you modify the tenancy of the VPC, any new instances that you launch into the VPC have a tenancy of default, unless you specify otherwise during launch. The tenancy of any existing instances in the VPC is not affected. For more information, see [Dedicated Instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/dedicated-instance.html) in the Amazon EC2 User Guide.
     ///
@@ -37657,7 +37657,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyVpnConnection` operation on the `AmazonEC2` service.
+    /// Performs the `ModifyVpnConnection` operation on the `EC2` service.
     ///
     /// Modifies the customer gateway or the target gateway of an Amazon Web Services Site-to-Site VPN connection. To modify the target gateway, the following migration options are available:
     ///
@@ -37732,7 +37732,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyVpnConnectionOptions` operation on the `AmazonEC2` service.
+    /// Performs the `ModifyVpnConnectionOptions` operation on the `EC2` service.
     ///
     /// Modifies the connection options for your Site-to-Site VPN connection. When you modify the VPN connection options, the VPN endpoint IP addresses on the Amazon Web Services side do not change, and the tunnel options do not change. Your VPN connection will be temporarily unavailable for a brief period while the VPN connection is updated.
     ///
@@ -37796,7 +37796,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyVpnTunnelCertificate` operation on the `AmazonEC2` service.
+    /// Performs the `ModifyVpnTunnelCertificate` operation on the `EC2` service.
     ///
     /// Modifies the VPN tunnel endpoint certificate.
     ///
@@ -37860,7 +37860,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyVpnTunnelOptions` operation on the `AmazonEC2` service.
+    /// Performs the `ModifyVpnTunnelOptions` operation on the `EC2` service.
     ///
     /// Modifies the options for a VPN tunnel in an Amazon Web Services Site-to-Site VPN connection. You can modify multiple options for a tunnel in a single request, but you can only modify one tunnel at a time. For more information, see [Site-to-Site VPN tunnel options for your Site-to-Site VPN connection](https://docs.aws.amazon.com/vpn/latest/s2svpn/VPNTunnels.html) in the Amazon Web Services Site-to-Site VPN User Guide.
     ///
@@ -37924,7 +37924,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `MonitorInstances` operation on the `AmazonEC2` service.
+    /// Performs the `MonitorInstances` operation on the `EC2` service.
     ///
     /// Enables detailed monitoring for a running instance. Otherwise, basic monitoring is enabled. For more information, see [Monitor your instances using CloudWatch](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-cloudwatch.html) in the Amazon EC2 User Guide. To disable detailed monitoring, see [UnmonitorInstances](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_UnmonitorInstances.html).
     ///
@@ -37988,7 +37988,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `MoveAddressToVpc` operation on the `AmazonEC2` service.
+    /// Performs the `MoveAddressToVpc` operation on the `EC2` service.
     ///
     /// This action is deprecated. Moves an Elastic IP address from the EC2-Classic platform to the EC2-VPC platform. The Elastic IP address must be allocated to your account for more than 24 hours, and it must not be associated with an instance. After the Elastic IP address is moved, it is no longer available for use in the EC2-Classic platform, unless you move it back using the [RestoreAddressToClassic] request. You cannot move an Elastic IP address that was originally allocated for use in the EC2-VPC platform to the EC2-Classic platform.
     ///
@@ -38052,7 +38052,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `MoveByoipCidrToIpam` operation on the `AmazonEC2` service.
+    /// Performs the `MoveByoipCidrToIpam` operation on the `EC2` service.
     ///
     /// Move a BYOIPv4 CIDR to IPAM from a public IPv4 pool. If you already have a BYOIPv4 CIDR with Amazon Web Services, you can move the CIDR to IPAM from a public IPv4 pool. You cannot move an IPv6 CIDR to IPAM. If you are bringing a new IP address to Amazon Web Services for the first time, complete the steps in [Tutorial: BYOIP address CIDRs to IPAM](https://docs.aws.amazon.com/vpc/latest/ipam/tutorials-byoip-ipam.html).
     ///
@@ -38116,7 +38116,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `MoveCapacityReservationInstances` operation on the `AmazonEC2` service.
+    /// Performs the `MoveCapacityReservationInstances` operation on the `EC2` service.
     ///
     /// Move available capacity from a source Capacity Reservation to a destination Capacity Reservation. The source Capacity Reservation and the destination Capacity Reservation must be active, owned by your Amazon Web Services account, and share the following:
     ///
@@ -38193,7 +38193,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ProvisionByoipCidr` operation on the `AmazonEC2` service.
+    /// Performs the `ProvisionByoipCidr` operation on the `EC2` service.
     ///
     /// Provisions an IPv4 or IPv6 address range for use with your Amazon Web Services resources through bring your own IP addresses (BYOIP) and creates a corresponding address pool. After the address range is provisioned, it is ready to be advertised using [AdvertiseByoipCidr]. Amazon Web Services verifies that you own the address range and are authorized to advertise it. You must ensure that the address range is registered to you and that you created an RPKI ROA to authorize Amazon ASNs 16509 and 14618 to advertise the address range. For more information, see [Bring your own IP addresses (BYOIP)](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-byoip.html) in the Amazon EC2 User Guide. Provisioning an address range is an asynchronous operation, so the call returns immediately, but the address range is not ready to use until its status changes from pending-provision to provisioned. To monitor the status of an address range, use [DescribeByoipCidrs]. To allocate an Elastic IP address from your IPv4 address pool, use [AllocateAddress] with either the specific address from the address pool or the ID of the address pool.
     ///
@@ -38257,7 +38257,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ProvisionIpamByoasn` operation on the `AmazonEC2` service.
+    /// Performs the `ProvisionIpamByoasn` operation on the `EC2` service.
     ///
     /// Provisions your Autonomous System Number (ASN) for use in your Amazon Web Services account. This action requires authorization context for Amazon to bring the ASN to an Amazon Web Services account. For more information, see [Tutorial: Bring your ASN to IPAM](https://docs.aws.amazon.com/vpc/latest/ipam/tutorials-byoasn.html) in the Amazon VPC IPAM guide.
     ///
@@ -38321,7 +38321,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ProvisionIpamPoolCidr` operation on the `AmazonEC2` service.
+    /// Performs the `ProvisionIpamPoolCidr` operation on the `EC2` service.
     ///
     /// Provision a CIDR to an IPAM pool. You can use this action to provision new CIDRs to a top-level pool or to transfer a CIDR from a top-level pool to a pool within it. For more information, see [Provision CIDRs to pools](https://docs.aws.amazon.com/vpc/latest/ipam/prov-cidr-ipam.html) in the Amazon VPC IPAM User Guide.
     ///
@@ -38386,7 +38386,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ProvisionPublicIpv4PoolCidr` operation on the `AmazonEC2` service.
+    /// Performs the `ProvisionPublicIpv4PoolCidr` operation on the `EC2` service.
     ///
     /// Provision a CIDR to a public IPv4 pool. For more information about IPAM, see [What is IPAM?](https://docs.aws.amazon.com/vpc/latest/ipam/what-is-it-ipam.html) in the Amazon VPC IPAM User Guide.
     ///
@@ -38450,7 +38450,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PurchaseCapacityBlock` operation on the `AmazonEC2` service.
+    /// Performs the `PurchaseCapacityBlock` operation on the `EC2` service.
     ///
     /// Purchase the Capacity Block for use with your account. With Capacity Blocks you ensure GPU capacity is available for machine learning (ML) workloads. You must specify the ID of the Capacity Block offering you are purchasing.
     ///
@@ -38514,7 +38514,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PurchaseCapacityBlockExtension` operation on the `AmazonEC2` service.
+    /// Performs the `PurchaseCapacityBlockExtension` operation on the `EC2` service.
     ///
     /// Purchase the Capacity Block extension for use with your account. You must specify the ID of the Capacity Block extension offering you are purchasing.
     ///
@@ -38578,7 +38578,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PurchaseHostReservation` operation on the `AmazonEC2` service.
+    /// Performs the `PurchaseHostReservation` operation on the `EC2` service.
     ///
     /// Purchase a reservation with configurations that match those of your Dedicated Host. You must have active Dedicated Hosts in your account before you purchase a reservation. This action results in the specified reservation being purchased and charged to your account.
     ///
@@ -38642,7 +38642,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PurchaseReservedInstancesOffering` operation on the `AmazonEC2` service.
+    /// Performs the `PurchaseReservedInstancesOffering` operation on the `EC2` service.
     ///
     /// Purchases a Reserved Instance for use with your account. With Reserved Instances, you pay a lower hourly rate compared to On-Demand instance pricing. Use [DescribeReservedInstancesOfferings] to get a list of Reserved Instance offerings that match your specifications. After you've purchased a Reserved Instance, you can check for your new Reserved Instance with [DescribeReservedInstances]. To queue a purchase for a future date and time, specify a purchase time. If you do not specify a purchase time, the default is the current time. For more information, see [Reserved Instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/concepts-on-demand-reserved-instances.html) and [Sell in the Reserved Instance Marketplace](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ri-market-general.html) in the Amazon EC2 User Guide.
     ///
@@ -38706,7 +38706,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PurchaseScheduledInstances` operation on the `AmazonEC2` service.
+    /// Performs the `PurchaseScheduledInstances` operation on the `EC2` service.
     ///
     /// You can no longer purchase Scheduled Instances. Purchases the Scheduled Instances with the specified schedule. Scheduled Instances enable you to purchase Amazon EC2 compute capacity by the hour for a one-year term. Before you can purchase a Scheduled Instance, you must call [DescribeScheduledInstanceAvailability] to check for available schedules and obtain a purchase token. After you purchase a Scheduled Instance, you must call [RunScheduledInstances] during each scheduled time period. After you purchase a Scheduled Instance, you can't cancel, modify, or resell your purchase.
     ///
@@ -38771,7 +38771,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RebootInstances` operation on the `AmazonEC2` service.
+    /// Performs the `RebootInstances` operation on the `EC2` service.
     ///
     /// Requests a reboot of the specified instances. This operation is asynchronous; it only queues a request to reboot the specified instances. The operation succeeds if the instances are valid and belong to you. Requests to reboot terminated instances are ignored. If an instance does not cleanly shut down within a few minutes, Amazon EC2 performs a hard reboot. For more information about troubleshooting, see [Troubleshoot an unreachable instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-console.html) in the Amazon EC2 User Guide.
     ///
@@ -38835,7 +38835,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RegisterImage` operation on the `AmazonEC2` service.
+    /// Performs the `RegisterImage` operation on the `EC2` service.
     ///
     /// Registers an AMI. When you're creating an instance-store backed AMI, registering the AMI is the final step in the creation process. For more information about creating AMIs, see [Create an AMI from a snapshot](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/creating-an-ami-ebs.html#creating-launching-ami-from-snapshot) and [Create an instance-store backed AMI](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/creating-an-ami-instance-store.html) in the Amazon EC2 User Guide. For Amazon EBS-backed instances, [CreateImage] creates and registers the AMI in a single request, so you don't have to register the AMI yourself. We recommend that you always use [CreateImage] unless you have a specific reason to use RegisterImage. If needed, you can deregister an AMI at any time. Any modifications you make to an AMI backed by an instance store volume invalidates its registration. If you make changes to an image, deregister the previous image and register the new image. Register a snapshot of a root device volume You can use RegisterImage to create an Amazon EBS-backed Linux AMI from a snapshot of a root device volume. You specify the snapshot using a block device mapping. You can't set the encryption state of the volume using the block device mapping. If the snapshot is encrypted, or encryption by default is enabled, the root volume of an instance launched from the AMI is encrypted. For more information, see [Create an AMI from a snapshot](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/creating-an-ami-ebs.html#creating-launching-ami-from-snapshot) and [Use encryption with Amazon EBS-backed AMIs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AMIEncryption.html) in the Amazon EC2 User Guide. Amazon Web Services Marketplace product codes If any snapshots have Amazon Web Services Marketplace product codes, they are copied to the new AMI. In most cases, AMIs for Windows, RedHat, SUSE, and SQL Server require correct licensing information to be present on the AMI. For more information, see [Understand AMI billing information](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ami-billing-info.html) in the Amazon EC2 User Guide. When creating an AMI from a snapshot, the RegisterImage operation derives the correct billing information from the snapshot's metadata, but this requires the appropriate metadata to be present. To verify if the correct billing information was applied, check the PlatformDetails field on the new AMI. If the field is empty or doesn't match the expected operating system code (for example, Windows, RedHat, SUSE, or SQL), the AMI creation was unsuccessful, and you should discard the AMI and instead create the AMI from an instance using [CreateImage]. For more information, see [Create an AMI from an instance ](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/creating-an-ami-ebs.html#how-to-create-ebs-ami) in the Amazon EC2 User Guide. If you purchase a Reserved Instance to apply to an On-Demand Instance that was launched from an AMI with a billing product code, make sure that the Reserved Instance has the matching billing product code. If you purchase a Reserved Instance without the matching billing product code, the Reserved Instance will not be applied to the On-Demand Instance. For information about how to obtain the platform details and billing information of an AMI, see [Understand AMI billing information](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ami-billing-info.html) in the Amazon EC2 User Guide.
     ///
@@ -38899,7 +38899,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RegisterInstanceEventNotificationAttributes` operation on the `AmazonEC2` service.
+    /// Performs the `RegisterInstanceEventNotificationAttributes` operation on the `EC2` service.
     ///
     /// Registers a set of tag keys to include in scheduled event notifications for your resources. To remove tags, use [DeregisterInstanceEventNotificationAttributes](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DeregisterInstanceEventNotificationAttributes.html).
     ///
@@ -38963,7 +38963,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RegisterTransitGatewayMulticastGroupMembers` operation on the `AmazonEC2` service.
+    /// Performs the `RegisterTransitGatewayMulticastGroupMembers` operation on the `EC2` service.
     ///
     /// Registers members (network interfaces) with the transit gateway multicast group. A member is a network interface associated with a supported EC2 instance that receives multicast traffic. For more information, see [Multicast on transit gateways](https://docs.aws.amazon.com/vpc/latest/tgw/tgw-multicast-overview.html) in the Amazon Web Services Transit Gateways Guide. After you add the members, use [SearchTransitGatewayMulticastGroups](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_SearchTransitGatewayMulticastGroups.html) to verify that the members were added to the transit gateway multicast group.
     ///
@@ -39027,7 +39027,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RegisterTransitGatewayMulticastGroupSources` operation on the `AmazonEC2` service.
+    /// Performs the `RegisterTransitGatewayMulticastGroupSources` operation on the `EC2` service.
     ///
     /// Registers sources (network interfaces) with the specified transit gateway multicast group. A multicast source is a network interface attached to a supported instance that sends multicast traffic. For more information about supported instances, see [Multicast on transit gateways](https://docs.aws.amazon.com/vpc/latest/tgw/tgw-multicast-overview.html) in the Amazon Web Services Transit Gateways Guide. After you add the source, use [SearchTransitGatewayMulticastGroups](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_SearchTransitGatewayMulticastGroups.html) to verify that the source was added to the multicast group.
     ///
@@ -39091,7 +39091,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RejectCapacityReservationBillingOwnership` operation on the `AmazonEC2` service.
+    /// Performs the `RejectCapacityReservationBillingOwnership` operation on the `EC2` service.
     ///
     /// Rejects a request to assign billing of the available capacity of a shared Capacity Reservation to your account. For more information, see [ Billing assignment for shared Amazon EC2 Capacity Reservations](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/assign-billing.html).
     ///
@@ -39155,7 +39155,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RejectTransitGatewayMulticastDomainAssociations` operation on the `AmazonEC2` service.
+    /// Performs the `RejectTransitGatewayMulticastDomainAssociations` operation on the `EC2` service.
     ///
     /// Rejects a request to associate cross-account subnets with a transit gateway multicast domain.
     ///
@@ -39219,7 +39219,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RejectTransitGatewayPeeringAttachment` operation on the `AmazonEC2` service.
+    /// Performs the `RejectTransitGatewayPeeringAttachment` operation on the `EC2` service.
     ///
     /// Rejects a transit gateway peering attachment request.
     ///
@@ -39283,7 +39283,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RejectTransitGatewayVpcAttachment` operation on the `AmazonEC2` service.
+    /// Performs the `RejectTransitGatewayVpcAttachment` operation on the `EC2` service.
     ///
     /// Rejects a request to attach a VPC to a transit gateway. The VPC attachment must be in the pendingAcceptance state. Use [DescribeTransitGatewayVpcAttachments] to view your pending VPC attachment requests. Use [AcceptTransitGatewayVpcAttachment] to accept a VPC attachment request.
     ///
@@ -39347,7 +39347,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RejectVpcEndpointConnections` operation on the `AmazonEC2` service.
+    /// Performs the `RejectVpcEndpointConnections` operation on the `EC2` service.
     ///
     /// Rejects VPC endpoint connection requests to your VPC endpoint service.
     ///
@@ -39411,7 +39411,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RejectVpcPeeringConnection` operation on the `AmazonEC2` service.
+    /// Performs the `RejectVpcPeeringConnection` operation on the `EC2` service.
     ///
     /// Rejects a VPC peering connection request. The VPC peering connection must be in the pending-acceptance state. Use the [DescribeVpcPeeringConnections] request to view your outstanding VPC peering connection requests. To delete an active VPC peering connection, or to delete a VPC peering connection request that you initiated, use [DeleteVpcPeeringConnection].
     ///
@@ -39475,7 +39475,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ReleaseAddress` operation on the `AmazonEC2` service.
+    /// Performs the `ReleaseAddress` operation on the `EC2` service.
     ///
     /// Releases the specified Elastic IP address. [Default VPC] Releasing an Elastic IP address automatically disassociates it from any instance that it's associated with. To disassociate an Elastic IP address without releasing it, use [DisassociateAddress]. [Nondefault VPC] You must use [DisassociateAddress] to disassociate the Elastic IP address before you can release it. Otherwise, Amazon EC2 returns an error (InvalidIPAddress.InUse). After releasing an Elastic IP address, it is released to the IP address pool. Be sure to update your DNS records and any servers or devices that communicate with the address. If you attempt to release an Elastic IP address that you already released, you'll get an AuthFailure error if the address is already allocated to another Amazon Web Services account. After you release an Elastic IP address, you might be able to recover it. For more information, see [AllocateAddress].
     ///
@@ -39539,7 +39539,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ReleaseHosts` operation on the `AmazonEC2` service.
+    /// Performs the `ReleaseHosts` operation on the `EC2` service.
     ///
     /// When you no longer want to use an On-Demand Dedicated Host it can be released. On-Demand billing is stopped and the host goes into released state. The host ID of Dedicated Hosts that have been released can no longer be specified in another request, for example, to modify the host. You must stop or terminate all instances on a host before it can be released. When Dedicated Hosts are released, it may take some time for them to stop counting toward your limit and you may receive capacity errors when trying to allocate new Dedicated Hosts. Wait a few minutes and then try again. Released hosts still appear in a [DescribeHosts] response.
     ///
@@ -39603,7 +39603,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ReleaseIpamPoolAllocation` operation on the `AmazonEC2` service.
+    /// Performs the `ReleaseIpamPoolAllocation` operation on the `EC2` service.
     ///
     /// Release an allocation within an IPAM pool. The Region you use should be the IPAM pool locale. The locale is the Amazon Web Services Region where this IPAM pool is available for allocations. You can only use this action to release manual allocations. To remove an allocation for a resource without deleting the resource, set its monitored state to false using [ModifyIpamResourceCidr](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_ModifyIpamResourceCidr.html). For more information, see [Release an allocation](https://docs.aws.amazon.com/vpc/latest/ipam/release-alloc-ipam.html) in the Amazon VPC IPAM User Guide. All EC2 API actions follow an [eventual consistency](https://docs.aws.amazon.com/ec2/latest/devguide/eventual-consistency.html) model.
     ///
@@ -39667,7 +39667,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ReplaceIamInstanceProfileAssociation` operation on the `AmazonEC2` service.
+    /// Performs the `ReplaceIamInstanceProfileAssociation` operation on the `EC2` service.
     ///
     /// Replaces an IAM instance profile for the specified running instance. You can use this action to change the IAM instance profile that's associated with an instance without having to disassociate the existing IAM instance profile first. Use [DescribeIamInstanceProfileAssociations] to get the association ID.
     ///
@@ -39731,7 +39731,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ReplaceImageCriteriaInAllowedImagesSettings` operation on the `AmazonEC2` service.
+    /// Performs the `ReplaceImageCriteriaInAllowedImagesSettings` operation on the `EC2` service.
     ///
     /// Sets or replaces the criteria for Allowed AMIs. The Allowed AMIs feature does not restrict the AMIs owned by your account. Regardless of the criteria you set, the AMIs created by your account will always be discoverable and usable by users in your account. For more information, see [Control the discovery and use of AMIs in Amazon EC2 with Allowed AMIs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-allowed-amis.html) in Amazon EC2 User Guide.
     ///
@@ -39795,7 +39795,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ReplaceNetworkAclAssociation` operation on the `AmazonEC2` service.
+    /// Performs the `ReplaceNetworkAclAssociation` operation on the `EC2` service.
     ///
     /// Changes which network ACL a subnet is associated with. By default when you create a subnet, it's automatically associated with the default network ACL. For more information, see [Network ACLs](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-network-acls.html) in the Amazon VPC User Guide. This is an idempotent operation.
     ///
@@ -39859,7 +39859,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ReplaceNetworkAclEntry` operation on the `AmazonEC2` service.
+    /// Performs the `ReplaceNetworkAclEntry` operation on the `EC2` service.
     ///
     /// Replaces an entry (rule) in a network ACL. For more information, see [Network ACLs](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-network-acls.html) in the Amazon VPC User Guide.
     ///
@@ -39923,7 +39923,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ReplaceRoute` operation on the `AmazonEC2` service.
+    /// Performs the `ReplaceRoute` operation on the `EC2` service.
     ///
     /// Replaces an existing route within a route table in a VPC. You must specify either a destination CIDR block or a prefix list ID. You must also specify exactly one of the resources from the parameter list, or reset the local route to its default target. For more information, see [Route tables](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Route_Tables.html) in the Amazon VPC User Guide.
     ///
@@ -39987,7 +39987,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ReplaceRouteTableAssociation` operation on the `AmazonEC2` service.
+    /// Performs the `ReplaceRouteTableAssociation` operation on the `EC2` service.
     ///
     /// Changes the route table associated with a given subnet, internet gateway, or virtual private gateway in a VPC. After the operation completes, the subnet or gateway uses the routes in the new route table. For more information about route tables, see [Route tables](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Route_Tables.html) in the Amazon VPC User Guide. You can also use this operation to change which table is the main route table in the VPC. Specify the main route table's association ID and the route table ID of the new main route table.
     ///
@@ -40051,7 +40051,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ReplaceTransitGatewayRoute` operation on the `AmazonEC2` service.
+    /// Performs the `ReplaceTransitGatewayRoute` operation on the `EC2` service.
     ///
     /// Replaces the specified route in the specified transit gateway route table.
     ///
@@ -40115,7 +40115,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ReplaceVpnTunnel` operation on the `AmazonEC2` service.
+    /// Performs the `ReplaceVpnTunnel` operation on the `EC2` service.
     ///
     /// Trigger replacement of specified VPN tunnel.
     ///
@@ -40179,7 +40179,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ReportInstanceStatus` operation on the `AmazonEC2` service.
+    /// Performs the `ReportInstanceStatus` operation on the `EC2` service.
     ///
     /// Submits feedback about the status of an instance. The instance must be in the running state. If your experience with the instance differs from the instance status returned by [DescribeInstanceStatus], use [ReportInstanceStatus] to report your experience with the instance. Amazon EC2 collects this information to improve the accuracy of status checks. Use of this action does not change the value returned by [DescribeInstanceStatus].
     ///
@@ -40243,7 +40243,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RequestSpotFleet` operation on the `AmazonEC2` service.
+    /// Performs the `RequestSpotFleet` operation on the `EC2` service.
     ///
     /// Creates a Spot Fleet request. The Spot Fleet request specifies the total target capacity and the On-Demand target capacity. Amazon EC2 calculates the difference between the total capacity and On-Demand capacity, and launches the difference as Spot capacity. You can submit a single request that includes multiple launch specifications that vary by instance type, AMI, Availability Zone, or subnet. By default, the Spot Fleet requests Spot Instances in the Spot Instance pool where the price per unit is the lowest. Each launch specification can include its own instance weighting that reflects the value of the instance type to your application workload. Alternatively, you can specify that the Spot Fleet distribute the target capacity across the Spot pools included in its launch specifications. By ensuring that the Spot Instances in your Spot Fleet are in different Spot pools, you can improve the availability of your fleet. You can specify tags for the Spot Fleet request and instances launched by the fleet. You cannot tag other resource types in a Spot Fleet request because only the spot-fleet-request and instance resource types are supported. For more information, see [Spot Fleet requests](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-fleet-requests.html) in the Amazon EC2 User Guide. We strongly discourage using the RequestSpotFleet API because it is a legacy API with no planned investment. For options for requesting Spot Instances, see [Which is the best Spot request method to use?](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-best-practices.html#which-spot-request-method-to-use) in the Amazon EC2 User Guide.
     ///
@@ -40307,7 +40307,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RequestSpotInstances` operation on the `AmazonEC2` service.
+    /// Performs the `RequestSpotInstances` operation on the `EC2` service.
     ///
     /// Creates a Spot Instance request. For more information, see [Work with Spot Instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-requests.html) in the Amazon EC2 User Guide. We strongly discourage using the RequestSpotInstances API because it is a legacy API with no planned investment. For options for requesting Spot Instances, see [Which is the best Spot request method to use?](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-best-practices.html#which-spot-request-method-to-use) in the Amazon EC2 User Guide.
     ///
@@ -40371,7 +40371,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ResetAddressAttribute` operation on the `AmazonEC2` service.
+    /// Performs the `ResetAddressAttribute` operation on the `EC2` service.
     ///
     /// Resets the attribute of the specified IP address. For requirements, see [Using reverse DNS for email applications](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html#Using_Elastic_Addressing_Reverse_DNS).
     ///
@@ -40435,7 +40435,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ResetEbsDefaultKmsKeyId` operation on the `AmazonEC2` service.
+    /// Performs the `ResetEbsDefaultKmsKeyId` operation on the `EC2` service.
     ///
     /// Resets the default KMS key for EBS encryption for your account in this Region to the Amazon Web Services managed KMS key for EBS. After resetting the default KMS key to the Amazon Web Services managed KMS key, you can continue to encrypt by a customer managed KMS key by specifying it when you create the volume. For more information, see [Amazon EBS encryption](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-encryption.html) in the Amazon EBS User Guide.
     ///
@@ -40499,7 +40499,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ResetFpgaImageAttribute` operation on the `AmazonEC2` service.
+    /// Performs the `ResetFpgaImageAttribute` operation on the `EC2` service.
     ///
     /// Resets the specified attribute of the specified Amazon FPGA Image (AFI) to its default value. You can only reset the load permission attribute.
     ///
@@ -40563,7 +40563,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ResetImageAttribute` operation on the `AmazonEC2` service.
+    /// Performs the `ResetImageAttribute` operation on the `EC2` service.
     ///
     /// Resets an attribute of an AMI to its default value.
     ///
@@ -40627,7 +40627,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ResetInstanceAttribute` operation on the `AmazonEC2` service.
+    /// Performs the `ResetInstanceAttribute` operation on the `EC2` service.
     ///
     /// Resets an attribute of an instance to its default value. To reset the kernel or ramdisk, the instance must be in a stopped state. To reset the sourceDestCheck, the instance can be either running or stopped. The sourceDestCheck attribute controls whether source/destination checking is enabled. The default value is true, which means checking is enabled. This value must be false for a NAT instance to perform NAT. For more information, see [NAT instances](https://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_NAT_Instance.html) in the Amazon VPC User Guide.
     ///
@@ -40691,7 +40691,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ResetNetworkInterfaceAttribute` operation on the `AmazonEC2` service.
+    /// Performs the `ResetNetworkInterfaceAttribute` operation on the `EC2` service.
     ///
     /// Resets a network interface attribute. You can specify only one attribute at a time.
     ///
@@ -40755,7 +40755,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ResetSnapshotAttribute` operation on the `AmazonEC2` service.
+    /// Performs the `ResetSnapshotAttribute` operation on the `EC2` service.
     ///
     /// Resets permission settings for the specified snapshot. For more information about modifying snapshot permissions, see [Share a snapshot](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-modifying-snapshot-permissions.html) in the Amazon EBS User Guide.
     ///
@@ -40819,7 +40819,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RestoreAddressToClassic` operation on the `AmazonEC2` service.
+    /// Performs the `RestoreAddressToClassic` operation on the `EC2` service.
     ///
     /// This action is deprecated. Restores an Elastic IP address that was previously moved to the EC2-VPC platform back to the EC2-Classic platform. You cannot move an Elastic IP address that was originally allocated for use in EC2-VPC. The Elastic IP address must not be associated with an instance or network interface.
     ///
@@ -40883,7 +40883,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RestoreImageFromRecycleBin` operation on the `AmazonEC2` service.
+    /// Performs the `RestoreImageFromRecycleBin` operation on the `EC2` service.
     ///
     /// Restores an AMI from the Recycle Bin. For more information, see [Recycle Bin](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/recycle-bin.html) in the Amazon EC2 User Guide.
     ///
@@ -40947,7 +40947,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RestoreManagedPrefixListVersion` operation on the `AmazonEC2` service.
+    /// Performs the `RestoreManagedPrefixListVersion` operation on the `EC2` service.
     ///
     /// Restores the entries from a previous version of a managed prefix list to a new version of the prefix list.
     ///
@@ -41011,7 +41011,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RestoreSnapshotFromRecycleBin` operation on the `AmazonEC2` service.
+    /// Performs the `RestoreSnapshotFromRecycleBin` operation on the `EC2` service.
     ///
     /// Restores a snapshot from the Recycle Bin. For more information, see [Restore snapshots from the Recycle Bin](https://docs.aws.amazon.com/ebs/latest/userguide/recycle-bin-working-with-snaps.html#recycle-bin-restore-snaps) in the Amazon EBS User Guide.
     ///
@@ -41075,7 +41075,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RestoreSnapshotTier` operation on the `AmazonEC2` service.
+    /// Performs the `RestoreSnapshotTier` operation on the `EC2` service.
     ///
     /// Restores an archived Amazon EBS snapshot for use temporarily or permanently, or modifies the restore period or restore type for a snapshot that was previously temporarily restored. For more information see [ Restore an archived snapshot](https://docs.aws.amazon.com/ebs/latest/userguide/working-with-snapshot-archiving.html#restore-archived-snapshot) and [ modify the restore period or restore type for a temporarily restored snapshot](https://docs.aws.amazon.com/ebs/latest/userguide/working-with-snapshot-archiving.html#modify-temp-restore-period) in the Amazon EBS User Guide.
     ///
@@ -41139,7 +41139,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RevokeClientVpnIngress` operation on the `AmazonEC2` service.
+    /// Performs the `RevokeClientVpnIngress` operation on the `EC2` service.
     ///
     /// Removes an ingress authorization rule from a Client VPN endpoint.
     ///
@@ -41203,7 +41203,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RevokeSecurityGroupEgress` operation on the `AmazonEC2` service.
+    /// Performs the `RevokeSecurityGroupEgress` operation on the `EC2` service.
     ///
     /// Removes the specified outbound (egress) rules from the specified security group. You can specify rules using either rule IDs or security group rule properties. If you use rule properties, the values that you specify (for example, ports) must match the existing rule's values exactly. Each rule has a protocol, from and to ports, and destination (CIDR range, security group, or prefix list). For the TCP and UDP protocols, you must also specify the destination port or range of ports. For the ICMP protocol, you must also specify the ICMP type and code. If the security group rule has a description, you do not need to specify the description to revoke the rule. For a default VPC, if the values you specify do not match the existing rule's values, no error is returned, and the output describes the security group rules that were not revoked. Amazon Web Services recommends that you describe the security group to verify that the rules were removed. Rule changes are propagated to instances within the security group as quickly as possible. However, a small delay might occur.
     ///
@@ -41267,7 +41267,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RevokeSecurityGroupIngress` operation on the `AmazonEC2` service.
+    /// Performs the `RevokeSecurityGroupIngress` operation on the `EC2` service.
     ///
     /// Removes the specified inbound (ingress) rules from a security group. You can specify rules using either rule IDs or security group rule properties. If you use rule properties, the values that you specify (for example, ports) must match the existing rule's values exactly. Each rule has a protocol, from and to ports, and source (CIDR range, security group, or prefix list). For the TCP and UDP protocols, you must also specify the destination port or range of ports. For the ICMP protocol, you must also specify the ICMP type and code. If the security group rule has a description, you do not need to specify the description to revoke the rule. For a default VPC, if the values you specify do not match the existing rule's values, no error is returned, and the output describes the security group rules that were not revoked. For a non-default VPC, if the values you specify do not match the existing rule's values, an InvalidPermission.NotFound client error is returned, and no rules are revoked. Amazon Web Services recommends that you describe the security group to verify that the rules were removed. Rule changes are propagated to instances within the security group as quickly as possible. However, a small delay might occur.
     ///
@@ -41331,7 +41331,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RunInstances` operation on the `AmazonEC2` service.
+    /// Performs the `RunInstances` operation on the `EC2` service.
     ///
     /// Launches the specified number of instances using an AMI for which you have permissions. You can specify a number of options, or leave the default options. The following rules apply:
     ///
@@ -41409,7 +41409,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RunScheduledInstances` operation on the `AmazonEC2` service.
+    /// Performs the `RunScheduledInstances` operation on the `EC2` service.
     ///
     /// Launches the specified Scheduled Instances. Before you can launch a Scheduled Instance, you must purchase it and obtain an identifier using [PurchaseScheduledInstances]. You must launch a Scheduled Instance during its scheduled time period. You can't stop or reboot a Scheduled Instance, but you can terminate it as needed. If you terminate a Scheduled Instance before the current scheduled time period ends, you can launch it again after a few minutes.
     ///
@@ -41474,7 +41474,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SearchLocalGatewayRoutes` operation on the `AmazonEC2` service.
+    /// Performs the `SearchLocalGatewayRoutes` operation on the `EC2` service.
     ///
     /// Searches for routes in the specified local gateway route table.
     ///
@@ -41538,7 +41538,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SearchTransitGatewayMulticastGroups` operation on the `AmazonEC2` service.
+    /// Performs the `SearchTransitGatewayMulticastGroups` operation on the `EC2` service.
     ///
     /// Searches one or more transit gateway multicast groups and returns the group membership information.
     ///
@@ -41602,7 +41602,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SearchTransitGatewayRoutes` operation on the `AmazonEC2` service.
+    /// Performs the `SearchTransitGatewayRoutes` operation on the `EC2` service.
     ///
     /// Searches for routes in the specified transit gateway route table.
     ///
@@ -41666,7 +41666,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SendDiagnosticInterrupt` operation on the `AmazonEC2` service.
+    /// Performs the `SendDiagnosticInterrupt` operation on the `EC2` service.
     ///
     /// Sends a diagnostic interrupt to the specified Amazon EC2 instance to trigger a kernel panic (on Linux instances), or a blue screen/stop error (on Windows instances). For instances based on Intel and AMD processors, the interrupt is received as a non-maskable interrupt (NMI). In general, the operating system crashes and reboots when a kernel panic or stop error is triggered. The operating system can also be configured to perform diagnostic tasks, such as generating a memory dump file, loading a secondary kernel, or obtaining a call trace. Before sending a diagnostic interrupt to your instance, ensure that its operating system is configured to perform the required diagnostic tasks. For more information about configuring your operating system to generate a crash dump when a kernel panic or stop error occurs, see [Send a diagnostic interrupt (for advanced users)](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/diagnostic-interrupt.html) in the Amazon EC2 User Guide.
     ///
@@ -41730,7 +41730,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartDeclarativePoliciesReport` operation on the `AmazonEC2` service.
+    /// Performs the `StartDeclarativePoliciesReport` operation on the `EC2` service.
     ///
     /// Generates an account status report. The report is generated asynchronously, and can take several hours to complete. The report provides the current status of all attributes supported by declarative policies for the accounts within the specified scope. The scope is determined by the specified TargetId, which can represent an individual account, or all the accounts that fall under the specified organizational unit (OU) or root (the entire Amazon Web Services Organization). The report is saved to your specified S3 bucket, using the following path structure (with the italicized placeholders representing your specific values): s3://amzn-s3-demo-bucket/your-optional-s3-prefix/ec2_targetId_reportId_yyyyMMddThhmmZ.csv Prerequisites for generating a report
     ///
@@ -41805,7 +41805,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartInstances` operation on the `AmazonEC2` service.
+    /// Performs the `StartInstances` operation on the `EC2` service.
     ///
     /// Starts an Amazon EBS-backed instance that you've previously stopped. Instances that use Amazon EBS volumes as their root devices can be quickly stopped and started. When an instance is stopped, the compute resources are released and you are not billed for instance usage. However, your root partition Amazon EBS volume remains and continues to persist your data, and you are charged for Amazon EBS volume usage. You can restart your instance at any time. Every time you start your instance, Amazon EC2 charges a one-minute minimum for instance usage, and thereafter charges per second for instance usage. Before stopping an instance, make sure it is in a state from which it can be restarted. Stopping an instance does not preserve data stored in RAM. Performing this operation on an instance that uses an instance store as its root device returns an error. If you attempt to start a T3 instance with host tenancy and the unlimited CPU credit option, the request fails. The unlimited CPU credit option is not supported on Dedicated Hosts. Before you start the instance, either change its CPU credit option to standard, or change its tenancy to default or dedicated. For more information, see [Stop and start Amazon EC2 instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Stop_Start.html) in the Amazon EC2 User Guide.
     ///
@@ -41869,7 +41869,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartNetworkInsightsAccessScopeAnalysis` operation on the `AmazonEC2` service.
+    /// Performs the `StartNetworkInsightsAccessScopeAnalysis` operation on the `EC2` service.
     ///
     /// Starts analyzing the specified Network Access Scope.
     ///
@@ -41934,7 +41934,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartNetworkInsightsAnalysis` operation on the `AmazonEC2` service.
+    /// Performs the `StartNetworkInsightsAnalysis` operation on the `EC2` service.
     ///
     /// Starts analyzing the specified path. If the path is reachable, the operation returns the shortest feasible path.
     ///
@@ -41999,7 +41999,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartVpcEndpointServicePrivateDnsVerification` operation on the `AmazonEC2` service.
+    /// Performs the `StartVpcEndpointServicePrivateDnsVerification` operation on the `EC2` service.
     ///
     /// Initiates the verification process to prove that the service provider owns the private DNS name domain for the endpoint service. The service provider must successfully perform the verification before the consumer can use the name to access the service. Before the service provider runs this command, they must add a record to the DNS server.
     ///
@@ -42063,7 +42063,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopInstances` operation on the `AmazonEC2` service.
+    /// Performs the `StopInstances` operation on the `EC2` service.
     ///
     /// Stops an Amazon EBS-backed instance. For more information, see [Stop and start Amazon EC2 instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Stop_Start.html) in the Amazon EC2 User Guide. You can use the Stop action to hibernate an instance if the instance is [enabled for hibernation](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/enabling-hibernation.html) and it meets the [hibernation prerequisites](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/hibernating-prerequisites.html). For more information, see [Hibernate your Amazon EC2 instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Hibernate.html) in the Amazon EC2 User Guide. We don't charge usage for a stopped instance, or data transfer fees; however, your root partition Amazon EBS volume remains and continues to persist your data, and you are charged for Amazon EBS volume usage. Every time you start your instance, Amazon EC2 charges a one-minute minimum for instance usage, and thereafter charges per second for instance usage. You can't stop or hibernate instance store-backed instances. You can't use the Stop action to hibernate Spot Instances, but you can specify that Amazon EC2 should hibernate Spot Instances when they are interrupted. For more information, see [Hibernating interrupted Spot Instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-interruptions.html#hibernate-spot-instances) in the Amazon EC2 User Guide. When you stop or hibernate an instance, we shut it down. You can restart your instance at any time. Before stopping or hibernating an instance, make sure it is in a state from which it can be restarted. Stopping an instance does not preserve data stored in RAM, but hibernating an instance does preserve data stored in RAM. If an instance cannot hibernate successfully, a normal shutdown occurs. Stopping and hibernating an instance is different to rebooting or terminating it. For example, when you stop or hibernate an instance, the root device and any other devices attached to the instance persist. When you terminate an instance, the root device and any other devices attached during the instance launch are automatically deleted. For more information about the differences between rebooting, stopping, hibernating, and terminating instances, see [Instance lifecycle](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-lifecycle.html) in the Amazon EC2 User Guide. When you stop an instance, we attempt to shut it down forcibly after a short while. If your instance appears stuck in the stopping state after a period of time, there may be an issue with the underlying host computer. For more information, see [Troubleshoot stopping your instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/TroubleshootingInstancesStopping.html) in the Amazon EC2 User Guide.
     ///
@@ -42127,7 +42127,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TerminateClientVpnConnections` operation on the `AmazonEC2` service.
+    /// Performs the `TerminateClientVpnConnections` operation on the `EC2` service.
     ///
     /// Terminates active Client VPN endpoint connections. This action can be used to terminate a specific client connection, or up to five connections established by a specific user.
     ///
@@ -42191,7 +42191,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TerminateInstances` operation on the `AmazonEC2` service.
+    /// Performs the `TerminateInstances` operation on the `EC2` service.
     ///
     /// Shuts down the specified instances. This operation is idempotent; if you terminate an instance more than once, each call succeeds. If you specify multiple instances and the request fails (for example, because of a single incorrect instance ID), none of the instances are terminated. If you terminate multiple instances across multiple Availability Zones, and one or more of the specified instances are enabled for termination protection, the request fails with the following results:
     ///
@@ -42280,7 +42280,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UnassignIpv6Addresses` operation on the `AmazonEC2` service.
+    /// Performs the `UnassignIpv6Addresses` operation on the `EC2` service.
     ///
     /// Unassigns one or more IPv6 addresses IPv4 Prefix Delegation prefixes from a network interface.
     ///
@@ -42344,7 +42344,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UnassignPrivateIpAddresses` operation on the `AmazonEC2` service.
+    /// Performs the `UnassignPrivateIpAddresses` operation on the `EC2` service.
     ///
     /// Unassigns one or more secondary private IP addresses, or IPv4 Prefix Delegation prefixes from a network interface.
     ///
@@ -42408,7 +42408,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UnassignPrivateNatGatewayAddress` operation on the `AmazonEC2` service.
+    /// Performs the `UnassignPrivateNatGatewayAddress` operation on the `EC2` service.
     ///
     /// Unassigns secondary private IPv4 addresses from a private NAT gateway. You cannot unassign your primary private IP. For more information, see [Edit secondary IP address associations](https://docs.aws.amazon.com/vpc/latest/userguide/nat-gateway-working-with.html#nat-gateway-edit-secondary) in the Amazon VPC User Guide. While unassigning is in progress, you cannot assign/unassign additional IP addresses while the connections are being drained. You are, however, allowed to delete the NAT gateway. A private IP address will only be released at the end of MaxDrainDurationSeconds. The private IP addresses stay associated and support the existing connections, but do not support any new connections (new connections are distributed across the remaining assigned private IP address). After the existing connections drain out, the private IP addresses are released.
     ///
@@ -42472,7 +42472,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UnlockSnapshot` operation on the `AmazonEC2` service.
+    /// Performs the `UnlockSnapshot` operation on the `EC2` service.
     ///
     /// Unlocks a snapshot that is locked in governance mode or that is locked in compliance mode but still in the cooling-off period. You can't unlock a snapshot that is locked in compliance mode after the cooling-off period has expired.
     ///
@@ -42536,7 +42536,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UnmonitorInstances` operation on the `AmazonEC2` service.
+    /// Performs the `UnmonitorInstances` operation on the `EC2` service.
     ///
     /// Disables detailed monitoring for a running instance. For more information, see [Monitoring your instances and volumes](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-cloudwatch.html) in the Amazon EC2 User Guide.
     ///
@@ -42600,7 +42600,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateSecurityGroupRuleDescriptionsEgress` operation on the `AmazonEC2` service.
+    /// Performs the `UpdateSecurityGroupRuleDescriptionsEgress` operation on the `EC2` service.
     ///
     /// Updates the description of an egress (outbound) security group rule. You can replace an existing description, or add a description to a rule that did not have one previously. You can remove a description for a security group rule by omitting the description parameter in the request.
     ///
@@ -42664,7 +42664,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateSecurityGroupRuleDescriptionsIngress` operation on the `AmazonEC2` service.
+    /// Performs the `UpdateSecurityGroupRuleDescriptionsIngress` operation on the `EC2` service.
     ///
     /// Updates the description of an ingress (inbound) security group rule. You can replace an existing description, or add a description to a rule that did not have one previously. You can remove a description for a security group rule by omitting the description parameter in the request.
     ///
@@ -42728,7 +42728,7 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `WithdrawByoipCidr` operation on the `AmazonEC2` service.
+    /// Performs the `WithdrawByoipCidr` operation on the `EC2` service.
     ///
     /// Stops advertising an address range that is provisioned as an address pool. You can perform this operation at most once every 10 seconds, even if you specify different address ranges each time. It can take a few minutes before traffic to the specified addresses stops routing to Amazon Web Services because of BGP propagation delays.
     ///

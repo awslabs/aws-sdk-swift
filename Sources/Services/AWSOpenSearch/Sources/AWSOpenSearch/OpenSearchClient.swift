@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class OpenSearchClient: ClientRuntime.Client {
     public static let clientName = "OpenSearchClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: OpenSearchClient.OpenSearchClientConfiguration
     let serviceName = "OpenSearch"
@@ -331,7 +331,7 @@ extension OpenSearchClient {
 }
 
 extension OpenSearchClient {
-    /// Performs the `AcceptInboundConnection` operation on the `AmazonOpenSearchService` service.
+    /// Performs the `AcceptInboundConnection` operation on the `OpenSearch` service.
     ///
     /// Allows the destination Amazon OpenSearch Service domain owner to accept an inbound cross-cluster search connection request. For more information, see [Cross-cluster search for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/cross-cluster-search.html).
     ///
@@ -399,7 +399,7 @@ extension OpenSearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AddDataSource` operation on the `AmazonOpenSearchService` service.
+    /// Performs the `AddDataSource` operation on the `OpenSearch` service.
     ///
     /// Creates a new direct-query data source to the specified domain. For more information, see [Creating Amazon OpenSearch Service data source integrations with Amazon S3](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/direct-query-s3-creating.html).
     ///
@@ -474,7 +474,7 @@ extension OpenSearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AddDirectQueryDataSource` operation on the `AmazonOpenSearchService` service.
+    /// Performs the `AddDirectQueryDataSource` operation on the `OpenSearch` service.
     ///
     /// Adds a new data source in Amazon OpenSearch Service so that you can perform direct queries on external data.
     ///
@@ -548,7 +548,7 @@ extension OpenSearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AddTags` operation on the `AmazonOpenSearchService` service.
+    /// Performs the `AddTags` operation on the `OpenSearch` service.
     ///
     /// Attaches tags to an existing Amazon OpenSearch Service domain, data source, or application. Tags are a set of case-sensitive key-value pairs. A domain, data source, or application can have up to 10 tags. For more information, see [Tagging Amazon OpenSearch Service resources](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/managedomains-awsresourcetagging.html).
     ///
@@ -620,7 +620,7 @@ extension OpenSearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssociatePackage` operation on the `AmazonOpenSearchService` service.
+    /// Performs the `AssociatePackage` operation on the `OpenSearch` service.
     ///
     /// Associates a package with an Amazon OpenSearch Service domain. For more information, see [Custom packages for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/custom-packages.html).
     ///
@@ -694,7 +694,7 @@ extension OpenSearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssociatePackages` operation on the `AmazonOpenSearchService` service.
+    /// Performs the `AssociatePackages` operation on the `OpenSearch` service.
     ///
     /// Operation in the Amazon OpenSearch Service API for associating multiple packages with a domain simultaneously.
     ///
@@ -768,7 +768,7 @@ extension OpenSearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AuthorizeVpcEndpointAccess` operation on the `AmazonOpenSearchService` service.
+    /// Performs the `AuthorizeVpcEndpointAccess` operation on the `OpenSearch` service.
     ///
     /// Provides access to an Amazon OpenSearch Service domain through the use of an interface VPC endpoint.
     ///
@@ -842,7 +842,7 @@ extension OpenSearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CancelDomainConfigChange` operation on the `AmazonOpenSearchService` service.
+    /// Performs the `CancelDomainConfigChange` operation on the `OpenSearch` service.
     ///
     /// Cancels a pending configuration change on an Amazon OpenSearch Service domain.
     ///
@@ -915,7 +915,7 @@ extension OpenSearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CancelServiceSoftwareUpdate` operation on the `AmazonOpenSearchService` service.
+    /// Performs the `CancelServiceSoftwareUpdate` operation on the `OpenSearch` service.
     ///
     /// Cancels a scheduled service software update for an Amazon OpenSearch Service domain. You can only perform this operation before the AutomatedUpdateDate and when the domain's UpdateStatus is PENDING_UPDATE. For more information, see [Service software updates in Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/service-software.html).
     ///
@@ -987,7 +987,7 @@ extension OpenSearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateApplication` operation on the `AmazonOpenSearchService` service.
+    /// Performs the `CreateApplication` operation on the `OpenSearch` service.
     ///
     /// Creates an OpenSearch Application.
     ///
@@ -1062,7 +1062,7 @@ extension OpenSearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateDomain` operation on the `AmazonOpenSearchService` service.
+    /// Performs the `CreateDomain` operation on the `OpenSearch` service.
     ///
     /// Creates an Amazon OpenSearch Service domain. For more information, see [Creating and managing Amazon OpenSearch Service domains](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/createupdatedomains.html).
     ///
@@ -1137,7 +1137,7 @@ extension OpenSearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateOutboundConnection` operation on the `AmazonOpenSearchService` service.
+    /// Performs the `CreateOutboundConnection` operation on the `OpenSearch` service.
     ///
     /// Creates a new cross-cluster search connection from a source Amazon OpenSearch Service domain to a destination domain. For more information, see [Cross-cluster search for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/cross-cluster-search.html).
     ///
@@ -1209,7 +1209,7 @@ extension OpenSearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreatePackage` operation on the `AmazonOpenSearchService` service.
+    /// Performs the `CreatePackage` operation on the `OpenSearch` service.
     ///
     /// Creates a package for use with Amazon OpenSearch Service domains. For more information, see [Custom packages for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/custom-packages.html).
     ///
@@ -1284,7 +1284,7 @@ extension OpenSearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateVpcEndpoint` operation on the `AmazonOpenSearchService` service.
+    /// Performs the `CreateVpcEndpoint` operation on the `OpenSearch` service.
     ///
     /// Creates an Amazon OpenSearch Service-managed VPC endpoint.
     ///
@@ -1358,7 +1358,7 @@ extension OpenSearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteApplication` operation on the `AmazonOpenSearchService` service.
+    /// Performs the `DeleteApplication` operation on the `OpenSearch` service.
     ///
     /// Deletes an existing OpenSearch Application.
     ///
@@ -1430,7 +1430,7 @@ extension OpenSearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteDataSource` operation on the `AmazonOpenSearchService` service.
+    /// Performs the `DeleteDataSource` operation on the `OpenSearch` service.
     ///
     /// Deletes a direct-query data source. For more information, see [Deleting an Amazon OpenSearch Service data source with Amazon S3](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/direct-query-s3-delete.html).
     ///
@@ -1501,7 +1501,7 @@ extension OpenSearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteDirectQueryDataSource` operation on the `AmazonOpenSearchService` service.
+    /// Performs the `DeleteDirectQueryDataSource` operation on the `OpenSearch` service.
     ///
     /// Deletes a previously configured direct query data source from Amazon OpenSearch Service.
     ///
@@ -1571,7 +1571,7 @@ extension OpenSearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteDomain` operation on the `AmazonOpenSearchService` service.
+    /// Performs the `DeleteDomain` operation on the `OpenSearch` service.
     ///
     /// Deletes an Amazon OpenSearch Service domain and all of its data. You can't recover a domain after you delete it.
     ///
@@ -1640,7 +1640,7 @@ extension OpenSearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteInboundConnection` operation on the `AmazonOpenSearchService` service.
+    /// Performs the `DeleteInboundConnection` operation on the `OpenSearch` service.
     ///
     /// Allows the destination Amazon OpenSearch Service domain owner to delete an existing inbound cross-cluster search connection. For more information, see [Cross-cluster search for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/cross-cluster-search.html).
     ///
@@ -1707,7 +1707,7 @@ extension OpenSearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteOutboundConnection` operation on the `AmazonOpenSearchService` service.
+    /// Performs the `DeleteOutboundConnection` operation on the `OpenSearch` service.
     ///
     /// Allows the source Amazon OpenSearch Service domain owner to delete an existing outbound cross-cluster search connection. For more information, see [Cross-cluster search for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/cross-cluster-search.html).
     ///
@@ -1774,7 +1774,7 @@ extension OpenSearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeletePackage` operation on the `AmazonOpenSearchService` service.
+    /// Performs the `DeletePackage` operation on the `OpenSearch` service.
     ///
     /// Deletes an Amazon OpenSearch Service package. For more information, see [Custom packages for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/custom-packages.html).
     ///
@@ -1845,7 +1845,7 @@ extension OpenSearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteVpcEndpoint` operation on the `AmazonOpenSearchService` service.
+    /// Performs the `DeleteVpcEndpoint` operation on the `OpenSearch` service.
     ///
     /// Deletes an Amazon OpenSearch Service-managed interface VPC endpoint.
     ///
@@ -1914,7 +1914,7 @@ extension OpenSearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeDomain` operation on the `AmazonOpenSearchService` service.
+    /// Performs the `DescribeDomain` operation on the `OpenSearch` service.
     ///
     /// Describes the domain configuration for the specified Amazon OpenSearch Service domain, including the domain ID, domain service endpoint, and domain ARN.
     ///
@@ -1983,7 +1983,7 @@ extension OpenSearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeDomainAutoTunes` operation on the `AmazonOpenSearchService` service.
+    /// Performs the `DescribeDomainAutoTunes` operation on the `OpenSearch` service.
     ///
     /// Returns the list of optimizations that Auto-Tune has made to an Amazon OpenSearch Service domain. For more information, see [Auto-Tune for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/auto-tune.html).
     ///
@@ -2055,7 +2055,7 @@ extension OpenSearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeDomainChangeProgress` operation on the `AmazonOpenSearchService` service.
+    /// Performs the `DescribeDomainChangeProgress` operation on the `OpenSearch` service.
     ///
     /// Returns information about the current blue/green deployment happening on an Amazon OpenSearch Service domain. For more information, see [Making configuration changes in Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/managedomains-configuration-changes.html).
     ///
@@ -2125,7 +2125,7 @@ extension OpenSearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeDomainConfig` operation on the `AmazonOpenSearchService` service.
+    /// Performs the `DescribeDomainConfig` operation on the `OpenSearch` service.
     ///
     /// Returns the configuration of an Amazon OpenSearch Service domain.
     ///
@@ -2194,7 +2194,7 @@ extension OpenSearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeDomainHealth` operation on the `AmazonOpenSearchService` service.
+    /// Performs the `DescribeDomainHealth` operation on the `OpenSearch` service.
     ///
     /// Returns information about domain and node health, the standby Availability Zone, number of nodes per Availability Zone, and shard count per node.
     ///
@@ -2264,7 +2264,7 @@ extension OpenSearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeDomainNodes` operation on the `AmazonOpenSearchService` service.
+    /// Performs the `DescribeDomainNodes` operation on the `OpenSearch` service.
     ///
     /// Returns information about domain and nodes, including data nodes, master nodes, ultrawarm nodes, Availability Zone(s), standby nodes, node configurations, and node states.
     ///
@@ -2335,7 +2335,7 @@ extension OpenSearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeDomains` operation on the `AmazonOpenSearchService` service.
+    /// Performs the `DescribeDomains` operation on the `OpenSearch` service.
     ///
     /// Returns domain configuration information about the specified Amazon OpenSearch Service domains.
     ///
@@ -2406,7 +2406,7 @@ extension OpenSearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeDryRunProgress` operation on the `AmazonOpenSearchService` service.
+    /// Performs the `DescribeDryRunProgress` operation on the `OpenSearch` service.
     ///
     /// Describes the progress of a pre-update dry run analysis on an Amazon OpenSearch Service domain. For more information, see [Determining whether a change will cause a blue/green deployment](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/managedomains-configuration-changes#dryrun).
     ///
@@ -2477,7 +2477,7 @@ extension OpenSearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeInboundConnections` operation on the `AmazonOpenSearchService` service.
+    /// Performs the `DescribeInboundConnections` operation on the `OpenSearch` service.
     ///
     /// Lists all the inbound cross-cluster search connections for a destination (remote) Amazon OpenSearch Service domain. For more information, see [Cross-cluster search for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/cross-cluster-search.html).
     ///
@@ -2547,7 +2547,7 @@ extension OpenSearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeInstanceTypeLimits` operation on the `AmazonOpenSearchService` service.
+    /// Performs the `DescribeInstanceTypeLimits` operation on the `OpenSearch` service.
     ///
     /// Describes the instance count, storage, and master node limits for a given OpenSearch or Elasticsearch version and instance type.
     ///
@@ -2619,7 +2619,7 @@ extension OpenSearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeOutboundConnections` operation on the `AmazonOpenSearchService` service.
+    /// Performs the `DescribeOutboundConnections` operation on the `OpenSearch` service.
     ///
     /// Lists all the outbound cross-cluster connections for a local (source) Amazon OpenSearch Service domain. For more information, see [Cross-cluster search for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/cross-cluster-search.html).
     ///
@@ -2689,7 +2689,7 @@ extension OpenSearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribePackages` operation on the `AmazonOpenSearchService` service.
+    /// Performs the `DescribePackages` operation on the `OpenSearch` service.
     ///
     /// Describes all packages available to OpenSearch Service. For more information, see [Custom packages for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/custom-packages.html).
     ///
@@ -2762,7 +2762,7 @@ extension OpenSearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeReservedInstanceOfferings` operation on the `AmazonOpenSearchService` service.
+    /// Performs the `DescribeReservedInstanceOfferings` operation on the `OpenSearch` service.
     ///
     /// Describes the available Amazon OpenSearch Service Reserved Instance offerings for a given Region. For more information, see [Reserved Instances in Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/ri.html).
     ///
@@ -2832,7 +2832,7 @@ extension OpenSearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeReservedInstances` operation on the `AmazonOpenSearchService` service.
+    /// Performs the `DescribeReservedInstances` operation on the `OpenSearch` service.
     ///
     /// Describes the Amazon OpenSearch Service instances that you have reserved in a given Region. For more information, see [Reserved Instances in Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/ri.html).
     ///
@@ -2902,7 +2902,7 @@ extension OpenSearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeVpcEndpoints` operation on the `AmazonOpenSearchService` service.
+    /// Performs the `DescribeVpcEndpoints` operation on the `OpenSearch` service.
     ///
     /// Describes one or more Amazon OpenSearch Service-managed VPC endpoints.
     ///
@@ -2974,7 +2974,7 @@ extension OpenSearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DissociatePackage` operation on the `AmazonOpenSearchService` service.
+    /// Performs the `DissociatePackage` operation on the `OpenSearch` service.
     ///
     /// Removes a package from the specified Amazon OpenSearch Service domain. The package can't be in use with any OpenSearch index for the dissociation to succeed. The package is still available in OpenSearch Service for association later. For more information, see [Custom packages for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/custom-packages.html).
     ///
@@ -3045,7 +3045,7 @@ extension OpenSearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DissociatePackages` operation on the `AmazonOpenSearchService` service.
+    /// Performs the `DissociatePackages` operation on the `OpenSearch` service.
     ///
     /// Dissociates multiple packages from a domain simulatneously.
     ///
@@ -3119,7 +3119,7 @@ extension OpenSearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetApplication` operation on the `AmazonOpenSearchService` service.
+    /// Performs the `GetApplication` operation on the `OpenSearch` service.
     ///
     /// Check the configuration and status of an existing OpenSearch Application.
     ///
@@ -3190,7 +3190,7 @@ extension OpenSearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetCompatibleVersions` operation on the `AmazonOpenSearchService` service.
+    /// Performs the `GetCompatibleVersions` operation on the `OpenSearch` service.
     ///
     /// Returns a map of OpenSearch or Elasticsearch versions and the versions you can upgrade them to.
     ///
@@ -3261,7 +3261,7 @@ extension OpenSearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDataSource` operation on the `AmazonOpenSearchService` service.
+    /// Performs the `GetDataSource` operation on the `OpenSearch` service.
     ///
     /// Retrieves information about a direct query data source.
     ///
@@ -3332,7 +3332,7 @@ extension OpenSearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDirectQueryDataSource` operation on the `AmazonOpenSearchService` service.
+    /// Performs the `GetDirectQueryDataSource` operation on the `OpenSearch` service.
     ///
     /// Returns detailed configuration information for a specific direct query data source in Amazon OpenSearch Service.
     ///
@@ -3402,7 +3402,7 @@ extension OpenSearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDomainMaintenanceStatus` operation on the `AmazonOpenSearchService` service.
+    /// Performs the `GetDomainMaintenanceStatus` operation on the `OpenSearch` service.
     ///
     /// The status of the maintenance action.
     ///
@@ -3473,7 +3473,7 @@ extension OpenSearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetPackageVersionHistory` operation on the `AmazonOpenSearchService` service.
+    /// Performs the `GetPackageVersionHistory` operation on the `OpenSearch` service.
     ///
     /// Returns a list of Amazon OpenSearch Service package versions, along with their creation time, commit message, and plugin properties (if the package is a zip plugin package). For more information, see [Custom packages for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/custom-packages.html).
     ///
@@ -3544,7 +3544,7 @@ extension OpenSearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetUpgradeHistory` operation on the `AmazonOpenSearchService` service.
+    /// Performs the `GetUpgradeHistory` operation on the `OpenSearch` service.
     ///
     /// Retrieves the complete history of the last 10 upgrades performed on an Amazon OpenSearch Service domain.
     ///
@@ -3615,7 +3615,7 @@ extension OpenSearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetUpgradeStatus` operation on the `AmazonOpenSearchService` service.
+    /// Performs the `GetUpgradeStatus` operation on the `OpenSearch` service.
     ///
     /// Returns the most recent status of the last upgrade or upgrade eligibility check performed on an Amazon OpenSearch Service domain.
     ///
@@ -3685,7 +3685,7 @@ extension OpenSearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListApplications` operation on the `AmazonOpenSearchService` service.
+    /// Performs the `ListApplications` operation on the `OpenSearch` service.
     ///
     /// List all OpenSearch Applications under your account.
     ///
@@ -3757,7 +3757,7 @@ extension OpenSearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDataSources` operation on the `AmazonOpenSearchService` service.
+    /// Performs the `ListDataSources` operation on the `OpenSearch` service.
     ///
     /// Lists direct-query data sources for a specific domain. For more information, see For more information, see [Working with Amazon OpenSearch Service direct queries with Amazon S3](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/direct-query-s3.html).
     ///
@@ -3828,7 +3828,7 @@ extension OpenSearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDirectQueryDataSources` operation on the `AmazonOpenSearchService` service.
+    /// Performs the `ListDirectQueryDataSources` operation on the `OpenSearch` service.
     ///
     /// Lists an inventory of all the direct query data sources that you have configured within Amazon OpenSearch Service.
     ///
@@ -3899,7 +3899,7 @@ extension OpenSearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDomainMaintenances` operation on the `AmazonOpenSearchService` service.
+    /// Performs the `ListDomainMaintenances` operation on the `OpenSearch` service.
     ///
     /// A list of maintenance actions for the domain.
     ///
@@ -3970,7 +3970,7 @@ extension OpenSearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDomainNames` operation on the `AmazonOpenSearchService` service.
+    /// Performs the `ListDomainNames` operation on the `OpenSearch` service.
     ///
     /// Returns the names of all Amazon OpenSearch Service domains owned by the current user in the active Region.
     ///
@@ -4038,7 +4038,7 @@ extension OpenSearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDomainsForPackage` operation on the `AmazonOpenSearchService` service.
+    /// Performs the `ListDomainsForPackage` operation on the `OpenSearch` service.
     ///
     /// Lists all Amazon OpenSearch Service domains associated with a given package. For more information, see [Custom packages for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/custom-packages.html).
     ///
@@ -4109,7 +4109,7 @@ extension OpenSearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListInstanceTypeDetails` operation on the `AmazonOpenSearchService` service.
+    /// Performs the `ListInstanceTypeDetails` operation on the `OpenSearch` service.
     ///
     /// Lists all instance types and available features for a given OpenSearch or Elasticsearch version.
     ///
@@ -4179,7 +4179,7 @@ extension OpenSearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListPackagesForDomain` operation on the `AmazonOpenSearchService` service.
+    /// Performs the `ListPackagesForDomain` operation on the `OpenSearch` service.
     ///
     /// Lists all packages associated with an Amazon OpenSearch Service domain. For more information, see [Custom packages for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/custom-packages.html).
     ///
@@ -4250,7 +4250,7 @@ extension OpenSearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListScheduledActions` operation on the `AmazonOpenSearchService` service.
+    /// Performs the `ListScheduledActions` operation on the `OpenSearch` service.
     ///
     /// Retrieves a list of configuration changes that are scheduled for a domain. These changes can be [service software updates](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/service-software.html) or [blue/green Auto-Tune enhancements](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/auto-tune.html#auto-tune-types).
     ///
@@ -4321,7 +4321,7 @@ extension OpenSearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTags` operation on the `AmazonOpenSearchService` service.
+    /// Performs the `ListTags` operation on the `OpenSearch` service.
     ///
     /// Returns all resource tags for an Amazon OpenSearch Service domain, data source, or application. For more information, see [Tagging Amazon OpenSearch Service resources](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/managedomains-awsresourcetagging.html).
     ///
@@ -4391,7 +4391,7 @@ extension OpenSearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListVersions` operation on the `AmazonOpenSearchService` service.
+    /// Performs the `ListVersions` operation on the `OpenSearch` service.
     ///
     /// Lists all versions of OpenSearch and Elasticsearch that Amazon OpenSearch Service supports.
     ///
@@ -4461,7 +4461,7 @@ extension OpenSearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListVpcEndpointAccess` operation on the `AmazonOpenSearchService` service.
+    /// Performs the `ListVpcEndpointAccess` operation on the `OpenSearch` service.
     ///
     /// Retrieves information about each Amazon Web Services principal that is allowed to access a given Amazon OpenSearch Service domain through the use of an interface VPC endpoint.
     ///
@@ -4531,7 +4531,7 @@ extension OpenSearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListVpcEndpoints` operation on the `AmazonOpenSearchService` service.
+    /// Performs the `ListVpcEndpoints` operation on the `OpenSearch` service.
     ///
     /// Retrieves all Amazon OpenSearch Service-managed VPC endpoints in the current Amazon Web Services account and Region.
     ///
@@ -4600,7 +4600,7 @@ extension OpenSearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListVpcEndpointsForDomain` operation on the `AmazonOpenSearchService` service.
+    /// Performs the `ListVpcEndpointsForDomain` operation on the `OpenSearch` service.
     ///
     /// Retrieves all Amazon OpenSearch Service-managed VPC endpoints associated with a particular domain.
     ///
@@ -4670,7 +4670,7 @@ extension OpenSearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PurchaseReservedInstanceOffering` operation on the `AmazonOpenSearchService` service.
+    /// Performs the `PurchaseReservedInstanceOffering` operation on the `OpenSearch` service.
     ///
     /// Allows you to purchase Amazon OpenSearch Service Reserved Instances.
     ///
@@ -4744,7 +4744,7 @@ extension OpenSearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RejectInboundConnection` operation on the `AmazonOpenSearchService` service.
+    /// Performs the `RejectInboundConnection` operation on the `OpenSearch` service.
     ///
     /// Allows the remote Amazon OpenSearch Service domain owner to reject an inbound cross-cluster connection request.
     ///
@@ -4811,7 +4811,7 @@ extension OpenSearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RemoveTags` operation on the `AmazonOpenSearchService` service.
+    /// Performs the `RemoveTags` operation on the `OpenSearch` service.
     ///
     /// Removes the specified set of tags from an Amazon OpenSearch Service domain, data source, or application. For more information, see [ Tagging Amazon OpenSearch Service resources](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/managedomains.html#managedomains-awsresorcetagging).
     ///
@@ -4882,7 +4882,7 @@ extension OpenSearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RevokeVpcEndpointAccess` operation on the `AmazonOpenSearchService` service.
+    /// Performs the `RevokeVpcEndpointAccess` operation on the `OpenSearch` service.
     ///
     /// Revokes access to an Amazon OpenSearch Service domain that was provided through an interface VPC endpoint.
     ///
@@ -4955,7 +4955,7 @@ extension OpenSearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartDomainMaintenance` operation on the `AmazonOpenSearchService` service.
+    /// Performs the `StartDomainMaintenance` operation on the `OpenSearch` service.
     ///
     /// Starts the node maintenance process on the data node. These processes can include a node reboot, an Opensearch or Elasticsearch process restart, or a Dashboard or Kibana restart.
     ///
@@ -5028,7 +5028,7 @@ extension OpenSearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartServiceSoftwareUpdate` operation on the `AmazonOpenSearchService` service.
+    /// Performs the `StartServiceSoftwareUpdate` operation on the `OpenSearch` service.
     ///
     /// Schedules a service software update for an Amazon OpenSearch Service domain. For more information, see [Service software updates in Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/service-software.html).
     ///
@@ -5100,7 +5100,7 @@ extension OpenSearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateApplication` operation on the `AmazonOpenSearchService` service.
+    /// Performs the `UpdateApplication` operation on the `OpenSearch` service.
     ///
     /// Update the OpenSearch Application.
     ///
@@ -5175,7 +5175,7 @@ extension OpenSearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateDataSource` operation on the `AmazonOpenSearchService` service.
+    /// Performs the `UpdateDataSource` operation on the `OpenSearch` service.
     ///
     /// Updates a direct-query data source. For more information, see [Working with Amazon OpenSearch Service data source integrations with Amazon S3](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/direct-query-s3-creating.html).
     ///
@@ -5249,7 +5249,7 @@ extension OpenSearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateDirectQueryDataSource` operation on the `AmazonOpenSearchService` service.
+    /// Performs the `UpdateDirectQueryDataSource` operation on the `OpenSearch` service.
     ///
     /// Updates the configuration or properties of an existing direct query data source in Amazon OpenSearch Service.
     ///
@@ -5322,7 +5322,7 @@ extension OpenSearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateDomainConfig` operation on the `AmazonOpenSearchService` service.
+    /// Performs the `UpdateDomainConfig` operation on the `OpenSearch` service.
     ///
     /// Modifies the cluster configuration of the specified Amazon OpenSearch Service domain.
     ///
@@ -5396,7 +5396,7 @@ extension OpenSearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdatePackage` operation on the `AmazonOpenSearchService` service.
+    /// Performs the `UpdatePackage` operation on the `OpenSearch` service.
     ///
     /// Updates a package for use with Amazon OpenSearch Service domains. For more information, see [Custom packages for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/custom-packages.html).
     ///
@@ -5470,7 +5470,7 @@ extension OpenSearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdatePackageScope` operation on the `AmazonOpenSearchService` service.
+    /// Performs the `UpdatePackageScope` operation on the `OpenSearch` service.
     ///
     /// Updates the scope of a package. Scope of the package defines users who can view and associate a package.
     ///
@@ -5543,7 +5543,7 @@ extension OpenSearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateScheduledAction` operation on the `AmazonOpenSearchService` service.
+    /// Performs the `UpdateScheduledAction` operation on the `OpenSearch` service.
     ///
     /// Reschedules a planned domain configuration change for a later time. This change can be a scheduled [service software update](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/service-software.html) or a [blue/green Auto-Tune enhancement](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/auto-tune.html#auto-tune-types).
     ///
@@ -5618,7 +5618,7 @@ extension OpenSearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateVpcEndpoint` operation on the `AmazonOpenSearchService` service.
+    /// Performs the `UpdateVpcEndpoint` operation on the `OpenSearch` service.
     ///
     /// Modifies an Amazon OpenSearch Service-managed interface VPC endpoint.
     ///
@@ -5692,7 +5692,7 @@ extension OpenSearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpgradeDomain` operation on the `AmazonOpenSearchService` service.
+    /// Performs the `UpgradeDomain` operation on the `OpenSearch` service.
     ///
     /// Allows you to either upgrade your Amazon OpenSearch Service domain or perform an upgrade eligibility check to a compatible version of OpenSearch or Elasticsearch.
     ///

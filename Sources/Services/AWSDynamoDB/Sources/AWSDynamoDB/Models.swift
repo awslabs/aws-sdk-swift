@@ -1755,16 +1755,20 @@ extension DynamoDBClientTypes {
         ///
         /// * DISABLED - Point in time recovery is disabled.
         public var pointInTimeRecoveryStatus: DynamoDBClientTypes.PointInTimeRecoveryStatus?
+        /// The number of preceding days for which continuous backups are taken and maintained. Your table data is only recoverable to any point-in-time from within the configured recovery period. This parameter is optional. If no value is provided, the value will default to 35.
+        public var recoveryPeriodInDays: Swift.Int?
 
         public init(
             earliestRestorableDateTime: Foundation.Date? = nil,
             latestRestorableDateTime: Foundation.Date? = nil,
-            pointInTimeRecoveryStatus: DynamoDBClientTypes.PointInTimeRecoveryStatus? = nil
+            pointInTimeRecoveryStatus: DynamoDBClientTypes.PointInTimeRecoveryStatus? = nil,
+            recoveryPeriodInDays: Swift.Int? = nil
         )
         {
             self.earliestRestorableDateTime = earliestRestorableDateTime
             self.latestRestorableDateTime = latestRestorableDateTime
             self.pointInTimeRecoveryStatus = pointInTimeRecoveryStatus
+            self.recoveryPeriodInDays = recoveryPeriodInDays
         }
     }
 }
@@ -6063,12 +6067,16 @@ extension DynamoDBClientTypes {
         /// Indicates whether point in time recovery is enabled (true) or disabled (false) on the table.
         /// This member is required.
         public var pointInTimeRecoveryEnabled: Swift.Bool?
+        /// The number of preceding days for which continuous backups are taken and maintained. Your table data is only recoverable to any point-in-time from within the configured recovery period. This parameter is optional. If no value is provided, the value will default to 35.
+        public var recoveryPeriodInDays: Swift.Int?
 
         public init(
-            pointInTimeRecoveryEnabled: Swift.Bool? = nil
+            pointInTimeRecoveryEnabled: Swift.Bool? = nil,
+            recoveryPeriodInDays: Swift.Int? = nil
         )
         {
             self.pointInTimeRecoveryEnabled = pointInTimeRecoveryEnabled
+            self.recoveryPeriodInDays = recoveryPeriodInDays
         }
     }
 }
@@ -12848,6 +12856,7 @@ extension DynamoDBClientTypes.PointInTimeRecoveryDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DynamoDBClientTypes.PointInTimeRecoveryDescription()
         value.pointInTimeRecoveryStatus = try reader["PointInTimeRecoveryStatus"].readIfPresent()
+        value.recoveryPeriodInDays = try reader["RecoveryPeriodInDays"].readIfPresent()
         value.earliestRestorableDateTime = try reader["EarliestRestorableDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.latestRestorableDateTime = try reader["LatestRestorableDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
@@ -13528,6 +13537,7 @@ extension DynamoDBClientTypes.PointInTimeRecoverySpecification {
     static func write(value: DynamoDBClientTypes.PointInTimeRecoverySpecification?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["PointInTimeRecoveryEnabled"].write(value.pointInTimeRecoveryEnabled)
+        try writer["RecoveryPeriodInDays"].write(value.recoveryPeriodInDays)
     }
 }
 

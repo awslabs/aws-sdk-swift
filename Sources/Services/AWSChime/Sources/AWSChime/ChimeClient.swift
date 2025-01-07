@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ChimeClient: ClientRuntime.Client {
     public static let clientName = "ChimeClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: ChimeClient.ChimeClientConfiguration
     let serviceName = "Chime"
@@ -332,7 +332,7 @@ extension ChimeClient {
 }
 
 extension ChimeClient {
-    /// Performs the `AssociatePhoneNumberWithUser` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `AssociatePhoneNumberWithUser` operation on the `Chime` service.
     ///
     /// Associates a phone number with the specified Amazon Chime user.
     ///
@@ -409,7 +409,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssociatePhoneNumbersWithVoiceConnector` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `AssociatePhoneNumbersWithVoiceConnector` operation on the `Chime` service.
     ///
     /// Associates phone numbers with the specified Amazon Chime Voice Connector. This API is is no longer supported and will not be updated. We recommend using the latest version, [AssociatePhoneNumbersWithVoiceConnector](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_AssociatePhoneNumbersWithVoiceConnector.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by AssociatePhoneNumbersWithVoiceConnector in the Amazon Chime SDK Voice Namespace")
@@ -487,7 +487,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssociatePhoneNumbersWithVoiceConnectorGroup` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `AssociatePhoneNumbersWithVoiceConnectorGroup` operation on the `Chime` service.
     ///
     /// Associates phone numbers with the specified Amazon Chime Voice Connector group. This API is is no longer supported and will not be updated. We recommend using the latest version, [AssociatePhoneNumbersWithVoiceConnectorGroup](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_AssociatePhoneNumbersWithVoiceConnectorGroup.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by AssociatePhoneNumbersWithVoiceConnectorGroup in the Amazon Chime SDK Voice Namespace")
@@ -565,7 +565,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssociateSigninDelegateGroupsWithAccount` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `AssociateSigninDelegateGroupsWithAccount` operation on the `Chime` service.
     ///
     /// Associates the specified sign-in delegate groups with the specified Amazon Chime account.
     ///
@@ -641,7 +641,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchCreateAttendee` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `BatchCreateAttendee` operation on the `Chime` service.
     ///
     /// Creates up to 100 new attendees for an active Amazon Chime SDK meeting. This API is is no longer supported and will not be updated. We recommend using the latest version, [BatchCreateAttendee](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_BatchCreateAttendee.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by BatchCreateAttendee in the Amazon Chime SDK Meetings Namespace")
@@ -719,7 +719,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchCreateChannelMembership` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `BatchCreateChannelMembership` operation on the `Chime` service.
     ///
     /// Adds a specified number of users to a channel. This API is is no longer supported and will not be updated. We recommend using the latest version, [BatchCreateChannelMembership](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_BatchCreateChannelMembership.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by BatchCreateChannelMembership in the Amazon Chime SDK Messaging Namespace")
@@ -796,7 +796,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchCreateRoomMembership` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `BatchCreateRoomMembership` operation on the `Chime` service.
     ///
     /// Adds up to 50 members to a chat room in an Amazon Chime Enterprise account. Members can be users or bots. The member role designates whether the member is a chat room administrator or a general chat room member.
     ///
@@ -872,7 +872,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchDeletePhoneNumber` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `BatchDeletePhoneNumber` operation on the `Chime` service.
     ///
     /// Moves phone numbers into the Deletion queue. Phone numbers must be disassociated from any users or Amazon Chime Voice Connectors before they can be deleted. Phone numbers remain in the Deletion queue for 7 days before they are deleted permanently.
     ///
@@ -948,7 +948,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchSuspendUser` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `BatchSuspendUser` operation on the `Chime` service.
     ///
     /// Suspends up to 50 users from a Team or EnterpriseLWA Amazon Chime account. For more information about different account types, see [Managing Your Amazon Chime Accounts](https://docs.aws.amazon.com/chime/latest/ag/manage-chime-account.html) in the Amazon Chime Administration Guide. Users suspended from a Team account are disassociated from the account,but they can continue to use Amazon Chime as free users. To remove the suspension from suspended Team account users, invite them to the Team account again. You can use the [InviteUsers] action to do so. Users suspended from an EnterpriseLWA account are immediately signed out of Amazon Chime and can no longer sign in. To remove the suspension from suspended EnterpriseLWA account users, use the [BatchUnsuspendUser] action. To sign out users without suspending them, use the [LogoutUser] action.
     ///
@@ -1024,7 +1024,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchUnsuspendUser` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `BatchUnsuspendUser` operation on the `Chime` service.
     ///
     /// Removes the suspension from up to 50 previously suspended users for the specified Amazon Chime EnterpriseLWA account. Only users on EnterpriseLWA accounts can be unsuspended using this action. For more information about different account types, see [ Managing Your Amazon Chime Accounts ](https://docs.aws.amazon.com/chime/latest/ag/manage-chime-account.html) in the account types, in the Amazon Chime Administration Guide. Previously suspended users who are unsuspended using this action are returned to Registered status. Users who are not previously suspended are ignored.
     ///
@@ -1100,7 +1100,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchUpdatePhoneNumber` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `BatchUpdatePhoneNumber` operation on the `Chime` service.
     ///
     /// Updates phone number product types or calling names. You can update one attribute at a time for each UpdatePhoneNumberRequestItem. For example, you can update the product type or the calling name. For toll-free numbers, you cannot use the Amazon Chime Business Calling product type. For numbers outside the U.S., you must use the Amazon Chime SIP Media Application Dial-In product type. Updates to outbound calling names can take up to 72 hours to complete. Pending updates to outbound calling names must be complete before you can request another update.
     ///
@@ -1176,7 +1176,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchUpdateUser` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `BatchUpdateUser` operation on the `Chime` service.
     ///
     /// Updates user details within the [UpdateUserRequestItem] object for up to 20 users for the specified Amazon Chime account. Currently, only LicenseType updates are supported for this action.
     ///
@@ -1251,7 +1251,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateAccount` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `CreateAccount` operation on the `Chime` service.
     ///
     /// Creates an Amazon Chime account under the administrator's AWS account. Only Team account types are currently supported for this action. For more information about different account types, see [Managing Your Amazon Chime Accounts](https://docs.aws.amazon.com/chime/latest/ag/manage-chime-account.html) in the Amazon Chime Administration Guide.
     ///
@@ -1326,7 +1326,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateAppInstance` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `CreateAppInstance` operation on the `Chime` service.
     ///
     /// Creates an Amazon Chime SDK messaging AppInstance under an AWS account. Only SDK messaging customers use this API. CreateAppInstance supports idempotency behavior as described in the AWS API Standard. This API is is no longer supported and will not be updated. We recommend using the latest version, [CreateAppInstance](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_CreateAppInstance.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by CreateAppInstance in the Amazon Chime SDK Identity Namespace")
@@ -1404,7 +1404,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateAppInstanceAdmin` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `CreateAppInstanceAdmin` operation on the `Chime` service.
     ///
     /// Promotes an AppInstanceUser to an AppInstanceAdmin. The promoted user can perform the following actions. This API is is no longer supported and will not be updated. We recommend using the latest version, [CreateAppInstanceAdmin](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_CreateAppInstanceAdmin.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     ///
@@ -1488,7 +1488,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateAppInstanceUser` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `CreateAppInstanceUser` operation on the `Chime` service.
     ///
     /// Creates a user under an Amazon Chime AppInstance. The request consists of a unique appInstanceUserId and Name for that user. This API is is no longer supported and will not be updated. We recommend using the latest version, [CreateAppInstanceUser](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_CreateAppInstanceUser.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by CreateAppInstanceUser in the Amazon Chime SDK Identity Namespace")
@@ -1566,7 +1566,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateAttendee` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `CreateAttendee` operation on the `Chime` service.
     ///
     /// Creates a new attendee for an active Amazon Chime SDK meeting. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html) in the Amazon Chime SDK Developer Guide. This API is is no longer supported and will not be updated. We recommend using the latest version, [CreateAttendee](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_CreateAttendee.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by CreateAttendee in the Amazon Chime SDK Meetings Namespace")
@@ -1643,7 +1643,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateBot` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `CreateBot` operation on the `Chime` service.
     ///
     /// Creates a bot for an Amazon Chime Enterprise account.
     ///
@@ -1719,7 +1719,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateChannel` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `CreateChannel` operation on the `Chime` service.
     ///
     /// Creates a channel to which you can add users and send messages. Restriction: You can't change a channel's privacy. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [CreateChannel](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_CreateChannel.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by CreateChannel in the Amazon Chime SDK Messaging Namespace")
@@ -1798,7 +1798,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateChannelBan` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `CreateChannelBan` operation on the `Chime` service.
     ///
     /// Permanently bans a member from a channel. Moderators can't add banned members to a channel. To undo a ban, you first have to DeleteChannelBan, and then CreateChannelMembership. Bans are cleaned up when you delete users or channels. If you ban a user who is already part of a channel, that user is automatically kicked from the channel. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [CreateChannelBan](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_CreateChannelBan.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by CreateChannelBan in the Amazon Chime SDK Messaging Namespace")
@@ -1876,7 +1876,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateChannelMembership` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `CreateChannelMembership` operation on the `Chime` service.
     ///
     /// Adds a user to a channel. The InvitedBy response field is derived from the request header. A channel member can:
     ///
@@ -1974,7 +1974,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateChannelModerator` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `CreateChannelModerator` operation on the `Chime` service.
     ///
     /// Creates a new ChannelModerator. A channel moderator can:
     ///
@@ -2065,7 +2065,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateMediaCapturePipeline` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `CreateMediaCapturePipeline` operation on the `Chime` service.
     ///
     /// Creates a media capture pipeline. This API is is no longer supported and will not be updated. We recommend using the latest version, [CreateMediaCapturePipeline](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_media-pipelines-chime_CreateMediaCapturePipeline), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by CreateMediaCapturePipeline in the Amazon Chime SDK Media Pipelines Namespace")
@@ -2142,7 +2142,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateMeeting` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `CreateMeeting` operation on the `Chime` service.
     ///
     /// Creates a new Amazon Chime SDK meeting in the specified media Region with no initial attendees. For more information about specifying media Regions, see [Amazon Chime SDK Media Regions](https://docs.aws.amazon.com/chime-sdk/latest/dg/chime-sdk-meetings-regions.html) in the Amazon Chime SDK Developer Guide . For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html) in the Amazon Chime SDK Developer Guide. This API is is no longer supported and will not be updated. We recommend using the latest version, [CreateMeeting](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_CreateMeeting.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by CreateMeeting in the Amazon Chime SDK Meetings Namespace")
@@ -2219,7 +2219,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateMeetingDialOut` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `CreateMeetingDialOut` operation on the `Chime` service.
     ///
     /// Uses the join token and call metadata in a meeting request (From number, To number, and so forth) to initiate an outbound call to a public switched telephone network (PSTN) and join them into a Chime meeting. Also ensures that the From number belongs to the customer. To play welcome audio or implement an interactive voice response (IVR), use the CreateSipMediaApplicationCall action with the corresponding SIP media application ID. This API is is not available in a dedicated namespace.
     ///
@@ -2295,7 +2295,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateMeetingWithAttendees` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `CreateMeetingWithAttendees` operation on the `Chime` service.
     ///
     /// Creates a new Amazon Chime SDK meeting in the specified media Region, with attendees. For more information about specifying media Regions, see [Amazon Chime SDK Media Regions](https://docs.aws.amazon.com/chime-sdk/latest/dg/chime-sdk-meetings-regions.html) in the Amazon Chime SDK Developer Guide . For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html) in the Amazon Chime SDK Developer Guide . This API is is no longer supported and will not be updated. We recommend using the latest version, [CreateMeetingWithAttendees](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_CreateMeetingWithAttendees.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by CreateMeetingWithAttendees in the Amazon Chime SDK Meetings Namespace")
@@ -2373,7 +2373,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreatePhoneNumberOrder` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `CreatePhoneNumberOrder` operation on the `Chime` service.
     ///
     /// Creates an order for phone numbers to be provisioned. For toll-free numbers, you cannot use the Amazon Chime Business Calling product type. For numbers outside the U.S., you must use the Amazon Chime SIP Media Application Dial-In product type.
     ///
@@ -2449,7 +2449,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateProxySession` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `CreateProxySession` operation on the `Chime` service.
     ///
     /// Creates a proxy session on the specified Amazon Chime Voice Connector for the specified participant phone numbers. This API is is no longer supported and will not be updated. We recommend using the latest version, [CreateProxySession](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_CreateProxySession.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by CreateProxySession in the Amazon Chime SDK Voice Namespace")
@@ -2525,7 +2525,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateRoom` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `CreateRoom` operation on the `Chime` service.
     ///
     /// Creates a chat room for the specified Amazon Chime Enterprise account.
     ///
@@ -2602,7 +2602,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateRoomMembership` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `CreateRoomMembership` operation on the `Chime` service.
     ///
     /// Adds a member to a chat room in an Amazon Chime Enterprise account. A member can be either a user or a bot. The member role designates whether the member is a chat room administrator or a general chat room member.
     ///
@@ -2679,7 +2679,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateSipMediaApplication` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `CreateSipMediaApplication` operation on the `Chime` service.
     ///
     /// Creates a SIP media application. This API is is no longer supported and will not be updated. We recommend using the latest version, [CreateSipMediaApplication](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_CreateSipMediaApplication.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by CreateSipMediaApplication in the Amazon Chime SDK Voice Namespace")
@@ -2757,7 +2757,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateSipMediaApplicationCall` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `CreateSipMediaApplicationCall` operation on the `Chime` service.
     ///
     /// Creates an outbound call to a phone number from the phone number specified in the request, and it invokes the endpoint of the specified sipMediaApplicationId. This API is is no longer supported and will not be updated. We recommend using the latest version, [CreateSipMediaApplicationCall](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_CreateSipMediaApplicationCall.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by CreateSipMediaApplicationCall in the Amazon Chime SDK Voice Namespace")
@@ -2834,7 +2834,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateSipRule` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `CreateSipRule` operation on the `Chime` service.
     ///
     /// Creates a SIP rule which can be used to run a SIP media application as a target for a specific trigger type. This API is is no longer supported and will not be updated. We recommend using the latest version, [CreateSipRule](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_CreateSipRule.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by CreateSipRule in the Amazon Chime SDK Voice Namespace")
@@ -2912,7 +2912,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateUser` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `CreateUser` operation on the `Chime` service.
     ///
     /// Creates a user under the specified Amazon Chime account.
     ///
@@ -2989,7 +2989,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateVoiceConnector` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `CreateVoiceConnector` operation on the `Chime` service.
     ///
     /// Creates an Amazon Chime Voice Connector under the administrator's AWS account. You can choose to create an Amazon Chime Voice Connector in a specific AWS Region. Enabling [CreateVoiceConnectorRequest$RequireEncryption] configures your Amazon Chime Voice Connector to use TLS transport for SIP signaling and Secure RTP (SRTP) for media. Inbound calls use TLS transport, and unencrypted outbound calls are blocked. This API is is no longer supported and will not be updated. We recommend using the latest version, [CreateVoiceConnector](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_CreateVoiceConnector.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by CreateVoiceConnector in the Amazon Chime SDK Voice Namespace")
@@ -3066,7 +3066,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateVoiceConnectorGroup` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `CreateVoiceConnectorGroup` operation on the `Chime` service.
     ///
     /// Creates an Amazon Chime Voice Connector group under the administrator's AWS account. You can associate Amazon Chime Voice Connectors with the Amazon Chime Voice Connector group by including VoiceConnectorItems in the request. You can include Amazon Chime Voice Connectors from different AWS Regions in your group. This creates a fault tolerant mechanism for fallback in case of availability events. This API is is no longer supported and will not be updated. We recommend using the latest version, [CreateVoiceConnectorGroup](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_CreateVoiceConnectorGroup.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by CreateVoiceConnectorGroup in the Amazon Chime SDK Voice Namespace")
@@ -3143,7 +3143,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAccount` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `DeleteAccount` operation on the `Chime` service.
     ///
     /// Deletes the specified Amazon Chime account. You must suspend all users before deleting Team account. You can use the [BatchSuspendUser] action to dodo. For EnterpriseLWA and EnterpriseAD accounts, you must release the claimed domains for your Amazon Chime account before deletion. As soon as you release the domain, all users under that account are suspended. Deleted accounts appear in your Disabled accounts list for 90 days. To restore deleted account from your Disabled accounts list, you must contact AWS Support. After 90 days, deleted accounts are permanently removed from your Disabled accounts list.
     ///
@@ -3216,7 +3216,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAppInstance` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `DeleteAppInstance` operation on the `Chime` service.
     ///
     /// Deletes an AppInstance and all associated data asynchronously. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteAppInstance](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_DeleteAppInstance.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DeleteAppInstance in the Amazon Chime SDK Identity Namespace")
@@ -3288,7 +3288,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAppInstanceAdmin` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `DeleteAppInstanceAdmin` operation on the `Chime` service.
     ///
     /// Demotes an AppInstanceAdmin to an AppInstanceUser. This action does not delete the user. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteAppInstanceAdmin](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_DeleteAppInstanceAdmin.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DeleteAppInstanceAdmin in the Amazon Chime SDK Identity Namespace")
@@ -3361,7 +3361,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAppInstanceStreamingConfigurations` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `DeleteAppInstanceStreamingConfigurations` operation on the `Chime` service.
     ///
     /// Deletes the streaming configurations of an AppInstance. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteAppInstanceStreamingConfigurations](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_DeleteAppInstanceStreamingConfigurations.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DeleteAppInstanceStreamingConfigurations in the Amazon Chime SDK Messaging Namespace")
@@ -3434,7 +3434,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAppInstanceUser` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `DeleteAppInstanceUser` operation on the `Chime` service.
     ///
     /// Deletes an AppInstanceUser. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteAppInstanceUser](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_DeleteAppInstanceUser.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DeleteAppInstanceUser in the Amazon Chime SDK Identity Namespace")
@@ -3506,7 +3506,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAttendee` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `DeleteAttendee` operation on the `Chime` service.
     ///
     /// Deletes an attendee from the specified Amazon Chime SDK meeting and deletes their JoinToken. Attendees are automatically deleted when a Amazon Chime SDK meeting is deleted. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html) in the Amazon Chime SDK Developer Guide. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteAttendee](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_DeleteAttendee.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DeleteAttendee in the Amazon Chime SDK Meetings Namespace")
@@ -3579,7 +3579,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteChannel` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `DeleteChannel` operation on the `Chime` service.
     ///
     /// Immediately makes a channel and its memberships inaccessible and marks them for deletion. This is an irreversible process. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteChannel](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_DeleteChannel.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DeleteChannel in the Amazon Chime SDK Messaging Namespace")
@@ -3652,7 +3652,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteChannelBan` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `DeleteChannelBan` operation on the `Chime` service.
     ///
     /// Removes a user from a channel's ban list. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteChannelBan](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_DeleteChannelBan.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DeleteChannelBan in the Amazon Chime SDK Messaging Namespace")
@@ -3725,7 +3725,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteChannelMembership` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `DeleteChannelMembership` operation on the `Chime` service.
     ///
     /// Removes a member from a channel. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteChannelMembership](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_DeleteChannelMembership.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DeleteChannelMembership in the Amazon Chime SDK Messaging Namespace")
@@ -3799,7 +3799,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteChannelMessage` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `DeleteChannelMessage` operation on the `Chime` service.
     ///
     /// Deletes a channel message. Only admins can perform this action. Deletion makes messages inaccessible immediately. A background process deletes any revisions created by UpdateChannelMessage. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteChannelMessage](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_DeleteChannelMessage.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DeleteChannelMessage in the Amazon Chime SDK Messaging Namespace")
@@ -3872,7 +3872,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteChannelModerator` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `DeleteChannelModerator` operation on the `Chime` service.
     ///
     /// Deletes a channel moderator. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteChannelModerator](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_DeleteChannelModerator.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DeleteChannelModerator in the Amazon Chime SDK Messaging Namespace")
@@ -3945,7 +3945,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteEventsConfiguration` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `DeleteEventsConfiguration` operation on the `Chime` service.
     ///
     /// Deletes the events configuration that allows a bot to receive outgoing events.
     ///
@@ -4016,7 +4016,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteMediaCapturePipeline` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `DeleteMediaCapturePipeline` operation on the `Chime` service.
     ///
     /// Deletes the media capture pipeline. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteMediaCapturePipeline](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_media-pipelines-chime_DeleteMediaCapturePipeline.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DeleteMediaCapturePipeline in the Amazon Chime SDK Media Pipelines Namespace")
@@ -4089,7 +4089,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteMeeting` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `DeleteMeeting` operation on the `Chime` service.
     ///
     /// Deletes the specified Amazon Chime SDK meeting. The operation deletes all attendees, disconnects all clients, and prevents new clients from joining the meeting. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html) in the Amazon Chime SDK Developer Guide. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteMeeting](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_DeleteMeeting.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DeleteMeeting in the Amazon Chime SDK Meetings Namespace")
@@ -4162,7 +4162,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeletePhoneNumber` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `DeletePhoneNumber` operation on the `Chime` service.
     ///
     /// Moves the specified phone number into the Deletion queue. A phone number must be disassociated from any users or Amazon Chime Voice Connectors before it can be deleted. Deleted phone numbers remain in the Deletion queue for 7 days before they are deleted permanently.
     ///
@@ -4234,7 +4234,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteProxySession` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `DeleteProxySession` operation on the `Chime` service.
     ///
     /// Deletes the specified proxy session from the specified Amazon Chime Voice Connector. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteProxySession](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_DeleteProxySession.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DeleteProxySession in the Amazon Chime SDK Voice Namespace")
@@ -4307,7 +4307,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteRoom` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `DeleteRoom` operation on the `Chime` service.
     ///
     /// Deletes a chat room in an Amazon Chime Enterprise account.
     ///
@@ -4379,7 +4379,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteRoomMembership` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `DeleteRoomMembership` operation on the `Chime` service.
     ///
     /// Removes a member from a chat room in an Amazon Chime Enterprise account.
     ///
@@ -4451,7 +4451,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteSipMediaApplication` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `DeleteSipMediaApplication` operation on the `Chime` service.
     ///
     /// Deletes a SIP media application. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteSipMediaApplication](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_DeleteSipMediaApplication.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DeleteSipMediaApplication in the Amazon Chime SDK Voice Namespace")
@@ -4525,7 +4525,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteSipRule` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `DeleteSipRule` operation on the `Chime` service.
     ///
     /// Deletes a SIP rule. You must disable a SIP rule before you can delete it. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteSipRule](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_DeleteSipRule.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DeleteSipRule in the Amazon Chime SDK Voice Namespace")
@@ -4599,7 +4599,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteVoiceConnector` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `DeleteVoiceConnector` operation on the `Chime` service.
     ///
     /// Deletes the specified Amazon Chime Voice Connector. Any phone numbers associated with the Amazon Chime Voice Connector must be disassociated from it before it can be deleted. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteVoiceConnector](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_DeleteVoiceConnector.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DeleteVoiceConnector in the Amazon Chime SDK Voice Namespace")
@@ -4673,7 +4673,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteVoiceConnectorEmergencyCallingConfiguration` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `DeleteVoiceConnectorEmergencyCallingConfiguration` operation on the `Chime` service.
     ///
     /// Deletes the emergency calling configuration details from the specified Amazon Chime Voice Connector. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteVoiceConnectorEmergencyCallingConfiguration](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_DeleteVoiceConnectorEmergencyCallingConfiguration.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DeleteVoiceConnectorEmergencyCallingConfiguration in the Amazon Chime SDK Voice Namespace")
@@ -4746,7 +4746,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteVoiceConnectorGroup` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `DeleteVoiceConnectorGroup` operation on the `Chime` service.
     ///
     /// Deletes the specified Amazon Chime Voice Connector group. Any VoiceConnectorItems and phone numbers associated with the group must be removed before it can be deleted. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteVoiceConnectorGroup](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_DeleteVoiceConnectorGroup.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DeleteVoiceConnectorGroup in the Amazon Chime SDK Voice Namespace")
@@ -4820,7 +4820,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteVoiceConnectorOrigination` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `DeleteVoiceConnectorOrigination` operation on the `Chime` service.
     ///
     /// Deletes the origination settings for the specified Amazon Chime Voice Connector. If emergency calling is configured for the Amazon Chime Voice Connector, it must be deleted prior to deleting the origination settings. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteVoiceConnectorOrigination](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_DeleteVoiceConnectorOrigination.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DeleteVoiceConnectorOrigination in the Amazon Chime SDK Voice Namespace")
@@ -4893,7 +4893,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteVoiceConnectorProxy` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `DeleteVoiceConnectorProxy` operation on the `Chime` service.
     ///
     /// Deletes the proxy configuration from the specified Amazon Chime Voice Connector. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteVoiceProxy](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_DeleteVoiceConnectorProxy.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DeleteVoiceConnectorProxy in the Amazon Chime SDK Voice Namespace")
@@ -4966,7 +4966,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteVoiceConnectorStreamingConfiguration` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `DeleteVoiceConnectorStreamingConfiguration` operation on the `Chime` service.
     ///
     /// Deletes the streaming configuration for the specified Amazon Chime Voice Connector. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteVoiceConnectorStreamingConfiguration](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_DeleteVoiceConnectorStreamingConfiguration.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DeleteVoiceConnectorStreamingConfiguration in the Amazon Chime SDK Voice Namespace")
@@ -5039,7 +5039,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteVoiceConnectorTermination` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `DeleteVoiceConnectorTermination` operation on the `Chime` service.
     ///
     /// Deletes the termination settings for the specified Amazon Chime Voice Connector. If emergency calling is configured for the Amazon Chime Voice Connector, it must be deleted prior to deleting the termination settings. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteVoiceConnectorTermination](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_DeleteVoiceConnectorTermination.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DeleteVoiceConnectorTermination in the Amazon Chime SDK Voice Namespace")
@@ -5112,7 +5112,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteVoiceConnectorTerminationCredentials` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `DeleteVoiceConnectorTerminationCredentials` operation on the `Chime` service.
     ///
     /// Deletes the specified SIP credentials used by your equipment to authenticate during call termination. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteVoiceConnectorTerminationCredentials](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_DeleteVoiceConnectorTerminationCredentials.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DeleteVoiceConnectorTerminationCredentials in the Amazon Chime SDK Voice Namespace")
@@ -5189,7 +5189,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeAppInstance` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `DescribeAppInstance` operation on the `Chime` service.
     ///
     /// Returns the full details of an AppInstance. This API is is no longer supported and will not be updated. We recommend using the latest version, [DescribeAppInstance](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_DescribeAppInstance.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DescribeAppInstance in the Amazon Chime SDK Identity Namespace")
@@ -5261,7 +5261,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeAppInstanceAdmin` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `DescribeAppInstanceAdmin` operation on the `Chime` service.
     ///
     /// Returns the full details of an AppInstanceAdmin. This API is is no longer supported and will not be updated. We recommend using the latest version, [DescribeAppInstanceAdmin](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_DescribeAppInstanceAdmin.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DescribeAppInstanceAdmin in the Amazon Chime SDK Identity Namespace")
@@ -5333,7 +5333,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeAppInstanceUser` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `DescribeAppInstanceUser` operation on the `Chime` service.
     ///
     /// Returns the full details of an AppInstanceUser. This API is is no longer supported and will not be updated. We recommend using the latest version, [DescribeAppInstanceUser](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_DescribeAppInstanceUser.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DescribeAppInstanceUser in the Amazon Chime SDK Identity Namespace")
@@ -5405,7 +5405,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeChannel` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `DescribeChannel` operation on the `Chime` service.
     ///
     /// Returns the full details of a channel in an Amazon Chime AppInstance. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [DescribeChannel](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_DescribeChannel.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DescribeChannel in the Amazon Chime SDK Messaging Namespace")
@@ -5478,7 +5478,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeChannelBan` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `DescribeChannelBan` operation on the `Chime` service.
     ///
     /// Returns the full details of a channel ban. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [DescribeChannelBan](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_DescribeChannelBan.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DescribeChannelBan in the Amazon Chime SDK Messaging Namespace")
@@ -5552,7 +5552,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeChannelMembership` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `DescribeChannelMembership` operation on the `Chime` service.
     ///
     /// Returns the full details of a user's channel membership. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [DescribeChannelMembership](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_DescribeChannelMembership.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DescribeChannelMembership in the Amazon Chime SDK Messaging Namespace")
@@ -5626,7 +5626,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeChannelMembershipForAppInstanceUser` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `DescribeChannelMembershipForAppInstanceUser` operation on the `Chime` service.
     ///
     /// Returns the details of a channel based on the membership of the specified AppInstanceUser. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [DescribeChannelMembershipForAppInstanceUser](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_DescribeChannelMembershipForAppInstanceUser.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DescribeChannelMembershipForAppInstanceUser in the Amazon Chime SDK Messaging Namespace")
@@ -5700,7 +5700,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeChannelModeratedByAppInstanceUser` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `DescribeChannelModeratedByAppInstanceUser` operation on the `Chime` service.
     ///
     /// Returns the full details of a channel moderated by the specified AppInstanceUser. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [DescribeChannelModeratedByAppInstanceUser](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_DescribeChannelModeratedByAppInstanceUser.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DescribeChannelModeratedByAppInstanceUser in the Amazon Chime SDK Messaging Namespace")
@@ -5774,7 +5774,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeChannelModerator` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `DescribeChannelModerator` operation on the `Chime` service.
     ///
     /// Returns the full details of a single ChannelModerator. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [DescribeChannelModerator](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_DescribeChannelModerator.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DescribeChannelModerator in the Amazon Chime SDK Messaging Namespace")
@@ -5848,7 +5848,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociatePhoneNumberFromUser` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `DisassociatePhoneNumberFromUser` operation on the `Chime` service.
     ///
     /// Disassociates the primary provisioned phone number from the specified Amazon Chime user.
     ///
@@ -5921,7 +5921,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociatePhoneNumbersFromVoiceConnector` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `DisassociatePhoneNumbersFromVoiceConnector` operation on the `Chime` service.
     ///
     /// Disassociates the specified phone numbers from the specified Amazon Chime Voice Connector. This API is is no longer supported and will not be updated. We recommend using the latest version, [DisassociatePhoneNumbersFromVoiceConnector](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_DisassociatePhoneNumbersFromVoiceConnector.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DisassociatePhoneNumbersFromVoiceConnector in the Amazon Chime SDK Voice Namespace")
@@ -5998,7 +5998,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociatePhoneNumbersFromVoiceConnectorGroup` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `DisassociatePhoneNumbersFromVoiceConnectorGroup` operation on the `Chime` service.
     ///
     /// Disassociates the specified phone numbers from the specified Amazon Chime Voice Connector group. This API is is no longer supported and will not be updated. We recommend using the latest version, [DisassociatePhoneNumbersFromVoiceConnectorGroup](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_DisassociatePhoneNumbersFromVoiceConnectorGroup.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DisassociatePhoneNumbersFromVoiceConnectorGroup in the Amazon Chime SDK Voice Namespace")
@@ -6075,7 +6075,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateSigninDelegateGroupsFromAccount` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `DisassociateSigninDelegateGroupsFromAccount` operation on the `Chime` service.
     ///
     /// Disassociates the specified sign-in delegate groups from the specified Amazon Chime account.
     ///
@@ -6151,7 +6151,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAccount` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `GetAccount` operation on the `Chime` service.
     ///
     /// Retrieves details for the specified Amazon Chime account, such as account type and supported licenses.
     ///
@@ -6223,7 +6223,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAccountSettings` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `GetAccountSettings` operation on the `Chime` service.
     ///
     /// Retrieves account settings for the specified Amazon Chime account ID, such as remote control and dialout settings. For more information about these settings, see [Use the Policies Page](https://docs.aws.amazon.com/chime/latest/ag/policies.html) in the Amazon Chime Administration Guide.
     ///
@@ -6295,7 +6295,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAppInstanceRetentionSettings` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `GetAppInstanceRetentionSettings` operation on the `Chime` service.
     ///
     /// Gets the retention settings for an AppInstance. This API is is no longer supported and will not be updated. We recommend using the latest version, [GetMessagingRetentionSettings](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_GetAppInstanceRetentionSettings.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by GetAppInstanceRetentionSettings in the Amazon Chime SDK Identity Namespace")
@@ -6368,7 +6368,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAppInstanceStreamingConfigurations` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `GetAppInstanceStreamingConfigurations` operation on the `Chime` service.
     ///
     /// Gets the streaming settings for an AppInstance. This API is is no longer supported and will not be updated. We recommend using the latest version, [GetMessagingStreamingConfigurations](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_GetMessagingStreamingConfigurations.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by GetAppInstanceStreamingConfigurations in the Amazon Chime SDK Messaging Namespace")
@@ -6441,7 +6441,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAttendee` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `GetAttendee` operation on the `Chime` service.
     ///
     /// Gets the Amazon Chime SDK attendee details for a specified meeting ID and attendee ID. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html) in the Amazon Chime SDK Developer Guide. This API is is no longer supported and will not be updated. We recommend using the latest version, [GetAttendee](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_GetAttendee.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by GetAttendee in the Amazon Chime SDK Meetings Namespace")
@@ -6514,7 +6514,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetBot` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `GetBot` operation on the `Chime` service.
     ///
     /// Retrieves details for the specified bot, such as bot email address, bot type, status, and display name.
     ///
@@ -6586,7 +6586,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetChannelMessage` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `GetChannelMessage` operation on the `Chime` service.
     ///
     /// Gets the full details of a channel message. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [GetChannelMessage](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_GetChannelMessage.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by GetChannelMessage in the Amazon Chime SDK Messaging Namespace")
@@ -6660,7 +6660,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetEventsConfiguration` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `GetEventsConfiguration` operation on the `Chime` service.
     ///
     /// Gets details for an events configuration that allows a bot to receive outgoing events, such as an HTTPS endpoint or Lambda function ARN.
     ///
@@ -6732,7 +6732,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetGlobalSettings` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `GetGlobalSettings` operation on the `Chime` service.
     ///
     /// Retrieves global settings for the administrator's AWS account, such as Amazon Chime Business Calling and Amazon Chime Voice Connector settings.
     ///
@@ -6803,7 +6803,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetMediaCapturePipeline` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `GetMediaCapturePipeline` operation on the `Chime` service.
     ///
     /// Gets an existing media capture pipeline. This API is is no longer supported and will not be updated. We recommend using the latest version, [GetMediaCapturePipeline](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_media-pipelines-chime_GetMediaCapturePipeline.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by GetMediaCapturePipeline in the Amazon Chime SDK Media Pipelines Namespace")
@@ -6876,7 +6876,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetMeeting` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `GetMeeting` operation on the `Chime` service.
     ///
     /// This API is is no longer supported and will not be updated. We recommend using the latest version, [GetMeeting](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_GetMeeting.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide. Gets the Amazon Chime SDK meeting details for the specified meeting ID. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html) in the Amazon Chime SDK Developer Guide .
     @available(*, deprecated, message: "Replaced by GetMeeting in the Amazon Chime SDK Meetings Namespace")
@@ -6949,7 +6949,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetMessagingSessionEndpoint` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `GetMessagingSessionEndpoint` operation on the `Chime` service.
     ///
     /// The details of the endpoint for the messaging session. This API is is no longer supported and will not be updated. We recommend using the latest version, [GetMessagingSessionEndpoint](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_GetMessagingSessionEndpoint.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by GetMessagingSessionEndpoint in the Amazon Chime SDK Messaging Namespace")
@@ -7020,7 +7020,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetPhoneNumber` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `GetPhoneNumber` operation on the `Chime` service.
     ///
     /// Retrieves details for the specified phone number ID, such as associations, capabilities, and product type.
     ///
@@ -7092,7 +7092,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetPhoneNumberOrder` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `GetPhoneNumberOrder` operation on the `Chime` service.
     ///
     /// Retrieves details for the specified phone number order, such as the order creation timestamp, phone numbers in E.164 format, product type, and order status.
     ///
@@ -7164,7 +7164,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetPhoneNumberSettings` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `GetPhoneNumberSettings` operation on the `Chime` service.
     ///
     /// Retrieves the phone number settings for the administrator's AWS account, such as the default outbound calling name.
     ///
@@ -7235,7 +7235,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetProxySession` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `GetProxySession` operation on the `Chime` service.
     ///
     /// Gets the specified proxy session details for the specified Amazon Chime Voice Connector. This API is is no longer supported and will not be updated. We recommend using the latest version, [GetProxySession](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_GetProxySession.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by GetProxySession in the Amazon Chime SDK Voice Namespace")
@@ -7308,7 +7308,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetRetentionSettings` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `GetRetentionSettings` operation on the `Chime` service.
     ///
     /// Gets the retention settings for the specified Amazon Chime Enterprise account. For more information about retention settings, see [Managing Chat Retention Policies](https://docs.aws.amazon.com/chime/latest/ag/chat-retention.html) in the Amazon Chime Administration Guide.
     ///
@@ -7380,7 +7380,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetRoom` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `GetRoom` operation on the `Chime` service.
     ///
     /// Retrieves room details, such as the room name, for a room in an Amazon Chime Enterprise account.
     ///
@@ -7452,7 +7452,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetSipMediaApplication` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `GetSipMediaApplication` operation on the `Chime` service.
     ///
     /// Retrieves the information for a SIP media application, including name, AWS Region, and endpoints. This API is is no longer supported and will not be updated. We recommend using the latest version, [GetSipMediaApplication](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_GetSipMediaApplication.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by GetSipMediaApplication in the Amazon Chime SDK Voice Namespace")
@@ -7525,7 +7525,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetSipMediaApplicationLoggingConfiguration` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `GetSipMediaApplicationLoggingConfiguration` operation on the `Chime` service.
     ///
     /// Returns the logging configuration for the specified SIP media application. This API is is no longer supported and will not be updated. We recommend using the latest version, [GetSipMediaApplicationLoggingConfiguration](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_GetSipMediaApplicationLoggingConfiguration.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by GetSipMediaApplicationLoggingConfiguration in the Amazon Chime SDK Voice Namespace")
@@ -7598,7 +7598,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetSipRule` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `GetSipRule` operation on the `Chime` service.
     ///
     /// Retrieves the details of a SIP rule, such as the rule ID, name, triggers, and target endpoints. This API is is no longer supported and will not be updated. We recommend using the latest version, [GetSipRule](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_GetSipRule.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by GetSipRule in the Amazon Chime SDK Voice Namespace")
@@ -7671,7 +7671,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetUser` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `GetUser` operation on the `Chime` service.
     ///
     /// Retrieves details for the specified user ID, such as primary email address, license type,and personal meeting PIN. To retrieve user details with an email address instead of a user ID, use the [ListUsers] action, and then filter by email address.
     ///
@@ -7743,7 +7743,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetUserSettings` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `GetUserSettings` operation on the `Chime` service.
     ///
     /// Retrieves settings for the specified user ID, such as any associated phone number settings.
     ///
@@ -7815,7 +7815,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetVoiceConnector` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `GetVoiceConnector` operation on the `Chime` service.
     ///
     /// Retrieves details for the specified Amazon Chime Voice Connector, such as timestamps,name, outbound host, and encryption requirements. This API is is no longer supported and will not be updated. We recommend using the latest version, [GetVoiceConnector](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_GetVoiceConnector.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by GetVoiceConnector in the Amazon Chime SDK Voice Namespace")
@@ -7888,7 +7888,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetVoiceConnectorEmergencyCallingConfiguration` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `GetVoiceConnectorEmergencyCallingConfiguration` operation on the `Chime` service.
     ///
     /// Gets the emergency calling configuration details for the specified Amazon Chime Voice Connector. This API is is no longer supported and will not be updated. We recommend using the latest version, [GetVoiceConnectorEmergencyCallingConfiguration](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_GetVoiceConnectorEmergencyCallingConfiguration.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by GetVoiceConnectorEmergencyCallingConfiguration in the Amazon Chime SDK Voice Namespace")
@@ -7961,7 +7961,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetVoiceConnectorGroup` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `GetVoiceConnectorGroup` operation on the `Chime` service.
     ///
     /// Retrieves details for the specified Amazon Chime Voice Connector group, such as timestamps,name, and associated VoiceConnectorItems. This API is is no longer supported and will not be updated. We recommend using the latest version, [GetVoiceConnectorGroup](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_GetVoiceConnectorGroup.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by GetVoiceConnectorGroup in the Amazon Chime SDK Voice Namespace")
@@ -8034,7 +8034,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetVoiceConnectorLoggingConfiguration` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `GetVoiceConnectorLoggingConfiguration` operation on the `Chime` service.
     ///
     /// Retrieves the logging configuration details for the specified Amazon Chime Voice Connector. Shows whether SIP message logs are enabled for sending to Amazon CloudWatch Logs. This API is is no longer supported and will not be updated. We recommend using the latest version, [GetVoiceConnectorLoggingConfiguration](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_GetVoiceConnectorLoggingConfiguration.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by GetVoiceConnectorLoggingConfiguration in the Amazon Chime SDK Voice Namespace")
@@ -8107,7 +8107,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetVoiceConnectorOrigination` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `GetVoiceConnectorOrigination` operation on the `Chime` service.
     ///
     /// Retrieves origination setting details for the specified Amazon Chime Voice Connector. This API is is no longer supported and will not be updated. We recommend using the latest version, [GetVoiceConnectorOrigination](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_GetVoiceConnectorOrigination.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by GetVoiceConnectorOrigination in the Amazon Chime SDK Voice Namespace")
@@ -8180,7 +8180,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetVoiceConnectorProxy` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `GetVoiceConnectorProxy` operation on the `Chime` service.
     ///
     /// Gets the proxy configuration details for the specified Amazon Chime Voice Connector. This API is is no longer supported and will not be updated. We recommend using the latest version, [GetVoiceConnectorProxy](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_GetVoiceConnectorProxy.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by GetVoiceConnectorProxy in the Amazon Chime SDK Voice Namespace")
@@ -8253,7 +8253,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetVoiceConnectorStreamingConfiguration` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `GetVoiceConnectorStreamingConfiguration` operation on the `Chime` service.
     ///
     /// Retrieves the streaming configuration details for the specified Amazon Chime Voice Connector. Shows whether media streaming is enabled for sending to Amazon Kinesis. It also shows the retention period, in hours, for the Amazon Kinesis data. This API is is no longer supported and will not be updated. We recommend using the latest version, [GetVoiceConnectorStreamingConfiguration](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_GetVoiceConnectorStreamingConfiguration.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by GetVoiceConnectorStreamingConfiguration in the Amazon Chime SDK Voice Namespace")
@@ -8326,7 +8326,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetVoiceConnectorTermination` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `GetVoiceConnectorTermination` operation on the `Chime` service.
     ///
     /// Retrieves termination setting details for the specified Amazon Chime Voice Connector. This API is is no longer supported and will not be updated. We recommend using the latest version, [GetVoiceConnectorTermination](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_GetVoiceConnectorTermination.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by GetVoiceConnectorTermination in the Amazon Chime SDK Voice Namespace")
@@ -8399,7 +8399,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetVoiceConnectorTerminationHealth` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `GetVoiceConnectorTerminationHealth` operation on the `Chime` service.
     ///
     /// This API is is no longer supported and will not be updated. We recommend using the latest version, [GetVoiceConnectorTerminationHealth](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_GetVoiceConnectorTerminationHealth.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide. Retrieves information about the last time a SIP OPTIONS ping was received from your SIP infrastructure for the specified Amazon Chime Voice Connector.
     @available(*, deprecated, message: "Replaced by GetVoiceConnectorTerminationHealth in the Amazon Chime SDK Voice Namespace")
@@ -8472,7 +8472,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `InviteUsers` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `InviteUsers` operation on the `Chime` service.
     ///
     /// Sends email to a maximum of 50 users, inviting them to the specified Amazon Chime Team account. Only Team account types are currently supported for this action.
     ///
@@ -8548,7 +8548,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAccounts` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `ListAccounts` operation on the `Chime` service.
     ///
     /// Lists the Amazon Chime accounts under the administrator's AWS account. You can filter accounts by account name prefix. To find out which Amazon Chime account a user belongs to, you can filter by the user's email address, which returns one account result.
     ///
@@ -8621,7 +8621,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAppInstanceAdmins` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `ListAppInstanceAdmins` operation on the `Chime` service.
     ///
     /// Returns a list of the administrators in the AppInstance. This API is is no longer supported and will not be updated. We recommend using the latest version, [ListAppInstanceAdmins](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_ListAppInstanceAdmins.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by ListAppInstanceAdmins in the Amazon Chime SDK Identity Namespace")
@@ -8694,7 +8694,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAppInstanceUsers` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `ListAppInstanceUsers` operation on the `Chime` service.
     ///
     /// List all AppInstanceUsers created under a single AppInstance. This API is is no longer supported and will not be updated. We recommend using the latest version, [ListAppInstanceUsers](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_ListAppInstanceUsers.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by ListAppInstanceUsers in the Amazon Chime SDK Identity Namespace")
@@ -8767,7 +8767,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAppInstances` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `ListAppInstances` operation on the `Chime` service.
     ///
     /// Lists all Amazon Chime AppInstances created under a single AWS account. This API is is no longer supported and will not be updated. We recommend using the latest version, [ListAppInstances](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_ListAppInstances.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by ListAppInstances in the Amazon Chime SDK Identity Namespace")
@@ -8840,7 +8840,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAttendeeTags` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `ListAttendeeTags` operation on the `Chime` service.
     ///
     /// Lists the tags applied to an Amazon Chime SDK attendee resource. ListAttendeeTags is not supported in the Amazon Chime SDK Meetings Namespace. Update your application to remove calls to this API.
     @available(*, deprecated, message: "Attendee Tags are not supported in the Amazon Chime SDK Meetings Namespace. Update your application to remove calls to this API.")
@@ -8913,7 +8913,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAttendees` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `ListAttendees` operation on the `Chime` service.
     ///
     /// Lists the attendees for the specified Amazon Chime SDK meeting. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html) in the Amazon Chime SDK Developer Guide. This API is is no longer supported and will not be updated. We recommend using the latest version, [ListAttendees](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_ListAttendees.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by ListAttendees in the Amazon Chime SDK Meetings Namespace")
@@ -8987,7 +8987,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListBots` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `ListBots` operation on the `Chime` service.
     ///
     /// Lists the bots associated with the administrator's Amazon Chime Enterprise account ID.
     ///
@@ -9060,7 +9060,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListChannelBans` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `ListChannelBans` operation on the `Chime` service.
     ///
     /// Lists all the users banned from a particular channel. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [ListChannelBans](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_ListChannelBans.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by ListChannelBans in the Amazon Chime SDK Messaging Namespace")
@@ -9134,7 +9134,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListChannelMemberships` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `ListChannelMemberships` operation on the `Chime` service.
     ///
     /// Lists all channel memberships in a channel. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [ListChannelMemberships](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_ListChannelMemberships.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by ListChannelMemberships in the Amazon Chime SDK Messaging Namespace")
@@ -9208,7 +9208,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListChannelMembershipsForAppInstanceUser` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `ListChannelMembershipsForAppInstanceUser` operation on the `Chime` service.
     ///
     /// Lists all channels that a particular AppInstanceUser is a part of. Only an AppInstanceAdmin can call the API with a user ARN that is not their own. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [ListChannelMembershipsForAppInstanceUser](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_ListChannelMembershipsForAppInstanceUser.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by ListChannelMembershipsForAppInstanceUser in the Amazon Chime SDK Messaging Namespace")
@@ -9282,7 +9282,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListChannelMessages` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `ListChannelMessages` operation on the `Chime` service.
     ///
     /// List all the messages in a channel. Returns a paginated list of ChannelMessages. By default, sorted by creation timestamp in descending order. Redacted messages appear in the results as empty, since they are only redacted, not deleted. Deleted messages do not appear in the results. This action always returns the latest version of an edited message. Also, the x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [ListChannelMessages](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_ListChannelMessages.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by ListChannelMessages in the Amazon Chime SDK Messaging Namespace")
@@ -9356,7 +9356,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListChannelModerators` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `ListChannelModerators` operation on the `Chime` service.
     ///
     /// Lists all the moderators for a channel. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [ListChannelModerators](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_ListChannelModerators.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by ListChannelModerators in the Amazon Chime SDK Messaging Namespace")
@@ -9430,7 +9430,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListChannels` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `ListChannels` operation on the `Chime` service.
     ///
     /// Lists all Channels created under a single Chime App as a paginated list. You can specify filters to narrow results. Functionality & restrictions
     ///
@@ -9511,7 +9511,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListChannelsModeratedByAppInstanceUser` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `ListChannelsModeratedByAppInstanceUser` operation on the `Chime` service.
     ///
     /// A list of the channels moderated by an AppInstanceUser. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [ListChannelsModeratedByAppInstanceUser](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_ListChannelsModeratedByAppInstanceUser.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by ListChannelsModeratedByAppInstanceUser in the Amazon Chime SDK Messaging Namespace")
@@ -9585,7 +9585,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListMediaCapturePipelines` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `ListMediaCapturePipelines` operation on the `Chime` service.
     ///
     /// Returns a list of media capture pipelines. This API is is no longer supported and will not be updated. We recommend using the latest version, [ListMediaCapturePipelines](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_media-pipelines-chime_ListMediaCapturePipelines.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by ListMediaCapturePipelines in the Amazon Chime SDK Media Pipelines Namespace")
@@ -9658,7 +9658,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListMeetingTags` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `ListMeetingTags` operation on the `Chime` service.
     ///
     /// Lists the tags applied to an Amazon Chime SDK meeting resource. This API is is no longer supported and will not be updated. We recommend using the latest version, [ListTagsForResource](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_ListTagsForResource.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Use ListTagsForResource in the Amazon Chime SDK Meetings Namespace.")
@@ -9731,7 +9731,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListMeetings` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `ListMeetings` operation on the `Chime` service.
     ///
     /// Lists up to 100 active Amazon Chime SDK meetings. ListMeetings is not supported in the Amazon Chime SDK Meetings Namespace. Update your application to remove calls to this API. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "ListMeetings is not supported in the Amazon Chime SDK Meetings Namespace. Update your application to remove calls to this API.")
@@ -9804,7 +9804,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListPhoneNumberOrders` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `ListPhoneNumberOrders` operation on the `Chime` service.
     ///
     /// Lists the phone number orders for the administrator's Amazon Chime account.
     ///
@@ -9876,7 +9876,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListPhoneNumbers` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `ListPhoneNumbers` operation on the `Chime` service.
     ///
     /// Lists the phone numbers for the specified Amazon Chime account, Amazon Chime user, Amazon Chime Voice Connector, or Amazon Chime Voice Connector group.
     ///
@@ -9949,7 +9949,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListProxySessions` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `ListProxySessions` operation on the `Chime` service.
     ///
     /// Lists the proxy sessions for the specified Amazon Chime Voice Connector. This API is is no longer supported and will not be updated. We recommend using the latest version, [ListProxySessions](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_ListProxySessions.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by ListProxySessions in the Amazon Chime SDK Voice Namespace")
@@ -10023,7 +10023,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListRoomMemberships` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `ListRoomMemberships` operation on the `Chime` service.
     ///
     /// Lists the membership details for the specified room in an Amazon Chime Enterprise account, such as the members' IDs, email addresses, and names.
     ///
@@ -10096,7 +10096,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListRooms` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `ListRooms` operation on the `Chime` service.
     ///
     /// Lists the room details for the specified Amazon Chime Enterprise account. Optionally, filter the results by a member ID (user ID or bot ID) to see a list of rooms that the member belongs to.
     ///
@@ -10169,7 +10169,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListSipMediaApplications` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `ListSipMediaApplications` operation on the `Chime` service.
     ///
     /// Lists the SIP media applications under the administrator's AWS account. This API is is no longer supported and will not be updated. We recommend using the latest version, [ListSipMediaApplications](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_ListSipMediaApplications.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by ListSipMediaApplications in the Amazon Chime SDK Voice Namespace")
@@ -10242,7 +10242,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListSipRules` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `ListSipRules` operation on the `Chime` service.
     ///
     /// Lists the SIP rules under the administrator's AWS account. This API is is no longer supported and will not be updated. We recommend using the latest version, [ListSipRules](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_ListSipRules.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by ListSipRules in the Amazon Chime SDK Voice Namespace")
@@ -10315,7 +10315,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListSupportedPhoneNumberCountries` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `ListSupportedPhoneNumberCountries` operation on the `Chime` service.
     ///
     /// Lists supported phone number countries.
     ///
@@ -10388,7 +10388,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `ListTagsForResource` operation on the `Chime` service.
     ///
     /// Lists the tags applied to an Amazon Chime SDK meeting and messaging resources. This API is is no longer supported and will not be updated. We recommend using the applicable latest version in the Amazon Chime SDK.
     ///
@@ -10468,7 +10468,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListUsers` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `ListUsers` operation on the `Chime` service.
     ///
     /// Lists the users that belong to the specified Amazon Chime account. You can specify an email address to list only the user that the email address belongs to.
     ///
@@ -10541,7 +10541,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListVoiceConnectorGroups` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `ListVoiceConnectorGroups` operation on the `Chime` service.
     ///
     /// Lists the Amazon Chime Voice Connector groups for the administrator's AWS account. This API is is no longer supported and will not be updated. We recommend using the latest version, [ListVoiceConnectorGroups](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_ListVoiceConnectorGroups.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by ListVoiceConnectorGroups in the Amazon Chime SDK Voice Namespace")
@@ -10614,7 +10614,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListVoiceConnectorTerminationCredentials` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `ListVoiceConnectorTerminationCredentials` operation on the `Chime` service.
     ///
     /// Lists the SIP credentials for the specified Amazon Chime Voice Connector. This API is is no longer supported and will not be updated. We recommend using the latest version, [ListVoiceConnectorTerminationCredentials](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_ListVoiceConnectorTerminationCredentials.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by ListVoiceConnectorTerminationCredentials in the Amazon Chime SDK Voice Namespace")
@@ -10687,7 +10687,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListVoiceConnectors` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `ListVoiceConnectors` operation on the `Chime` service.
     ///
     /// Lists the Amazon Chime Voice Connectors for the administrator's AWS account. This API is is no longer supported and will not be updated. We recommend using the latest version, [ListVoiceConnectors](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_ListVoiceConnectors.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by ListVoiceConnectors in the Amazon Chime SDK Voice Namespace")
@@ -10760,7 +10760,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `LogoutUser` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `LogoutUser` operation on the `Chime` service.
     ///
     /// Logs out the specified user from all of the devices they are currently logged into.
     ///
@@ -10833,7 +10833,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutAppInstanceRetentionSettings` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `PutAppInstanceRetentionSettings` operation on the `Chime` service.
     ///
     /// Sets the amount of time in days that a given AppInstance retains data. This API is is no longer supported and will not be updated. We recommend using the latest version, [PutAppInstanceRetentionSettings](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_PutAppInstanceRetentionSettings.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by PutAppInstanceRetentionSettings in the Amazon Chime SDK Identity Namespace")
@@ -10910,7 +10910,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutAppInstanceStreamingConfigurations` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `PutAppInstanceStreamingConfigurations` operation on the `Chime` service.
     ///
     /// The data streaming configurations of an AppInstance. This API is is no longer supported and will not be updated. We recommend using the latest version, [PutMessagingStreamingConfigurations](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_PutMessagingStreamingConfigurations.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by PutAppInstanceStreamingConfigurations in the Amazon Chime SDK Messaging Namespace")
@@ -10986,7 +10986,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutEventsConfiguration` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `PutEventsConfiguration` operation on the `Chime` service.
     ///
     /// Creates an events configuration that allows a bot to receive outgoing events sent by Amazon Chime. Choose either an HTTPS endpoint or a Lambda function ARN. For more information, see [Bot].
     ///
@@ -11061,7 +11061,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutRetentionSettings` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `PutRetentionSettings` operation on the `Chime` service.
     ///
     /// Puts retention settings for the specified Amazon Chime Enterprise account. We recommend using AWS CloudTrail to monitor usage of this API for your account. For more information, see [Logging Amazon Chime API Calls with AWS CloudTrail](https://docs.aws.amazon.com/chime/latest/ag/cloudtrail.html) in the Amazon Chime Administration Guide. To turn off existing retention settings, remove the number of days from the corresponding RetentionDays field in the RetentionSettings object. For more information about retention settings, see [Managing Chat Retention Policies](https://docs.aws.amazon.com/chime/latest/ag/chat-retention.html) in the Amazon Chime Administration Guide.
     ///
@@ -11137,7 +11137,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutSipMediaApplicationLoggingConfiguration` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `PutSipMediaApplicationLoggingConfiguration` operation on the `Chime` service.
     ///
     /// Updates the logging configuration for the specified SIP media application. This API is is no longer supported and will not be updated. We recommend using the latest version, [PutSipMediaApplicationLoggingConfiguration](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_PutSipMediaApplicationLoggingConfiguration.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by PutSipMediaApplicationLoggingConfiguration in the Amazon Chime SDK Voice Namespace")
@@ -11213,7 +11213,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutVoiceConnectorEmergencyCallingConfiguration` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `PutVoiceConnectorEmergencyCallingConfiguration` operation on the `Chime` service.
     ///
     /// Puts emergency calling configuration details to the specified Amazon Chime Voice Connector, such as emergency phone numbers and calling countries. Origination and termination settings must be enabled for the Amazon Chime Voice Connector before emergency calling can be configured. This API is is no longer supported and will not be updated. We recommend using the latest version, [PutVoiceConnectorEmergencyCallingConfiguration](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_PutVoiceConnectorEmergencyCallingConfiguration.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by PutVoiceConnectorEmergencyCallingConfiguration in the Amazon Chime SDK Voice Namespace")
@@ -11289,7 +11289,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutVoiceConnectorLoggingConfiguration` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `PutVoiceConnectorLoggingConfiguration` operation on the `Chime` service.
     ///
     /// Adds a logging configuration for the specified Amazon Chime Voice Connector. The logging configuration specifies whether SIP message logs are enabled for sending to Amazon CloudWatch Logs. This API is is no longer supported and will not be updated. We recommend using the latest version, [PutVoiceConnectorLoggingConfiguration](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_PutVoiceConnectorLoggingConfiguration.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by PutVoiceConnectorLoggingConfiguration in the Amazon Chime SDK Voice Namespace")
@@ -11365,7 +11365,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutVoiceConnectorOrigination` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `PutVoiceConnectorOrigination` operation on the `Chime` service.
     ///
     /// Adds origination settings for the specified Amazon Chime Voice Connector. If emergency calling is configured for the Amazon Chime Voice Connector, it must be deleted prior to turning off origination settings. This API is is no longer supported and will not be updated. We recommend using the latest version, [PutVoiceConnectorOrigination](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_PutVoiceConnectorOrigination.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by PutVoiceConnectorOrigination in the Amazon Chime SDK Voice Namespace")
@@ -11441,7 +11441,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutVoiceConnectorProxy` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `PutVoiceConnectorProxy` operation on the `Chime` service.
     ///
     /// Puts the specified proxy configuration to the specified Amazon Chime Voice Connector. This API is is no longer supported and will not be updated. We recommend using the latest version, [PutVoiceConnectorProxy](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_PutVoiceConnectorProxy.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by PutVoiceConnectorProxy in the Amazon Chime SDK Voice Namespace")
@@ -11518,7 +11518,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutVoiceConnectorStreamingConfiguration` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `PutVoiceConnectorStreamingConfiguration` operation on the `Chime` service.
     ///
     /// Adds a streaming configuration for the specified Amazon Chime Voice Connector. The streaming configuration specifies whether media streaming is enabled for sending to Kinesis. It also sets the retention period, in hours, for the Amazon Kinesis data. This API is is no longer supported and will not be updated. We recommend using the latest version, [PutVoiceConnectorStreamingConfiguration](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_PutVoiceConnectorStreamingConfiguration.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by PutVoiceConnectorStreamingConfiguration in the Amazon Chime SDK Voice Namespace")
@@ -11594,7 +11594,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutVoiceConnectorTermination` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `PutVoiceConnectorTermination` operation on the `Chime` service.
     ///
     /// Adds termination settings for the specified Amazon Chime Voice Connector. If emergency calling is configured for the Amazon Chime Voice Connector, it must be deleted prior to turning off termination settings. This API is is no longer supported and will not be updated. We recommend using the latest version, [PutVoiceConnectorTermination](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_PutVoiceConnectorTermination.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by PutVoiceConnectorTermination in the Amazon Chime SDK Voice Namespace")
@@ -11671,7 +11671,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutVoiceConnectorTerminationCredentials` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `PutVoiceConnectorTerminationCredentials` operation on the `Chime` service.
     ///
     /// Adds termination SIP credentials for the specified Amazon Chime Voice Connector. This API is is no longer supported and will not be updated. We recommend using the latest version, [PutVoiceConnectorTerminationCredentials](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_PutVoiceConnectorTerminationCredentials.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by PutVoiceConnectorTerminationCredentials in the Amazon Chime SDK Voice Namespace")
@@ -11748,7 +11748,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RedactChannelMessage` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `RedactChannelMessage` operation on the `Chime` service.
     ///
     /// Redacts message content, but not metadata. The message exists in the back end, but the action returns null content, and the state shows as redacted. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [RedactChannelMessage](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_RedactChannelMessage.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by RedactChannelMessage in the Amazon Chime SDK Messaging Namespace")
@@ -11822,7 +11822,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RedactConversationMessage` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `RedactConversationMessage` operation on the `Chime` service.
     ///
     /// Redacts the specified message from the specified Amazon Chime conversation.
     ///
@@ -11895,7 +11895,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RedactRoomMessage` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `RedactRoomMessage` operation on the `Chime` service.
     ///
     /// Redacts the specified message from the specified Amazon Chime channel.
     ///
@@ -11968,7 +11968,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RegenerateSecurityToken` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `RegenerateSecurityToken` operation on the `Chime` service.
     ///
     /// Regenerates the security token for a bot.
     ///
@@ -12041,7 +12041,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ResetPersonalPIN` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `ResetPersonalPIN` operation on the `Chime` service.
     ///
     /// Resets the personal meeting PIN for the specified user on an Amazon Chime account. Returns the [User] object with the updated personal meeting PIN.
     ///
@@ -12114,7 +12114,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RestorePhoneNumber` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `RestorePhoneNumber` operation on the `Chime` service.
     ///
     /// Moves a phone number from the Deletion queue back into the phone number Inventory.
     ///
@@ -12188,7 +12188,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SearchAvailablePhoneNumbers` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `SearchAvailablePhoneNumbers` operation on the `Chime` service.
     ///
     /// Searches for phone numbers that can be ordered. For US numbers, provide at least one of the following search filters: AreaCode, City, State, or TollFreePrefix. If you provide City, you must also provide State. Numbers outside the US only support the PhoneNumberType filter, which you must use.
     ///
@@ -12261,7 +12261,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SendChannelMessage` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `SendChannelMessage` operation on the `Chime` service.
     ///
     /// Sends a message to a particular channel that the member is a part of. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. Also, STANDARD messages can contain 4KB of data and the 1KB of metadata. CONTROL messages can contain 30 bytes of data and no metadata. This API is is no longer supported and will not be updated. We recommend using the latest version, [SendChannelMessage](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_SendChannelMessage.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by SendChannelMessage in the Amazon Chime SDK Messaging Namespace")
@@ -12339,7 +12339,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartMeetingTranscription` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `StartMeetingTranscription` operation on the `Chime` service.
     ///
     /// Starts transcription for the specified meetingId. For more information, refer to [ Using Amazon Chime SDK live transcription ](https://docs.aws.amazon.com/chime-sdk/latest/dg/meeting-transcription.html) in the Amazon Chime SDK Developer Guide. If you specify an invalid configuration, a TranscriptFailed event will be sent with the contents of the BadRequestException generated by Amazon Transcribe. For more information on each parameter and which combinations are valid, refer to the [StartStreamTranscription](https://docs.aws.amazon.com/transcribe/latest/APIReference/API_streaming_StartStreamTranscription.html) API in the Amazon Transcribe Developer Guide. Amazon Chime SDK live transcription is powered by Amazon Transcribe. Use of Amazon Transcribe is subject to the [AWS Service Terms](https://aws.amazon.com/service-terms/), including the terms specific to the AWS Machine Learning and Artificial Intelligence Services. This API is is no longer supported and will not be updated. We recommend using the latest version, [StartMeetingTranscription](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_StartMeetingTranscription.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by StartMeetingTranscription in the Amazon Chime SDK Meetings Namespace")
@@ -12418,7 +12418,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopMeetingTranscription` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `StopMeetingTranscription` operation on the `Chime` service.
     ///
     /// Stops transcription for the specified meetingId. This API is is no longer supported and will not be updated. We recommend using the latest version, [StopMeetingTranscription](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_StopMeetingTranscription.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by StopMeetingTranscription in the Amazon Chime SDK Meetings Namespace")
@@ -12493,7 +12493,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagAttendee` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `TagAttendee` operation on the `Chime` service.
     ///
     /// Applies the specified tags to the specified Amazon Chime attendee. TagAttendee is not supported in the Amazon Chime SDK Meetings Namespace. Update your application to remove calls to this API.
     @available(*, deprecated, message: "Attendee Tags are not supported in the Amazon Chime SDK Meetings Namespace. Update your application to remove calls to this API.")
@@ -12571,7 +12571,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagMeeting` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `TagMeeting` operation on the `Chime` service.
     ///
     /// Applies the specified tags to the specified Amazon Chime SDK meeting. This API is is no longer supported and will not be updated. We recommend using the latest version, [TagResource](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_TagResource.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Use TagResource in the Amazon Chime SDK Meetings Namespace.")
@@ -12649,7 +12649,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `TagResource` operation on the `Chime` service.
     ///
     /// Applies the specified tags to the specified Amazon Chime SDK meeting resource. This API is is no longer supported and will not be updated. We recommend using the latest version, [TagResource](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_TagResource.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by TagResource in the Amazon Chime SDK Voice, Amazon Chime SDK Meetings, Amazon Chime SDK Identity, Amazon Chime SDK Messaging, and Amazon Chime SDK Media Pipelines Namespaces")
@@ -12725,7 +12725,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagAttendee` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `UntagAttendee` operation on the `Chime` service.
     ///
     /// Untags the specified tags from the specified Amazon Chime SDK attendee. UntagAttendee is not supported in the Amazon Chime SDK Meetings Namespace. Update your application to remove calls to this API.
     @available(*, deprecated, message: "Attendee Tags are not supported in the Amazon Chime SDK Meetings Namespace. Update your application to remove calls to this API.")
@@ -12802,7 +12802,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagMeeting` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `UntagMeeting` operation on the `Chime` service.
     ///
     /// Untags the specified tags from the specified Amazon Chime SDK meeting. This API is is no longer supported and will not be updated. We recommend using the latest version, [UntagResource](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_UntagResource.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Use UntagResource in the Amazon Chime SDK Meetings Namespace.")
@@ -12879,7 +12879,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `UntagResource` operation on the `Chime` service.
     ///
     /// Untags the specified tags from the specified Amazon Chime SDK meeting resource. Applies the specified tags to the specified Amazon Chime SDK meeting resource. This API is is no longer supported and will not be updated. We recommend using the latest version, [UntagResource](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_UntagResource.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by UntagResource in the Amazon Chime SDK Voice, Amazon Chime SDK Meetings, Amazon Chime SDK Identity, Amazon Chime SDK Messaging, and Amazon Chime SDK Media Pipelines Namespaces")
@@ -12955,7 +12955,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateAccount` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `UpdateAccount` operation on the `Chime` service.
     ///
     /// Updates account details for the specified Amazon Chime account. Currently, only account name and default license updates are supported for this action.
     ///
@@ -13030,7 +13030,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateAccountSettings` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `UpdateAccountSettings` operation on the `Chime` service.
     ///
     /// Updates the settings for the specified Amazon Chime account. You can update settings for remote control of shared screens, or for the dial-out option. For more information about these settings, see [Use the Policies Page](https://docs.aws.amazon.com/chime/latest/ag/policies.html) in the Amazon Chime Administration Guide.
     ///
@@ -13106,7 +13106,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateAppInstance` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `UpdateAppInstance` operation on the `Chime` service.
     ///
     /// Updates AppInstance metadata. This API is is no longer supported and will not be updated. We recommend using the latest version, [UpdateAppInstance](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_UpdateAppInstance.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by UpdateAppInstance in the Amazon Chime SDK Identity Namespace")
@@ -13182,7 +13182,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateAppInstanceUser` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `UpdateAppInstanceUser` operation on the `Chime` service.
     ///
     /// Updates the details of an AppInstanceUser. You can update names and metadata. This API is is no longer supported and will not be updated. We recommend using the latest version, [UpdateAppInstanceUser](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_UpdateAppInstanceUser.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by UpdateAppInstanceUser in the Amazon Chime SDK Identity Namespace")
@@ -13258,7 +13258,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateBot` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `UpdateBot` operation on the `Chime` service.
     ///
     /// Updates the status of the specified bot, such as starting or stopping the bot from running in your Amazon Chime Enterprise account.
     ///
@@ -13333,7 +13333,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateChannel` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `UpdateChannel` operation on the `Chime` service.
     ///
     /// Update a channel's attributes. Restriction: You can't change a channel's privacy. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [UpdateChannel](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_UpdateChannel.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by UpdateChannel in the Amazon Chime SDK Messaging Namespace")
@@ -13410,7 +13410,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateChannelMessage` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `UpdateChannelMessage` operation on the `Chime` service.
     ///
     /// Updates the content of a message. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [UpdateChannelMessage](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_UpdateChannelMessage.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by UpdateChannelMessage in the Amazon Chime SDK Messaging Namespace")
@@ -13487,7 +13487,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateChannelReadMarker` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `UpdateChannelReadMarker` operation on the `Chime` service.
     ///
     /// The details of the time when a user last read messages in a channel. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [UpdateChannelReadMarker](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_UpdateChannelReadMarker.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by UpdateChannelReadMarker in the Amazon Chime SDK Messaging Namespace")
@@ -13561,7 +13561,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateGlobalSettings` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `UpdateGlobalSettings` operation on the `Chime` service.
     ///
     /// Updates global settings for the administrator's AWS account, such as Amazon Chime Business Calling and Amazon Chime Voice Connector settings.
     ///
@@ -13635,7 +13635,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdatePhoneNumber` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `UpdatePhoneNumber` operation on the `Chime` service.
     ///
     /// Updates phone number details, such as product type or calling name, for the specified phone number ID. You can update one phone number detail at a time. For example, you can update either the product type or the calling name in one action. For toll-free numbers, you cannot use the Amazon Chime Business Calling product type. For numbers outside the U.S., you must use the Amazon Chime SIP Media Application Dial-In product type. Updates to outbound calling names can take 72 hours to complete. Pending updates to outbound calling names must be complete before you can request another update.
     ///
@@ -13711,7 +13711,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdatePhoneNumberSettings` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `UpdatePhoneNumberSettings` operation on the `Chime` service.
     ///
     /// Updates the phone number settings for the administrator's AWS account, such as the default outbound calling name. You can update the default outbound calling name once every seven days. Outbound calling names can take up to 72 hours to update.
     ///
@@ -13785,7 +13785,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateProxySession` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `UpdateProxySession` operation on the `Chime` service.
     ///
     /// Updates the specified proxy session details, such as voice or SMS capabilities. This API is is no longer supported and will not be updated. We recommend using the latest version, [UpdateProxySession](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_UpdateProxySession.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by UpdateProxySession in the Amazon Chime SDK Voice Namespace")
@@ -13861,7 +13861,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateRoom` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `UpdateRoom` operation on the `Chime` service.
     ///
     /// Updates room details, such as the room name, for a room in an Amazon Chime Enterprise account.
     ///
@@ -13936,7 +13936,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateRoomMembership` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `UpdateRoomMembership` operation on the `Chime` service.
     ///
     /// Updates room membership details, such as the member role, for a room in an Amazon Chime Enterprise account. The member role designates whether the member is a chat room administrator or a general chat room member. The member role can be updated only for user IDs.
     ///
@@ -14011,7 +14011,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateSipMediaApplication` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `UpdateSipMediaApplication` operation on the `Chime` service.
     ///
     /// Updates the details of the specified SIP media application. This API is is no longer supported and will not be updated. We recommend using the latest version, [UpdateSipMediaApplication](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_UpdateSipMediaApplication.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by UpdateSipMediaApplication in the Amazon Chime SDK Voice Namespace")
@@ -14088,7 +14088,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateSipMediaApplicationCall` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `UpdateSipMediaApplicationCall` operation on the `Chime` service.
     ///
     /// Invokes the AWS Lambda function associated with the SIP media application and transaction ID in an update request. The Lambda function can then return a new set of actions. This API is is no longer supported and will not be updated. We recommend using the latest version, [UpdateSipMediaApplicationCall](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_UpdateSipMediaApplicationCall.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by UpdateSipMediaApplicationCall in the Amazon Chime SDK Voice Namespace")
@@ -14165,7 +14165,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateSipRule` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `UpdateSipRule` operation on the `Chime` service.
     ///
     /// Updates the details of the specified SIP rule. This API is is no longer supported and will not be updated. We recommend using the latest version, [UpdateSipRule](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_UpdateSipRule.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by UpdateSipRule in the Amazon Chime SDK Voice Namespace")
@@ -14243,7 +14243,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateUser` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `UpdateUser` operation on the `Chime` service.
     ///
     /// Updates user details for a specified user ID. Currently, only LicenseType updates are supported for this action.
     ///
@@ -14318,7 +14318,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateUserSettings` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `UpdateUserSettings` operation on the `Chime` service.
     ///
     /// Updates the settings for the specified user, such as phone number settings.
     ///
@@ -14393,7 +14393,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateVoiceConnector` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `UpdateVoiceConnector` operation on the `Chime` service.
     ///
     /// Updates details for the specified Amazon Chime Voice Connector. This API is is no longer supported and will not be updated. We recommend using the latest version, [UpdateVoiceConnector](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_UpdateVoiceConnector.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by UpdateVoiceConnector in the Amazon Chime SDK Voice Namespace")
@@ -14469,7 +14469,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateVoiceConnectorGroup` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `UpdateVoiceConnectorGroup` operation on the `Chime` service.
     ///
     /// Updates details of the specified Amazon Chime Voice Connector group, such as the name and Amazon Chime Voice Connector priority ranking. This API is is no longer supported and will not be updated. We recommend using the latest version, [UpdateVoiceConnectorGroup](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_UpdateVoiceConnectorGroup.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by UpdateVoiceConnectorGroup in the Amazon Chime SDK Voice Namespace")
@@ -14546,7 +14546,7 @@ extension ChimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ValidateE911Address` operation on the `UCBuzzConsoleService` service.
+    /// Performs the `ValidateE911Address` operation on the `Chime` service.
     ///
     /// Validates an address to be used for 911 calls made with Amazon Chime Voice Connectors. You can use validated addresses in a Presence Information Data Format Location Object file that you include in SIP requests. That helps ensure that addresses are routed to the appropriate Public Safety Answering Point. This API is is no longer supported and will not be updated. We recommend using the latest version, [ValidateE911Address](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_ValidateE911Address.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by ValidateE911Address in the Amazon Chime SDK Voice Namespace")

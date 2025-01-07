@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SSOAdminClient: ClientRuntime.Client {
     public static let clientName = "SSOAdminClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: SSOAdminClient.SSOAdminClientConfiguration
     let serviceName = "SSO Admin"
@@ -331,7 +331,7 @@ extension SSOAdminClient {
 }
 
 extension SSOAdminClient {
-    /// Performs the `AttachCustomerManagedPolicyReferenceToPermissionSet` operation on the `SWBExternalService` service.
+    /// Performs the `AttachCustomerManagedPolicyReferenceToPermissionSet` operation on the `SSOAdmin` service.
     ///
     /// Attaches the specified customer managed policy to the specified [PermissionSet].
     ///
@@ -407,7 +407,7 @@ extension SSOAdminClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AttachManagedPolicyToPermissionSet` operation on the `SWBExternalService` service.
+    /// Performs the `AttachManagedPolicyToPermissionSet` operation on the `SSOAdmin` service.
     ///
     /// Attaches an Amazon Web Services managed policy ARN to a permission set. If the permission set is already referenced by one or more account assignments, you will need to call [ProvisionPermissionSet] after this operation. Calling ProvisionPermissionSet applies the corresponding IAM policy updates to all assigned accounts.
     ///
@@ -483,7 +483,7 @@ extension SSOAdminClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateAccountAssignment` operation on the `SWBExternalService` service.
+    /// Performs the `CreateAccountAssignment` operation on the `SSOAdmin` service.
     ///
     /// Assigns access to a principal for a specified Amazon Web Services account using a specified permission set. The term principal here refers to a user or group that is defined in IAM Identity Center. As part of a successful CreateAccountAssignment call, the specified permission set will automatically be provisioned to the account in the form of an IAM policy. That policy is attached to the IAM role created in IAM Identity Center. If the permission set is subsequently updated, the corresponding IAM policies attached to roles in your accounts will not be updated automatically. In this case, you must call [ProvisionPermissionSet] to make these updates. After a successful response, call DescribeAccountAssignmentCreationStatus to describe the status of an assignment creation request.
     ///
@@ -559,7 +559,7 @@ extension SSOAdminClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateApplication` operation on the `SWBExternalService` service.
+    /// Performs the `CreateApplication` operation on the `SSOAdmin` service.
     ///
     /// Creates an application in IAM Identity Center for the given application provider.
     ///
@@ -636,7 +636,7 @@ extension SSOAdminClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateApplicationAssignment` operation on the `SWBExternalService` service.
+    /// Performs the `CreateApplicationAssignment` operation on the `SSOAdmin` service.
     ///
     /// Grant application access to a user or group.
     ///
@@ -712,7 +712,7 @@ extension SSOAdminClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateInstance` operation on the `SWBExternalService` service.
+    /// Performs the `CreateInstance` operation on the `SSOAdmin` service.
     ///
     /// Creates an instance of IAM Identity Center for a standalone Amazon Web Services account that is not managed by Organizations or a member Amazon Web Services account in an organization. You can create only one instance per account and across all Amazon Web Services Regions. The CreateInstance request is rejected if the following apply:
     ///
@@ -792,7 +792,7 @@ extension SSOAdminClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateInstanceAccessControlAttributeConfiguration` operation on the `SWBExternalService` service.
+    /// Performs the `CreateInstanceAccessControlAttributeConfiguration` operation on the `SSOAdmin` service.
     ///
     /// Enables the attributes-based access control (ABAC) feature for the specified IAM Identity Center instance. You can also specify new attributes to add to your ABAC configuration during the enabling process. For more information about ABAC, see [Attribute-Based Access Control] in the IAM Identity Center User Guide. After a successful response, call DescribeInstanceAccessControlAttributeConfiguration to validate that InstanceAccessControlAttributeConfiguration was created.
     ///
@@ -867,7 +867,7 @@ extension SSOAdminClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreatePermissionSet` operation on the `SWBExternalService` service.
+    /// Performs the `CreatePermissionSet` operation on the `SSOAdmin` service.
     ///
     /// Creates a permission set within a specified IAM Identity Center instance. To grant users and groups access to Amazon Web Services account resources, use [CreateAccountAssignment].
     ///
@@ -943,7 +943,7 @@ extension SSOAdminClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateTrustedTokenIssuer` operation on the `SWBExternalService` service.
+    /// Performs the `CreateTrustedTokenIssuer` operation on the `SSOAdmin` service.
     ///
     /// Creates a connection to a trusted token issuer in an instance of IAM Identity Center. A trusted token issuer enables trusted identity propagation to be used with applications that authenticate outside of Amazon Web Services. This trusted token issuer describes an external identity provider (IdP) that can generate claims or assertions in the form of access tokens for a user. Applications enabled for IAM Identity Center can use these tokens for authentication.
     ///
@@ -1019,7 +1019,7 @@ extension SSOAdminClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAccountAssignment` operation on the `SWBExternalService` service.
+    /// Performs the `DeleteAccountAssignment` operation on the `SSOAdmin` service.
     ///
     /// Deletes a principal's access from a specified Amazon Web Services account using a specified permission set. After a successful response, call DescribeAccountAssignmentDeletionStatus to describe the status of an assignment deletion request.
     ///
@@ -1094,7 +1094,7 @@ extension SSOAdminClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteApplication` operation on the `SWBExternalService` service.
+    /// Performs the `DeleteApplication` operation on the `SSOAdmin` service.
     ///
     /// Deletes the association with the application. The connected service resource still exists.
     ///
@@ -1169,7 +1169,7 @@ extension SSOAdminClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteApplicationAccessScope` operation on the `SWBExternalService` service.
+    /// Performs the `DeleteApplicationAccessScope` operation on the `SSOAdmin` service.
     ///
     /// Deletes an IAM Identity Center access scope from an application.
     ///
@@ -1244,7 +1244,7 @@ extension SSOAdminClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteApplicationAssignment` operation on the `SWBExternalService` service.
+    /// Performs the `DeleteApplicationAssignment` operation on the `SSOAdmin` service.
     ///
     /// Revoke application access to an application by deleting application assignments for a user or group.
     ///
@@ -1319,7 +1319,7 @@ extension SSOAdminClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteApplicationAuthenticationMethod` operation on the `SWBExternalService` service.
+    /// Performs the `DeleteApplicationAuthenticationMethod` operation on the `SSOAdmin` service.
     ///
     /// Deletes an authentication method from an application.
     ///
@@ -1394,7 +1394,7 @@ extension SSOAdminClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteApplicationGrant` operation on the `SWBExternalService` service.
+    /// Performs the `DeleteApplicationGrant` operation on the `SSOAdmin` service.
     ///
     /// Deletes a grant from an application.
     ///
@@ -1469,7 +1469,7 @@ extension SSOAdminClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteInlinePolicyFromPermissionSet` operation on the `SWBExternalService` service.
+    /// Performs the `DeleteInlinePolicyFromPermissionSet` operation on the `SSOAdmin` service.
     ///
     /// Deletes the inline policy from a specified permission set.
     ///
@@ -1544,7 +1544,7 @@ extension SSOAdminClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteInstance` operation on the `SWBExternalService` service.
+    /// Performs the `DeleteInstance` operation on the `SSOAdmin` service.
     ///
     /// Deletes the instance of IAM Identity Center. Only the account that owns the instance can call this API. Neither the delegated administrator nor member account can delete the organization instance, but those roles can delete their own instance.
     ///
@@ -1618,7 +1618,7 @@ extension SSOAdminClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteInstanceAccessControlAttributeConfiguration` operation on the `SWBExternalService` service.
+    /// Performs the `DeleteInstanceAccessControlAttributeConfiguration` operation on the `SSOAdmin` service.
     ///
     /// Disables the attributes-based access control (ABAC) feature for the specified IAM Identity Center instance and deletes all of the attribute mappings that have been configured. Once deleted, any attributes that are received from an identity source and any custom attributes you have previously configured will not be passed. For more information about ABAC, see [Attribute-Based Access Control] in the IAM Identity Center User Guide.
     ///
@@ -1693,7 +1693,7 @@ extension SSOAdminClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeletePermissionSet` operation on the `SWBExternalService` service.
+    /// Performs the `DeletePermissionSet` operation on the `SSOAdmin` service.
     ///
     /// Deletes the specified permission set.
     ///
@@ -1768,7 +1768,7 @@ extension SSOAdminClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeletePermissionsBoundaryFromPermissionSet` operation on the `SWBExternalService` service.
+    /// Performs the `DeletePermissionsBoundaryFromPermissionSet` operation on the `SSOAdmin` service.
     ///
     /// Deletes the permissions boundary from a specified [PermissionSet].
     ///
@@ -1843,7 +1843,7 @@ extension SSOAdminClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteTrustedTokenIssuer` operation on the `SWBExternalService` service.
+    /// Performs the `DeleteTrustedTokenIssuer` operation on the `SSOAdmin` service.
     ///
     /// Deletes a trusted token issuer configuration from an instance of IAM Identity Center. Deleting this trusted token issuer configuration will cause users to lose access to any applications that are configured to use the trusted token issuer.
     ///
@@ -1918,7 +1918,7 @@ extension SSOAdminClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeAccountAssignmentCreationStatus` operation on the `SWBExternalService` service.
+    /// Performs the `DescribeAccountAssignmentCreationStatus` operation on the `SSOAdmin` service.
     ///
     /// Describes the status of the assignment creation request.
     ///
@@ -1992,7 +1992,7 @@ extension SSOAdminClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeAccountAssignmentDeletionStatus` operation on the `SWBExternalService` service.
+    /// Performs the `DescribeAccountAssignmentDeletionStatus` operation on the `SSOAdmin` service.
     ///
     /// Describes the status of the assignment deletion request.
     ///
@@ -2066,7 +2066,7 @@ extension SSOAdminClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeApplication` operation on the `SWBExternalService` service.
+    /// Performs the `DescribeApplication` operation on the `SSOAdmin` service.
     ///
     /// Retrieves the details of an application associated with an instance of IAM Identity Center.
     ///
@@ -2140,7 +2140,7 @@ extension SSOAdminClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeApplicationAssignment` operation on the `SWBExternalService` service.
+    /// Performs the `DescribeApplicationAssignment` operation on the `SSOAdmin` service.
     ///
     /// Retrieves a direct assignment of a user or group to an application. If the user doesn’t have a direct assignment to the application, the user may still have access to the application through a group. Therefore, don’t use this API to test access to an application for a user. Instead use [ListApplicationAssignmentsForPrincipal].
     ///
@@ -2214,7 +2214,7 @@ extension SSOAdminClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeApplicationProvider` operation on the `SWBExternalService` service.
+    /// Performs the `DescribeApplicationProvider` operation on the `SSOAdmin` service.
     ///
     /// Retrieves details about a provider that can be used to connect an Amazon Web Services managed application or customer managed application to IAM Identity Center.
     ///
@@ -2288,7 +2288,7 @@ extension SSOAdminClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeInstance` operation on the `SWBExternalService` service.
+    /// Performs the `DescribeInstance` operation on the `SSOAdmin` service.
     ///
     /// Returns the details of an instance of IAM Identity Center. The status can be one of the following:
     ///
@@ -2367,7 +2367,7 @@ extension SSOAdminClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeInstanceAccessControlAttributeConfiguration` operation on the `SWBExternalService` service.
+    /// Performs the `DescribeInstanceAccessControlAttributeConfiguration` operation on the `SSOAdmin` service.
     ///
     /// Returns the list of IAM Identity Center identity store attributes that have been configured to work with attributes-based access control (ABAC) for the specified IAM Identity Center instance. This will not return attributes configured and sent by an external identity provider. For more information about ABAC, see [Attribute-Based Access Control] in the IAM Identity Center User Guide.
     ///
@@ -2441,7 +2441,7 @@ extension SSOAdminClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribePermissionSet` operation on the `SWBExternalService` service.
+    /// Performs the `DescribePermissionSet` operation on the `SSOAdmin` service.
     ///
     /// Gets the details of the permission set.
     ///
@@ -2515,7 +2515,7 @@ extension SSOAdminClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribePermissionSetProvisioningStatus` operation on the `SWBExternalService` service.
+    /// Performs the `DescribePermissionSetProvisioningStatus` operation on the `SSOAdmin` service.
     ///
     /// Describes the status for the given permission set provisioning request.
     ///
@@ -2589,7 +2589,7 @@ extension SSOAdminClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeTrustedTokenIssuer` operation on the `SWBExternalService` service.
+    /// Performs the `DescribeTrustedTokenIssuer` operation on the `SSOAdmin` service.
     ///
     /// Retrieves details about a trusted token issuer configuration stored in an instance of IAM Identity Center. Details include the name of the trusted token issuer, the issuer URL, and the path of the source attribute and the destination attribute for a trusted token issuer configuration.
     ///
@@ -2663,7 +2663,7 @@ extension SSOAdminClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DetachCustomerManagedPolicyReferenceFromPermissionSet` operation on the `SWBExternalService` service.
+    /// Performs the `DetachCustomerManagedPolicyReferenceFromPermissionSet` operation on the `SSOAdmin` service.
     ///
     /// Detaches the specified customer managed policy from the specified [PermissionSet].
     ///
@@ -2738,7 +2738,7 @@ extension SSOAdminClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DetachManagedPolicyFromPermissionSet` operation on the `SWBExternalService` service.
+    /// Performs the `DetachManagedPolicyFromPermissionSet` operation on the `SSOAdmin` service.
     ///
     /// Detaches the attached Amazon Web Services managed policy ARN from the specified permission set.
     ///
@@ -2813,7 +2813,7 @@ extension SSOAdminClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetApplicationAccessScope` operation on the `SWBExternalService` service.
+    /// Performs the `GetApplicationAccessScope` operation on the `SSOAdmin` service.
     ///
     /// Retrieves the authorized targets for an IAM Identity Center access scope for an application.
     ///
@@ -2887,7 +2887,7 @@ extension SSOAdminClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetApplicationAssignmentConfiguration` operation on the `SWBExternalService` service.
+    /// Performs the `GetApplicationAssignmentConfiguration` operation on the `SSOAdmin` service.
     ///
     /// Retrieves the configuration of [PutApplicationAssignmentConfiguration].
     ///
@@ -2961,7 +2961,7 @@ extension SSOAdminClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetApplicationAuthenticationMethod` operation on the `SWBExternalService` service.
+    /// Performs the `GetApplicationAuthenticationMethod` operation on the `SSOAdmin` service.
     ///
     /// Retrieves details about an authentication method used by an application.
     ///
@@ -3035,7 +3035,7 @@ extension SSOAdminClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetApplicationGrant` operation on the `SWBExternalService` service.
+    /// Performs the `GetApplicationGrant` operation on the `SSOAdmin` service.
     ///
     /// Retrieves details about an application grant.
     ///
@@ -3109,7 +3109,7 @@ extension SSOAdminClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetInlinePolicyForPermissionSet` operation on the `SWBExternalService` service.
+    /// Performs the `GetInlinePolicyForPermissionSet` operation on the `SSOAdmin` service.
     ///
     /// Obtains the inline policy assigned to the permission set.
     ///
@@ -3183,7 +3183,7 @@ extension SSOAdminClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetPermissionsBoundaryForPermissionSet` operation on the `SWBExternalService` service.
+    /// Performs the `GetPermissionsBoundaryForPermissionSet` operation on the `SSOAdmin` service.
     ///
     /// Obtains the permissions boundary for a specified [PermissionSet].
     ///
@@ -3257,7 +3257,7 @@ extension SSOAdminClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAccountAssignmentCreationStatus` operation on the `SWBExternalService` service.
+    /// Performs the `ListAccountAssignmentCreationStatus` operation on the `SSOAdmin` service.
     ///
     /// Lists the status of the Amazon Web Services account assignment creation requests for a specified IAM Identity Center instance.
     ///
@@ -3331,7 +3331,7 @@ extension SSOAdminClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAccountAssignmentDeletionStatus` operation on the `SWBExternalService` service.
+    /// Performs the `ListAccountAssignmentDeletionStatus` operation on the `SSOAdmin` service.
     ///
     /// Lists the status of the Amazon Web Services account assignment deletion requests for a specified IAM Identity Center instance.
     ///
@@ -3405,7 +3405,7 @@ extension SSOAdminClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAccountAssignments` operation on the `SWBExternalService` service.
+    /// Performs the `ListAccountAssignments` operation on the `SSOAdmin` service.
     ///
     /// Lists the assignee of the specified Amazon Web Services account with the specified permission set.
     ///
@@ -3479,7 +3479,7 @@ extension SSOAdminClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAccountAssignmentsForPrincipal` operation on the `SWBExternalService` service.
+    /// Performs the `ListAccountAssignmentsForPrincipal` operation on the `SSOAdmin` service.
     ///
     /// Retrieves a list of the IAM Identity Center associated Amazon Web Services accounts that the principal has access to.
     ///
@@ -3553,7 +3553,7 @@ extension SSOAdminClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAccountsForProvisionedPermissionSet` operation on the `SWBExternalService` service.
+    /// Performs the `ListAccountsForProvisionedPermissionSet` operation on the `SSOAdmin` service.
     ///
     /// Lists all the Amazon Web Services accounts where the specified permission set is provisioned.
     ///
@@ -3627,7 +3627,7 @@ extension SSOAdminClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListApplicationAccessScopes` operation on the `SWBExternalService` service.
+    /// Performs the `ListApplicationAccessScopes` operation on the `SSOAdmin` service.
     ///
     /// Lists the access scopes and authorized targets associated with an application.
     ///
@@ -3701,7 +3701,7 @@ extension SSOAdminClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListApplicationAssignments` operation on the `SWBExternalService` service.
+    /// Performs the `ListApplicationAssignments` operation on the `SSOAdmin` service.
     ///
     /// Lists Amazon Web Services account users that are assigned to an application.
     ///
@@ -3775,7 +3775,7 @@ extension SSOAdminClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListApplicationAssignmentsForPrincipal` operation on the `SWBExternalService` service.
+    /// Performs the `ListApplicationAssignmentsForPrincipal` operation on the `SSOAdmin` service.
     ///
     /// Lists the applications to which a specified principal is assigned.
     ///
@@ -3849,7 +3849,7 @@ extension SSOAdminClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListApplicationAuthenticationMethods` operation on the `SWBExternalService` service.
+    /// Performs the `ListApplicationAuthenticationMethods` operation on the `SSOAdmin` service.
     ///
     /// Lists all of the authentication methods supported by the specified application.
     ///
@@ -3923,7 +3923,7 @@ extension SSOAdminClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListApplicationGrants` operation on the `SWBExternalService` service.
+    /// Performs the `ListApplicationGrants` operation on the `SSOAdmin` service.
     ///
     /// List the grants associated with an application.
     ///
@@ -3997,7 +3997,7 @@ extension SSOAdminClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListApplicationProviders` operation on the `SWBExternalService` service.
+    /// Performs the `ListApplicationProviders` operation on the `SSOAdmin` service.
     ///
     /// Lists the application providers configured in the IAM Identity Center identity store.
     ///
@@ -4070,7 +4070,7 @@ extension SSOAdminClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListApplications` operation on the `SWBExternalService` service.
+    /// Performs the `ListApplications` operation on the `SSOAdmin` service.
     ///
     /// Lists all applications associated with the instance of IAM Identity Center. When listing applications for an instance in the management account, member accounts must use the applicationAccount parameter to filter the list to only applications created from that account.
     ///
@@ -4143,7 +4143,7 @@ extension SSOAdminClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListCustomerManagedPolicyReferencesInPermissionSet` operation on the `SWBExternalService` service.
+    /// Performs the `ListCustomerManagedPolicyReferencesInPermissionSet` operation on the `SSOAdmin` service.
     ///
     /// Lists all customer managed policies attached to a specified [PermissionSet].
     ///
@@ -4217,7 +4217,7 @@ extension SSOAdminClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListInstances` operation on the `SWBExternalService` service.
+    /// Performs the `ListInstances` operation on the `SSOAdmin` service.
     ///
     /// Lists the details of the organization and account instances of IAM Identity Center that were created in or visible to the account calling this API.
     ///
@@ -4290,7 +4290,7 @@ extension SSOAdminClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListManagedPoliciesInPermissionSet` operation on the `SWBExternalService` service.
+    /// Performs the `ListManagedPoliciesInPermissionSet` operation on the `SSOAdmin` service.
     ///
     /// Lists the Amazon Web Services managed policy that is attached to a specified permission set.
     ///
@@ -4364,7 +4364,7 @@ extension SSOAdminClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListPermissionSetProvisioningStatus` operation on the `SWBExternalService` service.
+    /// Performs the `ListPermissionSetProvisioningStatus` operation on the `SSOAdmin` service.
     ///
     /// Lists the status of the permission set provisioning requests for a specified IAM Identity Center instance.
     ///
@@ -4438,7 +4438,7 @@ extension SSOAdminClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListPermissionSets` operation on the `SWBExternalService` service.
+    /// Performs the `ListPermissionSets` operation on the `SSOAdmin` service.
     ///
     /// Lists the [PermissionSet]s in an IAM Identity Center instance.
     ///
@@ -4512,7 +4512,7 @@ extension SSOAdminClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListPermissionSetsProvisionedToAccount` operation on the `SWBExternalService` service.
+    /// Performs the `ListPermissionSetsProvisionedToAccount` operation on the `SSOAdmin` service.
     ///
     /// Lists all the permission sets that are provisioned to a specified Amazon Web Services account.
     ///
@@ -4586,7 +4586,7 @@ extension SSOAdminClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `SWBExternalService` service.
+    /// Performs the `ListTagsForResource` operation on the `SSOAdmin` service.
     ///
     /// Lists the tags that are attached to a specified resource.
     ///
@@ -4660,7 +4660,7 @@ extension SSOAdminClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTrustedTokenIssuers` operation on the `SWBExternalService` service.
+    /// Performs the `ListTrustedTokenIssuers` operation on the `SSOAdmin` service.
     ///
     /// Lists all the trusted token issuers configured in an instance of IAM Identity Center.
     ///
@@ -4733,7 +4733,7 @@ extension SSOAdminClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ProvisionPermissionSet` operation on the `SWBExternalService` service.
+    /// Performs the `ProvisionPermissionSet` operation on the `SSOAdmin` service.
     ///
     /// The process by which a specified permission set is provisioned to the specified target.
     ///
@@ -4808,7 +4808,7 @@ extension SSOAdminClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutApplicationAccessScope` operation on the `SWBExternalService` service.
+    /// Performs the `PutApplicationAccessScope` operation on the `SSOAdmin` service.
     ///
     /// Adds or updates the list of authorized targets for an IAM Identity Center access scope for an application.
     ///
@@ -4883,7 +4883,7 @@ extension SSOAdminClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutApplicationAssignmentConfiguration` operation on the `SWBExternalService` service.
+    /// Performs the `PutApplicationAssignmentConfiguration` operation on the `SSOAdmin` service.
     ///
     /// Configure how users gain access to an application. If AssignmentsRequired is true (default value), users don’t have access to the application unless an assignment is created using the [CreateApplicationAssignment API](https://docs.aws.amazon.com/singlesignon/latest/APIReference/API_CreateApplicationAssignment.html). If false, all users have access to the application. If an assignment is created using [CreateApplicationAssignment](https://docs.aws.amazon.com/singlesignon/latest/APIReference/API_CreateApplicationAssignment.html)., the user retains access if AssignmentsRequired is set to true.
     ///
@@ -4958,7 +4958,7 @@ extension SSOAdminClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutApplicationAuthenticationMethod` operation on the `SWBExternalService` service.
+    /// Performs the `PutApplicationAuthenticationMethod` operation on the `SSOAdmin` service.
     ///
     /// Adds or updates an authentication method for an application.
     ///
@@ -5033,7 +5033,7 @@ extension SSOAdminClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutApplicationGrant` operation on the `SWBExternalService` service.
+    /// Performs the `PutApplicationGrant` operation on the `SSOAdmin` service.
     ///
     /// Adds a grant to an application.
     ///
@@ -5108,7 +5108,7 @@ extension SSOAdminClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutInlinePolicyToPermissionSet` operation on the `SWBExternalService` service.
+    /// Performs the `PutInlinePolicyToPermissionSet` operation on the `SSOAdmin` service.
     ///
     /// Attaches an inline policy to a permission set. If the permission set is already referenced by one or more account assignments, you will need to call [ProvisionPermissionSet] after this action to apply the corresponding IAM policy updates to all assigned accounts.
     ///
@@ -5184,7 +5184,7 @@ extension SSOAdminClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutPermissionsBoundaryToPermissionSet` operation on the `SWBExternalService` service.
+    /// Performs the `PutPermissionsBoundaryToPermissionSet` operation on the `SSOAdmin` service.
     ///
     /// Attaches an Amazon Web Services managed or customer managed policy to the specified [PermissionSet] as a permissions boundary.
     ///
@@ -5259,7 +5259,7 @@ extension SSOAdminClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `SWBExternalService` service.
+    /// Performs the `TagResource` operation on the `SSOAdmin` service.
     ///
     /// Associates a set of tags with a specified resource.
     ///
@@ -5335,7 +5335,7 @@ extension SSOAdminClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `SWBExternalService` service.
+    /// Performs the `UntagResource` operation on the `SSOAdmin` service.
     ///
     /// Disassociates a set of tags from a specified resource.
     ///
@@ -5410,7 +5410,7 @@ extension SSOAdminClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateApplication` operation on the `SWBExternalService` service.
+    /// Performs the `UpdateApplication` operation on the `SSOAdmin` service.
     ///
     /// Updates application properties.
     ///
@@ -5485,7 +5485,7 @@ extension SSOAdminClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateInstance` operation on the `SWBExternalService` service.
+    /// Performs the `UpdateInstance` operation on the `SSOAdmin` service.
     ///
     /// Update the details for the instance of IAM Identity Center that is owned by the Amazon Web Services account.
     ///
@@ -5559,7 +5559,7 @@ extension SSOAdminClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateInstanceAccessControlAttributeConfiguration` operation on the `SWBExternalService` service.
+    /// Performs the `UpdateInstanceAccessControlAttributeConfiguration` operation on the `SSOAdmin` service.
     ///
     /// Updates the IAM Identity Center identity store attributes that you can use with the IAM Identity Center instance for attributes-based access control (ABAC). When using an external identity provider as an identity source, you can pass attributes through the SAML assertion as an alternative to configuring attributes from the IAM Identity Center identity store. If a SAML assertion passes any of these attributes, IAM Identity Center replaces the attribute value with the value from the IAM Identity Center identity store. For more information about ABAC, see [Attribute-Based Access Control] in the IAM Identity Center User Guide.
     ///
@@ -5634,7 +5634,7 @@ extension SSOAdminClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdatePermissionSet` operation on the `SWBExternalService` service.
+    /// Performs the `UpdatePermissionSet` operation on the `SSOAdmin` service.
     ///
     /// Updates an existing permission set.
     ///
@@ -5709,7 +5709,7 @@ extension SSOAdminClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateTrustedTokenIssuer` operation on the `SWBExternalService` service.
+    /// Performs the `UpdateTrustedTokenIssuer` operation on the `SSOAdmin` service.
     ///
     /// Updates the name of the trusted token issuer, or the path of a source attribute or destination attribute for a trusted token issuer configuration. Updating this trusted token issuer configuration might cause users to lose access to any applications that are configured to use the trusted token issuer.
     ///
