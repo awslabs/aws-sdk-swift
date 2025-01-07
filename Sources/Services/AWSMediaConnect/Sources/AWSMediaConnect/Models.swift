@@ -196,11 +196,29 @@ extension MediaConnectClientTypes {
 
 extension MediaConnectClientTypes {
 
+    /// The settings related to the multicast source.
+    public struct MulticastSourceSettings: Swift.Sendable {
+        /// The IP address of the source for source-specific multicast (SSM).
+        public var multicastSourceIp: Swift.String?
+
+        public init(
+            multicastSourceIp: Swift.String? = nil
+        )
+        {
+            self.multicastSourceIp = multicastSourceIp
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
     /// Add a network source to an existing bridge.
     public struct AddBridgeNetworkSourceRequest: Swift.Sendable {
         /// The network source multicast IP.
         /// This member is required.
         public var multicastIp: Swift.String?
+        /// The settings related to the multicast source.
+        public var multicastSourceSettings: MediaConnectClientTypes.MulticastSourceSettings?
         /// The name of the network source. This name is used to reference the source and must be unique among sources in this bridge.
         /// This member is required.
         public var name: Swift.String?
@@ -216,6 +234,7 @@ extension MediaConnectClientTypes {
 
         public init(
             multicastIp: Swift.String? = nil,
+            multicastSourceSettings: MediaConnectClientTypes.MulticastSourceSettings? = nil,
             name: Swift.String? = nil,
             networkName: Swift.String? = nil,
             port: Swift.Int? = nil,
@@ -223,6 +242,7 @@ extension MediaConnectClientTypes {
         )
         {
             self.multicastIp = multicastIp
+            self.multicastSourceSettings = multicastSourceSettings
             self.name = name
             self.networkName = networkName
             self.port = port
@@ -925,6 +945,71 @@ extension MediaConnectClientTypes {
 
 extension MediaConnectClientTypes {
 
+    public enum State: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [State] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// Configures settings for the SilentAudio metric.
+    public struct SilentAudio: Swift.Sendable {
+        /// Indicates whether the SilentAudio metric is enabled or disabled.
+        public var state: MediaConnectClientTypes.State?
+        /// Specifies the number of consecutive seconds of silence that triggers an event or alert.
+        public var thresholdSeconds: Swift.Int?
+
+        public init(
+            state: MediaConnectClientTypes.State? = nil,
+            thresholdSeconds: Swift.Int? = nil
+        )
+        {
+            self.state = state
+            self.thresholdSeconds = thresholdSeconds
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// Specifies the configuration for audio stream metrics monitoring.
+    public struct AudioMonitoringSetting: Swift.Sendable {
+        /// Detects periods of silence.
+        public var silentAudio: MediaConnectClientTypes.SilentAudio?
+
+        public init(
+            silentAudio: MediaConnectClientTypes.SilentAudio? = nil
+        )
+        {
+            self.silentAudio = silentAudio
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
     /// The output of the bridge. A flow output is delivered to the AWS cloud.
     public struct BridgeFlowOutput: Swift.Sendable {
         /// The Amazon Resource Number (ARN) of the cloud flow.
@@ -1049,6 +1134,8 @@ extension MediaConnectClientTypes {
         /// The network source multicast IP.
         /// This member is required.
         public var multicastIp: Swift.String?
+        /// The settings related to the multicast source.
+        public var multicastSourceSettings: MediaConnectClientTypes.MulticastSourceSettings?
         /// The name of the network source.
         /// This member is required.
         public var name: Swift.String?
@@ -1064,6 +1151,7 @@ extension MediaConnectClientTypes {
 
         public init(
             multicastIp: Swift.String? = nil,
+            multicastSourceSettings: MediaConnectClientTypes.MulticastSourceSettings? = nil,
             name: Swift.String? = nil,
             networkName: Swift.String? = nil,
             port: Swift.Int? = nil,
@@ -1071,6 +1159,7 @@ extension MediaConnectClientTypes {
         )
         {
             self.multicastIp = multicastIp
+            self.multicastSourceSettings = multicastSourceSettings
             self.name = name
             self.networkName = networkName
             self.port = port
@@ -2733,6 +2822,66 @@ extension MediaConnectClientTypes {
 
 extension MediaConnectClientTypes {
 
+    /// Configures settings for the BlackFrames metric.
+    public struct BlackFrames: Swift.Sendable {
+        /// Indicates whether the BlackFrames metric is enabled or disabled.
+        public var state: MediaConnectClientTypes.State?
+        /// Specifies the number of consecutive seconds of black frames that triggers an event or alert.
+        public var thresholdSeconds: Swift.Int?
+
+        public init(
+            state: MediaConnectClientTypes.State? = nil,
+            thresholdSeconds: Swift.Int? = nil
+        )
+        {
+            self.state = state
+            self.thresholdSeconds = thresholdSeconds
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// Configures settings for the FrozenFrames metric.
+    public struct FrozenFrames: Swift.Sendable {
+        /// Indicates whether the FrozenFrames metric is enabled or disabled.
+        public var state: MediaConnectClientTypes.State?
+        /// Specifies the number of consecutive seconds of a static image that triggers an event or alert.
+        public var thresholdSeconds: Swift.Int?
+
+        public init(
+            state: MediaConnectClientTypes.State? = nil,
+            thresholdSeconds: Swift.Int? = nil
+        )
+        {
+            self.state = state
+            self.thresholdSeconds = thresholdSeconds
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// Specifies the configuration for video stream metrics monitoring.
+    public struct VideoMonitoringSetting: Swift.Sendable {
+        /// Detects video frames that are black.
+        public var blackFrames: MediaConnectClientTypes.BlackFrames?
+        /// Detects video frames that have not changed.
+        public var frozenFrames: MediaConnectClientTypes.FrozenFrames?
+
+        public init(
+            blackFrames: MediaConnectClientTypes.BlackFrames? = nil,
+            frozenFrames: MediaConnectClientTypes.FrozenFrames? = nil
+        )
+        {
+            self.blackFrames = blackFrames
+            self.frozenFrames = frozenFrames
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
     public enum NetworkInterfaceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case efa
         case ena
@@ -2839,9 +2988,9 @@ extension MediaConnectClientTypes {
 }
 
 /// Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message returned by AWS Elemental MediaConnect.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -2865,9 +3014,9 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 /// Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message returned by AWS Elemental MediaConnect.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -2891,9 +3040,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 /// Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message returned by AWS Elemental MediaConnect.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -2917,9 +3066,9 @@ public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.A
 }
 
 /// Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message returned by AWS Elemental MediaConnect.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -2943,9 +3092,9 @@ public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClien
 }
 
 /// Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message returned by AWS Elemental MediaConnect.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -2969,9 +3118,9 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 /// Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message returned by AWS Elemental MediaConnect.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -2995,9 +3144,9 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
 }
 
 /// Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message returned by AWS Elemental MediaConnect.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -3142,9 +3291,9 @@ public struct AddFlowMediaStreamsOutput: Swift.Sendable {
 }
 
 /// Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-public struct AddFlowOutputs420Exception: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AddFlowOutputs420Exception: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message returned by AWS Elemental MediaConnect.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -3407,35 +3556,6 @@ extension MediaConnectClientTypes {
 
 extension MediaConnectClientTypes {
 
-    public enum State: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case disabled
-        case enabled
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [State] {
-            return [
-                .disabled,
-                .enabled
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .disabled: return "DISABLED"
-            case .enabled: return "ENABLED"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension MediaConnectClientTypes {
-
     /// The settings for source failover.
     public struct FailoverConfig: Swift.Sendable {
         /// The type of failover you choose for this flow. MERGE combines the source streams into a single stream, allowing graceful recovery from any single-source loss. FAILOVER allows switching between different streams.
@@ -3571,10 +3691,39 @@ extension MediaConnectClientTypes {
     }
 }
 
-/// Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-public struct CreateBridge420Exception: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+extension MediaConnectClientTypes {
 
-    public struct Properties {
+    public enum ContentQualityAnalysisState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ContentQualityAnalysisState] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+/// Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+public struct CreateBridge420Exception: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
         /// The error message returned by AWS Elemental MediaConnect.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -3650,9 +3799,9 @@ public struct CreateBridgeOutput: Swift.Sendable {
 }
 
 /// Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-public struct CreateFlow420Exception: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CreateFlow420Exception: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message returned by AWS Elemental MediaConnect.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -3708,14 +3857,26 @@ extension MediaConnectClientTypes {
 
     /// The settings for source monitoring.
     public struct MonitoringConfig: Swift.Sendable {
+        /// Contains the settings for audio stream metrics monitoring.
+        public var audioMonitoringSettings: [MediaConnectClientTypes.AudioMonitoringSetting]?
+        /// Indicates whether content quality analysis is enabled or disabled.
+        public var contentQualityAnalysisState: MediaConnectClientTypes.ContentQualityAnalysisState?
         /// The state of thumbnail monitoring.
         public var thumbnailState: MediaConnectClientTypes.ThumbnailState?
+        /// Contains the settings for video stream metrics monitoring.
+        public var videoMonitoringSettings: [MediaConnectClientTypes.VideoMonitoringSetting]?
 
         public init(
-            thumbnailState: MediaConnectClientTypes.ThumbnailState? = nil
+            audioMonitoringSettings: [MediaConnectClientTypes.AudioMonitoringSetting]? = nil,
+            contentQualityAnalysisState: MediaConnectClientTypes.ContentQualityAnalysisState? = nil,
+            thumbnailState: MediaConnectClientTypes.ThumbnailState? = nil,
+            videoMonitoringSettings: [MediaConnectClientTypes.VideoMonitoringSetting]? = nil
         )
         {
+            self.audioMonitoringSettings = audioMonitoringSettings
+            self.contentQualityAnalysisState = contentQualityAnalysisState
             self.thumbnailState = thumbnailState
+            self.videoMonitoringSettings = videoMonitoringSettings
         }
     }
 }
@@ -3864,9 +4025,9 @@ public struct CreateFlowOutput: Swift.Sendable {
 }
 
 /// Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-public struct CreateGateway420Exception: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CreateGateway420Exception: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message returned by AWS Elemental MediaConnect.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -4443,9 +4604,9 @@ extension MediaConnectClientTypes {
 }
 
 /// Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-public struct GrantFlowEntitlements420Exception: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct GrantFlowEntitlements420Exception: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message returned by AWS Elemental MediaConnect.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -5323,6 +5484,8 @@ extension MediaConnectClientTypes {
     public struct UpdateBridgeNetworkSourceRequest: Swift.Sendable {
         /// The network source multicast IP.
         public var multicastIp: Swift.String?
+        /// The settings related to the multicast source.
+        public var multicastSourceSettings: MediaConnectClientTypes.MulticastSourceSettings?
         /// The network source's gateway network name.
         public var networkName: Swift.String?
         /// The network source port.
@@ -5332,12 +5495,14 @@ extension MediaConnectClientTypes {
 
         public init(
             multicastIp: Swift.String? = nil,
+            multicastSourceSettings: MediaConnectClientTypes.MulticastSourceSettings? = nil,
             networkName: Swift.String? = nil,
             port: Swift.Int? = nil,
             `protocol`: MediaConnectClientTypes.ModelProtocol? = nil
         )
         {
             self.multicastIp = multicastIp
+            self.multicastSourceSettings = multicastSourceSettings
             self.networkName = networkName
             self.port = port
             self.`protocol` = `protocol`
@@ -8662,10 +8827,26 @@ extension MediaConnectClientTypes.BridgeNetworkSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaConnectClientTypes.BridgeNetworkSource()
         value.multicastIp = try reader["multicastIp"].readIfPresent() ?? ""
+        value.multicastSourceSettings = try reader["multicastSourceSettings"].readIfPresent(with: MediaConnectClientTypes.MulticastSourceSettings.read(from:))
         value.name = try reader["name"].readIfPresent() ?? ""
         value.networkName = try reader["networkName"].readIfPresent() ?? ""
         value.port = try reader["port"].readIfPresent() ?? 0
         value.`protocol` = try reader["protocol"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.MulticastSourceSettings {
+
+    static func write(value: MediaConnectClientTypes.MulticastSourceSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["multicastSourceIp"].write(value.multicastSourceIp)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.MulticastSourceSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.MulticastSourceSettings()
+        value.multicastSourceIp = try reader["multicastSourceIp"].readIfPresent()
         return value
     }
 }
@@ -9059,13 +9240,102 @@ extension MediaConnectClientTypes.MonitoringConfig {
 
     static func write(value: MediaConnectClientTypes.MonitoringConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["audioMonitoringSettings"].writeList(value.audioMonitoringSettings, memberWritingClosure: MediaConnectClientTypes.AudioMonitoringSetting.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["contentQualityAnalysisState"].write(value.contentQualityAnalysisState)
         try writer["thumbnailState"].write(value.thumbnailState)
+        try writer["videoMonitoringSettings"].writeList(value.videoMonitoringSettings, memberWritingClosure: MediaConnectClientTypes.VideoMonitoringSetting.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.MonitoringConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaConnectClientTypes.MonitoringConfig()
         value.thumbnailState = try reader["thumbnailState"].readIfPresent()
+        value.audioMonitoringSettings = try reader["audioMonitoringSettings"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.AudioMonitoringSetting.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.contentQualityAnalysisState = try reader["contentQualityAnalysisState"].readIfPresent()
+        value.videoMonitoringSettings = try reader["videoMonitoringSettings"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.VideoMonitoringSetting.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.VideoMonitoringSetting {
+
+    static func write(value: MediaConnectClientTypes.VideoMonitoringSetting?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["blackFrames"].write(value.blackFrames, with: MediaConnectClientTypes.BlackFrames.write(value:to:))
+        try writer["frozenFrames"].write(value.frozenFrames, with: MediaConnectClientTypes.FrozenFrames.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.VideoMonitoringSetting {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.VideoMonitoringSetting()
+        value.blackFrames = try reader["blackFrames"].readIfPresent(with: MediaConnectClientTypes.BlackFrames.read(from:))
+        value.frozenFrames = try reader["frozenFrames"].readIfPresent(with: MediaConnectClientTypes.FrozenFrames.read(from:))
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.FrozenFrames {
+
+    static func write(value: MediaConnectClientTypes.FrozenFrames?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["state"].write(value.state)
+        try writer["thresholdSeconds"].write(value.thresholdSeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.FrozenFrames {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.FrozenFrames()
+        value.state = try reader["state"].readIfPresent()
+        value.thresholdSeconds = try reader["thresholdSeconds"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.BlackFrames {
+
+    static func write(value: MediaConnectClientTypes.BlackFrames?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["state"].write(value.state)
+        try writer["thresholdSeconds"].write(value.thresholdSeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.BlackFrames {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.BlackFrames()
+        value.state = try reader["state"].readIfPresent()
+        value.thresholdSeconds = try reader["thresholdSeconds"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.AudioMonitoringSetting {
+
+    static func write(value: MediaConnectClientTypes.AudioMonitoringSetting?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["silentAudio"].write(value.silentAudio, with: MediaConnectClientTypes.SilentAudio.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.AudioMonitoringSetting {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.AudioMonitoringSetting()
+        value.silentAudio = try reader["silentAudio"].readIfPresent(with: MediaConnectClientTypes.SilentAudio.read(from:))
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.SilentAudio {
+
+    static func write(value: MediaConnectClientTypes.SilentAudio?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["state"].write(value.state)
+        try writer["thresholdSeconds"].write(value.thresholdSeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.SilentAudio {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.SilentAudio()
+        value.state = try reader["state"].readIfPresent()
+        value.thresholdSeconds = try reader["thresholdSeconds"].readIfPresent()
         return value
     }
 }
@@ -9376,6 +9646,7 @@ extension MediaConnectClientTypes.AddBridgeNetworkSourceRequest {
     static func write(value: MediaConnectClientTypes.AddBridgeNetworkSourceRequest?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["multicastIp"].write(value.multicastIp)
+        try writer["multicastSourceSettings"].write(value.multicastSourceSettings, with: MediaConnectClientTypes.MulticastSourceSettings.write(value:to:))
         try writer["name"].write(value.name)
         try writer["networkName"].write(value.networkName)
         try writer["port"].write(value.port)
@@ -9650,6 +9921,7 @@ extension MediaConnectClientTypes.UpdateBridgeNetworkSourceRequest {
     static func write(value: MediaConnectClientTypes.UpdateBridgeNetworkSourceRequest?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["multicastIp"].write(value.multicastIp)
+        try writer["multicastSourceSettings"].write(value.multicastSourceSettings, with: MediaConnectClientTypes.MulticastSourceSettings.write(value:to:))
         try writer["networkName"].write(value.networkName)
         try writer["port"].write(value.port)
         try writer["protocol"].write(value.`protocol`)

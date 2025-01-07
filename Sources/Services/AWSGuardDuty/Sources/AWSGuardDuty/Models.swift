@@ -29,6 +29,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import struct Smithy.URIQueryItem
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 
 public struct DeleteMalwareProtectionPlanOutput: Swift.Sendable {
@@ -47,9 +48,9 @@ public struct UpdateMalwareProtectionPlanOutput: Swift.Sendable {
 }
 
 /// A bad request exception object.
-public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message.
         public internal(set) var message: Swift.String? = nil
         /// The error type.
@@ -76,9 +77,9 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 /// An internal server error exception object.
-public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message.
         public internal(set) var message: Swift.String? = nil
         /// The error type.
@@ -183,9 +184,9 @@ extension GuardDutyClientTypes {
 }
 
 /// An access denied exception object.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message.
         public internal(set) var message: Swift.String? = nil
         /// The error type.
@@ -214,6 +215,30 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 extension GuardDutyClientTypes {
 
     /// Contains information about the access keys.
+    public struct AccessKey: Swift.Sendable {
+        /// Principal ID of the user.
+        public var principalId: Swift.String?
+        /// Name of the user.
+        public var userName: Swift.String?
+        /// Type of the user.
+        public var userType: Swift.String?
+
+        public init(
+            principalId: Swift.String? = nil,
+            userName: Swift.String? = nil,
+            userType: Swift.String? = nil
+        )
+        {
+            self.principalId = principalId
+            self.userName = userName
+            self.userType = userType
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    /// Contains information about the access keys.
     public struct AccessKeyDetails: Swift.Sendable {
         /// The access key ID of the user.
         public var accessKeyId: Swift.String?
@@ -235,6 +260,27 @@ extension GuardDutyClientTypes {
             self.principalId = principalId
             self.userName = userName
             self.userType = userType
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    /// Contains information about the account.
+    public struct Account: Swift.Sendable {
+        /// Name of the member's Amazon Web Services account.
+        public var name: Swift.String?
+        /// ID of the member's Amazon Web Services account
+        /// This member is required.
+        public var uid: Swift.String?
+
+        public init(
+            name: Swift.String? = nil,
+            uid: Swift.String? = nil
+        )
+        {
+            self.name = name
+            self.uid = uid
         }
     }
 }
@@ -1151,6 +1197,123 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes {
 
+    public enum MfaStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MfaStatus] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    /// Contains information about the authenticated session.
+    public struct Session: Swift.Sendable {
+        /// The timestamp for when the session was created. In Amazon Web Services CloudTrail, you can find this value as userIdentity.sessionContext.attributes.creationDate.
+        public var createdTime: Foundation.Date?
+        /// Identifier of the session issuer. In Amazon Web Services CloudTrail, you can find this value as userIdentity.sessionContext.sessionIssuer.arn.
+        public var issuer: Swift.String?
+        /// Indicates whether or not multi-factor authencation (MFA) was used during authentication. In Amazon Web Services CloudTrail, you can find this value as userIdentity.sessionContext.attributes.mfaAuthenticated.
+        public var mfaStatus: GuardDutyClientTypes.MfaStatus?
+        /// The unique identifier of the session.
+        public var uid: Swift.String?
+
+        public init(
+            createdTime: Foundation.Date? = nil,
+            issuer: Swift.String? = nil,
+            mfaStatus: GuardDutyClientTypes.MfaStatus? = nil,
+            uid: Swift.String? = nil
+        )
+        {
+            self.createdTime = createdTime
+            self.issuer = issuer
+            self.mfaStatus = mfaStatus
+            self.uid = uid
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    /// Contains information about the user involved in the attack sequence.
+    public struct User: Swift.Sendable {
+        /// Contains information about the Amazon Web Services account.
+        public var account: GuardDutyClientTypes.Account?
+        /// The credentials of the user ID.
+        public var credentialUid: Swift.String?
+        /// The name of the user.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The type of the user.
+        /// This member is required.
+        public var type: Swift.String?
+        /// The unique identifier of the user.
+        /// This member is required.
+        public var uid: Swift.String?
+
+        public init(
+            account: GuardDutyClientTypes.Account? = nil,
+            credentialUid: Swift.String? = nil,
+            name: Swift.String? = nil,
+            type: Swift.String? = nil,
+            uid: Swift.String? = nil
+        )
+        {
+            self.account = account
+            self.credentialUid = credentialUid
+            self.name = name
+            self.type = type
+            self.uid = uid
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    /// Information about the actors involved in an attack sequence.
+    public struct Actor: Swift.Sendable {
+        /// ID of the threat actor.
+        /// This member is required.
+        public var id: Swift.String?
+        /// Contains information about the user session where the activity initiated.
+        public var session: GuardDutyClientTypes.Session?
+        /// Contains information about the user credentials used by the threat actor.
+        public var user: GuardDutyClientTypes.User?
+
+        public init(
+            id: Swift.String? = nil,
+            session: GuardDutyClientTypes.Session? = nil,
+            user: GuardDutyClientTypes.User? = nil
+        )
+        {
+            self.id = id
+            self.session = session
+            self.user = user
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
     /// Information about the installed EKS add-on (GuardDuty security agent).
     public struct AddonDetails: Swift.Sendable {
         /// Status of the installed EKS add-on.
@@ -1456,6 +1619,28 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes {
 
+    /// Contains information about the Autonomous System (AS) associated with the network endpoints involved in an attack sequence.
+    public struct AutonomousSystem: Swift.Sendable {
+        /// Name associated with the Autonomous System (AS).
+        /// This member is required.
+        public var name: Swift.String?
+        /// The unique number that identifies the Autonomous System (AS).
+        /// This member is required.
+        public var number: Swift.Int?
+
+        public init(
+            name: Swift.String? = nil,
+            number: Swift.Int? = nil
+        )
+        {
+            self.name = name
+            self.number = number
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
     /// Contains information on the current bucket policies for the S3 bucket.
     public struct BucketPolicy: Swift.Sendable {
         /// A value that indicates whether public read access for the bucket is enabled through a bucket policy.
@@ -1611,9 +1796,9 @@ extension GuardDutyClientTypes {
 }
 
 /// A request conflict exception object.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message.
         public internal(set) var message: Swift.String? = nil
         /// The error type.
@@ -2761,10 +2946,12 @@ public struct CreateFilterInput: Swift.Sendable {
     ///
     /// * Medium: ["4", "5", "6"]
     ///
-    /// * High: ["7", "8", "9"]
+    /// * High: ["7", "8"]
+    ///
+    /// * Critical: ["9", "10"]
     ///
     ///
-    /// For more information, see [Severity levels for GuardDuty findings](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_findings.html#guardduty_findings-severity).
+    /// For more information, see [Findings severity levels](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_findings-severity.html) in the Amazon GuardDuty User Guide.
     ///
     /// * type
     ///
@@ -3857,9 +4044,9 @@ public struct DeleteIPSetOutput: Swift.Sendable {
 }
 
 /// The requested resource can't be found.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message.
         public internal(set) var message: Swift.String? = nil
         /// The error type.
@@ -4271,7 +4458,7 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes {
 
-    /// Contains information about a malware scan.
+    /// Contains information about malware scans associated with GuardDuty Malware Protection for EC2.
     public struct Scan: Swift.Sendable {
         /// The ID for the account that belongs to the scan.
         public var accountId: Swift.String?
@@ -4279,7 +4466,7 @@ extension GuardDutyClientTypes {
         public var adminDetectorId: Swift.String?
         /// List of volumes that were attached to the original instance to be scanned.
         public var attachedVolumes: [GuardDutyClientTypes.VolumeDetail]?
-        /// The unique ID of the detector that the request is associated with. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html) API.
+        /// The unique ID of the detector that is associated with the request. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html) API.
         public var detectorId: Swift.String?
         /// Represents the reason for FAILED scan status.
         public var failureReason: Swift.String?
@@ -4344,7 +4531,7 @@ extension GuardDutyClientTypes {
 public struct DescribeMalwareScansOutput: Swift.Sendable {
     /// The pagination parameter to be used on the next list operation to retrieve more items.
     public var nextToken: Swift.String?
-    /// Contains information about malware scans.
+    /// Contains information about malware scans associated with GuardDuty Malware Protection for EC2.
     /// This member is required.
     public var scans: [GuardDutyClientTypes.Scan]?
 
@@ -4579,7 +4766,7 @@ extension GuardDutyClientTypes {
         ///
         /// * NONE: Indicates that the additional configuration will not be automatically enabled for any account in the organization. The administrator must manage the additional configuration for each account individually.
         public var autoEnable: GuardDutyClientTypes.OrgFeatureStatus?
-        /// The name of the additional configuration that is configured for the member accounts within the organization.
+        /// The name of the additional configuration that is configured for the member accounts within the organization. These values are applicable to only Runtime Monitoring protection plan.
         public var name: GuardDutyClientTypes.OrgFeatureAdditionalConfiguration?
 
         public init(
@@ -4823,16 +5010,874 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes {
 
+    public enum NetworkDirection: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case inbound
+        case outbound
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NetworkDirection] {
+            return [
+                .inbound,
+                .outbound
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .inbound: return "INBOUND"
+            case .outbound: return "OUTBOUND"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    /// Contains information about the network connection.
+    public struct NetworkConnection: Swift.Sendable {
+        /// The direction in which the network traffic is flowing.
+        /// This member is required.
+        public var direction: GuardDutyClientTypes.NetworkDirection?
+
+        public init(
+            direction: GuardDutyClientTypes.NetworkDirection? = nil
+        )
+        {
+            self.direction = direction
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    /// Contains information about network endpoint location.
+    public struct NetworkGeoLocation: Swift.Sendable {
+        /// The name of the city.
+        /// This member is required.
+        public var city: Swift.String?
+        /// The name of the country.
+        /// This member is required.
+        public var country: Swift.String?
+        /// The latitude information of the endpoint location.
+        /// This member is required.
+        public var latitude: Swift.Double?
+        /// The longitude information of the endpoint location.
+        /// This member is required.
+        public var longitude: Swift.Double?
+
+        public init(
+            city: Swift.String? = nil,
+            country: Swift.String? = nil,
+            latitude: Swift.Double? = nil,
+            longitude: Swift.Double? = nil
+        )
+        {
+            self.city = city
+            self.country = country
+            self.latitude = latitude
+            self.longitude = longitude
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    /// Contains information about network endpoints that were observed in the attack sequence.
+    public struct NetworkEndpoint: Swift.Sendable {
+        /// The Autonomous System (AS) of the network endpoint.
+        public var autonomousSystem: GuardDutyClientTypes.AutonomousSystem?
+        /// Information about the network connection.
+        public var connection: GuardDutyClientTypes.NetworkConnection?
+        /// The domain information for the network endpoint.
+        public var domain: Swift.String?
+        /// The ID of the network endpoint.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The IP address associated with the network endpoint.
+        public var ip: Swift.String?
+        /// Information about the location of the network endpoint.
+        public var location: GuardDutyClientTypes.NetworkGeoLocation?
+        /// The port number associated with the network endpoint.
+        public var port: Swift.Int?
+
+        public init(
+            autonomousSystem: GuardDutyClientTypes.AutonomousSystem? = nil,
+            connection: GuardDutyClientTypes.NetworkConnection? = nil,
+            domain: Swift.String? = nil,
+            id: Swift.String? = nil,
+            ip: Swift.String? = nil,
+            location: GuardDutyClientTypes.NetworkGeoLocation? = nil,
+            port: Swift.Int? = nil
+        )
+        {
+            self.autonomousSystem = autonomousSystem
+            self.connection = connection
+            self.domain = domain
+            self.id = id
+            self.ip = ip
+            self.location = location
+            self.port = port
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    /// Contains information about the EC2 instance profile.
+    public struct IamInstanceProfile: Swift.Sendable {
+        /// The profile ARN of the EC2 instance.
+        public var arn: Swift.String?
+        /// The profile ID of the EC2 instance.
+        public var id: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            id: Swift.String? = nil
+        )
+        {
+            self.arn = arn
+            self.id = id
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    /// Contains information about the product code for the EC2 instance.
+    public struct ProductCode: Swift.Sendable {
+        /// The product code information.
+        public var code: Swift.String?
+        /// The product code type.
+        public var productType: Swift.String?
+
+        public init(
+            code: Swift.String? = nil,
+            productType: Swift.String? = nil
+        )
+        {
+            self.code = code
+            self.productType = productType
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    /// Details about the potentially impacted Amazon EC2 instance resource.
+    public struct Ec2Instance: Swift.Sendable {
+        /// The availability zone of the Amazon EC2 instance. For more information, see [Availability zones](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html#concepts-availability-zones) in the Amazon EC2 User Guide.
+        public var availabilityZone: Swift.String?
+        /// The ID of the network interface.
+        public var ec2NetworkInterfaceUids: [Swift.String]?
+        /// Contains information about the EC2 instance profile.
+        public var iamInstanceProfile: GuardDutyClientTypes.IamInstanceProfile?
+        /// The image description of the Amazon EC2 instance.
+        public var imageDescription: Swift.String?
+        /// The state of the Amazon EC2 instance. For more information, see [Amazon EC2 instance state changes](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-lifecycle.html) in the Amazon EC2 User Guide.
+        public var instanceState: Swift.String?
+        /// Type of the Amazon EC2 instance.
+        public var instanceType: Swift.String?
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Outpost. This shows applicable Amazon Web Services Outposts instances.
+        public var outpostArn: Swift.String?
+        /// The platform of the Amazon EC2 instance.
+        public var platform: Swift.String?
+        /// The product code of the Amazon EC2 instance.
+        public var productCodes: [GuardDutyClientTypes.ProductCode]?
+
+        public init(
+            availabilityZone: Swift.String? = nil,
+            ec2NetworkInterfaceUids: [Swift.String]? = nil,
+            iamInstanceProfile: GuardDutyClientTypes.IamInstanceProfile? = nil,
+            imageDescription: Swift.String? = nil,
+            instanceState: Swift.String? = nil,
+            instanceType: Swift.String? = nil,
+            outpostArn: Swift.String? = nil,
+            platform: Swift.String? = nil,
+            productCodes: [GuardDutyClientTypes.ProductCode]? = nil
+        )
+        {
+            self.availabilityZone = availabilityZone
+            self.ec2NetworkInterfaceUids = ec2NetworkInterfaceUids
+            self.iamInstanceProfile = iamInstanceProfile
+            self.imageDescription = imageDescription
+            self.instanceState = instanceState
+            self.instanceType = instanceType
+            self.outpostArn = outpostArn
+            self.platform = platform
+            self.productCodes = productCodes
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    /// Contains other private IP address information of the EC2 instance.
+    public struct PrivateIpAddressDetails: Swift.Sendable {
+        /// The private DNS name of the EC2 instance.
+        public var privateDnsName: Swift.String?
+        /// The private IP address of the EC2 instance.
+        public var privateIpAddress: Swift.String?
+
+        public init(
+            privateDnsName: Swift.String? = nil,
+            privateIpAddress: Swift.String? = nil
+        )
+        {
+            self.privateDnsName = privateDnsName
+            self.privateIpAddress = privateIpAddress
+        }
+    }
+}
+
+extension GuardDutyClientTypes.PrivateIpAddressDetails: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "PrivateIpAddressDetails(privateDnsName: \(Swift.String(describing: privateDnsName)), privateIpAddress: \"CONTENT_REDACTED\")"}
+}
+
+extension GuardDutyClientTypes {
+
+    /// Contains information about the security groups associated with the EC2 instance.
+    public struct SecurityGroup: Swift.Sendable {
+        /// The security group ID of the EC2 instance.
+        public var groupId: Swift.String?
+        /// The security group name of the EC2 instance.
+        public var groupName: Swift.String?
+
+        public init(
+            groupId: Swift.String? = nil,
+            groupName: Swift.String? = nil
+        )
+        {
+            self.groupId = groupId
+            self.groupName = groupName
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    /// Contains information about the elastic network interface of the Amazon EC2 instance.
+    public struct Ec2NetworkInterface: Swift.Sendable {
+        /// A list of IPv6 addresses for the Amazon EC2 instance.
+        public var ipv6Addresses: [Swift.String]?
+        /// Other private IP address information of the Amazon EC2 instance.
+        public var privateIpAddresses: [GuardDutyClientTypes.PrivateIpAddressDetails]?
+        /// The public IP address of the Amazon EC2 instance.
+        public var publicIp: Swift.String?
+        /// The security groups associated with the Amazon EC2 instance.
+        public var securityGroups: [GuardDutyClientTypes.SecurityGroup]?
+        /// The subnet ID of the Amazon EC2 instance.
+        public var subNetId: Swift.String?
+        /// The VPC ID of the Amazon EC2 instance.
+        public var vpcId: Swift.String?
+
+        public init(
+            ipv6Addresses: [Swift.String]? = nil,
+            privateIpAddresses: [GuardDutyClientTypes.PrivateIpAddressDetails]? = nil,
+            publicIp: Swift.String? = nil,
+            securityGroups: [GuardDutyClientTypes.SecurityGroup]? = nil,
+            subNetId: Swift.String? = nil,
+            vpcId: Swift.String? = nil
+        )
+        {
+            self.ipv6Addresses = ipv6Addresses
+            self.privateIpAddresses = privateIpAddresses
+            self.publicIp = publicIp
+            self.securityGroups = securityGroups
+            self.subNetId = subNetId
+            self.vpcId = vpcId
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    public enum PublicAccessStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case allowed
+        case blocked
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PublicAccessStatus] {
+            return [
+                .allowed,
+                .blocked
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .allowed: return "ALLOWED"
+            case .blocked: return "BLOCKED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    public enum PublicAclIgnoreBehavior: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case ignored
+        case notIgnored
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PublicAclIgnoreBehavior] {
+            return [
+                .ignored,
+                .notIgnored
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .ignored: return "IGNORED"
+            case .notIgnored: return "NOT_IGNORED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    public enum PublicBucketRestrictBehavior: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case notRestricted
+        case restricted
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PublicBucketRestrictBehavior] {
+            return [
+                .notRestricted,
+                .restricted
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .notRestricted: return "NOT_RESTRICTED"
+            case .restricted: return "RESTRICTED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    /// Describes public access policies that apply to the Amazon S3 bucket. For information about each of the following settings, see [Blocking public access to your Amazon S3 storage](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-control-block-public-access.html) in the Amazon S3 User Guide.
+    public struct PublicAccessConfiguration: Swift.Sendable {
+        /// Indicates whether or not there is a setting that allows public access to the Amazon S3 buckets through access control lists (ACLs).
+        public var publicAclAccess: GuardDutyClientTypes.PublicAccessStatus?
+        /// Indicates whether or not there is a setting that ignores all public access control lists (ACLs) on the Amazon S3 bucket and the objects that it contains.
+        public var publicAclIgnoreBehavior: GuardDutyClientTypes.PublicAclIgnoreBehavior?
+        /// Indicates whether or not there is a setting that restricts access to the bucket with specified policies.
+        public var publicBucketRestrictBehavior: GuardDutyClientTypes.PublicBucketRestrictBehavior?
+        /// Indicates whether or not there is a setting that allows public access to the Amazon S3 bucket policy.
+        public var publicPolicyAccess: GuardDutyClientTypes.PublicAccessStatus?
+
+        public init(
+            publicAclAccess: GuardDutyClientTypes.PublicAccessStatus? = nil,
+            publicAclIgnoreBehavior: GuardDutyClientTypes.PublicAclIgnoreBehavior? = nil,
+            publicBucketRestrictBehavior: GuardDutyClientTypes.PublicBucketRestrictBehavior? = nil,
+            publicPolicyAccess: GuardDutyClientTypes.PublicAccessStatus? = nil
+        )
+        {
+            self.publicAclAccess = publicAclAccess
+            self.publicAclIgnoreBehavior = publicAclIgnoreBehavior
+            self.publicBucketRestrictBehavior = publicBucketRestrictBehavior
+            self.publicPolicyAccess = publicPolicyAccess
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    /// Contains information about the Amazon S3 bucket policies and encryption.
+    public struct S3Bucket: Swift.Sendable {
+        /// Contains information about the public access policies that apply to the Amazon S3 bucket at the account level.
+        public var accountPublicAccess: GuardDutyClientTypes.PublicAccessConfiguration?
+        /// Contains information about public access policies that apply to the Amazon S3 bucket.
+        public var bucketPublicAccess: GuardDutyClientTypes.PublicAccessConfiguration?
+        /// The timestamp at which the Amazon S3 bucket was created.
+        public var createdAt: Foundation.Date?
+        /// Describes the effective permissions on this S3 bucket, after factoring all the attached policies.
+        public var effectivePermission: Swift.String?
+        /// The Amazon Resource Name (ARN) of the encryption key that is used to encrypt the Amazon S3 bucket and its objects.
+        public var encryptionKeyArn: Swift.String?
+        /// The type of encryption used for the Amazon S3 buckets and its objects. For more information, see [Protecting data with server-side encryption](https://docs.aws.amazon.com/AmazonS3/latest/userguide/serv-side-encryption.html) in the Amazon S3 User Guide.
+        public var encryptionType: Swift.String?
+        /// The owner ID of the associated S3Amazon S3bucket.
+        public var ownerId: Swift.String?
+        /// Indicates whether or not the public read access is allowed for an Amazon S3 bucket.
+        public var publicReadAccess: GuardDutyClientTypes.PublicAccessStatus?
+        /// Indicates whether or not the public write access is allowed for an Amazon S3 bucket.
+        public var publicWriteAccess: GuardDutyClientTypes.PublicAccessStatus?
+        /// Represents a list of Amazon S3 object identifiers.
+        public var s3ObjectUids: [Swift.String]?
+
+        public init(
+            accountPublicAccess: GuardDutyClientTypes.PublicAccessConfiguration? = nil,
+            bucketPublicAccess: GuardDutyClientTypes.PublicAccessConfiguration? = nil,
+            createdAt: Foundation.Date? = nil,
+            effectivePermission: Swift.String? = nil,
+            encryptionKeyArn: Swift.String? = nil,
+            encryptionType: Swift.String? = nil,
+            ownerId: Swift.String? = nil,
+            publicReadAccess: GuardDutyClientTypes.PublicAccessStatus? = nil,
+            publicWriteAccess: GuardDutyClientTypes.PublicAccessStatus? = nil,
+            s3ObjectUids: [Swift.String]? = nil
+        )
+        {
+            self.accountPublicAccess = accountPublicAccess
+            self.bucketPublicAccess = bucketPublicAccess
+            self.createdAt = createdAt
+            self.effectivePermission = effectivePermission
+            self.encryptionKeyArn = encryptionKeyArn
+            self.encryptionType = encryptionType
+            self.ownerId = ownerId
+            self.publicReadAccess = publicReadAccess
+            self.publicWriteAccess = publicWriteAccess
+            self.s3ObjectUids = s3ObjectUids
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    /// Contains information about the Amazon S3 object.
+    public struct S3Object: Swift.Sendable {
+        /// The entity tag is a hash of the Amazon S3 object. The ETag reflects changes only to the contents of an object, and not its metadata.
+        public var eTag: Swift.String?
+        /// The key of the Amazon S3 object.
+        public var key: Swift.String?
+        /// The version Id of the Amazon S3 object.
+        public var versionId: Swift.String?
+
+        public init(
+            eTag: Swift.String? = nil,
+            key: Swift.String? = nil,
+            versionId: Swift.String? = nil
+        )
+        {
+            self.eTag = eTag
+            self.key = key
+            self.versionId = versionId
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    /// Contains information about the Amazon Web Services resource that is associated with the activity that prompted GuardDuty to generate a finding.
+    public struct ResourceData: Swift.Sendable {
+        /// Contains information about the IAM access key details of a user that involved in the GuardDuty finding.
+        public var accessKey: GuardDutyClientTypes.AccessKey?
+        /// Contains information about the Amazon EC2 instance.
+        public var ec2Instance: GuardDutyClientTypes.Ec2Instance?
+        /// Contains information about the elastic network interface of the Amazon EC2 instance.
+        public var ec2NetworkInterface: GuardDutyClientTypes.Ec2NetworkInterface?
+        /// Contains information about the Amazon S3 bucket.
+        public var s3Bucket: GuardDutyClientTypes.S3Bucket?
+        /// Contains information about the Amazon S3 object.
+        public var s3Object: GuardDutyClientTypes.S3Object?
+
+        public init(
+            accessKey: GuardDutyClientTypes.AccessKey? = nil,
+            ec2Instance: GuardDutyClientTypes.Ec2Instance? = nil,
+            ec2NetworkInterface: GuardDutyClientTypes.Ec2NetworkInterface? = nil,
+            s3Bucket: GuardDutyClientTypes.S3Bucket? = nil,
+            s3Object: GuardDutyClientTypes.S3Object? = nil
+        )
+        {
+            self.accessKey = accessKey
+            self.ec2Instance = ec2Instance
+            self.ec2NetworkInterface = ec2NetworkInterface
+            self.s3Bucket = s3Bucket
+            self.s3Object = s3Object
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    public enum FindingResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case accessKey
+        case ec2Instance
+        case ec2NetworkInterface
+        case s3Bucket
+        case s3Object
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FindingResourceType] {
+            return [
+                .accessKey,
+                .ec2Instance,
+                .ec2NetworkInterface,
+                .s3Bucket,
+                .s3Object
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .accessKey: return "ACCESS_KEY"
+            case .ec2Instance: return "EC2_INSTANCE"
+            case .ec2NetworkInterface: return "EC2_NETWORK_INTERFACE"
+            case .s3Bucket: return "S3_BUCKET"
+            case .s3Object: return "S3_OBJECT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    /// Contains information about a tag key-value pair.
+    public struct Tag: Swift.Sendable {
+        /// Describes the key associated with the tag.
+        public var key: Swift.String?
+        /// Describes the value associated with the tag key.
+        public var value: Swift.String?
+
+        public init(
+            key: Swift.String? = nil,
+            value: Swift.String? = nil
+        )
+        {
+            self.key = key
+            self.value = value
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    /// Contains information about the Amazon Web Services resource that is associated with the GuardDuty finding.
+    public struct ResourceV2: Swift.Sendable {
+        /// The Amazon Web Services account ID to which the resource belongs.
+        public var accountId: Swift.String?
+        /// The cloud partition within the Amazon Web Services Region to which the resource belongs.
+        public var cloudPartition: Swift.String?
+        /// Contains information about the Amazon Web Services resource associated with the activity that prompted GuardDuty to generate a finding.
+        public var data: GuardDutyClientTypes.ResourceData?
+        /// The name of the resource.
+        public var name: Swift.String?
+        /// The Amazon Web Services Region where the resource belongs.
+        public var region: Swift.String?
+        /// The type of the Amazon Web Services resource.
+        /// This member is required.
+        public var resourceType: GuardDutyClientTypes.FindingResourceType?
+        /// The Amazon Web Services service of the resource.
+        public var service: Swift.String?
+        /// Contains information about the tags associated with the resource.
+        public var tags: [GuardDutyClientTypes.Tag]?
+        /// The unique identifier of the resource.
+        /// This member is required.
+        public var uid: Swift.String?
+
+        public init(
+            accountId: Swift.String? = nil,
+            cloudPartition: Swift.String? = nil,
+            data: GuardDutyClientTypes.ResourceData? = nil,
+            name: Swift.String? = nil,
+            region: Swift.String? = nil,
+            resourceType: GuardDutyClientTypes.FindingResourceType? = nil,
+            service: Swift.String? = nil,
+            tags: [GuardDutyClientTypes.Tag]? = nil,
+            uid: Swift.String? = nil
+        )
+        {
+            self.accountId = accountId
+            self.cloudPartition = cloudPartition
+            self.data = data
+            self.name = name
+            self.region = region
+            self.resourceType = resourceType
+            self.service = service
+            self.tags = tags
+            self.uid = uid
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    public enum IndicatorType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case attackTactic
+        case attackTechnique
+        case highRiskApi
+        case maliciousIp
+        case suspiciousNetwork
+        case suspiciousUserAgent
+        case torIp
+        case unusualApiForAccount
+        case unusualAsnForAccount
+        case unusualAsnForUser
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IndicatorType] {
+            return [
+                .attackTactic,
+                .attackTechnique,
+                .highRiskApi,
+                .maliciousIp,
+                .suspiciousNetwork,
+                .suspiciousUserAgent,
+                .torIp,
+                .unusualApiForAccount,
+                .unusualAsnForAccount,
+                .unusualAsnForUser
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .attackTactic: return "ATTACK_TACTIC"
+            case .attackTechnique: return "ATTACK_TECHNIQUE"
+            case .highRiskApi: return "HIGH_RISK_API"
+            case .maliciousIp: return "MALICIOUS_IP"
+            case .suspiciousNetwork: return "SUSPICIOUS_NETWORK"
+            case .suspiciousUserAgent: return "SUSPICIOUS_USER_AGENT"
+            case .torIp: return "TOR_IP"
+            case .unusualApiForAccount: return "UNUSUAL_API_FOR_ACCOUNT"
+            case .unusualAsnForAccount: return "UNUSUAL_ASN_FOR_ACCOUNT"
+            case .unusualAsnForUser: return "UNUSUAL_ASN_FOR_USER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    /// Contains information about the indicators that include a set of signals observed in an attack sequence.
+    public struct Indicator: Swift.Sendable {
+        /// Specific indicator keys observed in the attack sequence.
+        /// This member is required.
+        public var key: GuardDutyClientTypes.IndicatorType?
+        /// Title describing the indicator.
+        public var title: Swift.String?
+        /// Values associated with each indicator key. For example, if the indicator key is SUSPICIOUS_NETWORK, then the value will be the name of the network. If the indicator key is ATTACK_TACTIC, then the value will be one of the MITRE tactics. For more information about the values associated with the key, see GuardDuty Extended Threat Detection in the GuardDuty User Guide.
+        public var values: [Swift.String]?
+
+        public init(
+            key: GuardDutyClientTypes.IndicatorType? = nil,
+            title: Swift.String? = nil,
+            values: [Swift.String]? = nil
+        )
+        {
+            self.key = key
+            self.title = title
+            self.values = values
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    public enum SignalType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cloudTrail
+        case finding
+        case s3DataEvents
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SignalType] {
+            return [
+                .cloudTrail,
+                .finding,
+                .s3DataEvents
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cloudTrail: return "CLOUD_TRAIL"
+            case .finding: return "FINDING"
+            case .s3DataEvents: return "S3_DATA_EVENTS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    /// Contains information about the signals involved in the attack sequence.
+    public struct Signal: Swift.Sendable {
+        /// Information about the IDs of the threat actors involved in the signal.
+        public var actorIds: [Swift.String]?
+        /// The number of times this signal was observed.
+        /// This member is required.
+        public var count: Swift.Int?
+        /// The timestamp when the first finding or activity related to this signal was observed.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The description of the signal.
+        public var description: Swift.String?
+        /// Information about the endpoint IDs associated with this signal.
+        public var endpointIds: [Swift.String]?
+        /// The timestamp when the first finding or activity related to this signal was observed.
+        /// This member is required.
+        public var firstSeenAt: Foundation.Date?
+        /// The timestamp when the last finding or activity related to this signal was observed.
+        /// This member is required.
+        public var lastSeenAt: Foundation.Date?
+        /// The name of the signal. For example, when signal type is FINDING, the signal name is the name of the finding.
+        /// This member is required.
+        public var name: Swift.String?
+        /// Information about the unique identifiers of the resources involved in the signal.
+        public var resourceUids: [Swift.String]?
+        /// The severity associated with the signal. For more information about severity, see [Findings severity levels](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_findings-severity.html) in the GuardDuty User Guide.
+        public var severity: Swift.Double?
+        /// Contains information about the indicators associated with the signals.
+        public var signalIndicators: [GuardDutyClientTypes.Indicator]?
+        /// The type of the signal used to identify an attack sequence. Signals can be GuardDuty findings or activities observed in data sources that GuardDuty monitors. For more information, see [Foundational data sources](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_data-sources.html) in the GuardDuty User Guide. A signal type can be one of the valid values listed in this API. Here are the related descriptions:
+        ///
+        /// * FINDING - Individually generated GuardDuty finding.
+        ///
+        /// * CLOUD_TRAIL - Activity observed from CloudTrail logs
+        ///
+        /// * S3_DATA_EVENTS - Activity observed from CloudTrail data events for S3. Activities associated with this type will show up only when you have enabled GuardDuty S3 Protection feature in your account. For more information about S3 Protection and steps to enable it, see [S3 Protection](https://docs.aws.amazon.com/guardduty/latest/ug/s3-protection.html) in the GuardDuty User Guide.
+        /// This member is required.
+        public var type: GuardDutyClientTypes.SignalType?
+        /// The unique identifier of the signal.
+        /// This member is required.
+        public var uid: Swift.String?
+        /// The timestamp when this signal was last observed.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            actorIds: [Swift.String]? = nil,
+            count: Swift.Int? = nil,
+            createdAt: Foundation.Date? = nil,
+            description: Swift.String? = nil,
+            endpointIds: [Swift.String]? = nil,
+            firstSeenAt: Foundation.Date? = nil,
+            lastSeenAt: Foundation.Date? = nil,
+            name: Swift.String? = nil,
+            resourceUids: [Swift.String]? = nil,
+            severity: Swift.Double? = nil,
+            signalIndicators: [GuardDutyClientTypes.Indicator]? = nil,
+            type: GuardDutyClientTypes.SignalType? = nil,
+            uid: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil
+        )
+        {
+            self.actorIds = actorIds
+            self.count = count
+            self.createdAt = createdAt
+            self.description = description
+            self.endpointIds = endpointIds
+            self.firstSeenAt = firstSeenAt
+            self.lastSeenAt = lastSeenAt
+            self.name = name
+            self.resourceUids = resourceUids
+            self.severity = severity
+            self.signalIndicators = signalIndicators
+            self.type = type
+            self.uid = uid
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    /// Contains information about the GuardDuty attack sequence finding.
+    public struct Sequence: Swift.Sendable {
+        /// Contains information about the actors involved in the attack sequence.
+        public var actors: [GuardDutyClientTypes.Actor]?
+        /// Description of the attack sequence.
+        /// This member is required.
+        public var description: Swift.String?
+        /// Contains information about the network endpoints that were used in the attack sequence.
+        public var endpoints: [GuardDutyClientTypes.NetworkEndpoint]?
+        /// Contains information about the resources involved in the attack sequence.
+        public var resources: [GuardDutyClientTypes.ResourceV2]?
+        /// Contains information about the indicators observed in the attack sequence.
+        public var sequenceIndicators: [GuardDutyClientTypes.Indicator]?
+        /// Contains information about the signals involved in the attack sequence.
+        /// This member is required.
+        public var signals: [GuardDutyClientTypes.Signal]?
+        /// Unique identifier of the attack sequence.
+        /// This member is required.
+        public var uid: Swift.String?
+
+        public init(
+            actors: [GuardDutyClientTypes.Actor]? = nil,
+            description: Swift.String? = nil,
+            endpoints: [GuardDutyClientTypes.NetworkEndpoint]? = nil,
+            resources: [GuardDutyClientTypes.ResourceV2]? = nil,
+            sequenceIndicators: [GuardDutyClientTypes.Indicator]? = nil,
+            signals: [GuardDutyClientTypes.Signal]? = nil,
+            uid: Swift.String? = nil
+        )
+        {
+            self.actors = actors
+            self.description = description
+            self.endpoints = endpoints
+            self.resources = resources
+            self.sequenceIndicators = sequenceIndicators
+            self.signals = signals
+            self.uid = uid
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
     /// Contains information about the detected behavior.
     public struct Detection: Swift.Sendable {
         /// The details about the anomalous activity that caused GuardDuty to generate the finding.
         public var anomaly: GuardDutyClientTypes.Anomaly?
+        /// The details about the attack sequence.
+        public var sequence: GuardDutyClientTypes.Sequence?
 
         public init(
-            anomaly: GuardDutyClientTypes.Anomaly? = nil
+            anomaly: GuardDutyClientTypes.Anomaly? = nil,
+            sequence: GuardDutyClientTypes.Sequence? = nil
         )
         {
             self.anomaly = anomaly
+            self.sequence = sequence
         }
     }
 }
@@ -5325,26 +6370,6 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes {
 
-    /// Contains information about a tag key-value pair.
-    public struct Tag: Swift.Sendable {
-        /// Describes the key associated with the tag.
-        public var key: Swift.String?
-        /// Describes the value associated with the tag key.
-        public var value: Swift.String?
-
-        public init(
-            key: Swift.String? = nil,
-            value: Swift.String? = nil
-        )
-        {
-            self.key = key
-            self.value = value
-        }
-    }
-}
-
-extension GuardDutyClientTypes {
-
     /// Represents a pre-existing file or directory on the host machine that the volume maps to.
     public struct HostPath: Swift.Sendable {
         /// Path of the file or directory on the host that the volume maps to.
@@ -5604,71 +6629,6 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes {
 
-    /// Contains information about the EC2 instance profile.
-    public struct IamInstanceProfile: Swift.Sendable {
-        /// The profile ARN of the EC2 instance.
-        public var arn: Swift.String?
-        /// The profile ID of the EC2 instance.
-        public var id: Swift.String?
-
-        public init(
-            arn: Swift.String? = nil,
-            id: Swift.String? = nil
-        )
-        {
-            self.arn = arn
-            self.id = id
-        }
-    }
-}
-
-extension GuardDutyClientTypes {
-
-    /// Contains other private IP address information of the EC2 instance.
-    public struct PrivateIpAddressDetails: Swift.Sendable {
-        /// The private DNS name of the EC2 instance.
-        public var privateDnsName: Swift.String?
-        /// The private IP address of the EC2 instance.
-        public var privateIpAddress: Swift.String?
-
-        public init(
-            privateDnsName: Swift.String? = nil,
-            privateIpAddress: Swift.String? = nil
-        )
-        {
-            self.privateDnsName = privateDnsName
-            self.privateIpAddress = privateIpAddress
-        }
-    }
-}
-
-extension GuardDutyClientTypes.PrivateIpAddressDetails: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "PrivateIpAddressDetails(privateDnsName: \(Swift.String(describing: privateDnsName)), privateIpAddress: \"CONTENT_REDACTED\")"}
-}
-
-extension GuardDutyClientTypes {
-
-    /// Contains information about the security groups associated with the EC2 instance.
-    public struct SecurityGroup: Swift.Sendable {
-        /// The security group ID of the EC2 instance.
-        public var groupId: Swift.String?
-        /// The security group name of the EC2 instance.
-        public var groupName: Swift.String?
-
-        public init(
-            groupId: Swift.String? = nil,
-            groupName: Swift.String? = nil
-        )
-        {
-            self.groupId = groupId
-            self.groupName = groupName
-        }
-    }
-}
-
-extension GuardDutyClientTypes {
-
     /// Contains information about the elastic network interface of the EC2 instance.
     public struct NetworkInterface: Swift.Sendable {
         /// A list of IPv6 addresses for the EC2 instance.
@@ -5722,26 +6682,6 @@ extension GuardDutyClientTypes {
 extension GuardDutyClientTypes.NetworkInterface: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "NetworkInterface(ipv6Addresses: \(Swift.String(describing: ipv6Addresses)), networkInterfaceId: \(Swift.String(describing: networkInterfaceId)), privateDnsName: \(Swift.String(describing: privateDnsName)), privateIpAddresses: \(Swift.String(describing: privateIpAddresses)), publicDnsName: \(Swift.String(describing: publicDnsName)), publicIp: \(Swift.String(describing: publicIp)), securityGroups: \(Swift.String(describing: securityGroups)), subnetId: \(Swift.String(describing: subnetId)), vpcId: \(Swift.String(describing: vpcId)), privateIpAddress: \"CONTENT_REDACTED\")"}
-}
-
-extension GuardDutyClientTypes {
-
-    /// Contains information about the product code for the EC2 instance.
-    public struct ProductCode: Swift.Sendable {
-        /// The product code information.
-        public var code: Swift.String?
-        /// The product code type.
-        public var productType: Swift.String?
-
-        public init(
-            code: Swift.String? = nil,
-            productType: Swift.String? = nil
-        )
-        {
-            self.code = code
-            self.productType = productType
-        }
-    }
 }
 
 extension GuardDutyClientTypes {
@@ -6088,7 +7028,7 @@ extension GuardDutyClientTypes {
         public var engine: Swift.String?
         /// The version of the database engine.
         public var engineVersion: Swift.String?
-        /// Information about the tag-key value pair.
+        /// Information about the tag key-value pair.
         public var tags: [GuardDutyClientTypes.Tag]?
 
         public init(
@@ -6722,6 +7662,8 @@ extension GuardDutyClientTypes {
         /// The ARN of the finding.
         /// This member is required.
         public var arn: Swift.String?
+        /// Amazon Resource Name (ARN) associated with the attack sequence finding.
+        public var associatedAttackSequenceArn: Swift.String?
         /// The confidence score for the finding.
         public var confidence: Swift.Double?
         /// The time and date when the finding was created.
@@ -6760,6 +7702,7 @@ extension GuardDutyClientTypes {
         public init(
             accountId: Swift.String? = nil,
             arn: Swift.String? = nil,
+            associatedAttackSequenceArn: Swift.String? = nil,
             confidence: Swift.Double? = nil,
             createdAt: Swift.String? = nil,
             description: Swift.String? = nil,
@@ -6777,6 +7720,7 @@ extension GuardDutyClientTypes {
         {
             self.accountId = accountId
             self.arn = arn
+            self.associatedAttackSequenceArn = associatedAttackSequenceArn
             self.confidence = confidence
             self.createdAt = createdAt
             self.description = description
@@ -9649,7 +10593,7 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes {
 
-    /// A list of additional configurations which will be configured for the organization.
+    /// A list of additional configurations which will be configured for the organization. Additional configuration applies to only GuardDuty Runtime Monitoring protection plan.
     public struct OrganizationAdditionalConfiguration: Swift.Sendable {
         /// The status of the additional configuration that will be configured for the organization. Use one of the following values to configure the feature status for the entire organization:
         ///
@@ -9659,7 +10603,7 @@ extension GuardDutyClientTypes {
         ///
         /// * NONE: Indicates that the additional configuration will not be automatically enabled for any account in the organization. The administrator must manage the additional configuration for each account individually.
         public var autoEnable: GuardDutyClientTypes.OrgFeatureStatus?
-        /// The name of the additional configuration that will be configured for the organization.
+        /// The name of the additional configuration that will be configured for the organization. These values are applicable to only Runtime Monitoring protection plan.
         public var name: GuardDutyClientTypes.OrgFeatureAdditionalConfiguration?
 
         public init(
@@ -9704,7 +10648,7 @@ extension GuardDutyClientTypes {
 }
 
 public struct UpdateOrganizationConfigurationInput: Swift.Sendable {
-    /// Represents whether or not to automatically enable member accounts in the organization. Even though this is still supported, we recommend using AutoEnableOrganizationMembers to achieve the similar results. You must provide a value for either autoEnableOrganizationMembers or autoEnable.
+    /// Represents whether to automatically enable member accounts in the organization. This applies to only new member accounts, not the existing member accounts. When a new account joins the organization, the chosen features will be enabled for them by default. Even though this is still supported, we recommend using AutoEnableOrganizationMembers to achieve the similar results. You must provide a value for either autoEnableOrganizationMembers or autoEnable.
     @available(*, deprecated, message: "This field is deprecated, use AutoEnableOrganizationMembers instead")
     public var autoEnable: Swift.Bool?
     /// Indicates the auto-enablement configuration of GuardDuty for the member accounts in the organization. You must provide a value for either autoEnableOrganizationMembers or autoEnable. Use one of the following configuration values for autoEnableOrganizationMembers:
@@ -13577,6 +14521,7 @@ extension GuardDutyClientTypes.Finding {
         value.title = try reader["title"].readIfPresent()
         value.type = try reader["type"].readIfPresent() ?? ""
         value.updatedAt = try reader["updatedAt"].readIfPresent() ?? ""
+        value.associatedAttackSequenceArn = try reader["associatedAttackSequenceArn"].readIfPresent()
         return value
     }
 }
@@ -13645,6 +14590,334 @@ extension GuardDutyClientTypes.Detection {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.Detection()
         value.anomaly = try reader["anomaly"].readIfPresent(with: GuardDutyClientTypes.Anomaly.read(from:))
+        value.sequence = try reader["sequence"].readIfPresent(with: GuardDutyClientTypes.Sequence.read(from:))
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.Sequence {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Sequence {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.Sequence()
+        value.uid = try reader["uid"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent() ?? ""
+        value.actors = try reader["actors"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.Actor.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.resources = try reader["resources"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.ResourceV2.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.endpoints = try reader["endpoints"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.NetworkEndpoint.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.signals = try reader["signals"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.Signal.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.sequenceIndicators = try reader["sequenceIndicators"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.Indicator.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.Indicator {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Indicator {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.Indicator()
+        value.key = try reader["key"].readIfPresent() ?? .sdkUnknown("")
+        value.values = try reader["values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.title = try reader["title"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.Signal {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Signal {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.Signal()
+        value.uid = try reader["uid"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.description = try reader["description"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.firstSeenAt = try reader["firstSeenAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastSeenAt = try reader["lastSeenAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.severity = try reader["severity"].readIfPresent()
+        value.count = try reader["count"].readIfPresent() ?? 0
+        value.resourceUids = try reader["resourceUids"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.actorIds = try reader["actorIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.endpointIds = try reader["endpointIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.signalIndicators = try reader["signalIndicators"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.Indicator.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.NetworkEndpoint {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.NetworkEndpoint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.NetworkEndpoint()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.ip = try reader["ip"].readIfPresent()
+        value.domain = try reader["domain"].readIfPresent()
+        value.port = try reader["port"].readIfPresent()
+        value.location = try reader["location"].readIfPresent(with: GuardDutyClientTypes.NetworkGeoLocation.read(from:))
+        value.autonomousSystem = try reader["autonomousSystem"].readIfPresent(with: GuardDutyClientTypes.AutonomousSystem.read(from:))
+        value.connection = try reader["connection"].readIfPresent(with: GuardDutyClientTypes.NetworkConnection.read(from:))
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.NetworkConnection {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.NetworkConnection {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.NetworkConnection()
+        value.direction = try reader["direction"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.AutonomousSystem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.AutonomousSystem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.AutonomousSystem()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.number = try reader["number"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.NetworkGeoLocation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.NetworkGeoLocation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.NetworkGeoLocation()
+        value.city = try reader["city"].readIfPresent() ?? ""
+        value.country = try reader["country"].readIfPresent() ?? ""
+        value.latitude = try reader["lat"].readIfPresent() ?? 0.0
+        value.longitude = try reader["lon"].readIfPresent() ?? 0.0
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.ResourceV2 {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ResourceV2 {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.ResourceV2()
+        value.uid = try reader["uid"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent()
+        value.accountId = try reader["accountId"].readIfPresent()
+        value.resourceType = try reader["resourceType"].readIfPresent() ?? .sdkUnknown("")
+        value.region = try reader["region"].readIfPresent()
+        value.service = try reader["service"].readIfPresent()
+        value.cloudPartition = try reader["cloudPartition"].readIfPresent()
+        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.data = try reader["data"].readIfPresent(with: GuardDutyClientTypes.ResourceData.read(from:))
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.ResourceData {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ResourceData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.ResourceData()
+        value.s3Bucket = try reader["s3Bucket"].readIfPresent(with: GuardDutyClientTypes.S3Bucket.read(from:))
+        value.ec2Instance = try reader["ec2Instance"].readIfPresent(with: GuardDutyClientTypes.Ec2Instance.read(from:))
+        value.accessKey = try reader["accessKey"].readIfPresent(with: GuardDutyClientTypes.AccessKey.read(from:))
+        value.ec2NetworkInterface = try reader["ec2NetworkInterface"].readIfPresent(with: GuardDutyClientTypes.Ec2NetworkInterface.read(from:))
+        value.s3Object = try reader["s3Object"].readIfPresent(with: GuardDutyClientTypes.S3Object.read(from:))
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.S3Object {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.S3Object {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.S3Object()
+        value.eTag = try reader["eTag"].readIfPresent()
+        value.key = try reader["key"].readIfPresent()
+        value.versionId = try reader["versionId"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.Ec2NetworkInterface {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Ec2NetworkInterface {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.Ec2NetworkInterface()
+        value.ipv6Addresses = try reader["ipv6Addresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.privateIpAddresses = try reader["privateIpAddresses"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.PrivateIpAddressDetails.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.publicIp = try reader["publicIp"].readIfPresent()
+        value.securityGroups = try reader["securityGroups"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.SecurityGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.subNetId = try reader["subNetId"].readIfPresent()
+        value.vpcId = try reader["vpcId"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.SecurityGroup {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.SecurityGroup {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.SecurityGroup()
+        value.groupId = try reader["groupId"].readIfPresent()
+        value.groupName = try reader["groupName"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.PrivateIpAddressDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.PrivateIpAddressDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.PrivateIpAddressDetails()
+        value.privateDnsName = try reader["privateDnsName"].readIfPresent()
+        value.privateIpAddress = try reader["privateIpAddress"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.AccessKey {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.AccessKey {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.AccessKey()
+        value.principalId = try reader["principalId"].readIfPresent()
+        value.userName = try reader["userName"].readIfPresent()
+        value.userType = try reader["userType"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.Ec2Instance {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Ec2Instance {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.Ec2Instance()
+        value.availabilityZone = try reader["availabilityZone"].readIfPresent()
+        value.imageDescription = try reader["imageDescription"].readIfPresent()
+        value.instanceState = try reader["instanceState"].readIfPresent()
+        value.iamInstanceProfile = try reader["IamInstanceProfile"].readIfPresent(with: GuardDutyClientTypes.IamInstanceProfile.read(from:))
+        value.instanceType = try reader["instanceType"].readIfPresent()
+        value.outpostArn = try reader["outpostArn"].readIfPresent()
+        value.platform = try reader["platform"].readIfPresent()
+        value.productCodes = try reader["productCodes"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.ProductCode.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.ec2NetworkInterfaceUids = try reader["ec2NetworkInterfaceUids"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.ProductCode {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ProductCode {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.ProductCode()
+        value.code = try reader["productCodeId"].readIfPresent()
+        value.productType = try reader["productCodeType"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.IamInstanceProfile {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.IamInstanceProfile {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.IamInstanceProfile()
+        value.arn = try reader["arn"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.S3Bucket {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.S3Bucket {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.S3Bucket()
+        value.ownerId = try reader["ownerId"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.encryptionType = try reader["encryptionType"].readIfPresent()
+        value.encryptionKeyArn = try reader["encryptionKeyArn"].readIfPresent()
+        value.effectivePermission = try reader["effectivePermission"].readIfPresent()
+        value.publicReadAccess = try reader["publicReadAccess"].readIfPresent()
+        value.publicWriteAccess = try reader["publicWriteAccess"].readIfPresent()
+        value.accountPublicAccess = try reader["accountPublicAccess"].readIfPresent(with: GuardDutyClientTypes.PublicAccessConfiguration.read(from:))
+        value.bucketPublicAccess = try reader["bucketPublicAccess"].readIfPresent(with: GuardDutyClientTypes.PublicAccessConfiguration.read(from:))
+        value.s3ObjectUids = try reader["s3ObjectUids"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.PublicAccessConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.PublicAccessConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.PublicAccessConfiguration()
+        value.publicAclAccess = try reader["publicAclAccess"].readIfPresent()
+        value.publicPolicyAccess = try reader["publicPolicyAccess"].readIfPresent()
+        value.publicAclIgnoreBehavior = try reader["publicAclIgnoreBehavior"].readIfPresent()
+        value.publicBucketRestrictBehavior = try reader["publicBucketRestrictBehavior"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.Tag {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Tag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.Tag()
+        value.key = try reader["key"].readIfPresent()
+        value.value = try reader["value"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.Actor {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Actor {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.Actor()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.user = try reader["user"].readIfPresent(with: GuardDutyClientTypes.User.read(from:))
+        value.session = try reader["session"].readIfPresent(with: GuardDutyClientTypes.Session.read(from:))
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.Session {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Session {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.Session()
+        value.uid = try reader["uid"].readIfPresent()
+        value.mfaStatus = try reader["mfaStatus"].readIfPresent()
+        value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.issuer = try reader["issuer"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.User {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.User {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.User()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.uid = try reader["uid"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? ""
+        value.credentialUid = try reader["credentialUid"].readIfPresent()
+        value.account = try reader["account"].readIfPresent(with: GuardDutyClientTypes.Account.read(from:))
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.Account {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Account {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.Account()
+        value.uid = try reader["uid"].readIfPresent() ?? ""
+        value.name = try reader["account"].readIfPresent()
         return value
     }
 }
@@ -14239,17 +15512,6 @@ extension GuardDutyClientTypes.LambdaDetails {
     }
 }
 
-extension GuardDutyClientTypes.Tag {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Tag {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.Tag()
-        value.key = try reader["key"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
-        return value
-    }
-}
-
 extension GuardDutyClientTypes.VpcConfig {
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.VpcConfig {
@@ -14258,17 +15520,6 @@ extension GuardDutyClientTypes.VpcConfig {
         value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.vpcId = try reader["vpcId"].readIfPresent()
         value.securityGroups = try reader["securityGroups"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.SecurityGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.SecurityGroup {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.SecurityGroup {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.SecurityGroup()
-        value.groupId = try reader["groupId"].readIfPresent()
-        value.groupName = try reader["groupName"].readIfPresent()
         return value
     }
 }
@@ -14517,17 +15768,6 @@ extension GuardDutyClientTypes.InstanceDetails {
     }
 }
 
-extension GuardDutyClientTypes.ProductCode {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ProductCode {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.ProductCode()
-        value.code = try reader["productCodeId"].readIfPresent()
-        value.productType = try reader["productCodeType"].readIfPresent()
-        return value
-    }
-}
-
 extension GuardDutyClientTypes.NetworkInterface {
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.NetworkInterface {
@@ -14543,28 +15783,6 @@ extension GuardDutyClientTypes.NetworkInterface {
         value.securityGroups = try reader["securityGroups"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.SecurityGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.subnetId = try reader["subnetId"].readIfPresent()
         value.vpcId = try reader["vpcId"].readIfPresent()
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.PrivateIpAddressDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.PrivateIpAddressDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.PrivateIpAddressDetails()
-        value.privateDnsName = try reader["privateDnsName"].readIfPresent()
-        value.privateIpAddress = try reader["privateIpAddress"].readIfPresent()
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.IamInstanceProfile {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.IamInstanceProfile {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.IamInstanceProfile()
-        value.arn = try reader["arn"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
         return value
     }
 }

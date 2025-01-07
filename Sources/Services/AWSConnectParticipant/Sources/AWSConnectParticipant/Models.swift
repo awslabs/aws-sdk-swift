@@ -27,9 +27,9 @@ import struct SmithyHTTPAPI.Headers
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 
 /// You do not have sufficient access to perform this action.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -51,35 +51,10 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-/// The requested operation conflicts with the current state of a service resource associated with the request.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
-
-    public struct Properties {
-        /// This member is required.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ConflictException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    )
-    {
-        self.properties.message = message
-    }
-}
-
 /// This exception occurs when there is an internal failure in the Amazon Connect service.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -101,35 +76,10 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-/// The number of attachments per contact exceeds the quota.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
-
-    public struct Properties {
-        /// This member is required.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    )
-    {
-        self.properties.message = message
-    }
-}
-
 /// The request was denied due to request throttling.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -152,15 +102,88 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 /// The input fails to satisfy the constraints specified by Amazon Connect.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
 
     public internal(set) var properties = Properties()
     public static var typeName: Swift.String { "ValidationException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+public struct CancelParticipantAuthenticationInput: Swift.Sendable {
+    /// The authentication token associated with the participant's connection.
+    /// This member is required.
+    public var connectionToken: Swift.String?
+    /// The sessionId provided in the authenticationInitiated event.
+    /// This member is required.
+    public var sessionId: Swift.String?
+
+    public init(
+        connectionToken: Swift.String? = nil,
+        sessionId: Swift.String? = nil
+    )
+    {
+        self.connectionToken = connectionToken
+        self.sessionId = sessionId
+    }
+}
+
+public struct CancelParticipantAuthenticationOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+/// The requested operation conflicts with the current state of a service resource associated with the request.
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConflictException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+/// The number of attachments per contact exceeds the quota.
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
@@ -358,9 +381,9 @@ extension ConnectParticipantClientTypes {
 }
 
 /// The resource was not found.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// The identifier of the resource.
         public internal(set) var resourceId: Swift.String? = nil
@@ -514,30 +537,74 @@ public struct GetAttachmentInput: Swift.Sendable {
     /// The authentication token associated with the participant's connection.
     /// This member is required.
     public var connectionToken: Swift.String?
+    /// The expiration time of the URL in ISO timestamp. It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z.
+    public var urlExpiryInSeconds: Swift.Int?
 
     public init(
         attachmentId: Swift.String? = nil,
-        connectionToken: Swift.String? = nil
+        connectionToken: Swift.String? = nil,
+        urlExpiryInSeconds: Swift.Int? = nil
     )
     {
         self.attachmentId = attachmentId
         self.connectionToken = connectionToken
+        self.urlExpiryInSeconds = urlExpiryInSeconds
     }
 }
 
 public struct GetAttachmentOutput: Swift.Sendable {
+    /// The size of the attachment in bytes.
+    /// This member is required.
+    public var attachmentSizeInBytes: Swift.Int?
     /// This is the pre-signed URL that can be used for uploading the file to Amazon S3 when used in response to [StartAttachmentUpload](https://docs.aws.amazon.com/connect-participant/latest/APIReference/API_StartAttachmentUpload.html).
     public var url: Swift.String?
     /// The expiration time of the URL in ISO timestamp. It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z.
     public var urlExpiry: Swift.String?
 
     public init(
+        attachmentSizeInBytes: Swift.Int? = 0,
         url: Swift.String? = nil,
         urlExpiry: Swift.String? = nil
     )
     {
+        self.attachmentSizeInBytes = attachmentSizeInBytes
         self.url = url
         self.urlExpiry = urlExpiry
+    }
+}
+
+public struct GetAuthenticationUrlInput: Swift.Sendable {
+    /// The authentication token associated with the participant's connection.
+    /// This member is required.
+    public var connectionToken: Swift.String?
+    /// The URL where the customer will be redirected after Amazon Cognito authorizes the user.
+    /// This member is required.
+    public var redirectUri: Swift.String?
+    /// The sessionId provided in the authenticationInitiated event.
+    /// This member is required.
+    public var sessionId: Swift.String?
+
+    public init(
+        connectionToken: Swift.String? = nil,
+        redirectUri: Swift.String? = nil,
+        sessionId: Swift.String? = nil
+    )
+    {
+        self.connectionToken = connectionToken
+        self.redirectUri = redirectUri
+        self.sessionId = sessionId
+    }
+}
+
+public struct GetAuthenticationUrlOutput: Swift.Sendable {
+    /// The URL where the customer will sign in to the identity provider. This URL contains the authorize endpoint for the Cognito UserPool used in the authentication.
+    public var authenticationUrl: Swift.String?
+
+    public init(
+        authenticationUrl: Swift.String? = nil
+    )
+    {
+        self.authenticationUrl = authenticationUrl
     }
 }
 
@@ -1100,7 +1167,7 @@ extension ConnectParticipantClientTypes {
 public struct StartAttachmentUploadOutput: Swift.Sendable {
     /// A unique identifier for the attachment.
     public var attachmentId: Swift.String?
-    /// Fields to be used while uploading the attachment.
+    /// The headers to be provided while uploading the file to the URL.
     public var uploadMetadata: ConnectParticipantClientTypes.UploadMetadata?
 
     public init(
@@ -1110,6 +1177,24 @@ public struct StartAttachmentUploadOutput: Swift.Sendable {
     {
         self.attachmentId = attachmentId
         self.uploadMetadata = uploadMetadata
+    }
+}
+
+extension CancelParticipantAuthenticationInput {
+
+    static func urlPathProvider(_ value: CancelParticipantAuthenticationInput) -> Swift.String? {
+        return "/participant/cancel-authentication"
+    }
+}
+
+extension CancelParticipantAuthenticationInput {
+
+    static func headerProvider(_ value: CancelParticipantAuthenticationInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let connectionToken = value.connectionToken {
+            items.add(SmithyHTTPAPI.Header(name: "X-Amz-Bearer", value: Swift.String(connectionToken)))
+        }
+        return items
     }
 }
 
@@ -1206,6 +1291,24 @@ extension GetAttachmentInput {
     }
 }
 
+extension GetAuthenticationUrlInput {
+
+    static func urlPathProvider(_ value: GetAuthenticationUrlInput) -> Swift.String? {
+        return "/participant/authentication-url"
+    }
+}
+
+extension GetAuthenticationUrlInput {
+
+    static func headerProvider(_ value: GetAuthenticationUrlInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let connectionToken = value.connectionToken {
+            items.add(SmithyHTTPAPI.Header(name: "X-Amz-Bearer", value: Swift.String(connectionToken)))
+        }
+        return items
+    }
+}
+
 extension GetTranscriptInput {
 
     static func urlPathProvider(_ value: GetTranscriptInput) -> Swift.String? {
@@ -1278,6 +1381,14 @@ extension StartAttachmentUploadInput {
     }
 }
 
+extension CancelParticipantAuthenticationInput {
+
+    static func write(value: CancelParticipantAuthenticationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SessionId"].write(value.sessionId)
+    }
+}
+
 extension CompleteAttachmentUploadInput {
 
     static func write(value: CompleteAttachmentUploadInput?, to writer: SmithyJSON.Writer) throws {
@@ -1309,6 +1420,16 @@ extension GetAttachmentInput {
     static func write(value: GetAttachmentInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["AttachmentId"].write(value.attachmentId)
+        try writer["UrlExpiryInSeconds"].write(value.urlExpiryInSeconds)
+    }
+}
+
+extension GetAuthenticationUrlInput {
+
+    static func write(value: GetAuthenticationUrlInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RedirectUri"].write(value.redirectUri)
+        try writer["SessionId"].write(value.sessionId)
     }
 }
 
@@ -1353,6 +1474,13 @@ extension StartAttachmentUploadInput {
         try writer["AttachmentSizeInBytes"].write(value.attachmentSizeInBytes)
         try writer["ClientToken"].write(value.clientToken)
         try writer["ContentType"].write(value.contentType)
+    }
+}
+
+extension CancelParticipantAuthenticationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CancelParticipantAuthenticationOutput {
+        return CancelParticipantAuthenticationOutput()
     }
 }
 
@@ -1402,8 +1530,21 @@ extension GetAttachmentOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetAttachmentOutput()
+        value.attachmentSizeInBytes = try reader["AttachmentSizeInBytes"].readIfPresent()
         value.url = try reader["Url"].readIfPresent()
         value.urlExpiry = try reader["UrlExpiry"].readIfPresent()
+        return value
+    }
+}
+
+extension GetAuthenticationUrlOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetAuthenticationUrlOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetAuthenticationUrlOutput()
+        value.authenticationUrl = try reader["AuthenticationUrl"].readIfPresent()
         return value
     }
 }
@@ -1458,6 +1599,23 @@ extension StartAttachmentUploadOutput {
         value.attachmentId = try reader["AttachmentId"].readIfPresent()
         value.uploadMetadata = try reader["UploadMetadata"].readIfPresent(with: ConnectParticipantClientTypes.UploadMetadata.read(from:))
         return value
+    }
+}
+
+enum CancelParticipantAuthenticationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
     }
 }
 
@@ -1533,6 +1691,23 @@ enum DisconnectParticipantOutputError {
 }
 
 enum GetAttachmentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetAuthenticationUrlOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -1632,19 +1807,6 @@ extension AccessDeniedException {
     }
 }
 
-extension ConflictException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
-        let reader = baseError.errorBodyReader
-        var value = ConflictException()
-        value.properties.message = try reader["Message"].readIfPresent() ?? ""
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension ValidationException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
@@ -1671,11 +1833,11 @@ extension InternalServerException {
     }
 }
 
-extension ServiceQuotaExceededException {
+extension ThrottlingException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
-        var value = ServiceQuotaExceededException()
+        var value = ThrottlingException()
         value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -1684,11 +1846,24 @@ extension ServiceQuotaExceededException {
     }
 }
 
-extension ThrottlingException {
+extension ConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
-        var value = ThrottlingException()
+        var value = ConflictException()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ServiceQuotaExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
+        let reader = baseError.errorBodyReader
+        var value = ServiceQuotaExceededException()
         value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

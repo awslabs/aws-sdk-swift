@@ -139,9 +139,9 @@ public struct UpdateCampaignSourceOutput: Swift.Sendable {
 }
 
 /// You do not have sufficient access to perform this action.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// A header that defines the error encountered while processing the request.
@@ -177,9 +177,9 @@ extension ConnectCampaignsV2ClientTypes {
 }
 
 /// The request could not be processed because of conflict in the current state of the resource.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// A header that defines the error encountered while processing the request.
@@ -206,9 +206,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 /// Request processing failed because of an error or failure with the service.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// A header that defines the error encountered while processing the request.
@@ -235,9 +235,9 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 /// The specified resource was not found.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// A header that defines the error encountered while processing the request.
@@ -264,9 +264,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// Request would cause a service quota to be exceeded.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// A header that defines the error encountered while processing the request.
@@ -293,9 +293,9 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 }
 
 /// The request was denied due to request throttling.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// A header that defines the error encountered while processing the request.
@@ -322,9 +322,9 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 /// The input fails to satisfy the constraints specified by an AWS service.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// A header that defines the error encountered while processing the request.
@@ -944,10 +944,28 @@ extension ConnectCampaignsV2ClientTypes {
 
 extension ConnectCampaignsV2ClientTypes {
 
+    /// Event trigger of the campaign
+    public struct EventTrigger: Swift.Sendable {
+        /// Amazon Resource Names(ARN)
+        public var customerProfilesDomainArn: Swift.String?
+
+        public init(
+            customerProfilesDomainArn: Swift.String? = nil
+        )
+        {
+            self.customerProfilesDomainArn = customerProfilesDomainArn
+        }
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes {
+
     /// Source of the campaign
     public enum Source: Swift.Sendable {
         /// Amazon Resource Names(ARN)
         case customerprofilessegmentarn(Swift.String)
+        /// Event trigger of the campaign
+        case eventtrigger(ConnectCampaignsV2ClientTypes.EventTrigger)
         case sdkUnknown(Swift.String)
     }
 }
@@ -1136,9 +1154,9 @@ extension ConnectCampaignsV2ClientTypes {
 }
 
 /// The request could not be processed because of conflict in the current state of the campaign.
-public struct InvalidCampaignStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidCampaignStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// State of a campaign
@@ -1268,9 +1286,9 @@ public struct DeleteCampaignCommunicationTimeInput: Swift.Sendable {
 }
 
 /// The request could not be processed because of conflict in the current state.
-public struct InvalidStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// A header that defines the error encountered while processing the request.
@@ -2527,6 +2545,156 @@ public struct PutOutboundRequestBatchOutput: Swift.Sendable {
     }
 }
 
+extension ConnectCampaignsV2ClientTypes {
+
+    /// Information about a profile outbound request
+    public struct ProfileOutboundRequest: Swift.Sendable {
+        /// Client provided parameter used for idempotency. Its value must be unique for each request.
+        /// This member is required.
+        public var clientToken: Swift.String?
+        /// Timestamp with no UTC offset or timezone
+        public var expirationTime: Foundation.Date?
+        /// Identifier of the customer profile
+        /// This member is required.
+        public var profileId: Swift.String?
+
+        public init(
+            clientToken: Swift.String? = nil,
+            expirationTime: Foundation.Date? = nil,
+            profileId: Swift.String? = nil
+        )
+        {
+            self.clientToken = clientToken
+            self.expirationTime = expirationTime
+            self.profileId = profileId
+        }
+    }
+}
+
+/// The request for PutProfileOutboundRequestBatch API
+public struct PutProfileOutboundRequestBatchInput: Swift.Sendable {
+    /// Identifier representing a Campaign
+    /// This member is required.
+    public var id: Swift.String?
+    /// List of profile outbound requests
+    /// This member is required.
+    public var profileOutboundRequests: [ConnectCampaignsV2ClientTypes.ProfileOutboundRequest]?
+
+    public init(
+        id: Swift.String? = nil,
+        profileOutboundRequests: [ConnectCampaignsV2ClientTypes.ProfileOutboundRequest]? = nil
+    )
+    {
+        self.id = id
+        self.profileOutboundRequests = profileOutboundRequests
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes {
+
+    /// Predefined code indicating the error that caused the failure
+    public enum ProfileOutboundRequestFailureCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// The specified resource conflicts with another resource
+        case conflict
+        /// The request failed to satisfy the constraints specified by the service
+        case invalidInput
+        /// Request throttled due to large number of requests
+        case requestThrottled
+        /// The specified resource was not found
+        case resourceNotFound
+        /// Unexpected error during processing of request
+        case unknownError
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ProfileOutboundRequestFailureCode] {
+            return [
+                .conflict,
+                .invalidInput,
+                .requestThrottled,
+                .resourceNotFound,
+                .unknownError
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .conflict: return "Conflict"
+            case .invalidInput: return "InvalidInput"
+            case .requestThrottled: return "RequestThrottled"
+            case .resourceNotFound: return "ResourceNotFound"
+            case .unknownError: return "UnknownError"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes {
+
+    /// Failure details for a profile outbound request
+    public struct FailedProfileOutboundRequest: Swift.Sendable {
+        /// Client provided parameter used for idempotency. Its value must be unique for each request.
+        public var clientToken: Swift.String?
+        /// Predefined code indicating the error that caused the failure
+        public var failureCode: ConnectCampaignsV2ClientTypes.ProfileOutboundRequestFailureCode?
+        /// Identifier of the profile outbound request
+        public var id: Swift.String?
+
+        public init(
+            clientToken: Swift.String? = nil,
+            failureCode: ConnectCampaignsV2ClientTypes.ProfileOutboundRequestFailureCode? = nil,
+            id: Swift.String? = nil
+        )
+        {
+            self.clientToken = clientToken
+            self.failureCode = failureCode
+            self.id = id
+        }
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes {
+
+    /// Success details for a profile outbound request
+    public struct SuccessfulProfileOutboundRequest: Swift.Sendable {
+        /// Client provided parameter used for idempotency. Its value must be unique for each request.
+        public var clientToken: Swift.String?
+        /// Identifier of the profile outbound request
+        public var id: Swift.String?
+
+        public init(
+            clientToken: Swift.String? = nil,
+            id: Swift.String? = nil
+        )
+        {
+            self.clientToken = clientToken
+            self.id = id
+        }
+    }
+}
+
+/// The response for PutProfileOutboundRequestBatch API
+public struct PutProfileOutboundRequestBatchOutput: Swift.Sendable {
+    /// List of failed profile outbound requests
+    public var failedRequests: [ConnectCampaignsV2ClientTypes.FailedProfileOutboundRequest]?
+    /// List of successful profile outbound requests
+    public var successfulRequests: [ConnectCampaignsV2ClientTypes.SuccessfulProfileOutboundRequest]?
+
+    public init(
+        failedRequests: [ConnectCampaignsV2ClientTypes.FailedProfileOutboundRequest]? = nil,
+        successfulRequests: [ConnectCampaignsV2ClientTypes.SuccessfulProfileOutboundRequest]? = nil
+    )
+    {
+        self.failedRequests = failedRequests
+        self.successfulRequests = successfulRequests
+    }
+}
+
 /// The request for ResumeCampaign API.
 public struct ResumeCampaignInput: Swift.Sendable {
     /// Identifier representing a Campaign
@@ -3023,6 +3191,16 @@ extension PutOutboundRequestBatchInput {
     }
 }
 
+extension PutProfileOutboundRequestBatchInput {
+
+    static func urlPathProvider(_ value: PutProfileOutboundRequestBatchInput) -> Swift.String? {
+        guard let id = value.id else {
+            return nil
+        }
+        return "/v2/campaigns/\(id.urlPercentEncoding())/profile-outbound-requests"
+    }
+}
+
 extension ResumeCampaignInput {
 
     static func urlPathProvider(_ value: ResumeCampaignInput) -> Swift.String? {
@@ -3224,6 +3402,14 @@ extension PutOutboundRequestBatchInput {
     static func write(value: PutOutboundRequestBatchInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["outboundRequests"].writeList(value.outboundRequests, memberWritingClosure: ConnectCampaignsV2ClientTypes.OutboundRequest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension PutProfileOutboundRequestBatchInput {
+
+    static func write(value: PutProfileOutboundRequestBatchInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["profileOutboundRequests"].writeList(value.profileOutboundRequests, memberWritingClosure: ConnectCampaignsV2ClientTypes.ProfileOutboundRequest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -3484,6 +3670,19 @@ extension PutOutboundRequestBatchOutput {
         var value = PutOutboundRequestBatchOutput()
         value.failedRequests = try reader["failedRequests"].readListIfPresent(memberReadingClosure: ConnectCampaignsV2ClientTypes.FailedRequest.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.successfulRequests = try reader["successfulRequests"].readListIfPresent(memberReadingClosure: ConnectCampaignsV2ClientTypes.SuccessfulRequest.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension PutProfileOutboundRequestBatchOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutProfileOutboundRequestBatchOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = PutProfileOutboundRequestBatchOutput()
+        value.failedRequests = try reader["failedRequests"].readListIfPresent(memberReadingClosure: ConnectCampaignsV2ClientTypes.FailedProfileOutboundRequest.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.successfulRequests = try reader["successfulRequests"].readListIfPresent(memberReadingClosure: ConnectCampaignsV2ClientTypes.SuccessfulProfileOutboundRequest.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -3910,6 +4109,26 @@ enum PutConnectInstanceIntegrationOutputError {
 }
 
 enum PutOutboundRequestBatchOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "InvalidCampaignStateException": return try InvalidCampaignStateException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum PutProfileOutboundRequestBatchOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -4572,6 +4791,8 @@ extension ConnectCampaignsV2ClientTypes.Source {
         switch value {
             case let .customerprofilessegmentarn(customerprofilessegmentarn):
                 try writer["customerProfilesSegmentArn"].write(customerprofilessegmentarn)
+            case let .eventtrigger(eventtrigger):
+                try writer["eventTrigger"].write(eventtrigger, with: ConnectCampaignsV2ClientTypes.EventTrigger.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
@@ -4583,9 +4804,26 @@ extension ConnectCampaignsV2ClientTypes.Source {
         switch name {
             case "customerProfilesSegmentArn":
                 return .customerprofilessegmentarn(try reader["customerProfilesSegmentArn"].read())
+            case "eventTrigger":
+                return .eventtrigger(try reader["eventTrigger"].read(with: ConnectCampaignsV2ClientTypes.EventTrigger.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes.EventTrigger {
+
+    static func write(value: ConnectCampaignsV2ClientTypes.EventTrigger?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["customerProfilesDomainArn"].write(value.customerProfilesDomainArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.EventTrigger {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectCampaignsV2ClientTypes.EventTrigger()
+        value.customerProfilesDomainArn = try reader["customerProfilesDomainArn"].readIfPresent()
+        return value
     }
 }
 
@@ -5003,6 +5241,29 @@ extension ConnectCampaignsV2ClientTypes.FailedRequest {
     }
 }
 
+extension ConnectCampaignsV2ClientTypes.SuccessfulProfileOutboundRequest {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.SuccessfulProfileOutboundRequest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectCampaignsV2ClientTypes.SuccessfulProfileOutboundRequest()
+        value.clientToken = try reader["clientToken"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes.FailedProfileOutboundRequest {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.FailedProfileOutboundRequest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectCampaignsV2ClientTypes.FailedProfileOutboundRequest()
+        value.clientToken = try reader["clientToken"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
+        value.failureCode = try reader["failureCode"].readIfPresent()
+        return value
+    }
+}
+
 extension ConnectCampaignsV2ClientTypes.IntegrationIdentifier {
 
     static func write(value: ConnectCampaignsV2ClientTypes.IntegrationIdentifier?, to writer: SmithyJSON.Writer) throws {
@@ -5140,6 +5401,16 @@ extension ConnectCampaignsV2ClientTypes.TelephonyChannelSubtypeParameters {
         try writer["attributes"].writeMap(value.attributes, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["connectSourcePhoneNumber"].write(value.connectSourcePhoneNumber)
         try writer["destinationPhoneNumber"].write(value.destinationPhoneNumber)
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes.ProfileOutboundRequest {
+
+    static func write(value: ConnectCampaignsV2ClientTypes.ProfileOutboundRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["expirationTime"].writeTimestamp(value.expirationTime, format: SmithyTimestamps.TimestampFormat.dateTime)
+        try writer["profileId"].write(value.profileId)
     }
 }
 

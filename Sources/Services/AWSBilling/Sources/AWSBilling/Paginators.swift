@@ -28,8 +28,11 @@ extension ListBillingViewsInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> ListBillingViewsInput {
         return ListBillingViewsInput(
             activeTimeRange: self.activeTimeRange,
+            arns: self.arns,
+            billingViewTypes: self.billingViewTypes,
             maxResults: self.maxResults,
-            nextToken: token
+            nextToken: token,
+            ownerAccountId: self.ownerAccountId
         )}
 }
 
@@ -39,5 +42,36 @@ extension PaginatorSequence where OperationStackInput == ListBillingViewsInput, 
     /// - Returns: `[BillingClientTypes.BillingViewListElement]`
     public func billingViews() async throws -> [BillingClientTypes.BillingViewListElement] {
         return try await self.asyncCompactMap { item in item.billingViews }
+    }
+}
+extension BillingClient {
+    /// Paginate over `[ListSourceViewsForBillingViewOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListSourceViewsForBillingViewInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListSourceViewsForBillingViewOutput`
+    public func listSourceViewsForBillingViewPaginated(input: ListSourceViewsForBillingViewInput) -> ClientRuntime.PaginatorSequence<ListSourceViewsForBillingViewInput, ListSourceViewsForBillingViewOutput> {
+        return ClientRuntime.PaginatorSequence<ListSourceViewsForBillingViewInput, ListSourceViewsForBillingViewOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSourceViewsForBillingView(input:))
+    }
+}
+
+extension ListSourceViewsForBillingViewInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListSourceViewsForBillingViewInput {
+        return ListSourceViewsForBillingViewInput(
+            arn: self.arn,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListSourceViewsForBillingViewInput, OperationStackOutput == ListSourceViewsForBillingViewOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listSourceViewsForBillingViewPaginated`
+    /// to access the nested member `[Swift.String]`
+    /// - Returns: `[Swift.String]`
+    public func sourceViews() async throws -> [Swift.String] {
+        return try await self.asyncCompactMap { item in item.sourceViews }
     }
 }

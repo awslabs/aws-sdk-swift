@@ -76,9 +76,9 @@ extension CognitoIdentityClientTypes {
 }
 
 /// Thrown when the service encounters an error during processing the request.
-public struct InternalErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message returned by an InternalErrorException.
         public internal(set) var message: Swift.String? = nil
     }
@@ -101,9 +101,9 @@ public struct InternalErrorException: ClientRuntime.ModeledError, AWSClientRunti
 }
 
 /// Thrown for missing or bad input parameter(s).
-public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message returned by an InvalidParameterException.
         public internal(set) var message: Swift.String? = nil
     }
@@ -126,9 +126,9 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// Thrown when the total number of user pools has exceeded a preset limit.
-public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message returned by a LimitExceededException.
         public internal(set) var message: Swift.String? = nil
     }
@@ -151,9 +151,9 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 }
 
 /// Thrown when a user is not authorized to access the requested resource.
-public struct NotAuthorizedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NotAuthorizedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message returned by a NotAuthorizedException
         public internal(set) var message: Swift.String? = nil
     }
@@ -176,9 +176,9 @@ public struct NotAuthorizedException: ClientRuntime.ModeledError, AWSClientRunti
 }
 
 /// Thrown when a user tries to use a login which is already linked to another account.
-public struct ResourceConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message returned by a ResourceConflictException.
         public internal(set) var message: Swift.String? = nil
     }
@@ -201,9 +201,9 @@ public struct ResourceConflictException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// Thrown when a request is throttled.
-public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Message returned by a TooManyRequestsException
         public internal(set) var message: Swift.String? = nil
     }
@@ -425,9 +425,9 @@ public struct DeleteIdentitiesOutput: Swift.Sendable {
 }
 
 /// Thrown when the requested resource (for example, a dataset or record) does not exist.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message returned by a ResourceNotFoundException.
         public internal(set) var message: Swift.String? = nil
     }
@@ -569,9 +569,9 @@ public struct DescribeIdentityPoolOutput: Swift.Sendable {
 }
 
 /// An exception thrown when a dependent service such as Facebook or Twitter is not responding
-public struct ExternalServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ExternalServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message returned by an ExternalServiceException
         public internal(set) var message: Swift.String? = nil
     }
@@ -594,9 +594,9 @@ public struct ExternalServiceException: ClientRuntime.ModeledError, AWSClientRun
 }
 
 /// Thrown if the identity pool has no role associated for the given auth type (auth/unauth) or if the AssumeRole fails.
-public struct InvalidIdentityPoolConfigurationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidIdentityPoolConfigurationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message returned for an InvalidIdentityPoolConfigurationException
         public internal(set) var message: Swift.String? = nil
     }
@@ -966,9 +966,9 @@ extension GetOpenIdTokenOutput: Swift.CustomDebugStringConvertible {
 }
 
 /// The provided developer user identifier is already registered with Cognito under a different identity ID.
-public struct DeveloperUserAlreadyRegisteredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DeveloperUserAlreadyRegisteredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This developer user identifier is already registered with Cognito.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1340,9 +1340,9 @@ public struct MergeDeveloperIdentitiesOutput: Swift.Sendable {
 }
 
 /// Thrown if there are parallel requests to modify a resource.
-public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message returned by a ConcurrentModificationException.
         public internal(set) var message: Swift.String? = nil
     }

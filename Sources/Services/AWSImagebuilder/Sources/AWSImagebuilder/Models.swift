@@ -323,9 +323,9 @@ extension ImagebuilderClientTypes {
 }
 
 /// You have exceeded the permitted request rate for the specific operation.
-public struct CallRateLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CallRateLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -347,9 +347,9 @@ public struct CallRateLimitExceededException: ClientRuntime.ModeledError, AWSCli
 }
 
 /// These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
-public struct ClientException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ClientException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -371,9 +371,9 @@ public struct ClientException: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
 }
 
 /// You are not authorized to perform the requested operation.
-public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -395,9 +395,9 @@ public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.A
 }
 
 /// You have specified a client token for an operation using parameter values that differ from a previous request that used the same client token.
-public struct IdempotentParameterMismatchException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct IdempotentParameterMismatchException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -419,9 +419,9 @@ public struct IdempotentParameterMismatchException: ClientRuntime.ModeledError, 
 }
 
 /// You have requested an action that that the service doesn't support.
-public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -443,9 +443,9 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 /// The resource that you are trying to operate on is currently in use. Review the message details and retry later.
-public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -467,9 +467,9 @@ public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRunti
 }
 
 /// This exception is thrown when the service encounters an unrecoverable exception.
-public struct ServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -491,9 +491,9 @@ public struct ServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWS
 }
 
 /// The service is unable to process your request at this time.
-public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -646,13 +646,13 @@ extension ImagebuilderClientTypes {
 
 extension ImagebuilderClientTypes {
 
-    public enum ComponentStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case deprecated
+    public enum ProductCodeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case marketplace
         case sdkUnknown(Swift.String)
 
-        public static var allCases: [ComponentStatus] {
+        public static var allCases: [ProductCodeType] {
             return [
-                .deprecated
+                .marketplace
             ]
         }
 
@@ -663,7 +663,61 @@ extension ImagebuilderClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .marketplace: return "marketplace"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ImagebuilderClientTypes {
+
+    /// Information about a single product code.
+    public struct ProductCodeListItem: Swift.Sendable {
+        /// For Amazon Web Services Marketplace components, this contains the product code ID that can be stamped onto an EC2 AMI to ensure that components are billed correctly. If this property is empty, it might mean that the component is not published.
+        /// This member is required.
+        public var productCodeId: Swift.String?
+        /// The owner of the product code that's billed. If this property is empty, it might mean that the component is not published.
+        /// This member is required.
+        public var productCodeType: ImagebuilderClientTypes.ProductCodeType?
+
+        public init(
+            productCodeId: Swift.String? = nil,
+            productCodeType: ImagebuilderClientTypes.ProductCodeType? = nil
+        )
+        {
+            self.productCodeId = productCodeId
+            self.productCodeType = productCodeType
+        }
+    }
+}
+
+extension ImagebuilderClientTypes {
+
+    public enum ComponentStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case deprecated
+        case disabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ComponentStatus] {
+            return [
+                .active,
+                .deprecated,
+                .disabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
             case .deprecated: return "DEPRECATED"
+            case .disabled: return "DISABLED"
             case let .sdkUnknown(s): return s
             }
         }
@@ -747,9 +801,11 @@ extension ImagebuilderClientTypes {
         public var parameters: [ImagebuilderClientTypes.ComponentParameterDetail]?
         /// The operating system platform of the component.
         public var platform: ImagebuilderClientTypes.Platform?
+        /// Contains product codes that are used for billing purposes for Amazon Web Services Marketplace components.
+        public var productCodes: [ImagebuilderClientTypes.ProductCodeListItem]?
         /// Contains the name of the publisher if this is a third-party component. Otherwise, this property is empty.
         public var publisher: Swift.String?
-        /// Describes the current status of the component. This is used for components that are no longer active.
+        /// Describes the current status of the component.
         public var state: ImagebuilderClientTypes.ComponentState?
         /// The operating system (OS) version supported by the component. If the OS information is available, Image Builder performs a prefix match against the base image OS version during image recipe creation.
         public var supportedOsVersions: [Swift.String]?
@@ -773,6 +829,7 @@ extension ImagebuilderClientTypes {
             owner: Swift.String? = nil,
             parameters: [ImagebuilderClientTypes.ComponentParameterDetail]? = nil,
             platform: ImagebuilderClientTypes.Platform? = nil,
+            productCodes: [ImagebuilderClientTypes.ProductCodeListItem]? = nil,
             publisher: Swift.String? = nil,
             state: ImagebuilderClientTypes.ComponentState? = nil,
             supportedOsVersions: [Swift.String]? = nil,
@@ -793,6 +850,7 @@ extension ImagebuilderClientTypes {
             self.owner = owner
             self.parameters = parameters
             self.platform = platform
+            self.productCodes = productCodes
             self.publisher = publisher
             self.state = state
             self.supportedOsVersions = supportedOsVersions
@@ -962,6 +1020,10 @@ extension ImagebuilderClientTypes {
         public var owner: Swift.String?
         /// The platform of the component.
         public var platform: ImagebuilderClientTypes.Platform?
+        /// Contains product codes that are used for billing purposes for Amazon Web Services Marketplace components.
+        public var productCodes: [ImagebuilderClientTypes.ProductCodeListItem]?
+        /// Describes the current status of the component version.
+        public var status: ImagebuilderClientTypes.ComponentStatus?
         /// he operating system (OS) version supported by the component. If the OS information is available, a prefix match is performed against the base image OS version during image recipe creation.
         public var supportedOsVersions: [Swift.String]?
         /// The type of the component denotes whether the component is used to build the image or only to test it.
@@ -976,6 +1038,8 @@ extension ImagebuilderClientTypes {
             name: Swift.String? = nil,
             owner: Swift.String? = nil,
             platform: ImagebuilderClientTypes.Platform? = nil,
+            productCodes: [ImagebuilderClientTypes.ProductCodeListItem]? = nil,
+            status: ImagebuilderClientTypes.ComponentStatus? = nil,
             supportedOsVersions: [Swift.String]? = nil,
             type: ImagebuilderClientTypes.ComponentType? = nil,
             version: Swift.String? = nil
@@ -987,6 +1051,8 @@ extension ImagebuilderClientTypes {
             self.name = name
             self.owner = owner
             self.platform = platform
+            self.productCodes = productCodes
+            self.status = status
             self.supportedOsVersions = supportedOsVersions
             self.type = type
             self.version = version
@@ -1044,7 +1110,7 @@ extension ImagebuilderClientTypes {
 
     /// The container repository where the output container image is stored.
     public struct TargetContainerRepository: Swift.Sendable {
-        /// The name of the container repository where the output container image is stored. This name is prefixed by the repository location.
+        /// The name of the container repository where the output container image is stored. This name is prefixed by the repository location. For example, /repository_name.
         /// This member is required.
         public var repositoryName: Swift.String?
         /// Specifies the service in which this image was registered.
@@ -1380,9 +1446,9 @@ extension ImagebuilderClientTypes {
 }
 
 /// You have specified two or more mutually exclusive parameters. Review the error message for details.
-public struct InvalidParameterCombinationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidParameterCombinationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1404,9 +1470,9 @@ public struct InvalidParameterCombinationException: ClientRuntime.ModeledError, 
 }
 
 /// Your version number is out of bounds or does not follow the required syntax.
-public struct InvalidVersionNumberException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidVersionNumberException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1428,9 +1494,9 @@ public struct InvalidVersionNumberException: ClientRuntime.ModeledError, AWSClie
 }
 
 /// You have exceeded the number of permitted resources or operations for this service. For service quotas, see [EC2 Image Builder endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/imagebuilder.html#limits_imagebuilder).
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1528,9 +1594,9 @@ public struct CreateComponentOutput: Swift.Sendable {
 }
 
 /// The resource that you are trying to create already exists.
-public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1955,7 +2021,7 @@ extension ImagebuilderClientTypes {
     public struct ImageTestsConfiguration: Swift.Sendable {
         /// Determines if tests should run after building the image. Image Builder defaults to enable tests to run following the image build, before image distribution.
         public var imageTestsEnabled: Swift.Bool?
-        /// The maximum time in minutes that tests are permitted to run. The timeoutMinutes attribute is not currently active. This value is ignored.
+        /// The maximum time in minutes that tests are permitted to run. The timeout attribute is not currently active. This value is ignored.
         public var timeoutMinutes: Swift.Int?
 
         public init(
@@ -3205,9 +3271,9 @@ extension ImagebuilderClientTypes {
 }
 
 /// You have attempted to mutate or delete a resource with a dependency that prohibits this action. See the error message for more details.
-public struct ResourceDependencyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceDependencyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3616,9 +3682,9 @@ public struct GetComponentOutput: Swift.Sendable {
 }
 
 /// At least one of the resources referenced by your request does not exist.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4670,6 +4736,77 @@ public struct GetLifecyclePolicyOutput: Swift.Sendable {
     }
 }
 
+extension ImagebuilderClientTypes {
+
+    public enum MarketplaceResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case componentArtifact
+        case componentData
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MarketplaceResourceType] {
+            return [
+                .componentArtifact,
+                .componentData
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .componentArtifact: return "COMPONENT_ARTIFACT"
+            case .componentData: return "COMPONENT_DATA"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetMarketplaceResourceInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) that uniquely identifies an Amazon Web Services Marketplace resource.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+    /// The bucket path that you can specify to download the resource from Amazon S3.
+    public var resourceLocation: Swift.String?
+    /// Specifies which type of Amazon Web Services Marketplace resource Image Builder retrieves.
+    /// This member is required.
+    public var resourceType: ImagebuilderClientTypes.MarketplaceResourceType?
+
+    public init(
+        resourceArn: Swift.String? = nil,
+        resourceLocation: Swift.String? = nil,
+        resourceType: ImagebuilderClientTypes.MarketplaceResourceType? = nil
+    )
+    {
+        self.resourceArn = resourceArn
+        self.resourceLocation = resourceLocation
+        self.resourceType = resourceType
+    }
+}
+
+public struct GetMarketplaceResourceOutput: Swift.Sendable {
+    /// Returns obfuscated data that contains the YAML content of the component.
+    public var data: Swift.String?
+    /// The Amazon Resource Name (ARN) for the Amazon Web Services Marketplace resource that was requested.
+    public var resourceArn: Swift.String?
+    /// The obfuscated S3 URL to download the component artifact from.
+    public var url: Swift.String?
+
+    public init(
+        data: Swift.String? = nil,
+        resourceArn: Swift.String? = nil,
+        url: Swift.String? = nil
+    )
+    {
+        self.data = data
+        self.resourceArn = resourceArn
+        self.url = url
+    }
+}
+
 public struct GetWorkflowInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the workflow resource that you want to get.
     /// This member is required.
@@ -5292,9 +5429,9 @@ public struct ImportVmImageOutput: Swift.Sendable {
 }
 
 /// You have provided an invalid pagination token in your request.
-public struct InvalidPaginationTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidPaginationTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -5360,6 +5497,7 @@ extension ImagebuilderClientTypes {
 
     public enum Ownership: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case amazon
+        case awsMarketplace
         case `self`
         case shared
         case thirdparty
@@ -5368,6 +5506,7 @@ extension ImagebuilderClientTypes {
         public static var allCases: [Ownership] {
             return [
                 .amazon,
+                .awsMarketplace,
                 .self,
                 .shared,
                 .thirdparty
@@ -5382,6 +5521,7 @@ extension ImagebuilderClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .amazon: return "Amazon"
+            case .awsMarketplace: return "AWSMarketplace"
             case .self: return "Self"
             case .shared: return "Shared"
             case .thirdparty: return "ThirdParty"
@@ -5699,11 +5839,11 @@ public struct ListImagePackagesInput: Swift.Sendable {
 
 extension ImagebuilderClientTypes {
 
-    /// Represents a package installed on an Image Builder image.
+    /// A software package that's installed on top of the base image to create a customized image.
     public struct ImagePackage: Swift.Sendable {
-        /// The name of the package as reported to the operating system package manager.
+        /// The name of the package that's reported to the operating system package manager.
         public var packageName: Swift.String?
-        /// The version of the package as reported to the operating system package manager.
+        /// The version of the package that's reported to the operating system package manager.
         public var packageVersion: Swift.String?
 
         public init(
@@ -6920,9 +7060,9 @@ public struct ListLifecyclePoliciesOutput: Swift.Sendable {
 }
 
 /// The specified parameter is invalid. Review the available parameters for the API request.
-public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -7436,9 +7576,9 @@ public struct ListWorkflowStepExecutionsOutput: Swift.Sendable {
 }
 
 /// The value that you provided for the specified parameter is invalid.
-public struct InvalidParameterValueException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidParameterValueException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -8728,6 +8868,13 @@ extension GetLifecyclePolicyInput {
     }
 }
 
+extension GetMarketplaceResourceInput {
+
+    static func urlPathProvider(_ value: GetMarketplaceResourceInput) -> Swift.String? {
+        return "/GetMarketplaceResource"
+    }
+}
+
 extension GetWorkflowInput {
 
     static func urlPathProvider(_ value: GetWorkflowInput) -> Swift.String? {
@@ -9255,6 +9402,16 @@ extension CreateWorkflowInput {
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["type"].write(value.type)
         try writer["uri"].write(value.uri)
+    }
+}
+
+extension GetMarketplaceResourceInput {
+
+    static func write(value: GetMarketplaceResourceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["resourceArn"].write(value.resourceArn)
+        try writer["resourceLocation"].write(value.resourceLocation)
+        try writer["resourceType"].write(value.resourceType)
     }
 }
 
@@ -10087,6 +10244,20 @@ extension GetLifecyclePolicyOutput {
         let reader = responseReader
         var value = GetLifecyclePolicyOutput()
         value.lifecyclePolicy = try reader["lifecyclePolicy"].readIfPresent(with: ImagebuilderClientTypes.LifecyclePolicy.read(from:))
+        return value
+    }
+}
+
+extension GetMarketplaceResourceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetMarketplaceResourceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetMarketplaceResourceOutput()
+        value.data = try reader["data"].readIfPresent()
+        value.resourceArn = try reader["resourceArn"].readIfPresent()
+        value.url = try reader["url"].readIfPresent()
         return value
     }
 }
@@ -11334,6 +11505,25 @@ enum GetLifecyclePolicyOutputError {
     }
 }
 
+enum GetMarketplaceResourceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "CallRateLimitExceededException": return try CallRateLimitExceededException.makeError(baseError: baseError)
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetWorkflowOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -12381,6 +12571,18 @@ extension ImagebuilderClientTypes.Component {
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.publisher = try reader["publisher"].readIfPresent()
         value.obfuscate = try reader["obfuscate"].readIfPresent() ?? false
+        value.productCodes = try reader["productCodes"].readListIfPresent(memberReadingClosure: ImagebuilderClientTypes.ProductCodeListItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ImagebuilderClientTypes.ProductCodeListItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.ProductCodeListItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ImagebuilderClientTypes.ProductCodeListItem()
+        value.productCodeId = try reader["productCodeId"].readIfPresent() ?? ""
+        value.productCodeType = try reader["productCodeType"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -13448,6 +13650,8 @@ extension ImagebuilderClientTypes.ComponentVersion {
         value.type = try reader["type"].readIfPresent()
         value.owner = try reader["owner"].readIfPresent()
         value.dateCreated = try reader["dateCreated"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.productCodes = try reader["productCodes"].readListIfPresent(memberReadingClosure: ImagebuilderClientTypes.ProductCodeListItem.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }

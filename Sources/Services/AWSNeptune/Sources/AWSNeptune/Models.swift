@@ -62,9 +62,9 @@ public struct RemoveTagsFromResourceOutput: Swift.Sendable {
 }
 
 /// DBClusterIdentifier does not refer to an existing DB cluster.
-public struct DBClusterNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBClusterNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -87,9 +87,9 @@ public struct DBClusterNotFoundFault: ClientRuntime.ModeledError, AWSClientRunti
 }
 
 /// The specified IAM role Amazon Resource Name (ARN) is already associated with the specified DB cluster.
-public struct DBClusterRoleAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBClusterRoleAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -112,9 +112,9 @@ public struct DBClusterRoleAlreadyExistsFault: ClientRuntime.ModeledError, AWSCl
 }
 
 /// You have exceeded the maximum number of IAM roles that can be associated with the specified DB cluster.
-public struct DBClusterRoleQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBClusterRoleQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -137,9 +137,9 @@ public struct DBClusterRoleQuotaExceededFault: ClientRuntime.ModeledError, AWSCl
 }
 
 /// The DB cluster is not in a valid state.
-public struct InvalidDBClusterStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidDBClusterStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -184,9 +184,9 @@ public struct AddRoleToDBClusterInput: Swift.Sendable {
 }
 
 /// The source could not be found.
-public struct SourceNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SourceNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -209,9 +209,9 @@ public struct SourceNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 /// The designated subscription could not be found.
-public struct SubscriptionNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SubscriptionNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -324,9 +324,9 @@ public struct AddSourceIdentifierToSubscriptionOutput: Swift.Sendable {
 }
 
 /// DBInstanceIdentifier does not refer to an existing DB instance.
-public struct DBInstanceNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBInstanceNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -349,9 +349,9 @@ public struct DBInstanceNotFoundFault: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 /// DBSnapshotIdentifier does not refer to an existing DB snapshot.
-public struct DBSnapshotNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBSnapshotNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -412,9 +412,9 @@ public struct AddTagsToResourceInput: Swift.Sendable {
 }
 
 /// The specified resource ID was not found.
-public struct ResourceNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -534,9 +534,9 @@ public struct ApplyPendingMaintenanceActionOutput: Swift.Sendable {
 }
 
 /// A DB parameter group with the same name exists.
-public struct DBParameterGroupAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBParameterGroupAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -559,9 +559,9 @@ public struct DBParameterGroupAlreadyExistsFault: ClientRuntime.ModeledError, AW
 }
 
 /// DBParameterGroupName does not refer to an existing DB parameter group.
-public struct DBParameterGroupNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBParameterGroupNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -584,9 +584,9 @@ public struct DBParameterGroupNotFoundFault: ClientRuntime.ModeledError, AWSClie
 }
 
 /// Request would result in user exceeding the allowed number of DB parameter groups.
-public struct DBParameterGroupQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBParameterGroupQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -693,9 +693,9 @@ public struct CopyDBClusterParameterGroupOutput: Swift.Sendable {
 }
 
 /// User already has a DB cluster snapshot with the given identifier.
-public struct DBClusterSnapshotAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBClusterSnapshotAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -718,9 +718,9 @@ public struct DBClusterSnapshotAlreadyExistsFault: ClientRuntime.ModeledError, A
 }
 
 /// DBClusterSnapshotIdentifier does not refer to an existing DB cluster snapshot.
-public struct DBClusterSnapshotNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBClusterSnapshotNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -743,9 +743,9 @@ public struct DBClusterSnapshotNotFoundFault: ClientRuntime.ModeledError, AWSCli
 }
 
 /// The supplied value is not a valid DB cluster snapshot state.
-public struct InvalidDBClusterSnapshotStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidDBClusterSnapshotStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -768,9 +768,9 @@ public struct InvalidDBClusterSnapshotStateFault: ClientRuntime.ModeledError, AW
 }
 
 /// Error accessing KMS key.
-public struct KMSKeyNotAccessibleFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct KMSKeyNotAccessibleFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -793,9 +793,9 @@ public struct KMSKeyNotAccessibleFault: ClientRuntime.ModeledError, AWSClientRun
 }
 
 /// Request would result in user exceeding the allowed number of DB snapshots.
-public struct SnapshotQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SnapshotQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1058,9 +1058,9 @@ public struct CopyDBParameterGroupOutput: Swift.Sendable {
 }
 
 /// User already has a DB cluster with the given identifier.
-public struct DBClusterAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBClusterAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1083,9 +1083,9 @@ public struct DBClusterAlreadyExistsFault: ClientRuntime.ModeledError, AWSClient
 }
 
 /// DBClusterParameterGroupName does not refer to an existing DB Cluster parameter group.
-public struct DBClusterParameterGroupNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBClusterParameterGroupNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1108,9 +1108,9 @@ public struct DBClusterParameterGroupNotFoundFault: ClientRuntime.ModeledError, 
 }
 
 /// User attempted to create a new DB cluster and the user has already reached the maximum allowed DB cluster quota.
-public struct DBClusterQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBClusterQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1133,9 +1133,9 @@ public struct DBClusterQuotaExceededFault: ClientRuntime.ModeledError, AWSClient
 }
 
 /// Subnets in the DB subnet group should cover at least two Availability Zones unless there is only one Availability Zone.
-public struct DBSubnetGroupDoesNotCoverEnoughAZs: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBSubnetGroupDoesNotCoverEnoughAZs: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1158,9 +1158,9 @@ public struct DBSubnetGroupDoesNotCoverEnoughAZs: ClientRuntime.ModeledError, AW
 }
 
 /// DBSubnetGroupName does not refer to an existing DB subnet group.
-public struct DBSubnetGroupNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBSubnetGroupNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1183,9 +1183,9 @@ public struct DBSubnetGroupNotFoundFault: ClientRuntime.ModeledError, AWSClientR
 }
 
 /// The GlobalClusterIdentifier doesn't refer to an existing global database cluster.
-public struct GlobalClusterNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct GlobalClusterNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1208,9 +1208,9 @@ public struct GlobalClusterNotFoundFault: ClientRuntime.ModeledError, AWSClientR
 }
 
 /// There is insufficient storage available for the current action. You may be able to resolve this error by updating your subnet group to use different Availability Zones that have more storage available.
-public struct InsufficientStorageClusterCapacityFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InsufficientStorageClusterCapacityFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1233,9 +1233,9 @@ public struct InsufficientStorageClusterCapacityFault: ClientRuntime.ModeledErro
 }
 
 /// The specified DB instance is not in the available state.
-public struct InvalidDBInstanceStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidDBInstanceStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1258,9 +1258,9 @@ public struct InvalidDBInstanceStateFault: ClientRuntime.ModeledError, AWSClient
 }
 
 /// The DB subnet group cannot be deleted because it is in use.
-public struct InvalidDBSubnetGroupStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidDBSubnetGroupStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1283,9 +1283,9 @@ public struct InvalidDBSubnetGroupStateFault: ClientRuntime.ModeledError, AWSCli
 }
 
 /// The global cluster is in an invalid state and can't perform the requested operation.
-public struct InvalidGlobalClusterStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidGlobalClusterStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1308,9 +1308,9 @@ public struct InvalidGlobalClusterStateFault: ClientRuntime.ModeledError, AWSCli
 }
 
 /// The requested subnet is invalid, or multiple subnets were requested that are not all in a common VPC.
-public struct InvalidSubnet: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidSubnet: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1333,9 +1333,9 @@ public struct InvalidSubnet: ClientRuntime.ModeledError, AWSClientRuntime.AWSSer
 }
 
 /// DB subnet group does not cover all Availability Zones after it is created because users' change.
-public struct InvalidVPCNetworkStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidVPCNetworkStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1358,9 +1358,9 @@ public struct InvalidVPCNetworkStateFault: ClientRuntime.ModeledError, AWSClient
 }
 
 /// Request would result in user exceeding the allowed amount of storage available across all DB instances.
-public struct StorageQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct StorageQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1949,9 +1949,9 @@ public struct CreateDBClusterOutput: Swift.Sendable {
 }
 
 /// The specified custom endpoint cannot be created because it already exists.
-public struct DBClusterEndpointAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBClusterEndpointAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1974,9 +1974,9 @@ public struct DBClusterEndpointAlreadyExistsFault: ClientRuntime.ModeledError, A
 }
 
 /// The cluster already has the maximum number of custom endpoints.
-public struct DBClusterEndpointQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBClusterEndpointQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2186,9 +2186,9 @@ public struct CreateDBClusterSnapshotOutput: Swift.Sendable {
 }
 
 /// Specified CIDRIP or EC2 security group is not authorized for the specified DB security group. Neptune may not also be authorized via IAM to perform necessary actions on your behalf.
-public struct AuthorizationNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AuthorizationNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2211,9 +2211,9 @@ public struct AuthorizationNotFoundFault: ClientRuntime.ModeledError, AWSClientR
 }
 
 /// User already has a DB instance with the given identifier.
-public struct DBInstanceAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBInstanceAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2236,9 +2236,9 @@ public struct DBInstanceAlreadyExistsFault: ClientRuntime.ModeledError, AWSClien
 }
 
 /// DBSecurityGroupName does not refer to an existing DB security group.
-public struct DBSecurityGroupNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBSecurityGroupNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2261,9 +2261,9 @@ public struct DBSecurityGroupNotFoundFault: ClientRuntime.ModeledError, AWSClien
 }
 
 /// Domain does not refer to an existing Active Directory Domain.
-public struct DomainNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DomainNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2286,9 +2286,9 @@ public struct DomainNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 /// Request would result in user exceeding the allowed number of DB instances.
-public struct InstanceQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InstanceQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2311,9 +2311,9 @@ public struct InstanceQuotaExceededFault: ClientRuntime.ModeledError, AWSClientR
 }
 
 /// Specified DB instance class is not available in the specified Availability Zone.
-public struct InsufficientDBInstanceCapacityFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InsufficientDBInstanceCapacityFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2336,9 +2336,9 @@ public struct InsufficientDBInstanceCapacityFault: ClientRuntime.ModeledError, A
 }
 
 /// The designated option group could not be found.
-public struct OptionGroupNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct OptionGroupNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2361,9 +2361,9 @@ public struct OptionGroupNotFoundFault: ClientRuntime.ModeledError, AWSClientRun
 }
 
 /// Provisioned IOPS not available in the specified Availability Zone.
-public struct ProvisionedIopsNotAvailableInAZFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ProvisionedIopsNotAvailableInAZFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2386,9 +2386,9 @@ public struct ProvisionedIopsNotAvailableInAZFault: ClientRuntime.ModeledError, 
 }
 
 /// StorageType specified cannot be associated with the DB Instance.
-public struct StorageTypeNotSupportedFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct StorageTypeNotSupportedFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3197,9 +3197,9 @@ public struct CreateDBParameterGroupOutput: Swift.Sendable {
 }
 
 /// DBSubnetGroupName is already used by an existing DB subnet group.
-public struct DBSubnetGroupAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBSubnetGroupAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3222,9 +3222,9 @@ public struct DBSubnetGroupAlreadyExistsFault: ClientRuntime.ModeledError, AWSCl
 }
 
 /// Request would result in user exceeding the allowed number of DB subnet groups.
-public struct DBSubnetGroupQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBSubnetGroupQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3247,9 +3247,9 @@ public struct DBSubnetGroupQuotaExceededFault: ClientRuntime.ModeledError, AWSCl
 }
 
 /// Request would result in user exceeding the allowed number of subnets in a DB subnet groups.
-public struct DBSubnetQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBSubnetQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3311,9 +3311,9 @@ public struct CreateDBSubnetGroupOutput: Swift.Sendable {
 }
 
 /// You have exceeded the number of events you can subscribe to.
-public struct EventSubscriptionQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct EventSubscriptionQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3336,9 +3336,9 @@ public struct EventSubscriptionQuotaExceededFault: ClientRuntime.ModeledError, A
 }
 
 /// The SNS topic is invalid.
-public struct SNSInvalidTopicFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SNSInvalidTopicFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3361,9 +3361,9 @@ public struct SNSInvalidTopicFault: ClientRuntime.ModeledError, AWSClientRuntime
 }
 
 /// There is no SNS authorization.
-public struct SNSNoAuthorizationFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SNSNoAuthorizationFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3386,9 +3386,9 @@ public struct SNSNoAuthorizationFault: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 /// The ARN of the SNS topic could not be found.
-public struct SNSTopicArnNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SNSTopicArnNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3411,9 +3411,9 @@ public struct SNSTopicArnNotFoundFault: ClientRuntime.ModeledError, AWSClientRun
 }
 
 /// This subscription already exists.
-public struct SubscriptionAlreadyExistFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SubscriptionAlreadyExistFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3436,9 +3436,9 @@ public struct SubscriptionAlreadyExistFault: ClientRuntime.ModeledError, AWSClie
 }
 
 /// The designated subscription category could not be found.
-public struct SubscriptionCategoryNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SubscriptionCategoryNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3521,9 +3521,9 @@ public struct CreateEventSubscriptionOutput: Swift.Sendable {
 }
 
 /// The GlobalClusterIdentifier already exists. Choose a new global database identifier (unique name) to create a new global database cluster.
-public struct GlobalClusterAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct GlobalClusterAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3546,9 +3546,9 @@ public struct GlobalClusterAlreadyExistsFault: ClientRuntime.ModeledError, AWSCl
 }
 
 /// The number of global database clusters for this account is already at the maximum allowed.
-public struct GlobalClusterQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct GlobalClusterQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3729,9 +3729,9 @@ public struct DeleteDBClusterOutput: Swift.Sendable {
 }
 
 /// The specified custom endpoint doesn't exist.
-public struct DBClusterEndpointNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBClusterEndpointNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3754,9 +3754,9 @@ public struct DBClusterEndpointNotFoundFault: ClientRuntime.ModeledError, AWSCli
 }
 
 /// The requested operation cannot be performed on the endpoint while the endpoint is in this state.
-public struct InvalidDBClusterEndpointStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidDBClusterEndpointStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3852,9 +3852,9 @@ public struct DeleteDBClusterEndpointOutput: Swift.Sendable {
 }
 
 /// The DB parameter group is in use or is in an invalid state. If you are attempting to delete the parameter group, you cannot delete it when the parameter group is in this state.
-public struct InvalidDBParameterGroupStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidDBParameterGroupStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3921,9 +3921,9 @@ public struct DeleteDBClusterSnapshotOutput: Swift.Sendable {
 }
 
 /// DBSnapshotIdentifier is already used by an existing snapshot.
-public struct DBSnapshotAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBSnapshotAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4008,9 +4008,9 @@ public struct DeleteDBParameterGroupInput: Swift.Sendable {
 }
 
 /// The DB subnet is not in the available state.
-public struct InvalidDBSubnetStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidDBSubnetStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4046,9 +4046,9 @@ public struct DeleteDBSubnetGroupInput: Swift.Sendable {
 }
 
 /// The event subscription is in an invalid state.
-public struct InvalidEventSubscriptionStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidEventSubscriptionStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -5753,9 +5753,9 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 }
 
 /// The state of the DB security group does not allow deletion.
-public struct InvalidDBSecurityGroupStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidDBSecurityGroupStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -6055,9 +6055,9 @@ public struct ModifyDBClusterParameterGroupOutput: Swift.Sendable {
 }
 
 /// You have exceeded the maximum number of accounts that you can share a manual DB snapshot with.
-public struct SharedSnapshotQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SharedSnapshotQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -6118,9 +6118,9 @@ public struct ModifyDBClusterSnapshotAttributeOutput: Swift.Sendable {
 }
 
 /// CertificateIdentifier does not refer to an existing certificate.
-public struct CertificateNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CertificateNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -6143,9 +6143,9 @@ public struct CertificateNotFoundFault: ClientRuntime.ModeledError, AWSClientRun
 }
 
 /// The DB upgrade failed because a resource the DB depends on could not be modified.
-public struct DBUpgradeDependencyFailureFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBUpgradeDependencyFailureFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -6398,9 +6398,9 @@ public struct ModifyDBParameterGroupOutput: Swift.Sendable {
 }
 
 /// The DB subnet is already in use in the Availability Zone.
-public struct SubnetAlreadyInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SubnetAlreadyInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -6634,9 +6634,9 @@ public struct RemoveFromGlobalClusterOutput: Swift.Sendable {
 }
 
 /// The specified IAM role Amazon Resource Name (ARN) is not associated with the specified DB cluster.
-public struct DBClusterRoleNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBClusterRoleNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -6806,9 +6806,9 @@ public struct ResetDBParameterGroupOutput: Swift.Sendable {
 }
 
 /// The DB cluster does not have enough capacity for the current operation.
-public struct InsufficientDBClusterCapacityFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InsufficientDBClusterCapacityFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -6831,9 +6831,9 @@ public struct InsufficientDBClusterCapacityFault: ClientRuntime.ModeledError, AW
 }
 
 /// The state of the DB snapshot does not allow deletion.
-public struct InvalidDBSnapshotStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidDBSnapshotStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -6856,9 +6856,9 @@ public struct InvalidDBSnapshotStateFault: ClientRuntime.ModeledError, AWSClient
 }
 
 /// Cannot restore from vpc backup to non-vpc DB instance.
-public struct InvalidRestoreFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidRestoreFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }

@@ -33,9 +33,9 @@ import struct Smithy.URIQueryItem
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// You do not have sufficient access to perform this action.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -79,9 +79,9 @@ extension CustomerProfilesClientTypes {
 }
 
 /// The input you provided is invalid.
-public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -103,9 +103,9 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 /// An internal service error occurred.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -127,9 +127,9 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 /// The requested resource does not exist, or access was denied.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -151,9 +151,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// You exceeded the maximum number of requests.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2522,6 +2522,74 @@ extension CustomerProfilesClientTypes {
 
 extension CustomerProfilesClientTypes {
 
+    public enum ComparisonOperator: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case after
+        case before
+        case beginsWith
+        case between
+        case contains
+        case endsWith
+        case equal
+        case exclusive
+        case greaterThan
+        case greaterThanOrEqual
+        case inclusive
+        case lessThan
+        case lessThanOrEqual
+        case notBetween
+        case on
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ComparisonOperator] {
+            return [
+                .after,
+                .before,
+                .beginsWith,
+                .between,
+                .contains,
+                .endsWith,
+                .equal,
+                .exclusive,
+                .greaterThan,
+                .greaterThanOrEqual,
+                .inclusive,
+                .lessThan,
+                .lessThanOrEqual,
+                .notBetween,
+                .on
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .after: return "AFTER"
+            case .before: return "BEFORE"
+            case .beginsWith: return "BEGINS_WITH"
+            case .between: return "BETWEEN"
+            case .contains: return "CONTAINS"
+            case .endsWith: return "ENDS_WITH"
+            case .equal: return "EQUAL"
+            case .exclusive: return "EXCLUSIVE"
+            case .greaterThan: return "GREATER_THAN"
+            case .greaterThanOrEqual: return "GREATER_THAN_OR_EQUAL"
+            case .inclusive: return "INCLUSIVE"
+            case .lessThan: return "LESS_THAN"
+            case .lessThanOrEqual: return "LESS_THAN_OR_EQUAL"
+            case .notBetween: return "NOT_BETWEEN"
+            case .on: return "ON"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
     public enum Unit: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case days
         case sdkUnknown(Swift.String)
@@ -3405,6 +3473,290 @@ public struct CreateEventStreamOutput: Swift.Sendable {
 
 extension CustomerProfilesClientTypes {
 
+    /// The criteria that a specific object attribute must meet to trigger the destination.
+    public struct ObjectAttribute: Swift.Sendable {
+        /// The operator used to compare an attribute against a list of values.
+        /// This member is required.
+        public var comparisonOperator: CustomerProfilesClientTypes.ComparisonOperator?
+        /// A field defined within an object type.
+        public var fieldName: Swift.String?
+        /// An attribute contained within a source object.
+        public var source: Swift.String?
+        /// A list of attribute values used for comparison.
+        /// This member is required.
+        public var values: [Swift.String]?
+
+        public init(
+            comparisonOperator: CustomerProfilesClientTypes.ComparisonOperator? = nil,
+            fieldName: Swift.String? = nil,
+            source: Swift.String? = nil,
+            values: [Swift.String]? = nil
+        )
+        {
+            self.comparisonOperator = comparisonOperator
+            self.fieldName = fieldName
+            self.source = source
+            self.values = values
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    /// A specific event dimension to be assessed.
+    public struct EventTriggerDimension: Swift.Sendable {
+        /// A list of object attributes to be evaluated.
+        /// This member is required.
+        public var objectAttributes: [CustomerProfilesClientTypes.ObjectAttribute]?
+
+        public init(
+            objectAttributes: [CustomerProfilesClientTypes.ObjectAttribute]? = nil
+        )
+        {
+            self.objectAttributes = objectAttributes
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    public enum EventTriggerLogicalOperator: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case all
+        case any
+        case `none`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EventTriggerLogicalOperator] {
+            return [
+                .all,
+                .any,
+                .none
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .all: return "ALL"
+            case .any: return "ANY"
+            case .none: return "NONE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    /// Specifies the circumstances under which the event should trigger the destination.
+    public struct EventTriggerCondition: Swift.Sendable {
+        /// A list of dimensions to be evaluated for the event.
+        /// This member is required.
+        public var eventTriggerDimensions: [CustomerProfilesClientTypes.EventTriggerDimension]?
+        /// The operator used to combine multiple dimensions.
+        /// This member is required.
+        public var logicalOperator: CustomerProfilesClientTypes.EventTriggerLogicalOperator?
+
+        public init(
+            eventTriggerDimensions: [CustomerProfilesClientTypes.EventTriggerDimension]? = nil,
+            logicalOperator: CustomerProfilesClientTypes.EventTriggerLogicalOperator? = nil
+        )
+        {
+            self.eventTriggerDimensions = eventTriggerDimensions
+            self.logicalOperator = logicalOperator
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    public enum PeriodUnit: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case days
+        case hours
+        case months
+        case weeks
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PeriodUnit] {
+            return [
+                .days,
+                .hours,
+                .months,
+                .weeks
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .days: return "DAYS"
+            case .hours: return "HOURS"
+            case .months: return "MONTHS"
+            case .weeks: return "WEEKS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    /// Defines a limit and the time period during which it is enforced.
+    public struct Period: Swift.Sendable {
+        /// The maximum allowed number of destination invocations per profile.
+        public var maxInvocationsPerProfile: Swift.Int?
+        /// The unit of time.
+        /// This member is required.
+        public var unit: CustomerProfilesClientTypes.PeriodUnit?
+        /// If set to true, there is no limit on the number of destination invocations per profile. The default is false.
+        public var unlimited: Swift.Bool
+        /// The amount of time of the specified unit.
+        /// This member is required.
+        public var value: Swift.Int?
+
+        public init(
+            maxInvocationsPerProfile: Swift.Int? = nil,
+            unit: CustomerProfilesClientTypes.PeriodUnit? = nil,
+            unlimited: Swift.Bool = false,
+            value: Swift.Int? = nil
+        )
+        {
+            self.maxInvocationsPerProfile = maxInvocationsPerProfile
+            self.unit = unit
+            self.unlimited = unlimited
+            self.value = value
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    /// Defines limits controlling whether an event triggers the destination, based on ingestion latency and the number of invocations per profile over specific time periods.
+    public struct EventTriggerLimits: Swift.Sendable {
+        /// In milliseconds. Specifies that an event will only trigger the destination if it is processed within a certain latency period.
+        public var eventExpiration: Swift.Int?
+        /// A list of time periods during which the limits apply.
+        public var periods: [CustomerProfilesClientTypes.Period]?
+
+        public init(
+            eventExpiration: Swift.Int? = nil,
+            periods: [CustomerProfilesClientTypes.Period]? = nil
+        )
+        {
+            self.eventExpiration = eventExpiration
+            self.periods = periods
+        }
+    }
+}
+
+public struct CreateEventTriggerInput: Swift.Sendable {
+    /// The description of the event trigger.
+    public var description: Swift.String?
+    /// The unique name of the domain.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// A list of conditions that determine when an event should trigger the destination.
+    /// This member is required.
+    public var eventTriggerConditions: [CustomerProfilesClientTypes.EventTriggerCondition]?
+    /// Defines limits controlling whether an event triggers the destination, based on ingestion latency and the number of invocations per profile over specific time periods.
+    public var eventTriggerLimits: CustomerProfilesClientTypes.EventTriggerLimits?
+    /// The unique name of the event trigger.
+    /// This member is required.
+    public var eventTriggerName: Swift.String?
+    /// The unique name of the object type.
+    /// This member is required.
+    public var objectTypeName: Swift.String?
+    /// The destination is triggered only for profiles that meet the criteria of a segment definition.
+    public var segmentFilter: Swift.String?
+    /// An array of key-value pairs to apply to this resource.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        description: Swift.String? = nil,
+        domainName: Swift.String? = nil,
+        eventTriggerConditions: [CustomerProfilesClientTypes.EventTriggerCondition]? = nil,
+        eventTriggerLimits: CustomerProfilesClientTypes.EventTriggerLimits? = nil,
+        eventTriggerName: Swift.String? = nil,
+        objectTypeName: Swift.String? = nil,
+        segmentFilter: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    )
+    {
+        self.description = description
+        self.domainName = domainName
+        self.eventTriggerConditions = eventTriggerConditions
+        self.eventTriggerLimits = eventTriggerLimits
+        self.eventTriggerName = eventTriggerName
+        self.objectTypeName = objectTypeName
+        self.segmentFilter = segmentFilter
+        self.tags = tags
+    }
+}
+
+extension CreateEventTriggerInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateEventTriggerInput(domainName: \(Swift.String(describing: domainName)), eventTriggerLimits: \(Swift.String(describing: eventTriggerLimits)), eventTriggerName: \(Swift.String(describing: eventTriggerName)), objectTypeName: \(Swift.String(describing: objectTypeName)), segmentFilter: \(Swift.String(describing: segmentFilter)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\", eventTriggerConditions: \"CONTENT_REDACTED\")"}
+}
+
+public struct CreateEventTriggerOutput: Swift.Sendable {
+    /// The timestamp of when the event trigger was created.
+    public var createdAt: Foundation.Date?
+    /// The description of the event trigger.
+    public var description: Swift.String?
+    /// A list of conditions that determine when an event should trigger the destination.
+    public var eventTriggerConditions: [CustomerProfilesClientTypes.EventTriggerCondition]?
+    /// Defines limits controlling whether an event triggers the destination, based on ingestion latency and the number of invocations per profile over specific time periods.
+    public var eventTriggerLimits: CustomerProfilesClientTypes.EventTriggerLimits?
+    /// The unique name of the event trigger.
+    public var eventTriggerName: Swift.String?
+    /// The timestamp of when the event trigger was most recently updated.
+    public var lastUpdatedAt: Foundation.Date?
+    /// The unique name of the object type.
+    public var objectTypeName: Swift.String?
+    /// The destination is triggered only for profiles that meet the criteria of a segment definition.
+    public var segmentFilter: Swift.String?
+    /// An array of key-value pairs to apply to this resource.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        description: Swift.String? = nil,
+        eventTriggerConditions: [CustomerProfilesClientTypes.EventTriggerCondition]? = nil,
+        eventTriggerLimits: CustomerProfilesClientTypes.EventTriggerLimits? = nil,
+        eventTriggerName: Swift.String? = nil,
+        lastUpdatedAt: Foundation.Date? = nil,
+        objectTypeName: Swift.String? = nil,
+        segmentFilter: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    )
+    {
+        self.createdAt = createdAt
+        self.description = description
+        self.eventTriggerConditions = eventTriggerConditions
+        self.eventTriggerLimits = eventTriggerLimits
+        self.eventTriggerName = eventTriggerName
+        self.lastUpdatedAt = lastUpdatedAt
+        self.objectTypeName = objectTypeName
+        self.segmentFilter = segmentFilter
+        self.tags = tags
+    }
+}
+
+extension CreateEventTriggerOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateEventTriggerOutput(createdAt: \(Swift.String(describing: createdAt)), eventTriggerLimits: \(Swift.String(describing: eventTriggerLimits)), eventTriggerName: \(Swift.String(describing: eventTriggerName)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), objectTypeName: \(Swift.String(describing: objectTypeName)), segmentFilter: \(Swift.String(describing: segmentFilter)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\", eventTriggerConditions: \"CONTENT_REDACTED\")"}
+}
+
+extension CustomerProfilesClientTypes {
+
     /// Configuration data for integration workflow.
     public struct IntegrationConfig: Swift.Sendable {
         /// Configuration data for APPFLOW_INTEGRATION workflow type.
@@ -4210,6 +4562,37 @@ public struct DeleteEventStreamInput: Swift.Sendable {
 public struct DeleteEventStreamOutput: Swift.Sendable {
 
     public init() { }
+}
+
+public struct DeleteEventTriggerInput: Swift.Sendable {
+    /// The unique name of the domain.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// The unique name of the event trigger.
+    /// This member is required.
+    public var eventTriggerName: Swift.String?
+
+    public init(
+        domainName: Swift.String? = nil,
+        eventTriggerName: Swift.String? = nil
+    )
+    {
+        self.domainName = domainName
+        self.eventTriggerName = eventTriggerName
+    }
+}
+
+public struct DeleteEventTriggerOutput: Swift.Sendable {
+    /// A message that indicates the delete request is done.
+    /// This member is required.
+    public var message: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.message = message
+    }
 }
 
 public struct DeleteIntegrationInput: Swift.Sendable {
@@ -5042,6 +5425,73 @@ public struct GetEventStreamOutput: Swift.Sendable {
     }
 }
 
+public struct GetEventTriggerInput: Swift.Sendable {
+    /// The unique name of the domain.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// The unique name of the event trigger.
+    /// This member is required.
+    public var eventTriggerName: Swift.String?
+
+    public init(
+        domainName: Swift.String? = nil,
+        eventTriggerName: Swift.String? = nil
+    )
+    {
+        self.domainName = domainName
+        self.eventTriggerName = eventTriggerName
+    }
+}
+
+public struct GetEventTriggerOutput: Swift.Sendable {
+    /// The timestamp of when the event trigger was created.
+    public var createdAt: Foundation.Date?
+    /// The description of the event trigger.
+    public var description: Swift.String?
+    /// A list of conditions that determine when an event should trigger the destination.
+    public var eventTriggerConditions: [CustomerProfilesClientTypes.EventTriggerCondition]?
+    /// Defines limits controlling whether an event triggers the destination, based on ingestion latency and the number of invocations per profile over specific time periods.
+    public var eventTriggerLimits: CustomerProfilesClientTypes.EventTriggerLimits?
+    /// The unique name of the event trigger.
+    public var eventTriggerName: Swift.String?
+    /// The timestamp of when the event trigger was most recently updated.
+    public var lastUpdatedAt: Foundation.Date?
+    /// The unique name of the object type.
+    public var objectTypeName: Swift.String?
+    /// The destination is triggered only for profiles that meet the criteria of a segment definition.
+    public var segmentFilter: Swift.String?
+    /// An array of key-value pairs to apply to this resource.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        description: Swift.String? = nil,
+        eventTriggerConditions: [CustomerProfilesClientTypes.EventTriggerCondition]? = nil,
+        eventTriggerLimits: CustomerProfilesClientTypes.EventTriggerLimits? = nil,
+        eventTriggerName: Swift.String? = nil,
+        lastUpdatedAt: Foundation.Date? = nil,
+        objectTypeName: Swift.String? = nil,
+        segmentFilter: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    )
+    {
+        self.createdAt = createdAt
+        self.description = description
+        self.eventTriggerConditions = eventTriggerConditions
+        self.eventTriggerLimits = eventTriggerLimits
+        self.eventTriggerName = eventTriggerName
+        self.lastUpdatedAt = lastUpdatedAt
+        self.objectTypeName = objectTypeName
+        self.segmentFilter = segmentFilter
+        self.tags = tags
+    }
+}
+
+extension GetEventTriggerOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetEventTriggerOutput(createdAt: \(Swift.String(describing: createdAt)), eventTriggerLimits: \(Swift.String(describing: eventTriggerLimits)), eventTriggerName: \(Swift.String(describing: eventTriggerName)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), objectTypeName: \(Swift.String(describing: objectTypeName)), segmentFilter: \(Swift.String(describing: segmentFilter)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\", eventTriggerConditions: \"CONTENT_REDACTED\")"}
+}
+
 public struct GetIdentityResolutionJobInput: Swift.Sendable {
     /// The unique name of the domain.
     /// This member is required.
@@ -5255,6 +5705,8 @@ public struct GetIntegrationOutput: Swift.Sendable {
     /// The unique name of the domain.
     /// This member is required.
     public var domainName: Swift.String?
+    /// A list of unique names for active event triggers associated with the integration. This list would be empty if no Event Trigger is associated with the integration.
+    public var eventTriggerNames: [Swift.String]?
     /// Boolean that shows if the Flow that's associated with the Integration is created in Amazon Appflow, or with ObjectTypeName equals _unstructured via API/CLI in flowDefinition.
     public var isUnstructured: Swift.Bool?
     /// The timestamp of when the domain was most recently edited.
@@ -5277,6 +5729,7 @@ public struct GetIntegrationOutput: Swift.Sendable {
     public init(
         createdAt: Foundation.Date? = nil,
         domainName: Swift.String? = nil,
+        eventTriggerNames: [Swift.String]? = nil,
         isUnstructured: Swift.Bool? = nil,
         lastUpdatedAt: Foundation.Date? = nil,
         objectTypeName: Swift.String? = nil,
@@ -5289,6 +5742,7 @@ public struct GetIntegrationOutput: Swift.Sendable {
     {
         self.createdAt = createdAt
         self.domainName = domainName
+        self.eventTriggerNames = eventTriggerNames
         self.isUnstructured = isUnstructured
         self.lastUpdatedAt = lastUpdatedAt
         self.objectTypeName = objectTypeName
@@ -6160,6 +6614,8 @@ extension CustomerProfilesClientTypes {
         /// The unique name of the domain.
         /// This member is required.
         public var domainName: Swift.String?
+        /// A list of unique names for active event triggers associated with the integration.
+        public var eventTriggerNames: [Swift.String]?
         /// Boolean that shows if the Flow that's associated with the Integration is created in Amazon Appflow, or with ObjectTypeName equals _unstructured via API/CLI in flowDefinition.
         public var isUnstructured: Swift.Bool?
         /// The timestamp of when the domain was most recently edited.
@@ -6182,6 +6638,7 @@ extension CustomerProfilesClientTypes {
         public init(
             createdAt: Foundation.Date? = nil,
             domainName: Swift.String? = nil,
+            eventTriggerNames: [Swift.String]? = nil,
             isUnstructured: Swift.Bool? = nil,
             lastUpdatedAt: Foundation.Date? = nil,
             objectTypeName: Swift.String? = nil,
@@ -6194,6 +6651,7 @@ extension CustomerProfilesClientTypes {
         {
             self.createdAt = createdAt
             self.domainName = domainName
+            self.eventTriggerNames = eventTriggerNames
             self.isUnstructured = isUnstructured
             self.lastUpdatedAt = lastUpdatedAt
             self.objectTypeName = objectTypeName
@@ -6474,6 +6932,84 @@ public struct ListEventStreamsOutput: Swift.Sendable {
         self.items = items
         self.nextToken = nextToken
     }
+}
+
+public struct ListEventTriggersInput: Swift.Sendable {
+    /// The unique name of the domain.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// The maximum number of results to return per page.
+    public var maxResults: Swift.Int?
+    /// The pagination token to use with ListEventTriggers.
+    public var nextToken: Swift.String?
+
+    public init(
+        domainName: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.domainName = domainName
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    /// The summary of the event trigger.
+    public struct EventTriggerSummaryItem: Swift.Sendable {
+        /// The timestamp of when the event trigger was created.
+        public var createdAt: Foundation.Date?
+        /// The description of the event trigger.
+        public var description: Swift.String?
+        /// The unique name of the event trigger.
+        public var eventTriggerName: Swift.String?
+        /// The timestamp of when the event trigger was most recently updated.
+        public var lastUpdatedAt: Foundation.Date?
+        /// The unique name of the object type.
+        public var objectTypeName: Swift.String?
+        /// An array of key-value pairs to apply to this resource.
+        public var tags: [Swift.String: Swift.String]?
+
+        public init(
+            createdAt: Foundation.Date? = nil,
+            description: Swift.String? = nil,
+            eventTriggerName: Swift.String? = nil,
+            lastUpdatedAt: Foundation.Date? = nil,
+            objectTypeName: Swift.String? = nil,
+            tags: [Swift.String: Swift.String]? = nil
+        )
+        {
+            self.createdAt = createdAt
+            self.description = description
+            self.eventTriggerName = eventTriggerName
+            self.lastUpdatedAt = lastUpdatedAt
+            self.objectTypeName = objectTypeName
+            self.tags = tags
+        }
+    }
+}
+
+public struct ListEventTriggersOutput: Swift.Sendable {
+    /// The list of Event Triggers.
+    public var items: [CustomerProfilesClientTypes.EventTriggerSummaryItem]?
+    /// The pagination token from the previous call to ListEventTriggers.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [CustomerProfilesClientTypes.EventTriggerSummaryItem]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
+extension ListEventTriggersOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ListEventTriggersOutput(nextToken: \(Swift.String(describing: nextToken)), items: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListIdentityResolutionJobsInput: Swift.Sendable {
@@ -7334,6 +7870,8 @@ public struct PutIntegrationInput: Swift.Sendable {
     /// The unique name of the domain.
     /// This member is required.
     public var domainName: Swift.String?
+    /// A list of unique names for active event triggers associated with the integration.
+    public var eventTriggerNames: [Swift.String]?
     /// The configuration that controls how Customer Profiles retrieves data from the source.
     public var flowDefinition: CustomerProfilesClientTypes.FlowDefinition?
     /// The name of the profile object type.
@@ -7349,6 +7887,7 @@ public struct PutIntegrationInput: Swift.Sendable {
 
     public init(
         domainName: Swift.String? = nil,
+        eventTriggerNames: [Swift.String]? = nil,
         flowDefinition: CustomerProfilesClientTypes.FlowDefinition? = nil,
         objectTypeName: Swift.String? = nil,
         objectTypeNames: [Swift.String: Swift.String]? = nil,
@@ -7358,6 +7897,7 @@ public struct PutIntegrationInput: Swift.Sendable {
     )
     {
         self.domainName = domainName
+        self.eventTriggerNames = eventTriggerNames
         self.flowDefinition = flowDefinition
         self.objectTypeName = objectTypeName
         self.objectTypeNames = objectTypeNames
@@ -7369,7 +7909,7 @@ public struct PutIntegrationInput: Swift.Sendable {
 
 extension PutIntegrationInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "PutIntegrationInput(domainName: \(Swift.String(describing: domainName)), objectTypeName: \(Swift.String(describing: objectTypeName)), objectTypeNames: \(Swift.String(describing: objectTypeNames)), roleArn: \(Swift.String(describing: roleArn)), tags: \(Swift.String(describing: tags)), uri: \(Swift.String(describing: uri)), flowDefinition: \"CONTENT_REDACTED\")"}
+        "PutIntegrationInput(domainName: \(Swift.String(describing: domainName)), eventTriggerNames: \(Swift.String(describing: eventTriggerNames)), objectTypeName: \(Swift.String(describing: objectTypeName)), objectTypeNames: \(Swift.String(describing: objectTypeNames)), roleArn: \(Swift.String(describing: roleArn)), tags: \(Swift.String(describing: tags)), uri: \(Swift.String(describing: uri)), flowDefinition: \"CONTENT_REDACTED\")"}
 }
 
 public struct PutIntegrationOutput: Swift.Sendable {
@@ -7379,6 +7919,8 @@ public struct PutIntegrationOutput: Swift.Sendable {
     /// The unique name of the domain.
     /// This member is required.
     public var domainName: Swift.String?
+    /// A list of unique names for active event triggers associated with the integration. This list would be empty if no Event Trigger is associated with the integration.
+    public var eventTriggerNames: [Swift.String]?
     /// Boolean that shows if the Flow that's associated with the Integration is created in Amazon Appflow, or with ObjectTypeName equals _unstructured via API/CLI in flowDefinition.
     public var isUnstructured: Swift.Bool?
     /// The timestamp of when the domain was most recently edited.
@@ -7401,6 +7943,7 @@ public struct PutIntegrationOutput: Swift.Sendable {
     public init(
         createdAt: Foundation.Date? = nil,
         domainName: Swift.String? = nil,
+        eventTriggerNames: [Swift.String]? = nil,
         isUnstructured: Swift.Bool? = nil,
         lastUpdatedAt: Foundation.Date? = nil,
         objectTypeName: Swift.String? = nil,
@@ -7413,6 +7956,7 @@ public struct PutIntegrationOutput: Swift.Sendable {
     {
         self.createdAt = createdAt
         self.domainName = domainName
+        self.eventTriggerNames = eventTriggerNames
         self.isUnstructured = isUnstructured
         self.lastUpdatedAt = lastUpdatedAt
         self.objectTypeName = objectTypeName
@@ -7904,6 +8448,98 @@ public struct UpdateDomainOutput: Swift.Sendable {
     }
 }
 
+public struct UpdateEventTriggerInput: Swift.Sendable {
+    /// The description of the event trigger.
+    public var description: Swift.String?
+    /// The unique name of the domain.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// A list of conditions that determine when an event should trigger the destination.
+    public var eventTriggerConditions: [CustomerProfilesClientTypes.EventTriggerCondition]?
+    /// Defines limits controlling whether an event triggers the destination, based on ingestion latency and the number of invocations per profile over specific time periods.
+    public var eventTriggerLimits: CustomerProfilesClientTypes.EventTriggerLimits?
+    /// The unique name of the event trigger.
+    /// This member is required.
+    public var eventTriggerName: Swift.String?
+    /// The unique name of the object type.
+    public var objectTypeName: Swift.String?
+    /// The destination is triggered only for profiles that meet the criteria of a segment definition.
+    public var segmentFilter: Swift.String?
+
+    public init(
+        description: Swift.String? = nil,
+        domainName: Swift.String? = nil,
+        eventTriggerConditions: [CustomerProfilesClientTypes.EventTriggerCondition]? = nil,
+        eventTriggerLimits: CustomerProfilesClientTypes.EventTriggerLimits? = nil,
+        eventTriggerName: Swift.String? = nil,
+        objectTypeName: Swift.String? = nil,
+        segmentFilter: Swift.String? = nil
+    )
+    {
+        self.description = description
+        self.domainName = domainName
+        self.eventTriggerConditions = eventTriggerConditions
+        self.eventTriggerLimits = eventTriggerLimits
+        self.eventTriggerName = eventTriggerName
+        self.objectTypeName = objectTypeName
+        self.segmentFilter = segmentFilter
+    }
+}
+
+extension UpdateEventTriggerInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateEventTriggerInput(domainName: \(Swift.String(describing: domainName)), eventTriggerLimits: \(Swift.String(describing: eventTriggerLimits)), eventTriggerName: \(Swift.String(describing: eventTriggerName)), objectTypeName: \(Swift.String(describing: objectTypeName)), segmentFilter: \(Swift.String(describing: segmentFilter)), description: \"CONTENT_REDACTED\", eventTriggerConditions: \"CONTENT_REDACTED\")"}
+}
+
+public struct UpdateEventTriggerOutput: Swift.Sendable {
+    /// The timestamp of when the event trigger was created.
+    public var createdAt: Foundation.Date?
+    /// The description of the event trigger.
+    public var description: Swift.String?
+    /// A list of conditions that determine when an event should trigger the destination.
+    public var eventTriggerConditions: [CustomerProfilesClientTypes.EventTriggerCondition]?
+    /// Defines limits controlling whether an event triggers the destination, based on ingestion latency and the number of invocations per profile over specific time periods.
+    public var eventTriggerLimits: CustomerProfilesClientTypes.EventTriggerLimits?
+    /// The unique name of the event trigger.
+    public var eventTriggerName: Swift.String?
+    /// The timestamp of when the event trigger was most recently updated.
+    public var lastUpdatedAt: Foundation.Date?
+    /// The unique name of the object type.
+    public var objectTypeName: Swift.String?
+    /// The destination is triggered only for profiles that meet the criteria of a segment definition.
+    public var segmentFilter: Swift.String?
+    /// An array of key-value pairs to apply to this resource.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        description: Swift.String? = nil,
+        eventTriggerConditions: [CustomerProfilesClientTypes.EventTriggerCondition]? = nil,
+        eventTriggerLimits: CustomerProfilesClientTypes.EventTriggerLimits? = nil,
+        eventTriggerName: Swift.String? = nil,
+        lastUpdatedAt: Foundation.Date? = nil,
+        objectTypeName: Swift.String? = nil,
+        segmentFilter: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    )
+    {
+        self.createdAt = createdAt
+        self.description = description
+        self.eventTriggerConditions = eventTriggerConditions
+        self.eventTriggerLimits = eventTriggerLimits
+        self.eventTriggerName = eventTriggerName
+        self.lastUpdatedAt = lastUpdatedAt
+        self.objectTypeName = objectTypeName
+        self.segmentFilter = segmentFilter
+        self.tags = tags
+    }
+}
+
+extension UpdateEventTriggerOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateEventTriggerOutput(createdAt: \(Swift.String(describing: createdAt)), eventTriggerLimits: \(Swift.String(describing: eventTriggerLimits)), eventTriggerName: \(Swift.String(describing: eventTriggerName)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), objectTypeName: \(Swift.String(describing: objectTypeName)), segmentFilter: \(Swift.String(describing: segmentFilter)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\", eventTriggerConditions: \"CONTENT_REDACTED\")"}
+}
+
 extension CustomerProfilesClientTypes {
 
     /// Updates associated with the address properties of a customer profile.
@@ -8161,6 +8797,19 @@ extension CreateEventStreamInput {
     }
 }
 
+extension CreateEventTriggerInput {
+
+    static func urlPathProvider(_ value: CreateEventTriggerInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
+            return nil
+        }
+        guard let eventTriggerName = value.eventTriggerName else {
+            return nil
+        }
+        return "/domains/\(domainName.urlPercentEncoding())/event-triggers/\(eventTriggerName.urlPercentEncoding())"
+    }
+}
+
 extension CreateIntegrationWorkflowInput {
 
     static func urlPathProvider(_ value: CreateIntegrationWorkflowInput) -> Swift.String? {
@@ -8250,6 +8899,19 @@ extension DeleteEventStreamInput {
             return nil
         }
         return "/domains/\(domainName.urlPercentEncoding())/event-streams/\(eventStreamName.urlPercentEncoding())"
+    }
+}
+
+extension DeleteEventTriggerInput {
+
+    static func urlPathProvider(_ value: DeleteEventTriggerInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
+            return nil
+        }
+        guard let eventTriggerName = value.eventTriggerName else {
+            return nil
+        }
+        return "/domains/\(domainName.urlPercentEncoding())/event-triggers/\(eventTriggerName.urlPercentEncoding())"
     }
 }
 
@@ -8401,6 +9063,19 @@ extension GetEventStreamInput {
             return nil
         }
         return "/domains/\(domainName.urlPercentEncoding())/event-streams/\(eventStreamName.urlPercentEncoding())"
+    }
+}
+
+extension GetEventTriggerInput {
+
+    static func urlPathProvider(_ value: GetEventTriggerInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
+            return nil
+        }
+        guard let eventTriggerName = value.eventTriggerName else {
+            return nil
+        }
+        return "/domains/\(domainName.urlPercentEncoding())/event-triggers/\(eventTriggerName.urlPercentEncoding())"
     }
 }
 
@@ -8717,6 +9392,32 @@ extension ListEventStreamsInput {
 extension ListEventStreamsInput {
 
     static func queryItemProvider(_ value: ListEventStreamsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListEventTriggersInput {
+
+    static func urlPathProvider(_ value: ListEventTriggersInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
+            return nil
+        }
+        return "/domains/\(domainName.urlPercentEncoding())/event-triggers"
+    }
+}
+
+extension ListEventTriggersInput {
+
+    static func queryItemProvider(_ value: ListEventTriggersInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
             let nextTokenQueryItem = Smithy.URIQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
@@ -9119,6 +9820,19 @@ extension UpdateDomainInput {
     }
 }
 
+extension UpdateEventTriggerInput {
+
+    static func urlPathProvider(_ value: UpdateEventTriggerInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
+            return nil
+        }
+        guard let eventTriggerName = value.eventTriggerName else {
+            return nil
+        }
+        return "/domains/\(domainName.urlPercentEncoding())/event-triggers/\(eventTriggerName.urlPercentEncoding())"
+    }
+}
+
 extension UpdateProfileInput {
 
     static func urlPathProvider(_ value: UpdateProfileInput) -> Swift.String? {
@@ -9189,6 +9903,19 @@ extension CreateEventStreamInput {
         guard let value else { return }
         try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["Uri"].write(value.uri)
+    }
+}
+
+extension CreateEventTriggerInput {
+
+    static func write(value: CreateEventTriggerInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Description"].write(value.description)
+        try writer["EventTriggerConditions"].writeList(value.eventTriggerConditions, memberWritingClosure: CustomerProfilesClientTypes.EventTriggerCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["EventTriggerLimits"].write(value.eventTriggerLimits, with: CustomerProfilesClientTypes.EventTriggerLimits.write(value:to:))
+        try writer["ObjectTypeName"].write(value.objectTypeName)
+        try writer["SegmentFilter"].write(value.segmentFilter)
+        try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 
@@ -9387,6 +10114,7 @@ extension PutIntegrationInput {
 
     static func write(value: PutIntegrationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["EventTriggerNames"].writeList(value.eventTriggerNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["FlowDefinition"].write(value.flowDefinition, with: CustomerProfilesClientTypes.FlowDefinition.write(value:to:))
         try writer["ObjectTypeName"].write(value.objectTypeName)
         try writer["ObjectTypeNames"].writeMap(value.objectTypeNames, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -9461,6 +10189,18 @@ extension UpdateDomainInput {
         try writer["Matching"].write(value.matching, with: CustomerProfilesClientTypes.MatchingRequest.write(value:to:))
         try writer["RuleBasedMatching"].write(value.ruleBasedMatching, with: CustomerProfilesClientTypes.RuleBasedMatchingRequest.write(value:to:))
         try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension UpdateEventTriggerInput {
+
+    static func write(value: UpdateEventTriggerInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Description"].write(value.description)
+        try writer["EventTriggerConditions"].writeList(value.eventTriggerConditions, memberWritingClosure: CustomerProfilesClientTypes.EventTriggerCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["EventTriggerLimits"].write(value.eventTriggerLimits, with: CustomerProfilesClientTypes.EventTriggerLimits.write(value:to:))
+        try writer["ObjectTypeName"].write(value.objectTypeName)
+        try writer["SegmentFilter"].write(value.segmentFilter)
     }
 }
 
@@ -9589,6 +10329,26 @@ extension CreateEventStreamOutput {
     }
 }
 
+extension CreateEventTriggerOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateEventTriggerOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateEventTriggerOutput()
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.description = try reader["Description"].readIfPresent()
+        value.eventTriggerConditions = try reader["EventTriggerConditions"].readListIfPresent(memberReadingClosure: CustomerProfilesClientTypes.EventTriggerCondition.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.eventTriggerLimits = try reader["EventTriggerLimits"].readIfPresent(with: CustomerProfilesClientTypes.EventTriggerLimits.read(from:))
+        value.eventTriggerName = try reader["EventTriggerName"].readIfPresent()
+        value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.objectTypeName = try reader["ObjectTypeName"].readIfPresent()
+        value.segmentFilter = try reader["SegmentFilter"].readIfPresent()
+        value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
 extension CreateIntegrationWorkflowOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateIntegrationWorkflowOutput {
@@ -9680,6 +10440,18 @@ extension DeleteEventStreamOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteEventStreamOutput {
         return DeleteEventStreamOutput()
+    }
+}
+
+extension DeleteEventTriggerOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteEventTriggerOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteEventTriggerOutput()
+        value.message = try reader["Message"].readIfPresent() ?? ""
+        return value
     }
 }
 
@@ -9864,6 +10636,26 @@ extension GetEventStreamOutput {
     }
 }
 
+extension GetEventTriggerOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetEventTriggerOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetEventTriggerOutput()
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.description = try reader["Description"].readIfPresent()
+        value.eventTriggerConditions = try reader["EventTriggerConditions"].readListIfPresent(memberReadingClosure: CustomerProfilesClientTypes.EventTriggerCondition.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.eventTriggerLimits = try reader["EventTriggerLimits"].readIfPresent(with: CustomerProfilesClientTypes.EventTriggerLimits.read(from:))
+        value.eventTriggerName = try reader["EventTriggerName"].readIfPresent()
+        value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.objectTypeName = try reader["ObjectTypeName"].readIfPresent()
+        value.segmentFilter = try reader["SegmentFilter"].readIfPresent()
+        value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
 extension GetIdentityResolutionJobOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetIdentityResolutionJobOutput {
@@ -9895,6 +10687,7 @@ extension GetIntegrationOutput {
         var value = GetIntegrationOutput()
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.domainName = try reader["DomainName"].readIfPresent() ?? ""
+        value.eventTriggerNames = try reader["EventTriggerNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.isUnstructured = try reader["IsUnstructured"].readIfPresent()
         value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.objectTypeName = try reader["ObjectTypeName"].readIfPresent()
@@ -10148,6 +10941,19 @@ extension ListEventStreamsOutput {
     }
 }
 
+extension ListEventTriggersOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListEventTriggersOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListEventTriggersOutput()
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: CustomerProfilesClientTypes.EventTriggerSummaryItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListIdentityResolutionJobsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListIdentityResolutionJobsOutput {
@@ -10313,6 +11119,7 @@ extension PutIntegrationOutput {
         var value = PutIntegrationOutput()
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.domainName = try reader["DomainName"].readIfPresent() ?? ""
+        value.eventTriggerNames = try reader["EventTriggerNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.isUnstructured = try reader["IsUnstructured"].readIfPresent()
         value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.objectTypeName = try reader["ObjectTypeName"].readIfPresent()
@@ -10429,6 +11236,26 @@ extension UpdateDomainOutput {
     }
 }
 
+extension UpdateEventTriggerOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateEventTriggerOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateEventTriggerOutput()
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.description = try reader["Description"].readIfPresent()
+        value.eventTriggerConditions = try reader["EventTriggerConditions"].readListIfPresent(memberReadingClosure: CustomerProfilesClientTypes.EventTriggerCondition.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.eventTriggerLimits = try reader["EventTriggerLimits"].readIfPresent(with: CustomerProfilesClientTypes.EventTriggerLimits.read(from:))
+        value.eventTriggerName = try reader["EventTriggerName"].readIfPresent()
+        value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.objectTypeName = try reader["ObjectTypeName"].readIfPresent()
+        value.segmentFilter = try reader["SegmentFilter"].readIfPresent()
+        value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
 extension UpdateProfileOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateProfileOutput {
@@ -10532,6 +11359,24 @@ enum CreateDomainOutputError {
 }
 
 enum CreateEventStreamOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateEventTriggerOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -10676,6 +11521,24 @@ enum DeleteDomainOutputError {
 }
 
 enum DeleteEventStreamOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteEventTriggerOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -10910,6 +11773,24 @@ enum GetDomainOutputError {
 }
 
 enum GetEventStreamOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetEventTriggerOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -11216,6 +12097,24 @@ enum ListDomainsOutputError {
 }
 
 enum ListEventStreamsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListEventTriggersOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -11569,6 +12468,24 @@ enum UpdateCalculatedAttributeDefinitionOutputError {
 }
 
 enum UpdateDomainOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateEventTriggerOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -12138,6 +13055,97 @@ extension CustomerProfilesClientTypes.MatchingRule {
     }
 }
 
+extension CustomerProfilesClientTypes.EventTriggerCondition {
+
+    static func write(value: CustomerProfilesClientTypes.EventTriggerCondition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EventTriggerDimensions"].writeList(value.eventTriggerDimensions, memberWritingClosure: CustomerProfilesClientTypes.EventTriggerDimension.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["LogicalOperator"].write(value.logicalOperator)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.EventTriggerCondition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CustomerProfilesClientTypes.EventTriggerCondition()
+        value.eventTriggerDimensions = try reader["EventTriggerDimensions"].readListIfPresent(memberReadingClosure: CustomerProfilesClientTypes.EventTriggerDimension.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.logicalOperator = try reader["LogicalOperator"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension CustomerProfilesClientTypes.EventTriggerDimension {
+
+    static func write(value: CustomerProfilesClientTypes.EventTriggerDimension?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ObjectAttributes"].writeList(value.objectAttributes, memberWritingClosure: CustomerProfilesClientTypes.ObjectAttribute.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.EventTriggerDimension {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CustomerProfilesClientTypes.EventTriggerDimension()
+        value.objectAttributes = try reader["ObjectAttributes"].readListIfPresent(memberReadingClosure: CustomerProfilesClientTypes.ObjectAttribute.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension CustomerProfilesClientTypes.ObjectAttribute {
+
+    static func write(value: CustomerProfilesClientTypes.ObjectAttribute?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ComparisonOperator"].write(value.comparisonOperator)
+        try writer["FieldName"].write(value.fieldName)
+        try writer["Source"].write(value.source)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.ObjectAttribute {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CustomerProfilesClientTypes.ObjectAttribute()
+        value.source = try reader["Source"].readIfPresent()
+        value.fieldName = try reader["FieldName"].readIfPresent()
+        value.comparisonOperator = try reader["ComparisonOperator"].readIfPresent() ?? .sdkUnknown("")
+        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension CustomerProfilesClientTypes.EventTriggerLimits {
+
+    static func write(value: CustomerProfilesClientTypes.EventTriggerLimits?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EventExpiration"].write(value.eventExpiration)
+        try writer["Periods"].writeList(value.periods, memberWritingClosure: CustomerProfilesClientTypes.Period.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.EventTriggerLimits {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CustomerProfilesClientTypes.EventTriggerLimits()
+        value.eventExpiration = try reader["EventExpiration"].readIfPresent()
+        value.periods = try reader["Periods"].readListIfPresent(memberReadingClosure: CustomerProfilesClientTypes.Period.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension CustomerProfilesClientTypes.Period {
+
+    static func write(value: CustomerProfilesClientTypes.Period?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaxInvocationsPerProfile"].write(value.maxInvocationsPerProfile)
+        try writer["Unit"].write(value.unit)
+        try writer["Unlimited"].write(value.unlimited)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.Period {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CustomerProfilesClientTypes.Period()
+        value.unit = try reader["Unit"].readIfPresent() ?? .sdkUnknown("")
+        value.value = try reader["Value"].readIfPresent() ?? 0
+        value.maxInvocationsPerProfile = try reader["MaxInvocationsPerProfile"].readIfPresent()
+        value.unlimited = try reader["Unlimited"].readIfPresent() ?? false
+        return value
+    }
+}
+
 extension CustomerProfilesClientTypes.DetectedProfileObjectType {
 
     static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.DetectedProfileObjectType {
@@ -12615,6 +13623,7 @@ extension CustomerProfilesClientTypes.ListIntegrationItem {
         value.workflowId = try reader["WorkflowId"].readIfPresent()
         value.isUnstructured = try reader["IsUnstructured"].readIfPresent()
         value.roleArn = try reader["RoleArn"].readIfPresent()
+        value.eventTriggerNames = try reader["EventTriggerNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -12684,6 +13693,21 @@ extension CustomerProfilesClientTypes.DestinationSummary {
         value.uri = try reader["Uri"].readIfPresent() ?? ""
         value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         value.unhealthySince = try reader["UnhealthySince"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension CustomerProfilesClientTypes.EventTriggerSummaryItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.EventTriggerSummaryItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CustomerProfilesClientTypes.EventTriggerSummaryItem()
+        value.objectTypeName = try reader["ObjectTypeName"].readIfPresent()
+        value.eventTriggerName = try reader["EventTriggerName"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }

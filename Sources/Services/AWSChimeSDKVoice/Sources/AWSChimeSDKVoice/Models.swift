@@ -55,6 +55,11 @@ public struct DeleteVoiceConnectorEmergencyCallingConfigurationOutput: Swift.Sen
     public init() { }
 }
 
+public struct DeleteVoiceConnectorExternalSystemsConfigurationOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteVoiceConnectorGroupOutput: Swift.Sendable {
 
     public init() { }
@@ -222,9 +227,9 @@ extension ChimeSDKVoiceClientTypes {
 }
 
 /// You don't have the permissions needed to run this action.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: ChimeSDKVoiceClientTypes.ErrorCode? = nil
         public internal(set) var message: Swift.String? = nil
     }
@@ -335,9 +340,9 @@ extension ChimeSDKVoiceClientTypes {
 }
 
 /// The input parameters don't match the service's restrictions.
-public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: ChimeSDKVoiceClientTypes.ErrorCode? = nil
         public internal(set) var message: Swift.String? = nil
     }
@@ -362,9 +367,9 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 /// The client is permanently forbidden from making the request.
-public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: ChimeSDKVoiceClientTypes.ErrorCode? = nil
         public internal(set) var message: Swift.String? = nil
     }
@@ -389,9 +394,9 @@ public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.A
 }
 
 /// The requested resource couldn't be found.
-public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: ChimeSDKVoiceClientTypes.ErrorCode? = nil
         public internal(set) var message: Swift.String? = nil
     }
@@ -416,9 +421,9 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 /// The service encountered an unexpected error.
-public struct ServiceFailureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceFailureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: ChimeSDKVoiceClientTypes.ErrorCode? = nil
         public internal(set) var message: Swift.String? = nil
     }
@@ -443,9 +448,9 @@ public struct ServiceFailureException: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 /// The service is currently unavailable.
-public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: ChimeSDKVoiceClientTypes.ErrorCode? = nil
         public internal(set) var message: Swift.String? = nil
     }
@@ -470,9 +475,9 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
 }
 
 /// The number of customer requests exceeds the request rate limit.
-public struct ThrottledClientException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottledClientException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: ChimeSDKVoiceClientTypes.ErrorCode? = nil
         public internal(set) var message: Swift.String? = nil
     }
@@ -497,9 +502,9 @@ public struct ThrottledClientException: ClientRuntime.ModeledError, AWSClientRun
 }
 
 /// The client isn't authorized to request a resource.
-public struct UnauthorizedClientException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnauthorizedClientException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: ChimeSDKVoiceClientTypes.ErrorCode? = nil
         public internal(set) var message: Swift.String? = nil
     }
@@ -906,9 +911,9 @@ extension ChimeSDKVoiceClientTypes {
 }
 
 /// The request exceeds the resource limit.
-public struct ResourceLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: ChimeSDKVoiceClientTypes.ErrorCode? = nil
         public internal(set) var message: Swift.String? = nil
     }
@@ -1415,9 +1420,9 @@ public struct CreateProxySessionOutput: Swift.Sendable {
 }
 
 /// Multiple instances of the same request were made simultaneously.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: ChimeSDKVoiceClientTypes.ErrorCode? = nil
         public internal(set) var message: Swift.String? = nil
     }
@@ -1825,9 +1830,44 @@ extension ChimeSDKVoiceClientTypes {
     }
 }
 
+extension ChimeSDKVoiceClientTypes {
+
+    public enum VoiceConnectorIntegrationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case connectAnalyticsConnector
+        case connectCallTransferConnector
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VoiceConnectorIntegrationType] {
+            return [
+                .connectAnalyticsConnector,
+                .connectCallTransferConnector
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .connectAnalyticsConnector: return "CONNECT_ANALYTICS_CONNECTOR"
+            case .connectCallTransferConnector: return "CONNECT_CALL_TRANSFER_CONNECTOR"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct CreateVoiceConnectorInput: Swift.Sendable {
     /// The AWS Region in which the Amazon Chime SDK Voice Connector is created. Default value: us-east-1 .
     public var awsRegion: ChimeSDKVoiceClientTypes.VoiceConnectorAwsRegion?
+    /// The connectors for use with Amazon Connect. The following options are available:
+    ///
+    /// * CONNECT_CALL_TRANSFER_CONNECTOR - Enables enterprises to integrate Amazon Connect with other voice systems to directly transfer voice calls and metadata without using the public telephone network. They can use Amazon Connect telephony and Interactive Voice Response (IVR) with their existing voice systems to modernize the IVR experience of their existing contact center and their enterprise and branch voice systems. Additionally, enterprises migrating their contact center to Amazon Connect can start with Connect telephony and IVR for immediate modernization ahead of agent migration.
+    ///
+    /// * CONNECT_ANALYTICS_CONNECTOR - Enables enterprises to integrate Amazon Connect with other voice systems for real-time and post-call analytics. They can use Amazon Connect Contact Lens with their existing voice systems to provides call recordings, conversational analytics (including contact transcript, sensitive data redaction, content categorization, theme detection, sentiment analysis, real-time alerts, and post-contact summary), and agent performance evaluations (including evaluation forms, automated evaluation, supervisor review) with a rich user experience to display, search and filter customer interactions, and programmatic access to data streams and the data lake. Additionally, enterprises migrating their contact center to Amazon Connect can start with Contact Lens analytics and performance insights ahead of agent migration.
+    public var integrationType: ChimeSDKVoiceClientTypes.VoiceConnectorIntegrationType?
     /// The name of the Voice Connector.
     /// This member is required.
     public var name: Swift.String?
@@ -1839,12 +1879,14 @@ public struct CreateVoiceConnectorInput: Swift.Sendable {
 
     public init(
         awsRegion: ChimeSDKVoiceClientTypes.VoiceConnectorAwsRegion? = nil,
+        integrationType: ChimeSDKVoiceClientTypes.VoiceConnectorIntegrationType? = nil,
         name: Swift.String? = nil,
         requireEncryption: Swift.Bool? = nil,
         tags: [ChimeSDKVoiceClientTypes.Tag]? = nil
     )
     {
         self.awsRegion = awsRegion
+        self.integrationType = integrationType
         self.name = name
         self.requireEncryption = requireEncryption
         self.tags = tags
@@ -1859,6 +1901,8 @@ extension ChimeSDKVoiceClientTypes {
         public var awsRegion: ChimeSDKVoiceClientTypes.VoiceConnectorAwsRegion?
         /// The Voice Connector's creation timestamp, in ISO 8601 format.
         public var createdTimestamp: Foundation.Date?
+        /// The connectors for use with Amazon Connect.
+        public var integrationType: ChimeSDKVoiceClientTypes.VoiceConnectorIntegrationType?
         /// The Voice Connector's name.
         public var name: Swift.String?
         /// The outbound host name for the Voice Connector.
@@ -1875,6 +1919,7 @@ extension ChimeSDKVoiceClientTypes {
         public init(
             awsRegion: ChimeSDKVoiceClientTypes.VoiceConnectorAwsRegion? = nil,
             createdTimestamp: Foundation.Date? = nil,
+            integrationType: ChimeSDKVoiceClientTypes.VoiceConnectorIntegrationType? = nil,
             name: Swift.String? = nil,
             outboundHostName: Swift.String? = nil,
             requireEncryption: Swift.Bool? = nil,
@@ -1885,6 +1930,7 @@ extension ChimeSDKVoiceClientTypes {
         {
             self.awsRegion = awsRegion
             self.createdTimestamp = createdTimestamp
+            self.integrationType = integrationType
             self.name = name
             self.outboundHostName = outboundHostName
             self.requireEncryption = requireEncryption
@@ -1995,9 +2041,9 @@ public struct CreateVoiceConnectorGroupOutput: Swift.Sendable {
 }
 
 /// Access to the target resource is no longer available at the origin server. This condition is likely to be permanent.
-public struct GoneException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct GoneException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: ChimeSDKVoiceClientTypes.ErrorCode? = nil
         public internal(set) var message: Swift.String? = nil
     }
@@ -2273,6 +2319,19 @@ public struct DeleteVoiceConnectorInput: Swift.Sendable {
 
 public struct DeleteVoiceConnectorEmergencyCallingConfigurationInput: Swift.Sendable {
     /// The Voice Connector ID.
+    /// This member is required.
+    public var voiceConnectorId: Swift.String?
+
+    public init(
+        voiceConnectorId: Swift.String? = nil
+    )
+    {
+        self.voiceConnectorId = voiceConnectorId
+    }
+}
+
+public struct DeleteVoiceConnectorExternalSystemsConfigurationInput: Swift.Sendable {
+    /// The ID of the Voice Connector for which to delete the external system configuration.
     /// This member is required.
     public var voiceConnectorId: Swift.String?
 
@@ -3207,6 +3266,124 @@ public struct GetVoiceConnectorEmergencyCallingConfigurationOutput: Swift.Sendab
     )
     {
         self.emergencyCallingConfiguration = emergencyCallingConfiguration
+    }
+}
+
+public struct GetVoiceConnectorExternalSystemsConfigurationInput: Swift.Sendable {
+    /// The ID of the Voice Connector for which to return information about the external system configuration.
+    /// This member is required.
+    public var voiceConnectorId: Swift.String?
+
+    public init(
+        voiceConnectorId: Swift.String? = nil
+    )
+    {
+        self.voiceConnectorId = voiceConnectorId
+    }
+}
+
+extension ChimeSDKVoiceClientTypes {
+
+    public enum ContactCenterSystemType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case avayaAuraCallCenterElite
+        case avayaAuraContactCenter
+        case ciscoUnifiedContactCenterEnterprise
+        case genesysEngageOnPremises
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ContactCenterSystemType] {
+            return [
+                .avayaAuraCallCenterElite,
+                .avayaAuraContactCenter,
+                .ciscoUnifiedContactCenterEnterprise,
+                .genesysEngageOnPremises
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .avayaAuraCallCenterElite: return "AVAYA_AURA_CALL_CENTER_ELITE"
+            case .avayaAuraContactCenter: return "AVAYA_AURA_CONTACT_CENTER"
+            case .ciscoUnifiedContactCenterEnterprise: return "CISCO_UNIFIED_CONTACT_CENTER_ENTERPRISE"
+            case .genesysEngageOnPremises: return "GENESYS_ENGAGE_ON_PREMISES"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ChimeSDKVoiceClientTypes {
+
+    public enum SessionBorderControllerType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case audiocodesMediantSbc
+        case avayaSbce
+        case ciscoUnifiedBorderElement
+        case oracleAcmePacketSbc
+        case ribbonSbc
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SessionBorderControllerType] {
+            return [
+                .audiocodesMediantSbc,
+                .avayaSbce,
+                .ciscoUnifiedBorderElement,
+                .oracleAcmePacketSbc,
+                .ribbonSbc
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .audiocodesMediantSbc: return "AUDIOCODES_MEDIANT_SBC"
+            case .avayaSbce: return "AVAYA_SBCE"
+            case .ciscoUnifiedBorderElement: return "CISCO_UNIFIED_BORDER_ELEMENT"
+            case .oracleAcmePacketSbc: return "ORACLE_ACME_PACKET_SBC"
+            case .ribbonSbc: return "RIBBON_SBC"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ChimeSDKVoiceClientTypes {
+
+    /// Contains information about an external systems configuration for a Voice Connector.
+    public struct ExternalSystemsConfiguration: Swift.Sendable {
+        /// The contact center system.
+        public var contactCenterSystemTypes: [ChimeSDKVoiceClientTypes.ContactCenterSystemType]?
+        /// The session border controllers.
+        public var sessionBorderControllerTypes: [ChimeSDKVoiceClientTypes.SessionBorderControllerType]?
+
+        public init(
+            contactCenterSystemTypes: [ChimeSDKVoiceClientTypes.ContactCenterSystemType]? = nil,
+            sessionBorderControllerTypes: [ChimeSDKVoiceClientTypes.SessionBorderControllerType]? = nil
+        )
+        {
+            self.contactCenterSystemTypes = contactCenterSystemTypes
+            self.sessionBorderControllerTypes = sessionBorderControllerTypes
+        }
+    }
+}
+
+public struct GetVoiceConnectorExternalSystemsConfigurationOutput: Swift.Sendable {
+    /// An object that contains information about an external systems configuration for a Voice Connector.
+    public var externalSystemsConfiguration: ChimeSDKVoiceClientTypes.ExternalSystemsConfiguration?
+
+    public init(
+        externalSystemsConfiguration: ChimeSDKVoiceClientTypes.ExternalSystemsConfiguration? = nil
+    )
+    {
+        self.externalSystemsConfiguration = externalSystemsConfiguration
     }
 }
 
@@ -4413,6 +4590,39 @@ public struct PutVoiceConnectorEmergencyCallingConfigurationOutput: Swift.Sendab
     }
 }
 
+public struct PutVoiceConnectorExternalSystemsConfigurationInput: Swift.Sendable {
+    /// The contact center system to use.
+    public var contactCenterSystemTypes: [ChimeSDKVoiceClientTypes.ContactCenterSystemType]?
+    /// The session border controllers to use.
+    public var sessionBorderControllerTypes: [ChimeSDKVoiceClientTypes.SessionBorderControllerType]?
+    /// The ID of the Voice Connector for which to add the external system configuration.
+    /// This member is required.
+    public var voiceConnectorId: Swift.String?
+
+    public init(
+        contactCenterSystemTypes: [ChimeSDKVoiceClientTypes.ContactCenterSystemType]? = nil,
+        sessionBorderControllerTypes: [ChimeSDKVoiceClientTypes.SessionBorderControllerType]? = nil,
+        voiceConnectorId: Swift.String? = nil
+    )
+    {
+        self.contactCenterSystemTypes = contactCenterSystemTypes
+        self.sessionBorderControllerTypes = sessionBorderControllerTypes
+        self.voiceConnectorId = voiceConnectorId
+    }
+}
+
+public struct PutVoiceConnectorExternalSystemsConfigurationOutput: Swift.Sendable {
+    /// An object that contains information about an external systems configuration for a Voice Connector.
+    public var externalSystemsConfiguration: ChimeSDKVoiceClientTypes.ExternalSystemsConfiguration?
+
+    public init(
+        externalSystemsConfiguration: ChimeSDKVoiceClientTypes.ExternalSystemsConfiguration? = nil
+    )
+    {
+        self.externalSystemsConfiguration = externalSystemsConfiguration
+    }
+}
+
 public struct PutVoiceConnectorLoggingConfigurationInput: Swift.Sendable {
     /// The logging configuration being updated.
     /// This member is required.
@@ -4715,9 +4925,9 @@ extension SearchAvailablePhoneNumbersOutput: Swift.CustomDebugStringConvertible 
 }
 
 /// A well-formed request couldn't be followed due to semantic errors.
-public struct UnprocessableEntityException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnprocessableEntityException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: ChimeSDKVoiceClientTypes.ErrorCode? = nil
         public internal(set) var message: Swift.String? = nil
     }
@@ -5566,6 +5776,16 @@ extension DeleteVoiceConnectorEmergencyCallingConfigurationInput {
     }
 }
 
+extension DeleteVoiceConnectorExternalSystemsConfigurationInput {
+
+    static func urlPathProvider(_ value: DeleteVoiceConnectorExternalSystemsConfigurationInput) -> Swift.String? {
+        guard let voiceConnectorId = value.voiceConnectorId else {
+            return nil
+        }
+        return "/voice-connectors/\(voiceConnectorId.urlPercentEncoding())/external-systems-configuration"
+    }
+}
+
 extension DeleteVoiceConnectorGroupInput {
 
     static func urlPathProvider(_ value: DeleteVoiceConnectorGroupInput) -> Swift.String? {
@@ -5810,6 +6030,16 @@ extension GetVoiceConnectorEmergencyCallingConfigurationInput {
             return nil
         }
         return "/voice-connectors/\(voiceConnectorId.urlPercentEncoding())/emergency-calling-configuration"
+    }
+}
+
+extension GetVoiceConnectorExternalSystemsConfigurationInput {
+
+    static func urlPathProvider(_ value: GetVoiceConnectorExternalSystemsConfigurationInput) -> Swift.String? {
+        guard let voiceConnectorId = value.voiceConnectorId else {
+            return nil
+        }
+        return "/voice-connectors/\(voiceConnectorId.urlPercentEncoding())/external-systems-configuration"
     }
 }
 
@@ -6259,6 +6489,16 @@ extension PutVoiceConnectorEmergencyCallingConfigurationInput {
     }
 }
 
+extension PutVoiceConnectorExternalSystemsConfigurationInput {
+
+    static func urlPathProvider(_ value: PutVoiceConnectorExternalSystemsConfigurationInput) -> Swift.String? {
+        guard let voiceConnectorId = value.voiceConnectorId else {
+            return nil
+        }
+        return "/voice-connectors/\(voiceConnectorId.urlPercentEncoding())/external-systems-configuration"
+    }
+}
+
 extension PutVoiceConnectorLoggingConfigurationInput {
 
     static func urlPathProvider(_ value: PutVoiceConnectorLoggingConfigurationInput) -> Swift.String? {
@@ -6705,6 +6945,7 @@ extension CreateVoiceConnectorInput {
     static func write(value: CreateVoiceConnectorInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["AwsRegion"].write(value.awsRegion)
+        try writer["IntegrationType"].write(value.integrationType)
         try writer["Name"].write(value.name)
         try writer["RequireEncryption"].write(value.requireEncryption)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: ChimeSDKVoiceClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -6785,6 +7026,15 @@ extension PutVoiceConnectorEmergencyCallingConfigurationInput {
     static func write(value: PutVoiceConnectorEmergencyCallingConfigurationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["EmergencyCallingConfiguration"].write(value.emergencyCallingConfiguration, with: ChimeSDKVoiceClientTypes.EmergencyCallingConfiguration.write(value:to:))
+    }
+}
+
+extension PutVoiceConnectorExternalSystemsConfigurationInput {
+
+    static func write(value: PutVoiceConnectorExternalSystemsConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ContactCenterSystemTypes"].writeList(value.contactCenterSystemTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ChimeSDKVoiceClientTypes.ContactCenterSystemType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SessionBorderControllerTypes"].writeList(value.sessionBorderControllerTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ChimeSDKVoiceClientTypes.SessionBorderControllerType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -7187,6 +7437,13 @@ extension DeleteVoiceConnectorEmergencyCallingConfigurationOutput {
     }
 }
 
+extension DeleteVoiceConnectorExternalSystemsConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteVoiceConnectorExternalSystemsConfigurationOutput {
+        return DeleteVoiceConnectorExternalSystemsConfigurationOutput()
+    }
+}
+
 extension DeleteVoiceConnectorGroupOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteVoiceConnectorGroupOutput {
@@ -7408,6 +7665,18 @@ extension GetVoiceConnectorEmergencyCallingConfigurationOutput {
         let reader = responseReader
         var value = GetVoiceConnectorEmergencyCallingConfigurationOutput()
         value.emergencyCallingConfiguration = try reader["EmergencyCallingConfiguration"].readIfPresent(with: ChimeSDKVoiceClientTypes.EmergencyCallingConfiguration.read(from:))
+        return value
+    }
+}
+
+extension GetVoiceConnectorExternalSystemsConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetVoiceConnectorExternalSystemsConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetVoiceConnectorExternalSystemsConfigurationOutput()
+        value.externalSystemsConfiguration = try reader["ExternalSystemsConfiguration"].readIfPresent(with: ChimeSDKVoiceClientTypes.ExternalSystemsConfiguration.read(from:))
         return value
     }
 }
@@ -7729,6 +7998,18 @@ extension PutVoiceConnectorEmergencyCallingConfigurationOutput {
         let reader = responseReader
         var value = PutVoiceConnectorEmergencyCallingConfigurationOutput()
         value.emergencyCallingConfiguration = try reader["EmergencyCallingConfiguration"].readIfPresent(with: ChimeSDKVoiceClientTypes.EmergencyCallingConfiguration.read(from:))
+        return value
+    }
+}
+
+extension PutVoiceConnectorExternalSystemsConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutVoiceConnectorExternalSystemsConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = PutVoiceConnectorExternalSystemsConfigurationOutput()
+        value.externalSystemsConfiguration = try reader["ExternalSystemsConfiguration"].readIfPresent(with: ChimeSDKVoiceClientTypes.ExternalSystemsConfiguration.read(from:))
         return value
     }
 }
@@ -8413,6 +8694,26 @@ enum DeleteVoiceConnectorEmergencyCallingConfigurationOutputError {
     }
 }
 
+enum DeleteVoiceConnectorExternalSystemsConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceFailureException": return try ServiceFailureException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "ThrottledClientException": return try ThrottledClientException.makeError(baseError: baseError)
+            case "UnauthorizedClientException": return try UnauthorizedClientException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteVoiceConnectorGroupOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -8839,6 +9140,26 @@ enum GetVoiceConnectorOutputError {
 }
 
 enum GetVoiceConnectorEmergencyCallingConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceFailureException": return try ServiceFailureException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "ThrottledClientException": return try ThrottledClientException.makeError(baseError: baseError)
+            case "UnauthorizedClientException": return try UnauthorizedClientException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetVoiceConnectorExternalSystemsConfigurationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -9364,6 +9685,27 @@ enum PutVoiceConnectorEmergencyCallingConfigurationOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceFailureException": return try ServiceFailureException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "ThrottledClientException": return try ThrottledClientException.makeError(baseError: baseError)
+            case "UnauthorizedClientException": return try UnauthorizedClientException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum PutVoiceConnectorExternalSystemsConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
             case "ServiceFailureException": return try ServiceFailureException.makeError(baseError: baseError)
@@ -10268,6 +10610,7 @@ extension ChimeSDKVoiceClientTypes.VoiceConnector {
         value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedTimestamp = try reader["UpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.voiceConnectorArn = try reader["VoiceConnectorArn"].readIfPresent()
+        value.integrationType = try reader["IntegrationType"].readIfPresent()
         return value
     }
 }
@@ -10529,6 +10872,17 @@ extension ChimeSDKVoiceClientTypes.DNISEmergencyCallingConfiguration {
         value.emergencyPhoneNumber = try reader["EmergencyPhoneNumber"].readIfPresent() ?? ""
         value.testPhoneNumber = try reader["TestPhoneNumber"].readIfPresent()
         value.callingCountry = try reader["CallingCountry"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ChimeSDKVoiceClientTypes.ExternalSystemsConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKVoiceClientTypes.ExternalSystemsConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ChimeSDKVoiceClientTypes.ExternalSystemsConfiguration()
+        value.sessionBorderControllerTypes = try reader["SessionBorderControllerTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ChimeSDKVoiceClientTypes.SessionBorderControllerType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.contactCenterSystemTypes = try reader["ContactCenterSystemTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ChimeSDKVoiceClientTypes.ContactCenterSystemType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }

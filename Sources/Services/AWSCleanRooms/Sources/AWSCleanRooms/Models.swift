@@ -58,9 +58,9 @@ extension CleanRoomsClientTypes {
 }
 
 /// Caller does not have sufficient access to perform this action.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// A reason code for the exception.
         public internal(set) var reason: CleanRoomsClientTypes.AccessDeniedExceptionReason? = nil
@@ -1156,9 +1156,9 @@ extension CleanRoomsClientTypes {
 }
 
 /// Updating or deleting a resource can cause an inconsistent state.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// A reason code for the exception.
         public internal(set) var reason: CleanRoomsClientTypes.ConflictExceptionReason? = nil
@@ -1192,9 +1192,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 /// Unexpected error during processing of request.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1216,9 +1216,9 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 /// Request references a resource which does not exist.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The Id of the missing resource.
@@ -1251,9 +1251,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// Request denied because service quota has been exceeded.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The name of the quota.
@@ -1286,9 +1286,9 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 }
 
 /// Request was denied due to request throttling.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1367,9 +1367,9 @@ extension CleanRoomsClientTypes {
 }
 
 /// The input fails to satisfy the specified constraints.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Validation errors for specific input parameters.
         public internal(set) var fieldList: [CleanRoomsClientTypes.ValidationExceptionField]? = nil
         public internal(set) var message: Swift.String? = nil
@@ -1702,6 +1702,37 @@ extension CleanRoomsClientTypes {
     }
 }
 
+extension CleanRoomsClientTypes {
+
+    /// A reference to a table within Athena.
+    public struct AthenaTableReference: Swift.Sendable {
+        /// The database name.
+        /// This member is required.
+        public var databaseName: Swift.String?
+        /// The output location for the Athena table.
+        public var outputLocation: Swift.String?
+        /// The table reference.
+        /// This member is required.
+        public var tableName: Swift.String?
+        /// The workgroup of the Athena table reference.
+        /// This member is required.
+        public var workGroup: Swift.String?
+
+        public init(
+            databaseName: Swift.String? = nil,
+            outputLocation: Swift.String? = nil,
+            tableName: Swift.String? = nil,
+            workGroup: Swift.String? = nil
+        )
+        {
+            self.databaseName = databaseName
+            self.outputLocation = outputLocation
+            self.tableName = tableName
+            self.workGroup = workGroup
+        }
+    }
+}
+
 public struct BatchGetCollaborationAnalysisTemplateInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) associated with the analysis template within a collaboration.
     /// This member is required.
@@ -1896,7 +1927,7 @@ extension CleanRoomsClientTypes {
 
 extension CleanRoomsClientTypes {
 
-    /// A column within a schema relation, derived from the underlying Glue table.
+    /// A column within a schema relation, derived from the underlying table.
     public struct Column: Swift.Sendable {
         /// The name of the column.
         /// This member is required.
@@ -5335,10 +5366,88 @@ extension CleanRoomsClientTypes {
 
 extension CleanRoomsClientTypes {
 
-    /// A pointer to the dataset that underlies this table. Currently, this can only be an Glue table.
+    /// The Snowflake table schema.
+    public struct SnowflakeTableSchemaV1: Swift.Sendable {
+        /// The column name.
+        /// This member is required.
+        public var columnName: Swift.String?
+        /// The column's data type. Supported data types: ARRAY, BIGINT, BOOLEAN, CHAR, DATE, DECIMAL, DOUBLE, DOUBLE PRECISION, FLOAT, FLOAT4, INT, INTEGER, MAP, NUMERIC, NUMBER, REAL, SMALLINT, STRING, TIMESTAMP, TIMESTAMP_LTZ, TIMESTAMP_NTZ, DATETIME, TINYINT, VARCHAR, TEXT, CHARACTER.
+        /// This member is required.
+        public var columnType: Swift.String?
+
+        public init(
+            columnName: Swift.String? = nil,
+            columnType: Swift.String? = nil
+        )
+        {
+            self.columnName = columnName
+            self.columnType = columnType
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// The schema of a Snowflake table.
+    public enum SnowflakeTableSchema: Swift.Sendable {
+        /// The schema of a Snowflake table.
+        case v1([CleanRoomsClientTypes.SnowflakeTableSchemaV1])
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// A reference to a table within Snowflake.
+    public struct SnowflakeTableReference: Swift.Sendable {
+        /// The account identifier for the Snowflake table reference.
+        /// This member is required.
+        public var accountIdentifier: Swift.String?
+        /// The name of the database the Snowflake table belongs to.
+        /// This member is required.
+        public var databaseName: Swift.String?
+        /// The schema name of the Snowflake table reference.
+        /// This member is required.
+        public var schemaName: Swift.String?
+        /// The secret ARN of the Snowflake table reference.
+        /// This member is required.
+        public var secretArn: Swift.String?
+        /// The name of the Snowflake table.
+        /// This member is required.
+        public var tableName: Swift.String?
+        /// The schema of the Snowflake table.
+        /// This member is required.
+        public var tableSchema: CleanRoomsClientTypes.SnowflakeTableSchema?
+
+        public init(
+            accountIdentifier: Swift.String? = nil,
+            databaseName: Swift.String? = nil,
+            schemaName: Swift.String? = nil,
+            secretArn: Swift.String? = nil,
+            tableName: Swift.String? = nil,
+            tableSchema: CleanRoomsClientTypes.SnowflakeTableSchema? = nil
+        )
+        {
+            self.accountIdentifier = accountIdentifier
+            self.databaseName = databaseName
+            self.schemaName = schemaName
+            self.secretArn = secretArn
+            self.tableName = tableName
+            self.tableSchema = tableSchema
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// A pointer to the dataset that underlies this table.
     public enum TableReference: Swift.Sendable {
         /// If present, a reference to the Glue table referred to by this table reference.
         case glue(CleanRoomsClientTypes.GlueTableReference)
+        /// If present, a reference to the Snowflake table referred to by this table reference.
+        case snowflake(CleanRoomsClientTypes.SnowflakeTableReference)
+        /// If present, a reference to the Athena table referred to by this table reference.
+        case athena(CleanRoomsClientTypes.AthenaTableReference)
         case sdkUnknown(Swift.String)
     }
 }
@@ -5355,7 +5464,7 @@ public struct CreateConfiguredTableInput: Swift.Sendable {
     /// The name of the configured table.
     /// This member is required.
     public var name: Swift.String?
-    /// A reference to the Glue table being configured.
+    /// A reference to the table being configured.
     /// This member is required.
     public var tableReference: CleanRoomsClientTypes.TableReference?
     /// An optional label that you can assign to a resource when you create it. Each tag consists of a key and an optional value, both of which you define. When you use tagging, you can also use tag-based access control in IAM policies to control access to this resource.
@@ -5438,7 +5547,7 @@ extension CleanRoomsClientTypes {
         /// A name for the configured table.
         /// This member is required.
         public var name: Swift.String?
-        /// The Glue table that this configured table represents.
+        /// The table that this configured table represents.
         /// This member is required.
         public var tableReference: CleanRoomsClientTypes.TableReference?
         /// The time the configured table was last updated
@@ -13065,8 +13174,12 @@ extension CleanRoomsClientTypes.TableReference {
     static func write(value: CleanRoomsClientTypes.TableReference?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
+            case let .athena(athena):
+                try writer["athena"].write(athena, with: CleanRoomsClientTypes.AthenaTableReference.write(value:to:))
             case let .glue(glue):
                 try writer["glue"].write(glue, with: CleanRoomsClientTypes.GlueTableReference.write(value:to:))
+            case let .snowflake(snowflake):
+                try writer["snowflake"].write(snowflake, with: CleanRoomsClientTypes.SnowflakeTableReference.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
@@ -13078,9 +13191,100 @@ extension CleanRoomsClientTypes.TableReference {
         switch name {
             case "glue":
                 return .glue(try reader["glue"].read(with: CleanRoomsClientTypes.GlueTableReference.read(from:)))
+            case "snowflake":
+                return .snowflake(try reader["snowflake"].read(with: CleanRoomsClientTypes.SnowflakeTableReference.read(from:)))
+            case "athena":
+                return .athena(try reader["athena"].read(with: CleanRoomsClientTypes.AthenaTableReference.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension CleanRoomsClientTypes.AthenaTableReference {
+
+    static func write(value: CleanRoomsClientTypes.AthenaTableReference?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["databaseName"].write(value.databaseName)
+        try writer["outputLocation"].write(value.outputLocation)
+        try writer["tableName"].write(value.tableName)
+        try writer["workGroup"].write(value.workGroup)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.AthenaTableReference {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.AthenaTableReference()
+        value.workGroup = try reader["workGroup"].readIfPresent() ?? ""
+        value.outputLocation = try reader["outputLocation"].readIfPresent()
+        value.databaseName = try reader["databaseName"].readIfPresent() ?? ""
+        value.tableName = try reader["tableName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.SnowflakeTableReference {
+
+    static func write(value: CleanRoomsClientTypes.SnowflakeTableReference?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["accountIdentifier"].write(value.accountIdentifier)
+        try writer["databaseName"].write(value.databaseName)
+        try writer["schemaName"].write(value.schemaName)
+        try writer["secretArn"].write(value.secretArn)
+        try writer["tableName"].write(value.tableName)
+        try writer["tableSchema"].write(value.tableSchema, with: CleanRoomsClientTypes.SnowflakeTableSchema.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.SnowflakeTableReference {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.SnowflakeTableReference()
+        value.secretArn = try reader["secretArn"].readIfPresent() ?? ""
+        value.accountIdentifier = try reader["accountIdentifier"].readIfPresent() ?? ""
+        value.databaseName = try reader["databaseName"].readIfPresent() ?? ""
+        value.tableName = try reader["tableName"].readIfPresent() ?? ""
+        value.schemaName = try reader["schemaName"].readIfPresent() ?? ""
+        value.tableSchema = try reader["tableSchema"].readIfPresent(with: CleanRoomsClientTypes.SnowflakeTableSchema.read(from:))
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.SnowflakeTableSchema {
+
+    static func write(value: CleanRoomsClientTypes.SnowflakeTableSchema?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .v1(v1):
+                try writer["v1"].writeList(v1, memberWritingClosure: CleanRoomsClientTypes.SnowflakeTableSchemaV1.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.SnowflakeTableSchema {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "v1":
+                return .v1(try reader["v1"].readList(memberReadingClosure: CleanRoomsClientTypes.SnowflakeTableSchemaV1.read(from:), memberNodeInfo: "member", isFlattened: false))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension CleanRoomsClientTypes.SnowflakeTableSchemaV1 {
+
+    static func write(value: CleanRoomsClientTypes.SnowflakeTableSchemaV1?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["columnName"].write(value.columnName)
+        try writer["columnType"].write(value.columnType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.SnowflakeTableSchemaV1 {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.SnowflakeTableSchemaV1()
+        value.columnName = try reader["columnName"].readIfPresent() ?? ""
+        value.columnType = try reader["columnType"].readIfPresent() ?? ""
+        return value
     }
 }
 

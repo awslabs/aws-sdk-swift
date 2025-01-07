@@ -46,6 +46,41 @@ extension PaginatorSequence where OperationStackInput == DescribeAddonVersionsIn
     }
 }
 extension EKSClient {
+    /// Paginate over `[DescribeClusterVersionsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeClusterVersionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeClusterVersionsOutput`
+    public func describeClusterVersionsPaginated(input: DescribeClusterVersionsInput) -> ClientRuntime.PaginatorSequence<DescribeClusterVersionsInput, DescribeClusterVersionsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeClusterVersionsInput, DescribeClusterVersionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeClusterVersions(input:))
+    }
+}
+
+extension DescribeClusterVersionsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeClusterVersionsInput {
+        return DescribeClusterVersionsInput(
+            clusterType: self.clusterType,
+            clusterVersions: self.clusterVersions,
+            defaultOnly: self.defaultOnly,
+            includeAll: self.includeAll,
+            maxResults: self.maxResults,
+            nextToken: token,
+            status: self.status
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == DescribeClusterVersionsInput, OperationStackOutput == DescribeClusterVersionsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeClusterVersionsPaginated`
+    /// to access the nested member `[EKSClientTypes.ClusterVersionInformation]`
+    /// - Returns: `[EKSClientTypes.ClusterVersionInformation]`
+    public func clusterVersions() async throws -> [EKSClientTypes.ClusterVersionInformation] {
+        return try await self.asyncCompactMap { item in item.clusterVersions }
+    }
+}
+extension EKSClient {
     /// Paginate over `[ListAccessEntriesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

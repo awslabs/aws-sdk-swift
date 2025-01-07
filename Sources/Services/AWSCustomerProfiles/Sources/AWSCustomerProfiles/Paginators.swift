@@ -76,6 +76,37 @@ extension PaginatorSequence where OperationStackInput == ListEventStreamsInput, 
     }
 }
 extension CustomerProfilesClient {
+    /// Paginate over `[ListEventTriggersOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListEventTriggersInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListEventTriggersOutput`
+    public func listEventTriggersPaginated(input: ListEventTriggersInput) -> ClientRuntime.PaginatorSequence<ListEventTriggersInput, ListEventTriggersOutput> {
+        return ClientRuntime.PaginatorSequence<ListEventTriggersInput, ListEventTriggersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listEventTriggers(input:))
+    }
+}
+
+extension ListEventTriggersInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListEventTriggersInput {
+        return ListEventTriggersInput(
+            domainName: self.domainName,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListEventTriggersInput, OperationStackOutput == ListEventTriggersOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listEventTriggersPaginated`
+    /// to access the nested member `[CustomerProfilesClientTypes.EventTriggerSummaryItem]`
+    /// - Returns: `[CustomerProfilesClientTypes.EventTriggerSummaryItem]`
+    public func items() async throws -> [CustomerProfilesClientTypes.EventTriggerSummaryItem] {
+        return try await self.asyncCompactMap { item in item.items }
+    }
+}
+extension CustomerProfilesClient {
     /// Paginate over `[ListObjectTypeAttributesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

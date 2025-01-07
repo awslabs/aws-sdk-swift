@@ -103,9 +103,9 @@ public struct UpdateTagsForResourceOutput: Swift.Sendable {
 }
 
 /// The specified account does not have sufficient privileges for one or more AWS services.
-public struct InsufficientPrivilegesException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InsufficientPrivilegesException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The exception error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -695,9 +695,9 @@ extension ElasticBeanstalkClientTypes {
 }
 
 /// A generic service exception has occurred.
-public struct ElasticBeanstalkServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ElasticBeanstalkServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The exception error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -720,9 +720,9 @@ public struct ElasticBeanstalkServiceException: ClientRuntime.ModeledError, AWSC
 }
 
 /// Cannot modify the managed action in its current state.
-public struct ManagedActionInvalidStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ManagedActionInvalidStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The exception error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -882,9 +882,9 @@ public struct CheckDNSAvailabilityOutput: Swift.Sendable {
 }
 
 /// The specified account has reached its limit of environments.
-public struct TooManyEnvironmentsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyEnvironmentsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The exception error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1306,9 +1306,9 @@ public struct ComposeEnvironmentsOutput: Swift.Sendable {
 }
 
 /// The specified account has reached its limit of applications.
-public struct TooManyApplicationsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyApplicationsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The exception error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1390,9 +1390,9 @@ public struct CreateApplicationOutput: Swift.Sendable {
 }
 
 /// AWS CodeBuild is not available in the specified region.
-public struct CodeBuildNotInServiceRegionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CodeBuildNotInServiceRegionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The exception error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1421,9 +1421,9 @@ public struct CodeBuildNotInServiceRegionException: ClientRuntime.ModeledError, 
 /// * PDX/us-west-2
 ///
 /// * DUB/eu-west-1
-public struct S3LocationNotInServiceRegionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct S3LocationNotInServiceRegionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The exception error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1446,9 +1446,9 @@ public struct S3LocationNotInServiceRegionException: ClientRuntime.ModeledError,
 }
 
 /// The specified account has reached its limit of application versions.
-public struct TooManyApplicationVersionsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyApplicationVersionsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The exception error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1603,9 +1603,9 @@ public struct CreateApplicationVersionOutput: Swift.Sendable {
 }
 
 /// The specified account has reached its limit of Amazon S3 buckets.
-public struct TooManyBucketsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyBucketsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The exception error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1628,9 +1628,9 @@ public struct TooManyBucketsException: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 /// The specified account has reached its limit of configuration templates.
-public struct TooManyConfigurationTemplatesException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyConfigurationTemplatesException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The exception error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2041,9 +2041,9 @@ public struct CreateEnvironmentOutput: Swift.Sendable {
 }
 
 /// You have exceeded the maximum number of allowed platforms associated with the account.
-public struct TooManyPlatformsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyPlatformsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The exception error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2232,9 +2232,9 @@ public struct CreatePlatformVersionOutput: Swift.Sendable {
 }
 
 /// The specified account does not have a subscription to Amazon S3.
-public struct S3SubscriptionRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct S3SubscriptionRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The exception error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2270,9 +2270,9 @@ public struct CreateStorageLocationOutput: Swift.Sendable {
 }
 
 /// Unable to perform the specified operation because another operation that effects an element in this activity is already in progress.
-public struct OperationInProgressException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct OperationInProgressException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The exception error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2313,9 +2313,9 @@ public struct DeleteApplicationInput: Swift.Sendable {
 }
 
 /// Unable to delete the Amazon S3 source bundle associated with the application version. The application version was deleted successfully.
-public struct SourceBundleDeletionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SourceBundleDeletionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The exception error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2399,9 +2399,9 @@ public struct DeleteEnvironmentConfigurationInput: Swift.Sendable {
 }
 
 /// You cannot delete the platform version because there are still environments running on it.
-public struct PlatformVersionStillReferencedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PlatformVersionStillReferencedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The exception error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2851,9 +2851,9 @@ public struct DescribeConfigurationSettingsOutput: Swift.Sendable {
 }
 
 /// One or more input parameters is not valid. Please correct the input parameters and try the operation again.
-public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The exception error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4278,9 +4278,9 @@ public struct ListPlatformVersionsOutput: Swift.Sendable {
 }
 
 /// A resource doesn't exist for the specified Amazon Resource Name (ARN).
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The exception error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4303,9 +4303,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// The type of the specified Amazon Resource Name (ARN) isn't supported for this operation.
-public struct ResourceTypeNotSupportedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceTypeNotSupportedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The exception error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -5036,9 +5036,9 @@ public struct UpdateEnvironmentOutput: Swift.Sendable {
 }
 
 /// The number of tags in the resource would exceed the number of tags that each resource can have. To calculate this, the operation considers both the number of tags the resource already has and the tags this operation would add if it succeeded.
-public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The exception error message.
         public internal(set) var message: Swift.String? = nil
     }

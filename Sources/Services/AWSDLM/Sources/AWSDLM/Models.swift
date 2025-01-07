@@ -212,9 +212,9 @@ extension DLMClientTypes {
 }
 
 /// The service failed in an unexpected way.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: Swift.String? = nil
         public internal(set) var message: Swift.String? = nil
     }
@@ -239,9 +239,9 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 /// Bad request. The request is missing required parameters or has invalid parameters.
-public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: Swift.String? = nil
         public internal(set) var message: Swift.String? = nil
         /// The request included parameters that cannot be provided together.
@@ -274,9 +274,9 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 /// The request failed because a limit was exceeded.
-public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: Swift.String? = nil
         public internal(set) var message: Swift.String? = nil
         /// Value is the type of resource for which a limit was exceeded.
@@ -584,12 +584,14 @@ extension DLMClientTypes {
 
     public enum ResourceLocationValues: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case cloud
+        case localZone
         case outpost
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ResourceLocationValues] {
             return [
                 .cloud,
+                .localZone,
                 .outpost
             ]
         }
@@ -602,6 +604,7 @@ extension DLMClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .cloud: return "CLOUD"
+            case .localZone: return "LOCAL_ZONE"
             case .outpost: return "OUTPOST"
             case let .sdkUnknown(s): return s
             }
@@ -668,12 +671,14 @@ extension DLMClientTypes {
 
     public enum LocationValues: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case cloud
+        case localZone
         case outpostLocal
         case sdkUnknown(Swift.String)
 
         public static var allCases: [LocationValues] {
             return [
                 .cloud,
+                .localZone,
                 .outpostLocal
             ]
         }
@@ -686,6 +691,7 @@ extension DLMClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .cloud: return "CLOUD"
+            case .localZone: return "LOCAL_ZONE"
             case .outpostLocal: return "OUTPOST_LOCAL"
             case let .sdkUnknown(s): return s
             }
@@ -829,13 +835,31 @@ extension DLMClientTypes {
     ///
     /// * If you need to specify an [ArchiveRule](https://docs.aws.amazon.com/dlm/latest/APIReference/API_ArchiveRule.html) for the schedule, then you must specify a creation frequency of at least 28 days.
     public struct CreateRule: Swift.Sendable {
-        /// The schedule, as a Cron expression. The schedule interval must be between 1 hour and 1 year. For more information, see [Cron expressions](https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html#CronExpressions) in the Amazon CloudWatch User Guide.
+        /// The schedule, as a Cron expression. The schedule interval must be between 1 hour and 1 year. For more information, see the [Cron expressions reference](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-cron-expressions.html) in the Amazon EventBridge User Guide.
         public var cronExpression: Swift.String?
         /// The interval between snapshots. The supported values are 1, 2, 3, 4, 6, 8, 12, and 24.
         public var interval: Swift.Int?
         /// The interval unit.
         public var intervalUnit: DLMClientTypes.IntervalUnitValues?
-        /// [Custom snapshot policies only] Specifies the destination for snapshots created by the policy. To create snapshots in the same Region as the source resource, specify CLOUD. To create snapshots on the same Outpost as the source resource, specify OUTPOST_LOCAL. If you omit this parameter, CLOUD is used by default. If the policy targets resources in an Amazon Web Services Region, then you must create snapshots in the same Region as the source resource. If the policy targets resources on an Outpost, then you can create snapshots on the same Outpost as the source resource, or in the Region of that Outpost.
+        /// [Custom snapshot policies only] Specifies the destination for snapshots created by the policy. The allowed destinations depend on the location of the targeted resources.
+        ///
+        /// * If the policy targets resources in a Region, then you must create snapshots in the same Region as the source resource.
+        ///
+        /// * If the policy targets resources in a Local Zone, you can create snapshots in the same Local Zone or in its parent Region.
+        ///
+        /// * If the policy targets resources on an Outpost, then you can create snapshots on the same Outpost or in its parent Region.
+        ///
+        ///
+        /// Specify one of the following values:
+        ///
+        /// * To create snapshots in the same Region as the source resource, specify CLOUD.
+        ///
+        /// * To create snapshots in the same Local Zone as the source resource, specify LOCAL_ZONE.
+        ///
+        /// * To create snapshots on the same Outpost as the source resource, specify OUTPOST_LOCAL.
+        ///
+        ///
+        /// Default: CLOUD
         public var location: DLMClientTypes.LocationValues?
         /// [Custom snapshot policies that target instances only] Specifies pre and/or post scripts for a snapshot lifecycle policy that targets instances. This is useful for creating application-consistent snapshots, or for performing specific administrative tasks before or after Amazon Data Lifecycle Manager initiates snapshot creation. For more information, see [Automating application-consistent snapshots with pre and post scripts](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/automate-app-consistent-backups.html).
         public var scripts: [DLMClientTypes.Script]?
@@ -1038,7 +1062,7 @@ extension DLMClientTypes {
         public var copyTags: Swift.Bool?
         /// The creation rule.
         public var createRule: DLMClientTypes.CreateRule?
-        /// Specifies a rule for copying snapshots or AMIs across regions. You can't specify cross-Region copy rules for policies that create snapshots on an Outpost. If the policy creates snapshots in a Region, then snapshots can be copied to up to three Regions or Outposts.
+        /// Specifies a rule for copying snapshots or AMIs across Regions. You can't specify cross-Region copy rules for policies that create snapshots on an Outpost or in a Local Zone. If the policy creates snapshots in a Region, then snapshots can be copied to up to three Regions or Outposts.
         public var crossRegionCopyRules: [DLMClientTypes.CrossRegionCopyRule]?
         /// [Custom AMI policies only] The AMI deprecation rule for the schedule.
         public var deprecateRule: DLMClientTypes.DeprecateRule?
@@ -1117,9 +1141,15 @@ extension DLMClientTypes {
         ///
         /// * STANDARD To create a custom policy.
         public var policyLanguage: DLMClientTypes.PolicyLanguageValues?
-        /// [Custom policies only] The valid target resource types and actions a policy can manage. Specify EBS_SNAPSHOT_MANAGEMENT to create a lifecycle policy that manages the lifecycle of Amazon EBS snapshots. Specify IMAGE_MANAGEMENT to create a lifecycle policy that manages the lifecycle of EBS-backed AMIs. Specify EVENT_BASED_POLICY  to create an event-based policy that performs specific actions when a defined event occurs in your Amazon Web Services account. The default is EBS_SNAPSHOT_MANAGEMENT.
+        /// The type of policy. Specify EBS_SNAPSHOT_MANAGEMENT to create a lifecycle policy that manages the lifecycle of Amazon EBS snapshots. Specify IMAGE_MANAGEMENT to create a lifecycle policy that manages the lifecycle of EBS-backed AMIs. Specify EVENT_BASED_POLICY  to create an event-based policy that performs specific actions when a defined event occurs in your Amazon Web Services account. The default is EBS_SNAPSHOT_MANAGEMENT.
         public var policyType: DLMClientTypes.PolicyTypeValues?
-        /// [Custom snapshot and AMI policies only] The location of the resources to backup. If the source resources are located in an Amazon Web Services Region, specify CLOUD. If the source resources are located on an Outpost in your account, specify OUTPOST. If you specify OUTPOST, Amazon Data Lifecycle Manager backs up all resources of the specified type with matching target tags across all of the Outposts in your account.
+        /// [Custom snapshot and AMI policies only] The location of the resources to backup.
+        ///
+        /// * If the source resources are located in a Region, specify CLOUD. In this case, the policy targets all resources of the specified type with matching target tags across all Availability Zones in the Region.
+        ///
+        /// * [Custom snapshot policies only] If the source resources are located in a Local Zone, specify LOCAL_ZONE. In this case, the policy targets all resources of the specified type with matching target tags across all Local Zones in the Region.
+        ///
+        /// * If the source resources are located on an Outpost in your account, specify OUTPOST. In this case, the policy targets all resources of the specified type with matching target tags across all of the Outposts in your account.
         public var resourceLocations: [DLMClientTypes.ResourceLocationValues]?
         /// [Default policies only] Specify the type of default policy to create.
         ///
@@ -1319,9 +1349,9 @@ extension DLMClientTypes {
 }
 
 /// A requested resource was not found.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: Swift.String? = nil
         public internal(set) var message: Swift.String? = nil
         /// Value is a list of resource IDs that were not found.
@@ -1508,17 +1538,17 @@ public struct GetLifecyclePolicyInput: Swift.Sendable {
 
 extension DLMClientTypes {
 
-    /// [Custom policies only] Detailed information about a snapshot, AMI, or event-based lifecycle policy.
+    /// Information about a lifecycle policy.
     public struct LifecyclePolicy: Swift.Sendable {
         /// The local date and time when the lifecycle policy was created.
         public var dateCreated: Foundation.Date?
         /// The local date and time when the lifecycle policy was last modified.
         public var dateModified: Foundation.Date?
-        /// [Default policies only] The type of default policy. Values include:
+        /// Indicates whether the policy is a default lifecycle policy or a custom lifecycle policy.
         ///
-        /// * VOLUME - Default policy for EBS snapshots
+        /// * true - the policy is a default policy.
         ///
-        /// * INSTANCE - Default policy for EBS-backed AMIs
+        /// * false - the policy is a custom policy.
         public var defaultPolicy: Swift.Bool?
         /// The description of the lifecycle policy.
         public var description: Swift.String?

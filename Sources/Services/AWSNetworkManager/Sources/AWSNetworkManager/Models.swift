@@ -31,9 +31,9 @@ import struct Smithy.URIQueryItem
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 
 /// You do not have sufficient access to perform this action.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -56,9 +56,9 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 }
 
 /// There was a conflict processing the request. Updating or deleting the resource can cause an inconsistent state.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The ID of the resource.
@@ -91,9 +91,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 /// The request has failed due to an internal error.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// Indicates when to retry the request.
@@ -120,9 +120,9 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 /// The specified resource could not be found.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The specified resource could not be found.
         public internal(set) var context: [Swift.String: Swift.String]? = nil
         /// This member is required.
@@ -159,9 +159,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// The request was denied due to request throttling.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// Indicates when to retry the request.
@@ -245,9 +245,9 @@ extension NetworkManagerClientTypes {
 }
 
 /// The input fails to satisfy the constraints.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The fields that caused the error, if applicable.
         public internal(set) var fields: [NetworkManagerClientTypes.ValidationExceptionField]? = nil
         /// This member is required.
@@ -294,6 +294,7 @@ extension NetworkManagerClientTypes {
 
     public enum AttachmentType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case connect
+        case directConnectGateway
         case siteToSiteVpn
         case transitGatewayRouteTable
         case vpc
@@ -302,6 +303,7 @@ extension NetworkManagerClientTypes {
         public static var allCases: [AttachmentType] {
             return [
                 .connect,
+                .directConnectGateway,
                 .siteToSiteVpn,
                 .transitGatewayRouteTable,
                 .vpc
@@ -316,6 +318,7 @@ extension NetworkManagerClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .connect: return "CONNECT"
+            case .directConnectGateway: return "DIRECT_CONNECT_GATEWAY"
             case .siteToSiteVpn: return "SITE_TO_SITE_VPN"
             case .transitGatewayRouteTable: return "TRANSIT_GATEWAY_ROUTE_TABLE"
             case .vpc: return "VPC"
@@ -328,6 +331,9 @@ extension NetworkManagerClientTypes {
 extension NetworkManagerClientTypes {
 
     public enum AttachmentErrorCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case directConnectGatewayExistingAttachments
+        case directConnectGatewayNotFound
+        case directConnectGatewayNoPrivateVif
         case maximumNoEncapLimitExceeded
         case subnetDuplicatedInAvailabilityZone
         case subnetNotFound
@@ -340,6 +346,9 @@ extension NetworkManagerClientTypes {
 
         public static var allCases: [AttachmentErrorCode] {
             return [
+                .directConnectGatewayExistingAttachments,
+                .directConnectGatewayNotFound,
+                .directConnectGatewayNoPrivateVif,
                 .maximumNoEncapLimitExceeded,
                 .subnetDuplicatedInAvailabilityZone,
                 .subnetNotFound,
@@ -358,6 +367,9 @@ extension NetworkManagerClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .directConnectGatewayExistingAttachments: return "DIRECT_CONNECT_GATEWAY_EXISTING_ATTACHMENTS"
+            case .directConnectGatewayNotFound: return "DIRECT_CONNECT_GATEWAY_NOT_FOUND"
+            case .directConnectGatewayNoPrivateVif: return "DIRECT_CONNECT_GATEWAY_NO_PRIVATE_VIF"
             case .maximumNoEncapLimitExceeded: return "MAXIMUM_NO_ENCAP_LIMIT_EXCEEDED"
             case .subnetDuplicatedInAvailabilityZone: return "SUBNET_DUPLICATED_IN_AVAILABILITY_ZONE"
             case .subnetNotFound: return "SUBNET_NOT_FOUND"
@@ -534,8 +546,10 @@ extension NetworkManagerClientTypes {
         public var coreNetworkId: Swift.String?
         /// The timestamp when the attachment was created.
         public var createdAt: Foundation.Date?
-        /// The Region where the edge is located.
+        /// The Region where the edge is located. This is returned for all attachment types except a Direct Connect gateway attachment, which instead returns EdgeLocations.
         public var edgeLocation: Swift.String?
+        /// The edge locations that the Direct Connect gateway is associated with. This is returned only for Direct Connect gateway attachments. All other attachment types retrun EdgeLocation.
+        public var edgeLocations: [Swift.String]?
         /// Describes the error associated with the attachment request.
         public var lastModificationErrors: [NetworkManagerClientTypes.AttachmentError]?
         /// The name of the network function group.
@@ -565,6 +579,7 @@ extension NetworkManagerClientTypes {
             coreNetworkId: Swift.String? = nil,
             createdAt: Foundation.Date? = nil,
             edgeLocation: Swift.String? = nil,
+            edgeLocations: [Swift.String]? = nil,
             lastModificationErrors: [NetworkManagerClientTypes.AttachmentError]? = nil,
             networkFunctionGroupName: Swift.String? = nil,
             ownerAccountId: Swift.String? = nil,
@@ -584,6 +599,7 @@ extension NetworkManagerClientTypes {
             self.coreNetworkId = coreNetworkId
             self.createdAt = createdAt
             self.edgeLocation = edgeLocation
+            self.edgeLocations = edgeLocations
             self.lastModificationErrors = lastModificationErrors
             self.networkFunctionGroupName = networkFunctionGroupName
             self.ownerAccountId = ownerAccountId
@@ -631,9 +647,9 @@ extension NetworkManagerClientTypes {
 }
 
 /// A service limit was exceeded.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The limit code.
         /// This member is required.
         public internal(set) var limitCode: Swift.String? = nil
@@ -2422,9 +2438,9 @@ extension NetworkManagerClientTypes {
 }
 
 /// Describes a core network policy exception.
-public struct CoreNetworkPolicyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CoreNetworkPolicyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Describes a core network policy exception.
         public internal(set) var errors: [NetworkManagerClientTypes.CoreNetworkPolicyError]? = nil
         /// This member is required.
@@ -2945,6 +2961,69 @@ public struct CreateDeviceOutput: Swift.Sendable {
     )
     {
         self.device = device
+    }
+}
+
+public struct CreateDirectConnectGatewayAttachmentInput: Swift.Sendable {
+    /// client token
+    public var clientToken: Swift.String?
+    /// The ID of the Cloud WAN core network that the Direct Connect gateway attachment should be attached to.
+    /// This member is required.
+    public var coreNetworkId: Swift.String?
+    /// The ARN of the Direct Connect gateway attachment.
+    /// This member is required.
+    public var directConnectGatewayArn: Swift.String?
+    /// One or more core network edge locations that the Direct Connect gateway attachment is associated with.
+    /// This member is required.
+    public var edgeLocations: [Swift.String]?
+    /// The key value tags to apply to the Direct Connect gateway attachment during creation.
+    public var tags: [NetworkManagerClientTypes.Tag]?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        coreNetworkId: Swift.String? = nil,
+        directConnectGatewayArn: Swift.String? = nil,
+        edgeLocations: [Swift.String]? = nil,
+        tags: [NetworkManagerClientTypes.Tag]? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.coreNetworkId = coreNetworkId
+        self.directConnectGatewayArn = directConnectGatewayArn
+        self.edgeLocations = edgeLocations
+        self.tags = tags
+    }
+}
+
+extension NetworkManagerClientTypes {
+
+    /// Describes a Direct Connect gateway attachment.
+    public struct DirectConnectGatewayAttachment: Swift.Sendable {
+        /// Describes a core network attachment.
+        public var attachment: NetworkManagerClientTypes.Attachment?
+        /// The Direct Connect gateway attachment ARN.
+        public var directConnectGatewayArn: Swift.String?
+
+        public init(
+            attachment: NetworkManagerClientTypes.Attachment? = nil,
+            directConnectGatewayArn: Swift.String? = nil
+        )
+        {
+            self.attachment = attachment
+            self.directConnectGatewayArn = directConnectGatewayArn
+        }
+    }
+}
+
+public struct CreateDirectConnectGatewayAttachmentOutput: Swift.Sendable {
+    /// Describes the details of a CreateDirectConnectGatewayAttachment request.
+    public var directConnectGatewayAttachment: NetworkManagerClientTypes.DirectConnectGatewayAttachment?
+
+    public init(
+        directConnectGatewayAttachment: NetworkManagerClientTypes.DirectConnectGatewayAttachment? = nil
+    )
+    {
+        self.directConnectGatewayAttachment = directConnectGatewayAttachment
     }
 }
 
@@ -4750,6 +4829,31 @@ public struct GetDevicesOutput: Swift.Sendable {
     {
         self.devices = devices
         self.nextToken = nextToken
+    }
+}
+
+public struct GetDirectConnectGatewayAttachmentInput: Swift.Sendable {
+    /// The ID of the Direct Connect gateway attachment that you want to see details about.
+    /// This member is required.
+    public var attachmentId: Swift.String?
+
+    public init(
+        attachmentId: Swift.String? = nil
+    )
+    {
+        self.attachmentId = attachmentId
+    }
+}
+
+public struct GetDirectConnectGatewayAttachmentOutput: Swift.Sendable {
+    /// Shows details about the Direct Connect gateway attachment.
+    public var directConnectGatewayAttachment: NetworkManagerClientTypes.DirectConnectGatewayAttachment?
+
+    public init(
+        directConnectGatewayAttachment: NetworkManagerClientTypes.DirectConnectGatewayAttachment? = nil
+    )
+    {
+        self.directConnectGatewayAttachment = directConnectGatewayAttachment
     }
 }
 
@@ -6958,6 +7062,35 @@ public struct UpdateDeviceOutput: Swift.Sendable {
     }
 }
 
+public struct UpdateDirectConnectGatewayAttachmentInput: Swift.Sendable {
+    /// The ID of the Direct Connect gateway attachment for the updated edge locations.
+    /// This member is required.
+    public var attachmentId: Swift.String?
+    /// One or more edge locations to update for the Direct Connect gateway attachment. The updated array of edge locations overwrites the previous array of locations. EdgeLocations is only used for Direct Connect gateway attachments.
+    public var edgeLocations: [Swift.String]?
+
+    public init(
+        attachmentId: Swift.String? = nil,
+        edgeLocations: [Swift.String]? = nil
+    )
+    {
+        self.attachmentId = attachmentId
+        self.edgeLocations = edgeLocations
+    }
+}
+
+public struct UpdateDirectConnectGatewayAttachmentOutput: Swift.Sendable {
+    /// Returns details of the Direct Connect gateway attachment with the updated edge locations.
+    public var directConnectGatewayAttachment: NetworkManagerClientTypes.DirectConnectGatewayAttachment?
+
+    public init(
+        directConnectGatewayAttachment: NetworkManagerClientTypes.DirectConnectGatewayAttachment? = nil
+    )
+    {
+        self.directConnectGatewayAttachment = directConnectGatewayAttachment
+    }
+}
+
 public struct UpdateGlobalNetworkInput: Swift.Sendable {
     /// A description of the global network. Constraints: Maximum length of 256 characters.
     public var description: Swift.String?
@@ -7246,6 +7379,13 @@ extension CreateDeviceInput {
             return nil
         }
         return "/global-networks/\(globalNetworkId.urlPercentEncoding())/devices"
+    }
+}
+
+extension CreateDirectConnectGatewayAttachmentInput {
+
+    static func urlPathProvider(_ value: CreateDirectConnectGatewayAttachmentInput) -> Swift.String? {
+        return "/direct-connect-gateway-attachments"
     }
 }
 
@@ -7800,6 +7940,16 @@ extension GetDevicesInput {
             items.append(maxResultsQueryItem)
         }
         return items
+    }
+}
+
+extension GetDirectConnectGatewayAttachmentInput {
+
+    static func urlPathProvider(_ value: GetDirectConnectGatewayAttachmentInput) -> Swift.String? {
+        guard let attachmentId = value.attachmentId else {
+            return nil
+        }
+        return "/direct-connect-gateway-attachments/\(attachmentId.urlPercentEncoding())"
     }
 }
 
@@ -8563,6 +8713,16 @@ extension UpdateDeviceInput {
     }
 }
 
+extension UpdateDirectConnectGatewayAttachmentInput {
+
+    static func urlPathProvider(_ value: UpdateDirectConnectGatewayAttachmentInput) -> Swift.String? {
+        guard let attachmentId = value.attachmentId else {
+            return nil
+        }
+        return "/direct-connect-gateway-attachments/\(attachmentId.urlPercentEncoding())"
+    }
+}
+
 extension UpdateGlobalNetworkInput {
 
     static func urlPathProvider(_ value: UpdateGlobalNetworkInput) -> Swift.String? {
@@ -8727,6 +8887,18 @@ extension CreateDeviceInput {
         try writer["Tags"].writeList(value.tags, memberWritingClosure: NetworkManagerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Type"].write(value.type)
         try writer["Vendor"].write(value.vendor)
+    }
+}
+
+extension CreateDirectConnectGatewayAttachmentInput {
+
+    static func write(value: CreateDirectConnectGatewayAttachmentInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["CoreNetworkId"].write(value.coreNetworkId)
+        try writer["DirectConnectGatewayArn"].write(value.directConnectGatewayArn)
+        try writer["EdgeLocations"].writeList(value.edgeLocations, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: NetworkManagerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -8911,6 +9083,14 @@ extension UpdateDeviceInput {
     }
 }
 
+extension UpdateDirectConnectGatewayAttachmentInput {
+
+    static func write(value: UpdateDirectConnectGatewayAttachmentInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EdgeLocations"].writeList(value.edgeLocations, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension UpdateGlobalNetworkInput {
 
     static func write(value: UpdateGlobalNetworkInput?, to writer: SmithyJSON.Writer) throws {
@@ -9073,6 +9253,18 @@ extension CreateDeviceOutput {
         let reader = responseReader
         var value = CreateDeviceOutput()
         value.device = try reader["Device"].readIfPresent(with: NetworkManagerClientTypes.Device.read(from:))
+        return value
+    }
+}
+
+extension CreateDirectConnectGatewayAttachmentOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateDirectConnectGatewayAttachmentOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateDirectConnectGatewayAttachmentOutput()
+        value.directConnectGatewayAttachment = try reader["DirectConnectGatewayAttachment"].readIfPresent(with: NetworkManagerClientTypes.DirectConnectGatewayAttachment.read(from:))
         return value
     }
 }
@@ -9490,6 +9682,18 @@ extension GetDevicesOutput {
         var value = GetDevicesOutput()
         value.devices = try reader["Devices"].readListIfPresent(memberReadingClosure: NetworkManagerClientTypes.Device.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension GetDirectConnectGatewayAttachmentOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetDirectConnectGatewayAttachmentOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetDirectConnectGatewayAttachmentOutput()
+        value.directConnectGatewayAttachment = try reader["DirectConnectGatewayAttachment"].readIfPresent(with: NetworkManagerClientTypes.DirectConnectGatewayAttachment.read(from:))
         return value
     }
 }
@@ -9918,6 +10122,18 @@ extension UpdateDeviceOutput {
     }
 }
 
+extension UpdateDirectConnectGatewayAttachmentOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateDirectConnectGatewayAttachmentOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateDirectConnectGatewayAttachmentOutput()
+        value.directConnectGatewayAttachment = try reader["DirectConnectGatewayAttachment"].readIfPresent(with: NetworkManagerClientTypes.DirectConnectGatewayAttachment.read(from:))
+        return value
+    }
+}
+
 extension UpdateGlobalNetworkOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateGlobalNetworkOutput {
@@ -10168,6 +10384,25 @@ enum CreateDeviceOutputError {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateDirectConnectGatewayAttachmentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -10832,6 +11067,24 @@ enum GetDevicesOutputError {
     }
 }
 
+enum GetDirectConnectGatewayAttachmentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetLinkAssociationsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -11466,6 +11719,25 @@ enum UpdateDeviceOutputError {
     }
 }
 
+enum UpdateDirectConnectGatewayAttachmentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateGlobalNetworkOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -11698,6 +11970,7 @@ extension NetworkManagerClientTypes.Attachment {
         value.attachmentType = try reader["AttachmentType"].readIfPresent()
         value.state = try reader["State"].readIfPresent()
         value.edgeLocation = try reader["EdgeLocation"].readIfPresent()
+        value.edgeLocations = try reader["EdgeLocations"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.resourceArn = try reader["ResourceArn"].readIfPresent()
         value.attachmentPolicyRuleNumber = try reader["AttachmentPolicyRuleNumber"].readIfPresent()
         value.segmentName = try reader["SegmentName"].readIfPresent()
@@ -12048,6 +12321,17 @@ extension NetworkManagerClientTypes.AWSLocation {
         var value = NetworkManagerClientTypes.AWSLocation()
         value.zone = try reader["Zone"].readIfPresent()
         value.subnetArn = try reader["SubnetArn"].readIfPresent()
+        return value
+    }
+}
+
+extension NetworkManagerClientTypes.DirectConnectGatewayAttachment {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.DirectConnectGatewayAttachment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkManagerClientTypes.DirectConnectGatewayAttachment()
+        value.attachment = try reader["Attachment"].readIfPresent(with: NetworkManagerClientTypes.Attachment.read(from:))
+        value.directConnectGatewayArn = try reader["DirectConnectGatewayArn"].readIfPresent()
         return value
     }
 }

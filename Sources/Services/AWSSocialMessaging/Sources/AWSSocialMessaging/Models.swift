@@ -28,9 +28,9 @@ import struct Smithy.URIQueryItem
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// You do not have sufficient access to perform this action.
-public struct AccessDeniedByMetaException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedByMetaException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -52,9 +52,9 @@ public struct AccessDeniedByMetaException: ClientRuntime.ModeledError, AWSClient
 }
 
 /// You do not have sufficient access to perform this action.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -76,9 +76,9 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 }
 
 /// Thrown when performing an action because a dependency would be broken.
-public struct DependencyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DependencyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -100,9 +100,9 @@ public struct DependencyException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 /// One or more parameters provided to the action are not valid.
-public struct InvalidParametersException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidParametersException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -124,9 +124,9 @@ public struct InvalidParametersException: ClientRuntime.ModeledError, AWSClientR
 }
 
 /// The request was denied due to request throttling.
-public struct ThrottledRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottledRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -250,12 +250,16 @@ extension SocialMessagingClientTypes {
         /// The ARN of the event destination.
         /// This member is required.
         public var eventDestinationArn: Swift.String?
+        /// The Amazon Resource Name (ARN) of an Identity and Access Management role that is able to import phone numbers and write events.
+        public var roleArn: Swift.String?
 
         public init(
-            eventDestinationArn: Swift.String? = nil
+            eventDestinationArn: Swift.String? = nil,
+            roleArn: Swift.String? = nil
         )
         {
             self.eventDestinationArn = eventDestinationArn
+            self.roleArn = roleArn
         }
     }
 }
@@ -438,16 +442,20 @@ extension SocialMessagingClientTypes {
         public var registrationStatus: SocialMessagingClientTypes.RegistrationStatus?
         /// The details for unregistered WhatsApp phone numbers.
         public var unregisteredWhatsAppPhoneNumbers: [SocialMessagingClientTypes.WhatsAppPhoneNumberDetail]?
+        /// The Amazon Resource Name (ARN) of the WhatsApp Business Account ID.
+        public var wabaId: Swift.String?
 
         public init(
             accountName: Swift.String? = nil,
             registrationStatus: SocialMessagingClientTypes.RegistrationStatus? = nil,
-            unregisteredWhatsAppPhoneNumbers: [SocialMessagingClientTypes.WhatsAppPhoneNumberDetail]? = nil
+            unregisteredWhatsAppPhoneNumbers: [SocialMessagingClientTypes.WhatsAppPhoneNumberDetail]? = nil,
+            wabaId: Swift.String? = nil
         )
         {
             self.accountName = accountName
             self.registrationStatus = registrationStatus
             self.unregisteredWhatsAppPhoneNumbers = unregisteredWhatsAppPhoneNumbers
+            self.wabaId = wabaId
         }
     }
 }
@@ -494,9 +502,9 @@ public struct AssociateWhatsAppBusinessAccountOutput: Swift.Sendable {
 }
 
 /// The request processing has failed because of an unknown error, exception, or failure.
-public struct InternalServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -518,9 +526,9 @@ public struct InternalServiceException: ClientRuntime.ModeledError, AWSClientRun
 }
 
 /// The resource was not found.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1119,9 +1127,9 @@ public struct UntagResourceOutput: Swift.Sendable {
 }
 
 /// The request contains an invalid parameter value.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1913,6 +1921,7 @@ extension SocialMessagingClientTypes.LinkedWhatsAppBusinessAccountIdMetaData {
         value.accountName = try reader["accountName"].readIfPresent()
         value.registrationStatus = try reader["registrationStatus"].readIfPresent()
         value.unregisteredWhatsAppPhoneNumbers = try reader["unregisteredWhatsAppPhoneNumbers"].readListIfPresent(memberReadingClosure: SocialMessagingClientTypes.WhatsAppPhoneNumberDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.wabaId = try reader["wabaId"].readIfPresent()
         return value
     }
 }
@@ -1971,12 +1980,14 @@ extension SocialMessagingClientTypes.WhatsAppBusinessAccountEventDestination {
     static func write(value: SocialMessagingClientTypes.WhatsAppBusinessAccountEventDestination?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["eventDestinationArn"].write(value.eventDestinationArn)
+        try writer["roleArn"].write(value.roleArn)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SocialMessagingClientTypes.WhatsAppBusinessAccountEventDestination {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SocialMessagingClientTypes.WhatsAppBusinessAccountEventDestination()
         value.eventDestinationArn = try reader["eventDestinationArn"].readIfPresent() ?? ""
+        value.roleArn = try reader["roleArn"].readIfPresent()
         return value
     }
 }

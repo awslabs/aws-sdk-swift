@@ -58,9 +58,9 @@ public struct GetSparqlStatisticsInput: Swift.Sendable {
 }
 
 /// Raised in case of an authentication or authorization failure.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The HTTP status code returned with the exception.
         /// This member is required.
         public internal(set) var code: Swift.String? = nil
@@ -123,9 +123,9 @@ extension NeptunedataClientTypes {
 }
 
 /// Raised when a request is submitted that cannot be processed.
-public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The HTTP status code returned with the exception.
         /// This member is required.
         public internal(set) var code: Swift.String? = nil
@@ -159,9 +159,9 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 /// Raised when a request timed out in the client.
-public struct ClientTimeoutException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ClientTimeoutException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The HTTP status code returned with the exception.
         /// This member is required.
         public internal(set) var code: Swift.String? = nil
@@ -195,9 +195,9 @@ public struct ClientTimeoutException: ClientRuntime.ModeledError, AWSClientRunti
 }
 
 /// Raised when a request attempts to modify data that is concurrently being modified by another process.
-public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The HTTP status code returned with the exception.
         /// This member is required.
         public internal(set) var code: Swift.String? = nil
@@ -231,9 +231,9 @@ public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSCl
 }
 
 /// Raised when a value in a request field did not satisfy required constraints.
-public struct ConstraintViolationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConstraintViolationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The HTTP status code returned with the exception.
         /// This member is required.
         public internal(set) var code: Swift.String? = nil
@@ -267,9 +267,9 @@ public struct ConstraintViolationException: ClientRuntime.ModeledError, AWSClien
 }
 
 /// Raised when a request fails.
-public struct FailureByQueryException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct FailureByQueryException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The HTTP status code returned with the exception.
         /// This member is required.
         public internal(set) var code: Swift.String? = nil
@@ -303,9 +303,9 @@ public struct FailureByQueryException: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 /// Raised when an argument in a request is not supported.
-public struct IllegalArgumentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct IllegalArgumentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The HTTP status code returned with the exception.
         /// This member is required.
         public internal(set) var code: Swift.String? = nil
@@ -339,9 +339,9 @@ public struct IllegalArgumentException: ClientRuntime.ModeledError, AWSClientRun
 }
 
 /// Raised when an argument in a request has an invalid value.
-public struct InvalidArgumentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidArgumentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The HTTP status code returned with the exception.
         /// This member is required.
         public internal(set) var code: Swift.String? = nil
@@ -375,9 +375,9 @@ public struct InvalidArgumentException: ClientRuntime.ModeledError, AWSClientRun
 }
 
 /// Raised when a parameter value is not valid.
-public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The HTTP status code returned with the exception.
         /// This member is required.
         public internal(set) var code: Swift.String? = nil
@@ -411,9 +411,9 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// Raised when a required parameter is missing.
-public struct MissingParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MissingParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The HTTP status code returned with the exception.
         /// This member is required.
         public internal(set) var code: Swift.String? = nil
@@ -447,9 +447,9 @@ public struct MissingParameterException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// Raised when a parsing issue is encountered.
-public struct ParsingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ParsingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The HTTP status code returned with the exception.
         /// This member is required.
         public internal(set) var code: Swift.String? = nil
@@ -483,9 +483,9 @@ public struct ParsingException: ClientRuntime.ModeledError, AWSClientRuntime.AWS
 }
 
 /// Raised when a precondition for processing a request is not satisfied.
-public struct PreconditionsFailedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PreconditionsFailedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The HTTP status code returned with the exception.
         /// This member is required.
         public internal(set) var code: Swift.String? = nil
@@ -519,9 +519,9 @@ public struct PreconditionsFailedException: ClientRuntime.ModeledError, AWSClien
 }
 
 /// Raised when the an operation exceeds the time limit allowed for it.
-public struct TimeLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TimeLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The HTTP status code returned with the exception.
         /// This member is required.
         public internal(set) var code: Swift.String? = nil
@@ -555,9 +555,9 @@ public struct TimeLimitExceededException: ClientRuntime.ModeledError, AWSClientR
 }
 
 /// Raised when the number of requests being processed exceeds the limit.
-public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The HTTP status code returned with the exception.
         /// This member is required.
         public internal(set) var code: Swift.String? = nil
@@ -591,9 +591,9 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
 }
 
 /// Raised when a request attempts to initiate an operation that is not supported.
-public struct UnsupportedOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnsupportedOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The HTTP status code returned with the exception.
         /// This member is required.
         public internal(set) var code: Swift.String? = nil
@@ -652,9 +652,9 @@ public struct CancelGremlinQueryOutput: Swift.Sendable {
 }
 
 /// Raised when a specified bulk-load job ID cannot be found.
-public struct BulkLoadIdNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BulkLoadIdNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The HTTP status code returned with the exception.
         /// This member is required.
         public internal(set) var code: Swift.String? = nil
@@ -688,9 +688,9 @@ public struct BulkLoadIdNotFoundException: ClientRuntime.ModeledError, AWSClient
 }
 
 /// Raised when the processing of the request failed unexpectedly.
-public struct InternalFailureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalFailureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The HTTP status code returned with the exception.
         /// This member is required.
         public internal(set) var code: Swift.String? = nil
@@ -724,9 +724,9 @@ public struct InternalFailureException: ClientRuntime.ModeledError, AWSClientRun
 }
 
 /// Raised when access is denied to a specified load URL.
-public struct LoadUrlAccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LoadUrlAccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The HTTP status code returned with the exception.
         /// This member is required.
         public internal(set) var code: Swift.String? = nil
@@ -785,9 +785,9 @@ public struct CancelLoaderJobOutput: Swift.Sendable {
 }
 
 /// Raised when a specified machine-learning resource could not be found.
-public struct MLResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MLResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The HTTP status code returned with the exception.
         /// This member is required.
         public internal(set) var code: Swift.String? = nil
@@ -920,9 +920,9 @@ public struct CancelMLModelTransformJobOutput: Swift.Sendable {
 }
 
 /// Raised when invalid numerical data is encountered when servicing a request.
-public struct InvalidNumericDataException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidNumericDataException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The HTTP status code returned with the exception.
         /// This member is required.
         public internal(set) var code: Swift.String? = nil
@@ -1086,9 +1086,9 @@ public struct DeleteMLEndpointOutput: Swift.Sendable {
 }
 
 /// Raised when a request attempts to write to a read-only resource.
-public struct ReadOnlyViolationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ReadOnlyViolationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The HTTP status code returned with the exception.
         /// This member is required.
         public internal(set) var code: Swift.String? = nil
@@ -1122,9 +1122,9 @@ public struct ReadOnlyViolationException: ClientRuntime.ModeledError, AWSClientR
 }
 
 /// Raised when statistics needed to satisfy a request are not available.
-public struct StatisticsNotAvailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct StatisticsNotAvailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The HTTP status code returned with the exception.
         /// This member is required.
         public internal(set) var code: Swift.String? = nil
@@ -1218,9 +1218,9 @@ public struct DeleteSparqlStatisticsOutput: Swift.Sendable {
 }
 
 /// Raised when the HTTP method used by a request is not supported by the endpoint being used.
-public struct MethodNotAllowedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MethodNotAllowedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The HTTP status code returned with the exception.
         /// This member is required.
         public internal(set) var code: Swift.String? = nil
@@ -1254,9 +1254,9 @@ public struct MethodNotAllowedException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// Raised when the server shuts down while processing a request.
-public struct ServerShutdownException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServerShutdownException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The HTTP status code returned with the exception.
         /// This member is required.
         public internal(set) var code: Swift.String? = nil
@@ -1344,9 +1344,9 @@ public struct ExecuteFastResetOutput: Swift.Sendable {
 }
 
 /// Raised when a user cancelled a request.
-public struct CancelledByUserException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CancelledByUserException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The HTTP status code returned with the exception.
         /// This member is required.
         public internal(set) var code: Swift.String? = nil
@@ -1380,9 +1380,9 @@ public struct CancelledByUserException: ClientRuntime.ModeledError, AWSClientRun
 }
 
 /// Raised when a query is submitted that is syntactically incorrect or does not pass additional validation.
-public struct MalformedQueryException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MalformedQueryException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The HTTP status code returned with the exception.
         /// This member is required.
         public internal(set) var code: Swift.String? = nil
@@ -1416,9 +1416,9 @@ public struct MalformedQueryException: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 /// Raised when a request fails because of insufficient memory resources. The request can be retried.
-public struct MemoryLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MemoryLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The HTTP status code returned with the exception.
         /// This member is required.
         public internal(set) var code: Swift.String? = nil
@@ -1452,9 +1452,9 @@ public struct MemoryLimitExceededException: ClientRuntime.ModeledError, AWSClien
 }
 
 /// Raised when the number of active queries exceeds what the server can process. The query in question can be retried when the system is less busy.
-public struct QueryLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct QueryLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The HTTP status code returned with the exception.
         /// This member is required.
         public internal(set) var code: Swift.String? = nil
@@ -1488,9 +1488,9 @@ public struct QueryLimitExceededException: ClientRuntime.ModeledError, AWSClient
 }
 
 /// Raised when the size of a query exceeds the system limit.
-public struct QueryLimitException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct QueryLimitException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The HTTP status code returned with the exception.
         /// This member is required.
         public internal(set) var code: Swift.String? = nil
@@ -1524,9 +1524,9 @@ public struct QueryLimitException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 /// Raised when the body of a query is too large.
-public struct QueryTooLargeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct QueryTooLargeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The HTTP status code returned with the exception.
         /// This member is required.
         public internal(set) var code: Swift.String? = nil
@@ -2318,9 +2318,9 @@ public struct GetPropertygraphStatisticsOutput: Swift.Sendable {
 }
 
 /// Raised when a request attempts to access an stream that has expired.
-public struct ExpiredStreamException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ExpiredStreamException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The HTTP status code returned with the exception.
         /// This member is required.
         public internal(set) var code: Swift.String? = nil
@@ -2354,9 +2354,9 @@ public struct ExpiredStreamException: ClientRuntime.ModeledError, AWSClientRunti
 }
 
 /// Raised when stream records requested by a query cannot be found.
-public struct StreamRecordsNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct StreamRecordsNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The HTTP status code returned with the exception.
         /// This member is required.
         public internal(set) var code: Swift.String? = nil
@@ -2390,9 +2390,9 @@ public struct StreamRecordsNotFoundException: ClientRuntime.ModeledError, AWSCli
 }
 
 /// Raised when the rate of requests exceeds the maximum throughput. Requests can be retried after encountering this exception.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The HTTP status code returned with the exception.
         /// This member is required.
         public internal(set) var code: Swift.String? = nil
@@ -3441,9 +3441,9 @@ public struct ManageSparqlStatisticsOutput: Swift.Sendable {
 }
 
 /// Raised when there is a problem accessing Amazon S3.
-public struct S3Exception: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct S3Exception: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The HTTP status code returned with the exception.
         /// This member is required.
         public internal(set) var code: Swift.String? = nil

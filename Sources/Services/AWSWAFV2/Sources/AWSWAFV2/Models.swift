@@ -3131,9 +3131,9 @@ extension WAFV2ClientTypes {
 }
 
 /// Your request is valid, but WAF couldn’t perform the operation because of a system problem. Retry your request.
-public struct WAFInternalErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WAFInternalErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3155,9 +3155,9 @@ public struct WAFInternalErrorException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// The operation isn't valid.
-public struct WAFInvalidOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WAFInvalidOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3420,9 +3420,9 @@ extension WAFV2ClientTypes {
 /// * You tried to update a WebACL with a DefaultAction that isn't among the types available at [DefaultAction].
 ///
 /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL can't be associated.
-public struct WAFInvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WAFInvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The settings where the invalid parameter was found.
         public internal(set) var field: WAFV2ClientTypes.ParameterExceptionField? = nil
         public internal(set) var message: Swift.String? = nil
@@ -3456,9 +3456,9 @@ public struct WAFInvalidParameterException: ClientRuntime.ModeledError, AWSClien
 }
 
 /// WAF couldn’t perform the operation because your resource doesn't exist. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate.
-public struct WAFNonexistentItemException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WAFNonexistentItemException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3480,9 +3480,9 @@ public struct WAFNonexistentItemException: ClientRuntime.ModeledError, AWSClient
 }
 
 /// WAF couldn’t retrieve a resource that you specified for this operation. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate. Verify the resources that you are specifying in your request parameters and then retry the operation.
-public struct WAFUnavailableEntityException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WAFUnavailableEntityException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3607,9 +3607,9 @@ extension WAFV2ClientTypes {
 }
 
 /// The operation failed because the specified version for the managed rule group has expired. You can retrieve the available versions for the managed rule group by calling [ListAvailableManagedRuleGroupVersions].
-public struct WAFExpiredManagedRuleGroupVersionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WAFExpiredManagedRuleGroupVersionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3631,9 +3631,9 @@ public struct WAFExpiredManagedRuleGroupVersionException: ClientRuntime.ModeledE
 }
 
 /// WAF couldn’t perform the operation because the resource that you requested isn’t valid. Check the resource, and try again.
-public struct WAFInvalidResourceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WAFInvalidResourceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3655,9 +3655,9 @@ public struct WAFInvalidResourceException: ClientRuntime.ModeledError, AWSClient
 }
 
 /// WAF couldn’t perform the operation because you exceeded your resource limit. For example, the maximum number of WebACL objects that you can create for an Amazon Web Services account. For more information, see [WAF quotas](https://docs.aws.amazon.com/waf/latest/developerguide/limits.html) in the WAF Developer Guide.
-public struct WAFLimitsExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WAFLimitsExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// Source type for the exception.
         public internal(set) var sourceType: Swift.String? = nil
@@ -3683,9 +3683,9 @@ public struct WAFLimitsExceededException: ClientRuntime.ModeledError, AWSClientR
 }
 
 /// You tried to use a managed rule group that's available by subscription, but you aren't subscribed to it yet.
-public struct WAFSubscriptionNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WAFSubscriptionNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3904,9 +3904,9 @@ public struct CreateAPIKeyOutput: Swift.Sendable {
 }
 
 /// WAF couldn’t perform the operation because the resource that you tried to save is a duplicate of an existing one.
-public struct WAFDuplicateItemException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WAFDuplicateItemException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3928,9 +3928,9 @@ public struct WAFDuplicateItemException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// WAF couldn’t save your changes because you tried to update or delete a resource that has changed since you last retrieved it. Get the resource again, make any changes you need to make to the new copy, and retry your operation.
-public struct WAFOptimisticLockException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WAFOptimisticLockException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3952,9 +3952,9 @@ public struct WAFOptimisticLockException: ClientRuntime.ModeledError, AWSClientR
 }
 
 /// An error occurred during the tagging operation. Retry your request.
-public struct WAFTagOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WAFTagOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3976,9 +3976,9 @@ public struct WAFTagOperationException: ClientRuntime.ModeledError, AWSClientRun
 }
 
 /// WAF couldn’t perform your tagging operation because of an internal error. Retry your request.
-public struct WAFTagOperationInternalErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WAFTagOperationInternalErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4347,9 +4347,9 @@ public struct CreateRuleGroupOutput: Swift.Sendable {
 }
 
 /// The operation failed because you are inspecting the web request body, headers, or cookies without specifying how to handle oversize components. Rules that inspect the body must either provide an OversizeHandling configuration or they must be preceded by a SizeConstraintStatement that blocks the body content from being too large. Rules that inspect the headers or cookies must provide an OversizeHandling configuration. Provide the handling configuration and retry your operation. Alternately, you can suppress this warning by adding the following tag to the resource that you provide to this operation: Tag (key:WAF:OversizeFieldsHandlingConstraintOptOut, value:true).
-public struct WAFConfigurationWarningException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WAFConfigurationWarningException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4492,9 +4492,9 @@ public struct DeleteFirewallManagerRuleGroupsOutput: Swift.Sendable {
 }
 
 /// WAF couldn’t perform the operation because your resource is being used by another resource or it’s associated with another resource.
-public struct WAFAssociatedItemException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WAFAssociatedItemException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -5650,9 +5650,9 @@ public struct GetPermissionPolicyOutput: Swift.Sendable {
 }
 
 /// The rule that you've named doesn't aggregate solely on the IP address or solely on the forwarded IP address. This call is only available for rate-based rules with an AggregateKeyType setting of IP or FORWARDED_IP.
-public struct WAFUnsupportedAggregateKeyTypeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WAFUnsupportedAggregateKeyTypeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -6844,9 +6844,9 @@ public struct ListWebACLsOutput: Swift.Sendable {
 }
 
 /// The operation failed because you don't have the permissions that your logging configuration requires. For information, see [Logging web ACL traffic information](https://docs.aws.amazon.com/waf/latest/developerguide/logging.html) in the WAF Developer Guide.
-public struct WAFLogDestinationPermissionIssueException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WAFLogDestinationPermissionIssueException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -6868,9 +6868,9 @@ public struct WAFLogDestinationPermissionIssueException: ClientRuntime.ModeledEr
 }
 
 /// WAF is not able to access the service linked role. This can be caused by a previous PutLoggingConfiguration request, which can lock the service linked role for about 20 seconds. Please try your request again. The service linked role can also be locked by a previous DeleteServiceLinkedRole request, which can lock the role for 15 minutes or more. If you recently made a call to DeleteServiceLinkedRole, wait at least 15 minutes and try the request again. If you receive this same exception again, you will have to wait additional time until the role is unlocked.
-public struct WAFServiceLinkedRoleErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WAFServiceLinkedRoleErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -7002,9 +7002,9 @@ public struct PutManagedRuleSetVersionsOutput: Swift.Sendable {
 ///
 ///
 /// For more information, see [IAM Policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html).
-public struct WAFInvalidPermissionPolicyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WAFInvalidPermissionPolicyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -12837,7 +12837,7 @@ extension WAFV2ClientTypes.ByteMatchStatement {
     static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.ByteMatchStatement {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WAFV2ClientTypes.ByteMatchStatement()
-        value.searchString = try reader["SearchString"].readIfPresent() ?? Foundation.Data("".utf8)
+        value.searchString = try reader["SearchString"].readIfPresent() ?? Foundation.Data(base64Encoded: "")
         value.fieldToMatch = try reader["FieldToMatch"].readIfPresent(with: WAFV2ClientTypes.FieldToMatch.read(from:))
         value.textTransformations = try reader["TextTransformations"].readListIfPresent(memberReadingClosure: WAFV2ClientTypes.TextTransformation.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.positionalConstraint = try reader["PositionalConstraint"].readIfPresent() ?? .sdkUnknown("")

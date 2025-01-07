@@ -30,9 +30,9 @@ import struct Smithy.URIQueryItem
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 
 /// You do not have permission to perform this operation.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -468,9 +468,9 @@ extension OutpostsClientTypes {
 }
 
 /// Updating or deleting this resource can cause an inconsistent state.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// The ID of the resource causing the conflict.
         public internal(set) var resourceId: Swift.String? = nil
@@ -500,9 +500,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 /// An internal error has occurred.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -524,9 +524,9 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 /// The specified request is not valid.
-public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -548,9 +548,9 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 /// A parameter is not valid.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -943,9 +943,9 @@ extension OutpostsClientTypes {
 }
 
 /// You have exceeded a service quota.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1682,6 +1682,7 @@ extension OutpostsClientTypes {
     public enum PowerConnector: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case ah530p7w
         case ah532p6w
+        case cs8365c
         case iec309
         case l630p
         case sdkUnknown(Swift.String)
@@ -1690,6 +1691,7 @@ extension OutpostsClientTypes {
             return [
                 .ah530p7w,
                 .ah532p6w,
+                .cs8365c,
                 .iec309,
                 .l630p
             ]
@@ -1704,6 +1706,7 @@ extension OutpostsClientTypes {
             switch self {
             case .ah530p7w: return "AH530P7W"
             case .ah532p6w: return "AH532P6W"
+            case .cs8365c: return "CS8365C"
             case .iec309: return "IEC309"
             case .l630p: return "L6_30P"
             case let .sdkUnknown(s): return s
@@ -3289,6 +3292,8 @@ public struct UpdateSiteRackPhysicalPropertiesInput: Swift.Sendable {
     /// * AH530P7W (red) – 3P+N+E, 7hr; 30A; three phase
     ///
     /// * AH532P6W (red) – 3P+N+E, 6hr; 32A; three phase
+    ///
+    /// * CS8365C – (common in US); 3P+E, 50A; three phase
     public var powerConnector: OutpostsClientTypes.PowerConnector?
     /// The power draw, in kVA, available at the hardware placement position for the rack.
     public var powerDrawKva: OutpostsClientTypes.PowerDrawKva?

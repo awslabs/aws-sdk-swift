@@ -833,9 +833,9 @@ extension CloudWatchClientTypes {
 }
 
 /// More than one process tried to modify a resource at the same time.
-public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -905,9 +905,9 @@ extension CloudWatchClientTypes {
 }
 
 /// Some part of the dashboard data is invalid.
-public struct DashboardInvalidInputError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DashboardInvalidInputError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var dashboardValidationMessages: [CloudWatchClientTypes.DashboardValidationMessage]? = nil
         public internal(set) var message: Swift.String? = nil
     }
@@ -932,9 +932,9 @@ public struct DashboardInvalidInputError: ClientRuntime.ModeledError, AWSClientR
 }
 
 /// The specified dashboard does not exist.
-public struct DashboardNotFoundError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DashboardNotFoundError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1000,9 +1000,9 @@ extension CloudWatchClientTypes {
 }
 
 /// The named resource does not exist.
-public struct ResourceNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         ///
         public internal(set) var message: Swift.String? = nil
     }
@@ -1038,9 +1038,9 @@ public struct DeleteAlarmsInput: Swift.Sendable {
 }
 
 /// Request processing has failed due to some unknown error, exception, or failure.
-public struct InternalServiceFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServiceFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         ///
         public internal(set) var message: Swift.String? = nil
     }
@@ -1063,9 +1063,9 @@ public struct InternalServiceFault: ClientRuntime.ModeledError, AWSClientRuntime
 }
 
 /// Parameters were used together that cannot be used together.
-public struct InvalidParameterCombinationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidParameterCombinationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         ///
         public internal(set) var message: Swift.String? = nil
     }
@@ -1088,9 +1088,9 @@ public struct InvalidParameterCombinationException: ClientRuntime.ModeledError, 
 }
 
 /// The value of an input parameter is bad or out-of-range.
-public struct InvalidParameterValueException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidParameterValueException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         ///
         public internal(set) var message: Swift.String? = nil
     }
@@ -1113,9 +1113,9 @@ public struct InvalidParameterValueException: ClientRuntime.ModeledError, AWSCli
 }
 
 /// An input parameter that is required is missing.
-public struct MissingRequiredParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MissingRequiredParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         ///
         public internal(set) var message: Swift.String? = nil
     }
@@ -1138,9 +1138,9 @@ public struct MissingRequiredParameterException: ClientRuntime.ModeledError, AWS
 }
 
 /// The named resource does not exist.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         public internal(set) var resourceId: Swift.String? = nil
         public internal(set) var resourceType: Swift.String? = nil
@@ -1296,9 +1296,9 @@ public struct DeleteMetricStreamOutput: Swift.Sendable {
 }
 
 /// The next token specified is invalid.
-public struct InvalidNextToken: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidNextToken: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         ///
         public internal(set) var message: Swift.String? = nil
     }
@@ -1900,9 +1900,9 @@ public struct EnableAlarmActionsInput: Swift.Sendable {
 }
 
 /// The operation exceeded one or more limits.
-public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1952,9 +1952,9 @@ extension CloudWatchClientTypes {
 
     /// An entity associated with metrics, to allow for finding related telemetry. An entity is typically a resource or service within your system. For example, metrics from an Amazon EC2 instance could be associated with that instance as the entity. Similarly, metrics from a service that you own could be associated with that service as the entity.
     public struct Entity: Swift.Sendable {
-        /// Additional attributes of the entity that are not used to specify the identity of the entity. A list of key-value pairs. For details about how to use the attributes, see [How to add related information to telemetry](https://docs.aws.amazon.com/adding-your-own-related-telemetry.html) in the CloudWatch User Guide.
+        /// Additional attributes of the entity that are not used to specify the identity of the entity. A list of key-value pairs. For details about how to use the attributes, see [How to add related information to telemetry](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/adding-your-own-related-telemetry.html) in the CloudWatch User Guide.
         public var attributes: [Swift.String: Swift.String]?
-        /// The attributes of the entity which identify the specific entity, as a list of key-value pairs. Entities with the same KeyAttributes are considered to be the same entity. For an entity to be valid, the KeyAttributes must exist and be formatted correctly. There are five allowed attributes (key names): Type, ResourceType, Identifier, Name, and Environment. For details about how to use the key attributes to specify an entity, see [How to add related information to telemetry](https://docs.aws.amazon.com/adding-your-own-related-telemetry.html) in the CloudWatch User Guide.
+        /// The attributes of the entity which identify the specific entity, as a list of key-value pairs. Entities with the same KeyAttributes are considered to be the same entity. For an entity to be valid, the KeyAttributes must exist and be formatted correctly. There are five allowed attributes (key names): Type, ResourceType, Identifier, Name, and Environment. For details about how to use the key attributes to specify an entity, see [How to add related information to telemetry](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/adding-your-own-related-telemetry.html) in the CloudWatch User Guide.
         public var keyAttributes: [Swift.String: Swift.String]?
 
         public init(
@@ -3147,9 +3147,9 @@ public struct PutAnomalyDetectorOutput: Swift.Sendable {
 }
 
 /// The quota for alarms for this customer has already been reached.
-public struct LimitExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LimitExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         ///
         public internal(set) var message: Swift.String? = nil
     }
@@ -3189,7 +3189,7 @@ public struct PutCompositeAlarmInput: Swift.Sendable {
     /// * Invoke a function by using an alias Lambda function: arn:aws:lambda:region:account-id:function:function-name:alias-name
     ///
     ///
-    /// Systems Manager actions: arn:aws:ssm:region:account-id:opsitem:severity
+    /// Systems Manager actions: arn:aws:ssm:region:account-id:opsitem:severity  Start a Amazon Q Developer operational investigation arn:aws:aiops:region:account-id:investigation-group:ingestigation-group-id
     public var alarmActions: [Swift.String]?
     /// The description for the composite alarm.
     public var alarmDescription: Swift.String?
@@ -3426,6 +3426,9 @@ public struct PutMetricAlarmInput: Swift.Sendable {
     /// * arn:aws:ssm:region:account-id:opsitem:severity#CATEGORY=category-name
     ///
     /// * arn:aws:ssm-incidents::account-id:responseplan/response-plan-name
+    ///
+    ///
+    /// Start a Amazon Q Developer operational investigation arn:aws:aiops:region:account-id:investigation-group:ingestigation-group-id
     public var alarmActions: [Swift.String]?
     /// The description for the alarm.
     public var alarmDescription: Swift.String?
@@ -3742,9 +3745,9 @@ public struct PutMetricStreamOutput: Swift.Sendable {
 }
 
 /// Data was not syntactically valid JSON.
-public struct InvalidFormatFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidFormatFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         ///
         public internal(set) var message: Swift.String? = nil
     }

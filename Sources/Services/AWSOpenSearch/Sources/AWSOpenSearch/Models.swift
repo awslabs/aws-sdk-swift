@@ -34,15 +34,20 @@ public struct AddTagsOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct DeleteDirectQueryDataSourceOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct RemoveTagsOutput: Swift.Sendable {
 
     public init() { }
 }
 
 /// An error occured because the client wanted to access an unsupported operation.
-public struct DisabledOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DisabledOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A description of the error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -65,9 +70,9 @@ public struct DisabledOperationException: ClientRuntime.ModeledError, AWSClientR
 }
 
 /// An exception for trying to create more than the allowed number of resources or sub-resources.
-public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A description of the error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -90,9 +95,9 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 }
 
 /// An exception for accessing or deleting a resource that doesn't exist.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A description of the error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -332,9 +337,9 @@ public struct AcceptInboundConnectionOutput: Swift.Sendable {
 }
 
 /// An error occurred because you don't have permissions to access the resource.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A description of the error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -556,9 +561,9 @@ extension OpenSearchClientTypes {
 }
 
 /// An error occurred while processing the request.
-public struct BaseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BaseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A description of the error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -581,9 +586,9 @@ public struct BaseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSSer
 }
 
 /// An exception for when a failure in one of the dependencies results in the service being unable to fetch details about the resource.
-public struct DependencyFailureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DependencyFailureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A description of the error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -606,9 +611,9 @@ public struct DependencyFailureException: ClientRuntime.ModeledError, AWSClientR
 }
 
 /// Request processing failed because of an unknown error, exception, or internal failure.
-public struct InternalException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A description of the error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -631,9 +636,9 @@ public struct InternalException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 /// An exception for accessing or deleting a resource that doesn't exist.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A description of the error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -724,23 +729,47 @@ public struct AddDataSourceOutput: Swift.Sendable {
 
 extension OpenSearchClientTypes {
 
-    /// List of limits that are specific to a given instance type.
-    public struct AdditionalLimit: Swift.Sendable {
-        /// * MaximumNumberOfDataNodesSupported - This attribute only applies to master nodes and specifies the maximum number of data nodes of a given instance type a master node can support.
-        ///
-        /// * MaximumNumberOfDataNodesWithoutMasterNode - This attribute only applies to data nodes and specifies the maximum number of data nodes of a given instance type can exist without a master node governing them.
-        public var limitName: Swift.String?
-        /// The values of the additional instance type limits.
-        public var limitValues: [Swift.String]?
+    /// Configuration details for a CloudWatch Logs data source that can be used for direct queries.
+    public struct CloudWatchDirectQueryDataSource: Swift.Sendable {
+        /// The unique identifier of the IAM role that grants OpenSearch Service permission to access the specified data source.
+        /// This member is required.
+        public var roleArn: Swift.String?
 
         public init(
-            limitName: Swift.String? = nil,
-            limitValues: [Swift.String]? = nil
+            roleArn: Swift.String? = nil
         )
         {
-            self.limitName = limitName
-            self.limitValues = limitValues
+            self.roleArn = roleArn
         }
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// Configuration details for a Security Lake data source that can be used for direct queries.
+    public struct SecurityLakeDirectQueryDataSource: Swift.Sendable {
+        /// The unique identifier of the IAM role that grants OpenSearch Service permission to access the specified data source.
+        /// This member is required.
+        public var roleArn: Swift.String?
+
+        public init(
+            roleArn: Swift.String? = nil
+        )
+        {
+            self.roleArn = roleArn
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// The type of data source that is used for direct queries. This is a supported Amazon Web Services service, such as CloudWatch Logs or Security Lake.
+    public enum DirectQueryDataSourceType: Swift.Sendable {
+        /// Specifies CloudWatch Logs as a type of data source for direct queries.
+        case cloudwatchlog(OpenSearchClientTypes.CloudWatchDirectQueryDataSource)
+        /// Specifies Security Lake as a type of data source for direct queries.
+        case securitylake(OpenSearchClientTypes.SecurityLakeDirectQueryDataSource)
+        case sdkUnknown(Swift.String)
     }
 }
 
@@ -766,9 +795,74 @@ extension OpenSearchClientTypes {
     }
 }
 
-/// Container for the parameters to the AddTags operation. Specifies the tags to attach to the domain.
+public struct AddDirectQueryDataSourceInput: Swift.Sendable {
+    /// A unique, user-defined label to identify the data source within your OpenSearch Service environment.
+    /// This member is required.
+    public var dataSourceName: Swift.String?
+    /// The supported Amazon Web Services service that you want to use as the source for direct queries in OpenSearch Service.
+    /// This member is required.
+    public var dataSourceType: OpenSearchClientTypes.DirectQueryDataSourceType?
+    /// An optional text field for providing additional context and details about the data source.
+    public var description: Swift.String?
+    /// A list of Amazon Resource Names (ARNs) for the OpenSearch collections that are associated with the direct query data source.
+    /// This member is required.
+    public var openSearchArns: [Swift.String]?
+    /// A list of tags attached to a domain.
+    public var tagList: [OpenSearchClientTypes.Tag]?
+
+    public init(
+        dataSourceName: Swift.String? = nil,
+        dataSourceType: OpenSearchClientTypes.DirectQueryDataSourceType? = nil,
+        description: Swift.String? = nil,
+        openSearchArns: [Swift.String]? = nil,
+        tagList: [OpenSearchClientTypes.Tag]? = nil
+    )
+    {
+        self.dataSourceName = dataSourceName
+        self.dataSourceType = dataSourceType
+        self.description = description
+        self.openSearchArns = openSearchArns
+        self.tagList = tagList
+    }
+}
+
+public struct AddDirectQueryDataSourceOutput: Swift.Sendable {
+    /// The unique, system-generated identifier that represents the data source.
+    public var dataSourceArn: Swift.String?
+
+    public init(
+        dataSourceArn: Swift.String? = nil
+    )
+    {
+        self.dataSourceArn = dataSourceArn
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// List of limits that are specific to a given instance type.
+    public struct AdditionalLimit: Swift.Sendable {
+        /// * MaximumNumberOfDataNodesSupported - This attribute only applies to master nodes and specifies the maximum number of data nodes of a given instance type a master node can support.
+        ///
+        /// * MaximumNumberOfDataNodesWithoutMasterNode - This attribute only applies to data nodes and specifies the maximum number of data nodes of a given instance type can exist without a master node governing them.
+        public var limitName: Swift.String?
+        /// The values of the additional instance type limits.
+        public var limitValues: [Swift.String]?
+
+        public init(
+            limitName: Swift.String? = nil,
+            limitValues: [Swift.String]? = nil
+        )
+        {
+            self.limitName = limitName
+            self.limitValues = limitValues
+        }
+    }
+}
+
+/// Container for the parameters to the AddTags operation. Specifies the tags to attach to the domain, data source, or application.
 public struct AddTagsInput: Swift.Sendable {
-    /// Amazon Resource Name (ARN) for the OpenSearch Service domain to which you want to attach resource tags.
+    /// Amazon Resource Name (ARN) for the OpenSearch Service domain, data source, or application to which you want to attach resource tags.
     /// This member is required.
     public var arn: Swift.String?
     /// List of resource tags.
@@ -1258,9 +1352,9 @@ extension OpenSearchClientTypes {
 }
 
 /// An error occurred because the client attempts to remove a resource that is currently in use.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A description of the error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2037,9 +2131,9 @@ public struct CreateApplicationOutput: Swift.Sendable {
 }
 
 /// An exception for trying to create or access a sub-resource that's either invalid or not supported.
-public struct InvalidTypeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidTypeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A description of the error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2062,9 +2156,9 @@ public struct InvalidTypeException: ClientRuntime.ModeledError, AWSClientRuntime
 }
 
 /// An exception for creating a resource that already exists.
-public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A description of the error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4594,6 +4688,19 @@ public struct DeleteDataSourceOutput: Swift.Sendable {
     }
 }
 
+public struct DeleteDirectQueryDataSourceInput: Swift.Sendable {
+    /// A unique, user-defined label to identify the data source within your OpenSearch Service environment.
+    /// This member is required.
+    public var dataSourceName: Swift.String?
+
+    public init(
+        dataSourceName: Swift.String? = nil
+    )
+    {
+        self.dataSourceName = dataSourceName
+    }
+}
+
 /// Container for the parameters to the DeleteDomain operation.
 public struct DeleteDomainInput: Swift.Sendable {
     /// The name of the domain you want to permanently delete.
@@ -6273,9 +6380,9 @@ public struct DescribeDryRunProgressOutput: Swift.Sendable {
 }
 
 /// Request processing failed because you provided an invalid pagination token.
-public struct InvalidPaginationTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidPaginationTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A description of the error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -7248,6 +7355,47 @@ public struct GetDataSourceOutput: Swift.Sendable {
     }
 }
 
+public struct GetDirectQueryDataSourceInput: Swift.Sendable {
+    /// A unique, user-defined label that identifies the data source within your OpenSearch Service environment.
+    /// This member is required.
+    public var dataSourceName: Swift.String?
+
+    public init(
+        dataSourceName: Swift.String? = nil
+    )
+    {
+        self.dataSourceName = dataSourceName
+    }
+}
+
+public struct GetDirectQueryDataSourceOutput: Swift.Sendable {
+    /// The unique, system-generated identifier that represents the data source.
+    public var dataSourceArn: Swift.String?
+    /// A unique, user-defined label to identify the data source within your OpenSearch Service environment.
+    public var dataSourceName: Swift.String?
+    /// The supported Amazon Web Services service that is used as the source for direct queries in OpenSearch Service.
+    public var dataSourceType: OpenSearchClientTypes.DirectQueryDataSourceType?
+    /// A description that provides additional context and details about the data source.
+    public var description: Swift.String?
+    /// A list of Amazon Resource Names (ARNs) for the OpenSearch collections that are associated with the direct query data source.
+    public var openSearchArns: [Swift.String]?
+
+    public init(
+        dataSourceArn: Swift.String? = nil,
+        dataSourceName: Swift.String? = nil,
+        dataSourceType: OpenSearchClientTypes.DirectQueryDataSourceType? = nil,
+        description: Swift.String? = nil,
+        openSearchArns: [Swift.String]? = nil
+    )
+    {
+        self.dataSourceArn = dataSourceArn
+        self.dataSourceName = dataSourceName
+        self.dataSourceType = dataSourceType
+        self.description = description
+        self.openSearchArns = openSearchArns
+    }
+}
+
 /// Container for the parameters to the GetDomainMaintenanceStatus operation.
 public struct GetDomainMaintenanceStatusInput: Swift.Sendable {
     /// The name of the domain.
@@ -7795,6 +7943,70 @@ public struct ListDataSourcesOutput: Swift.Sendable {
     }
 }
 
+public struct ListDirectQueryDataSourcesInput: Swift.Sendable {
+    /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Send the request again using the returned token to retrieve the next page.
+    public var nextToken: Swift.String?
+
+    public init(
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.nextToken = nextToken
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// The configuration details for a data source that can be directly queried.
+    public struct DirectQueryDataSource: Swift.Sendable {
+        /// The unique, system-generated identifier that represents the data source.
+        public var dataSourceArn: Swift.String?
+        /// A unique, user-defined label to identify the data source within your OpenSearch Service environment.
+        public var dataSourceName: Swift.String?
+        /// The supported Amazon Web Services service that is used as the source for direct queries in OpenSearch Service.
+        public var dataSourceType: OpenSearchClientTypes.DirectQueryDataSourceType?
+        /// A description that provides additional context and details about the data source.
+        public var description: Swift.String?
+        /// A list of Amazon Resource Names (ARNs) for the OpenSearch collections that are associated with the direct query data source.
+        public var openSearchArns: [Swift.String]?
+        /// A list of tags attached to a direct query data source.
+        public var tagList: [OpenSearchClientTypes.Tag]?
+
+        public init(
+            dataSourceArn: Swift.String? = nil,
+            dataSourceName: Swift.String? = nil,
+            dataSourceType: OpenSearchClientTypes.DirectQueryDataSourceType? = nil,
+            description: Swift.String? = nil,
+            openSearchArns: [Swift.String]? = nil,
+            tagList: [OpenSearchClientTypes.Tag]? = nil
+        )
+        {
+            self.dataSourceArn = dataSourceArn
+            self.dataSourceName = dataSourceName
+            self.dataSourceType = dataSourceType
+            self.description = description
+            self.openSearchArns = openSearchArns
+            self.tagList = tagList
+        }
+    }
+}
+
+public struct ListDirectQueryDataSourcesOutput: Swift.Sendable {
+    /// A list of the direct query data sources that are returned by the ListDirectQueryDataSources API operation.
+    public var directQueryDataSources: [OpenSearchClientTypes.DirectQueryDataSource]?
+    /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Send the request again using the returned token to retrieve the next page.
+    public var nextToken: Swift.String?
+
+    public init(
+        directQueryDataSources: [OpenSearchClientTypes.DirectQueryDataSource]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.directQueryDataSources = directQueryDataSources
+        self.nextToken = nextToken
+    }
+}
+
 /// Container for the parameters to the ListDomainMaintenances operation.
 public struct ListDomainMaintenancesInput: Swift.Sendable {
     /// The name of the action.
@@ -8252,7 +8464,7 @@ public struct ListScheduledActionsOutput: Swift.Sendable {
 
 /// Container for the parameters to the ListTags operation.
 public struct ListTagsInput: Swift.Sendable {
-    /// Amazon Resource Name (ARN) for the domain to view tags for.
+    /// Amazon Resource Name (ARN) for the domain, data source, or application to view tags for.
     /// This member is required.
     public var arn: Swift.String?
 
@@ -8266,7 +8478,7 @@ public struct ListTagsInput: Swift.Sendable {
 
 /// The results of a ListTags operation.
 public struct ListTagsOutput: Swift.Sendable {
-    /// List of resource tags associated with the specified domain.
+    /// List of resource tags associated with the specified domain, data source, or application.
     public var tagList: [OpenSearchClientTypes.Tag]?
 
     public init(
@@ -8480,10 +8692,10 @@ public struct RejectInboundConnectionOutput: Swift.Sendable {
 
 /// Container for the request parameters to the RemoveTags operation.
 public struct RemoveTagsInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the domain from which you want to delete the specified tags.
+    /// The Amazon Resource Name (ARN) of the domain, data source, or application from which you want to delete the specified tags.
     /// This member is required.
     public var arn: Swift.String?
-    /// The list of tag keys to remove from the domain.
+    /// The list of tag keys to remove from the domain, data source, or application.
     /// This member is required.
     public var tagKeys: [Swift.String]?
 
@@ -8738,6 +8950,45 @@ public struct UpdateDataSourceOutput: Swift.Sendable {
     )
     {
         self.message = message
+    }
+}
+
+public struct UpdateDirectQueryDataSourceInput: Swift.Sendable {
+    /// A unique, user-defined label to identify the data source within your OpenSearch Service environment.
+    /// This member is required.
+    public var dataSourceName: Swift.String?
+    /// The supported Amazon Web Services service that you want to use as the source for direct queries in OpenSearch Service.
+    /// This member is required.
+    public var dataSourceType: OpenSearchClientTypes.DirectQueryDataSourceType?
+    /// An optional text field for providing additional context and details about the data source.
+    public var description: Swift.String?
+    /// A list of Amazon Resource Names (ARNs) for the OpenSearch collections that are associated with the direct query data source.
+    /// This member is required.
+    public var openSearchArns: [Swift.String]?
+
+    public init(
+        dataSourceName: Swift.String? = nil,
+        dataSourceType: OpenSearchClientTypes.DirectQueryDataSourceType? = nil,
+        description: Swift.String? = nil,
+        openSearchArns: [Swift.String]? = nil
+    )
+    {
+        self.dataSourceName = dataSourceName
+        self.dataSourceType = dataSourceType
+        self.description = description
+        self.openSearchArns = openSearchArns
+    }
+}
+
+public struct UpdateDirectQueryDataSourceOutput: Swift.Sendable {
+    /// The unique, system-generated identifier that represents the data source.
+    public var dataSourceArn: Swift.String?
+
+    public init(
+        dataSourceArn: Swift.String? = nil
+    )
+    {
+        self.dataSourceArn = dataSourceArn
     }
 }
 
@@ -9023,9 +9274,9 @@ public struct UpdatePackageScopeOutput: Swift.Sendable {
 }
 
 /// An exception for attempting to schedule a domain action during an unavailable time slot.
-public struct SlotNotAvailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SlotNotAvailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A description of the error.
         public internal(set) var message: Swift.String? = nil
         /// Alternate time slots during which OpenSearch Service has available capacity to schedule a domain action.
@@ -9212,6 +9463,13 @@ extension AddDataSourceInput {
     }
 }
 
+extension AddDirectQueryDataSourceInput {
+
+    static func urlPathProvider(_ value: AddDirectQueryDataSourceInput) -> Swift.String? {
+        return "/2021-01-01/opensearch/directQueryDataSource"
+    }
+}
+
 extension AddTagsInput {
 
     static func urlPathProvider(_ value: AddTagsInput) -> Swift.String? {
@@ -9321,6 +9579,16 @@ extension DeleteDataSourceInput {
             return nil
         }
         return "/2021-01-01/opensearch/domain/\(domainName.urlPercentEncoding())/dataSource/\(name.urlPercentEncoding())"
+    }
+}
+
+extension DeleteDirectQueryDataSourceInput {
+
+    static func urlPathProvider(_ value: DeleteDirectQueryDataSourceInput) -> Swift.String? {
+        guard let dataSourceName = value.dataSourceName else {
+            return nil
+        }
+        return "/2021-01-01/opensearch/directQueryDataSource/\(dataSourceName.urlPercentEncoding())"
     }
 }
 
@@ -9648,6 +9916,16 @@ extension GetDataSourceInput {
     }
 }
 
+extension GetDirectQueryDataSourceInput {
+
+    static func urlPathProvider(_ value: GetDirectQueryDataSourceInput) -> Swift.String? {
+        guard let dataSourceName = value.dataSourceName else {
+            return nil
+        }
+        return "/2021-01-01/opensearch/directQueryDataSource/\(dataSourceName.urlPercentEncoding())"
+    }
+}
+
 extension GetDomainMaintenanceStatusInput {
 
     static func urlPathProvider(_ value: GetDomainMaintenanceStatusInput) -> Swift.String? {
@@ -9770,6 +10048,25 @@ extension ListDataSourcesInput {
             return nil
         }
         return "/2021-01-01/opensearch/domain/\(domainName.urlPercentEncoding())/dataSource"
+    }
+}
+
+extension ListDirectQueryDataSourcesInput {
+
+    static func urlPathProvider(_ value: ListDirectQueryDataSourcesInput) -> Swift.String? {
+        return "/2021-01-01/opensearch/directQueryDataSource"
+    }
+}
+
+extension ListDirectQueryDataSourcesInput {
+
+    static func queryItemProvider(_ value: ListDirectQueryDataSourcesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nexttoken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
     }
 }
 
@@ -10123,6 +10420,16 @@ extension UpdateDataSourceInput {
     }
 }
 
+extension UpdateDirectQueryDataSourceInput {
+
+    static func urlPathProvider(_ value: UpdateDirectQueryDataSourceInput) -> Swift.String? {
+        guard let dataSourceName = value.dataSourceName else {
+            return nil
+        }
+        return "/2021-01-01/opensearch/directQueryDataSource/\(dataSourceName.urlPercentEncoding())"
+    }
+}
+
 extension UpdateDomainConfigInput {
 
     static func urlPathProvider(_ value: UpdateDomainConfigInput) -> Swift.String? {
@@ -10178,6 +10485,18 @@ extension AddDataSourceInput {
         try writer["DataSourceType"].write(value.dataSourceType, with: OpenSearchClientTypes.DataSourceType.write(value:to:))
         try writer["Description"].write(value.description)
         try writer["Name"].write(value.name)
+    }
+}
+
+extension AddDirectQueryDataSourceInput {
+
+    static func write(value: AddDirectQueryDataSourceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DataSourceName"].write(value.dataSourceName)
+        try writer["DataSourceType"].write(value.dataSourceType, with: OpenSearchClientTypes.DirectQueryDataSourceType.write(value:to:))
+        try writer["Description"].write(value.description)
+        try writer["OpenSearchArns"].writeList(value.openSearchArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TagList"].writeList(value.tagList, memberWritingClosure: OpenSearchClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -10441,6 +10760,16 @@ extension UpdateDataSourceInput {
     }
 }
 
+extension UpdateDirectQueryDataSourceInput {
+
+    static func write(value: UpdateDirectQueryDataSourceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DataSourceType"].write(value.dataSourceType, with: OpenSearchClientTypes.DirectQueryDataSourceType.write(value:to:))
+        try writer["Description"].write(value.description)
+        try writer["OpenSearchArns"].writeList(value.openSearchArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension UpdateDomainConfigInput {
 
     static func write(value: UpdateDomainConfigInput?, to writer: SmithyJSON.Writer) throws {
@@ -10542,6 +10871,18 @@ extension AddDataSourceOutput {
         let reader = responseReader
         var value = AddDataSourceOutput()
         value.message = try reader["Message"].readIfPresent()
+        return value
+    }
+}
+
+extension AddDirectQueryDataSourceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AddDirectQueryDataSourceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = AddDirectQueryDataSourceOutput()
+        value.dataSourceArn = try reader["DataSourceArn"].readIfPresent()
         return value
     }
 }
@@ -10704,6 +11045,13 @@ extension DeleteDataSourceOutput {
         var value = DeleteDataSourceOutput()
         value.message = try reader["Message"].readIfPresent()
         return value
+    }
+}
+
+extension DeleteDirectQueryDataSourceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteDirectQueryDataSourceOutput {
+        return DeleteDirectQueryDataSourceOutput()
     }
 }
 
@@ -11040,6 +11388,22 @@ extension GetDataSourceOutput {
     }
 }
 
+extension GetDirectQueryDataSourceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetDirectQueryDataSourceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetDirectQueryDataSourceOutput()
+        value.dataSourceArn = try reader["DataSourceArn"].readIfPresent()
+        value.dataSourceName = try reader["DataSourceName"].readIfPresent()
+        value.dataSourceType = try reader["DataSourceType"].readIfPresent(with: OpenSearchClientTypes.DirectQueryDataSourceType.read(from:))
+        value.description = try reader["Description"].readIfPresent()
+        value.openSearchArns = try reader["OpenSearchArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension GetDomainMaintenanceStatusOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetDomainMaintenanceStatusOutput {
@@ -11119,6 +11483,19 @@ extension ListDataSourcesOutput {
         let reader = responseReader
         var value = ListDataSourcesOutput()
         value.dataSources = try reader["DataSources"].readListIfPresent(memberReadingClosure: OpenSearchClientTypes.DataSourceDetails.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ListDirectQueryDataSourcesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListDirectQueryDataSourcesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListDirectQueryDataSourcesOutput()
+        value.directQueryDataSources = try reader["DirectQueryDataSources"].readListIfPresent(memberReadingClosure: OpenSearchClientTypes.DirectQueryDataSource.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
 }
@@ -11358,6 +11735,18 @@ extension UpdateDataSourceOutput {
     }
 }
 
+extension UpdateDirectQueryDataSourceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateDirectQueryDataSourceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateDirectQueryDataSourceOutput()
+        value.dataSourceArn = try reader["DataSourceArn"].readIfPresent()
+        return value
+    }
+}
+
 extension UpdateDomainConfigOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateDomainConfigOutput {
@@ -11465,6 +11854,25 @@ enum AddDataSourceOutputError {
         switch baseError.code {
             case "BaseException": return try BaseException.makeError(baseError: baseError)
             case "DependencyFailureException": return try DependencyFailureException.makeError(baseError: baseError)
+            case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
+            case "InternalException": return try InternalException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum AddDirectQueryDataSourceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BaseException": return try BaseException.makeError(baseError: baseError)
             case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
             case "InternalException": return try InternalException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
@@ -11709,6 +12117,24 @@ enum DeleteDataSourceOutputError {
         switch baseError.code {
             case "BaseException": return try BaseException.makeError(baseError: baseError)
             case "DependencyFailureException": return try DependencyFailureException.makeError(baseError: baseError)
+            case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
+            case "InternalException": return try InternalException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteDirectQueryDataSourceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BaseException": return try BaseException.makeError(baseError: baseError)
             case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
             case "InternalException": return try InternalException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -12152,6 +12578,24 @@ enum GetDataSourceOutputError {
     }
 }
 
+enum GetDirectQueryDataSourceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BaseException": return try BaseException.makeError(baseError: baseError)
+            case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
+            case "InternalException": return try InternalException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetDomainMaintenanceStatusOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -12253,6 +12697,24 @@ enum ListDataSourcesOutputError {
         switch baseError.code {
             case "BaseException": return try BaseException.makeError(baseError: baseError)
             case "DependencyFailureException": return try DependencyFailureException.makeError(baseError: baseError)
+            case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
+            case "InternalException": return try InternalException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListDirectQueryDataSourcesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BaseException": return try BaseException.makeError(baseError: baseError)
             case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
             case "InternalException": return try InternalException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -12583,6 +13045,24 @@ enum UpdateDataSourceOutputError {
         switch baseError.code {
             case "BaseException": return try BaseException.makeError(baseError: baseError)
             case "DependencyFailureException": return try DependencyFailureException.makeError(baseError: baseError)
+            case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
+            case "InternalException": return try InternalException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateDirectQueryDataSourceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BaseException": return try BaseException.makeError(baseError: baseError)
             case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
             case "InternalException": return try InternalException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -14421,6 +14901,64 @@ extension OpenSearchClientTypes.S3GlueDataCatalog {
     }
 }
 
+extension OpenSearchClientTypes.DirectQueryDataSourceType {
+
+    static func write(value: OpenSearchClientTypes.DirectQueryDataSourceType?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .cloudwatchlog(cloudwatchlog):
+                try writer["CloudWatchLog"].write(cloudwatchlog, with: OpenSearchClientTypes.CloudWatchDirectQueryDataSource.write(value:to:))
+            case let .securitylake(securitylake):
+                try writer["SecurityLake"].write(securitylake, with: OpenSearchClientTypes.SecurityLakeDirectQueryDataSource.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.DirectQueryDataSourceType {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "CloudWatchLog":
+                return .cloudwatchlog(try reader["CloudWatchLog"].read(with: OpenSearchClientTypes.CloudWatchDirectQueryDataSource.read(from:)))
+            case "SecurityLake":
+                return .securitylake(try reader["SecurityLake"].read(with: OpenSearchClientTypes.SecurityLakeDirectQueryDataSource.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension OpenSearchClientTypes.SecurityLakeDirectQueryDataSource {
+
+    static func write(value: OpenSearchClientTypes.SecurityLakeDirectQueryDataSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RoleArn"].write(value.roleArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.SecurityLakeDirectQueryDataSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchClientTypes.SecurityLakeDirectQueryDataSource()
+        value.roleArn = try reader["RoleArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension OpenSearchClientTypes.CloudWatchDirectQueryDataSource {
+
+    static func write(value: OpenSearchClientTypes.CloudWatchDirectQueryDataSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RoleArn"].write(value.roleArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.CloudWatchDirectQueryDataSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchClientTypes.CloudWatchDirectQueryDataSource()
+        value.roleArn = try reader["RoleArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension OpenSearchClientTypes.PackageVersionHistory {
 
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.PackageVersionHistory {
@@ -14486,6 +15024,21 @@ extension OpenSearchClientTypes.DataSourceDetails {
         value.name = try reader["Name"].readIfPresent()
         value.description = try reader["Description"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
+        return value
+    }
+}
+
+extension OpenSearchClientTypes.DirectQueryDataSource {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.DirectQueryDataSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchClientTypes.DirectQueryDataSource()
+        value.dataSourceName = try reader["DataSourceName"].readIfPresent()
+        value.dataSourceType = try reader["DataSourceType"].readIfPresent(with: OpenSearchClientTypes.DirectQueryDataSourceType.read(from:))
+        value.description = try reader["Description"].readIfPresent()
+        value.openSearchArns = try reader["OpenSearchArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.dataSourceArn = try reader["DataSourceArn"].readIfPresent()
+        value.tagList = try reader["TagList"].readListIfPresent(memberReadingClosure: OpenSearchClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }

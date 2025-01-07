@@ -147,6 +147,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSBackupGateway](../../../../../swift/api/awsbackupgateway/latest)
 
+[AWSBackupSearch](../../../../../swift/api/awsbackupsearch/latest)
+
 [AWSBatch](../../../../../swift/api/awsbatch/latest)
 
 [AWSBedrock](../../../../../swift/api/awsbedrock/latest)
@@ -154,6 +156,10 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSBedrockAgent](../../../../../swift/api/awsbedrockagent/latest)
 
 [AWSBedrockAgentRuntime](../../../../../swift/api/awsbedrockagentruntime/latest)
+
+[AWSBedrockDataAutomation](../../../../../swift/api/awsbedrockdataautomation/latest)
+
+[AWSBedrockDataAutomationRuntime](../../../../../swift/api/awsbedrockdataautomationruntime/latest)
 
 [AWSBedrockRuntime](../../../../../swift/api/awsbedrockruntime/latest)
 
@@ -278,6 +284,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSDAX](../../../../../swift/api/awsdax/latest)
 
 [AWSDLM](../../../../../swift/api/awsdlm/latest)
+
+[AWSDSQL](../../../../../swift/api/awsdsql/latest)
 
 [AWSDataBrew](../../../../../swift/api/awsdatabrew/latest)
 
@@ -423,11 +431,9 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSInternetMonitor](../../../../../swift/api/awsinternetmonitor/latest)
 
+[AWSInvoicing](../../../../../swift/api/awsinvoicing/latest)
+
 [AWSIoT](../../../../../swift/api/awsiot/latest)
-
-[AWSIoT1ClickDevicesService](../../../../../swift/api/awsiot1clickdevicesservice/latest)
-
-[AWSIoT1ClickProjects](../../../../../swift/api/awsiot1clickprojects/latest)
 
 [AWSIoTAnalytics](../../../../../swift/api/awsiotanalytics/latest)
 
@@ -591,6 +597,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSNetworkFirewall](../../../../../swift/api/awsnetworkfirewall/latest)
 
+[AWSNetworkFlowMonitor](../../../../../swift/api/awsnetworkflowmonitor/latest)
+
 [AWSNetworkManager](../../../../../swift/api/awsnetworkmanager/latest)
 
 [AWSNetworkMonitor](../../../../../swift/api/awsnetworkmonitor/latest)
@@ -602,6 +610,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSOAM](../../../../../swift/api/awsoam/latest)
 
 [AWSOSIS](../../../../../swift/api/awsosis/latest)
+
+[AWSObservabilityAdmin](../../../../../swift/api/awsobservabilityadmin/latest)
 
 [AWSOmics](../../../../../swift/api/awsomics/latest)
 
@@ -721,6 +731,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSS3Outposts](../../../../../swift/api/awss3outposts/latest)
 
+[AWSS3Tables](../../../../../swift/api/awss3tables/latest)
+
 [AWSSES](../../../../../swift/api/awsses/latest)
 
 [AWSSESv2](../../../../../swift/api/awssesv2/latest)
@@ -774,6 +786,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSSecretsManager](../../../../../swift/api/awssecretsmanager/latest)
 
 [AWSSecurityHub](../../../../../swift/api/awssecurityhub/latest)
+
+[AWSSecurityIR](../../../../../swift/api/awssecurityir/latest)
 
 [AWSSecurityLake](../../../../../swift/api/awssecuritylake/latest)
 

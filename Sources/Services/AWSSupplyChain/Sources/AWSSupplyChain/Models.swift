@@ -29,9 +29,9 @@ import struct Smithy.URIQueryItem
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// You do not have the required privileges to perform this action.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -128,9 +128,9 @@ extension SupplyChainClientTypes {
 }
 
 /// Updating or deleting a resource can cause an inconsistent state.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -152,9 +152,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 /// Unexpected error during processing of request.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -176,9 +176,9 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 /// Request would cause a service quota to be exceeded.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -200,9 +200,9 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 }
 
 /// Request was denied due to request throttling.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -224,9 +224,9 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 /// The input does not satisfy the constraints specified by an AWS service.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -285,9 +285,9 @@ public struct CreateBillOfMaterialsImportJobOutput: Swift.Sendable {
 }
 
 /// Request references a resource which does not exist.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -974,13 +974,16 @@ public struct CreateInstanceInput: Swift.Sendable {
     public var kmsKeyArn: Swift.String?
     /// The Amazon Web Services tags of an instance to be created.
     public var tags: [Swift.String: Swift.String]?
+    /// The DNS subdomain of the web app. This would be "example" in the URL "example.scn.global.on.aws". You can set this to a custom value, as long as the domain isn't already being used by someone else. The name may only include alphanumeric characters and hyphens.
+    public var webAppDnsDomain: Swift.String?
 
     public init(
         clientToken: Swift.String? = nil,
         instanceDescription: Swift.String? = nil,
         instanceName: Swift.String? = nil,
         kmsKeyArn: Swift.String? = nil,
-        tags: [Swift.String: Swift.String]? = nil
+        tags: [Swift.String: Swift.String]? = nil,
+        webAppDnsDomain: Swift.String? = nil
     )
     {
         self.clientToken = clientToken
@@ -988,6 +991,7 @@ public struct CreateInstanceInput: Swift.Sendable {
         self.instanceName = instanceName
         self.kmsKeyArn = kmsKeyArn
         self.tags = tags
+        self.webAppDnsDomain = webAppDnsDomain
     }
 }
 
@@ -1177,7 +1181,7 @@ extension SupplyChainClientTypes {
 public struct SendDataIntegrationEventInput: Swift.Sendable {
     /// The idempotent client token.
     public var clientToken: Swift.String?
-    /// The data payload of the event. For more information on the data schema to use, see [Data entities supported in AWS Supply Chain ](https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html).
+    /// The data payload of the event. For more information on the data schema to use, see [Data entities supported in AWS Supply Chain](https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html).
     /// This member is required.
     public var data: Swift.String?
     /// Event identifier (for example, orderId for InboundOrder) used for data sharing or partitioning.
@@ -1437,14 +1441,14 @@ public struct DeleteDataLakeDatasetInput: Swift.Sendable {
     /// The AWS Supply Chain instance identifier.
     /// This member is required.
     public var instanceId: Swift.String?
-    /// The name of the dataset. If the namespace is asc, the name must be one of the supported [data entities ](https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html).
+    /// The name of the dataset. For asc name space, the name must be one of the supported data entities under [https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html](https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html).
     /// This member is required.
     public var name: Swift.String?
-    /// The namespace of the dataset. The available values are:
+    /// The name space of the dataset. The available values are:
     ///
-    /// * asc: for [ AWS Supply Chain supported datasets ](https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html).
+    /// * asc - For information on the Amazon Web Services Supply Chain supported datasets see [https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html](https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html).
     ///
-    /// * default: for datasets with custom user-defined schemas.
+    /// * default - For datasets with custom user-defined schemas.
     /// This member is required.
     public var namespace: Swift.String?
 
@@ -1468,7 +1472,7 @@ public struct DeleteDataLakeDatasetOutput: Swift.Sendable {
     /// The name of deleted dataset.
     /// This member is required.
     public var name: Swift.String?
-    /// The namespace of deleted dataset.
+    /// The name space of deleted dataset.
     /// This member is required.
     public var namespace: Swift.String?
 
@@ -1533,11 +1537,11 @@ public struct ListDataLakeDatasetsInput: Swift.Sendable {
     public var instanceId: Swift.String?
     /// The max number of datasets to fetch in this paginated request.
     public var maxResults: Swift.Int?
-    /// The namespace of the dataset. The available values are:
+    /// The name space of the dataset. The available values are:
     ///
-    /// * asc: for [ AWS Supply Chain supported datasets ](https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html).
+    /// * asc - For information on the Amazon Web Services Supply Chain supported datasets see [https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html](https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html).
     ///
-    /// * default: for datasets with custom user-defined schemas.
+    /// * default - For datasets with custom user-defined schemas.
     /// This member is required.
     public var namespace: Swift.String?
     /// The pagination token to fetch next page of datasets.
@@ -2195,6 +2199,7 @@ extension CreateInstanceInput {
         try writer["instanceName"].write(value.instanceName)
         try writer["kmsKeyArn"].write(value.kmsKeyArn)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["webAppDnsDomain"].write(value.webAppDnsDomain)
     }
 }
 

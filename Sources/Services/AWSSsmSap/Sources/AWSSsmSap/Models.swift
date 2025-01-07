@@ -890,6 +890,33 @@ extension SsmSapClientTypes {
 
 extension SsmSapClientTypes {
 
+    /// This is information about the component of your SAP application, such as Web Dispatcher.
+    public struct ComponentInfo: Swift.Sendable {
+        /// This string is the type of the component. Accepted value is WD.
+        /// This member is required.
+        public var componentType: SsmSapClientTypes.ComponentType?
+        /// This is the Amazon EC2 instance on which your SAP component is running. Accepted values are alphanumeric.
+        /// This member is required.
+        public var ec2InstanceId: Swift.String?
+        /// This string is the SAP System ID of the component. Accepted values are alphanumeric.
+        /// This member is required.
+        public var sid: Swift.String?
+
+        public init(
+            componentType: SsmSapClientTypes.ComponentType? = nil,
+            ec2InstanceId: Swift.String? = nil,
+            sid: Swift.String? = nil
+        )
+        {
+            self.componentType = componentType
+            self.ec2InstanceId = ec2InstanceId
+            self.sid = sid
+        }
+    }
+}
+
+extension SsmSapClientTypes {
+
     /// The summary of the component.
     public struct ComponentSummary: Swift.Sendable {
         /// The ID of the application.
@@ -921,9 +948,9 @@ extension SsmSapClientTypes {
 }
 
 /// A conflict has occurred.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1137,9 +1164,9 @@ extension SsmSapClientTypes {
 }
 
 /// An internal error has occurred.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1161,9 +1188,9 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 /// The resource is not available.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1185,9 +1212,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// The input fails to satisfy the constraints specified by an AWS service.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1268,9 +1295,9 @@ public struct DeleteResourcePermissionOutput: Swift.Sendable {
 }
 
 /// The request is not authorized.
-public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1978,6 +2005,8 @@ public struct RegisterApplicationInput: Swift.Sendable {
     /// The type of the application.
     /// This member is required.
     public var applicationType: SsmSapClientTypes.ApplicationType?
+    /// This is an optional parameter for component details to which the SAP ABAP application is attached, such as Web Dispatcher. This is an array of ApplicationComponent objects. You may input 0 to 5 items.
+    public var componentsInfo: [SsmSapClientTypes.ComponentInfo]?
     /// The credentials of the SAP application.
     public var credentials: [SsmSapClientTypes.ApplicationCredential]?
     /// The Amazon Resource Name of the SAP HANA database.
@@ -1995,6 +2024,7 @@ public struct RegisterApplicationInput: Swift.Sendable {
     public init(
         applicationId: Swift.String? = nil,
         applicationType: SsmSapClientTypes.ApplicationType? = nil,
+        componentsInfo: [SsmSapClientTypes.ComponentInfo]? = nil,
         credentials: [SsmSapClientTypes.ApplicationCredential]? = [],
         databaseArn: Swift.String? = nil,
         instances: [Swift.String]? = nil,
@@ -2005,6 +2035,7 @@ public struct RegisterApplicationInput: Swift.Sendable {
     {
         self.applicationId = applicationId
         self.applicationType = applicationType
+        self.componentsInfo = componentsInfo
         self.credentials = credentials
         self.databaseArn = databaseArn
         self.instances = instances
@@ -2510,6 +2541,7 @@ extension RegisterApplicationInput {
         guard let value else { return }
         try writer["ApplicationId"].write(value.applicationId)
         try writer["ApplicationType"].write(value.applicationType)
+        try writer["ComponentsInfo"].writeList(value.componentsInfo, memberWritingClosure: SsmSapClientTypes.ComponentInfo.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Credentials"].writeList(value.credentials, memberWritingClosure: SsmSapClientTypes.ApplicationCredential.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["DatabaseArn"].write(value.databaseArn)
         try writer["Instances"].writeList(value.instances, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -3465,6 +3497,16 @@ extension SsmSapClientTypes.Filter {
         try writer["Name"].write(value.name)
         try writer["Operator"].write(value.`operator`)
         try writer["Value"].write(value.value)
+    }
+}
+
+extension SsmSapClientTypes.ComponentInfo {
+
+    static func write(value: SsmSapClientTypes.ComponentInfo?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ComponentType"].write(value.componentType)
+        try writer["Ec2InstanceId"].write(value.ec2InstanceId)
+        try writer["Sid"].write(value.sid)
     }
 }
 

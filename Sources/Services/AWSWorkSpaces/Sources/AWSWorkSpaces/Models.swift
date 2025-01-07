@@ -29,9 +29,9 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// The user is not authorized to access a resource.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -53,9 +53,9 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 }
 
 /// The TargetAccountId is already linked or invited.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -77,9 +77,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 /// Unexpected server error occured.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -101,9 +101,9 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 /// The resource could not be found.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The resource could not be found.
         public internal(set) var message: Swift.String? = nil
         /// The ID of the resource that could not be found.
@@ -130,9 +130,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// You either haven't provided a TargetAccountId or are using the same value for TargetAccountId and SourceAccountId.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -398,6 +398,128 @@ extension WorkSpacesClientTypes {
 
 extension WorkSpacesClientTypes {
 
+    public enum AGAModeForDirectoryEnum: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabledAuto
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AGAModeForDirectoryEnum] {
+            return [
+                .disabled,
+                .enabledAuto
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabledAuto: return "ENABLED_AUTO"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WorkSpacesClientTypes {
+
+    public enum AGAModeForWorkSpaceEnum: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabledAuto
+        case inherited
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AGAModeForWorkSpaceEnum] {
+            return [
+                .disabled,
+                .enabledAuto,
+                .inherited
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabledAuto: return "ENABLED_AUTO"
+            case .inherited: return "INHERITED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WorkSpacesClientTypes {
+
+    public enum AGAPreferredProtocolForDirectory: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `none`
+        case tcp
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AGAPreferredProtocolForDirectory] {
+            return [
+                .none,
+                .tcp
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .none: return "NONE"
+            case .tcp: return "TCP"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WorkSpacesClientTypes {
+
+    public enum AGAPreferredProtocolForWorkSpace: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case inherited
+        case `none`
+        case tcp
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AGAPreferredProtocolForWorkSpace] {
+            return [
+                .inherited,
+                .none,
+                .tcp
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .inherited: return "INHERITED"
+            case .none: return "NONE"
+            case .tcp: return "TCP"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WorkSpacesClientTypes {
+
     public enum Application: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case microsoftOffice2016
         case microsoftOffice2019
@@ -458,7 +580,7 @@ extension WorkSpacesClientTypes {
 }
 
 /// The specified application is not supported.
-public struct ApplicationNotSupportedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ApplicationNotSupportedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
     public static var typeName: Swift.String { "ApplicationNotSupportedException" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
@@ -694,9 +816,9 @@ extension WorkSpacesClientTypes {
 }
 
 /// One or more parameter values are not valid.
-public struct InvalidParameterValuesException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidParameterValuesException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The exception error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -719,9 +841,9 @@ public struct InvalidParameterValuesException: ClientRuntime.ModeledError, AWSCl
 }
 
 /// The state of the resource is not valid for this operation.
-public struct InvalidResourceStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidResourceStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -743,9 +865,9 @@ public struct InvalidResourceStateException: ClientRuntime.ModeledError, AWSClie
 }
 
 /// This operation is not supported.
-public struct OperationNotSupportedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct OperationNotSupportedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The exception error message.
         public internal(set) var message: Swift.String? = nil
         /// The exception error reason.
@@ -772,9 +894,9 @@ public struct OperationNotSupportedException: ClientRuntime.ModeledError, AWSCli
 }
 
 /// The resource is associated with a directory.
-public struct ResourceAssociatedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceAssociatedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -826,9 +948,9 @@ public struct AssociateConnectionAliasOutput: Swift.Sendable {
 }
 
 /// Your resource limits have been exceeded.
-public struct ResourceLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The exception error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -874,7 +996,7 @@ public struct AssociateIpGroupsOutput: Swift.Sendable {
 }
 
 /// The compute type of the WorkSpace is not compatible with the application.
-public struct ComputeNotCompatibleException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ComputeNotCompatibleException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
     public static var typeName: Swift.String { "ComputeNotCompatibleException" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
@@ -887,7 +1009,7 @@ public struct ComputeNotCompatibleException: ClientRuntime.ModeledError, AWSClie
 }
 
 /// The specified application is not compatible with the resource.
-public struct IncompatibleApplicationsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct IncompatibleApplicationsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
     public static var typeName: Swift.String { "IncompatibleApplicationsException" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
@@ -900,7 +1022,7 @@ public struct IncompatibleApplicationsException: ClientRuntime.ModeledError, AWS
 }
 
 /// The operating system of the WorkSpace is not compatible with the application.
-public struct OperatingSystemNotCompatibleException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct OperatingSystemNotCompatibleException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
     public static var typeName: Swift.String { "OperatingSystemNotCompatibleException" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
@@ -913,9 +1035,9 @@ public struct OperatingSystemNotCompatibleException: ClientRuntime.ModeledError,
 }
 
 /// The specified resource already exists.
-public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -937,9 +1059,9 @@ public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSCli
 }
 
 /// The specified resource is currently in use.
-public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// The ID of the resource that is in use.
         public internal(set) var resourceId: Swift.String? = nil
@@ -1866,9 +1988,9 @@ extension WorkSpacesClientTypes {
 }
 
 /// The specified resource is not available.
-public struct ResourceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The exception error message.
         public internal(set) var message: Swift.String? = nil
         /// The identifier of the resource that is not available.
@@ -1988,9 +2110,9 @@ public struct CreateAccountLinkInvitationOutput: Swift.Sendable {
 }
 
 /// The resource could not be created.
-public struct ResourceCreationFailedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceCreationFailedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2625,6 +2747,27 @@ public struct CreateWorkspaceImageOutput: Swift.Sendable {
 
 extension WorkSpacesClientTypes {
 
+    /// Describes the Global Accelerator for WorkSpaces.
+    public struct GlobalAcceleratorForWorkSpace: Swift.Sendable {
+        /// Indicates if Global Accelerator for WorkSpaces is enabled, disabled, or the same mode as the associated directory.
+        /// This member is required.
+        public var mode: WorkSpacesClientTypes.AGAModeForWorkSpaceEnum?
+        /// Indicates the preferred protocol for Global Accelerator.
+        public var preferredProtocol: WorkSpacesClientTypes.AGAPreferredProtocolForWorkSpace?
+
+        public init(
+            mode: WorkSpacesClientTypes.AGAModeForWorkSpaceEnum? = nil,
+            preferredProtocol: WorkSpacesClientTypes.AGAPreferredProtocolForWorkSpace? = nil
+        )
+        {
+            self.mode = mode
+            self.preferredProtocol = preferredProtocol
+        }
+    }
+}
+
+extension WorkSpacesClientTypes {
+
     public enum OperatingSystemName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case amazonLinux2
         case rhel8
@@ -2752,6 +2895,8 @@ extension WorkSpacesClientTypes {
     public struct WorkspaceProperties: Swift.Sendable {
         /// The compute type. For more information, see [Amazon WorkSpaces Bundles](http://aws.amazon.com/workspaces/details/#Amazon_WorkSpaces_Bundles).
         public var computeTypeName: WorkSpacesClientTypes.Compute?
+        /// Indicates the Global Accelerator properties.
+        public var globalAccelerator: WorkSpacesClientTypes.GlobalAcceleratorForWorkSpace?
         /// The name of the operating system.
         public var operatingSystemName: WorkSpacesClientTypes.OperatingSystemName?
         /// The protocol. For more information, see [ Protocols for Amazon WorkSpaces](https://docs.aws.amazon.com/workspaces/latest/adminguide/amazon-workspaces-protocols.html).
@@ -2773,6 +2918,7 @@ extension WorkSpacesClientTypes {
 
         public init(
             computeTypeName: WorkSpacesClientTypes.Compute? = nil,
+            globalAccelerator: WorkSpacesClientTypes.GlobalAcceleratorForWorkSpace? = nil,
             operatingSystemName: WorkSpacesClientTypes.OperatingSystemName? = nil,
             protocols: [WorkSpacesClientTypes.ModelProtocol]? = nil,
             rootVolumeSizeGib: Swift.Int? = nil,
@@ -2782,6 +2928,7 @@ extension WorkSpacesClientTypes {
         )
         {
             self.computeTypeName = computeTypeName
+            self.globalAccelerator = globalAccelerator
             self.operatingSystemName = operatingSystemName
             self.protocols = protocols
             self.rootVolumeSizeGib = rootVolumeSizeGib
@@ -2806,7 +2953,7 @@ extension WorkSpacesClientTypes {
         public var rootVolumeEncryptionEnabled: Swift.Bool?
         /// The tags for the WorkSpace.
         public var tags: [WorkSpacesClientTypes.Tag]?
-        /// The user name of the user for the WorkSpace. This user name must exist in the Directory Service directory for the WorkSpace. The reserved keyword, [UNDEFINED], is used when creating user-decoupled WorkSpaces.
+        /// The user name of the user for the WorkSpace. This user name must exist in the Directory Service directory for the WorkSpace. The username is not case-sensitive, but we recommend matching the case in the Directory Service directory to avoid potential incompatibilities. The reserved keyword, [UNDEFINED], is used when creating user-decoupled WorkSpaces.
         /// This member is required.
         public var userName: Swift.String?
         /// Indicates whether the data stored on the user volume is encrypted.
@@ -5085,6 +5232,27 @@ extension WorkSpacesClientTypes {
 
 extension WorkSpacesClientTypes {
 
+    /// Describes the Global Accelerator for directory
+    public struct GlobalAcceleratorForDirectory: Swift.Sendable {
+        /// Indicates if Global Accelerator for directory is enabled or disabled.
+        /// This member is required.
+        public var mode: WorkSpacesClientTypes.AGAModeForDirectoryEnum?
+        /// Indicates the preferred protocol for Global Accelerator.
+        public var preferredProtocol: WorkSpacesClientTypes.AGAPreferredProtocolForDirectory?
+
+        public init(
+            mode: WorkSpacesClientTypes.AGAModeForDirectoryEnum? = nil,
+            preferredProtocol: WorkSpacesClientTypes.AGAPreferredProtocolForDirectory? = nil
+        )
+        {
+            self.mode = mode
+            self.preferredProtocol = preferredProtocol
+        }
+    }
+}
+
+extension WorkSpacesClientTypes {
+
     public enum StorageConnectorTypeEnum: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case homeFolder
         case sdkUnknown(Swift.String)
@@ -5283,6 +5451,8 @@ extension WorkSpacesClientTypes {
 
     /// Describes the streaming properties.
     public struct StreamingProperties: Swift.Sendable {
+        /// Indicates the Global Accelerator properties.
+        public var globalAccelerator: WorkSpacesClientTypes.GlobalAcceleratorForDirectory?
         /// Indicates the storage connector used
         public var storageConnectors: [WorkSpacesClientTypes.StorageConnector]?
         /// Indicates the type of preferred protocol for the streaming experience.
@@ -5291,11 +5461,13 @@ extension WorkSpacesClientTypes {
         public var userSettings: [WorkSpacesClientTypes.UserSetting]?
 
         public init(
+            globalAccelerator: WorkSpacesClientTypes.GlobalAcceleratorForDirectory? = nil,
             storageConnectors: [WorkSpacesClientTypes.StorageConnector]? = nil,
             streamingExperiencePreferredProtocol: WorkSpacesClientTypes.StreamingExperiencePreferredProtocolEnum? = nil,
             userSettings: [WorkSpacesClientTypes.UserSetting]? = nil
         )
         {
+            self.globalAccelerator = globalAccelerator
             self.storageConnectors = storageConnectors
             self.streamingExperiencePreferredProtocol = streamingExperiencePreferredProtocol
             self.userSettings = userSettings
@@ -6796,9 +6968,9 @@ public struct ListAvailableManagementCidrRangesOutput: Swift.Sendable {
 }
 
 /// The properties of this WorkSpace are currently being modified. Try again in a moment.
-public struct OperationInProgressException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct OperationInProgressException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -7089,9 +7261,9 @@ public struct ModifyWorkspaceCreationPropertiesOutput: Swift.Sendable {
 }
 
 /// The configuration of this WorkSpace is not supported for this operation. For more information, see [Required Configuration and Service Components for WorkSpaces ](https://docs.aws.amazon.com/workspaces/latest/adminguide/required-service-components.html).
-public struct UnsupportedWorkspaceConfigurationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnsupportedWorkspaceConfigurationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -7275,9 +7447,9 @@ public struct RebuildWorkspacesOutput: Swift.Sendable {
 }
 
 /// The configuration of this network is not supported for this operation, or your network configuration conflicts with the Amazon WorkSpaces management network IP range. For more information, see [ Configure a VPC for Amazon WorkSpaces](https://docs.aws.amazon.com/workspaces/latest/adminguide/amazon-workspaces-vpc.html).
-public struct UnsupportedNetworkConfigurationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnsupportedNetworkConfigurationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -7299,9 +7471,9 @@ public struct UnsupportedNetworkConfigurationException: ClientRuntime.ModeledErr
 }
 
 /// The workspaces_DefaultRole role could not be found. If this is the first time you are registering a directory, you will need to create the workspaces_DefaultRole role before you can register a directory. For more information, see [Creating the workspaces_DefaultRole Role](https://docs.aws.amazon.com/workspaces/latest/adminguide/workspaces-access-control.html#create-default-role).
-public struct WorkspacesDefaultRoleNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WorkspacesDefaultRoleNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -12245,6 +12417,7 @@ extension WorkSpacesClientTypes.WorkspaceProperties {
     static func write(value: WorkSpacesClientTypes.WorkspaceProperties?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ComputeTypeName"].write(value.computeTypeName)
+        try writer["GlobalAccelerator"].write(value.globalAccelerator, with: WorkSpacesClientTypes.GlobalAcceleratorForWorkSpace.write(value:to:))
         try writer["OperatingSystemName"].write(value.operatingSystemName)
         try writer["Protocols"].writeList(value.protocols, memberWritingClosure: SmithyReadWrite.WritingClosureBox<WorkSpacesClientTypes.ModelProtocol>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["RootVolumeSizeGib"].write(value.rootVolumeSizeGib)
@@ -12263,6 +12436,24 @@ extension WorkSpacesClientTypes.WorkspaceProperties {
         value.computeTypeName = try reader["ComputeTypeName"].readIfPresent()
         value.protocols = try reader["Protocols"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<WorkSpacesClientTypes.ModelProtocol>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.operatingSystemName = try reader["OperatingSystemName"].readIfPresent()
+        value.globalAccelerator = try reader["GlobalAccelerator"].readIfPresent(with: WorkSpacesClientTypes.GlobalAcceleratorForWorkSpace.read(from:))
+        return value
+    }
+}
+
+extension WorkSpacesClientTypes.GlobalAcceleratorForWorkSpace {
+
+    static func write(value: WorkSpacesClientTypes.GlobalAcceleratorForWorkSpace?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Mode"].write(value.mode)
+        try writer["PreferredProtocol"].write(value.preferredProtocol)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesClientTypes.GlobalAcceleratorForWorkSpace {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WorkSpacesClientTypes.GlobalAcceleratorForWorkSpace()
+        value.mode = try reader["Mode"].readIfPresent() ?? .sdkUnknown("")
+        value.preferredProtocol = try reader["PreferredProtocol"].readIfPresent()
         return value
     }
 }
@@ -12694,6 +12885,7 @@ extension WorkSpacesClientTypes.StreamingProperties {
 
     static func write(value: WorkSpacesClientTypes.StreamingProperties?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["GlobalAccelerator"].write(value.globalAccelerator, with: WorkSpacesClientTypes.GlobalAcceleratorForDirectory.write(value:to:))
         try writer["StorageConnectors"].writeList(value.storageConnectors, memberWritingClosure: WorkSpacesClientTypes.StorageConnector.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["StreamingExperiencePreferredProtocol"].write(value.streamingExperiencePreferredProtocol)
         try writer["UserSettings"].writeList(value.userSettings, memberWritingClosure: WorkSpacesClientTypes.UserSetting.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -12705,6 +12897,24 @@ extension WorkSpacesClientTypes.StreamingProperties {
         value.streamingExperiencePreferredProtocol = try reader["StreamingExperiencePreferredProtocol"].readIfPresent()
         value.userSettings = try reader["UserSettings"].readListIfPresent(memberReadingClosure: WorkSpacesClientTypes.UserSetting.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.storageConnectors = try reader["StorageConnectors"].readListIfPresent(memberReadingClosure: WorkSpacesClientTypes.StorageConnector.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.globalAccelerator = try reader["GlobalAccelerator"].readIfPresent(with: WorkSpacesClientTypes.GlobalAcceleratorForDirectory.read(from:))
+        return value
+    }
+}
+
+extension WorkSpacesClientTypes.GlobalAcceleratorForDirectory {
+
+    static func write(value: WorkSpacesClientTypes.GlobalAcceleratorForDirectory?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Mode"].write(value.mode)
+        try writer["PreferredProtocol"].write(value.preferredProtocol)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesClientTypes.GlobalAcceleratorForDirectory {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WorkSpacesClientTypes.GlobalAcceleratorForDirectory()
+        value.mode = try reader["Mode"].readIfPresent() ?? .sdkUnknown("")
+        value.preferredProtocol = try reader["PreferredProtocol"].readIfPresent()
         return value
     }
 }
