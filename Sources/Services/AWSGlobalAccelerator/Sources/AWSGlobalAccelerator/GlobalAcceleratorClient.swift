@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class GlobalAcceleratorClient: ClientRuntime.Client {
     public static let clientName = "GlobalAcceleratorClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: GlobalAcceleratorClient.GlobalAcceleratorClientConfiguration
     let serviceName = "Global Accelerator"
@@ -330,7 +330,7 @@ extension GlobalAcceleratorClient {
 }
 
 extension GlobalAcceleratorClient {
-    /// Performs the `AddCustomRoutingEndpoints` operation on the `GlobalAccelerator_V20180706` service.
+    /// Performs the `AddCustomRoutingEndpoints` operation on the `GlobalAccelerator` service.
     ///
     /// Associate a virtual private cloud (VPC) subnet endpoint with your custom routing accelerator. The listener port range must be large enough to support the number of IP addresses that can be specified in your subnet. The number of ports required is: subnet size times the number of ports per destination EC2 instances. For example, a subnet defined as /24 requires a listener port range of at least 255 ports. Note: You must have enough remaining listener ports available to map to the subnet ports, or the call will fail with a LimitExceededException. By default, all destinations in a subnet in a custom routing accelerator cannot receive traffic. To enable all destinations to receive traffic, or to specify individual port mappings that can receive traffic, see the [ AllowCustomRoutingTraffic](https://docs.aws.amazon.com/global-accelerator/latest/api/API_AllowCustomRoutingTraffic.html) operation.
     ///
@@ -406,7 +406,7 @@ extension GlobalAcceleratorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AddEndpoints` operation on the `GlobalAccelerator_V20180706` service.
+    /// Performs the `AddEndpoints` operation on the `GlobalAccelerator` service.
     ///
     /// Add endpoints to an endpoint group. The AddEndpoints API operation is the recommended option for adding endpoints. The alternative options are to add endpoints when you create an endpoint group (with the [CreateEndpointGroup](https://docs.aws.amazon.com/global-accelerator/latest/api/API_CreateEndpointGroup.html) API) or when you update an endpoint group (with the [UpdateEndpointGroup](https://docs.aws.amazon.com/global-accelerator/latest/api/API_UpdateEndpointGroup.html) API). There are two advantages to using AddEndpoints to add endpoints in Global Accelerator:
     ///
@@ -488,7 +488,7 @@ extension GlobalAcceleratorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AdvertiseByoipCidr` operation on the `GlobalAccelerator_V20180706` service.
+    /// Performs the `AdvertiseByoipCidr` operation on the `GlobalAccelerator` service.
     ///
     /// Advertises an IPv4 address range that is provisioned for use with your Amazon Web Services resources through bring your own IP addresses (BYOIP). It can take a few minutes before traffic to the specified addresses starts routing to Amazon Web Services because of propagation delays. To stop advertising the BYOIP address range, use [ WithdrawByoipCidr](https://docs.aws.amazon.com/global-accelerator/latest/api/WithdrawByoipCidr.html). For more information, see [Bring your own IP addresses (BYOIP)](https://docs.aws.amazon.com/global-accelerator/latest/dg/using-byoip.html) in the Global Accelerator Developer Guide.
     ///
@@ -562,7 +562,7 @@ extension GlobalAcceleratorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AllowCustomRoutingTraffic` operation on the `GlobalAccelerator_V20180706` service.
+    /// Performs the `AllowCustomRoutingTraffic` operation on the `GlobalAccelerator` service.
     ///
     /// Specify the Amazon EC2 instance (destination) IP addresses and ports for a VPC subnet endpoint that can receive traffic for a custom routing accelerator. You can allow traffic to all destinations in the subnet endpoint, or allow traffic to a specified list of destination IP addresses and ports in the subnet. Note that you cannot specify IP addresses or ports outside of the range that you configured for the endpoint group. After you make changes, you can verify that the updates are complete by checking the status of your accelerator: the status changes from IN_PROGRESS to DEPLOYED.
     ///
@@ -634,7 +634,7 @@ extension GlobalAcceleratorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateAccelerator` operation on the `GlobalAccelerator_V20180706` service.
+    /// Performs the `CreateAccelerator` operation on the `GlobalAccelerator` service.
     ///
     /// Create an accelerator. An accelerator includes one or more listeners that process inbound connections and direct traffic to one or more endpoint groups, each of which includes endpoints, such as Network Load Balancers. Global Accelerator is a global service that supports endpoints in multiple Amazon Web Services Regions but you must specify the US West (Oregon) Region to create, update, or otherwise work with accelerators. That is, for example, specify --region us-west-2 on Amazon Web Services CLI commands.
     ///
@@ -709,7 +709,7 @@ extension GlobalAcceleratorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateCrossAccountAttachment` operation on the `GlobalAccelerator_V20180706` service.
+    /// Performs the `CreateCrossAccountAttachment` operation on the `GlobalAccelerator` service.
     ///
     /// Create a cross-account attachment in Global Accelerator. You create a cross-account attachment to specify the principals who have permission to work with resources in accelerators in their own account. You specify, in the same attachment, the resources that are shared. A principal can be an Amazon Web Services account number or the Amazon Resource Name (ARN) for an accelerator. For account numbers that are listed as principals, to work with a resource listed in the attachment, you must sign in to an account specified as a principal. Then, you can work with resources that are listed, with any of your accelerators. If an accelerator ARN is listed in the cross-account attachment as a principal, anyone with permission to make updates to the accelerator can work with resources that are listed in the attachment. Specify each principal and resource separately. To specify two CIDR address pools, list them individually under Resources, and so on. For a command line operation, for example, you might use a statement like the following:  "Resources": [{"Cidr": "169.254.60.0/24"},{"Cidr": "169.254.59.0/24"}] For more information, see [ Working with cross-account attachments and resources in Global Accelerator](https://docs.aws.amazon.com/global-accelerator/latest/dg/cross-account-resources.html) in the Global Accelerator Developer Guide.
     ///
@@ -784,7 +784,7 @@ extension GlobalAcceleratorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateCustomRoutingAccelerator` operation on the `GlobalAccelerator_V20180706` service.
+    /// Performs the `CreateCustomRoutingAccelerator` operation on the `GlobalAccelerator` service.
     ///
     /// Create a custom routing accelerator. A custom routing accelerator directs traffic to one of possibly thousands of Amazon EC2 instance destinations running in a single or multiple virtual private clouds (VPC) subnet endpoints. Be aware that, by default, all destination EC2 instances in a VPC subnet endpoint cannot receive traffic. To enable all destinations to receive traffic, or to specify individual port mappings that can receive traffic, see the [ AllowCustomRoutingTraffic](https://docs.aws.amazon.com/global-accelerator/latest/api/API_AllowCustomRoutingTraffic.html) operation. Global Accelerator is a global service that supports endpoints in multiple Amazon Web Services Regions but you must specify the US West (Oregon) Region to create, update, or otherwise work with accelerators. That is, for example, specify --region us-west-2 on Amazon Web Services CLI commands.
     ///
@@ -859,7 +859,7 @@ extension GlobalAcceleratorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateCustomRoutingEndpointGroup` operation on the `GlobalAccelerator_V20180706` service.
+    /// Performs the `CreateCustomRoutingEndpointGroup` operation on the `GlobalAccelerator` service.
     ///
     /// Create an endpoint group for the specified listener for a custom routing accelerator. An endpoint group is a collection of endpoints in one Amazon Web Services Region.
     ///
@@ -937,7 +937,7 @@ extension GlobalAcceleratorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateCustomRoutingListener` operation on the `GlobalAccelerator_V20180706` service.
+    /// Performs the `CreateCustomRoutingListener` operation on the `GlobalAccelerator` service.
     ///
     /// Create a listener to process inbound connections from clients to a custom routing accelerator. Connections arrive to assigned static IP addresses on the port range that you specify.
     ///
@@ -1012,7 +1012,7 @@ extension GlobalAcceleratorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateEndpointGroup` operation on the `GlobalAccelerator_V20180706` service.
+    /// Performs the `CreateEndpointGroup` operation on the `GlobalAccelerator` service.
     ///
     /// Create an endpoint group for the specified listener. An endpoint group is a collection of endpoints in one Amazon Web Services Region. A resource must be valid and active when you add it as an endpoint. For more information about endpoint types and requirements for endpoints that you can add to Global Accelerator, see [ Endpoints for standard accelerators](https://docs.aws.amazon.com/global-accelerator/latest/dg/about-endpoints.html) in the Global Accelerator Developer Guide.
     ///
@@ -1089,7 +1089,7 @@ extension GlobalAcceleratorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateListener` operation on the `GlobalAccelerator_V20180706` service.
+    /// Performs the `CreateListener` operation on the `GlobalAccelerator` service.
     ///
     /// Create a listener to process inbound connections from clients to an accelerator. Connections arrive to assigned static IP addresses on a port, port range, or list of port ranges that you specify.
     ///
@@ -1164,7 +1164,7 @@ extension GlobalAcceleratorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAccelerator` operation on the `GlobalAccelerator_V20180706` service.
+    /// Performs the `DeleteAccelerator` operation on the `GlobalAccelerator` service.
     ///
     /// Delete an accelerator. Before you can delete an accelerator, you must disable it and remove all dependent resources (listeners and endpoint groups). To disable the accelerator, update the accelerator to set Enabled to false. When you create an accelerator, by default, Global Accelerator provides you with a set of two static IP addresses. Alternatively, you can bring your own IP address ranges to Global Accelerator and assign IP addresses from those ranges. The IP addresses are assigned to your accelerator for as long as it exists, even if you disable the accelerator and it no longer accepts or routes traffic. However, when you delete an accelerator, you lose the static IP addresses that are assigned to the accelerator, so you can no longer route traffic by using them. As a best practice, ensure that you have permissions in place to avoid inadvertently deleting accelerators. You can use IAM policies with Global Accelerator to limit the users who have permissions to delete an accelerator. For more information, see [Identity and access management](https://docs.aws.amazon.com/global-accelerator/latest/dg/auth-and-access-control.html) in the Global Accelerator Developer Guide.
     ///
@@ -1239,7 +1239,7 @@ extension GlobalAcceleratorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteCrossAccountAttachment` operation on the `GlobalAccelerator_V20180706` service.
+    /// Performs the `DeleteCrossAccountAttachment` operation on the `GlobalAccelerator` service.
     ///
     /// Delete a cross-account attachment. When you delete an attachment, Global Accelerator revokes the permission to use the resources in the attachment from all principals in the list of principals. Global Accelerator revokes the permission for specific resources. For more information, see [ Working with cross-account attachments and resources in Global Accelerator](https://docs.aws.amazon.com/global-accelerator/latest/dg/cross-account-resources.html) in the Global Accelerator Developer Guide.
     ///
@@ -1313,7 +1313,7 @@ extension GlobalAcceleratorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteCustomRoutingAccelerator` operation on the `GlobalAccelerator_V20180706` service.
+    /// Performs the `DeleteCustomRoutingAccelerator` operation on the `GlobalAccelerator` service.
     ///
     /// Delete a custom routing accelerator. Before you can delete an accelerator, you must disable it and remove all dependent resources (listeners and endpoint groups). To disable the accelerator, update the accelerator to set Enabled to false. When you create a custom routing accelerator, by default, Global Accelerator provides you with a set of two static IP addresses. The IP addresses are assigned to your accelerator for as long as it exists, even if you disable the accelerator and it no longer accepts or routes traffic. However, when you delete an accelerator, you lose the static IP addresses that are assigned to the accelerator, so you can no longer route traffic by using them. As a best practice, ensure that you have permissions in place to avoid inadvertently deleting accelerators. You can use IAM policies with Global Accelerator to limit the users who have permissions to delete an accelerator. For more information, see [Identity and access management](https://docs.aws.amazon.com/global-accelerator/latest/dg/auth-and-access-control.html) in the Global Accelerator Developer Guide.
     ///
@@ -1388,7 +1388,7 @@ extension GlobalAcceleratorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteCustomRoutingEndpointGroup` operation on the `GlobalAccelerator_V20180706` service.
+    /// Performs the `DeleteCustomRoutingEndpointGroup` operation on the `GlobalAccelerator` service.
     ///
     /// Delete an endpoint group from a listener for a custom routing accelerator.
     ///
@@ -1460,7 +1460,7 @@ extension GlobalAcceleratorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteCustomRoutingListener` operation on the `GlobalAccelerator_V20180706` service.
+    /// Performs the `DeleteCustomRoutingListener` operation on the `GlobalAccelerator` service.
     ///
     /// Delete a listener for a custom routing accelerator.
     ///
@@ -1533,7 +1533,7 @@ extension GlobalAcceleratorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteEndpointGroup` operation on the `GlobalAccelerator_V20180706` service.
+    /// Performs the `DeleteEndpointGroup` operation on the `GlobalAccelerator` service.
     ///
     /// Delete an endpoint group from a listener.
     ///
@@ -1605,7 +1605,7 @@ extension GlobalAcceleratorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteListener` operation on the `GlobalAccelerator_V20180706` service.
+    /// Performs the `DeleteListener` operation on the `GlobalAccelerator` service.
     ///
     /// Delete a listener from an accelerator.
     ///
@@ -1678,7 +1678,7 @@ extension GlobalAcceleratorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DenyCustomRoutingTraffic` operation on the `GlobalAccelerator_V20180706` service.
+    /// Performs the `DenyCustomRoutingTraffic` operation on the `GlobalAccelerator` service.
     ///
     /// Specify the Amazon EC2 instance (destination) IP addresses and ports for a VPC subnet endpoint that cannot receive traffic for a custom routing accelerator. You can deny traffic to all destinations in the VPC endpoint, or deny traffic to a specified list of destination IP addresses and ports. Note that you cannot specify IP addresses or ports outside of the range that you configured for the endpoint group. After you make changes, you can verify that the updates are complete by checking the status of your accelerator: the status changes from IN_PROGRESS to DEPLOYED.
     ///
@@ -1750,7 +1750,7 @@ extension GlobalAcceleratorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeprovisionByoipCidr` operation on the `GlobalAccelerator_V20180706` service.
+    /// Performs the `DeprovisionByoipCidr` operation on the `GlobalAccelerator` service.
     ///
     /// Releases the specified address range that you provisioned to use with your Amazon Web Services resources through bring your own IP addresses (BYOIP) and deletes the corresponding address pool. Before you can release an address range, you must stop advertising it by using [WithdrawByoipCidr](https://docs.aws.amazon.com/global-accelerator/latest/api/WithdrawByoipCidr.html) and you must not have any accelerators that are using static IP addresses allocated from its address range. For more information, see [Bring your own IP addresses (BYOIP)](https://docs.aws.amazon.com/global-accelerator/latest/dg/using-byoip.html) in the Global Accelerator Developer Guide.
     ///
@@ -1824,7 +1824,7 @@ extension GlobalAcceleratorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeAccelerator` operation on the `GlobalAccelerator_V20180706` service.
+    /// Performs the `DescribeAccelerator` operation on the `GlobalAccelerator` service.
     ///
     /// Describe an accelerator.
     ///
@@ -1896,7 +1896,7 @@ extension GlobalAcceleratorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeAcceleratorAttributes` operation on the `GlobalAccelerator_V20180706` service.
+    /// Performs the `DescribeAcceleratorAttributes` operation on the `GlobalAccelerator` service.
     ///
     /// Describe the attributes of an accelerator.
     ///
@@ -1968,7 +1968,7 @@ extension GlobalAcceleratorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeCrossAccountAttachment` operation on the `GlobalAccelerator_V20180706` service.
+    /// Performs the `DescribeCrossAccountAttachment` operation on the `GlobalAccelerator` service.
     ///
     /// Gets configuration information about a cross-account attachment.
     ///
@@ -2041,7 +2041,7 @@ extension GlobalAcceleratorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeCustomRoutingAccelerator` operation on the `GlobalAccelerator_V20180706` service.
+    /// Performs the `DescribeCustomRoutingAccelerator` operation on the `GlobalAccelerator` service.
     ///
     /// Describe a custom routing accelerator.
     ///
@@ -2113,7 +2113,7 @@ extension GlobalAcceleratorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeCustomRoutingAcceleratorAttributes` operation on the `GlobalAccelerator_V20180706` service.
+    /// Performs the `DescribeCustomRoutingAcceleratorAttributes` operation on the `GlobalAccelerator` service.
     ///
     /// Describe the attributes of a custom routing accelerator.
     ///
@@ -2185,7 +2185,7 @@ extension GlobalAcceleratorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeCustomRoutingEndpointGroup` operation on the `GlobalAccelerator_V20180706` service.
+    /// Performs the `DescribeCustomRoutingEndpointGroup` operation on the `GlobalAccelerator` service.
     ///
     /// Describe an endpoint group for a custom routing accelerator.
     ///
@@ -2257,7 +2257,7 @@ extension GlobalAcceleratorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeCustomRoutingListener` operation on the `GlobalAccelerator_V20180706` service.
+    /// Performs the `DescribeCustomRoutingListener` operation on the `GlobalAccelerator` service.
     ///
     /// The description of a listener for a custom routing accelerator.
     ///
@@ -2329,7 +2329,7 @@ extension GlobalAcceleratorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeEndpointGroup` operation on the `GlobalAccelerator_V20180706` service.
+    /// Performs the `DescribeEndpointGroup` operation on the `GlobalAccelerator` service.
     ///
     /// Describe an endpoint group.
     ///
@@ -2401,7 +2401,7 @@ extension GlobalAcceleratorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeListener` operation on the `GlobalAccelerator_V20180706` service.
+    /// Performs the `DescribeListener` operation on the `GlobalAccelerator` service.
     ///
     /// Describe a listener.
     ///
@@ -2473,7 +2473,7 @@ extension GlobalAcceleratorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAccelerators` operation on the `GlobalAccelerator_V20180706` service.
+    /// Performs the `ListAccelerators` operation on the `GlobalAccelerator` service.
     ///
     /// List the accelerators for an Amazon Web Services account.
     ///
@@ -2545,7 +2545,7 @@ extension GlobalAcceleratorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListByoipCidrs` operation on the `GlobalAccelerator_V20180706` service.
+    /// Performs the `ListByoipCidrs` operation on the `GlobalAccelerator` service.
     ///
     /// Lists the IP address ranges that were specified in calls to [ProvisionByoipCidr](https://docs.aws.amazon.com/global-accelerator/latest/api/ProvisionByoipCidr.html), including the current state and a history of state changes.
     ///
@@ -2618,7 +2618,7 @@ extension GlobalAcceleratorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListCrossAccountAttachments` operation on the `GlobalAccelerator_V20180706` service.
+    /// Performs the `ListCrossAccountAttachments` operation on the `GlobalAccelerator` service.
     ///
     /// List the cross-account attachments that have been created in Global Accelerator.
     ///
@@ -2691,7 +2691,7 @@ extension GlobalAcceleratorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListCrossAccountResourceAccounts` operation on the `GlobalAccelerator_V20180706` service.
+    /// Performs the `ListCrossAccountResourceAccounts` operation on the `GlobalAccelerator` service.
     ///
     /// List the accounts that have cross-account resources. For more information, see [ Working with cross-account attachments and resources in Global Accelerator](https://docs.aws.amazon.com/global-accelerator/latest/dg/cross-account-resources.html) in the Global Accelerator Developer Guide.
     ///
@@ -2762,7 +2762,7 @@ extension GlobalAcceleratorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListCrossAccountResources` operation on the `GlobalAccelerator_V20180706` service.
+    /// Performs the `ListCrossAccountResources` operation on the `GlobalAccelerator` service.
     ///
     /// List the cross-account resources available to work with.
     ///
@@ -2836,7 +2836,7 @@ extension GlobalAcceleratorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListCustomRoutingAccelerators` operation on the `GlobalAccelerator_V20180706` service.
+    /// Performs the `ListCustomRoutingAccelerators` operation on the `GlobalAccelerator` service.
     ///
     /// List the custom routing accelerators for an Amazon Web Services account.
     ///
@@ -2908,7 +2908,7 @@ extension GlobalAcceleratorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListCustomRoutingEndpointGroups` operation on the `GlobalAccelerator_V20180706` service.
+    /// Performs the `ListCustomRoutingEndpointGroups` operation on the `GlobalAccelerator` service.
     ///
     /// List the endpoint groups that are associated with a listener for a custom routing accelerator.
     ///
@@ -2981,7 +2981,7 @@ extension GlobalAcceleratorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListCustomRoutingListeners` operation on the `GlobalAccelerator_V20180706` service.
+    /// Performs the `ListCustomRoutingListeners` operation on the `GlobalAccelerator` service.
     ///
     /// List the listeners for a custom routing accelerator.
     ///
@@ -3054,7 +3054,7 @@ extension GlobalAcceleratorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListCustomRoutingPortMappings` operation on the `GlobalAccelerator_V20180706` service.
+    /// Performs the `ListCustomRoutingPortMappings` operation on the `GlobalAccelerator` service.
     ///
     /// Provides a complete mapping from the public accelerator IP address and port to destination EC2 instance IP addresses and ports in the virtual public cloud (VPC) subnet endpoint for a custom routing accelerator. For each subnet endpoint that you add, Global Accelerator creates a new static port mapping for the accelerator. The port mappings don't change after Global Accelerator generates them, so you can retrieve and cache the full mapping on your servers. If you remove a subnet from your accelerator, Global Accelerator removes (reclaims) the port mappings. If you add a subnet to your accelerator, Global Accelerator creates new port mappings (the existing ones don't change). If you add or remove EC2 instances in your subnet, the port mappings don't change, because the mappings are created when you add the subnet to Global Accelerator. The mappings also include a flag for each destination denoting which destination IP addresses and ports are allowed or denied traffic.
     ///
@@ -3128,7 +3128,7 @@ extension GlobalAcceleratorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListCustomRoutingPortMappingsByDestination` operation on the `GlobalAccelerator_V20180706` service.
+    /// Performs the `ListCustomRoutingPortMappingsByDestination` operation on the `GlobalAccelerator` service.
     ///
     /// List the port mappings for a specific EC2 instance (destination) in a VPC subnet endpoint. The response is the mappings for one destination IP address. This is useful when your subnet endpoint has mappings that span multiple custom routing accelerators in your account, or for scenarios where you only want to list the port mappings for a specific destination instance.
     ///
@@ -3201,7 +3201,7 @@ extension GlobalAcceleratorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListEndpointGroups` operation on the `GlobalAccelerator_V20180706` service.
+    /// Performs the `ListEndpointGroups` operation on the `GlobalAccelerator` service.
     ///
     /// List the endpoint groups that are associated with a listener.
     ///
@@ -3274,7 +3274,7 @@ extension GlobalAcceleratorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListListeners` operation on the `GlobalAccelerator_V20180706` service.
+    /// Performs the `ListListeners` operation on the `GlobalAccelerator` service.
     ///
     /// List the listeners for an accelerator.
     ///
@@ -3347,7 +3347,7 @@ extension GlobalAcceleratorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `GlobalAccelerator_V20180706` service.
+    /// Performs the `ListTagsForResource` operation on the `GlobalAccelerator` service.
     ///
     /// List all tags for an accelerator. For more information, see [Tagging in Global Accelerator](https://docs.aws.amazon.com/global-accelerator/latest/dg/tagging-in-global-accelerator.html) in the Global Accelerator Developer Guide.
     ///
@@ -3422,7 +3422,7 @@ extension GlobalAcceleratorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ProvisionByoipCidr` operation on the `GlobalAccelerator_V20180706` service.
+    /// Performs the `ProvisionByoipCidr` operation on the `GlobalAccelerator` service.
     ///
     /// Provisions an IP address range to use with your Amazon Web Services resources through bring your own IP addresses (BYOIP) and creates a corresponding address pool. After the address range is provisioned, it is ready to be advertised using [ AdvertiseByoipCidr](https://docs.aws.amazon.com/global-accelerator/latest/api/AdvertiseByoipCidr.html). For more information, see [Bring your own IP addresses (BYOIP)](https://docs.aws.amazon.com/global-accelerator/latest/dg/using-byoip.html) in the Global Accelerator Developer Guide.
     ///
@@ -3496,7 +3496,7 @@ extension GlobalAcceleratorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RemoveCustomRoutingEndpoints` operation on the `GlobalAccelerator_V20180706` service.
+    /// Performs the `RemoveCustomRoutingEndpoints` operation on the `GlobalAccelerator` service.
     ///
     /// Remove endpoints from a custom routing accelerator.
     ///
@@ -3571,7 +3571,7 @@ extension GlobalAcceleratorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RemoveEndpoints` operation on the `GlobalAccelerator_V20180706` service.
+    /// Performs the `RemoveEndpoints` operation on the `GlobalAccelerator` service.
     ///
     /// Remove endpoints from an endpoint group. The RemoveEndpoints API operation is the recommended option for removing endpoints. The alternative is to remove endpoints by updating an endpoint group by using the [UpdateEndpointGroup](https://docs.aws.amazon.com/global-accelerator/latest/api/API_UpdateEndpointGroup.html) API operation. There are two advantages to using AddEndpoints to remove endpoints instead:
     ///
@@ -3649,7 +3649,7 @@ extension GlobalAcceleratorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `GlobalAccelerator_V20180706` service.
+    /// Performs the `TagResource` operation on the `GlobalAccelerator` service.
     ///
     /// Add tags to an accelerator resource. For more information, see [Tagging in Global Accelerator](https://docs.aws.amazon.com/global-accelerator/latest/dg/tagging-in-global-accelerator.html) in the Global Accelerator Developer Guide.
     ///
@@ -3721,7 +3721,7 @@ extension GlobalAcceleratorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `GlobalAccelerator_V20180706` service.
+    /// Performs the `UntagResource` operation on the `GlobalAccelerator` service.
     ///
     /// Remove tags from a Global Accelerator resource. When you specify a tag key, the action removes both that key and its associated value. The operation succeeds even if you attempt to remove tags from an accelerator that was already removed. For more information, see [Tagging in Global Accelerator](https://docs.aws.amazon.com/global-accelerator/latest/dg/tagging-in-global-accelerator.html) in the Global Accelerator Developer Guide.
     ///
@@ -3793,7 +3793,7 @@ extension GlobalAcceleratorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateAccelerator` operation on the `GlobalAccelerator_V20180706` service.
+    /// Performs the `UpdateAccelerator` operation on the `GlobalAccelerator` service.
     ///
     /// Update an accelerator to make changes, such as the following:
     ///
@@ -3879,7 +3879,7 @@ extension GlobalAcceleratorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateAcceleratorAttributes` operation on the `GlobalAccelerator_V20180706` service.
+    /// Performs the `UpdateAcceleratorAttributes` operation on the `GlobalAccelerator` service.
     ///
     /// Update the attributes for an accelerator.
     ///
@@ -3953,7 +3953,7 @@ extension GlobalAcceleratorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateCrossAccountAttachment` operation on the `GlobalAccelerator_V20180706` service.
+    /// Performs the `UpdateCrossAccountAttachment` operation on the `GlobalAccelerator` service.
     ///
     /// Update a cross-account attachment to add or remove principals or resources. When you update an attachment to remove a principal (account ID or accelerator) or a resource, Global Accelerator revokes the permission for specific resources. For more information, see [ Working with cross-account attachments and resources in Global Accelerator](https://docs.aws.amazon.com/global-accelerator/latest/dg/cross-account-resources.html) in the Global Accelerator Developer Guide.
     ///
@@ -4028,7 +4028,7 @@ extension GlobalAcceleratorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateCustomRoutingAccelerator` operation on the `GlobalAccelerator_V20180706` service.
+    /// Performs the `UpdateCustomRoutingAccelerator` operation on the `GlobalAccelerator` service.
     ///
     /// Update a custom routing accelerator.
     ///
@@ -4102,7 +4102,7 @@ extension GlobalAcceleratorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateCustomRoutingAcceleratorAttributes` operation on the `GlobalAccelerator_V20180706` service.
+    /// Performs the `UpdateCustomRoutingAcceleratorAttributes` operation on the `GlobalAccelerator` service.
     ///
     /// Update the attributes for a custom routing accelerator.
     ///
@@ -4176,7 +4176,7 @@ extension GlobalAcceleratorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateCustomRoutingListener` operation on the `GlobalAccelerator_V20180706` service.
+    /// Performs the `UpdateCustomRoutingListener` operation on the `GlobalAccelerator` service.
     ///
     /// Update a listener for a custom routing accelerator.
     ///
@@ -4250,7 +4250,7 @@ extension GlobalAcceleratorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateEndpointGroup` operation on the `GlobalAccelerator_V20180706` service.
+    /// Performs the `UpdateEndpointGroup` operation on the `GlobalAccelerator` service.
     ///
     /// Update an endpoint group. A resource must be valid and active when you add it as an endpoint.
     ///
@@ -4324,7 +4324,7 @@ extension GlobalAcceleratorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateListener` operation on the `GlobalAccelerator_V20180706` service.
+    /// Performs the `UpdateListener` operation on the `GlobalAccelerator` service.
     ///
     /// Update a listener.
     ///
@@ -4398,7 +4398,7 @@ extension GlobalAcceleratorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `WithdrawByoipCidr` operation on the `GlobalAccelerator_V20180706` service.
+    /// Performs the `WithdrawByoipCidr` operation on the `GlobalAccelerator` service.
     ///
     /// Stops advertising an address range that is provisioned as an address pool. You can perform this operation at most once every 10 seconds, even if you specify different address ranges each time. It can take a few minutes before traffic to the specified addresses stops routing to Amazon Web Services because of propagation delays. For more information, see [Bring your own IP addresses (BYOIP)](https://docs.aws.amazon.com/global-accelerator/latest/dg/using-byoip.html) in the Global Accelerator Developer Guide.
     ///

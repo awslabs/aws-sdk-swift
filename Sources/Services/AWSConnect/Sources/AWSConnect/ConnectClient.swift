@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ConnectClient: ClientRuntime.Client {
     public static let clientName = "ConnectClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: ConnectClient.ConnectClientConfiguration
     let serviceName = "Connect"
@@ -331,7 +331,7 @@ extension ConnectClient {
 }
 
 extension ConnectClient {
-    /// Performs the `ActivateEvaluationForm` operation on the `AmazonConnectService` service.
+    /// Performs the `ActivateEvaluationForm` operation on the `Connect` service.
     ///
     /// Activates an evaluation form in the specified Amazon Connect instance. After the evaluation form is activated, it is available to start new evaluations based on the form.
     ///
@@ -404,7 +404,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssociateAnalyticsDataSet` operation on the `AmazonConnectService` service.
+    /// Performs the `AssociateAnalyticsDataSet` operation on the `Connect` service.
     ///
     /// Associates the specified dataset for a Amazon Connect instance with the target account. You can associate only one dataset in a single call.
     ///
@@ -477,7 +477,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssociateApprovedOrigin` operation on the `AmazonConnectService` service.
+    /// Performs the `AssociateApprovedOrigin` operation on the `Connect` service.
     ///
     /// This API is in preview release for Amazon Connect and is subject to change. Associates an approved origin to an Amazon Connect instance.
     ///
@@ -552,7 +552,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssociateBot` operation on the `AmazonConnectService` service.
+    /// Performs the `AssociateBot` operation on the `Connect` service.
     ///
     /// This API is in preview release for Amazon Connect and is subject to change. Allows the specified Amazon Connect instance to access the specified Amazon Lex or Amazon Lex V2 bot.
     ///
@@ -627,7 +627,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssociateDefaultVocabulary` operation on the `AmazonConnectService` service.
+    /// Performs the `AssociateDefaultVocabulary` operation on the `Connect` service.
     ///
     /// Associates an existing vocabulary as the default. Contact Lens for Amazon Connect uses the vocabulary in post-call and real-time analysis sessions for the given language.
     ///
@@ -700,7 +700,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssociateFlow` operation on the `AmazonConnectService` service.
+    /// Performs the `AssociateFlow` operation on the `Connect` service.
     ///
     /// Associates a connect resource to a flow.
     ///
@@ -774,7 +774,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssociateInstanceStorageConfig` operation on the `AmazonConnectService` service.
+    /// Performs the `AssociateInstanceStorageConfig` operation on the `Connect` service.
     ///
     /// This API is in preview release for Amazon Connect and is subject to change. Associates a storage resource type for the first time. You can only associate one type of storage configuration in a single call. This means, for example, that you can't define an instance with multiple S3 buckets for storing chat transcripts. This API does not create a resource that doesn't exist. It only associates it to the instance. Ensure that the resource being specified in the storage configuration, like an S3 bucket, exists when being used for association.
     ///
@@ -848,7 +848,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssociateLambdaFunction` operation on the `AmazonConnectService` service.
+    /// Performs the `AssociateLambdaFunction` operation on the `Connect` service.
     ///
     /// This API is in preview release for Amazon Connect and is subject to change. Allows the specified Amazon Connect instance to access the specified Lambda function.
     ///
@@ -923,7 +923,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssociateLexBot` operation on the `AmazonConnectService` service.
+    /// Performs the `AssociateLexBot` operation on the `Connect` service.
     ///
     /// This API is in preview release for Amazon Connect and is subject to change. Allows the specified Amazon Connect instance to access the specified Amazon Lex V1 bot. This API only supports the association of Amazon Lex V1 bots.
     ///
@@ -998,7 +998,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssociatePhoneNumberContactFlow` operation on the `AmazonConnectService` service.
+    /// Performs the `AssociatePhoneNumberContactFlow` operation on the `Connect` service.
     ///
     /// Associates a flow with a phone number claimed to your Amazon Connect instance. If the number is claimed to a traffic distribution group, and you are calling this API using an instance in the Amazon Web Services Region where the traffic distribution group was created, you can use either a full phone number ARN or UUID value for the PhoneNumberId URI request parameter. However, if the number is claimed to a traffic distribution group and you are calling this API using an instance in the alternate Amazon Web Services Region associated with the traffic distribution group, you must provide a full phone number ARN. If a UUID is provided in this scenario, you will receive a ResourceNotFoundException.
     ///
@@ -1071,7 +1071,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssociateQueueQuickConnects` operation on the `AmazonConnectService` service.
+    /// Performs the `AssociateQueueQuickConnects` operation on the `Connect` service.
     ///
     /// This API is in preview release for Amazon Connect and is subject to change. Associates a set of quick connects with a queue.
     ///
@@ -1145,7 +1145,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssociateRoutingProfileQueues` operation on the `AmazonConnectService` service.
+    /// Performs the `AssociateRoutingProfileQueues` operation on the `Connect` service.
     ///
     /// Associates a set of queues with a routing profile.
     ///
@@ -1218,7 +1218,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssociateSecurityKey` operation on the `AmazonConnectService` service.
+    /// Performs the `AssociateSecurityKey` operation on the `Connect` service.
     ///
     /// This API is in preview release for Amazon Connect and is subject to change. Associates a security key to the instance.
     ///
@@ -1293,7 +1293,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssociateTrafficDistributionGroupUser` operation on the `AmazonConnectService` service.
+    /// Performs the `AssociateTrafficDistributionGroupUser` operation on the `Connect` service.
     ///
     /// Associates an agent with a traffic distribution group. This API can be called only in the Region where the traffic distribution group is created.
     ///
@@ -1367,7 +1367,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssociateUserProficiencies` operation on the `AmazonConnectService` service.
+    /// Performs the `AssociateUserProficiencies` operation on the `Connect` service.
     ///
     /// >Associates a set of proficiencies with a user.
     ///
@@ -1440,7 +1440,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchAssociateAnalyticsDataSet` operation on the `AmazonConnectService` service.
+    /// Performs the `BatchAssociateAnalyticsDataSet` operation on the `Connect` service.
     ///
     /// Associates a list of analytics datasets for a given Amazon Connect instance to a target account. You can associate multiple datasets in a single call.
     ///
@@ -1513,7 +1513,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchDisassociateAnalyticsDataSet` operation on the `AmazonConnectService` service.
+    /// Performs the `BatchDisassociateAnalyticsDataSet` operation on the `Connect` service.
     ///
     /// Removes a list of analytics datasets associated with a given Amazon Connect instance. You can disassociate multiple datasets in a single call.
     ///
@@ -1586,7 +1586,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchGetAttachedFileMetadata` operation on the `AmazonConnectService` service.
+    /// Performs the `BatchGetAttachedFileMetadata` operation on the `Connect` service.
     ///
     /// Allows you to retrieve metadata about multiple attached files on an associated resource. Each attached file provided in the input list must be associated with the input AssociatedResourceArn.
     ///
@@ -1660,7 +1660,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchGetFlowAssociation` operation on the `AmazonConnectService` service.
+    /// Performs the `BatchGetFlowAssociation` operation on the `Connect` service.
     ///
     /// Retrieve the flow associations for the given resources.
     ///
@@ -1734,7 +1734,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchPutContact` operation on the `AmazonConnectService` service.
+    /// Performs the `BatchPutContact` operation on the `Connect` service.
     ///
     /// Only the Amazon Connect outbound campaigns service principal is allowed to assume a role in your account and call this API. Allows you to create a batch of contacts in Amazon Connect. The outbound campaigns capability ingests dial requests via the [PutDialRequestBatch](https://docs.aws.amazon.com/connect-outbound/latest/APIReference/API_PutDialRequestBatch.html) API. It then uses BatchPutContact to create contacts corresponding to those dial requests. If agents are available, the dial requests are dialed out, which results in a voice call. The resulting voice call uses the same contactId that was created by BatchPutContact.
     ///
@@ -1809,7 +1809,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ClaimPhoneNumber` operation on the `AmazonConnectService` service.
+    /// Performs the `ClaimPhoneNumber` operation on the `Connect` service.
     ///
     /// Claims an available phone number to your Amazon Connect instance or traffic distribution group. You can call this API only in the same Amazon Web Services Region where the Amazon Connect instance or traffic distribution group was created. For more information about how to use this operation, see [Claim a phone number in your country](https://docs.aws.amazon.com/connect/latest/adminguide/claim-phone-number.html) and [Claim phone numbers to traffic distribution groups](https://docs.aws.amazon.com/connect/latest/adminguide/claim-phone-numbers-traffic-distribution-groups.html) in the Amazon Connect Administrator Guide. You can call the [SearchAvailablePhoneNumbers](https://docs.aws.amazon.com/connect/latest/APIReference/API_SearchAvailablePhoneNumbers.html) API for available phone numbers that you can claim. Call the [DescribePhoneNumber](https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribePhoneNumber.html) API to verify the status of a previous [ClaimPhoneNumber](https://docs.aws.amazon.com/connect/latest/APIReference/API_ClaimPhoneNumber.html) operation. If you plan to claim and release numbers frequently, contact us for a service quota exception. Otherwise, it is possible you will be blocked from claiming and releasing any more numbers until up to 180 days past the oldest number released has expired. By default you can claim and release up to 200% of your maximum number of active phone numbers. If you claim and release phone numbers using the UI or API during a rolling 180 day cycle that exceeds 200% of your phone number service level quota, you will be blocked from claiming any more numbers until 180 days past the oldest number released has expired. For example, if you already have 99 claimed numbers and a service level quota of 99 phone numbers, and in any 180 day period you release 99, claim 99, and then release 99, you will have exceeded the 200% limit. At that point you are blocked from claiming any more numbers until you open an Amazon Web Services support ticket.
     ///
@@ -1884,7 +1884,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CompleteAttachedFileUpload` operation on the `AmazonConnectService` service.
+    /// Performs the `CompleteAttachedFileUpload` operation on the `Connect` service.
     ///
     /// Allows you to confirm that the attached file has been uploaded using the pre-signed URL provided in the StartAttachedFileUpload API.
     ///
@@ -1955,7 +1955,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateAgentStatus` operation on the `AmazonConnectService` service.
+    /// Performs the `CreateAgentStatus` operation on the `Connect` service.
     ///
     /// This API is in preview release for Amazon Connect and is subject to change. Creates an agent status for the specified Amazon Connect instance.
     ///
@@ -2030,7 +2030,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateContact` operation on the `AmazonConnectService` service.
+    /// Performs the `CreateContact` operation on the `Connect` service.
     ///
     /// Creates a new contact.
     ///
@@ -2108,7 +2108,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateContactFlow` operation on the `AmazonConnectService` service.
+    /// Performs the `CreateContactFlow` operation on the `Connect` service.
     ///
     /// Creates a flow for the specified Amazon Connect instance. You can also create and update flows using the [Amazon Connect Flow language](https://docs.aws.amazon.com/connect/latest/APIReference/flow-language.html).
     ///
@@ -2184,7 +2184,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateContactFlowModule` operation on the `AmazonConnectService` service.
+    /// Performs the `CreateContactFlowModule` operation on the `Connect` service.
     ///
     /// Creates a flow module for the specified Amazon Connect instance.
     ///
@@ -2263,7 +2263,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateContactFlowVersion` operation on the `AmazonConnectService` service.
+    /// Performs the `CreateContactFlowVersion` operation on the `Connect` service.
     ///
     /// Publishes a new version of the flow provided. Versions are immutable and monotonically increasing. If a version of the same flow content already exists, no new version is created and instead the existing version number is returned. If the FlowContentSha256 provided is different from the FlowContentSha256 of the $LATEST published flow content, then an error is returned. This API only supports creating versions for flows of type Campaign.
     ///
@@ -2338,7 +2338,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateEmailAddress` operation on the `AmazonConnectService` service.
+    /// Performs the `CreateEmailAddress` operation on the `Connect` service.
     ///
     /// Create new email address in the specified Amazon Connect instance. For more information about email addresses, see [Create email addresses](https://docs.aws.amazon.com/connect/latest/adminguide/create-email-address1.html) in the Amazon Connect Administrator Guide.
     ///
@@ -2416,7 +2416,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateEvaluationForm` operation on the `AmazonConnectService` service.
+    /// Performs the `CreateEvaluationForm` operation on the `Connect` service.
     ///
     /// Creates an evaluation form in the specified Amazon Connect instance. The form can be used to define questions related to agent performance, and create sections to organize such questions. Question and section identifiers cannot be duplicated within the same evaluation form.
     ///
@@ -2491,7 +2491,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateHoursOfOperation` operation on the `AmazonConnectService` service.
+    /// Performs the `CreateHoursOfOperation` operation on the `Connect` service.
     ///
     /// This API is in preview release for Amazon Connect and is subject to change. Creates hours of operation.
     ///
@@ -2566,7 +2566,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateHoursOfOperationOverride` operation on the `AmazonConnectService` service.
+    /// Performs the `CreateHoursOfOperationOverride` operation on the `Connect` service.
     ///
     /// Creates an hours of operation override in an Amazon Connect hours of operation resource
     ///
@@ -2641,7 +2641,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateInstance` operation on the `AmazonConnectService` service.
+    /// Performs the `CreateInstance` operation on the `Connect` service.
     ///
     /// This API is in preview release for Amazon Connect and is subject to change. Initiates an Amazon Connect instance with all the supported channels enabled. It does not attach any storage, such as Amazon Simple Storage Service (Amazon S3) or Amazon Kinesis. It also does not allow for any configurations on features, such as Contact Lens for Amazon Connect. For more information, see [Create an Amazon Connect instance](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-instances.html) in the Amazon Connect Administrator Guide. Amazon Connect enforces a limit on the total number of instances that you can create or delete in 30 days. If you exceed this limit, you will get an error message indicating there has been an excessive number of attempts at creating or deleting instances. You must wait 30 days before you can restart creating and deleting instances in your account.
     ///
@@ -2714,7 +2714,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateIntegrationAssociation` operation on the `AmazonConnectService` service.
+    /// Performs the `CreateIntegrationAssociation` operation on the `Connect` service.
     ///
     /// Creates an Amazon Web Services resource association with an Amazon Connect instance.
     ///
@@ -2787,7 +2787,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateParticipant` operation on the `AmazonConnectService` service.
+    /// Performs the `CreateParticipant` operation on the `Connect` service.
     ///
     /// Adds a new participant into an on-going chat contact. For more information, see [Customize chat flow experiences by integrating custom participants](https://docs.aws.amazon.com/connect/latest/adminguide/chat-customize-flow.html).
     ///
@@ -2861,7 +2861,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreatePersistentContactAssociation` operation on the `AmazonConnectService` service.
+    /// Performs the `CreatePersistentContactAssociation` operation on the `Connect` service.
     ///
     /// Enables rehydration of chats for the lifespan of a contact. For more information about chat rehydration, see [Enable persistent chat](https://docs.aws.amazon.com/connect/latest/adminguide/chat-persistence.html) in the Amazon Connect Administrator Guide.
     ///
@@ -2935,7 +2935,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreatePredefinedAttribute` operation on the `AmazonConnectService` service.
+    /// Performs the `CreatePredefinedAttribute` operation on the `Connect` service.
     ///
     /// Creates a new predefined attribute for the specified Amazon Connect instance. Predefined attributes are attributes in an Amazon Connect instance that can be used to route contacts to an agent or pools of agents within a queue. For more information, see [Create predefined attributes for routing contacts to agents](https://docs.aws.amazon.com/connect/latest/adminguide/predefined-attributes.html).
     ///
@@ -3010,7 +3010,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreatePrompt` operation on the `AmazonConnectService` service.
+    /// Performs the `CreatePrompt` operation on the `Connect` service.
     ///
     /// Creates a prompt. For more information about prompts, such as supported file types and maximum length, see [Create prompts](https://docs.aws.amazon.com/connect/latest/adminguide/prompts.html) in the Amazon Connect Administrator Guide.
     ///
@@ -3084,7 +3084,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreatePushNotificationRegistration` operation on the `AmazonConnectService` service.
+    /// Performs the `CreatePushNotificationRegistration` operation on the `Connect` service.
     ///
     /// Creates registration for a device token and a chat contact to receive real-time push notifications. For more information about push notifications, see [Set up push notifications in Amazon Connect for mobile chat](https://docs.aws.amazon.com/connect/latest/adminguide/enable-push-notifications-for-mobile-chat.html) in the Amazon Connect Administrator Guide.
     ///
@@ -3159,7 +3159,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateQueue` operation on the `AmazonConnectService` service.
+    /// Performs the `CreateQueue` operation on the `Connect` service.
     ///
     /// Creates a new queue for the specified Amazon Connect instance.
     ///
@@ -3240,7 +3240,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateQuickConnect` operation on the `AmazonConnectService` service.
+    /// Performs the `CreateQuickConnect` operation on the `Connect` service.
     ///
     /// Creates a quick connect for the specified Amazon Connect instance.
     ///
@@ -3315,7 +3315,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateRoutingProfile` operation on the `AmazonConnectService` service.
+    /// Performs the `CreateRoutingProfile` operation on the `Connect` service.
     ///
     /// Creates a new routing profile.
     ///
@@ -3390,7 +3390,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateRule` operation on the `AmazonConnectService` service.
+    /// Performs the `CreateRule` operation on the `Connect` service.
     ///
     /// Creates a rule for the specified Amazon Connect instance. Use the [Rules Function language](https://docs.aws.amazon.com/connect/latest/APIReference/connect-rules-language.html) to code conditions for the rule.
     ///
@@ -3466,7 +3466,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateSecurityProfile` operation on the `AmazonConnectService` service.
+    /// Performs the `CreateSecurityProfile` operation on the `Connect` service.
     ///
     /// Creates a security profile. For information about security profiles, see [Security Profiles](https://docs.aws.amazon.com/connect/latest/adminguide/connect-security-profiles.html) in the Amazon Connect Administrator Guide. For a mapping of the API name and user interface name of the security profile permissions, see [List of security profile permissions](https://docs.aws.amazon.com/connect/latest/adminguide/security-profile-list.html).
     ///
@@ -3541,7 +3541,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateTaskTemplate` operation on the `AmazonConnectService` service.
+    /// Performs the `CreateTaskTemplate` operation on the `Connect` service.
     ///
     /// Creates a new task template in the specified Amazon Connect instance.
     ///
@@ -3616,7 +3616,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateTrafficDistributionGroup` operation on the `AmazonConnectService` service.
+    /// Performs the `CreateTrafficDistributionGroup` operation on the `Connect` service.
     ///
     /// Creates a traffic distribution group given an Amazon Connect instance that has been replicated. The SignInConfig distribution is available only on a default TrafficDistributionGroup (see the IsDefault parameter in the [TrafficDistributionGroup](https://docs.aws.amazon.com/connect/latest/APIReference/API_TrafficDistributionGroup.html) data type). If you call UpdateTrafficDistribution with a modified SignInConfig and a non-default TrafficDistributionGroup, an InvalidRequestException is returned. For more information about creating traffic distribution groups, see [Set up traffic distribution groups](https://docs.aws.amazon.com/connect/latest/adminguide/setup-traffic-distribution-groups.html) in the Amazon Connect Administrator Guide.
     ///
@@ -3693,7 +3693,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateUseCase` operation on the `AmazonConnectService` service.
+    /// Performs the `CreateUseCase` operation on the `Connect` service.
     ///
     /// Creates a use case for an integration association.
     ///
@@ -3766,7 +3766,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateUser` operation on the `AmazonConnectService` service.
+    /// Performs the `CreateUser` operation on the `Connect` service.
     ///
     /// Creates a user account for the specified Amazon Connect instance. Certain [UserIdentityInfo](https://docs.aws.amazon.com/connect/latest/APIReference/API_UserIdentityInfo.html) parameters are required in some situations. For example, Email is required if you are using SAML for identity management. FirstName and LastName are required if you are using Amazon Connect or SAML for identity management. For information about how to create users using the Amazon Connect admin website, see [Add Users](https://docs.aws.amazon.com/connect/latest/adminguide/user-management.html) in the Amazon Connect Administrator Guide.
     ///
@@ -3841,7 +3841,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateUserHierarchyGroup` operation on the `AmazonConnectService` service.
+    /// Performs the `CreateUserHierarchyGroup` operation on the `Connect` service.
     ///
     /// Creates a new user hierarchy group.
     ///
@@ -3916,7 +3916,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateView` operation on the `AmazonConnectService` service.
+    /// Performs the `CreateView` operation on the `Connect` service.
     ///
     /// Creates a new view with the possible status of SAVED or PUBLISHED. The views will have a unique name for each connect instance. It performs basic content validation if the status is SAVED or full content validation if the status is set to PUBLISHED. An error is returned if validation fails. It associates either the $SAVED qualifier or both of the $SAVED and $LATEST qualifiers with the provided view content based on the status. The view is idempotent if ClientToken is provided.
     ///
@@ -3993,7 +3993,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateViewVersion` operation on the `AmazonConnectService` service.
+    /// Performs the `CreateViewVersion` operation on the `Connect` service.
     ///
     /// Publishes a new version of the view identifier. Versions are immutable and monotonically increasing. It returns the highest version if there is no change in content compared to that version. An error is displayed if the supplied ViewContentSha256 is different from the ViewContentSha256 of the $LATEST alias.
     ///
@@ -4069,7 +4069,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateVocabulary` operation on the `AmazonConnectService` service.
+    /// Performs the `CreateVocabulary` operation on the `Connect` service.
     ///
     /// Creates a custom vocabulary associated with your Amazon Connect instance. You can set a custom vocabulary to be your default vocabulary for a given language. Contact Lens for Amazon Connect uses the default vocabulary in post-call and real-time contact analysis sessions for that language.
     ///
@@ -4145,7 +4145,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeactivateEvaluationForm` operation on the `AmazonConnectService` service.
+    /// Performs the `DeactivateEvaluationForm` operation on the `Connect` service.
     ///
     /// Deactivates an evaluation form in the specified Amazon Connect instance. After a form is deactivated, it is no longer available for users to start new evaluations based on the form.
     ///
@@ -4218,7 +4218,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAttachedFile` operation on the `AmazonConnectService` service.
+    /// Performs the `DeleteAttachedFile` operation on the `Connect` service.
     ///
     /// Deletes an attached file along with the underlying S3 Object. The attached file is permanently deleted if S3 bucket versioning is not enabled.
     ///
@@ -4289,7 +4289,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteContactEvaluation` operation on the `AmazonConnectService` service.
+    /// Performs the `DeleteContactEvaluation` operation on the `Connect` service.
     ///
     /// Deletes a contact evaluation in the specified Amazon Connect instance.
     ///
@@ -4359,7 +4359,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteContactFlow` operation on the `AmazonConnectService` service.
+    /// Performs the `DeleteContactFlow` operation on the `Connect` service.
     ///
     /// Deletes a flow for the specified Amazon Connect instance.
     ///
@@ -4430,7 +4430,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteContactFlowModule` operation on the `AmazonConnectService` service.
+    /// Performs the `DeleteContactFlowModule` operation on the `Connect` service.
     ///
     /// Deletes the specified flow module.
     ///
@@ -4501,7 +4501,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteEmailAddress` operation on the `AmazonConnectService` service.
+    /// Performs the `DeleteEmailAddress` operation on the `Connect` service.
     ///
     /// Deletes email address from the specified Amazon Connect instance.
     ///
@@ -4573,7 +4573,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteEvaluationForm` operation on the `AmazonConnectService` service.
+    /// Performs the `DeleteEvaluationForm` operation on the `Connect` service.
     ///
     /// Deletes an evaluation form in the specified Amazon Connect instance.
     ///
@@ -4648,7 +4648,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteHoursOfOperation` operation on the `AmazonConnectService` service.
+    /// Performs the `DeleteHoursOfOperation` operation on the `Connect` service.
     ///
     /// This API is in preview release for Amazon Connect and is subject to change. Deletes an hours of operation.
     ///
@@ -4718,7 +4718,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteHoursOfOperationOverride` operation on the `AmazonConnectService` service.
+    /// Performs the `DeleteHoursOfOperationOverride` operation on the `Connect` service.
     ///
     /// Deletes an hours of operation override in an Amazon Connect hours of operation resource
     ///
@@ -4788,7 +4788,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteInstance` operation on the `AmazonConnectService` service.
+    /// Performs the `DeleteInstance` operation on the `Connect` service.
     ///
     /// This API is in preview release for Amazon Connect and is subject to change. Deletes the Amazon Connect instance. For more information, see [Delete your Amazon Connect instance](https://docs.aws.amazon.com/connect/latest/adminguide/delete-connect-instance.html) in the Amazon Connect Administrator Guide. Amazon Connect enforces a limit on the total number of instances that you can create or delete in 30 days. If you exceed this limit, you will get an error message indicating there has been an excessive number of attempts at creating or deleting instances. You must wait 30 days before you can restart creating and deleting instances in your account.
     ///
@@ -4856,7 +4856,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteIntegrationAssociation` operation on the `AmazonConnectService` service.
+    /// Performs the `DeleteIntegrationAssociation` operation on the `Connect` service.
     ///
     /// Deletes an Amazon Web Services resource association from an Amazon Connect instance. The association must not have any use cases associated with it.
     ///
@@ -4925,7 +4925,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeletePredefinedAttribute` operation on the `AmazonConnectService` service.
+    /// Performs the `DeletePredefinedAttribute` operation on the `Connect` service.
     ///
     /// Deletes a predefined attribute from the specified Amazon Connect instance.
     ///
@@ -4996,7 +4996,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeletePrompt` operation on the `AmazonConnectService` service.
+    /// Performs the `DeletePrompt` operation on the `Connect` service.
     ///
     /// Deletes a prompt.
     ///
@@ -5066,7 +5066,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeletePushNotificationRegistration` operation on the `AmazonConnectService` service.
+    /// Performs the `DeletePushNotificationRegistration` operation on the `Connect` service.
     ///
     /// Deletes registration for a device token and a chat contact.
     ///
@@ -5137,7 +5137,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteQueue` operation on the `AmazonConnectService` service.
+    /// Performs the `DeleteQueue` operation on the `Connect` service.
     ///
     /// Deletes a queue. It isn't possible to delete a queue by using the Amazon Connect admin website.
     ///
@@ -5208,7 +5208,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteQuickConnect` operation on the `AmazonConnectService` service.
+    /// Performs the `DeleteQuickConnect` operation on the `Connect` service.
     ///
     /// Deletes a quick connect. After calling [DeleteUser](https://docs.aws.amazon.com/connect/latest/APIReference/API_DeleteUser.html), it's important to call DeleteQuickConnect to delete any records related to the deleted users. This will help you:
     ///
@@ -5284,7 +5284,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteRoutingProfile` operation on the `AmazonConnectService` service.
+    /// Performs the `DeleteRoutingProfile` operation on the `Connect` service.
     ///
     /// Deletes a routing profile.
     ///
@@ -5355,7 +5355,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteRule` operation on the `AmazonConnectService` service.
+    /// Performs the `DeleteRule` operation on the `Connect` service.
     ///
     /// Deletes a rule for the specified Amazon Connect instance.
     ///
@@ -5425,7 +5425,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteSecurityProfile` operation on the `AmazonConnectService` service.
+    /// Performs the `DeleteSecurityProfile` operation on the `Connect` service.
     ///
     /// Deletes a security profile.
     ///
@@ -5497,7 +5497,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteTaskTemplate` operation on the `AmazonConnectService` service.
+    /// Performs the `DeleteTaskTemplate` operation on the `Connect` service.
     ///
     /// Deletes the task template.
     ///
@@ -5567,7 +5567,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteTrafficDistributionGroup` operation on the `AmazonConnectService` service.
+    /// Performs the `DeleteTrafficDistributionGroup` operation on the `Connect` service.
     ///
     /// Deletes a traffic distribution group. This API can be called only in the Region where the traffic distribution group is created. For more information about deleting traffic distribution groups, see [Delete traffic distribution groups](https://docs.aws.amazon.com/connect/latest/adminguide/delete-traffic-distribution-groups.html) in the Amazon Connect Administrator Guide.
     ///
@@ -5637,7 +5637,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteUseCase` operation on the `AmazonConnectService` service.
+    /// Performs the `DeleteUseCase` operation on the `Connect` service.
     ///
     /// Deletes a use case from an integration association.
     ///
@@ -5706,7 +5706,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteUser` operation on the `AmazonConnectService` service.
+    /// Performs the `DeleteUser` operation on the `Connect` service.
     ///
     /// Deletes a user account from the specified Amazon Connect instance. For information about what happens to a user's data when their account is deleted, see [Delete Users from Your Amazon Connect Instance](https://docs.aws.amazon.com/connect/latest/adminguide/delete-users.html) in the Amazon Connect Administrator Guide. After calling DeleteUser, call [DeleteQuickConnect](https://docs.aws.amazon.com/connect/latest/APIReference/API_DeleteQuickConnect.html) to delete any records related to the deleted users. This will help you:
     ///
@@ -5782,7 +5782,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteUserHierarchyGroup` operation on the `AmazonConnectService` service.
+    /// Performs the `DeleteUserHierarchyGroup` operation on the `Connect` service.
     ///
     /// Deletes an existing user hierarchy group. It must not be associated with any agents or have any active child groups.
     ///
@@ -5853,7 +5853,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteView` operation on the `AmazonConnectService` service.
+    /// Performs the `DeleteView` operation on the `Connect` service.
     ///
     /// Deletes the view entirely. It deletes the view and all associated qualifiers (versions and aliases).
     ///
@@ -5925,7 +5925,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteViewVersion` operation on the `AmazonConnectService` service.
+    /// Performs the `DeleteViewVersion` operation on the `Connect` service.
     ///
     /// Deletes the particular version specified in ViewVersion identifier.
     ///
@@ -5997,7 +5997,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteVocabulary` operation on the `AmazonConnectService` service.
+    /// Performs the `DeleteVocabulary` operation on the `Connect` service.
     ///
     /// Deletes the vocabulary that has the given identifier.
     ///
@@ -6068,7 +6068,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeAgentStatus` operation on the `AmazonConnectService` service.
+    /// Performs the `DescribeAgentStatus` operation on the `Connect` service.
     ///
     /// This API is in preview release for Amazon Connect and is subject to change. Describes an agent status.
     ///
@@ -6138,7 +6138,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeAuthenticationProfile` operation on the `AmazonConnectService` service.
+    /// Performs the `DescribeAuthenticationProfile` operation on the `Connect` service.
     ///
     /// This API is in preview release for Amazon Connect and is subject to change. To request access to this API, contact Amazon Web Services Support. Describes the target authentication profile.
     ///
@@ -6208,7 +6208,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeContact` operation on the `AmazonConnectService` service.
+    /// Performs the `DescribeContact` operation on the `Connect` service.
     ///
     /// This API is in preview release for Amazon Connect and is subject to change. Describes the specified contact. Contact information remains available in Amazon Connect for 24 months from the InitiationTimestamp, and then it is deleted. Only contact information that is available in Amazon Connect is returned by this API
     ///
@@ -6278,7 +6278,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeContactEvaluation` operation on the `AmazonConnectService` service.
+    /// Performs the `DescribeContactEvaluation` operation on the `Connect` service.
     ///
     /// Describes a contact evaluation in the specified Amazon Connect instance.
     ///
@@ -6347,7 +6347,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeContactFlow` operation on the `AmazonConnectService` service.
+    /// Performs the `DescribeContactFlow` operation on the `Connect` service.
     ///
     /// Describes the specified flow. You can also create and update flows using the [Amazon Connect Flow language](https://docs.aws.amazon.com/connect/latest/APIReference/flow-language.html). Use the $SAVED alias in the request to describe the SAVED content of a Flow. For example, arn:aws:.../contact-flow/{id}:$SAVED. After a flow is published, $SAVED needs to be supplied to view saved content that has not been published. In the response, Status indicates the flow status as either SAVED or PUBLISHED. The PUBLISHED status will initiate validation on the content. SAVED does not initiate validation of the content. SAVED | PUBLISHED
     ///
@@ -6418,7 +6418,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeContactFlowModule` operation on the `AmazonConnectService` service.
+    /// Performs the `DescribeContactFlowModule` operation on the `Connect` service.
     ///
     /// Describes the specified flow module. Use the $SAVED alias in the request to describe the SAVED content of a Flow. For example, arn:aws:.../contact-flow/{id}:$SAVED. After a flow is published, $SAVED needs to be supplied to view saved content that has not been published.
     ///
@@ -6489,7 +6489,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeEmailAddress` operation on the `AmazonConnectService` service.
+    /// Performs the `DescribeEmailAddress` operation on the `Connect` service.
     ///
     /// Describe email address form the specified Amazon Connect instance.
     ///
@@ -6560,7 +6560,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeEvaluationForm` operation on the `AmazonConnectService` service.
+    /// Performs the `DescribeEvaluationForm` operation on the `Connect` service.
     ///
     /// Describes an evaluation form in the specified Amazon Connect instance. If the version property is not provided, the latest version of the evaluation form is described.
     ///
@@ -6630,7 +6630,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeHoursOfOperation` operation on the `AmazonConnectService` service.
+    /// Performs the `DescribeHoursOfOperation` operation on the `Connect` service.
     ///
     /// This API is in preview release for Amazon Connect and is subject to change. Describes the hours of operation.
     ///
@@ -6700,7 +6700,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeHoursOfOperationOverride` operation on the `AmazonConnectService` service.
+    /// Performs the `DescribeHoursOfOperationOverride` operation on the `Connect` service.
     ///
     /// Describes the hours of operation override.
     ///
@@ -6770,7 +6770,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeInstance` operation on the `AmazonConnectService` service.
+    /// Performs the `DescribeInstance` operation on the `Connect` service.
     ///
     /// This API is in preview release for Amazon Connect and is subject to change. Returns the current state of the specified instance identifier. It tracks the instance while it is being created and returns an error status, if applicable. If an instance is not created successfully, the instance status reason field returns details relevant to the reason. The instance in a failed state is returned only for 24 hours after the CreateInstance API was invoked.
     ///
@@ -6838,7 +6838,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeInstanceAttribute` operation on the `AmazonConnectService` service.
+    /// Performs the `DescribeInstanceAttribute` operation on the `Connect` service.
     ///
     /// This API is in preview release for Amazon Connect and is subject to change. Describes the specified instance attribute.
     ///
@@ -6908,7 +6908,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeInstanceStorageConfig` operation on the `AmazonConnectService` service.
+    /// Performs the `DescribeInstanceStorageConfig` operation on the `Connect` service.
     ///
     /// This API is in preview release for Amazon Connect and is subject to change. Retrieves the current storage configurations for the specified resource type, association ID, and instance ID.
     ///
@@ -6979,7 +6979,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribePhoneNumber` operation on the `AmazonConnectService` service.
+    /// Performs the `DescribePhoneNumber` operation on the `Connect` service.
     ///
     /// Gets details and status of a phone number that’s claimed to your Amazon Connect instance or traffic distribution group. If the number is claimed to a traffic distribution group, and you are calling in the Amazon Web Services Region where the traffic distribution group was created, you can use either a phone number ARN or UUID value for the PhoneNumberId URI request parameter. However, if the number is claimed to a traffic distribution group and you are calling this API in the alternate Amazon Web Services Region associated with the traffic distribution group, you must provide a full phone number ARN. If a UUID is provided in this scenario, you receive a ResourceNotFoundException.
     ///
@@ -7049,7 +7049,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribePredefinedAttribute` operation on the `AmazonConnectService` service.
+    /// Performs the `DescribePredefinedAttribute` operation on the `Connect` service.
     ///
     /// Describes a predefined attribute for the specified Amazon Connect instance. Predefined attributes are attributes in an Amazon Connect instance that can be used to route contacts to an agent or pools of agents within a queue. For more information, see [Create predefined attributes for routing contacts to agents](https://docs.aws.amazon.com/connect/latest/adminguide/predefined-attributes.html).
     ///
@@ -7119,7 +7119,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribePrompt` operation on the `AmazonConnectService` service.
+    /// Performs the `DescribePrompt` operation on the `Connect` service.
     ///
     /// Describes the prompt.
     ///
@@ -7189,7 +7189,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeQueue` operation on the `AmazonConnectService` service.
+    /// Performs the `DescribeQueue` operation on the `Connect` service.
     ///
     /// This API is in preview release for Amazon Connect and is subject to change. Describes the specified queue.
     ///
@@ -7259,7 +7259,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeQuickConnect` operation on the `AmazonConnectService` service.
+    /// Performs the `DescribeQuickConnect` operation on the `Connect` service.
     ///
     /// Describes the quick connect.
     ///
@@ -7329,7 +7329,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeRoutingProfile` operation on the `AmazonConnectService` service.
+    /// Performs the `DescribeRoutingProfile` operation on the `Connect` service.
     ///
     /// Describes the specified routing profile.
     ///
@@ -7399,7 +7399,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeRule` operation on the `AmazonConnectService` service.
+    /// Performs the `DescribeRule` operation on the `Connect` service.
     ///
     /// Describes a rule for the specified Amazon Connect instance.
     ///
@@ -7469,7 +7469,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeSecurityProfile` operation on the `AmazonConnectService` service.
+    /// Performs the `DescribeSecurityProfile` operation on the `Connect` service.
     ///
     /// Gets basic information about the security profile. For information about security profiles, see [Security Profiles](https://docs.aws.amazon.com/connect/latest/adminguide/connect-security-profiles.html) in the Amazon Connect Administrator Guide. For a mapping of the API name and user interface name of the security profile permissions, see [List of security profile permissions](https://docs.aws.amazon.com/connect/latest/adminguide/security-profile-list.html).
     ///
@@ -7539,7 +7539,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeTrafficDistributionGroup` operation on the `AmazonConnectService` service.
+    /// Performs the `DescribeTrafficDistributionGroup` operation on the `Connect` service.
     ///
     /// Gets details and status of a traffic distribution group.
     ///
@@ -7609,7 +7609,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeUser` operation on the `AmazonConnectService` service.
+    /// Performs the `DescribeUser` operation on the `Connect` service.
     ///
     /// Describes the specified user. You can [find the instance ID in the Amazon Connect console](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) (it’s the final part of the ARN). The console does not display the user IDs. Instead, list the users and note the IDs provided in the output.
     ///
@@ -7679,7 +7679,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeUserHierarchyGroup` operation on the `AmazonConnectService` service.
+    /// Performs the `DescribeUserHierarchyGroup` operation on the `Connect` service.
     ///
     /// Describes the specified hierarchy group.
     ///
@@ -7749,7 +7749,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeUserHierarchyStructure` operation on the `AmazonConnectService` service.
+    /// Performs the `DescribeUserHierarchyStructure` operation on the `Connect` service.
     ///
     /// Describes the hierarchy structure of the specified Amazon Connect instance.
     ///
@@ -7819,7 +7819,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeView` operation on the `AmazonConnectService` service.
+    /// Performs the `DescribeView` operation on the `Connect` service.
     ///
     /// Retrieves the view for the specified Amazon Connect instance and view identifier. The view identifier can be supplied as a ViewId or ARN. $SAVED needs to be supplied if a view is unpublished. The view identifier can contain an optional qualifier, for example, :$SAVED, which is either an actual version number or an Amazon Connect managed qualifier $SAVED | $LATEST. If it is not supplied, then $LATEST is assumed for customer managed views and an error is returned if there is no published content available. Version 1 is assumed for Amazon Web Services managed views.
     ///
@@ -7890,7 +7890,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeVocabulary` operation on the `AmazonConnectService` service.
+    /// Performs the `DescribeVocabulary` operation on the `Connect` service.
     ///
     /// Describes the specified vocabulary.
     ///
@@ -7960,7 +7960,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateAnalyticsDataSet` operation on the `AmazonConnectService` service.
+    /// Performs the `DisassociateAnalyticsDataSet` operation on the `Connect` service.
     ///
     /// Removes the dataset ID associated with a given Amazon Connect instance.
     ///
@@ -8033,7 +8033,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateApprovedOrigin` operation on the `AmazonConnectService` service.
+    /// Performs the `DisassociateApprovedOrigin` operation on the `Connect` service.
     ///
     /// This API is in preview release for Amazon Connect and is subject to change. Revokes access to integrated applications from Amazon Connect.
     ///
@@ -8104,7 +8104,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateBot` operation on the `AmazonConnectService` service.
+    /// Performs the `DisassociateBot` operation on the `Connect` service.
     ///
     /// This API is in preview release for Amazon Connect and is subject to change. Revokes authorization from the specified instance to access the specified Amazon Lex or Amazon Lex V2 bot.
     ///
@@ -8176,7 +8176,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateFlow` operation on the `AmazonConnectService` service.
+    /// Performs the `DisassociateFlow` operation on the `Connect` service.
     ///
     /// Disassociates a connect resource from a flow.
     ///
@@ -8247,7 +8247,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateInstanceStorageConfig` operation on the `AmazonConnectService` service.
+    /// Performs the `DisassociateInstanceStorageConfig` operation on the `Connect` service.
     ///
     /// This API is in preview release for Amazon Connect and is subject to change. Removes the storage type configurations for the specified resource type and association ID.
     ///
@@ -8318,7 +8318,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateLambdaFunction` operation on the `AmazonConnectService` service.
+    /// Performs the `DisassociateLambdaFunction` operation on the `Connect` service.
     ///
     /// This API is in preview release for Amazon Connect and is subject to change. Remove the Lambda function from the dropdown options available in the relevant flow blocks.
     ///
@@ -8389,7 +8389,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateLexBot` operation on the `AmazonConnectService` service.
+    /// Performs the `DisassociateLexBot` operation on the `Connect` service.
     ///
     /// This API is in preview release for Amazon Connect and is subject to change. Revokes authorization from the specified instance to access the specified Amazon Lex bot.
     ///
@@ -8460,7 +8460,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociatePhoneNumberContactFlow` operation on the `AmazonConnectService` service.
+    /// Performs the `DisassociatePhoneNumberContactFlow` operation on the `Connect` service.
     ///
     /// Removes the flow association from a phone number claimed to your Amazon Connect instance. If the number is claimed to a traffic distribution group, and you are calling this API using an instance in the Amazon Web Services Region where the traffic distribution group was created, you can use either a full phone number ARN or UUID value for the PhoneNumberId URI request parameter. However, if the number is claimed to a traffic distribution group and you are calling this API using an instance in the alternate Amazon Web Services Region associated with the traffic distribution group, you must provide a full phone number ARN. If a UUID is provided in this scenario, you will receive a ResourceNotFoundException.
     ///
@@ -8531,7 +8531,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateQueueQuickConnects` operation on the `AmazonConnectService` service.
+    /// Performs the `DisassociateQueueQuickConnects` operation on the `Connect` service.
     ///
     /// This API is in preview release for Amazon Connect and is subject to change. Disassociates a set of quick connects from a queue.
     ///
@@ -8604,7 +8604,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateRoutingProfileQueues` operation on the `AmazonConnectService` service.
+    /// Performs the `DisassociateRoutingProfileQueues` operation on the `Connect` service.
     ///
     /// Disassociates a set of queues from a routing profile.
     ///
@@ -8677,7 +8677,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateSecurityKey` operation on the `AmazonConnectService` service.
+    /// Performs the `DisassociateSecurityKey` operation on the `Connect` service.
     ///
     /// This API is in preview release for Amazon Connect and is subject to change. Deletes the specified security key.
     ///
@@ -8747,7 +8747,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateTrafficDistributionGroupUser` operation on the `AmazonConnectService` service.
+    /// Performs the `DisassociateTrafficDistributionGroupUser` operation on the `Connect` service.
     ///
     /// Disassociates an agent from a traffic distribution group. This API can be called only in the Region where the traffic distribution group is created.
     ///
@@ -8819,7 +8819,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateUserProficiencies` operation on the `AmazonConnectService` service.
+    /// Performs the `DisassociateUserProficiencies` operation on the `Connect` service.
     ///
     /// Disassociates a set of proficiencies from a user.
     ///
@@ -8892,7 +8892,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DismissUserContact` operation on the `AmazonConnectService` service.
+    /// Performs the `DismissUserContact` operation on the `Connect` service.
     ///
     /// Dismisses contacts from an agent’s CCP and returns the agent to an available state, which allows the agent to receive a new routed contact. Contacts can only be dismissed if they are in a MISSED, ERROR, ENDED, or REJECTED state in the [Agent Event Stream](https://docs.aws.amazon.com/connect/latest/adminguide/about-contact-states.html).
     ///
@@ -8966,7 +8966,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAttachedFile` operation on the `AmazonConnectService` service.
+    /// Performs the `GetAttachedFile` operation on the `Connect` service.
     ///
     /// Provides a pre-signed URL for download of an approved attached file. This API also returns metadata about the attached file. It will only return a downloadURL if the status of the attached file is APPROVED.
     ///
@@ -9037,7 +9037,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetContactAttributes` operation on the `AmazonConnectService` service.
+    /// Performs the `GetContactAttributes` operation on the `Connect` service.
     ///
     /// Retrieves the contact attributes for the specified contact.
     ///
@@ -9105,7 +9105,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetCurrentMetricData` operation on the `AmazonConnectService` service.
+    /// Performs the `GetCurrentMetricData` operation on the `Connect` service.
     ///
     /// Gets the real-time metric data from the specified Amazon Connect instance. For a description of each metric, see [Real-time Metrics Definitions](https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html) in the Amazon Connect Administrator Guide.
     ///
@@ -9178,7 +9178,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetCurrentUserData` operation on the `AmazonConnectService` service.
+    /// Performs the `GetCurrentUserData` operation on the `Connect` service.
     ///
     /// Gets the real-time active user data from the specified Amazon Connect instance.
     ///
@@ -9251,7 +9251,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetEffectiveHoursOfOperations` operation on the `AmazonConnectService` service.
+    /// Performs the `GetEffectiveHoursOfOperations` operation on the `Connect` service.
     ///
     /// Get the hours of operations with the effective override applied.
     ///
@@ -9322,7 +9322,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetFederationToken` operation on the `AmazonConnectService` service.
+    /// Performs the `GetFederationToken` operation on the `Connect` service.
     ///
     /// Supports SAML sign-in for Amazon Connect. Retrieves a token for federation. The token is for the Amazon Connect user which corresponds to the IAM credentials that were used to invoke this action. For more information about how SAML sign-in works in Amazon Connect, see [Configure SAML with IAM for Amazon Connect in the Amazon Connect Administrator Guide.](https://docs.aws.amazon.com/connect/latest/adminguide/configure-saml.html) This API doesn't support root users. If you try to invoke GetFederationToken with root credentials, an error message similar to the following one appears: Provided identity: Principal: .... User: .... cannot be used for federation with Amazon Connect
     ///
@@ -9393,7 +9393,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetFlowAssociation` operation on the `AmazonConnectService` service.
+    /// Performs the `GetFlowAssociation` operation on the `Connect` service.
     ///
     /// Retrieves the flow associated for a given resource.
     ///
@@ -9464,7 +9464,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetMetricData` operation on the `AmazonConnectService` service.
+    /// Performs the `GetMetricData` operation on the `Connect` service.
     ///
     /// Gets historical metric data from the specified Amazon Connect instance. For a description of each historical metric, see [Historical Metrics Definitions](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html) in the Amazon Connect Administrator Guide. We recommend using the [GetMetricDataV2](https://docs.aws.amazon.com/connect/latest/APIReference/API_GetMetricDataV2.html) API. It provides more flexibility, features, and the ability to query longer time ranges than GetMetricData. Use it to retrieve historical agent and contact metrics for the last 3 months, at varying intervals. You can also use it to build custom dashboards to measure historical queue and agent performance. For example, you can track the number of incoming contacts for the last 7 days, with data split by day, to see how contact volume changed per day of the week.
     ///
@@ -9537,7 +9537,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetMetricDataV2` operation on the `AmazonConnectService` service.
+    /// Performs the `GetMetricDataV2` operation on the `Connect` service.
     ///
     /// Gets metric data from the specified Amazon Connect instance. GetMetricDataV2 offers more features than [GetMetricData](https://docs.aws.amazon.com/connect/latest/APIReference/API_GetMetricData.html), the previous version of this API. It has new metrics, offers filtering at a metric level, and offers the ability to filter and group data by channels, queues, routing profiles, agents, and agent hierarchy levels. It can retrieve historical data for the last 3 months, at varying intervals. It does not support agent queues. For a description of the historical metrics that are supported by GetMetricDataV2 and GetMetricData, see [Historical metrics definitions](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html) in the Amazon Connect Administrator Guide.
     ///
@@ -9610,7 +9610,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetPromptFile` operation on the `AmazonConnectService` service.
+    /// Performs the `GetPromptFile` operation on the `Connect` service.
     ///
     /// Gets the prompt file.
     ///
@@ -9680,7 +9680,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetTaskTemplate` operation on the `AmazonConnectService` service.
+    /// Performs the `GetTaskTemplate` operation on the `Connect` service.
     ///
     /// Gets details about a specific task template in the specified Amazon Connect instance.
     ///
@@ -9751,7 +9751,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetTrafficDistribution` operation on the `AmazonConnectService` service.
+    /// Performs the `GetTrafficDistribution` operation on the `Connect` service.
     ///
     /// Retrieves the current traffic distribution for a given traffic distribution group.
     ///
@@ -9821,7 +9821,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ImportPhoneNumber` operation on the `AmazonConnectService` service.
+    /// Performs the `ImportPhoneNumber` operation on the `Connect` service.
     ///
     /// Imports a claimed phone number from an external service, such as Amazon Web Services End User Messaging, into an Amazon Connect instance. You can call this API only in the same Amazon Web Services Region where the Amazon Connect instance was created. Call the [DescribePhoneNumber](https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribePhoneNumber.html) API to verify the status of a previous ImportPhoneNumber operation. If you plan to claim or import numbers and then release numbers frequently, contact us for a service quota exception. Otherwise, it is possible you will be blocked from claiming and releasing any more numbers until up to 180 days past the oldest number released has expired. By default you can claim or import and then release up to 200% of your maximum number of active phone numbers. If you claim or import and then release phone numbers using the UI or API during a rolling 180 day cycle that exceeds 200% of your phone number service level quota, you will be blocked from claiming or importing any more numbers until 180 days past the oldest number released has expired. For example, if you already have 99 claimed or imported numbers and a service level quota of 99 phone numbers, and in any 180 day period you release 99, claim 99, and then release 99, you will have exceeded the 200% limit. At that point you are blocked from claiming any more numbers until you open an Amazon Web Services Support ticket.
     ///
@@ -9896,7 +9896,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAgentStatuses` operation on the `AmazonConnectService` service.
+    /// Performs the `ListAgentStatuses` operation on the `Connect` service.
     ///
     /// This API is in preview release for Amazon Connect and is subject to change. Lists agent statuses.
     ///
@@ -9967,7 +9967,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAnalyticsDataAssociations` operation on the `AmazonConnectService` service.
+    /// Performs the `ListAnalyticsDataAssociations` operation on the `Connect` service.
     ///
     /// Lists the association status of requested dataset ID for a given Amazon Connect instance.
     ///
@@ -10038,7 +10038,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListApprovedOrigins` operation on the `AmazonConnectService` service.
+    /// Performs the `ListApprovedOrigins` operation on the `Connect` service.
     ///
     /// This API is in preview release for Amazon Connect and is subject to change. Returns a paginated list of all approved origins associated with the instance.
     ///
@@ -10109,7 +10109,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAssociatedContacts` operation on the `AmazonConnectService` service.
+    /// Performs the `ListAssociatedContacts` operation on the `Connect` service.
     ///
     /// Provides information about contact tree, a list of associated contacts with a unique identifier.
     ///
@@ -10180,7 +10180,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAuthenticationProfiles` operation on the `AmazonConnectService` service.
+    /// Performs the `ListAuthenticationProfiles` operation on the `Connect` service.
     ///
     /// This API is in preview release for Amazon Connect and is subject to change. To request access to this API, contact Amazon Web Services Support. Provides summary information about the authentication profiles in a specified Amazon Connect instance.
     ///
@@ -10251,7 +10251,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListBots` operation on the `AmazonConnectService` service.
+    /// Performs the `ListBots` operation on the `Connect` service.
     ///
     /// This API is in preview release for Amazon Connect and is subject to change. For the specified version of Amazon Lex, returns a paginated list of all the Amazon Lex bots currently associated with the instance. Use this API to return both Amazon Lex V1 and V2 bots.
     ///
@@ -10321,7 +10321,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListContactEvaluations` operation on the `AmazonConnectService` service.
+    /// Performs the `ListContactEvaluations` operation on the `Connect` service.
     ///
     /// Lists contact evaluations in the specified Amazon Connect instance.
     ///
@@ -10391,7 +10391,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListContactFlowModules` operation on the `AmazonConnectService` service.
+    /// Performs the `ListContactFlowModules` operation on the `Connect` service.
     ///
     /// Provides information about the flow modules for the specified Amazon Connect instance.
     ///
@@ -10463,7 +10463,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListContactFlowVersions` operation on the `AmazonConnectService` service.
+    /// Performs the `ListContactFlowVersions` operation on the `Connect` service.
     ///
     /// Returns all the available versions for the specified Amazon Connect instance and flow identifier.
     ///
@@ -10535,7 +10535,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListContactFlows` operation on the `AmazonConnectService` service.
+    /// Performs the `ListContactFlows` operation on the `Connect` service.
     ///
     /// Provides information about the flows for the specified Amazon Connect instance. You can also create and update flows using the [Amazon Connect Flow language](https://docs.aws.amazon.com/connect/latest/APIReference/flow-language.html). For more information about flows, see [Flows](https://docs.aws.amazon.com/connect/latest/adminguide/concepts-contact-flows.html) in the Amazon Connect Administrator Guide.
     ///
@@ -10606,7 +10606,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListContactReferences` operation on the `AmazonConnectService` service.
+    /// Performs the `ListContactReferences` operation on the `Connect` service.
     ///
     /// This API is in preview release for Amazon Connect and is subject to change. For the specified referenceTypes, returns a list of references associated with the contact. References are links to documents that are related to a contact, such as emails, attachments, or URLs.
     ///
@@ -10677,7 +10677,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDefaultVocabularies` operation on the `AmazonConnectService` service.
+    /// Performs the `ListDefaultVocabularies` operation on the `Connect` service.
     ///
     /// Lists the default vocabularies for the specified Amazon Connect instance.
     ///
@@ -10749,7 +10749,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListEvaluationFormVersions` operation on the `AmazonConnectService` service.
+    /// Performs the `ListEvaluationFormVersions` operation on the `Connect` service.
     ///
     /// Lists versions of an evaluation form in the specified Amazon Connect instance.
     ///
@@ -10819,7 +10819,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListEvaluationForms` operation on the `AmazonConnectService` service.
+    /// Performs the `ListEvaluationForms` operation on the `Connect` service.
     ///
     /// Lists evaluation forms in the specified Amazon Connect instance.
     ///
@@ -10889,7 +10889,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListFlowAssociations` operation on the `AmazonConnectService` service.
+    /// Performs the `ListFlowAssociations` operation on the `Connect` service.
     ///
     /// List the flow association based on the filters.
     ///
@@ -10961,7 +10961,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListHoursOfOperationOverrides` operation on the `AmazonConnectService` service.
+    /// Performs the `ListHoursOfOperationOverrides` operation on the `Connect` service.
     ///
     /// List the hours of operation overrides.
     ///
@@ -11032,7 +11032,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListHoursOfOperations` operation on the `AmazonConnectService` service.
+    /// Performs the `ListHoursOfOperations` operation on the `Connect` service.
     ///
     /// Provides information about the hours of operation for the specified Amazon Connect instance. For more information about hours of operation, see [Set the Hours of Operation for a Queue](https://docs.aws.amazon.com/connect/latest/adminguide/set-hours-operation.html) in the Amazon Connect Administrator Guide.
     ///
@@ -11103,7 +11103,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListInstanceAttributes` operation on the `AmazonConnectService` service.
+    /// Performs the `ListInstanceAttributes` operation on the `Connect` service.
     ///
     /// This API is in preview release for Amazon Connect and is subject to change. Returns a paginated list of all attribute types for the given instance.
     ///
@@ -11174,7 +11174,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListInstanceStorageConfigs` operation on the `AmazonConnectService` service.
+    /// Performs the `ListInstanceStorageConfigs` operation on the `Connect` service.
     ///
     /// This API is in preview release for Amazon Connect and is subject to change. Returns a paginated list of storage configs for the identified instance and resource type.
     ///
@@ -11245,7 +11245,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListInstances` operation on the `AmazonConnectService` service.
+    /// Performs the `ListInstances` operation on the `Connect` service.
     ///
     /// This API is in preview release for Amazon Connect and is subject to change. Return a list of instances which are in active state, creation-in-progress state, and failed state. Instances that aren't successfully created (they are in a failed state) are returned only for 24 hours after the CreateInstance API was invoked.
     ///
@@ -11313,7 +11313,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListIntegrationAssociations` operation on the `AmazonConnectService` service.
+    /// Performs the `ListIntegrationAssociations` operation on the `Connect` service.
     ///
     /// Provides summary information about the Amazon Web Services resource associations for the specified Amazon Connect instance.
     ///
@@ -11383,7 +11383,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListLambdaFunctions` operation on the `AmazonConnectService` service.
+    /// Performs the `ListLambdaFunctions` operation on the `Connect` service.
     ///
     /// This API is in preview release for Amazon Connect and is subject to change. Returns a paginated list of all Lambda functions that display in the dropdown options in the relevant flow blocks.
     ///
@@ -11454,7 +11454,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListLexBots` operation on the `AmazonConnectService` service.
+    /// Performs the `ListLexBots` operation on the `Connect` service.
     ///
     /// This API is in preview release for Amazon Connect and is subject to change. Returns a paginated list of all the Amazon Lex V1 bots currently associated with the instance. To return both Amazon Lex V1 and V2 bots, use the [ListBots](https://docs.aws.amazon.com/connect/latest/APIReference/API_ListBots.html) API.
     ///
@@ -11525,7 +11525,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListPhoneNumbers` operation on the `AmazonConnectService` service.
+    /// Performs the `ListPhoneNumbers` operation on the `Connect` service.
     ///
     /// Provides information about the phone numbers for the specified Amazon Connect instance. For more information about phone numbers, see [Set Up Phone Numbers for Your Contact Center](https://docs.aws.amazon.com/connect/latest/adminguide/contact-center-phone-number.html) in the Amazon Connect Administrator Guide.
     ///
@@ -11600,7 +11600,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListPhoneNumbersV2` operation on the `AmazonConnectService` service.
+    /// Performs the `ListPhoneNumbersV2` operation on the `Connect` service.
     ///
     /// Lists phone numbers claimed to your Amazon Connect instance or traffic distribution group. If the provided TargetArn is a traffic distribution group, you can call this API in both Amazon Web Services Regions associated with traffic distribution group. For more information about phone numbers, see [Set Up Phone Numbers for Your Contact Center](https://docs.aws.amazon.com/connect/latest/adminguide/contact-center-phone-number.html) in the Amazon Connect Administrator Guide.
     ///
@@ -11677,7 +11677,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListPredefinedAttributes` operation on the `AmazonConnectService` service.
+    /// Performs the `ListPredefinedAttributes` operation on the `Connect` service.
     ///
     /// Lists predefined attributes for the specified Amazon Connect instance. Predefined attributes are attributes in an Amazon Connect instance that can be used to route contacts to an agent or pools of agents within a queue. For more information, see [Create predefined attributes for routing contacts to agents](https://docs.aws.amazon.com/connect/latest/adminguide/predefined-attributes.html).
     ///
@@ -11748,7 +11748,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListPrompts` operation on the `AmazonConnectService` service.
+    /// Performs the `ListPrompts` operation on the `Connect` service.
     ///
     /// Provides information about the prompts for the specified Amazon Connect instance.
     ///
@@ -11819,7 +11819,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListQueueQuickConnects` operation on the `AmazonConnectService` service.
+    /// Performs the `ListQueueQuickConnects` operation on the `Connect` service.
     ///
     /// This API is in preview release for Amazon Connect and is subject to change. Lists the quick connects associated with a queue.
     ///
@@ -11890,7 +11890,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListQueues` operation on the `AmazonConnectService` service.
+    /// Performs the `ListQueues` operation on the `Connect` service.
     ///
     /// Provides information about the queues for the specified Amazon Connect instance. If you do not specify a QueueTypes parameter, both standard and agent queues are returned. This might cause an unexpected truncation of results if you have more than 1000 agents and you limit the number of results of the API call in code. For more information about queues, see [Queues: Standard and Agent](https://docs.aws.amazon.com/connect/latest/adminguide/concepts-queues-standard-and-agent.html) in the Amazon Connect Administrator Guide.
     ///
@@ -11961,7 +11961,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListQuickConnects` operation on the `AmazonConnectService` service.
+    /// Performs the `ListQuickConnects` operation on the `Connect` service.
     ///
     /// Provides information about the quick connects for the specified Amazon Connect instance.
     ///
@@ -12032,7 +12032,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListRealtimeContactAnalysisSegmentsV2` operation on the `AmazonConnectService` service.
+    /// Performs the `ListRealtimeContactAnalysisSegmentsV2` operation on the `Connect` service.
     ///
     /// Provides a list of analysis segments for a real-time analysis session.
     ///
@@ -12106,7 +12106,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListRoutingProfileQueues` operation on the `AmazonConnectService` service.
+    /// Performs the `ListRoutingProfileQueues` operation on the `Connect` service.
     ///
     /// Lists the queues associated with a routing profile.
     ///
@@ -12177,7 +12177,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListRoutingProfiles` operation on the `AmazonConnectService` service.
+    /// Performs the `ListRoutingProfiles` operation on the `Connect` service.
     ///
     /// Provides summary information about the routing profiles for the specified Amazon Connect instance. For more information about routing profiles, see [Routing Profiles](https://docs.aws.amazon.com/connect/latest/adminguide/concepts-routing.html) and [Create a Routing Profile](https://docs.aws.amazon.com/connect/latest/adminguide/routing-profiles.html) in the Amazon Connect Administrator Guide.
     ///
@@ -12248,7 +12248,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListRules` operation on the `AmazonConnectService` service.
+    /// Performs the `ListRules` operation on the `Connect` service.
     ///
     /// List all rules for the specified Amazon Connect instance.
     ///
@@ -12319,7 +12319,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListSecurityKeys` operation on the `AmazonConnectService` service.
+    /// Performs the `ListSecurityKeys` operation on the `Connect` service.
     ///
     /// This API is in preview release for Amazon Connect and is subject to change. Returns a paginated list of all security keys associated with the instance.
     ///
@@ -12390,7 +12390,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListSecurityProfileApplications` operation on the `AmazonConnectService` service.
+    /// Performs the `ListSecurityProfileApplications` operation on the `Connect` service.
     ///
     /// Returns a list of third-party applications in a specific security profile.
     ///
@@ -12461,7 +12461,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListSecurityProfilePermissions` operation on the `AmazonConnectService` service.
+    /// Performs the `ListSecurityProfilePermissions` operation on the `Connect` service.
     ///
     /// Lists the permissions granted to a security profile. For information about security profiles, see [Security Profiles](https://docs.aws.amazon.com/connect/latest/adminguide/connect-security-profiles.html) in the Amazon Connect Administrator Guide. For a mapping of the API name and user interface name of the security profile permissions, see [List of security profile permissions](https://docs.aws.amazon.com/connect/latest/adminguide/security-profile-list.html).
     ///
@@ -12532,7 +12532,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListSecurityProfiles` operation on the `AmazonConnectService` service.
+    /// Performs the `ListSecurityProfiles` operation on the `Connect` service.
     ///
     /// Provides summary information about the security profiles for the specified Amazon Connect instance. For more information about security profiles, see [Security Profiles](https://docs.aws.amazon.com/connect/latest/adminguide/connect-security-profiles.html) in the Amazon Connect Administrator Guide. For a mapping of the API name and user interface name of the security profile permissions, see [List of security profile permissions](https://docs.aws.amazon.com/connect/latest/adminguide/security-profile-list.html).
     ///
@@ -12603,7 +12603,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `AmazonConnectService` service.
+    /// Performs the `ListTagsForResource` operation on the `Connect` service.
     ///
     /// Lists the tags for the specified resource. For sample policies that use tags, see [Amazon Connect Identity-Based Policy Examples](https://docs.aws.amazon.com/connect/latest/adminguide/security_iam_id-based-policy-examples.html) in the Amazon Connect Administrator Guide.
     ///
@@ -12673,7 +12673,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTaskTemplates` operation on the `AmazonConnectService` service.
+    /// Performs the `ListTaskTemplates` operation on the `Connect` service.
     ///
     /// Lists task templates for the specified Amazon Connect instance.
     ///
@@ -12744,7 +12744,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTrafficDistributionGroupUsers` operation on the `AmazonConnectService` service.
+    /// Performs the `ListTrafficDistributionGroupUsers` operation on the `Connect` service.
     ///
     /// Lists traffic distribution group users.
     ///
@@ -12815,7 +12815,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTrafficDistributionGroups` operation on the `AmazonConnectService` service.
+    /// Performs the `ListTrafficDistributionGroups` operation on the `Connect` service.
     ///
     /// Lists traffic distribution groups.
     ///
@@ -12885,7 +12885,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListUseCases` operation on the `AmazonConnectService` service.
+    /// Performs the `ListUseCases` operation on the `Connect` service.
     ///
     /// Lists the use cases for the integration association.
     ///
@@ -12955,7 +12955,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListUserHierarchyGroups` operation on the `AmazonConnectService` service.
+    /// Performs the `ListUserHierarchyGroups` operation on the `Connect` service.
     ///
     /// Provides summary information about the hierarchy groups for the specified Amazon Connect instance. For more information about agent hierarchies, see [Set Up Agent Hierarchies](https://docs.aws.amazon.com/connect/latest/adminguide/agent-hierarchy.html) in the Amazon Connect Administrator Guide.
     ///
@@ -13026,7 +13026,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListUserProficiencies` operation on the `AmazonConnectService` service.
+    /// Performs the `ListUserProficiencies` operation on the `Connect` service.
     ///
     /// Lists proficiencies associated with a user.
     ///
@@ -13097,7 +13097,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListUsers` operation on the `AmazonConnectService` service.
+    /// Performs the `ListUsers` operation on the `Connect` service.
     ///
     /// Provides summary information about the users for the specified Amazon Connect instance.
     ///
@@ -13168,7 +13168,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListViewVersions` operation on the `AmazonConnectService` service.
+    /// Performs the `ListViewVersions` operation on the `Connect` service.
     ///
     /// Returns all the available versions for the specified Amazon Connect instance and view identifier. Results will be sorted from highest to lowest.
     ///
@@ -13240,7 +13240,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListViews` operation on the `AmazonConnectService` service.
+    /// Performs the `ListViews` operation on the `Connect` service.
     ///
     /// Returns views in the given instance. Results are sorted primarily by type, and secondarily by name.
     ///
@@ -13312,7 +13312,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `MonitorContact` operation on the `AmazonConnectService` service.
+    /// Performs the `MonitorContact` operation on the `Connect` service.
     ///
     /// Initiates silent monitoring of a contact. The Contact Control Panel (CCP) of the user specified by userId will be set to silent monitoring mode on the contact.
     ///
@@ -13388,7 +13388,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PauseContact` operation on the `AmazonConnectService` service.
+    /// Performs the `PauseContact` operation on the `Connect` service.
     ///
     /// Allows pausing an ongoing task contact.
     ///
@@ -13464,7 +13464,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutUserStatus` operation on the `AmazonConnectService` service.
+    /// Performs the `PutUserStatus` operation on the `Connect` service.
     ///
     /// Changes the current status of a user or agent in Amazon Connect. If the agent is currently handling a contact, this sets the agent's next status. For more information, see [Agent status](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-agent-status.html) and [Set your next status](https://docs.aws.amazon.com/connect/latest/adminguide/set-next-status.html) in the Amazon Connect Administrator Guide.
     ///
@@ -13538,7 +13538,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ReleasePhoneNumber` operation on the `AmazonConnectService` service.
+    /// Performs the `ReleasePhoneNumber` operation on the `Connect` service.
     ///
     /// Releases a phone number previously claimed to an Amazon Connect instance or traffic distribution group. You can call this API only in the Amazon Web Services Region where the number was claimed. To release phone numbers from a traffic distribution group, use the ReleasePhoneNumber API, not the Amazon Connect admin website. After releasing a phone number, the phone number enters into a cooldown period for up to 180 days. It cannot be searched for or claimed again until the period has ended. If you accidentally release a phone number, contact Amazon Web Services Support. If you plan to claim and release numbers frequently, contact us for a service quota exception. Otherwise, it is possible you will be blocked from claiming and releasing any more numbers until up to 180 days past the oldest number released has expired. By default you can claim and release up to 200% of your maximum number of active phone numbers. If you claim and release phone numbers using the UI or API during a rolling 180 day cycle that exceeds 200% of your phone number service level quota, you will be blocked from claiming any more numbers until 180 days past the oldest number released has expired. For example, if you already have 99 claimed numbers and a service level quota of 99 phone numbers, and in any 180 day period you release 99, claim 99, and then release 99, you will have exceeded the 200% limit. At that point you are blocked from claiming any more numbers until you open an Amazon Web Services support ticket.
     ///
@@ -13612,7 +13612,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ReplicateInstance` operation on the `AmazonConnectService` service.
+    /// Performs the `ReplicateInstance` operation on the `Connect` service.
     ///
     /// Replicates an Amazon Connect instance in the specified Amazon Web Services Region and copies configuration information for Amazon Connect resources across Amazon Web Services Regions. For more information about replicating an Amazon Connect instance, see [Create a replica of your existing Amazon Connect instance](https://docs.aws.amazon.com/connect/latest/adminguide/create-replica-connect-instance.html) in the Amazon Connect Administrator Guide.
     ///
@@ -13689,7 +13689,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ResumeContact` operation on the `AmazonConnectService` service.
+    /// Performs the `ResumeContact` operation on the `Connect` service.
     ///
     /// Allows resuming a task contact in a paused state.
     ///
@@ -13764,7 +13764,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ResumeContactRecording` operation on the `AmazonConnectService` service.
+    /// Performs the `ResumeContactRecording` operation on the `Connect` service.
     ///
     /// When a contact is being recorded, and the recording has been suspended using SuspendContactRecording, this API resumes recording whatever recording is selected in the flow configuration: call, screen, or both. If only call recording or only screen recording is enabled, then it would resume. Voice and screen recordings are supported.
     ///
@@ -13835,7 +13835,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SearchAgentStatuses` operation on the `AmazonConnectService` service.
+    /// Performs the `SearchAgentStatuses` operation on the `Connect` service.
     ///
     /// Searches AgentStatuses in an Amazon Connect instance, with optional filtering.
     ///
@@ -13908,7 +13908,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SearchAvailablePhoneNumbers` operation on the `AmazonConnectService` service.
+    /// Performs the `SearchAvailablePhoneNumbers` operation on the `Connect` service.
     ///
     /// Searches for available phone numbers that you can claim to your Amazon Connect instance or traffic distribution group. If the provided TargetArn is a traffic distribution group, you can call this API in both Amazon Web Services Regions associated with the traffic distribution group.
     ///
@@ -13980,7 +13980,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SearchContactFlowModules` operation on the `AmazonConnectService` service.
+    /// Performs the `SearchContactFlowModules` operation on the `Connect` service.
     ///
     /// Searches the flow modules in an Amazon Connect instance, with optional filtering.
     ///
@@ -14053,7 +14053,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SearchContactFlows` operation on the `AmazonConnectService` service.
+    /// Performs the `SearchContactFlows` operation on the `Connect` service.
     ///
     /// Searches the flows in an Amazon Connect instance, with optional filtering.
     ///
@@ -14126,7 +14126,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SearchContacts` operation on the `AmazonConnectService` service.
+    /// Performs the `SearchContacts` operation on the `Connect` service.
     ///
     /// Searches contacts in an Amazon Connect instance.
     ///
@@ -14199,7 +14199,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SearchEmailAddresses` operation on the `AmazonConnectService` service.
+    /// Performs the `SearchEmailAddresses` operation on the `Connect` service.
     ///
     /// Searches email address in an instance, with optional filtering.
     ///
@@ -14273,7 +14273,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SearchHoursOfOperationOverrides` operation on the `AmazonConnectService` service.
+    /// Performs the `SearchHoursOfOperationOverrides` operation on the `Connect` service.
     ///
     /// Searches the hours of operation overrides.
     ///
@@ -14346,7 +14346,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SearchHoursOfOperations` operation on the `AmazonConnectService` service.
+    /// Performs the `SearchHoursOfOperations` operation on the `Connect` service.
     ///
     /// Searches the hours of operation in an Amazon Connect instance, with optional filtering.
     ///
@@ -14419,7 +14419,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SearchPredefinedAttributes` operation on the `AmazonConnectService` service.
+    /// Performs the `SearchPredefinedAttributes` operation on the `Connect` service.
     ///
     /// Searches predefined attributes that meet certain criteria. Predefined attributes are attributes in an Amazon Connect instance that can be used to route contacts to an agent or pools of agents within a queue. For more information, see [Create predefined attributes for routing contacts to agents](https://docs.aws.amazon.com/connect/latest/adminguide/predefined-attributes.html).
     ///
@@ -14492,7 +14492,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SearchPrompts` operation on the `AmazonConnectService` service.
+    /// Performs the `SearchPrompts` operation on the `Connect` service.
     ///
     /// Searches prompts in an Amazon Connect instance, with optional filtering.
     ///
@@ -14565,7 +14565,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SearchQueues` operation on the `AmazonConnectService` service.
+    /// Performs the `SearchQueues` operation on the `Connect` service.
     ///
     /// Searches queues in an Amazon Connect instance, with optional filtering.
     ///
@@ -14638,7 +14638,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SearchQuickConnects` operation on the `AmazonConnectService` service.
+    /// Performs the `SearchQuickConnects` operation on the `Connect` service.
     ///
     /// Searches quick connects in an Amazon Connect instance, with optional filtering.
     ///
@@ -14711,7 +14711,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SearchResourceTags` operation on the `AmazonConnectService` service.
+    /// Performs the `SearchResourceTags` operation on the `Connect` service.
     ///
     /// Searches tags used in an Amazon Connect instance using optional search criteria.
     ///
@@ -14785,7 +14785,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SearchRoutingProfiles` operation on the `AmazonConnectService` service.
+    /// Performs the `SearchRoutingProfiles` operation on the `Connect` service.
     ///
     /// Searches routing profiles in an Amazon Connect instance, with optional filtering.
     ///
@@ -14858,7 +14858,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SearchSecurityProfiles` operation on the `AmazonConnectService` service.
+    /// Performs the `SearchSecurityProfiles` operation on the `Connect` service.
     ///
     /// Searches security profiles in an Amazon Connect instance, with optional filtering. For information about security profiles, see [Security Profiles](https://docs.aws.amazon.com/connect/latest/adminguide/connect-security-profiles.html) in the Amazon Connect Administrator Guide. For a mapping of the API name and user interface name of the security profile permissions, see [List of security profile permissions](https://docs.aws.amazon.com/connect/latest/adminguide/security-profile-list.html).
     ///
@@ -14931,7 +14931,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SearchUserHierarchyGroups` operation on the `AmazonConnectService` service.
+    /// Performs the `SearchUserHierarchyGroups` operation on the `Connect` service.
     ///
     /// Searches UserHierarchyGroups in an Amazon Connect instance, with optional filtering. The UserHierarchyGroup with "LevelId": "0" is the foundation for building levels on top of an instance. It is not user-definable, nor is it visible in the UI.
     ///
@@ -15004,7 +15004,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SearchUsers` operation on the `AmazonConnectService` service.
+    /// Performs the `SearchUsers` operation on the `Connect` service.
     ///
     /// Searches users in an Amazon Connect instance, with optional filtering. AfterContactWorkTimeLimit is returned in milliseconds.
     ///
@@ -15077,7 +15077,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SearchVocabularies` operation on the `AmazonConnectService` service.
+    /// Performs the `SearchVocabularies` operation on the `Connect` service.
     ///
     /// Searches for vocabularies within a specific Amazon Connect instance using State, NameStartsWith, and LanguageCode.
     ///
@@ -15149,7 +15149,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SendChatIntegrationEvent` operation on the `AmazonConnectService` service.
+    /// Performs the `SendChatIntegrationEvent` operation on the `Connect` service.
     ///
     /// Processes chat integration events from Amazon Web Services or external integrations to Amazon Connect. A chat integration event includes:
     ///
@@ -15229,7 +15229,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SendOutboundEmail` operation on the `AmazonConnectService` service.
+    /// Performs the `SendOutboundEmail` operation on the `Connect` service.
     ///
     /// Send outbound email for outbound campaigns. For more information about outbound campaigns, see [Set up Amazon Connect outbound campaigns](https://docs.aws.amazon.com/connect/latest/adminguide/enable-outbound-campaigns.html). Only the Amazon Connect outbound campaigns service principal is allowed to assume a role in your account and call this API.
     ///
@@ -15305,7 +15305,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartAttachedFileUpload` operation on the `AmazonConnectService` service.
+    /// Performs the `StartAttachedFileUpload` operation on the `Connect` service.
     ///
     /// Provides a pre-signed Amazon S3 URL in response for uploading your content. You may only use this API to upload attachments to an [Amazon Connect Case](https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_CreateCase.html) or [Amazon Connect Email](https://docs.aws.amazon.com/connect/latest/adminguide/setup-email-channel.html).
     ///
@@ -15381,7 +15381,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartChatContact` operation on the `AmazonConnectService` service.
+    /// Performs the `StartChatContact` operation on the `Connect` service.
     ///
     /// Initiates a flow to start a new chat for the customer. Response of this API provides a token required to obtain credentials from the [CreateParticipantConnection](https://docs.aws.amazon.com/connect-participant/latest/APIReference/API_CreateParticipantConnection.html) API in the Amazon Connect Participant Service. When a new chat contact is successfully created, clients must subscribe to the participant’s connection for the created chat within 5 minutes. This is achieved by invoking [CreateParticipantConnection](https://docs.aws.amazon.com/connect-participant/latest/APIReference/API_CreateParticipantConnection.html) with WEBSOCKET and CONNECTION_CREDENTIALS. A 429 error occurs in the following situations:
     ///
@@ -15466,7 +15466,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartContactEvaluation` operation on the `AmazonConnectService` service.
+    /// Performs the `StartContactEvaluation` operation on the `Connect` service.
     ///
     /// Starts an empty evaluation in the specified Amazon Connect instance, using the given evaluation form for the particular contact. The evaluation form version used for the contact evaluation corresponds to the currently activated version. If no version is activated for the evaluation form, the contact evaluation cannot be started. Evaluations created through the public API do not contain answer values suggested from automation.
     ///
@@ -15541,7 +15541,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartContactRecording` operation on the `AmazonConnectService` service.
+    /// Performs the `StartContactRecording` operation on the `Connect` service.
     ///
     /// Starts recording the contact:
     ///
@@ -15620,7 +15620,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartContactStreaming` operation on the `AmazonConnectService` service.
+    /// Performs the `StartContactStreaming` operation on the `Connect` service.
     ///
     /// Initiates real-time message streaming for a new chat contact. For more information about message streaming, see [Enable real-time chat message streaming](https://docs.aws.amazon.com/connect/latest/adminguide/chat-message-streaming.html) in the Amazon Connect Administrator Guide. For more information about chat, see the following topics in the Amazon Connect Administrator Guide:
     ///
@@ -15698,7 +15698,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartEmailContact` operation on the `AmazonConnectService` service.
+    /// Performs the `StartEmailContact` operation on the `Connect` service.
     ///
     /// Creates an inbound email contact and initiates a flow to start the email contact for the customer. Response of this API provides the ContactId of the email contact created.
     ///
@@ -15774,7 +15774,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartOutboundChatContact` operation on the `AmazonConnectService` service.
+    /// Performs the `StartOutboundChatContact` operation on the `Connect` service.
     ///
     /// Initiates a new outbound SMS contact to a customer. Response of this API provides the ContactId of the outbound SMS contact created. SourceEndpoint only supports Endpoints with CONNECT_PHONENUMBER_ARN as Type and DestinationEndpoint only supports Endpoints with TELEPHONE_NUMBER as Type. ContactFlowId initiates the flow to manage the new SMS contact created. This API can be used to initiate outbound SMS contacts for an agent, or it can also deflect an ongoing contact to an outbound SMS contact by using the [StartOutboundChatContact](https://docs.aws.amazon.com/connect/latest/APIReference/API_StartOutboundChatContact.html) Flow Action. For more information about using SMS in Amazon Connect, see the following topics in the Amazon Connect Administrator Guide:
     ///
@@ -15854,7 +15854,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartOutboundEmailContact` operation on the `AmazonConnectService` service.
+    /// Performs the `StartOutboundEmailContact` operation on the `Connect` service.
     ///
     /// Initiates a flow to send an agent reply or outbound email contact (created from the CreateContact API) to a customer.
     ///
@@ -15930,7 +15930,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartOutboundVoiceContact` operation on the `AmazonConnectService` service.
+    /// Performs the `StartOutboundVoiceContact` operation on the `Connect` service.
     ///
     /// Places an outbound call to a contact, and then initiates the flow. It performs the actions in the flow that's specified (in ContactFlowId). Agents do not initiate the outbound API, which means that they do not dial the contact. If the flow places an outbound call to a contact, and then puts the contact in queue, the call is then routed to the agent, like any other inbound case. There is a 60-second dialing timeout for this operation. If the call is not connected after 60 seconds, it fails. UK numbers with a 447 prefix are not allowed by default. Before you can dial these UK mobile numbers, you must submit a service quota increase request. For more information, see [Amazon Connect Service Quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html) in the Amazon Connect Administrator Guide. Campaign calls are not allowed by default. Before you can make a call with TrafficType = CAMPAIGN, you must submit a service quota increase request to the quota [Amazon Connect campaigns](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html#outbound-communications-quotas).
     ///
@@ -16006,7 +16006,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartScreenSharing` operation on the `AmazonConnectService` service.
+    /// Performs the `StartScreenSharing` operation on the `Connect` service.
     ///
     /// Starts screen sharing for a contact. For more information about screen sharing, see [Set up in-app, web, video calling, and screen sharing capabilities](https://docs.aws.amazon.com/connect/latest/adminguide/inapp-calling.html) in the Amazon Connect Administrator Guide.
     ///
@@ -16081,7 +16081,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartTaskContact` operation on the `AmazonConnectService` service.
+    /// Performs the `StartTaskContact` operation on the `Connect` service.
     ///
     /// Initiates a flow to start a new task contact. For more information about task contacts, see [Concepts: Tasks in Amazon Connect](https://docs.aws.amazon.com/connect/latest/adminguide/tasks.html) in the Amazon Connect Administrator Guide. When using PreviousContactId and RelatedContactId input parameters, note the following:
     ///
@@ -16179,7 +16179,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartWebRTCContact` operation on the `AmazonConnectService` service.
+    /// Performs the `StartWebRTCContact` operation on the `Connect` service.
     ///
     /// Places an inbound in-app, web, or video call to a contact, and then initiates the flow. It performs the actions in the flow that are specified (in ContactFlowId) and present in the Amazon Connect instance (specified as InstanceId).
     ///
@@ -16253,7 +16253,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopContact` operation on the `AmazonConnectService` service.
+    /// Performs the `StopContact` operation on the `Connect` service.
     ///
     /// Ends the specified contact. Use this API to stop queued callbacks. It does not work for voice contacts that use the following initiation methods:
     ///
@@ -16339,7 +16339,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopContactRecording` operation on the `AmazonConnectService` service.
+    /// Performs the `StopContactRecording` operation on the `Connect` service.
     ///
     /// Stops recording a call when a contact is being recorded. StopContactRecording is a one-time action. If you use StopContactRecording to stop recording an ongoing call, you can't use StartContactRecording to restart it. For scenarios where the recording has started and you want to suspend it for sensitive information (for example, to collect a credit card number), and then restart it, use SuspendContactRecording and ResumeContactRecording. Only voice recordings are supported at this time.
     ///
@@ -16410,7 +16410,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopContactStreaming` operation on the `AmazonConnectService` service.
+    /// Performs the `StopContactStreaming` operation on the `Connect` service.
     ///
     /// Ends message streaming on a specified contact. To restart message streaming on that contact, call the [StartContactStreaming](https://docs.aws.amazon.com/connect/latest/APIReference/API_StartContactStreaming.html) API.
     ///
@@ -16482,7 +16482,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SubmitContactEvaluation` operation on the `AmazonConnectService` service.
+    /// Performs the `SubmitContactEvaluation` operation on the `Connect` service.
     ///
     /// Submits a contact evaluation in the specified Amazon Connect instance. Answers included in the request are merged with existing answers for the given evaluation. If no answers or notes are passed, the evaluation is submitted with the existing answers and notes. You can delete an answer or note by passing an empty object ({}) to the question identifier. If a contact evaluation is already in submitted state, this operation will trigger a resubmission.
     ///
@@ -16555,7 +16555,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SuspendContactRecording` operation on the `AmazonConnectService` service.
+    /// Performs the `SuspendContactRecording` operation on the `Connect` service.
     ///
     /// When a contact is being recorded, this API suspends recording whatever is selected in the flow configuration: call, screen, or both. If only call recording or only screen recording is enabled, then it would be suspended. For example, you might suspend the screen recording while collecting sensitive information, such as a credit card number. Then use ResumeContactRecording to restart recording the screen. The period of time that the recording is suspended is filled with silence in the final recording. Voice and screen recordings are supported.
     ///
@@ -16626,7 +16626,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagContact` operation on the `AmazonConnectService` service.
+    /// Performs the `TagContact` operation on the `Connect` service.
     ///
     /// Adds the specified tags to the contact resource. For more information about this API is used, see [Set up granular billing for a detailed view of your Amazon Connect usage](https://docs.aws.amazon.com/connect/latest/adminguide/granular-billing.html).
     ///
@@ -16699,7 +16699,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `AmazonConnectService` service.
+    /// Performs the `TagResource` operation on the `Connect` service.
     ///
     /// Adds the specified tags to the specified resource. Some of the supported resource types are agents, routing profiles, queues, quick connects, flows, agent statuses, hours of operation, phone numbers, security profiles, and task templates. For a complete list, see [Tagging resources in Amazon Connect](https://docs.aws.amazon.com/connect/latest/adminguide/tagging.html). For sample policies that use tags, see [Amazon Connect Identity-Based Policy Examples](https://docs.aws.amazon.com/connect/latest/adminguide/security_iam_id-based-policy-examples.html) in the Amazon Connect Administrator Guide.
     ///
@@ -16772,7 +16772,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TransferContact` operation on the `AmazonConnectService` service.
+    /// Performs the `TransferContact` operation on the `Connect` service.
     ///
     /// Transfers contacts from one agent or queue to another agent or queue at any point after a contact is created. You can transfer a contact to another queue by providing the flow which orchestrates the contact to the destination queue. This gives you more control over contact handling and helps you adhere to the service level agreement (SLA) guaranteed to your customers. Note the following requirements:
     ///
@@ -16858,7 +16858,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagContact` operation on the `AmazonConnectService` service.
+    /// Performs the `UntagContact` operation on the `Connect` service.
     ///
     /// Removes the specified tags from the contact resource. For more information about this API is used, see [Set up granular billing for a detailed view of your Amazon Connect usage](https://docs.aws.amazon.com/connect/latest/adminguide/granular-billing.html).
     ///
@@ -16929,7 +16929,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `AmazonConnectService` service.
+    /// Performs the `UntagResource` operation on the `Connect` service.
     ///
     /// Removes the specified tags from the specified resource.
     ///
@@ -17000,7 +17000,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateAgentStatus` operation on the `AmazonConnectService` service.
+    /// Performs the `UpdateAgentStatus` operation on the `Connect` service.
     ///
     /// This API is in preview release for Amazon Connect and is subject to change. Updates agent status.
     ///
@@ -17075,7 +17075,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateAuthenticationProfile` operation on the `AmazonConnectService` service.
+    /// Performs the `UpdateAuthenticationProfile` operation on the `Connect` service.
     ///
     /// This API is in preview release for Amazon Connect and is subject to change. To request access to this API, contact Amazon Web Services Support. Updates the selected authentication profile.
     ///
@@ -17148,7 +17148,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateContact` operation on the `AmazonConnectService` service.
+    /// Performs the `UpdateContact` operation on the `Connect` service.
     ///
     /// This API is in preview release for Amazon Connect and is subject to change. Adds or updates user-defined contact information associated with the specified contact. At least one field to be updated must be present in the request. You can add or update user-defined contact information for both ongoing and completed contacts.
     ///
@@ -17223,7 +17223,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateContactAttributes` operation on the `AmazonConnectService` service.
+    /// Performs the `UpdateContactAttributes` operation on the `Connect` service.
     ///
     /// Creates or updates user-defined contact attributes associated with the specified contact. You can create or update user-defined attributes for both ongoing and completed contacts. For example, while the call is active, you can update the customer's name or the reason the customer called. You can add notes about steps that the agent took during the call that display to the next agent that takes the call. You can also update attributes for a contact using data from your CRM application and save the data with the contact in Amazon Connect. You could also flag calls for additional analysis, such as legal review or to identify abusive callers. Contact attributes are available in Amazon Connect for 24 months, and are then deleted. For information about contact record retention and the maximum size of the contact record attributes section, see [Feature specifications](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html#feature-limits) in the Amazon Connect Administrator Guide.
     ///
@@ -17295,7 +17295,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateContactEvaluation` operation on the `AmazonConnectService` service.
+    /// Performs the `UpdateContactEvaluation` operation on the `Connect` service.
     ///
     /// Updates details about a contact evaluation in the specified Amazon Connect instance. A contact evaluation must be in draft state. Answers included in the request are merged with existing answers for the given evaluation. An answer or note can be deleted by passing an empty object ({}) to the question identifier.
     ///
@@ -17368,7 +17368,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateContactFlowContent` operation on the `AmazonConnectService` service.
+    /// Performs the `UpdateContactFlowContent` operation on the `Connect` service.
     ///
     /// Updates the specified flow. You can also create and update flows using the [Amazon Connect Flow language](https://docs.aws.amazon.com/connect/latest/APIReference/flow-language.html). Use the $SAVED alias in the request to describe the SAVED content of a Flow. For example, arn:aws:.../contact-flow/{id}:$SAVED. After a flow is published, $SAVED needs to be supplied to view saved content that has not been published.
     ///
@@ -17442,7 +17442,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateContactFlowMetadata` operation on the `AmazonConnectService` service.
+    /// Performs the `UpdateContactFlowMetadata` operation on the `Connect` service.
     ///
     /// Updates metadata about specified flow.
     ///
@@ -17516,7 +17516,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateContactFlowModuleContent` operation on the `AmazonConnectService` service.
+    /// Performs the `UpdateContactFlowModuleContent` operation on the `Connect` service.
     ///
     /// Updates specified flow module for the specified Amazon Connect instance. Use the $SAVED alias in the request to describe the SAVED content of a Flow. For example, arn:aws:.../contact-flow/{id}:$SAVED. After a flow is published, $SAVED needs to be supplied to view saved content that has not been published.
     ///
@@ -17590,7 +17590,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateContactFlowModuleMetadata` operation on the `AmazonConnectService` service.
+    /// Performs the `UpdateContactFlowModuleMetadata` operation on the `Connect` service.
     ///
     /// Updates metadata about specified flow module.
     ///
@@ -17665,7 +17665,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateContactFlowName` operation on the `AmazonConnectService` service.
+    /// Performs the `UpdateContactFlowName` operation on the `Connect` service.
     ///
     /// The name of the flow. You can also create and update flows using the [Amazon Connect Flow language](https://docs.aws.amazon.com/connect/latest/APIReference/flow-language.html).
     ///
@@ -17739,7 +17739,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateContactRoutingData` operation on the `AmazonConnectService` service.
+    /// Performs the `UpdateContactRoutingData` operation on the `Connect` service.
     ///
     /// Updates routing priority and age on the contact (QueuePriority and QueueTimeAdjustmentInSeconds). These properties can be used to change a customer's position in the queue. For example, you can move a contact to the back of the queue by setting a lower routing priority relative to other contacts in queue; or you can move a contact to the front of the queue by increasing the routing age which will make the contact look artificially older and therefore higher up in the first-in-first-out routing order. Note that adjusting the routing age of a contact affects only its position in queue, and not its actual queue wait time as reported through metrics. These properties can also be updated by using [the Set routing priority / age flow block](https://docs.aws.amazon.com/connect/latest/adminguide/change-routing-priority.html). Either QueuePriority or QueueTimeAdjustmentInSeconds should be provided within the request body, but not both.
     ///
@@ -17813,7 +17813,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateContactSchedule` operation on the `AmazonConnectService` service.
+    /// Performs the `UpdateContactSchedule` operation on the `Connect` service.
     ///
     /// Updates the scheduled time of a task contact that is already scheduled.
     ///
@@ -17887,7 +17887,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateEmailAddressMetadata` operation on the `AmazonConnectService` service.
+    /// Performs the `UpdateEmailAddressMetadata` operation on the `Connect` service.
     ///
     /// Updates an email address metadata. For more information about email addresses, see [Create email addresses](https://docs.aws.amazon.com/connect/latest/adminguide/create-email-address1.html) in the Amazon Connect Administrator Guide.
     ///
@@ -17962,7 +17962,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateEvaluationForm` operation on the `AmazonConnectService` service.
+    /// Performs the `UpdateEvaluationForm` operation on the `Connect` service.
     ///
     /// Updates details about a specific evaluation form version in the specified Amazon Connect instance. Question and section identifiers cannot be duplicated within the same evaluation form. This operation does not support partial updates. Instead it does a full update of evaluation form content.
     ///
@@ -18037,7 +18037,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateHoursOfOperation` operation on the `AmazonConnectService` service.
+    /// Performs the `UpdateHoursOfOperation` operation on the `Connect` service.
     ///
     /// This API is in preview release for Amazon Connect and is subject to change. Updates the hours of operation.
     ///
@@ -18111,7 +18111,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateHoursOfOperationOverride` operation on the `AmazonConnectService` service.
+    /// Performs the `UpdateHoursOfOperationOverride` operation on the `Connect` service.
     ///
     /// Update the hours of operation override.
     ///
@@ -18186,7 +18186,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateInstanceAttribute` operation on the `AmazonConnectService` service.
+    /// Performs the `UpdateInstanceAttribute` operation on the `Connect` service.
     ///
     /// This API is in preview release for Amazon Connect and is subject to change. Updates the value for the specified attribute type.
     ///
@@ -18259,7 +18259,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateInstanceStorageConfig` operation on the `AmazonConnectService` service.
+    /// Performs the `UpdateInstanceStorageConfig` operation on the `Connect` service.
     ///
     /// This API is in preview release for Amazon Connect and is subject to change. Updates an existing configuration for a resource type. This API is idempotent.
     ///
@@ -18333,7 +18333,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateParticipantAuthentication` operation on the `AmazonConnectService` service.
+    /// Performs the `UpdateParticipantAuthentication` operation on the `Connect` service.
     ///
     /// Instructs Amazon Connect to resume the authentication process. The subsequent actions depend on the request body contents:
     ///
@@ -18414,7 +18414,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateParticipantRoleConfig` operation on the `AmazonConnectService` service.
+    /// Performs the `UpdateParticipantRoleConfig` operation on the `Connect` service.
     ///
     /// Updates timeouts for when human chat participants are to be considered idle, and when agents are automatically disconnected from a chat due to idleness. You can set four timers:
     ///
@@ -18499,7 +18499,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdatePhoneNumber` operation on the `AmazonConnectService` service.
+    /// Performs the `UpdatePhoneNumber` operation on the `Connect` service.
     ///
     /// Updates your claimed phone number from its current Amazon Connect instance or traffic distribution group to another Amazon Connect instance or traffic distribution group in the same Amazon Web Services Region. After using this API, you must verify that the phone number is attached to the correct flow in the target instance or traffic distribution group. You need to do this because the API switches only the phone number to a new instance or traffic distribution group. It doesn't migrate the flow configuration of the phone number, too. You can call [DescribePhoneNumber](https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribePhoneNumber.html) API to verify the status of a previous [UpdatePhoneNumber](https://docs.aws.amazon.com/connect/latest/APIReference/API_UpdatePhoneNumber.html) operation.
     ///
@@ -18575,7 +18575,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdatePhoneNumberMetadata` operation on the `AmazonConnectService` service.
+    /// Performs the `UpdatePhoneNumberMetadata` operation on the `Connect` service.
     ///
     /// Updates a phone number’s metadata. To verify the status of a previous UpdatePhoneNumberMetadata operation, call the [DescribePhoneNumber](https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribePhoneNumber.html) API.
     ///
@@ -18652,7 +18652,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdatePredefinedAttribute` operation on the `AmazonConnectService` service.
+    /// Performs the `UpdatePredefinedAttribute` operation on the `Connect` service.
     ///
     /// Updates a predefined attribute for the specified Amazon Connect instance. Predefined attributes are attributes in an Amazon Connect instance that can be used to route contacts to an agent or pools of agents within a queue. For more information, see [Create predefined attributes for routing contacts to agents](https://docs.aws.amazon.com/connect/latest/adminguide/predefined-attributes.html).
     ///
@@ -18725,7 +18725,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdatePrompt` operation on the `AmazonConnectService` service.
+    /// Performs the `UpdatePrompt` operation on the `Connect` service.
     ///
     /// Updates a prompt.
     ///
@@ -18798,7 +18798,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateQueueHoursOfOperation` operation on the `AmazonConnectService` service.
+    /// Performs the `UpdateQueueHoursOfOperation` operation on the `Connect` service.
     ///
     /// This API is in preview release for Amazon Connect and is subject to change. Updates the hours of operation for the specified queue.
     ///
@@ -18871,7 +18871,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateQueueMaxContacts` operation on the `AmazonConnectService` service.
+    /// Performs the `UpdateQueueMaxContacts` operation on the `Connect` service.
     ///
     /// This API is in preview release for Amazon Connect and is subject to change. Updates the maximum number of contacts allowed in a queue before it is considered full.
     ///
@@ -18944,7 +18944,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateQueueName` operation on the `AmazonConnectService` service.
+    /// Performs the `UpdateQueueName` operation on the `Connect` service.
     ///
     /// This API is in preview release for Amazon Connect and is subject to change. Updates the name and description of a queue. At least Name or Description must be provided.
     ///
@@ -19018,7 +19018,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateQueueOutboundCallerConfig` operation on the `AmazonConnectService` service.
+    /// Performs the `UpdateQueueOutboundCallerConfig` operation on the `Connect` service.
     ///
     /// This API is in preview release for Amazon Connect and is subject to change. Updates the outbound caller ID name, number, and outbound whisper flow for a specified queue.
     ///
@@ -19097,7 +19097,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateQueueOutboundEmailConfig` operation on the `AmazonConnectService` service.
+    /// Performs the `UpdateQueueOutboundEmailConfig` operation on the `Connect` service.
     ///
     /// Updates the outbound email address Id for a specified queue.
     ///
@@ -19172,7 +19172,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateQueueStatus` operation on the `AmazonConnectService` service.
+    /// Performs the `UpdateQueueStatus` operation on the `Connect` service.
     ///
     /// This API is in preview release for Amazon Connect and is subject to change. Updates the status of the queue.
     ///
@@ -19245,7 +19245,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateQuickConnectConfig` operation on the `AmazonConnectService` service.
+    /// Performs the `UpdateQuickConnectConfig` operation on the `Connect` service.
     ///
     /// Updates the configuration settings for the specified quick connect.
     ///
@@ -19318,7 +19318,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateQuickConnectName` operation on the `AmazonConnectService` service.
+    /// Performs the `UpdateQuickConnectName` operation on the `Connect` service.
     ///
     /// Updates the name and description of a quick connect. The request accepts the following data in JSON format. At least Name or Description must be provided.
     ///
@@ -19391,7 +19391,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateRoutingProfileAgentAvailabilityTimer` operation on the `AmazonConnectService` service.
+    /// Performs the `UpdateRoutingProfileAgentAvailabilityTimer` operation on the `Connect` service.
     ///
     /// Whether agents with this routing profile will have their routing order calculated based on time since their last inbound contact or longest idle time.
     ///
@@ -19464,7 +19464,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateRoutingProfileConcurrency` operation on the `AmazonConnectService` service.
+    /// Performs the `UpdateRoutingProfileConcurrency` operation on the `Connect` service.
     ///
     /// Updates the channels that agents can handle in the Contact Control Panel (CCP) for a routing profile.
     ///
@@ -19537,7 +19537,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateRoutingProfileDefaultOutboundQueue` operation on the `AmazonConnectService` service.
+    /// Performs the `UpdateRoutingProfileDefaultOutboundQueue` operation on the `Connect` service.
     ///
     /// Updates the default outbound queue of a routing profile.
     ///
@@ -19610,7 +19610,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateRoutingProfileName` operation on the `AmazonConnectService` service.
+    /// Performs the `UpdateRoutingProfileName` operation on the `Connect` service.
     ///
     /// Updates the name and description of a routing profile. The request accepts the following data in JSON format. At least Name or Description must be provided.
     ///
@@ -19684,7 +19684,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateRoutingProfileQueues` operation on the `AmazonConnectService` service.
+    /// Performs the `UpdateRoutingProfileQueues` operation on the `Connect` service.
     ///
     /// Updates the properties associated with a set of queues for a routing profile.
     ///
@@ -19757,7 +19757,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateRule` operation on the `AmazonConnectService` service.
+    /// Performs the `UpdateRule` operation on the `Connect` service.
     ///
     /// Updates a rule for the specified Amazon Connect instance. Use the [Rules Function language](https://docs.aws.amazon.com/connect/latest/APIReference/connect-rules-language.html) to code conditions for the rule.
     ///
@@ -19831,7 +19831,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateSecurityProfile` operation on the `AmazonConnectService` service.
+    /// Performs the `UpdateSecurityProfile` operation on the `Connect` service.
     ///
     /// Updates a security profile. For information about security profiles, see [Security Profiles](https://docs.aws.amazon.com/connect/latest/adminguide/connect-security-profiles.html) in the Amazon Connect Administrator Guide. For a mapping of the API name and user interface name of the security profile permissions, see [List of security profile permissions](https://docs.aws.amazon.com/connect/latest/adminguide/security-profile-list.html).
     ///
@@ -19904,7 +19904,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateTaskTemplate` operation on the `AmazonConnectService` service.
+    /// Performs the `UpdateTaskTemplate` operation on the `Connect` service.
     ///
     /// Updates details about a specific task template in the specified Amazon Connect instance. This operation does not support partial updates. Instead it does a full update of template content.
     ///
@@ -19978,7 +19978,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateTrafficDistribution` operation on the `AmazonConnectService` service.
+    /// Performs the `UpdateTrafficDistribution` operation on the `Connect` service.
     ///
     /// Updates the traffic distribution for a given traffic distribution group. The SignInConfig distribution is available only on a default TrafficDistributionGroup (see the IsDefault parameter in the [TrafficDistributionGroup](https://docs.aws.amazon.com/connect/latest/APIReference/API_TrafficDistributionGroup.html) data type). If you call UpdateTrafficDistribution with a modified SignInConfig and a non-default TrafficDistributionGroup, an InvalidRequestException is returned. For more information about updating a traffic distribution group, see [Update telephony traffic distribution across Amazon Web Services Regions ](https://docs.aws.amazon.com/connect/latest/adminguide/update-telephony-traffic-distribution.html) in the Amazon Connect Administrator Guide.
     ///
@@ -20052,7 +20052,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateUserHierarchy` operation on the `AmazonConnectService` service.
+    /// Performs the `UpdateUserHierarchy` operation on the `Connect` service.
     ///
     /// Assigns the specified hierarchy group to the specified user.
     ///
@@ -20125,7 +20125,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateUserHierarchyGroupName` operation on the `AmazonConnectService` service.
+    /// Performs the `UpdateUserHierarchyGroupName` operation on the `Connect` service.
     ///
     /// Updates the name of the user hierarchy group.
     ///
@@ -20199,7 +20199,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateUserHierarchyStructure` operation on the `AmazonConnectService` service.
+    /// Performs the `UpdateUserHierarchyStructure` operation on the `Connect` service.
     ///
     /// Updates the user hierarchy structure: add, remove, and rename user hierarchy levels.
     ///
@@ -20273,7 +20273,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateUserIdentityInfo` operation on the `AmazonConnectService` service.
+    /// Performs the `UpdateUserIdentityInfo` operation on the `Connect` service.
     ///
     /// Updates the identity information for the specified user. We strongly recommend limiting who has the ability to invoke UpdateUserIdentityInfo. Someone with that ability can change the login credentials of other users by changing their email address. This poses a security risk to your organization. They can change the email address of a user to the attacker's email address, and then reset the password through email. For more information, see [Best Practices for Security Profiles](https://docs.aws.amazon.com/connect/latest/adminguide/security-profile-best-practices.html) in the Amazon Connect Administrator Guide.
     ///
@@ -20346,7 +20346,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateUserPhoneConfig` operation on the `AmazonConnectService` service.
+    /// Performs the `UpdateUserPhoneConfig` operation on the `Connect` service.
     ///
     /// Updates the phone configuration settings for the specified user.
     ///
@@ -20419,7 +20419,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateUserProficiencies` operation on the `AmazonConnectService` service.
+    /// Performs the `UpdateUserProficiencies` operation on the `Connect` service.
     ///
     /// Updates the properties associated with the proficiencies of a user.
     ///
@@ -20492,7 +20492,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateUserRoutingProfile` operation on the `AmazonConnectService` service.
+    /// Performs the `UpdateUserRoutingProfile` operation on the `Connect` service.
     ///
     /// Assigns the specified routing profile to the specified user.
     ///
@@ -20565,7 +20565,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateUserSecurityProfiles` operation on the `AmazonConnectService` service.
+    /// Performs the `UpdateUserSecurityProfiles` operation on the `Connect` service.
     ///
     /// Assigns the specified security profiles to the specified user.
     ///
@@ -20638,7 +20638,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateViewContent` operation on the `AmazonConnectService` service.
+    /// Performs the `UpdateViewContent` operation on the `Connect` service.
     ///
     /// Updates the view content of the given view identifier in the specified Amazon Connect instance. It performs content validation if Status is set to SAVED and performs full content validation if Status is PUBLISHED. Note that the $SAVED alias' content will always be updated, but the $LATEST alias' content will only be updated if Status is PUBLISHED.
     ///
@@ -20713,7 +20713,7 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateViewMetadata` operation on the `AmazonConnectService` service.
+    /// Performs the `UpdateViewMetadata` operation on the `Connect` service.
     ///
     /// Updates the view metadata. Note that either Name or Description must be provided.
     ///

@@ -63,7 +63,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ElasticsearchClient: ClientRuntime.Client {
     public static let clientName = "ElasticsearchClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: ElasticsearchClient.ElasticsearchClientConfiguration
     let serviceName = "Elasticsearch"
@@ -329,7 +329,7 @@ extension ElasticsearchClient {
 }
 
 extension ElasticsearchClient {
-    /// Performs the `AcceptInboundCrossClusterSearchConnection` operation on the `AmazonElasticsearchService2015` service.
+    /// Performs the `AcceptInboundCrossClusterSearchConnection` operation on the `Elasticsearch` service.
     ///
     /// Allows the destination domain owner to accept an inbound cross-cluster search connection request.
     ///
@@ -397,7 +397,7 @@ extension ElasticsearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AddTags` operation on the `AmazonElasticsearchService2015` service.
+    /// Performs the `AddTags` operation on the `Elasticsearch` service.
     ///
     /// Attaches tags to an existing Elasticsearch domain. Tags are a set of case-sensitive key value pairs. An Elasticsearch domain may have up to 10 tags. See [ Tagging Amazon Elasticsearch Service Domains for more information.](http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-managedomains.html#es-managedomains-awsresorcetagging)
     ///
@@ -469,7 +469,7 @@ extension ElasticsearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssociatePackage` operation on the `AmazonElasticsearchService2015` service.
+    /// Performs the `AssociatePackage` operation on the `Elasticsearch` service.
     ///
     /// Associates a package with an Amazon ES domain.
     ///
@@ -540,7 +540,7 @@ extension ElasticsearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AuthorizeVpcEndpointAccess` operation on the `AmazonElasticsearchService2015` service.
+    /// Performs the `AuthorizeVpcEndpointAccess` operation on the `Elasticsearch` service.
     ///
     /// Provides access to an Amazon OpenSearch Service domain through the use of an interface VPC endpoint.
     ///
@@ -614,7 +614,7 @@ extension ElasticsearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CancelDomainConfigChange` operation on the `AmazonElasticsearchService2015` service.
+    /// Performs the `CancelDomainConfigChange` operation on the `Elasticsearch` service.
     ///
     /// Cancels a pending configuration change on an Amazon OpenSearch Service domain.
     ///
@@ -687,7 +687,7 @@ extension ElasticsearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CancelElasticsearchServiceSoftwareUpdate` operation on the `AmazonElasticsearchService2015` service.
+    /// Performs the `CancelElasticsearchServiceSoftwareUpdate` operation on the `Elasticsearch` service.
     ///
     /// Cancels a scheduled service software update for an Amazon ES domain. You can only perform this operation before the AutomatedUpdateDate and when the UpdateStatus is in the PENDING_UPDATE state.
     ///
@@ -759,7 +759,7 @@ extension ElasticsearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateElasticsearchDomain` operation on the `AmazonElasticsearchService2015` service.
+    /// Performs the `CreateElasticsearchDomain` operation on the `Elasticsearch` service.
     ///
     /// Creates a new Elasticsearch domain. For more information, see [Creating Elasticsearch Domains](http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-createupdatedomains.html#es-createdomains) in the Amazon Elasticsearch Service Developer Guide.
     ///
@@ -834,7 +834,7 @@ extension ElasticsearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateOutboundCrossClusterSearchConnection` operation on the `AmazonElasticsearchService2015` service.
+    /// Performs the `CreateOutboundCrossClusterSearchConnection` operation on the `Elasticsearch` service.
     ///
     /// Creates a new cross-cluster search connection from a source domain to a destination domain.
     ///
@@ -906,7 +906,7 @@ extension ElasticsearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreatePackage` operation on the `AmazonElasticsearchService2015` service.
+    /// Performs the `CreatePackage` operation on the `Elasticsearch` service.
     ///
     /// Create a package for use with Amazon ES domains.
     ///
@@ -981,7 +981,7 @@ extension ElasticsearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateVpcEndpoint` operation on the `AmazonElasticsearchService2015` service.
+    /// Performs the `CreateVpcEndpoint` operation on the `Elasticsearch` service.
     ///
     /// Creates an Amazon OpenSearch Service-managed VPC endpoint.
     ///
@@ -1055,7 +1055,7 @@ extension ElasticsearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteElasticsearchDomain` operation on the `AmazonElasticsearchService2015` service.
+    /// Performs the `DeleteElasticsearchDomain` operation on the `Elasticsearch` service.
     ///
     /// Permanently deletes the specified Elasticsearch domain and all of its data. Once a domain is deleted, it cannot be recovered.
     ///
@@ -1124,7 +1124,7 @@ extension ElasticsearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteElasticsearchServiceRole` operation on the `AmazonElasticsearchService2015` service.
+    /// Performs the `DeleteElasticsearchServiceRole` operation on the `Elasticsearch` service.
     ///
     /// Deletes the service-linked role that Elasticsearch Service uses to manage and maintain VPC domains. Role deletion will fail if any existing VPC domains use the role. You must delete any such Elasticsearch domains before deleting the role. See [Deleting Elasticsearch Service Role](http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-vpc.html#es-enabling-slr) in VPC Endpoints for Amazon Elasticsearch Service Domains.
     ///
@@ -1192,7 +1192,7 @@ extension ElasticsearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteInboundCrossClusterSearchConnection` operation on the `AmazonElasticsearchService2015` service.
+    /// Performs the `DeleteInboundCrossClusterSearchConnection` operation on the `Elasticsearch` service.
     ///
     /// Allows the destination domain owner to delete an existing inbound cross-cluster search connection.
     ///
@@ -1259,7 +1259,7 @@ extension ElasticsearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteOutboundCrossClusterSearchConnection` operation on the `AmazonElasticsearchService2015` service.
+    /// Performs the `DeleteOutboundCrossClusterSearchConnection` operation on the `Elasticsearch` service.
     ///
     /// Allows the source domain owner to delete an existing outbound cross-cluster search connection.
     ///
@@ -1326,7 +1326,7 @@ extension ElasticsearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeletePackage` operation on the `AmazonElasticsearchService2015` service.
+    /// Performs the `DeletePackage` operation on the `Elasticsearch` service.
     ///
     /// Delete the package.
     ///
@@ -1397,7 +1397,7 @@ extension ElasticsearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteVpcEndpoint` operation on the `AmazonElasticsearchService2015` service.
+    /// Performs the `DeleteVpcEndpoint` operation on the `Elasticsearch` service.
     ///
     /// Deletes an Amazon OpenSearch Service-managed interface VPC endpoint.
     ///
@@ -1466,7 +1466,7 @@ extension ElasticsearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeDomainAutoTunes` operation on the `AmazonElasticsearchService2015` service.
+    /// Performs the `DescribeDomainAutoTunes` operation on the `Elasticsearch` service.
     ///
     /// Provides scheduled Auto-Tune action details for the Elasticsearch domain, such as Auto-Tune action type, description, severity, and scheduled date.
     ///
@@ -1538,7 +1538,7 @@ extension ElasticsearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeDomainChangeProgress` operation on the `AmazonElasticsearchService2015` service.
+    /// Performs the `DescribeDomainChangeProgress` operation on the `Elasticsearch` service.
     ///
     /// Returns information about the current blue/green deployment happening on a domain, including a change ID, status, and progress stages.
     ///
@@ -1608,7 +1608,7 @@ extension ElasticsearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeElasticsearchDomain` operation on the `AmazonElasticsearchService2015` service.
+    /// Performs the `DescribeElasticsearchDomain` operation on the `Elasticsearch` service.
     ///
     /// Returns domain configuration information about the specified Elasticsearch domain, including the domain ID, domain endpoint, and domain ARN.
     ///
@@ -1677,7 +1677,7 @@ extension ElasticsearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeElasticsearchDomainConfig` operation on the `AmazonElasticsearchService2015` service.
+    /// Performs the `DescribeElasticsearchDomainConfig` operation on the `Elasticsearch` service.
     ///
     /// Provides cluster configuration information about the specified Elasticsearch domain, such as the state, creation date, update version, and update date for cluster options.
     ///
@@ -1746,7 +1746,7 @@ extension ElasticsearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeElasticsearchDomains` operation on the `AmazonElasticsearchService2015` service.
+    /// Performs the `DescribeElasticsearchDomains` operation on the `Elasticsearch` service.
     ///
     /// Returns domain configuration information about the specified Elasticsearch domains, including the domain ID, domain endpoint, and domain ARN.
     ///
@@ -1817,7 +1817,7 @@ extension ElasticsearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeElasticsearchInstanceTypeLimits` operation on the `AmazonElasticsearchService2015` service.
+    /// Performs the `DescribeElasticsearchInstanceTypeLimits` operation on the `Elasticsearch` service.
     ///
     /// Describe Elasticsearch Limits for a given InstanceType and ElasticsearchVersion. When modifying existing Domain, specify the [DomainName] to know what Limits are supported for modifying.
     ///
@@ -1889,7 +1889,7 @@ extension ElasticsearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeInboundCrossClusterSearchConnections` operation on the `AmazonElasticsearchService2015` service.
+    /// Performs the `DescribeInboundCrossClusterSearchConnections` operation on the `Elasticsearch` service.
     ///
     /// Lists all the inbound cross-cluster search connections for a destination domain.
     ///
@@ -1959,7 +1959,7 @@ extension ElasticsearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeOutboundCrossClusterSearchConnections` operation on the `AmazonElasticsearchService2015` service.
+    /// Performs the `DescribeOutboundCrossClusterSearchConnections` operation on the `Elasticsearch` service.
     ///
     /// Lists all the outbound cross-cluster search connections for a source domain.
     ///
@@ -2029,7 +2029,7 @@ extension ElasticsearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribePackages` operation on the `AmazonElasticsearchService2015` service.
+    /// Performs the `DescribePackages` operation on the `Elasticsearch` service.
     ///
     /// Describes all packages available to Amazon ES. Includes options for filtering, limiting the number of results, and pagination.
     ///
@@ -2102,7 +2102,7 @@ extension ElasticsearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeReservedElasticsearchInstanceOfferings` operation on the `AmazonElasticsearchService2015` service.
+    /// Performs the `DescribeReservedElasticsearchInstanceOfferings` operation on the `Elasticsearch` service.
     ///
     /// Lists available reserved Elasticsearch instance offerings.
     ///
@@ -2172,7 +2172,7 @@ extension ElasticsearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeReservedElasticsearchInstances` operation on the `AmazonElasticsearchService2015` service.
+    /// Performs the `DescribeReservedElasticsearchInstances` operation on the `Elasticsearch` service.
     ///
     /// Returns information about reserved Elasticsearch instances for this account.
     ///
@@ -2242,7 +2242,7 @@ extension ElasticsearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeVpcEndpoints` operation on the `AmazonElasticsearchService2015` service.
+    /// Performs the `DescribeVpcEndpoints` operation on the `Elasticsearch` service.
     ///
     /// Describes one or more Amazon OpenSearch Service-managed VPC endpoints.
     ///
@@ -2314,7 +2314,7 @@ extension ElasticsearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DissociatePackage` operation on the `AmazonElasticsearchService2015` service.
+    /// Performs the `DissociatePackage` operation on the `Elasticsearch` service.
     ///
     /// Dissociates a package from the Amazon ES domain.
     ///
@@ -2385,7 +2385,7 @@ extension ElasticsearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetCompatibleElasticsearchVersions` operation on the `AmazonElasticsearchService2015` service.
+    /// Performs the `GetCompatibleElasticsearchVersions` operation on the `Elasticsearch` service.
     ///
     /// Returns a list of upgrade compatible Elastisearch versions. You can optionally pass a [DomainName] to get all upgrade compatible Elasticsearch versions for that specific domain.
     ///
@@ -2456,7 +2456,7 @@ extension ElasticsearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetPackageVersionHistory` operation on the `AmazonElasticsearchService2015` service.
+    /// Performs the `GetPackageVersionHistory` operation on the `Elasticsearch` service.
     ///
     /// Returns a list of versions of the package, along with their creation time and commit message.
     ///
@@ -2527,7 +2527,7 @@ extension ElasticsearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetUpgradeHistory` operation on the `AmazonElasticsearchService2015` service.
+    /// Performs the `GetUpgradeHistory` operation on the `Elasticsearch` service.
     ///
     /// Retrieves the complete history of the last 10 upgrades that were performed on the domain.
     ///
@@ -2598,7 +2598,7 @@ extension ElasticsearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetUpgradeStatus` operation on the `AmazonElasticsearchService2015` service.
+    /// Performs the `GetUpgradeStatus` operation on the `Elasticsearch` service.
     ///
     /// Retrieves the latest status of the last upgrade or upgrade eligibility check that was performed on the domain.
     ///
@@ -2668,7 +2668,7 @@ extension ElasticsearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDomainNames` operation on the `AmazonElasticsearchService2015` service.
+    /// Performs the `ListDomainNames` operation on the `Elasticsearch` service.
     ///
     /// Returns the name of all Elasticsearch domains owned by the current user's account.
     ///
@@ -2736,7 +2736,7 @@ extension ElasticsearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDomainsForPackage` operation on the `AmazonElasticsearchService2015` service.
+    /// Performs the `ListDomainsForPackage` operation on the `Elasticsearch` service.
     ///
     /// Lists all Amazon ES domains associated with the package.
     ///
@@ -2807,7 +2807,7 @@ extension ElasticsearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListElasticsearchInstanceTypes` operation on the `AmazonElasticsearchService2015` service.
+    /// Performs the `ListElasticsearchInstanceTypes` operation on the `Elasticsearch` service.
     ///
     /// List all Elasticsearch instance types that are supported for given ElasticsearchVersion
     ///
@@ -2877,7 +2877,7 @@ extension ElasticsearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListElasticsearchVersions` operation on the `AmazonElasticsearchService2015` service.
+    /// Performs the `ListElasticsearchVersions` operation on the `Elasticsearch` service.
     ///
     /// List all supported Elasticsearch versions
     ///
@@ -2947,7 +2947,7 @@ extension ElasticsearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListPackagesForDomain` operation on the `AmazonElasticsearchService2015` service.
+    /// Performs the `ListPackagesForDomain` operation on the `Elasticsearch` service.
     ///
     /// Lists all packages associated with the Amazon ES domain.
     ///
@@ -3018,7 +3018,7 @@ extension ElasticsearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTags` operation on the `AmazonElasticsearchService2015` service.
+    /// Performs the `ListTags` operation on the `Elasticsearch` service.
     ///
     /// Returns all tags for the given Elasticsearch domain.
     ///
@@ -3088,7 +3088,7 @@ extension ElasticsearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListVpcEndpointAccess` operation on the `AmazonElasticsearchService2015` service.
+    /// Performs the `ListVpcEndpointAccess` operation on the `Elasticsearch` service.
     ///
     /// Retrieves information about each principal that is allowed to access a given Amazon OpenSearch Service domain through the use of an interface VPC endpoint.
     ///
@@ -3158,7 +3158,7 @@ extension ElasticsearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListVpcEndpoints` operation on the `AmazonElasticsearchService2015` service.
+    /// Performs the `ListVpcEndpoints` operation on the `Elasticsearch` service.
     ///
     /// Retrieves all Amazon OpenSearch Service-managed VPC endpoints in the current account and Region.
     ///
@@ -3227,7 +3227,7 @@ extension ElasticsearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListVpcEndpointsForDomain` operation on the `AmazonElasticsearchService2015` service.
+    /// Performs the `ListVpcEndpointsForDomain` operation on the `Elasticsearch` service.
     ///
     /// Retrieves all Amazon OpenSearch Service-managed VPC endpoints associated with a particular domain.
     ///
@@ -3297,7 +3297,7 @@ extension ElasticsearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PurchaseReservedElasticsearchInstanceOffering` operation on the `AmazonElasticsearchService2015` service.
+    /// Performs the `PurchaseReservedElasticsearchInstanceOffering` operation on the `Elasticsearch` service.
     ///
     /// Allows you to purchase reserved Elasticsearch instances.
     ///
@@ -3371,7 +3371,7 @@ extension ElasticsearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RejectInboundCrossClusterSearchConnection` operation on the `AmazonElasticsearchService2015` service.
+    /// Performs the `RejectInboundCrossClusterSearchConnection` operation on the `Elasticsearch` service.
     ///
     /// Allows the destination domain owner to reject an inbound cross-cluster search connection request.
     ///
@@ -3438,7 +3438,7 @@ extension ElasticsearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RemoveTags` operation on the `AmazonElasticsearchService2015` service.
+    /// Performs the `RemoveTags` operation on the `Elasticsearch` service.
     ///
     /// Removes the specified set of tags from the specified Elasticsearch domain.
     ///
@@ -3509,7 +3509,7 @@ extension ElasticsearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RevokeVpcEndpointAccess` operation on the `AmazonElasticsearchService2015` service.
+    /// Performs the `RevokeVpcEndpointAccess` operation on the `Elasticsearch` service.
     ///
     /// Revokes access to an Amazon OpenSearch Service domain that was provided through an interface VPC endpoint.
     ///
@@ -3582,7 +3582,7 @@ extension ElasticsearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartElasticsearchServiceSoftwareUpdate` operation on the `AmazonElasticsearchService2015` service.
+    /// Performs the `StartElasticsearchServiceSoftwareUpdate` operation on the `Elasticsearch` service.
     ///
     /// Schedules a service software update for an Amazon ES domain.
     ///
@@ -3654,7 +3654,7 @@ extension ElasticsearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateElasticsearchDomainConfig` operation on the `AmazonElasticsearchService2015` service.
+    /// Performs the `UpdateElasticsearchDomainConfig` operation on the `Elasticsearch` service.
     ///
     /// Modifies the cluster configuration of the specified Elasticsearch domain, setting as setting the instance type and the number of instances.
     ///
@@ -3728,7 +3728,7 @@ extension ElasticsearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdatePackage` operation on the `AmazonElasticsearchService2015` service.
+    /// Performs the `UpdatePackage` operation on the `Elasticsearch` service.
     ///
     /// Updates a package for use with Amazon ES domains.
     ///
@@ -3802,7 +3802,7 @@ extension ElasticsearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateVpcEndpoint` operation on the `AmazonElasticsearchService2015` service.
+    /// Performs the `UpdateVpcEndpoint` operation on the `Elasticsearch` service.
     ///
     /// Modifies an Amazon OpenSearch Service-managed interface VPC endpoint.
     ///
@@ -3876,7 +3876,7 @@ extension ElasticsearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpgradeElasticsearchDomain` operation on the `AmazonElasticsearchService2015` service.
+    /// Performs the `UpgradeElasticsearchDomain` operation on the `Elasticsearch` service.
     ///
     /// Allows you to either upgrade your domain or perform an Upgrade eligibility check to a compatible Elasticsearch version.
     ///

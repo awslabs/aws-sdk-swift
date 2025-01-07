@@ -63,7 +63,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CleanRoomsClient: ClientRuntime.Client {
     public static let clientName = "CleanRoomsClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: CleanRoomsClient.CleanRoomsClientConfiguration
     let serviceName = "CleanRooms"
@@ -329,7 +329,7 @@ extension CleanRoomsClient {
 }
 
 extension CleanRoomsClient {
-    /// Performs the `BatchGetCollaborationAnalysisTemplate` operation on the `AWSBastionControlPlaneServiceLambda` service.
+    /// Performs the `BatchGetCollaborationAnalysisTemplate` operation on the `CleanRooms` service.
     ///
     /// Retrieves multiple analysis templates within a collaboration by their Amazon Resource Names (ARNs).
     ///
@@ -402,7 +402,7 @@ extension CleanRoomsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchGetSchema` operation on the `AWSBastionControlPlaneServiceLambda` service.
+    /// Performs the `BatchGetSchema` operation on the `CleanRooms` service.
     ///
     /// Retrieves multiple schemas by their identifiers.
     ///
@@ -475,7 +475,7 @@ extension CleanRoomsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchGetSchemaAnalysisRule` operation on the `AWSBastionControlPlaneServiceLambda` service.
+    /// Performs the `BatchGetSchemaAnalysisRule` operation on the `CleanRooms` service.
     ///
     /// Retrieves multiple analysis rule schemas.
     ///
@@ -548,7 +548,7 @@ extension CleanRoomsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateAnalysisTemplate` operation on the `AWSBastionControlPlaneServiceLambda` service.
+    /// Performs the `CreateAnalysisTemplate` operation on the `CleanRooms` service.
     ///
     /// Creates a new analysis template.
     ///
@@ -623,7 +623,7 @@ extension CleanRoomsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateCollaboration` operation on the `AWSBastionControlPlaneServiceLambda` service.
+    /// Performs the `CreateCollaboration` operation on the `CleanRooms` service.
     ///
     /// Creates a new collaboration.
     ///
@@ -696,7 +696,7 @@ extension CleanRoomsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateConfiguredAudienceModelAssociation` operation on the `AWSBastionControlPlaneServiceLambda` service.
+    /// Performs the `CreateConfiguredAudienceModelAssociation` operation on the `CleanRooms` service.
     ///
     /// Provides the details necessary to create a configured audience model association.
     ///
@@ -771,7 +771,7 @@ extension CleanRoomsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateConfiguredTable` operation on the `AWSBastionControlPlaneServiceLambda` service.
+    /// Performs the `CreateConfiguredTable` operation on the `CleanRooms` service.
     ///
     /// Creates a new configured table resource.
     ///
@@ -846,7 +846,7 @@ extension CleanRoomsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateConfiguredTableAnalysisRule` operation on the `AWSBastionControlPlaneServiceLambda` service.
+    /// Performs the `CreateConfiguredTableAnalysisRule` operation on the `CleanRooms` service.
     ///
     /// Creates a new analysis rule for a configured table. Currently, only one analysis rule can be created for a given configured table.
     ///
@@ -920,7 +920,7 @@ extension CleanRoomsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateConfiguredTableAssociation` operation on the `AWSBastionControlPlaneServiceLambda` service.
+    /// Performs the `CreateConfiguredTableAssociation` operation on the `CleanRooms` service.
     ///
     /// Creates a configured table association. A configured table association links a configured table with a collaboration.
     ///
@@ -995,7 +995,7 @@ extension CleanRoomsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateConfiguredTableAssociationAnalysisRule` operation on the `AWSBastionControlPlaneServiceLambda` service.
+    /// Performs the `CreateConfiguredTableAssociationAnalysisRule` operation on the `CleanRooms` service.
     ///
     /// Creates a new analysis rule for an associated configured table.
     ///
@@ -1069,7 +1069,7 @@ extension CleanRoomsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateIdMappingTable` operation on the `AWSBastionControlPlaneServiceLambda` service.
+    /// Performs the `CreateIdMappingTable` operation on the `CleanRooms` service.
     ///
     /// Creates an ID mapping table.
     ///
@@ -1144,7 +1144,7 @@ extension CleanRoomsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateIdNamespaceAssociation` operation on the `AWSBastionControlPlaneServiceLambda` service.
+    /// Performs the `CreateIdNamespaceAssociation` operation on the `CleanRooms` service.
     ///
     /// Creates an ID namespace association.
     ///
@@ -1219,7 +1219,7 @@ extension CleanRoomsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateMembership` operation on the `AWSBastionControlPlaneServiceLambda` service.
+    /// Performs the `CreateMembership` operation on the `CleanRooms` service.
     ///
     /// Creates a membership for a specific collaboration identifier and joins the collaboration.
     ///
@@ -1294,7 +1294,7 @@ extension CleanRoomsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreatePrivacyBudgetTemplate` operation on the `AWSBastionControlPlaneServiceLambda` service.
+    /// Performs the `CreatePrivacyBudgetTemplate` operation on the `CleanRooms` service.
     ///
     /// Creates a privacy budget template for a specified membership. Each membership can have only one privacy budget template, but it can be deleted and recreated. If you need to change the privacy budget template for a membership, use the [UpdatePrivacyBudgetTemplate] operation.
     ///
@@ -1368,7 +1368,7 @@ extension CleanRoomsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAnalysisTemplate` operation on the `AWSBastionControlPlaneServiceLambda` service.
+    /// Performs the `DeleteAnalysisTemplate` operation on the `CleanRooms` service.
     ///
     /// Deletes an analysis template.
     ///
@@ -1438,7 +1438,7 @@ extension CleanRoomsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteCollaboration` operation on the `AWSBastionControlPlaneServiceLambda` service.
+    /// Performs the `DeleteCollaboration` operation on the `CleanRooms` service.
     ///
     /// Deletes a collaboration. It can only be called by the collaboration owner.
     ///
@@ -1507,7 +1507,7 @@ extension CleanRoomsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteConfiguredAudienceModelAssociation` operation on the `AWSBastionControlPlaneServiceLambda` service.
+    /// Performs the `DeleteConfiguredAudienceModelAssociation` operation on the `CleanRooms` service.
     ///
     /// Provides the information necessary to delete a configured audience model association.
     ///
@@ -1577,7 +1577,7 @@ extension CleanRoomsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteConfiguredTable` operation on the `AWSBastionControlPlaneServiceLambda` service.
+    /// Performs the `DeleteConfiguredTable` operation on the `CleanRooms` service.
     ///
     /// Deletes a configured table.
     ///
@@ -1648,7 +1648,7 @@ extension CleanRoomsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteConfiguredTableAnalysisRule` operation on the `AWSBastionControlPlaneServiceLambda` service.
+    /// Performs the `DeleteConfiguredTableAnalysisRule` operation on the `CleanRooms` service.
     ///
     /// Deletes a configured table analysis rule.
     ///
@@ -1719,7 +1719,7 @@ extension CleanRoomsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteConfiguredTableAssociation` operation on the `AWSBastionControlPlaneServiceLambda` service.
+    /// Performs the `DeleteConfiguredTableAssociation` operation on the `CleanRooms` service.
     ///
     /// Deletes a configured table association.
     ///
@@ -1790,7 +1790,7 @@ extension CleanRoomsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteConfiguredTableAssociationAnalysisRule` operation on the `AWSBastionControlPlaneServiceLambda` service.
+    /// Performs the `DeleteConfiguredTableAssociationAnalysisRule` operation on the `CleanRooms` service.
     ///
     /// Deletes an analysis rule for a configured table association.
     ///
@@ -1861,7 +1861,7 @@ extension CleanRoomsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteIdMappingTable` operation on the `AWSBastionControlPlaneServiceLambda` service.
+    /// Performs the `DeleteIdMappingTable` operation on the `CleanRooms` service.
     ///
     /// Deletes an ID mapping table.
     ///
@@ -1931,7 +1931,7 @@ extension CleanRoomsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteIdNamespaceAssociation` operation on the `AWSBastionControlPlaneServiceLambda` service.
+    /// Performs the `DeleteIdNamespaceAssociation` operation on the `CleanRooms` service.
     ///
     /// Deletes an ID namespace association.
     ///
@@ -2001,7 +2001,7 @@ extension CleanRoomsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteMember` operation on the `AWSBastionControlPlaneServiceLambda` service.
+    /// Performs the `DeleteMember` operation on the `CleanRooms` service.
     ///
     /// Removes the specified member from a collaboration. The removed member is placed in the Removed status and can't interact with the collaboration. The removed member's data is inaccessible to active members of the collaboration.
     ///
@@ -2072,7 +2072,7 @@ extension CleanRoomsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteMembership` operation on the `AWSBastionControlPlaneServiceLambda` service.
+    /// Performs the `DeleteMembership` operation on the `CleanRooms` service.
     ///
     /// Deletes a specified membership. All resources under a membership must be deleted.
     ///
@@ -2143,7 +2143,7 @@ extension CleanRoomsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeletePrivacyBudgetTemplate` operation on the `AWSBastionControlPlaneServiceLambda` service.
+    /// Performs the `DeletePrivacyBudgetTemplate` operation on the `CleanRooms` service.
     ///
     /// Deletes a privacy budget template for a specified membership.
     ///
@@ -2213,7 +2213,7 @@ extension CleanRoomsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAnalysisTemplate` operation on the `AWSBastionControlPlaneServiceLambda` service.
+    /// Performs the `GetAnalysisTemplate` operation on the `CleanRooms` service.
     ///
     /// Retrieves an analysis template.
     ///
@@ -2283,7 +2283,7 @@ extension CleanRoomsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetCollaboration` operation on the `AWSBastionControlPlaneServiceLambda` service.
+    /// Performs the `GetCollaboration` operation on the `CleanRooms` service.
     ///
     /// Returns metadata about a collaboration.
     ///
@@ -2352,7 +2352,7 @@ extension CleanRoomsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetCollaborationAnalysisTemplate` operation on the `AWSBastionControlPlaneServiceLambda` service.
+    /// Performs the `GetCollaborationAnalysisTemplate` operation on the `CleanRooms` service.
     ///
     /// Retrieves an analysis template within a collaboration.
     ///
@@ -2422,7 +2422,7 @@ extension CleanRoomsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetCollaborationConfiguredAudienceModelAssociation` operation on the `AWSBastionControlPlaneServiceLambda` service.
+    /// Performs the `GetCollaborationConfiguredAudienceModelAssociation` operation on the `CleanRooms` service.
     ///
     /// Retrieves a configured audience model association within a collaboration.
     ///
@@ -2492,7 +2492,7 @@ extension CleanRoomsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetCollaborationIdNamespaceAssociation` operation on the `AWSBastionControlPlaneServiceLambda` service.
+    /// Performs the `GetCollaborationIdNamespaceAssociation` operation on the `CleanRooms` service.
     ///
     /// Retrieves an ID namespace association from a specific collaboration.
     ///
@@ -2562,7 +2562,7 @@ extension CleanRoomsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetCollaborationPrivacyBudgetTemplate` operation on the `AWSBastionControlPlaneServiceLambda` service.
+    /// Performs the `GetCollaborationPrivacyBudgetTemplate` operation on the `CleanRooms` service.
     ///
     /// Returns details about a specified privacy budget template.
     ///
@@ -2632,7 +2632,7 @@ extension CleanRoomsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetConfiguredAudienceModelAssociation` operation on the `AWSBastionControlPlaneServiceLambda` service.
+    /// Performs the `GetConfiguredAudienceModelAssociation` operation on the `CleanRooms` service.
     ///
     /// Returns information about a configured audience model association.
     ///
@@ -2702,7 +2702,7 @@ extension CleanRoomsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetConfiguredTable` operation on the `AWSBastionControlPlaneServiceLambda` service.
+    /// Performs the `GetConfiguredTable` operation on the `CleanRooms` service.
     ///
     /// Retrieves a configured table.
     ///
@@ -2772,7 +2772,7 @@ extension CleanRoomsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetConfiguredTableAnalysisRule` operation on the `AWSBastionControlPlaneServiceLambda` service.
+    /// Performs the `GetConfiguredTableAnalysisRule` operation on the `CleanRooms` service.
     ///
     /// Retrieves a configured table analysis rule.
     ///
@@ -2842,7 +2842,7 @@ extension CleanRoomsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetConfiguredTableAssociation` operation on the `AWSBastionControlPlaneServiceLambda` service.
+    /// Performs the `GetConfiguredTableAssociation` operation on the `CleanRooms` service.
     ///
     /// Retrieves a configured table association.
     ///
@@ -2912,7 +2912,7 @@ extension CleanRoomsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetConfiguredTableAssociationAnalysisRule` operation on the `AWSBastionControlPlaneServiceLambda` service.
+    /// Performs the `GetConfiguredTableAssociationAnalysisRule` operation on the `CleanRooms` service.
     ///
     /// Retrieves the analysis rule for a configured table association.
     ///
@@ -2982,7 +2982,7 @@ extension CleanRoomsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetIdMappingTable` operation on the `AWSBastionControlPlaneServiceLambda` service.
+    /// Performs the `GetIdMappingTable` operation on the `CleanRooms` service.
     ///
     /// Retrieves an ID mapping table.
     ///
@@ -3052,7 +3052,7 @@ extension CleanRoomsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetIdNamespaceAssociation` operation on the `AWSBastionControlPlaneServiceLambda` service.
+    /// Performs the `GetIdNamespaceAssociation` operation on the `CleanRooms` service.
     ///
     /// Retrieves an ID namespace association.
     ///
@@ -3122,7 +3122,7 @@ extension CleanRoomsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetMembership` operation on the `AWSBastionControlPlaneServiceLambda` service.
+    /// Performs the `GetMembership` operation on the `CleanRooms` service.
     ///
     /// Retrieves a specified membership for an identifier.
     ///
@@ -3192,7 +3192,7 @@ extension CleanRoomsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetPrivacyBudgetTemplate` operation on the `AWSBastionControlPlaneServiceLambda` service.
+    /// Performs the `GetPrivacyBudgetTemplate` operation on the `CleanRooms` service.
     ///
     /// Returns details for a specified privacy budget template.
     ///
@@ -3262,7 +3262,7 @@ extension CleanRoomsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetProtectedQuery` operation on the `AWSBastionControlPlaneServiceLambda` service.
+    /// Performs the `GetProtectedQuery` operation on the `CleanRooms` service.
     ///
     /// Returns query processing metadata.
     ///
@@ -3332,7 +3332,7 @@ extension CleanRoomsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetSchema` operation on the `AWSBastionControlPlaneServiceLambda` service.
+    /// Performs the `GetSchema` operation on the `CleanRooms` service.
     ///
     /// Retrieves the schema for a relation within a collaboration.
     ///
@@ -3402,7 +3402,7 @@ extension CleanRoomsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetSchemaAnalysisRule` operation on the `AWSBastionControlPlaneServiceLambda` service.
+    /// Performs the `GetSchemaAnalysisRule` operation on the `CleanRooms` service.
     ///
     /// Retrieves a schema analysis rule.
     ///
@@ -3472,7 +3472,7 @@ extension CleanRoomsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAnalysisTemplates` operation on the `AWSBastionControlPlaneServiceLambda` service.
+    /// Performs the `ListAnalysisTemplates` operation on the `CleanRooms` service.
     ///
     /// Lists analysis templates that the caller owns.
     ///
@@ -3543,7 +3543,7 @@ extension CleanRoomsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListCollaborationAnalysisTemplates` operation on the `AWSBastionControlPlaneServiceLambda` service.
+    /// Performs the `ListCollaborationAnalysisTemplates` operation on the `CleanRooms` service.
     ///
     /// Lists analysis templates within a collaboration.
     ///
@@ -3614,7 +3614,7 @@ extension CleanRoomsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListCollaborationConfiguredAudienceModelAssociations` operation on the `AWSBastionControlPlaneServiceLambda` service.
+    /// Performs the `ListCollaborationConfiguredAudienceModelAssociations` operation on the `CleanRooms` service.
     ///
     /// Lists configured audience model associations within a collaboration.
     ///
@@ -3685,7 +3685,7 @@ extension CleanRoomsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListCollaborationIdNamespaceAssociations` operation on the `AWSBastionControlPlaneServiceLambda` service.
+    /// Performs the `ListCollaborationIdNamespaceAssociations` operation on the `CleanRooms` service.
     ///
     /// Returns a list of the ID namespace associations in a collaboration.
     ///
@@ -3756,7 +3756,7 @@ extension CleanRoomsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListCollaborationPrivacyBudgetTemplates` operation on the `AWSBastionControlPlaneServiceLambda` service.
+    /// Performs the `ListCollaborationPrivacyBudgetTemplates` operation on the `CleanRooms` service.
     ///
     /// Returns an array that summarizes each privacy budget template in a specified collaboration.
     ///
@@ -3827,7 +3827,7 @@ extension CleanRoomsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListCollaborationPrivacyBudgets` operation on the `AWSBastionControlPlaneServiceLambda` service.
+    /// Performs the `ListCollaborationPrivacyBudgets` operation on the `CleanRooms` service.
     ///
     /// Returns an array that summarizes each privacy budget in a specified collaboration. The summary includes the collaboration ARN, creation time, creating account, and privacy budget details.
     ///
@@ -3898,7 +3898,7 @@ extension CleanRoomsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListCollaborations` operation on the `AWSBastionControlPlaneServiceLambda` service.
+    /// Performs the `ListCollaborations` operation on the `CleanRooms` service.
     ///
     /// Lists collaborations the caller owns, is active in, or has been invited to.
     ///
@@ -3968,7 +3968,7 @@ extension CleanRoomsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListConfiguredAudienceModelAssociations` operation on the `AWSBastionControlPlaneServiceLambda` service.
+    /// Performs the `ListConfiguredAudienceModelAssociations` operation on the `CleanRooms` service.
     ///
     /// Lists information about requested configured audience model associations.
     ///
@@ -4039,7 +4039,7 @@ extension CleanRoomsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListConfiguredTableAssociations` operation on the `AWSBastionControlPlaneServiceLambda` service.
+    /// Performs the `ListConfiguredTableAssociations` operation on the `CleanRooms` service.
     ///
     /// Lists configured table associations for a membership.
     ///
@@ -4110,7 +4110,7 @@ extension CleanRoomsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListConfiguredTables` operation on the `AWSBastionControlPlaneServiceLambda` service.
+    /// Performs the `ListConfiguredTables` operation on the `CleanRooms` service.
     ///
     /// Lists configured tables.
     ///
@@ -4180,7 +4180,7 @@ extension CleanRoomsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListIdMappingTables` operation on the `AWSBastionControlPlaneServiceLambda` service.
+    /// Performs the `ListIdMappingTables` operation on the `CleanRooms` service.
     ///
     /// Returns a list of ID mapping tables.
     ///
@@ -4251,7 +4251,7 @@ extension CleanRoomsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListIdNamespaceAssociations` operation on the `AWSBastionControlPlaneServiceLambda` service.
+    /// Performs the `ListIdNamespaceAssociations` operation on the `CleanRooms` service.
     ///
     /// Returns a list of ID namespace associations.
     ///
@@ -4322,7 +4322,7 @@ extension CleanRoomsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListMembers` operation on the `AWSBastionControlPlaneServiceLambda` service.
+    /// Performs the `ListMembers` operation on the `CleanRooms` service.
     ///
     /// Lists all members within a collaboration.
     ///
@@ -4393,7 +4393,7 @@ extension CleanRoomsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListMemberships` operation on the `AWSBastionControlPlaneServiceLambda` service.
+    /// Performs the `ListMemberships` operation on the `CleanRooms` service.
     ///
     /// Lists all memberships resources within the caller's account.
     ///
@@ -4463,7 +4463,7 @@ extension CleanRoomsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListPrivacyBudgetTemplates` operation on the `AWSBastionControlPlaneServiceLambda` service.
+    /// Performs the `ListPrivacyBudgetTemplates` operation on the `CleanRooms` service.
     ///
     /// Returns detailed information about the privacy budget templates in a specified membership.
     ///
@@ -4534,7 +4534,7 @@ extension CleanRoomsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListPrivacyBudgets` operation on the `AWSBastionControlPlaneServiceLambda` service.
+    /// Performs the `ListPrivacyBudgets` operation on the `CleanRooms` service.
     ///
     /// Returns detailed information about the privacy budgets in a specified membership.
     ///
@@ -4605,7 +4605,7 @@ extension CleanRoomsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListProtectedQueries` operation on the `AWSBastionControlPlaneServiceLambda` service.
+    /// Performs the `ListProtectedQueries` operation on the `CleanRooms` service.
     ///
     /// Lists protected queries, sorted by the most recent query.
     ///
@@ -4676,7 +4676,7 @@ extension CleanRoomsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListSchemas` operation on the `AWSBastionControlPlaneServiceLambda` service.
+    /// Performs the `ListSchemas` operation on the `CleanRooms` service.
     ///
     /// Lists the schemas for relations within a collaboration.
     ///
@@ -4747,7 +4747,7 @@ extension CleanRoomsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `AWSBastionControlPlaneServiceLambda` service.
+    /// Performs the `ListTagsForResource` operation on the `CleanRooms` service.
     ///
     /// Lists all of the tags that have been added to a resource.
     ///
@@ -4814,7 +4814,7 @@ extension CleanRoomsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PopulateIdMappingTable` operation on the `AWSBastionControlPlaneServiceLambda` service.
+    /// Performs the `PopulateIdMappingTable` operation on the `CleanRooms` service.
     ///
     /// Defines the information that's necessary to populate an ID mapping table.
     ///
@@ -4886,7 +4886,7 @@ extension CleanRoomsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PreviewPrivacyImpact` operation on the `AWSBastionControlPlaneServiceLambda` service.
+    /// Performs the `PreviewPrivacyImpact` operation on the `CleanRooms` service.
     ///
     /// An estimate of the number of aggregation functions that the member who can query can run given epsilon and noise parameters.
     ///
@@ -4959,7 +4959,7 @@ extension CleanRoomsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartProtectedQuery` operation on the `AWSBastionControlPlaneServiceLambda` service.
+    /// Performs the `StartProtectedQuery` operation on the `CleanRooms` service.
     ///
     /// Creates a protected query that is started by Clean Rooms.
     ///
@@ -5033,7 +5033,7 @@ extension CleanRoomsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `AWSBastionControlPlaneServiceLambda` service.
+    /// Performs the `TagResource` operation on the `CleanRooms` service.
     ///
     /// Tags a resource.
     ///
@@ -5103,7 +5103,7 @@ extension CleanRoomsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `AWSBastionControlPlaneServiceLambda` service.
+    /// Performs the `UntagResource` operation on the `CleanRooms` service.
     ///
     /// Removes a tag or list of tags from a resource.
     ///
@@ -5171,7 +5171,7 @@ extension CleanRoomsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateAnalysisTemplate` operation on the `AWSBastionControlPlaneServiceLambda` service.
+    /// Performs the `UpdateAnalysisTemplate` operation on the `CleanRooms` service.
     ///
     /// Updates the analysis template metadata.
     ///
@@ -5244,7 +5244,7 @@ extension CleanRoomsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateCollaboration` operation on the `AWSBastionControlPlaneServiceLambda` service.
+    /// Performs the `UpdateCollaboration` operation on the `CleanRooms` service.
     ///
     /// Updates collaboration metadata and can only be called by the collaboration owner.
     ///
@@ -5316,7 +5316,7 @@ extension CleanRoomsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateConfiguredAudienceModelAssociation` operation on the `AWSBastionControlPlaneServiceLambda` service.
+    /// Performs the `UpdateConfiguredAudienceModelAssociation` operation on the `CleanRooms` service.
     ///
     /// Provides the details necessary to update a configured audience model association.
     ///
@@ -5389,7 +5389,7 @@ extension CleanRoomsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateConfiguredTable` operation on the `AWSBastionControlPlaneServiceLambda` service.
+    /// Performs the `UpdateConfiguredTable` operation on the `CleanRooms` service.
     ///
     /// Updates a configured table.
     ///
@@ -5463,7 +5463,7 @@ extension CleanRoomsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateConfiguredTableAnalysisRule` operation on the `AWSBastionControlPlaneServiceLambda` service.
+    /// Performs the `UpdateConfiguredTableAnalysisRule` operation on the `CleanRooms` service.
     ///
     /// Updates a configured table analysis rule.
     ///
@@ -5537,7 +5537,7 @@ extension CleanRoomsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateConfiguredTableAssociation` operation on the `AWSBastionControlPlaneServiceLambda` service.
+    /// Performs the `UpdateConfiguredTableAssociation` operation on the `CleanRooms` service.
     ///
     /// Updates a configured table association.
     ///
@@ -5611,7 +5611,7 @@ extension CleanRoomsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateConfiguredTableAssociationAnalysisRule` operation on the `AWSBastionControlPlaneServiceLambda` service.
+    /// Performs the `UpdateConfiguredTableAssociationAnalysisRule` operation on the `CleanRooms` service.
     ///
     /// Updates the analysis rule for a configured table association.
     ///
@@ -5685,7 +5685,7 @@ extension CleanRoomsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateIdMappingTable` operation on the `AWSBastionControlPlaneServiceLambda` service.
+    /// Performs the `UpdateIdMappingTable` operation on the `CleanRooms` service.
     ///
     /// Provides the details that are necessary to update an ID mapping table.
     ///
@@ -5758,7 +5758,7 @@ extension CleanRoomsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateIdNamespaceAssociation` operation on the `AWSBastionControlPlaneServiceLambda` service.
+    /// Performs the `UpdateIdNamespaceAssociation` operation on the `CleanRooms` service.
     ///
     /// Provides the details that are necessary to update an ID namespace association.
     ///
@@ -5831,7 +5831,7 @@ extension CleanRoomsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateMembership` operation on the `AWSBastionControlPlaneServiceLambda` service.
+    /// Performs the `UpdateMembership` operation on the `CleanRooms` service.
     ///
     /// Updates a membership.
     ///
@@ -5905,7 +5905,7 @@ extension CleanRoomsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdatePrivacyBudgetTemplate` operation on the `AWSBastionControlPlaneServiceLambda` service.
+    /// Performs the `UpdatePrivacyBudgetTemplate` operation on the `CleanRooms` service.
     ///
     /// Updates the privacy budget template for the specified membership.
     ///
@@ -5979,7 +5979,7 @@ extension CleanRoomsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateProtectedQuery` operation on the `AWSBastionControlPlaneServiceLambda` service.
+    /// Performs the `UpdateProtectedQuery` operation on the `CleanRooms` service.
     ///
     /// Updates the processing of a currently running query.
     ///

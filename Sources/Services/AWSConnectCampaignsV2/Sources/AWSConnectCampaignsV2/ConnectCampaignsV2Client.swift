@@ -63,7 +63,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ConnectCampaignsV2Client: ClientRuntime.Client {
     public static let clientName = "ConnectCampaignsV2Client"
-    public static let version = "1.0.72"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: ConnectCampaignsV2Client.ConnectCampaignsV2ClientConfiguration
     let serviceName = "ConnectCampaignsV2"
@@ -329,7 +329,7 @@ extension ConnectCampaignsV2Client {
 }
 
 extension ConnectCampaignsV2Client {
-    /// Performs the `CreateCampaign` operation on the `AmazonConnectCampaignServiceV2` service.
+    /// Performs the `CreateCampaign` operation on the `ConnectCampaignsV2` service.
     ///
     /// Creates a campaign for the specified Amazon Connect account. This API is idempotent.
     ///
@@ -404,7 +404,7 @@ extension ConnectCampaignsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteCampaign` operation on the `AmazonConnectCampaignServiceV2` service.
+    /// Performs the `DeleteCampaign` operation on the `ConnectCampaignsV2` service.
     ///
     /// Deletes a campaign from the specified Amazon Connect account.
     ///
@@ -473,7 +473,7 @@ extension ConnectCampaignsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteCampaignChannelSubtypeConfig` operation on the `AmazonConnectCampaignServiceV2` service.
+    /// Performs the `DeleteCampaignChannelSubtypeConfig` operation on the `ConnectCampaignsV2` service.
     ///
     /// Deletes the channel subtype config of a campaign. This API is idempotent.
     ///
@@ -544,7 +544,7 @@ extension ConnectCampaignsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteCampaignCommunicationLimits` operation on the `AmazonConnectCampaignServiceV2` service.
+    /// Performs the `DeleteCampaignCommunicationLimits` operation on the `ConnectCampaignsV2` service.
     ///
     /// Deletes the communication limits config for a campaign. This API is idempotent.
     ///
@@ -616,7 +616,7 @@ extension ConnectCampaignsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteCampaignCommunicationTime` operation on the `AmazonConnectCampaignServiceV2` service.
+    /// Performs the `DeleteCampaignCommunicationTime` operation on the `ConnectCampaignsV2` service.
     ///
     /// Deletes the communication time config for a campaign. This API is idempotent.
     ///
@@ -688,7 +688,7 @@ extension ConnectCampaignsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteConnectInstanceConfig` operation on the `AmazonConnectCampaignServiceV2` service.
+    /// Performs the `DeleteConnectInstanceConfig` operation on the `ConnectCampaignsV2` service.
     ///
     /// Deletes a connect instance config from the specified AWS account.
     ///
@@ -760,7 +760,7 @@ extension ConnectCampaignsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteConnectInstanceIntegration` operation on the `AmazonConnectCampaignServiceV2` service.
+    /// Performs the `DeleteConnectInstanceIntegration` operation on the `ConnectCampaignsV2` service.
     ///
     /// Delete the integration for the specified Amazon Connect instance.
     ///
@@ -833,7 +833,7 @@ extension ConnectCampaignsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteInstanceOnboardingJob` operation on the `AmazonConnectCampaignServiceV2` service.
+    /// Performs the `DeleteInstanceOnboardingJob` operation on the `ConnectCampaignsV2` service.
     ///
     /// Delete the Connect Campaigns onboarding job for the specified Amazon Connect instance.
     ///
@@ -903,7 +903,7 @@ extension ConnectCampaignsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeCampaign` operation on the `AmazonConnectCampaignServiceV2` service.
+    /// Performs the `DescribeCampaign` operation on the `ConnectCampaignsV2` service.
     ///
     /// Describes the specific campaign.
     ///
@@ -972,7 +972,7 @@ extension ConnectCampaignsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetCampaignState` operation on the `AmazonConnectCampaignServiceV2` service.
+    /// Performs the `GetCampaignState` operation on the `ConnectCampaignsV2` service.
     ///
     /// Get state of a campaign for the specified Amazon Connect account.
     ///
@@ -1042,7 +1042,7 @@ extension ConnectCampaignsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetCampaignStateBatch` operation on the `AmazonConnectCampaignServiceV2` service.
+    /// Performs the `GetCampaignStateBatch` operation on the `ConnectCampaignsV2` service.
     ///
     /// Get state of campaigns for the specified Amazon Connect account.
     ///
@@ -1114,7 +1114,7 @@ extension ConnectCampaignsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetConnectInstanceConfig` operation on the `AmazonConnectCampaignServiceV2` service.
+    /// Performs the `GetConnectInstanceConfig` operation on the `ConnectCampaignsV2` service.
     ///
     /// Get the specific Connect instance config.
     ///
@@ -1183,7 +1183,7 @@ extension ConnectCampaignsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetInstanceOnboardingJobStatus` operation on the `AmazonConnectCampaignServiceV2` service.
+    /// Performs the `GetInstanceOnboardingJobStatus` operation on the `ConnectCampaignsV2` service.
     ///
     /// Get the specific instance onboarding job status.
     ///
@@ -1252,7 +1252,7 @@ extension ConnectCampaignsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListCampaigns` operation on the `AmazonConnectCampaignServiceV2` service.
+    /// Performs the `ListCampaigns` operation on the `ConnectCampaignsV2` service.
     ///
     /// Provides summary information about the campaigns under the specified Amazon Connect account.
     ///
@@ -1323,7 +1323,7 @@ extension ConnectCampaignsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListConnectInstanceIntegrations` operation on the `AmazonConnectCampaignServiceV2` service.
+    /// Performs the `ListConnectInstanceIntegrations` operation on the `ConnectCampaignsV2` service.
     ///
     /// Provides summary information about the integration under the specified Connect instance.
     ///
@@ -1394,7 +1394,7 @@ extension ConnectCampaignsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `AmazonConnectCampaignServiceV2` service.
+    /// Performs the `ListTagsForResource` operation on the `ConnectCampaignsV2` service.
     ///
     /// List tags for a resource.
     ///
@@ -1464,7 +1464,7 @@ extension ConnectCampaignsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PauseCampaign` operation on the `AmazonConnectCampaignServiceV2` service.
+    /// Performs the `PauseCampaign` operation on the `ConnectCampaignsV2` service.
     ///
     /// Pauses a campaign for the specified Amazon Connect account.
     ///
@@ -1536,7 +1536,7 @@ extension ConnectCampaignsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutConnectInstanceIntegration` operation on the `AmazonConnectCampaignServiceV2` service.
+    /// Performs the `PutConnectInstanceIntegration` operation on the `ConnectCampaignsV2` service.
     ///
     /// Put or update the integration for the specified Amazon Connect instance.
     ///
@@ -1610,7 +1610,7 @@ extension ConnectCampaignsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutOutboundRequestBatch` operation on the `AmazonConnectCampaignServiceV2` service.
+    /// Performs the `PutOutboundRequestBatch` operation on the `ConnectCampaignsV2` service.
     ///
     /// Creates outbound requests for the specified campaign Amazon Connect account. This API is idempotent.
     ///
@@ -1685,7 +1685,7 @@ extension ConnectCampaignsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutProfileOutboundRequestBatch` operation on the `AmazonConnectCampaignServiceV2` service.
+    /// Performs the `PutProfileOutboundRequestBatch` operation on the `ConnectCampaignsV2` service.
     ///
     /// Takes in a list of profile outbound requests to be placed as part of an outbound campaign. This API is idempotent.
     ///
@@ -1760,7 +1760,7 @@ extension ConnectCampaignsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ResumeCampaign` operation on the `AmazonConnectCampaignServiceV2` service.
+    /// Performs the `ResumeCampaign` operation on the `ConnectCampaignsV2` service.
     ///
     /// Stops a campaign for the specified Amazon Connect account.
     ///
@@ -1832,7 +1832,7 @@ extension ConnectCampaignsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartCampaign` operation on the `AmazonConnectCampaignServiceV2` service.
+    /// Performs the `StartCampaign` operation on the `ConnectCampaignsV2` service.
     ///
     /// Starts a campaign for the specified Amazon Connect account.
     ///
@@ -1904,7 +1904,7 @@ extension ConnectCampaignsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartInstanceOnboardingJob` operation on the `AmazonConnectCampaignServiceV2` service.
+    /// Performs the `StartInstanceOnboardingJob` operation on the `ConnectCampaignsV2` service.
     ///
     /// Onboard the specific Amazon Connect instance to Connect Campaigns.
     ///
@@ -1978,7 +1978,7 @@ extension ConnectCampaignsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopCampaign` operation on the `AmazonConnectCampaignServiceV2` service.
+    /// Performs the `StopCampaign` operation on the `ConnectCampaignsV2` service.
     ///
     /// Stops a campaign for the specified Amazon Connect account.
     ///
@@ -2050,7 +2050,7 @@ extension ConnectCampaignsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `AmazonConnectCampaignServiceV2` service.
+    /// Performs the `TagResource` operation on the `ConnectCampaignsV2` service.
     ///
     /// Tag a resource.
     ///
@@ -2123,7 +2123,7 @@ extension ConnectCampaignsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `AmazonConnectCampaignServiceV2` service.
+    /// Performs the `UntagResource` operation on the `ConnectCampaignsV2` service.
     ///
     /// Untag a resource.
     ///
@@ -2194,7 +2194,7 @@ extension ConnectCampaignsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateCampaignChannelSubtypeConfig` operation on the `AmazonConnectCampaignServiceV2` service.
+    /// Performs the `UpdateCampaignChannelSubtypeConfig` operation on the `ConnectCampaignsV2` service.
     ///
     /// Updates the channel subtype config of a campaign. This API is idempotent.
     ///
@@ -2267,7 +2267,7 @@ extension ConnectCampaignsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateCampaignCommunicationLimits` operation on the `AmazonConnectCampaignServiceV2` service.
+    /// Performs the `UpdateCampaignCommunicationLimits` operation on the `ConnectCampaignsV2` service.
     ///
     /// Updates the communication limits config for a campaign. This API is idempotent.
     ///
@@ -2341,7 +2341,7 @@ extension ConnectCampaignsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateCampaignCommunicationTime` operation on the `AmazonConnectCampaignServiceV2` service.
+    /// Performs the `UpdateCampaignCommunicationTime` operation on the `ConnectCampaignsV2` service.
     ///
     /// Updates the communication time config for a campaign. This API is idempotent.
     ///
@@ -2415,7 +2415,7 @@ extension ConnectCampaignsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateCampaignFlowAssociation` operation on the `AmazonConnectCampaignServiceV2` service.
+    /// Performs the `UpdateCampaignFlowAssociation` operation on the `ConnectCampaignsV2` service.
     ///
     /// Updates the campaign flow associated with a campaign. This API is idempotent.
     ///
@@ -2489,7 +2489,7 @@ extension ConnectCampaignsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateCampaignName` operation on the `AmazonConnectCampaignServiceV2` service.
+    /// Performs the `UpdateCampaignName` operation on the `ConnectCampaignsV2` service.
     ///
     /// Updates the name of a campaign. This API is idempotent.
     ///
@@ -2562,7 +2562,7 @@ extension ConnectCampaignsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateCampaignSchedule` operation on the `AmazonConnectCampaignServiceV2` service.
+    /// Performs the `UpdateCampaignSchedule` operation on the `ConnectCampaignsV2` service.
     ///
     /// Updates the schedule for a campaign. This API is idempotent.
     ///
@@ -2636,7 +2636,7 @@ extension ConnectCampaignsV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateCampaignSource` operation on the `AmazonConnectCampaignServiceV2` service.
+    /// Performs the `UpdateCampaignSource` operation on the `ConnectCampaignsV2` service.
     ///
     /// Updates the campaign source with a campaign. This API is idempotent.
     ///
