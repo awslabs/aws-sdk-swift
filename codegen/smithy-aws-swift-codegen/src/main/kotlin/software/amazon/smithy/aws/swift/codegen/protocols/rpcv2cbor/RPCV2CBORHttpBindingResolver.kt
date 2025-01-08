@@ -29,6 +29,6 @@ class RPCV2CBORHttpBindingResolver(
         .builder()
         .code(200)
         .method("POST")
-        .uri(UriPattern.parse("/service/${getServiceName()}/operation/${operationShape.id.name}"))
+        .uri(UriPattern.parse("/service/${serviceName}/operation/${operationShape.id.name}"))
         .build()
 }
