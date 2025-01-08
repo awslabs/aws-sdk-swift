@@ -52,8 +52,7 @@ public struct DependencyException: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         message: Swift.String? = nil,
         parameterName: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.parameterName = parameterName
     }
@@ -80,8 +79,7 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
     public init(
         message: Swift.String? = nil,
         parameterName: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.parameterName = parameterName
     }
@@ -105,8 +103,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -118,8 +115,7 @@ public struct GetAgentConfigurationInput: Swift.Sendable {
 
     public init(
         agentId: Swift.String? = nil
-    )
-    {
+    ) {
         self.agentId = agentId
     }
 }
@@ -133,8 +129,7 @@ public struct GetAgentConfigurationOutput: Swift.Sendable {
     public init(
         agentId: Swift.String? = nil,
         taskingDocument: Swift.String? = nil
-    )
-    {
+    ) {
         self.agentId = agentId
         self.taskingDocument = taskingDocument
     }
@@ -154,8 +149,7 @@ extension GroundStationClientTypes {
         public init(
             componentType: Swift.String? = nil,
             versions: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.componentType = componentType
             self.versions = versions
         }
@@ -190,8 +184,7 @@ extension GroundStationClientTypes {
             instanceId: Swift.String? = nil,
             instanceType: Swift.String? = nil,
             reservedCpuCores: [Swift.Int]? = nil
-        )
-        {
+        ) {
             self.agentCpuCores = agentCpuCores
             self.agentVersion = agentVersion
             self.componentVersions = componentVersions
@@ -220,8 +213,7 @@ extension GroundStationClientTypes {
             capabilityArns: [Swift.String]? = nil,
             privateIpAddresses: [Swift.String]? = nil,
             publicIpAddresses: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.capabilityArns = capabilityArns
             self.privateIpAddresses = privateIpAddresses
             self.publicIpAddresses = publicIpAddresses
@@ -240,8 +232,7 @@ public struct RegisterAgentInput: Swift.Sendable {
     public init(
         agentDetails: GroundStationClientTypes.AgentDetails? = nil,
         discoveryData: GroundStationClientTypes.DiscoveryData? = nil
-    )
-    {
+    ) {
         self.agentDetails = agentDetails
         self.discoveryData = discoveryData
     }
@@ -253,8 +244,7 @@ public struct RegisterAgentOutput: Swift.Sendable {
 
     public init(
         agentId: Swift.String? = nil
-    )
-    {
+    ) {
         self.agentId = agentId
     }
 }
@@ -307,8 +297,7 @@ extension GroundStationClientTypes {
         public init(
             signatureMap: [Swift.String: Swift.Bool]? = nil,
             status: GroundStationClientTypes.AgentStatus? = nil
-        )
-        {
+        ) {
             self.signatureMap = signatureMap
             self.status = status
         }
@@ -346,8 +335,7 @@ extension GroundStationClientTypes {
             dataflowId: Swift.String? = nil,
             packetsDropped: Swift.Int? = nil,
             status: GroundStationClientTypes.AgentStatus? = nil
-        )
-        {
+        ) {
             self.bytesReceived = bytesReceived
             self.bytesSent = bytesSent
             self.capabilityArn = capabilityArn
@@ -378,8 +366,7 @@ public struct UpdateAgentStatusInput: Swift.Sendable {
         aggregateStatus: GroundStationClientTypes.AggregateStatus? = nil,
         componentStatuses: [GroundStationClientTypes.ComponentStatusData]? = nil,
         taskId: Swift.String? = nil
-    )
-    {
+    ) {
         self.agentId = agentId
         self.aggregateStatus = aggregateStatus
         self.componentStatuses = componentStatuses
@@ -394,8 +381,7 @@ public struct UpdateAgentStatusOutput: Swift.Sendable {
 
     public init(
         agentId: Swift.String? = nil
-    )
-    {
+    ) {
         self.agentId = agentId
     }
 }
@@ -438,8 +424,7 @@ extension GroundStationClientTypes {
 
         public init(
             outputNode: Swift.String? = nil
-        )
-        {
+        ) {
             self.outputNode = outputNode
         }
     }
@@ -497,8 +482,7 @@ extension GroundStationClientTypes {
         public init(
             units: GroundStationClientTypes.BandwidthUnits? = nil,
             value: Swift.Double? = nil
-        )
-        {
+        ) {
             self.units = units
             self.value = value
         }
@@ -551,8 +535,7 @@ extension GroundStationClientTypes {
         public init(
             units: GroundStationClientTypes.FrequencyUnits? = nil,
             value: Swift.Double? = nil
-        )
-        {
+        ) {
             self.units = units
             self.value = value
         }
@@ -614,8 +597,7 @@ extension GroundStationClientTypes {
             bandwidth: GroundStationClientTypes.FrequencyBandwidth? = nil,
             centerFrequency: GroundStationClientTypes.Frequency? = nil,
             polarization: GroundStationClientTypes.Polarization? = nil
-        )
-        {
+        ) {
             self.bandwidth = bandwidth
             self.centerFrequency = centerFrequency
             self.polarization = polarization
@@ -633,8 +615,7 @@ extension GroundStationClientTypes {
 
         public init(
             spectrumConfig: GroundStationClientTypes.SpectrumConfig? = nil
-        )
-        {
+        ) {
             self.spectrumConfig = spectrumConfig
         }
     }
@@ -650,8 +631,7 @@ extension GroundStationClientTypes {
 
         public init(
             unvalidatedJSON: Swift.String? = nil
-        )
-        {
+        ) {
             self.unvalidatedJSON = unvalidatedJSON
         }
     }
@@ -667,8 +647,7 @@ extension GroundStationClientTypes {
 
         public init(
             unvalidatedJSON: Swift.String? = nil
-        )
-        {
+        ) {
             self.unvalidatedJSON = unvalidatedJSON
         }
     }
@@ -692,8 +671,7 @@ extension GroundStationClientTypes {
             decodeConfig: GroundStationClientTypes.DecodeConfig? = nil,
             demodulationConfig: GroundStationClientTypes.DemodulationConfig? = nil,
             spectrumConfig: GroundStationClientTypes.SpectrumConfig? = nil
-        )
-        {
+        ) {
             self.decodeConfig = decodeConfig
             self.demodulationConfig = demodulationConfig
             self.spectrumConfig = spectrumConfig
@@ -714,8 +692,7 @@ extension GroundStationClientTypes {
         public init(
             centerFrequency: GroundStationClientTypes.Frequency? = nil,
             polarization: GroundStationClientTypes.Polarization? = nil
-        )
-        {
+        ) {
             self.centerFrequency = centerFrequency
             self.polarization = polarization
         }
@@ -762,8 +739,7 @@ extension GroundStationClientTypes {
         public init(
             units: GroundStationClientTypes.EirpUnits? = nil,
             value: Swift.Double? = nil
-        )
-        {
+        ) {
             self.units = units
             self.value = value
         }
@@ -787,8 +763,7 @@ extension GroundStationClientTypes {
             spectrumConfig: GroundStationClientTypes.UplinkSpectrumConfig? = nil,
             targetEirp: GroundStationClientTypes.Eirp? = nil,
             transmitDisabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.spectrumConfig = spectrumConfig
             self.targetEirp = targetEirp
             self.transmitDisabled = transmitDisabled
@@ -839,8 +814,7 @@ extension GroundStationClientTypes {
         public init(
             name: Swift.String? = nil,
             port: Swift.Int? = nil
-        )
-        {
+        ) {
             self.name = name
             self.port = port
         }
@@ -860,8 +834,7 @@ extension GroundStationClientTypes {
         public init(
             mtu: Swift.Int? = nil,
             socketAddress: GroundStationClientTypes.SocketAddress? = nil
-        )
-        {
+        ) {
             self.mtu = mtu
             self.socketAddress = socketAddress
         }
@@ -882,8 +855,7 @@ extension GroundStationClientTypes {
         public init(
             maximum: Swift.Int? = nil,
             minimum: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maximum = maximum
             self.minimum = minimum
         }
@@ -904,8 +876,7 @@ extension GroundStationClientTypes {
         public init(
             name: Swift.String? = nil,
             portRange: GroundStationClientTypes.IntegerRange? = nil
-        )
-        {
+        ) {
             self.name = name
             self.portRange = portRange
         }
@@ -925,8 +896,7 @@ extension GroundStationClientTypes {
         public init(
             mtu: Swift.Int? = nil,
             socketAddress: GroundStationClientTypes.RangedSocketAddress? = nil
-        )
-        {
+        ) {
             self.mtu = mtu
             self.socketAddress = socketAddress
         }
@@ -957,8 +927,7 @@ extension GroundStationClientTypes {
             egressAddress: GroundStationClientTypes.ConnectionDetails? = nil,
             ingressAddress: GroundStationClientTypes.RangedConnectionDetails? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.agentStatus = agentStatus
             self.auditResults = auditResults
             self.egressAddress = egressAddress
@@ -976,8 +945,7 @@ public struct CancelContactInput: Swift.Sendable {
 
     public init(
         contactId: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactId = contactId
     }
 }
@@ -989,8 +957,7 @@ public struct CancelContactOutput: Swift.Sendable {
 
     public init(
         contactId: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactId = contactId
     }
 }
@@ -1133,8 +1100,7 @@ public struct ResourceLimitExceededException: ClientRuntime.ModeledError, AWSCli
     public init(
         message: Swift.String? = nil,
         parameterName: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.parameterName = parameterName
     }
@@ -1153,8 +1119,7 @@ extension GroundStationClientTypes {
         public init(
             dataflowEndpointName: Swift.String? = nil,
             dataflowEndpointRegion: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataflowEndpointName = dataflowEndpointName
             self.dataflowEndpointRegion = dataflowEndpointRegion
         }
@@ -1178,8 +1143,7 @@ extension GroundStationClientTypes {
             bucketArn: Swift.String? = nil,
             `prefix`: Swift.String? = nil,
             roleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucketArn = bucketArn
             self.`prefix` = `prefix`
             self.roleArn = roleArn
@@ -1229,8 +1193,7 @@ extension GroundStationClientTypes {
 
         public init(
             autotrack: GroundStationClientTypes.Criticality? = nil
-        )
-        {
+        ) {
             self.autotrack = autotrack
         }
     }
@@ -1250,8 +1213,7 @@ extension GroundStationClientTypes {
         public init(
             antennaUplinkConfigArn: Swift.String? = nil,
             enabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.antennaUplinkConfigArn = antennaUplinkConfigArn
             self.enabled = enabled
         }
@@ -1295,8 +1257,7 @@ public struct CreateConfigInput: Swift.Sendable {
         configData: GroundStationClientTypes.ConfigTypeData? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.configData = configData
         self.name = name
         self.tags = tags
@@ -1316,8 +1277,7 @@ public struct CreateConfigOutput: Swift.Sendable {
         configArn: Swift.String? = nil,
         configId: Swift.String? = nil,
         configType: GroundStationClientTypes.ConfigCapabilityType? = nil
-    )
-    {
+    ) {
         self.configArn = configArn
         self.configId = configId
         self.configType = configType
@@ -1336,8 +1296,7 @@ public struct DeleteConfigInput: Swift.Sendable {
     public init(
         configId: Swift.String? = nil,
         configType: GroundStationClientTypes.ConfigCapabilityType? = nil
-    )
-    {
+    ) {
         self.configId = configId
         self.configType = configType
     }
@@ -1356,8 +1315,7 @@ public struct DeleteConfigOutput: Swift.Sendable {
         configArn: Swift.String? = nil,
         configId: Swift.String? = nil,
         configType: GroundStationClientTypes.ConfigCapabilityType? = nil
-    )
-    {
+    ) {
         self.configArn = configArn
         self.configId = configId
         self.configType = configType
@@ -1376,8 +1334,7 @@ public struct GetConfigInput: Swift.Sendable {
     public init(
         configId: Swift.String? = nil,
         configType: GroundStationClientTypes.ConfigCapabilityType? = nil
-    )
-    {
+    ) {
         self.configId = configId
         self.configType = configType
     }
@@ -1409,8 +1366,7 @@ public struct GetConfigOutput: Swift.Sendable {
         configType: GroundStationClientTypes.ConfigCapabilityType? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.configArn = configArn
         self.configData = configData
         self.configId = configId
@@ -1430,8 +1386,7 @@ public struct ListConfigsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -1455,8 +1410,7 @@ extension GroundStationClientTypes {
             configId: Swift.String? = nil,
             configType: GroundStationClientTypes.ConfigCapabilityType? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.configArn = configArn
             self.configId = configId
             self.configType = configType
@@ -1475,8 +1429,7 @@ public struct ListConfigsOutput: Swift.Sendable {
     public init(
         configList: [GroundStationClientTypes.ConfigListItem]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.configList = configList
         self.nextToken = nextToken
     }
@@ -1502,8 +1455,7 @@ public struct UpdateConfigInput: Swift.Sendable {
         configId: Swift.String? = nil,
         configType: GroundStationClientTypes.ConfigCapabilityType? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.configData = configData
         self.configId = configId
         self.configType = configType
@@ -1524,8 +1476,7 @@ public struct UpdateConfigOutput: Swift.Sendable {
         configArn: Swift.String? = nil,
         configId: Swift.String? = nil,
         configType: GroundStationClientTypes.ConfigCapabilityType? = nil
-    )
-    {
+    ) {
         self.configArn = configArn
         self.configId = configId
         self.configType = configType
@@ -1588,8 +1539,7 @@ extension GroundStationClientTypes {
             mtu: Swift.Int? = nil,
             name: Swift.String? = nil,
             status: GroundStationClientTypes.EndpointStatus? = nil
-        )
-        {
+        ) {
             self.address = address
             self.mtu = mtu
             self.name = name
@@ -1616,8 +1566,7 @@ extension GroundStationClientTypes {
             roleArn: Swift.String? = nil,
             securityGroupIds: [Swift.String]? = nil,
             subnetIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.roleArn = roleArn
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
@@ -1646,8 +1595,7 @@ extension GroundStationClientTypes {
             healthReasons: [GroundStationClientTypes.CapabilityHealthReason]? = nil,
             healthStatus: GroundStationClientTypes.CapabilityHealth? = nil,
             securityDetails: GroundStationClientTypes.SecurityDetails? = nil
-        )
-        {
+        ) {
             self.awsGroundStationAgentEndpoint = awsGroundStationAgentEndpoint
             self.endpoint = endpoint
             self.healthReasons = healthReasons
@@ -1669,8 +1617,7 @@ extension GroundStationClientTypes {
         public init(
             bucketArn: Swift.String? = nil,
             keyTemplate: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucketArn = bucketArn
             self.keyTemplate = keyTemplate
         }
@@ -1699,8 +1646,7 @@ public struct DescribeContactInput: Swift.Sendable {
 
     public init(
         contactId: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactId = contactId
     }
 }
@@ -1785,8 +1731,7 @@ extension GroundStationClientTypes {
             configId: Swift.String? = nil,
             configType: GroundStationClientTypes.ConfigCapabilityType? = nil,
             dataflowDestinationRegion: Swift.String? = nil
-        )
-        {
+        ) {
             self.configDetails = configDetails
             self.configId = configId
             self.configType = configType
@@ -1813,8 +1758,7 @@ extension GroundStationClientTypes {
             configId: Swift.String? = nil,
             configType: GroundStationClientTypes.ConfigCapabilityType? = nil,
             dataflowSourceRegion: Swift.String? = nil
-        )
-        {
+        ) {
             self.configDetails = configDetails
             self.configId = configId
             self.configType = configType
@@ -1838,8 +1782,7 @@ extension GroundStationClientTypes {
             destination: GroundStationClientTypes.Destination? = nil,
             errorMessage: Swift.String? = nil,
             source: GroundStationClientTypes.Source? = nil
-        )
-        {
+        ) {
             self.destination = destination
             self.errorMessage = errorMessage
             self.source = source
@@ -1861,8 +1804,7 @@ extension GroundStationClientTypes {
         public init(
             unit: GroundStationClientTypes.AngleUnits? = nil,
             value: Swift.Double? = nil
-        )
-        {
+        ) {
             self.unit = unit
             self.value = value
         }
@@ -1921,8 +1863,7 @@ public struct DescribeContactOutput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         visibilityEndTime: Foundation.Date? = nil,
         visibilityStartTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.contactId = contactId
         self.contactStatus = contactStatus
         self.dataflowList = dataflowList
@@ -1973,8 +1914,7 @@ public struct ListContactsInput: Swift.Sendable {
         satelliteArn: Swift.String? = nil,
         startTime: Foundation.Date? = nil,
         statusList: [GroundStationClientTypes.ContactStatus]? = nil
-    )
-    {
+    ) {
         self.endTime = endTime
         self.groundStation = groundStation
         self.maxResults = maxResults
@@ -2037,8 +1977,7 @@ extension GroundStationClientTypes {
             tags: [Swift.String: Swift.String]? = nil,
             visibilityEndTime: Foundation.Date? = nil,
             visibilityStartTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.contactId = contactId
             self.contactStatus = contactStatus
             self.endTime = endTime
@@ -2068,8 +2007,7 @@ public struct ListContactsOutput: Swift.Sendable {
     public init(
         contactList: [GroundStationClientTypes.ContactData]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactList = contactList
         self.nextToken = nextToken
     }
@@ -2102,8 +2040,7 @@ public struct ReserveContactInput: Swift.Sendable {
         satelliteArn: Swift.String? = nil,
         startTime: Foundation.Date? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.endTime = endTime
         self.groundStation = groundStation
         self.missionProfileArn = missionProfileArn
@@ -2120,8 +2057,7 @@ public struct ReserveContactOutput: Swift.Sendable {
 
     public init(
         contactId: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactId = contactId
     }
 }
@@ -2143,8 +2079,7 @@ public struct CreateDataflowEndpointGroupInput: Swift.Sendable {
         contactPrePassDurationSeconds: Swift.Int? = nil,
         endpointDetails: [GroundStationClientTypes.EndpointDetails]? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.contactPostPassDurationSeconds = contactPostPassDurationSeconds
         self.contactPrePassDurationSeconds = contactPrePassDurationSeconds
         self.endpointDetails = endpointDetails
@@ -2159,8 +2094,7 @@ public struct CreateDataflowEndpointGroupOutput: Swift.Sendable {
 
     public init(
         dataflowEndpointGroupId: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataflowEndpointGroupId = dataflowEndpointGroupId
     }
 }
@@ -2180,8 +2114,7 @@ extension GroundStationClientTypes {
             bucket: Swift.String? = nil,
             key: Swift.String? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucket = bucket
             self.key = key
             self.version = version
@@ -2201,8 +2134,7 @@ extension GroundStationClientTypes {
         public init(
             oemData: Swift.String? = nil,
             s3Object: GroundStationClientTypes.S3Object? = nil
-        )
-        {
+        ) {
             self.oemData = oemData
             self.s3Object = s3Object
         }
@@ -2223,8 +2155,7 @@ extension GroundStationClientTypes {
         public init(
             endTime: Foundation.Date? = nil,
             startTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.endTime = endTime
             self.startTime = startTime
         }
@@ -2249,8 +2180,7 @@ extension GroundStationClientTypes {
             tleLine1: Swift.String? = nil,
             tleLine2: Swift.String? = nil,
             validTimeRange: GroundStationClientTypes.TimeRange? = nil
-        )
-        {
+        ) {
             self.tleLine1 = tleLine1
             self.tleLine2 = tleLine2
             self.validTimeRange = validTimeRange
@@ -2270,8 +2200,7 @@ extension GroundStationClientTypes {
         public init(
             s3Object: GroundStationClientTypes.S3Object? = nil,
             tleData: [GroundStationClientTypes.TLEData]? = nil
-        )
-        {
+        ) {
             self.s3Object = s3Object
             self.tleData = tleData
         }
@@ -2319,8 +2248,7 @@ public struct CreateEphemerisInput: Swift.Sendable {
         priority: Swift.Int? = nil,
         satelliteId: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.enabled = enabled
         self.ephemeris = ephemeris
         self.expirationTime = expirationTime
@@ -2338,8 +2266,7 @@ public struct CreateEphemerisOutput: Swift.Sendable {
 
     public init(
         ephemerisId: Swift.String? = nil
-    )
-    {
+    ) {
         self.ephemerisId = ephemerisId
     }
 }
@@ -2393,8 +2320,7 @@ public struct CreateMissionProfileInput: Swift.Sendable {
         streamsKmsRole: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         trackingConfigArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactPostPassDurationSeconds = contactPostPassDurationSeconds
         self.contactPrePassDurationSeconds = contactPrePassDurationSeconds
         self.dataflowEdges = dataflowEdges
@@ -2414,8 +2340,7 @@ public struct CreateMissionProfileOutput: Swift.Sendable {
 
     public init(
         missionProfileId: Swift.String? = nil
-    )
-    {
+    ) {
         self.missionProfileId = missionProfileId
     }
 }
@@ -2428,8 +2353,7 @@ public struct DeleteDataflowEndpointGroupInput: Swift.Sendable {
 
     public init(
         dataflowEndpointGroupId: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataflowEndpointGroupId = dataflowEndpointGroupId
     }
 }
@@ -2441,8 +2365,7 @@ public struct DeleteDataflowEndpointGroupOutput: Swift.Sendable {
 
     public init(
         dataflowEndpointGroupId: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataflowEndpointGroupId = dataflowEndpointGroupId
     }
 }
@@ -2455,8 +2378,7 @@ public struct GetDataflowEndpointGroupInput: Swift.Sendable {
 
     public init(
         dataflowEndpointGroupId: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataflowEndpointGroupId = dataflowEndpointGroupId
     }
 }
@@ -2483,8 +2405,7 @@ public struct GetDataflowEndpointGroupOutput: Swift.Sendable {
         dataflowEndpointGroupId: Swift.String? = nil,
         endpointsDetails: [GroundStationClientTypes.EndpointDetails]? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.contactPostPassDurationSeconds = contactPostPassDurationSeconds
         self.contactPrePassDurationSeconds = contactPrePassDurationSeconds
         self.dataflowEndpointGroupArn = dataflowEndpointGroupArn
@@ -2504,8 +2425,7 @@ public struct ListDataflowEndpointGroupsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -2523,8 +2443,7 @@ extension GroundStationClientTypes {
         public init(
             dataflowEndpointGroupArn: Swift.String? = nil,
             dataflowEndpointGroupId: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataflowEndpointGroupArn = dataflowEndpointGroupArn
             self.dataflowEndpointGroupId = dataflowEndpointGroupId
         }
@@ -2541,8 +2460,7 @@ public struct ListDataflowEndpointGroupsOutput: Swift.Sendable {
     public init(
         dataflowEndpointGroupList: [GroundStationClientTypes.DataflowEndpointListItem]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataflowEndpointGroupList = dataflowEndpointGroupList
         self.nextToken = nextToken
     }
@@ -2555,8 +2473,7 @@ public struct DeleteEphemerisInput: Swift.Sendable {
 
     public init(
         ephemerisId: Swift.String? = nil
-    )
-    {
+    ) {
         self.ephemerisId = ephemerisId
     }
 }
@@ -2567,8 +2484,7 @@ public struct DeleteEphemerisOutput: Swift.Sendable {
 
     public init(
         ephemerisId: Swift.String? = nil
-    )
-    {
+    ) {
         self.ephemerisId = ephemerisId
     }
 }
@@ -2581,8 +2497,7 @@ public struct DeleteMissionProfileInput: Swift.Sendable {
 
     public init(
         missionProfileId: Swift.String? = nil
-    )
-    {
+    ) {
         self.missionProfileId = missionProfileId
     }
 }
@@ -2594,8 +2509,7 @@ public struct DeleteMissionProfileOutput: Swift.Sendable {
 
     public init(
         missionProfileId: Swift.String? = nil
-    )
-    {
+    ) {
         self.missionProfileId = missionProfileId
     }
 }
@@ -2607,8 +2521,7 @@ public struct DescribeEphemerisInput: Swift.Sendable {
 
     public init(
         ephemerisId: Swift.String? = nil
-    )
-    {
+    ) {
         self.ephemerisId = ephemerisId
     }
 }
@@ -2709,8 +2622,7 @@ extension GroundStationClientTypes {
         public init(
             ephemerisData: Swift.String? = nil,
             sourceS3Object: GroundStationClientTypes.S3Object? = nil
-        )
-        {
+        ) {
             self.ephemerisData = ephemerisData
             self.sourceS3Object = sourceS3Object
         }
@@ -2762,8 +2674,7 @@ public struct DescribeEphemerisOutput: Swift.Sendable {
         status: GroundStationClientTypes.EphemerisStatus? = nil,
         suppliedData: GroundStationClientTypes.EphemerisTypeDescription? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.enabled = enabled
         self.ephemerisId = ephemerisId
@@ -2804,8 +2715,7 @@ extension GroundStationClientTypes {
             priority: Swift.Int? = nil,
             sourceS3Object: GroundStationClientTypes.S3Object? = nil,
             status: GroundStationClientTypes.EphemerisStatus? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.enabled = enabled
             self.ephemerisId = ephemerisId
@@ -2841,8 +2751,7 @@ public struct ListEphemeridesInput: Swift.Sendable {
         satelliteId: Swift.String? = nil,
         startTime: Foundation.Date? = nil,
         statusList: [GroundStationClientTypes.EphemerisStatus]? = nil
-    )
-    {
+    ) {
         self.endTime = endTime
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2861,8 +2770,7 @@ public struct ListEphemeridesOutput: Swift.Sendable {
     public init(
         ephemerides: [GroundStationClientTypes.EphemerisItem]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.ephemerides = ephemerides
         self.nextToken = nextToken
     }
@@ -2885,8 +2793,7 @@ public struct UpdateEphemerisInput: Swift.Sendable {
         ephemerisId: Swift.String? = nil,
         name: Swift.String? = nil,
         priority: Swift.Int? = nil
-    )
-    {
+    ) {
         self.enabled = enabled
         self.ephemerisId = ephemerisId
         self.name = name
@@ -2900,8 +2807,7 @@ public struct UpdateEphemerisOutput: Swift.Sendable {
 
     public init(
         ephemerisId: Swift.String? = nil
-    )
-    {
+    ) {
         self.ephemerisId = ephemerisId
     }
 }
@@ -2954,8 +2860,7 @@ extension GroundStationClientTypes {
             epoch: Foundation.Date? = nil,
             name: Swift.String? = nil,
             source: GroundStationClientTypes.EphemerisSource? = nil
-        )
-        {
+        ) {
             self.ephemerisId = ephemerisId
             self.epoch = epoch
             self.name = name
@@ -2976,8 +2881,7 @@ public struct GetMinuteUsageInput: Swift.Sendable {
     public init(
         month: Swift.Int? = nil,
         year: Swift.Int? = nil
-    )
-    {
+    ) {
         self.month = month
         self.year = year
     }
@@ -3002,8 +2906,7 @@ public struct GetMinuteUsageOutput: Swift.Sendable {
         totalReservedMinuteAllocation: Swift.Int? = nil,
         totalScheduledMinutes: Swift.Int? = nil,
         upcomingMinutesScheduled: Swift.Int? = nil
-    )
-    {
+    ) {
         self.estimatedMinutesRemaining = estimatedMinutesRemaining
         self.isReservedMinutesCustomer = isReservedMinutesCustomer
         self.totalReservedMinuteAllocation = totalReservedMinuteAllocation
@@ -3020,8 +2923,7 @@ public struct GetMissionProfileInput: Swift.Sendable {
 
     public init(
         missionProfileId: Swift.String? = nil
-    )
-    {
+    ) {
         self.missionProfileId = missionProfileId
     }
 }
@@ -3066,8 +2968,7 @@ public struct GetMissionProfileOutput: Swift.Sendable {
         streamsKmsRole: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         trackingConfigArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactPostPassDurationSeconds = contactPostPassDurationSeconds
         self.contactPrePassDurationSeconds = contactPrePassDurationSeconds
         self.dataflowEdges = dataflowEdges
@@ -3091,8 +2992,7 @@ public struct GetSatelliteInput: Swift.Sendable {
 
     public init(
         satelliteId: Swift.String? = nil
-    )
-    {
+    ) {
         self.satelliteId = satelliteId
     }
 }
@@ -3116,8 +3016,7 @@ public struct GetSatelliteOutput: Swift.Sendable {
         noradSatelliteID: Swift.Int = 0,
         satelliteArn: Swift.String? = nil,
         satelliteId: Swift.String? = nil
-    )
-    {
+    ) {
         self.currentEphemeris = currentEphemeris
         self.groundStations = groundStations
         self.noradSatelliteID = noradSatelliteID
@@ -3139,8 +3038,7 @@ public struct ListGroundStationsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         satelliteId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.satelliteId = satelliteId
@@ -3162,8 +3060,7 @@ extension GroundStationClientTypes {
             groundStationId: Swift.String? = nil,
             groundStationName: Swift.String? = nil,
             region: Swift.String? = nil
-        )
-        {
+        ) {
             self.groundStationId = groundStationId
             self.groundStationName = groundStationName
             self.region = region
@@ -3181,8 +3078,7 @@ public struct ListGroundStationsOutput: Swift.Sendable {
     public init(
         groundStationList: [GroundStationClientTypes.GroundStationData]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.groundStationList = groundStationList
         self.nextToken = nextToken
     }
@@ -3196,8 +3092,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -3209,8 +3104,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -3225,8 +3119,7 @@ public struct ListMissionProfilesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -3250,8 +3143,7 @@ extension GroundStationClientTypes {
             missionProfileId: Swift.String? = nil,
             name: Swift.String? = nil,
             region: Swift.String? = nil
-        )
-        {
+        ) {
             self.missionProfileArn = missionProfileArn
             self.missionProfileId = missionProfileId
             self.name = name
@@ -3270,8 +3162,7 @@ public struct ListMissionProfilesOutput: Swift.Sendable {
     public init(
         missionProfileList: [GroundStationClientTypes.MissionProfileListItem]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.missionProfileList = missionProfileList
         self.nextToken = nextToken
     }
@@ -3309,8 +3200,7 @@ public struct UpdateMissionProfileInput: Swift.Sendable {
         streamsKmsKey: GroundStationClientTypes.KmsKey? = nil,
         streamsKmsRole: Swift.String? = nil,
         trackingConfigArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactPostPassDurationSeconds = contactPostPassDurationSeconds
         self.contactPrePassDurationSeconds = contactPrePassDurationSeconds
         self.dataflowEdges = dataflowEdges
@@ -3330,8 +3220,7 @@ public struct UpdateMissionProfileOutput: Swift.Sendable {
 
     public init(
         missionProfileId: Swift.String? = nil
-    )
-    {
+    ) {
         self.missionProfileId = missionProfileId
     }
 }
@@ -3346,8 +3235,7 @@ public struct ListSatellitesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -3374,8 +3262,7 @@ extension GroundStationClientTypes {
             noradSatelliteID: Swift.Int = 0,
             satelliteArn: Swift.String? = nil,
             satelliteId: Swift.String? = nil
-        )
-        {
+        ) {
             self.currentEphemeris = currentEphemeris
             self.groundStations = groundStations
             self.noradSatelliteID = noradSatelliteID
@@ -3395,8 +3282,7 @@ public struct ListSatellitesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         satellites: [GroundStationClientTypes.SatelliteListItem]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.satellites = satellites
     }
@@ -3414,8 +3300,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -3439,8 +3324,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }

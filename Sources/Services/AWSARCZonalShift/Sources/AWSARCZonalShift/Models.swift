@@ -45,8 +45,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -98,8 +97,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -122,8 +120,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -204,8 +201,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         message: Swift.String? = nil,
         reason: ARCZonalShiftClientTypes.ValidationExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.reason = reason
     }
@@ -252,8 +248,7 @@ public struct ListAutoshiftsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         status: ARCZonalShiftClientTypes.AutoshiftExecutionStatus? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.status = status
@@ -282,8 +277,7 @@ extension ARCZonalShiftClientTypes {
             endTime: Foundation.Date? = nil,
             startTime: Foundation.Date? = nil,
             status: ARCZonalShiftClientTypes.AutoshiftExecutionStatus? = nil
-        )
-        {
+        ) {
             self.awayFrom = awayFrom
             self.endTime = endTime
             self.startTime = startTime
@@ -301,8 +295,7 @@ public struct ListAutoshiftsOutput: Swift.Sendable {
     public init(
         items: [ARCZonalShiftClientTypes.AutoshiftSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -355,8 +348,7 @@ extension ARCZonalShiftClientTypes {
             appliedStatus: ARCZonalShiftClientTypes.AutoshiftAppliedStatus? = nil,
             awayFrom: Swift.String? = nil,
             startTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.appliedStatus = appliedStatus
             self.awayFrom = awayFrom
             self.startTime = startTime
@@ -405,8 +397,7 @@ public struct GetAutoshiftObserverNotificationStatusOutput: Swift.Sendable {
 
     public init(
         status: ARCZonalShiftClientTypes.AutoshiftObserverNotificationStatus? = nil
-    )
-    {
+    ) {
         self.status = status
     }
 }
@@ -418,8 +409,7 @@ public struct UpdateAutoshiftObserverNotificationStatusInput: Swift.Sendable {
 
     public init(
         status: ARCZonalShiftClientTypes.AutoshiftObserverNotificationStatus? = nil
-    )
-    {
+    ) {
         self.status = status
     }
 }
@@ -431,8 +421,7 @@ public struct UpdateAutoshiftObserverNotificationStatusOutput: Swift.Sendable {
 
     public init(
         status: ARCZonalShiftClientTypes.AutoshiftObserverNotificationStatus? = nil
-    )
-    {
+    ) {
         self.status = status
     }
 }
@@ -504,8 +493,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
         message: Swift.String? = nil,
         reason: ARCZonalShiftClientTypes.ConflictExceptionReason? = nil,
         zonalShiftId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.reason = reason
         self.properties.zonalShiftId = zonalShiftId
@@ -531,8 +519,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -544,8 +531,7 @@ public struct CancelZonalShiftInput: Swift.Sendable {
 
     public init(
         zonalShiftId: Swift.String? = nil
-    )
-    {
+    ) {
         self.zonalShiftId = zonalShiftId
     }
 }
@@ -619,8 +605,7 @@ public struct CancelZonalShiftOutput: Swift.Sendable {
         startTime: Foundation.Date? = nil,
         status: ARCZonalShiftClientTypes.ZonalShiftStatus? = nil,
         zonalShiftId: Swift.String? = nil
-    )
-    {
+    ) {
         self.awayFrom = awayFrom
         self.comment = comment
         self.expiryTime = expiryTime
@@ -671,8 +656,7 @@ extension ARCZonalShiftClientTypes {
         public init(
             alarmIdentifier: Swift.String? = nil,
             type: ARCZonalShiftClientTypes.ControlConditionType? = nil
-        )
-        {
+        ) {
             self.alarmIdentifier = alarmIdentifier
             self.type = type
         }
@@ -699,8 +683,7 @@ public struct CreatePracticeRunConfigurationInput: Swift.Sendable {
         blockingAlarms: [ARCZonalShiftClientTypes.ControlCondition]? = nil,
         outcomeAlarms: [ARCZonalShiftClientTypes.ControlCondition]? = nil,
         resourceIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.blockedDates = blockedDates
         self.blockedWindows = blockedWindows
         self.blockingAlarms = blockingAlarms
@@ -728,8 +711,7 @@ extension ARCZonalShiftClientTypes {
             blockedWindows: [Swift.String]? = nil,
             blockingAlarms: [ARCZonalShiftClientTypes.ControlCondition]? = nil,
             outcomeAlarms: [ARCZonalShiftClientTypes.ControlCondition]? = nil
-        )
-        {
+        ) {
             self.blockedDates = blockedDates
             self.blockedWindows = blockedWindows
             self.blockingAlarms = blockingAlarms
@@ -786,8 +768,7 @@ public struct CreatePracticeRunConfigurationOutput: Swift.Sendable {
         name: Swift.String? = nil,
         practiceRunConfiguration: ARCZonalShiftClientTypes.PracticeRunConfiguration? = nil,
         zonalAutoshiftStatus: ARCZonalShiftClientTypes.ZonalAutoshiftStatus? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.name = name
         self.practiceRunConfiguration = practiceRunConfiguration
@@ -802,8 +783,7 @@ public struct DeletePracticeRunConfigurationInput: Swift.Sendable {
 
     public init(
         resourceIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceIdentifier = resourceIdentifier
     }
 }
@@ -823,8 +803,7 @@ public struct DeletePracticeRunConfigurationOutput: Swift.Sendable {
         arn: Swift.String? = nil,
         name: Swift.String? = nil,
         zonalAutoshiftStatus: ARCZonalShiftClientTypes.ZonalAutoshiftStatus? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.name = name
         self.zonalAutoshiftStatus = zonalAutoshiftStatus
@@ -838,8 +817,7 @@ public struct GetManagedResourceInput: Swift.Sendable {
 
     public init(
         resourceIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceIdentifier = resourceIdentifier
     }
 }
@@ -927,8 +905,7 @@ extension ARCZonalShiftClientTypes {
             resourceIdentifier: Swift.String? = nil,
             startTime: Foundation.Date? = nil,
             zonalShiftId: Swift.String? = nil
-        )
-        {
+        ) {
             self.appliedStatus = appliedStatus
             self.awayFrom = awayFrom
             self.comment = comment
@@ -967,8 +944,7 @@ public struct GetManagedResourceOutput: Swift.Sendable {
         practiceRunConfiguration: ARCZonalShiftClientTypes.PracticeRunConfiguration? = nil,
         zonalAutoshiftStatus: ARCZonalShiftClientTypes.ZonalAutoshiftStatus? = nil,
         zonalShifts: [ARCZonalShiftClientTypes.ZonalShiftInResource]? = nil
-    )
-    {
+    ) {
         self.appliedWeights = appliedWeights
         self.arn = arn
         self.autoshifts = autoshifts
@@ -988,8 +964,7 @@ public struct ListManagedResourcesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -1026,8 +1001,7 @@ extension ARCZonalShiftClientTypes {
             practiceRunStatus: ARCZonalShiftClientTypes.ZonalAutoshiftStatus? = nil,
             zonalAutoshiftStatus: ARCZonalShiftClientTypes.ZonalAutoshiftStatus? = nil,
             zonalShifts: [ARCZonalShiftClientTypes.ZonalShiftInResource]? = nil
-        )
-        {
+        ) {
             self.appliedWeights = appliedWeights
             self.arn = arn
             self.autoshifts = autoshifts
@@ -1050,8 +1024,7 @@ public struct ListManagedResourcesOutput: Swift.Sendable {
     public init(
         items: [ARCZonalShiftClientTypes.ManagedResourceSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -1078,8 +1051,7 @@ public struct ListZonalShiftsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         resourceIdentifier: Swift.String? = nil,
         status: ARCZonalShiftClientTypes.ZonalShiftStatus? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.resourceIdentifier = resourceIdentifier
@@ -1141,8 +1113,7 @@ extension ARCZonalShiftClientTypes {
             startTime: Foundation.Date? = nil,
             status: ARCZonalShiftClientTypes.ZonalShiftStatus? = nil,
             zonalShiftId: Swift.String? = nil
-        )
-        {
+        ) {
             self.awayFrom = awayFrom
             self.comment = comment
             self.expiryTime = expiryTime
@@ -1164,8 +1135,7 @@ public struct ListZonalShiftsOutput: Swift.Sendable {
     public init(
         items: [ARCZonalShiftClientTypes.ZonalShiftSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -1182,8 +1152,7 @@ public struct UpdateZonalAutoshiftConfigurationInput: Swift.Sendable {
     public init(
         resourceIdentifier: Swift.String? = nil,
         zonalAutoshiftStatus: ARCZonalShiftClientTypes.ZonalAutoshiftStatus? = nil
-    )
-    {
+    ) {
         self.resourceIdentifier = resourceIdentifier
         self.zonalAutoshiftStatus = zonalAutoshiftStatus
     }
@@ -1200,8 +1169,7 @@ public struct UpdateZonalAutoshiftConfigurationOutput: Swift.Sendable {
     public init(
         resourceIdentifier: Swift.String? = nil,
         zonalAutoshiftStatus: ARCZonalShiftClientTypes.ZonalAutoshiftStatus? = nil
-    )
-    {
+    ) {
         self.resourceIdentifier = resourceIdentifier
         self.zonalAutoshiftStatus = zonalAutoshiftStatus
     }
@@ -1226,8 +1194,7 @@ public struct UpdatePracticeRunConfigurationInput: Swift.Sendable {
         blockingAlarms: [ARCZonalShiftClientTypes.ControlCondition]? = nil,
         outcomeAlarms: [ARCZonalShiftClientTypes.ControlCondition]? = nil,
         resourceIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.blockedDates = blockedDates
         self.blockedWindows = blockedWindows
         self.blockingAlarms = blockingAlarms
@@ -1255,8 +1222,7 @@ public struct UpdatePracticeRunConfigurationOutput: Swift.Sendable {
         name: Swift.String? = nil,
         practiceRunConfiguration: ARCZonalShiftClientTypes.PracticeRunConfiguration? = nil,
         zonalAutoshiftStatus: ARCZonalShiftClientTypes.ZonalAutoshiftStatus? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.name = name
         self.practiceRunConfiguration = practiceRunConfiguration
@@ -1284,8 +1250,7 @@ public struct UpdateZonalShiftInput: Swift.Sendable {
         comment: Swift.String? = nil,
         expiresIn: Swift.String? = nil,
         zonalShiftId: Swift.String? = nil
-    )
-    {
+    ) {
         self.comment = comment
         self.expiresIn = expiresIn
         self.zonalShiftId = zonalShiftId
@@ -1329,8 +1294,7 @@ public struct UpdateZonalShiftOutput: Swift.Sendable {
         startTime: Foundation.Date? = nil,
         status: ARCZonalShiftClientTypes.ZonalShiftStatus? = nil,
         zonalShiftId: Swift.String? = nil
-    )
-    {
+    ) {
         self.awayFrom = awayFrom
         self.comment = comment
         self.expiryTime = expiryTime
@@ -1367,8 +1331,7 @@ public struct StartZonalShiftInput: Swift.Sendable {
         comment: Swift.String? = nil,
         expiresIn: Swift.String? = nil,
         resourceIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.awayFrom = awayFrom
         self.comment = comment
         self.expiresIn = expiresIn
@@ -1413,8 +1376,7 @@ public struct StartZonalShiftOutput: Swift.Sendable {
         startTime: Foundation.Date? = nil,
         status: ARCZonalShiftClientTypes.ZonalShiftStatus? = nil,
         zonalShiftId: Swift.String? = nil
-    )
-    {
+    ) {
         self.awayFrom = awayFrom
         self.comment = comment
         self.expiryTime = expiryTime

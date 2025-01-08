@@ -45,8 +45,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -63,8 +62,7 @@ extension SimSpaceWeaverClientTypes {
         public init(
             actual: Swift.Int? = nil,
             declared: Swift.Int? = nil
-        )
-        {
+        ) {
             self.actual = actual
             self.declared = declared
         }
@@ -150,8 +148,7 @@ extension SimSpaceWeaverClientTypes {
 
         public init(
             logGroupArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.logGroupArn = logGroupArn
         }
     }
@@ -175,8 +172,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -199,8 +195,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -223,8 +218,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -247,8 +241,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -266,8 +259,7 @@ extension SimSpaceWeaverClientTypes {
         public init(
             bucketName: Swift.String? = nil,
             objectKeyPrefix: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucketName = bucketName
             self.objectKeyPrefix = objectKeyPrefix
         }
@@ -285,8 +277,7 @@ public struct CreateSnapshotInput: Swift.Sendable {
     public init(
         destination: SimSpaceWeaverClientTypes.S3Destination? = nil,
         simulation: Swift.String? = nil
-    )
-    {
+    ) {
         self.destination = destination
         self.simulation = simulation
     }
@@ -312,8 +303,7 @@ public struct DeleteAppInput: Swift.Sendable {
         app: Swift.String? = nil,
         domain: Swift.String? = nil,
         simulation: Swift.String? = nil
-    )
-    {
+    ) {
         self.app = app
         self.domain = domain
         self.simulation = simulation
@@ -332,8 +322,7 @@ public struct DeleteSimulationInput: Swift.Sendable {
 
     public init(
         simulation: Swift.String? = nil
-    )
-    {
+    ) {
         self.simulation = simulation
     }
 }
@@ -358,8 +347,7 @@ public struct DescribeAppInput: Swift.Sendable {
         app: Swift.String? = nil,
         domain: Swift.String? = nil,
         simulation: Swift.String? = nil
-    )
-    {
+    ) {
         self.app = app
         self.domain = domain
         self.simulation = simulation
@@ -378,8 +366,7 @@ extension SimSpaceWeaverClientTypes {
         public init(
             address: Swift.String? = nil,
             ingressPortMappings: [SimSpaceWeaverClientTypes.SimulationAppPortMapping]? = nil
-        )
-        {
+        ) {
             self.address = address
             self.ingressPortMappings = ingressPortMappings
         }
@@ -395,8 +382,7 @@ extension SimSpaceWeaverClientTypes {
 
         public init(
             launchCommands: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.launchCommands = launchCommands
         }
     }
@@ -502,8 +488,7 @@ public struct DescribeAppOutput: Swift.Sendable {
         simulation: Swift.String? = nil,
         status: SimSpaceWeaverClientTypes.SimulationAppStatus? = nil,
         targetStatus: SimSpaceWeaverClientTypes.SimulationAppTargetStatus? = nil
-    )
-    {
+    ) {
         self.description = description
         self.domain = domain
         self.endpointInfo = endpointInfo
@@ -522,8 +507,7 @@ public struct DescribeSimulationInput: Swift.Sendable {
 
     public init(
         simulation: Swift.String? = nil
-    )
-    {
+    ) {
         self.simulation = simulation
     }
 }
@@ -540,8 +524,7 @@ extension SimSpaceWeaverClientTypes {
         public init(
             status: SimSpaceWeaverClientTypes.ClockStatus? = nil,
             targetStatus: SimSpaceWeaverClientTypes.ClockTargetStatus? = nil
-        )
-        {
+        ) {
             self.status = status
             self.targetStatus = targetStatus
         }
@@ -601,8 +584,7 @@ extension SimSpaceWeaverClientTypes {
         public init(
             lifecycle: SimSpaceWeaverClientTypes.LifecycleManagementStrategy? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.lifecycle = lifecycle
             self.name = name
         }
@@ -621,8 +603,7 @@ extension SimSpaceWeaverClientTypes {
         public init(
             clocks: [SimSpaceWeaverClientTypes.SimulationClock]? = nil,
             domains: [SimSpaceWeaverClientTypes.Domain]? = nil
-        )
-        {
+        ) {
             self.clocks = clocks
             self.domains = domains
         }
@@ -638,8 +619,7 @@ extension SimSpaceWeaverClientTypes {
 
         public init(
             cloudWatchLogsLogGroup: SimSpaceWeaverClientTypes.CloudWatchLogsLogGroup? = nil
-        )
-        {
+        ) {
             self.cloudWatchLogsLogGroup = cloudWatchLogsLogGroup
         }
     }
@@ -654,8 +634,7 @@ extension SimSpaceWeaverClientTypes {
 
         public init(
             destinations: [SimSpaceWeaverClientTypes.LogDestination]? = nil
-        )
-        {
+        ) {
             self.destinations = destinations
         }
     }
@@ -675,8 +654,7 @@ extension SimSpaceWeaverClientTypes {
         public init(
             bucketName: Swift.String? = nil,
             objectKey: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucketName = bucketName
             self.objectKey = objectKey
         }
@@ -817,8 +795,7 @@ public struct DescribeSimulationOutput: Swift.Sendable {
         startError: Swift.String? = nil,
         status: SimSpaceWeaverClientTypes.SimulationStatus? = nil,
         targetStatus: SimSpaceWeaverClientTypes.SimulationTargetStatus? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationTime = creationTime
         self.description = description
@@ -853,8 +830,7 @@ public struct ListAppsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         simulation: Swift.String? = nil
-    )
-    {
+    ) {
         self.domain = domain
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -883,8 +859,7 @@ extension SimSpaceWeaverClientTypes {
             simulation: Swift.String? = nil,
             status: SimSpaceWeaverClientTypes.SimulationAppStatus? = nil,
             targetStatus: SimSpaceWeaverClientTypes.SimulationAppTargetStatus? = nil
-        )
-        {
+        ) {
             self.domain = domain
             self.name = name
             self.simulation = simulation
@@ -903,8 +878,7 @@ public struct ListAppsOutput: Swift.Sendable {
     public init(
         apps: [SimSpaceWeaverClientTypes.SimulationAppMetadata]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.apps = apps
         self.nextToken = nextToken
     }
@@ -919,8 +893,7 @@ public struct ListSimulationsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -947,8 +920,7 @@ extension SimSpaceWeaverClientTypes {
             name: Swift.String? = nil,
             status: SimSpaceWeaverClientTypes.SimulationStatus? = nil,
             targetStatus: SimSpaceWeaverClientTypes.SimulationTargetStatus? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.creationTime = creationTime
             self.name = name
@@ -967,8 +939,7 @@ public struct ListSimulationsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         simulations: [SimSpaceWeaverClientTypes.SimulationMetadata]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.simulations = simulations
     }
@@ -981,8 +952,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -993,8 +963,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -1017,8 +986,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1047,8 +1015,7 @@ public struct StartAppInput: Swift.Sendable {
         launchOverrides: SimSpaceWeaverClientTypes.LaunchOverrides? = nil,
         name: Swift.String? = nil,
         simulation: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.domain = domain
@@ -1075,8 +1042,7 @@ public struct StartAppOutput: Swift.Sendable {
         domain: Swift.String? = nil,
         name: Swift.String? = nil,
         simulation: Swift.String? = nil
-    )
-    {
+    ) {
         self.domain = domain
         self.name = name
         self.simulation = simulation
@@ -1090,8 +1056,7 @@ public struct StartClockInput: Swift.Sendable {
 
     public init(
         simulation: Swift.String? = nil
-    )
-    {
+    ) {
         self.simulation = simulation
     }
 }
@@ -1130,8 +1095,7 @@ public struct StartSimulationInput: Swift.Sendable {
         schemaS3Location: SimSpaceWeaverClientTypes.S3Location? = nil,
         snapshotS3Location: SimSpaceWeaverClientTypes.S3Location? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.maximumDuration = maximumDuration
@@ -1160,8 +1124,7 @@ public struct StartSimulationOutput: Swift.Sendable {
         arn: Swift.String? = nil,
         creationTime: Foundation.Date? = nil,
         executionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationTime = creationTime
         self.executionId = executionId
@@ -1183,8 +1146,7 @@ public struct StopAppInput: Swift.Sendable {
         app: Swift.String? = nil,
         domain: Swift.String? = nil,
         simulation: Swift.String? = nil
-    )
-    {
+    ) {
         self.app = app
         self.domain = domain
         self.simulation = simulation
@@ -1203,8 +1165,7 @@ public struct StopClockInput: Swift.Sendable {
 
     public init(
         simulation: Swift.String? = nil
-    )
-    {
+    ) {
         self.simulation = simulation
     }
 }
@@ -1221,8 +1182,7 @@ public struct StopSimulationInput: Swift.Sendable {
 
     public init(
         simulation: Swift.String? = nil
-    )
-    {
+    ) {
         self.simulation = simulation
     }
 }
@@ -1250,8 +1210,7 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1267,8 +1226,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -1290,8 +1248,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }

@@ -50,8 +50,7 @@ extension ServerlessApplicationRepositoryClientTypes {
         public init(
             applicationId: Swift.String? = nil,
             semanticVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.applicationId = applicationId
             self.semanticVersion = semanticVersion
         }
@@ -78,8 +77,7 @@ extension ServerlessApplicationRepositoryClientTypes {
             principalOrgIDs: [Swift.String]? = nil,
             principals: [Swift.String]? = nil,
             statementId: Swift.String? = nil
-        )
-        {
+        ) {
             self.actions = actions
             self.principalOrgIDs = principalOrgIDs
             self.principals = principals
@@ -122,8 +120,7 @@ extension ServerlessApplicationRepositoryClientTypes {
             labels: [Swift.String]? = nil,
             name: Swift.String? = nil,
             spdxLicenseId: Swift.String? = nil
-        )
-        {
+        ) {
             self.applicationId = applicationId
             self.author = author
             self.creationTime = creationTime
@@ -219,8 +216,7 @@ extension ServerlessApplicationRepositoryClientTypes {
             noEcho: Swift.Bool? = nil,
             referencedByResources: [Swift.String]? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.allowedPattern = allowedPattern
             self.allowedValues = allowedValues
             self.constraintDescription = constraintDescription
@@ -252,8 +248,7 @@ extension ServerlessApplicationRepositoryClientTypes {
         public init(
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -274,8 +269,7 @@ extension ServerlessApplicationRepositoryClientTypes {
         public init(
             arn: Swift.String? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.type = type
         }
@@ -296,8 +290,7 @@ extension ServerlessApplicationRepositoryClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -325,8 +318,7 @@ extension ServerlessApplicationRepositoryClientTypes {
             creationTime: Swift.String? = nil,
             semanticVersion: Swift.String? = nil,
             sourceCodeUrl: Swift.String? = nil
-        )
-        {
+        ) {
             self.applicationId = applicationId
             self.creationTime = creationTime
             self.semanticVersion = semanticVersion
@@ -357,8 +349,7 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.message = message
     }
@@ -386,8 +377,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public init(
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.message = message
     }
@@ -415,8 +405,7 @@ public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.A
     public init(
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.message = message
     }
@@ -444,8 +433,7 @@ public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClien
     public init(
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.message = message
     }
@@ -473,8 +461,7 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
     public init(
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.message = message
     }
@@ -531,8 +518,7 @@ public struct CreateApplicationInput: Swift.Sendable {
         spdxLicenseId: Swift.String? = nil,
         templateBody: Swift.String? = nil,
         templateUrl: Swift.String? = nil
-    )
-    {
+    ) {
         self.author = author
         self.description = description
         self.homePageUrl = homePageUrl
@@ -591,8 +577,7 @@ extension ServerlessApplicationRepositoryClientTypes {
             sourceCodeArchiveUrl: Swift.String? = nil,
             sourceCodeUrl: Swift.String? = nil,
             templateUrl: Swift.String? = nil
-        )
-        {
+        ) {
             self.applicationId = applicationId
             self.creationTime = creationTime
             self.parameterDefinitions = parameterDefinitions
@@ -648,8 +633,7 @@ public struct CreateApplicationOutput: Swift.Sendable {
         spdxLicenseId: Swift.String? = nil,
         verifiedAuthorUrl: Swift.String? = nil,
         version: ServerlessApplicationRepositoryClientTypes.Version? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.author = author
         self.creationTime = creationTime
@@ -689,8 +673,7 @@ public struct CreateApplicationVersionInput: Swift.Sendable {
         sourceCodeUrl: Swift.String? = nil,
         templateBody: Swift.String? = nil,
         templateUrl: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.semanticVersion = semanticVersion
         self.sourceCodeArchiveUrl = sourceCodeArchiveUrl
@@ -730,8 +713,7 @@ public struct CreateApplicationVersionOutput: Swift.Sendable {
         sourceCodeArchiveUrl: Swift.String? = nil,
         sourceCodeUrl: Swift.String? = nil,
         templateUrl: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.creationTime = creationTime
         self.parameterDefinitions = parameterDefinitions
@@ -756,8 +738,7 @@ extension ServerlessApplicationRepositoryClientTypes {
         public init(
             monitoringTimeInMinutes: Swift.Int? = nil,
             rollbackTriggers: [ServerlessApplicationRepositoryClientTypes.RollbackTrigger]? = nil
-        )
-        {
+        ) {
             self.monitoringTimeInMinutes = monitoringTimeInMinutes
             self.rollbackTriggers = rollbackTriggers
         }
@@ -808,8 +789,7 @@ public struct CreateCloudFormationChangeSetInput: Swift.Sendable {
         stackName: Swift.String? = nil,
         tags: [ServerlessApplicationRepositoryClientTypes.Tag]? = nil,
         templateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.capabilities = capabilities
         self.changeSetName = changeSetName
@@ -841,8 +821,7 @@ public struct CreateCloudFormationChangeSetOutput: Swift.Sendable {
         changeSetId: Swift.String? = nil,
         semanticVersion: Swift.String? = nil,
         stackId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.changeSetId = changeSetId
         self.semanticVersion = semanticVersion
@@ -872,8 +851,7 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public init(
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.message = message
     }
@@ -889,8 +867,7 @@ public struct CreateCloudFormationTemplateInput: Swift.Sendable {
     public init(
         applicationId: Swift.String? = nil,
         semanticVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.semanticVersion = semanticVersion
     }
@@ -952,8 +929,7 @@ public struct CreateCloudFormationTemplateOutput: Swift.Sendable {
         status: ServerlessApplicationRepositoryClientTypes.Status? = nil,
         templateId: Swift.String? = nil,
         templateUrl: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.creationTime = creationTime
         self.expirationTime = expirationTime
@@ -971,8 +947,7 @@ public struct DeleteApplicationInput: Swift.Sendable {
 
     public init(
         applicationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
     }
 }
@@ -987,8 +962,7 @@ public struct GetApplicationInput: Swift.Sendable {
     public init(
         applicationId: Swift.String? = nil,
         semanticVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.semanticVersion = semanticVersion
     }
@@ -1036,8 +1010,7 @@ public struct GetApplicationOutput: Swift.Sendable {
         spdxLicenseId: Swift.String? = nil,
         verifiedAuthorUrl: Swift.String? = nil,
         version: ServerlessApplicationRepositoryClientTypes.Version? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.author = author
         self.creationTime = creationTime
@@ -1061,8 +1034,7 @@ public struct GetApplicationPolicyInput: Swift.Sendable {
 
     public init(
         applicationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
     }
 }
@@ -1073,8 +1045,7 @@ public struct GetApplicationPolicyOutput: Swift.Sendable {
 
     public init(
         statements: [ServerlessApplicationRepositoryClientTypes.ApplicationPolicyStatement]? = nil
-    )
-    {
+    ) {
         self.statements = statements
     }
 }
@@ -1090,8 +1061,7 @@ public struct GetCloudFormationTemplateInput: Swift.Sendable {
     public init(
         applicationId: Swift.String? = nil,
         templateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.templateId = templateId
     }
@@ -1121,8 +1091,7 @@ public struct GetCloudFormationTemplateOutput: Swift.Sendable {
         status: ServerlessApplicationRepositoryClientTypes.Status? = nil,
         templateId: Swift.String? = nil,
         templateUrl: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.creationTime = creationTime
         self.expirationTime = expirationTime
@@ -1149,8 +1118,7 @@ public struct ListApplicationDependenciesInput: Swift.Sendable {
         maxItems: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         semanticVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.maxItems = maxItems
         self.nextToken = nextToken
@@ -1167,8 +1135,7 @@ public struct ListApplicationDependenciesOutput: Swift.Sendable {
     public init(
         dependencies: [ServerlessApplicationRepositoryClientTypes.ApplicationDependencySummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.dependencies = dependencies
         self.nextToken = nextToken
     }
@@ -1183,8 +1150,7 @@ public struct ListApplicationsInput: Swift.Sendable {
     public init(
         maxItems: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxItems = maxItems
         self.nextToken = nextToken
     }
@@ -1199,8 +1165,7 @@ public struct ListApplicationsOutput: Swift.Sendable {
     public init(
         applications: [ServerlessApplicationRepositoryClientTypes.ApplicationSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.applications = applications
         self.nextToken = nextToken
     }
@@ -1219,8 +1184,7 @@ public struct ListApplicationVersionsInput: Swift.Sendable {
         applicationId: Swift.String? = nil,
         maxItems: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.maxItems = maxItems
         self.nextToken = nextToken
@@ -1236,8 +1200,7 @@ public struct ListApplicationVersionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         versions: [ServerlessApplicationRepositoryClientTypes.VersionSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.versions = versions
     }
@@ -1254,8 +1217,7 @@ public struct PutApplicationPolicyInput: Swift.Sendable {
     public init(
         applicationId: Swift.String? = nil,
         statements: [ServerlessApplicationRepositoryClientTypes.ApplicationPolicyStatement]? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.statements = statements
     }
@@ -1267,8 +1229,7 @@ public struct PutApplicationPolicyOutput: Swift.Sendable {
 
     public init(
         statements: [ServerlessApplicationRepositoryClientTypes.ApplicationPolicyStatement]? = nil
-    )
-    {
+    ) {
         self.statements = statements
     }
 }
@@ -1284,8 +1245,7 @@ public struct UnshareApplicationInput: Swift.Sendable {
     public init(
         applicationId: Swift.String? = nil,
         organizationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.organizationId = organizationId
     }
@@ -1316,8 +1276,7 @@ public struct UpdateApplicationInput: Swift.Sendable {
         labels: [Swift.String]? = nil,
         readmeBody: Swift.String? = nil,
         readmeUrl: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.author = author
         self.description = description
@@ -1370,8 +1329,7 @@ public struct UpdateApplicationOutput: Swift.Sendable {
         spdxLicenseId: Swift.String? = nil,
         verifiedAuthorUrl: Swift.String? = nil,
         version: ServerlessApplicationRepositoryClientTypes.Version? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.author = author
         self.creationTime = creationTime

@@ -36,8 +36,7 @@ extension KafkaConnectClientTypes {
 
         public init(
             cpuUtilizationPercentage: Swift.Int = 0
-        )
-        {
+        ) {
             self.cpuUtilizationPercentage = cpuUtilizationPercentage
         }
     }
@@ -52,8 +51,7 @@ extension KafkaConnectClientTypes {
 
         public init(
             cpuUtilizationPercentage: Swift.Int = 0
-        )
-        {
+        ) {
             self.cpuUtilizationPercentage = cpuUtilizationPercentage
         }
     }
@@ -80,8 +78,7 @@ extension KafkaConnectClientTypes {
             minWorkerCount: Swift.Int = 0,
             scaleInPolicy: KafkaConnectClientTypes.ScaleInPolicyDescription? = nil,
             scaleOutPolicy: KafkaConnectClientTypes.ScaleOutPolicyDescription? = nil
-        )
-        {
+        ) {
             self.maxWorkerCount = maxWorkerCount
             self.mcuCount = mcuCount
             self.minWorkerCount = minWorkerCount
@@ -103,8 +100,7 @@ extension KafkaConnectClientTypes {
         public init(
             mcuCount: Swift.Int = 0,
             workerCount: Swift.Int = 0
-        )
-        {
+        ) {
             self.mcuCount = mcuCount
             self.workerCount = workerCount
         }
@@ -123,8 +119,7 @@ extension KafkaConnectClientTypes {
         public init(
             autoScaling: KafkaConnectClientTypes.AutoScalingDescription? = nil,
             provisionedCapacity: KafkaConnectClientTypes.ProvisionedCapacityDescription? = nil
-        )
-        {
+        ) {
             self.autoScaling = autoScaling
             self.provisionedCapacity = provisionedCapacity
         }
@@ -181,8 +176,7 @@ extension KafkaConnectClientTypes {
         public init(
             securityGroups: [Swift.String]? = nil,
             subnets: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.securityGroups = securityGroups
             self.subnets = subnets
         }
@@ -201,8 +195,7 @@ extension KafkaConnectClientTypes {
         public init(
             bootstrapServers: Swift.String? = nil,
             vpc: KafkaConnectClientTypes.VpcDescription? = nil
-        )
-        {
+        ) {
             self.bootstrapServers = bootstrapServers
             self.vpc = vpc
         }
@@ -218,8 +211,7 @@ extension KafkaConnectClientTypes {
 
         public init(
             apacheKafkaCluster: KafkaConnectClientTypes.ApacheKafkaClusterDescription? = nil
-        )
-        {
+        ) {
             self.apacheKafkaCluster = apacheKafkaCluster
         }
     }
@@ -263,8 +255,7 @@ extension KafkaConnectClientTypes {
 
         public init(
             authenticationType: KafkaConnectClientTypes.KafkaClusterClientAuthenticationType? = nil
-        )
-        {
+        ) {
             self.authenticationType = authenticationType
         }
     }
@@ -308,8 +299,7 @@ extension KafkaConnectClientTypes {
 
         public init(
             encryptionType: KafkaConnectClientTypes.KafkaClusterEncryptionInTransitType? = nil
-        )
-        {
+        ) {
             self.encryptionType = encryptionType
         }
     }
@@ -327,8 +317,7 @@ extension KafkaConnectClientTypes {
         public init(
             enabled: Swift.Bool = false,
             logGroup: Swift.String? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
             self.logGroup = logGroup
         }
@@ -347,8 +336,7 @@ extension KafkaConnectClientTypes {
         public init(
             deliveryStream: Swift.String? = nil,
             enabled: Swift.Bool = false
-        )
-        {
+        ) {
             self.deliveryStream = deliveryStream
             self.enabled = enabled
         }
@@ -370,8 +358,7 @@ extension KafkaConnectClientTypes {
             bucket: Swift.String? = nil,
             enabled: Swift.Bool = false,
             `prefix`: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucket = bucket
             self.enabled = enabled
             self.`prefix` = `prefix`
@@ -394,8 +381,7 @@ extension KafkaConnectClientTypes {
             cloudWatchLogs: KafkaConnectClientTypes.CloudWatchLogsLogDeliveryDescription? = nil,
             firehose: KafkaConnectClientTypes.FirehoseLogDeliveryDescription? = nil,
             s3: KafkaConnectClientTypes.S3LogDeliveryDescription? = nil
-        )
-        {
+        ) {
             self.cloudWatchLogs = cloudWatchLogs
             self.firehose = firehose
             self.s3 = s3
@@ -412,8 +398,7 @@ extension KafkaConnectClientTypes {
 
         public init(
             workerLogDelivery: KafkaConnectClientTypes.WorkerLogDeliveryDescription? = nil
-        )
-        {
+        ) {
             self.workerLogDelivery = workerLogDelivery
         }
     }
@@ -431,8 +416,7 @@ extension KafkaConnectClientTypes {
         public init(
             customPluginArn: Swift.String? = nil,
             revision: Swift.Int = 0
-        )
-        {
+        ) {
             self.customPluginArn = customPluginArn
             self.revision = revision
         }
@@ -448,8 +432,7 @@ extension KafkaConnectClientTypes {
 
         public init(
             customPlugin: KafkaConnectClientTypes.CustomPluginDescription? = nil
-        )
-        {
+        ) {
             self.customPlugin = customPlugin
         }
     }
@@ -467,8 +450,7 @@ extension KafkaConnectClientTypes {
         public init(
             revision: Swift.Int = 0,
             workerConfigurationArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.revision = revision
             self.workerConfigurationArn = workerConfigurationArn
         }
@@ -526,8 +508,7 @@ extension KafkaConnectClientTypes {
             plugins: [KafkaConnectClientTypes.PluginDescription]? = nil,
             serviceExecutionRoleArn: Swift.String? = nil,
             workerConfiguration: KafkaConnectClientTypes.WorkerConfigurationDescription? = nil
-        )
-        {
+        ) {
             self.capacity = capacity
             self.connectorArn = connectorArn
             self.connectorDescription = connectorDescription
@@ -629,8 +610,7 @@ extension KafkaConnectClientTypes {
         public init(
             fileMd5: Swift.String? = nil,
             fileSize: Swift.Int = 0
-        )
-        {
+        ) {
             self.fileMd5 = fileMd5
             self.fileSize = fileSize
         }
@@ -652,8 +632,7 @@ extension KafkaConnectClientTypes {
             bucketArn: Swift.String? = nil,
             fileKey: Swift.String? = nil,
             objectVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucketArn = bucketArn
             self.fileKey = fileKey
             self.objectVersion = objectVersion
@@ -670,8 +649,7 @@ extension KafkaConnectClientTypes {
 
         public init(
             s3Location: KafkaConnectClientTypes.S3LocationDescription? = nil
-        )
-        {
+        ) {
             self.s3Location = s3Location
         }
     }
@@ -701,8 +679,7 @@ extension KafkaConnectClientTypes {
             fileDescription: KafkaConnectClientTypes.CustomPluginFileDescription? = nil,
             location: KafkaConnectClientTypes.CustomPluginLocationDescription? = nil,
             revision: Swift.Int = 0
-        )
-        {
+        ) {
             self.contentType = contentType
             self.creationTime = creationTime
             self.description = description
@@ -737,8 +714,7 @@ extension KafkaConnectClientTypes {
             description: Swift.String? = nil,
             latestRevision: KafkaConnectClientTypes.CustomPluginRevisionSummary? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.customPluginArn = customPluginArn
             self.customPluginState = customPluginState
@@ -763,8 +739,7 @@ extension KafkaConnectClientTypes {
         public init(
             customPluginArn: Swift.String? = nil,
             revision: Swift.Int = 0
-        )
-        {
+        ) {
             self.customPluginArn = customPluginArn
             self.revision = revision
         }
@@ -781,8 +756,7 @@ extension KafkaConnectClientTypes {
 
         public init(
             customPlugin: KafkaConnectClientTypes.CustomPlugin? = nil
-        )
-        {
+        ) {
             self.customPlugin = customPlugin
         }
     }
@@ -803,8 +777,7 @@ extension KafkaConnectClientTypes {
             creationTime: Foundation.Date? = nil,
             description: Swift.String? = nil,
             revision: Swift.Int = 0
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.description = description
             self.revision = revision
@@ -865,8 +838,7 @@ extension KafkaConnectClientTypes {
             name: Swift.String? = nil,
             workerConfigurationArn: Swift.String? = nil,
             workerConfigurationState: KafkaConnectClientTypes.WorkerConfigurationState? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.description = description
             self.latestRevision = latestRevision
@@ -890,8 +862,7 @@ extension KafkaConnectClientTypes {
         public init(
             securityGroups: [Swift.String]? = nil,
             subnets: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.securityGroups = securityGroups
             self.subnets = subnets
         }
@@ -912,8 +883,7 @@ extension KafkaConnectClientTypes {
         public init(
             bootstrapServers: Swift.String? = nil,
             vpc: KafkaConnectClientTypes.Vpc? = nil
-        )
-        {
+        ) {
             self.bootstrapServers = bootstrapServers
             self.vpc = vpc
         }
@@ -930,8 +900,7 @@ extension KafkaConnectClientTypes {
 
         public init(
             cpuUtilizationPercentage: Swift.Int = 0
-        )
-        {
+        ) {
             self.cpuUtilizationPercentage = cpuUtilizationPercentage
         }
     }
@@ -947,8 +916,7 @@ extension KafkaConnectClientTypes {
 
         public init(
             cpuUtilizationPercentage: Swift.Int = 0
-        )
-        {
+        ) {
             self.cpuUtilizationPercentage = cpuUtilizationPercentage
         }
     }
@@ -978,8 +946,7 @@ extension KafkaConnectClientTypes {
             minWorkerCount: Swift.Int = 0,
             scaleInPolicy: KafkaConnectClientTypes.ScaleInPolicy? = nil,
             scaleOutPolicy: KafkaConnectClientTypes.ScaleOutPolicy? = nil
-        )
-        {
+        ) {
             self.maxWorkerCount = maxWorkerCount
             self.mcuCount = mcuCount
             self.minWorkerCount = minWorkerCount
@@ -999,8 +966,7 @@ extension KafkaConnectClientTypes {
 
         public init(
             cpuUtilizationPercentage: Swift.Int = 0
-        )
-        {
+        ) {
             self.cpuUtilizationPercentage = cpuUtilizationPercentage
         }
     }
@@ -1016,8 +982,7 @@ extension KafkaConnectClientTypes {
 
         public init(
             cpuUtilizationPercentage: Swift.Int = 0
-        )
-        {
+        ) {
             self.cpuUtilizationPercentage = cpuUtilizationPercentage
         }
     }
@@ -1049,8 +1014,7 @@ extension KafkaConnectClientTypes {
             minWorkerCount: Swift.Int = 0,
             scaleInPolicy: KafkaConnectClientTypes.ScaleInPolicyUpdate? = nil,
             scaleOutPolicy: KafkaConnectClientTypes.ScaleOutPolicyUpdate? = nil
-        )
-        {
+        ) {
             self.maxWorkerCount = maxWorkerCount
             self.mcuCount = mcuCount
             self.minWorkerCount = minWorkerCount
@@ -1078,8 +1042,7 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1098,8 +1061,7 @@ extension KafkaConnectClientTypes {
         public init(
             mcuCount: Swift.Int = 0,
             workerCount: Swift.Int = 0
-        )
-        {
+        ) {
             self.mcuCount = mcuCount
             self.workerCount = workerCount
         }
@@ -1118,8 +1080,7 @@ extension KafkaConnectClientTypes {
         public init(
             autoScaling: KafkaConnectClientTypes.AutoScaling? = nil,
             provisionedCapacity: KafkaConnectClientTypes.ProvisionedCapacity? = nil
-        )
-        {
+        ) {
             self.autoScaling = autoScaling
             self.provisionedCapacity = provisionedCapacity
         }
@@ -1140,8 +1101,7 @@ extension KafkaConnectClientTypes {
         public init(
             mcuCount: Swift.Int = 0,
             workerCount: Swift.Int = 0
-        )
-        {
+        ) {
             self.mcuCount = mcuCount
             self.workerCount = workerCount
         }
@@ -1160,8 +1120,7 @@ extension KafkaConnectClientTypes {
         public init(
             autoScaling: KafkaConnectClientTypes.AutoScalingUpdate? = nil,
             provisionedCapacity: KafkaConnectClientTypes.ProvisionedCapacityUpdate? = nil
-        )
-        {
+        ) {
             self.autoScaling = autoScaling
             self.provisionedCapacity = provisionedCapacity
         }
@@ -1181,8 +1140,7 @@ extension KafkaConnectClientTypes {
         public init(
             enabled: Swift.Bool = false,
             logGroup: Swift.String? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
             self.logGroup = logGroup
         }
@@ -1207,8 +1165,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1231,8 +1188,7 @@ public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1255,8 +1211,7 @@ public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1279,8 +1234,7 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1303,8 +1257,7 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1327,8 +1280,7 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1351,8 +1303,7 @@ public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1367,8 +1318,7 @@ extension KafkaConnectClientTypes {
 
         public init(
             apacheKafkaCluster: KafkaConnectClientTypes.ApacheKafkaCluster? = nil
-        )
-        {
+        ) {
             self.apacheKafkaCluster = apacheKafkaCluster
         }
     }
@@ -1384,8 +1334,7 @@ extension KafkaConnectClientTypes {
 
         public init(
             authenticationType: KafkaConnectClientTypes.KafkaClusterClientAuthenticationType? = nil
-        )
-        {
+        ) {
             self.authenticationType = authenticationType
         }
     }
@@ -1401,8 +1350,7 @@ extension KafkaConnectClientTypes {
 
         public init(
             encryptionType: KafkaConnectClientTypes.KafkaClusterEncryptionInTransitType? = nil
-        )
-        {
+        ) {
             self.encryptionType = encryptionType
         }
     }
@@ -1421,8 +1369,7 @@ extension KafkaConnectClientTypes {
         public init(
             deliveryStream: Swift.String? = nil,
             enabled: Swift.Bool = false
-        )
-        {
+        ) {
             self.deliveryStream = deliveryStream
             self.enabled = enabled
         }
@@ -1445,8 +1392,7 @@ extension KafkaConnectClientTypes {
             bucket: Swift.String? = nil,
             enabled: Swift.Bool = false,
             `prefix`: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucket = bucket
             self.enabled = enabled
             self.`prefix` = `prefix`
@@ -1469,8 +1415,7 @@ extension KafkaConnectClientTypes {
             cloudWatchLogs: KafkaConnectClientTypes.CloudWatchLogsLogDelivery? = nil,
             firehose: KafkaConnectClientTypes.FirehoseLogDelivery? = nil,
             s3: KafkaConnectClientTypes.S3LogDelivery? = nil
-        )
-        {
+        ) {
             self.cloudWatchLogs = cloudWatchLogs
             self.firehose = firehose
             self.s3 = s3
@@ -1488,8 +1433,7 @@ extension KafkaConnectClientTypes {
 
         public init(
             workerLogDelivery: KafkaConnectClientTypes.WorkerLogDelivery? = nil
-        )
-        {
+        ) {
             self.workerLogDelivery = workerLogDelivery
         }
     }
@@ -1509,8 +1453,7 @@ extension KafkaConnectClientTypes {
         public init(
             revision: Swift.Int = 0,
             workerConfigurationArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.revision = revision
             self.workerConfigurationArn = workerConfigurationArn
         }
@@ -1568,8 +1511,7 @@ public struct CreateConnectorInput: Swift.Sendable {
         serviceExecutionRoleArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         workerConfiguration: KafkaConnectClientTypes.WorkerConfiguration? = nil
-    )
-    {
+    ) {
         self.capacity = capacity
         self.connectorConfiguration = connectorConfiguration
         self.connectorDescription = connectorDescription
@@ -1603,8 +1545,7 @@ public struct CreateConnectorOutput: Swift.Sendable {
         connectorArn: Swift.String? = nil,
         connectorName: Swift.String? = nil,
         connectorState: KafkaConnectClientTypes.ConnectorState? = nil
-    )
-    {
+    ) {
         self.connectorArn = connectorArn
         self.connectorName = connectorName
         self.connectorState = connectorState
@@ -1628,8 +1569,7 @@ extension KafkaConnectClientTypes {
             bucketArn: Swift.String? = nil,
             fileKey: Swift.String? = nil,
             objectVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucketArn = bucketArn
             self.fileKey = fileKey
             self.objectVersion = objectVersion
@@ -1647,8 +1587,7 @@ extension KafkaConnectClientTypes {
 
         public init(
             s3Location: KafkaConnectClientTypes.S3Location? = nil
-        )
-        {
+        ) {
             self.s3Location = s3Location
         }
     }
@@ -1675,8 +1614,7 @@ public struct CreateCustomPluginInput: Swift.Sendable {
         location: KafkaConnectClientTypes.CustomPluginLocation? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.contentType = contentType
         self.description = description
         self.location = location
@@ -1700,8 +1638,7 @@ public struct CreateCustomPluginOutput: Swift.Sendable {
         customPluginState: KafkaConnectClientTypes.CustomPluginState? = nil,
         name: Swift.String? = nil,
         revision: Swift.Int = 0
-    )
-    {
+    ) {
         self.customPluginArn = customPluginArn
         self.customPluginState = customPluginState
         self.name = name
@@ -1726,8 +1663,7 @@ public struct CreateWorkerConfigurationInput: Swift.Sendable {
         name: Swift.String? = nil,
         propertiesFileContent: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.name = name
         self.propertiesFileContent = propertiesFileContent
@@ -1758,8 +1694,7 @@ public struct CreateWorkerConfigurationOutput: Swift.Sendable {
         name: Swift.String? = nil,
         workerConfigurationArn: Swift.String? = nil,
         workerConfigurationState: KafkaConnectClientTypes.WorkerConfigurationState? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.latestRevision = latestRevision
         self.name = name
@@ -1778,8 +1713,7 @@ public struct DeleteConnectorInput: Swift.Sendable {
     public init(
         connectorArn: Swift.String? = nil,
         currentVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectorArn = connectorArn
         self.currentVersion = currentVersion
     }
@@ -1794,8 +1728,7 @@ public struct DeleteConnectorOutput: Swift.Sendable {
     public init(
         connectorArn: Swift.String? = nil,
         connectorState: KafkaConnectClientTypes.ConnectorState? = nil
-    )
-    {
+    ) {
         self.connectorArn = connectorArn
         self.connectorState = connectorState
     }
@@ -1808,8 +1741,7 @@ public struct DeleteCustomPluginInput: Swift.Sendable {
 
     public init(
         customPluginArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.customPluginArn = customPluginArn
     }
 }
@@ -1823,8 +1755,7 @@ public struct DeleteCustomPluginOutput: Swift.Sendable {
     public init(
         customPluginArn: Swift.String? = nil,
         customPluginState: KafkaConnectClientTypes.CustomPluginState? = nil
-    )
-    {
+    ) {
         self.customPluginArn = customPluginArn
         self.customPluginState = customPluginState
     }
@@ -1837,8 +1768,7 @@ public struct DeleteWorkerConfigurationInput: Swift.Sendable {
 
     public init(
         workerConfigurationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.workerConfigurationArn = workerConfigurationArn
     }
 }
@@ -1852,8 +1782,7 @@ public struct DeleteWorkerConfigurationOutput: Swift.Sendable {
     public init(
         workerConfigurationArn: Swift.String? = nil,
         workerConfigurationState: KafkaConnectClientTypes.WorkerConfigurationState? = nil
-    )
-    {
+    ) {
         self.workerConfigurationArn = workerConfigurationArn
         self.workerConfigurationState = workerConfigurationState
     }
@@ -1866,8 +1795,7 @@ public struct DescribeConnectorInput: Swift.Sendable {
 
     public init(
         connectorArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectorArn = connectorArn
     }
 }
@@ -1884,8 +1812,7 @@ extension KafkaConnectClientTypes {
         public init(
             code: Swift.String? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.message = message
         }
@@ -1946,8 +1873,7 @@ public struct DescribeConnectorOutput: Swift.Sendable {
         serviceExecutionRoleArn: Swift.String? = nil,
         stateDescription: KafkaConnectClientTypes.StateDescription? = nil,
         workerConfiguration: KafkaConnectClientTypes.WorkerConfigurationDescription? = nil
-    )
-    {
+    ) {
         self.capacity = capacity
         self.connectorArn = connectorArn
         self.connectorConfiguration = connectorConfiguration
@@ -1980,8 +1906,7 @@ public struct DescribeCustomPluginInput: Swift.Sendable {
 
     public init(
         customPluginArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.customPluginArn = customPluginArn
     }
 }
@@ -2010,8 +1935,7 @@ public struct DescribeCustomPluginOutput: Swift.Sendable {
         latestRevision: KafkaConnectClientTypes.CustomPluginRevisionSummary? = nil,
         name: Swift.String? = nil,
         stateDescription: KafkaConnectClientTypes.StateDescription? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.customPluginArn = customPluginArn
         self.customPluginState = customPluginState
@@ -2029,8 +1953,7 @@ public struct DescribeWorkerConfigurationInput: Swift.Sendable {
 
     public init(
         workerConfigurationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.workerConfigurationArn = workerConfigurationArn
     }
 }
@@ -2053,8 +1976,7 @@ extension KafkaConnectClientTypes {
             description: Swift.String? = nil,
             propertiesFileContent: Swift.String? = nil,
             revision: Swift.Int = 0
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.description = description
             self.propertiesFileContent = propertiesFileContent
@@ -2089,8 +2011,7 @@ public struct DescribeWorkerConfigurationOutput: Swift.Sendable {
         name: Swift.String? = nil,
         workerConfigurationArn: Swift.String? = nil,
         workerConfigurationState: KafkaConnectClientTypes.WorkerConfigurationState? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.description = description
         self.latestRevision = latestRevision
@@ -2112,8 +2033,7 @@ public struct ListConnectorsInput: Swift.Sendable {
         connectorNamePrefix: Swift.String? = nil,
         maxResults: Swift.Int = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectorNamePrefix = connectorNamePrefix
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2129,8 +2049,7 @@ public struct ListConnectorsOutput: Swift.Sendable {
     public init(
         connectors: [KafkaConnectClientTypes.ConnectorSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectors = connectors
         self.nextToken = nextToken
     }
@@ -2148,8 +2067,7 @@ public struct ListCustomPluginsInput: Swift.Sendable {
         maxResults: Swift.Int = 0,
         namePrefix: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.namePrefix = namePrefix
         self.nextToken = nextToken
@@ -2165,8 +2083,7 @@ public struct ListCustomPluginsOutput: Swift.Sendable {
     public init(
         customPlugins: [KafkaConnectClientTypes.CustomPluginSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.customPlugins = customPlugins
         self.nextToken = nextToken
     }
@@ -2179,8 +2096,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -2191,8 +2107,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -2209,8 +2124,7 @@ public struct ListWorkerConfigurationsInput: Swift.Sendable {
         maxResults: Swift.Int = 0,
         namePrefix: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.namePrefix = namePrefix
         self.nextToken = nextToken
@@ -2226,8 +2140,7 @@ public struct ListWorkerConfigurationsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         workerConfigurations: [KafkaConnectClientTypes.WorkerConfigurationSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.workerConfigurations = workerConfigurations
     }
@@ -2244,8 +2157,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -2267,8 +2179,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -2294,8 +2205,7 @@ public struct UpdateConnectorInput: Swift.Sendable {
         capacity: KafkaConnectClientTypes.CapacityUpdate? = nil,
         connectorArn: Swift.String? = nil,
         currentVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.capacity = capacity
         self.connectorArn = connectorArn
         self.currentVersion = currentVersion
@@ -2311,8 +2221,7 @@ public struct UpdateConnectorOutput: Swift.Sendable {
     public init(
         connectorArn: Swift.String? = nil,
         connectorState: KafkaConnectClientTypes.ConnectorState? = nil
-    )
-    {
+    ) {
         self.connectorArn = connectorArn
         self.connectorState = connectorState
     }

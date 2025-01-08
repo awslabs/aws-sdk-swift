@@ -41,8 +41,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -102,8 +101,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
         message: Swift.String? = nil,
         reason: InspectorScanClientTypes.InternalServerExceptionReason? = nil,
         retryAfterSeconds: Swift.Int? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.reason = reason
         self.properties.retryAfterSeconds = retryAfterSeconds
@@ -132,8 +130,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         message: Swift.String? = nil,
         retryAfterSeconds: Swift.Int? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.retryAfterSeconds = retryAfterSeconds
     }
@@ -153,8 +150,7 @@ extension InspectorScanClientTypes {
         public init(
             message: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
             self.name = name
         }
@@ -225,8 +221,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
         fields: [InspectorScanClientTypes.ValidationExceptionField]? = nil,
         message: Swift.String? = nil,
         reason: InspectorScanClientTypes.ValidationExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.fields = fields
         self.properties.message = message
         self.properties.reason = reason
@@ -272,8 +267,7 @@ public struct ScanSbomInput: Swift.Sendable {
     public init(
         outputFormat: InspectorScanClientTypes.OutputFormat? = nil,
         sbom: Smithy.Document? = nil
-    )
-    {
+    ) {
         self.outputFormat = outputFormat
         self.sbom = sbom
     }
@@ -285,8 +279,7 @@ public struct ScanSbomOutput: Swift.Sendable {
 
     public init(
         sbom: Smithy.Document? = nil
-    )
-    {
+    ) {
         self.sbom = sbom
     }
 }

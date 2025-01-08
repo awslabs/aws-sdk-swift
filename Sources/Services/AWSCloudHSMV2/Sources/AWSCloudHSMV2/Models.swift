@@ -104,8 +104,7 @@ extension CloudHSMV2ClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -161,8 +160,7 @@ extension CloudHSMV2ClientTypes {
             sourceCluster: Swift.String? = nil,
             sourceRegion: Swift.String? = nil,
             tagList: [CloudHSMV2ClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.backupArn = backupArn
             self.backupId = backupId
             self.backupState = backupState
@@ -245,8 +243,7 @@ extension CloudHSMV2ClientTypes {
         public init(
             type: CloudHSMV2ClientTypes.BackupRetentionType? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.type = type
             self.value = value
         }
@@ -271,8 +268,7 @@ public struct CloudHsmAccessDeniedException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -295,8 +291,7 @@ public struct CloudHsmInternalFailureException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -319,8 +314,7 @@ public struct CloudHsmInvalidRequestException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -343,8 +337,7 @@ public struct CloudHsmResourceNotFoundException: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -367,8 +360,7 @@ public struct CloudHsmServiceException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -391,8 +383,7 @@ public struct CloudHsmTagException: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -411,8 +402,7 @@ public struct CopyBackupToRegionInput: Swift.Sendable {
         backupId: Swift.String? = nil,
         destinationRegion: Swift.String? = nil,
         tagList: [CloudHSMV2ClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.backupId = backupId
         self.destinationRegion = destinationRegion
         self.tagList = tagList
@@ -437,8 +427,7 @@ extension CloudHSMV2ClientTypes {
             sourceBackup: Swift.String? = nil,
             sourceCluster: Swift.String? = nil,
             sourceRegion: Swift.String? = nil
-        )
-        {
+        ) {
             self.createTimestamp = createTimestamp
             self.sourceBackup = sourceBackup
             self.sourceCluster = sourceCluster
@@ -453,8 +442,7 @@ public struct CopyBackupToRegionOutput: Swift.Sendable {
 
     public init(
         destinationBackup: CloudHSMV2ClientTypes.DestinationBackup? = nil
-    )
-    {
+    ) {
         self.destinationBackup = destinationBackup
     }
 }
@@ -518,8 +506,7 @@ public struct CreateClusterInput: Swift.Sendable {
         sourceBackupId: Swift.String? = nil,
         subnetIds: [Swift.String]? = nil,
         tagList: [CloudHSMV2ClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.backupRetentionPolicy = backupRetentionPolicy
         self.hsmType = hsmType
         self.mode = mode
@@ -551,8 +538,7 @@ extension CloudHSMV2ClientTypes {
             clusterCsr: Swift.String? = nil,
             hsmCertificate: Swift.String? = nil,
             manufacturerHardwareCertificate: Swift.String? = nil
-        )
-        {
+        ) {
             self.awsHardwareCertificate = awsHardwareCertificate
             self.clusterCertificate = clusterCertificate
             self.clusterCsr = clusterCsr
@@ -637,8 +623,7 @@ extension CloudHSMV2ClientTypes {
             state: CloudHSMV2ClientTypes.HsmState? = nil,
             stateMessage: Swift.String? = nil,
             subnetId: Swift.String? = nil
-        )
-        {
+        ) {
             self.availabilityZone = availabilityZone
             self.clusterId = clusterId
             self.eniId = eniId
@@ -769,8 +754,7 @@ extension CloudHSMV2ClientTypes {
             subnetMapping: [Swift.String: Swift.String]? = nil,
             tagList: [CloudHSMV2ClientTypes.Tag]? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.backupPolicy = backupPolicy
             self.backupRetentionPolicy = backupRetentionPolicy
             self.certificates = certificates
@@ -799,8 +783,7 @@ public struct CreateClusterOutput: Swift.Sendable {
 
     public init(
         cluster: CloudHSMV2ClientTypes.Cluster? = nil
-    )
-    {
+    ) {
         self.cluster = cluster
     }
 }
@@ -819,8 +802,7 @@ public struct CreateHsmInput: Swift.Sendable {
         availabilityZone: Swift.String? = nil,
         clusterId: Swift.String? = nil,
         ipAddress: Swift.String? = nil
-    )
-    {
+    ) {
         self.availabilityZone = availabilityZone
         self.clusterId = clusterId
         self.ipAddress = ipAddress
@@ -833,8 +815,7 @@ public struct CreateHsmOutput: Swift.Sendable {
 
     public init(
         hsm: CloudHSMV2ClientTypes.Hsm? = nil
-    )
-    {
+    ) {
         self.hsm = hsm
     }
 }
@@ -846,8 +827,7 @@ public struct DeleteBackupInput: Swift.Sendable {
 
     public init(
         backupId: Swift.String? = nil
-    )
-    {
+    ) {
         self.backupId = backupId
     }
 }
@@ -858,8 +838,7 @@ public struct DeleteBackupOutput: Swift.Sendable {
 
     public init(
         backup: CloudHSMV2ClientTypes.Backup? = nil
-    )
-    {
+    ) {
         self.backup = backup
     }
 }
@@ -871,8 +850,7 @@ public struct DeleteClusterInput: Swift.Sendable {
 
     public init(
         clusterId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterId = clusterId
     }
 }
@@ -883,8 +861,7 @@ public struct DeleteClusterOutput: Swift.Sendable {
 
     public init(
         cluster: CloudHSMV2ClientTypes.Cluster? = nil
-    )
-    {
+    ) {
         self.cluster = cluster
     }
 }
@@ -905,8 +882,7 @@ public struct DeleteHsmInput: Swift.Sendable {
         eniId: Swift.String? = nil,
         eniIp: Swift.String? = nil,
         hsmId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterId = clusterId
         self.eniId = eniId
         self.eniIp = eniIp
@@ -920,8 +896,7 @@ public struct DeleteHsmOutput: Swift.Sendable {
 
     public init(
         hsmId: Swift.String? = nil
-    )
-    {
+    ) {
         self.hsmId = hsmId
     }
 }
@@ -932,8 +907,7 @@ public struct DeleteResourcePolicyInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -947,8 +921,7 @@ public struct DeleteResourcePolicyOutput: Swift.Sendable {
     public init(
         policy: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.policy = policy
         self.resourceArn = resourceArn
     }
@@ -972,8 +945,7 @@ public struct DescribeBackupsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         shared: Swift.Bool? = nil,
         sortAscending: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -991,8 +963,7 @@ public struct DescribeBackupsOutput: Swift.Sendable {
     public init(
         backups: [CloudHSMV2ClientTypes.Backup]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.backups = backups
         self.nextToken = nextToken
     }
@@ -1010,8 +981,7 @@ public struct DescribeClustersInput: Swift.Sendable {
         filters: [Swift.String: [Swift.String]]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1027,8 +997,7 @@ public struct DescribeClustersOutput: Swift.Sendable {
     public init(
         clusters: [CloudHSMV2ClientTypes.Cluster]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusters = clusters
         self.nextToken = nextToken
     }
@@ -1040,8 +1009,7 @@ public struct GetResourcePolicyInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -1052,8 +1020,7 @@ public struct GetResourcePolicyOutput: Swift.Sendable {
 
     public init(
         policy: Swift.String? = nil
-    )
-    {
+    ) {
         self.policy = policy
     }
 }
@@ -1073,8 +1040,7 @@ public struct InitializeClusterInput: Swift.Sendable {
         clusterId: Swift.String? = nil,
         signedCert: Swift.String? = nil,
         trustAnchor: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterId = clusterId
         self.signedCert = signedCert
         self.trustAnchor = trustAnchor
@@ -1090,8 +1056,7 @@ public struct InitializeClusterOutput: Swift.Sendable {
     public init(
         state: CloudHSMV2ClientTypes.ClusterState? = nil,
         stateMessage: Swift.String? = nil
-    )
-    {
+    ) {
         self.state = state
         self.stateMessage = stateMessage
     }
@@ -1110,8 +1075,7 @@ public struct ListTagsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.resourceId = resourceId
@@ -1128,8 +1092,7 @@ public struct ListTagsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         tagList: [CloudHSMV2ClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.tagList = tagList
     }
@@ -1146,8 +1109,7 @@ public struct ModifyBackupAttributesInput: Swift.Sendable {
     public init(
         backupId: Swift.String? = nil,
         neverExpires: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.backupId = backupId
         self.neverExpires = neverExpires
     }
@@ -1159,8 +1121,7 @@ public struct ModifyBackupAttributesOutput: Swift.Sendable {
 
     public init(
         backup: CloudHSMV2ClientTypes.Backup? = nil
-    )
-    {
+    ) {
         self.backup = backup
     }
 }
@@ -1178,8 +1139,7 @@ public struct ModifyClusterInput: Swift.Sendable {
         backupRetentionPolicy: CloudHSMV2ClientTypes.BackupRetentionPolicy? = nil,
         clusterId: Swift.String? = nil,
         hsmType: Swift.String? = nil
-    )
-    {
+    ) {
         self.backupRetentionPolicy = backupRetentionPolicy
         self.clusterId = clusterId
         self.hsmType = hsmType
@@ -1192,8 +1152,7 @@ public struct ModifyClusterOutput: Swift.Sendable {
 
     public init(
         cluster: CloudHSMV2ClientTypes.Cluster? = nil
-    )
-    {
+    ) {
         self.cluster = cluster
     }
 }
@@ -1207,8 +1166,7 @@ public struct PutResourcePolicyInput: Swift.Sendable {
     public init(
         policy: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.policy = policy
         self.resourceArn = resourceArn
     }
@@ -1223,8 +1181,7 @@ public struct PutResourcePolicyOutput: Swift.Sendable {
     public init(
         policy: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.policy = policy
         self.resourceArn = resourceArn
     }
@@ -1237,8 +1194,7 @@ public struct RestoreBackupInput: Swift.Sendable {
 
     public init(
         backupId: Swift.String? = nil
-    )
-    {
+    ) {
         self.backupId = backupId
     }
 }
@@ -1249,8 +1205,7 @@ public struct RestoreBackupOutput: Swift.Sendable {
 
     public init(
         backup: CloudHSMV2ClientTypes.Backup? = nil
-    )
-    {
+    ) {
         self.backup = backup
     }
 }
@@ -1273,8 +1228,7 @@ public struct CloudHsmResourceLimitExceededException: ClientRuntime.ModeledError
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1290,8 +1244,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceId: Swift.String? = nil,
         tagList: [CloudHSMV2ClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceId = resourceId
         self.tagList = tagList
     }
@@ -1313,8 +1266,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceId: Swift.String? = nil,
         tagKeyList: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceId = resourceId
         self.tagKeyList = tagKeyList
     }

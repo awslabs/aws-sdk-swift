@@ -108,8 +108,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
 
         public init(
             activeSpeakerPosition: ChimeSDKMediaPipelinesClientTypes.ActiveSpeakerPosition? = nil
-        )
-        {
+        ) {
             self.activeSpeakerPosition = activeSpeakerPosition
         }
     }
@@ -272,8 +271,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
             dataAccessRoleArn: Swift.String? = nil,
             outputEncryptionKMSKeyId: Swift.String? = nil,
             outputLocation: Swift.String? = nil
-        )
-        {
+        ) {
             self.contentRedactionOutput = contentRedactionOutput
             self.dataAccessRoleArn = dataAccessRoleArn
             self.outputEncryptionKMSKeyId = outputEncryptionKMSKeyId
@@ -360,8 +358,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
             vocabularyFilterMethod: ChimeSDKMediaPipelinesClientTypes.VocabularyFilterMethod? = nil,
             vocabularyFilterName: Swift.String? = nil,
             vocabularyName: Swift.String? = nil
-        )
-        {
+        ) {
             self.callAnalyticsStreamCategories = callAnalyticsStreamCategories
             self.contentIdentificationType = contentIdentificationType
             self.contentRedactionType = contentRedactionType
@@ -439,8 +436,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
             vocabularyFilterNames: Swift.String? = nil,
             vocabularyName: Swift.String? = nil,
             vocabularyNames: Swift.String? = nil
-        )
-        {
+        ) {
             self.contentIdentificationType = contentIdentificationType
             self.contentRedactionType = contentRedactionType
             self.enablePartialResultsStabilization = enablePartialResultsStabilization
@@ -499,8 +495,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
 
         public init(
             state: ChimeSDKMediaPipelinesClientTypes.AudioArtifactsConcatenationState? = nil
-        )
-        {
+        ) {
             self.state = state
         }
     }
@@ -545,8 +540,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
 
         public init(
             state: ChimeSDKMediaPipelinesClientTypes.ArtifactsConcatenationState? = nil
-        )
-        {
+        ) {
             self.state = state
         }
     }
@@ -562,8 +556,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
 
         public init(
             state: ChimeSDKMediaPipelinesClientTypes.ArtifactsConcatenationState? = nil
-        )
-        {
+        ) {
             self.state = state
         }
     }
@@ -579,8 +572,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
 
         public init(
             state: ChimeSDKMediaPipelinesClientTypes.ArtifactsConcatenationState? = nil
-        )
-        {
+        ) {
             self.state = state
         }
     }
@@ -596,8 +588,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
 
         public init(
             state: ChimeSDKMediaPipelinesClientTypes.ArtifactsConcatenationState? = nil
-        )
-        {
+        ) {
             self.state = state
         }
     }
@@ -613,8 +604,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
 
         public init(
             state: ChimeSDKMediaPipelinesClientTypes.ArtifactsConcatenationState? = nil
-        )
-        {
+        ) {
             self.state = state
         }
     }
@@ -630,8 +620,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
 
         public init(
             state: ChimeSDKMediaPipelinesClientTypes.ArtifactsConcatenationState? = nil
-        )
-        {
+        ) {
             self.state = state
         }
     }
@@ -671,8 +660,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
             meetingEvents: ChimeSDKMediaPipelinesClientTypes.MeetingEventsConcatenationConfiguration? = nil,
             transcriptionMessages: ChimeSDKMediaPipelinesClientTypes.TranscriptionMessagesConcatenationConfiguration? = nil,
             video: ChimeSDKMediaPipelinesClientTypes.VideoConcatenationConfiguration? = nil
-        )
-        {
+        ) {
             self.audio = audio
             self.compositedVideo = compositedVideo
             self.content = content
@@ -726,8 +714,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
 
         public init(
             muxType: ChimeSDKMediaPipelinesClientTypes.AudioMuxType? = nil
-        )
-        {
+        ) {
             self.muxType = muxType
         }
     }
@@ -873,8 +860,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
             tileCount: Swift.Int? = nil,
             tileOrder: ChimeSDKMediaPipelinesClientTypes.TileOrder? = nil,
             tilePosition: ChimeSDKMediaPipelinesClientTypes.HorizontalTilePosition? = nil
-        )
-        {
+        ) {
             self.tileAspectRatio = tileAspectRatio
             self.tileCount = tileCount
             self.tileOrder = tileOrder
@@ -927,8 +913,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
 
         public init(
             presenterPosition: ChimeSDKMediaPipelinesClientTypes.PresenterPosition? = nil
-        )
-        {
+        ) {
             self.presenterPosition = presenterPosition
         }
     }
@@ -981,8 +966,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
             tileCount: Swift.Int? = nil,
             tileOrder: ChimeSDKMediaPipelinesClientTypes.TileOrder? = nil,
             tilePosition: ChimeSDKMediaPipelinesClientTypes.VerticalTilePosition? = nil
-        )
-        {
+        ) {
             self.tileAspectRatio = tileAspectRatio
             self.tileCount = tileCount
             self.tileOrder = tileOrder
@@ -1091,8 +1075,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
             borderThickness: Swift.Int? = nil,
             cornerRadius: Swift.Int? = nil,
             highlightColor: ChimeSDKMediaPipelinesClientTypes.HighlightColor? = nil
-        )
-        {
+        ) {
             self.borderColor = borderColor
             self.borderThickness = borderThickness
             self.cornerRadius = cornerRadius
@@ -1129,8 +1112,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
             presenterOnlyConfiguration: ChimeSDKMediaPipelinesClientTypes.PresenterOnlyConfiguration? = nil,
             verticalLayoutConfiguration: ChimeSDKMediaPipelinesClientTypes.VerticalLayoutConfiguration? = nil,
             videoAttribute: ChimeSDKMediaPipelinesClientTypes.VideoAttribute? = nil
-        )
-        {
+        ) {
             self.activeSpeakerOnlyConfiguration = activeSpeakerOnlyConfiguration
             self.canvasOrientation = canvasOrientation
             self.contentShareLayout = contentShareLayout
@@ -1213,8 +1195,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
             gridViewConfiguration: ChimeSDKMediaPipelinesClientTypes.GridViewConfiguration? = nil,
             layout: ChimeSDKMediaPipelinesClientTypes.LayoutOption? = nil,
             resolution: ChimeSDKMediaPipelinesClientTypes.ResolutionOption? = nil
-        )
-        {
+        ) {
             self.gridViewConfiguration = gridViewConfiguration
             self.layout = layout
             self.resolution = resolution
@@ -1290,8 +1271,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         public init(
             muxType: ChimeSDKMediaPipelinesClientTypes.ContentMuxType? = nil,
             state: ChimeSDKMediaPipelinesClientTypes.ArtifactsState? = nil
-        )
-        {
+        ) {
             self.muxType = muxType
             self.state = state
         }
@@ -1337,8 +1317,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         public init(
             muxType: ChimeSDKMediaPipelinesClientTypes.VideoMuxType? = nil,
             state: ChimeSDKMediaPipelinesClientTypes.ArtifactsState? = nil
-        )
-        {
+        ) {
             self.muxType = muxType
             self.state = state
         }
@@ -1366,8 +1345,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
             compositedVideo: ChimeSDKMediaPipelinesClientTypes.CompositedVideoArtifactsConfiguration? = nil,
             content: ChimeSDKMediaPipelinesClientTypes.ContentArtifactsConfiguration? = nil,
             video: ChimeSDKMediaPipelinesClientTypes.VideoArtifactsConfiguration? = nil
-        )
-        {
+        ) {
             self.audio = audio
             self.compositedVideo = compositedVideo
             self.content = content
@@ -1472,8 +1450,7 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
         code: ChimeSDKMediaPipelinesClientTypes.ErrorCode? = nil,
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
         self.properties.requestId = requestId
@@ -1522,8 +1499,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         public init(
             channelId: Swift.Int = 0,
             participantRole: ChimeSDKMediaPipelinesClientTypes.ParticipantRole? = nil
-        )
-        {
+        ) {
             self.channelId = channelId
             self.participantRole = participantRole
         }
@@ -1553,8 +1529,7 @@ public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.A
         code: ChimeSDKMediaPipelinesClientTypes.ErrorCode? = nil,
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
         self.properties.requestId = requestId
@@ -1584,8 +1559,7 @@ public struct ResourceLimitExceededException: ClientRuntime.ModeledError, AWSCli
         code: ChimeSDKMediaPipelinesClientTypes.ErrorCode? = nil,
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
         self.properties.requestId = requestId
@@ -1615,8 +1589,7 @@ public struct ServiceFailureException: ClientRuntime.ModeledError, AWSClientRunt
         code: ChimeSDKMediaPipelinesClientTypes.ErrorCode? = nil,
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
         self.properties.requestId = requestId
@@ -1646,8 +1619,7 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
         code: ChimeSDKMediaPipelinesClientTypes.ErrorCode? = nil,
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
         self.properties.requestId = requestId
@@ -1677,8 +1649,7 @@ public struct ThrottledClientException: ClientRuntime.ModeledError, AWSClientRun
         code: ChimeSDKMediaPipelinesClientTypes.ErrorCode? = nil,
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
         self.properties.requestId = requestId
@@ -1708,8 +1679,7 @@ public struct UnauthorizedClientException: ClientRuntime.ModeledError, AWSClient
         code: ChimeSDKMediaPipelinesClientTypes.ErrorCode? = nil,
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
         self.properties.requestId = requestId
@@ -1728,8 +1698,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         public init(
             attendeeIds: [Swift.String]? = nil,
             externalUserIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.attendeeIds = attendeeIds
             self.externalUserIds = externalUserIds
         }
@@ -1750,8 +1719,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
 
         public init(
             selectedVideoStreams: ChimeSDKMediaPipelinesClientTypes.SelectedVideoStreams? = nil
-        )
-        {
+        ) {
             self.selectedVideoStreams = selectedVideoStreams
         }
     }
@@ -1769,8 +1737,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         public init(
             artifactsConfiguration: ChimeSDKMediaPipelinesClientTypes.ArtifactsConfiguration? = nil,
             sourceConfiguration: ChimeSDKMediaPipelinesClientTypes.SourceConfiguration? = nil
-        )
-        {
+        ) {
             self.artifactsConfiguration = artifactsConfiguration
             self.sourceConfiguration = sourceConfiguration
         }
@@ -1860,8 +1827,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         public init(
             awsKmsEncryptionContext: Swift.String? = nil,
             awsKmsKeyId: Swift.String? = nil
-        )
-        {
+        ) {
             self.awsKmsEncryptionContext = awsKmsEncryptionContext
             self.awsKmsKeyId = awsKmsKeyId
         }
@@ -1882,8 +1848,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -1924,8 +1889,7 @@ public struct CreateMediaCapturePipelineInput: Swift.Sendable {
         sourceType: ChimeSDKMediaPipelinesClientTypes.MediaPipelineSourceType? = nil,
         sseAwsKeyManagementParams: ChimeSDKMediaPipelinesClientTypes.SseAwsKeyManagementParams? = nil,
         tags: [ChimeSDKMediaPipelinesClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.chimeSdkMeetingConfiguration = chimeSdkMeetingConfiguration
         self.clientRequestToken = clientRequestToken
         self.sinkArn = sinkArn
@@ -2029,8 +1993,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
             sseAwsKeyManagementParams: ChimeSDKMediaPipelinesClientTypes.SseAwsKeyManagementParams? = nil,
             status: ChimeSDKMediaPipelinesClientTypes.MediaPipelineStatus? = nil,
             updatedTimestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.chimeSdkMeetingConfiguration = chimeSdkMeetingConfiguration
             self.createdTimestamp = createdTimestamp
             self.mediaPipelineArn = mediaPipelineArn
@@ -2058,8 +2021,7 @@ public struct CreateMediaCapturePipelineOutput: Swift.Sendable {
 
     public init(
         mediaCapturePipeline: ChimeSDKMediaPipelinesClientTypes.MediaCapturePipeline? = nil
-    )
-    {
+    ) {
         self.mediaCapturePipeline = mediaCapturePipeline
     }
 }
@@ -2074,8 +2036,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
 
         public init(
             destination: Swift.String? = nil
-        )
-        {
+        ) {
             self.destination = destination
         }
     }
@@ -2126,8 +2087,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         public init(
             s3BucketSinkConfiguration: ChimeSDKMediaPipelinesClientTypes.S3BucketSinkConfiguration? = nil,
             type: ChimeSDKMediaPipelinesClientTypes.ConcatenationSinkType? = nil
-        )
-        {
+        ) {
             self.s3BucketSinkConfiguration = s3BucketSinkConfiguration
             self.type = type
         }
@@ -2144,8 +2104,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
 
         public init(
             artifactsConfiguration: ChimeSDKMediaPipelinesClientTypes.ArtifactsConcatenationConfiguration? = nil
-        )
-        {
+        ) {
             self.artifactsConfiguration = artifactsConfiguration
         }
     }
@@ -2165,8 +2124,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         public init(
             chimeSdkMeetingConfiguration: ChimeSDKMediaPipelinesClientTypes.ChimeSdkMeetingConcatenationConfiguration? = nil,
             mediaPipelineArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.chimeSdkMeetingConfiguration = chimeSdkMeetingConfiguration
             self.mediaPipelineArn = mediaPipelineArn
         }
@@ -2218,8 +2176,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         public init(
             mediaCapturePipelineSourceConfiguration: ChimeSDKMediaPipelinesClientTypes.MediaCapturePipelineSourceConfiguration? = nil,
             type: ChimeSDKMediaPipelinesClientTypes.ConcatenationSourceType? = nil
-        )
-        {
+        ) {
             self.mediaCapturePipelineSourceConfiguration = mediaCapturePipelineSourceConfiguration
             self.type = type
         }
@@ -2243,8 +2200,7 @@ public struct CreateMediaConcatenationPipelineInput: Swift.Sendable {
         sinks: [ChimeSDKMediaPipelinesClientTypes.ConcatenationSink]? = nil,
         sources: [ChimeSDKMediaPipelinesClientTypes.ConcatenationSource]? = nil,
         tags: [ChimeSDKMediaPipelinesClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.sinks = sinks
         self.sources = sources
@@ -2284,8 +2240,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
             sources: [ChimeSDKMediaPipelinesClientTypes.ConcatenationSource]? = nil,
             status: ChimeSDKMediaPipelinesClientTypes.MediaPipelineStatus? = nil,
             updatedTimestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.createdTimestamp = createdTimestamp
             self.mediaPipelineArn = mediaPipelineArn
             self.mediaPipelineId = mediaPipelineId
@@ -2303,8 +2258,7 @@ public struct CreateMediaConcatenationPipelineOutput: Swift.Sendable {
 
     public init(
         mediaConcatenationPipeline: ChimeSDKMediaPipelinesClientTypes.MediaConcatenationPipeline? = nil
-    )
-    {
+    ) {
         self.mediaConcatenationPipeline = mediaConcatenationPipeline
     }
 }
@@ -2332,8 +2286,7 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
         code: ChimeSDKMediaPipelinesClientTypes.ErrorCode? = nil,
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
         self.properties.requestId = requestId
@@ -2383,8 +2336,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         public init(
             endTimestamp: Foundation.Date? = nil,
             startTimestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.endTimestamp = endTimestamp
             self.startTimestamp = startTimestamp
         }
@@ -2416,8 +2368,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         public init(
             fragmentSelectorType: ChimeSDKMediaPipelinesClientTypes.FragmentSelectorType? = nil,
             timestampRange: ChimeSDKMediaPipelinesClientTypes.TimestampRange? = nil
-        )
-        {
+        ) {
             self.fragmentSelectorType = fragmentSelectorType
             self.timestampRange = timestampRange
         }
@@ -2433,8 +2384,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
 
         public init(
             streamArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.streamArn = streamArn
         }
     }
@@ -2454,8 +2404,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         public init(
             fragmentSelector: ChimeSDKMediaPipelinesClientTypes.FragmentSelector? = nil,
             streams: [ChimeSDKMediaPipelinesClientTypes.RecordingStreamConfiguration]? = nil
-        )
-        {
+        ) {
             self.fragmentSelector = fragmentSelector
             self.streams = streams
         }
@@ -2501,8 +2450,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         public init(
             channelDefinitions: [ChimeSDKMediaPipelinesClientTypes.ChannelDefinition]? = nil,
             numberOfChannels: Swift.Int? = nil
-        )
-        {
+        ) {
             self.channelDefinitions = channelDefinitions
             self.numberOfChannels = numberOfChannels
         }
@@ -2526,8 +2474,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
             fragmentNumber: Swift.String? = nil,
             streamArn: Swift.String? = nil,
             streamChannelDefinition: ChimeSDKMediaPipelinesClientTypes.StreamChannelDefinition? = nil
-        )
-        {
+        ) {
             self.fragmentNumber = fragmentNumber
             self.streamArn = streamArn
             self.streamChannelDefinition = streamChannelDefinition
@@ -2553,8 +2500,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
             mediaEncoding: ChimeSDKMediaPipelinesClientTypes.MediaEncoding? = nil,
             mediaSampleRate: Swift.Int? = nil,
             streams: [ChimeSDKMediaPipelinesClientTypes.StreamConfiguration]? = nil
-        )
-        {
+        ) {
             self.mediaEncoding = mediaEncoding
             self.mediaSampleRate = mediaSampleRate
             self.streams = streams
@@ -2605,8 +2551,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         public init(
             destination: Swift.String? = nil,
             recordingFileFormat: ChimeSDKMediaPipelinesClientTypes.RecordingFileFormat? = nil
-        )
-        {
+        ) {
             self.destination = destination
             self.recordingFileFormat = recordingFileFormat
         }
@@ -2643,8 +2588,7 @@ public struct CreateMediaInsightsPipelineInput: Swift.Sendable {
         mediaInsightsRuntimeMetadata: [Swift.String: Swift.String]? = nil,
         s3RecordingSinkRuntimeConfiguration: ChimeSDKMediaPipelinesClientTypes.S3RecordingSinkRuntimeConfiguration? = nil,
         tags: [ChimeSDKMediaPipelinesClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.kinesisVideoStreamRecordingSourceRuntimeConfiguration = kinesisVideoStreamRecordingSourceRuntimeConfiguration
         self.kinesisVideoStreamSourceRuntimeConfiguration = kinesisVideoStreamSourceRuntimeConfiguration
@@ -2769,8 +2713,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         public init(
             status: ChimeSDKMediaPipelinesClientTypes.MediaPipelineElementStatus? = nil,
             type: ChimeSDKMediaPipelinesClientTypes.MediaInsightsPipelineConfigurationElementType? = nil
-        )
-        {
+        ) {
             self.status = status
             self.type = type
         }
@@ -2813,8 +2756,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
             mediaPipelineId: Swift.String? = nil,
             s3RecordingSinkRuntimeConfiguration: ChimeSDKMediaPipelinesClientTypes.S3RecordingSinkRuntimeConfiguration? = nil,
             status: ChimeSDKMediaPipelinesClientTypes.MediaPipelineStatus? = nil
-        )
-        {
+        ) {
             self.createdTimestamp = createdTimestamp
             self.elementStatuses = elementStatuses
             self.kinesisVideoStreamRecordingSourceRuntimeConfiguration = kinesisVideoStreamRecordingSourceRuntimeConfiguration
@@ -2841,8 +2783,7 @@ public struct CreateMediaInsightsPipelineOutput: Swift.Sendable {
 
     public init(
         mediaInsightsPipeline: ChimeSDKMediaPipelinesClientTypes.MediaInsightsPipeline? = nil
-    )
-    {
+    ) {
         self.mediaInsightsPipeline = mediaInsightsPipeline
     }
 }
@@ -2856,8 +2797,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
 
         public init(
             insightsTarget: Swift.String? = nil
-        )
-        {
+        ) {
             self.insightsTarget = insightsTarget
         }
     }
@@ -2877,8 +2817,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
 
         public init(
             insightsTarget: Swift.String? = nil
-        )
-        {
+        ) {
             self.insightsTarget = insightsTarget
         }
     }
@@ -2901,8 +2840,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         public init(
             destination: Swift.String? = nil,
             recordingFileFormat: ChimeSDKMediaPipelinesClientTypes.RecordingFileFormat? = nil
-        )
-        {
+        ) {
             self.destination = destination
             self.recordingFileFormat = recordingFileFormat
         }
@@ -2923,8 +2861,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
 
         public init(
             insightsTarget: Swift.String? = nil
-        )
-        {
+        ) {
             self.insightsTarget = insightsTarget
         }
     }
@@ -2944,8 +2881,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
 
         public init(
             insightsTarget: Swift.String? = nil
-        )
-        {
+        ) {
             self.insightsTarget = insightsTarget
         }
     }
@@ -2997,8 +2933,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         public init(
             speakerSearchStatus: ChimeSDKMediaPipelinesClientTypes.VoiceAnalyticsConfigurationStatus? = nil,
             voiceToneAnalysisStatus: ChimeSDKMediaPipelinesClientTypes.VoiceAnalyticsConfigurationStatus? = nil
-        )
-        {
+        ) {
             self.speakerSearchStatus = speakerSearchStatus
             self.voiceToneAnalysisStatus = voiceToneAnalysisStatus
         }
@@ -3014,8 +2949,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
 
         public init(
             disabled: Swift.Bool = false
-        )
-        {
+        ) {
             self.disabled = disabled
         }
     }
@@ -3058,8 +2992,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
             type: ChimeSDKMediaPipelinesClientTypes.MediaInsightsPipelineConfigurationElementType? = nil,
             voiceAnalyticsProcessorConfiguration: ChimeSDKMediaPipelinesClientTypes.VoiceAnalyticsProcessorConfiguration? = nil,
             voiceEnhancementSinkConfiguration: ChimeSDKMediaPipelinesClientTypes.VoiceEnhancementSinkConfiguration? = nil
-        )
-        {
+        ) {
             self.amazonTranscribeCallAnalyticsProcessorConfiguration = amazonTranscribeCallAnalyticsProcessorConfiguration
             self.amazonTranscribeProcessorConfiguration = amazonTranscribeProcessorConfiguration
             self.kinesisDataStreamSinkConfiguration = kinesisDataStreamSinkConfiguration
@@ -3084,8 +3017,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
 
         public init(
             ruleName: Swift.String? = nil
-        )
-        {
+        ) {
             self.ruleName = ruleName
         }
     }
@@ -3108,8 +3040,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
             keywords: [Swift.String]? = nil,
             negate: Swift.Bool = false,
             ruleName: Swift.String? = nil
-        )
-        {
+        ) {
             self.keywords = keywords
             self.negate = negate
             self.ruleName = ruleName
@@ -3161,8 +3092,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
             ruleName: Swift.String? = nil,
             sentimentType: ChimeSDKMediaPipelinesClientTypes.SentimentType? = nil,
             timePeriod: Swift.Int? = nil
-        )
-        {
+        ) {
             self.ruleName = ruleName
             self.sentimentType = sentimentType
             self.timePeriod = timePeriod
@@ -3221,8 +3151,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
             keywordMatchConfiguration: ChimeSDKMediaPipelinesClientTypes.KeywordMatchConfiguration? = nil,
             sentimentConfiguration: ChimeSDKMediaPipelinesClientTypes.SentimentConfiguration? = nil,
             type: ChimeSDKMediaPipelinesClientTypes.RealTimeAlertRuleType? = nil
-        )
-        {
+        ) {
             self.issueDetectionConfiguration = issueDetectionConfiguration
             self.keywordMatchConfiguration = keywordMatchConfiguration
             self.sentimentConfiguration = sentimentConfiguration
@@ -3243,8 +3172,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         public init(
             disabled: Swift.Bool = false,
             rules: [ChimeSDKMediaPipelinesClientTypes.RealTimeAlertRule]? = nil
-        )
-        {
+        ) {
             self.disabled = disabled
             self.rules = rules
         }
@@ -3275,8 +3203,7 @@ public struct CreateMediaInsightsPipelineConfigurationInput: Swift.Sendable {
         realTimeAlertConfiguration: ChimeSDKMediaPipelinesClientTypes.RealTimeAlertConfiguration? = nil,
         resourceAccessRoleArn: Swift.String? = nil,
         tags: [ChimeSDKMediaPipelinesClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.elements = elements
         self.mediaInsightsPipelineConfigurationName = mediaInsightsPipelineConfigurationName
@@ -3321,8 +3248,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
             realTimeAlertConfiguration: ChimeSDKMediaPipelinesClientTypes.RealTimeAlertConfiguration? = nil,
             resourceAccessRoleArn: Swift.String? = nil,
             updatedTimestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.createdTimestamp = createdTimestamp
             self.elements = elements
             self.mediaInsightsPipelineConfigurationArn = mediaInsightsPipelineConfigurationArn
@@ -3346,8 +3272,7 @@ public struct CreateMediaInsightsPipelineConfigurationOutput: Swift.Sendable {
 
     public init(
         mediaInsightsPipelineConfiguration: ChimeSDKMediaPipelinesClientTypes.MediaInsightsPipelineConfiguration? = nil
-    )
-    {
+    ) {
         self.mediaInsightsPipelineConfiguration = mediaInsightsPipelineConfiguration
     }
 }
@@ -3368,8 +3293,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
             audioChannels: ChimeSDKMediaPipelinesClientTypes.AudioChannelsOption? = nil,
             audioSampleRate: Swift.String? = nil,
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.audioChannels = audioChannels
             self.audioSampleRate = audioSampleRate
             self.url = url
@@ -3422,8 +3346,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         public init(
             rtmpConfiguration: ChimeSDKMediaPipelinesClientTypes.LiveConnectorRTMPConfiguration? = nil,
             sinkType: ChimeSDKMediaPipelinesClientTypes.LiveConnectorSinkType? = nil
-        )
-        {
+        ) {
             self.rtmpConfiguration = rtmpConfiguration
             self.sinkType = sinkType
         }
@@ -3479,8 +3402,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
             compositedVideo: ChimeSDKMediaPipelinesClientTypes.CompositedVideoArtifactsConfiguration? = nil,
             muxType: ChimeSDKMediaPipelinesClientTypes.LiveConnectorMuxType? = nil,
             sourceConfiguration: ChimeSDKMediaPipelinesClientTypes.SourceConfiguration? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.compositedVideo = compositedVideo
             self.muxType = muxType
@@ -3534,8 +3456,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         public init(
             chimeSdkMeetingLiveConnectorConfiguration: ChimeSDKMediaPipelinesClientTypes.ChimeSdkMeetingLiveConnectorConfiguration? = nil,
             sourceType: ChimeSDKMediaPipelinesClientTypes.LiveConnectorSourceType? = nil
-        )
-        {
+        ) {
             self.chimeSdkMeetingLiveConnectorConfiguration = chimeSdkMeetingLiveConnectorConfiguration
             self.sourceType = sourceType
         }
@@ -3559,8 +3480,7 @@ public struct CreateMediaLiveConnectorPipelineInput: Swift.Sendable {
         sinks: [ChimeSDKMediaPipelinesClientTypes.LiveConnectorSinkConfiguration]? = nil,
         sources: [ChimeSDKMediaPipelinesClientTypes.LiveConnectorSourceConfiguration]? = nil,
         tags: [ChimeSDKMediaPipelinesClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.sinks = sinks
         self.sources = sources
@@ -3600,8 +3520,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
             sources: [ChimeSDKMediaPipelinesClientTypes.LiveConnectorSourceConfiguration]? = nil,
             status: ChimeSDKMediaPipelinesClientTypes.MediaPipelineStatus? = nil,
             updatedTimestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.createdTimestamp = createdTimestamp
             self.mediaPipelineArn = mediaPipelineArn
             self.mediaPipelineId = mediaPipelineId
@@ -3619,8 +3538,7 @@ public struct CreateMediaLiveConnectorPipelineOutput: Swift.Sendable {
 
     public init(
         mediaLiveConnectorPipeline: ChimeSDKMediaPipelinesClientTypes.MediaLiveConnectorPipeline? = nil
-    )
-    {
+    ) {
         self.mediaLiveConnectorPipeline = mediaLiveConnectorPipeline
     }
 }
@@ -3648,8 +3566,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
         code: ChimeSDKMediaPipelinesClientTypes.ErrorCode? = nil,
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
         self.properties.requestId = requestId
@@ -3669,8 +3586,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         public init(
             dataRetentionInHours: Swift.Int? = nil,
             region: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataRetentionInHours = dataRetentionInHours
             self.region = region
         }
@@ -3694,8 +3610,7 @@ public struct CreateMediaPipelineKinesisVideoStreamPoolInput: Swift.Sendable {
         poolName: Swift.String? = nil,
         streamConfiguration: ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamConfiguration? = nil,
         tags: [ChimeSDKMediaPipelinesClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.poolName = poolName
         self.streamConfiguration = streamConfiguration
@@ -3776,8 +3691,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
             poolStatus: ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamPoolStatus? = nil,
             streamConfiguration: ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamConfiguration? = nil,
             updatedTimestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.createdTimestamp = createdTimestamp
             self.poolArn = poolArn
             self.poolId = poolId
@@ -3801,8 +3715,7 @@ public struct CreateMediaPipelineKinesisVideoStreamPoolOutput: Swift.Sendable {
 
     public init(
         kinesisVideoStreamPoolConfiguration: ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamPoolConfiguration? = nil
-    )
-    {
+    ) {
         self.kinesisVideoStreamPoolConfiguration = kinesisVideoStreamPoolConfiguration
     }
 }
@@ -3884,8 +3797,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
             reservedStreamCapacity: Swift.Int? = nil,
             sinkArn: Swift.String? = nil,
             sinkType: ChimeSDKMediaPipelinesClientTypes.MediaStreamPipelineSinkType? = nil
-        )
-        {
+        ) {
             self.mediaStreamType = mediaStreamType
             self.reservedStreamCapacity = reservedStreamCapacity
             self.sinkArn = sinkArn
@@ -3913,8 +3825,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         public init(
             sourceArn: Swift.String? = nil,
             sourceType: ChimeSDKMediaPipelinesClientTypes.MediaPipelineSourceType? = nil
-        )
-        {
+        ) {
             self.sourceArn = sourceArn
             self.sourceType = sourceType
         }
@@ -3943,8 +3854,7 @@ public struct CreateMediaStreamPipelineInput: Swift.Sendable {
         sinks: [ChimeSDKMediaPipelinesClientTypes.MediaStreamSink]? = nil,
         sources: [ChimeSDKMediaPipelinesClientTypes.MediaStreamSource]? = nil,
         tags: [ChimeSDKMediaPipelinesClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.sinks = sinks
         self.sources = sources
@@ -3984,8 +3894,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
             sources: [ChimeSDKMediaPipelinesClientTypes.MediaStreamSource]? = nil,
             status: ChimeSDKMediaPipelinesClientTypes.MediaPipelineStatus? = nil,
             updatedTimestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.createdTimestamp = createdTimestamp
             self.mediaPipelineArn = mediaPipelineArn
             self.mediaPipelineId = mediaPipelineId
@@ -4003,8 +3912,7 @@ public struct CreateMediaStreamPipelineOutput: Swift.Sendable {
 
     public init(
         mediaStreamPipeline: ChimeSDKMediaPipelinesClientTypes.MediaStreamPipeline? = nil
-    )
-    {
+    ) {
         self.mediaStreamPipeline = mediaStreamPipeline
     }
 }
@@ -4016,8 +3924,7 @@ public struct DeleteMediaCapturePipelineInput: Swift.Sendable {
 
     public init(
         mediaPipelineId: Swift.String? = nil
-    )
-    {
+    ) {
         self.mediaPipelineId = mediaPipelineId
     }
 }
@@ -4029,8 +3936,7 @@ public struct DeleteMediaInsightsPipelineConfigurationInput: Swift.Sendable {
 
     public init(
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.identifier = identifier
     }
 }
@@ -4042,8 +3948,7 @@ public struct DeleteMediaPipelineInput: Swift.Sendable {
 
     public init(
         mediaPipelineId: Swift.String? = nil
-    )
-    {
+    ) {
         self.mediaPipelineId = mediaPipelineId
     }
 }
@@ -4055,8 +3960,7 @@ public struct DeleteMediaPipelineKinesisVideoStreamPoolInput: Swift.Sendable {
 
     public init(
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.identifier = identifier
     }
 }
@@ -4068,8 +3972,7 @@ public struct GetMediaCapturePipelineInput: Swift.Sendable {
 
     public init(
         mediaPipelineId: Swift.String? = nil
-    )
-    {
+    ) {
         self.mediaPipelineId = mediaPipelineId
     }
 }
@@ -4080,8 +3983,7 @@ public struct GetMediaCapturePipelineOutput: Swift.Sendable {
 
     public init(
         mediaCapturePipeline: ChimeSDKMediaPipelinesClientTypes.MediaCapturePipeline? = nil
-    )
-    {
+    ) {
         self.mediaCapturePipeline = mediaCapturePipeline
     }
 }
@@ -4093,8 +3995,7 @@ public struct GetMediaInsightsPipelineConfigurationInput: Swift.Sendable {
 
     public init(
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.identifier = identifier
     }
 }
@@ -4105,8 +4006,7 @@ public struct GetMediaInsightsPipelineConfigurationOutput: Swift.Sendable {
 
     public init(
         mediaInsightsPipelineConfiguration: ChimeSDKMediaPipelinesClientTypes.MediaInsightsPipelineConfiguration? = nil
-    )
-    {
+    ) {
         self.mediaInsightsPipelineConfiguration = mediaInsightsPipelineConfiguration
     }
 }
@@ -4118,8 +4018,7 @@ public struct GetMediaPipelineInput: Swift.Sendable {
 
     public init(
         mediaPipelineId: Swift.String? = nil
-    )
-    {
+    ) {
         self.mediaPipelineId = mediaPipelineId
     }
 }
@@ -4145,8 +4044,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
             mediaInsightsPipeline: ChimeSDKMediaPipelinesClientTypes.MediaInsightsPipeline? = nil,
             mediaLiveConnectorPipeline: ChimeSDKMediaPipelinesClientTypes.MediaLiveConnectorPipeline? = nil,
             mediaStreamPipeline: ChimeSDKMediaPipelinesClientTypes.MediaStreamPipeline? = nil
-        )
-        {
+        ) {
             self.mediaCapturePipeline = mediaCapturePipeline
             self.mediaConcatenationPipeline = mediaConcatenationPipeline
             self.mediaInsightsPipeline = mediaInsightsPipeline
@@ -4162,8 +4060,7 @@ public struct GetMediaPipelineOutput: Swift.Sendable {
 
     public init(
         mediaPipeline: ChimeSDKMediaPipelinesClientTypes.MediaPipeline? = nil
-    )
-    {
+    ) {
         self.mediaPipeline = mediaPipeline
     }
 }
@@ -4175,8 +4072,7 @@ public struct GetMediaPipelineKinesisVideoStreamPoolInput: Swift.Sendable {
 
     public init(
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.identifier = identifier
     }
 }
@@ -4187,8 +4083,7 @@ public struct GetMediaPipelineKinesisVideoStreamPoolOutput: Swift.Sendable {
 
     public init(
         kinesisVideoStreamPoolConfiguration: ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamPoolConfiguration? = nil
-    )
-    {
+    ) {
         self.kinesisVideoStreamPoolConfiguration = kinesisVideoStreamPoolConfiguration
     }
 }
@@ -4204,8 +4099,7 @@ public struct GetSpeakerSearchTaskInput: Swift.Sendable {
     public init(
         identifier: Swift.String? = nil,
         speakerSearchTaskId: Swift.String? = nil
-    )
-    {
+    ) {
         self.identifier = identifier
         self.speakerSearchTaskId = speakerSearchTaskId
     }
@@ -4270,8 +4164,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
             speakerSearchTaskId: Swift.String? = nil,
             speakerSearchTaskStatus: ChimeSDKMediaPipelinesClientTypes.MediaPipelineTaskStatus? = nil,
             updatedTimestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.createdTimestamp = createdTimestamp
             self.speakerSearchTaskId = speakerSearchTaskId
             self.speakerSearchTaskStatus = speakerSearchTaskStatus
@@ -4286,8 +4179,7 @@ public struct GetSpeakerSearchTaskOutput: Swift.Sendable {
 
     public init(
         speakerSearchTask: ChimeSDKMediaPipelinesClientTypes.SpeakerSearchTask? = nil
-    )
-    {
+    ) {
         self.speakerSearchTask = speakerSearchTask
     }
 }
@@ -4303,8 +4195,7 @@ public struct GetVoiceToneAnalysisTaskInput: Swift.Sendable {
     public init(
         identifier: Swift.String? = nil,
         voiceToneAnalysisTaskId: Swift.String? = nil
-    )
-    {
+    ) {
         self.identifier = identifier
         self.voiceToneAnalysisTaskId = voiceToneAnalysisTaskId
     }
@@ -4328,8 +4219,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
             updatedTimestamp: Foundation.Date? = nil,
             voiceToneAnalysisTaskId: Swift.String? = nil,
             voiceToneAnalysisTaskStatus: ChimeSDKMediaPipelinesClientTypes.MediaPipelineTaskStatus? = nil
-        )
-        {
+        ) {
             self.createdTimestamp = createdTimestamp
             self.updatedTimestamp = updatedTimestamp
             self.voiceToneAnalysisTaskId = voiceToneAnalysisTaskId
@@ -4344,8 +4234,7 @@ public struct GetVoiceToneAnalysisTaskOutput: Swift.Sendable {
 
     public init(
         voiceToneAnalysisTask: ChimeSDKMediaPipelinesClientTypes.VoiceToneAnalysisTask? = nil
-    )
-    {
+    ) {
         self.voiceToneAnalysisTask = voiceToneAnalysisTask
     }
 }
@@ -4359,8 +4248,7 @@ public struct ListMediaCapturePipelinesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -4378,8 +4266,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         public init(
             mediaPipelineArn: Swift.String? = nil,
             mediaPipelineId: Swift.String? = nil
-        )
-        {
+        ) {
             self.mediaPipelineArn = mediaPipelineArn
             self.mediaPipelineId = mediaPipelineId
         }
@@ -4395,8 +4282,7 @@ public struct ListMediaCapturePipelinesOutput: Swift.Sendable {
     public init(
         mediaCapturePipelines: [ChimeSDKMediaPipelinesClientTypes.MediaCapturePipelineSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.mediaCapturePipelines = mediaCapturePipelines
         self.nextToken = nextToken
     }
@@ -4411,8 +4297,7 @@ public struct ListMediaInsightsPipelineConfigurationsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -4433,8 +4318,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
             mediaInsightsPipelineConfigurationArn: Swift.String? = nil,
             mediaInsightsPipelineConfigurationId: Swift.String? = nil,
             mediaInsightsPipelineConfigurationName: Swift.String? = nil
-        )
-        {
+        ) {
             self.mediaInsightsPipelineConfigurationArn = mediaInsightsPipelineConfigurationArn
             self.mediaInsightsPipelineConfigurationId = mediaInsightsPipelineConfigurationId
             self.mediaInsightsPipelineConfigurationName = mediaInsightsPipelineConfigurationName
@@ -4456,8 +4340,7 @@ public struct ListMediaInsightsPipelineConfigurationsOutput: Swift.Sendable {
     public init(
         mediaInsightsPipelineConfigurations: [ChimeSDKMediaPipelinesClientTypes.MediaInsightsPipelineConfigurationSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.mediaInsightsPipelineConfigurations = mediaInsightsPipelineConfigurations
         self.nextToken = nextToken
     }
@@ -4472,8 +4355,7 @@ public struct ListMediaPipelineKinesisVideoStreamPoolsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -4494,8 +4376,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
             poolArn: Swift.String? = nil,
             poolId: Swift.String? = nil,
             poolName: Swift.String? = nil
-        )
-        {
+        ) {
             self.poolArn = poolArn
             self.poolId = poolId
             self.poolName = poolName
@@ -4517,8 +4398,7 @@ public struct ListMediaPipelineKinesisVideoStreamPoolsOutput: Swift.Sendable {
     public init(
         kinesisVideoStreamPools: [ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamPoolSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.kinesisVideoStreamPools = kinesisVideoStreamPools
         self.nextToken = nextToken
     }
@@ -4533,8 +4413,7 @@ public struct ListMediaPipelinesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -4552,8 +4431,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         public init(
             mediaPipelineArn: Swift.String? = nil,
             mediaPipelineId: Swift.String? = nil
-        )
-        {
+        ) {
             self.mediaPipelineArn = mediaPipelineArn
             self.mediaPipelineId = mediaPipelineId
         }
@@ -4569,8 +4447,7 @@ public struct ListMediaPipelinesOutput: Swift.Sendable {
     public init(
         mediaPipelines: [ChimeSDKMediaPipelinesClientTypes.MediaPipelineSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.mediaPipelines = mediaPipelines
         self.nextToken = nextToken
     }
@@ -4583,8 +4460,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
     }
 }
@@ -4595,8 +4471,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [ChimeSDKMediaPipelinesClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -4618,8 +4493,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
             channelId: Swift.Int = 0,
             fragmentNumber: Swift.String? = nil,
             streamArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.channelId = channelId
             self.fragmentNumber = fragmentNumber
             self.streamArn = streamArn
@@ -4644,8 +4518,7 @@ public struct StartSpeakerSearchTaskInput: Swift.Sendable {
         identifier: Swift.String? = nil,
         kinesisVideoStreamSourceTaskConfiguration: ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamSourceTaskConfiguration? = nil,
         voiceProfileDomainArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.identifier = identifier
         self.kinesisVideoStreamSourceTaskConfiguration = kinesisVideoStreamSourceTaskConfiguration
@@ -4664,8 +4537,7 @@ public struct StartSpeakerSearchTaskOutput: Swift.Sendable {
 
     public init(
         speakerSearchTask: ChimeSDKMediaPipelinesClientTypes.SpeakerSearchTask? = nil
-    )
-    {
+    ) {
         self.speakerSearchTask = speakerSearchTask
     }
 }
@@ -4713,8 +4585,7 @@ public struct StartVoiceToneAnalysisTaskInput: Swift.Sendable {
         identifier: Swift.String? = nil,
         kinesisVideoStreamSourceTaskConfiguration: ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamSourceTaskConfiguration? = nil,
         languageCode: ChimeSDKMediaPipelinesClientTypes.VoiceAnalyticsLanguageCode? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.identifier = identifier
         self.kinesisVideoStreamSourceTaskConfiguration = kinesisVideoStreamSourceTaskConfiguration
@@ -4733,8 +4604,7 @@ public struct StartVoiceToneAnalysisTaskOutput: Swift.Sendable {
 
     public init(
         voiceToneAnalysisTask: ChimeSDKMediaPipelinesClientTypes.VoiceToneAnalysisTask? = nil
-    )
-    {
+    ) {
         self.voiceToneAnalysisTask = voiceToneAnalysisTask
     }
 }
@@ -4750,8 +4620,7 @@ public struct StopSpeakerSearchTaskInput: Swift.Sendable {
     public init(
         identifier: Swift.String? = nil,
         speakerSearchTaskId: Swift.String? = nil
-    )
-    {
+    ) {
         self.identifier = identifier
         self.speakerSearchTaskId = speakerSearchTaskId
     }
@@ -4768,8 +4637,7 @@ public struct StopVoiceToneAnalysisTaskInput: Swift.Sendable {
     public init(
         identifier: Swift.String? = nil,
         voiceToneAnalysisTaskId: Swift.String? = nil
-    )
-    {
+    ) {
         self.identifier = identifier
         self.voiceToneAnalysisTaskId = voiceToneAnalysisTaskId
     }
@@ -4786,8 +4654,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tags: [ChimeSDKMediaPipelinesClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tags = tags
     }
@@ -4809,8 +4676,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tagKeys = tagKeys
     }
@@ -4839,8 +4705,7 @@ public struct UpdateMediaInsightsPipelineConfigurationInput: Swift.Sendable {
         identifier: Swift.String? = nil,
         realTimeAlertConfiguration: ChimeSDKMediaPipelinesClientTypes.RealTimeAlertConfiguration? = nil,
         resourceAccessRoleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.elements = elements
         self.identifier = identifier
         self.realTimeAlertConfiguration = realTimeAlertConfiguration
@@ -4859,8 +4724,7 @@ public struct UpdateMediaInsightsPipelineConfigurationOutput: Swift.Sendable {
 
     public init(
         mediaInsightsPipelineConfiguration: ChimeSDKMediaPipelinesClientTypes.MediaInsightsPipelineConfiguration? = nil
-    )
-    {
+    ) {
         self.mediaInsightsPipelineConfiguration = mediaInsightsPipelineConfiguration
     }
 }
@@ -4905,8 +4769,7 @@ public struct UpdateMediaInsightsPipelineStatusInput: Swift.Sendable {
     public init(
         identifier: Swift.String? = nil,
         updateStatus: ChimeSDKMediaPipelinesClientTypes.MediaPipelineStatusUpdate? = nil
-    )
-    {
+    ) {
         self.identifier = identifier
         self.updateStatus = updateStatus
     }
@@ -4921,8 +4784,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
 
         public init(
             dataRetentionInHours: Swift.Int? = nil
-        )
-        {
+        ) {
             self.dataRetentionInHours = dataRetentionInHours
         }
     }
@@ -4938,8 +4800,7 @@ public struct UpdateMediaPipelineKinesisVideoStreamPoolInput: Swift.Sendable {
     public init(
         identifier: Swift.String? = nil,
         streamConfiguration: ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamConfigurationUpdate? = nil
-    )
-    {
+    ) {
         self.identifier = identifier
         self.streamConfiguration = streamConfiguration
     }
@@ -4951,8 +4812,7 @@ public struct UpdateMediaPipelineKinesisVideoStreamPoolOutput: Swift.Sendable {
 
     public init(
         kinesisVideoStreamPoolConfiguration: ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamPoolConfiguration? = nil
-    )
-    {
+    ) {
         self.kinesisVideoStreamPoolConfiguration = kinesisVideoStreamPoolConfiguration
     }
 }

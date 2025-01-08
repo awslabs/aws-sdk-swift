@@ -44,8 +44,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -69,8 +68,7 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -93,8 +91,7 @@ public struct DatabaseErrorException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -117,8 +114,7 @@ public struct DatabaseNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -141,8 +137,7 @@ public struct DatabaseResumingException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -179,8 +174,7 @@ public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -203,8 +197,7 @@ public struct HttpEndpointNotEnabledException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -240,8 +233,7 @@ public struct InvalidSecretException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -270,8 +262,7 @@ public struct SecretsErrorException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -311,8 +302,7 @@ public struct StatementTimeoutException: ClientRuntime.ModeledError, AWSClientRu
     public init(
         dbConnectionId: Swift.Int = 0,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.dbConnectionId = dbConnectionId
         self.properties.message = message
     }
@@ -336,8 +326,7 @@ public struct TransactionNotFoundException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -401,8 +390,7 @@ public struct BeginTransactionInput: Swift.Sendable {
         resourceArn: Swift.String? = nil,
         schema: Swift.String? = nil,
         secretArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.database = database
         self.resourceArn = resourceArn
         self.schema = schema
@@ -417,8 +405,7 @@ public struct BeginTransactionOutput: Swift.Sendable {
 
     public init(
         transactionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.transactionId = transactionId
     }
 }
@@ -471,8 +458,7 @@ extension RDSDataClientTypes {
             tableName: Swift.String? = nil,
             type: Swift.Int = 0,
             typeName: Swift.String? = nil
-        )
-        {
+        ) {
             self.arrayBaseColumnType = arrayBaseColumnType
             self.isAutoIncrement = isAutoIncrement
             self.isCaseSensitive = isCaseSensitive
@@ -510,8 +496,7 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -532,8 +517,7 @@ public struct CommitTransactionInput: Swift.Sendable {
         resourceArn: Swift.String? = nil,
         secretArn: Swift.String? = nil,
         transactionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.secretArn = secretArn
         self.transactionId = transactionId
@@ -547,8 +531,7 @@ public struct CommitTransactionOutput: Swift.Sendable {
 
     public init(
         transactionStatus: Swift.String? = nil
-    )
-    {
+    ) {
         self.transactionStatus = transactionStatus
     }
 }
@@ -606,8 +589,7 @@ public struct UnsupportedResultException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -682,8 +664,7 @@ extension RDSDataClientTypes {
         public init(
             decimalReturnType: RDSDataClientTypes.DecimalReturnType? = nil,
             longReturnType: RDSDataClientTypes.LongReturnType? = nil
-        )
-        {
+        ) {
             self.decimalReturnType = decimalReturnType
             self.longReturnType = longReturnType
         }
@@ -706,8 +687,7 @@ public struct RollbackTransactionInput: Swift.Sendable {
         resourceArn: Swift.String? = nil,
         secretArn: Swift.String? = nil,
         transactionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.secretArn = secretArn
         self.transactionId = transactionId
@@ -721,8 +701,7 @@ public struct RollbackTransactionOutput: Swift.Sendable {
 
     public init(
         transactionStatus: Swift.String? = nil
-    )
-    {
+    ) {
         self.transactionStatus = transactionStatus
     }
 }
@@ -794,8 +773,7 @@ extension RDSDataClientTypes {
             name: Swift.String? = nil,
             typeHint: RDSDataClientTypes.TypeHint? = nil,
             value: RDSDataClientTypes.Field? = nil
-        )
-        {
+        ) {
             self.name = name
             self.typeHint = typeHint
             self.value = value
@@ -812,8 +790,7 @@ extension RDSDataClientTypes {
 
         public init(
             generatedFields: [RDSDataClientTypes.Field]? = nil
-        )
-        {
+        ) {
             self.generatedFields = generatedFields
         }
     }
@@ -859,8 +836,7 @@ public struct ExecuteStatementInput: Swift.Sendable {
         secretArn: Swift.String? = nil,
         sql: Swift.String? = nil,
         transactionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.continueAfterTimeout = continueAfterTimeout
         self.database = database
         self.formatRecordsAs = formatRecordsAs
@@ -910,8 +886,7 @@ public struct BatchExecuteStatementInput: Swift.Sendable {
         secretArn: Swift.String? = nil,
         sql: Swift.String? = nil,
         transactionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.database = database
         self.parameterSets = parameterSets
         self.resourceArn = resourceArn
@@ -929,8 +904,7 @@ public struct BatchExecuteStatementOutput: Swift.Sendable {
 
     public init(
         updateResults: [RDSDataClientTypes.UpdateResult]? = nil
-    )
-    {
+    ) {
         self.updateResults = updateResults
     }
 }
@@ -954,8 +928,7 @@ public struct ExecuteStatementOutput: Swift.Sendable {
         generatedFields: [RDSDataClientTypes.Field]? = nil,
         numberOfRecordsUpdated: Swift.Int = 0,
         records: [[RDSDataClientTypes.Field]]? = nil
-    )
-    {
+    ) {
         self.columnMetadata = columnMetadata
         self.formattedRecords = formattedRecords
         self.generatedFields = generatedFields

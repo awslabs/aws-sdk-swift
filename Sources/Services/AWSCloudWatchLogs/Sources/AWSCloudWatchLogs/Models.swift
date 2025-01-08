@@ -206,8 +206,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -300,8 +299,7 @@ extension CloudWatchLogsClientTypes {
             policyType: CloudWatchLogsClientTypes.PolicyType? = nil,
             scope: CloudWatchLogsClientTypes.Scope? = nil,
             selectionCriteria: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.lastUpdatedTime = lastUpdatedTime
             self.policyDocument = policyDocument
@@ -330,8 +328,7 @@ extension CloudWatchLogsClientTypes {
             key: Swift.String? = nil,
             overwriteIfExists: Swift.Bool = false,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.overwriteIfExists = overwriteIfExists
             self.value = value
@@ -349,8 +346,7 @@ extension CloudWatchLogsClientTypes {
 
         public init(
             entries: [CloudWatchLogsClientTypes.AddKeyEntry]? = nil
-        )
-        {
+        ) {
             self.entries = entries
         }
     }
@@ -368,8 +364,7 @@ extension CloudWatchLogsClientTypes {
         public init(
             mandatory: Swift.Bool? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.mandatory = mandatory
             self.name = name
         }
@@ -388,8 +383,7 @@ extension CloudWatchLogsClientTypes {
         public init(
             message: Swift.String? = nil,
             timestamp: Swift.Int? = nil
-        )
-        {
+        ) {
             self.message = message
             self.timestamp = timestamp
         }
@@ -417,8 +411,7 @@ extension CloudWatchLogsClientTypes {
             inferredTokenName: Swift.String? = nil,
             isDynamic: Swift.Bool? = nil,
             tokenString: Swift.String? = nil
-        )
-        {
+        ) {
             self.dynamicTokenPosition = dynamicTokenPosition
             self.enumerations = enumerations
             self.inferredTokenName = inferredTokenName
@@ -536,8 +529,7 @@ extension CloudWatchLogsClientTypes {
             suppressed: Swift.Bool? = nil,
             suppressedDate: Swift.Int = 0,
             suppressedUntil: Swift.Int = 0
-        )
-        {
+        ) {
             self.active = active
             self.anomalyDetectorArn = anomalyDetectorArn
             self.anomalyId = anomalyId
@@ -679,8 +671,7 @@ extension CloudWatchLogsClientTypes {
             kmsKeyId: Swift.String? = nil,
             lastModifiedTimeStamp: Swift.Int = 0,
             logGroupArnList: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.anomalyDetectorArn = anomalyDetectorArn
             self.anomalyDetectorStatus = anomalyDetectorStatus
             self.anomalyVisibilityTime = anomalyVisibilityTime
@@ -713,8 +704,7 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -737,8 +727,7 @@ public struct OperationAbortedException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -761,8 +750,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -785,8 +773,7 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -811,8 +798,7 @@ public struct AssociateKmsKeyInput: Swift.Sendable {
         kmsKeyId: Swift.String? = nil,
         logGroupName: Swift.String? = nil,
         resourceIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.kmsKeyId = kmsKeyId
         self.logGroupName = logGroupName
         self.resourceIdentifier = resourceIdentifier
@@ -837,8 +823,7 @@ public struct InvalidOperationException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -850,8 +835,7 @@ public struct CancelExportTaskInput: Swift.Sendable {
 
     public init(
         taskId: Swift.String? = nil
-    )
-    {
+    ) {
         self.taskId = taskId
     }
 }
@@ -906,8 +890,7 @@ extension CloudWatchLogsClientTypes {
         public init(
             enableHiveCompatiblePath: Swift.Bool? = nil,
             suffixPath: Swift.String? = nil
-        )
-        {
+        ) {
             self.enableHiveCompatiblePath = enableHiveCompatiblePath
             self.suffixPath = suffixPath
         }
@@ -929,8 +912,7 @@ extension CloudWatchLogsClientTypes {
             fieldDelimiter: Swift.String? = nil,
             recordFields: [Swift.String]? = nil,
             s3DeliveryConfiguration: CloudWatchLogsClientTypes.S3DeliveryConfiguration? = nil
-        )
-        {
+        ) {
             self.fieldDelimiter = fieldDelimiter
             self.recordFields = recordFields
             self.s3DeliveryConfiguration = s3DeliveryConfiguration
@@ -1006,8 +988,7 @@ extension CloudWatchLogsClientTypes {
             logType: Swift.String? = nil,
             resourceType: Swift.String? = nil,
             service: Swift.String? = nil
-        )
-        {
+        ) {
             self.allowedActionForAllowVendedLogsDeliveryForResource = allowedActionForAllowVendedLogsDeliveryForResource
             self.allowedFieldDelimiters = allowedFieldDelimiters
             self.allowedFields = allowedFields
@@ -1040,8 +1021,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1063,8 +1043,7 @@ extension CloudWatchLogsClientTypes {
             overwriteIfExists: Swift.Bool = false,
             source: Swift.String? = nil,
             target: Swift.String? = nil
-        )
-        {
+        ) {
             self.overwriteIfExists = overwriteIfExists
             self.source = source
             self.target = target
@@ -1082,8 +1061,7 @@ extension CloudWatchLogsClientTypes {
 
         public init(
             entries: [CloudWatchLogsClientTypes.CopyValueEntry]? = nil
-        )
-        {
+        ) {
             self.entries = entries
         }
     }
@@ -1107,8 +1085,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1131,8 +1108,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1155,8 +1131,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1184,8 +1159,7 @@ public struct CreateDeliveryInput: Swift.Sendable {
         recordFields: [Swift.String]? = nil,
         s3DeliveryConfiguration: CloudWatchLogsClientTypes.S3DeliveryConfiguration? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.deliveryDestinationArn = deliveryDestinationArn
         self.deliverySourceName = deliverySourceName
         self.fieldDelimiter = fieldDelimiter
@@ -1228,8 +1202,7 @@ extension CloudWatchLogsClientTypes {
             recordFields: [Swift.String]? = nil,
             s3DeliveryConfiguration: CloudWatchLogsClientTypes.S3DeliveryConfiguration? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.deliveryDestinationArn = deliveryDestinationArn
             self.deliveryDestinationType = deliveryDestinationType
@@ -1249,8 +1222,7 @@ public struct CreateDeliveryOutput: Swift.Sendable {
 
     public init(
         delivery: CloudWatchLogsClientTypes.Delivery? = nil
-    )
-    {
+    ) {
         self.delivery = delivery
     }
 }
@@ -1273,8 +1245,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1297,8 +1268,7 @@ public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1331,8 +1301,7 @@ public struct CreateExportTaskInput: Swift.Sendable {
         logStreamNamePrefix: Swift.String? = nil,
         taskName: Swift.String? = nil,
         to: Swift.Int? = nil
-    )
-    {
+    ) {
         self.destination = destination
         self.destinationPrefix = destinationPrefix
         self.from = from
@@ -1349,8 +1318,7 @@ public struct CreateExportTaskOutput: Swift.Sendable {
 
     public init(
         taskId: Swift.String? = nil
-    )
-    {
+    ) {
         self.taskId = taskId
     }
 }
@@ -1380,8 +1348,7 @@ public struct CreateLogAnomalyDetectorInput: Swift.Sendable {
         kmsKeyId: Swift.String? = nil,
         logGroupArnList: [Swift.String]? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.anomalyVisibilityTime = anomalyVisibilityTime
         self.detectorName = detectorName
         self.evaluationFrequency = evaluationFrequency
@@ -1398,8 +1365,7 @@ public struct CreateLogAnomalyDetectorOutput: Swift.Sendable {
 
     public init(
         anomalyDetectorArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.anomalyDetectorArn = anomalyDetectorArn
     }
 }
@@ -1456,8 +1422,7 @@ public struct CreateLogGroupInput: Swift.Sendable {
         logGroupClass: CloudWatchLogsClientTypes.LogGroupClass? = nil,
         logGroupName: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.kmsKeyId = kmsKeyId
         self.logGroupClass = logGroupClass
         self.logGroupName = logGroupName
@@ -1476,8 +1441,7 @@ public struct CreateLogStreamInput: Swift.Sendable {
     public init(
         logGroupName: Swift.String? = nil,
         logStreamName: Swift.String? = nil
-    )
-    {
+    ) {
         self.logGroupName = logGroupName
         self.logStreamName = logStreamName
     }
@@ -1501,8 +1465,7 @@ extension CloudWatchLogsClientTypes {
             delimiter: Swift.String? = nil,
             quoteCharacter: Swift.String? = nil,
             source: Swift.String? = nil
-        )
-        {
+        ) {
             self.columns = columns
             self.delimiter = delimiter
             self.quoteCharacter = quoteCharacter
@@ -1531,8 +1494,7 @@ public struct DataAlreadyAcceptedException: ClientRuntime.ModeledError, AWSClien
     public init(
         expectedSequenceToken: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.expectedSequenceToken = expectedSequenceToken
         self.properties.message = message
     }
@@ -1603,8 +1565,7 @@ extension CloudWatchLogsClientTypes {
             target: Swift.String? = nil,
             targetFormat: Swift.String? = nil,
             targetTimezone: Swift.String? = nil
-        )
-        {
+        ) {
             self.locale = locale
             self.matchPatterns = matchPatterns
             self.source = source
@@ -1627,8 +1588,7 @@ public struct DeleteAccountPolicyInput: Swift.Sendable {
     public init(
         policyName: Swift.String? = nil,
         policyType: CloudWatchLogsClientTypes.PolicyType? = nil
-    )
-    {
+    ) {
         self.policyName = policyName
         self.policyType = policyType
     }
@@ -1641,8 +1601,7 @@ public struct DeleteDataProtectionPolicyInput: Swift.Sendable {
 
     public init(
         logGroupIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.logGroupIdentifier = logGroupIdentifier
     }
 }
@@ -1654,8 +1613,7 @@ public struct DeleteDeliveryInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -1667,8 +1625,7 @@ public struct DeleteDeliveryDestinationInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -1680,8 +1637,7 @@ public struct DeleteDeliveryDestinationPolicyInput: Swift.Sendable {
 
     public init(
         deliveryDestinationName: Swift.String? = nil
-    )
-    {
+    ) {
         self.deliveryDestinationName = deliveryDestinationName
     }
 }
@@ -1693,8 +1649,7 @@ public struct DeleteDeliverySourceInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -1706,8 +1661,7 @@ public struct DeleteDestinationInput: Swift.Sendable {
 
     public init(
         destinationName: Swift.String? = nil
-    )
-    {
+    ) {
         self.destinationName = destinationName
     }
 }
@@ -1719,8 +1673,7 @@ public struct DeleteIndexPolicyInput: Swift.Sendable {
 
     public init(
         logGroupIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.logGroupIdentifier = logGroupIdentifier
     }
 }
@@ -1740,8 +1693,7 @@ public struct DeleteIntegrationInput: Swift.Sendable {
     public init(
         force: Swift.Bool? = false,
         integrationName: Swift.String? = nil
-    )
-    {
+    ) {
         self.force = force
         self.integrationName = integrationName
     }
@@ -1762,8 +1714,7 @@ extension CloudWatchLogsClientTypes {
 
         public init(
             withKeys: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.withKeys = withKeys
         }
     }
@@ -1776,8 +1727,7 @@ public struct DeleteLogAnomalyDetectorInput: Swift.Sendable {
 
     public init(
         anomalyDetectorArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.anomalyDetectorArn = anomalyDetectorArn
     }
 }
@@ -1789,8 +1739,7 @@ public struct DeleteLogGroupInput: Swift.Sendable {
 
     public init(
         logGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.logGroupName = logGroupName
     }
 }
@@ -1806,8 +1755,7 @@ public struct DeleteLogStreamInput: Swift.Sendable {
     public init(
         logGroupName: Swift.String? = nil,
         logStreamName: Swift.String? = nil
-    )
-    {
+    ) {
         self.logGroupName = logGroupName
         self.logStreamName = logStreamName
     }
@@ -1824,8 +1772,7 @@ public struct DeleteMetricFilterInput: Swift.Sendable {
     public init(
         filterName: Swift.String? = nil,
         logGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.filterName = filterName
         self.logGroupName = logGroupName
     }
@@ -1838,8 +1785,7 @@ public struct DeleteQueryDefinitionInput: Swift.Sendable {
 
     public init(
         queryDefinitionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.queryDefinitionId = queryDefinitionId
     }
 }
@@ -1850,8 +1796,7 @@ public struct DeleteQueryDefinitionOutput: Swift.Sendable {
 
     public init(
         success: Swift.Bool = false
-    )
-    {
+    ) {
         self.success = success
     }
 }
@@ -1862,8 +1807,7 @@ public struct DeleteResourcePolicyInput: Swift.Sendable {
 
     public init(
         policyName: Swift.String? = nil
-    )
-    {
+    ) {
         self.policyName = policyName
     }
 }
@@ -1875,8 +1819,7 @@ public struct DeleteRetentionPolicyInput: Swift.Sendable {
 
     public init(
         logGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.logGroupName = logGroupName
     }
 }
@@ -1892,8 +1835,7 @@ public struct DeleteSubscriptionFilterInput: Swift.Sendable {
     public init(
         filterName: Swift.String? = nil,
         logGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.filterName = filterName
         self.logGroupName = logGroupName
     }
@@ -1906,8 +1848,7 @@ public struct DeleteTransformerInput: Swift.Sendable {
 
     public init(
         logGroupIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.logGroupIdentifier = logGroupIdentifier
     }
 }
@@ -1922,8 +1863,7 @@ extension CloudWatchLogsClientTypes {
 
         public init(
             destinationResourceArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.destinationResourceArn = destinationResourceArn
         }
     }
@@ -1964,8 +1904,7 @@ extension CloudWatchLogsClientTypes {
             name: Swift.String? = nil,
             outputFormat: CloudWatchLogsClientTypes.OutputFormat? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.deliveryDestinationConfiguration = deliveryDestinationConfiguration
             self.deliveryDestinationType = deliveryDestinationType
@@ -2011,8 +1950,7 @@ extension CloudWatchLogsClientTypes {
             resourceArns: [Swift.String]? = nil,
             service: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.logType = logType
             self.name = name
@@ -2039,8 +1977,7 @@ public struct DescribeAccountPoliciesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         policyName: Swift.String? = nil,
         policyType: CloudWatchLogsClientTypes.PolicyType? = nil
-    )
-    {
+    ) {
         self.accountIdentifiers = accountIdentifiers
         self.nextToken = nextToken
         self.policyName = policyName
@@ -2057,8 +1994,7 @@ public struct DescribeAccountPoliciesOutput: Swift.Sendable {
     public init(
         accountPolicies: [CloudWatchLogsClientTypes.AccountPolicy]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountPolicies = accountPolicies
         self.nextToken = nextToken
     }
@@ -2085,8 +2021,7 @@ public struct DescribeConfigurationTemplatesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         resourceTypes: [Swift.String]? = nil,
         service: Swift.String? = nil
-    )
-    {
+    ) {
         self.deliveryDestinationTypes = deliveryDestinationTypes
         self.limit = limit
         self.logTypes = logTypes
@@ -2105,8 +2040,7 @@ public struct DescribeConfigurationTemplatesOutput: Swift.Sendable {
     public init(
         configurationTemplates: [CloudWatchLogsClientTypes.ConfigurationTemplate]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurationTemplates = configurationTemplates
         self.nextToken = nextToken
     }
@@ -2121,8 +2055,7 @@ public struct DescribeDeliveriesInput: Swift.Sendable {
     public init(
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.nextToken = nextToken
     }
@@ -2137,8 +2070,7 @@ public struct DescribeDeliveriesOutput: Swift.Sendable {
     public init(
         deliveries: [CloudWatchLogsClientTypes.Delivery]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.deliveries = deliveries
         self.nextToken = nextToken
     }
@@ -2153,8 +2085,7 @@ public struct DescribeDeliveryDestinationsInput: Swift.Sendable {
     public init(
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.nextToken = nextToken
     }
@@ -2169,8 +2100,7 @@ public struct DescribeDeliveryDestinationsOutput: Swift.Sendable {
     public init(
         deliveryDestinations: [CloudWatchLogsClientTypes.DeliveryDestination]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.deliveryDestinations = deliveryDestinations
         self.nextToken = nextToken
     }
@@ -2185,8 +2115,7 @@ public struct DescribeDeliverySourcesInput: Swift.Sendable {
     public init(
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.nextToken = nextToken
     }
@@ -2201,8 +2130,7 @@ public struct DescribeDeliverySourcesOutput: Swift.Sendable {
     public init(
         deliverySources: [CloudWatchLogsClientTypes.DeliverySource]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.deliverySources = deliverySources
         self.nextToken = nextToken
     }
@@ -2220,8 +2148,7 @@ public struct DescribeDestinationsInput: Swift.Sendable {
         destinationNamePrefix: Swift.String? = nil,
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.destinationNamePrefix = destinationNamePrefix
         self.limit = limit
         self.nextToken = nextToken
@@ -2252,8 +2179,7 @@ extension CloudWatchLogsClientTypes {
             destinationName: Swift.String? = nil,
             roleArn: Swift.String? = nil,
             targetArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.accessPolicy = accessPolicy
             self.arn = arn
             self.creationTime = creationTime
@@ -2273,8 +2199,7 @@ public struct DescribeDestinationsOutput: Swift.Sendable {
     public init(
         destinations: [CloudWatchLogsClientTypes.Destination]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.destinations = destinations
         self.nextToken = nextToken
     }
@@ -2336,8 +2261,7 @@ public struct DescribeExportTasksInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         statusCode: CloudWatchLogsClientTypes.ExportTaskStatusCode? = nil,
         taskId: Swift.String? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.nextToken = nextToken
         self.statusCode = statusCode
@@ -2357,8 +2281,7 @@ extension CloudWatchLogsClientTypes {
         public init(
             completionTime: Swift.Int? = nil,
             creationTime: Swift.Int? = nil
-        )
-        {
+        ) {
             self.completionTime = completionTime
             self.creationTime = creationTime
         }
@@ -2377,8 +2300,7 @@ extension CloudWatchLogsClientTypes {
         public init(
             code: CloudWatchLogsClientTypes.ExportTaskStatusCode? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.message = message
         }
@@ -2418,8 +2340,7 @@ extension CloudWatchLogsClientTypes {
             taskId: Swift.String? = nil,
             taskName: Swift.String? = nil,
             to: Swift.Int? = nil
-        )
-        {
+        ) {
             self.destination = destination
             self.destinationPrefix = destinationPrefix
             self.executionInfo = executionInfo
@@ -2442,8 +2363,7 @@ public struct DescribeExportTasksOutput: Swift.Sendable {
     public init(
         exportTasks: [CloudWatchLogsClientTypes.ExportTask]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.exportTasks = exportTasks
         self.nextToken = nextToken
     }
@@ -2459,8 +2379,7 @@ public struct DescribeFieldIndexesInput: Swift.Sendable {
     public init(
         logGroupIdentifiers: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.logGroupIdentifiers = logGroupIdentifiers
         self.nextToken = nextToken
     }
@@ -2487,8 +2406,7 @@ extension CloudWatchLogsClientTypes {
             lastEventTime: Swift.Int? = nil,
             lastScanTime: Swift.Int? = nil,
             logGroupIdentifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.fieldIndexName = fieldIndexName
             self.firstEventTime = firstEventTime
             self.lastEventTime = lastEventTime
@@ -2507,8 +2425,7 @@ public struct DescribeFieldIndexesOutput: Swift.Sendable {
     public init(
         fieldIndexes: [CloudWatchLogsClientTypes.FieldIndex]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.fieldIndexes = fieldIndexes
         self.nextToken = nextToken
     }
@@ -2524,8 +2441,7 @@ public struct DescribeIndexPoliciesInput: Swift.Sendable {
     public init(
         logGroupIdentifiers: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.logGroupIdentifiers = logGroupIdentifiers
         self.nextToken = nextToken
     }
@@ -2581,8 +2497,7 @@ extension CloudWatchLogsClientTypes {
             policyDocument: Swift.String? = nil,
             policyName: Swift.String? = nil,
             source: CloudWatchLogsClientTypes.IndexSource? = nil
-        )
-        {
+        ) {
             self.lastUpdateTime = lastUpdateTime
             self.logGroupIdentifier = logGroupIdentifier
             self.policyDocument = policyDocument
@@ -2601,8 +2516,7 @@ public struct DescribeIndexPoliciesOutput: Swift.Sendable {
     public init(
         indexPolicies: [CloudWatchLogsClientTypes.IndexPolicy]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.indexPolicies = indexPolicies
         self.nextToken = nextToken
     }
@@ -2639,8 +2553,7 @@ public struct DescribeLogGroupsInput: Swift.Sendable {
         logGroupNamePattern: Swift.String? = nil,
         logGroupNamePrefix: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountIdentifiers = accountIdentifiers
         self.includeLinkedAccounts = includeLinkedAccounts
         self.limit = limit
@@ -2729,8 +2642,7 @@ extension CloudWatchLogsClientTypes {
             metricFilterCount: Swift.Int? = nil,
             retentionInDays: Swift.Int? = nil,
             storedBytes: Swift.Int? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.creationTime = creationTime
             self.dataProtectionStatus = dataProtectionStatus
@@ -2755,8 +2667,7 @@ public struct DescribeLogGroupsOutput: Swift.Sendable {
     public init(
         logGroups: [CloudWatchLogsClientTypes.LogGroup]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.logGroups = logGroups
         self.nextToken = nextToken
     }
@@ -2815,8 +2726,7 @@ public struct DescribeLogStreamsInput: Swift.Sendable {
         logStreamNamePrefix: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         orderBy: CloudWatchLogsClientTypes.OrderBy? = nil
-    )
-    {
+    ) {
         self.descending = descending
         self.limit = limit
         self.logGroupIdentifier = logGroupIdentifier
@@ -2858,8 +2768,7 @@ extension CloudWatchLogsClientTypes {
             logStreamName: Swift.String? = nil,
             storedBytes: Swift.Int? = nil,
             uploadSequenceToken: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.creationTime = creationTime
             self.firstEventTimestamp = firstEventTimestamp
@@ -2881,8 +2790,7 @@ public struct DescribeLogStreamsOutput: Swift.Sendable {
     public init(
         logStreams: [CloudWatchLogsClientTypes.LogStream]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.logStreams = logStreams
         self.nextToken = nextToken
     }
@@ -2909,8 +2817,7 @@ public struct DescribeMetricFiltersInput: Swift.Sendable {
         metricName: Swift.String? = nil,
         metricNamespace: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filterNamePrefix = filterNamePrefix
         self.limit = limit
         self.logGroupName = logGroupName
@@ -3051,8 +2958,7 @@ extension CloudWatchLogsClientTypes {
             metricNamespace: Swift.String? = nil,
             metricValue: Swift.String? = nil,
             unit: CloudWatchLogsClientTypes.StandardUnit? = nil
-        )
-        {
+        ) {
             self.defaultValue = defaultValue
             self.dimensions = dimensions
             self.metricName = metricName
@@ -3087,8 +2993,7 @@ extension CloudWatchLogsClientTypes {
             filterPattern: Swift.String? = nil,
             logGroupName: Swift.String? = nil,
             metricTransformations: [CloudWatchLogsClientTypes.MetricTransformation]? = nil
-        )
-        {
+        ) {
             self.applyOnTransformedLogs = applyOnTransformedLogs
             self.creationTime = creationTime
             self.filterName = filterName
@@ -3108,8 +3013,7 @@ public struct DescribeMetricFiltersOutput: Swift.Sendable {
     public init(
         metricFilters: [CloudWatchLogsClientTypes.MetricFilter]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.metricFilters = metricFilters
         self.nextToken = nextToken
     }
@@ -3209,8 +3113,7 @@ public struct DescribeQueriesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         queryLanguage: CloudWatchLogsClientTypes.QueryLanguage? = nil,
         status: CloudWatchLogsClientTypes.QueryStatus? = nil
-    )
-    {
+    ) {
         self.logGroupName = logGroupName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3243,8 +3146,7 @@ extension CloudWatchLogsClientTypes {
             queryLanguage: CloudWatchLogsClientTypes.QueryLanguage? = nil,
             queryString: Swift.String? = nil,
             status: CloudWatchLogsClientTypes.QueryStatus? = nil
-        )
-        {
+        ) {
             self.createTime = createTime
             self.logGroupName = logGroupName
             self.queryId = queryId
@@ -3264,8 +3166,7 @@ public struct DescribeQueriesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         queries: [CloudWatchLogsClientTypes.QueryInfo]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.queries = queries
     }
@@ -3286,8 +3187,7 @@ public struct DescribeQueryDefinitionsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         queryDefinitionNamePrefix: Swift.String? = nil,
         queryLanguage: CloudWatchLogsClientTypes.QueryLanguage? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.queryDefinitionNamePrefix = queryDefinitionNamePrefix
@@ -3319,8 +3219,7 @@ extension CloudWatchLogsClientTypes {
             queryDefinitionId: Swift.String? = nil,
             queryLanguage: CloudWatchLogsClientTypes.QueryLanguage? = nil,
             queryString: Swift.String? = nil
-        )
-        {
+        ) {
             self.lastModified = lastModified
             self.logGroupNames = logGroupNames
             self.name = name
@@ -3340,8 +3239,7 @@ public struct DescribeQueryDefinitionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         queryDefinitions: [CloudWatchLogsClientTypes.QueryDefinition]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.queryDefinitions = queryDefinitions
     }
@@ -3356,8 +3254,7 @@ public struct DescribeResourcePoliciesInput: Swift.Sendable {
     public init(
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.nextToken = nextToken
     }
@@ -3378,8 +3275,7 @@ extension CloudWatchLogsClientTypes {
             lastUpdatedTime: Swift.Int? = nil,
             policyDocument: Swift.String? = nil,
             policyName: Swift.String? = nil
-        )
-        {
+        ) {
             self.lastUpdatedTime = lastUpdatedTime
             self.policyDocument = policyDocument
             self.policyName = policyName
@@ -3396,8 +3292,7 @@ public struct DescribeResourcePoliciesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         resourcePolicies: [CloudWatchLogsClientTypes.ResourcePolicy]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.resourcePolicies = resourcePolicies
     }
@@ -3419,8 +3314,7 @@ public struct DescribeSubscriptionFiltersInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         logGroupName: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filterNamePrefix = filterNamePrefix
         self.limit = limit
         self.logGroupName = logGroupName
@@ -3488,8 +3382,7 @@ extension CloudWatchLogsClientTypes {
             filterPattern: Swift.String? = nil,
             logGroupName: Swift.String? = nil,
             roleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.applyOnTransformedLogs = applyOnTransformedLogs
             self.creationTime = creationTime
             self.destinationArn = destinationArn
@@ -3511,8 +3404,7 @@ public struct DescribeSubscriptionFiltersOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         subscriptionFilters: [CloudWatchLogsClientTypes.SubscriptionFilter]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.subscriptionFilters = subscriptionFilters
     }
@@ -3534,8 +3426,7 @@ public struct DisassociateKmsKeyInput: Swift.Sendable {
     public init(
         logGroupName: Swift.String? = nil,
         resourceIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.logGroupName = logGroupName
         self.resourceIdentifier = resourceIdentifier
     }
@@ -3553,8 +3444,7 @@ extension CloudWatchLogsClientTypes {
         public init(
             attributes: [Swift.String: Swift.String]? = nil,
             keyAttributes: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.attributes = attributes
             self.keyAttributes = keyAttributes
         }
@@ -3626,8 +3516,7 @@ extension CloudWatchLogsClientTypes {
             logStreamName: Swift.String? = nil,
             message: Swift.String? = nil,
             timestamp: Swift.Int? = nil
-        )
-        {
+        ) {
             self.eventId = eventId
             self.ingestionTime = ingestionTime
             self.logStreamName = logStreamName
@@ -3674,8 +3563,7 @@ public struct FilterLogEventsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         startTime: Swift.Int? = nil,
         unmask: Swift.Bool? = false
-    )
-    {
+    ) {
         self.endTime = endTime
         self.filterPattern = filterPattern
         self.interleaved = interleaved
@@ -3702,8 +3590,7 @@ extension CloudWatchLogsClientTypes {
         public init(
             logStreamName: Swift.String? = nil,
             searchedCompletely: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.logStreamName = logStreamName
             self.searchedCompletely = searchedCompletely
         }
@@ -3722,8 +3609,7 @@ public struct FilterLogEventsOutput: Swift.Sendable {
         events: [CloudWatchLogsClientTypes.FilteredLogEvent]? = nil,
         nextToken: Swift.String? = nil,
         searchedLogStreams: [CloudWatchLogsClientTypes.SearchedLogStream]? = nil
-    )
-    {
+    ) {
         self.events = events
         self.nextToken = nextToken
         self.searchedLogStreams = searchedLogStreams
@@ -3766,8 +3652,7 @@ public struct GetDataProtectionPolicyInput: Swift.Sendable {
 
     public init(
         logGroupIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.logGroupIdentifier = logGroupIdentifier
     }
 }
@@ -3784,8 +3669,7 @@ public struct GetDataProtectionPolicyOutput: Swift.Sendable {
         lastUpdatedTime: Swift.Int? = nil,
         logGroupIdentifier: Swift.String? = nil,
         policyDocument: Swift.String? = nil
-    )
-    {
+    ) {
         self.lastUpdatedTime = lastUpdatedTime
         self.logGroupIdentifier = logGroupIdentifier
         self.policyDocument = policyDocument
@@ -3799,8 +3683,7 @@ public struct GetDeliveryInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -3811,8 +3694,7 @@ public struct GetDeliveryOutput: Swift.Sendable {
 
     public init(
         delivery: CloudWatchLogsClientTypes.Delivery? = nil
-    )
-    {
+    ) {
         self.delivery = delivery
     }
 }
@@ -3824,8 +3706,7 @@ public struct GetDeliveryDestinationInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -3836,8 +3717,7 @@ public struct GetDeliveryDestinationOutput: Swift.Sendable {
 
     public init(
         deliveryDestination: CloudWatchLogsClientTypes.DeliveryDestination? = nil
-    )
-    {
+    ) {
         self.deliveryDestination = deliveryDestination
     }
 }
@@ -3849,8 +3729,7 @@ public struct GetDeliveryDestinationPolicyInput: Swift.Sendable {
 
     public init(
         deliveryDestinationName: Swift.String? = nil
-    )
-    {
+    ) {
         self.deliveryDestinationName = deliveryDestinationName
     }
 }
@@ -3864,8 +3743,7 @@ extension CloudWatchLogsClientTypes {
 
         public init(
             deliveryDestinationPolicy: Swift.String? = nil
-        )
-        {
+        ) {
             self.deliveryDestinationPolicy = deliveryDestinationPolicy
         }
     }
@@ -3877,8 +3755,7 @@ public struct GetDeliveryDestinationPolicyOutput: Swift.Sendable {
 
     public init(
         policy: CloudWatchLogsClientTypes.Policy? = nil
-    )
-    {
+    ) {
         self.policy = policy
     }
 }
@@ -3890,8 +3767,7 @@ public struct GetDeliverySourceInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -3902,8 +3778,7 @@ public struct GetDeliverySourceOutput: Swift.Sendable {
 
     public init(
         deliverySource: CloudWatchLogsClientTypes.DeliverySource? = nil
-    )
-    {
+    ) {
         self.deliverySource = deliverySource
     }
 }
@@ -3915,8 +3790,7 @@ public struct GetIntegrationInput: Swift.Sendable {
 
     public init(
         integrationName: Swift.String? = nil
-    )
-    {
+    ) {
         self.integrationName = integrationName
     }
 }
@@ -3965,8 +3839,7 @@ extension CloudWatchLogsClientTypes {
         public init(
             status: CloudWatchLogsClientTypes.OpenSearchResourceStatusType? = nil,
             statusMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.status = status
             self.statusMessage = statusMessage
         }
@@ -3985,8 +3858,7 @@ extension CloudWatchLogsClientTypes {
         public init(
             policyName: Swift.String? = nil,
             status: CloudWatchLogsClientTypes.OpenSearchResourceStatus? = nil
-        )
-        {
+        ) {
             self.policyName = policyName
             self.status = status
         }
@@ -4011,8 +3883,7 @@ extension CloudWatchLogsClientTypes {
             applicationEndpoint: Swift.String? = nil,
             applicationId: Swift.String? = nil,
             status: CloudWatchLogsClientTypes.OpenSearchResourceStatus? = nil
-        )
-        {
+        ) {
             self.applicationArn = applicationArn
             self.applicationEndpoint = applicationEndpoint
             self.applicationId = applicationId
@@ -4036,8 +3907,7 @@ extension CloudWatchLogsClientTypes {
             collectionArn: Swift.String? = nil,
             collectionEndpoint: Swift.String? = nil,
             status: CloudWatchLogsClientTypes.OpenSearchResourceStatus? = nil
-        )
-        {
+        ) {
             self.collectionArn = collectionArn
             self.collectionEndpoint = collectionEndpoint
             self.status = status
@@ -4057,8 +3927,7 @@ extension CloudWatchLogsClientTypes {
         public init(
             dataSourceName: Swift.String? = nil,
             status: CloudWatchLogsClientTypes.OpenSearchResourceStatus? = nil
-        )
-        {
+        ) {
             self.dataSourceName = dataSourceName
             self.status = status
         }
@@ -4077,8 +3946,7 @@ extension CloudWatchLogsClientTypes {
         public init(
             policyName: Swift.String? = nil,
             status: CloudWatchLogsClientTypes.OpenSearchResourceStatus? = nil
-        )
-        {
+        ) {
             self.policyName = policyName
             self.status = status
         }
@@ -4097,8 +3965,7 @@ extension CloudWatchLogsClientTypes {
         public init(
             policyName: Swift.String? = nil,
             status: CloudWatchLogsClientTypes.OpenSearchResourceStatus? = nil
-        )
-        {
+        ) {
             self.policyName = policyName
             self.status = status
         }
@@ -4117,8 +3984,7 @@ extension CloudWatchLogsClientTypes {
         public init(
             policyName: Swift.String? = nil,
             status: CloudWatchLogsClientTypes.OpenSearchResourceStatus? = nil
-        )
-        {
+        ) {
             self.policyName = policyName
             self.status = status
         }
@@ -4137,8 +4003,7 @@ extension CloudWatchLogsClientTypes {
         public init(
             status: CloudWatchLogsClientTypes.OpenSearchResourceStatus? = nil,
             workspaceId: Swift.String? = nil
-        )
-        {
+        ) {
             self.status = status
             self.workspaceId = workspaceId
         }
@@ -4175,8 +4040,7 @@ extension CloudWatchLogsClientTypes {
             lifecyclePolicy: CloudWatchLogsClientTypes.OpenSearchLifecyclePolicy? = nil,
             networkPolicy: CloudWatchLogsClientTypes.OpenSearchNetworkPolicy? = nil,
             workspace: CloudWatchLogsClientTypes.OpenSearchWorkspace? = nil
-        )
-        {
+        ) {
             self.accessPolicy = accessPolicy
             self.application = application
             self.collection = collection
@@ -4272,8 +4136,7 @@ public struct GetIntegrationOutput: Swift.Sendable {
         integrationName: Swift.String? = nil,
         integrationStatus: CloudWatchLogsClientTypes.IntegrationStatus? = nil,
         integrationType: CloudWatchLogsClientTypes.IntegrationType? = nil
-    )
-    {
+    ) {
         self.integrationDetails = integrationDetails
         self.integrationName = integrationName
         self.integrationStatus = integrationStatus
@@ -4288,8 +4151,7 @@ public struct GetLogAnomalyDetectorInput: Swift.Sendable {
 
     public init(
         anomalyDetectorArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.anomalyDetectorArn = anomalyDetectorArn
     }
 }
@@ -4324,8 +4186,7 @@ public struct GetLogAnomalyDetectorOutput: Swift.Sendable {
         kmsKeyId: Swift.String? = nil,
         lastModifiedTimeStamp: Swift.Int = 0,
         logGroupArnList: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.anomalyDetectorStatus = anomalyDetectorStatus
         self.anomalyVisibilityTime = anomalyVisibilityTime
         self.creationTimeStamp = creationTimeStamp
@@ -4369,8 +4230,7 @@ public struct GetLogEventsInput: Swift.Sendable {
         startFromHead: Swift.Bool? = nil,
         startTime: Swift.Int? = nil,
         unmask: Swift.Bool? = false
-    )
-    {
+    ) {
         self.endTime = endTime
         self.limit = limit
         self.logGroupIdentifier = logGroupIdentifier
@@ -4398,8 +4258,7 @@ extension CloudWatchLogsClientTypes {
             ingestionTime: Swift.Int? = nil,
             message: Swift.String? = nil,
             timestamp: Swift.Int? = nil
-        )
-        {
+        ) {
             self.ingestionTime = ingestionTime
             self.message = message
             self.timestamp = timestamp
@@ -4419,8 +4278,7 @@ public struct GetLogEventsOutput: Swift.Sendable {
         events: [CloudWatchLogsClientTypes.OutputLogEvent]? = nil,
         nextBackwardToken: Swift.String? = nil,
         nextForwardToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.events = events
         self.nextBackwardToken = nextBackwardToken
         self.nextForwardToken = nextForwardToken
@@ -4439,8 +4297,7 @@ public struct GetLogGroupFieldsInput: Swift.Sendable {
         logGroupIdentifier: Swift.String? = nil,
         logGroupName: Swift.String? = nil,
         time: Swift.Int? = nil
-    )
-    {
+    ) {
         self.logGroupIdentifier = logGroupIdentifier
         self.logGroupName = logGroupName
         self.time = time
@@ -4459,8 +4316,7 @@ extension CloudWatchLogsClientTypes {
         public init(
             name: Swift.String? = nil,
             percent: Swift.Int = 0
-        )
-        {
+        ) {
             self.name = name
             self.percent = percent
         }
@@ -4473,8 +4329,7 @@ public struct GetLogGroupFieldsOutput: Swift.Sendable {
 
     public init(
         logGroupFields: [CloudWatchLogsClientTypes.LogGroupField]? = nil
-    )
-    {
+    ) {
         self.logGroupFields = logGroupFields
     }
 }
@@ -4489,8 +4344,7 @@ public struct GetLogRecordInput: Swift.Sendable {
     public init(
         logRecordPointer: Swift.String? = nil,
         unmask: Swift.Bool? = false
-    )
-    {
+    ) {
         self.logRecordPointer = logRecordPointer
         self.unmask = unmask
     }
@@ -4502,8 +4356,7 @@ public struct GetLogRecordOutput: Swift.Sendable {
 
     public init(
         logRecord: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.logRecord = logRecord
     }
 }
@@ -4515,8 +4368,7 @@ public struct GetQueryResultsInput: Swift.Sendable {
 
     public init(
         queryId: Swift.String? = nil
-    )
-    {
+    ) {
         self.queryId = queryId
     }
 }
@@ -4533,8 +4385,7 @@ extension CloudWatchLogsClientTypes {
         public init(
             field: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.field = field
             self.value = value
         }
@@ -4565,8 +4416,7 @@ extension CloudWatchLogsClientTypes {
             logGroupsScanned: Swift.Double = 0.0,
             recordsMatched: Swift.Double = 0.0,
             recordsScanned: Swift.Double = 0.0
-        )
-        {
+        ) {
             self.bytesScanned = bytesScanned
             self.estimatedBytesSkipped = estimatedBytesSkipped
             self.estimatedRecordsSkipped = estimatedRecordsSkipped
@@ -4595,8 +4445,7 @@ public struct GetQueryResultsOutput: Swift.Sendable {
         results: [[CloudWatchLogsClientTypes.ResultField]]? = nil,
         statistics: CloudWatchLogsClientTypes.QueryStatistics? = nil,
         status: CloudWatchLogsClientTypes.QueryStatus? = nil
-    )
-    {
+    ) {
         self.encryptionKey = encryptionKey
         self.queryLanguage = queryLanguage
         self.results = results
@@ -4612,8 +4461,7 @@ public struct GetTransformerInput: Swift.Sendable {
 
     public init(
         logGroupIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.logGroupIdentifier = logGroupIdentifier
     }
 }
@@ -4631,8 +4479,7 @@ extension CloudWatchLogsClientTypes {
         public init(
             match: Swift.String? = nil,
             source: Swift.String? = nil
-        )
-        {
+        ) {
             self.match = match
             self.source = source
         }
@@ -4665,8 +4512,7 @@ extension CloudWatchLogsClientTypes {
             source: Swift.String? = nil,
             target: Swift.String? = nil,
             valueKey: Swift.String? = nil
-        )
-        {
+        ) {
             self.flatten = flatten
             self.flattenedElement = flattenedElement
             self.key = key
@@ -4687,8 +4533,7 @@ extension CloudWatchLogsClientTypes {
 
         public init(
             withKeys: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.withKeys = withKeys
         }
     }
@@ -4711,8 +4556,7 @@ extension CloudWatchLogsClientTypes {
             overwriteIfExists: Swift.Bool = false,
             source: Swift.String? = nil,
             target: Swift.String? = nil
-        )
-        {
+        ) {
             self.overwriteIfExists = overwriteIfExists
             self.source = source
             self.target = target
@@ -4730,8 +4574,7 @@ extension CloudWatchLogsClientTypes {
 
         public init(
             entries: [CloudWatchLogsClientTypes.MoveKeyEntry]? = nil
-        )
-        {
+        ) {
             self.entries = entries
         }
     }
@@ -4746,8 +4589,7 @@ extension CloudWatchLogsClientTypes {
 
         public init(
             source: Swift.String? = nil
-        )
-        {
+        ) {
             self.source = source
         }
     }
@@ -4765,8 +4607,7 @@ extension CloudWatchLogsClientTypes {
         public init(
             destination: Swift.String? = nil,
             source: Swift.String? = nil
-        )
-        {
+        ) {
             self.destination = destination
             self.source = source
         }
@@ -4800,8 +4641,7 @@ extension CloudWatchLogsClientTypes {
             nonMatchValue: Swift.String? = nil,
             overwriteIfExists: Swift.Bool = false,
             source: Swift.String? = nil
-        )
-        {
+        ) {
             self.destination = destination
             self.fieldDelimiter = fieldDelimiter
             self.keyPrefix = keyPrefix
@@ -4822,8 +4662,7 @@ extension CloudWatchLogsClientTypes {
 
         public init(
             source: Swift.String? = nil
-        )
-        {
+        ) {
             self.source = source
         }
     }
@@ -4838,8 +4677,7 @@ extension CloudWatchLogsClientTypes {
 
         public init(
             source: Swift.String? = nil
-        )
-        {
+        ) {
             self.source = source
         }
     }
@@ -4854,8 +4692,7 @@ extension CloudWatchLogsClientTypes {
 
         public init(
             source: Swift.String? = nil
-        )
-        {
+        ) {
             self.source = source
         }
     }
@@ -4870,8 +4707,7 @@ extension CloudWatchLogsClientTypes {
 
         public init(
             source: Swift.String? = nil
-        )
-        {
+        ) {
             self.source = source
         }
     }
@@ -4894,8 +4730,7 @@ extension CloudWatchLogsClientTypes {
             key: Swift.String? = nil,
             overwriteIfExists: Swift.Bool = false,
             renameTo: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.overwriteIfExists = overwriteIfExists
             self.renameTo = renameTo
@@ -4913,8 +4748,7 @@ extension CloudWatchLogsClientTypes {
 
         public init(
             entries: [CloudWatchLogsClientTypes.RenameKeyEntry]? = nil
-        )
-        {
+        ) {
             self.entries = entries
         }
     }
@@ -4934,8 +4768,7 @@ extension CloudWatchLogsClientTypes {
         public init(
             delimiter: Swift.String? = nil,
             source: Swift.String? = nil
-        )
-        {
+        ) {
             self.delimiter = delimiter
             self.source = source
         }
@@ -4952,8 +4785,7 @@ extension CloudWatchLogsClientTypes {
 
         public init(
             entries: [CloudWatchLogsClientTypes.SplitStringEntry]? = nil
-        )
-        {
+        ) {
             self.entries = entries
         }
     }
@@ -4977,8 +4809,7 @@ extension CloudWatchLogsClientTypes {
             from: Swift.String? = nil,
             source: Swift.String? = nil,
             to: Swift.String? = nil
-        )
-        {
+        ) {
             self.from = from
             self.source = source
             self.to = to
@@ -4996,8 +4827,7 @@ extension CloudWatchLogsClientTypes {
 
         public init(
             entries: [CloudWatchLogsClientTypes.SubstituteStringEntry]? = nil
-        )
-        {
+        ) {
             self.entries = entries
         }
     }
@@ -5013,8 +4843,7 @@ extension CloudWatchLogsClientTypes {
 
         public init(
             withKeys: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.withKeys = withKeys
         }
     }
@@ -5069,8 +4898,7 @@ extension CloudWatchLogsClientTypes {
         public init(
             key: Swift.String? = nil,
             type: CloudWatchLogsClientTypes.ModelType? = nil
-        )
-        {
+        ) {
             self.key = key
             self.type = type
         }
@@ -5087,8 +4915,7 @@ extension CloudWatchLogsClientTypes {
 
         public init(
             entries: [CloudWatchLogsClientTypes.TypeConverterEntry]? = nil
-        )
-        {
+        ) {
             self.entries = entries
         }
     }
@@ -5104,8 +4931,7 @@ extension CloudWatchLogsClientTypes {
 
         public init(
             withKeys: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.withKeys = withKeys
         }
     }
@@ -5183,8 +5009,7 @@ extension CloudWatchLogsClientTypes {
             trimString: CloudWatchLogsClientTypes.TrimString? = nil,
             typeConverter: CloudWatchLogsClientTypes.TypeConverter? = nil,
             upperCaseString: CloudWatchLogsClientTypes.UpperCaseString? = nil
-        )
-        {
+        ) {
             self.addKeys = addKeys
             self.copyValue = copyValue
             self.csv = csv
@@ -5226,8 +5051,7 @@ public struct GetTransformerOutput: Swift.Sendable {
         lastModifiedTime: Swift.Int? = nil,
         logGroupIdentifier: Swift.String? = nil,
         transformerConfig: [CloudWatchLogsClientTypes.Processor]? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.lastModifiedTime = lastModifiedTime
         self.logGroupIdentifier = logGroupIdentifier
@@ -5249,8 +5073,7 @@ extension CloudWatchLogsClientTypes {
         public init(
             message: Swift.String? = nil,
             timestamp: Swift.Int? = nil
-        )
-        {
+        ) {
             self.message = message
             self.timestamp = timestamp
         }
@@ -5272,8 +5095,7 @@ extension CloudWatchLogsClientTypes {
             integrationName: Swift.String? = nil,
             integrationStatus: CloudWatchLogsClientTypes.IntegrationStatus? = nil,
             integrationType: CloudWatchLogsClientTypes.IntegrationType? = nil
-        )
-        {
+        ) {
             self.integrationName = integrationName
             self.integrationStatus = integrationStatus
             self.integrationType = integrationType
@@ -5301,8 +5123,7 @@ public struct InvalidSequenceTokenException: ClientRuntime.ModeledError, AWSClie
     public init(
         expectedSequenceToken: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.expectedSequenceToken = expectedSequenceToken
         self.properties.message = message
     }
@@ -5352,8 +5173,7 @@ public struct ListAnomaliesInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         suppressionState: CloudWatchLogsClientTypes.SuppressionState? = nil
-    )
-    {
+    ) {
         self.anomalyDetectorArn = anomalyDetectorArn
         self.limit = limit
         self.nextToken = nextToken
@@ -5370,8 +5190,7 @@ public struct ListAnomaliesOutput: Swift.Sendable {
     public init(
         anomalies: [CloudWatchLogsClientTypes.Anomaly]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.anomalies = anomalies
         self.nextToken = nextToken
     }
@@ -5389,8 +5208,7 @@ public struct ListIntegrationsInput: Swift.Sendable {
         integrationNamePrefix: Swift.String? = nil,
         integrationStatus: CloudWatchLogsClientTypes.IntegrationStatus? = nil,
         integrationType: CloudWatchLogsClientTypes.IntegrationType? = nil
-    )
-    {
+    ) {
         self.integrationNamePrefix = integrationNamePrefix
         self.integrationStatus = integrationStatus
         self.integrationType = integrationType
@@ -5403,8 +5221,7 @@ public struct ListIntegrationsOutput: Swift.Sendable {
 
     public init(
         integrationSummaries: [CloudWatchLogsClientTypes.IntegrationSummary]? = nil
-    )
-    {
+    ) {
         self.integrationSummaries = integrationSummaries
     }
 }
@@ -5421,8 +5238,7 @@ public struct ListLogAnomalyDetectorsInput: Swift.Sendable {
         filterLogGroupArn: Swift.String? = nil,
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filterLogGroupArn = filterLogGroupArn
         self.limit = limit
         self.nextToken = nextToken
@@ -5438,8 +5254,7 @@ public struct ListLogAnomalyDetectorsOutput: Swift.Sendable {
     public init(
         anomalyDetectors: [CloudWatchLogsClientTypes.AnomalyDetector]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.anomalyDetectors = anomalyDetectors
         self.nextToken = nextToken
     }
@@ -5458,8 +5273,7 @@ public struct ListLogGroupsForQueryInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         queryId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.queryId = queryId
@@ -5475,8 +5289,7 @@ public struct ListLogGroupsForQueryOutput: Swift.Sendable {
     public init(
         logGroupIdentifiers: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.logGroupIdentifiers = logGroupIdentifiers
         self.nextToken = nextToken
     }
@@ -5489,8 +5302,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -5501,8 +5313,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -5515,8 +5326,7 @@ public struct ListTagsLogGroupInput: Swift.Sendable {
 
     public init(
         logGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.logGroupName = logGroupName
     }
 }
@@ -5528,8 +5338,7 @@ public struct ListTagsLogGroupOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -5555,8 +5364,7 @@ extension CloudWatchLogsClientTypes {
             logStreamName: Swift.String? = nil,
             message: Swift.String? = nil,
             timestamp: Swift.Int? = nil
-        )
-        {
+        ) {
             self.ingestionTime = ingestionTime
             self.logGroupIdentifier = logGroupIdentifier
             self.logStreamName = logStreamName
@@ -5575,8 +5383,7 @@ extension CloudWatchLogsClientTypes {
 
         public init(
             sampled: Swift.Bool = false
-        )
-        {
+        ) {
             self.sampled = sampled
         }
     }
@@ -5606,8 +5413,7 @@ extension CloudWatchLogsClientTypes {
             logStreamNames: [Swift.String]? = nil,
             requestId: Swift.String? = nil,
             sessionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.logEventFilterPattern = logEventFilterPattern
             self.logGroupIdentifiers = logGroupIdentifiers
             self.logStreamNamePrefixes = logStreamNamePrefixes
@@ -5630,8 +5436,7 @@ extension CloudWatchLogsClientTypes {
         public init(
             sessionMetadata: CloudWatchLogsClientTypes.LiveTailSessionMetadata? = nil,
             sessionResults: [CloudWatchLogsClientTypes.LiveTailSessionLogEvent]? = nil
-        )
-        {
+        ) {
             self.sessionMetadata = sessionMetadata
             self.sessionResults = sessionResults
         }
@@ -5693,8 +5498,7 @@ public struct PutAccountPolicyInput: Swift.Sendable {
         policyType: CloudWatchLogsClientTypes.PolicyType? = nil,
         scope: CloudWatchLogsClientTypes.Scope? = nil,
         selectionCriteria: Swift.String? = nil
-    )
-    {
+    ) {
         self.policyDocument = policyDocument
         self.policyName = policyName
         self.policyType = policyType
@@ -5709,8 +5513,7 @@ public struct PutAccountPolicyOutput: Swift.Sendable {
 
     public init(
         accountPolicy: CloudWatchLogsClientTypes.AccountPolicy? = nil
-    )
-    {
+    ) {
         self.accountPolicy = accountPolicy
     }
 }
@@ -5733,8 +5536,7 @@ public struct PutDataProtectionPolicyInput: Swift.Sendable {
     public init(
         logGroupIdentifier: Swift.String? = nil,
         policyDocument: Swift.String? = nil
-    )
-    {
+    ) {
         self.logGroupIdentifier = logGroupIdentifier
         self.policyDocument = policyDocument
     }
@@ -5752,8 +5554,7 @@ public struct PutDataProtectionPolicyOutput: Swift.Sendable {
         lastUpdatedTime: Swift.Int? = nil,
         logGroupIdentifier: Swift.String? = nil,
         policyDocument: Swift.String? = nil
-    )
-    {
+    ) {
         self.lastUpdatedTime = lastUpdatedTime
         self.logGroupIdentifier = logGroupIdentifier
         self.policyDocument = policyDocument
@@ -5777,8 +5578,7 @@ public struct PutDeliveryDestinationInput: Swift.Sendable {
         name: Swift.String? = nil,
         outputFormat: CloudWatchLogsClientTypes.OutputFormat? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.deliveryDestinationConfiguration = deliveryDestinationConfiguration
         self.name = name
         self.outputFormat = outputFormat
@@ -5792,8 +5592,7 @@ public struct PutDeliveryDestinationOutput: Swift.Sendable {
 
     public init(
         deliveryDestination: CloudWatchLogsClientTypes.DeliveryDestination? = nil
-    )
-    {
+    ) {
         self.deliveryDestination = deliveryDestination
     }
 }
@@ -5809,8 +5608,7 @@ public struct PutDeliveryDestinationPolicyInput: Swift.Sendable {
     public init(
         deliveryDestinationName: Swift.String? = nil,
         deliveryDestinationPolicy: Swift.String? = nil
-    )
-    {
+    ) {
         self.deliveryDestinationName = deliveryDestinationName
         self.deliveryDestinationPolicy = deliveryDestinationPolicy
     }
@@ -5822,8 +5620,7 @@ public struct PutDeliveryDestinationPolicyOutput: Swift.Sendable {
 
     public init(
         policy: CloudWatchLogsClientTypes.Policy? = nil
-    )
-    {
+    ) {
         self.policy = policy
     }
 }
@@ -5854,8 +5651,7 @@ public struct PutDeliverySourceInput: Swift.Sendable {
         name: Swift.String? = nil,
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.logType = logType
         self.name = name
         self.resourceArn = resourceArn
@@ -5869,8 +5665,7 @@ public struct PutDeliverySourceOutput: Swift.Sendable {
 
     public init(
         deliverySource: CloudWatchLogsClientTypes.DeliverySource? = nil
-    )
-    {
+    ) {
         self.deliverySource = deliverySource
     }
 }
@@ -5893,8 +5688,7 @@ public struct PutDestinationInput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         targetArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.destinationName = destinationName
         self.roleArn = roleArn
         self.tags = tags
@@ -5908,8 +5702,7 @@ public struct PutDestinationOutput: Swift.Sendable {
 
     public init(
         destination: CloudWatchLogsClientTypes.Destination? = nil
-    )
-    {
+    ) {
         self.destination = destination
     }
 }
@@ -5928,8 +5721,7 @@ public struct PutDestinationPolicyInput: Swift.Sendable {
         accessPolicy: Swift.String? = nil,
         destinationName: Swift.String? = nil,
         forceUpdate: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.accessPolicy = accessPolicy
         self.destinationName = destinationName
         self.forceUpdate = forceUpdate
@@ -5947,8 +5739,7 @@ public struct PutIndexPolicyInput: Swift.Sendable {
     public init(
         logGroupIdentifier: Swift.String? = nil,
         policyDocument: Swift.String? = nil
-    )
-    {
+    ) {
         self.logGroupIdentifier = logGroupIdentifier
         self.policyDocument = policyDocument
     }
@@ -5960,8 +5751,7 @@ public struct PutIndexPolicyOutput: Swift.Sendable {
 
     public init(
         indexPolicy: CloudWatchLogsClientTypes.IndexPolicy? = nil
-    )
-    {
+    ) {
         self.indexPolicy = indexPolicy
     }
 }
@@ -5990,8 +5780,7 @@ extension CloudWatchLogsClientTypes {
             dataSourceRoleArn: Swift.String? = nil,
             kmsKeyArn: Swift.String? = nil,
             retentionDays: Swift.Int? = nil
-        )
-        {
+        ) {
             self.applicationArn = applicationArn
             self.dashboardViewerPrincipals = dashboardViewerPrincipals
             self.dataSourceRoleArn = dataSourceRoleArn
@@ -6026,8 +5815,7 @@ public struct PutIntegrationInput: Swift.Sendable {
         integrationName: Swift.String? = nil,
         integrationType: CloudWatchLogsClientTypes.IntegrationType? = nil,
         resourceConfig: CloudWatchLogsClientTypes.ResourceConfig? = nil
-    )
-    {
+    ) {
         self.integrationName = integrationName
         self.integrationType = integrationType
         self.resourceConfig = resourceConfig
@@ -6043,8 +5831,7 @@ public struct PutIntegrationOutput: Swift.Sendable {
     public init(
         integrationName: Swift.String? = nil,
         integrationStatus: CloudWatchLogsClientTypes.IntegrationStatus? = nil
-    )
-    {
+    ) {
         self.integrationName = integrationName
         self.integrationStatus = integrationStatus
     }
@@ -6068,8 +5855,7 @@ public struct UnrecognizedClientException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -6095,8 +5881,7 @@ public struct PutLogEventsInput: Swift.Sendable {
         logGroupName: Swift.String? = nil,
         logStreamName: Swift.String? = nil,
         sequenceToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.entity = entity
         self.logEvents = logEvents
         self.logGroupName = logGroupName
@@ -6115,8 +5900,7 @@ extension CloudWatchLogsClientTypes {
 
         public init(
             errorType: CloudWatchLogsClientTypes.EntityRejectionErrorType? = nil
-        )
-        {
+        ) {
             self.errorType = errorType
         }
     }
@@ -6137,8 +5921,7 @@ extension CloudWatchLogsClientTypes {
             expiredLogEventEndIndex: Swift.Int? = nil,
             tooNewLogEventStartIndex: Swift.Int? = nil,
             tooOldLogEventEndIndex: Swift.Int? = nil
-        )
-        {
+        ) {
             self.expiredLogEventEndIndex = expiredLogEventEndIndex
             self.tooNewLogEventStartIndex = tooNewLogEventStartIndex
             self.tooOldLogEventEndIndex = tooOldLogEventEndIndex
@@ -6158,8 +5941,7 @@ public struct PutLogEventsOutput: Swift.Sendable {
         nextSequenceToken: Swift.String? = nil,
         rejectedEntityInfo: CloudWatchLogsClientTypes.RejectedEntityInfo? = nil,
         rejectedLogEventsInfo: CloudWatchLogsClientTypes.RejectedLogEventsInfo? = nil
-    )
-    {
+    ) {
         self.nextSequenceToken = nextSequenceToken
         self.rejectedEntityInfo = rejectedEntityInfo
         self.rejectedLogEventsInfo = rejectedLogEventsInfo
@@ -6188,8 +5970,7 @@ public struct PutMetricFilterInput: Swift.Sendable {
         filterPattern: Swift.String? = nil,
         logGroupName: Swift.String? = nil,
         metricTransformations: [CloudWatchLogsClientTypes.MetricTransformation]? = nil
-    )
-    {
+    ) {
         self.applyOnTransformedLogs = applyOnTransformedLogs
         self.filterName = filterName
         self.filterPattern = filterPattern
@@ -6221,8 +6002,7 @@ public struct PutQueryDefinitionInput: Swift.Sendable {
         queryDefinitionId: Swift.String? = nil,
         queryLanguage: CloudWatchLogsClientTypes.QueryLanguage? = nil,
         queryString: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.logGroupNames = logGroupNames
         self.name = name
@@ -6238,8 +6018,7 @@ public struct PutQueryDefinitionOutput: Swift.Sendable {
 
     public init(
         queryDefinitionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.queryDefinitionId = queryDefinitionId
     }
 }
@@ -6253,8 +6032,7 @@ public struct PutResourcePolicyInput: Swift.Sendable {
     public init(
         policyDocument: Swift.String? = nil,
         policyName: Swift.String? = nil
-    )
-    {
+    ) {
         self.policyDocument = policyDocument
         self.policyName = policyName
     }
@@ -6266,8 +6044,7 @@ public struct PutResourcePolicyOutput: Swift.Sendable {
 
     public init(
         resourcePolicy: CloudWatchLogsClientTypes.ResourcePolicy? = nil
-    )
-    {
+    ) {
         self.resourcePolicy = resourcePolicy
     }
 }
@@ -6283,8 +6060,7 @@ public struct PutRetentionPolicyInput: Swift.Sendable {
     public init(
         logGroupName: Swift.String? = nil,
         retentionInDays: Swift.Int? = nil
-    )
-    {
+    ) {
         self.logGroupName = logGroupName
         self.retentionInDays = retentionInDays
     }
@@ -6326,8 +6102,7 @@ public struct PutSubscriptionFilterInput: Swift.Sendable {
         filterPattern: Swift.String? = nil,
         logGroupName: Swift.String? = nil,
         roleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.applyOnTransformedLogs = applyOnTransformedLogs
         self.destinationArn = destinationArn
         self.distribution = distribution
@@ -6349,8 +6124,7 @@ public struct PutTransformerInput: Swift.Sendable {
     public init(
         logGroupIdentifier: Swift.String? = nil,
         transformerConfig: [CloudWatchLogsClientTypes.Processor]? = nil
-    )
-    {
+    ) {
         self.logGroupIdentifier = logGroupIdentifier
         self.transformerConfig = transformerConfig
     }
@@ -6372,8 +6146,7 @@ public struct StartLiveTailInput: Swift.Sendable {
         logGroupIdentifiers: [Swift.String]? = nil,
         logStreamNamePrefixes: [Swift.String]? = nil,
         logStreamNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.logEventFilterPattern = logEventFilterPattern
         self.logGroupIdentifiers = logGroupIdentifiers
         self.logStreamNamePrefixes = logStreamNamePrefixes
@@ -6399,8 +6172,7 @@ public struct SessionStreamingException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -6423,8 +6195,7 @@ public struct SessionTimeoutException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -6447,8 +6218,7 @@ public struct StartLiveTailOutput: Swift.Sendable {
 
     public init(
         responseStream: AsyncThrowingStream<CloudWatchLogsClientTypes.StartLiveTailResponseStream, Swift.Error>? = nil
-    )
-    {
+    ) {
         self.responseStream = responseStream
     }
 }
@@ -6465,8 +6235,7 @@ extension CloudWatchLogsClientTypes {
         public init(
             endCharOffset: Swift.Int? = nil,
             startCharOffset: Swift.Int? = nil
-        )
-        {
+        ) {
             self.endCharOffset = endCharOffset
             self.startCharOffset = startCharOffset
         }
@@ -6485,8 +6254,7 @@ extension CloudWatchLogsClientTypes {
         public init(
             location: CloudWatchLogsClientTypes.QueryCompileErrorLocation? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.location = location
             self.message = message
         }
@@ -6514,8 +6282,7 @@ public struct MalformedQueryException: ClientRuntime.ModeledError, AWSClientRunt
     public init(
         message: Swift.String? = nil,
         queryCompileError: CloudWatchLogsClientTypes.QueryCompileError? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.queryCompileError = queryCompileError
     }
@@ -6551,8 +6318,7 @@ public struct StartQueryInput: Swift.Sendable {
         queryLanguage: CloudWatchLogsClientTypes.QueryLanguage? = nil,
         queryString: Swift.String? = nil,
         startTime: Swift.Int? = nil
-    )
-    {
+    ) {
         self.endTime = endTime
         self.limit = limit
         self.logGroupIdentifiers = logGroupIdentifiers
@@ -6570,8 +6336,7 @@ public struct StartQueryOutput: Swift.Sendable {
 
     public init(
         queryId: Swift.String? = nil
-    )
-    {
+    ) {
         self.queryId = queryId
     }
 }
@@ -6583,8 +6348,7 @@ public struct StopQueryInput: Swift.Sendable {
 
     public init(
         queryId: Swift.String? = nil
-    )
-    {
+    ) {
         self.queryId = queryId
     }
 }
@@ -6595,8 +6359,7 @@ public struct StopQueryOutput: Swift.Sendable {
 
     public init(
         success: Swift.Bool = false
-    )
-    {
+    ) {
         self.success = success
     }
 }
@@ -6613,8 +6376,7 @@ public struct TagLogGroupInput: Swift.Sendable {
     public init(
         logGroupName: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.logGroupName = logGroupName
         self.tags = tags
     }
@@ -6641,8 +6403,7 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
     public init(
         message: Swift.String? = nil,
         resourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceName = resourceName
     }
@@ -6659,8 +6420,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -6677,8 +6437,7 @@ public struct TestMetricFilterInput: Swift.Sendable {
     public init(
         filterPattern: Swift.String? = nil,
         logEventMessages: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.filterPattern = filterPattern
         self.logEventMessages = logEventMessages
     }
@@ -6699,8 +6458,7 @@ extension CloudWatchLogsClientTypes {
             eventMessage: Swift.String? = nil,
             eventNumber: Swift.Int = 0,
             extractedValues: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.eventMessage = eventMessage
             self.eventNumber = eventNumber
             self.extractedValues = extractedValues
@@ -6714,8 +6472,7 @@ public struct TestMetricFilterOutput: Swift.Sendable {
 
     public init(
         matches: [CloudWatchLogsClientTypes.MetricFilterMatchRecord]? = nil
-    )
-    {
+    ) {
         self.matches = matches
     }
 }
@@ -6731,8 +6488,7 @@ public struct TestTransformerInput: Swift.Sendable {
     public init(
         logEventMessages: [Swift.String]? = nil,
         transformerConfig: [CloudWatchLogsClientTypes.Processor]? = nil
-    )
-    {
+    ) {
         self.logEventMessages = logEventMessages
         self.transformerConfig = transformerConfig
     }
@@ -6753,8 +6509,7 @@ extension CloudWatchLogsClientTypes {
             eventMessage: Swift.String? = nil,
             eventNumber: Swift.Int = 0,
             transformedEventMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.eventMessage = eventMessage
             self.eventNumber = eventNumber
             self.transformedEventMessage = transformedEventMessage
@@ -6768,8 +6523,7 @@ public struct TestTransformerOutput: Swift.Sendable {
 
     public init(
         transformedLogs: [CloudWatchLogsClientTypes.TransformedLogRecord]? = nil
-    )
-    {
+    ) {
         self.transformedLogs = transformedLogs
     }
 }
@@ -6786,8 +6540,7 @@ public struct UntagLogGroupInput: Swift.Sendable {
     public init(
         logGroupName: Swift.String? = nil,
         tags: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.logGroupName = logGroupName
         self.tags = tags
     }
@@ -6804,8 +6557,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -6855,8 +6607,7 @@ extension CloudWatchLogsClientTypes {
         public init(
             suppressionUnit: CloudWatchLogsClientTypes.SuppressionUnit? = nil,
             value: Swift.Int = 0
-        )
-        {
+        ) {
             self.suppressionUnit = suppressionUnit
             self.value = value
         }
@@ -6914,8 +6665,7 @@ public struct UpdateAnomalyInput: Swift.Sendable {
         patternId: Swift.String? = nil,
         suppressionPeriod: CloudWatchLogsClientTypes.SuppressionPeriod? = nil,
         suppressionType: CloudWatchLogsClientTypes.SuppressionType? = nil
-    )
-    {
+    ) {
         self.anomalyDetectorArn = anomalyDetectorArn
         self.anomalyId = anomalyId
         self.baseline = baseline
@@ -6941,8 +6691,7 @@ public struct UpdateDeliveryConfigurationInput: Swift.Sendable {
         id: Swift.String? = nil,
         recordFields: [Swift.String]? = nil,
         s3DeliveryConfiguration: CloudWatchLogsClientTypes.S3DeliveryConfiguration? = nil
-    )
-    {
+    ) {
         self.fieldDelimiter = fieldDelimiter
         self.id = id
         self.recordFields = recordFields
@@ -6975,8 +6724,7 @@ public struct UpdateLogAnomalyDetectorInput: Swift.Sendable {
         enabled: Swift.Bool? = nil,
         evaluationFrequency: CloudWatchLogsClientTypes.EvaluationFrequency? = nil,
         filterPattern: Swift.String? = nil
-    )
-    {
+    ) {
         self.anomalyDetectorArn = anomalyDetectorArn
         self.anomalyVisibilityTime = anomalyVisibilityTime
         self.enabled = enabled

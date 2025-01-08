@@ -47,8 +47,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -80,8 +79,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -110,8 +108,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public init(
         message: Swift.String? = nil,
         retryAfterSeconds: Swift.Int? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.retryAfterSeconds = retryAfterSeconds
     }
@@ -144,8 +141,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -180,8 +176,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
         quotaCode: Swift.String? = nil,
         retryAfterSeconds: Swift.Int? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.quotaCode = quotaCode
         self.properties.retryAfterSeconds = retryAfterSeconds
@@ -203,8 +198,7 @@ extension VPCLatticeClientTypes {
         public init(
             message: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
             self.name = name
         }
@@ -272,8 +266,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
         fieldList: [VPCLatticeClientTypes.ValidationExceptionField]? = nil,
         message: Swift.String? = nil,
         reason: VPCLatticeClientTypes.ValidationExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.fieldList = fieldList
         self.properties.message = message
         self.properties.reason = reason
@@ -331,8 +324,7 @@ public struct CreateAccessLogSubscriptionInput: Swift.Sendable {
         resourceIdentifier: Swift.String? = nil,
         serviceNetworkLogType: VPCLatticeClientTypes.ServiceNetworkLogType? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.destinationArn = destinationArn
         self.resourceIdentifier = resourceIdentifier
@@ -367,8 +359,7 @@ public struct CreateAccessLogSubscriptionOutput: Swift.Sendable {
         resourceArn: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         serviceNetworkLogType: VPCLatticeClientTypes.ServiceNetworkLogType? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.destinationArn = destinationArn
         self.id = id
@@ -385,8 +376,7 @@ public struct DeleteAccessLogSubscriptionInput: Swift.Sendable {
 
     public init(
         accessLogSubscriptionIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessLogSubscriptionIdentifier = accessLogSubscriptionIdentifier
     }
 }
@@ -403,8 +393,7 @@ public struct GetAccessLogSubscriptionInput: Swift.Sendable {
 
     public init(
         accessLogSubscriptionIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessLogSubscriptionIdentifier = accessLogSubscriptionIdentifier
     }
 }
@@ -443,8 +432,7 @@ public struct GetAccessLogSubscriptionOutput: Swift.Sendable {
         resourceArn: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         serviceNetworkLogType: VPCLatticeClientTypes.ServiceNetworkLogType? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.createdAt = createdAt
         self.destinationArn = destinationArn
@@ -469,8 +457,7 @@ public struct ListAccessLogSubscriptionsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.resourceIdentifier = resourceIdentifier
@@ -514,8 +501,7 @@ extension VPCLatticeClientTypes {
             resourceArn: Swift.String? = nil,
             resourceId: Swift.String? = nil,
             serviceNetworkLogType: VPCLatticeClientTypes.ServiceNetworkLogType? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.destinationArn = destinationArn
@@ -538,8 +524,7 @@ public struct ListAccessLogSubscriptionsOutput: Swift.Sendable {
     public init(
         items: [VPCLatticeClientTypes.AccessLogSubscriptionSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -556,8 +541,7 @@ public struct UpdateAccessLogSubscriptionInput: Swift.Sendable {
     public init(
         accessLogSubscriptionIdentifier: Swift.String? = nil,
         destinationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessLogSubscriptionIdentifier = accessLogSubscriptionIdentifier
         self.destinationArn = destinationArn
     }
@@ -586,8 +570,7 @@ public struct UpdateAccessLogSubscriptionOutput: Swift.Sendable {
         id: Swift.String? = nil,
         resourceArn: Swift.String? = nil,
         resourceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.destinationArn = destinationArn
         self.id = id
@@ -605,8 +588,7 @@ extension VPCLatticeClientTypes {
 
         public init(
             arn: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
         }
     }
@@ -680,8 +662,7 @@ extension VPCLatticeClientTypes {
 
         public init(
             statusCode: Swift.Int? = nil
-        )
-        {
+        ) {
             self.statusCode = statusCode
         }
     }
@@ -700,8 +681,7 @@ extension VPCLatticeClientTypes {
         public init(
             targetGroupIdentifier: Swift.String? = nil,
             weight: Swift.Int? = nil
-        )
-        {
+        ) {
             self.targetGroupIdentifier = targetGroupIdentifier
             self.weight = weight
         }
@@ -718,8 +698,7 @@ extension VPCLatticeClientTypes {
 
         public init(
             targetGroups: [VPCLatticeClientTypes.WeightedTargetGroup]? = nil
-        )
-        {
+        ) {
             self.targetGroups = targetGroups
         }
     }
@@ -768,8 +747,7 @@ extension VPCLatticeClientTypes {
             caseSensitive: Swift.Bool? = nil,
             match: VPCLatticeClientTypes.HeaderMatchType? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.caseSensitive = caseSensitive
             self.match = match
             self.name = name
@@ -802,8 +780,7 @@ extension VPCLatticeClientTypes {
         public init(
             caseSensitive: Swift.Bool? = nil,
             match: VPCLatticeClientTypes.PathMatchType? = nil
-        )
-        {
+        ) {
             self.caseSensitive = caseSensitive
             self.match = match
         }
@@ -825,8 +802,7 @@ extension VPCLatticeClientTypes {
             headerMatches: [VPCLatticeClientTypes.HeaderMatch]? = nil,
             method: Swift.String? = nil,
             pathMatch: VPCLatticeClientTypes.PathMatch? = nil
-        )
-        {
+        ) {
             self.headerMatches = headerMatches
             self.method = method
             self.pathMatch = pathMatch
@@ -863,8 +839,7 @@ extension VPCLatticeClientTypes {
             match: VPCLatticeClientTypes.RuleMatch? = nil,
             priority: Swift.Int? = nil,
             ruleIdentifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.action = action
             self.match = match
             self.priority = priority
@@ -888,8 +863,7 @@ public struct BatchUpdateRuleInput: Swift.Sendable {
         listenerIdentifier: Swift.String? = nil,
         rules: [VPCLatticeClientTypes.RuleUpdate]? = nil,
         serviceIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.listenerIdentifier = listenerIdentifier
         self.rules = rules
         self.serviceIdentifier = serviceIdentifier
@@ -923,8 +897,7 @@ extension VPCLatticeClientTypes {
             match: VPCLatticeClientTypes.RuleMatch? = nil,
             name: Swift.String? = nil,
             priority: Swift.Int? = nil
-        )
-        {
+        ) {
             self.action = action
             self.arn = arn
             self.id = id
@@ -951,8 +924,7 @@ extension VPCLatticeClientTypes {
             failureCode: Swift.String? = nil,
             failureMessage: Swift.String? = nil,
             ruleIdentifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.failureCode = failureCode
             self.failureMessage = failureMessage
             self.ruleIdentifier = ruleIdentifier
@@ -969,8 +941,7 @@ public struct BatchUpdateRuleOutput: Swift.Sendable {
     public init(
         successful: [VPCLatticeClientTypes.RuleUpdateSuccess]? = nil,
         unsuccessful: [VPCLatticeClientTypes.RuleUpdateFailure]? = nil
-    )
-    {
+    ) {
         self.successful = successful
         self.unsuccessful = unsuccessful
     }
@@ -1010,8 +981,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.quotaCode = quotaCode
         self.properties.resourceId = resourceId
@@ -1083,8 +1053,7 @@ public struct CreateListenerInput: Swift.Sendable {
         `protocol`: VPCLatticeClientTypes.ListenerProtocol? = nil,
         serviceIdentifier: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.defaultAction = defaultAction
         self.name = name
@@ -1122,8 +1091,7 @@ public struct CreateListenerOutput: Swift.Sendable {
         `protocol`: VPCLatticeClientTypes.ListenerProtocol? = nil,
         serviceArn: Swift.String? = nil,
         serviceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.defaultAction = defaultAction
         self.id = id
@@ -1209,8 +1177,7 @@ extension VPCLatticeClientTypes {
         public init(
             domainName: Swift.String? = nil,
             ipAddressType: VPCLatticeClientTypes.ResourceConfigurationIpAddressType? = nil
-        )
-        {
+        ) {
             self.domainName = domainName
             self.ipAddressType = ipAddressType
         }
@@ -1226,8 +1193,7 @@ extension VPCLatticeClientTypes {
 
         public init(
             ipAddress: Swift.String? = nil
-        )
-        {
+        ) {
             self.ipAddress = ipAddress
         }
     }
@@ -1329,8 +1295,7 @@ public struct CreateResourceConfigurationInput: Swift.Sendable {
         resourceGatewayIdentifier: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         type: VPCLatticeClientTypes.ResourceConfigurationType? = nil
-    )
-    {
+    ) {
         self.allowAssociationToShareableServiceNetwork = allowAssociationToShareableServiceNetwork
         self.clientToken = clientToken
         self.name = name
@@ -1437,8 +1402,7 @@ public struct CreateResourceConfigurationOutput: Swift.Sendable {
         resourceGatewayId: Swift.String? = nil,
         status: VPCLatticeClientTypes.ResourceConfigurationStatus? = nil,
         type: VPCLatticeClientTypes.ResourceConfigurationType? = nil
-    )
-    {
+    ) {
         self.allowAssociationToShareableServiceNetwork = allowAssociationToShareableServiceNetwork
         self.arn = arn
         self.createdAt = createdAt
@@ -1517,8 +1481,7 @@ public struct CreateResourceGatewayInput: Swift.Sendable {
         subnetIds: [Swift.String]? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         vpcIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.ipAddressType = ipAddressType
         self.name = name
@@ -1607,8 +1570,7 @@ public struct CreateResourceGatewayOutput: Swift.Sendable {
         status: VPCLatticeClientTypes.ResourceGatewayStatus? = nil,
         subnetIds: [Swift.String]? = nil,
         vpcIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.id = id
         self.ipAddressType = ipAddressType
@@ -1653,8 +1615,7 @@ public struct CreateRuleInput: Swift.Sendable {
         priority: Swift.Int? = nil,
         serviceIdentifier: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.action = action
         self.clientToken = clientToken
         self.listenerIdentifier = listenerIdentifier
@@ -1687,8 +1648,7 @@ public struct CreateRuleOutput: Swift.Sendable {
         match: VPCLatticeClientTypes.RuleMatch? = nil,
         name: Swift.String? = nil,
         priority: Swift.Int? = nil
-    )
-    {
+    ) {
         self.action = action
         self.arn = arn
         self.id = id
@@ -1724,8 +1684,7 @@ public struct CreateServiceInput: Swift.Sendable {
         customDomainName: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.authType = authType
         self.certificateArn = certificateArn
         self.clientToken = clientToken
@@ -1747,8 +1706,7 @@ extension VPCLatticeClientTypes {
         public init(
             domainName: Swift.String? = nil,
             hostedZoneId: Swift.String? = nil
-        )
-        {
+        ) {
             self.domainName = domainName
             self.hostedZoneId = hostedZoneId
         }
@@ -1825,8 +1783,7 @@ public struct CreateServiceOutput: Swift.Sendable {
         id: Swift.String? = nil,
         name: Swift.String? = nil,
         status: VPCLatticeClientTypes.ServiceStatus? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.authType = authType
         self.certificateArn = certificateArn
@@ -1847,8 +1804,7 @@ extension VPCLatticeClientTypes {
 
         public init(
             enabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
         }
     }
@@ -1877,8 +1833,7 @@ public struct CreateServiceNetworkInput: Swift.Sendable {
         name: Swift.String? = nil,
         sharingConfig: VPCLatticeClientTypes.SharingConfig? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.authType = authType
         self.clientToken = clientToken
         self.name = name
@@ -1905,8 +1860,7 @@ public struct CreateServiceNetworkOutput: Swift.Sendable {
         id: Swift.String? = nil,
         name: Swift.String? = nil,
         sharingConfig: VPCLatticeClientTypes.SharingConfig? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.authType = authType
         self.id = id
@@ -1932,8 +1886,7 @@ public struct CreateServiceNetworkResourceAssociationInput: Swift.Sendable {
         resourceConfigurationIdentifier: Swift.String? = nil,
         serviceNetworkIdentifier: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.resourceConfigurationIdentifier = resourceConfigurationIdentifier
         self.serviceNetworkIdentifier = serviceNetworkIdentifier
@@ -2003,8 +1956,7 @@ public struct CreateServiceNetworkResourceAssociationOutput: Swift.Sendable {
         createdBy: Swift.String? = nil,
         id: Swift.String? = nil,
         status: VPCLatticeClientTypes.ServiceNetworkResourceAssociationStatus? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.createdBy = createdBy
         self.id = id
@@ -2029,8 +1981,7 @@ public struct CreateServiceNetworkServiceAssociationInput: Swift.Sendable {
         serviceIdentifier: Swift.String? = nil,
         serviceNetworkIdentifier: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.serviceIdentifier = serviceIdentifier
         self.serviceNetworkIdentifier = serviceNetworkIdentifier
@@ -2102,8 +2053,7 @@ public struct CreateServiceNetworkServiceAssociationOutput: Swift.Sendable {
         dnsEntry: VPCLatticeClientTypes.DnsEntry? = nil,
         id: Swift.String? = nil,
         status: VPCLatticeClientTypes.ServiceNetworkServiceAssociationStatus? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.createdBy = createdBy
         self.customDomainName = customDomainName
@@ -2133,8 +2083,7 @@ public struct CreateServiceNetworkVpcAssociationInput: Swift.Sendable {
         serviceNetworkIdentifier: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         vpcIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.securityGroupIds = securityGroupIds
         self.serviceNetworkIdentifier = serviceNetworkIdentifier
@@ -2212,8 +2161,7 @@ public struct CreateServiceNetworkVpcAssociationOutput: Swift.Sendable {
         id: Swift.String? = nil,
         securityGroupIds: [Swift.String]? = nil,
         status: VPCLatticeClientTypes.ServiceNetworkVpcAssociationStatus? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.createdBy = createdBy
         self.id = id
@@ -2334,8 +2282,7 @@ extension VPCLatticeClientTypes {
             `protocol`: VPCLatticeClientTypes.TargetGroupProtocol? = nil,
             protocolVersion: VPCLatticeClientTypes.HealthCheckProtocolVersion? = nil,
             unhealthyThresholdCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
             self.healthCheckIntervalSeconds = healthCheckIntervalSeconds
             self.healthCheckTimeoutSeconds = healthCheckTimeoutSeconds
@@ -2474,8 +2421,7 @@ extension VPCLatticeClientTypes {
             `protocol`: VPCLatticeClientTypes.TargetGroupProtocol? = nil,
             protocolVersion: VPCLatticeClientTypes.TargetGroupProtocolVersion? = nil,
             vpcIdentifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.healthCheck = healthCheck
             self.ipAddressType = ipAddressType
             self.lambdaEventStructureVersion = lambdaEventStructureVersion
@@ -2546,8 +2492,7 @@ public struct CreateTargetGroupInput: Swift.Sendable {
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         type: VPCLatticeClientTypes.TargetGroupType? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.config = config
         self.name = name
@@ -2620,8 +2565,7 @@ public struct CreateTargetGroupOutput: Swift.Sendable {
         name: Swift.String? = nil,
         status: VPCLatticeClientTypes.TargetGroupStatus? = nil,
         type: VPCLatticeClientTypes.TargetGroupType? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.config = config
         self.id = id
@@ -2638,8 +2582,7 @@ public struct DeleteAuthPolicyInput: Swift.Sendable {
 
     public init(
         resourceIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceIdentifier = resourceIdentifier
     }
 }
@@ -2660,8 +2603,7 @@ public struct DeleteListenerInput: Swift.Sendable {
     public init(
         listenerIdentifier: Swift.String? = nil,
         serviceIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.listenerIdentifier = listenerIdentifier
         self.serviceIdentifier = serviceIdentifier
     }
@@ -2679,8 +2621,7 @@ public struct DeleteResourceConfigurationInput: Swift.Sendable {
 
     public init(
         resourceConfigurationIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceConfigurationIdentifier = resourceConfigurationIdentifier
     }
 }
@@ -2697,8 +2638,7 @@ public struct DeleteResourceEndpointAssociationInput: Swift.Sendable {
 
     public init(
         resourceEndpointAssociationIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceEndpointAssociationIdentifier = resourceEndpointAssociationIdentifier
     }
 }
@@ -2721,8 +2661,7 @@ public struct DeleteResourceEndpointAssociationOutput: Swift.Sendable {
         resourceConfigurationArn: Swift.String? = nil,
         resourceConfigurationId: Swift.String? = nil,
         vpcEndpointId: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.id = id
         self.resourceConfigurationArn = resourceConfigurationArn
@@ -2738,8 +2677,7 @@ public struct DeleteResourceGatewayInput: Swift.Sendable {
 
     public init(
         resourceGatewayIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceGatewayIdentifier = resourceGatewayIdentifier
     }
 }
@@ -2759,8 +2697,7 @@ public struct DeleteResourceGatewayOutput: Swift.Sendable {
         id: Swift.String? = nil,
         name: Swift.String? = nil,
         status: VPCLatticeClientTypes.ResourceGatewayStatus? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.id = id
         self.name = name
@@ -2775,8 +2712,7 @@ public struct DeleteResourcePolicyInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -2801,8 +2737,7 @@ public struct DeleteRuleInput: Swift.Sendable {
         listenerIdentifier: Swift.String? = nil,
         ruleIdentifier: Swift.String? = nil,
         serviceIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.listenerIdentifier = listenerIdentifier
         self.ruleIdentifier = ruleIdentifier
         self.serviceIdentifier = serviceIdentifier
@@ -2821,8 +2756,7 @@ public struct DeleteServiceInput: Swift.Sendable {
 
     public init(
         serviceIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.serviceIdentifier = serviceIdentifier
     }
 }
@@ -2842,8 +2776,7 @@ public struct DeleteServiceOutput: Swift.Sendable {
         id: Swift.String? = nil,
         name: Swift.String? = nil,
         status: VPCLatticeClientTypes.ServiceStatus? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.id = id
         self.name = name
@@ -2858,8 +2791,7 @@ public struct DeleteServiceNetworkInput: Swift.Sendable {
 
     public init(
         serviceNetworkIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.serviceNetworkIdentifier = serviceNetworkIdentifier
     }
 }
@@ -2876,8 +2808,7 @@ public struct DeleteServiceNetworkResourceAssociationInput: Swift.Sendable {
 
     public init(
         serviceNetworkResourceAssociationIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.serviceNetworkResourceAssociationIdentifier = serviceNetworkResourceAssociationIdentifier
     }
 }
@@ -2894,8 +2825,7 @@ public struct DeleteServiceNetworkResourceAssociationOutput: Swift.Sendable {
         arn: Swift.String? = nil,
         id: Swift.String? = nil,
         status: VPCLatticeClientTypes.ServiceNetworkResourceAssociationStatus? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.id = id
         self.status = status
@@ -2909,8 +2839,7 @@ public struct DeleteServiceNetworkServiceAssociationInput: Swift.Sendable {
 
     public init(
         serviceNetworkServiceAssociationIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.serviceNetworkServiceAssociationIdentifier = serviceNetworkServiceAssociationIdentifier
     }
 }
@@ -2927,8 +2856,7 @@ public struct DeleteServiceNetworkServiceAssociationOutput: Swift.Sendable {
         arn: Swift.String? = nil,
         id: Swift.String? = nil,
         status: VPCLatticeClientTypes.ServiceNetworkServiceAssociationStatus? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.id = id
         self.status = status
@@ -2942,8 +2870,7 @@ public struct DeleteServiceNetworkVpcAssociationInput: Swift.Sendable {
 
     public init(
         serviceNetworkVpcAssociationIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.serviceNetworkVpcAssociationIdentifier = serviceNetworkVpcAssociationIdentifier
     }
 }
@@ -2960,8 +2887,7 @@ public struct DeleteServiceNetworkVpcAssociationOutput: Swift.Sendable {
         arn: Swift.String? = nil,
         id: Swift.String? = nil,
         status: VPCLatticeClientTypes.ServiceNetworkVpcAssociationStatus? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.id = id
         self.status = status
@@ -2975,8 +2901,7 @@ public struct DeleteTargetGroupInput: Swift.Sendable {
 
     public init(
         targetGroupIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.targetGroupIdentifier = targetGroupIdentifier
     }
 }
@@ -2993,8 +2918,7 @@ public struct DeleteTargetGroupOutput: Swift.Sendable {
         arn: Swift.String? = nil,
         id: Swift.String? = nil,
         status: VPCLatticeClientTypes.TargetGroupStatus? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.id = id
         self.status = status
@@ -3014,8 +2938,7 @@ extension VPCLatticeClientTypes {
         public init(
             id: Swift.String? = nil,
             port: Swift.Int? = nil
-        )
-        {
+        ) {
             self.id = id
             self.port = port
         }
@@ -3033,8 +2956,7 @@ public struct DeregisterTargetsInput: Swift.Sendable {
     public init(
         targetGroupIdentifier: Swift.String? = nil,
         targets: [VPCLatticeClientTypes.Target]? = nil
-    )
-    {
+    ) {
         self.targetGroupIdentifier = targetGroupIdentifier
         self.targets = targets
     }
@@ -3058,8 +2980,7 @@ extension VPCLatticeClientTypes {
             failureMessage: Swift.String? = nil,
             id: Swift.String? = nil,
             port: Swift.Int? = nil
-        )
-        {
+        ) {
             self.failureCode = failureCode
             self.failureMessage = failureMessage
             self.id = id
@@ -3077,8 +2998,7 @@ public struct DeregisterTargetsOutput: Swift.Sendable {
     public init(
         successful: [VPCLatticeClientTypes.Target]? = nil,
         unsuccessful: [VPCLatticeClientTypes.TargetFailure]? = nil
-    )
-    {
+    ) {
         self.successful = successful
         self.unsuccessful = unsuccessful
     }
@@ -3091,8 +3011,7 @@ public struct GetAuthPolicyInput: Swift.Sendable {
 
     public init(
         resourceIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceIdentifier = resourceIdentifier
     }
 }
@@ -3112,8 +3031,7 @@ public struct GetAuthPolicyOutput: Swift.Sendable {
         lastUpdatedAt: Foundation.Date? = nil,
         policy: Swift.String? = nil,
         state: VPCLatticeClientTypes.AuthPolicyState? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.lastUpdatedAt = lastUpdatedAt
         self.policy = policy
@@ -3132,8 +3050,7 @@ public struct GetListenerInput: Swift.Sendable {
     public init(
         listenerIdentifier: Swift.String? = nil,
         serviceIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.listenerIdentifier = listenerIdentifier
         self.serviceIdentifier = serviceIdentifier
     }
@@ -3172,8 +3089,7 @@ public struct GetListenerOutput: Swift.Sendable {
         `protocol`: VPCLatticeClientTypes.ListenerProtocol? = nil,
         serviceArn: Swift.String? = nil,
         serviceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.createdAt = createdAt
         self.defaultAction = defaultAction
@@ -3194,8 +3110,7 @@ public struct GetResourceConfigurationInput: Swift.Sendable {
 
     public init(
         resourceConfigurationIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceConfigurationIdentifier = resourceConfigurationIdentifier
     }
 }
@@ -3259,8 +3174,7 @@ public struct GetResourceConfigurationOutput: Swift.Sendable {
         resourceGatewayId: Swift.String? = nil,
         status: VPCLatticeClientTypes.ResourceConfigurationStatus? = nil,
         type: VPCLatticeClientTypes.ResourceConfigurationType? = nil
-    )
-    {
+    ) {
         self.allowAssociationToShareableServiceNetwork = allowAssociationToShareableServiceNetwork
         self.amazonManaged = amazonManaged
         self.arn = arn
@@ -3287,8 +3201,7 @@ public struct GetResourceGatewayInput: Swift.Sendable {
 
     public init(
         resourceGatewayIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceGatewayIdentifier = resourceGatewayIdentifier
     }
 }
@@ -3326,8 +3239,7 @@ public struct GetResourceGatewayOutput: Swift.Sendable {
         status: VPCLatticeClientTypes.ResourceGatewayStatus? = nil,
         subnetIds: [Swift.String]? = nil,
         vpcId: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.createdAt = createdAt
         self.id = id
@@ -3348,8 +3260,7 @@ public struct GetResourcePolicyInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -3360,8 +3271,7 @@ public struct GetResourcePolicyOutput: Swift.Sendable {
 
     public init(
         policy: Swift.String? = nil
-    )
-    {
+    ) {
         self.policy = policy
     }
 }
@@ -3381,8 +3291,7 @@ public struct GetRuleInput: Swift.Sendable {
         listenerIdentifier: Swift.String? = nil,
         ruleIdentifier: Swift.String? = nil,
         serviceIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.listenerIdentifier = listenerIdentifier
         self.ruleIdentifier = ruleIdentifier
         self.serviceIdentifier = serviceIdentifier
@@ -3419,8 +3328,7 @@ public struct GetRuleOutput: Swift.Sendable {
         match: VPCLatticeClientTypes.RuleMatch? = nil,
         name: Swift.String? = nil,
         priority: Swift.Int? = nil
-    )
-    {
+    ) {
         self.action = action
         self.arn = arn
         self.createdAt = createdAt
@@ -3440,8 +3348,7 @@ public struct GetServiceInput: Swift.Sendable {
 
     public init(
         serviceIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.serviceIdentifier = serviceIdentifier
     }
 }
@@ -3485,8 +3392,7 @@ public struct GetServiceOutput: Swift.Sendable {
         lastUpdatedAt: Foundation.Date? = nil,
         name: Swift.String? = nil,
         status: VPCLatticeClientTypes.ServiceStatus? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.authType = authType
         self.certificateArn = certificateArn
@@ -3509,8 +3415,7 @@ public struct GetServiceNetworkInput: Swift.Sendable {
 
     public init(
         serviceNetworkIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.serviceNetworkIdentifier = serviceNetworkIdentifier
     }
 }
@@ -3545,8 +3450,7 @@ public struct GetServiceNetworkOutput: Swift.Sendable {
         numberOfAssociatedServices: Swift.Int? = nil,
         numberOfAssociatedVPCs: Swift.Int? = nil,
         sharingConfig: VPCLatticeClientTypes.SharingConfig? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.authType = authType
         self.createdAt = createdAt
@@ -3566,8 +3470,7 @@ public struct GetServiceNetworkResourceAssociationInput: Swift.Sendable {
 
     public init(
         serviceNetworkResourceAssociationIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.serviceNetworkResourceAssociationIdentifier = serviceNetworkResourceAssociationIdentifier
     }
 }
@@ -3626,8 +3529,7 @@ public struct GetServiceNetworkResourceAssociationOutput: Swift.Sendable {
         serviceNetworkId: Swift.String? = nil,
         serviceNetworkName: Swift.String? = nil,
         status: VPCLatticeClientTypes.ServiceNetworkResourceAssociationStatus? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.createdAt = createdAt
         self.createdBy = createdBy
@@ -3655,8 +3557,7 @@ public struct GetServiceNetworkServiceAssociationInput: Swift.Sendable {
 
     public init(
         serviceNetworkServiceAssociationIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.serviceNetworkServiceAssociationIdentifier = serviceNetworkServiceAssociationIdentifier
     }
 }
@@ -3709,8 +3610,7 @@ public struct GetServiceNetworkServiceAssociationOutput: Swift.Sendable {
         serviceNetworkId: Swift.String? = nil,
         serviceNetworkName: Swift.String? = nil,
         status: VPCLatticeClientTypes.ServiceNetworkServiceAssociationStatus? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.createdAt = createdAt
         self.createdBy = createdBy
@@ -3736,8 +3636,7 @@ public struct GetServiceNetworkVpcAssociationInput: Swift.Sendable {
 
     public init(
         serviceNetworkVpcAssociationIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.serviceNetworkVpcAssociationIdentifier = serviceNetworkVpcAssociationIdentifier
     }
 }
@@ -3784,8 +3683,7 @@ public struct GetServiceNetworkVpcAssociationOutput: Swift.Sendable {
         serviceNetworkName: Swift.String? = nil,
         status: VPCLatticeClientTypes.ServiceNetworkVpcAssociationStatus? = nil,
         vpcId: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.createdAt = createdAt
         self.createdBy = createdBy
@@ -3809,8 +3707,7 @@ public struct GetTargetGroupInput: Swift.Sendable {
 
     public init(
         targetGroupIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.targetGroupIdentifier = targetGroupIdentifier
     }
 }
@@ -3851,8 +3748,7 @@ public struct GetTargetGroupOutput: Swift.Sendable {
         serviceArns: [Swift.String]? = nil,
         status: VPCLatticeClientTypes.TargetGroupStatus? = nil,
         type: VPCLatticeClientTypes.TargetGroupType? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.config = config
         self.createdAt = createdAt
@@ -3880,8 +3776,7 @@ public struct ListListenersInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         serviceIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.serviceIdentifier = serviceIdentifier
@@ -3915,8 +3810,7 @@ extension VPCLatticeClientTypes {
             name: Swift.String? = nil,
             port: Swift.Int? = nil,
             `protocol`: VPCLatticeClientTypes.ListenerProtocol? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.id = id
@@ -3938,8 +3832,7 @@ public struct ListListenersOutput: Swift.Sendable {
     public init(
         items: [VPCLatticeClientTypes.ListenerSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -3960,8 +3853,7 @@ public struct UpdateListenerInput: Swift.Sendable {
         defaultAction: VPCLatticeClientTypes.RuleAction? = nil,
         listenerIdentifier: Swift.String? = nil,
         serviceIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.defaultAction = defaultAction
         self.listenerIdentifier = listenerIdentifier
         self.serviceIdentifier = serviceIdentifier
@@ -3995,8 +3887,7 @@ public struct UpdateListenerOutput: Swift.Sendable {
         `protocol`: VPCLatticeClientTypes.ListenerProtocol? = nil,
         serviceArn: Swift.String? = nil,
         serviceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.defaultAction = defaultAction
         self.id = id
@@ -4023,8 +3914,7 @@ public struct ListResourceConfigurationsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         resourceConfigurationGroupIdentifier: Swift.String? = nil,
         resourceGatewayIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.resourceConfigurationGroupIdentifier = resourceConfigurationGroupIdentifier
@@ -4076,8 +3966,7 @@ extension VPCLatticeClientTypes {
             resourceGatewayId: Swift.String? = nil,
             status: VPCLatticeClientTypes.ResourceConfigurationStatus? = nil,
             type: VPCLatticeClientTypes.ResourceConfigurationType? = nil
-        )
-        {
+        ) {
             self.amazonManaged = amazonManaged
             self.arn = arn
             self.createdAt = createdAt
@@ -4101,8 +3990,7 @@ public struct ListResourceConfigurationsOutput: Swift.Sendable {
     public init(
         items: [VPCLatticeClientTypes.ResourceConfigurationSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -4130,8 +4018,7 @@ public struct ListResourceEndpointAssociationsInput: Swift.Sendable {
         resourceEndpointAssociationIdentifier: Swift.String? = nil,
         vpcEndpointId: Swift.String? = nil,
         vpcEndpointOwner: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.resourceConfigurationIdentifier = resourceConfigurationIdentifier
@@ -4174,8 +4061,7 @@ extension VPCLatticeClientTypes {
             resourceConfigurationName: Swift.String? = nil,
             vpcEndpointId: Swift.String? = nil,
             vpcEndpointOwner: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -4199,8 +4085,7 @@ public struct ListResourceEndpointAssociationsOutput: Swift.Sendable {
     public init(
         items: [VPCLatticeClientTypes.ResourceEndpointAssociationSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -4215,8 +4100,7 @@ public struct ListResourceGatewaysInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -4258,8 +4142,7 @@ extension VPCLatticeClientTypes {
             status: VPCLatticeClientTypes.ResourceGatewayStatus? = nil,
             subnetIds: [Swift.String]? = nil,
             vpcIdentifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.id = id
@@ -4283,8 +4166,7 @@ public struct ListResourceGatewaysOutput: Swift.Sendable {
     public init(
         items: [VPCLatticeClientTypes.ResourceGatewaySummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -4307,8 +4189,7 @@ public struct ListRulesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         serviceIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.listenerIdentifier = listenerIdentifier
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4343,8 +4224,7 @@ extension VPCLatticeClientTypes {
             lastUpdatedAt: Foundation.Date? = nil,
             name: Swift.String? = nil,
             priority: Swift.Int? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.id = id
@@ -4366,8 +4246,7 @@ public struct ListRulesOutput: Swift.Sendable {
     public init(
         items: [VPCLatticeClientTypes.RuleSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -4388,8 +4267,7 @@ public struct ListServiceNetworkResourceAssociationsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         resourceConfigurationIdentifier: Swift.String? = nil,
         serviceNetworkIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.resourceConfigurationIdentifier = resourceConfigurationIdentifier
@@ -4448,8 +4326,7 @@ extension VPCLatticeClientTypes {
             serviceNetworkId: Swift.String? = nil,
             serviceNetworkName: Swift.String? = nil,
             status: VPCLatticeClientTypes.ServiceNetworkResourceAssociationStatus? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -4479,8 +4356,7 @@ public struct ListServiceNetworkResourceAssociationsOutput: Swift.Sendable {
     public init(
         items: [VPCLatticeClientTypes.ServiceNetworkResourceAssociationSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -4495,8 +4371,7 @@ public struct ListServiceNetworksInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -4532,8 +4407,7 @@ extension VPCLatticeClientTypes {
             numberOfAssociatedResourceConfigurations: Swift.Int? = nil,
             numberOfAssociatedServices: Swift.Int? = nil,
             numberOfAssociatedVPCs: Swift.Int? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.id = id
@@ -4556,8 +4430,7 @@ public struct ListServiceNetworksOutput: Swift.Sendable {
     public init(
         items: [VPCLatticeClientTypes.ServiceNetworkSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -4578,8 +4451,7 @@ public struct ListServiceNetworkServiceAssociationsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         serviceIdentifier: Swift.String? = nil,
         serviceNetworkIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.serviceIdentifier = serviceIdentifier
@@ -4632,8 +4504,7 @@ extension VPCLatticeClientTypes {
             serviceNetworkId: Swift.String? = nil,
             serviceNetworkName: Swift.String? = nil,
             status: VPCLatticeClientTypes.ServiceNetworkServiceAssociationStatus? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -4661,8 +4532,7 @@ public struct ListServiceNetworkServiceAssociationsOutput: Swift.Sendable {
     public init(
         items: [VPCLatticeClientTypes.ServiceNetworkServiceAssociationSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -4683,8 +4553,7 @@ public struct ListServiceNetworkVpcAssociationsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         serviceNetworkIdentifier: Swift.String? = nil,
         vpcIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.serviceNetworkIdentifier = serviceNetworkIdentifier
@@ -4728,8 +4597,7 @@ extension VPCLatticeClientTypes {
             serviceNetworkName: Swift.String? = nil,
             status: VPCLatticeClientTypes.ServiceNetworkVpcAssociationStatus? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -4754,8 +4622,7 @@ public struct ListServiceNetworkVpcAssociationsOutput: Swift.Sendable {
     public init(
         items: [VPCLatticeClientTypes.ServiceNetworkVpcAssociationSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -4774,8 +4641,7 @@ public struct ListServiceNetworkVpcEndpointAssociationsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         serviceNetworkIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.serviceNetworkIdentifier = serviceNetworkIdentifier
@@ -4809,8 +4675,7 @@ extension VPCLatticeClientTypes {
             vpcEndpointId: Swift.String? = nil,
             vpcEndpointOwnerId: Swift.String? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.id = id
             self.serviceNetworkArn = serviceNetworkArn
@@ -4832,8 +4697,7 @@ public struct ListServiceNetworkVpcEndpointAssociationsOutput: Swift.Sendable {
     public init(
         items: [VPCLatticeClientTypes.ServiceNetworkEndpointAssociation]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -4848,8 +4712,7 @@ public struct ListServicesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -4885,8 +4748,7 @@ extension VPCLatticeClientTypes {
             lastUpdatedAt: Foundation.Date? = nil,
             name: Swift.String? = nil,
             status: VPCLatticeClientTypes.ServiceStatus? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.customDomainName = customDomainName
@@ -4908,8 +4770,7 @@ public struct ListServicesOutput: Swift.Sendable {
     public init(
         items: [VPCLatticeClientTypes.ServiceSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -4922,8 +4783,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -4934,8 +4794,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -4955,8 +4814,7 @@ public struct ListTargetGroupsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         targetGroupType: VPCLatticeClientTypes.TargetGroupType? = nil,
         vpcIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.targetGroupType = targetGroupType
@@ -5009,8 +4867,7 @@ extension VPCLatticeClientTypes {
             status: VPCLatticeClientTypes.TargetGroupStatus? = nil,
             type: VPCLatticeClientTypes.TargetGroupType? = nil,
             vpcIdentifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.id = id
@@ -5037,8 +4894,7 @@ public struct ListTargetGroupsOutput: Swift.Sendable {
     public init(
         items: [VPCLatticeClientTypes.TargetGroupSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -5060,8 +4916,7 @@ public struct ListTargetsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         targetGroupIdentifier: Swift.String? = nil,
         targets: [VPCLatticeClientTypes.Target]? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.targetGroupIdentifier = targetGroupIdentifier
@@ -5146,8 +5001,7 @@ extension VPCLatticeClientTypes {
             port: Swift.Int? = nil,
             reasonCode: Swift.String? = nil,
             status: VPCLatticeClientTypes.TargetStatus? = nil
-        )
-        {
+        ) {
             self.id = id
             self.port = port
             self.reasonCode = reasonCode
@@ -5166,8 +5020,7 @@ public struct ListTargetsOutput: Swift.Sendable {
     public init(
         items: [VPCLatticeClientTypes.TargetSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -5184,8 +5037,7 @@ public struct PutAuthPolicyInput: Swift.Sendable {
     public init(
         policy: Swift.String? = nil,
         resourceIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.policy = policy
         self.resourceIdentifier = resourceIdentifier
     }
@@ -5200,8 +5052,7 @@ public struct PutAuthPolicyOutput: Swift.Sendable {
     public init(
         policy: Swift.String? = nil,
         state: VPCLatticeClientTypes.AuthPolicyState? = nil
-    )
-    {
+    ) {
         self.policy = policy
         self.state = state
     }
@@ -5218,8 +5069,7 @@ public struct PutResourcePolicyInput: Swift.Sendable {
     public init(
         policy: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.policy = policy
         self.resourceArn = resourceArn
     }
@@ -5246,8 +5096,7 @@ public struct UpdateResourceConfigurationInput: Swift.Sendable {
         portRanges: [Swift.String]? = nil,
         resourceConfigurationDefinition: VPCLatticeClientTypes.ResourceConfigurationDefinition? = nil,
         resourceConfigurationIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.allowAssociationToShareableServiceNetwork = allowAssociationToShareableServiceNetwork
         self.portRanges = portRanges
         self.resourceConfigurationDefinition = resourceConfigurationDefinition
@@ -5299,8 +5148,7 @@ public struct UpdateResourceConfigurationOutput: Swift.Sendable {
         resourceGatewayId: Swift.String? = nil,
         status: VPCLatticeClientTypes.ResourceConfigurationStatus? = nil,
         type: VPCLatticeClientTypes.ResourceConfigurationType? = nil
-    )
-    {
+    ) {
         self.allowAssociationToShareableServiceNetwork = allowAssociationToShareableServiceNetwork
         self.arn = arn
         self.id = id
@@ -5325,8 +5173,7 @@ public struct UpdateResourceGatewayInput: Swift.Sendable {
     public init(
         resourceGatewayIdentifier: Swift.String? = nil,
         securityGroupIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceGatewayIdentifier = resourceGatewayIdentifier
         self.securityGroupIds = securityGroupIds
     }
@@ -5359,8 +5206,7 @@ public struct UpdateResourceGatewayOutput: Swift.Sendable {
         status: VPCLatticeClientTypes.ResourceGatewayStatus? = nil,
         subnetIds: [Swift.String]? = nil,
         vpcId: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.id = id
         self.ipAddressType = ipAddressType
@@ -5396,8 +5242,7 @@ public struct UpdateRuleInput: Swift.Sendable {
         priority: Swift.Int? = nil,
         ruleIdentifier: Swift.String? = nil,
         serviceIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.action = action
         self.listenerIdentifier = listenerIdentifier
         self.match = match
@@ -5431,8 +5276,7 @@ public struct UpdateRuleOutput: Swift.Sendable {
         match: VPCLatticeClientTypes.RuleMatch? = nil,
         name: Swift.String? = nil,
         priority: Swift.Int? = nil
-    )
-    {
+    ) {
         self.action = action
         self.arn = arn
         self.id = id
@@ -5460,8 +5304,7 @@ public struct UpdateServiceInput: Swift.Sendable {
         authType: VPCLatticeClientTypes.AuthType? = nil,
         certificateArn: Swift.String? = nil,
         serviceIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.authType = authType
         self.certificateArn = certificateArn
         self.serviceIdentifier = serviceIdentifier
@@ -5489,8 +5332,7 @@ public struct UpdateServiceOutput: Swift.Sendable {
         customDomainName: Swift.String? = nil,
         id: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.authType = authType
         self.certificateArn = certificateArn
@@ -5515,8 +5357,7 @@ public struct UpdateServiceNetworkInput: Swift.Sendable {
     public init(
         authType: VPCLatticeClientTypes.AuthType? = nil,
         serviceNetworkIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.authType = authType
         self.serviceNetworkIdentifier = serviceNetworkIdentifier
     }
@@ -5537,8 +5378,7 @@ public struct UpdateServiceNetworkOutput: Swift.Sendable {
         authType: VPCLatticeClientTypes.AuthType? = nil,
         id: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.authType = authType
         self.id = id
@@ -5557,8 +5397,7 @@ public struct UpdateServiceNetworkVpcAssociationInput: Swift.Sendable {
     public init(
         securityGroupIds: [Swift.String]? = nil,
         serviceNetworkVpcAssociationIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.securityGroupIds = securityGroupIds
         self.serviceNetworkVpcAssociationIdentifier = serviceNetworkVpcAssociationIdentifier
     }
@@ -5582,8 +5421,7 @@ public struct UpdateServiceNetworkVpcAssociationOutput: Swift.Sendable {
         id: Swift.String? = nil,
         securityGroupIds: [Swift.String]? = nil,
         status: VPCLatticeClientTypes.ServiceNetworkVpcAssociationStatus? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.createdBy = createdBy
         self.id = id
@@ -5603,8 +5441,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -5626,8 +5463,7 @@ public struct RegisterTargetsInput: Swift.Sendable {
     public init(
         targetGroupIdentifier: Swift.String? = nil,
         targets: [VPCLatticeClientTypes.Target]? = nil
-    )
-    {
+    ) {
         self.targetGroupIdentifier = targetGroupIdentifier
         self.targets = targets
     }
@@ -5642,8 +5478,7 @@ public struct RegisterTargetsOutput: Swift.Sendable {
     public init(
         successful: [VPCLatticeClientTypes.Target]? = nil,
         unsuccessful: [VPCLatticeClientTypes.TargetFailure]? = nil
-    )
-    {
+    ) {
         self.successful = successful
         self.unsuccessful = unsuccessful
     }
@@ -5660,8 +5495,7 @@ public struct UpdateTargetGroupInput: Swift.Sendable {
     public init(
         healthCheck: VPCLatticeClientTypes.HealthCheckConfig? = nil,
         targetGroupIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.healthCheck = healthCheck
         self.targetGroupIdentifier = targetGroupIdentifier
     }
@@ -5688,8 +5522,7 @@ public struct UpdateTargetGroupOutput: Swift.Sendable {
         name: Swift.String? = nil,
         status: VPCLatticeClientTypes.TargetGroupStatus? = nil,
         type: VPCLatticeClientTypes.TargetGroupType? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.config = config
         self.id = id
@@ -5710,8 +5543,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }

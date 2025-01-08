@@ -51,8 +51,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -75,8 +74,7 @@ public struct DirectoryNotEnabledException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -99,8 +97,7 @@ public struct FacetValidationException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -123,8 +120,7 @@ public struct InternalServiceException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -147,8 +143,7 @@ public struct InvalidArnException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -171,8 +166,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -195,8 +189,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -219,8 +212,7 @@ public struct RetryableConflictException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -243,8 +235,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -267,8 +258,7 @@ extension CloudDirectoryClientTypes {
             facetName: Swift.String? = nil,
             name: Swift.String? = nil,
             schemaArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.facetName = facetName
             self.name = name
             self.schemaArn = schemaArn
@@ -308,8 +298,7 @@ extension CloudDirectoryClientTypes {
         public init(
             key: CloudDirectoryClientTypes.AttributeKey? = nil,
             value: CloudDirectoryClientTypes.TypedAttributeValue? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -331,8 +320,7 @@ extension CloudDirectoryClientTypes {
 
         public init(
             selector: Swift.String? = nil
-        )
-        {
+        ) {
             self.selector = selector
         }
     }
@@ -350,8 +338,7 @@ extension CloudDirectoryClientTypes {
         public init(
             facetName: Swift.String? = nil,
             schemaArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.facetName = facetName
             self.schemaArn = schemaArn
         }
@@ -376,8 +363,7 @@ public struct AddFacetToObjectInput: Swift.Sendable {
         objectAttributeList: [CloudDirectoryClientTypes.AttributeKeyAndValue]? = nil,
         objectReference: CloudDirectoryClientTypes.ObjectReference? = nil,
         schemaFacet: CloudDirectoryClientTypes.SchemaFacet? = nil
-    )
-    {
+    ) {
         self.directoryArn = directoryArn
         self.objectAttributeList = objectAttributeList
         self.objectReference = objectReference
@@ -408,8 +394,7 @@ public struct InvalidAttachmentException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -432,8 +417,7 @@ public struct SchemaAlreadyExistsException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -449,8 +433,7 @@ public struct ApplySchemaInput: Swift.Sendable {
     public init(
         directoryArn: Swift.String? = nil,
         publishedSchemaArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.directoryArn = directoryArn
         self.publishedSchemaArn = publishedSchemaArn
     }
@@ -465,8 +448,7 @@ public struct ApplySchemaOutput: Swift.Sendable {
     public init(
         appliedSchemaArn: Swift.String? = nil,
         directoryArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.appliedSchemaArn = appliedSchemaArn
         self.directoryArn = directoryArn
     }
@@ -490,8 +472,7 @@ public struct LinkNameAlreadyInUseException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -515,8 +496,7 @@ public struct AttachObjectInput: Swift.Sendable {
         directoryArn: Swift.String? = nil,
         linkName: Swift.String? = nil,
         parentReference: CloudDirectoryClientTypes.ObjectReference? = nil
-    )
-    {
+    ) {
         self.childReference = childReference
         self.directoryArn = directoryArn
         self.linkName = linkName
@@ -530,8 +510,7 @@ public struct AttachObjectOutput: Swift.Sendable {
 
     public init(
         attachedObjectIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.attachedObjectIdentifier = attachedObjectIdentifier
     }
 }
@@ -554,8 +533,7 @@ public struct NotPolicyException: ClientRuntime.ModeledError, AWSClientRuntime.A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -575,8 +553,7 @@ public struct AttachPolicyInput: Swift.Sendable {
         directoryArn: Swift.String? = nil,
         objectReference: CloudDirectoryClientTypes.ObjectReference? = nil,
         policyReference: CloudDirectoryClientTypes.ObjectReference? = nil
-    )
-    {
+    ) {
         self.directoryArn = directoryArn
         self.objectReference = objectReference
         self.policyReference = policyReference
@@ -606,8 +583,7 @@ public struct IndexedAttributeMissingException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -630,8 +606,7 @@ public struct NotIndexException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -651,8 +626,7 @@ public struct AttachToIndexInput: Swift.Sendable {
         directoryArn: Swift.String? = nil,
         indexReference: CloudDirectoryClientTypes.ObjectReference? = nil,
         targetReference: CloudDirectoryClientTypes.ObjectReference? = nil
-    )
-    {
+    ) {
         self.directoryArn = directoryArn
         self.indexReference = indexReference
         self.targetReference = targetReference
@@ -665,8 +639,7 @@ public struct AttachToIndexOutput: Swift.Sendable {
 
     public init(
         attachedObjectIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.attachedObjectIdentifier = attachedObjectIdentifier
     }
 }
@@ -685,8 +658,7 @@ extension CloudDirectoryClientTypes {
         public init(
             attributeName: Swift.String? = nil,
             value: CloudDirectoryClientTypes.TypedAttributeValue? = nil
-        )
-        {
+        ) {
             self.attributeName = attributeName
             self.value = value
         }
@@ -707,8 +679,7 @@ extension CloudDirectoryClientTypes {
         public init(
             schemaArn: Swift.String? = nil,
             typedLinkName: Swift.String? = nil
-        )
-        {
+        ) {
             self.schemaArn = schemaArn
             self.typedLinkName = typedLinkName
         }
@@ -738,8 +709,7 @@ public struct AttachTypedLinkInput: Swift.Sendable {
         sourceObjectReference: CloudDirectoryClientTypes.ObjectReference? = nil,
         targetObjectReference: CloudDirectoryClientTypes.ObjectReference? = nil,
         typedLinkFacet: CloudDirectoryClientTypes.TypedLinkSchemaAndFacetName? = nil
-    )
-    {
+    ) {
         self.attributes = attributes
         self.directoryArn = directoryArn
         self.sourceObjectReference = sourceObjectReference
@@ -770,8 +740,7 @@ extension CloudDirectoryClientTypes {
             sourceObjectReference: CloudDirectoryClientTypes.ObjectReference? = nil,
             targetObjectReference: CloudDirectoryClientTypes.ObjectReference? = nil,
             typedLinkFacet: CloudDirectoryClientTypes.TypedLinkSchemaAndFacetName? = nil
-        )
-        {
+        ) {
             self.identityAttributeValues = identityAttributeValues
             self.sourceObjectReference = sourceObjectReference
             self.targetObjectReference = targetObjectReference
@@ -786,8 +755,7 @@ public struct AttachTypedLinkOutput: Swift.Sendable {
 
     public init(
         typedLinkSpecifier: CloudDirectoryClientTypes.TypedLinkSpecifier? = nil
-    )
-    {
+    ) {
         self.typedLinkSpecifier = typedLinkSpecifier
     }
 }
@@ -835,8 +803,7 @@ extension CloudDirectoryClientTypes {
         public init(
             attributeNames: [Swift.String]? = nil,
             typedLinkSpecifier: CloudDirectoryClientTypes.TypedLinkSpecifier? = nil
-        )
-        {
+        ) {
             self.attributeNames = attributeNames
             self.typedLinkSpecifier = typedLinkSpecifier
         }
@@ -861,8 +828,7 @@ extension CloudDirectoryClientTypes {
             attributeNames: [Swift.String]? = nil,
             objectReference: CloudDirectoryClientTypes.ObjectReference? = nil,
             schemaFacet: CloudDirectoryClientTypes.SchemaFacet? = nil
-        )
-        {
+        ) {
             self.attributeNames = attributeNames
             self.objectReference = objectReference
             self.schemaFacet = schemaFacet
@@ -880,8 +846,7 @@ extension CloudDirectoryClientTypes {
 
         public init(
             objectReference: CloudDirectoryClientTypes.ObjectReference? = nil
-        )
-        {
+        ) {
             self.objectReference = objectReference
         }
     }
@@ -903,8 +868,7 @@ extension CloudDirectoryClientTypes {
             maxResults: Swift.Int? = nil,
             nextToken: Swift.String? = nil,
             targetReference: CloudDirectoryClientTypes.ObjectReference? = nil
-        )
-        {
+        ) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.targetReference = targetReference
@@ -970,8 +934,7 @@ extension CloudDirectoryClientTypes {
             endValue: CloudDirectoryClientTypes.TypedAttributeValue? = nil,
             startMode: CloudDirectoryClientTypes.RangeMode? = nil,
             startValue: CloudDirectoryClientTypes.TypedAttributeValue? = nil
-        )
-        {
+        ) {
             self.endMode = endMode
             self.endValue = endValue
             self.startMode = startMode
@@ -993,8 +956,7 @@ extension CloudDirectoryClientTypes {
         public init(
             attributeName: Swift.String? = nil,
             range: CloudDirectoryClientTypes.TypedAttributeValueRange? = nil
-        )
-        {
+        ) {
             self.attributeName = attributeName
             self.range = range
         }
@@ -1023,8 +985,7 @@ extension CloudDirectoryClientTypes {
             maxResults: Swift.Int? = nil,
             nextToken: Swift.String? = nil,
             objectReference: CloudDirectoryClientTypes.ObjectReference? = nil
-        )
-        {
+        ) {
             self.filterAttributeRanges = filterAttributeRanges
             self.filterTypedLink = filterTypedLink
             self.maxResults = maxResults
@@ -1046,8 +1007,7 @@ extension CloudDirectoryClientTypes {
         public init(
             attributeKey: CloudDirectoryClientTypes.AttributeKey? = nil,
             range: CloudDirectoryClientTypes.TypedAttributeValueRange? = nil
-        )
-        {
+        ) {
             self.attributeKey = attributeKey
             self.range = range
         }
@@ -1073,8 +1033,7 @@ extension CloudDirectoryClientTypes {
             maxResults: Swift.Int? = nil,
             nextToken: Swift.String? = nil,
             rangesOnIndexedValues: [CloudDirectoryClientTypes.ObjectAttributeRange]? = nil
-        )
-        {
+        ) {
             self.indexReference = indexReference
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1102,8 +1061,7 @@ extension CloudDirectoryClientTypes {
             maxResults: Swift.Int? = nil,
             nextToken: Swift.String? = nil,
             objectReference: CloudDirectoryClientTypes.ObjectReference? = nil
-        )
-        {
+        ) {
             self.facetFilter = facetFilter
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1128,8 +1086,7 @@ extension CloudDirectoryClientTypes {
             maxResults: Swift.Int? = nil,
             nextToken: Swift.String? = nil,
             objectReference: CloudDirectoryClientTypes.ObjectReference? = nil
-        )
-        {
+        ) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.objectReference = objectReference
@@ -1153,8 +1110,7 @@ extension CloudDirectoryClientTypes {
             maxResults: Swift.Int? = nil,
             nextToken: Swift.String? = nil,
             objectReference: CloudDirectoryClientTypes.ObjectReference? = nil
-        )
-        {
+        ) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.objectReference = objectReference
@@ -1178,8 +1134,7 @@ extension CloudDirectoryClientTypes {
             maxResults: Swift.Int? = nil,
             nextToken: Swift.String? = nil,
             objectReference: CloudDirectoryClientTypes.ObjectReference? = nil
-        )
-        {
+        ) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.objectReference = objectReference
@@ -1203,8 +1158,7 @@ extension CloudDirectoryClientTypes {
             maxResults: Swift.Int? = nil,
             nextToken: Swift.String? = nil,
             objectReference: CloudDirectoryClientTypes.ObjectReference? = nil
-        )
-        {
+        ) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.objectReference = objectReference
@@ -1234,8 +1188,7 @@ extension CloudDirectoryClientTypes {
             maxResults: Swift.Int? = nil,
             nextToken: Swift.String? = nil,
             objectReference: CloudDirectoryClientTypes.ObjectReference? = nil
-        )
-        {
+        ) {
             self.filterAttributeRanges = filterAttributeRanges
             self.filterTypedLink = filterTypedLink
             self.maxResults = maxResults
@@ -1261,8 +1214,7 @@ extension CloudDirectoryClientTypes {
             maxResults: Swift.Int? = nil,
             nextToken: Swift.String? = nil,
             policyReference: CloudDirectoryClientTypes.ObjectReference? = nil
-        )
-        {
+        ) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.policyReference = policyReference
@@ -1286,8 +1238,7 @@ extension CloudDirectoryClientTypes {
             maxResults: Swift.Int? = nil,
             nextToken: Swift.String? = nil,
             objectReference: CloudDirectoryClientTypes.ObjectReference? = nil
-        )
-        {
+        ) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.objectReference = objectReference
@@ -1343,8 +1294,7 @@ extension CloudDirectoryClientTypes {
             listOutgoingTypedLinks: CloudDirectoryClientTypes.BatchListOutgoingTypedLinks? = nil,
             listPolicyAttachments: CloudDirectoryClientTypes.BatchListPolicyAttachments? = nil,
             lookupPolicy: CloudDirectoryClientTypes.BatchLookupPolicy? = nil
-        )
-        {
+        ) {
             self.getLinkAttributes = getLinkAttributes
             self.getObjectAttributes = getObjectAttributes
             self.getObjectInformation = getObjectInformation
@@ -1377,8 +1327,7 @@ public struct BatchReadInput: Swift.Sendable {
         consistencyLevel: CloudDirectoryClientTypes.ConsistencyLevel? = nil,
         directoryArn: Swift.String? = nil,
         operations: [CloudDirectoryClientTypes.BatchReadOperation]? = nil
-    )
-    {
+    ) {
         self.consistencyLevel = consistencyLevel
         self.directoryArn = directoryArn
         self.operations = operations
@@ -1459,8 +1408,7 @@ extension CloudDirectoryClientTypes {
         public init(
             message: Swift.String? = nil,
             type: CloudDirectoryClientTypes.BatchReadExceptionType? = nil
-        )
-        {
+        ) {
             self.message = message
             self.type = type
         }
@@ -1476,8 +1424,7 @@ extension CloudDirectoryClientTypes {
 
         public init(
             attributes: [CloudDirectoryClientTypes.AttributeKeyAndValue]? = nil
-        )
-        {
+        ) {
             self.attributes = attributes
         }
     }
@@ -1492,8 +1439,7 @@ extension CloudDirectoryClientTypes {
 
         public init(
             attributes: [CloudDirectoryClientTypes.AttributeKeyAndValue]? = nil
-        )
-        {
+        ) {
             self.attributes = attributes
         }
     }
@@ -1511,8 +1457,7 @@ extension CloudDirectoryClientTypes {
         public init(
             objectIdentifier: Swift.String? = nil,
             schemaFacets: [CloudDirectoryClientTypes.SchemaFacet]? = nil
-        )
-        {
+        ) {
             self.objectIdentifier = objectIdentifier
             self.schemaFacets = schemaFacets
         }
@@ -1531,8 +1476,7 @@ extension CloudDirectoryClientTypes {
         public init(
             indexedAttributes: [CloudDirectoryClientTypes.AttributeKeyAndValue]? = nil,
             objectIdentifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.indexedAttributes = indexedAttributes
             self.objectIdentifier = objectIdentifier
         }
@@ -1551,8 +1495,7 @@ extension CloudDirectoryClientTypes {
         public init(
             indexAttachments: [CloudDirectoryClientTypes.IndexAttachment]? = nil,
             nextToken: Swift.String? = nil
-        )
-        {
+        ) {
             self.indexAttachments = indexAttachments
             self.nextToken = nextToken
         }
@@ -1571,8 +1514,7 @@ extension CloudDirectoryClientTypes {
         public init(
             linkSpecifiers: [CloudDirectoryClientTypes.TypedLinkSpecifier]? = nil,
             nextToken: Swift.String? = nil
-        )
-        {
+        ) {
             self.linkSpecifiers = linkSpecifiers
             self.nextToken = nextToken
         }
@@ -1591,8 +1533,7 @@ extension CloudDirectoryClientTypes {
         public init(
             indexAttachments: [CloudDirectoryClientTypes.IndexAttachment]? = nil,
             nextToken: Swift.String? = nil
-        )
-        {
+        ) {
             self.indexAttachments = indexAttachments
             self.nextToken = nextToken
         }
@@ -1611,8 +1552,7 @@ extension CloudDirectoryClientTypes {
         public init(
             attributes: [CloudDirectoryClientTypes.AttributeKeyAndValue]? = nil,
             nextToken: Swift.String? = nil
-        )
-        {
+        ) {
             self.attributes = attributes
             self.nextToken = nextToken
         }
@@ -1631,8 +1571,7 @@ extension CloudDirectoryClientTypes {
         public init(
             children: [Swift.String: Swift.String]? = nil,
             nextToken: Swift.String? = nil
-        )
-        {
+        ) {
             self.children = children
             self.nextToken = nextToken
         }
@@ -1651,8 +1590,7 @@ extension CloudDirectoryClientTypes {
         public init(
             objectIdentifiers: [Swift.String]? = nil,
             path: Swift.String? = nil
-        )
-        {
+        ) {
             self.objectIdentifiers = objectIdentifiers
             self.path = path
         }
@@ -1671,8 +1609,7 @@ extension CloudDirectoryClientTypes {
         public init(
             nextToken: Swift.String? = nil,
             pathToObjectIdentifiersList: [CloudDirectoryClientTypes.PathToObjectIdentifiers]? = nil
-        )
-        {
+        ) {
             self.nextToken = nextToken
             self.pathToObjectIdentifiersList = pathToObjectIdentifiersList
         }
@@ -1691,8 +1628,7 @@ extension CloudDirectoryClientTypes {
         public init(
             linkName: Swift.String? = nil,
             objectIdentifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.linkName = linkName
             self.objectIdentifier = objectIdentifier
         }
@@ -1711,8 +1647,7 @@ extension CloudDirectoryClientTypes {
         public init(
             nextToken: Swift.String? = nil,
             parentLinks: [CloudDirectoryClientTypes.ObjectIdentifierAndLinkNameTuple]? = nil
-        )
-        {
+        ) {
             self.nextToken = nextToken
             self.parentLinks = parentLinks
         }
@@ -1731,8 +1666,7 @@ extension CloudDirectoryClientTypes {
         public init(
             attachedPolicyIds: [Swift.String]? = nil,
             nextToken: Swift.String? = nil
-        )
-        {
+        ) {
             self.attachedPolicyIds = attachedPolicyIds
             self.nextToken = nextToken
         }
@@ -1751,8 +1685,7 @@ extension CloudDirectoryClientTypes {
         public init(
             nextToken: Swift.String? = nil,
             typedLinkSpecifiers: [CloudDirectoryClientTypes.TypedLinkSpecifier]? = nil
-        )
-        {
+        ) {
             self.nextToken = nextToken
             self.typedLinkSpecifiers = typedLinkSpecifiers
         }
@@ -1771,8 +1704,7 @@ extension CloudDirectoryClientTypes {
         public init(
             nextToken: Swift.String? = nil,
             objectIdentifiers: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.nextToken = nextToken
             self.objectIdentifiers = objectIdentifiers
         }
@@ -1794,8 +1726,7 @@ extension CloudDirectoryClientTypes {
             objectIdentifier: Swift.String? = nil,
             policyId: Swift.String? = nil,
             policyType: Swift.String? = nil
-        )
-        {
+        ) {
             self.objectIdentifier = objectIdentifier
             self.policyId = policyId
             self.policyType = policyType
@@ -1815,8 +1746,7 @@ extension CloudDirectoryClientTypes {
         public init(
             path: Swift.String? = nil,
             policies: [CloudDirectoryClientTypes.PolicyAttachment]? = nil
-        )
-        {
+        ) {
             self.path = path
             self.policies = policies
         }
@@ -1835,8 +1765,7 @@ extension CloudDirectoryClientTypes {
         public init(
             nextToken: Swift.String? = nil,
             policyToPathList: [CloudDirectoryClientTypes.PolicyToPath]? = nil
-        )
-        {
+        ) {
             self.nextToken = nextToken
             self.policyToPathList = policyToPathList
         }
@@ -1891,8 +1820,7 @@ extension CloudDirectoryClientTypes {
             listOutgoingTypedLinks: CloudDirectoryClientTypes.BatchListOutgoingTypedLinksResponse? = nil,
             listPolicyAttachments: CloudDirectoryClientTypes.BatchListPolicyAttachmentsResponse? = nil,
             lookupPolicy: CloudDirectoryClientTypes.BatchLookupPolicyResponse? = nil
-        )
-        {
+        ) {
             self.getLinkAttributes = getLinkAttributes
             self.getObjectAttributes = getObjectAttributes
             self.getObjectInformation = getObjectInformation
@@ -1923,8 +1851,7 @@ extension CloudDirectoryClientTypes {
         public init(
             exceptionResponse: CloudDirectoryClientTypes.BatchReadException? = nil,
             successfulResponse: CloudDirectoryClientTypes.BatchReadSuccessfulResponse? = nil
-        )
-        {
+        ) {
             self.exceptionResponse = exceptionResponse
             self.successfulResponse = successfulResponse
         }
@@ -1937,8 +1864,7 @@ public struct BatchReadOutput: Swift.Sendable {
 
     public init(
         responses: [CloudDirectoryClientTypes.BatchReadOperationResponse]? = nil
-    )
-    {
+    ) {
         self.responses = responses
     }
 }
@@ -2042,8 +1968,7 @@ public struct BatchWriteException: ClientRuntime.ModeledError, AWSClientRuntime.
         index: Swift.Int = 0,
         message: Swift.String? = nil,
         type: CloudDirectoryClientTypes.BatchWriteExceptionType? = nil
-    )
-    {
+    ) {
         self.properties.index = index
         self.properties.message = message
         self.properties.type = type
@@ -2068,8 +1993,7 @@ extension CloudDirectoryClientTypes {
             objectAttributeList: [CloudDirectoryClientTypes.AttributeKeyAndValue]? = nil,
             objectReference: CloudDirectoryClientTypes.ObjectReference? = nil,
             schemaFacet: CloudDirectoryClientTypes.SchemaFacet? = nil
-        )
-        {
+        ) {
             self.objectAttributeList = objectAttributeList
             self.objectReference = objectReference
             self.schemaFacet = schemaFacet
@@ -2095,8 +2019,7 @@ extension CloudDirectoryClientTypes {
             childReference: CloudDirectoryClientTypes.ObjectReference? = nil,
             linkName: Swift.String? = nil,
             parentReference: CloudDirectoryClientTypes.ObjectReference? = nil
-        )
-        {
+        ) {
             self.childReference = childReference
             self.linkName = linkName
             self.parentReference = parentReference
@@ -2118,8 +2041,7 @@ extension CloudDirectoryClientTypes {
         public init(
             objectReference: CloudDirectoryClientTypes.ObjectReference? = nil,
             policyReference: CloudDirectoryClientTypes.ObjectReference? = nil
-        )
-        {
+        ) {
             self.objectReference = objectReference
             self.policyReference = policyReference
         }
@@ -2140,8 +2062,7 @@ extension CloudDirectoryClientTypes {
         public init(
             indexReference: CloudDirectoryClientTypes.ObjectReference? = nil,
             targetReference: CloudDirectoryClientTypes.ObjectReference? = nil
-        )
-        {
+        ) {
             self.indexReference = indexReference
             self.targetReference = targetReference
         }
@@ -2170,8 +2091,7 @@ extension CloudDirectoryClientTypes {
             sourceObjectReference: CloudDirectoryClientTypes.ObjectReference? = nil,
             targetObjectReference: CloudDirectoryClientTypes.ObjectReference? = nil,
             typedLinkFacet: CloudDirectoryClientTypes.TypedLinkSchemaAndFacetName? = nil
-        )
-        {
+        ) {
             self.attributes = attributes
             self.sourceObjectReference = sourceObjectReference
             self.targetObjectReference = targetObjectReference
@@ -2203,8 +2123,7 @@ extension CloudDirectoryClientTypes {
             linkName: Swift.String? = nil,
             orderedIndexedAttributeList: [CloudDirectoryClientTypes.AttributeKey]? = nil,
             parentReference: CloudDirectoryClientTypes.ObjectReference? = nil
-        )
-        {
+        ) {
             self.batchReferenceName = batchReferenceName
             self.isUnique = isUnique
             self.linkName = linkName
@@ -2237,8 +2156,7 @@ extension CloudDirectoryClientTypes {
             objectAttributeList: [CloudDirectoryClientTypes.AttributeKeyAndValue]? = nil,
             parentReference: CloudDirectoryClientTypes.ObjectReference? = nil,
             schemaFacet: [CloudDirectoryClientTypes.SchemaFacet]? = nil
-        )
-        {
+        ) {
             self.batchReferenceName = batchReferenceName
             self.linkName = linkName
             self.objectAttributeList = objectAttributeList
@@ -2258,8 +2176,7 @@ extension CloudDirectoryClientTypes {
 
         public init(
             objectReference: CloudDirectoryClientTypes.ObjectReference? = nil
-        )
-        {
+        ) {
             self.objectReference = objectReference
         }
     }
@@ -2279,8 +2196,7 @@ extension CloudDirectoryClientTypes {
         public init(
             indexReference: CloudDirectoryClientTypes.ObjectReference? = nil,
             targetReference: CloudDirectoryClientTypes.ObjectReference? = nil
-        )
-        {
+        ) {
             self.indexReference = indexReference
             self.targetReference = targetReference
         }
@@ -2304,8 +2220,7 @@ extension CloudDirectoryClientTypes {
             batchReferenceName: Swift.String? = nil,
             linkName: Swift.String? = nil,
             parentReference: CloudDirectoryClientTypes.ObjectReference? = nil
-        )
-        {
+        ) {
             self.batchReferenceName = batchReferenceName
             self.linkName = linkName
             self.parentReference = parentReference
@@ -2327,8 +2242,7 @@ extension CloudDirectoryClientTypes {
         public init(
             objectReference: CloudDirectoryClientTypes.ObjectReference? = nil,
             policyReference: CloudDirectoryClientTypes.ObjectReference? = nil
-        )
-        {
+        ) {
             self.objectReference = objectReference
             self.policyReference = policyReference
         }
@@ -2345,8 +2259,7 @@ extension CloudDirectoryClientTypes {
 
         public init(
             typedLinkSpecifier: CloudDirectoryClientTypes.TypedLinkSpecifier? = nil
-        )
-        {
+        ) {
             self.typedLinkSpecifier = typedLinkSpecifier
         }
     }
@@ -2366,8 +2279,7 @@ extension CloudDirectoryClientTypes {
         public init(
             objectReference: CloudDirectoryClientTypes.ObjectReference? = nil,
             schemaFacet: CloudDirectoryClientTypes.SchemaFacet? = nil
-        )
-        {
+        ) {
             self.objectReference = objectReference
             self.schemaFacet = schemaFacet
         }
@@ -2415,8 +2327,7 @@ extension CloudDirectoryClientTypes {
         public init(
             attributeActionType: CloudDirectoryClientTypes.UpdateActionType? = nil,
             attributeUpdateValue: CloudDirectoryClientTypes.TypedAttributeValue? = nil
-        )
-        {
+        ) {
             self.attributeActionType = attributeActionType
             self.attributeUpdateValue = attributeUpdateValue
         }
@@ -2435,8 +2346,7 @@ extension CloudDirectoryClientTypes {
         public init(
             attributeAction: CloudDirectoryClientTypes.LinkAttributeAction? = nil,
             attributeKey: CloudDirectoryClientTypes.AttributeKey? = nil
-        )
-        {
+        ) {
             self.attributeAction = attributeAction
             self.attributeKey = attributeKey
         }
@@ -2457,8 +2367,7 @@ extension CloudDirectoryClientTypes {
         public init(
             attributeUpdates: [CloudDirectoryClientTypes.LinkAttributeUpdate]? = nil,
             typedLinkSpecifier: CloudDirectoryClientTypes.TypedLinkSpecifier? = nil
-        )
-        {
+        ) {
             self.attributeUpdates = attributeUpdates
             self.typedLinkSpecifier = typedLinkSpecifier
         }
@@ -2477,8 +2386,7 @@ extension CloudDirectoryClientTypes {
         public init(
             objectAttributeActionType: CloudDirectoryClientTypes.UpdateActionType? = nil,
             objectAttributeUpdateValue: CloudDirectoryClientTypes.TypedAttributeValue? = nil
-        )
-        {
+        ) {
             self.objectAttributeActionType = objectAttributeActionType
             self.objectAttributeUpdateValue = objectAttributeUpdateValue
         }
@@ -2497,8 +2405,7 @@ extension CloudDirectoryClientTypes {
         public init(
             objectAttributeAction: CloudDirectoryClientTypes.ObjectAttributeAction? = nil,
             objectAttributeKey: CloudDirectoryClientTypes.AttributeKey? = nil
-        )
-        {
+        ) {
             self.objectAttributeAction = objectAttributeAction
             self.objectAttributeKey = objectAttributeKey
         }
@@ -2519,8 +2426,7 @@ extension CloudDirectoryClientTypes {
         public init(
             attributeUpdates: [CloudDirectoryClientTypes.ObjectAttributeUpdate]? = nil,
             objectReference: CloudDirectoryClientTypes.ObjectReference? = nil
-        )
-        {
+        ) {
             self.attributeUpdates = attributeUpdates
             self.objectReference = objectReference
         }
@@ -2578,8 +2484,7 @@ extension CloudDirectoryClientTypes {
             removeFacetFromObject: CloudDirectoryClientTypes.BatchRemoveFacetFromObject? = nil,
             updateLinkAttributes: CloudDirectoryClientTypes.BatchUpdateLinkAttributes? = nil,
             updateObjectAttributes: CloudDirectoryClientTypes.BatchUpdateObjectAttributes? = nil
-        )
-        {
+        ) {
             self.addFacetToObject = addFacetToObject
             self.attachObject = attachObject
             self.attachPolicy = attachPolicy
@@ -2610,8 +2515,7 @@ public struct BatchWriteInput: Swift.Sendable {
     public init(
         directoryArn: Swift.String? = nil,
         operations: [CloudDirectoryClientTypes.BatchWriteOperation]? = nil
-    )
-    {
+    ) {
         self.directoryArn = directoryArn
         self.operations = operations
     }
@@ -2635,8 +2539,7 @@ extension CloudDirectoryClientTypes {
 
         public init(
             attachedObjectIdentifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.attachedObjectIdentifier = attachedObjectIdentifier
         }
     }
@@ -2660,8 +2563,7 @@ extension CloudDirectoryClientTypes {
 
         public init(
             attachedObjectIdentifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.attachedObjectIdentifier = attachedObjectIdentifier
         }
     }
@@ -2676,8 +2578,7 @@ extension CloudDirectoryClientTypes {
 
         public init(
             typedLinkSpecifier: CloudDirectoryClientTypes.TypedLinkSpecifier? = nil
-        )
-        {
+        ) {
             self.typedLinkSpecifier = typedLinkSpecifier
         }
     }
@@ -2692,8 +2593,7 @@ extension CloudDirectoryClientTypes {
 
         public init(
             objectIdentifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.objectIdentifier = objectIdentifier
         }
     }
@@ -2708,8 +2608,7 @@ extension CloudDirectoryClientTypes {
 
         public init(
             objectIdentifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.objectIdentifier = objectIdentifier
         }
     }
@@ -2733,8 +2632,7 @@ extension CloudDirectoryClientTypes {
 
         public init(
             detachedObjectIdentifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.detachedObjectIdentifier = detachedObjectIdentifier
         }
     }
@@ -2749,8 +2647,7 @@ extension CloudDirectoryClientTypes {
 
         public init(
             detachedObjectIdentifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.detachedObjectIdentifier = detachedObjectIdentifier
         }
     }
@@ -2801,8 +2698,7 @@ extension CloudDirectoryClientTypes {
 
         public init(
             objectIdentifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.objectIdentifier = objectIdentifier
         }
     }
@@ -2859,8 +2755,7 @@ extension CloudDirectoryClientTypes {
             removeFacetFromObject: CloudDirectoryClientTypes.BatchRemoveFacetFromObjectResponse? = nil,
             updateLinkAttributes: CloudDirectoryClientTypes.BatchUpdateLinkAttributesResponse? = nil,
             updateObjectAttributes: CloudDirectoryClientTypes.BatchUpdateObjectAttributesResponse? = nil
-        )
-        {
+        ) {
             self.addFacetToObject = addFacetToObject
             self.attachObject = attachObject
             self.attachPolicy = attachPolicy
@@ -2886,8 +2781,7 @@ public struct BatchWriteOutput: Swift.Sendable {
 
     public init(
         responses: [CloudDirectoryClientTypes.BatchWriteOperationResponse]? = nil
-    )
-    {
+    ) {
         self.responses = responses
     }
 }
@@ -2910,8 +2804,7 @@ public struct DirectoryAlreadyExistsException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2927,8 +2820,7 @@ public struct CreateDirectoryInput: Swift.Sendable {
     public init(
         name: Swift.String? = nil,
         schemaArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
         self.schemaArn = schemaArn
     }
@@ -2953,8 +2845,7 @@ public struct CreateDirectoryOutput: Swift.Sendable {
         directoryArn: Swift.String? = nil,
         name: Swift.String? = nil,
         objectIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.appliedSchemaArn = appliedSchemaArn
         self.directoryArn = directoryArn
         self.name = name
@@ -2980,8 +2871,7 @@ public struct FacetAlreadyExistsException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3004,8 +2894,7 @@ public struct InvalidRuleException: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3057,8 +2946,7 @@ extension CloudDirectoryClientTypes {
         public init(
             parameters: [Swift.String: Swift.String]? = nil,
             type: CloudDirectoryClientTypes.RuleType? = nil
-        )
-        {
+        ) {
             self.parameters = parameters
             self.type = type
         }
@@ -3125,8 +3013,7 @@ extension CloudDirectoryClientTypes {
             isImmutable: Swift.Bool = false,
             rules: [Swift.String: CloudDirectoryClientTypes.Rule]? = nil,
             type: CloudDirectoryClientTypes.FacetAttributeType? = nil
-        )
-        {
+        ) {
             self.defaultValue = defaultValue
             self.isImmutable = isImmutable
             self.rules = rules
@@ -3149,8 +3036,7 @@ extension CloudDirectoryClientTypes {
         public init(
             targetAttributeName: Swift.String? = nil,
             targetFacetName: Swift.String? = nil
-        )
-        {
+        ) {
             self.targetAttributeName = targetAttributeName
             self.targetFacetName = targetFacetName
         }
@@ -3205,8 +3091,7 @@ extension CloudDirectoryClientTypes {
             attributeReference: CloudDirectoryClientTypes.FacetAttributeReference? = nil,
             name: Swift.String? = nil,
             requiredBehavior: CloudDirectoryClientTypes.RequiredAttributeBehavior? = nil
-        )
-        {
+        ) {
             self.attributeDefinition = attributeDefinition
             self.attributeReference = attributeReference
             self.name = name
@@ -3316,8 +3201,7 @@ public struct CreateFacetInput: Swift.Sendable {
         name: Swift.String? = nil,
         objectType: CloudDirectoryClientTypes.ObjectType? = nil,
         schemaArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.attributes = attributes
         self.facetStyle = facetStyle
         self.name = name
@@ -3349,8 +3233,7 @@ public struct UnsupportedIndexTypeException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3376,8 +3259,7 @@ public struct CreateIndexInput: Swift.Sendable {
         linkName: Swift.String? = nil,
         orderedIndexedAttributeList: [CloudDirectoryClientTypes.AttributeKey]? = nil,
         parentReference: CloudDirectoryClientTypes.ObjectReference? = nil
-    )
-    {
+    ) {
         self.directoryArn = directoryArn
         self.isUnique = isUnique
         self.linkName = linkName
@@ -3392,8 +3274,7 @@ public struct CreateIndexOutput: Swift.Sendable {
 
     public init(
         objectIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.objectIdentifier = objectIdentifier
     }
 }
@@ -3418,8 +3299,7 @@ public struct CreateObjectInput: Swift.Sendable {
         objectAttributeList: [CloudDirectoryClientTypes.AttributeKeyAndValue]? = nil,
         parentReference: CloudDirectoryClientTypes.ObjectReference? = nil,
         schemaFacets: [CloudDirectoryClientTypes.SchemaFacet]? = nil
-    )
-    {
+    ) {
         self.directoryArn = directoryArn
         self.linkName = linkName
         self.objectAttributeList = objectAttributeList
@@ -3434,8 +3314,7 @@ public struct CreateObjectOutput: Swift.Sendable {
 
     public init(
         objectIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.objectIdentifier = objectIdentifier
     }
 }
@@ -3447,8 +3326,7 @@ public struct CreateSchemaInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -3459,8 +3337,7 @@ public struct CreateSchemaOutput: Swift.Sendable {
 
     public init(
         schemaArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.schemaArn = schemaArn
     }
 }
@@ -3492,8 +3369,7 @@ extension CloudDirectoryClientTypes {
             requiredBehavior: CloudDirectoryClientTypes.RequiredAttributeBehavior? = nil,
             rules: [Swift.String: CloudDirectoryClientTypes.Rule]? = nil,
             type: CloudDirectoryClientTypes.FacetAttributeType? = nil
-        )
-        {
+        ) {
             self.defaultValue = defaultValue
             self.isImmutable = isImmutable
             self.name = name
@@ -3522,8 +3398,7 @@ extension CloudDirectoryClientTypes {
             attributes: [CloudDirectoryClientTypes.TypedLinkAttributeDefinition]? = nil,
             identityAttributeOrder: [Swift.String]? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.attributes = attributes
             self.identityAttributeOrder = identityAttributeOrder
             self.name = name
@@ -3542,8 +3417,7 @@ public struct CreateTypedLinkFacetInput: Swift.Sendable {
     public init(
         facet: CloudDirectoryClientTypes.TypedLinkFacet? = nil,
         schemaArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.facet = facet
         self.schemaArn = schemaArn
     }
@@ -3572,8 +3446,7 @@ public struct DirectoryDeletedException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3596,8 +3469,7 @@ public struct DirectoryNotDisabledException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3609,8 +3481,7 @@ public struct DeleteDirectoryInput: Swift.Sendable {
 
     public init(
         directoryArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.directoryArn = directoryArn
     }
 }
@@ -3622,8 +3493,7 @@ public struct DeleteDirectoryOutput: Swift.Sendable {
 
     public init(
         directoryArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.directoryArn = directoryArn
     }
 }
@@ -3646,8 +3516,7 @@ public struct FacetInUseException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3670,8 +3539,7 @@ public struct FacetNotFoundException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3687,8 +3555,7 @@ public struct DeleteFacetInput: Swift.Sendable {
     public init(
         name: Swift.String? = nil,
         schemaArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
         self.schemaArn = schemaArn
     }
@@ -3717,8 +3584,7 @@ public struct ObjectNotDetachedException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3734,8 +3600,7 @@ public struct DeleteObjectInput: Swift.Sendable {
     public init(
         directoryArn: Swift.String? = nil,
         objectReference: CloudDirectoryClientTypes.ObjectReference? = nil
-    )
-    {
+    ) {
         self.directoryArn = directoryArn
         self.objectReference = objectReference
     }
@@ -3764,8 +3629,7 @@ public struct StillContainsLinksException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3777,8 +3641,7 @@ public struct DeleteSchemaInput: Swift.Sendable {
 
     public init(
         schemaArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.schemaArn = schemaArn
     }
 }
@@ -3789,8 +3652,7 @@ public struct DeleteSchemaOutput: Swift.Sendable {
 
     public init(
         schemaArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.schemaArn = schemaArn
     }
 }
@@ -3806,8 +3668,7 @@ public struct DeleteTypedLinkFacetInput: Swift.Sendable {
     public init(
         name: Swift.String? = nil,
         schemaArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
         self.schemaArn = schemaArn
     }
@@ -3836,8 +3697,7 @@ public struct ObjectAlreadyDetachedException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3857,8 +3717,7 @@ public struct DetachFromIndexInput: Swift.Sendable {
         directoryArn: Swift.String? = nil,
         indexReference: CloudDirectoryClientTypes.ObjectReference? = nil,
         targetReference: CloudDirectoryClientTypes.ObjectReference? = nil
-    )
-    {
+    ) {
         self.directoryArn = directoryArn
         self.indexReference = indexReference
         self.targetReference = targetReference
@@ -3871,8 +3730,7 @@ public struct DetachFromIndexOutput: Swift.Sendable {
 
     public init(
         detachedObjectIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.detachedObjectIdentifier = detachedObjectIdentifier
     }
 }
@@ -3895,8 +3753,7 @@ public struct NotNodeException: ClientRuntime.ModeledError, AWSClientRuntime.AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3916,8 +3773,7 @@ public struct DetachObjectInput: Swift.Sendable {
         directoryArn: Swift.String? = nil,
         linkName: Swift.String? = nil,
         parentReference: CloudDirectoryClientTypes.ObjectReference? = nil
-    )
-    {
+    ) {
         self.directoryArn = directoryArn
         self.linkName = linkName
         self.parentReference = parentReference
@@ -3930,8 +3786,7 @@ public struct DetachObjectOutput: Swift.Sendable {
 
     public init(
         detachedObjectIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.detachedObjectIdentifier = detachedObjectIdentifier
     }
 }
@@ -3951,8 +3806,7 @@ public struct DetachPolicyInput: Swift.Sendable {
         directoryArn: Swift.String? = nil,
         objectReference: CloudDirectoryClientTypes.ObjectReference? = nil,
         policyReference: CloudDirectoryClientTypes.ObjectReference? = nil
-    )
-    {
+    ) {
         self.directoryArn = directoryArn
         self.objectReference = objectReference
         self.policyReference = policyReference
@@ -3975,8 +3829,7 @@ public struct DetachTypedLinkInput: Swift.Sendable {
     public init(
         directoryArn: Swift.String? = nil,
         typedLinkSpecifier: CloudDirectoryClientTypes.TypedLinkSpecifier? = nil
-    )
-    {
+    ) {
         self.directoryArn = directoryArn
         self.typedLinkSpecifier = typedLinkSpecifier
     }
@@ -3989,8 +3842,7 @@ public struct DisableDirectoryInput: Swift.Sendable {
 
     public init(
         directoryArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.directoryArn = directoryArn
     }
 }
@@ -4002,8 +3854,7 @@ public struct DisableDirectoryOutput: Swift.Sendable {
 
     public init(
         directoryArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.directoryArn = directoryArn
     }
 }
@@ -4015,8 +3866,7 @@ public struct EnableDirectoryInput: Swift.Sendable {
 
     public init(
         directoryArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.directoryArn = directoryArn
     }
 }
@@ -4028,8 +3878,7 @@ public struct EnableDirectoryOutput: Swift.Sendable {
 
     public init(
         directoryArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.directoryArn = directoryArn
     }
 }
@@ -4041,8 +3890,7 @@ public struct GetAppliedSchemaVersionInput: Swift.Sendable {
 
     public init(
         schemaArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.schemaArn = schemaArn
     }
 }
@@ -4053,8 +3901,7 @@ public struct GetAppliedSchemaVersionOutput: Swift.Sendable {
 
     public init(
         appliedSchemaArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.appliedSchemaArn = appliedSchemaArn
     }
 }
@@ -4066,8 +3913,7 @@ public struct GetDirectoryInput: Swift.Sendable {
 
     public init(
         directoryArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.directoryArn = directoryArn
     }
 }
@@ -4122,8 +3968,7 @@ extension CloudDirectoryClientTypes {
             directoryArn: Swift.String? = nil,
             name: Swift.String? = nil,
             state: CloudDirectoryClientTypes.DirectoryState? = nil
-        )
-        {
+        ) {
             self.creationDateTime = creationDateTime
             self.directoryArn = directoryArn
             self.name = name
@@ -4139,8 +3984,7 @@ public struct GetDirectoryOutput: Swift.Sendable {
 
     public init(
         directory: CloudDirectoryClientTypes.Directory? = nil
-    )
-    {
+    ) {
         self.directory = directory
     }
 }
@@ -4156,8 +4000,7 @@ public struct GetFacetInput: Swift.Sendable {
     public init(
         name: Swift.String? = nil,
         schemaArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
         self.schemaArn = schemaArn
     }
@@ -4178,8 +4021,7 @@ extension CloudDirectoryClientTypes {
             facetStyle: CloudDirectoryClientTypes.FacetStyle? = nil,
             name: Swift.String? = nil,
             objectType: CloudDirectoryClientTypes.ObjectType? = nil
-        )
-        {
+        ) {
             self.facetStyle = facetStyle
             self.name = name
             self.objectType = objectType
@@ -4193,8 +4035,7 @@ public struct GetFacetOutput: Swift.Sendable {
 
     public init(
         facet: CloudDirectoryClientTypes.Facet? = nil
-    )
-    {
+    ) {
         self.facet = facet
     }
 }
@@ -4217,8 +4058,7 @@ public struct GetLinkAttributesInput: Swift.Sendable {
         consistencyLevel: CloudDirectoryClientTypes.ConsistencyLevel? = nil,
         directoryArn: Swift.String? = nil,
         typedLinkSpecifier: CloudDirectoryClientTypes.TypedLinkSpecifier? = nil
-    )
-    {
+    ) {
         self.attributeNames = attributeNames
         self.consistencyLevel = consistencyLevel
         self.directoryArn = directoryArn
@@ -4232,8 +4072,7 @@ public struct GetLinkAttributesOutput: Swift.Sendable {
 
     public init(
         attributes: [CloudDirectoryClientTypes.AttributeKeyAndValue]? = nil
-    )
-    {
+    ) {
         self.attributes = attributes
     }
 }
@@ -4260,8 +4099,7 @@ public struct GetObjectAttributesInput: Swift.Sendable {
         directoryArn: Swift.String? = nil,
         objectReference: CloudDirectoryClientTypes.ObjectReference? = nil,
         schemaFacet: CloudDirectoryClientTypes.SchemaFacet? = nil
-    )
-    {
+    ) {
         self.attributeNames = attributeNames
         self.consistencyLevel = consistencyLevel
         self.directoryArn = directoryArn
@@ -4276,8 +4114,7 @@ public struct GetObjectAttributesOutput: Swift.Sendable {
 
     public init(
         attributes: [CloudDirectoryClientTypes.AttributeKeyAndValue]? = nil
-    )
-    {
+    ) {
         self.attributes = attributes
     }
 }
@@ -4296,8 +4133,7 @@ public struct GetObjectInformationInput: Swift.Sendable {
         consistencyLevel: CloudDirectoryClientTypes.ConsistencyLevel? = nil,
         directoryArn: Swift.String? = nil,
         objectReference: CloudDirectoryClientTypes.ObjectReference? = nil
-    )
-    {
+    ) {
         self.consistencyLevel = consistencyLevel
         self.directoryArn = directoryArn
         self.objectReference = objectReference
@@ -4313,8 +4149,7 @@ public struct GetObjectInformationOutput: Swift.Sendable {
     public init(
         objectIdentifier: Swift.String? = nil,
         schemaFacets: [CloudDirectoryClientTypes.SchemaFacet]? = nil
-    )
-    {
+    ) {
         self.objectIdentifier = objectIdentifier
         self.schemaFacets = schemaFacets
     }
@@ -4327,8 +4162,7 @@ public struct GetSchemaAsJsonInput: Swift.Sendable {
 
     public init(
         schemaArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.schemaArn = schemaArn
     }
 }
@@ -4342,8 +4176,7 @@ public struct GetSchemaAsJsonOutput: Swift.Sendable {
     public init(
         document: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.document = document
         self.name = name
     }
@@ -4367,8 +4200,7 @@ public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4384,8 +4216,7 @@ public struct GetTypedLinkFacetInformationInput: Swift.Sendable {
     public init(
         name: Swift.String? = nil,
         schemaArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
         self.schemaArn = schemaArn
     }
@@ -4397,8 +4228,7 @@ public struct GetTypedLinkFacetInformationOutput: Swift.Sendable {
 
     public init(
         identityAttributeOrder: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.identityAttributeOrder = identityAttributeOrder
     }
 }
@@ -4419,8 +4249,7 @@ public struct ListAppliedSchemaArnsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         schemaArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.directoryArn = directoryArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4437,8 +4266,7 @@ public struct ListAppliedSchemaArnsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         schemaArns: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.schemaArns = schemaArns
     }
@@ -4464,8 +4292,7 @@ public struct ListAttachedIndicesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         targetReference: CloudDirectoryClientTypes.ObjectReference? = nil
-    )
-    {
+    ) {
         self.consistencyLevel = consistencyLevel
         self.directoryArn = directoryArn
         self.maxResults = maxResults
@@ -4483,8 +4310,7 @@ public struct ListAttachedIndicesOutput: Swift.Sendable {
     public init(
         indexAttachments: [CloudDirectoryClientTypes.IndexAttachment]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.indexAttachments = indexAttachments
         self.nextToken = nextToken
     }
@@ -4499,8 +4325,7 @@ public struct ListDevelopmentSchemaArnsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -4515,8 +4340,7 @@ public struct ListDevelopmentSchemaArnsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         schemaArns: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.schemaArns = schemaArns
     }
@@ -4534,8 +4358,7 @@ public struct ListDirectoriesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         state: CloudDirectoryClientTypes.DirectoryState? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.state = state
@@ -4552,8 +4375,7 @@ public struct ListDirectoriesOutput: Swift.Sendable {
     public init(
         directories: [CloudDirectoryClientTypes.Directory]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.directories = directories
         self.nextToken = nextToken
     }
@@ -4576,8 +4398,7 @@ public struct ListFacetAttributesInput: Swift.Sendable {
         name: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         schemaArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.name = name
         self.nextToken = nextToken
@@ -4594,8 +4415,7 @@ public struct ListFacetAttributesOutput: Swift.Sendable {
     public init(
         attributes: [CloudDirectoryClientTypes.FacetAttribute]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.attributes = attributes
         self.nextToken = nextToken
     }
@@ -4614,8 +4434,7 @@ public struct ListFacetNamesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         schemaArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.schemaArn = schemaArn
@@ -4631,8 +4450,7 @@ public struct ListFacetNamesOutput: Swift.Sendable {
     public init(
         facetNames: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.facetNames = facetNames
         self.nextToken = nextToken
     }
@@ -4664,8 +4482,7 @@ public struct ListIncomingTypedLinksInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         objectReference: CloudDirectoryClientTypes.ObjectReference? = nil
-    )
-    {
+    ) {
         self.consistencyLevel = consistencyLevel
         self.directoryArn = directoryArn
         self.filterAttributeRanges = filterAttributeRanges
@@ -4685,8 +4502,7 @@ public struct ListIncomingTypedLinksOutput: Swift.Sendable {
     public init(
         linkSpecifiers: [CloudDirectoryClientTypes.TypedLinkSpecifier]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.linkSpecifiers = linkSpecifiers
         self.nextToken = nextToken
     }
@@ -4715,8 +4531,7 @@ public struct ListIndexInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         rangesOnIndexedValues: [CloudDirectoryClientTypes.ObjectAttributeRange]? = nil
-    )
-    {
+    ) {
         self.consistencyLevel = consistencyLevel
         self.directoryArn = directoryArn
         self.indexReference = indexReference
@@ -4735,8 +4550,7 @@ public struct ListIndexOutput: Swift.Sendable {
     public init(
         indexAttachments: [CloudDirectoryClientTypes.IndexAttachment]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.indexAttachments = indexAttachments
         self.nextToken = nextToken
     }
@@ -4754,8 +4568,7 @@ public struct ListManagedSchemaArnsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         schemaArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.schemaArn = schemaArn
@@ -4771,8 +4584,7 @@ public struct ListManagedSchemaArnsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         schemaArns: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.schemaArns = schemaArns
     }
@@ -4801,8 +4613,7 @@ public struct ListObjectAttributesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         objectReference: CloudDirectoryClientTypes.ObjectReference? = nil
-    )
-    {
+    ) {
         self.consistencyLevel = consistencyLevel
         self.directoryArn = directoryArn
         self.facetFilter = facetFilter
@@ -4821,8 +4632,7 @@ public struct ListObjectAttributesOutput: Swift.Sendable {
     public init(
         attributes: [CloudDirectoryClientTypes.AttributeKeyAndValue]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.attributes = attributes
         self.nextToken = nextToken
     }
@@ -4848,8 +4658,7 @@ public struct ListObjectChildrenInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         objectReference: CloudDirectoryClientTypes.ObjectReference? = nil
-    )
-    {
+    ) {
         self.consistencyLevel = consistencyLevel
         self.directoryArn = directoryArn
         self.maxResults = maxResults
@@ -4867,8 +4676,7 @@ public struct ListObjectChildrenOutput: Swift.Sendable {
     public init(
         children: [Swift.String: Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.children = children
         self.nextToken = nextToken
     }
@@ -4891,8 +4699,7 @@ public struct ListObjectParentPathsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         objectReference: CloudDirectoryClientTypes.ObjectReference? = nil
-    )
-    {
+    ) {
         self.directoryArn = directoryArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4909,8 +4716,7 @@ public struct ListObjectParentPathsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         pathToObjectIdentifiersList: [CloudDirectoryClientTypes.PathToObjectIdentifiers]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.pathToObjectIdentifiersList = pathToObjectIdentifiersList
     }
@@ -4934,8 +4740,7 @@ public struct CannotListParentOfRootException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4963,8 +4768,7 @@ public struct ListObjectParentsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         objectReference: CloudDirectoryClientTypes.ObjectReference? = nil
-    )
-    {
+    ) {
         self.consistencyLevel = consistencyLevel
         self.directoryArn = directoryArn
         self.includeAllLinksToEachParent = includeAllLinksToEachParent
@@ -4986,8 +4790,7 @@ public struct ListObjectParentsOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         parentLinks: [CloudDirectoryClientTypes.ObjectIdentifierAndLinkNameTuple]? = nil,
         parents: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.parentLinks = parentLinks
         self.parents = parents
@@ -5014,8 +4817,7 @@ public struct ListObjectPoliciesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         objectReference: CloudDirectoryClientTypes.ObjectReference? = nil
-    )
-    {
+    ) {
         self.consistencyLevel = consistencyLevel
         self.directoryArn = directoryArn
         self.maxResults = maxResults
@@ -5033,8 +4835,7 @@ public struct ListObjectPoliciesOutput: Swift.Sendable {
     public init(
         attachedPolicyIds: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.attachedPolicyIds = attachedPolicyIds
         self.nextToken = nextToken
     }
@@ -5066,8 +4867,7 @@ public struct ListOutgoingTypedLinksInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         objectReference: CloudDirectoryClientTypes.ObjectReference? = nil
-    )
-    {
+    ) {
         self.consistencyLevel = consistencyLevel
         self.directoryArn = directoryArn
         self.filterAttributeRanges = filterAttributeRanges
@@ -5087,8 +4887,7 @@ public struct ListOutgoingTypedLinksOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         typedLinkSpecifiers: [CloudDirectoryClientTypes.TypedLinkSpecifier]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.typedLinkSpecifiers = typedLinkSpecifiers
     }
@@ -5114,8 +4913,7 @@ public struct ListPolicyAttachmentsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         policyReference: CloudDirectoryClientTypes.ObjectReference? = nil
-    )
-    {
+    ) {
         self.consistencyLevel = consistencyLevel
         self.directoryArn = directoryArn
         self.maxResults = maxResults
@@ -5133,8 +4931,7 @@ public struct ListPolicyAttachmentsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         objectIdentifiers: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.objectIdentifiers = objectIdentifiers
     }
@@ -5152,8 +4949,7 @@ public struct ListPublishedSchemaArnsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         schemaArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.schemaArn = schemaArn
@@ -5169,8 +4965,7 @@ public struct ListPublishedSchemaArnsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         schemaArns: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.schemaArns = schemaArns
     }
@@ -5194,8 +4989,7 @@ public struct InvalidTaggingRequestException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5213,8 +5007,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.resourceArn = resourceArn
@@ -5233,8 +5026,7 @@ extension CloudDirectoryClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -5250,8 +5042,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         tags: [CloudDirectoryClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.tags = tags
     }
@@ -5274,8 +5065,7 @@ public struct ListTypedLinkFacetAttributesInput: Swift.Sendable {
         name: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         schemaArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.name = name
         self.nextToken = nextToken
@@ -5292,8 +5082,7 @@ public struct ListTypedLinkFacetAttributesOutput: Swift.Sendable {
     public init(
         attributes: [CloudDirectoryClientTypes.TypedLinkAttributeDefinition]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.attributes = attributes
         self.nextToken = nextToken
     }
@@ -5312,8 +5101,7 @@ public struct ListTypedLinkFacetNamesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         schemaArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.schemaArn = schemaArn
@@ -5329,8 +5117,7 @@ public struct ListTypedLinkFacetNamesOutput: Swift.Sendable {
     public init(
         facetNames: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.facetNames = facetNames
         self.nextToken = nextToken
     }
@@ -5353,8 +5140,7 @@ public struct LookupPolicyInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         objectReference: CloudDirectoryClientTypes.ObjectReference? = nil
-    )
-    {
+    ) {
         self.directoryArn = directoryArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -5371,8 +5157,7 @@ public struct LookupPolicyOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         policyToPathList: [CloudDirectoryClientTypes.PolicyToPath]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.policyToPathList = policyToPathList
     }
@@ -5396,8 +5181,7 @@ public struct SchemaAlreadyPublishedException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5419,8 +5203,7 @@ public struct PublishSchemaInput: Swift.Sendable {
         minorVersion: Swift.String? = nil,
         name: Swift.String? = nil,
         version: Swift.String? = nil
-    )
-    {
+    ) {
         self.developmentSchemaArn = developmentSchemaArn
         self.minorVersion = minorVersion
         self.name = name
@@ -5434,8 +5217,7 @@ public struct PublishSchemaOutput: Swift.Sendable {
 
     public init(
         publishedSchemaArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.publishedSchemaArn = publishedSchemaArn
     }
 }
@@ -5458,8 +5240,7 @@ public struct InvalidSchemaDocException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5475,8 +5256,7 @@ public struct PutSchemaFromJsonInput: Swift.Sendable {
     public init(
         document: Swift.String? = nil,
         schemaArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.document = document
         self.schemaArn = schemaArn
     }
@@ -5488,8 +5268,7 @@ public struct PutSchemaFromJsonOutput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -5509,8 +5288,7 @@ public struct RemoveFacetFromObjectInput: Swift.Sendable {
         directoryArn: Swift.String? = nil,
         objectReference: CloudDirectoryClientTypes.ObjectReference? = nil,
         schemaFacet: CloudDirectoryClientTypes.SchemaFacet? = nil
-    )
-    {
+    ) {
         self.directoryArn = directoryArn
         self.objectReference = objectReference
         self.schemaFacet = schemaFacet
@@ -5533,8 +5311,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [CloudDirectoryClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -5556,8 +5333,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -5586,8 +5362,7 @@ public struct InvalidFacetUpdateException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5604,8 +5379,7 @@ extension CloudDirectoryClientTypes {
         public init(
             action: CloudDirectoryClientTypes.UpdateActionType? = nil,
             attribute: CloudDirectoryClientTypes.FacetAttribute? = nil
-        )
-        {
+        ) {
             self.action = action
             self.attribute = attribute
         }
@@ -5629,8 +5403,7 @@ public struct UpdateFacetInput: Swift.Sendable {
         name: Swift.String? = nil,
         objectType: CloudDirectoryClientTypes.ObjectType? = nil,
         schemaArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.attributeUpdates = attributeUpdates
         self.name = name
         self.objectType = objectType
@@ -5658,8 +5431,7 @@ public struct UpdateLinkAttributesInput: Swift.Sendable {
         attributeUpdates: [CloudDirectoryClientTypes.LinkAttributeUpdate]? = nil,
         directoryArn: Swift.String? = nil,
         typedLinkSpecifier: CloudDirectoryClientTypes.TypedLinkSpecifier? = nil
-    )
-    {
+    ) {
         self.attributeUpdates = attributeUpdates
         self.directoryArn = directoryArn
         self.typedLinkSpecifier = typedLinkSpecifier
@@ -5686,8 +5458,7 @@ public struct UpdateObjectAttributesInput: Swift.Sendable {
         attributeUpdates: [CloudDirectoryClientTypes.ObjectAttributeUpdate]? = nil,
         directoryArn: Swift.String? = nil,
         objectReference: CloudDirectoryClientTypes.ObjectReference? = nil
-    )
-    {
+    ) {
         self.attributeUpdates = attributeUpdates
         self.directoryArn = directoryArn
         self.objectReference = objectReference
@@ -5700,8 +5471,7 @@ public struct UpdateObjectAttributesOutput: Swift.Sendable {
 
     public init(
         objectIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.objectIdentifier = objectIdentifier
     }
 }
@@ -5717,8 +5487,7 @@ public struct UpdateSchemaInput: Swift.Sendable {
     public init(
         name: Swift.String? = nil,
         schemaArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
         self.schemaArn = schemaArn
     }
@@ -5730,8 +5499,7 @@ public struct UpdateSchemaOutput: Swift.Sendable {
 
     public init(
         schemaArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.schemaArn = schemaArn
     }
 }
@@ -5750,8 +5518,7 @@ extension CloudDirectoryClientTypes {
         public init(
             action: CloudDirectoryClientTypes.UpdateActionType? = nil,
             attribute: CloudDirectoryClientTypes.TypedLinkAttributeDefinition? = nil
-        )
-        {
+        ) {
             self.action = action
             self.attribute = attribute
         }
@@ -5777,8 +5544,7 @@ public struct UpdateTypedLinkFacetInput: Swift.Sendable {
         identityAttributeOrder: [Swift.String]? = nil,
         name: Swift.String? = nil,
         schemaArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.attributeUpdates = attributeUpdates
         self.identityAttributeOrder = identityAttributeOrder
         self.name = name
@@ -5809,8 +5575,7 @@ public struct IncompatibleSchemaException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5829,8 +5594,7 @@ public struct UpgradeAppliedSchemaInput: Swift.Sendable {
         directoryArn: Swift.String? = nil,
         dryRun: Swift.Bool? = false,
         publishedSchemaArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.directoryArn = directoryArn
         self.dryRun = dryRun
         self.publishedSchemaArn = publishedSchemaArn
@@ -5846,8 +5610,7 @@ public struct UpgradeAppliedSchemaOutput: Swift.Sendable {
     public init(
         directoryArn: Swift.String? = nil,
         upgradedSchemaArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.directoryArn = directoryArn
         self.upgradedSchemaArn = upgradedSchemaArn
     }
@@ -5871,8 +5634,7 @@ public struct UpgradePublishedSchemaInput: Swift.Sendable {
         dryRun: Swift.Bool? = false,
         minorVersion: Swift.String? = nil,
         publishedSchemaArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.developmentSchemaArn = developmentSchemaArn
         self.dryRun = dryRun
         self.minorVersion = minorVersion
@@ -5886,8 +5648,7 @@ public struct UpgradePublishedSchemaOutput: Swift.Sendable {
 
     public init(
         upgradedSchemaArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.upgradedSchemaArn = upgradedSchemaArn
     }
 }

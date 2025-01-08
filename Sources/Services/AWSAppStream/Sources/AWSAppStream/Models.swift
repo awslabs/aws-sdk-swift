@@ -66,8 +66,7 @@ extension AppStreamClientTypes {
         public init(
             endpointType: AppStreamClientTypes.AccessEndpointType? = nil,
             vpceId: Swift.String? = nil
-        )
-        {
+        ) {
             self.endpointType = endpointType
             self.vpceId = vpceId
         }
@@ -133,8 +132,7 @@ extension AppStreamClientTypes {
         public init(
             errorCode: Swift.String? = nil,
             errorMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
         }
@@ -193,8 +191,7 @@ extension AppStreamClientTypes {
         public init(
             s3Bucket: Swift.String? = nil,
             s3Key: Swift.String? = nil
-        )
-        {
+        ) {
             self.s3Bucket = s3Bucket
             self.s3Key = s3Key
         }
@@ -222,8 +219,7 @@ extension AppStreamClientTypes {
             executablePath: Swift.String? = nil,
             scriptS3Location: AppStreamClientTypes.S3Location? = nil,
             timeoutInSeconds: Swift.Int? = nil
-        )
-        {
+        ) {
             self.executableParameters = executableParameters
             self.executablePath = executablePath
             self.scriptS3Location = scriptS3Location
@@ -302,8 +298,7 @@ extension AppStreamClientTypes {
             setupScriptDetails: AppStreamClientTypes.ScriptDetails? = nil,
             sourceS3Location: AppStreamClientTypes.S3Location? = nil,
             state: AppStreamClientTypes.AppBlockState? = nil
-        )
-        {
+        ) {
             self.appBlockErrors = appBlockErrors
             self.arn = arn
             self.createdTime = createdTime
@@ -447,8 +442,7 @@ extension AppStreamClientTypes {
             errorCode: AppStreamClientTypes.FleetErrorCode? = nil,
             errorMessage: Swift.String? = nil,
             errorTimestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.errorTimestamp = errorTimestamp
@@ -555,8 +549,7 @@ extension AppStreamClientTypes {
         public init(
             code: AppStreamClientTypes.AppBlockBuilderStateChangeReasonCode? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.message = message
         }
@@ -575,8 +568,7 @@ extension AppStreamClientTypes {
         public init(
             securityGroupIds: [Swift.String]? = nil,
             subnetIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
         }
@@ -637,8 +629,7 @@ extension AppStreamClientTypes {
             state: AppStreamClientTypes.AppBlockBuilderState? = nil,
             stateChangeReason: AppStreamClientTypes.AppBlockBuilderStateChangeReason? = nil,
             vpcConfig: AppStreamClientTypes.VpcConfig? = nil
-        )
-        {
+        ) {
             self.accessEndpoints = accessEndpoints
             self.appBlockBuilderErrors = appBlockBuilderErrors
             self.arn = arn
@@ -671,8 +662,7 @@ extension AppStreamClientTypes {
         public init(
             appBlockArn: Swift.String? = nil,
             appBlockBuilderName: Swift.String? = nil
-        )
-        {
+        ) {
             self.appBlockArn = appBlockArn
             self.appBlockBuilderName = appBlockBuilderName
         }
@@ -806,8 +796,7 @@ extension AppStreamClientTypes {
             name: Swift.String? = nil,
             platforms: [AppStreamClientTypes.PlatformType]? = nil,
             workingDirectory: Swift.String? = nil
-        )
-        {
+        ) {
             self.appBlockArn = appBlockArn
             self.arn = arn
             self.createdTime = createdTime
@@ -870,8 +859,7 @@ extension AppStreamClientTypes {
         public init(
             applicationArn: Swift.String? = nil,
             fleetName: Swift.String? = nil
-        )
-        {
+        ) {
             self.applicationArn = applicationArn
             self.fleetName = fleetName
         }
@@ -891,8 +879,7 @@ extension AppStreamClientTypes {
         public init(
             enabled: Swift.Bool? = nil,
             settingsGroup: Swift.String? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
             self.settingsGroup = settingsGroup
         }
@@ -914,8 +901,7 @@ extension AppStreamClientTypes {
             enabled: Swift.Bool? = nil,
             s3BucketName: Swift.String? = nil,
             settingsGroup: Swift.String? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
             self.s3BucketName = s3BucketName
             self.settingsGroup = settingsGroup
@@ -971,8 +957,7 @@ public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -996,8 +981,7 @@ public struct InvalidParameterCombinationException: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1021,8 +1005,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1046,8 +1029,7 @@ public struct OperationNotPermittedException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1071,8 +1053,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1088,8 +1069,7 @@ public struct AssociateAppBlockBuilderAppBlockInput: Swift.Sendable {
     public init(
         appBlockArn: Swift.String? = nil,
         appBlockBuilderName: Swift.String? = nil
-    )
-    {
+    ) {
         self.appBlockArn = appBlockArn
         self.appBlockBuilderName = appBlockBuilderName
     }
@@ -1101,8 +1081,7 @@ public struct AssociateAppBlockBuilderAppBlockOutput: Swift.Sendable {
 
     public init(
         appBlockBuilderAppBlockAssociation: AppStreamClientTypes.AppBlockBuilderAppBlockAssociation? = nil
-    )
-    {
+    ) {
         self.appBlockBuilderAppBlockAssociation = appBlockBuilderAppBlockAssociation
     }
 }
@@ -1118,8 +1097,7 @@ public struct AssociateApplicationFleetInput: Swift.Sendable {
     public init(
         applicationArn: Swift.String? = nil,
         fleetName: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationArn = applicationArn
         self.fleetName = fleetName
     }
@@ -1131,8 +1109,7 @@ public struct AssociateApplicationFleetOutput: Swift.Sendable {
 
     public init(
         applicationFleetAssociation: AppStreamClientTypes.ApplicationFleetAssociation? = nil
-    )
-    {
+    ) {
         self.applicationFleetAssociation = applicationFleetAssociation
     }
 }
@@ -1156,8 +1133,7 @@ public struct EntitlementNotFoundException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1177,8 +1153,7 @@ public struct AssociateApplicationToEntitlementInput: Swift.Sendable {
         applicationIdentifier: Swift.String? = nil,
         entitlementName: Swift.String? = nil,
         stackName: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationIdentifier = applicationIdentifier
         self.entitlementName = entitlementName
         self.stackName = stackName
@@ -1209,8 +1184,7 @@ public struct IncompatibleImageException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1234,8 +1208,7 @@ public struct InvalidAccountStatusException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1251,8 +1224,7 @@ public struct AssociateFleetInput: Swift.Sendable {
     public init(
         fleetName: Swift.String? = nil,
         stackName: Swift.String? = nil
-    )
-    {
+    ) {
         self.fleetName = fleetName
         self.stackName = stackName
     }
@@ -1319,8 +1291,7 @@ extension AppStreamClientTypes {
             sendEmailNotification: Swift.Bool? = nil,
             stackName: Swift.String? = nil,
             userName: Swift.String? = nil
-        )
-        {
+        ) {
             self.authenticationType = authenticationType
             self.sendEmailNotification = sendEmailNotification
             self.stackName = stackName
@@ -1341,8 +1312,7 @@ public struct BatchAssociateUserStackInput: Swift.Sendable {
 
     public init(
         userStackAssociations: [AppStreamClientTypes.UserStackAssociation]? = nil
-    )
-    {
+    ) {
         self.userStackAssociations = userStackAssociations
     }
 }
@@ -1397,8 +1367,7 @@ extension AppStreamClientTypes {
             errorCode: AppStreamClientTypes.UserStackAssociationErrorCode? = nil,
             errorMessage: Swift.String? = nil,
             userStackAssociation: AppStreamClientTypes.UserStackAssociation? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.userStackAssociation = userStackAssociation
@@ -1412,8 +1381,7 @@ public struct BatchAssociateUserStackOutput: Swift.Sendable {
 
     public init(
         errors: [AppStreamClientTypes.UserStackAssociationError]? = nil
-    )
-    {
+    ) {
         self.errors = errors
     }
 }
@@ -1425,8 +1393,7 @@ public struct BatchDisassociateUserStackInput: Swift.Sendable {
 
     public init(
         userStackAssociations: [AppStreamClientTypes.UserStackAssociation]? = nil
-    )
-    {
+    ) {
         self.userStackAssociations = userStackAssociations
     }
 }
@@ -1437,8 +1404,7 @@ public struct BatchDisassociateUserStackOutput: Swift.Sendable {
 
     public init(
         errors: [AppStreamClientTypes.UserStackAssociationError]? = nil
-    )
-    {
+    ) {
         self.errors = errors
     }
 }
@@ -1487,8 +1453,7 @@ extension AppStreamClientTypes {
         public init(
             certificateAuthorityArn: Swift.String? = nil,
             status: AppStreamClientTypes.CertificateBasedAuthStatus? = nil
-        )
-        {
+        ) {
             self.certificateAuthorityArn = certificateAuthorityArn
             self.status = status
         }
@@ -1507,8 +1472,7 @@ extension AppStreamClientTypes {
         public init(
             desiredInstances: Swift.Int? = nil,
             desiredSessions: Swift.Int? = nil
-        )
-        {
+        ) {
             self.desiredInstances = desiredInstances
             self.desiredSessions = desiredSessions
         }
@@ -1546,8 +1510,7 @@ extension AppStreamClientTypes {
             desiredUserSessions: Swift.Int? = nil,
             inUse: Swift.Int? = nil,
             running: Swift.Int? = nil
-        )
-        {
+        ) {
             self.activeUserSessions = activeUserSessions
             self.actualUserSessions = actualUserSessions
             self.available = available
@@ -1579,8 +1542,7 @@ public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1604,8 +1566,7 @@ public struct ResourceNotAvailableException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1628,8 +1589,7 @@ public struct CopyImageInput: Swift.Sendable {
         destinationImageName: Swift.String? = nil,
         destinationRegion: Swift.String? = nil,
         sourceImageName: Swift.String? = nil
-    )
-    {
+    ) {
         self.destinationImageDescription = destinationImageDescription
         self.destinationImageName = destinationImageName
         self.destinationRegion = destinationRegion
@@ -1643,8 +1603,7 @@ public struct CopyImageOutput: Swift.Sendable {
 
     public init(
         destinationImageName: Swift.String? = nil
-    )
-    {
+    ) {
         self.destinationImageName = destinationImageName
     }
 }
@@ -1678,8 +1637,7 @@ public struct CreateAppBlockInput: Swift.Sendable {
         setupScriptDetails: AppStreamClientTypes.ScriptDetails? = nil,
         sourceS3Location: AppStreamClientTypes.S3Location? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.displayName = displayName
         self.name = name
@@ -1697,8 +1655,7 @@ public struct CreateAppBlockOutput: Swift.Sendable {
 
     public init(
         appBlock: AppStreamClientTypes.AppBlock? = nil
-    )
-    {
+    ) {
         self.appBlock = appBlock
     }
 }
@@ -1722,8 +1679,7 @@ public struct InvalidRoleException: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1747,8 +1703,7 @@ public struct RequestLimitExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1800,8 +1755,7 @@ public struct CreateAppBlockBuilderInput: Swift.Sendable {
         platform: AppStreamClientTypes.AppBlockBuilderPlatformType? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         vpcConfig: AppStreamClientTypes.VpcConfig? = nil
-    )
-    {
+    ) {
         self.accessEndpoints = accessEndpoints
         self.description = description
         self.displayName = displayName
@@ -1821,8 +1775,7 @@ public struct CreateAppBlockBuilderOutput: Swift.Sendable {
 
     public init(
         appBlockBuilder: AppStreamClientTypes.AppBlockBuilder? = nil
-    )
-    {
+    ) {
         self.appBlockBuilder = appBlockBuilder
     }
 }
@@ -1837,8 +1790,7 @@ public struct CreateAppBlockBuilderStreamingURLInput: Swift.Sendable {
     public init(
         appBlockBuilderName: Swift.String? = nil,
         validity: Swift.Int? = nil
-    )
-    {
+    ) {
         self.appBlockBuilderName = appBlockBuilderName
         self.validity = validity
     }
@@ -1853,8 +1805,7 @@ public struct CreateAppBlockBuilderStreamingURLOutput: Swift.Sendable {
     public init(
         expires: Foundation.Date? = nil,
         streamingURL: Swift.String? = nil
-    )
-    {
+    ) {
         self.expires = expires
         self.streamingURL = streamingURL
     }
@@ -1902,8 +1853,7 @@ public struct CreateApplicationInput: Swift.Sendable {
         platforms: [AppStreamClientTypes.PlatformType]? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         workingDirectory: Swift.String? = nil
-    )
-    {
+    ) {
         self.appBlockArn = appBlockArn
         self.description = description
         self.displayName = displayName
@@ -1924,8 +1874,7 @@ public struct CreateApplicationOutput: Swift.Sendable {
 
     public init(
         application: AppStreamClientTypes.Application? = nil
-    )
-    {
+    ) {
         self.application = application
     }
 }
@@ -1944,8 +1893,7 @@ extension AppStreamClientTypes {
         public init(
             accountName: Swift.String? = nil,
             accountPassword: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountName = accountName
             self.accountPassword = accountPassword
         }
@@ -1974,8 +1922,7 @@ public struct CreateDirectoryConfigInput: Swift.Sendable {
         directoryName: Swift.String? = nil,
         organizationalUnitDistinguishedNames: [Swift.String]? = nil,
         serviceAccountCredentials: AppStreamClientTypes.ServiceAccountCredentials? = nil
-    )
-    {
+    ) {
         self.certificateBasedAuthProperties = certificateBasedAuthProperties
         self.directoryName = directoryName
         self.organizationalUnitDistinguishedNames = organizationalUnitDistinguishedNames
@@ -2005,8 +1952,7 @@ extension AppStreamClientTypes {
             directoryName: Swift.String? = nil,
             organizationalUnitDistinguishedNames: [Swift.String]? = nil,
             serviceAccountCredentials: AppStreamClientTypes.ServiceAccountCredentials? = nil
-        )
-        {
+        ) {
             self.certificateBasedAuthProperties = certificateBasedAuthProperties
             self.createdTime = createdTime
             self.directoryName = directoryName
@@ -2022,8 +1968,7 @@ public struct CreateDirectoryConfigOutput: Swift.Sendable {
 
     public init(
         directoryConfig: AppStreamClientTypes.DirectoryConfig? = nil
-    )
-    {
+    ) {
         self.directoryConfig = directoryConfig
     }
 }
@@ -2047,8 +1992,7 @@ public struct EntitlementAlreadyExistsException: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2081,8 +2025,7 @@ extension AppStreamClientTypes {
         public init(
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -2111,8 +2054,7 @@ public struct CreateEntitlementInput: Swift.Sendable {
         description: Swift.String? = nil,
         name: Swift.String? = nil,
         stackName: Swift.String? = nil
-    )
-    {
+    ) {
         self.appVisibility = appVisibility
         self.attributes = attributes
         self.description = description
@@ -2152,8 +2094,7 @@ extension AppStreamClientTypes {
             lastModifiedTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             stackName: Swift.String? = nil
-        )
-        {
+        ) {
             self.appVisibility = appVisibility
             self.attributes = attributes
             self.createdTime = createdTime
@@ -2171,8 +2112,7 @@ public struct CreateEntitlementOutput: Swift.Sendable {
 
     public init(
         entitlement: AppStreamClientTypes.Entitlement? = nil
-    )
-    {
+    ) {
         self.entitlement = entitlement
     }
 }
@@ -2189,8 +2129,7 @@ extension AppStreamClientTypes {
         public init(
             directoryName: Swift.String? = nil,
             organizationalUnitDistinguishedName: Swift.String? = nil
-        )
-        {
+        ) {
             self.directoryName = directoryName
             self.organizationalUnitDistinguishedName = organizationalUnitDistinguishedName
         }
@@ -2426,8 +2365,7 @@ public struct CreateFleetInput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         usbDeviceFilterStrings: [Swift.String]? = nil,
         vpcConfig: AppStreamClientTypes.VpcConfig? = nil
-    )
-    {
+    ) {
         self.computeCapacity = computeCapacity
         self.description = description
         self.disconnectTimeoutInSeconds = disconnectTimeoutInSeconds
@@ -2465,8 +2403,7 @@ extension AppStreamClientTypes {
         public init(
             errorCode: AppStreamClientTypes.FleetErrorCode? = nil,
             errorMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
         }
@@ -2660,8 +2597,7 @@ extension AppStreamClientTypes {
             streamView: AppStreamClientTypes.StreamView? = nil,
             usbDeviceFilterStrings: [Swift.String]? = nil,
             vpcConfig: AppStreamClientTypes.VpcConfig? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.computeCapacityStatus = computeCapacityStatus
             self.createdTime = createdTime
@@ -2697,8 +2633,7 @@ public struct CreateFleetOutput: Swift.Sendable {
 
     public init(
         fleet: AppStreamClientTypes.Fleet? = nil
-    )
-    {
+    ) {
         self.fleet = fleet
     }
 }
@@ -2813,8 +2748,7 @@ public struct CreateImageBuilderInput: Swift.Sendable {
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         vpcConfig: AppStreamClientTypes.VpcConfig? = nil
-    )
-    {
+    ) {
         self.accessEndpoints = accessEndpoints
         self.appstreamAgentVersion = appstreamAgentVersion
         self.description = description
@@ -2872,8 +2806,7 @@ extension AppStreamClientTypes {
         public init(
             eniId: Swift.String? = nil,
             eniPrivateIpAddress: Swift.String? = nil
-        )
-        {
+        ) {
             self.eniId = eniId
             self.eniPrivateIpAddress = eniPrivateIpAddress
         }
@@ -2977,8 +2910,7 @@ extension AppStreamClientTypes {
         public init(
             code: AppStreamClientTypes.ImageBuilderStateChangeReasonCode? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.message = message
         }
@@ -3115,8 +3047,7 @@ extension AppStreamClientTypes {
             state: AppStreamClientTypes.ImageBuilderState? = nil,
             stateChangeReason: AppStreamClientTypes.ImageBuilderStateChangeReason? = nil,
             vpcConfig: AppStreamClientTypes.VpcConfig? = nil
-        )
-        {
+        ) {
             self.accessEndpoints = accessEndpoints
             self.appstreamAgentVersion = appstreamAgentVersion
             self.arn = arn
@@ -3146,8 +3077,7 @@ public struct CreateImageBuilderOutput: Swift.Sendable {
 
     public init(
         imageBuilder: AppStreamClientTypes.ImageBuilder? = nil
-    )
-    {
+    ) {
         self.imageBuilder = imageBuilder
     }
 }
@@ -3162,8 +3092,7 @@ public struct CreateImageBuilderStreamingURLInput: Swift.Sendable {
     public init(
         name: Swift.String? = nil,
         validity: Swift.Int? = nil
-    )
-    {
+    ) {
         self.name = name
         self.validity = validity
     }
@@ -3178,8 +3107,7 @@ public struct CreateImageBuilderStreamingURLOutput: Swift.Sendable {
     public init(
         expires: Foundation.Date? = nil,
         streamingURL: Swift.String? = nil
-    )
-    {
+    ) {
         self.expires = expires
         self.streamingURL = streamingURL
     }
@@ -3234,8 +3162,7 @@ extension AppStreamClientTypes {
             connectorType: AppStreamClientTypes.StorageConnectorType? = nil,
             domains: [Swift.String]? = nil,
             resourceIdentifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.connectorType = connectorType
             self.domains = domains
             self.resourceIdentifier = resourceIdentifier
@@ -3281,8 +3208,7 @@ extension AppStreamClientTypes {
 
         public init(
             preferredProtocol: AppStreamClientTypes.PreferredProtocol? = nil
-        )
-        {
+        ) {
             self.preferredProtocol = preferredProtocol
         }
     }
@@ -3334,8 +3260,7 @@ extension AppStreamClientTypes {
             action: AppStreamClientTypes.Action? = nil,
             maximumLength: Swift.Int? = nil,
             permission: AppStreamClientTypes.Permission? = nil
-        )
-        {
+        ) {
             self.action = action
             self.maximumLength = maximumLength
             self.permission = permission
@@ -3383,8 +3308,7 @@ public struct CreateStackInput: Swift.Sendable {
         streamingExperienceSettings: AppStreamClientTypes.StreamingExperienceSettings? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         userSettings: [AppStreamClientTypes.UserSetting]? = nil
-    )
-    {
+    ) {
         self.accessEndpoints = accessEndpoints
         self.applicationSettings = applicationSettings
         self.description = description
@@ -3441,8 +3365,7 @@ extension AppStreamClientTypes {
         public init(
             errorCode: AppStreamClientTypes.StackErrorCode? = nil,
             errorMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
         }
@@ -3498,8 +3421,7 @@ extension AppStreamClientTypes {
             storageConnectors: [AppStreamClientTypes.StorageConnector]? = nil,
             streamingExperienceSettings: AppStreamClientTypes.StreamingExperienceSettings? = nil,
             userSettings: [AppStreamClientTypes.UserSetting]? = nil
-        )
-        {
+        ) {
             self.accessEndpoints = accessEndpoints
             self.applicationSettings = applicationSettings
             self.arn = arn
@@ -3524,8 +3446,7 @@ public struct CreateStackOutput: Swift.Sendable {
 
     public init(
         stack: AppStreamClientTypes.Stack? = nil
-    )
-    {
+    ) {
         self.stack = stack
     }
 }
@@ -3554,8 +3475,7 @@ public struct CreateStreamingURLInput: Swift.Sendable {
         stackName: Swift.String? = nil,
         userId: Swift.String? = nil,
         validity: Swift.Int? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.fleetName = fleetName
         self.sessionContext = sessionContext
@@ -3574,8 +3494,7 @@ public struct CreateStreamingURLOutput: Swift.Sendable {
     public init(
         expires: Foundation.Date? = nil,
         streamingURL: Swift.String? = nil
-    )
-    {
+    ) {
         self.expires = expires
         self.streamingURL = streamingURL
     }
@@ -3593,8 +3512,7 @@ extension AppStreamClientTypes {
         public init(
             displayName: Swift.String? = nil,
             footerLinkURL: Swift.String? = nil
-        )
-        {
+        ) {
             self.displayName = displayName
             self.footerLinkURL = footerLinkURL
         }
@@ -3662,8 +3580,7 @@ public struct CreateThemeForStackInput: Swift.Sendable {
         stackName: Swift.String? = nil,
         themeStyling: AppStreamClientTypes.ThemeStyling? = nil,
         titleText: Swift.String? = nil
-    )
-    {
+    ) {
         self.faviconS3Location = faviconS3Location
         self.footerLinks = footerLinks
         self.organizationLogoS3Location = organizationLogoS3Location
@@ -3732,8 +3649,7 @@ extension AppStreamClientTypes {
             themeOrganizationLogoURL: Swift.String? = nil,
             themeStyling: AppStreamClientTypes.ThemeStyling? = nil,
             themeTitleText: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdTime = createdTime
             self.stackName = stackName
             self.state = state
@@ -3752,8 +3668,7 @@ public struct CreateThemeForStackOutput: Swift.Sendable {
 
     public init(
         theme: AppStreamClientTypes.Theme? = nil
-    )
-    {
+    ) {
         self.theme = theme
     }
 }
@@ -3781,8 +3696,7 @@ public struct CreateUpdatedImageInput: Swift.Sendable {
         newImageDisplayName: Swift.String? = nil,
         newImageName: Swift.String? = nil,
         newImageTags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.dryRun = dryRun
         self.existingImageName = existingImageName
         self.newImageDescription = newImageDescription
@@ -3833,8 +3747,7 @@ extension AppStreamClientTypes {
         public init(
             allowFleet: Swift.Bool? = nil,
             allowImageBuilder: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.allowFleet = allowFleet
             self.allowImageBuilder = allowImageBuilder
         }
@@ -3958,8 +3871,7 @@ extension AppStreamClientTypes {
         public init(
             code: AppStreamClientTypes.ImageStateChangeReasonCode? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.message = message
         }
@@ -4084,8 +3996,7 @@ extension AppStreamClientTypes {
             stateChangeReason: AppStreamClientTypes.ImageStateChangeReason? = nil,
             supportedInstanceFamilies: [Swift.String]? = nil,
             visibility: AppStreamClientTypes.VisibilityType? = nil
-        )
-        {
+        ) {
             self.applications = applications
             self.appstreamAgentVersion = appstreamAgentVersion
             self.arn = arn
@@ -4120,8 +4031,7 @@ public struct CreateUpdatedImageOutput: Swift.Sendable {
     public init(
         canUpdateImage: Swift.Bool? = nil,
         image: AppStreamClientTypes.Image? = nil
-    )
-    {
+    ) {
         self.canUpdateImage = canUpdateImage
         self.image = image
     }
@@ -4167,8 +4077,7 @@ public struct CreateUsageReportSubscriptionOutput: Swift.Sendable {
     public init(
         s3BucketName: Swift.String? = nil,
         schedule: AppStreamClientTypes.UsageReportSchedule? = nil
-    )
-    {
+    ) {
         self.s3BucketName = s3BucketName
         self.schedule = schedule
     }
@@ -4223,8 +4132,7 @@ public struct CreateUserInput: Swift.Sendable {
         lastName: Swift.String? = nil,
         messageAction: AppStreamClientTypes.MessageAction? = nil,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.authenticationType = authenticationType
         self.firstName = firstName
         self.lastName = lastName
@@ -4262,8 +4170,7 @@ public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4275,8 +4182,7 @@ public struct DeleteAppBlockInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -4293,8 +4199,7 @@ public struct DeleteAppBlockBuilderInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -4311,8 +4216,7 @@ public struct DeleteApplicationInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -4329,8 +4233,7 @@ public struct DeleteDirectoryConfigInput: Swift.Sendable {
 
     public init(
         directoryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.directoryName = directoryName
     }
 }
@@ -4351,8 +4254,7 @@ public struct DeleteEntitlementInput: Swift.Sendable {
     public init(
         name: Swift.String? = nil,
         stackName: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
         self.stackName = stackName
     }
@@ -4370,8 +4272,7 @@ public struct DeleteFleetInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -4388,8 +4289,7 @@ public struct DeleteImageInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -4400,8 +4300,7 @@ public struct DeleteImageOutput: Swift.Sendable {
 
     public init(
         image: AppStreamClientTypes.Image? = nil
-    )
-    {
+    ) {
         self.image = image
     }
 }
@@ -4413,8 +4312,7 @@ public struct DeleteImageBuilderInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -4425,8 +4323,7 @@ public struct DeleteImageBuilderOutput: Swift.Sendable {
 
     public init(
         imageBuilder: AppStreamClientTypes.ImageBuilder? = nil
-    )
-    {
+    ) {
         self.imageBuilder = imageBuilder
     }
 }
@@ -4442,8 +4339,7 @@ public struct DeleteImagePermissionsInput: Swift.Sendable {
     public init(
         name: Swift.String? = nil,
         sharedAccountId: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
         self.sharedAccountId = sharedAccountId
     }
@@ -4461,8 +4357,7 @@ public struct DeleteStackInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -4479,8 +4374,7 @@ public struct DeleteThemeForStackInput: Swift.Sendable {
 
     public init(
         stackName: Swift.String? = nil
-    )
-    {
+    ) {
         self.stackName = stackName
     }
 }
@@ -4511,8 +4405,7 @@ public struct DeleteUserInput: Swift.Sendable {
     public init(
         authenticationType: AppStreamClientTypes.AuthenticationType? = nil,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.authenticationType = authenticationType
         self.userName = userName
     }
@@ -4543,8 +4436,7 @@ public struct DescribeAppBlockBuilderAppBlockAssociationsInput: Swift.Sendable {
         appBlockBuilderName: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.appBlockArn = appBlockArn
         self.appBlockBuilderName = appBlockBuilderName
         self.maxResults = maxResults
@@ -4561,8 +4453,7 @@ public struct DescribeAppBlockBuilderAppBlockAssociationsOutput: Swift.Sendable 
     public init(
         appBlockBuilderAppBlockAssociations: [AppStreamClientTypes.AppBlockBuilderAppBlockAssociation]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.appBlockBuilderAppBlockAssociations = appBlockBuilderAppBlockAssociations
         self.nextToken = nextToken
     }
@@ -4580,8 +4471,7 @@ public struct DescribeAppBlockBuildersInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         names: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.names = names
         self.nextToken = nextToken
@@ -4597,8 +4487,7 @@ public struct DescribeAppBlockBuildersOutput: Swift.Sendable {
     public init(
         appBlockBuilders: [AppStreamClientTypes.AppBlockBuilder]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.appBlockBuilders = appBlockBuilders
         self.nextToken = nextToken
     }
@@ -4616,8 +4505,7 @@ public struct DescribeAppBlocksInput: Swift.Sendable {
         arns: [Swift.String]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.arns = arns
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4633,8 +4521,7 @@ public struct DescribeAppBlocksOutput: Swift.Sendable {
     public init(
         appBlocks: [AppStreamClientTypes.AppBlock]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.appBlocks = appBlocks
         self.nextToken = nextToken
     }
@@ -4655,8 +4542,7 @@ public struct DescribeApplicationFleetAssociationsInput: Swift.Sendable {
         fleetName: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationArn = applicationArn
         self.fleetName = fleetName
         self.maxResults = maxResults
@@ -4673,8 +4559,7 @@ public struct DescribeApplicationFleetAssociationsOutput: Swift.Sendable {
     public init(
         applicationFleetAssociations: [AppStreamClientTypes.ApplicationFleetAssociation]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationFleetAssociations = applicationFleetAssociations
         self.nextToken = nextToken
     }
@@ -4692,8 +4577,7 @@ public struct DescribeApplicationsInput: Swift.Sendable {
         arns: [Swift.String]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.arns = arns
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4709,8 +4593,7 @@ public struct DescribeApplicationsOutput: Swift.Sendable {
     public init(
         applications: [AppStreamClientTypes.Application]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.applications = applications
         self.nextToken = nextToken
     }
@@ -4728,8 +4611,7 @@ public struct DescribeDirectoryConfigsInput: Swift.Sendable {
         directoryNames: [Swift.String]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.directoryNames = directoryNames
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4745,8 +4627,7 @@ public struct DescribeDirectoryConfigsOutput: Swift.Sendable {
     public init(
         directoryConfigs: [AppStreamClientTypes.DirectoryConfig]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.directoryConfigs = directoryConfigs
         self.nextToken = nextToken
     }
@@ -4768,8 +4649,7 @@ public struct DescribeEntitlementsInput: Swift.Sendable {
         name: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         stackName: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.name = name
         self.nextToken = nextToken
@@ -4786,8 +4666,7 @@ public struct DescribeEntitlementsOutput: Swift.Sendable {
     public init(
         entitlements: [AppStreamClientTypes.Entitlement]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.entitlements = entitlements
         self.nextToken = nextToken
     }
@@ -4802,8 +4681,7 @@ public struct DescribeFleetsInput: Swift.Sendable {
     public init(
         names: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.names = names
         self.nextToken = nextToken
     }
@@ -4818,8 +4696,7 @@ public struct DescribeFleetsOutput: Swift.Sendable {
     public init(
         fleets: [AppStreamClientTypes.Fleet]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.fleets = fleets
         self.nextToken = nextToken
     }
@@ -4837,8 +4714,7 @@ public struct DescribeImageBuildersInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         names: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.names = names
         self.nextToken = nextToken
@@ -4854,8 +4730,7 @@ public struct DescribeImageBuildersOutput: Swift.Sendable {
     public init(
         imageBuilders: [AppStreamClientTypes.ImageBuilder]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.imageBuilders = imageBuilders
         self.nextToken = nextToken
     }
@@ -4877,8 +4752,7 @@ public struct DescribeImagePermissionsInput: Swift.Sendable {
         name: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         sharedAwsAccountIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.name = name
         self.nextToken = nextToken
@@ -4900,8 +4774,7 @@ extension AppStreamClientTypes {
         public init(
             imagePermissions: AppStreamClientTypes.ImagePermissions? = nil,
             sharedAccountId: Swift.String? = nil
-        )
-        {
+        ) {
             self.imagePermissions = imagePermissions
             self.sharedAccountId = sharedAccountId
         }
@@ -4920,8 +4793,7 @@ public struct DescribeImagePermissionsOutput: Swift.Sendable {
         name: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         sharedImagePermissionsList: [AppStreamClientTypes.SharedImagePermissions]? = nil
-    )
-    {
+    ) {
         self.name = name
         self.nextToken = nextToken
         self.sharedImagePermissionsList = sharedImagePermissionsList
@@ -4946,8 +4818,7 @@ public struct DescribeImagesInput: Swift.Sendable {
         names: [Swift.String]? = nil,
         nextToken: Swift.String? = nil,
         type: AppStreamClientTypes.VisibilityType? = nil
-    )
-    {
+    ) {
         self.arns = arns
         self.maxResults = maxResults
         self.names = names
@@ -4965,8 +4836,7 @@ public struct DescribeImagesOutput: Swift.Sendable {
     public init(
         images: [AppStreamClientTypes.Image]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.images = images
         self.nextToken = nextToken
     }
@@ -4998,8 +4868,7 @@ public struct DescribeSessionsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         stackName: Swift.String? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.authenticationType = authenticationType
         self.fleetName = fleetName
         self.instanceId = instanceId
@@ -5116,8 +4985,7 @@ extension AppStreamClientTypes {
             startTime: Foundation.Date? = nil,
             state: AppStreamClientTypes.SessionState? = nil,
             userId: Swift.String? = nil
-        )
-        {
+        ) {
             self.authenticationType = authenticationType
             self.connectionState = connectionState
             self.fleetName = fleetName
@@ -5142,8 +5010,7 @@ public struct DescribeSessionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         sessions: [AppStreamClientTypes.Session]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.sessions = sessions
     }
@@ -5158,8 +5025,7 @@ public struct DescribeStacksInput: Swift.Sendable {
     public init(
         names: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.names = names
         self.nextToken = nextToken
     }
@@ -5174,8 +5040,7 @@ public struct DescribeStacksOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         stacks: [AppStreamClientTypes.Stack]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.stacks = stacks
     }
@@ -5188,8 +5053,7 @@ public struct DescribeThemeForStackInput: Swift.Sendable {
 
     public init(
         stackName: Swift.String? = nil
-    )
-    {
+    ) {
         self.stackName = stackName
     }
 }
@@ -5200,8 +5064,7 @@ public struct DescribeThemeForStackOutput: Swift.Sendable {
 
     public init(
         theme: AppStreamClientTypes.Theme? = nil
-    )
-    {
+    ) {
         self.theme = theme
     }
 }
@@ -5215,8 +5078,7 @@ public struct DescribeUsageReportSubscriptionsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -5266,8 +5128,7 @@ extension AppStreamClientTypes {
         public init(
             errorCode: AppStreamClientTypes.UsageReportExecutionErrorCode? = nil,
             errorMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
         }
@@ -5292,8 +5153,7 @@ extension AppStreamClientTypes {
             s3BucketName: Swift.String? = nil,
             schedule: AppStreamClientTypes.UsageReportSchedule? = nil,
             subscriptionErrors: [AppStreamClientTypes.LastReportGenerationExecutionError]? = nil
-        )
-        {
+        ) {
             self.lastGeneratedReportDate = lastGeneratedReportDate
             self.s3BucketName = s3BucketName
             self.schedule = schedule
@@ -5311,8 +5171,7 @@ public struct DescribeUsageReportSubscriptionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         usageReportSubscriptions: [AppStreamClientTypes.UsageReportSubscription]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.usageReportSubscriptions = usageReportSubscriptions
     }
@@ -5331,8 +5190,7 @@ public struct DescribeUsersInput: Swift.Sendable {
         authenticationType: AppStreamClientTypes.AuthenticationType? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.authenticationType = authenticationType
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -5380,8 +5238,7 @@ extension AppStreamClientTypes {
             lastName: Swift.String? = nil,
             status: Swift.String? = nil,
             userName: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.authenticationType = authenticationType
             self.createdTime = createdTime
@@ -5408,8 +5265,7 @@ public struct DescribeUsersOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         users: [AppStreamClientTypes.User]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.users = users
     }
@@ -5433,8 +5289,7 @@ public struct DescribeUserStackAssociationsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         stackName: Swift.String? = nil,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.authenticationType = authenticationType
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -5457,8 +5312,7 @@ public struct DescribeUserStackAssociationsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         userStackAssociations: [AppStreamClientTypes.UserStackAssociation]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.userStackAssociations = userStackAssociations
     }
@@ -5475,8 +5329,7 @@ public struct DisableUserInput: Swift.Sendable {
     public init(
         authenticationType: AppStreamClientTypes.AuthenticationType? = nil,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.authenticationType = authenticationType
         self.userName = userName
     }
@@ -5503,8 +5356,7 @@ public struct DisassociateAppBlockBuilderAppBlockInput: Swift.Sendable {
     public init(
         appBlockArn: Swift.String? = nil,
         appBlockBuilderName: Swift.String? = nil
-    )
-    {
+    ) {
         self.appBlockArn = appBlockArn
         self.appBlockBuilderName = appBlockBuilderName
     }
@@ -5526,8 +5378,7 @@ public struct DisassociateApplicationFleetInput: Swift.Sendable {
     public init(
         applicationArn: Swift.String? = nil,
         fleetName: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationArn = applicationArn
         self.fleetName = fleetName
     }
@@ -5553,8 +5404,7 @@ public struct DisassociateApplicationFromEntitlementInput: Swift.Sendable {
         applicationIdentifier: Swift.String? = nil,
         entitlementName: Swift.String? = nil,
         stackName: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationIdentifier = applicationIdentifier
         self.entitlementName = entitlementName
         self.stackName = stackName
@@ -5577,8 +5427,7 @@ public struct DisassociateFleetInput: Swift.Sendable {
     public init(
         fleetName: Swift.String? = nil,
         stackName: Swift.String? = nil
-    )
-    {
+    ) {
         self.fleetName = fleetName
         self.stackName = stackName
     }
@@ -5600,8 +5449,7 @@ public struct EnableUserInput: Swift.Sendable {
     public init(
         authenticationType: AppStreamClientTypes.AuthenticationType? = nil,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.authenticationType = authenticationType
         self.userName = userName
     }
@@ -5627,8 +5475,7 @@ extension AppStreamClientTypes {
 
         public init(
             applicationIdentifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.applicationIdentifier = applicationIdentifier
         }
     }
@@ -5641,8 +5488,7 @@ public struct ExpireSessionInput: Swift.Sendable {
 
     public init(
         sessionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.sessionId = sessionId
     }
 }
@@ -5707,8 +5553,7 @@ public struct ListAssociatedFleetsInput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         stackName: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.stackName = stackName
     }
@@ -5723,8 +5568,7 @@ public struct ListAssociatedFleetsOutput: Swift.Sendable {
     public init(
         names: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.names = names
         self.nextToken = nextToken
     }
@@ -5740,8 +5584,7 @@ public struct ListAssociatedStacksInput: Swift.Sendable {
     public init(
         fleetName: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.fleetName = fleetName
         self.nextToken = nextToken
     }
@@ -5756,8 +5599,7 @@ public struct ListAssociatedStacksOutput: Swift.Sendable {
     public init(
         names: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.names = names
         self.nextToken = nextToken
     }
@@ -5780,8 +5622,7 @@ public struct ListEntitledApplicationsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         stackName: Swift.String? = nil
-    )
-    {
+    ) {
         self.entitlementName = entitlementName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -5798,8 +5639,7 @@ public struct ListEntitledApplicationsOutput: Swift.Sendable {
     public init(
         entitledApplications: [AppStreamClientTypes.EntitledApplication]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.entitledApplications = entitledApplications
         self.nextToken = nextToken
     }
@@ -5812,8 +5652,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -5824,8 +5663,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -5837,8 +5675,7 @@ public struct StartAppBlockBuilderInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -5849,8 +5686,7 @@ public struct StartAppBlockBuilderOutput: Swift.Sendable {
 
     public init(
         appBlockBuilder: AppStreamClientTypes.AppBlockBuilder? = nil
-    )
-    {
+    ) {
         self.appBlockBuilder = appBlockBuilder
     }
 }
@@ -5862,8 +5698,7 @@ public struct StartFleetInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -5883,8 +5718,7 @@ public struct StartImageBuilderInput: Swift.Sendable {
     public init(
         appstreamAgentVersion: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.appstreamAgentVersion = appstreamAgentVersion
         self.name = name
     }
@@ -5896,8 +5730,7 @@ public struct StartImageBuilderOutput: Swift.Sendable {
 
     public init(
         imageBuilder: AppStreamClientTypes.ImageBuilder? = nil
-    )
-    {
+    ) {
         self.imageBuilder = imageBuilder
     }
 }
@@ -5909,8 +5742,7 @@ public struct StopAppBlockBuilderInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -5921,8 +5753,7 @@ public struct StopAppBlockBuilderOutput: Swift.Sendable {
 
     public init(
         appBlockBuilder: AppStreamClientTypes.AppBlockBuilder? = nil
-    )
-    {
+    ) {
         self.appBlockBuilder = appBlockBuilder
     }
 }
@@ -5934,8 +5765,7 @@ public struct StopFleetInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -5952,8 +5782,7 @@ public struct StopImageBuilderInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -5964,8 +5793,7 @@ public struct StopImageBuilderOutput: Swift.Sendable {
 
     public init(
         imageBuilder: AppStreamClientTypes.ImageBuilder? = nil
-    )
-    {
+    ) {
         self.imageBuilder = imageBuilder
     }
 }
@@ -5981,8 +5809,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -6004,8 +5831,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -6060,8 +5886,7 @@ public struct UpdateAppBlockBuilderInput: Swift.Sendable {
         name: Swift.String? = nil,
         platform: AppStreamClientTypes.PlatformType? = nil,
         vpcConfig: AppStreamClientTypes.VpcConfig? = nil
-    )
-    {
+    ) {
         self.accessEndpoints = accessEndpoints
         self.attributesToDelete = attributesToDelete
         self.description = description
@@ -6081,8 +5906,7 @@ public struct UpdateAppBlockBuilderOutput: Swift.Sendable {
 
     public init(
         appBlockBuilder: AppStreamClientTypes.AppBlockBuilder? = nil
-    )
-    {
+    ) {
         self.appBlockBuilder = appBlockBuilder
     }
 }
@@ -6118,8 +5942,7 @@ public struct UpdateApplicationInput: Swift.Sendable {
         launchPath: Swift.String? = nil,
         name: Swift.String? = nil,
         workingDirectory: Swift.String? = nil
-    )
-    {
+    ) {
         self.appBlockArn = appBlockArn
         self.attributesToDelete = attributesToDelete
         self.description = description
@@ -6138,8 +5961,7 @@ public struct UpdateApplicationOutput: Swift.Sendable {
 
     public init(
         application: AppStreamClientTypes.Application? = nil
-    )
-    {
+    ) {
         self.application = application
     }
 }
@@ -6160,8 +5982,7 @@ public struct UpdateDirectoryConfigInput: Swift.Sendable {
         directoryName: Swift.String? = nil,
         organizationalUnitDistinguishedNames: [Swift.String]? = nil,
         serviceAccountCredentials: AppStreamClientTypes.ServiceAccountCredentials? = nil
-    )
-    {
+    ) {
         self.certificateBasedAuthProperties = certificateBasedAuthProperties
         self.directoryName = directoryName
         self.organizationalUnitDistinguishedNames = organizationalUnitDistinguishedNames
@@ -6175,8 +5996,7 @@ public struct UpdateDirectoryConfigOutput: Swift.Sendable {
 
     public init(
         directoryConfig: AppStreamClientTypes.DirectoryConfig? = nil
-    )
-    {
+    ) {
         self.directoryConfig = directoryConfig
     }
 }
@@ -6201,8 +6021,7 @@ public struct UpdateEntitlementInput: Swift.Sendable {
         description: Swift.String? = nil,
         name: Swift.String? = nil,
         stackName: Swift.String? = nil
-    )
-    {
+    ) {
         self.appVisibility = appVisibility
         self.attributes = attributes
         self.description = description
@@ -6217,8 +6036,7 @@ public struct UpdateEntitlementOutput: Swift.Sendable {
 
     public init(
         entitlement: AppStreamClientTypes.Entitlement? = nil
-    )
-    {
+    ) {
         self.entitlement = entitlement
     }
 }
@@ -6376,8 +6194,7 @@ public struct UpdateFleetInput: Swift.Sendable {
         streamView: AppStreamClientTypes.StreamView? = nil,
         usbDeviceFilterStrings: [Swift.String]? = nil,
         vpcConfig: AppStreamClientTypes.VpcConfig? = nil
-    )
-    {
+    ) {
         self.attributesToDelete = attributesToDelete
         self.computeCapacity = computeCapacity
         self.deleteVpcConfig = deleteVpcConfig
@@ -6409,8 +6226,7 @@ public struct UpdateFleetOutput: Swift.Sendable {
 
     public init(
         fleet: AppStreamClientTypes.Fleet? = nil
-    )
-    {
+    ) {
         self.fleet = fleet
     }
 }
@@ -6430,8 +6246,7 @@ public struct UpdateImagePermissionsInput: Swift.Sendable {
         imagePermissions: AppStreamClientTypes.ImagePermissions? = nil,
         name: Swift.String? = nil,
         sharedAccountId: Swift.String? = nil
-    )
-    {
+    ) {
         self.imagePermissions = imagePermissions
         self.name = name
         self.sharedAccountId = sharedAccountId
@@ -6546,8 +6361,7 @@ public struct UpdateStackInput: Swift.Sendable {
         storageConnectors: [AppStreamClientTypes.StorageConnector]? = nil,
         streamingExperienceSettings: AppStreamClientTypes.StreamingExperienceSettings? = nil,
         userSettings: [AppStreamClientTypes.UserSetting]? = nil
-    )
-    {
+    ) {
         self.accessEndpoints = accessEndpoints
         self.applicationSettings = applicationSettings
         self.attributesToDelete = attributesToDelete
@@ -6570,8 +6384,7 @@ public struct UpdateStackOutput: Swift.Sendable {
 
     public init(
         stack: AppStreamClientTypes.Stack? = nil
-    )
-    {
+    ) {
         self.stack = stack
     }
 }
@@ -6630,8 +6443,7 @@ public struct UpdateThemeForStackInput: Swift.Sendable {
         state: AppStreamClientTypes.ThemeState? = nil,
         themeStyling: AppStreamClientTypes.ThemeStyling? = nil,
         titleText: Swift.String? = nil
-    )
-    {
+    ) {
         self.attributesToDelete = attributesToDelete
         self.faviconS3Location = faviconS3Location
         self.footerLinks = footerLinks
@@ -6649,8 +6461,7 @@ public struct UpdateThemeForStackOutput: Swift.Sendable {
 
     public init(
         theme: AppStreamClientTypes.Theme? = nil
-    )
-    {
+    ) {
         self.theme = theme
     }
 }

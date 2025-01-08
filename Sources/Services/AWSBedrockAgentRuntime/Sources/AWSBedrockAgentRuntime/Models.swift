@@ -55,8 +55,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -143,8 +142,7 @@ extension BedrockAgentRuntimeClientTypes {
             name: Swift.String? = nil,
             type: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.type = type
             self.value = value
@@ -161,8 +159,7 @@ extension BedrockAgentRuntimeClientTypes {
 
         public init(
             content: [Swift.String: [BedrockAgentRuntimeClientTypes.Parameter]]? = nil
-        )
-        {
+        ) {
             self.content = content
         }
     }
@@ -198,8 +195,7 @@ extension BedrockAgentRuntimeClientTypes {
             parameters: [BedrockAgentRuntimeClientTypes.Parameter]? = nil,
             requestBody: BedrockAgentRuntimeClientTypes.RequestBody? = nil,
             verb: Swift.String? = nil
-        )
-        {
+        ) {
             self.actionGroupName = actionGroupName
             self.apiPath = apiPath
             self.executionType = executionType
@@ -226,8 +222,7 @@ extension BedrockAgentRuntimeClientTypes {
 
         public init(
             text: Swift.String? = nil
-        )
-        {
+        ) {
             self.text = text
         }
     }
@@ -311,8 +306,7 @@ extension BedrockAgentRuntimeClientTypes {
         public init(
             s3BucketName: Swift.String? = nil,
             s3ObjectKey: Swift.String? = nil
-        )
-        {
+        ) {
             self.s3BucketName = s3BucketName
             self.s3ObjectKey = s3ObjectKey
         }
@@ -385,8 +379,7 @@ extension BedrockAgentRuntimeClientTypes {
             description: Swift.String? = nil,
             `required`: Swift.Bool? = nil,
             type: BedrockAgentRuntimeClientTypes.ParameterType? = nil
-        )
-        {
+        ) {
             self.description = description
             self.`required` = `required`
             self.type = type
@@ -442,8 +435,7 @@ extension BedrockAgentRuntimeClientTypes {
             name: Swift.String? = nil,
             parameters: [Swift.String: BedrockAgentRuntimeClientTypes.ParameterDetail]? = nil,
             requireConfirmation: BedrockAgentRuntimeClientTypes.RequireConfirmation? = nil
-        )
-        {
+        ) {
             self.description = description
             self.name = name
             self.parameters = parameters
@@ -492,8 +484,7 @@ extension BedrockAgentRuntimeClientTypes {
             description: Swift.String? = nil,
             functionSchema: BedrockAgentRuntimeClientTypes.FunctionSchema? = nil,
             parentActionGroupSignature: BedrockAgentRuntimeClientTypes.ActionGroupSignature? = nil
-        )
-        {
+        ) {
             self.actionGroupExecutor = actionGroupExecutor
             self.actionGroupName = actionGroupName
             self.apiSchema = apiSchema
@@ -549,8 +540,7 @@ extension BedrockAgentRuntimeClientTypes {
 
         public init(
             body: Swift.String? = nil
-        )
-        {
+        ) {
             self.body = body
         }
     }
@@ -618,8 +608,7 @@ extension BedrockAgentRuntimeClientTypes {
             httpStatusCode: Swift.Int? = nil,
             responseBody: [Swift.String: BedrockAgentRuntimeClientTypes.ContentBody]? = nil,
             responseState: BedrockAgentRuntimeClientTypes.ResponseState? = nil
-        )
-        {
+        ) {
             self.actionGroup = actionGroup
             self.agentId = agentId
             self.apiPath = apiPath
@@ -664,8 +653,7 @@ extension BedrockAgentRuntimeClientTypes {
             function: Swift.String? = nil,
             responseBody: [Swift.String: BedrockAgentRuntimeClientTypes.ContentBody]? = nil,
             responseState: BedrockAgentRuntimeClientTypes.ResponseState? = nil
-        )
-        {
+        ) {
             self.actionGroup = actionGroup
             self.agentId = agentId
             self.confirmationState = confirmationState
@@ -702,8 +690,7 @@ extension BedrockAgentRuntimeClientTypes {
         public init(
             invocationId: Swift.String? = nil,
             returnControlInvocationResults: [BedrockAgentRuntimeClientTypes.InvocationResultMember]? = nil
-        )
-        {
+        ) {
             self.invocationId = invocationId
             self.returnControlInvocationResults = returnControlInvocationResults
         }
@@ -754,8 +741,7 @@ extension BedrockAgentRuntimeClientTypes {
             returnControlResults: BedrockAgentRuntimeClientTypes.ReturnControlResults? = nil,
             text: Swift.String? = nil,
             type: BedrockAgentRuntimeClientTypes.PayloadType? = nil
-        )
-        {
+        ) {
             self.returnControlResults = returnControlResults
             self.text = text
             self.type = type
@@ -783,8 +769,7 @@ extension BedrockAgentRuntimeClientTypes {
             agentCollaboratorAliasArn: Swift.String? = nil,
             agentCollaboratorName: Swift.String? = nil,
             input: BedrockAgentRuntimeClientTypes.AgentCollaboratorInputPayload? = nil
-        )
-        {
+        ) {
             self.agentCollaboratorAliasArn = agentCollaboratorAliasArn
             self.agentCollaboratorName = agentCollaboratorName
             self.input = input
@@ -809,8 +794,7 @@ extension BedrockAgentRuntimeClientTypes {
             name: Swift.String? = nil,
             type: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.type = type
             self.value = value
@@ -827,8 +811,7 @@ extension BedrockAgentRuntimeClientTypes {
 
         public init(
             properties: [BedrockAgentRuntimeClientTypes.Parameter]? = nil
-        )
-        {
+        ) {
             self.properties = properties
         }
     }
@@ -845,8 +828,7 @@ extension BedrockAgentRuntimeClientTypes {
 
         public init(
             content: [Swift.String: BedrockAgentRuntimeClientTypes.PropertyParameters]? = nil
-        )
-        {
+        ) {
             self.content = content
         }
     }
@@ -885,8 +867,7 @@ extension BedrockAgentRuntimeClientTypes {
             httpMethod: Swift.String? = nil,
             parameters: [BedrockAgentRuntimeClientTypes.ApiParameter]? = nil,
             requestBody: BedrockAgentRuntimeClientTypes.ApiRequestBody? = nil
-        )
-        {
+        ) {
             self.actionGroup = actionGroup
             self.actionInvocationType = actionInvocationType
             self.agentId = agentId
@@ -921,8 +902,7 @@ extension BedrockAgentRuntimeClientTypes {
             name: Swift.String? = nil,
             type: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.type = type
             self.value = value
@@ -957,8 +937,7 @@ extension BedrockAgentRuntimeClientTypes {
             collaboratorName: Swift.String? = nil,
             function: Swift.String? = nil,
             parameters: [BedrockAgentRuntimeClientTypes.FunctionParameter]? = nil
-        )
-        {
+        ) {
             self.actionGroup = actionGroup
             self.actionInvocationType = actionInvocationType
             self.agentId = agentId
@@ -1002,8 +981,7 @@ extension BedrockAgentRuntimeClientTypes {
         public init(
             invocationId: Swift.String? = nil,
             invocationInputs: [BedrockAgentRuntimeClientTypes.InvocationInputMember]? = nil
-        )
-        {
+        ) {
             self.invocationId = invocationId
             self.invocationInputs = invocationInputs
         }
@@ -1031,8 +1009,7 @@ extension BedrockAgentRuntimeClientTypes {
             returnControlPayload: BedrockAgentRuntimeClientTypes.ReturnControlPayload? = nil,
             text: Swift.String? = nil,
             type: BedrockAgentRuntimeClientTypes.PayloadType? = nil
-        )
-        {
+        ) {
             self.returnControlPayload = returnControlPayload
             self.text = text
             self.type = type
@@ -1060,8 +1037,7 @@ extension BedrockAgentRuntimeClientTypes {
             agentCollaboratorAliasArn: Swift.String? = nil,
             agentCollaboratorName: Swift.String? = nil,
             output: BedrockAgentRuntimeClientTypes.AgentCollaboratorOutputPayload? = nil
-        )
-        {
+        ) {
             self.agentCollaboratorAliasArn = agentCollaboratorAliasArn
             self.agentCollaboratorName = agentCollaboratorName
             self.output = output
@@ -1090,8 +1066,7 @@ public struct BadGatewayException: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         message: Swift.String? = nil,
         resourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceName = resourceName
     }
@@ -1115,8 +1090,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1142,8 +1116,7 @@ public struct DependencyFailedException: ClientRuntime.ModeledError, AWSClientRu
     public init(
         message: Swift.String? = nil,
         resourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceName = resourceName
     }
@@ -1167,8 +1140,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1191,8 +1163,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1215,8 +1186,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1239,8 +1209,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1263,8 +1232,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1297,8 +1265,7 @@ extension BedrockAgentRuntimeClientTypes {
             content: BedrockAgentRuntimeClientTypes.FlowInputContent? = nil,
             nodeName: Swift.String? = nil,
             nodeOutputName: Swift.String? = nil
-        )
-        {
+        ) {
             self.content = content
             self.nodeName = nodeName
             self.nodeOutputName = nodeOutputName
@@ -1349,8 +1316,7 @@ extension BedrockAgentRuntimeClientTypes {
 
         public init(
             latency: BedrockAgentRuntimeClientTypes.PerformanceConfigLatency? = .standard
-        )
-        {
+        ) {
             self.latency = latency
         }
     }
@@ -1365,8 +1331,7 @@ extension BedrockAgentRuntimeClientTypes {
 
         public init(
             performanceConfig: BedrockAgentRuntimeClientTypes.PerformanceConfiguration? = nil
-        )
-        {
+        ) {
             self.performanceConfig = performanceConfig
         }
     }
@@ -1393,8 +1358,7 @@ public struct InvokeFlowInput: Swift.Sendable {
         flowIdentifier: Swift.String? = nil,
         inputs: [BedrockAgentRuntimeClientTypes.FlowInput]? = nil,
         modelPerformanceConfiguration: BedrockAgentRuntimeClientTypes.ModelPerformanceConfiguration? = nil
-    )
-    {
+    ) {
         self.enableTrace = enableTrace
         self.flowAliasIdentifier = flowAliasIdentifier
         self.flowIdentifier = flowIdentifier
@@ -1439,8 +1403,7 @@ extension BedrockAgentRuntimeClientTypes {
 
         public init(
             completionReason: BedrockAgentRuntimeClientTypes.FlowCompletionReason? = nil
-        )
-        {
+        ) {
             self.completionReason = completionReason
         }
     }
@@ -1524,8 +1487,7 @@ extension BedrockAgentRuntimeClientTypes {
             content: BedrockAgentRuntimeClientTypes.FlowOutputContent? = nil,
             nodeName: Swift.String? = nil,
             nodeType: BedrockAgentRuntimeClientTypes.NodeType? = nil
-        )
-        {
+        ) {
             self.content = content
             self.nodeName = nodeName
             self.nodeType = nodeType
@@ -1549,8 +1511,7 @@ extension BedrockAgentRuntimeClientTypes {
 
         public init(
             conditionName: Swift.String? = nil
-        )
-        {
+        ) {
             self.conditionName = conditionName
         }
     }
@@ -1580,8 +1541,7 @@ extension BedrockAgentRuntimeClientTypes {
             nodeName: Swift.String? = nil,
             satisfiedConditions: [BedrockAgentRuntimeClientTypes.FlowTraceCondition]? = nil,
             timestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.nodeName = nodeName
             self.satisfiedConditions = satisfiedConditions
             self.timestamp = timestamp
@@ -1619,8 +1579,7 @@ extension BedrockAgentRuntimeClientTypes {
         public init(
             content: BedrockAgentRuntimeClientTypes.FlowTraceNodeInputContent? = nil,
             nodeInputName: Swift.String? = nil
-        )
-        {
+        ) {
             self.content = content
             self.nodeInputName = nodeInputName
         }
@@ -1651,8 +1610,7 @@ extension BedrockAgentRuntimeClientTypes {
             fields: [BedrockAgentRuntimeClientTypes.FlowTraceNodeInputField]? = nil,
             nodeName: Swift.String? = nil,
             timestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.fields = fields
             self.nodeName = nodeName
             self.timestamp = timestamp
@@ -1690,8 +1648,7 @@ extension BedrockAgentRuntimeClientTypes {
         public init(
             content: BedrockAgentRuntimeClientTypes.FlowTraceNodeOutputContent? = nil,
             nodeOutputName: Swift.String? = nil
-        )
-        {
+        ) {
             self.content = content
             self.nodeOutputName = nodeOutputName
         }
@@ -1722,8 +1679,7 @@ extension BedrockAgentRuntimeClientTypes {
             fields: [BedrockAgentRuntimeClientTypes.FlowTraceNodeOutputField]? = nil,
             nodeName: Swift.String? = nil,
             timestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.fields = fields
             self.nodeName = nodeName
             self.timestamp = timestamp
@@ -1761,8 +1717,7 @@ extension BedrockAgentRuntimeClientTypes {
 
         public init(
             trace: BedrockAgentRuntimeClientTypes.FlowTrace? = nil
-        )
-        {
+        ) {
             self.trace = trace
         }
     }
@@ -1794,8 +1749,7 @@ public struct InvokeFlowOutput: Swift.Sendable {
 
     public init(
         responseStream: AsyncThrowingStream<BedrockAgentRuntimeClientTypes.FlowResponseStream, Swift.Error>? = nil
-    )
-    {
+    ) {
         self.responseStream = responseStream
     }
 }
@@ -1840,8 +1794,7 @@ extension BedrockAgentRuntimeClientTypes {
         public init(
             text: Swift.String? = nil,
             type: BedrockAgentRuntimeClientTypes.InputQueryType? = nil
-        )
-        {
+        ) {
             self.text = text
             self.type = type
         }
@@ -1890,8 +1843,7 @@ extension BedrockAgentRuntimeClientTypes {
 
         public init(
             knowledgeBaseArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.knowledgeBaseArn = knowledgeBaseArn
         }
     }
@@ -1936,8 +1888,7 @@ extension BedrockAgentRuntimeClientTypes {
         public init(
             knowledgeBaseConfiguration: BedrockAgentRuntimeClientTypes.TextToSqlKnowledgeBaseConfiguration? = nil,
             type: BedrockAgentRuntimeClientTypes.TextToSqlConfigurationType? = nil
-        )
-        {
+        ) {
             self.knowledgeBaseConfiguration = knowledgeBaseConfiguration
             self.type = type
         }
@@ -1957,8 +1908,7 @@ extension BedrockAgentRuntimeClientTypes {
         public init(
             mode: BedrockAgentRuntimeClientTypes.QueryTransformationMode? = nil,
             textToSqlConfiguration: BedrockAgentRuntimeClientTypes.TextToSqlConfiguration? = nil
-        )
-        {
+        ) {
             self.mode = mode
             self.textToSqlConfiguration = textToSqlConfiguration
         }
@@ -1976,8 +1926,7 @@ public struct GenerateQueryInput: Swift.Sendable {
     public init(
         queryGenerationInput: BedrockAgentRuntimeClientTypes.QueryGenerationInput? = nil,
         transformationConfiguration: BedrockAgentRuntimeClientTypes.TransformationConfiguration? = nil
-    )
-    {
+    ) {
         self.queryGenerationInput = queryGenerationInput
         self.transformationConfiguration = transformationConfiguration
     }
@@ -2026,8 +1975,7 @@ extension BedrockAgentRuntimeClientTypes {
         public init(
             sql: Swift.String? = nil,
             type: BedrockAgentRuntimeClientTypes.GeneratedQueryType? = nil
-        )
-        {
+        ) {
             self.sql = sql
             self.type = type
         }
@@ -2046,8 +1994,7 @@ public struct GenerateQueryOutput: Swift.Sendable {
 
     public init(
         queries: [BedrockAgentRuntimeClientTypes.GeneratedQuery]? = nil
-    )
-    {
+    ) {
         self.queries = queries
     }
 }
@@ -2075,8 +2022,7 @@ public struct ModelNotReadyException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2090,8 +2036,7 @@ extension BedrockAgentRuntimeClientTypes {
 
         public init(
             performanceConfig: BedrockAgentRuntimeClientTypes.PerformanceConfiguration? = nil
-        )
-        {
+        ) {
             self.performanceConfig = performanceConfig
         }
     }
@@ -2150,8 +2095,7 @@ extension BedrockAgentRuntimeClientTypes {
         public init(
             content: [BedrockAgentRuntimeClientTypes.ContentBlock]? = nil,
             role: BedrockAgentRuntimeClientTypes.ConversationRole? = nil
-        )
-        {
+        ) {
             self.content = content
             self.role = role
         }
@@ -2172,8 +2116,7 @@ extension BedrockAgentRuntimeClientTypes {
 
         public init(
             messages: [BedrockAgentRuntimeClientTypes.Message]? = nil
-        )
-        {
+        ) {
             self.messages = messages
         }
     }
@@ -2193,8 +2136,7 @@ extension BedrockAgentRuntimeClientTypes {
         public init(
             data: Foundation.Data? = nil,
             mediaType: Swift.String? = nil
-        )
-        {
+        ) {
             self.data = data
             self.mediaType = mediaType
         }
@@ -2216,8 +2158,7 @@ extension BedrockAgentRuntimeClientTypes {
 
         public init(
             uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.uri = uri
         }
     }
@@ -2268,8 +2209,7 @@ extension BedrockAgentRuntimeClientTypes {
             byteContent: BedrockAgentRuntimeClientTypes.ByteContentFile? = nil,
             s3Location: BedrockAgentRuntimeClientTypes.S3ObjectFile? = nil,
             sourceType: BedrockAgentRuntimeClientTypes.FileSourceType? = nil
-        )
-        {
+        ) {
             self.byteContent = byteContent
             self.s3Location = s3Location
             self.sourceType = sourceType
@@ -2324,8 +2264,7 @@ extension BedrockAgentRuntimeClientTypes {
             name: Swift.String? = nil,
             source: BedrockAgentRuntimeClientTypes.FileSource? = nil,
             useCase: BedrockAgentRuntimeClientTypes.FileUseCase? = nil
-        )
-        {
+        ) {
             self.name = name
             self.source = source
             self.useCase = useCase
@@ -2349,8 +2288,7 @@ extension BedrockAgentRuntimeClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Smithy.Document? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -2410,8 +2348,7 @@ extension BedrockAgentRuntimeClientTypes {
             description: Swift.String? = nil,
             key: Swift.String? = nil,
             type: BedrockAgentRuntimeClientTypes.AttributeType? = nil
-        )
-        {
+        ) {
             self.description = description
             self.key = key
             self.type = type
@@ -2439,8 +2376,7 @@ extension BedrockAgentRuntimeClientTypes {
         public init(
             metadataAttributes: [BedrockAgentRuntimeClientTypes.MetadataAttributeSchema]? = nil,
             modelArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.metadataAttributes = metadataAttributes
             self.modelArn = modelArn
         }
@@ -2520,8 +2456,7 @@ extension BedrockAgentRuntimeClientTypes {
 
         public init(
             fieldName: Swift.String? = nil
-        )
-        {
+        ) {
             self.fieldName = fieldName
         }
     }
@@ -2552,8 +2487,7 @@ extension BedrockAgentRuntimeClientTypes {
         public init(
             selectionMode: BedrockAgentRuntimeClientTypes.RerankingMetadataSelectionMode? = nil,
             selectiveModeConfiguration: BedrockAgentRuntimeClientTypes.RerankingMetadataSelectiveModeConfiguration? = nil
-        )
-        {
+        ) {
             self.selectionMode = selectionMode
             self.selectiveModeConfiguration = selectiveModeConfiguration
         }
@@ -2573,8 +2507,7 @@ extension BedrockAgentRuntimeClientTypes {
         public init(
             additionalModelRequestFields: [Swift.String: Smithy.Document]? = nil,
             modelArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.additionalModelRequestFields = additionalModelRequestFields
             self.modelArn = modelArn
         }
@@ -2597,8 +2530,7 @@ extension BedrockAgentRuntimeClientTypes {
             metadataConfiguration: BedrockAgentRuntimeClientTypes.MetadataConfigurationForReranking? = nil,
             modelConfiguration: BedrockAgentRuntimeClientTypes.VectorSearchBedrockRerankingModelConfiguration? = nil,
             numberOfRerankedResults: Swift.Int? = nil
-        )
-        {
+        ) {
             self.metadataConfiguration = metadataConfiguration
             self.modelConfiguration = modelConfiguration
             self.numberOfRerankedResults = numberOfRerankedResults
@@ -2645,8 +2577,7 @@ extension BedrockAgentRuntimeClientTypes {
         public init(
             bedrockRerankingConfiguration: BedrockAgentRuntimeClientTypes.VectorSearchBedrockRerankingConfiguration? = nil,
             type: BedrockAgentRuntimeClientTypes.VectorSearchRerankingConfigurationType? = nil
-        )
-        {
+        ) {
             self.bedrockRerankingConfiguration = bedrockRerankingConfiguration
             self.type = type
         }
@@ -2665,8 +2596,7 @@ extension BedrockAgentRuntimeClientTypes {
         public init(
             applyGuardrailInterval: Swift.Int? = nil,
             streamFinalResponse: Swift.Bool = false
-        )
-        {
+        ) {
             self.applyGuardrailInterval = applyGuardrailInterval
             self.streamFinalResponse = streamFinalResponse
         }
@@ -2689,8 +2619,7 @@ extension BedrockAgentRuntimeClientTypes {
         public init(
             end: Swift.Int? = nil,
             start: Swift.Int? = nil
-        )
-        {
+        ) {
             self.end = end
             self.start = start
         }
@@ -2713,8 +2642,7 @@ extension BedrockAgentRuntimeClientTypes {
         public init(
             span: BedrockAgentRuntimeClientTypes.Span? = nil,
             text: Swift.String? = nil
-        )
-        {
+        ) {
             self.span = span
             self.text = text
         }
@@ -2740,8 +2668,7 @@ extension BedrockAgentRuntimeClientTypes {
 
         public init(
             textResponsePart: BedrockAgentRuntimeClientTypes.TextResponsePart? = nil
-        )
-        {
+        ) {
             self.textResponsePart = textResponsePart
         }
     }
@@ -2808,8 +2735,7 @@ extension BedrockAgentRuntimeClientTypes {
             columnName: Swift.String? = nil,
             columnValue: Swift.String? = nil,
             type: BedrockAgentRuntimeClientTypes.RetrievalResultContentColumnType? = nil
-        )
-        {
+        ) {
             self.columnName = columnName
             self.columnValue = columnValue
             self.type = type
@@ -2879,8 +2805,7 @@ extension BedrockAgentRuntimeClientTypes {
             row: [BedrockAgentRuntimeClientTypes.RetrievalResultContentColumn]? = nil,
             text: Swift.String? = "",
             type: BedrockAgentRuntimeClientTypes.RetrievalResultContentType? = nil
-        )
-        {
+        ) {
             self.byteContent = byteContent
             self.row = row
             self.text = text
@@ -2904,8 +2829,7 @@ extension BedrockAgentRuntimeClientTypes {
 
         public init(
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.url = url
         }
     }
@@ -2920,8 +2844,7 @@ extension BedrockAgentRuntimeClientTypes {
 
         public init(
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.id = id
         }
     }
@@ -2936,8 +2859,7 @@ extension BedrockAgentRuntimeClientTypes {
 
         public init(
             uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.uri = uri
         }
     }
@@ -2958,8 +2880,7 @@ extension BedrockAgentRuntimeClientTypes {
 
         public init(
             uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.uri = uri
         }
     }
@@ -2974,8 +2895,7 @@ extension BedrockAgentRuntimeClientTypes {
 
         public init(
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.url = url
         }
     }
@@ -2990,8 +2910,7 @@ extension BedrockAgentRuntimeClientTypes {
 
         public init(
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.url = url
         }
     }
@@ -3006,8 +2925,7 @@ extension BedrockAgentRuntimeClientTypes {
 
         public init(
             query: Swift.String? = nil
-        )
-        {
+        ) {
             self.query = query
         }
     }
@@ -3069,8 +2987,7 @@ extension BedrockAgentRuntimeClientTypes {
 
         public init(
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.url = url
         }
     }
@@ -3116,8 +3033,7 @@ extension BedrockAgentRuntimeClientTypes {
             sqlLocation: BedrockAgentRuntimeClientTypes.RetrievalResultSqlLocation? = nil,
             type: BedrockAgentRuntimeClientTypes.RetrievalResultLocationType? = nil,
             webLocation: BedrockAgentRuntimeClientTypes.RetrievalResultWebLocation? = nil
-        )
-        {
+        ) {
             self.confluenceLocation = confluenceLocation
             self.customDocumentLocation = customDocumentLocation
             self.kendraDocumentLocation = kendraDocumentLocation
@@ -3156,8 +3072,7 @@ extension BedrockAgentRuntimeClientTypes {
             content: BedrockAgentRuntimeClientTypes.RetrievalResultContent? = nil,
             location: BedrockAgentRuntimeClientTypes.RetrievalResultLocation? = nil,
             metadata: [Swift.String: Smithy.Document]? = nil
-        )
-        {
+        ) {
             self.content = content
             self.location = location
             self.metadata = metadata
@@ -3186,8 +3101,7 @@ extension BedrockAgentRuntimeClientTypes {
         public init(
             generatedResponsePart: BedrockAgentRuntimeClientTypes.GeneratedResponsePart? = nil,
             retrievedReferences: [BedrockAgentRuntimeClientTypes.RetrievedReference]? = nil
-        )
-        {
+        ) {
             self.generatedResponsePart = generatedResponsePart
             self.retrievedReferences = retrievedReferences
         }
@@ -3203,8 +3117,7 @@ extension BedrockAgentRuntimeClientTypes {
 
         public init(
             citations: [BedrockAgentRuntimeClientTypes.Citation]? = nil
-        )
-        {
+        ) {
             self.citations = citations
         }
     }
@@ -3222,8 +3135,7 @@ extension BedrockAgentRuntimeClientTypes {
         public init(
             attribution: BedrockAgentRuntimeClientTypes.Attribution? = nil,
             bytes: Foundation.Data? = nil
-        )
-        {
+        ) {
             self.attribution = attribution
             self.bytes = bytes
         }
@@ -3251,8 +3163,7 @@ extension BedrockAgentRuntimeClientTypes {
             bytes: Foundation.Data? = nil,
             name: Swift.String? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.bytes = bytes
             self.name = name
             self.type = type
@@ -3275,8 +3186,7 @@ extension BedrockAgentRuntimeClientTypes {
 
         public init(
             files: [BedrockAgentRuntimeClientTypes.OutputFile]? = nil
-        )
-        {
+        ) {
             self.files = files
         }
     }
@@ -3306,8 +3216,7 @@ extension BedrockAgentRuntimeClientTypes {
 
         public init(
             text: Swift.String? = nil
-        )
-        {
+        ) {
             self.text = text
         }
     }
@@ -3331,8 +3240,7 @@ extension BedrockAgentRuntimeClientTypes {
         public init(
             event: BedrockAgentRuntimeClientTypes.CustomOrchestrationTraceEvent? = nil,
             traceId: Swift.String? = nil
-        )
-        {
+        ) {
             self.event = event
             self.traceId = traceId
         }
@@ -3357,8 +3265,7 @@ extension BedrockAgentRuntimeClientTypes {
         public init(
             failureReason: Swift.String? = nil,
             traceId: Swift.String? = nil
-        )
-        {
+        ) {
             self.failureReason = failureReason
             self.traceId = traceId
         }
@@ -3517,8 +3424,7 @@ extension BedrockAgentRuntimeClientTypes {
             action: BedrockAgentRuntimeClientTypes.GuardrailContentPolicyAction? = nil,
             confidence: BedrockAgentRuntimeClientTypes.GuardrailContentFilterConfidence? = nil,
             type: BedrockAgentRuntimeClientTypes.GuardrailContentFilterType? = nil
-        )
-        {
+        ) {
             self.action = action
             self.confidence = confidence
             self.type = type
@@ -3541,8 +3447,7 @@ extension BedrockAgentRuntimeClientTypes {
 
         public init(
             filters: [BedrockAgentRuntimeClientTypes.GuardrailContentFilter]? = nil
-        )
-        {
+        ) {
             self.filters = filters
         }
     }
@@ -3714,8 +3619,7 @@ extension BedrockAgentRuntimeClientTypes {
             action: BedrockAgentRuntimeClientTypes.GuardrailSensitiveInformationPolicyAction? = nil,
             match: Swift.String? = nil,
             type: BedrockAgentRuntimeClientTypes.GuardrailPiiEntityType? = nil
-        )
-        {
+        ) {
             self.action = action
             self.match = match
             self.type = type
@@ -3747,8 +3651,7 @@ extension BedrockAgentRuntimeClientTypes {
             match: Swift.String? = nil,
             name: Swift.String? = nil,
             regex: Swift.String? = nil
-        )
-        {
+        ) {
             self.action = action
             self.match = match
             self.name = name
@@ -3775,8 +3678,7 @@ extension BedrockAgentRuntimeClientTypes {
         public init(
             piiEntities: [BedrockAgentRuntimeClientTypes.GuardrailPiiEntityFilter]? = nil,
             regexes: [BedrockAgentRuntimeClientTypes.GuardrailRegexFilter]? = nil
-        )
-        {
+        ) {
             self.piiEntities = piiEntities
             self.regexes = regexes
         }
@@ -3856,8 +3758,7 @@ extension BedrockAgentRuntimeClientTypes {
             action: BedrockAgentRuntimeClientTypes.GuardrailTopicPolicyAction? = nil,
             name: Swift.String? = nil,
             type: BedrockAgentRuntimeClientTypes.GuardrailTopicType? = nil
-        )
-        {
+        ) {
             self.action = action
             self.name = name
             self.type = type
@@ -3880,8 +3781,7 @@ extension BedrockAgentRuntimeClientTypes {
 
         public init(
             topics: [BedrockAgentRuntimeClientTypes.GuardrailTopic]? = nil
-        )
-        {
+        ) {
             self.topics = topics
         }
     }
@@ -3931,8 +3831,7 @@ extension BedrockAgentRuntimeClientTypes {
         public init(
             action: BedrockAgentRuntimeClientTypes.GuardrailWordPolicyAction? = nil,
             match: Swift.String? = nil
-        )
-        {
+        ) {
             self.action = action
             self.match = match
         }
@@ -3986,8 +3885,7 @@ extension BedrockAgentRuntimeClientTypes {
             action: BedrockAgentRuntimeClientTypes.GuardrailWordPolicyAction? = nil,
             match: Swift.String? = nil,
             type: BedrockAgentRuntimeClientTypes.GuardrailManagedWordType? = nil
-        )
-        {
+        ) {
             self.action = action
             self.match = match
             self.type = type
@@ -4013,8 +3911,7 @@ extension BedrockAgentRuntimeClientTypes {
         public init(
             customWords: [BedrockAgentRuntimeClientTypes.GuardrailCustomWord]? = nil,
             managedWordLists: [BedrockAgentRuntimeClientTypes.GuardrailManagedWord]? = nil
-        )
-        {
+        ) {
             self.customWords = customWords
             self.managedWordLists = managedWordLists
         }
@@ -4045,8 +3942,7 @@ extension BedrockAgentRuntimeClientTypes {
             sensitiveInformationPolicy: BedrockAgentRuntimeClientTypes.GuardrailSensitiveInformationPolicyAssessment? = nil,
             topicPolicy: BedrockAgentRuntimeClientTypes.GuardrailTopicPolicyAssessment? = nil,
             wordPolicy: BedrockAgentRuntimeClientTypes.GuardrailWordPolicyAssessment? = nil
-        )
-        {
+        ) {
             self.contentPolicy = contentPolicy
             self.sensitiveInformationPolicy = sensitiveInformationPolicy
             self.topicPolicy = topicPolicy
@@ -4079,8 +3975,7 @@ extension BedrockAgentRuntimeClientTypes {
             inputAssessments: [BedrockAgentRuntimeClientTypes.GuardrailAssessment]? = nil,
             outputAssessments: [BedrockAgentRuntimeClientTypes.GuardrailAssessment]? = nil,
             traceId: Swift.String? = nil
-        )
-        {
+        ) {
             self.action = action
             self.inputAssessments = inputAssessments
             self.outputAssessments = outputAssessments
@@ -4107,8 +4002,7 @@ extension BedrockAgentRuntimeClientTypes {
         public init(
             code: Swift.String? = nil,
             files: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.code = code
             self.files = files
         }
@@ -4165,8 +4059,7 @@ extension BedrockAgentRuntimeClientTypes {
         public init(
             knowledgeBaseId: Swift.String? = nil,
             text: Swift.String? = nil
-        )
-        {
+        ) {
             self.knowledgeBaseId = knowledgeBaseId
             self.text = text
         }
@@ -4202,8 +4095,7 @@ extension BedrockAgentRuntimeClientTypes {
             invocationType: BedrockAgentRuntimeClientTypes.InvocationType? = nil,
             knowledgeBaseLookupInput: BedrockAgentRuntimeClientTypes.KnowledgeBaseLookupInput? = nil,
             traceId: Swift.String? = nil
-        )
-        {
+        ) {
             self.actionGroupInvocationInput = actionGroupInvocationInput
             self.agentCollaboratorInvocationInput = agentCollaboratorInvocationInput
             self.codeInterpreterInvocationInput = codeInterpreterInvocationInput
@@ -4241,8 +4133,7 @@ extension BedrockAgentRuntimeClientTypes {
             temperature: Swift.Float? = nil,
             topk: Swift.Int? = nil,
             topp: Swift.Float? = nil
-        )
-        {
+        ) {
             self.maximumLength = maximumLength
             self.stopSequences = stopSequences
             self.temperature = temperature
@@ -4355,8 +4246,7 @@ extension BedrockAgentRuntimeClientTypes {
             text: Swift.String? = nil,
             traceId: Swift.String? = nil,
             type: BedrockAgentRuntimeClientTypes.PromptType? = nil
-        )
-        {
+        ) {
             self.foundationModel = foundationModel
             self.inferenceConfiguration = inferenceConfiguration
             self.overrideLambda = overrideLambda
@@ -4387,8 +4277,7 @@ extension BedrockAgentRuntimeClientTypes {
         public init(
             inputTokens: Swift.Int? = nil,
             outputTokens: Swift.Int? = nil
-        )
-        {
+        ) {
             self.inputTokens = inputTokens
             self.outputTokens = outputTokens
         }
@@ -4410,8 +4299,7 @@ extension BedrockAgentRuntimeClientTypes {
 
         public init(
             usage: BedrockAgentRuntimeClientTypes.Usage? = nil
-        )
-        {
+        ) {
             self.usage = usage
         }
     }
@@ -4432,8 +4320,7 @@ extension BedrockAgentRuntimeClientTypes {
 
         public init(
             content: Swift.String? = nil
-        )
-        {
+        ) {
             self.content = content
         }
     }
@@ -4460,8 +4347,7 @@ extension BedrockAgentRuntimeClientTypes {
             metadata: BedrockAgentRuntimeClientTypes.Metadata? = nil,
             rawResponse: BedrockAgentRuntimeClientTypes.RawResponse? = nil,
             traceId: Swift.String? = nil
-        )
-        {
+        ) {
             self.metadata = metadata
             self.rawResponse = rawResponse
             self.traceId = traceId
@@ -4493,8 +4379,7 @@ extension BedrockAgentRuntimeClientTypes {
             executionOutput: Swift.String? = nil,
             executionTimeout: Swift.Bool? = nil,
             files: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.executionError = executionError
             self.executionOutput = executionOutput
             self.executionTimeout = executionTimeout
@@ -4512,8 +4397,7 @@ extension BedrockAgentRuntimeClientTypes {
 
         public init(
             text: Swift.String? = nil
-        )
-        {
+        ) {
             self.text = text
         }
     }
@@ -4533,8 +4417,7 @@ extension BedrockAgentRuntimeClientTypes {
 
         public init(
             retrievedReferences: [BedrockAgentRuntimeClientTypes.RetrievedReference]? = nil
-        )
-        {
+        ) {
             self.retrievedReferences = retrievedReferences
         }
     }
@@ -4584,8 +4467,7 @@ extension BedrockAgentRuntimeClientTypes {
         public init(
             source: BedrockAgentRuntimeClientTypes.Source? = nil,
             text: Swift.String? = nil
-        )
-        {
+        ) {
             self.source = source
             self.text = text
         }
@@ -4679,8 +4561,7 @@ extension BedrockAgentRuntimeClientTypes {
             repromptResponse: BedrockAgentRuntimeClientTypes.RepromptResponse? = nil,
             traceId: Swift.String? = nil,
             type: BedrockAgentRuntimeClientTypes.ModelType? = nil
-        )
-        {
+        ) {
             self.actionGroupInvocationOutput = actionGroupInvocationOutput
             self.agentCollaboratorInvocationOutput = agentCollaboratorInvocationOutput
             self.codeInterpreterInvocationOutput = codeInterpreterInvocationOutput
@@ -4711,8 +4592,7 @@ extension BedrockAgentRuntimeClientTypes {
         public init(
             text: Swift.String? = nil,
             traceId: Swift.String? = nil
-        )
-        {
+        ) {
             self.text = text
             self.traceId = traceId
         }
@@ -4758,8 +4638,7 @@ extension BedrockAgentRuntimeClientTypes {
 
         public init(
             text: Swift.String? = nil
-        )
-        {
+        ) {
             self.text = text
         }
     }
@@ -4789,8 +4668,7 @@ extension BedrockAgentRuntimeClientTypes {
             parsedResponse: BedrockAgentRuntimeClientTypes.PostProcessingParsedResponse? = nil,
             rawResponse: BedrockAgentRuntimeClientTypes.RawResponse? = nil,
             traceId: Swift.String? = nil
-        )
-        {
+        ) {
             self.metadata = metadata
             self.parsedResponse = parsedResponse
             self.rawResponse = rawResponse
@@ -4835,8 +4713,7 @@ extension BedrockAgentRuntimeClientTypes {
         public init(
             isValid: Swift.Bool? = nil,
             rationale: Swift.String? = nil
-        )
-        {
+        ) {
             self.isValid = isValid
             self.rationale = rationale
         }
@@ -4867,8 +4744,7 @@ extension BedrockAgentRuntimeClientTypes {
             parsedResponse: BedrockAgentRuntimeClientTypes.PreProcessingParsedResponse? = nil,
             rawResponse: BedrockAgentRuntimeClientTypes.RawResponse? = nil,
             traceId: Swift.String? = nil
-        )
-        {
+        ) {
             self.metadata = metadata
             self.parsedResponse = parsedResponse
             self.rawResponse = rawResponse
@@ -4916,8 +4792,7 @@ extension BedrockAgentRuntimeClientTypes {
             metadata: BedrockAgentRuntimeClientTypes.Metadata? = nil,
             rawResponse: BedrockAgentRuntimeClientTypes.RawResponse? = nil,
             traceId: Swift.String? = nil
-        )
-        {
+        ) {
             self.metadata = metadata
             self.rawResponse = rawResponse
             self.traceId = traceId
@@ -4996,8 +4871,7 @@ extension BedrockAgentRuntimeClientTypes {
             collaboratorName: Swift.String? = nil,
             sessionId: Swift.String? = nil,
             trace: BedrockAgentRuntimeClientTypes.Trace? = nil
-        )
-        {
+        ) {
             self.agentAliasId = agentAliasId
             self.agentId = agentId
             self.agentVersion = agentVersion
@@ -5049,8 +4923,7 @@ public struct InvokeAgentOutput: Swift.Sendable {
         contentType: Swift.String? = nil,
         memoryId: Swift.String? = nil,
         sessionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.completion = completion
         self.contentType = contentType
         self.memoryId = memoryId
@@ -5067,8 +4940,7 @@ extension BedrockAgentRuntimeClientTypes {
 
         public init(
             performanceConfig: BedrockAgentRuntimeClientTypes.PerformanceConfiguration? = nil
-        )
-        {
+        ) {
             self.performanceConfig = performanceConfig
         }
     }
@@ -5088,8 +4960,7 @@ extension BedrockAgentRuntimeClientTypes {
         public init(
             guardrailIdentifier: Swift.String? = nil,
             guardrailVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.guardrailIdentifier = guardrailIdentifier
             self.guardrailVersion = guardrailVersion
         }
@@ -5117,8 +4988,7 @@ extension BedrockAgentRuntimeClientTypes {
             promptSessionAttributes: [Swift.String: Swift.String]? = nil,
             returnControlInvocationResults: [BedrockAgentRuntimeClientTypes.InvocationResultMember]? = nil,
             sessionAttributes: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.files = files
             self.invocationId = invocationId
             self.promptSessionAttributes = promptSessionAttributes
@@ -5189,8 +5059,7 @@ extension BedrockAgentRuntimeClientTypes {
             promptCreationMode: BedrockAgentRuntimeClientTypes.CreationMode? = nil,
             promptState: BedrockAgentRuntimeClientTypes.PromptState? = nil,
             promptType: BedrockAgentRuntimeClientTypes.PromptType? = nil
-        )
-        {
+        ) {
             self.basePromptTemplate = basePromptTemplate
             self.inferenceConfiguration = inferenceConfiguration
             self.parserMode = parserMode
@@ -5219,8 +5088,7 @@ extension BedrockAgentRuntimeClientTypes {
         public init(
             overrideLambda: Swift.String? = nil,
             promptConfigurations: [BedrockAgentRuntimeClientTypes.PromptConfiguration]? = nil
-        )
-        {
+        ) {
             self.overrideLambda = overrideLambda
             self.promptConfigurations = promptConfigurations
         }
@@ -5245,8 +5113,7 @@ extension BedrockAgentRuntimeClientTypes {
         public init(
             attribution: BedrockAgentRuntimeClientTypes.Attribution? = nil,
             bytes: Foundation.Data? = nil
-        )
-        {
+        ) {
             self.attribution = attribution
             self.bytes = bytes
         }
@@ -5268,8 +5135,7 @@ extension BedrockAgentRuntimeClientTypes {
 
         public init(
             files: [BedrockAgentRuntimeClientTypes.OutputFile]? = nil
-        )
-        {
+        ) {
             self.files = files
         }
     }
@@ -5292,8 +5158,7 @@ extension BedrockAgentRuntimeClientTypes {
         public init(
             invocationId: Swift.String? = nil,
             invocationInputs: [BedrockAgentRuntimeClientTypes.InvocationInputMember]? = nil
-        )
-        {
+        ) {
             self.invocationId = invocationId
             self.invocationInputs = invocationInputs
         }
@@ -5318,8 +5183,7 @@ extension BedrockAgentRuntimeClientTypes {
         public init(
             sessionId: Swift.String? = nil,
             trace: BedrockAgentRuntimeClientTypes.Trace? = nil
-        )
-        {
+        ) {
             self.sessionId = sessionId
             self.trace = trace
         }
@@ -5363,8 +5227,7 @@ public struct InvokeInlineAgentOutput: Swift.Sendable {
         completion: AsyncThrowingStream<BedrockAgentRuntimeClientTypes.InlineAgentResponseStream, Swift.Error>? = nil,
         contentType: Swift.String? = nil,
         sessionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.completion = completion
         self.contentType = contentType
         self.sessionId = sessionId
@@ -5388,8 +5251,7 @@ public struct DeleteAgentMemoryInput: Swift.Sendable {
         agentId: Swift.String? = nil,
         memoryId: Swift.String? = nil,
         sessionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.agentAliasId = agentAliasId
         self.agentId = agentId
         self.memoryId = memoryId
@@ -5453,8 +5315,7 @@ public struct GetAgentMemoryInput: Swift.Sendable {
         memoryId: Swift.String? = nil,
         memoryType: BedrockAgentRuntimeClientTypes.MemoryType? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.agentAliasId = agentAliasId
         self.agentId = agentId
         self.maxItems = maxItems
@@ -5485,8 +5346,7 @@ extension BedrockAgentRuntimeClientTypes {
             sessionId: Swift.String? = nil,
             sessionStartTime: Foundation.Date? = nil,
             summaryText: Swift.String? = nil
-        )
-        {
+        ) {
             self.memoryId = memoryId
             self.sessionExpiryTime = sessionExpiryTime
             self.sessionId = sessionId
@@ -5515,8 +5375,7 @@ public struct GetAgentMemoryOutput: Swift.Sendable {
     public init(
         memoryContents: [BedrockAgentRuntimeClientTypes.Memory]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.memoryContents = memoryContents
         self.nextToken = nextToken
     }
@@ -5532,8 +5391,7 @@ extension BedrockAgentRuntimeClientTypes {
 
         public init(
             text: Swift.String? = nil
-        )
-        {
+        ) {
             self.text = text
         }
     }
@@ -5566,8 +5424,7 @@ public struct OptimizePromptInput: Swift.Sendable {
     public init(
         input: BedrockAgentRuntimeClientTypes.InputPrompt? = nil,
         targetModelId: Swift.String? = nil
-    )
-    {
+    ) {
         self.input = input
         self.targetModelId = targetModelId
     }
@@ -5582,8 +5439,7 @@ extension BedrockAgentRuntimeClientTypes {
 
         public init(
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
         }
     }
@@ -5614,8 +5470,7 @@ extension BedrockAgentRuntimeClientTypes {
 
         public init(
             optimizedPrompt: BedrockAgentRuntimeClientTypes.OptimizedPrompt? = nil
-        )
-        {
+        ) {
             self.optimizedPrompt = optimizedPrompt
         }
     }
@@ -5646,8 +5501,7 @@ public struct OptimizePromptOutput: Swift.Sendable {
 
     public init(
         optimizedPrompt: AsyncThrowingStream<BedrockAgentRuntimeClientTypes.OptimizedPromptStream, Swift.Error>? = nil
-    )
-    {
+    ) {
         self.optimizedPrompt = optimizedPrompt
     }
 }
@@ -5661,8 +5515,7 @@ extension BedrockAgentRuntimeClientTypes {
 
         public init(
             text: Swift.String? = nil
-        )
-        {
+        ) {
             self.text = text
         }
     }
@@ -5714,8 +5567,7 @@ extension BedrockAgentRuntimeClientTypes {
         public init(
             textQuery: BedrockAgentRuntimeClientTypes.RerankTextDocument? = nil,
             type: BedrockAgentRuntimeClientTypes.RerankQueryContentType? = nil
-        )
-        {
+        ) {
             self.textQuery = textQuery
             self.type = type
         }
@@ -5741,8 +5593,7 @@ extension BedrockAgentRuntimeClientTypes {
         public init(
             additionalModelRequestFields: [Swift.String: Smithy.Document]? = nil,
             modelArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.additionalModelRequestFields = additionalModelRequestFields
             self.modelArn = modelArn
         }
@@ -5762,8 +5613,7 @@ extension BedrockAgentRuntimeClientTypes {
         public init(
             modelConfiguration: BedrockAgentRuntimeClientTypes.BedrockRerankingModelConfiguration? = nil,
             numberOfResults: Swift.Int? = nil
-        )
-        {
+        ) {
             self.modelConfiguration = modelConfiguration
             self.numberOfResults = numberOfResults
         }
@@ -5810,8 +5660,7 @@ extension BedrockAgentRuntimeClientTypes {
         public init(
             bedrockRerankingConfiguration: BedrockAgentRuntimeClientTypes.BedrockRerankingConfiguration? = nil,
             type: BedrockAgentRuntimeClientTypes.RerankingConfigurationType? = nil
-        )
-        {
+        ) {
             self.bedrockRerankingConfiguration = bedrockRerankingConfiguration
             self.type = type
         }
@@ -5863,8 +5712,7 @@ extension BedrockAgentRuntimeClientTypes {
             jsonDocument: Smithy.Document? = nil,
             textDocument: BedrockAgentRuntimeClientTypes.RerankTextDocument? = nil,
             type: BedrockAgentRuntimeClientTypes.RerankDocumentType? = nil
-        )
-        {
+        ) {
             self.jsonDocument = jsonDocument
             self.textDocument = textDocument
             self.type = type
@@ -5918,8 +5766,7 @@ extension BedrockAgentRuntimeClientTypes {
         public init(
             inlineDocumentSource: BedrockAgentRuntimeClientTypes.RerankDocument? = nil,
             type: BedrockAgentRuntimeClientTypes.RerankSourceType? = nil
-        )
-        {
+        ) {
             self.inlineDocumentSource = inlineDocumentSource
             self.type = type
         }
@@ -5950,8 +5797,7 @@ public struct RerankInput: Swift.Sendable {
         queries: [BedrockAgentRuntimeClientTypes.RerankQuery]? = nil,
         rerankingConfiguration: BedrockAgentRuntimeClientTypes.RerankingConfiguration? = nil,
         sources: [BedrockAgentRuntimeClientTypes.RerankSource]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.queries = queries
         self.rerankingConfiguration = rerankingConfiguration
@@ -5981,8 +5827,7 @@ extension BedrockAgentRuntimeClientTypes {
             document: BedrockAgentRuntimeClientTypes.RerankDocument? = nil,
             index: Swift.Int? = nil,
             relevanceScore: Swift.Float? = nil
-        )
-        {
+        ) {
             self.document = document
             self.index = index
             self.relevanceScore = relevanceScore
@@ -6005,8 +5850,7 @@ public struct RerankOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         results: [BedrockAgentRuntimeClientTypes.RerankResult]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.results = results
     }
@@ -6024,8 +5868,7 @@ extension BedrockAgentRuntimeClientTypes {
 
         public init(
             text: Swift.String? = nil
-        )
-        {
+        ) {
             self.text = text
         }
     }
@@ -6051,8 +5894,7 @@ extension BedrockAgentRuntimeClientTypes {
         public init(
             guardrailId: Swift.String? = nil,
             guardrailVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.guardrailId = guardrailId
             self.guardrailVersion = guardrailVersion
         }
@@ -6077,8 +5919,7 @@ extension BedrockAgentRuntimeClientTypes {
             stopSequences: [Swift.String]? = nil,
             temperature: Swift.Float? = nil,
             topp: Swift.Float? = nil
-        )
-        {
+        ) {
             self.maxTokens = maxTokens
             self.stopSequences = stopSequences
             self.temperature = temperature
@@ -6096,8 +5937,7 @@ extension BedrockAgentRuntimeClientTypes {
 
         public init(
             textInferenceConfig: BedrockAgentRuntimeClientTypes.TextInferenceConfig? = nil
-        )
-        {
+        ) {
             self.textInferenceConfig = textInferenceConfig
         }
     }
@@ -6118,8 +5958,7 @@ extension BedrockAgentRuntimeClientTypes {
 
         public init(
             textPromptTemplate: Swift.String? = nil
-        )
-        {
+        ) {
             self.textPromptTemplate = textPromptTemplate
         }
     }
@@ -6151,8 +5990,7 @@ extension BedrockAgentRuntimeClientTypes {
             inferenceConfig: BedrockAgentRuntimeClientTypes.InferenceConfig? = nil,
             performanceConfig: BedrockAgentRuntimeClientTypes.PerformanceConfiguration? = nil,
             promptTemplate: BedrockAgentRuntimeClientTypes.PromptTemplate? = nil
-        )
-        {
+        ) {
             self.additionalModelRequestFields = additionalModelRequestFields
             self.guardrailConfiguration = guardrailConfiguration
             self.inferenceConfig = inferenceConfig
@@ -6180,8 +6018,7 @@ extension BedrockAgentRuntimeClientTypes {
             contentType: Swift.String? = nil,
             data: Foundation.Data? = nil,
             identifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.contentType = contentType
             self.data = data
             self.identifier = identifier
@@ -6204,8 +6041,7 @@ extension BedrockAgentRuntimeClientTypes {
 
         public init(
             uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.uri = uri
         }
     }
@@ -6256,8 +6092,7 @@ extension BedrockAgentRuntimeClientTypes {
             byteContent: BedrockAgentRuntimeClientTypes.ByteContentDoc? = nil,
             s3Location: BedrockAgentRuntimeClientTypes.S3ObjectDoc? = nil,
             sourceType: BedrockAgentRuntimeClientTypes.ExternalSourceType? = nil
-        )
-        {
+        ) {
             self.byteContent = byteContent
             self.s3Location = s3Location
             self.sourceType = sourceType
@@ -6282,8 +6117,7 @@ extension BedrockAgentRuntimeClientTypes {
             generationConfiguration: BedrockAgentRuntimeClientTypes.ExternalSourcesGenerationConfiguration? = nil,
             modelArn: Swift.String? = nil,
             sources: [BedrockAgentRuntimeClientTypes.ExternalSource]? = nil
-        )
-        {
+        ) {
             self.generationConfiguration = generationConfiguration
             self.modelArn = modelArn
             self.sources = sources
@@ -6314,8 +6148,7 @@ extension BedrockAgentRuntimeClientTypes {
             inferenceConfig: BedrockAgentRuntimeClientTypes.InferenceConfig? = nil,
             performanceConfig: BedrockAgentRuntimeClientTypes.PerformanceConfiguration? = nil,
             promptTemplate: BedrockAgentRuntimeClientTypes.PromptTemplate? = nil
-        )
-        {
+        ) {
             self.additionalModelRequestFields = additionalModelRequestFields
             self.guardrailConfiguration = guardrailConfiguration
             self.inferenceConfig = inferenceConfig
@@ -6361,8 +6194,7 @@ extension BedrockAgentRuntimeClientTypes {
 
         public init(
             type: BedrockAgentRuntimeClientTypes.QueryTransformationType? = nil
-        )
-        {
+        ) {
             self.type = type
         }
     }
@@ -6389,8 +6221,7 @@ extension BedrockAgentRuntimeClientTypes {
             performanceConfig: BedrockAgentRuntimeClientTypes.PerformanceConfiguration? = nil,
             promptTemplate: BedrockAgentRuntimeClientTypes.PromptTemplate? = nil,
             queryTransformationConfiguration: BedrockAgentRuntimeClientTypes.QueryTransformationConfiguration? = nil
-        )
-        {
+        ) {
             self.additionalModelRequestFields = additionalModelRequestFields
             self.inferenceConfig = inferenceConfig
             self.performanceConfig = performanceConfig
@@ -6441,8 +6272,7 @@ extension BedrockAgentRuntimeClientTypes {
 
         public init(
             kmsKeyArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.kmsKeyArn = kmsKeyArn
         }
     }
@@ -6489,8 +6319,7 @@ extension BedrockAgentRuntimeClientTypes {
 
         public init(
             text: Swift.String? = nil
-        )
-        {
+        ) {
             self.text = text
         }
     }
@@ -6519,8 +6348,7 @@ public struct RetrieveAndGenerateOutput: Swift.Sendable {
         guardrailAction: BedrockAgentRuntimeClientTypes.GuadrailAction? = nil,
         output: BedrockAgentRuntimeClientTypes.RetrieveAndGenerateOutput? = nil,
         sessionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.citations = citations
         self.guardrailAction = guardrailAction
         self.output = output
@@ -6542,8 +6370,7 @@ extension BedrockAgentRuntimeClientTypes {
 
         public init(
             citation: BedrockAgentRuntimeClientTypes.Citation? = nil
-        )
-        {
+        ) {
             self.citation = citation
         }
     }
@@ -6558,8 +6385,7 @@ extension BedrockAgentRuntimeClientTypes {
 
         public init(
             action: BedrockAgentRuntimeClientTypes.GuadrailAction? = nil
-        )
-        {
+        ) {
             self.action = action
         }
     }
@@ -6575,8 +6401,7 @@ extension BedrockAgentRuntimeClientTypes {
 
         public init(
             text: Swift.String? = nil
-        )
-        {
+        ) {
             self.text = text
         }
     }
@@ -6613,8 +6438,7 @@ public struct RetrieveAndGenerateStreamOutput: Swift.Sendable {
     public init(
         sessionId: Swift.String? = nil,
         stream: AsyncThrowingStream<BedrockAgentRuntimeClientTypes.RetrieveAndGenerateStreamResponseOutput, Swift.Error>? = nil
-    )
-    {
+    ) {
         self.sessionId = sessionId
         self.stream = stream
     }
@@ -6632,8 +6456,7 @@ extension BedrockAgentRuntimeClientTypes {
 
         public init(
             text: Swift.String? = nil
-        )
-        {
+        ) {
             self.text = text
         }
     }
@@ -6666,8 +6489,7 @@ extension BedrockAgentRuntimeClientTypes {
             location: BedrockAgentRuntimeClientTypes.RetrievalResultLocation? = nil,
             metadata: [Swift.String: Smithy.Document]? = nil,
             score: Swift.Double? = nil
-        )
-        {
+        ) {
             self.content = content
             self.location = location
             self.metadata = metadata
@@ -6694,8 +6516,7 @@ public struct RetrieveOutput: Swift.Sendable {
         guardrailAction: BedrockAgentRuntimeClientTypes.GuadrailAction? = nil,
         nextToken: Swift.String? = nil,
         retrievalResults: [BedrockAgentRuntimeClientTypes.KnowledgeBaseRetrievalResult]? = nil
-    )
-    {
+    ) {
         self.guardrailAction = guardrailAction
         self.nextToken = nextToken
         self.retrievalResults = retrievalResults
@@ -6774,8 +6595,7 @@ extension BedrockAgentRuntimeClientTypes {
             numberOfResults: Swift.Int? = 5,
             overrideSearchType: BedrockAgentRuntimeClientTypes.SearchType? = nil,
             rerankingConfiguration: BedrockAgentRuntimeClientTypes.VectorSearchRerankingConfiguration? = nil
-        )
-        {
+        ) {
             self.filter = filter
             self.implicitFilterConfiguration = implicitFilterConfiguration
             self.numberOfResults = numberOfResults
@@ -6804,8 +6624,7 @@ extension BedrockAgentRuntimeClientTypes {
 
         public init(
             vectorSearchConfiguration: BedrockAgentRuntimeClientTypes.KnowledgeBaseVectorSearchConfiguration? = nil
-        )
-        {
+        ) {
             self.vectorSearchConfiguration = vectorSearchConfiguration
         }
     }
@@ -6828,8 +6647,7 @@ extension BedrockAgentRuntimeClientTypes {
             description: Swift.String? = nil,
             knowledgeBaseId: Swift.String? = nil,
             retrievalConfiguration: BedrockAgentRuntimeClientTypes.KnowledgeBaseRetrievalConfiguration? = nil
-        )
-        {
+        ) {
             self.description = description
             self.knowledgeBaseId = knowledgeBaseId
             self.retrievalConfiguration = retrievalConfiguration
@@ -6856,8 +6674,7 @@ extension BedrockAgentRuntimeClientTypes {
         public init(
             knowledgeBaseId: Swift.String? = nil,
             retrievalConfiguration: BedrockAgentRuntimeClientTypes.KnowledgeBaseRetrievalConfiguration? = nil
-        )
-        {
+        ) {
             self.knowledgeBaseId = knowledgeBaseId
             self.retrievalConfiguration = retrievalConfiguration
         }
@@ -6891,8 +6708,7 @@ extension BedrockAgentRuntimeClientTypes {
             modelArn: Swift.String? = nil,
             orchestrationConfiguration: BedrockAgentRuntimeClientTypes.OrchestrationConfiguration? = nil,
             retrievalConfiguration: BedrockAgentRuntimeClientTypes.KnowledgeBaseRetrievalConfiguration? = nil
-        )
-        {
+        ) {
             self.generationConfiguration = generationConfiguration
             self.knowledgeBaseId = knowledgeBaseId
             self.modelArn = modelArn
@@ -6922,8 +6738,7 @@ public struct RetrieveInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         retrievalConfiguration: BedrockAgentRuntimeClientTypes.KnowledgeBaseRetrievalConfiguration? = nil,
         retrievalQuery: BedrockAgentRuntimeClientTypes.KnowledgeBaseQuery? = nil
-    )
-    {
+    ) {
         self.guardrailConfiguration = guardrailConfiguration
         self.knowledgeBaseId = knowledgeBaseId
         self.nextToken = nextToken
@@ -6955,8 +6770,7 @@ extension BedrockAgentRuntimeClientTypes {
             externalSourcesConfiguration: BedrockAgentRuntimeClientTypes.ExternalSourcesRetrieveAndGenerateConfiguration? = nil,
             knowledgeBaseConfiguration: BedrockAgentRuntimeClientTypes.KnowledgeBaseRetrieveAndGenerateConfiguration? = nil,
             type: BedrockAgentRuntimeClientTypes.RetrieveAndGenerateType? = nil
-        )
-        {
+        ) {
             self.externalSourcesConfiguration = externalSourcesConfiguration
             self.knowledgeBaseConfiguration = knowledgeBaseConfiguration
             self.type = type
@@ -6991,8 +6805,7 @@ extension BedrockAgentRuntimeClientTypes {
             promptSessionAttributes: [Swift.String: Swift.String]? = nil,
             returnControlInvocationResults: [BedrockAgentRuntimeClientTypes.InvocationResultMember]? = nil,
             sessionAttributes: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.conversationHistory = conversationHistory
             self.files = files
             self.invocationId = invocationId
@@ -7052,8 +6865,7 @@ public struct InvokeInlineAgentInput: Swift.Sendable {
         knowledgeBases: [BedrockAgentRuntimeClientTypes.KnowledgeBase]? = nil,
         promptOverrideConfiguration: BedrockAgentRuntimeClientTypes.PromptOverrideConfiguration? = nil,
         sessionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.actionGroups = actionGroups
         self.bedrockModelConfigurations = bedrockModelConfigurations
         self.customerEncryptionKeyArn = customerEncryptionKeyArn
@@ -7092,8 +6904,7 @@ public struct RetrieveAndGenerateInput: Swift.Sendable {
         retrieveAndGenerateConfiguration: BedrockAgentRuntimeClientTypes.RetrieveAndGenerateConfiguration? = nil,
         sessionConfiguration: BedrockAgentRuntimeClientTypes.RetrieveAndGenerateSessionConfiguration? = nil,
         sessionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.input = input
         self.retrieveAndGenerateConfiguration = retrieveAndGenerateConfiguration
         self.sessionConfiguration = sessionConfiguration
@@ -7122,8 +6933,7 @@ public struct RetrieveAndGenerateStreamInput: Swift.Sendable {
         retrieveAndGenerateConfiguration: BedrockAgentRuntimeClientTypes.RetrieveAndGenerateConfiguration? = nil,
         sessionConfiguration: BedrockAgentRuntimeClientTypes.RetrieveAndGenerateSessionConfiguration? = nil,
         sessionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.input = input
         self.retrieveAndGenerateConfiguration = retrieveAndGenerateConfiguration
         self.sessionConfiguration = sessionConfiguration
@@ -7175,8 +6985,7 @@ public struct InvokeAgentInput: Swift.Sendable {
         sessionState: BedrockAgentRuntimeClientTypes.SessionState? = nil,
         sourceArn: Swift.String? = nil,
         streamingConfigurations: BedrockAgentRuntimeClientTypes.StreamingConfigurations? = nil
-    )
-    {
+    ) {
         self.agentAliasId = agentAliasId
         self.agentId = agentId
         self.bedrockModelConfigurations = bedrockModelConfigurations

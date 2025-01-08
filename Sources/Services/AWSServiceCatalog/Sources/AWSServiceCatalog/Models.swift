@@ -48,8 +48,7 @@ public struct InvalidParametersException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -72,8 +71,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -96,8 +94,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -160,8 +157,7 @@ public struct AcceptPortfolioShareInput: Swift.Sendable {
         acceptLanguage: Swift.String? = nil,
         portfolioId: Swift.String? = nil,
         portfolioShareType: ServiceCatalogClientTypes.PortfolioShareType? = nil
-    )
-    {
+    ) {
         self.acceptLanguage = acceptLanguage
         self.portfolioId = portfolioId
         self.portfolioShareType = portfolioShareType
@@ -223,8 +219,7 @@ extension ServiceCatalogClientTypes {
         public init(
             key: ServiceCatalogClientTypes.AccessLevelFilterKey? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -277,8 +272,7 @@ extension ServiceCatalogClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -303,8 +297,7 @@ public struct DuplicateResourceException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -320,8 +313,7 @@ public struct AssociateBudgetWithResourceInput: Swift.Sendable {
     public init(
         budgetName: Swift.String? = nil,
         resourceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.budgetName = budgetName
         self.resourceId = resourceId
     }
@@ -402,8 +394,7 @@ public struct AssociatePrincipalWithPortfolioInput: Swift.Sendable {
         portfolioId: Swift.String? = nil,
         principalARN: Swift.String? = nil,
         principalType: ServiceCatalogClientTypes.PrincipalType? = nil
-    )
-    {
+    ) {
         self.acceptLanguage = acceptLanguage
         self.portfolioId = portfolioId
         self.principalARN = principalARN
@@ -437,8 +428,7 @@ public struct AssociateProductWithPortfolioInput: Swift.Sendable {
         portfolioId: Swift.String? = nil,
         productId: Swift.String? = nil,
         sourcePortfolioId: Swift.String? = nil
-    )
-    {
+    ) {
         self.acceptLanguage = acceptLanguage
         self.portfolioId = portfolioId
         self.productId = productId
@@ -476,8 +466,7 @@ public struct AssociateServiceActionWithProvisioningArtifactInput: Swift.Sendabl
         productId: Swift.String? = nil,
         provisioningArtifactId: Swift.String? = nil,
         serviceActionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.acceptLanguage = acceptLanguage
         self.idempotencyToken = idempotencyToken
         self.productId = productId
@@ -509,8 +498,7 @@ public struct InvalidStateException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -533,8 +521,7 @@ public struct TagOptionNotMigratedException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -550,8 +537,7 @@ public struct AssociateTagOptionWithResourceInput: Swift.Sendable {
     public init(
         resourceId: Swift.String? = nil,
         tagOptionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceId = resourceId
         self.tagOptionId = tagOptionId
     }
@@ -580,8 +566,7 @@ extension ServiceCatalogClientTypes {
             productId: Swift.String? = nil,
             provisioningArtifactId: Swift.String? = nil,
             serviceActionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.productId = productId
             self.provisioningArtifactId = provisioningArtifactId
             self.serviceActionId = serviceActionId
@@ -603,8 +588,7 @@ public struct BatchAssociateServiceActionWithProvisioningArtifactInput: Swift.Se
     public init(
         acceptLanguage: Swift.String? = nil,
         serviceActionAssociations: [ServiceCatalogClientTypes.ServiceActionAssociation]? = nil
-    )
-    {
+    ) {
         self.acceptLanguage = acceptLanguage
         self.serviceActionAssociations = serviceActionAssociations
     }
@@ -672,8 +656,7 @@ extension ServiceCatalogClientTypes {
             productId: Swift.String? = nil,
             provisioningArtifactId: Swift.String? = nil,
             serviceActionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.productId = productId
@@ -689,8 +672,7 @@ public struct BatchAssociateServiceActionWithProvisioningArtifactOutput: Swift.S
 
     public init(
         failedServiceActionAssociations: [ServiceCatalogClientTypes.FailedServiceActionAssociation]? = nil
-    )
-    {
+    ) {
         self.failedServiceActionAssociations = failedServiceActionAssociations
     }
 }
@@ -709,8 +691,7 @@ public struct BatchDisassociateServiceActionFromProvisioningArtifactInput: Swift
     public init(
         acceptLanguage: Swift.String? = nil,
         serviceActionAssociations: [ServiceCatalogClientTypes.ServiceActionAssociation]? = nil
-    )
-    {
+    ) {
         self.acceptLanguage = acceptLanguage
         self.serviceActionAssociations = serviceActionAssociations
     }
@@ -722,8 +703,7 @@ public struct BatchDisassociateServiceActionFromProvisioningArtifactOutput: Swif
 
     public init(
         failedServiceActionAssociations: [ServiceCatalogClientTypes.FailedServiceActionAssociation]? = nil
-    )
-    {
+    ) {
         self.failedServiceActionAssociations = failedServiceActionAssociations
     }
 }
@@ -810,8 +790,7 @@ public struct CopyProductInput: Swift.Sendable {
         sourceProvisioningArtifactIdentifiers: [[Swift.String: Swift.String]]? = nil,
         targetProductId: Swift.String? = nil,
         targetProductName: Swift.String? = nil
-    )
-    {
+    ) {
         self.acceptLanguage = acceptLanguage
         self.copyOptions = copyOptions
         self.idempotencyToken = idempotencyToken
@@ -828,8 +807,7 @@ public struct CopyProductOutput: Swift.Sendable {
 
     public init(
         copyProductToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.copyProductToken = copyProductToken
     }
 }
@@ -877,8 +855,7 @@ public struct CreateConstraintInput: Swift.Sendable {
         portfolioId: Swift.String? = nil,
         productId: Swift.String? = nil,
         type: Swift.String? = nil
-    )
-    {
+    ) {
         self.acceptLanguage = acceptLanguage
         self.description = description
         self.idempotencyToken = idempotencyToken
@@ -921,8 +898,7 @@ extension ServiceCatalogClientTypes {
             portfolioId: Swift.String? = nil,
             productId: Swift.String? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.constraintId = constraintId
             self.description = description
             self.owner = owner
@@ -977,8 +953,7 @@ public struct CreateConstraintOutput: Swift.Sendable {
         constraintDetail: ServiceCatalogClientTypes.ConstraintDetail? = nil,
         constraintParameters: Swift.String? = nil,
         status: ServiceCatalogClientTypes.Status? = nil
-    )
-    {
+    ) {
         self.constraintDetail = constraintDetail
         self.constraintParameters = constraintParameters
         self.status = status
@@ -1013,8 +988,7 @@ public struct CreatePortfolioInput: Swift.Sendable {
         idempotencyToken: Swift.String? = nil,
         providerName: Swift.String? = nil,
         tags: [ServiceCatalogClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.acceptLanguage = acceptLanguage
         self.description = description
         self.displayName = displayName
@@ -1048,8 +1022,7 @@ extension ServiceCatalogClientTypes {
             displayName: Swift.String? = nil,
             id: Swift.String? = nil,
             providerName: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdTime = createdTime
             self.description = description
@@ -1069,8 +1042,7 @@ public struct CreatePortfolioOutput: Swift.Sendable {
     public init(
         portfolioDetail: ServiceCatalogClientTypes.PortfolioDetail? = nil,
         tags: [ServiceCatalogClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.portfolioDetail = portfolioDetail
         self.tags = tags
     }
@@ -1094,8 +1066,7 @@ public struct OperationNotSupportedException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1144,8 +1115,7 @@ extension ServiceCatalogClientTypes {
         public init(
             type: ServiceCatalogClientTypes.OrganizationNodeType? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.type = type
             self.value = value
         }
@@ -1178,8 +1148,7 @@ public struct CreatePortfolioShareInput: Swift.Sendable {
         portfolioId: Swift.String? = nil,
         sharePrincipals: Swift.Bool? = false,
         shareTagOptions: Swift.Bool? = false
-    )
-    {
+    ) {
         self.acceptLanguage = acceptLanguage
         self.accountId = accountId
         self.organizationNode = organizationNode
@@ -1195,8 +1164,7 @@ public struct CreatePortfolioShareOutput: Swift.Sendable {
 
     public init(
         portfolioShareToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.portfolioShareToken = portfolioShareToken
     }
 }
@@ -1309,8 +1277,7 @@ extension ServiceCatalogClientTypes {
             info: [Swift.String: Swift.String]? = nil,
             name: Swift.String? = nil,
             type: ServiceCatalogClientTypes.ProvisioningArtifactType? = nil
-        )
-        {
+        ) {
             self.description = description
             self.disableTemplateValidation = disableTemplateValidation
             self.info = info
@@ -1342,8 +1309,7 @@ extension ServiceCatalogClientTypes {
             branch: Swift.String? = nil,
             connectionArn: Swift.String? = nil,
             repository: Swift.String? = nil
-        )
-        {
+        ) {
             self.artifactPath = artifactPath
             self.branch = branch
             self.connectionArn = connectionArn
@@ -1361,8 +1327,7 @@ extension ServiceCatalogClientTypes {
 
         public init(
             codeStar: ServiceCatalogClientTypes.CodeStarParameters? = nil
-        )
-        {
+        ) {
             self.codeStar = codeStar
         }
     }
@@ -1407,8 +1372,7 @@ extension ServiceCatalogClientTypes {
         public init(
             connectionParameters: ServiceCatalogClientTypes.SourceConnectionParameters? = nil,
             type: ServiceCatalogClientTypes.SourceType? = nil
-        )
-        {
+        ) {
             self.connectionParameters = connectionParameters
             self.type = type
         }
@@ -1469,8 +1433,7 @@ public struct CreateProductInput: Swift.Sendable {
         supportEmail: Swift.String? = nil,
         supportUrl: Swift.String? = nil,
         tags: [ServiceCatalogClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.acceptLanguage = acceptLanguage
         self.description = description
         self.distributor = distributor
@@ -1526,8 +1489,7 @@ extension ServiceCatalogClientTypes {
             supportEmail: Swift.String? = nil,
             supportUrl: Swift.String? = nil,
             type: ServiceCatalogClientTypes.ProductType? = nil
-        )
-        {
+        ) {
             self.distributor = distributor
             self.hasDefaultPath = hasDefaultPath
             self.id = id
@@ -1603,8 +1565,7 @@ extension ServiceCatalogClientTypes {
             lastSyncStatus: ServiceCatalogClientTypes.LastSyncStatus? = nil,
             lastSyncStatusMessage: Swift.String? = nil,
             lastSyncTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.lastSuccessfulSyncProvisioningArtifactId = lastSuccessfulSyncProvisioningArtifactId
             self.lastSuccessfulSyncTime = lastSuccessfulSyncTime
             self.lastSyncStatus = lastSyncStatus
@@ -1639,8 +1600,7 @@ extension ServiceCatalogClientTypes {
             connectionParameters: ServiceCatalogClientTypes.SourceConnectionParameters? = nil,
             lastSync: ServiceCatalogClientTypes.LastSync? = nil,
             type: ServiceCatalogClientTypes.SourceType? = nil
-        )
-        {
+        ) {
             self.connectionParameters = connectionParameters
             self.lastSync = lastSync
             self.type = type
@@ -1675,8 +1635,7 @@ extension ServiceCatalogClientTypes {
             productViewSummary: ServiceCatalogClientTypes.ProductViewSummary? = nil,
             sourceConnection: ServiceCatalogClientTypes.SourceConnectionDetail? = nil,
             status: ServiceCatalogClientTypes.Status? = nil
-        )
-        {
+        ) {
             self.createdTime = createdTime
             self.productARN = productARN
             self.productViewSummary = productViewSummary
@@ -1753,8 +1712,7 @@ extension ServiceCatalogClientTypes {
             name: Swift.String? = nil,
             sourceRevision: Swift.String? = nil,
             type: ServiceCatalogClientTypes.ProvisioningArtifactType? = nil
-        )
-        {
+        ) {
             self.active = active
             self.createdTime = createdTime
             self.description = description
@@ -1779,8 +1737,7 @@ public struct CreateProductOutput: Swift.Sendable {
         productViewDetail: ServiceCatalogClientTypes.ProductViewDetail? = nil,
         provisioningArtifactDetail: ServiceCatalogClientTypes.ProvisioningArtifactDetail? = nil,
         tags: [ServiceCatalogClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.productViewDetail = productViewDetail
         self.provisioningArtifactDetail = provisioningArtifactDetail
         self.tags = tags
@@ -1828,8 +1785,7 @@ extension ServiceCatalogClientTypes {
             key: Swift.String? = nil,
             usePreviousValue: Swift.Bool = false,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.usePreviousValue = usePreviousValue
             self.value = value
@@ -1883,8 +1839,7 @@ public struct CreateProvisionedProductPlanInput: Swift.Sendable {
         provisioningArtifactId: Swift.String? = nil,
         provisioningParameters: [ServiceCatalogClientTypes.UpdateProvisioningParameter]? = nil,
         tags: [ServiceCatalogClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.acceptLanguage = acceptLanguage
         self.idempotencyToken = idempotencyToken
         self.notificationArns = notificationArns
@@ -1917,8 +1872,7 @@ public struct CreateProvisionedProductPlanOutput: Swift.Sendable {
         provisionProductId: Swift.String? = nil,
         provisionedProductName: Swift.String? = nil,
         provisioningArtifactId: Swift.String? = nil
-    )
-    {
+    ) {
         self.planId = planId
         self.planName = planName
         self.provisionProductId = provisionProductId
@@ -1949,8 +1903,7 @@ public struct CreateProvisioningArtifactInput: Swift.Sendable {
         idempotencyToken: Swift.String? = nil,
         parameters: ServiceCatalogClientTypes.ProvisioningArtifactProperties? = nil,
         productId: Swift.String? = nil
-    )
-    {
+    ) {
         self.acceptLanguage = acceptLanguage
         self.idempotencyToken = idempotencyToken
         self.parameters = parameters
@@ -1970,8 +1923,7 @@ public struct CreateProvisioningArtifactOutput: Swift.Sendable {
         info: [Swift.String: Swift.String]? = nil,
         provisioningArtifactDetail: ServiceCatalogClientTypes.ProvisioningArtifactDetail? = nil,
         status: ServiceCatalogClientTypes.Status? = nil
-    )
-    {
+    ) {
         self.info = info
         self.provisioningArtifactDetail = provisioningArtifactDetail
         self.status = status
@@ -2068,8 +2020,7 @@ public struct CreateServiceActionInput: Swift.Sendable {
         description: Swift.String? = nil,
         idempotencyToken: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.acceptLanguage = acceptLanguage
         self.definition = definition
         self.definitionType = definitionType
@@ -2097,8 +2048,7 @@ extension ServiceCatalogClientTypes {
             description: Swift.String? = nil,
             id: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.definitionType = definitionType
             self.description = description
             self.id = id
@@ -2119,8 +2069,7 @@ extension ServiceCatalogClientTypes {
         public init(
             definition: [Swift.String: Swift.String]? = nil,
             serviceActionSummary: ServiceCatalogClientTypes.ServiceActionSummary? = nil
-        )
-        {
+        ) {
             self.definition = definition
             self.serviceActionSummary = serviceActionSummary
         }
@@ -2133,8 +2082,7 @@ public struct CreateServiceActionOutput: Swift.Sendable {
 
     public init(
         serviceActionDetail: ServiceCatalogClientTypes.ServiceActionDetail? = nil
-    )
-    {
+    ) {
         self.serviceActionDetail = serviceActionDetail
     }
 }
@@ -2150,8 +2098,7 @@ public struct CreateTagOptionInput: Swift.Sendable {
     public init(
         key: Swift.String? = nil,
         value: Swift.String? = nil
-    )
-    {
+    ) {
         self.key = key
         self.value = value
     }
@@ -2178,8 +2125,7 @@ extension ServiceCatalogClientTypes {
             key: Swift.String? = nil,
             owner: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.active = active
             self.id = id
             self.key = key
@@ -2195,8 +2141,7 @@ public struct CreateTagOptionOutput: Swift.Sendable {
 
     public init(
         tagOptionDetail: ServiceCatalogClientTypes.TagOptionDetail? = nil
-    )
-    {
+    ) {
         self.tagOptionDetail = tagOptionDetail
     }
 }
@@ -2215,8 +2160,7 @@ public struct DeleteConstraintInput: Swift.Sendable {
     public init(
         acceptLanguage: Swift.String? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.acceptLanguage = acceptLanguage
         self.id = id
     }
@@ -2245,8 +2189,7 @@ public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2265,8 +2208,7 @@ public struct DeletePortfolioInput: Swift.Sendable {
     public init(
         acceptLanguage: Swift.String? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.acceptLanguage = acceptLanguage
         self.id = id
     }
@@ -2297,8 +2239,7 @@ public struct DeletePortfolioShareInput: Swift.Sendable {
         accountId: Swift.String? = nil,
         organizationNode: ServiceCatalogClientTypes.OrganizationNode? = nil,
         portfolioId: Swift.String? = nil
-    )
-    {
+    ) {
         self.acceptLanguage = acceptLanguage
         self.accountId = accountId
         self.organizationNode = organizationNode
@@ -2312,8 +2253,7 @@ public struct DeletePortfolioShareOutput: Swift.Sendable {
 
     public init(
         portfolioShareToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.portfolioShareToken = portfolioShareToken
     }
 }
@@ -2332,8 +2272,7 @@ public struct DeleteProductInput: Swift.Sendable {
     public init(
         acceptLanguage: Swift.String? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.acceptLanguage = acceptLanguage
         self.id = id
     }
@@ -2361,8 +2300,7 @@ public struct DeleteProvisionedProductPlanInput: Swift.Sendable {
         acceptLanguage: Swift.String? = nil,
         ignoreErrors: Swift.Bool? = false,
         planId: Swift.String? = nil
-    )
-    {
+    ) {
         self.acceptLanguage = acceptLanguage
         self.ignoreErrors = ignoreErrors
         self.planId = planId
@@ -2392,8 +2330,7 @@ public struct DeleteProvisioningArtifactInput: Swift.Sendable {
         acceptLanguage: Swift.String? = nil,
         productId: Swift.String? = nil,
         provisioningArtifactId: Swift.String? = nil
-    )
-    {
+    ) {
         self.acceptLanguage = acceptLanguage
         self.productId = productId
         self.provisioningArtifactId = provisioningArtifactId
@@ -2422,8 +2359,7 @@ public struct DeleteServiceActionInput: Swift.Sendable {
         acceptLanguage: Swift.String? = nil,
         id: Swift.String? = nil,
         idempotencyToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.acceptLanguage = acceptLanguage
         self.id = id
         self.idempotencyToken = idempotencyToken
@@ -2442,8 +2378,7 @@ public struct DeleteTagOptionInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -2467,8 +2402,7 @@ public struct DescribeConstraintInput: Swift.Sendable {
     public init(
         acceptLanguage: Swift.String? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.acceptLanguage = acceptLanguage
         self.id = id
     }
@@ -2486,8 +2420,7 @@ public struct DescribeConstraintOutput: Swift.Sendable {
         constraintDetail: ServiceCatalogClientTypes.ConstraintDetail? = nil,
         constraintParameters: Swift.String? = nil,
         status: ServiceCatalogClientTypes.Status? = nil
-    )
-    {
+    ) {
         self.constraintDetail = constraintDetail
         self.constraintParameters = constraintParameters
         self.status = status
@@ -2508,8 +2441,7 @@ public struct DescribeCopyProductStatusInput: Swift.Sendable {
     public init(
         acceptLanguage: Swift.String? = nil,
         copyProductToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.acceptLanguage = acceptLanguage
         self.copyProductToken = copyProductToken
     }
@@ -2559,8 +2491,7 @@ public struct DescribeCopyProductStatusOutput: Swift.Sendable {
         copyProductStatus: ServiceCatalogClientTypes.CopyProductStatus? = nil,
         statusDetail: Swift.String? = nil,
         targetProductId: Swift.String? = nil
-    )
-    {
+    ) {
         self.copyProductStatus = copyProductStatus
         self.statusDetail = statusDetail
         self.targetProductId = targetProductId
@@ -2581,8 +2512,7 @@ public struct DescribePortfolioInput: Swift.Sendable {
     public init(
         acceptLanguage: Swift.String? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.acceptLanguage = acceptLanguage
         self.id = id
     }
@@ -2597,8 +2527,7 @@ extension ServiceCatalogClientTypes {
 
         public init(
             budgetName: Swift.String? = nil
-        )
-        {
+        ) {
             self.budgetName = budgetName
         }
     }
@@ -2619,8 +2548,7 @@ public struct DescribePortfolioOutput: Swift.Sendable {
         portfolioDetail: ServiceCatalogClientTypes.PortfolioDetail? = nil,
         tagOptions: [ServiceCatalogClientTypes.TagOptionDetail]? = nil,
         tags: [ServiceCatalogClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.budgets = budgets
         self.portfolioDetail = portfolioDetail
         self.tagOptions = tagOptions
@@ -2680,8 +2608,7 @@ public struct DescribePortfolioSharesInput: Swift.Sendable {
         pageToken: Swift.String? = nil,
         portfolioId: Swift.String? = nil,
         type: ServiceCatalogClientTypes.DescribePortfolioShareType? = nil
-    )
-    {
+    ) {
         self.pageSize = pageSize
         self.pageToken = pageToken
         self.portfolioId = portfolioId
@@ -2710,8 +2637,7 @@ extension ServiceCatalogClientTypes {
             sharePrincipals: Swift.Bool = false,
             shareTagOptions: Swift.Bool = false,
             type: ServiceCatalogClientTypes.DescribePortfolioShareType? = nil
-        )
-        {
+        ) {
             self.accepted = accepted
             self.principalId = principalId
             self.sharePrincipals = sharePrincipals
@@ -2730,8 +2656,7 @@ public struct DescribePortfolioSharesOutput: Swift.Sendable {
     public init(
         nextPageToken: Swift.String? = nil,
         portfolioShareDetails: [ServiceCatalogClientTypes.PortfolioShareDetail]? = nil
-    )
-    {
+    ) {
         self.nextPageToken = nextPageToken
         self.portfolioShareDetails = portfolioShareDetails
     }
@@ -2744,8 +2669,7 @@ public struct DescribePortfolioShareStatusInput: Swift.Sendable {
 
     public init(
         portfolioShareToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.portfolioShareToken = portfolioShareToken
     }
 }
@@ -2765,8 +2689,7 @@ extension ServiceCatalogClientTypes {
             accounts: [Swift.String]? = nil,
             error: Swift.String? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.accounts = accounts
             self.error = error
             self.message = message
@@ -2786,8 +2709,7 @@ extension ServiceCatalogClientTypes {
         public init(
             shareErrors: [ServiceCatalogClientTypes.ShareError]? = nil,
             successfulShares: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.shareErrors = shareErrors
             self.successfulShares = successfulShares
         }
@@ -2850,8 +2772,7 @@ public struct DescribePortfolioShareStatusOutput: Swift.Sendable {
         portfolioShareToken: Swift.String? = nil,
         shareDetails: ServiceCatalogClientTypes.ShareDetails? = nil,
         status: ServiceCatalogClientTypes.ShareStatus? = nil
-    )
-    {
+    ) {
         self.organizationNodeValue = organizationNodeValue
         self.portfolioId = portfolioId
         self.portfolioShareToken = portfolioShareToken
@@ -2876,8 +2797,7 @@ public struct DescribeProductInput: Swift.Sendable {
         acceptLanguage: Swift.String? = nil,
         id: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.acceptLanguage = acceptLanguage
         self.id = id
         self.name = name
@@ -2896,8 +2816,7 @@ extension ServiceCatalogClientTypes {
         public init(
             id: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.id = id
             self.name = name
         }
@@ -2925,8 +2844,7 @@ extension ServiceCatalogClientTypes {
             guidance: ServiceCatalogClientTypes.ProvisioningArtifactGuidance? = nil,
             id: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdTime = createdTime
             self.description = description
             self.guidance = guidance
@@ -2951,8 +2869,7 @@ public struct DescribeProductOutput: Swift.Sendable {
         launchPaths: [ServiceCatalogClientTypes.LaunchPath]? = nil,
         productViewSummary: ServiceCatalogClientTypes.ProductViewSummary? = nil,
         provisioningArtifacts: [ServiceCatalogClientTypes.ProvisioningArtifact]? = nil
-    )
-    {
+    ) {
         self.budgets = budgets
         self.launchPaths = launchPaths
         self.productViewSummary = productViewSummary
@@ -2979,8 +2896,7 @@ public struct DescribeProductAsAdminInput: Swift.Sendable {
         id: Swift.String? = nil,
         name: Swift.String? = nil,
         sourcePortfolioId: Swift.String? = nil
-    )
-    {
+    ) {
         self.acceptLanguage = acceptLanguage
         self.id = id
         self.name = name
@@ -3009,8 +2925,7 @@ extension ServiceCatalogClientTypes {
             id: Swift.String? = nil,
             name: Swift.String? = nil,
             provisioningArtifactMetadata: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.createdTime = createdTime
             self.description = description
             self.id = id
@@ -3038,8 +2953,7 @@ public struct DescribeProductAsAdminOutput: Swift.Sendable {
         provisioningArtifactSummaries: [ServiceCatalogClientTypes.ProvisioningArtifactSummary]? = nil,
         tagOptions: [ServiceCatalogClientTypes.TagOptionDetail]? = nil,
         tags: [ServiceCatalogClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.budgets = budgets
         self.productViewDetail = productViewDetail
         self.provisioningArtifactSummaries = provisioningArtifactSummaries
@@ -3062,8 +2976,7 @@ public struct DescribeProductViewInput: Swift.Sendable {
     public init(
         acceptLanguage: Swift.String? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.acceptLanguage = acceptLanguage
         self.id = id
     }
@@ -3078,8 +2991,7 @@ public struct DescribeProductViewOutput: Swift.Sendable {
     public init(
         productViewSummary: ServiceCatalogClientTypes.ProductViewSummary? = nil,
         provisioningArtifacts: [ServiceCatalogClientTypes.ProvisioningArtifact]? = nil
-    )
-    {
+    ) {
         self.productViewSummary = productViewSummary
         self.provisioningArtifacts = provisioningArtifacts
     }
@@ -3102,8 +3014,7 @@ public struct DescribeProvisionedProductInput: Swift.Sendable {
         acceptLanguage: Swift.String? = nil,
         id: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.acceptLanguage = acceptLanguage
         self.id = id
         self.name = name
@@ -3119,8 +3030,7 @@ extension ServiceCatalogClientTypes {
 
         public init(
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
         }
     }
@@ -3238,8 +3148,7 @@ extension ServiceCatalogClientTypes {
             status: ServiceCatalogClientTypes.ProvisionedProductStatus? = nil,
             statusMessage: Swift.String? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdTime = createdTime
             self.id = id
@@ -3267,8 +3176,7 @@ public struct DescribeProvisionedProductOutput: Swift.Sendable {
     public init(
         cloudWatchDashboards: [ServiceCatalogClientTypes.CloudWatchDashboard]? = nil,
         provisionedProductDetail: ServiceCatalogClientTypes.ProvisionedProductDetail? = nil
-    )
-    {
+    ) {
         self.cloudWatchDashboards = cloudWatchDashboards
         self.provisionedProductDetail = provisionedProductDetail
     }
@@ -3294,8 +3202,7 @@ public struct DescribeProvisionedProductPlanInput: Swift.Sendable {
         pageSize: Swift.Int? = 0,
         pageToken: Swift.String? = nil,
         planId: Swift.String? = nil
-    )
-    {
+    ) {
         self.acceptLanguage = acceptLanguage
         self.pageSize = pageSize
         self.pageToken = pageToken
@@ -3395,8 +3302,7 @@ extension ServiceCatalogClientTypes {
             statusMessage: Swift.String? = nil,
             tags: [ServiceCatalogClientTypes.Tag]? = nil,
             updatedTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.createdTime = createdTime
             self.notificationArns = notificationArns
             self.pathId = pathId
@@ -3565,8 +3471,7 @@ extension ServiceCatalogClientTypes {
             attribute: ServiceCatalogClientTypes.ResourceAttribute? = nil,
             name: Swift.String? = nil,
             requiresRecreation: ServiceCatalogClientTypes.RequiresRecreation? = nil
-        )
-        {
+        ) {
             self.attribute = attribute
             self.name = name
             self.requiresRecreation = requiresRecreation
@@ -3589,8 +3494,7 @@ extension ServiceCatalogClientTypes {
             causingEntity: Swift.String? = nil,
             evaluation: ServiceCatalogClientTypes.EvaluationType? = nil,
             target: ServiceCatalogClientTypes.ResourceTargetDefinition? = nil
-        )
-        {
+        ) {
             self.causingEntity = causingEntity
             self.evaluation = evaluation
             self.target = target
@@ -3657,8 +3561,7 @@ extension ServiceCatalogClientTypes {
             replacement: ServiceCatalogClientTypes.Replacement? = nil,
             resourceType: Swift.String? = nil,
             scope: [ServiceCatalogClientTypes.ResourceAttribute]? = nil
-        )
-        {
+        ) {
             self.action = action
             self.details = details
             self.logicalResourceId = logicalResourceId
@@ -3682,8 +3585,7 @@ public struct DescribeProvisionedProductPlanOutput: Swift.Sendable {
         nextPageToken: Swift.String? = nil,
         provisionedProductPlanDetails: ServiceCatalogClientTypes.ProvisionedProductPlanDetails? = nil,
         resourceChanges: [ServiceCatalogClientTypes.ResourceChange]? = nil
-    )
-    {
+    ) {
         self.nextPageToken = nextPageToken
         self.provisionedProductPlanDetails = provisionedProductPlanDetails
         self.resourceChanges = resourceChanges
@@ -3718,8 +3620,7 @@ public struct DescribeProvisioningArtifactInput: Swift.Sendable {
         provisioningArtifactId: Swift.String? = nil,
         provisioningArtifactName: Swift.String? = nil,
         verbose: Swift.Bool? = false
-    )
-    {
+    ) {
         self.acceptLanguage = acceptLanguage
         self.includeProvisioningArtifactParameters = includeProvisioningArtifactParameters
         self.productId = productId
@@ -3757,8 +3658,7 @@ extension ServiceCatalogClientTypes {
             maxValue: Swift.String? = nil,
             minLength: Swift.String? = nil,
             minValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.allowedPattern = allowedPattern
             self.allowedValues = allowedValues
             self.constraintDescription = constraintDescription
@@ -3794,8 +3694,7 @@ extension ServiceCatalogClientTypes {
             parameterConstraints: ServiceCatalogClientTypes.ParameterConstraints? = nil,
             parameterKey: Swift.String? = nil,
             parameterType: Swift.String? = nil
-        )
-        {
+        ) {
             self.defaultValue = defaultValue
             self.description = description
             self.isNoEcho = isNoEcho
@@ -3821,8 +3720,7 @@ public struct DescribeProvisioningArtifactOutput: Swift.Sendable {
         provisioningArtifactDetail: ServiceCatalogClientTypes.ProvisioningArtifactDetail? = nil,
         provisioningArtifactParameters: [ServiceCatalogClientTypes.ProvisioningArtifactParameter]? = nil,
         status: ServiceCatalogClientTypes.Status? = nil
-    )
-    {
+    ) {
         self.info = info
         self.provisioningArtifactDetail = provisioningArtifactDetail
         self.provisioningArtifactParameters = provisioningArtifactParameters
@@ -3858,8 +3756,7 @@ public struct DescribeProvisioningParametersInput: Swift.Sendable {
         productName: Swift.String? = nil,
         provisioningArtifactId: Swift.String? = nil,
         provisioningArtifactName: Swift.String? = nil
-    )
-    {
+    ) {
         self.acceptLanguage = acceptLanguage
         self.pathId = pathId
         self.pathName = pathName
@@ -3890,8 +3787,7 @@ extension ServiceCatalogClientTypes {
         public init(
             description: Swift.String? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.type = type
         }
@@ -3910,8 +3806,7 @@ extension ServiceCatalogClientTypes {
         public init(
             description: Swift.String? = nil,
             key: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.key = key
         }
@@ -3930,8 +3825,7 @@ extension ServiceCatalogClientTypes {
         public init(
             stackSetAccounts: [Swift.String]? = nil,
             stackSetRegions: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.stackSetAccounts = stackSetAccounts
             self.stackSetRegions = stackSetRegions
         }
@@ -3950,8 +3844,7 @@ extension ServiceCatalogClientTypes {
         public init(
             key: Swift.String? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.key = key
             self.values = values
         }
@@ -3970,8 +3863,7 @@ extension ServiceCatalogClientTypes {
         public init(
             type: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.type = type
             self.value = value
         }
@@ -4003,8 +3895,7 @@ public struct DescribeProvisioningParametersOutput: Swift.Sendable {
         provisioningArtifactPreferences: ServiceCatalogClientTypes.ProvisioningArtifactPreferences? = nil,
         tagOptions: [ServiceCatalogClientTypes.TagOptionSummary]? = nil,
         usageInstructions: [ServiceCatalogClientTypes.UsageInstruction]? = nil
-    )
-    {
+    ) {
         self.constraintSummaries = constraintSummaries
         self.provisioningArtifactOutputKeys = provisioningArtifactOutputKeys
         self.provisioningArtifactOutputs = provisioningArtifactOutputs
@@ -4035,8 +3926,7 @@ public struct DescribeRecordInput: Swift.Sendable {
         id: Swift.String? = nil,
         pageSize: Swift.Int? = 0,
         pageToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.acceptLanguage = acceptLanguage
         self.id = id
         self.pageSize = pageSize
@@ -4056,8 +3946,7 @@ extension ServiceCatalogClientTypes {
         public init(
             code: Swift.String? = nil,
             description: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.description = description
         }
@@ -4076,8 +3965,7 @@ extension ServiceCatalogClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -4186,8 +4074,7 @@ extension ServiceCatalogClientTypes {
             recordType: Swift.String? = nil,
             status: ServiceCatalogClientTypes.RecordStatus? = nil,
             updatedTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.createdTime = createdTime
             self.launchRoleArn = launchRoleArn
             self.pathId = pathId
@@ -4221,8 +4108,7 @@ extension ServiceCatalogClientTypes {
             description: Swift.String? = nil,
             outputKey: Swift.String? = nil,
             outputValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.outputKey = outputKey
             self.outputValue = outputValue
@@ -4242,8 +4128,7 @@ public struct DescribeRecordOutput: Swift.Sendable {
         nextPageToken: Swift.String? = nil,
         recordDetail: ServiceCatalogClientTypes.RecordDetail? = nil,
         recordOutputs: [ServiceCatalogClientTypes.RecordOutput]? = nil
-    )
-    {
+    ) {
         self.nextPageToken = nextPageToken
         self.recordDetail = recordDetail
         self.recordOutputs = recordOutputs
@@ -4264,8 +4149,7 @@ public struct DescribeServiceActionInput: Swift.Sendable {
     public init(
         acceptLanguage: Swift.String? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.acceptLanguage = acceptLanguage
         self.id = id
     }
@@ -4277,8 +4161,7 @@ public struct DescribeServiceActionOutput: Swift.Sendable {
 
     public init(
         serviceActionDetail: ServiceCatalogClientTypes.ServiceActionDetail? = nil
-    )
-    {
+    ) {
         self.serviceActionDetail = serviceActionDetail
     }
 }
@@ -4301,8 +4184,7 @@ public struct DescribeServiceActionExecutionParametersInput: Swift.Sendable {
         acceptLanguage: Swift.String? = nil,
         provisionedProductId: Swift.String? = nil,
         serviceActionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.acceptLanguage = acceptLanguage
         self.provisionedProductId = provisionedProductId
         self.serviceActionId = serviceActionId
@@ -4324,8 +4206,7 @@ extension ServiceCatalogClientTypes {
             defaultValues: [Swift.String]? = nil,
             name: Swift.String? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.defaultValues = defaultValues
             self.name = name
             self.type = type
@@ -4339,8 +4220,7 @@ public struct DescribeServiceActionExecutionParametersOutput: Swift.Sendable {
 
     public init(
         serviceActionParameters: [ServiceCatalogClientTypes.ExecutionParameter]? = nil
-    )
-    {
+    ) {
         self.serviceActionParameters = serviceActionParameters
     }
 }
@@ -4352,8 +4232,7 @@ public struct DescribeTagOptionInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -4364,8 +4243,7 @@ public struct DescribeTagOptionOutput: Swift.Sendable {
 
     public init(
         tagOptionDetail: ServiceCatalogClientTypes.TagOptionDetail? = nil
-    )
-    {
+    ) {
         self.tagOptionDetail = tagOptionDetail
     }
 }
@@ -4391,8 +4269,7 @@ public struct DisassociateBudgetFromResourceInput: Swift.Sendable {
     public init(
         budgetName: Swift.String? = nil,
         resourceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.budgetName = budgetName
         self.resourceId = resourceId
     }
@@ -4424,8 +4301,7 @@ public struct DisassociatePrincipalFromPortfolioInput: Swift.Sendable {
         portfolioId: Swift.String? = nil,
         principalARN: Swift.String? = nil,
         principalType: ServiceCatalogClientTypes.PrincipalType? = nil
-    )
-    {
+    ) {
         self.acceptLanguage = acceptLanguage
         self.portfolioId = portfolioId
         self.principalARN = principalARN
@@ -4456,8 +4332,7 @@ public struct DisassociateProductFromPortfolioInput: Swift.Sendable {
         acceptLanguage: Swift.String? = nil,
         portfolioId: Swift.String? = nil,
         productId: Swift.String? = nil
-    )
-    {
+    ) {
         self.acceptLanguage = acceptLanguage
         self.portfolioId = portfolioId
         self.productId = productId
@@ -4494,8 +4369,7 @@ public struct DisassociateServiceActionFromProvisioningArtifactInput: Swift.Send
         productId: Swift.String? = nil,
         provisioningArtifactId: Swift.String? = nil,
         serviceActionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.acceptLanguage = acceptLanguage
         self.idempotencyToken = idempotencyToken
         self.productId = productId
@@ -4520,8 +4394,7 @@ public struct DisassociateTagOptionFromResourceInput: Swift.Sendable {
     public init(
         resourceId: Swift.String? = nil,
         tagOptionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceId = resourceId
         self.tagOptionId = tagOptionId
     }
@@ -4560,8 +4433,7 @@ public struct ExecuteProvisionedProductPlanInput: Swift.Sendable {
         acceptLanguage: Swift.String? = nil,
         idempotencyToken: Swift.String? = nil,
         planId: Swift.String? = nil
-    )
-    {
+    ) {
         self.acceptLanguage = acceptLanguage
         self.idempotencyToken = idempotencyToken
         self.planId = planId
@@ -4574,8 +4446,7 @@ public struct ExecuteProvisionedProductPlanOutput: Swift.Sendable {
 
     public init(
         recordDetail: ServiceCatalogClientTypes.RecordDetail? = nil
-    )
-    {
+    ) {
         self.recordDetail = recordDetail
     }
 }
@@ -4605,8 +4476,7 @@ public struct ExecuteProvisionedProductServiceActionInput: Swift.Sendable {
         parameters: [Swift.String: [Swift.String]]? = nil,
         provisionedProductId: Swift.String? = nil,
         serviceActionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.acceptLanguage = acceptLanguage
         self.executeToken = executeToken
         self.parameters = parameters
@@ -4621,8 +4491,7 @@ public struct ExecuteProvisionedProductServiceActionOutput: Swift.Sendable {
 
     public init(
         recordDetail: ServiceCatalogClientTypes.RecordDetail? = nil
-    )
-    {
+    ) {
         self.recordDetail = recordDetail
     }
 }
@@ -4638,8 +4507,7 @@ public struct GetAWSOrganizationsAccessStatusOutput: Swift.Sendable {
 
     public init(
         accessStatus: ServiceCatalogClientTypes.AccessStatus? = nil
-    )
-    {
+    ) {
         self.accessStatus = accessStatus
     }
 }
@@ -4669,8 +4537,7 @@ public struct GetProvisionedProductOutputsInput: Swift.Sendable {
         pageToken: Swift.String? = nil,
         provisionedProductId: Swift.String? = nil,
         provisionedProductName: Swift.String? = nil
-    )
-    {
+    ) {
         self.acceptLanguage = acceptLanguage
         self.outputKeys = outputKeys
         self.pageSize = pageSize
@@ -4689,8 +4556,7 @@ public struct GetProvisionedProductOutputsOutput: Swift.Sendable {
     public init(
         nextPageToken: Swift.String? = nil,
         outputs: [ServiceCatalogClientTypes.RecordOutput]? = nil
-    )
-    {
+    ) {
         self.nextPageToken = nextPageToken
         self.outputs = outputs
     }
@@ -4726,8 +4592,7 @@ public struct ImportAsProvisionedProductInput: Swift.Sendable {
         productId: Swift.String? = nil,
         provisionedProductName: Swift.String? = nil,
         provisioningArtifactId: Swift.String? = nil
-    )
-    {
+    ) {
         self.acceptLanguage = acceptLanguage
         self.idempotencyToken = idempotencyToken
         self.physicalId = physicalId
@@ -4743,8 +4608,7 @@ public struct ImportAsProvisionedProductOutput: Swift.Sendable {
 
     public init(
         recordDetail: ServiceCatalogClientTypes.RecordDetail? = nil
-    )
-    {
+    ) {
         self.recordDetail = recordDetail
     }
 }
@@ -4774,8 +4638,7 @@ public struct ListAcceptedPortfolioSharesInput: Swift.Sendable {
         pageSize: Swift.Int? = 0,
         pageToken: Swift.String? = nil,
         portfolioShareType: ServiceCatalogClientTypes.PortfolioShareType? = nil
-    )
-    {
+    ) {
         self.acceptLanguage = acceptLanguage
         self.pageSize = pageSize
         self.pageToken = pageToken
@@ -4792,8 +4655,7 @@ public struct ListAcceptedPortfolioSharesOutput: Swift.Sendable {
     public init(
         nextPageToken: Swift.String? = nil,
         portfolioDetails: [ServiceCatalogClientTypes.PortfolioDetail]? = nil
-    )
-    {
+    ) {
         self.nextPageToken = nextPageToken
         self.portfolioDetails = portfolioDetails
     }
@@ -4819,8 +4681,7 @@ public struct ListBudgetsForResourceInput: Swift.Sendable {
         pageSize: Swift.Int? = 0,
         pageToken: Swift.String? = nil,
         resourceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.acceptLanguage = acceptLanguage
         self.pageSize = pageSize
         self.pageToken = pageToken
@@ -4837,8 +4698,7 @@ public struct ListBudgetsForResourceOutput: Swift.Sendable {
     public init(
         budgets: [ServiceCatalogClientTypes.BudgetDetail]? = nil,
         nextPageToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.budgets = budgets
         self.nextPageToken = nextPageToken
     }
@@ -4867,8 +4727,7 @@ public struct ListConstraintsForPortfolioInput: Swift.Sendable {
         pageToken: Swift.String? = nil,
         portfolioId: Swift.String? = nil,
         productId: Swift.String? = nil
-    )
-    {
+    ) {
         self.acceptLanguage = acceptLanguage
         self.pageSize = pageSize
         self.pageToken = pageToken
@@ -4886,8 +4745,7 @@ public struct ListConstraintsForPortfolioOutput: Swift.Sendable {
     public init(
         constraintDetails: [ServiceCatalogClientTypes.ConstraintDetail]? = nil,
         nextPageToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.constraintDetails = constraintDetails
         self.nextPageToken = nextPageToken
     }
@@ -4913,8 +4771,7 @@ public struct ListLaunchPathsInput: Swift.Sendable {
         pageSize: Swift.Int? = 0,
         pageToken: Swift.String? = nil,
         productId: Swift.String? = nil
-    )
-    {
+    ) {
         self.acceptLanguage = acceptLanguage
         self.pageSize = pageSize
         self.pageToken = pageToken
@@ -4940,8 +4797,7 @@ extension ServiceCatalogClientTypes {
             id: Swift.String? = nil,
             name: Swift.String? = nil,
             tags: [ServiceCatalogClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.constraintSummaries = constraintSummaries
             self.id = id
             self.name = name
@@ -4959,8 +4815,7 @@ public struct ListLaunchPathsOutput: Swift.Sendable {
     public init(
         launchPathSummaries: [ServiceCatalogClientTypes.LaunchPathSummary]? = nil,
         nextPageToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.launchPathSummaries = launchPathSummaries
         self.nextPageToken = nextPageToken
     }
@@ -4996,8 +4851,7 @@ public struct ListOrganizationPortfolioAccessInput: Swift.Sendable {
         pageSize: Swift.Int? = 0,
         pageToken: Swift.String? = nil,
         portfolioId: Swift.String? = nil
-    )
-    {
+    ) {
         self.acceptLanguage = acceptLanguage
         self.organizationNodeType = organizationNodeType
         self.pageSize = pageSize
@@ -5015,8 +4869,7 @@ public struct ListOrganizationPortfolioAccessOutput: Swift.Sendable {
     public init(
         nextPageToken: Swift.String? = nil,
         organizationNodes: [ServiceCatalogClientTypes.OrganizationNode]? = nil
-    )
-    {
+    ) {
         self.nextPageToken = nextPageToken
         self.organizationNodes = organizationNodes
     }
@@ -5045,8 +4898,7 @@ public struct ListPortfolioAccessInput: Swift.Sendable {
         pageSize: Swift.Int? = 0,
         pageToken: Swift.String? = nil,
         portfolioId: Swift.String? = nil
-    )
-    {
+    ) {
         self.acceptLanguage = acceptLanguage
         self.organizationParentId = organizationParentId
         self.pageSize = pageSize
@@ -5064,8 +4916,7 @@ public struct ListPortfolioAccessOutput: Swift.Sendable {
     public init(
         accountIds: [Swift.String]? = nil,
         nextPageToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountIds = accountIds
         self.nextPageToken = nextPageToken
     }
@@ -5087,8 +4938,7 @@ public struct ListPortfoliosInput: Swift.Sendable {
         acceptLanguage: Swift.String? = nil,
         pageSize: Swift.Int? = 0,
         pageToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.acceptLanguage = acceptLanguage
         self.pageSize = pageSize
         self.pageToken = pageToken
@@ -5104,8 +4954,7 @@ public struct ListPortfoliosOutput: Swift.Sendable {
     public init(
         nextPageToken: Swift.String? = nil,
         portfolioDetails: [ServiceCatalogClientTypes.PortfolioDetail]? = nil
-    )
-    {
+    ) {
         self.nextPageToken = nextPageToken
         self.portfolioDetails = portfolioDetails
     }
@@ -5131,8 +4980,7 @@ public struct ListPortfoliosForProductInput: Swift.Sendable {
         pageSize: Swift.Int? = 0,
         pageToken: Swift.String? = nil,
         productId: Swift.String? = nil
-    )
-    {
+    ) {
         self.acceptLanguage = acceptLanguage
         self.pageSize = pageSize
         self.pageToken = pageToken
@@ -5149,8 +4997,7 @@ public struct ListPortfoliosForProductOutput: Swift.Sendable {
     public init(
         nextPageToken: Swift.String? = nil,
         portfolioDetails: [ServiceCatalogClientTypes.PortfolioDetail]? = nil
-    )
-    {
+    ) {
         self.nextPageToken = nextPageToken
         self.portfolioDetails = portfolioDetails
     }
@@ -5176,8 +5023,7 @@ public struct ListPrincipalsForPortfolioInput: Swift.Sendable {
         pageSize: Swift.Int? = 0,
         pageToken: Swift.String? = nil,
         portfolioId: Swift.String? = nil
-    )
-    {
+    ) {
         self.acceptLanguage = acceptLanguage
         self.pageSize = pageSize
         self.pageToken = pageToken
@@ -5197,8 +5043,7 @@ extension ServiceCatalogClientTypes {
         public init(
             principalARN: Swift.String? = nil,
             principalType: ServiceCatalogClientTypes.PrincipalType? = nil
-        )
-        {
+        ) {
             self.principalARN = principalARN
             self.principalType = principalType
         }
@@ -5214,8 +5059,7 @@ public struct ListPrincipalsForPortfolioOutput: Swift.Sendable {
     public init(
         nextPageToken: Swift.String? = nil,
         principals: [ServiceCatalogClientTypes.Principal]? = nil
-    )
-    {
+    ) {
         self.nextPageToken = nextPageToken
         self.principals = principals
     }
@@ -5243,8 +5087,7 @@ public struct ListProvisionedProductPlansInput: Swift.Sendable {
         pageSize: Swift.Int? = 0,
         pageToken: Swift.String? = nil,
         provisionProductId: Swift.String? = nil
-    )
-    {
+    ) {
         self.acceptLanguage = acceptLanguage
         self.accessLevelFilter = accessLevelFilter
         self.pageSize = pageSize
@@ -5277,8 +5120,7 @@ extension ServiceCatalogClientTypes {
             provisionProductId: Swift.String? = nil,
             provisionProductName: Swift.String? = nil,
             provisioningArtifactId: Swift.String? = nil
-        )
-        {
+        ) {
             self.planId = planId
             self.planName = planName
             self.planType = planType
@@ -5298,8 +5140,7 @@ public struct ListProvisionedProductPlansOutput: Swift.Sendable {
     public init(
         nextPageToken: Swift.String? = nil,
         provisionedProductPlans: [ServiceCatalogClientTypes.ProvisionedProductPlanSummary]? = nil
-    )
-    {
+    ) {
         self.nextPageToken = nextPageToken
         self.provisionedProductPlans = provisionedProductPlans
     }
@@ -5319,8 +5160,7 @@ public struct ListProvisioningArtifactsInput: Swift.Sendable {
     public init(
         acceptLanguage: Swift.String? = nil,
         productId: Swift.String? = nil
-    )
-    {
+    ) {
         self.acceptLanguage = acceptLanguage
         self.productId = productId
     }
@@ -5335,8 +5175,7 @@ public struct ListProvisioningArtifactsOutput: Swift.Sendable {
     public init(
         nextPageToken: Swift.String? = nil,
         provisioningArtifactDetails: [ServiceCatalogClientTypes.ProvisioningArtifactDetail]? = nil
-    )
-    {
+    ) {
         self.nextPageToken = nextPageToken
         self.provisioningArtifactDetails = provisioningArtifactDetails
     }
@@ -5362,8 +5201,7 @@ public struct ListProvisioningArtifactsForServiceActionInput: Swift.Sendable {
         pageSize: Swift.Int? = 0,
         pageToken: Swift.String? = nil,
         serviceActionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.acceptLanguage = acceptLanguage
         self.pageSize = pageSize
         self.pageToken = pageToken
@@ -5383,8 +5221,7 @@ extension ServiceCatalogClientTypes {
         public init(
             productViewSummary: ServiceCatalogClientTypes.ProductViewSummary? = nil,
             provisioningArtifact: ServiceCatalogClientTypes.ProvisioningArtifact? = nil
-        )
-        {
+        ) {
             self.productViewSummary = productViewSummary
             self.provisioningArtifact = provisioningArtifact
         }
@@ -5400,8 +5237,7 @@ public struct ListProvisioningArtifactsForServiceActionOutput: Swift.Sendable {
     public init(
         nextPageToken: Swift.String? = nil,
         provisioningArtifactViews: [ServiceCatalogClientTypes.ProvisioningArtifactView]? = nil
-    )
-    {
+    ) {
         self.nextPageToken = nextPageToken
         self.provisioningArtifactViews = provisioningArtifactViews
     }
@@ -5423,8 +5259,7 @@ extension ServiceCatalogClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -5453,8 +5288,7 @@ public struct ListRecordHistoryInput: Swift.Sendable {
         pageSize: Swift.Int? = 0,
         pageToken: Swift.String? = nil,
         searchFilter: ServiceCatalogClientTypes.ListRecordHistorySearchFilter? = nil
-    )
-    {
+    ) {
         self.acceptLanguage = acceptLanguage
         self.accessLevelFilter = accessLevelFilter
         self.pageSize = pageSize
@@ -5472,8 +5306,7 @@ public struct ListRecordHistoryOutput: Swift.Sendable {
     public init(
         nextPageToken: Swift.String? = nil,
         recordDetails: [ServiceCatalogClientTypes.RecordDetail]? = nil
-    )
-    {
+    ) {
         self.nextPageToken = nextPageToken
         self.recordDetails = recordDetails
     }
@@ -5499,8 +5332,7 @@ public struct ListResourcesForTagOptionInput: Swift.Sendable {
         pageToken: Swift.String? = nil,
         resourceType: Swift.String? = nil,
         tagOptionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.pageSize = pageSize
         self.pageToken = pageToken
         self.resourceType = resourceType
@@ -5529,8 +5361,7 @@ extension ServiceCatalogClientTypes {
             description: Swift.String? = nil,
             id: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdTime = createdTime
             self.description = description
@@ -5549,8 +5380,7 @@ public struct ListResourcesForTagOptionOutput: Swift.Sendable {
     public init(
         pageToken: Swift.String? = nil,
         resourceDetails: [ServiceCatalogClientTypes.ResourceDetail]? = nil
-    )
-    {
+    ) {
         self.pageToken = pageToken
         self.resourceDetails = resourceDetails
     }
@@ -5572,8 +5402,7 @@ public struct ListServiceActionsInput: Swift.Sendable {
         acceptLanguage: Swift.String? = nil,
         pageSize: Swift.Int? = 0,
         pageToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.acceptLanguage = acceptLanguage
         self.pageSize = pageSize
         self.pageToken = pageToken
@@ -5589,8 +5418,7 @@ public struct ListServiceActionsOutput: Swift.Sendable {
     public init(
         nextPageToken: Swift.String? = nil,
         serviceActionSummaries: [ServiceCatalogClientTypes.ServiceActionSummary]? = nil
-    )
-    {
+    ) {
         self.nextPageToken = nextPageToken
         self.serviceActionSummaries = serviceActionSummaries
     }
@@ -5620,8 +5448,7 @@ public struct ListServiceActionsForProvisioningArtifactInput: Swift.Sendable {
         pageToken: Swift.String? = nil,
         productId: Swift.String? = nil,
         provisioningArtifactId: Swift.String? = nil
-    )
-    {
+    ) {
         self.acceptLanguage = acceptLanguage
         self.pageSize = pageSize
         self.pageToken = pageToken
@@ -5639,8 +5466,7 @@ public struct ListServiceActionsForProvisioningArtifactOutput: Swift.Sendable {
     public init(
         nextPageToken: Swift.String? = nil,
         serviceActionSummaries: [ServiceCatalogClientTypes.ServiceActionSummary]? = nil
-    )
-    {
+    ) {
         self.nextPageToken = nextPageToken
         self.serviceActionSummaries = serviceActionSummaries
     }
@@ -5666,8 +5492,7 @@ public struct ListStackInstancesForProvisionedProductInput: Swift.Sendable {
         pageSize: Swift.Int? = 0,
         pageToken: Swift.String? = nil,
         provisionedProductId: Swift.String? = nil
-    )
-    {
+    ) {
         self.acceptLanguage = acceptLanguage
         self.pageSize = pageSize
         self.pageToken = pageToken
@@ -5728,8 +5553,7 @@ extension ServiceCatalogClientTypes {
             account: Swift.String? = nil,
             region: Swift.String? = nil,
             stackInstanceStatus: ServiceCatalogClientTypes.StackInstanceStatus? = nil
-        )
-        {
+        ) {
             self.account = account
             self.region = region
             self.stackInstanceStatus = stackInstanceStatus
@@ -5746,8 +5570,7 @@ public struct ListStackInstancesForProvisionedProductOutput: Swift.Sendable {
     public init(
         nextPageToken: Swift.String? = nil,
         stackInstances: [ServiceCatalogClientTypes.StackInstance]? = nil
-    )
-    {
+    ) {
         self.nextPageToken = nextPageToken
         self.stackInstances = stackInstances
     }
@@ -5768,8 +5591,7 @@ extension ServiceCatalogClientTypes {
             active: Swift.Bool? = nil,
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.active = active
             self.key = key
             self.value = value
@@ -5789,8 +5611,7 @@ public struct ListTagOptionsInput: Swift.Sendable {
         filters: ServiceCatalogClientTypes.ListTagOptionsFilters? = nil,
         pageSize: Swift.Int? = 0,
         pageToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.pageSize = pageSize
         self.pageToken = pageToken
@@ -5806,8 +5627,7 @@ public struct ListTagOptionsOutput: Swift.Sendable {
     public init(
         pageToken: Swift.String? = nil,
         tagOptionDetails: [ServiceCatalogClientTypes.TagOptionDetail]? = nil
-    )
-    {
+    ) {
         self.pageToken = pageToken
         self.tagOptionDetails = tagOptionDetails
     }
@@ -5825,8 +5645,7 @@ extension ServiceCatalogClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -5842,8 +5661,7 @@ extension ServiceCatalogClientTypes {
 
         public init(
             uniqueTag: ServiceCatalogClientTypes.UniqueTagResourceIdentifier? = nil
-        )
-        {
+        ) {
             self.uniqueTag = uniqueTag
         }
     }
@@ -5906,8 +5724,7 @@ public struct NotifyProvisionProductEngineWorkflowResultInput: Swift.Sendable {
         resourceIdentifier: ServiceCatalogClientTypes.EngineWorkflowResourceIdentifier? = nil,
         status: ServiceCatalogClientTypes.EngineWorkflowStatus? = nil,
         workflowToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.failureReason = failureReason
         self.idempotencyToken = idempotencyToken
         self.outputs = outputs
@@ -5945,8 +5762,7 @@ public struct NotifyTerminateProvisionedProductEngineWorkflowResultInput: Swift.
         recordId: Swift.String? = nil,
         status: ServiceCatalogClientTypes.EngineWorkflowStatus? = nil,
         workflowToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.failureReason = failureReason
         self.idempotencyToken = idempotencyToken
         self.recordId = recordId
@@ -5985,8 +5801,7 @@ public struct NotifyUpdateProvisionedProductEngineWorkflowResultInput: Swift.Sen
         recordId: Swift.String? = nil,
         status: ServiceCatalogClientTypes.EngineWorkflowStatus? = nil,
         workflowToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.failureReason = failureReason
         self.idempotencyToken = idempotencyToken
         self.outputs = outputs
@@ -6013,8 +5828,7 @@ extension ServiceCatalogClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -6045,8 +5859,7 @@ extension ServiceCatalogClientTypes {
             stackSetMaxConcurrencyCount: Swift.Int? = nil,
             stackSetMaxConcurrencyPercentage: Swift.Int? = nil,
             stackSetRegions: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.stackSetAccounts = stackSetAccounts
             self.stackSetFailureToleranceCount = stackSetFailureToleranceCount
             self.stackSetFailureTolerancePercentage = stackSetFailureTolerancePercentage
@@ -6105,8 +5918,7 @@ public struct ProvisionProductInput: Swift.Sendable {
         provisioningParameters: [ServiceCatalogClientTypes.ProvisioningParameter]? = nil,
         provisioningPreferences: ServiceCatalogClientTypes.ProvisioningPreferences? = nil,
         tags: [ServiceCatalogClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.acceptLanguage = acceptLanguage
         self.notificationArns = notificationArns
         self.pathId = pathId
@@ -6129,8 +5941,7 @@ public struct ProvisionProductOutput: Swift.Sendable {
 
     public init(
         recordDetail: ServiceCatalogClientTypes.RecordDetail? = nil
-    )
-    {
+    ) {
         self.recordDetail = recordDetail
     }
 }
@@ -6161,8 +5972,7 @@ public struct RejectPortfolioShareInput: Swift.Sendable {
         acceptLanguage: Swift.String? = nil,
         portfolioId: Swift.String? = nil,
         portfolioShareType: ServiceCatalogClientTypes.PortfolioShareType? = nil
-    )
-    {
+    ) {
         self.acceptLanguage = acceptLanguage
         self.portfolioId = portfolioId
         self.portfolioShareType = portfolioShareType
@@ -6193,8 +6003,7 @@ public struct ScanProvisionedProductsInput: Swift.Sendable {
         accessLevelFilter: ServiceCatalogClientTypes.AccessLevelFilter? = nil,
         pageSize: Swift.Int? = 0,
         pageToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.acceptLanguage = acceptLanguage
         self.accessLevelFilter = accessLevelFilter
         self.pageSize = pageSize
@@ -6211,8 +6020,7 @@ public struct ScanProvisionedProductsOutput: Swift.Sendable {
     public init(
         nextPageToken: Swift.String? = nil,
         provisionedProducts: [ServiceCatalogClientTypes.ProvisionedProductDetail]? = nil
-    )
-    {
+    ) {
         self.nextPageToken = nextPageToken
         self.provisionedProducts = provisionedProducts
     }
@@ -6339,8 +6147,7 @@ public struct SearchProductsInput: Swift.Sendable {
         pageToken: Swift.String? = nil,
         sortBy: ServiceCatalogClientTypes.ProductViewSortBy? = nil,
         sortOrder: ServiceCatalogClientTypes.SortOrder? = nil
-    )
-    {
+    ) {
         self.acceptLanguage = acceptLanguage
         self.filters = filters
         self.pageSize = pageSize
@@ -6362,8 +6169,7 @@ extension ServiceCatalogClientTypes {
         public init(
             approximateCount: Swift.Int = 0,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.approximateCount = approximateCount
             self.value = value
         }
@@ -6382,8 +6188,7 @@ public struct SearchProductsOutput: Swift.Sendable {
         nextPageToken: Swift.String? = nil,
         productViewAggregations: [Swift.String: [ServiceCatalogClientTypes.ProductViewAggregationValue]]? = nil,
         productViewSummaries: [ServiceCatalogClientTypes.ProductViewSummary]? = nil
-    )
-    {
+    ) {
         self.nextPageToken = nextPageToken
         self.productViewAggregations = productViewAggregations
         self.productViewSummaries = productViewSummaries
@@ -6447,8 +6252,7 @@ public struct SearchProductsAsAdminInput: Swift.Sendable {
         productSource: ServiceCatalogClientTypes.ProductSource? = nil,
         sortBy: ServiceCatalogClientTypes.ProductViewSortBy? = nil,
         sortOrder: ServiceCatalogClientTypes.SortOrder? = nil
-    )
-    {
+    ) {
         self.acceptLanguage = acceptLanguage
         self.filters = filters
         self.pageSize = pageSize
@@ -6469,8 +6273,7 @@ public struct SearchProductsAsAdminOutput: Swift.Sendable {
     public init(
         nextPageToken: Swift.String? = nil,
         productViewDetails: [ServiceCatalogClientTypes.ProductViewDetail]? = nil
-    )
-    {
+    ) {
         self.nextPageToken = nextPageToken
         self.productViewDetails = productViewDetails
     }
@@ -6530,8 +6333,7 @@ public struct SearchProvisionedProductsInput: Swift.Sendable {
         pageToken: Swift.String? = nil,
         sortBy: Swift.String? = nil,
         sortOrder: ServiceCatalogClientTypes.SortOrder? = nil
-    )
-    {
+    ) {
         self.acceptLanguage = acceptLanguage
         self.accessLevelFilter = accessLevelFilter
         self.filters = filters
@@ -6631,8 +6433,7 @@ extension ServiceCatalogClientTypes {
             type: Swift.String? = nil,
             userArn: Swift.String? = nil,
             userArnSession: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdTime = createdTime
             self.id = id
@@ -6668,8 +6469,7 @@ public struct SearchProvisionedProductsOutput: Swift.Sendable {
         nextPageToken: Swift.String? = nil,
         provisionedProducts: [ServiceCatalogClientTypes.ProvisionedProductAttribute]? = nil,
         totalResultsCount: Swift.Int = 0
-    )
-    {
+    ) {
         self.nextPageToken = nextPageToken
         self.provisionedProducts = provisionedProducts
         self.totalResultsCount = totalResultsCount
@@ -6702,8 +6502,7 @@ public struct TerminateProvisionedProductInput: Swift.Sendable {
         provisionedProductName: Swift.String? = nil,
         retainPhysicalResources: Swift.Bool? = false,
         terminateToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.acceptLanguage = acceptLanguage
         self.ignoreErrors = ignoreErrors
         self.provisionedProductId = provisionedProductId
@@ -6719,8 +6518,7 @@ public struct TerminateProvisionedProductOutput: Swift.Sendable {
 
     public init(
         recordDetail: ServiceCatalogClientTypes.RecordDetail? = nil
-    )
-    {
+    ) {
         self.recordDetail = recordDetail
     }
 }
@@ -6745,8 +6543,7 @@ public struct UpdateConstraintInput: Swift.Sendable {
         description: Swift.String? = nil,
         id: Swift.String? = nil,
         parameters: Swift.String? = nil
-    )
-    {
+    ) {
         self.acceptLanguage = acceptLanguage
         self.description = description
         self.id = id
@@ -6766,8 +6563,7 @@ public struct UpdateConstraintOutput: Swift.Sendable {
         constraintDetail: ServiceCatalogClientTypes.ConstraintDetail? = nil,
         constraintParameters: Swift.String? = nil,
         status: ServiceCatalogClientTypes.Status? = nil
-    )
-    {
+    ) {
         self.constraintDetail = constraintDetail
         self.constraintParameters = constraintParameters
         self.status = status
@@ -6803,8 +6599,7 @@ public struct UpdatePortfolioInput: Swift.Sendable {
         id: Swift.String? = nil,
         providerName: Swift.String? = nil,
         removeTags: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.acceptLanguage = acceptLanguage
         self.addTags = addTags
         self.description = description
@@ -6824,8 +6619,7 @@ public struct UpdatePortfolioOutput: Swift.Sendable {
     public init(
         portfolioDetail: ServiceCatalogClientTypes.PortfolioDetail? = nil,
         tags: [ServiceCatalogClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.portfolioDetail = portfolioDetail
         self.tags = tags
     }
@@ -6857,8 +6651,7 @@ public struct UpdatePortfolioShareInput: Swift.Sendable {
         portfolioId: Swift.String? = nil,
         sharePrincipals: Swift.Bool? = nil,
         shareTagOptions: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.acceptLanguage = acceptLanguage
         self.accountId = accountId
         self.organizationNode = organizationNode
@@ -6877,8 +6670,7 @@ public struct UpdatePortfolioShareOutput: Swift.Sendable {
     public init(
         portfolioShareToken: Swift.String? = nil,
         status: ServiceCatalogClientTypes.ShareStatus? = nil
-    )
-    {
+    ) {
         self.portfolioShareToken = portfolioShareToken
         self.status = status
     }
@@ -6932,8 +6724,7 @@ public struct UpdateProductInput: Swift.Sendable {
         supportDescription: Swift.String? = nil,
         supportEmail: Swift.String? = nil,
         supportUrl: Swift.String? = nil
-    )
-    {
+    ) {
         self.acceptLanguage = acceptLanguage
         self.addTags = addTags
         self.description = description
@@ -6958,8 +6749,7 @@ public struct UpdateProductOutput: Swift.Sendable {
     public init(
         productViewDetail: ServiceCatalogClientTypes.ProductViewDetail? = nil,
         tags: [ServiceCatalogClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.productViewDetail = productViewDetail
         self.tags = tags
     }
@@ -7024,8 +6814,7 @@ extension ServiceCatalogClientTypes {
             stackSetMaxConcurrencyPercentage: Swift.Int? = nil,
             stackSetOperationType: ServiceCatalogClientTypes.StackSetOperationType? = nil,
             stackSetRegions: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.stackSetAccounts = stackSetAccounts
             self.stackSetFailureToleranceCount = stackSetFailureToleranceCount
             self.stackSetFailureTolerancePercentage = stackSetFailureTolerancePercentage
@@ -7084,8 +6873,7 @@ public struct UpdateProvisionedProductInput: Swift.Sendable {
         provisioningPreferences: ServiceCatalogClientTypes.UpdateProvisioningPreferences? = nil,
         tags: [ServiceCatalogClientTypes.Tag]? = nil,
         updateToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.acceptLanguage = acceptLanguage
         self.pathId = pathId
         self.pathName = pathName
@@ -7108,8 +6896,7 @@ public struct UpdateProvisionedProductOutput: Swift.Sendable {
 
     public init(
         recordDetail: ServiceCatalogClientTypes.RecordDetail? = nil
-    )
-    {
+    ) {
         self.recordDetail = recordDetail
     }
 }
@@ -7165,8 +6952,7 @@ public struct UpdateProvisionedProductPropertiesInput: Swift.Sendable {
         idempotencyToken: Swift.String? = nil,
         provisionedProductId: Swift.String? = nil,
         provisionedProductProperties: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.acceptLanguage = acceptLanguage
         self.idempotencyToken = idempotencyToken
         self.provisionedProductId = provisionedProductId
@@ -7189,8 +6975,7 @@ public struct UpdateProvisionedProductPropertiesOutput: Swift.Sendable {
         provisionedProductProperties: [Swift.String: Swift.String]? = nil,
         recordId: Swift.String? = nil,
         status: ServiceCatalogClientTypes.RecordStatus? = nil
-    )
-    {
+    ) {
         self.provisionedProductId = provisionedProductId
         self.provisionedProductProperties = provisionedProductProperties
         self.recordId = recordId
@@ -7228,8 +7013,7 @@ public struct UpdateProvisioningArtifactInput: Swift.Sendable {
         name: Swift.String? = nil,
         productId: Swift.String? = nil,
         provisioningArtifactId: Swift.String? = nil
-    )
-    {
+    ) {
         self.acceptLanguage = acceptLanguage
         self.active = active
         self.description = description
@@ -7252,8 +7036,7 @@ public struct UpdateProvisioningArtifactOutput: Swift.Sendable {
         info: [Swift.String: Swift.String]? = nil,
         provisioningArtifactDetail: ServiceCatalogClientTypes.ProvisioningArtifactDetail? = nil,
         status: ServiceCatalogClientTypes.Status? = nil
-    )
-    {
+    ) {
         self.info = info
         self.provisioningArtifactDetail = provisioningArtifactDetail
         self.status = status
@@ -7283,8 +7066,7 @@ public struct UpdateServiceActionInput: Swift.Sendable {
         description: Swift.String? = nil,
         id: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.acceptLanguage = acceptLanguage
         self.definition = definition
         self.description = description
@@ -7299,8 +7081,7 @@ public struct UpdateServiceActionOutput: Swift.Sendable {
 
     public init(
         serviceActionDetail: ServiceCatalogClientTypes.ServiceActionDetail? = nil
-    )
-    {
+    ) {
         self.serviceActionDetail = serviceActionDetail
     }
 }
@@ -7318,8 +7099,7 @@ public struct UpdateTagOptionInput: Swift.Sendable {
         active: Swift.Bool? = nil,
         id: Swift.String? = nil,
         value: Swift.String? = nil
-    )
-    {
+    ) {
         self.active = active
         self.id = id
         self.value = value
@@ -7332,8 +7112,7 @@ public struct UpdateTagOptionOutput: Swift.Sendable {
 
     public init(
         tagOptionDetail: ServiceCatalogClientTypes.TagOptionDetail? = nil
-    )
-    {
+    ) {
         self.tagOptionDetail = tagOptionDetail
     }
 }

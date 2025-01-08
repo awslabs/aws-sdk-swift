@@ -40,8 +40,7 @@ extension CloudTrailDataClientTypes {
             eventData: Swift.String? = nil,
             eventDataChecksum: Swift.String? = nil,
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.eventData = eventData
             self.eventDataChecksum = eventDataChecksum
             self.id = id
@@ -63,8 +62,7 @@ extension CloudTrailDataClientTypes {
         public init(
             eventID: Swift.String? = nil,
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.eventID = eventID
             self.id = id
         }
@@ -89,8 +87,7 @@ public struct ChannelInsufficientPermission: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -113,8 +110,7 @@ public struct ChannelNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -137,8 +133,7 @@ public struct ChannelUnsupportedSchema: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -161,8 +156,7 @@ public struct DuplicatedAuditEventId: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -185,8 +179,7 @@ public struct InvalidChannelARN: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -209,8 +202,7 @@ public struct UnsupportedOperationException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -229,8 +221,7 @@ public struct PutAuditEventsInput: Swift.Sendable {
         auditEvents: [CloudTrailDataClientTypes.AuditEvent]? = nil,
         channelArn: Swift.String? = nil,
         externalId: Swift.String? = nil
-    )
-    {
+    ) {
         self.auditEvents = auditEvents
         self.channelArn = channelArn
         self.externalId = externalId
@@ -255,8 +246,7 @@ extension CloudTrailDataClientTypes {
             errorCode: Swift.String? = nil,
             errorMessage: Swift.String? = nil,
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.id = id
@@ -275,8 +265,7 @@ public struct PutAuditEventsOutput: Swift.Sendable {
     public init(
         failed: [CloudTrailDataClientTypes.ResultErrorEntry]? = nil,
         successful: [CloudTrailDataClientTypes.AuditEventResultEntry]? = nil
-    )
-    {
+    ) {
         self.failed = failed
         self.successful = successful
     }

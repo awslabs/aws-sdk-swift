@@ -72,8 +72,7 @@ public struct LexiconNotFoundException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -96,8 +95,7 @@ public struct ServiceFailureException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -109,8 +107,7 @@ public struct DeleteLexiconInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -138,8 +135,7 @@ public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -340,8 +336,7 @@ public struct DescribeVoicesInput: Swift.Sendable {
         includeAdditionalLanguageCodes: Swift.Bool? = false,
         languageCode: PollyClientTypes.LanguageCode? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.engine = engine
         self.includeAdditionalLanguageCodes = includeAdditionalLanguageCodes
         self.languageCode = languageCode
@@ -722,8 +717,7 @@ extension PollyClientTypes {
             languageName: Swift.String? = nil,
             name: Swift.String? = nil,
             supportedEngines: [PollyClientTypes.Engine]? = nil
-        )
-        {
+        ) {
             self.additionalLanguageCodes = additionalLanguageCodes
             self.gender = gender
             self.id = id
@@ -744,8 +738,7 @@ public struct DescribeVoicesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         voices: [PollyClientTypes.Voice]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.voices = voices
     }
@@ -769,8 +762,7 @@ public struct EngineNotSupportedException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -782,8 +774,7 @@ public struct GetLexiconInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -800,8 +791,7 @@ extension PollyClientTypes {
         public init(
             content: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.content = content
             self.name = name
         }
@@ -837,8 +827,7 @@ extension PollyClientTypes {
             lexemesCount: Swift.Int = 0,
             lexiconArn: Swift.String? = nil,
             size: Swift.Int = 0
-        )
-        {
+        ) {
             self.alphabet = alphabet
             self.languageCode = languageCode
             self.lastModified = lastModified
@@ -858,8 +847,7 @@ public struct GetLexiconOutput: Swift.Sendable {
     public init(
         lexicon: PollyClientTypes.Lexicon? = nil,
         lexiconAttributes: PollyClientTypes.LexiconAttributes? = nil
-    )
-    {
+    ) {
         self.lexicon = lexicon
         self.lexiconAttributes = lexiconAttributes
     }
@@ -883,8 +871,7 @@ public struct InvalidTaskIdException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -907,8 +894,7 @@ public struct SynthesisTaskNotFoundException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -920,8 +906,7 @@ public struct GetSpeechSynthesisTaskInput: Swift.Sendable {
 
     public init(
         taskId: Swift.String? = nil
-    )
-    {
+    ) {
         self.taskId = taskId
     }
 }
@@ -1111,8 +1096,7 @@ extension PollyClientTypes {
             taskStatusReason: Swift.String? = nil,
             textType: PollyClientTypes.TextType? = nil,
             voiceId: PollyClientTypes.VoiceId? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.engine = engine
             self.languageCode = languageCode
@@ -1138,8 +1122,7 @@ public struct GetSpeechSynthesisTaskOutput: Swift.Sendable {
 
     public init(
         synthesisTask: PollyClientTypes.SynthesisTask? = nil
-    )
-    {
+    ) {
         self.synthesisTask = synthesisTask
     }
 }
@@ -1162,8 +1145,7 @@ public struct InvalidLexiconException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1186,8 +1168,7 @@ public struct InvalidS3BucketException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1210,8 +1191,7 @@ public struct InvalidS3KeyException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1234,8 +1214,7 @@ public struct InvalidSampleRateException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1258,8 +1237,7 @@ public struct InvalidSnsTopicArnException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1282,8 +1260,7 @@ public struct InvalidSsmlException: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1306,8 +1283,7 @@ public struct LanguageNotSupportedException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1324,8 +1300,7 @@ extension PollyClientTypes {
         public init(
             attributes: PollyClientTypes.LexiconAttributes? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.attributes = attributes
             self.name = name
         }
@@ -1350,8 +1325,7 @@ public struct LexiconSizeExceededException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1362,8 +1336,7 @@ public struct ListLexiconsInput: Swift.Sendable {
 
     public init(
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
     }
 }
@@ -1377,8 +1350,7 @@ public struct ListLexiconsOutput: Swift.Sendable {
     public init(
         lexicons: [PollyClientTypes.LexiconDescription]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.lexicons = lexicons
         self.nextToken = nextToken
     }
@@ -1396,8 +1368,7 @@ public struct ListSpeechSynthesisTasksInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         status: PollyClientTypes.TaskStatus? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.status = status
@@ -1413,8 +1384,7 @@ public struct ListSpeechSynthesisTasksOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         synthesisTasks: [PollyClientTypes.SynthesisTask]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.synthesisTasks = synthesisTasks
     }
@@ -1438,8 +1408,7 @@ public struct MarksNotSupportedForFormatException: ClientRuntime.ModeledError, A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1462,8 +1431,7 @@ public struct MaxLexemeLengthExceededException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1486,8 +1454,7 @@ public struct MaxLexiconsNumberExceededException: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1510,8 +1477,7 @@ public struct UnsupportedPlsAlphabetException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1534,8 +1500,7 @@ public struct UnsupportedPlsLanguageException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1551,8 +1516,7 @@ public struct PutLexiconInput: Swift.Sendable {
     public init(
         content: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.content = content
         self.name = name
     }
@@ -1586,8 +1550,7 @@ public struct SsmlMarksNotSupportedForTextTypeException: ClientRuntime.ModeledEr
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1610,8 +1573,7 @@ public struct TextLengthExceededException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1659,8 +1621,7 @@ public struct StartSpeechSynthesisTaskInput: Swift.Sendable {
         text: Swift.String? = nil,
         textType: PollyClientTypes.TextType? = nil,
         voiceId: PollyClientTypes.VoiceId? = nil
-    )
-    {
+    ) {
         self.engine = engine
         self.languageCode = languageCode
         self.lexiconNames = lexiconNames
@@ -1682,8 +1643,7 @@ public struct StartSpeechSynthesisTaskOutput: Swift.Sendable {
 
     public init(
         synthesisTask: PollyClientTypes.SynthesisTask? = nil
-    )
-    {
+    ) {
         self.synthesisTask = synthesisTask
     }
 }
@@ -1721,8 +1681,7 @@ public struct SynthesizeSpeechInput: Swift.Sendable {
         text: Swift.String? = nil,
         textType: PollyClientTypes.TextType? = nil,
         voiceId: PollyClientTypes.VoiceId? = nil
-    )
-    {
+    ) {
         self.engine = engine
         self.languageCode = languageCode
         self.lexiconNames = lexiconNames
@@ -1755,8 +1714,7 @@ public struct SynthesizeSpeechOutput: Swift.Sendable {
         audioStream: Smithy.ByteStream? = Smithy.ByteStream.data(Foundation.Data(base64Encoded: "")),
         contentType: Swift.String? = nil,
         requestCharacters: Swift.Int = 0
-    )
-    {
+    ) {
         self.audioStream = audioStream
         self.contentType = contentType
         self.requestCharacters = requestCharacters

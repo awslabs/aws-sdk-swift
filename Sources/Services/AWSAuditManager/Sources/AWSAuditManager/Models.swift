@@ -46,8 +46,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -146,8 +145,7 @@ extension AuditManagerClientTypes {
             emailAddress: Swift.String? = nil,
             id: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.emailAddress = emailAddress
             self.id = id
             self.name = name
@@ -175,8 +173,7 @@ extension AuditManagerClientTypes {
             authorName: Swift.String? = nil,
             commentBody: Swift.String? = nil,
             postedDate: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.authorName = authorName
             self.commentBody = commentBody
             self.postedDate = postedDate
@@ -289,8 +286,7 @@ extension AuditManagerClientTypes {
             name: Swift.String? = nil,
             response: AuditManagerClientTypes.ControlResponse? = nil,
             status: AuditManagerClientTypes.ControlStatus? = nil
-        )
-        {
+        ) {
             self.assessmentReportEvidenceCount = assessmentReportEvidenceCount
             self.comments = comments
             self.description = description
@@ -409,8 +405,7 @@ extension AuditManagerClientTypes {
             roleArn: Swift.String? = nil,
             roleType: AuditManagerClientTypes.RoleType? = nil,
             status: AuditManagerClientTypes.DelegationStatus? = nil
-        )
-        {
+        ) {
             self.assessmentId = assessmentId
             self.assessmentName = assessmentName
             self.comment = comment
@@ -446,8 +441,7 @@ extension AuditManagerClientTypes {
         public init(
             roleArn: Swift.String? = nil,
             roleType: AuditManagerClientTypes.RoleType? = nil
-        )
-        {
+        ) {
             self.roleArn = roleArn
             self.roleType = roleType
         }
@@ -516,8 +510,7 @@ extension AuditManagerClientTypes {
             roles: [AuditManagerClientTypes.Role]? = nil,
             status: AuditManagerClientTypes.ControlSetStatus? = nil,
             systemEvidenceCount: Swift.Int = 0
-        )
-        {
+        ) {
             self.controls = controls
             self.delegations = delegations
             self.description = description
@@ -553,8 +546,7 @@ extension AuditManagerClientTypes {
             description: Swift.String? = nil,
             logo: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.complianceType = complianceType
             self.description = description
             self.logo = logo
@@ -586,8 +578,7 @@ extension AuditManagerClientTypes {
             controlSets: [AuditManagerClientTypes.AssessmentControlSet]? = nil,
             id: Swift.String? = nil,
             metadata: AuditManagerClientTypes.FrameworkMetadata? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.controlSets = controlSets
             self.id = id
@@ -640,8 +631,7 @@ extension AuditManagerClientTypes {
         public init(
             destination: Swift.String? = nil,
             destinationType: AuditManagerClientTypes.AssessmentReportDestinationType? = nil
-        )
-        {
+        ) {
             self.destination = destination
             self.destinationType = destinationType
         }
@@ -667,8 +657,7 @@ extension AuditManagerClientTypes {
 
         public init(
             serviceName: Swift.String? = nil
-        )
-        {
+        ) {
             self.serviceName = serviceName
         }
     }
@@ -687,8 +676,7 @@ extension AuditManagerClientTypes {
         public init(
             awsAccounts: [AuditManagerClientTypes.AWSAccount]? = nil,
             awsServices: [AuditManagerClientTypes.AWSService]? = nil
-        )
-        {
+        ) {
             self.awsAccounts = awsAccounts
             self.awsServices = awsServices
         }
@@ -769,8 +757,7 @@ extension AuditManagerClientTypes {
             roles: [AuditManagerClientTypes.Role]? = nil,
             scope: AuditManagerClientTypes.Scope? = nil,
             status: AuditManagerClientTypes.AssessmentStatus? = nil
-        )
-        {
+        ) {
             self.assessmentReportsDestination = assessmentReportsDestination
             self.complianceType = complianceType
             self.creationTime = creationTime
@@ -812,8 +799,7 @@ extension AuditManagerClientTypes {
             framework: AuditManagerClientTypes.AssessmentFramework? = nil,
             metadata: AuditManagerClientTypes.AssessmentMetadata? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.awsAccount = awsAccount
             self.framework = framework
@@ -888,8 +874,7 @@ extension AuditManagerClientTypes {
             id: Swift.String? = nil,
             name: Swift.String? = nil,
             totalEvidence: Swift.Int = 0
-        )
-        {
+        ) {
             self.assessmentId = assessmentId
             self.assessmentReportSelectionCount = assessmentReportSelectionCount
             self.author = author
@@ -980,8 +965,7 @@ extension AuditManagerClientTypes {
             logo: Swift.String? = nil,
             name: Swift.String? = nil,
             type: AuditManagerClientTypes.FrameworkType? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.complianceType = complianceType
             self.controlSetsCount = controlSetsCount
@@ -1100,8 +1084,7 @@ extension AuditManagerClientTypes {
             sourceAccount: Swift.String? = nil,
             standardControlsCount: Swift.Int? = nil,
             status: AuditManagerClientTypes.ShareRequestStatus? = nil
-        )
-        {
+        ) {
             self.comment = comment
             self.complianceType = complianceType
             self.creationTime = creationTime
@@ -1156,8 +1139,7 @@ extension AuditManagerClientTypes {
             name: Swift.String? = nil,
             roles: [AuditManagerClientTypes.Role]? = nil,
             status: AuditManagerClientTypes.AssessmentStatus? = nil
-        )
-        {
+        ) {
             self.complianceType = complianceType
             self.creationTime = creationTime
             self.delegations = delegations
@@ -1240,8 +1222,7 @@ extension AuditManagerClientTypes {
             id: Swift.String? = nil,
             name: Swift.String? = nil,
             status: AuditManagerClientTypes.AssessmentReportStatus? = nil
-        )
-        {
+        ) {
             self.assessmentId = assessmentId
             self.assessmentName = assessmentName
             self.author = author
@@ -1275,8 +1256,7 @@ extension AuditManagerClientTypes {
             errorCode: Swift.String? = nil,
             errorMessage: Swift.String? = nil,
             evidenceId: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.evidenceId = evidenceId
@@ -1314,8 +1294,7 @@ extension AuditManagerClientTypes {
             id: Swift.String? = nil,
             name: Swift.String? = nil,
             status: AuditManagerClientTypes.AssessmentReportStatus? = nil
-        )
-        {
+        ) {
             self.assessmentId = assessmentId
             self.assessmentName = assessmentName
             self.author = author
@@ -1352,8 +1331,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1385,8 +1363,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -1407,8 +1384,7 @@ extension AuditManagerClientTypes {
         public init(
             message: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
             self.name = name
         }
@@ -1475,8 +1451,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
         fields: [AuditManagerClientTypes.ValidationExceptionField]? = nil,
         message: Swift.String? = nil,
         reason: AuditManagerClientTypes.ValidationExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.fields = fields
         self.properties.message = message
         self.properties.reason = reason
@@ -1494,8 +1469,7 @@ public struct AssociateAssessmentReportEvidenceFolderInput: Swift.Sendable {
     public init(
         assessmentId: Swift.String? = nil,
         evidenceFolderId: Swift.String? = nil
-    )
-    {
+    ) {
         self.assessmentId = assessmentId
         self.evidenceFolderId = evidenceFolderId
     }
@@ -1521,8 +1495,7 @@ public struct BatchAssociateAssessmentReportEvidenceInput: Swift.Sendable {
         assessmentId: Swift.String? = nil,
         evidenceFolderId: Swift.String? = nil,
         evidenceIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.assessmentId = assessmentId
         self.evidenceFolderId = evidenceFolderId
         self.evidenceIds = evidenceIds
@@ -1538,8 +1511,7 @@ public struct BatchAssociateAssessmentReportEvidenceOutput: Swift.Sendable {
     public init(
         errors: [AuditManagerClientTypes.AssessmentReportEvidenceError]? = nil,
         evidenceIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.errors = errors
         self.evidenceIds = evidenceIds
     }
@@ -1563,8 +1535,7 @@ extension AuditManagerClientTypes {
             controlSetId: Swift.String? = nil,
             roleArn: Swift.String? = nil,
             roleType: AuditManagerClientTypes.RoleType? = nil
-        )
-        {
+        ) {
             self.comment = comment
             self.controlSetId = controlSetId
             self.roleArn = roleArn
@@ -1589,8 +1560,7 @@ public struct BatchCreateDelegationByAssessmentInput: Swift.Sendable {
     public init(
         assessmentId: Swift.String? = nil,
         createDelegationRequests: [AuditManagerClientTypes.CreateDelegationRequest]? = nil
-    )
-    {
+    ) {
         self.assessmentId = assessmentId
         self.createDelegationRequests = createDelegationRequests
     }
@@ -1616,8 +1586,7 @@ extension AuditManagerClientTypes {
             createDelegationRequest: AuditManagerClientTypes.CreateDelegationRequest? = nil,
             errorCode: Swift.String? = nil,
             errorMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.createDelegationRequest = createDelegationRequest
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -1634,8 +1603,7 @@ public struct BatchCreateDelegationByAssessmentOutput: Swift.Sendable {
     public init(
         delegations: [AuditManagerClientTypes.Delegation]? = nil,
         errors: [AuditManagerClientTypes.BatchCreateDelegationByAssessmentError]? = nil
-    )
-    {
+    ) {
         self.delegations = delegations
         self.errors = errors
     }
@@ -1657,8 +1625,7 @@ public struct BatchDeleteDelegationByAssessmentInput: Swift.Sendable {
     public init(
         assessmentId: Swift.String? = nil,
         delegationIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.assessmentId = assessmentId
         self.delegationIds = delegationIds
     }
@@ -1679,8 +1646,7 @@ extension AuditManagerClientTypes {
             delegationId: Swift.String? = nil,
             errorCode: Swift.String? = nil,
             errorMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.delegationId = delegationId
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -1694,8 +1660,7 @@ public struct BatchDeleteDelegationByAssessmentOutput: Swift.Sendable {
 
     public init(
         errors: [AuditManagerClientTypes.BatchDeleteDelegationByAssessmentError]? = nil
-    )
-    {
+    ) {
         self.errors = errors
     }
 }
@@ -1720,8 +1685,7 @@ public struct BatchDisassociateAssessmentReportEvidenceInput: Swift.Sendable {
         assessmentId: Swift.String? = nil,
         evidenceFolderId: Swift.String? = nil,
         evidenceIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.assessmentId = assessmentId
         self.evidenceFolderId = evidenceFolderId
         self.evidenceIds = evidenceIds
@@ -1737,8 +1701,7 @@ public struct BatchDisassociateAssessmentReportEvidenceOutput: Swift.Sendable {
     public init(
         errors: [AuditManagerClientTypes.AssessmentReportEvidenceError]? = nil,
         evidenceIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.errors = errors
         self.evidenceIds = evidenceIds
     }
@@ -1763,8 +1726,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1784,8 +1746,7 @@ extension AuditManagerClientTypes {
             evidenceFileName: Swift.String? = nil,
             s3ResourcePath: Swift.String? = nil,
             textResponse: Swift.String? = nil
-        )
-        {
+        ) {
             self.evidenceFileName = evidenceFileName
             self.s3ResourcePath = s3ResourcePath
             self.textResponse = textResponse
@@ -1817,8 +1778,7 @@ public struct BatchImportEvidenceToAssessmentControlInput: Swift.Sendable {
         controlId: Swift.String? = nil,
         controlSetId: Swift.String? = nil,
         manualEvidence: [AuditManagerClientTypes.ManualEvidence]? = nil
-    )
-    {
+    ) {
         self.assessmentId = assessmentId
         self.controlId = controlId
         self.controlSetId = controlSetId
@@ -1841,8 +1801,7 @@ extension AuditManagerClientTypes {
             errorCode: Swift.String? = nil,
             errorMessage: Swift.String? = nil,
             manualEvidence: AuditManagerClientTypes.ManualEvidence? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.manualEvidence = manualEvidence
@@ -1856,8 +1815,7 @@ public struct BatchImportEvidenceToAssessmentControlOutput: Swift.Sendable {
 
     public init(
         errors: [AuditManagerClientTypes.BatchImportEvidenceToAssessmentControlError]? = nil
-    )
-    {
+    ) {
         self.errors = errors
     }
 }
@@ -1881,8 +1839,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1916,8 +1873,7 @@ public struct CreateAssessmentInput: Swift.Sendable {
         roles: [AuditManagerClientTypes.Role]? = nil,
         scope: AuditManagerClientTypes.Scope? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.assessmentReportsDestination = assessmentReportsDestination
         self.description = description
         self.frameworkId = frameworkId
@@ -1939,8 +1895,7 @@ public struct CreateAssessmentOutput: Swift.Sendable {
 
     public init(
         assessment: AuditManagerClientTypes.Assessment? = nil
-    )
-    {
+    ) {
         self.assessment = assessment
     }
 }
@@ -1955,8 +1910,7 @@ extension AuditManagerClientTypes {
 
         public init(
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.id = id
         }
     }
@@ -1975,8 +1929,7 @@ extension AuditManagerClientTypes {
         public init(
             controls: [AuditManagerClientTypes.CreateAssessmentFrameworkControl]? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.controls = controls
             self.name = name
         }
@@ -2003,8 +1956,7 @@ public struct CreateAssessmentFrameworkInput: Swift.Sendable {
         description: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.complianceType = complianceType
         self.controlSets = controlSets
         self.description = description
@@ -2156,8 +2108,7 @@ extension AuditManagerClientTypes {
         public init(
             keywordInputType: AuditManagerClientTypes.KeywordInputType? = nil,
             keywordValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.keywordInputType = keywordInputType
             self.keywordValue = keywordValue
         }
@@ -2279,8 +2230,7 @@ extension AuditManagerClientTypes {
             sourceSetUpOption: AuditManagerClientTypes.SourceSetUpOption? = nil,
             sourceType: AuditManagerClientTypes.SourceType? = nil,
             troubleshootingText: Swift.String? = nil
-        )
-        {
+        ) {
             self.sourceDescription = sourceDescription
             self.sourceFrequency = sourceFrequency
             self.sourceId = sourceId
@@ -2413,8 +2363,7 @@ extension AuditManagerClientTypes {
             tags: [Swift.String: Swift.String]? = nil,
             testingInformation: Swift.String? = nil,
             type: AuditManagerClientTypes.ControlType? = nil
-        )
-        {
+        ) {
             self.actionPlanInstructions = actionPlanInstructions
             self.actionPlanTitle = actionPlanTitle
             self.arn = arn
@@ -2455,8 +2404,7 @@ extension AuditManagerClientTypes {
             controls: [AuditManagerClientTypes.Control]? = nil,
             id: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.controls = controls
             self.id = id
             self.name = name
@@ -2512,8 +2460,7 @@ extension AuditManagerClientTypes {
             name: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             type: AuditManagerClientTypes.FrameworkType? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.complianceType = complianceType
             self.controlSets = controlSets
@@ -2543,8 +2490,7 @@ public struct CreateAssessmentFrameworkOutput: Swift.Sendable {
 
     public init(
         framework: AuditManagerClientTypes.Framework? = nil
-    )
-    {
+    ) {
         self.framework = framework
     }
 }
@@ -2566,8 +2512,7 @@ public struct CreateAssessmentReportInput: Swift.Sendable {
         description: Swift.String? = nil,
         name: Swift.String? = nil,
         queryStatement: Swift.String? = nil
-    )
-    {
+    ) {
         self.assessmentId = assessmentId
         self.description = description
         self.name = name
@@ -2586,8 +2531,7 @@ public struct CreateAssessmentReportOutput: Swift.Sendable {
 
     public init(
         assessmentReport: AuditManagerClientTypes.AssessmentReport? = nil
-    )
-    {
+    ) {
         self.assessmentReport = assessmentReport
     }
 }
@@ -2631,8 +2575,7 @@ extension AuditManagerClientTypes {
             sourceSetUpOption: AuditManagerClientTypes.SourceSetUpOption? = nil,
             sourceType: AuditManagerClientTypes.SourceType? = nil,
             troubleshootingText: Swift.String? = nil
-        )
-        {
+        ) {
             self.sourceDescription = sourceDescription
             self.sourceFrequency = sourceFrequency
             self.sourceKeyword = sourceKeyword
@@ -2675,8 +2618,7 @@ public struct CreateControlInput: Swift.Sendable {
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         testingInformation: Swift.String? = nil
-    )
-    {
+    ) {
         self.actionPlanInstructions = actionPlanInstructions
         self.actionPlanTitle = actionPlanTitle
         self.controlMappingSources = controlMappingSources
@@ -2698,8 +2640,7 @@ public struct CreateControlOutput: Swift.Sendable {
 
     public init(
         control: AuditManagerClientTypes.Control? = nil
-    )
-    {
+    ) {
         self.control = control
     }
 }
@@ -2711,8 +2652,7 @@ public struct DeleteAssessmentInput: Swift.Sendable {
 
     public init(
         assessmentId: Swift.String? = nil
-    )
-    {
+    ) {
         self.assessmentId = assessmentId
     }
 }
@@ -2729,8 +2669,7 @@ public struct DeleteAssessmentFrameworkInput: Swift.Sendable {
 
     public init(
         frameworkId: Swift.String? = nil
-    )
-    {
+    ) {
         self.frameworkId = frameworkId
     }
 }
@@ -2780,8 +2719,7 @@ public struct DeleteAssessmentFrameworkShareInput: Swift.Sendable {
     public init(
         requestId: Swift.String? = nil,
         requestType: AuditManagerClientTypes.ShareRequestType? = nil
-    )
-    {
+    ) {
         self.requestId = requestId
         self.requestType = requestType
     }
@@ -2803,8 +2741,7 @@ public struct DeleteAssessmentReportInput: Swift.Sendable {
     public init(
         assessmentId: Swift.String? = nil,
         assessmentReportId: Swift.String? = nil
-    )
-    {
+    ) {
         self.assessmentId = assessmentId
         self.assessmentReportId = assessmentReportId
     }
@@ -2822,8 +2759,7 @@ public struct DeleteControlInput: Swift.Sendable {
 
     public init(
         controlId: Swift.String? = nil
-    )
-    {
+    ) {
         self.controlId = controlId
     }
 }
@@ -2844,8 +2780,7 @@ public struct DeregisterAccountOutput: Swift.Sendable {
 
     public init(
         status: AuditManagerClientTypes.AccountStatus? = nil
-    )
-    {
+    ) {
         self.status = status
     }
 }
@@ -2856,8 +2791,7 @@ public struct DeregisterOrganizationAdminAccountInput: Swift.Sendable {
 
     public init(
         adminAccountId: Swift.String? = nil
-    )
-    {
+    ) {
         self.adminAccountId = adminAccountId
     }
 }
@@ -2878,8 +2812,7 @@ public struct DisassociateAssessmentReportEvidenceFolderInput: Swift.Sendable {
     public init(
         assessmentId: Swift.String? = nil,
         evidenceFolderId: Swift.String? = nil
-    )
-    {
+    ) {
         self.assessmentId = assessmentId
         self.evidenceFolderId = evidenceFolderId
     }
@@ -2901,8 +2834,7 @@ public struct GetAccountStatusOutput: Swift.Sendable {
 
     public init(
         status: AuditManagerClientTypes.AccountStatus? = nil
-    )
-    {
+    ) {
         self.status = status
     }
 }
@@ -2914,8 +2846,7 @@ public struct GetAssessmentInput: Swift.Sendable {
 
     public init(
         assessmentId: Swift.String? = nil
-    )
-    {
+    ) {
         self.assessmentId = assessmentId
     }
 }
@@ -2929,8 +2860,7 @@ public struct GetAssessmentOutput: Swift.Sendable {
     public init(
         assessment: AuditManagerClientTypes.Assessment? = nil,
         userRole: AuditManagerClientTypes.Role? = nil
-    )
-    {
+    ) {
         self.assessment = assessment
         self.userRole = userRole
     }
@@ -2943,8 +2873,7 @@ public struct GetAssessmentFrameworkInput: Swift.Sendable {
 
     public init(
         frameworkId: Swift.String? = nil
-    )
-    {
+    ) {
         self.frameworkId = frameworkId
     }
 }
@@ -2955,8 +2884,7 @@ public struct GetAssessmentFrameworkOutput: Swift.Sendable {
 
     public init(
         framework: AuditManagerClientTypes.Framework? = nil
-    )
-    {
+    ) {
         self.framework = framework
     }
 }
@@ -2972,8 +2900,7 @@ public struct GetAssessmentReportUrlInput: Swift.Sendable {
     public init(
         assessmentId: Swift.String? = nil,
         assessmentReportId: Swift.String? = nil
-    )
-    {
+    ) {
         self.assessmentId = assessmentId
         self.assessmentReportId = assessmentReportId
     }
@@ -2991,8 +2918,7 @@ extension AuditManagerClientTypes {
         public init(
             hyperlinkName: Swift.String? = nil,
             link: Swift.String? = nil
-        )
-        {
+        ) {
             self.hyperlinkName = hyperlinkName
             self.link = link
         }
@@ -3005,8 +2931,7 @@ public struct GetAssessmentReportUrlOutput: Swift.Sendable {
 
     public init(
         preSignedUrl: AuditManagerClientTypes.URL? = nil
-    )
-    {
+    ) {
         self.preSignedUrl = preSignedUrl
     }
 }
@@ -3030,8 +2955,7 @@ public struct GetChangeLogsInput: Swift.Sendable {
         controlSetId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.assessmentId = assessmentId
         self.controlId = controlId
         self.controlSetId = controlSetId
@@ -3099,8 +3023,7 @@ extension AuditManagerClientTypes {
             createdBy: Swift.String? = nil,
             objectName: Swift.String? = nil,
             objectType: AuditManagerClientTypes.ObjectTypeEnum? = nil
-        )
-        {
+        ) {
             self.action = action
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -3119,8 +3042,7 @@ public struct GetChangeLogsOutput: Swift.Sendable {
     public init(
         changeLogs: [AuditManagerClientTypes.ChangeLog]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.changeLogs = changeLogs
         self.nextToken = nextToken
     }
@@ -3133,8 +3055,7 @@ public struct GetControlInput: Swift.Sendable {
 
     public init(
         controlId: Swift.String? = nil
-    )
-    {
+    ) {
         self.controlId = controlId
     }
 }
@@ -3145,8 +3066,7 @@ public struct GetControlOutput: Swift.Sendable {
 
     public init(
         control: AuditManagerClientTypes.Control? = nil
-    )
-    {
+    ) {
         self.control = control
     }
 }
@@ -3160,8 +3080,7 @@ public struct GetDelegationsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -3194,8 +3113,7 @@ extension AuditManagerClientTypes {
             id: Swift.String? = nil,
             roleArn: Swift.String? = nil,
             status: AuditManagerClientTypes.DelegationStatus? = nil
-        )
-        {
+        ) {
             self.assessmentId = assessmentId
             self.assessmentName = assessmentName
             self.controlSetName = controlSetName
@@ -3221,8 +3139,7 @@ public struct GetDelegationsOutput: Swift.Sendable {
     public init(
         delegations: [AuditManagerClientTypes.DelegationMetadata]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.delegations = delegations
         self.nextToken = nextToken
     }
@@ -3247,8 +3164,7 @@ public struct GetEvidenceInput: Swift.Sendable {
         controlSetId: Swift.String? = nil,
         evidenceFolderId: Swift.String? = nil,
         evidenceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.assessmentId = assessmentId
         self.controlSetId = controlSetId
         self.evidenceFolderId = evidenceFolderId
@@ -3277,8 +3193,7 @@ extension AuditManagerClientTypes {
             arn: Swift.String? = nil,
             complianceCheck: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.complianceCheck = complianceCheck
             self.value = value
@@ -3343,8 +3258,7 @@ extension AuditManagerClientTypes {
             id: Swift.String? = nil,
             resourcesIncluded: [AuditManagerClientTypes.Resource]? = nil,
             time: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.assessmentReportSelection = assessmentReportSelection
             self.attributes = attributes
             self.awsAccountId = awsAccountId
@@ -3370,8 +3284,7 @@ public struct GetEvidenceOutput: Swift.Sendable {
 
     public init(
         evidence: AuditManagerClientTypes.Evidence? = nil
-    )
-    {
+    ) {
         self.evidence = evidence
     }
 }
@@ -3397,8 +3310,7 @@ public struct GetEvidenceByEvidenceFolderInput: Swift.Sendable {
         evidenceFolderId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.assessmentId = assessmentId
         self.controlSetId = controlSetId
         self.evidenceFolderId = evidenceFolderId
@@ -3416,8 +3328,7 @@ public struct GetEvidenceByEvidenceFolderOutput: Swift.Sendable {
     public init(
         evidence: [AuditManagerClientTypes.Evidence]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.evidence = evidence
         self.nextToken = nextToken
     }
@@ -3430,8 +3341,7 @@ public struct GetEvidenceFileUploadUrlInput: Swift.Sendable {
 
     public init(
         fileName: Swift.String? = nil
-    )
-    {
+    ) {
         self.fileName = fileName
     }
 }
@@ -3450,8 +3360,7 @@ public struct GetEvidenceFileUploadUrlOutput: Swift.Sendable {
     public init(
         evidenceFileName: Swift.String? = nil,
         uploadUrl: Swift.String? = nil
-    )
-    {
+    ) {
         self.evidenceFileName = evidenceFileName
         self.uploadUrl = uploadUrl
     }
@@ -3478,8 +3387,7 @@ public struct GetEvidenceFolderInput: Swift.Sendable {
         assessmentId: Swift.String? = nil,
         controlSetId: Swift.String? = nil,
         evidenceFolderId: Swift.String? = nil
-    )
-    {
+    ) {
         self.assessmentId = assessmentId
         self.controlSetId = controlSetId
         self.evidenceFolderId = evidenceFolderId
@@ -3492,8 +3400,7 @@ public struct GetEvidenceFolderOutput: Swift.Sendable {
 
     public init(
         evidenceFolder: AuditManagerClientTypes.AssessmentEvidenceFolder? = nil
-    )
-    {
+    ) {
         self.evidenceFolder = evidenceFolder
     }
 }
@@ -3511,8 +3418,7 @@ public struct GetEvidenceFoldersByAssessmentInput: Swift.Sendable {
         assessmentId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.assessmentId = assessmentId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3528,8 +3434,7 @@ public struct GetEvidenceFoldersByAssessmentOutput: Swift.Sendable {
     public init(
         evidenceFolders: [AuditManagerClientTypes.AssessmentEvidenceFolder]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.evidenceFolders = evidenceFolders
         self.nextToken = nextToken
     }
@@ -3556,8 +3461,7 @@ public struct GetEvidenceFoldersByAssessmentControlInput: Swift.Sendable {
         controlSetId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.assessmentId = assessmentId
         self.controlId = controlId
         self.controlSetId = controlSetId
@@ -3575,8 +3479,7 @@ public struct GetEvidenceFoldersByAssessmentControlOutput: Swift.Sendable {
     public init(
         evidenceFolders: [AuditManagerClientTypes.AssessmentEvidenceFolder]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.evidenceFolders = evidenceFolders
         self.nextToken = nextToken
     }
@@ -3618,8 +3521,7 @@ extension AuditManagerClientTypes {
             lastUpdated: Foundation.Date? = nil,
             noncompliantEvidenceCount: Swift.Int? = nil,
             totalAssessmentControlsCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.activeAssessmentsCount = activeAssessmentsCount
             self.assessmentControlsCountByNoncompliantEvidence = assessmentControlsCountByNoncompliantEvidence
             self.compliantEvidenceCount = compliantEvidenceCount
@@ -3637,8 +3539,7 @@ public struct GetInsightsOutput: Swift.Sendable {
 
     public init(
         insights: AuditManagerClientTypes.Insights? = nil
-    )
-    {
+    ) {
         self.insights = insights
     }
 }
@@ -3650,8 +3551,7 @@ public struct GetInsightsByAssessmentInput: Swift.Sendable {
 
     public init(
         assessmentId: Swift.String? = nil
-    )
-    {
+    ) {
         self.assessmentId = assessmentId
     }
 }
@@ -3684,8 +3584,7 @@ extension AuditManagerClientTypes {
             lastUpdated: Foundation.Date? = nil,
             noncompliantEvidenceCount: Swift.Int? = nil,
             totalAssessmentControlsCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.assessmentControlsCountByNoncompliantEvidence = assessmentControlsCountByNoncompliantEvidence
             self.compliantEvidenceCount = compliantEvidenceCount
             self.inconclusiveEvidenceCount = inconclusiveEvidenceCount
@@ -3702,8 +3601,7 @@ public struct GetInsightsByAssessmentOutput: Swift.Sendable {
 
     public init(
         insights: AuditManagerClientTypes.InsightsByAssessment? = nil
-    )
-    {
+    ) {
         self.insights = insights
     }
 }
@@ -3722,8 +3620,7 @@ public struct GetOrganizationAdminAccountOutput: Swift.Sendable {
     public init(
         adminAccountId: Swift.String? = nil,
         organizationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.adminAccountId = adminAccountId
         self.organizationId = organizationId
     }
@@ -3752,8 +3649,7 @@ extension AuditManagerClientTypes {
             description: Swift.String? = nil,
             displayName: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.category = category
             self.description = description
             self.displayName = displayName
@@ -3768,8 +3664,7 @@ public struct GetServicesInScopeOutput: Swift.Sendable {
 
     public init(
         serviceMetadata: [AuditManagerClientTypes.ServiceMetadata]? = nil
-    )
-    {
+    ) {
         self.serviceMetadata = serviceMetadata
     }
 }
@@ -3828,8 +3723,7 @@ public struct GetSettingsInput: Swift.Sendable {
 
     public init(
         attribute: AuditManagerClientTypes.SettingAttribute? = nil
-    )
-    {
+    ) {
         self.attribute = attribute
     }
 }
@@ -3872,8 +3766,7 @@ extension AuditManagerClientTypes {
         public init(
             destination: Swift.String? = nil,
             destinationType: AuditManagerClientTypes.ExportDestinationType? = nil
-        )
-        {
+        ) {
             self.destination = destination
             self.destinationType = destinationType
         }
@@ -3922,8 +3815,7 @@ extension AuditManagerClientTypes {
 
         public init(
             deleteResources: AuditManagerClientTypes.DeleteResources? = nil
-        )
-        {
+        ) {
             self.deleteResources = deleteResources
         }
     }
@@ -4028,8 +3920,7 @@ extension AuditManagerClientTypes {
             enablementStatus: AuditManagerClientTypes.EvidenceFinderEnablementStatus? = nil,
             error: Swift.String? = nil,
             eventDataStoreArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.backfillStatus = backfillStatus
             self.enablementStatus = enablementStatus
             self.error = error
@@ -4068,8 +3959,7 @@ extension AuditManagerClientTypes {
             isAwsOrgEnabled: Swift.Bool? = nil,
             kmsKey: Swift.String? = nil,
             snsTopic: Swift.String? = nil
-        )
-        {
+        ) {
             self.defaultAssessmentReportsDestination = defaultAssessmentReportsDestination
             self.defaultExportDestination = defaultExportDestination
             self.defaultProcessOwners = defaultProcessOwners
@@ -4093,8 +3983,7 @@ public struct GetSettingsOutput: Swift.Sendable {
 
     public init(
         settings: AuditManagerClientTypes.Settings? = nil
-    )
-    {
+    ) {
         self.settings = settings
     }
 }
@@ -4116,8 +4005,7 @@ public struct ListAssessmentControlInsightsByControlDomainInput: Swift.Sendable 
         controlDomainId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.assessmentId = assessmentId
         self.controlDomainId = controlDomainId
         self.maxResults = maxResults
@@ -4140,8 +4028,7 @@ extension AuditManagerClientTypes {
             compliantEvidenceCount: Swift.Int? = nil,
             inconclusiveEvidenceCount: Swift.Int? = nil,
             noncompliantEvidenceCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.compliantEvidenceCount = compliantEvidenceCount
             self.inconclusiveEvidenceCount = inconclusiveEvidenceCount
             self.noncompliantEvidenceCount = noncompliantEvidenceCount
@@ -4170,8 +4057,7 @@ extension AuditManagerClientTypes {
             id: Swift.String? = nil,
             lastUpdated: Foundation.Date? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.controlSetName = controlSetName
             self.evidenceInsights = evidenceInsights
             self.id = id
@@ -4190,8 +4076,7 @@ public struct ListAssessmentControlInsightsByControlDomainOutput: Swift.Sendable
     public init(
         controlInsightsByAssessment: [AuditManagerClientTypes.ControlInsightsMetadataByAssessmentItem]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.controlInsightsByAssessment = controlInsightsByAssessment
         self.nextToken = nextToken
     }
@@ -4210,8 +4095,7 @@ public struct ListAssessmentFrameworksInput: Swift.Sendable {
         frameworkType: AuditManagerClientTypes.FrameworkType? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.frameworkType = frameworkType
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4227,8 +4111,7 @@ public struct ListAssessmentFrameworksOutput: Swift.Sendable {
     public init(
         frameworkMetadataList: [AuditManagerClientTypes.AssessmentFrameworkMetadata]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.frameworkMetadataList = frameworkMetadataList
         self.nextToken = nextToken
     }
@@ -4247,8 +4130,7 @@ public struct ListAssessmentFrameworkShareRequestsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         requestType: AuditManagerClientTypes.ShareRequestType? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.requestType = requestType
@@ -4264,8 +4146,7 @@ public struct ListAssessmentFrameworkShareRequestsOutput: Swift.Sendable {
     public init(
         assessmentFrameworkShareRequests: [AuditManagerClientTypes.AssessmentFrameworkShareRequest]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.assessmentFrameworkShareRequests = assessmentFrameworkShareRequests
         self.nextToken = nextToken
     }
@@ -4280,8 +4161,7 @@ public struct ListAssessmentReportsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -4296,8 +4176,7 @@ public struct ListAssessmentReportsOutput: Swift.Sendable {
     public init(
         assessmentReports: [AuditManagerClientTypes.AssessmentReportMetadata]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.assessmentReports = assessmentReports
         self.nextToken = nextToken
     }
@@ -4315,8 +4194,7 @@ public struct ListAssessmentsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         status: AuditManagerClientTypes.AssessmentStatus? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.status = status
@@ -4332,8 +4210,7 @@ public struct ListAssessmentsOutput: Swift.Sendable {
     public init(
         assessmentMetadata: [AuditManagerClientTypes.AssessmentMetadataItem]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.assessmentMetadata = assessmentMetadata
         self.nextToken = nextToken
     }
@@ -4348,8 +4225,7 @@ public struct ListControlDomainInsightsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -4379,8 +4255,7 @@ extension AuditManagerClientTypes {
             lastUpdated: Foundation.Date? = nil,
             name: Swift.String? = nil,
             totalControlsCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.controlsCountByNoncompliantEvidence = controlsCountByNoncompliantEvidence
             self.evidenceInsights = evidenceInsights
             self.id = id
@@ -4400,8 +4275,7 @@ public struct ListControlDomainInsightsOutput: Swift.Sendable {
     public init(
         controlDomainInsights: [AuditManagerClientTypes.ControlDomainInsights]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.controlDomainInsights = controlDomainInsights
         self.nextToken = nextToken
     }
@@ -4420,8 +4294,7 @@ public struct ListControlDomainInsightsByAssessmentInput: Swift.Sendable {
         assessmentId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.assessmentId = assessmentId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4437,8 +4310,7 @@ public struct ListControlDomainInsightsByAssessmentOutput: Swift.Sendable {
     public init(
         controlDomainInsights: [AuditManagerClientTypes.ControlDomainInsights]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.controlDomainInsights = controlDomainInsights
         self.nextToken = nextToken
     }
@@ -4457,8 +4329,7 @@ public struct ListControlInsightsByControlDomainInput: Swift.Sendable {
         controlDomainId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.controlDomainId = controlDomainId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4483,8 +4354,7 @@ extension AuditManagerClientTypes {
             id: Swift.String? = nil,
             lastUpdated: Foundation.Date? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.evidenceInsights = evidenceInsights
             self.id = id
             self.lastUpdated = lastUpdated
@@ -4502,8 +4372,7 @@ public struct ListControlInsightsByControlDomainOutput: Swift.Sendable {
     public init(
         controlInsightsMetadata: [AuditManagerClientTypes.ControlInsightsMetadataItem]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.controlInsightsMetadata = controlInsightsMetadata
         self.nextToken = nextToken
     }
@@ -4525,8 +4394,7 @@ public struct ListControlsInput: Swift.Sendable {
         controlType: AuditManagerClientTypes.ControlType? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.controlCatalogId = controlCatalogId
         self.controlType = controlType
         self.maxResults = maxResults
@@ -4558,8 +4426,7 @@ extension AuditManagerClientTypes {
             id: Swift.String? = nil,
             lastUpdatedAt: Foundation.Date? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.controlSources = controlSources
             self.createdAt = createdAt
@@ -4579,8 +4446,7 @@ public struct ListControlsOutput: Swift.Sendable {
     public init(
         controlMetadataList: [AuditManagerClientTypes.ControlMetadata]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.controlMetadataList = controlMetadataList
         self.nextToken = nextToken
     }
@@ -4637,8 +4503,7 @@ public struct ListKeywordsForDataSourceInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         source: AuditManagerClientTypes.DataSourceType? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.source = source
@@ -4654,8 +4519,7 @@ public struct ListKeywordsForDataSourceOutput: Swift.Sendable {
     public init(
         keywords: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.keywords = keywords
         self.nextToken = nextToken
     }
@@ -4670,8 +4534,7 @@ public struct ListNotificationsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -4707,8 +4570,7 @@ extension AuditManagerClientTypes {
             eventTime: Foundation.Date? = nil,
             id: Swift.String? = nil,
             source: Swift.String? = nil
-        )
-        {
+        ) {
             self.assessmentId = assessmentId
             self.assessmentName = assessmentName
             self.controlSetId = controlSetId
@@ -4735,8 +4597,7 @@ public struct ListNotificationsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         notifications: [AuditManagerClientTypes.Notification]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.notifications = notifications
     }
@@ -4749,8 +4610,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -4761,8 +4621,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -4776,8 +4635,7 @@ public struct RegisterAccountInput: Swift.Sendable {
     public init(
         delegatedAdminAccount: Swift.String? = nil,
         kmsKey: Swift.String? = nil
-    )
-    {
+    ) {
         self.delegatedAdminAccount = delegatedAdminAccount
         self.kmsKey = kmsKey
     }
@@ -4789,8 +4647,7 @@ public struct RegisterAccountOutput: Swift.Sendable {
 
     public init(
         status: AuditManagerClientTypes.AccountStatus? = nil
-    )
-    {
+    ) {
         self.status = status
     }
 }
@@ -4802,8 +4659,7 @@ public struct RegisterOrganizationAdminAccountInput: Swift.Sendable {
 
     public init(
         adminAccountId: Swift.String? = nil
-    )
-    {
+    ) {
         self.adminAccountId = adminAccountId
     }
 }
@@ -4817,8 +4673,7 @@ public struct RegisterOrganizationAdminAccountOutput: Swift.Sendable {
     public init(
         adminAccountId: Swift.String? = nil,
         organizationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.adminAccountId = adminAccountId
         self.organizationId = organizationId
     }
@@ -4842,8 +4697,7 @@ public struct StartAssessmentFrameworkShareInput: Swift.Sendable {
         destinationAccount: Swift.String? = nil,
         destinationRegion: Swift.String? = nil,
         frameworkId: Swift.String? = nil
-    )
-    {
+    ) {
         self.comment = comment
         self.destinationAccount = destinationAccount
         self.destinationRegion = destinationRegion
@@ -4857,8 +4711,7 @@ public struct StartAssessmentFrameworkShareOutput: Swift.Sendable {
 
     public init(
         assessmentFrameworkShareRequest: AuditManagerClientTypes.AssessmentFrameworkShareRequest? = nil
-    )
-    {
+    ) {
         self.assessmentFrameworkShareRequest = assessmentFrameworkShareRequest
     }
 }
@@ -4874,8 +4727,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -4897,8 +4749,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -4932,8 +4783,7 @@ public struct UpdateAssessmentInput: Swift.Sendable {
         assessmentReportsDestination: AuditManagerClientTypes.AssessmentReportsDestination? = nil,
         roles: [AuditManagerClientTypes.Role]? = nil,
         scope: AuditManagerClientTypes.Scope? = nil
-    )
-    {
+    ) {
         self.assessmentDescription = assessmentDescription
         self.assessmentId = assessmentId
         self.assessmentName = assessmentName
@@ -4954,8 +4804,7 @@ public struct UpdateAssessmentOutput: Swift.Sendable {
 
     public init(
         assessment: AuditManagerClientTypes.Assessment? = nil
-    )
-    {
+    ) {
         self.assessment = assessment
     }
 }
@@ -4981,8 +4830,7 @@ public struct UpdateAssessmentControlInput: Swift.Sendable {
         controlId: Swift.String? = nil,
         controlSetId: Swift.String? = nil,
         controlStatus: AuditManagerClientTypes.ControlStatus? = nil
-    )
-    {
+    ) {
         self.assessmentId = assessmentId
         self.commentBody = commentBody
         self.controlId = controlId
@@ -5002,8 +4850,7 @@ public struct UpdateAssessmentControlOutput: Swift.Sendable {
 
     public init(
         control: AuditManagerClientTypes.AssessmentControl? = nil
-    )
-    {
+    ) {
         self.control = control
     }
 }
@@ -5027,8 +4874,7 @@ public struct UpdateAssessmentControlSetStatusInput: Swift.Sendable {
         comment: Swift.String? = nil,
         controlSetId: Swift.String? = nil,
         status: AuditManagerClientTypes.ControlSetStatus? = nil
-    )
-    {
+    ) {
         self.assessmentId = assessmentId
         self.comment = comment
         self.controlSetId = controlSetId
@@ -5047,8 +4893,7 @@ public struct UpdateAssessmentControlSetStatusOutput: Swift.Sendable {
 
     public init(
         controlSet: AuditManagerClientTypes.AssessmentControlSet? = nil
-    )
-    {
+    ) {
         self.controlSet = controlSet
     }
 }
@@ -5070,8 +4915,7 @@ extension AuditManagerClientTypes {
             controls: [AuditManagerClientTypes.CreateAssessmentFrameworkControl]? = nil,
             id: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.controls = controls
             self.id = id
             self.name = name
@@ -5100,8 +4944,7 @@ public struct UpdateAssessmentFrameworkInput: Swift.Sendable {
         description: Swift.String? = nil,
         frameworkId: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.complianceType = complianceType
         self.controlSets = controlSets
         self.description = description
@@ -5121,8 +4964,7 @@ public struct UpdateAssessmentFrameworkOutput: Swift.Sendable {
 
     public init(
         framework: AuditManagerClientTypes.Framework? = nil
-    )
-    {
+    ) {
         self.framework = framework
     }
 }
@@ -5174,8 +5016,7 @@ public struct UpdateAssessmentFrameworkShareInput: Swift.Sendable {
         action: AuditManagerClientTypes.ShareRequestAction? = nil,
         requestId: Swift.String? = nil,
         requestType: AuditManagerClientTypes.ShareRequestType? = nil
-    )
-    {
+    ) {
         self.action = action
         self.requestId = requestId
         self.requestType = requestType
@@ -5188,8 +5029,7 @@ public struct UpdateAssessmentFrameworkShareOutput: Swift.Sendable {
 
     public init(
         assessmentFrameworkShareRequest: AuditManagerClientTypes.AssessmentFrameworkShareRequest? = nil
-    )
-    {
+    ) {
         self.assessmentFrameworkShareRequest = assessmentFrameworkShareRequest
     }
 }
@@ -5205,8 +5045,7 @@ public struct UpdateAssessmentStatusInput: Swift.Sendable {
     public init(
         assessmentId: Swift.String? = nil,
         status: AuditManagerClientTypes.AssessmentStatus? = nil
-    )
-    {
+    ) {
         self.assessmentId = assessmentId
         self.status = status
     }
@@ -5218,8 +5057,7 @@ public struct UpdateAssessmentStatusOutput: Swift.Sendable {
 
     public init(
         assessment: AuditManagerClientTypes.Assessment? = nil
-    )
-    {
+    ) {
         self.assessment = assessment
     }
 }
@@ -5251,8 +5089,7 @@ public struct UpdateControlInput: Swift.Sendable {
         description: Swift.String? = nil,
         name: Swift.String? = nil,
         testingInformation: Swift.String? = nil
-    )
-    {
+    ) {
         self.actionPlanInstructions = actionPlanInstructions
         self.actionPlanTitle = actionPlanTitle
         self.controlId = controlId
@@ -5274,8 +5111,7 @@ public struct UpdateControlOutput: Swift.Sendable {
 
     public init(
         control: AuditManagerClientTypes.Control? = nil
-    )
-    {
+    ) {
         self.control = control
     }
 }
@@ -5304,8 +5140,7 @@ public struct UpdateSettingsInput: Swift.Sendable {
         evidenceFinderEnabled: Swift.Bool? = nil,
         kmsKey: Swift.String? = nil,
         snsTopic: Swift.String? = nil
-    )
-    {
+    ) {
         self.defaultAssessmentReportsDestination = defaultAssessmentReportsDestination
         self.defaultExportDestination = defaultExportDestination
         self.defaultProcessOwners = defaultProcessOwners
@@ -5327,8 +5162,7 @@ public struct UpdateSettingsOutput: Swift.Sendable {
 
     public init(
         settings: AuditManagerClientTypes.Settings? = nil
-    )
-    {
+    ) {
         self.settings = settings
     }
 }
@@ -5340,8 +5174,7 @@ public struct ValidateAssessmentReportIntegrityInput: Swift.Sendable {
 
     public init(
         s3RelativePath: Swift.String? = nil
-    )
-    {
+    ) {
         self.s3RelativePath = s3RelativePath
     }
 }
@@ -5364,8 +5197,7 @@ public struct ValidateAssessmentReportIntegrityOutput: Swift.Sendable {
         signatureKeyId: Swift.String? = nil,
         signatureValid: Swift.Bool? = nil,
         validationErrors: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.signatureAlgorithm = signatureAlgorithm
         self.signatureDateTime = signatureDateTime
         self.signatureKeyId = signatureKeyId

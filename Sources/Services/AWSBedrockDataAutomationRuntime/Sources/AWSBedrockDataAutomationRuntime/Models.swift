@@ -40,8 +40,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -64,8 +63,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -88,8 +86,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -112,8 +109,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -136,8 +132,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -150,8 +145,7 @@ public struct GetDataAutomationStatusInput: Swift.Sendable {
 
     public init(
         invocationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.invocationArn = invocationArn
     }
 }
@@ -166,8 +160,7 @@ extension BedrockDataAutomationRuntimeClientTypes {
 
         public init(
             s3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.s3Uri = s3Uri
         }
     }
@@ -228,8 +221,7 @@ public struct GetDataAutomationStatusOutput: Swift.Sendable {
         errorType: Swift.String? = nil,
         outputConfiguration: BedrockDataAutomationRuntimeClientTypes.OutputConfiguration? = nil,
         status: BedrockDataAutomationRuntimeClientTypes.AutomationJobStatus? = nil
-    )
-    {
+    ) {
         self.errorMessage = errorMessage
         self.errorType = errorType
         self.outputConfiguration = outputConfiguration
@@ -255,8 +247,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -307,8 +298,7 @@ extension BedrockDataAutomationRuntimeClientTypes {
             blueprintArn: Swift.String? = nil,
             stage: BedrockDataAutomationRuntimeClientTypes.BlueprintStage? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.blueprintArn = blueprintArn
             self.stage = stage
             self.version = version
@@ -359,8 +349,7 @@ extension BedrockDataAutomationRuntimeClientTypes {
         public init(
             dataAutomationArn: Swift.String? = nil,
             stage: BedrockDataAutomationRuntimeClientTypes.DataAutomationStage? = nil
-        )
-        {
+        ) {
             self.dataAutomationArn = dataAutomationArn
             self.stage = stage
         }
@@ -380,8 +369,7 @@ extension BedrockDataAutomationRuntimeClientTypes {
         public init(
             kmsEncryptionContext: [Swift.String: Swift.String]? = nil,
             kmsKeyId: Swift.String? = nil
-        )
-        {
+        ) {
             self.kmsEncryptionContext = kmsEncryptionContext
             self.kmsKeyId = kmsKeyId
         }
@@ -398,8 +386,7 @@ extension BedrockDataAutomationRuntimeClientTypes {
 
         public init(
             s3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.s3Uri = s3Uri
         }
     }
@@ -415,8 +402,7 @@ extension BedrockDataAutomationRuntimeClientTypes {
 
         public init(
             eventBridgeEnabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.eventBridgeEnabled = eventBridgeEnabled
         }
     }
@@ -432,8 +418,7 @@ extension BedrockDataAutomationRuntimeClientTypes {
 
         public init(
             eventBridgeConfiguration: BedrockDataAutomationRuntimeClientTypes.EventBridgeConfiguration? = nil
-        )
-        {
+        ) {
             self.eventBridgeConfiguration = eventBridgeConfiguration
         }
     }
@@ -466,8 +451,7 @@ public struct InvokeDataAutomationAsyncInput: Swift.Sendable {
         inputConfiguration: BedrockDataAutomationRuntimeClientTypes.InputConfiguration? = nil,
         notificationConfiguration: BedrockDataAutomationRuntimeClientTypes.NotificationConfiguration? = nil,
         outputConfiguration: BedrockDataAutomationRuntimeClientTypes.OutputConfiguration? = nil
-    )
-    {
+    ) {
         self.blueprints = blueprints
         self.clientToken = clientToken
         self.dataAutomationConfiguration = dataAutomationConfiguration
@@ -486,8 +470,7 @@ public struct InvokeDataAutomationAsyncOutput: Swift.Sendable {
 
     public init(
         invocationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.invocationArn = invocationArn
     }
 }
