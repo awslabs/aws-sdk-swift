@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class FisClient: ClientRuntime.Client {
     public static let clientName = "FisClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: FisClient.FisClientConfiguration
     let serviceName = "fis"
@@ -330,7 +330,7 @@ extension FisClient {
 }
 
 extension FisClient {
-    /// Performs the `CreateExperimentTemplate` operation on the `FaultInjectionSimulator` service.
+    /// Performs the `CreateExperimentTemplate` operation on the `Fis` service.
     ///
     /// Creates an experiment template. An experiment template includes the following components:
     ///
@@ -412,7 +412,7 @@ extension FisClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateTargetAccountConfiguration` operation on the `FaultInjectionSimulator` service.
+    /// Performs the `CreateTargetAccountConfiguration` operation on the `Fis` service.
     ///
     /// Creates a target account configuration for the experiment template. A target account configuration is required when accountTargeting of experimentOptions is set to multi-account. For more information, see [experiment options](https://docs.aws.amazon.com/fis/latest/userguide/experiment-options.html) in the Fault Injection Service User Guide.
     ///
@@ -485,7 +485,7 @@ extension FisClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteExperimentTemplate` operation on the `FaultInjectionSimulator` service.
+    /// Performs the `DeleteExperimentTemplate` operation on the `Fis` service.
     ///
     /// Deletes the specified experiment template.
     ///
@@ -552,7 +552,7 @@ extension FisClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteTargetAccountConfiguration` operation on the `FaultInjectionSimulator` service.
+    /// Performs the `DeleteTargetAccountConfiguration` operation on the `Fis` service.
     ///
     /// Deletes the specified target account configuration of the experiment template.
     ///
@@ -619,7 +619,7 @@ extension FisClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAction` operation on the `FaultInjectionSimulator` service.
+    /// Performs the `GetAction` operation on the `Fis` service.
     ///
     /// Gets information about the specified FIS action.
     ///
@@ -686,7 +686,7 @@ extension FisClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetExperiment` operation on the `FaultInjectionSimulator` service.
+    /// Performs the `GetExperiment` operation on the `Fis` service.
     ///
     /// Gets information about the specified experiment.
     ///
@@ -753,7 +753,7 @@ extension FisClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetExperimentTargetAccountConfiguration` operation on the `FaultInjectionSimulator` service.
+    /// Performs the `GetExperimentTargetAccountConfiguration` operation on the `Fis` service.
     ///
     /// Gets information about the specified target account configuration of the experiment.
     ///
@@ -820,7 +820,7 @@ extension FisClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetExperimentTemplate` operation on the `FaultInjectionSimulator` service.
+    /// Performs the `GetExperimentTemplate` operation on the `Fis` service.
     ///
     /// Gets information about the specified experiment template.
     ///
@@ -887,7 +887,7 @@ extension FisClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetSafetyLever` operation on the `FaultInjectionSimulator` service.
+    /// Performs the `GetSafetyLever` operation on the `Fis` service.
     ///
     /// Gets information about the specified safety lever.
     ///
@@ -953,7 +953,7 @@ extension FisClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetTargetAccountConfiguration` operation on the `FaultInjectionSimulator` service.
+    /// Performs the `GetTargetAccountConfiguration` operation on the `Fis` service.
     ///
     /// Gets information about the specified target account configuration of the experiment template.
     ///
@@ -1020,7 +1020,7 @@ extension FisClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetTargetResourceType` operation on the `FaultInjectionSimulator` service.
+    /// Performs the `GetTargetResourceType` operation on the `Fis` service.
     ///
     /// Gets information about the specified resource type.
     ///
@@ -1087,7 +1087,7 @@ extension FisClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListActions` operation on the `FaultInjectionSimulator` service.
+    /// Performs the `ListActions` operation on the `Fis` service.
     ///
     /// Lists the available FIS actions.
     ///
@@ -1154,7 +1154,7 @@ extension FisClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListExperimentResolvedTargets` operation on the `FaultInjectionSimulator` service.
+    /// Performs the `ListExperimentResolvedTargets` operation on the `Fis` service.
     ///
     /// Lists the resolved targets information of the specified experiment.
     ///
@@ -1222,7 +1222,7 @@ extension FisClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListExperimentTargetAccountConfigurations` operation on the `FaultInjectionSimulator` service.
+    /// Performs the `ListExperimentTargetAccountConfigurations` operation on the `Fis` service.
     ///
     /// Lists the target account configurations of the specified experiment.
     ///
@@ -1290,7 +1290,7 @@ extension FisClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListExperimentTemplates` operation on the `FaultInjectionSimulator` service.
+    /// Performs the `ListExperimentTemplates` operation on the `Fis` service.
     ///
     /// Lists your experiment templates.
     ///
@@ -1357,7 +1357,7 @@ extension FisClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListExperiments` operation on the `FaultInjectionSimulator` service.
+    /// Performs the `ListExperiments` operation on the `Fis` service.
     ///
     /// Lists your experiments.
     ///
@@ -1424,7 +1424,7 @@ extension FisClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `FaultInjectionSimulator` service.
+    /// Performs the `ListTagsForResource` operation on the `Fis` service.
     ///
     /// Lists the tags for the specified resource.
     ///
@@ -1485,7 +1485,7 @@ extension FisClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTargetAccountConfigurations` operation on the `FaultInjectionSimulator` service.
+    /// Performs the `ListTargetAccountConfigurations` operation on the `Fis` service.
     ///
     /// Lists the target account configurations of the specified experiment template.
     ///
@@ -1553,7 +1553,7 @@ extension FisClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTargetResourceTypes` operation on the `FaultInjectionSimulator` service.
+    /// Performs the `ListTargetResourceTypes` operation on the `Fis` service.
     ///
     /// Lists the target resource types.
     ///
@@ -1620,7 +1620,7 @@ extension FisClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartExperiment` operation on the `FaultInjectionSimulator` service.
+    /// Performs the `StartExperiment` operation on the `Fis` service.
     ///
     /// Starts running an experiment from the specified experiment template.
     ///
@@ -1693,7 +1693,7 @@ extension FisClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopExperiment` operation on the `FaultInjectionSimulator` service.
+    /// Performs the `StopExperiment` operation on the `Fis` service.
     ///
     /// Stops the specified experiment.
     ///
@@ -1760,7 +1760,7 @@ extension FisClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `FaultInjectionSimulator` service.
+    /// Performs the `TagResource` operation on the `Fis` service.
     ///
     /// Applies the specified tags to the specified resource.
     ///
@@ -1824,7 +1824,7 @@ extension FisClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `FaultInjectionSimulator` service.
+    /// Performs the `UntagResource` operation on the `Fis` service.
     ///
     /// Removes the specified tags from the specified resource.
     ///
@@ -1886,7 +1886,7 @@ extension FisClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateExperimentTemplate` operation on the `FaultInjectionSimulator` service.
+    /// Performs the `UpdateExperimentTemplate` operation on the `Fis` service.
     ///
     /// Updates the specified experiment template.
     ///
@@ -1957,7 +1957,7 @@ extension FisClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateSafetyLeverState` operation on the `FaultInjectionSimulator` service.
+    /// Performs the `UpdateSafetyLeverState` operation on the `Fis` service.
     ///
     /// Updates the specified safety lever state.
     ///
@@ -2028,7 +2028,7 @@ extension FisClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateTargetAccountConfiguration` operation on the `FaultInjectionSimulator` service.
+    /// Performs the `UpdateTargetAccountConfiguration` operation on the `Fis` service.
     ///
     /// Updates the target account configuration for the specified experiment template.
     ///

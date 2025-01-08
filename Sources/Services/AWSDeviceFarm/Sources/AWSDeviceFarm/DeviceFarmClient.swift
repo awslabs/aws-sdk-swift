@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class DeviceFarmClient: ClientRuntime.Client {
     public static let clientName = "DeviceFarmClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: DeviceFarmClient.DeviceFarmClientConfiguration
     let serviceName = "Device Farm"
@@ -330,7 +330,7 @@ extension DeviceFarmClient {
 }
 
 extension DeviceFarmClient {
-    /// Performs the `CreateDevicePool` operation on the `DeviceFarm_20150623` service.
+    /// Performs the `CreateDevicePool` operation on the `DeviceFarm` service.
     ///
     /// Creates a device pool.
     ///
@@ -403,7 +403,7 @@ extension DeviceFarmClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateInstanceProfile` operation on the `DeviceFarm_20150623` service.
+    /// Performs the `CreateInstanceProfile` operation on the `DeviceFarm` service.
     ///
     /// Creates a profile that can be applied to one or more private fleet device instances.
     ///
@@ -476,7 +476,7 @@ extension DeviceFarmClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateNetworkProfile` operation on the `DeviceFarm_20150623` service.
+    /// Performs the `CreateNetworkProfile` operation on the `DeviceFarm` service.
     ///
     /// Creates a network profile.
     ///
@@ -549,7 +549,7 @@ extension DeviceFarmClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateProject` operation on the `DeviceFarm_20150623` service.
+    /// Performs the `CreateProject` operation on the `DeviceFarm` service.
     ///
     /// Creates a project.
     ///
@@ -623,7 +623,7 @@ extension DeviceFarmClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateRemoteAccessSession` operation on the `DeviceFarm_20150623` service.
+    /// Performs the `CreateRemoteAccessSession` operation on the `DeviceFarm` service.
     ///
     /// Specifies and starts a remote access session.
     ///
@@ -696,7 +696,7 @@ extension DeviceFarmClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateTestGridProject` operation on the `DeviceFarm_20150623` service.
+    /// Performs the `CreateTestGridProject` operation on the `DeviceFarm` service.
     ///
     /// Creates a Selenium testing project. Projects are used to track [TestGridSession] instances.
     ///
@@ -768,7 +768,7 @@ extension DeviceFarmClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateTestGridUrl` operation on the `DeviceFarm_20150623` service.
+    /// Performs the `CreateTestGridUrl` operation on the `DeviceFarm` service.
     ///
     /// Creates a signed, short-term URL that can be passed to a Selenium RemoteWebDriver constructor.
     ///
@@ -840,7 +840,7 @@ extension DeviceFarmClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateUpload` operation on the `DeviceFarm_20150623` service.
+    /// Performs the `CreateUpload` operation on the `DeviceFarm` service.
     ///
     /// Uploads an app or test scripts.
     ///
@@ -913,7 +913,7 @@ extension DeviceFarmClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateVPCEConfiguration` operation on the `DeviceFarm_20150623` service.
+    /// Performs the `CreateVPCEConfiguration` operation on the `DeviceFarm` service.
     ///
     /// Creates a configuration record in Device Farm for your Amazon Virtual Private Cloud (VPC) endpoint.
     ///
@@ -985,7 +985,7 @@ extension DeviceFarmClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteDevicePool` operation on the `DeviceFarm_20150623` service.
+    /// Performs the `DeleteDevicePool` operation on the `DeviceFarm` service.
     ///
     /// Deletes a device pool given the pool ARN. Does not allow deletion of curated pools owned by the system.
     ///
@@ -1058,7 +1058,7 @@ extension DeviceFarmClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteInstanceProfile` operation on the `DeviceFarm_20150623` service.
+    /// Performs the `DeleteInstanceProfile` operation on the `DeviceFarm` service.
     ///
     /// Deletes a profile that can be applied to one or more private device instances.
     ///
@@ -1131,7 +1131,7 @@ extension DeviceFarmClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteNetworkProfile` operation on the `DeviceFarm_20150623` service.
+    /// Performs the `DeleteNetworkProfile` operation on the `DeviceFarm` service.
     ///
     /// Deletes a network profile.
     ///
@@ -1204,7 +1204,7 @@ extension DeviceFarmClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteProject` operation on the `DeviceFarm_20150623` service.
+    /// Performs the `DeleteProject` operation on the `DeviceFarm` service.
     ///
     /// Deletes an AWS Device Farm project, given the project ARN. Deleting this resource does not stop an in-progress run.
     ///
@@ -1277,7 +1277,7 @@ extension DeviceFarmClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteRemoteAccessSession` operation on the `DeviceFarm_20150623` service.
+    /// Performs the `DeleteRemoteAccessSession` operation on the `DeviceFarm` service.
     ///
     /// Deletes a completed remote access session and its results.
     ///
@@ -1350,7 +1350,7 @@ extension DeviceFarmClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteRun` operation on the `DeviceFarm_20150623` service.
+    /// Performs the `DeleteRun` operation on the `DeviceFarm` service.
     ///
     /// Deletes the run, given the run ARN. Deleting this resource does not stop an in-progress run.
     ///
@@ -1423,7 +1423,7 @@ extension DeviceFarmClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteTestGridProject` operation on the `DeviceFarm_20150623` service.
+    /// Performs the `DeleteTestGridProject` operation on the `DeviceFarm` service.
     ///
     /// Deletes a Selenium testing project and all content generated under it. You cannot undo this operation. You cannot delete a project if it has active sessions.
     ///
@@ -1496,7 +1496,7 @@ extension DeviceFarmClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteUpload` operation on the `DeviceFarm_20150623` service.
+    /// Performs the `DeleteUpload` operation on the `DeviceFarm` service.
     ///
     /// Deletes an upload given the upload ARN.
     ///
@@ -1569,7 +1569,7 @@ extension DeviceFarmClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteVPCEConfiguration` operation on the `DeviceFarm_20150623` service.
+    /// Performs the `DeleteVPCEConfiguration` operation on the `DeviceFarm` service.
     ///
     /// Deletes a configuration for your Amazon Virtual Private Cloud (VPC) endpoint.
     ///
@@ -1642,7 +1642,7 @@ extension DeviceFarmClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAccountSettings` operation on the `DeviceFarm_20150623` service.
+    /// Performs the `GetAccountSettings` operation on the `DeviceFarm` service.
     ///
     /// Returns the number of unmetered iOS or unmetered Android devices that have been purchased by the account.
     ///
@@ -1715,7 +1715,7 @@ extension DeviceFarmClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDevice` operation on the `DeviceFarm_20150623` service.
+    /// Performs the `GetDevice` operation on the `DeviceFarm` service.
     ///
     /// Gets information about a unique device type.
     ///
@@ -1788,7 +1788,7 @@ extension DeviceFarmClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDeviceInstance` operation on the `DeviceFarm_20150623` service.
+    /// Performs the `GetDeviceInstance` operation on the `DeviceFarm` service.
     ///
     /// Returns information about a device instance that belongs to a private device fleet.
     ///
@@ -1861,7 +1861,7 @@ extension DeviceFarmClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDevicePool` operation on the `DeviceFarm_20150623` service.
+    /// Performs the `GetDevicePool` operation on the `DeviceFarm` service.
     ///
     /// Gets information about a device pool.
     ///
@@ -1934,7 +1934,7 @@ extension DeviceFarmClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDevicePoolCompatibility` operation on the `DeviceFarm_20150623` service.
+    /// Performs the `GetDevicePoolCompatibility` operation on the `DeviceFarm` service.
     ///
     /// Gets information about compatibility with a device pool.
     ///
@@ -2007,7 +2007,7 @@ extension DeviceFarmClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetInstanceProfile` operation on the `DeviceFarm_20150623` service.
+    /// Performs the `GetInstanceProfile` operation on the `DeviceFarm` service.
     ///
     /// Returns information about the specified instance profile.
     ///
@@ -2080,7 +2080,7 @@ extension DeviceFarmClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetJob` operation on the `DeviceFarm_20150623` service.
+    /// Performs the `GetJob` operation on the `DeviceFarm` service.
     ///
     /// Gets information about a job.
     ///
@@ -2153,7 +2153,7 @@ extension DeviceFarmClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetNetworkProfile` operation on the `DeviceFarm_20150623` service.
+    /// Performs the `GetNetworkProfile` operation on the `DeviceFarm` service.
     ///
     /// Returns information about a network profile.
     ///
@@ -2226,7 +2226,7 @@ extension DeviceFarmClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetOfferingStatus` operation on the `DeviceFarm_20150623` service.
+    /// Performs the `GetOfferingStatus` operation on the `DeviceFarm` service.
     ///
     /// Gets the current status and future status of all offerings purchased by an AWS account. The response indicates how many offerings are currently available and the offerings that will be available in the next period. The API returns a NotEligible error if the user is not permitted to invoke the operation. If you must be able to invoke this operation, contact [aws-devicefarm-support@amazon.com](mailto:aws-devicefarm-support@amazon.com).
     ///
@@ -2300,7 +2300,7 @@ extension DeviceFarmClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetProject` operation on the `DeviceFarm_20150623` service.
+    /// Performs the `GetProject` operation on the `DeviceFarm` service.
     ///
     /// Gets information about a project.
     ///
@@ -2373,7 +2373,7 @@ extension DeviceFarmClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetRemoteAccessSession` operation on the `DeviceFarm_20150623` service.
+    /// Performs the `GetRemoteAccessSession` operation on the `DeviceFarm` service.
     ///
     /// Returns a link to a currently running remote access session.
     ///
@@ -2446,7 +2446,7 @@ extension DeviceFarmClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetRun` operation on the `DeviceFarm_20150623` service.
+    /// Performs the `GetRun` operation on the `DeviceFarm` service.
     ///
     /// Gets information about a run.
     ///
@@ -2519,7 +2519,7 @@ extension DeviceFarmClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetSuite` operation on the `DeviceFarm_20150623` service.
+    /// Performs the `GetSuite` operation on the `DeviceFarm` service.
     ///
     /// Gets information about a suite.
     ///
@@ -2592,7 +2592,7 @@ extension DeviceFarmClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetTest` operation on the `DeviceFarm_20150623` service.
+    /// Performs the `GetTest` operation on the `DeviceFarm` service.
     ///
     /// Gets information about a test.
     ///
@@ -2665,7 +2665,7 @@ extension DeviceFarmClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetTestGridProject` operation on the `DeviceFarm_20150623` service.
+    /// Performs the `GetTestGridProject` operation on the `DeviceFarm` service.
     ///
     /// Retrieves information about a Selenium testing project.
     ///
@@ -2737,7 +2737,7 @@ extension DeviceFarmClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetTestGridSession` operation on the `DeviceFarm_20150623` service.
+    /// Performs the `GetTestGridSession` operation on the `DeviceFarm` service.
     ///
     /// A session is an instance of a browser created through a RemoteWebDriver with the URL from [CreateTestGridUrlResult$url]. You can use the following to look up sessions:
     ///
@@ -2813,7 +2813,7 @@ extension DeviceFarmClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetUpload` operation on the `DeviceFarm_20150623` service.
+    /// Performs the `GetUpload` operation on the `DeviceFarm` service.
     ///
     /// Gets information about an upload.
     ///
@@ -2886,7 +2886,7 @@ extension DeviceFarmClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetVPCEConfiguration` operation on the `DeviceFarm_20150623` service.
+    /// Performs the `GetVPCEConfiguration` operation on the `DeviceFarm` service.
     ///
     /// Returns information about the configuration settings for your Amazon Virtual Private Cloud (VPC) endpoint.
     ///
@@ -2958,7 +2958,7 @@ extension DeviceFarmClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `InstallToRemoteAccessSession` operation on the `DeviceFarm_20150623` service.
+    /// Performs the `InstallToRemoteAccessSession` operation on the `DeviceFarm` service.
     ///
     /// Installs an application to the device in a remote access session. For Android applications, the file must be in .apk format. For iOS applications, the file must be in .ipa format.
     ///
@@ -3031,7 +3031,7 @@ extension DeviceFarmClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListArtifacts` operation on the `DeviceFarm_20150623` service.
+    /// Performs the `ListArtifacts` operation on the `DeviceFarm` service.
     ///
     /// Gets information about artifacts.
     ///
@@ -3104,7 +3104,7 @@ extension DeviceFarmClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDeviceInstances` operation on the `DeviceFarm_20150623` service.
+    /// Performs the `ListDeviceInstances` operation on the `DeviceFarm` service.
     ///
     /// Returns information about the private device instances associated with one or more AWS accounts.
     ///
@@ -3177,7 +3177,7 @@ extension DeviceFarmClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDevicePools` operation on the `DeviceFarm_20150623` service.
+    /// Performs the `ListDevicePools` operation on the `DeviceFarm` service.
     ///
     /// Gets information about device pools.
     ///
@@ -3250,7 +3250,7 @@ extension DeviceFarmClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDevices` operation on the `DeviceFarm_20150623` service.
+    /// Performs the `ListDevices` operation on the `DeviceFarm` service.
     ///
     /// Gets information about unique device types.
     ///
@@ -3323,7 +3323,7 @@ extension DeviceFarmClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListInstanceProfiles` operation on the `DeviceFarm_20150623` service.
+    /// Performs the `ListInstanceProfiles` operation on the `DeviceFarm` service.
     ///
     /// Returns information about all the instance profiles in an AWS account.
     ///
@@ -3396,7 +3396,7 @@ extension DeviceFarmClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListJobs` operation on the `DeviceFarm_20150623` service.
+    /// Performs the `ListJobs` operation on the `DeviceFarm` service.
     ///
     /// Gets information about jobs for a given test run.
     ///
@@ -3469,7 +3469,7 @@ extension DeviceFarmClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListNetworkProfiles` operation on the `DeviceFarm_20150623` service.
+    /// Performs the `ListNetworkProfiles` operation on the `DeviceFarm` service.
     ///
     /// Returns the list of available network profiles.
     ///
@@ -3542,7 +3542,7 @@ extension DeviceFarmClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListOfferingPromotions` operation on the `DeviceFarm_20150623` service.
+    /// Performs the `ListOfferingPromotions` operation on the `DeviceFarm` service.
     ///
     /// Returns a list of offering promotions. Each offering promotion record contains the ID and description of the promotion. The API returns a NotEligible error if the caller is not permitted to invoke the operation. Contact [aws-devicefarm-support@amazon.com](mailto:aws-devicefarm-support@amazon.com) if you must be able to invoke this operation.
     ///
@@ -3616,7 +3616,7 @@ extension DeviceFarmClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListOfferingTransactions` operation on the `DeviceFarm_20150623` service.
+    /// Performs the `ListOfferingTransactions` operation on the `DeviceFarm` service.
     ///
     /// Returns a list of all historical purchases, renewals, and system renewal transactions for an AWS account. The list is paginated and ordered by a descending timestamp (most recent transactions are first). The API returns a NotEligible error if the user is not permitted to invoke the operation. If you must be able to invoke this operation, contact [aws-devicefarm-support@amazon.com](mailto:aws-devicefarm-support@amazon.com).
     ///
@@ -3690,7 +3690,7 @@ extension DeviceFarmClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListOfferings` operation on the `DeviceFarm_20150623` service.
+    /// Performs the `ListOfferings` operation on the `DeviceFarm` service.
     ///
     /// Returns a list of products or offerings that the user can manage through the API. Each offering record indicates the recurring price per unit and the frequency for that offering. The API returns a NotEligible error if the user is not permitted to invoke the operation. If you must be able to invoke this operation, contact [aws-devicefarm-support@amazon.com](mailto:aws-devicefarm-support@amazon.com).
     ///
@@ -3764,7 +3764,7 @@ extension DeviceFarmClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListProjects` operation on the `DeviceFarm_20150623` service.
+    /// Performs the `ListProjects` operation on the `DeviceFarm` service.
     ///
     /// Gets information about projects.
     ///
@@ -3837,7 +3837,7 @@ extension DeviceFarmClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListRemoteAccessSessions` operation on the `DeviceFarm_20150623` service.
+    /// Performs the `ListRemoteAccessSessions` operation on the `DeviceFarm` service.
     ///
     /// Returns a list of all currently running remote access sessions.
     ///
@@ -3910,7 +3910,7 @@ extension DeviceFarmClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListRuns` operation on the `DeviceFarm_20150623` service.
+    /// Performs the `ListRuns` operation on the `DeviceFarm` service.
     ///
     /// Gets information about runs, given an AWS Device Farm project ARN.
     ///
@@ -3983,7 +3983,7 @@ extension DeviceFarmClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListSamples` operation on the `DeviceFarm_20150623` service.
+    /// Performs the `ListSamples` operation on the `DeviceFarm` service.
     ///
     /// Gets information about samples, given an AWS Device Farm job ARN.
     ///
@@ -4056,7 +4056,7 @@ extension DeviceFarmClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListSuites` operation on the `DeviceFarm_20150623` service.
+    /// Performs the `ListSuites` operation on the `DeviceFarm` service.
     ///
     /// Gets information about test suites for a given job.
     ///
@@ -4129,7 +4129,7 @@ extension DeviceFarmClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `DeviceFarm_20150623` service.
+    /// Performs the `ListTagsForResource` operation on the `DeviceFarm` service.
     ///
     /// List the tags for an AWS Device Farm resource.
     ///
@@ -4201,7 +4201,7 @@ extension DeviceFarmClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTestGridProjects` operation on the `DeviceFarm_20150623` service.
+    /// Performs the `ListTestGridProjects` operation on the `DeviceFarm` service.
     ///
     /// Gets a list of all Selenium testing projects in your account.
     ///
@@ -4272,7 +4272,7 @@ extension DeviceFarmClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTestGridSessionActions` operation on the `DeviceFarm_20150623` service.
+    /// Performs the `ListTestGridSessionActions` operation on the `DeviceFarm` service.
     ///
     /// Returns a list of the actions taken in a [TestGridSession].
     ///
@@ -4344,7 +4344,7 @@ extension DeviceFarmClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTestGridSessionArtifacts` operation on the `DeviceFarm_20150623` service.
+    /// Performs the `ListTestGridSessionArtifacts` operation on the `DeviceFarm` service.
     ///
     /// Retrieves a list of artifacts created during the session.
     ///
@@ -4416,7 +4416,7 @@ extension DeviceFarmClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTestGridSessions` operation on the `DeviceFarm_20150623` service.
+    /// Performs the `ListTestGridSessions` operation on the `DeviceFarm` service.
     ///
     /// Retrieves a list of sessions for a [TestGridProject].
     ///
@@ -4488,7 +4488,7 @@ extension DeviceFarmClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTests` operation on the `DeviceFarm_20150623` service.
+    /// Performs the `ListTests` operation on the `DeviceFarm` service.
     ///
     /// Gets information about tests in a given test suite.
     ///
@@ -4561,7 +4561,7 @@ extension DeviceFarmClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListUniqueProblems` operation on the `DeviceFarm_20150623` service.
+    /// Performs the `ListUniqueProblems` operation on the `DeviceFarm` service.
     ///
     /// Gets information about unique problems, such as exceptions or crashes. Unique problems are defined as a single instance of an error across a run, job, or suite. For example, if a call in your application consistently raises an exception (OutOfBoundsException in MyActivity.java:386), ListUniqueProblems returns a single entry instead of many individual entries for that exception.
     ///
@@ -4634,7 +4634,7 @@ extension DeviceFarmClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListUploads` operation on the `DeviceFarm_20150623` service.
+    /// Performs the `ListUploads` operation on the `DeviceFarm` service.
     ///
     /// Gets information about uploads, given an AWS Device Farm project ARN.
     ///
@@ -4707,7 +4707,7 @@ extension DeviceFarmClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListVPCEConfigurations` operation on the `DeviceFarm_20150623` service.
+    /// Performs the `ListVPCEConfigurations` operation on the `DeviceFarm` service.
     ///
     /// Returns information about all Amazon Virtual Private Cloud (VPC) endpoint configurations in the AWS account.
     ///
@@ -4778,7 +4778,7 @@ extension DeviceFarmClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PurchaseOffering` operation on the `DeviceFarm_20150623` service.
+    /// Performs the `PurchaseOffering` operation on the `DeviceFarm` service.
     ///
     /// Immediately purchases offerings for an AWS account. Offerings renew with the latest total purchased quantity for an offering, unless the renewal was overridden. The API returns a NotEligible error if the user is not permitted to invoke the operation. If you must be able to invoke this operation, contact [aws-devicefarm-support@amazon.com](mailto:aws-devicefarm-support@amazon.com).
     ///
@@ -4852,7 +4852,7 @@ extension DeviceFarmClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RenewOffering` operation on the `DeviceFarm_20150623` service.
+    /// Performs the `RenewOffering` operation on the `DeviceFarm` service.
     ///
     /// Explicitly sets the quantity of devices to renew for an offering, starting from the effectiveDate of the next period. The API returns a NotEligible error if the user is not permitted to invoke the operation. If you must be able to invoke this operation, contact [aws-devicefarm-support@amazon.com](mailto:aws-devicefarm-support@amazon.com).
     ///
@@ -4926,7 +4926,7 @@ extension DeviceFarmClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ScheduleRun` operation on the `DeviceFarm_20150623` service.
+    /// Performs the `ScheduleRun` operation on the `DeviceFarm` service.
     ///
     /// Schedules a run.
     ///
@@ -5000,7 +5000,7 @@ extension DeviceFarmClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopJob` operation on the `DeviceFarm_20150623` service.
+    /// Performs the `StopJob` operation on the `DeviceFarm` service.
     ///
     /// Initiates a stop request for the current job. AWS Device Farm immediately stops the job on the device where tests have not started. You are not billed for this device. On the device where tests have started, setup suite and teardown suite tests run to completion on the device. You are billed for setup, teardown, and any tests that were in progress or already completed.
     ///
@@ -5073,7 +5073,7 @@ extension DeviceFarmClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopRemoteAccessSession` operation on the `DeviceFarm_20150623` service.
+    /// Performs the `StopRemoteAccessSession` operation on the `DeviceFarm` service.
     ///
     /// Ends a specified remote access session.
     ///
@@ -5146,7 +5146,7 @@ extension DeviceFarmClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopRun` operation on the `DeviceFarm_20150623` service.
+    /// Performs the `StopRun` operation on the `DeviceFarm` service.
     ///
     /// Initiates a stop request for the current test run. AWS Device Farm immediately stops the run on devices where tests have not started. You are not billed for these devices. On devices where tests have started executing, setup suite and teardown suite tests run to completion on those devices. You are billed for setup, teardown, and any tests that were in progress or already completed.
     ///
@@ -5219,7 +5219,7 @@ extension DeviceFarmClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `DeviceFarm_20150623` service.
+    /// Performs the `TagResource` operation on the `DeviceFarm` service.
     ///
     /// Associates the specified tags to a resource with the specified resourceArn. If existing tags on a resource are not specified in the request parameters, they are not changed. When a resource is deleted, the tags associated with that resource are also deleted.
     ///
@@ -5293,7 +5293,7 @@ extension DeviceFarmClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `DeviceFarm_20150623` service.
+    /// Performs the `UntagResource` operation on the `DeviceFarm` service.
     ///
     /// Deletes the specified tags from a resource.
     ///
@@ -5365,7 +5365,7 @@ extension DeviceFarmClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateDeviceInstance` operation on the `DeviceFarm_20150623` service.
+    /// Performs the `UpdateDeviceInstance` operation on the `DeviceFarm` service.
     ///
     /// Updates information about a private device instance.
     ///
@@ -5438,7 +5438,7 @@ extension DeviceFarmClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateDevicePool` operation on the `DeviceFarm_20150623` service.
+    /// Performs the `UpdateDevicePool` operation on the `DeviceFarm` service.
     ///
     /// Modifies the name, description, and rules in a device pool given the attributes and the pool ARN. Rule updates are all-or-nothing, meaning they can only be updated as a whole (or not at all).
     ///
@@ -5511,7 +5511,7 @@ extension DeviceFarmClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateInstanceProfile` operation on the `DeviceFarm_20150623` service.
+    /// Performs the `UpdateInstanceProfile` operation on the `DeviceFarm` service.
     ///
     /// Updates information about an existing private device instance profile.
     ///
@@ -5584,7 +5584,7 @@ extension DeviceFarmClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateNetworkProfile` operation on the `DeviceFarm_20150623` service.
+    /// Performs the `UpdateNetworkProfile` operation on the `DeviceFarm` service.
     ///
     /// Updates the network profile.
     ///
@@ -5657,7 +5657,7 @@ extension DeviceFarmClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateProject` operation on the `DeviceFarm_20150623` service.
+    /// Performs the `UpdateProject` operation on the `DeviceFarm` service.
     ///
     /// Modifies the specified project name, given the project ARN and a new name.
     ///
@@ -5730,7 +5730,7 @@ extension DeviceFarmClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateTestGridProject` operation on the `DeviceFarm_20150623` service.
+    /// Performs the `UpdateTestGridProject` operation on the `DeviceFarm` service.
     ///
     /// Change details of a project.
     ///
@@ -5803,7 +5803,7 @@ extension DeviceFarmClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateUpload` operation on the `DeviceFarm_20150623` service.
+    /// Performs the `UpdateUpload` operation on the `DeviceFarm` service.
     ///
     /// Updates an uploaded test spec.
     ///
@@ -5876,7 +5876,7 @@ extension DeviceFarmClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateVPCEConfiguration` operation on the `DeviceFarm_20150623` service.
+    /// Performs the `UpdateVPCEConfiguration` operation on the `DeviceFarm` service.
     ///
     /// Updates information about an Amazon Virtual Private Cloud (VPC) endpoint configuration.
     ///

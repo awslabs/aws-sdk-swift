@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class TimestreamQueryClient: ClientRuntime.Client {
     public static let clientName = "TimestreamQueryClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: TimestreamQueryClient.TimestreamQueryClientConfiguration
     let serviceName = "Timestream Query"
@@ -331,7 +331,7 @@ extension TimestreamQueryClient {
 }
 
 extension TimestreamQueryClient {
-    /// Performs the `CancelQuery` operation on the `Timestream_20181101` service.
+    /// Performs the `CancelQuery` operation on the `TimestreamQuery` service.
     ///
     /// Cancels a query that has been issued. Cancellation is provided only if the query has not completed running before the cancellation request was issued. Because cancellation is an idempotent operation, subsequent cancellation requests will return a CancellationMessage, indicating that the query has already been canceled. See [code sample](https://docs.aws.amazon.com/timestream/latest/developerguide/code-samples.cancel-query.html) for details.
     ///
@@ -405,7 +405,7 @@ extension TimestreamQueryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateScheduledQuery` operation on the `Timestream_20181101` service.
+    /// Performs the `CreateScheduledQuery` operation on the `TimestreamQuery` service.
     ///
     /// Create a scheduled query that will be run on your behalf at the configured schedule. Timestream assumes the execution role provided as part of the ScheduledQueryExecutionRoleArn parameter to run the query. You can use the NotificationConfiguration parameter to configure notification for your scheduled query operations.
     ///
@@ -482,7 +482,7 @@ extension TimestreamQueryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteScheduledQuery` operation on the `Timestream_20181101` service.
+    /// Performs the `DeleteScheduledQuery` operation on the `TimestreamQuery` service.
     ///
     /// Deletes a given scheduled query. This is an irreversible operation.
     ///
@@ -557,7 +557,7 @@ extension TimestreamQueryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeAccountSettings` operation on the `Timestream_20181101` service.
+    /// Performs the `DescribeAccountSettings` operation on the `TimestreamQuery` service.
     ///
     /// Describes the settings for your account that include the query pricing model and the configured maximum TCUs the service can use for your query workload. You're charged only for the duration of compute units used for your workloads.
     ///
@@ -630,7 +630,7 @@ extension TimestreamQueryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeEndpoints` operation on the `Timestream_20181101` service.
+    /// Performs the `DescribeEndpoints` operation on the `TimestreamQuery` service.
     ///
     /// DescribeEndpoints returns a list of available endpoints to make Timestream API calls against. This API is available through both Write and Query. Because the Timestream SDKs are designed to transparently work with the service’s architecture, including the management and mapping of the service endpoints, it is not recommended that you use this API unless:
     ///
@@ -711,7 +711,7 @@ extension TimestreamQueryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeScheduledQuery` operation on the `Timestream_20181101` service.
+    /// Performs the `DescribeScheduledQuery` operation on the `TimestreamQuery` service.
     ///
     /// Provides detailed information about a scheduled query.
     ///
@@ -786,7 +786,7 @@ extension TimestreamQueryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ExecuteScheduledQuery` operation on the `Timestream_20181101` service.
+    /// Performs the `ExecuteScheduledQuery` operation on the `TimestreamQuery` service.
     ///
     /// You can use this API to run a scheduled query manually. If you enabled QueryInsights, this API also returns insights and metrics related to the query that you executed as part of an Amazon SNS notification. QueryInsights helps with performance tuning of your query. For more information about QueryInsights, see [Using query insights to optimize queries in Amazon Timestream](https://docs.aws.amazon.com/timestream/latest/developerguide/using-query-insights.html).
     ///
@@ -862,7 +862,7 @@ extension TimestreamQueryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListScheduledQueries` operation on the `Timestream_20181101` service.
+    /// Performs the `ListScheduledQueries` operation on the `TimestreamQuery` service.
     ///
     /// Gets a list of all scheduled queries in the caller's Amazon account and Region. ListScheduledQueries is eventually consistent.
     ///
@@ -936,7 +936,7 @@ extension TimestreamQueryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `Timestream_20181101` service.
+    /// Performs the `ListTagsForResource` operation on the `TimestreamQuery` service.
     ///
     /// List all tags on a Timestream query resource.
     ///
@@ -1009,7 +1009,7 @@ extension TimestreamQueryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PrepareQuery` operation on the `Timestream_20181101` service.
+    /// Performs the `PrepareQuery` operation on the `TimestreamQuery` service.
     ///
     /// A synchronous operation that allows you to submit a query with parameters to be stored by Timestream for later running. Timestream only supports using this operation with ValidateOnly set to true.
     ///
@@ -1083,7 +1083,7 @@ extension TimestreamQueryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `Query` operation on the `Timestream_20181101` service.
+    /// Performs the `Query` operation on the `TimestreamQuery` service.
     ///
     /// Query is a synchronous operation that enables you to run a query against your Amazon Timestream data. If you enabled QueryInsights, this API also returns insights and metrics related to the query that you executed. QueryInsights helps with performance tuning of your query. For more information about QueryInsights, see [Using query insights to optimize queries in Amazon Timestream](https://docs.aws.amazon.com/timestream/latest/developerguide/using-query-insights.html). The maximum number of Query API requests you're allowed to make with QueryInsights enabled is 1 query per second (QPS). If you exceed this query rate, it might result in throttling. Query will time out after 60 seconds. You must update the default timeout in the SDK to support a timeout of 60 seconds. See the [code sample](https://docs.aws.amazon.com/timestream/latest/developerguide/code-samples.run-query.html) for details. Your query request will fail in the following cases:
     ///
@@ -1168,7 +1168,7 @@ extension TimestreamQueryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `Timestream_20181101` service.
+    /// Performs the `TagResource` operation on the `TimestreamQuery` service.
     ///
     /// Associate a set of tags with a Timestream resource. You can then activate these user-defined tags so that they appear on the Billing and Cost Management console for cost allocation tracking.
     ///
@@ -1242,7 +1242,7 @@ extension TimestreamQueryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `Timestream_20181101` service.
+    /// Performs the `UntagResource` operation on the `TimestreamQuery` service.
     ///
     /// Removes the association of tags from a Timestream query resource.
     ///
@@ -1315,7 +1315,7 @@ extension TimestreamQueryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateAccountSettings` operation on the `Timestream_20181101` service.
+    /// Performs the `UpdateAccountSettings` operation on the `TimestreamQuery` service.
     ///
     /// Transitions your account to use TCUs for query pricing and modifies the maximum query compute units that you've configured. If you reduce the value of MaxQueryTCU to a desired configuration, the new value can take up to 24 hours to be effective. After you've transitioned your account to use TCUs for query pricing, you can't transition to using bytes scanned for query pricing.
     ///
@@ -1389,7 +1389,7 @@ extension TimestreamQueryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateScheduledQuery` operation on the `Timestream_20181101` service.
+    /// Performs the `UpdateScheduledQuery` operation on the `TimestreamQuery` service.
     ///
     /// Update a scheduled query.
     ///

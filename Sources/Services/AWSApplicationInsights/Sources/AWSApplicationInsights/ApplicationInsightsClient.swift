@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ApplicationInsightsClient: ClientRuntime.Client {
     public static let clientName = "ApplicationInsightsClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: ApplicationInsightsClient.ApplicationInsightsClientConfiguration
     let serviceName = "Application Insights"
@@ -330,7 +330,7 @@ extension ApplicationInsightsClient {
 }
 
 extension ApplicationInsightsClient {
-    /// Performs the `AddWorkload` operation on the `EC2WindowsBarleyService` service.
+    /// Performs the `AddWorkload` operation on the `ApplicationInsights` service.
     ///
     /// Adds a workload to a component. Each component can have at most five workloads.
     ///
@@ -403,7 +403,7 @@ extension ApplicationInsightsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateApplication` operation on the `EC2WindowsBarleyService` service.
+    /// Performs the `CreateApplication` operation on the `ApplicationInsights` service.
     ///
     /// Adds an application that is created from a resource group.
     ///
@@ -478,7 +478,7 @@ extension ApplicationInsightsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateComponent` operation on the `EC2WindowsBarleyService` service.
+    /// Performs the `CreateComponent` operation on the `ApplicationInsights` service.
     ///
     /// Creates a custom component by grouping similar standalone instances to monitor.
     ///
@@ -551,7 +551,7 @@ extension ApplicationInsightsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateLogPattern` operation on the `EC2WindowsBarleyService` service.
+    /// Performs the `CreateLogPattern` operation on the `ApplicationInsights` service.
     ///
     /// Adds an log pattern to a LogPatternSet.
     ///
@@ -624,7 +624,7 @@ extension ApplicationInsightsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteApplication` operation on the `EC2WindowsBarleyService` service.
+    /// Performs the `DeleteApplication` operation on the `ApplicationInsights` service.
     ///
     /// Removes the specified application from monitoring. Does not delete the application.
     ///
@@ -697,7 +697,7 @@ extension ApplicationInsightsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteComponent` operation on the `EC2WindowsBarleyService` service.
+    /// Performs the `DeleteComponent` operation on the `ApplicationInsights` service.
     ///
     /// Ungroups a custom component. When you ungroup custom components, all applicable monitors that are set up for the component are removed and the instances revert to their standalone status.
     ///
@@ -769,7 +769,7 @@ extension ApplicationInsightsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteLogPattern` operation on the `EC2WindowsBarleyService` service.
+    /// Performs the `DeleteLogPattern` operation on the `ApplicationInsights` service.
     ///
     /// Removes the specified log pattern from a LogPatternSet.
     ///
@@ -842,7 +842,7 @@ extension ApplicationInsightsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeApplication` operation on the `EC2WindowsBarleyService` service.
+    /// Performs the `DescribeApplication` operation on the `ApplicationInsights` service.
     ///
     /// Describes the application.
     ///
@@ -914,7 +914,7 @@ extension ApplicationInsightsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeComponent` operation on the `EC2WindowsBarleyService` service.
+    /// Performs the `DescribeComponent` operation on the `ApplicationInsights` service.
     ///
     /// Describes a component and lists the resources that are grouped together in a component.
     ///
@@ -986,7 +986,7 @@ extension ApplicationInsightsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeComponentConfiguration` operation on the `EC2WindowsBarleyService` service.
+    /// Performs the `DescribeComponentConfiguration` operation on the `ApplicationInsights` service.
     ///
     /// Describes the monitoring configuration of the component.
     ///
@@ -1058,7 +1058,7 @@ extension ApplicationInsightsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeComponentConfigurationRecommendation` operation on the `EC2WindowsBarleyService` service.
+    /// Performs the `DescribeComponentConfigurationRecommendation` operation on the `ApplicationInsights` service.
     ///
     /// Describes the recommended monitoring configuration of the component.
     ///
@@ -1130,7 +1130,7 @@ extension ApplicationInsightsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeLogPattern` operation on the `EC2WindowsBarleyService` service.
+    /// Performs the `DescribeLogPattern` operation on the `ApplicationInsights` service.
     ///
     /// Describe a specific log pattern from a LogPatternSet.
     ///
@@ -1202,7 +1202,7 @@ extension ApplicationInsightsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeObservation` operation on the `EC2WindowsBarleyService` service.
+    /// Performs the `DescribeObservation` operation on the `ApplicationInsights` service.
     ///
     /// Describes an anomaly or error with the application.
     ///
@@ -1274,7 +1274,7 @@ extension ApplicationInsightsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeProblem` operation on the `EC2WindowsBarleyService` service.
+    /// Performs the `DescribeProblem` operation on the `ApplicationInsights` service.
     ///
     /// Describes an application problem.
     ///
@@ -1346,7 +1346,7 @@ extension ApplicationInsightsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeProblemObservations` operation on the `EC2WindowsBarleyService` service.
+    /// Performs the `DescribeProblemObservations` operation on the `ApplicationInsights` service.
     ///
     /// Describes the anomalies or errors associated with the problem.
     ///
@@ -1418,7 +1418,7 @@ extension ApplicationInsightsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeWorkload` operation on the `EC2WindowsBarleyService` service.
+    /// Performs the `DescribeWorkload` operation on the `ApplicationInsights` service.
     ///
     /// Describes a workload and its configuration.
     ///
@@ -1490,7 +1490,7 @@ extension ApplicationInsightsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListApplications` operation on the `EC2WindowsBarleyService` service.
+    /// Performs the `ListApplications` operation on the `ApplicationInsights` service.
     ///
     /// Lists the IDs of the applications that you are monitoring.
     ///
@@ -1561,7 +1561,7 @@ extension ApplicationInsightsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListComponents` operation on the `EC2WindowsBarleyService` service.
+    /// Performs the `ListComponents` operation on the `ApplicationInsights` service.
     ///
     /// Lists the auto-grouped, standalone, and custom components of the application.
     ///
@@ -1633,7 +1633,7 @@ extension ApplicationInsightsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListConfigurationHistory` operation on the `EC2WindowsBarleyService` service.
+    /// Performs the `ListConfigurationHistory` operation on the `ApplicationInsights` service.
     ///
     /// Lists the INFO, WARN, and ERROR events for periodic configuration updates performed by Application Insights. Examples of events represented are:
     ///
@@ -1711,7 +1711,7 @@ extension ApplicationInsightsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListLogPatternSets` operation on the `EC2WindowsBarleyService` service.
+    /// Performs the `ListLogPatternSets` operation on the `ApplicationInsights` service.
     ///
     /// Lists the log pattern sets in the specific application.
     ///
@@ -1783,7 +1783,7 @@ extension ApplicationInsightsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListLogPatterns` operation on the `EC2WindowsBarleyService` service.
+    /// Performs the `ListLogPatterns` operation on the `ApplicationInsights` service.
     ///
     /// Lists the log patterns in the specific log LogPatternSet.
     ///
@@ -1855,7 +1855,7 @@ extension ApplicationInsightsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListProblems` operation on the `EC2WindowsBarleyService` service.
+    /// Performs the `ListProblems` operation on the `ApplicationInsights` service.
     ///
     /// Lists the problems with your application.
     ///
@@ -1927,7 +1927,7 @@ extension ApplicationInsightsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `EC2WindowsBarleyService` service.
+    /// Performs the `ListTagsForResource` operation on the `ApplicationInsights` service.
     ///
     /// Retrieve a list of the tags (keys and values) that are associated with a specified application. A tag is a label that you optionally define and associate with an application. Each tag consists of a required tag key and an optional associated tag value. A tag key is a general label that acts as a category for more specific tag values. A tag value acts as a descriptor within a tag key.
     ///
@@ -1998,7 +1998,7 @@ extension ApplicationInsightsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListWorkloads` operation on the `EC2WindowsBarleyService` service.
+    /// Performs the `ListWorkloads` operation on the `ApplicationInsights` service.
     ///
     /// Lists the workloads that are configured on a given component.
     ///
@@ -2070,7 +2070,7 @@ extension ApplicationInsightsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RemoveWorkload` operation on the `EC2WindowsBarleyService` service.
+    /// Performs the `RemoveWorkload` operation on the `ApplicationInsights` service.
     ///
     /// Remove workload from a component.
     ///
@@ -2142,7 +2142,7 @@ extension ApplicationInsightsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `EC2WindowsBarleyService` service.
+    /// Performs the `TagResource` operation on the `ApplicationInsights` service.
     ///
     /// Add one or more tags (keys and values) to a specified application. A tag is a label that you optionally define and associate with an application. Tags can help you categorize and manage application in different ways, such as by purpose, owner, environment, or other criteria. Each tag consists of a required tag key and an associated tag value, both of which you define. A tag key is a general label that acts as a category for more specific tag values. A tag value acts as a descriptor within a tag key.
     ///
@@ -2214,7 +2214,7 @@ extension ApplicationInsightsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `EC2WindowsBarleyService` service.
+    /// Performs the `UntagResource` operation on the `ApplicationInsights` service.
     ///
     /// Remove one or more tags (keys and values) from a specified application.
     ///
@@ -2285,7 +2285,7 @@ extension ApplicationInsightsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateApplication` operation on the `EC2WindowsBarleyService` service.
+    /// Performs the `UpdateApplication` operation on the `ApplicationInsights` service.
     ///
     /// Updates the application.
     ///
@@ -2357,7 +2357,7 @@ extension ApplicationInsightsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateComponent` operation on the `EC2WindowsBarleyService` service.
+    /// Performs the `UpdateComponent` operation on the `ApplicationInsights` service.
     ///
     /// Updates the custom component name and/or the list of resources that make up the component.
     ///
@@ -2430,7 +2430,7 @@ extension ApplicationInsightsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateComponentConfiguration` operation on the `EC2WindowsBarleyService` service.
+    /// Performs the `UpdateComponentConfiguration` operation on the `ApplicationInsights` service.
     ///
     /// Updates the monitoring configurations for the component. The configuration input parameter is an escaped JSON of the configuration and should match the schema of what is returned by DescribeComponentConfigurationRecommendation.
     ///
@@ -2503,7 +2503,7 @@ extension ApplicationInsightsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateLogPattern` operation on the `EC2WindowsBarleyService` service.
+    /// Performs the `UpdateLogPattern` operation on the `ApplicationInsights` service.
     ///
     /// Adds a log pattern to a LogPatternSet.
     ///
@@ -2576,7 +2576,7 @@ extension ApplicationInsightsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateProblem` operation on the `EC2WindowsBarleyService` service.
+    /// Performs the `UpdateProblem` operation on the `ApplicationInsights` service.
     ///
     /// Updates the visibility of the problem or specifies the problem as RESOLVED.
     ///
@@ -2648,7 +2648,7 @@ extension ApplicationInsightsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateWorkload` operation on the `EC2WindowsBarleyService` service.
+    /// Performs the `UpdateWorkload` operation on the `ApplicationInsights` service.
     ///
     /// Adds a workload to a component. Each component can have at most five workloads.
     ///

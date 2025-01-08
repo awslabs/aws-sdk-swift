@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class GlueClient: ClientRuntime.Client {
     public static let clientName = "GlueClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: GlueClient.GlueClientConfiguration
     let serviceName = "Glue"
@@ -331,7 +331,7 @@ extension GlueClient {
 }
 
 extension GlueClient {
-    /// Performs the `BatchCreatePartition` operation on the `AWSGlue` service.
+    /// Performs the `BatchCreatePartition` operation on the `Glue` service.
     ///
     /// Creates one or more partitions in a batch operation.
     ///
@@ -407,7 +407,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchDeleteConnection` operation on the `AWSGlue` service.
+    /// Performs the `BatchDeleteConnection` operation on the `Glue` service.
     ///
     /// Deletes a list of connection definitions from the Data Catalog.
     ///
@@ -478,7 +478,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchDeletePartition` operation on the `AWSGlue` service.
+    /// Performs the `BatchDeletePartition` operation on the `Glue` service.
     ///
     /// Deletes one or more partitions in a batch operation.
     ///
@@ -551,7 +551,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchDeleteTable` operation on the `AWSGlue` service.
+    /// Performs the `BatchDeleteTable` operation on the `Glue` service.
     ///
     /// Deletes multiple tables at once. After completing this operation, you no longer have access to the table versions and partitions that belong to the deleted table. Glue deletes these "orphaned" resources asynchronously in a timely manner, at the discretion of the service. To ensure the immediate deletion of all related resources, before calling BatchDeleteTable, use DeleteTableVersion or BatchDeleteTableVersion, and DeletePartition or BatchDeletePartition, to delete any resources that belong to the table.
     ///
@@ -626,7 +626,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchDeleteTableVersion` operation on the `AWSGlue` service.
+    /// Performs the `BatchDeleteTableVersion` operation on the `Glue` service.
     ///
     /// Deletes a specified batch of versions of a table.
     ///
@@ -699,7 +699,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchGetBlueprints` operation on the `AWSGlue` service.
+    /// Performs the `BatchGetBlueprints` operation on the `Glue` service.
     ///
     /// Retrieves information about a list of blueprints.
     ///
@@ -771,7 +771,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchGetCrawlers` operation on the `AWSGlue` service.
+    /// Performs the `BatchGetCrawlers` operation on the `Glue` service.
     ///
     /// Returns a list of resource metadata for a given list of crawler names. After calling the ListCrawlers operation, you can call this operation to access the data to which you have been granted permissions. This operation supports all IAM permissions, including permission conditions that uses tags.
     ///
@@ -842,7 +842,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchGetCustomEntityTypes` operation on the `AWSGlue` service.
+    /// Performs the `BatchGetCustomEntityTypes` operation on the `Glue` service.
     ///
     /// Retrieves the details for the custom patterns specified by a list of names.
     ///
@@ -914,7 +914,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchGetDataQualityResult` operation on the `AWSGlue` service.
+    /// Performs the `BatchGetDataQualityResult` operation on the `Glue` service.
     ///
     /// Retrieves a list of data quality results for the specified result IDs.
     ///
@@ -986,7 +986,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchGetDevEndpoints` operation on the `AWSGlue` service.
+    /// Performs the `BatchGetDevEndpoints` operation on the `Glue` service.
     ///
     /// Returns a list of resource metadata for a given list of development endpoint names. After calling the ListDevEndpoints operation, you can call this operation to access the data to which you have been granted permissions. This operation supports all IAM permissions, including permission conditions that uses tags.
     ///
@@ -1059,7 +1059,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchGetJobs` operation on the `AWSGlue` service.
+    /// Performs the `BatchGetJobs` operation on the `Glue` service.
     ///
     /// Returns a list of resource metadata for a given list of job names. After calling the ListJobs operation, you can call this operation to access the data to which you have been granted permissions. This operation supports all IAM permissions, including permission conditions that uses tags.
     ///
@@ -1131,7 +1131,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchGetPartition` operation on the `AWSGlue` service.
+    /// Performs the `BatchGetPartition` operation on the `Glue` service.
     ///
     /// Retrieves partitions in a batch request.
     ///
@@ -1208,7 +1208,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchGetTableOptimizer` operation on the `AWSGlue` service.
+    /// Performs the `BatchGetTableOptimizer` operation on the `Glue` service.
     ///
     /// Returns the configuration for the specified table optimizers.
     ///
@@ -1282,7 +1282,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchGetTriggers` operation on the `AWSGlue` service.
+    /// Performs the `BatchGetTriggers` operation on the `Glue` service.
     ///
     /// Returns a list of resource metadata for a given list of trigger names. After calling the ListTriggers operation, you can call this operation to access the data to which you have been granted permissions. This operation supports all IAM permissions, including permission conditions that uses tags.
     ///
@@ -1354,7 +1354,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchGetWorkflows` operation on the `AWSGlue` service.
+    /// Performs the `BatchGetWorkflows` operation on the `Glue` service.
     ///
     /// Returns a list of resource metadata for a given list of workflow names. After calling the ListWorkflows operation, you can call this operation to access the data to which you have been granted permissions. This operation supports all IAM permissions, including permission conditions that uses tags.
     ///
@@ -1426,7 +1426,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchPutDataQualityStatisticAnnotation` operation on the `AWSGlue` service.
+    /// Performs the `BatchPutDataQualityStatisticAnnotation` operation on the `Glue` service.
     ///
     /// Annotate datapoints over time for a specific data quality statistic.
     ///
@@ -1499,7 +1499,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchStopJobRun` operation on the `AWSGlue` service.
+    /// Performs the `BatchStopJobRun` operation on the `Glue` service.
     ///
     /// Stops one or more job runs for a specified job definition.
     ///
@@ -1571,7 +1571,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchUpdatePartition` operation on the `AWSGlue` service.
+    /// Performs the `BatchUpdatePartition` operation on the `Glue` service.
     ///
     /// Updates one or more partitions in a batch operation.
     ///
@@ -1645,7 +1645,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CancelDataQualityRuleRecommendationRun` operation on the `AWSGlue` service.
+    /// Performs the `CancelDataQualityRuleRecommendationRun` operation on the `Glue` service.
     ///
     /// Cancels the specified recommendation run that was being used to generate rules.
     ///
@@ -1718,7 +1718,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CancelDataQualityRulesetEvaluationRun` operation on the `AWSGlue` service.
+    /// Performs the `CancelDataQualityRulesetEvaluationRun` operation on the `Glue` service.
     ///
     /// Cancels a run where a ruleset is being evaluated against a data source.
     ///
@@ -1791,7 +1791,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CancelMLTaskRun` operation on the `AWSGlue` service.
+    /// Performs the `CancelMLTaskRun` operation on the `Glue` service.
     ///
     /// Cancels (stops) a task run. Machine learning task runs are asynchronous tasks that Glue runs on your behalf as part of various machine learning workflows. You can cancel a machine learning task run at any time by calling CancelMLTaskRun with a task run's parent transform's TransformID and the task run's TaskRunId.
     ///
@@ -1864,7 +1864,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CancelStatement` operation on the `AWSGlue` service.
+    /// Performs the `CancelStatement` operation on the `Glue` service.
     ///
     /// Cancels the statement.
     ///
@@ -1939,7 +1939,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CheckSchemaVersionValidity` operation on the `AWSGlue` service.
+    /// Performs the `CheckSchemaVersionValidity` operation on the `Glue` service.
     ///
     /// Validates the supplied schema. This call has no side effects, it simply validates using the supplied schema using DataFormat as the format. Since it does not take a schema set name, no compatibility checks are performed.
     ///
@@ -2011,7 +2011,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateBlueprint` operation on the `AWSGlue` service.
+    /// Performs the `CreateBlueprint` operation on the `Glue` service.
     ///
     /// Registers a blueprint with Glue.
     ///
@@ -2085,7 +2085,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateCatalog` operation on the `AWSGlue` service.
+    /// Performs the `CreateCatalog` operation on the `Glue` service.
     ///
     /// Creates a new catalog in the Glue Data Catalog.
     ///
@@ -2165,7 +2165,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateClassifier` operation on the `AWSGlue` service.
+    /// Performs the `CreateClassifier` operation on the `Glue` service.
     ///
     /// Creates a classifier in the user's account. This can be a GrokClassifier, an XMLClassifier, a JsonClassifier, or a CsvClassifier, depending on which field of the request is present.
     ///
@@ -2237,7 +2237,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateColumnStatisticsTaskSettings` operation on the `AWSGlue` service.
+    /// Performs the `CreateColumnStatisticsTaskSettings` operation on the `Glue` service.
     ///
     /// Creates settings for a column statistics task.
     ///
@@ -2313,7 +2313,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateConnection` operation on the `AWSGlue` service.
+    /// Performs the `CreateConnection` operation on the `Glue` service.
     ///
     /// Creates a connection definition in the Data Catalog. Connections used for creating federated resources require the IAM glue:PassConnection permission.
     ///
@@ -2387,7 +2387,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateCrawler` operation on the `AWSGlue` service.
+    /// Performs the `CreateCrawler` operation on the `Glue` service.
     ///
     /// Creates a new crawler with specified targets, role, configuration, and optional schedule. At least one crawl target must be specified, in the s3Targets field, the jdbcTargets field, or the DynamoDBTargets field.
     ///
@@ -2460,7 +2460,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateCustomEntityType` operation on the `AWSGlue` service.
+    /// Performs the `CreateCustomEntityType` operation on the `Glue` service.
     ///
     /// Creates a custom pattern that is used to detect sensitive data across the columns and rows of your structured data. Each custom pattern you create specifies a regular expression and an optional list of context words. If no context words are passed only a regular expression is checked.
     ///
@@ -2536,7 +2536,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateDataQualityRuleset` operation on the `AWSGlue` service.
+    /// Performs the `CreateDataQualityRuleset` operation on the `Glue` service.
     ///
     /// Creates a data quality ruleset with DQDL rules applied to a specified Glue table. You create the ruleset using the Data Quality Definition Language (DQDL). For more information, see the Glue developer guide.
     ///
@@ -2610,7 +2610,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateDatabase` operation on the `AWSGlue` service.
+    /// Performs the `CreateDatabase` operation on the `Glue` service.
     ///
     /// Creates a new database in a Data Catalog.
     ///
@@ -2689,7 +2689,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateDevEndpoint` operation on the `AWSGlue` service.
+    /// Performs the `CreateDevEndpoint` operation on the `Glue` service.
     ///
     /// Creates a new development endpoint.
     ///
@@ -2766,7 +2766,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateIntegration` operation on the `AWSGlue` service.
+    /// Performs the `CreateIntegration` operation on the `Glue` service.
     ///
     /// Creates a Zero-ETL integration in the caller's account between two resources with Amazon Resource Names (ARNs): the SourceArn and TargetArn.
     ///
@@ -2847,7 +2847,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateIntegrationResourceProperty` operation on the `AWSGlue` service.
+    /// Performs the `CreateIntegrationResourceProperty` operation on the `Glue` service.
     ///
     /// This API can be used for setting up the ResourceProperty of the Glue connection (for the source) or Glue database ARN (for the target). These properties can include the role to access the connection or database. To set both source and target properties the same API needs to be invoked with the Glue connection ARN as ResourceArn with SourceProcessingProperties and the Glue database ARN as ResourceArn with TargetProcessingProperties respectively.
     ///
@@ -2924,7 +2924,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateIntegrationTableProperties` operation on the `AWSGlue` service.
+    /// Performs the `CreateIntegrationTableProperties` operation on the `Glue` service.
     ///
     /// This API is used to provide optional override properties for the the tables that need to be replicated. These properties can include properties for filtering and partitioning for the source and target tables. To set both source and target properties the same API need to be invoked with the Glue connection ARN as ResourceArn with SourceTableConfig, and the Glue database ARN as ResourceArn with TargetTableConfig respectively.
     ///
@@ -3000,7 +3000,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateJob` operation on the `AWSGlue` service.
+    /// Performs the `CreateJob` operation on the `Glue` service.
     ///
     /// Creates a new job definition.
     ///
@@ -3076,7 +3076,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateMLTransform` operation on the `AWSGlue` service.
+    /// Performs the `CreateMLTransform` operation on the `Glue` service.
     ///
     /// Creates an Glue machine learning transform. This operation creates the transform and all the necessary parameters to train it. Call this operation as the first step in the process of using a machine learning transform (such as the FindMatches transform) for deduplicating data. You can provide an optional Description, in addition to the parameters that you want to use for your algorithm. You must also specify certain parameters for the tasks that Glue runs on your behalf as part of learning from your data and creating a high-quality machine learning transform. These parameters include Role, and optionally, AllocatedCapacity, Timeout, and MaxRetries. For more information, see [Jobs](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-api-jobs-job.html).
     ///
@@ -3152,7 +3152,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreatePartition` operation on the `AWSGlue` service.
+    /// Performs the `CreatePartition` operation on the `Glue` service.
     ///
     /// Creates a new partition.
     ///
@@ -3228,7 +3228,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreatePartitionIndex` operation on the `AWSGlue` service.
+    /// Performs the `CreatePartitionIndex` operation on the `Glue` service.
     ///
     /// Creates a specified partition index in an existing table.
     ///
@@ -3304,7 +3304,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateRegistry` operation on the `AWSGlue` service.
+    /// Performs the `CreateRegistry` operation on the `Glue` service.
     ///
     /// Creates a new registry which may be used to hold a collection of schemas.
     ///
@@ -3379,7 +3379,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateSchema` operation on the `AWSGlue` service.
+    /// Performs the `CreateSchema` operation on the `Glue` service.
     ///
     /// Creates a new schema set and registers the schema definition. Returns an error if the schema set already exists without actually registering the version. When the schema set is created, a version checkpoint will be set to the first version. Compatibility mode "DISABLED" restricts any additional schema versions from being added after the first schema version. For all other compatibility modes, validation of compatibility settings will be applied only from the second version onwards when the RegisterSchemaVersion API is used. When this API is called without a RegistryId, this will create an entry for a "default-registry" in the registry database tables, if it is not already present.
     ///
@@ -3455,7 +3455,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateScript` operation on the `AWSGlue` service.
+    /// Performs the `CreateScript` operation on the `Glue` service.
     ///
     /// Transforms a directed acyclic graph (DAG) into code.
     ///
@@ -3527,7 +3527,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateSecurityConfiguration` operation on the `AWSGlue` service.
+    /// Performs the `CreateSecurityConfiguration` operation on the `Glue` service.
     ///
     /// Creates a new security configuration. A security configuration is a set of security properties that can be used by Glue. You can use a security configuration to encrypt data at rest. For information about using security configurations in Glue, see [Encrypting Data Written by Crawlers, Jobs, and Development Endpoints](https://docs.aws.amazon.com/glue/latest/dg/encryption-security-configuration.html).
     ///
@@ -3601,7 +3601,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateSession` operation on the `AWSGlue` service.
+    /// Performs the `CreateSession` operation on the `Glue` service.
     ///
     /// Creates a new session.
     ///
@@ -3678,7 +3678,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateTable` operation on the `AWSGlue` service.
+    /// Performs the `CreateTable` operation on the `Glue` service.
     ///
     /// Creates a new table definition in the Data Catalog.
     ///
@@ -3758,7 +3758,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateTableOptimizer` operation on the `AWSGlue` service.
+    /// Performs the `CreateTableOptimizer` operation on the `Glue` service.
     ///
     /// Creates a new table optimizer for a specific function.
     ///
@@ -3834,7 +3834,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateTrigger` operation on the `AWSGlue` service.
+    /// Performs the `CreateTrigger` operation on the `Glue` service.
     ///
     /// Creates a new trigger. Job arguments may be logged. Do not pass plaintext secrets as arguments. Retrieve secrets from a Glue Connection, Amazon Web Services Secrets Manager or other secret management mechanism if you intend to keep them within the Job.
     ///
@@ -3911,7 +3911,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateUsageProfile` operation on the `AWSGlue` service.
+    /// Performs the `CreateUsageProfile` operation on the `Glue` service.
     ///
     /// Creates an Glue usage profile.
     ///
@@ -3986,7 +3986,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateUserDefinedFunction` operation on the `AWSGlue` service.
+    /// Performs the `CreateUserDefinedFunction` operation on the `Glue` service.
     ///
     /// Creates a new function definition in the Data Catalog.
     ///
@@ -4062,7 +4062,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateWorkflow` operation on the `AWSGlue` service.
+    /// Performs the `CreateWorkflow` operation on the `Glue` service.
     ///
     /// Creates a new workflow.
     ///
@@ -4137,7 +4137,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteBlueprint` operation on the `AWSGlue` service.
+    /// Performs the `DeleteBlueprint` operation on the `Glue` service.
     ///
     /// Deletes an existing blueprint.
     ///
@@ -4209,7 +4209,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteCatalog` operation on the `AWSGlue` service.
+    /// Performs the `DeleteCatalog` operation on the `Glue` service.
     ///
     /// Removes the specified catalog from the Glue Data Catalog. After completing this operation, you no longer have access to the databases, tables (and all table versions and partitions that might belong to the tables) and the user-defined functions in the deleted catalog. Glue deletes these "orphaned" resources asynchronously in a timely manner, at the discretion of the service. To ensure the immediate deletion of all related resources before calling the DeleteCatalog operation, use DeleteTableVersion (or BatchDeleteTableVersion), DeletePartition (or BatchDeletePartition), DeleteTable (or BatchDeleteTable), DeleteUserDefinedFunction and DeleteDatabase to delete any resources that belong to the catalog.
     ///
@@ -4286,7 +4286,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteClassifier` operation on the `AWSGlue` service.
+    /// Performs the `DeleteClassifier` operation on the `Glue` service.
     ///
     /// Removes a classifier from the Data Catalog.
     ///
@@ -4357,7 +4357,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteColumnStatisticsForPartition` operation on the `AWSGlue` service.
+    /// Performs the `DeleteColumnStatisticsForPartition` operation on the `Glue` service.
     ///
     /// Delete the partition column statistics of a column. The Identity and Access Management (IAM) permission required for this operation is DeletePartition.
     ///
@@ -4431,7 +4431,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteColumnStatisticsForTable` operation on the `AWSGlue` service.
+    /// Performs the `DeleteColumnStatisticsForTable` operation on the `Glue` service.
     ///
     /// Retrieves table statistics of columns. The Identity and Access Management (IAM) permission required for this operation is DeleteTable.
     ///
@@ -4505,7 +4505,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteColumnStatisticsTaskSettings` operation on the `AWSGlue` service.
+    /// Performs the `DeleteColumnStatisticsTaskSettings` operation on the `Glue` service.
     ///
     /// Deletes settings for a column statistics task.
     ///
@@ -4577,7 +4577,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteConnection` operation on the `AWSGlue` service.
+    /// Performs the `DeleteConnection` operation on the `Glue` service.
     ///
     /// Deletes a connection from the Data Catalog.
     ///
@@ -4648,7 +4648,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteCrawler` operation on the `AWSGlue` service.
+    /// Performs the `DeleteCrawler` operation on the `Glue` service.
     ///
     /// Removes a specified crawler from the Glue Data Catalog, unless the crawler state is RUNNING.
     ///
@@ -4721,7 +4721,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteCustomEntityType` operation on the `AWSGlue` service.
+    /// Performs the `DeleteCustomEntityType` operation on the `Glue` service.
     ///
     /// Deletes a custom pattern by specifying its name.
     ///
@@ -4795,7 +4795,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteDataQualityRuleset` operation on the `AWSGlue` service.
+    /// Performs the `DeleteDataQualityRuleset` operation on the `Glue` service.
     ///
     /// Deletes a data quality ruleset.
     ///
@@ -4868,7 +4868,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteDatabase` operation on the `AWSGlue` service.
+    /// Performs the `DeleteDatabase` operation on the `Glue` service.
     ///
     /// Removes a specified database from a Data Catalog. After completing this operation, you no longer have access to the tables (and all table versions and partitions that might belong to the tables) and the user-defined functions in the deleted database. Glue deletes these "orphaned" resources asynchronously in a timely manner, at the discretion of the service. To ensure the immediate deletion of all related resources, before calling DeleteDatabase, use DeleteTableVersion or BatchDeleteTableVersion, DeletePartition or BatchDeletePartition, DeleteUserDefinedFunction, and DeleteTable or BatchDeleteTable, to delete any resources that belong to the database.
     ///
@@ -4944,7 +4944,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteDevEndpoint` operation on the `AWSGlue` service.
+    /// Performs the `DeleteDevEndpoint` operation on the `Glue` service.
     ///
     /// Deletes a specified development endpoint.
     ///
@@ -5017,7 +5017,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteIntegration` operation on the `AWSGlue` service.
+    /// Performs the `DeleteIntegration` operation on the `Glue` service.
     ///
     /// Deletes the specified Zero-ETL integration.
     ///
@@ -5097,7 +5097,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteIntegrationTableProperties` operation on the `AWSGlue` service.
+    /// Performs the `DeleteIntegrationTableProperties` operation on the `Glue` service.
     ///
     /// Deletes the table properties that have been created for the tables that need to be replicated.
     ///
@@ -5173,7 +5173,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteJob` operation on the `AWSGlue` service.
+    /// Performs the `DeleteJob` operation on the `Glue` service.
     ///
     /// Deletes a specified job definition. If the job definition is not found, no exception is thrown.
     ///
@@ -5245,7 +5245,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteMLTransform` operation on the `AWSGlue` service.
+    /// Performs the `DeleteMLTransform` operation on the `Glue` service.
     ///
     /// Deletes an Glue machine learning transform. Machine learning transforms are a special type of transform that use machine learning to learn the details of the transformation to be performed by learning from examples provided by humans. These transformations are then saved by Glue. If you no longer need a transform, you can delete it by calling DeleteMLTransforms. However, any Glue jobs that still reference the deleted transform will no longer succeed.
     ///
@@ -5318,7 +5318,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeletePartition` operation on the `AWSGlue` service.
+    /// Performs the `DeletePartition` operation on the `Glue` service.
     ///
     /// Deletes a specified partition.
     ///
@@ -5391,7 +5391,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeletePartitionIndex` operation on the `AWSGlue` service.
+    /// Performs the `DeletePartitionIndex` operation on the `Glue` service.
     ///
     /// Deletes a specified partition index from an existing table.
     ///
@@ -5466,7 +5466,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteRegistry` operation on the `AWSGlue` service.
+    /// Performs the `DeleteRegistry` operation on the `Glue` service.
     ///
     /// Delete the entire registry including schema and all of its versions. To get the status of the delete operation, you can call the GetRegistry API after the asynchronous call. Deleting a registry will deactivate all online operations for the registry such as the UpdateRegistry, CreateSchema, UpdateSchema, and RegisterSchemaVersion APIs.
     ///
@@ -5539,7 +5539,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteResourcePolicy` operation on the `AWSGlue` service.
+    /// Performs the `DeleteResourcePolicy` operation on the `Glue` service.
     ///
     /// Deletes a specified policy.
     ///
@@ -5613,7 +5613,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteSchema` operation on the `AWSGlue` service.
+    /// Performs the `DeleteSchema` operation on the `Glue` service.
     ///
     /// Deletes the entire schema set, including the schema set and all of its versions. To get the status of the delete operation, you can call GetSchema API after the asynchronous call. Deleting a registry will deactivate all online operations for the schema, such as the GetSchemaByDefinition, and RegisterSchemaVersion APIs.
     ///
@@ -5686,7 +5686,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteSchemaVersions` operation on the `AWSGlue` service.
+    /// Performs the `DeleteSchemaVersions` operation on the `Glue` service.
     ///
     /// Remove versions from the specified schema. A version number or range may be supplied. If the compatibility mode forbids deleting of a version that is necessary, such as BACKWARDS_FULL, an error is returned. Calling the GetSchemaVersions API after this call will list the status of the deleted versions. When the range of version numbers contain check pointed version, the API will return a 409 conflict and will not proceed with the deletion. You have to remove the checkpoint first using the DeleteSchemaCheckpoint API before using this API. You cannot use the DeleteSchemaVersions API to delete the first schema version in the schema set. The first schema version can only be deleted by the DeleteSchema API. This operation will also delete the attached SchemaVersionMetadata under the schema versions. Hard deletes will be enforced on the database. If the compatibility mode forbids deleting of a version that is necessary, such as BACKWARDS_FULL, an error is returned.
     ///
@@ -5759,7 +5759,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteSecurityConfiguration` operation on the `AWSGlue` service.
+    /// Performs the `DeleteSecurityConfiguration` operation on the `Glue` service.
     ///
     /// Deletes a specified security configuration.
     ///
@@ -5832,7 +5832,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteSession` operation on the `AWSGlue` service.
+    /// Performs the `DeleteSession` operation on the `Glue` service.
     ///
     /// Deletes the session.
     ///
@@ -5907,7 +5907,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteTable` operation on the `AWSGlue` service.
+    /// Performs the `DeleteTable` operation on the `Glue` service.
     ///
     /// Removes a table definition from the Data Catalog. After completing this operation, you no longer have access to the table versions and partitions that belong to the deleted table. Glue deletes these "orphaned" resources asynchronously in a timely manner, at the discretion of the service. To ensure the immediate deletion of all related resources, before calling DeleteTable, use DeleteTableVersion or BatchDeleteTableVersion, and DeletePartition or BatchDeletePartition, to delete any resources that belong to the table.
     ///
@@ -5984,7 +5984,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteTableOptimizer` operation on the `AWSGlue` service.
+    /// Performs the `DeleteTableOptimizer` operation on the `Glue` service.
     ///
     /// Deletes an optimizer and all associated metadata for a table. The optimization will no longer be performed on the table.
     ///
@@ -6058,7 +6058,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteTableVersion` operation on the `AWSGlue` service.
+    /// Performs the `DeleteTableVersion` operation on the `Glue` service.
     ///
     /// Deletes a specified version of a table.
     ///
@@ -6131,7 +6131,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteTrigger` operation on the `AWSGlue` service.
+    /// Performs the `DeleteTrigger` operation on the `Glue` service.
     ///
     /// Deletes a specified trigger. If the trigger is not found, no exception is thrown.
     ///
@@ -6204,7 +6204,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteUsageProfile` operation on the `AWSGlue` service.
+    /// Performs the `DeleteUsageProfile` operation on the `Glue` service.
     ///
     /// Deletes the Glue specified usage profile.
     ///
@@ -6277,7 +6277,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteUserDefinedFunction` operation on the `AWSGlue` service.
+    /// Performs the `DeleteUserDefinedFunction` operation on the `Glue` service.
     ///
     /// Deletes an existing function definition from the Data Catalog.
     ///
@@ -6350,7 +6350,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteWorkflow` operation on the `AWSGlue` service.
+    /// Performs the `DeleteWorkflow` operation on the `Glue` service.
     ///
     /// Deletes a workflow.
     ///
@@ -6423,7 +6423,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeConnectionType` operation on the `AWSGlue` service.
+    /// Performs the `DescribeConnectionType` operation on the `Glue` service.
     ///
     /// The DescribeConnectionType API provides full details of the supported options for a given connection type in Glue.
     ///
@@ -6496,7 +6496,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeEntity` operation on the `AWSGlue` service.
+    /// Performs the `DescribeEntity` operation on the `Glue` service.
     ///
     /// Provides details regarding the entity used with the connection type, with a description of the data model for each field in the selected entity. The response includes all the fields which make up the entity.
     ///
@@ -6572,7 +6572,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeInboundIntegrations` operation on the `AWSGlue` service.
+    /// Performs the `DescribeInboundIntegrations` operation on the `Glue` service.
     ///
     /// Returns a list of inbound integrations for the specified integration.
     ///
@@ -6650,7 +6650,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeIntegrations` operation on the `AWSGlue` service.
+    /// Performs the `DescribeIntegrations` operation on the `Glue` service.
     ///
     /// The API is used to retrieve a list of integrations.
     ///
@@ -6726,7 +6726,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetBlueprint` operation on the `AWSGlue` service.
+    /// Performs the `GetBlueprint` operation on the `Glue` service.
     ///
     /// Retrieves the details of a blueprint.
     ///
@@ -6799,7 +6799,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetBlueprintRun` operation on the `AWSGlue` service.
+    /// Performs the `GetBlueprintRun` operation on the `Glue` service.
     ///
     /// Retrieves the details of a blueprint run.
     ///
@@ -6871,7 +6871,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetBlueprintRuns` operation on the `AWSGlue` service.
+    /// Performs the `GetBlueprintRuns` operation on the `Glue` service.
     ///
     /// Retrieves the details of blueprint runs for a specified blueprint.
     ///
@@ -6944,7 +6944,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetCatalog` operation on the `AWSGlue` service.
+    /// Performs the `GetCatalog` operation on the `Glue` service.
     ///
     /// The name of the Catalog to retrieve. This should be all lowercase.
     ///
@@ -7021,7 +7021,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetCatalogImportStatus` operation on the `AWSGlue` service.
+    /// Performs the `GetCatalogImportStatus` operation on the `Glue` service.
     ///
     /// Retrieves the status of a migration operation.
     ///
@@ -7092,7 +7092,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetCatalogs` operation on the `AWSGlue` service.
+    /// Performs the `GetCatalogs` operation on the `Glue` service.
     ///
     /// Retrieves all catalogs defined in a catalog in the Glue Data Catalog. For a Redshift-federated catalog use case, this operation returns the list of catalogs mapped to Redshift databases in the Redshift namespace catalog.
     ///
@@ -7169,7 +7169,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetClassifier` operation on the `AWSGlue` service.
+    /// Performs the `GetClassifier` operation on the `Glue` service.
     ///
     /// Retrieve a classifier by name.
     ///
@@ -7240,7 +7240,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetClassifiers` operation on the `AWSGlue` service.
+    /// Performs the `GetClassifiers` operation on the `Glue` service.
     ///
     /// Lists all classifier objects in the Data Catalog.
     ///
@@ -7310,7 +7310,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetColumnStatisticsForPartition` operation on the `AWSGlue` service.
+    /// Performs the `GetColumnStatisticsForPartition` operation on the `Glue` service.
     ///
     /// Retrieves partition statistics of columns. The Identity and Access Management (IAM) permission required for this operation is GetPartition.
     ///
@@ -7384,7 +7384,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetColumnStatisticsForTable` operation on the `AWSGlue` service.
+    /// Performs the `GetColumnStatisticsForTable` operation on the `Glue` service.
     ///
     /// Retrieves table statistics of columns. The Identity and Access Management (IAM) permission required for this operation is GetTable.
     ///
@@ -7458,7 +7458,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetColumnStatisticsTaskRun` operation on the `AWSGlue` service.
+    /// Performs the `GetColumnStatisticsTaskRun` operation on the `Glue` service.
     ///
     /// Get the associated metadata/information for a task run, given a task run ID.
     ///
@@ -7530,7 +7530,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetColumnStatisticsTaskRuns` operation on the `AWSGlue` service.
+    /// Performs the `GetColumnStatisticsTaskRuns` operation on the `Glue` service.
     ///
     /// Retrieves information about all runs associated with the specified table.
     ///
@@ -7600,7 +7600,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetColumnStatisticsTaskSettings` operation on the `AWSGlue` service.
+    /// Performs the `GetColumnStatisticsTaskSettings` operation on the `Glue` service.
     ///
     /// Gets settings for a column statistics task.
     ///
@@ -7672,7 +7672,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetConnection` operation on the `AWSGlue` service.
+    /// Performs the `GetConnection` operation on the `Glue` service.
     ///
     /// Retrieves a connection definition from the Data Catalog.
     ///
@@ -7745,7 +7745,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetConnections` operation on the `AWSGlue` service.
+    /// Performs the `GetConnections` operation on the `Glue` service.
     ///
     /// Retrieves a list of connection definitions from the Data Catalog.
     ///
@@ -7818,7 +7818,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetCrawler` operation on the `AWSGlue` service.
+    /// Performs the `GetCrawler` operation on the `Glue` service.
     ///
     /// Retrieves metadata for a specified crawler.
     ///
@@ -7889,7 +7889,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetCrawlerMetrics` operation on the `AWSGlue` service.
+    /// Performs the `GetCrawlerMetrics` operation on the `Glue` service.
     ///
     /// Retrieves metrics about specified crawlers.
     ///
@@ -7959,7 +7959,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetCrawlers` operation on the `AWSGlue` service.
+    /// Performs the `GetCrawlers` operation on the `Glue` service.
     ///
     /// Retrieves metadata for all crawlers defined in the customer account.
     ///
@@ -8029,7 +8029,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetCustomEntityType` operation on the `AWSGlue` service.
+    /// Performs the `GetCustomEntityType` operation on the `Glue` service.
     ///
     /// Retrieves the details of a custom pattern by specifying its name.
     ///
@@ -8103,7 +8103,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDataCatalogEncryptionSettings` operation on the `AWSGlue` service.
+    /// Performs the `GetDataCatalogEncryptionSettings` operation on the `Glue` service.
     ///
     /// Retrieves the security configuration for a specified catalog.
     ///
@@ -8175,7 +8175,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDataQualityModel` operation on the `AWSGlue` service.
+    /// Performs the `GetDataQualityModel` operation on the `Glue` service.
     ///
     /// Retrieve the training status of the model along with more information (CompletedOn, StartedOn, FailureReason).
     ///
@@ -8248,7 +8248,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDataQualityModelResult` operation on the `AWSGlue` service.
+    /// Performs the `GetDataQualityModelResult` operation on the `Glue` service.
     ///
     /// Retrieve a statistic's predictions for a given Profile ID.
     ///
@@ -8321,7 +8321,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDataQualityResult` operation on the `AWSGlue` service.
+    /// Performs the `GetDataQualityResult` operation on the `Glue` service.
     ///
     /// Retrieves the result of a data quality rule evaluation.
     ///
@@ -8394,7 +8394,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDataQualityRuleRecommendationRun` operation on the `AWSGlue` service.
+    /// Performs the `GetDataQualityRuleRecommendationRun` operation on the `Glue` service.
     ///
     /// Gets the specified recommendation run that was used to generate rules.
     ///
@@ -8467,7 +8467,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDataQualityRuleset` operation on the `AWSGlue` service.
+    /// Performs the `GetDataQualityRuleset` operation on the `Glue` service.
     ///
     /// Returns an existing ruleset by identifier or name.
     ///
@@ -8540,7 +8540,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDataQualityRulesetEvaluationRun` operation on the `AWSGlue` service.
+    /// Performs the `GetDataQualityRulesetEvaluationRun` operation on the `Glue` service.
     ///
     /// Retrieves a specific run where a ruleset is evaluated against a data source.
     ///
@@ -8613,7 +8613,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDatabase` operation on the `AWSGlue` service.
+    /// Performs the `GetDatabase` operation on the `Glue` service.
     ///
     /// Retrieves the definition of a specified database.
     ///
@@ -8689,7 +8689,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDatabases` operation on the `AWSGlue` service.
+    /// Performs the `GetDatabases` operation on the `Glue` service.
     ///
     /// Retrieves all databases defined in a given Data Catalog.
     ///
@@ -8765,7 +8765,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDataflowGraph` operation on the `AWSGlue` service.
+    /// Performs the `GetDataflowGraph` operation on the `Glue` service.
     ///
     /// Transforms a Python script into a directed acyclic graph (DAG).
     ///
@@ -8837,7 +8837,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDevEndpoint` operation on the `AWSGlue` service.
+    /// Performs the `GetDevEndpoint` operation on the `Glue` service.
     ///
     /// Retrieves information about a specified development endpoint. When you create a development endpoint in a virtual private cloud (VPC), Glue returns only a private IP address, and the public IP address field is not populated. When you create a non-VPC development endpoint, Glue returns only a public IP address.
     ///
@@ -8910,7 +8910,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDevEndpoints` operation on the `AWSGlue` service.
+    /// Performs the `GetDevEndpoints` operation on the `Glue` service.
     ///
     /// Retrieves all the development endpoints in this Amazon Web Services account. When you create a development endpoint in a virtual private cloud (VPC), Glue returns only a private IP address and the public IP address field is not populated. When you create a non-VPC development endpoint, Glue returns only a public IP address.
     ///
@@ -8983,7 +8983,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetEntityRecords` operation on the `AWSGlue` service.
+    /// Performs the `GetEntityRecords` operation on the `Glue` service.
     ///
     /// This API is used to query preview data from a given connection type or from a native Amazon S3 based Glue Data Catalog. Returns records as an array of JSON blobs. Each record is formatted using Jackson JsonNode based on the field type defined by the DescribeEntity API. Spark connectors generate schemas according to the same data type mapping as in the DescribeEntity API. Spark connectors convert data to the appropriate data types matching the schema when returning rows.
     ///
@@ -9059,7 +9059,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetIntegrationResourceProperty` operation on the `AWSGlue` service.
+    /// Performs the `GetIntegrationResourceProperty` operation on the `Glue` service.
     ///
     /// This API is used for fetching the ResourceProperty of the Glue connection (for the source) or Glue database ARN (for the target)
     ///
@@ -9135,7 +9135,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetIntegrationTableProperties` operation on the `AWSGlue` service.
+    /// Performs the `GetIntegrationTableProperties` operation on the `Glue` service.
     ///
     /// This API is used to retrieve optional override properties for the tables that need to be replicated. These properties can include properties for filtering and partition for source and target tables.
     ///
@@ -9211,7 +9211,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetJob` operation on the `AWSGlue` service.
+    /// Performs the `GetJob` operation on the `Glue` service.
     ///
     /// Retrieves an existing job definition.
     ///
@@ -9284,7 +9284,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetJobBookmark` operation on the `AWSGlue` service.
+    /// Performs the `GetJobBookmark` operation on the `Glue` service.
     ///
     /// Returns information on a job bookmark entry. For more information about enabling and using job bookmarks, see:
     ///
@@ -9364,7 +9364,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetJobRun` operation on the `AWSGlue` service.
+    /// Performs the `GetJobRun` operation on the `Glue` service.
     ///
     /// Retrieves the metadata for a given job run. Job run history is accessible for 365 days for your workflow and job run.
     ///
@@ -9437,7 +9437,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetJobRuns` operation on the `AWSGlue` service.
+    /// Performs the `GetJobRuns` operation on the `Glue` service.
     ///
     /// Retrieves metadata for all runs of a given job definition. GetJobRuns returns the job runs in chronological order, with the newest jobs returned first.
     ///
@@ -9510,7 +9510,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetJobs` operation on the `AWSGlue` service.
+    /// Performs the `GetJobs` operation on the `Glue` service.
     ///
     /// Retrieves all current job definitions.
     ///
@@ -9583,7 +9583,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetMLTaskRun` operation on the `AWSGlue` service.
+    /// Performs the `GetMLTaskRun` operation on the `Glue` service.
     ///
     /// Gets details for a specific task run on a machine learning transform. Machine learning task runs are asynchronous tasks that Glue runs on your behalf as part of various machine learning workflows. You can check the stats of any task run by calling GetMLTaskRun with the TaskRunID and its parent transform's TransformID.
     ///
@@ -9656,7 +9656,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetMLTaskRuns` operation on the `AWSGlue` service.
+    /// Performs the `GetMLTaskRuns` operation on the `Glue` service.
     ///
     /// Gets a list of runs for a machine learning transform. Machine learning task runs are asynchronous tasks that Glue runs on your behalf as part of various machine learning workflows. You can get a sortable, filterable list of machine learning task runs by calling GetMLTaskRuns with their parent transform's TransformID and other optional parameters as documented in this section. This operation returns a list of historic runs and must be paginated.
     ///
@@ -9729,7 +9729,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetMLTransform` operation on the `AWSGlue` service.
+    /// Performs the `GetMLTransform` operation on the `Glue` service.
     ///
     /// Gets an Glue machine learning transform artifact and all its corresponding metadata. Machine learning transforms are a special type of transform that use machine learning to learn the details of the transformation to be performed by learning from examples provided by humans. These transformations are then saved by Glue. You can retrieve their metadata by calling GetMLTransform.
     ///
@@ -9802,7 +9802,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetMLTransforms` operation on the `AWSGlue` service.
+    /// Performs the `GetMLTransforms` operation on the `Glue` service.
     ///
     /// Gets a sortable, filterable list of existing Glue machine learning transforms. Machine learning transforms are a special type of transform that use machine learning to learn the details of the transformation to be performed by learning from examples provided by humans. These transformations are then saved by Glue, and you can retrieve their metadata by calling GetMLTransforms.
     ///
@@ -9875,7 +9875,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetMapping` operation on the `AWSGlue` service.
+    /// Performs the `GetMapping` operation on the `Glue` service.
     ///
     /// Creates mappings.
     ///
@@ -9948,7 +9948,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetPartition` operation on the `AWSGlue` service.
+    /// Performs the `GetPartition` operation on the `Glue` service.
     ///
     /// Retrieves information about a specified partition.
     ///
@@ -10024,7 +10024,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetPartitionIndexes` operation on the `AWSGlue` service.
+    /// Performs the `GetPartitionIndexes` operation on the `Glue` service.
     ///
     /// Retrieves the partition indexes associated with a table.
     ///
@@ -10098,7 +10098,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetPartitions` operation on the `AWSGlue` service.
+    /// Performs the `GetPartitions` operation on the `Glue` service.
     ///
     /// Retrieves information about the partitions in a table.
     ///
@@ -10176,7 +10176,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetPlan` operation on the `AWSGlue` service.
+    /// Performs the `GetPlan` operation on the `Glue` service.
     ///
     /// Gets code to perform a specified mapping.
     ///
@@ -10248,7 +10248,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetRegistry` operation on the `AWSGlue` service.
+    /// Performs the `GetRegistry` operation on the `Glue` service.
     ///
     /// Describes the specified registry in detail.
     ///
@@ -10321,7 +10321,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetResourcePolicies` operation on the `AWSGlue` service.
+    /// Performs the `GetResourcePolicies` operation on the `Glue` service.
     ///
     /// Retrieves the resource policies set on individual resources by Resource Access Manager during cross-account permission grants. Also retrieves the Data Catalog resource policy. If you enabled metadata encryption in Data Catalog settings, and you do not have permission on the KMS key, the operation can't return the Data Catalog resource policy.
     ///
@@ -10394,7 +10394,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetResourcePolicy` operation on the `AWSGlue` service.
+    /// Performs the `GetResourcePolicy` operation on the `Glue` service.
     ///
     /// Retrieves a specified resource policy.
     ///
@@ -10467,7 +10467,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetSchema` operation on the `AWSGlue` service.
+    /// Performs the `GetSchema` operation on the `Glue` service.
     ///
     /// Describes the specified schema in detail.
     ///
@@ -10540,7 +10540,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetSchemaByDefinition` operation on the `AWSGlue` service.
+    /// Performs the `GetSchemaByDefinition` operation on the `Glue` service.
     ///
     /// Retrieves a schema by the SchemaDefinition. The schema definition is sent to the Schema Registry, canonicalized, and hashed. If the hash is matched within the scope of the SchemaName or ARN (or the default registry, if none is supplied), that schema’s metadata is returned. Otherwise, a 404 or NotFound error is returned. Schema versions in Deleted statuses will not be included in the results.
     ///
@@ -10613,7 +10613,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetSchemaVersion` operation on the `AWSGlue` service.
+    /// Performs the `GetSchemaVersion` operation on the `Glue` service.
     ///
     /// Get the specified schema by its unique ID assigned when a version of the schema is created or registered. Schema versions in Deleted status will not be included in the results.
     ///
@@ -10686,7 +10686,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetSchemaVersionsDiff` operation on the `AWSGlue` service.
+    /// Performs the `GetSchemaVersionsDiff` operation on the `Glue` service.
     ///
     /// Fetches the schema version difference in the specified difference type between two stored schema versions in the Schema Registry. This API allows you to compare two schema versions between two schema definitions under the same schema.
     ///
@@ -10759,7 +10759,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetSecurityConfiguration` operation on the `AWSGlue` service.
+    /// Performs the `GetSecurityConfiguration` operation on the `Glue` service.
     ///
     /// Retrieves a specified security configuration.
     ///
@@ -10832,7 +10832,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetSecurityConfigurations` operation on the `AWSGlue` service.
+    /// Performs the `GetSecurityConfigurations` operation on the `Glue` service.
     ///
     /// Retrieves a list of all security configurations.
     ///
@@ -10905,7 +10905,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetSession` operation on the `AWSGlue` service.
+    /// Performs the `GetSession` operation on the `Glue` service.
     ///
     /// Retrieves the session.
     ///
@@ -10979,7 +10979,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetStatement` operation on the `AWSGlue` service.
+    /// Performs the `GetStatement` operation on the `Glue` service.
     ///
     /// Retrieves the statement.
     ///
@@ -11054,7 +11054,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetTable` operation on the `AWSGlue` service.
+    /// Performs the `GetTable` operation on the `Glue` service.
     ///
     /// Retrieves the Table definition in a Data Catalog for a specified table.
     ///
@@ -11131,7 +11131,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetTableOptimizer` operation on the `AWSGlue` service.
+    /// Performs the `GetTableOptimizer` operation on the `Glue` service.
     ///
     /// Returns the configuration of all optimizers associated with a specified table.
     ///
@@ -11205,7 +11205,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetTableVersion` operation on the `AWSGlue` service.
+    /// Performs the `GetTableVersion` operation on the `Glue` service.
     ///
     /// Retrieves a specified version of a table.
     ///
@@ -11279,7 +11279,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetTableVersions` operation on the `AWSGlue` service.
+    /// Performs the `GetTableVersions` operation on the `Glue` service.
     ///
     /// Retrieves a list of strings that identify available versions of a specified table.
     ///
@@ -11353,7 +11353,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetTables` operation on the `AWSGlue` service.
+    /// Performs the `GetTables` operation on the `Glue` service.
     ///
     /// Retrieves the definitions of some or all of the tables in a given Database.
     ///
@@ -11429,7 +11429,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetTags` operation on the `AWSGlue` service.
+    /// Performs the `GetTags` operation on the `Glue` service.
     ///
     /// Retrieves a list of tags associated with a resource.
     ///
@@ -11502,7 +11502,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetTrigger` operation on the `AWSGlue` service.
+    /// Performs the `GetTrigger` operation on the `Glue` service.
     ///
     /// Retrieves the definition of a trigger.
     ///
@@ -11575,7 +11575,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetTriggers` operation on the `AWSGlue` service.
+    /// Performs the `GetTriggers` operation on the `Glue` service.
     ///
     /// Gets all the triggers associated with a job.
     ///
@@ -11648,7 +11648,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetUnfilteredPartitionMetadata` operation on the `AWSGlue` service.
+    /// Performs the `GetUnfilteredPartitionMetadata` operation on the `Glue` service.
     ///
     /// Retrieves partition metadata from the Data Catalog that contains unfiltered metadata. For IAM authorization, the public IAM action associated with this API is glue:GetPartition.
     ///
@@ -11725,7 +11725,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetUnfilteredPartitionsMetadata` operation on the `AWSGlue` service.
+    /// Performs the `GetUnfilteredPartitionsMetadata` operation on the `Glue` service.
     ///
     /// Retrieves partition metadata from the Data Catalog that contains unfiltered metadata. For IAM authorization, the public IAM action associated with this API is glue:GetPartitions.
     ///
@@ -11802,7 +11802,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetUnfilteredTableMetadata` operation on the `AWSGlue` service.
+    /// Performs the `GetUnfilteredTableMetadata` operation on the `Glue` service.
     ///
     /// Allows a third-party analytical engine to retrieve unfiltered table metadata from the Data Catalog. For IAM authorization, the public IAM action associated with this API is glue:GetTable.
     ///
@@ -11879,7 +11879,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetUsageProfile` operation on the `AWSGlue` service.
+    /// Performs the `GetUsageProfile` operation on the `Glue` service.
     ///
     /// Retrieves information about the specified Glue usage profile.
     ///
@@ -11953,7 +11953,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetUserDefinedFunction` operation on the `AWSGlue` service.
+    /// Performs the `GetUserDefinedFunction` operation on the `Glue` service.
     ///
     /// Retrieves a specified function definition from the Data Catalog.
     ///
@@ -12027,7 +12027,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetUserDefinedFunctions` operation on the `AWSGlue` service.
+    /// Performs the `GetUserDefinedFunctions` operation on the `Glue` service.
     ///
     /// Retrieves multiple function definitions from the Data Catalog.
     ///
@@ -12101,7 +12101,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetWorkflow` operation on the `AWSGlue` service.
+    /// Performs the `GetWorkflow` operation on the `Glue` service.
     ///
     /// Retrieves resource metadata for a workflow.
     ///
@@ -12174,7 +12174,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetWorkflowRun` operation on the `AWSGlue` service.
+    /// Performs the `GetWorkflowRun` operation on the `Glue` service.
     ///
     /// Retrieves the metadata for a given workflow run. Job run history is accessible for 90 days for your workflow and job run.
     ///
@@ -12247,7 +12247,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetWorkflowRunProperties` operation on the `AWSGlue` service.
+    /// Performs the `GetWorkflowRunProperties` operation on the `Glue` service.
     ///
     /// Retrieves the workflow run properties which were set during the run.
     ///
@@ -12320,7 +12320,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetWorkflowRuns` operation on the `AWSGlue` service.
+    /// Performs the `GetWorkflowRuns` operation on the `Glue` service.
     ///
     /// Retrieves metadata for all runs of a given workflow.
     ///
@@ -12393,7 +12393,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ImportCatalogToGlue` operation on the `AWSGlue` service.
+    /// Performs the `ImportCatalogToGlue` operation on the `Glue` service.
     ///
     /// Imports an existing Amazon Athena Data Catalog to Glue.
     ///
@@ -12464,7 +12464,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListBlueprints` operation on the `AWSGlue` service.
+    /// Performs the `ListBlueprints` operation on the `Glue` service.
     ///
     /// Lists all the blueprint names in an account.
     ///
@@ -12536,7 +12536,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListColumnStatisticsTaskRuns` operation on the `AWSGlue` service.
+    /// Performs the `ListColumnStatisticsTaskRuns` operation on the `Glue` service.
     ///
     /// List all task runs for a particular account.
     ///
@@ -12606,7 +12606,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListConnectionTypes` operation on the `AWSGlue` service.
+    /// Performs the `ListConnectionTypes` operation on the `Glue` service.
     ///
     /// The ListConnectionTypes API provides a discovery mechanism to learn available connection types in Glue. The response contains a list of connection types with high-level details of what is supported for each connection type. The connection types listed are the set of supported options for the ConnectionType value in the CreateConnection API.
     ///
@@ -12677,7 +12677,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListCrawlers` operation on the `AWSGlue` service.
+    /// Performs the `ListCrawlers` operation on the `Glue` service.
     ///
     /// Retrieves the names of all crawler resources in this Amazon Web Services account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved.
     ///
@@ -12747,7 +12747,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListCrawls` operation on the `AWSGlue` service.
+    /// Performs the `ListCrawls` operation on the `Glue` service.
     ///
     /// Returns all the crawls of a specified crawler. Returns only the crawls that have occurred since the launch date of the crawler history feature, and only retains up to 12 months of crawls. Older crawls will not be returned. You may use this API to:
     ///
@@ -12827,7 +12827,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListCustomEntityTypes` operation on the `AWSGlue` service.
+    /// Performs the `ListCustomEntityTypes` operation on the `Glue` service.
     ///
     /// Lists all the custom patterns that have been created.
     ///
@@ -12899,7 +12899,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDataQualityResults` operation on the `AWSGlue` service.
+    /// Performs the `ListDataQualityResults` operation on the `Glue` service.
     ///
     /// Returns all data quality execution results for your account.
     ///
@@ -12971,7 +12971,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDataQualityRuleRecommendationRuns` operation on the `AWSGlue` service.
+    /// Performs the `ListDataQualityRuleRecommendationRuns` operation on the `Glue` service.
     ///
     /// Lists the recommendation runs meeting the filter criteria.
     ///
@@ -13043,7 +13043,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDataQualityRulesetEvaluationRuns` operation on the `AWSGlue` service.
+    /// Performs the `ListDataQualityRulesetEvaluationRuns` operation on the `Glue` service.
     ///
     /// Lists all the runs meeting the filter criteria, where a ruleset is evaluated against a data source.
     ///
@@ -13115,7 +13115,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDataQualityRulesets` operation on the `AWSGlue` service.
+    /// Performs the `ListDataQualityRulesets` operation on the `Glue` service.
     ///
     /// Returns a paginated list of rulesets for the specified list of Glue tables.
     ///
@@ -13188,7 +13188,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDataQualityStatisticAnnotations` operation on the `AWSGlue` service.
+    /// Performs the `ListDataQualityStatisticAnnotations` operation on the `Glue` service.
     ///
     /// Retrieve annotations for a data quality statistic.
     ///
@@ -13259,7 +13259,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDataQualityStatistics` operation on the `AWSGlue` service.
+    /// Performs the `ListDataQualityStatistics` operation on the `Glue` service.
     ///
     /// Retrieves a list of data quality statistics.
     ///
@@ -13331,7 +13331,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDevEndpoints` operation on the `AWSGlue` service.
+    /// Performs the `ListDevEndpoints` operation on the `Glue` service.
     ///
     /// Retrieves the names of all DevEndpoint resources in this Amazon Web Services account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved.
     ///
@@ -13404,7 +13404,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListEntities` operation on the `AWSGlue` service.
+    /// Performs the `ListEntities` operation on the `Glue` service.
     ///
     /// Returns the available entities supported by the connection type.
     ///
@@ -13480,7 +13480,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListJobs` operation on the `AWSGlue` service.
+    /// Performs the `ListJobs` operation on the `Glue` service.
     ///
     /// Retrieves the names of all job resources in this Amazon Web Services account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved.
     ///
@@ -13553,7 +13553,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListMLTransforms` operation on the `AWSGlue` service.
+    /// Performs the `ListMLTransforms` operation on the `Glue` service.
     ///
     /// Retrieves a sortable, filterable list of existing Glue machine learning transforms in this Amazon Web Services account, or the resources with the specified tag. This operation takes the optional Tags field, which you can use as a filter of the responses so that tagged resources can be retrieved as a group. If you choose to use tag filtering, only resources with the tags are retrieved.
     ///
@@ -13626,7 +13626,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListRegistries` operation on the `AWSGlue` service.
+    /// Performs the `ListRegistries` operation on the `Glue` service.
     ///
     /// Returns a list of registries that you have created, with minimal registry information. Registries in the Deleting status will not be included in the results. Empty results will be returned if there are no registries available.
     ///
@@ -13698,7 +13698,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListSchemaVersions` operation on the `AWSGlue` service.
+    /// Performs the `ListSchemaVersions` operation on the `Glue` service.
     ///
     /// Returns a list of schema versions that you have created, with minimal information. Schema versions in Deleted status will not be included in the results. Empty results will be returned if there are no schema versions available.
     ///
@@ -13771,7 +13771,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListSchemas` operation on the `AWSGlue` service.
+    /// Performs the `ListSchemas` operation on the `Glue` service.
     ///
     /// Returns a list of schemas with minimal details. Schemas in Deleting status will not be included in the results. Empty results will be returned if there are no schemas available. When the RegistryId is not provided, all the schemas across registries will be part of the API response.
     ///
@@ -13844,7 +13844,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListSessions` operation on the `AWSGlue` service.
+    /// Performs the `ListSessions` operation on the `Glue` service.
     ///
     /// Retrieve a list of sessions.
     ///
@@ -13917,7 +13917,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListStatements` operation on the `AWSGlue` service.
+    /// Performs the `ListStatements` operation on the `Glue` service.
     ///
     /// Lists statements for the session.
     ///
@@ -13992,7 +13992,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTableOptimizerRuns` operation on the `AWSGlue` service.
+    /// Performs the `ListTableOptimizerRuns` operation on the `Glue` service.
     ///
     /// Lists the history of previous optimizer runs for a specific table.
     ///
@@ -14067,7 +14067,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTriggers` operation on the `AWSGlue` service.
+    /// Performs the `ListTriggers` operation on the `Glue` service.
     ///
     /// Retrieves the names of all trigger resources in this Amazon Web Services account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved.
     ///
@@ -14140,7 +14140,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListUsageProfiles` operation on the `AWSGlue` service.
+    /// Performs the `ListUsageProfiles` operation on the `Glue` service.
     ///
     /// List all the Glue usage profiles.
     ///
@@ -14213,7 +14213,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListWorkflows` operation on the `AWSGlue` service.
+    /// Performs the `ListWorkflows` operation on the `Glue` service.
     ///
     /// Lists names of workflows created in the account.
     ///
@@ -14285,7 +14285,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyIntegration` operation on the `AWSGlue` service.
+    /// Performs the `ModifyIntegration` operation on the `Glue` service.
     ///
     /// Modifies a Zero-ETL integration in the caller's account.
     ///
@@ -14365,7 +14365,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutDataCatalogEncryptionSettings` operation on the `AWSGlue` service.
+    /// Performs the `PutDataCatalogEncryptionSettings` operation on the `Glue` service.
     ///
     /// Sets the security configuration for a specified catalog. After the configuration has been set, the specified encryption is applied to every catalog write thereafter.
     ///
@@ -14437,7 +14437,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutDataQualityProfileAnnotation` operation on the `AWSGlue` service.
+    /// Performs the `PutDataQualityProfileAnnotation` operation on the `Glue` service.
     ///
     /// Annotate all datapoints for a Profile.
     ///
@@ -14509,7 +14509,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutResourcePolicy` operation on the `AWSGlue` service.
+    /// Performs the `PutResourcePolicy` operation on the `Glue` service.
     ///
     /// Sets the Data Catalog resource policy for access control.
     ///
@@ -14583,7 +14583,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutSchemaVersionMetadata` operation on the `AWSGlue` service.
+    /// Performs the `PutSchemaVersionMetadata` operation on the `Glue` service.
     ///
     /// Puts the metadata key value pair for a specified schema version ID. A maximum of 10 key value pairs will be allowed per schema version. They can be added over one or more calls.
     ///
@@ -14657,7 +14657,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutWorkflowRunProperties` operation on the `AWSGlue` service.
+    /// Performs the `PutWorkflowRunProperties` operation on the `Glue` service.
     ///
     /// Puts the specified workflow run properties for the given workflow run. If a property already exists for the specified run, then it overrides the value otherwise adds the property to existing properties.
     ///
@@ -14733,7 +14733,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `QuerySchemaVersionMetadata` operation on the `AWSGlue` service.
+    /// Performs the `QuerySchemaVersionMetadata` operation on the `Glue` service.
     ///
     /// Queries for the schema version metadata information.
     ///
@@ -14805,7 +14805,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RegisterSchemaVersion` operation on the `AWSGlue` service.
+    /// Performs the `RegisterSchemaVersion` operation on the `Glue` service.
     ///
     /// Adds a new version to the existing schema. Returns an error if new version of schema does not meet the compatibility requirements of the schema set. This API will not create a new schema set and will return a 404 error if the schema set is not already present in the Schema Registry. If this is the first schema definition to be registered in the Schema Registry, this API will store the schema version and return immediately. Otherwise, this call has the potential to run longer than other operations due to compatibility modes. You can call the GetSchemaVersion API with the SchemaVersionId to check compatibility modes. If the same schema definition is already stored in Schema Registry as a version, the schema ID of the existing schema is returned to the caller.
     ///
@@ -14880,7 +14880,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RemoveSchemaVersionMetadata` operation on the `AWSGlue` service.
+    /// Performs the `RemoveSchemaVersionMetadata` operation on the `Glue` service.
     ///
     /// Removes a key value pair from the schema version metadata for the specified schema version ID.
     ///
@@ -14952,7 +14952,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ResetJobBookmark` operation on the `AWSGlue` service.
+    /// Performs the `ResetJobBookmark` operation on the `Glue` service.
     ///
     /// Resets a bookmark entry. For more information about enabling and using job bookmarks, see:
     ///
@@ -15031,7 +15031,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ResumeWorkflowRun` operation on the `AWSGlue` service.
+    /// Performs the `ResumeWorkflowRun` operation on the `Glue` service.
     ///
     /// Restarts selected nodes of a previous partially completed workflow run and resumes the workflow run. The selected nodes and all nodes that are downstream from the selected nodes are run.
     ///
@@ -15106,7 +15106,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RunStatement` operation on the `AWSGlue` service.
+    /// Performs the `RunStatement` operation on the `Glue` service.
     ///
     /// Executes the statement.
     ///
@@ -15183,7 +15183,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SearchTables` operation on the `AWSGlue` service.
+    /// Performs the `SearchTables` operation on the `Glue` service.
     ///
     /// Searches a set of tables based on properties in the table metadata as well as on the parent database. You can search against text or filter conditions. You can only get tables that you have access to based on the security policies defined in Lake Formation. You need at least a read-only access to the table for it to be returned. If you do not have access to all the columns in the table, these columns will not be searched against when returning the list of tables back to you. If you have access to the columns but not the data in the columns, those columns and the associated metadata for those columns will be included in the search.
     ///
@@ -15255,7 +15255,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartBlueprintRun` operation on the `AWSGlue` service.
+    /// Performs the `StartBlueprintRun` operation on the `Glue` service.
     ///
     /// Starts a new run of the specified blueprint.
     ///
@@ -15330,7 +15330,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartColumnStatisticsTaskRun` operation on the `AWSGlue` service.
+    /// Performs the `StartColumnStatisticsTaskRun` operation on the `Glue` service.
     ///
     /// Starts a column statistics task run, for a specified table and columns.
     ///
@@ -15405,7 +15405,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartColumnStatisticsTaskRunSchedule` operation on the `AWSGlue` service.
+    /// Performs the `StartColumnStatisticsTaskRunSchedule` operation on the `Glue` service.
     ///
     /// Starts a column statistics task run schedule.
     ///
@@ -15478,7 +15478,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartCrawler` operation on the `AWSGlue` service.
+    /// Performs the `StartCrawler` operation on the `Glue` service.
     ///
     /// Starts a crawl using the specified crawler, regardless of what is scheduled. If the crawler is already running, returns a [CrawlerRunningException](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-api-exceptions.html#aws-glue-api-exceptions-CrawlerRunningException).
     ///
@@ -15550,7 +15550,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartCrawlerSchedule` operation on the `AWSGlue` service.
+    /// Performs the `StartCrawlerSchedule` operation on the `Glue` service.
     ///
     /// Changes the schedule state of the specified crawler to SCHEDULED, unless the crawler is already running or the schedule state is already SCHEDULED.
     ///
@@ -15624,7 +15624,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartDataQualityRuleRecommendationRun` operation on the `AWSGlue` service.
+    /// Performs the `StartDataQualityRuleRecommendationRun` operation on the `Glue` service.
     ///
     /// Starts a recommendation run that is used to generate rules when you don't know what rules to write. Glue Data Quality analyzes the data and comes up with recommendations for a potential ruleset. You can then triage the ruleset and modify the generated ruleset to your liking. Recommendation runs are automatically deleted after 90 days.
     ///
@@ -15697,7 +15697,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartDataQualityRulesetEvaluationRun` operation on the `AWSGlue` service.
+    /// Performs the `StartDataQualityRulesetEvaluationRun` operation on the `Glue` service.
     ///
     /// Once you have a ruleset definition (either recommended or your own), you call this operation to evaluate the ruleset against a data source (Glue table). The evaluation computes results which you can retrieve with the GetDataQualityResult API.
     ///
@@ -15771,7 +15771,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartExportLabelsTaskRun` operation on the `AWSGlue` service.
+    /// Performs the `StartExportLabelsTaskRun` operation on the `Glue` service.
     ///
     /// Begins an asynchronous task to export all labeled data for a particular transform. This task is the only label-related API call that is not part of the typical active learning workflow. You typically use StartExportLabelsTaskRun when you want to work with all of your existing labels at the same time, such as when you want to remove or change labels that were previously submitted as truth. This API operation accepts the TransformId whose labels you want to export and an Amazon Simple Storage Service (Amazon S3) path to export the labels to. The operation returns a TaskRunId. You can check on the status of your task run by calling the GetMLTaskRun API.
     ///
@@ -15844,7 +15844,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartImportLabelsTaskRun` operation on the `AWSGlue` service.
+    /// Performs the `StartImportLabelsTaskRun` operation on the `Glue` service.
     ///
     /// Enables you to provide additional labels (examples of truth) to be used to teach the machine learning transform and improve its quality. This API operation is generally used as part of the active learning workflow that starts with the StartMLLabelingSetGenerationTaskRun call and that ultimately results in improving the quality of your machine learning transform. After the StartMLLabelingSetGenerationTaskRun finishes, Glue machine learning will have generated a series of questions for humans to answer. (Answering these questions is often called 'labeling' in the machine learning workflows). In the case of the FindMatches transform, these questions are of the form, “What is the correct way to group these rows together into groups composed entirely of matching records?” After the labeling process is finished, users upload their answers/labels with a call to StartImportLabelsTaskRun. After StartImportLabelsTaskRun finishes, all future runs of the machine learning transform use the new and improved labels and perform a higher-quality transformation. By default, StartMLLabelingSetGenerationTaskRun continually learns from and combines all labels that you upload unless you set Replace to true. If you set Replace to true, StartImportLabelsTaskRun deletes and forgets all previously uploaded labels and learns only from the exact set that you upload. Replacing labels can be helpful if you realize that you previously uploaded incorrect labels, and you believe that they are having a negative effect on your transform quality. You can check on the status of your task run by calling the GetMLTaskRun operation.
     ///
@@ -15918,7 +15918,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartJobRun` operation on the `AWSGlue` service.
+    /// Performs the `StartJobRun` operation on the `Glue` service.
     ///
     /// Starts a job run using a job definition.
     ///
@@ -15993,7 +15993,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartMLEvaluationTaskRun` operation on the `AWSGlue` service.
+    /// Performs the `StartMLEvaluationTaskRun` operation on the `Glue` service.
     ///
     /// Starts a task to estimate the quality of the transform. When you provide label sets as examples of truth, Glue machine learning uses some of those examples to learn from them. The rest of the labels are used as a test to estimate quality. Returns a unique identifier for the run. You can call GetMLTaskRun to get more information about the stats of the EvaluationTaskRun.
     ///
@@ -16068,7 +16068,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartMLLabelingSetGenerationTaskRun` operation on the `AWSGlue` service.
+    /// Performs the `StartMLLabelingSetGenerationTaskRun` operation on the `Glue` service.
     ///
     /// Starts the active learning workflow for your machine learning transform to improve the transform's quality by generating label sets and adding labels. When the StartMLLabelingSetGenerationTaskRun finishes, Glue will have generated a "labeling set" or a set of questions for humans to answer. In the case of the FindMatches transform, these questions are of the form, “What is the correct way to group these rows together into groups composed entirely of matching records?” After the labeling process is finished, you can upload your labels with a call to StartImportLabelsTaskRun. After StartImportLabelsTaskRun finishes, all future runs of the machine learning transform will use the new and improved labels and perform a higher-quality transformation.
     ///
@@ -16142,7 +16142,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartTrigger` operation on the `AWSGlue` service.
+    /// Performs the `StartTrigger` operation on the `Glue` service.
     ///
     /// Starts an existing trigger. See [Triggering Jobs](https://docs.aws.amazon.com/glue/latest/dg/trigger-job.html) for information about how different types of trigger are started.
     ///
@@ -16217,7 +16217,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartWorkflowRun` operation on the `AWSGlue` service.
+    /// Performs the `StartWorkflowRun` operation on the `Glue` service.
     ///
     /// Starts a new run of the specified workflow.
     ///
@@ -16292,7 +16292,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopColumnStatisticsTaskRun` operation on the `AWSGlue` service.
+    /// Performs the `StopColumnStatisticsTaskRun` operation on the `Glue` service.
     ///
     /// Stops a task run for the specified table.
     ///
@@ -16365,7 +16365,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopColumnStatisticsTaskRunSchedule` operation on the `AWSGlue` service.
+    /// Performs the `StopColumnStatisticsTaskRunSchedule` operation on the `Glue` service.
     ///
     /// Stops a column statistics task run schedule.
     ///
@@ -16437,7 +16437,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopCrawler` operation on the `AWSGlue` service.
+    /// Performs the `StopCrawler` operation on the `Glue` service.
     ///
     /// If the specified crawler is running, stops the crawl.
     ///
@@ -16510,7 +16510,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopCrawlerSchedule` operation on the `AWSGlue` service.
+    /// Performs the `StopCrawlerSchedule` operation on the `Glue` service.
     ///
     /// Sets the schedule state of the specified crawler to NOT_SCHEDULED, but does not stop the crawler if it is already running.
     ///
@@ -16583,7 +16583,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopSession` operation on the `AWSGlue` service.
+    /// Performs the `StopSession` operation on the `Glue` service.
     ///
     /// Stops the session.
     ///
@@ -16658,7 +16658,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopTrigger` operation on the `AWSGlue` service.
+    /// Performs the `StopTrigger` operation on the `Glue` service.
     ///
     /// Stops a specified trigger.
     ///
@@ -16732,7 +16732,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopWorkflowRun` operation on the `AWSGlue` service.
+    /// Performs the `StopWorkflowRun` operation on the `Glue` service.
     ///
     /// Stops the execution of the specified workflow run.
     ///
@@ -16806,7 +16806,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `AWSGlue` service.
+    /// Performs the `TagResource` operation on the `Glue` service.
     ///
     /// Adds tags to a resource. A tag is a label you can assign to an Amazon Web Services resource. In Glue, you can tag only certain resources. For information about what resources you can tag, see [Amazon Web Services Tags in Glue](https://docs.aws.amazon.com/glue/latest/dg/monitor-tags.html).
     ///
@@ -16879,7 +16879,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TestConnection` operation on the `AWSGlue` service.
+    /// Performs the `TestConnection` operation on the `Glue` service.
     ///
     /// Tests a connection to a service to validate the service credentials that you provide. You can either provide an existing connection name or a TestConnectionInput for testing a non-existing connection input. Providing both at the same time will cause an error. If the action is successful, the service sends back an HTTP 200 response.
     ///
@@ -16957,7 +16957,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `AWSGlue` service.
+    /// Performs the `UntagResource` operation on the `Glue` service.
     ///
     /// Removes tags from a resource.
     ///
@@ -17030,7 +17030,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateBlueprint` operation on the `AWSGlue` service.
+    /// Performs the `UpdateBlueprint` operation on the `Glue` service.
     ///
     /// Updates a registered blueprint.
     ///
@@ -17105,7 +17105,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateCatalog` operation on the `AWSGlue` service.
+    /// Performs the `UpdateCatalog` operation on the `Glue` service.
     ///
     /// Updates an existing catalog's properties in the Glue Data Catalog.
     ///
@@ -17182,7 +17182,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateClassifier` operation on the `AWSGlue` service.
+    /// Performs the `UpdateClassifier` operation on the `Glue` service.
     ///
     /// Modifies an existing classifier (a GrokClassifier, an XMLClassifier, a JsonClassifier, or a CsvClassifier, depending on which field is present).
     ///
@@ -17255,7 +17255,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateColumnStatisticsForPartition` operation on the `AWSGlue` service.
+    /// Performs the `UpdateColumnStatisticsForPartition` operation on the `Glue` service.
     ///
     /// Creates or updates partition statistics of columns. The Identity and Access Management (IAM) permission required for this operation is UpdatePartition.
     ///
@@ -17329,7 +17329,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateColumnStatisticsForTable` operation on the `AWSGlue` service.
+    /// Performs the `UpdateColumnStatisticsForTable` operation on the `Glue` service.
     ///
     /// Creates or updates table statistics of columns. The Identity and Access Management (IAM) permission required for this operation is UpdateTable.
     ///
@@ -17403,7 +17403,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateColumnStatisticsTaskSettings` operation on the `AWSGlue` service.
+    /// Performs the `UpdateColumnStatisticsTaskSettings` operation on the `Glue` service.
     ///
     /// Updates settings for a column statistics task.
     ///
@@ -17477,7 +17477,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateConnection` operation on the `AWSGlue` service.
+    /// Performs the `UpdateConnection` operation on the `Glue` service.
     ///
     /// Updates a connection definition in the Data Catalog.
     ///
@@ -17550,7 +17550,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateCrawler` operation on the `AWSGlue` service.
+    /// Performs the `UpdateCrawler` operation on the `Glue` service.
     ///
     /// Updates a crawler. If a crawler is running, you must stop it using StopCrawler before updating it.
     ///
@@ -17624,7 +17624,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateCrawlerSchedule` operation on the `AWSGlue` service.
+    /// Performs the `UpdateCrawlerSchedule` operation on the `Glue` service.
     ///
     /// Updates the schedule of a crawler using a cron expression.
     ///
@@ -17698,7 +17698,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateDataQualityRuleset` operation on the `AWSGlue` service.
+    /// Performs the `UpdateDataQualityRuleset` operation on the `Glue` service.
     ///
     /// Updates the specified data quality ruleset.
     ///
@@ -17774,7 +17774,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateDatabase` operation on the `AWSGlue` service.
+    /// Performs the `UpdateDatabase` operation on the `Glue` service.
     ///
     /// Updates an existing database definition in a Data Catalog.
     ///
@@ -17852,7 +17852,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateDevEndpoint` operation on the `AWSGlue` service.
+    /// Performs the `UpdateDevEndpoint` operation on the `Glue` service.
     ///
     /// Updates a specified development endpoint.
     ///
@@ -17926,7 +17926,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateIntegrationResourceProperty` operation on the `AWSGlue` service.
+    /// Performs the `UpdateIntegrationResourceProperty` operation on the `Glue` service.
     ///
     /// This API can be used for updating the ResourceProperty of the Glue connection (for the source) or Glue database ARN (for the target). These properties can include the role to access the connection or database. Since the same resource can be used across multiple integrations, updating resource properties will impact all the integrations using it.
     ///
@@ -18002,7 +18002,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateIntegrationTableProperties` operation on the `AWSGlue` service.
+    /// Performs the `UpdateIntegrationTableProperties` operation on the `Glue` service.
     ///
     /// This API is used to provide optional override properties for the tables that need to be replicated. These properties can include properties for filtering and partitioning for the source and target tables. To set both source and target properties the same API need to be invoked with the Glue connection ARN as ResourceArn with SourceTableConfig, and the Glue database ARN as ResourceArn with TargetTableConfig respectively. The override will be reflected across all the integrations using same ResourceArn and source table.
     ///
@@ -18078,7 +18078,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateJob` operation on the `AWSGlue` service.
+    /// Performs the `UpdateJob` operation on the `Glue` service.
     ///
     /// Updates an existing job definition. The previous job definition is completely overwritten by this information.
     ///
@@ -18152,7 +18152,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateJobFromSourceControl` operation on the `AWSGlue` service.
+    /// Performs the `UpdateJobFromSourceControl` operation on the `Glue` service.
     ///
     /// Synchronizes a job from the source control repository. This operation takes the job artifacts that are located in the remote repository and updates the Glue internal stores with these artifacts. This API supports optional parameters which take in the repository information.
     ///
@@ -18228,7 +18228,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateMLTransform` operation on the `AWSGlue` service.
+    /// Performs the `UpdateMLTransform` operation on the `Glue` service.
     ///
     /// Updates an existing machine learning transform. Call this operation to tune the algorithm parameters to achieve better results. After calling this operation, you can call the StartMLEvaluationTaskRun operation to assess how well your new parameters achieved your goals (such as improving the quality of your machine learning transform, or making it more cost-effective).
     ///
@@ -18302,7 +18302,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdatePartition` operation on the `AWSGlue` service.
+    /// Performs the `UpdatePartition` operation on the `Glue` service.
     ///
     /// Updates a partition.
     ///
@@ -18376,7 +18376,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateRegistry` operation on the `AWSGlue` service.
+    /// Performs the `UpdateRegistry` operation on the `Glue` service.
     ///
     /// Updates an existing registry which is used to hold a collection of schemas. The updated properties relate to the registry, and do not modify any of the schemas within the registry.
     ///
@@ -18450,7 +18450,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateSchema` operation on the `AWSGlue` service.
+    /// Performs the `UpdateSchema` operation on the `Glue` service.
     ///
     /// Updates the description, compatibility setting, or version checkpoint for a schema set. For updating the compatibility setting, the call will not validate compatibility for the entire set of schema versions with the new compatibility setting. If the value for Compatibility is provided, the VersionNumber (a checkpoint) is also required. The API will validate the checkpoint version number for consistency. If the value for the VersionNumber (checkpoint) is provided, Compatibility is optional and this can be used to set/reset a checkpoint for the schema. This update will happen only if the schema is in the AVAILABLE state.
     ///
@@ -18524,7 +18524,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateSourceControlFromJob` operation on the `AWSGlue` service.
+    /// Performs the `UpdateSourceControlFromJob` operation on the `Glue` service.
     ///
     /// Synchronizes a job to the source control repository. This operation takes the job artifacts from the Glue internal stores and makes a commit to the remote repository that is configured on the job. This API supports optional parameters which take in the repository information.
     ///
@@ -18600,7 +18600,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateTable` operation on the `AWSGlue` service.
+    /// Performs the `UpdateTable` operation on the `Glue` service.
     ///
     /// Updates a metadata table in the Data Catalog.
     ///
@@ -18680,7 +18680,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateTableOptimizer` operation on the `AWSGlue` service.
+    /// Performs the `UpdateTableOptimizer` operation on the `Glue` service.
     ///
     /// Updates the configuration for an existing table optimizer.
     ///
@@ -18756,7 +18756,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateTrigger` operation on the `AWSGlue` service.
+    /// Performs the `UpdateTrigger` operation on the `Glue` service.
     ///
     /// Updates a trigger definition. Job arguments may be logged. Do not pass plaintext secrets as arguments. Retrieve secrets from a Glue Connection, Amazon Web Services Secrets Manager or other secret management mechanism if you intend to keep them within the Job.
     ///
@@ -18830,7 +18830,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateUsageProfile` operation on the `AWSGlue` service.
+    /// Performs the `UpdateUsageProfile` operation on the `Glue` service.
     ///
     /// Update an Glue usage profile.
     ///
@@ -18905,7 +18905,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateUserDefinedFunction` operation on the `AWSGlue` service.
+    /// Performs the `UpdateUserDefinedFunction` operation on the `Glue` service.
     ///
     /// Updates an existing function definition in the Data Catalog.
     ///
@@ -18979,7 +18979,7 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateWorkflow` operation on the `AWSGlue` service.
+    /// Performs the `UpdateWorkflow` operation on the `Glue` service.
     ///
     /// Updates an existing workflow.
     ///

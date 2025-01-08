@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class DAXClient: ClientRuntime.Client {
     public static let clientName = "DAXClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: DAXClient.DAXClientConfiguration
     let serviceName = "DAX"
@@ -330,7 +330,7 @@ extension DAXClient {
 }
 
 extension DAXClient {
-    /// Performs the `CreateCluster` operation on the `AmazonDAXV3` service.
+    /// Performs the `CreateCluster` operation on the `DAX` service.
     ///
     /// Creates a DAX cluster. All nodes in the cluster run the same DAX caching software.
     ///
@@ -414,7 +414,7 @@ extension DAXClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateParameterGroup` operation on the `AmazonDAXV3` service.
+    /// Performs the `CreateParameterGroup` operation on the `DAX` service.
     ///
     /// Creates a new parameter group. A parameter group is a collection of parameters that you apply to all of the nodes in a DAX cluster.
     ///
@@ -489,7 +489,7 @@ extension DAXClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateSubnetGroup` operation on the `AmazonDAXV3` service.
+    /// Performs the `CreateSubnetGroup` operation on the `DAX` service.
     ///
     /// Creates a new subnet group.
     ///
@@ -563,7 +563,7 @@ extension DAXClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DecreaseReplicationFactor` operation on the `AmazonDAXV3` service.
+    /// Performs the `DecreaseReplicationFactor` operation on the `DAX` service.
     ///
     /// Removes one or more nodes from a DAX cluster. You cannot use DecreaseReplicationFactor to remove the last node in a DAX cluster. If you need to do this, use DeleteCluster instead.
     ///
@@ -638,7 +638,7 @@ extension DAXClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteCluster` operation on the `AmazonDAXV3` service.
+    /// Performs the `DeleteCluster` operation on the `DAX` service.
     ///
     /// Deletes a previously provisioned DAX cluster. DeleteCluster deletes all associated nodes, node endpoints and the DAX cluster itself. When you receive a successful response from this action, DAX immediately begins deleting the cluster; you cannot cancel or revert this action.
     ///
@@ -712,7 +712,7 @@ extension DAXClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteParameterGroup` operation on the `AmazonDAXV3` service.
+    /// Performs the `DeleteParameterGroup` operation on the `DAX` service.
     ///
     /// Deletes the specified parameter group. You cannot delete a parameter group if it is associated with any DAX clusters.
     ///
@@ -786,7 +786,7 @@ extension DAXClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteSubnetGroup` operation on the `AmazonDAXV3` service.
+    /// Performs the `DeleteSubnetGroup` operation on the `DAX` service.
     ///
     /// Deletes a subnet group. You cannot delete a subnet group if it is associated with any DAX clusters.
     ///
@@ -858,7 +858,7 @@ extension DAXClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeClusters` operation on the `AmazonDAXV3` service.
+    /// Performs the `DescribeClusters` operation on the `DAX` service.
     ///
     /// Returns information about all provisioned DAX clusters if no cluster identifier is specified, or about a specific DAX cluster if a cluster identifier is supplied. If the cluster is in the CREATING state, only cluster level information will be displayed until all of the nodes are successfully provisioned. If the cluster is in the DELETING state, only cluster level information will be displayed. If nodes are currently being added to the DAX cluster, node endpoint information and creation time for the additional nodes will not be displayed until they are completely provisioned. When the DAX cluster state is available, the cluster is ready for use. If nodes are currently being removed from the DAX cluster, no endpoint information for the removed nodes is displayed.
     ///
@@ -931,7 +931,7 @@ extension DAXClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeDefaultParameters` operation on the `AmazonDAXV3` service.
+    /// Performs the `DescribeDefaultParameters` operation on the `DAX` service.
     ///
     /// Returns the default system parameter information for the DAX caching software.
     ///
@@ -1003,7 +1003,7 @@ extension DAXClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeEvents` operation on the `AmazonDAXV3` service.
+    /// Performs the `DescribeEvents` operation on the `DAX` service.
     ///
     /// Returns events related to DAX clusters and parameter groups. You can obtain events specific to a particular DAX cluster or parameter group by providing the name as a parameter. By default, only the events occurring within the last 24 hours are returned; however, you can retrieve up to 14 days' worth of events if necessary.
     ///
@@ -1075,7 +1075,7 @@ extension DAXClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeParameterGroups` operation on the `AmazonDAXV3` service.
+    /// Performs the `DescribeParameterGroups` operation on the `DAX` service.
     ///
     /// Returns a list of parameter group descriptions. If a parameter group name is specified, the list will contain only the descriptions for that group.
     ///
@@ -1148,7 +1148,7 @@ extension DAXClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeParameters` operation on the `AmazonDAXV3` service.
+    /// Performs the `DescribeParameters` operation on the `DAX` service.
     ///
     /// Returns the detailed parameter list for a particular parameter group.
     ///
@@ -1221,7 +1221,7 @@ extension DAXClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeSubnetGroups` operation on the `AmazonDAXV3` service.
+    /// Performs the `DescribeSubnetGroups` operation on the `DAX` service.
     ///
     /// Returns a list of subnet group descriptions. If a subnet group name is specified, the list will contain only the description of that group.
     ///
@@ -1292,7 +1292,7 @@ extension DAXClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `IncreaseReplicationFactor` operation on the `AmazonDAXV3` service.
+    /// Performs the `IncreaseReplicationFactor` operation on the `DAX` service.
     ///
     /// Adds one or more nodes to a DAX cluster.
     ///
@@ -1370,7 +1370,7 @@ extension DAXClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTags` operation on the `AmazonDAXV3` service.
+    /// Performs the `ListTags` operation on the `DAX` service.
     ///
     /// List all of the tags for a DAX cluster. You can call ListTags up to 10 times per second, per account.
     ///
@@ -1445,7 +1445,7 @@ extension DAXClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RebootNode` operation on the `AmazonDAXV3` service.
+    /// Performs the `RebootNode` operation on the `DAX` service.
     ///
     /// Reboots a single node of a DAX cluster. The reboot action takes place as soon as possible. During the reboot, the node status is set to REBOOTING. RebootNode restarts the DAX engine process and does not remove the contents of the cache.
     ///
@@ -1520,7 +1520,7 @@ extension DAXClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `AmazonDAXV3` service.
+    /// Performs the `TagResource` operation on the `DAX` service.
     ///
     /// Associates a set of tags with a DAX resource. You can call TagResource up to 5 times per second, per account.
     ///
@@ -1596,7 +1596,7 @@ extension DAXClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `AmazonDAXV3` service.
+    /// Performs the `UntagResource` operation on the `DAX` service.
     ///
     /// Removes the association of tags from a DAX resource. You can call UntagResource up to 5 times per second, per account.
     ///
@@ -1672,7 +1672,7 @@ extension DAXClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateCluster` operation on the `AmazonDAXV3` service.
+    /// Performs the `UpdateCluster` operation on the `DAX` service.
     ///
     /// Modifies the settings for a DAX cluster. You can use this action to change one or more cluster configuration parameters by specifying the parameters and the new values.
     ///
@@ -1748,7 +1748,7 @@ extension DAXClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateParameterGroup` operation on the `AmazonDAXV3` service.
+    /// Performs the `UpdateParameterGroup` operation on the `DAX` service.
     ///
     /// Modifies the parameters of a parameter group. You can modify up to 20 parameters in a single request by submitting a list parameter name and value pairs.
     ///
@@ -1822,7 +1822,7 @@ extension DAXClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateSubnetGroup` operation on the `AmazonDAXV3` service.
+    /// Performs the `UpdateSubnetGroup` operation on the `DAX` service.
     ///
     /// Modifies an existing subnet group.
     ///

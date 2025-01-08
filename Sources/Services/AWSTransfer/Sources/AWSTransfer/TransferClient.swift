@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class TransferClient: ClientRuntime.Client {
     public static let clientName = "TransferClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: TransferClient.TransferClientConfiguration
     let serviceName = "Transfer"
@@ -330,7 +330,7 @@ extension TransferClient {
 }
 
 extension TransferClient {
-    /// Performs the `CreateAccess` operation on the `TransferService` service.
+    /// Performs the `CreateAccess` operation on the `Transfer` service.
     ///
     /// Used by administrators to choose which groups in the directory should have access to upload and download files over the enabled protocols using Transfer Family. For example, a Microsoft Active Directory might contain 50,000 users, but only a small fraction might need the ability to transfer files to the server. An administrator can use CreateAccess to limit the access to the correct set of users who need this ability.
     ///
@@ -404,7 +404,7 @@ extension TransferClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateAgreement` operation on the `TransferService` service.
+    /// Performs the `CreateAgreement` operation on the `Transfer` service.
     ///
     /// Creates an agreement. An agreement is a bilateral trading partner agreement, or partnership, between an Transfer Family server and an AS2 process. The agreement defines the file and message transfer relationship between the server and the AS2 process. To define an agreement, Transfer Family combines a server, local profile, partner profile, certificate, and other attributes. The partner is identified with the PartnerProfileId, and the AS2 process is identified with the LocalProfileId.
     ///
@@ -479,7 +479,7 @@ extension TransferClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateConnector` operation on the `TransferService` service.
+    /// Performs the `CreateConnector` operation on the `Transfer` service.
     ///
     /// Creates the connector, which captures the parameters for a connection for the AS2 or SFTP protocol. For AS2, the connector is required for sending files to an externally hosted AS2 server. For SFTP, the connector is required when sending files to an SFTP server or receiving files from an SFTP server. For more details about connectors, see [Configure AS2 connectors](https://docs.aws.amazon.com/transfer/latest/userguide/configure-as2-connector.html) and [Create SFTP connectors](https://docs.aws.amazon.com/transfer/latest/userguide/configure-sftp-connector.html). You must specify exactly one configuration object: either for AS2 (As2Config) or SFTP (SftpConfig).
     ///
@@ -554,7 +554,7 @@ extension TransferClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateProfile` operation on the `TransferService` service.
+    /// Performs the `CreateProfile` operation on the `Transfer` service.
     ///
     /// Creates the local or partner profile to use for AS2 transfers.
     ///
@@ -628,7 +628,7 @@ extension TransferClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateServer` operation on the `TransferService` service.
+    /// Performs the `CreateServer` operation on the `Transfer` service.
     ///
     /// Instantiates an auto-scaling virtual server based on the selected file transfer protocol in Amazon Web Services. When you make updates to your file transfer protocol-enabled server or when you work with users, use the service-generated ServerId property that is assigned to the newly created server.
     ///
@@ -704,7 +704,7 @@ extension TransferClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateUser` operation on the `TransferService` service.
+    /// Performs the `CreateUser` operation on the `Transfer` service.
     ///
     /// Creates a user and associates them with an existing file transfer protocol-enabled server. You can only create and associate users with servers that have the IdentityProviderType set to SERVICE_MANAGED. Using parameters for CreateUser, you can specify the user name, set the home directory, store the user's public key, and assign the user's Identity and Access Management (IAM) role. You can also optionally add a session policy, and assign metadata with tags that can be used to group and search for users.
     ///
@@ -778,7 +778,7 @@ extension TransferClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateWebApp` operation on the `TransferService` service.
+    /// Performs the `CreateWebApp` operation on the `Transfer` service.
     ///
     /// Creates a web app based on specified parameters, and returns the ID for the new web app.
     ///
@@ -852,7 +852,7 @@ extension TransferClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateWorkflow` operation on the `TransferService` service.
+    /// Performs the `CreateWorkflow` operation on the `Transfer` service.
     ///
     /// Allows you to create a workflow with specified steps and step details the workflow invokes after file transfer completes. After creating a workflow, you can associate the workflow created with any transfer servers by specifying the workflow-details field in CreateServer and UpdateServer operations.
     ///
@@ -927,7 +927,7 @@ extension TransferClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAccess` operation on the `TransferService` service.
+    /// Performs the `DeleteAccess` operation on the `Transfer` service.
     ///
     /// Allows you to delete the access specified in the ServerID and ExternalID parameters.
     ///
@@ -1000,7 +1000,7 @@ extension TransferClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAgreement` operation on the `TransferService` service.
+    /// Performs the `DeleteAgreement` operation on the `Transfer` service.
     ///
     /// Delete the agreement that's specified in the provided AgreementId.
     ///
@@ -1073,7 +1073,7 @@ extension TransferClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteCertificate` operation on the `TransferService` service.
+    /// Performs the `DeleteCertificate` operation on the `Transfer` service.
     ///
     /// Deletes the certificate that's specified in the CertificateId parameter.
     ///
@@ -1146,7 +1146,7 @@ extension TransferClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteConnector` operation on the `TransferService` service.
+    /// Performs the `DeleteConnector` operation on the `Transfer` service.
     ///
     /// Deletes the connector that's specified in the provided ConnectorId.
     ///
@@ -1219,7 +1219,7 @@ extension TransferClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteHostKey` operation on the `TransferService` service.
+    /// Performs the `DeleteHostKey` operation on the `Transfer` service.
     ///
     /// Deletes the host key that's specified in the HostKeyId parameter.
     ///
@@ -1293,7 +1293,7 @@ extension TransferClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteProfile` operation on the `TransferService` service.
+    /// Performs the `DeleteProfile` operation on the `Transfer` service.
     ///
     /// Deletes the profile that's specified in the ProfileId parameter.
     ///
@@ -1366,7 +1366,7 @@ extension TransferClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteServer` operation on the `TransferService` service.
+    /// Performs the `DeleteServer` operation on the `Transfer` service.
     ///
     /// Deletes the file transfer protocol-enabled server that you specify. No response returns from this operation.
     ///
@@ -1440,7 +1440,7 @@ extension TransferClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteSshPublicKey` operation on the `TransferService` service.
+    /// Performs the `DeleteSshPublicKey` operation on the `Transfer` service.
     ///
     /// Deletes a user's Secure Shell (SSH) public key.
     ///
@@ -1514,7 +1514,7 @@ extension TransferClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteUser` operation on the `TransferService` service.
+    /// Performs the `DeleteUser` operation on the `Transfer` service.
     ///
     /// Deletes the user belonging to a file transfer protocol-enabled server you specify. No response returns from this operation. When you delete a user from a server, the user's information is lost.
     ///
@@ -1587,7 +1587,7 @@ extension TransferClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteWebApp` operation on the `TransferService` service.
+    /// Performs the `DeleteWebApp` operation on the `Transfer` service.
     ///
     /// Deletes the specified web app.
     ///
@@ -1661,7 +1661,7 @@ extension TransferClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteWebAppCustomization` operation on the `TransferService` service.
+    /// Performs the `DeleteWebAppCustomization` operation on the `Transfer` service.
     ///
     /// Deletes the WebAppCustomization object that corresponds to the web app ID specified.
     ///
@@ -1736,7 +1736,7 @@ extension TransferClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteWorkflow` operation on the `TransferService` service.
+    /// Performs the `DeleteWorkflow` operation on the `Transfer` service.
     ///
     /// Deletes the specified workflow.
     ///
@@ -1810,7 +1810,7 @@ extension TransferClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeAccess` operation on the `TransferService` service.
+    /// Performs the `DescribeAccess` operation on the `Transfer` service.
     ///
     /// Describes the access that is assigned to the specific file transfer protocol-enabled server, as identified by its ServerId property and its ExternalId. The response from this call returns the properties of the access that is associated with the ServerId value that was specified.
     ///
@@ -1883,7 +1883,7 @@ extension TransferClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeAgreement` operation on the `TransferService` service.
+    /// Performs the `DescribeAgreement` operation on the `Transfer` service.
     ///
     /// Describes the agreement that's identified by the AgreementId.
     ///
@@ -1956,7 +1956,7 @@ extension TransferClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeCertificate` operation on the `TransferService` service.
+    /// Performs the `DescribeCertificate` operation on the `Transfer` service.
     ///
     /// Describes the certificate that's identified by the CertificateId.
     ///
@@ -2029,7 +2029,7 @@ extension TransferClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeConnector` operation on the `TransferService` service.
+    /// Performs the `DescribeConnector` operation on the `Transfer` service.
     ///
     /// Describes the connector that's identified by the ConnectorId.
     ///
@@ -2102,7 +2102,7 @@ extension TransferClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeExecution` operation on the `TransferService` service.
+    /// Performs the `DescribeExecution` operation on the `Transfer` service.
     ///
     /// You can use DescribeExecution to check the details of the execution of the specified workflow. This API call only returns details for in-progress workflows. If you provide an ID for an execution that is not in progress, or if the execution doesn't match the specified workflow ID, you receive a ResourceNotFound exception.
     ///
@@ -2175,7 +2175,7 @@ extension TransferClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeHostKey` operation on the `TransferService` service.
+    /// Performs the `DescribeHostKey` operation on the `Transfer` service.
     ///
     /// Returns the details of the host key that's specified by the HostKeyId and ServerId.
     ///
@@ -2248,7 +2248,7 @@ extension TransferClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeProfile` operation on the `TransferService` service.
+    /// Performs the `DescribeProfile` operation on the `Transfer` service.
     ///
     /// Returns the details of the profile that's specified by the ProfileId.
     ///
@@ -2321,7 +2321,7 @@ extension TransferClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeSecurityPolicy` operation on the `TransferService` service.
+    /// Performs the `DescribeSecurityPolicy` operation on the `Transfer` service.
     ///
     /// Describes the security policy that is attached to your server or SFTP connector. The response contains a description of the security policy's properties. For more information about security policies, see [Working with security policies for servers](https://docs.aws.amazon.com/transfer/latest/userguide/security-policies.html) or [Working with security policies for SFTP connectors](https://docs.aws.amazon.com/transfer/latest/userguide/security-policies-connectors.html).
     ///
@@ -2394,7 +2394,7 @@ extension TransferClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeServer` operation on the `TransferService` service.
+    /// Performs the `DescribeServer` operation on the `Transfer` service.
     ///
     /// Describes a file transfer protocol-enabled server that you specify by passing the ServerId parameter. The response contains a description of a server's properties. When you set EndpointType to VPC, the response will contain the EndpointDetails.
     ///
@@ -2467,7 +2467,7 @@ extension TransferClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeUser` operation on the `TransferService` service.
+    /// Performs the `DescribeUser` operation on the `Transfer` service.
     ///
     /// Describes the user assigned to the specific file transfer protocol-enabled server, as identified by its ServerId property. The response from this call returns the properties of the user associated with the ServerId value that was specified.
     ///
@@ -2540,7 +2540,7 @@ extension TransferClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeWebApp` operation on the `TransferService` service.
+    /// Performs the `DescribeWebApp` operation on the `Transfer` service.
     ///
     /// Describes the web app that's identified by WebAppId.
     ///
@@ -2614,7 +2614,7 @@ extension TransferClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeWebAppCustomization` operation on the `TransferService` service.
+    /// Performs the `DescribeWebAppCustomization` operation on the `Transfer` service.
     ///
     /// Describes the web app customization object that's identified by WebAppId.
     ///
@@ -2688,7 +2688,7 @@ extension TransferClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeWorkflow` operation on the `TransferService` service.
+    /// Performs the `DescribeWorkflow` operation on the `Transfer` service.
     ///
     /// Describes the specified workflow.
     ///
@@ -2761,7 +2761,7 @@ extension TransferClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ImportCertificate` operation on the `TransferService` service.
+    /// Performs the `ImportCertificate` operation on the `Transfer` service.
     ///
     /// Imports the signing and encryption certificates that you need to create local (AS2) profiles and partner profiles.
     ///
@@ -2834,7 +2834,7 @@ extension TransferClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ImportHostKey` operation on the `TransferService` service.
+    /// Performs the `ImportHostKey` operation on the `Transfer` service.
     ///
     /// Adds a host key to the server that's specified by the ServerId parameter.
     ///
@@ -2909,7 +2909,7 @@ extension TransferClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ImportSshPublicKey` operation on the `TransferService` service.
+    /// Performs the `ImportSshPublicKey` operation on the `Transfer` service.
     ///
     /// Adds a Secure Shell (SSH) public key to a Transfer Family user identified by a UserName value assigned to the specific file transfer protocol-enabled server, identified by ServerId. The response returns the UserName value, the ServerId value, and the name of the SshPublicKeyId.
     ///
@@ -2984,7 +2984,7 @@ extension TransferClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAccesses` operation on the `TransferService` service.
+    /// Performs the `ListAccesses` operation on the `Transfer` service.
     ///
     /// Lists the details for all the accesses you have on your server.
     ///
@@ -3058,7 +3058,7 @@ extension TransferClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAgreements` operation on the `TransferService` service.
+    /// Performs the `ListAgreements` operation on the `Transfer` service.
     ///
     /// Returns a list of the agreements for the server that's identified by the ServerId that you supply. If you want to limit the results to a certain number, supply a value for the MaxResults parameter. If you ran the command previously and received a value for NextToken, you can supply that value to continue listing agreements from where you left off.
     ///
@@ -3132,7 +3132,7 @@ extension TransferClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListCertificates` operation on the `TransferService` service.
+    /// Performs the `ListCertificates` operation on the `Transfer` service.
     ///
     /// Returns a list of the current certificates that have been imported into Transfer Family. If you want to limit the results to a certain number, supply a value for the MaxResults parameter. If you ran the command previously and received a value for the NextToken parameter, you can supply that value to continue listing certificates from where you left off.
     ///
@@ -3206,7 +3206,7 @@ extension TransferClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListConnectors` operation on the `TransferService` service.
+    /// Performs the `ListConnectors` operation on the `Transfer` service.
     ///
     /// Lists the connectors for the specified Region.
     ///
@@ -3280,7 +3280,7 @@ extension TransferClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListExecutions` operation on the `TransferService` service.
+    /// Performs the `ListExecutions` operation on the `Transfer` service.
     ///
     /// Lists all in-progress executions for the specified workflow. If the specified workflow ID cannot be found, ListExecutions returns a ResourceNotFound exception.
     ///
@@ -3354,7 +3354,7 @@ extension TransferClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListFileTransferResults` operation on the `TransferService` service.
+    /// Performs the `ListFileTransferResults` operation on the `Transfer` service.
     ///
     /// Returns real-time updates and detailed information on the status of each individual file being transferred in a specific file transfer operation. You specify the file transfer by providing its ConnectorId and its TransferId. File transfer results are available up to 7 days after an operation has been requested.
     ///
@@ -3427,7 +3427,7 @@ extension TransferClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListHostKeys` operation on the `TransferService` service.
+    /// Performs the `ListHostKeys` operation on the `Transfer` service.
     ///
     /// Returns a list of host keys for the server that's specified by the ServerId parameter.
     ///
@@ -3501,7 +3501,7 @@ extension TransferClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListProfiles` operation on the `TransferService` service.
+    /// Performs the `ListProfiles` operation on the `Transfer` service.
     ///
     /// Returns a list of the profiles for your system. If you want to limit the results to a certain number, supply a value for the MaxResults parameter. If you ran the command previously and received a value for NextToken, you can supply that value to continue listing profiles from where you left off.
     ///
@@ -3575,7 +3575,7 @@ extension TransferClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListSecurityPolicies` operation on the `TransferService` service.
+    /// Performs the `ListSecurityPolicies` operation on the `Transfer` service.
     ///
     /// Lists the security policies that are attached to your servers and SFTP connectors. For more information about security policies, see [Working with security policies for servers](https://docs.aws.amazon.com/transfer/latest/userguide/security-policies.html) or [Working with security policies for SFTP connectors](https://docs.aws.amazon.com/transfer/latest/userguide/security-policies-connectors.html).
     ///
@@ -3648,7 +3648,7 @@ extension TransferClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListServers` operation on the `TransferService` service.
+    /// Performs the `ListServers` operation on the `Transfer` service.
     ///
     /// Lists the file transfer protocol-enabled servers that are associated with your Amazon Web Services account.
     ///
@@ -3721,7 +3721,7 @@ extension TransferClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `TransferService` service.
+    /// Performs the `ListTagsForResource` operation on the `Transfer` service.
     ///
     /// Lists all of the tags associated with the Amazon Resource Name (ARN) that you specify. The resource can be a user, server, or role.
     ///
@@ -3794,7 +3794,7 @@ extension TransferClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListUsers` operation on the `TransferService` service.
+    /// Performs the `ListUsers` operation on the `Transfer` service.
     ///
     /// Lists the users for a file transfer protocol-enabled server that you specify by passing the ServerId parameter.
     ///
@@ -3868,7 +3868,7 @@ extension TransferClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListWebApps` operation on the `TransferService` service.
+    /// Performs the `ListWebApps` operation on the `Transfer` service.
     ///
     /// Lists all web apps associated with your Amazon Web Services account for your current region.
     ///
@@ -3941,7 +3941,7 @@ extension TransferClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListWorkflows` operation on the `TransferService` service.
+    /// Performs the `ListWorkflows` operation on the `Transfer` service.
     ///
     /// Lists all workflows associated with your Amazon Web Services account for your current region.
     ///
@@ -4014,7 +4014,7 @@ extension TransferClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SendWorkflowStepState` operation on the `TransferService` service.
+    /// Performs the `SendWorkflowStepState` operation on the `Transfer` service.
     ///
     /// Sends a callback for asynchronous custom steps. The ExecutionId, WorkflowId, and Token are passed to the target resource during execution of a custom step of a workflow. You must include those with their callback as well as providing a status.
     ///
@@ -4089,7 +4089,7 @@ extension TransferClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartDirectoryListing` operation on the `TransferService` service.
+    /// Performs the `StartDirectoryListing` operation on the `Transfer` service.
     ///
     /// Retrieves a list of the contents of a directory from a remote SFTP server. You specify the connector ID, the output path, and the remote directory path. You can also specify the optional MaxItems value to control the maximum number of items that are listed from the remote directory. This API returns a list of all files and directories in the remote directory (up to the maximum value), but does not return files or folders in sub-directories. That is, it only returns a list of files and directories one-level deep. After you receive the listing file, you can provide the files that you want to transfer to the RetrieveFilePaths parameter of the StartFileTransfer API call. The naming convention for the output file is  connector-ID-listing-ID.json. The output file contains the following information:
     ///
@@ -4173,7 +4173,7 @@ extension TransferClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartFileTransfer` operation on the `TransferService` service.
+    /// Performs the `StartFileTransfer` operation on the `Transfer` service.
     ///
     /// Begins a file transfer between local Amazon Web Services storage and a remote AS2 or SFTP server.
     ///
@@ -4255,7 +4255,7 @@ extension TransferClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartServer` operation on the `TransferService` service.
+    /// Performs the `StartServer` operation on the `Transfer` service.
     ///
     /// Changes the state of a file transfer protocol-enabled server from OFFLINE to ONLINE. It has no impact on a server that is already ONLINE. An ONLINE server can accept and process file transfer jobs. The state of STARTING indicates that the server is in an intermediate state, either not fully able to respond, or not fully online. The values of START_FAILED can indicate an error condition. No response is returned from this call.
     ///
@@ -4329,7 +4329,7 @@ extension TransferClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopServer` operation on the `TransferService` service.
+    /// Performs the `StopServer` operation on the `Transfer` service.
     ///
     /// Changes the state of a file transfer protocol-enabled server from ONLINE to OFFLINE. An OFFLINE server cannot accept and process file transfer jobs. Information tied to your server, such as server and user properties, are not affected by stopping your server. Stopping the server does not reduce or impact your file transfer protocol endpoint billing; you must delete the server to stop being billed. The state of STOPPING indicates that the server is in an intermediate state, either not fully able to respond, or not fully offline. The values of STOP_FAILED can indicate an error condition. No response is returned from this call.
     ///
@@ -4403,7 +4403,7 @@ extension TransferClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `TransferService` service.
+    /// Performs the `TagResource` operation on the `Transfer` service.
     ///
     /// Attaches a key-value pair to a resource, as identified by its Amazon Resource Name (ARN). Resources are users, servers, roles, and other entities. There is no response returned from this call.
     ///
@@ -4476,7 +4476,7 @@ extension TransferClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TestConnection` operation on the `TransferService` service.
+    /// Performs the `TestConnection` operation on the `Transfer` service.
     ///
     /// Tests whether your SFTP connector is set up successfully. We highly recommend that you call this operation to test your ability to transfer files between local Amazon Web Services storage and a trading partner's SFTP server.
     ///
@@ -4549,7 +4549,7 @@ extension TransferClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TestIdentityProvider` operation on the `TransferService` service.
+    /// Performs the `TestIdentityProvider` operation on the `Transfer` service.
     ///
     /// If the IdentityProviderType of a file transfer protocol-enabled server is AWS_DIRECTORY_SERVICE or API_Gateway, tests whether your identity provider is set up successfully. We highly recommend that you call this operation to test your authentication method as soon as you create your server. By doing so, you can troubleshoot issues with the identity provider integration to ensure that your users can successfully use the service. The ServerId and UserName parameters are required. The ServerProtocol, SourceIp, and UserPassword are all optional. Note the following:
     ///
@@ -4634,7 +4634,7 @@ extension TransferClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `TransferService` service.
+    /// Performs the `UntagResource` operation on the `Transfer` service.
     ///
     /// Detaches a key-value pair from a resource, as identified by its Amazon Resource Name (ARN). Resources are users, servers, roles, and other entities. No response is returned from this call.
     ///
@@ -4707,7 +4707,7 @@ extension TransferClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateAccess` operation on the `TransferService` service.
+    /// Performs the `UpdateAccess` operation on the `Transfer` service.
     ///
     /// Allows you to update parameters for the access specified in the ServerID and ExternalID parameters.
     ///
@@ -4782,7 +4782,7 @@ extension TransferClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateAgreement` operation on the `TransferService` service.
+    /// Performs the `UpdateAgreement` operation on the `Transfer` service.
     ///
     /// Updates some of the parameters for an existing agreement. Provide the AgreementId and the ServerId for the agreement that you want to update, along with the new values for the parameters to update.
     ///
@@ -4857,7 +4857,7 @@ extension TransferClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateCertificate` operation on the `TransferService` service.
+    /// Performs the `UpdateCertificate` operation on the `Transfer` service.
     ///
     /// Updates the active and inactive dates for a certificate.
     ///
@@ -4931,7 +4931,7 @@ extension TransferClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateConnector` operation on the `TransferService` service.
+    /// Performs the `UpdateConnector` operation on the `Transfer` service.
     ///
     /// Updates some of the parameters for an existing connector. Provide the ConnectorId for the connector that you want to update, along with the new values for the parameters to update.
     ///
@@ -5006,7 +5006,7 @@ extension TransferClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateHostKey` operation on the `TransferService` service.
+    /// Performs the `UpdateHostKey` operation on the `Transfer` service.
     ///
     /// Updates the description for the host key that's specified by the ServerId and HostKeyId parameters.
     ///
@@ -5080,7 +5080,7 @@ extension TransferClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateProfile` operation on the `TransferService` service.
+    /// Performs the `UpdateProfile` operation on the `Transfer` service.
     ///
     /// Updates some of the parameters for an existing profile. Provide the ProfileId for the profile that you want to update, along with the new values for the parameters to update.
     ///
@@ -5154,7 +5154,7 @@ extension TransferClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateServer` operation on the `TransferService` service.
+    /// Performs the `UpdateServer` operation on the `Transfer` service.
     ///
     /// Updates the file transfer protocol-enabled server's properties after that server has been created. The UpdateServer call returns the ServerId of the server you updated.
     ///
@@ -5231,7 +5231,7 @@ extension TransferClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateUser` operation on the `TransferService` service.
+    /// Performs the `UpdateUser` operation on the `Transfer` service.
     ///
     /// Assigns new properties to a user. Parameters you pass modify any or all of the following: the home directory, role, and policy for the UserName and ServerId you specify. The response returns the ServerId and the UserName for the updated user. In the console, you can select Restricted when you create or update a user. This ensures that the user can't access anything outside of their home directory. The programmatic way to configure this behavior is to update the user. Set their HomeDirectoryType to LOGICAL, and specify HomeDirectoryMappings with Entry as root (/) and Target as their home directory. For example, if the user's home directory is /test/admin-user, the following command updates the user so that their configuration in the console shows the Restricted flag as selected.  aws transfer update-user --server-id <server-id> --user-name admin-user --home-directory-type LOGICAL --home-directory-mappings "[{\"Entry\":\"/\", \"Target\":\"/test/admin-user\"}]"
     ///
@@ -5305,7 +5305,7 @@ extension TransferClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateWebApp` operation on the `TransferService` service.
+    /// Performs the `UpdateWebApp` operation on the `Transfer` service.
     ///
     /// Assigns new properties to a web app. You can modify the access point, identity provider details, and the web app units.
     ///
@@ -5380,7 +5380,7 @@ extension TransferClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateWebAppCustomization` operation on the `TransferService` service.
+    /// Performs the `UpdateWebAppCustomization` operation on the `Transfer` service.
     ///
     /// Assigns new customization properties to a web app. You can modify the icon file, logo file, and title.
     ///

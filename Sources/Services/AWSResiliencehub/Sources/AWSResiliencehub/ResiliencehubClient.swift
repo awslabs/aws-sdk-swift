@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ResiliencehubClient: ClientRuntime.Client {
     public static let clientName = "ResiliencehubClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: ResiliencehubClient.ResiliencehubClientConfiguration
     let serviceName = "resiliencehub"
@@ -331,7 +331,7 @@ extension ResiliencehubClient {
 }
 
 extension ResiliencehubClient {
-    /// Performs the `AcceptResourceGroupingRecommendations` operation on the `AwsResilienceHub` service.
+    /// Performs the `AcceptResourceGroupingRecommendations` operation on the `Resiliencehub` service.
     ///
     /// Accepts the resource grouping recommendations suggested by Resilience Hub for your application.
     ///
@@ -404,7 +404,7 @@ extension ResiliencehubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AddDraftAppVersionResourceMappings` operation on the `AwsResilienceHub` service.
+    /// Performs the `AddDraftAppVersionResourceMappings` operation on the `Resiliencehub` service.
     ///
     /// Adds the source of resource-maps to the draft version of an application. During assessment, Resilience Hub will use these resource-maps to resolve the latest physical ID for each resource in the application template. For more information about different types of resources supported by Resilience Hub and how to add them in your application, see [Step 2: How is your application managed?](https://docs.aws.amazon.com/resilience-hub/latest/userguide/how-app-manage.html) in the Resilience Hub User Guide.
     ///
@@ -479,7 +479,7 @@ extension ResiliencehubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchUpdateRecommendationStatus` operation on the `AwsResilienceHub` service.
+    /// Performs the `BatchUpdateRecommendationStatus` operation on the `Resiliencehub` service.
     ///
     /// Enables you to include or exclude one or more operational recommendations.
     ///
@@ -552,7 +552,7 @@ extension ResiliencehubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateApp` operation on the `AwsResilienceHub` service.
+    /// Performs the `CreateApp` operation on the `Resiliencehub` service.
     ///
     /// Creates an Resilience Hub application. An Resilience Hub application is a collection of Amazon Web Services resources structured to prevent and recover Amazon Web Services application disruptions. To describe a Resilience Hub application, you provide an application name, resources from one or more CloudFormation stacks, Resource Groups, Terraform state files, AppRegistry applications, and an appropriate resiliency policy. In addition, you can also add resources that are located on Amazon Elastic Kubernetes Service (Amazon EKS) clusters as optional resources. For more information about the number of resources supported per application, see [Service quotas](https://docs.aws.amazon.com/general/latest/gr/resiliencehub.html#limits_resiliencehub). After you create an Resilience Hub application, you publish it so that you can run a resiliency assessment on it. You can then use recommendations from the assessment to improve resiliency by running another assessment, comparing results, and then iterating the process until you achieve your goals for recovery time objective (RTO) and recovery point objective (RPO).
     ///
@@ -628,7 +628,7 @@ extension ResiliencehubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateAppVersionAppComponent` operation on the `AwsResilienceHub` service.
+    /// Performs the `CreateAppVersionAppComponent` operation on the `Resiliencehub` service.
     ///
     /// Creates a new Application Component in the Resilience Hub application. This API updates the Resilience Hub application draft version. To use this Application Component for running assessments, you must publish the Resilience Hub application using the PublishAppVersion API.
     ///
@@ -704,7 +704,7 @@ extension ResiliencehubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateAppVersionResource` operation on the `AwsResilienceHub` service.
+    /// Performs the `CreateAppVersionResource` operation on the `Resiliencehub` service.
     ///
     /// Adds a resource to the Resilience Hub application and assigns it to the specified Application Components. If you specify a new Application Component, Resilience Hub will automatically create the Application Component.
     ///
@@ -786,7 +786,7 @@ extension ResiliencehubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateRecommendationTemplate` operation on the `AwsResilienceHub` service.
+    /// Performs the `CreateRecommendationTemplate` operation on the `Resiliencehub` service.
     ///
     /// Creates a new recommendation template for the Resilience Hub application.
     ///
@@ -862,7 +862,7 @@ extension ResiliencehubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateResiliencyPolicy` operation on the `AwsResilienceHub` service.
+    /// Performs the `CreateResiliencyPolicy` operation on the `Resiliencehub` service.
     ///
     /// Creates a resiliency policy for an application. Resilience Hub allows you to provide a value of zero for rtoInSecs and rpoInSecs of your resiliency policy. But, while assessing your application, the lowest possible assessment result is near zero. Hence, if you provide value zero for rtoInSecs and rpoInSecs, the estimated workload RTO and estimated workload RPO result will be near zero and the Compliance status for your application will be set to Policy breached.
     ///
@@ -937,7 +937,7 @@ extension ResiliencehubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteApp` operation on the `AwsResilienceHub` service.
+    /// Performs the `DeleteApp` operation on the `Resiliencehub` service.
     ///
     /// Deletes an Resilience Hub application. This is a destructive action that can't be undone.
     ///
@@ -1011,7 +1011,7 @@ extension ResiliencehubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAppAssessment` operation on the `AwsResilienceHub` service.
+    /// Performs the `DeleteAppAssessment` operation on the `Resiliencehub` service.
     ///
     /// Deletes an Resilience Hub application assessment. This is a destructive action that can't be undone.
     ///
@@ -1086,7 +1086,7 @@ extension ResiliencehubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAppInputSource` operation on the `AwsResilienceHub` service.
+    /// Performs the `DeleteAppInputSource` operation on the `Resiliencehub` service.
     ///
     /// Deletes the input source and all of its imported resources from the Resilience Hub application.
     ///
@@ -1161,7 +1161,7 @@ extension ResiliencehubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAppVersionAppComponent` operation on the `AwsResilienceHub` service.
+    /// Performs the `DeleteAppVersionAppComponent` operation on the `Resiliencehub` service.
     ///
     /// Deletes an Application Component from the Resilience Hub application.
     ///
@@ -1240,7 +1240,7 @@ extension ResiliencehubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAppVersionResource` operation on the `AwsResilienceHub` service.
+    /// Performs the `DeleteAppVersionResource` operation on the `Resiliencehub` service.
     ///
     /// Deletes a resource from the Resilience Hub application.
     ///
@@ -1321,7 +1321,7 @@ extension ResiliencehubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteRecommendationTemplate` operation on the `AwsResilienceHub` service.
+    /// Performs the `DeleteRecommendationTemplate` operation on the `Resiliencehub` service.
     ///
     /// Deletes a recommendation template. This is a destructive action that can't be undone.
     ///
@@ -1395,7 +1395,7 @@ extension ResiliencehubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteResiliencyPolicy` operation on the `AwsResilienceHub` service.
+    /// Performs the `DeleteResiliencyPolicy` operation on the `Resiliencehub` service.
     ///
     /// Deletes a resiliency policy. This is a destructive action that can't be undone.
     ///
@@ -1470,7 +1470,7 @@ extension ResiliencehubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeApp` operation on the `AwsResilienceHub` service.
+    /// Performs the `DescribeApp` operation on the `Resiliencehub` service.
     ///
     /// Describes an Resilience Hub application.
     ///
@@ -1543,7 +1543,7 @@ extension ResiliencehubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeAppAssessment` operation on the `AwsResilienceHub` service.
+    /// Performs the `DescribeAppAssessment` operation on the `Resiliencehub` service.
     ///
     /// Describes an assessment for an Resilience Hub application.
     ///
@@ -1616,7 +1616,7 @@ extension ResiliencehubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeAppVersion` operation on the `AwsResilienceHub` service.
+    /// Performs the `DescribeAppVersion` operation on the `Resiliencehub` service.
     ///
     /// Describes the Resilience Hub application version.
     ///
@@ -1689,7 +1689,7 @@ extension ResiliencehubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeAppVersionAppComponent` operation on the `AwsResilienceHub` service.
+    /// Performs the `DescribeAppVersionAppComponent` operation on the `Resiliencehub` service.
     ///
     /// Describes an Application Component in the Resilience Hub application.
     ///
@@ -1763,7 +1763,7 @@ extension ResiliencehubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeAppVersionResource` operation on the `AwsResilienceHub` service.
+    /// Performs the `DescribeAppVersionResource` operation on the `Resiliencehub` service.
     ///
     /// Describes a resource of the Resilience Hub application. This API accepts only one of the following parameters to describe the resource:
     ///
@@ -1843,7 +1843,7 @@ extension ResiliencehubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeAppVersionResourcesResolutionStatus` operation on the `AwsResilienceHub` service.
+    /// Performs the `DescribeAppVersionResourcesResolutionStatus` operation on the `Resiliencehub` service.
     ///
     /// Returns the resolution status for the specified resolution identifier for an application version. If resolutionId is not specified, the current resolution status is returned.
     ///
@@ -1916,7 +1916,7 @@ extension ResiliencehubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeAppVersionTemplate` operation on the `AwsResilienceHub` service.
+    /// Performs the `DescribeAppVersionTemplate` operation on the `Resiliencehub` service.
     ///
     /// Describes details about an Resilience Hub application.
     ///
@@ -1989,7 +1989,7 @@ extension ResiliencehubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeDraftAppVersionResourcesImportStatus` operation on the `AwsResilienceHub` service.
+    /// Performs the `DescribeDraftAppVersionResourcesImportStatus` operation on the `Resiliencehub` service.
     ///
     /// Describes the status of importing resources to an application version. If you get a 404 error with ResourceImportStatusNotFoundAppMetadataException, you must call importResourcesToDraftAppVersion after creating the application and before calling describeDraftAppVersionResourcesImportStatus to obtain the status.
     ///
@@ -2062,7 +2062,7 @@ extension ResiliencehubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeMetricsExport` operation on the `AwsResilienceHub` service.
+    /// Performs the `DescribeMetricsExport` operation on the `Resiliencehub` service.
     ///
     /// Describes the metrics of the application configuration being exported.
     ///
@@ -2135,7 +2135,7 @@ extension ResiliencehubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeResiliencyPolicy` operation on the `AwsResilienceHub` service.
+    /// Performs the `DescribeResiliencyPolicy` operation on the `Resiliencehub` service.
     ///
     /// Describes a specified resiliency policy for an Resilience Hub application. The returned policy object includes creation time, data location constraints, the Amazon Resource Name (ARN) for the policy, tags, tier, and more.
     ///
@@ -2208,7 +2208,7 @@ extension ResiliencehubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeResourceGroupingRecommendationTask` operation on the `AwsResilienceHub` service.
+    /// Performs the `DescribeResourceGroupingRecommendationTask` operation on the `Resiliencehub` service.
     ///
     /// Describes the resource grouping recommendation tasks run by Resilience Hub for your application.
     ///
@@ -2281,7 +2281,7 @@ extension ResiliencehubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ImportResourcesToDraftAppVersion` operation on the `AwsResilienceHub` service.
+    /// Performs the `ImportResourcesToDraftAppVersion` operation on the `Resiliencehub` service.
     ///
     /// Imports resources to Resilience Hub application draft version from different input sources. For more information about the input sources supported by Resilience Hub, see [Discover the structure and describe your Resilience Hub application](https://docs.aws.amazon.com/resilience-hub/latest/userguide/discover-structure.html).
     ///
@@ -2356,7 +2356,7 @@ extension ResiliencehubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAlarmRecommendations` operation on the `AwsResilienceHub` service.
+    /// Performs the `ListAlarmRecommendations` operation on the `Resiliencehub` service.
     ///
     /// Lists the alarm recommendations for an Resilience Hub application.
     ///
@@ -2429,7 +2429,7 @@ extension ResiliencehubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAppAssessmentComplianceDrifts` operation on the `AwsResilienceHub` service.
+    /// Performs the `ListAppAssessmentComplianceDrifts` operation on the `Resiliencehub` service.
     ///
     /// List of compliance drifts that were detected while running an assessment.
     ///
@@ -2501,7 +2501,7 @@ extension ResiliencehubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAppAssessmentResourceDrifts` operation on the `AwsResilienceHub` service.
+    /// Performs the `ListAppAssessmentResourceDrifts` operation on the `Resiliencehub` service.
     ///
     /// List of resource drifts that were detected while running an assessment.
     ///
@@ -2573,7 +2573,7 @@ extension ResiliencehubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAppAssessments` operation on the `AwsResilienceHub` service.
+    /// Performs the `ListAppAssessments` operation on the `Resiliencehub` service.
     ///
     /// Lists the assessments for an Resilience Hub application. You can use request parameters to refine the results for the response object.
     ///
@@ -2644,7 +2644,7 @@ extension ResiliencehubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAppComponentCompliances` operation on the `AwsResilienceHub` service.
+    /// Performs the `ListAppComponentCompliances` operation on the `Resiliencehub` service.
     ///
     /// Lists the compliances for an Resilience Hub Application Component.
     ///
@@ -2717,7 +2717,7 @@ extension ResiliencehubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAppComponentRecommendations` operation on the `AwsResilienceHub` service.
+    /// Performs the `ListAppComponentRecommendations` operation on the `Resiliencehub` service.
     ///
     /// Lists the recommendations for an Resilience Hub Application Component.
     ///
@@ -2790,7 +2790,7 @@ extension ResiliencehubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAppInputSources` operation on the `AwsResilienceHub` service.
+    /// Performs the `ListAppInputSources` operation on the `Resiliencehub` service.
     ///
     /// Lists all the input sources of the Resilience Hub application. For more information about the input sources supported by Resilience Hub, see [Discover the structure and describe your Resilience Hub application](https://docs.aws.amazon.com/resilience-hub/latest/userguide/discover-structure.html).
     ///
@@ -2863,7 +2863,7 @@ extension ResiliencehubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAppVersionAppComponents` operation on the `AwsResilienceHub` service.
+    /// Performs the `ListAppVersionAppComponents` operation on the `Resiliencehub` service.
     ///
     /// Lists all the Application Components in the Resilience Hub application.
     ///
@@ -2937,7 +2937,7 @@ extension ResiliencehubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAppVersionResourceMappings` operation on the `AwsResilienceHub` service.
+    /// Performs the `ListAppVersionResourceMappings` operation on the `Resiliencehub` service.
     ///
     /// Lists how the resources in an application version are mapped/sourced from. Mappings can be physical resource identifiers, CloudFormation stacks, resource-groups, or an application registry app.
     ///
@@ -3010,7 +3010,7 @@ extension ResiliencehubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAppVersionResources` operation on the `AwsResilienceHub` service.
+    /// Performs the `ListAppVersionResources` operation on the `Resiliencehub` service.
     ///
     /// Lists all the resources in an Resilience Hub application.
     ///
@@ -3084,7 +3084,7 @@ extension ResiliencehubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAppVersions` operation on the `AwsResilienceHub` service.
+    /// Performs the `ListAppVersions` operation on the `Resiliencehub` service.
     ///
     /// Lists the different versions for the Resilience Hub applications.
     ///
@@ -3156,7 +3156,7 @@ extension ResiliencehubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListApps` operation on the `AwsResilienceHub` service.
+    /// Performs the `ListApps` operation on the `Resiliencehub` service.
     ///
     /// Lists your Resilience Hub applications. You can filter applications using only one filter at a time or without using any filter. If you try to filter applications using multiple filters, you will get the following error: An error occurred (ValidationException) when calling the ListApps operation: Only one filter is supported for this operation.
     ///
@@ -3226,7 +3226,7 @@ extension ResiliencehubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListMetrics` operation on the `AwsResilienceHub` service.
+    /// Performs the `ListMetrics` operation on the `Resiliencehub` service.
     ///
     /// Lists the metrics that can be exported.
     ///
@@ -3298,7 +3298,7 @@ extension ResiliencehubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListRecommendationTemplates` operation on the `AwsResilienceHub` service.
+    /// Performs the `ListRecommendationTemplates` operation on the `Resiliencehub` service.
     ///
     /// Lists the recommendation templates for the Resilience Hub applications.
     ///
@@ -3368,7 +3368,7 @@ extension ResiliencehubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListResiliencyPolicies` operation on the `AwsResilienceHub` service.
+    /// Performs the `ListResiliencyPolicies` operation on the `Resiliencehub` service.
     ///
     /// Lists the resiliency policies for the Resilience Hub applications.
     ///
@@ -3439,7 +3439,7 @@ extension ResiliencehubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListResourceGroupingRecommendations` operation on the `AwsResilienceHub` service.
+    /// Performs the `ListResourceGroupingRecommendations` operation on the `Resiliencehub` service.
     ///
     /// Lists the resource grouping recommendations suggested by Resilience Hub for your application.
     ///
@@ -3510,7 +3510,7 @@ extension ResiliencehubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListSopRecommendations` operation on the `AwsResilienceHub` service.
+    /// Performs the `ListSopRecommendations` operation on the `Resiliencehub` service.
     ///
     /// Lists the standard operating procedure (SOP) recommendations for the Resilience Hub applications.
     ///
@@ -3584,7 +3584,7 @@ extension ResiliencehubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListSuggestedResiliencyPolicies` operation on the `AwsResilienceHub` service.
+    /// Performs the `ListSuggestedResiliencyPolicies` operation on the `Resiliencehub` service.
     ///
     /// Lists the suggested resiliency policies for the Resilience Hub applications.
     ///
@@ -3655,7 +3655,7 @@ extension ResiliencehubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `AwsResilienceHub` service.
+    /// Performs the `ListTagsForResource` operation on the `Resiliencehub` service.
     ///
     /// Lists the tags for your resources in your Resilience Hub applications.
     ///
@@ -3725,7 +3725,7 @@ extension ResiliencehubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTestRecommendations` operation on the `AwsResilienceHub` service.
+    /// Performs the `ListTestRecommendations` operation on the `Resiliencehub` service.
     ///
     /// Lists the test recommendations for the Resilience Hub application.
     ///
@@ -3799,7 +3799,7 @@ extension ResiliencehubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListUnsupportedAppVersionResources` operation on the `AwsResilienceHub` service.
+    /// Performs the `ListUnsupportedAppVersionResources` operation on the `Resiliencehub` service.
     ///
     /// Lists the resources that are not currently supported in Resilience Hub. An unsupported resource is a resource that exists in the object that was used to create an app, but is not supported by Resilience Hub.
     ///
@@ -3873,7 +3873,7 @@ extension ResiliencehubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PublishAppVersion` operation on the `AwsResilienceHub` service.
+    /// Performs the `PublishAppVersion` operation on the `Resiliencehub` service.
     ///
     /// Publishes a new version of a specific Resilience Hub application.
     ///
@@ -3947,7 +3947,7 @@ extension ResiliencehubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutDraftAppVersionTemplate` operation on the `AwsResilienceHub` service.
+    /// Performs the `PutDraftAppVersionTemplate` operation on the `Resiliencehub` service.
     ///
     /// Adds or updates the app template for an Resilience Hub application draft version.
     ///
@@ -4021,7 +4021,7 @@ extension ResiliencehubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RejectResourceGroupingRecommendations` operation on the `AwsResilienceHub` service.
+    /// Performs the `RejectResourceGroupingRecommendations` operation on the `Resiliencehub` service.
     ///
     /// Rejects resource grouping recommendations.
     ///
@@ -4094,7 +4094,7 @@ extension ResiliencehubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RemoveDraftAppVersionResourceMappings` operation on the `AwsResilienceHub` service.
+    /// Performs the `RemoveDraftAppVersionResourceMappings` operation on the `Resiliencehub` service.
     ///
     /// Removes resource mappings from a draft application version.
     ///
@@ -4168,7 +4168,7 @@ extension ResiliencehubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ResolveAppVersionResources` operation on the `AwsResilienceHub` service.
+    /// Performs the `ResolveAppVersionResources` operation on the `Resiliencehub` service.
     ///
     /// Resolves the resources for an application version.
     ///
@@ -4242,7 +4242,7 @@ extension ResiliencehubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartAppAssessment` operation on the `AwsResilienceHub` service.
+    /// Performs the `StartAppAssessment` operation on the `Resiliencehub` service.
     ///
     /// Creates a new application assessment for an application.
     ///
@@ -4318,7 +4318,7 @@ extension ResiliencehubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartMetricsExport` operation on the `AwsResilienceHub` service.
+    /// Performs the `StartMetricsExport` operation on the `Resiliencehub` service.
     ///
     /// Initiates the export task of metrics.
     ///
@@ -4393,7 +4393,7 @@ extension ResiliencehubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartResourceGroupingRecommendationTask` operation on the `AwsResilienceHub` service.
+    /// Performs the `StartResourceGroupingRecommendationTask` operation on the `Resiliencehub` service.
     ///
     /// Starts grouping recommendation task.
     ///
@@ -4467,7 +4467,7 @@ extension ResiliencehubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `AwsResilienceHub` service.
+    /// Performs the `TagResource` operation on the `Resiliencehub` service.
     ///
     /// Applies one or more tags to a resource.
     ///
@@ -4540,7 +4540,7 @@ extension ResiliencehubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `AwsResilienceHub` service.
+    /// Performs the `UntagResource` operation on the `Resiliencehub` service.
     ///
     /// Removes one or more tags from a resource.
     ///
@@ -4611,7 +4611,7 @@ extension ResiliencehubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateApp` operation on the `AwsResilienceHub` service.
+    /// Performs the `UpdateApp` operation on the `Resiliencehub` service.
     ///
     /// Updates an application.
     ///
@@ -4685,7 +4685,7 @@ extension ResiliencehubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateAppVersion` operation on the `AwsResilienceHub` service.
+    /// Performs the `UpdateAppVersion` operation on the `Resiliencehub` service.
     ///
     /// Updates the Resilience Hub application version. This API updates the Resilience Hub application draft version. To use this information for running resiliency assessments, you must publish the Resilience Hub application using the PublishAppVersion API.
     ///
@@ -4759,7 +4759,7 @@ extension ResiliencehubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateAppVersionAppComponent` operation on the `AwsResilienceHub` service.
+    /// Performs the `UpdateAppVersionAppComponent` operation on the `Resiliencehub` service.
     ///
     /// Updates an existing Application Component in the Resilience Hub application. This API updates the Resilience Hub application draft version. To use this Application Component for running assessments, you must publish the Resilience Hub application using the PublishAppVersion API.
     ///
@@ -4833,7 +4833,7 @@ extension ResiliencehubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateAppVersionResource` operation on the `AwsResilienceHub` service.
+    /// Performs the `UpdateAppVersionResource` operation on the `Resiliencehub` service.
     ///
     /// Updates the resource details in the Resilience Hub application.
     ///
@@ -4914,7 +4914,7 @@ extension ResiliencehubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateResiliencyPolicy` operation on the `AwsResilienceHub` service.
+    /// Performs the `UpdateResiliencyPolicy` operation on the `Resiliencehub` service.
     ///
     /// Updates a resiliency policy. Resilience Hub allows you to provide a value of zero for rtoInSecs and rpoInSecs of your resiliency policy. But, while assessing your application, the lowest possible assessment result is near zero. Hence, if you provide value zero for rtoInSecs and rpoInSecs, the estimated workload RTO and estimated workload RPO result will be near zero and the Compliance status for your application will be set to Policy breached.
     ///

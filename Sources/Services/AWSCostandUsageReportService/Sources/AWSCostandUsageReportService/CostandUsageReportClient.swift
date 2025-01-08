@@ -63,7 +63,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CostandUsageReportClient: ClientRuntime.Client {
     public static let clientName = "CostandUsageReportClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: CostandUsageReportClient.CostandUsageReportClientConfiguration
     let serviceName = "Cost and Usage Report"
@@ -329,7 +329,7 @@ extension CostandUsageReportClient {
 }
 
 extension CostandUsageReportClient {
-    /// Performs the `DeleteReportDefinition` operation on the `AWSOrigamiServiceGatewayService` service.
+    /// Performs the `DeleteReportDefinition` operation on the `CostandUsageReport` service.
     ///
     /// Deletes the specified report. Any tags associated with the report are also deleted.
     ///
@@ -400,7 +400,7 @@ extension CostandUsageReportClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeReportDefinitions` operation on the `AWSOrigamiServiceGatewayService` service.
+    /// Performs the `DescribeReportDefinitions` operation on the `CostandUsageReport` service.
     ///
     /// Lists the Amazon Web Services Cost and Usage Report available to this account.
     ///
@@ -470,7 +470,7 @@ extension CostandUsageReportClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `AWSOrigamiServiceGatewayService` service.
+    /// Performs the `ListTagsForResource` operation on the `CostandUsageReport` service.
     ///
     /// Lists the tags associated with the specified report definition.
     ///
@@ -542,7 +542,7 @@ extension CostandUsageReportClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyReportDefinition` operation on the `AWSOrigamiServiceGatewayService` service.
+    /// Performs the `ModifyReportDefinition` operation on the `CostandUsageReport` service.
     ///
     /// Allows you to programmatically update your report preferences.
     ///
@@ -613,7 +613,7 @@ extension CostandUsageReportClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutReportDefinition` operation on the `AWSOrigamiServiceGatewayService` service.
+    /// Performs the `PutReportDefinition` operation on the `CostandUsageReport` service.
     ///
     /// Creates a new report using the description that you provide.
     ///
@@ -687,7 +687,7 @@ extension CostandUsageReportClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `AWSOrigamiServiceGatewayService` service.
+    /// Performs the `TagResource` operation on the `CostandUsageReport` service.
     ///
     /// Associates a set of tags with a report definition.
     ///
@@ -759,7 +759,7 @@ extension CostandUsageReportClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `AWSOrigamiServiceGatewayService` service.
+    /// Performs the `UntagResource` operation on the `CostandUsageReport` service.
     ///
     /// Disassociates a set of tags from a report definition.
     ///

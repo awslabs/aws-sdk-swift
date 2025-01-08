@@ -63,7 +63,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CloudTrailDataClient: ClientRuntime.Client {
     public static let clientName = "CloudTrailDataClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: CloudTrailDataClient.CloudTrailDataClientConfiguration
     let serviceName = "CloudTrail Data"
@@ -329,7 +329,7 @@ extension CloudTrailDataClient {
 }
 
 extension CloudTrailDataClient {
-    /// Performs the `PutAuditEvents` operation on the `CloudTrailDataService` service.
+    /// Performs the `PutAuditEvents` operation on the `CloudTrailData` service.
     ///
     /// Ingests your application events into CloudTrail Lake. A required parameter, auditEvents, accepts the JSON records (also called payload) of events that you want CloudTrail to ingest. You can add up to 100 of these events (or up to 1 MB) per PutAuditEvents request.
     ///

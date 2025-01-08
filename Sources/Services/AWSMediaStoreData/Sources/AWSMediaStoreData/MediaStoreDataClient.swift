@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MediaStoreDataClient: ClientRuntime.Client {
     public static let clientName = "MediaStoreDataClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: MediaStoreDataClient.MediaStoreDataClientConfiguration
     let serviceName = "MediaStore Data"
@@ -331,7 +331,7 @@ extension MediaStoreDataClient {
 }
 
 extension MediaStoreDataClient {
-    /// Performs the `DeleteObject` operation on the `MediaStoreObject_20170901` service.
+    /// Performs the `DeleteObject` operation on the `MediaStoreData` service.
     ///
     /// Deletes an object at the specified path.
     ///
@@ -399,7 +399,7 @@ extension MediaStoreDataClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeObject` operation on the `MediaStoreObject_20170901` service.
+    /// Performs the `DescribeObject` operation on the `MediaStoreData` service.
     ///
     /// Gets the headers for an object at the specified path.
     ///
@@ -467,7 +467,7 @@ extension MediaStoreDataClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetObject` operation on the `MediaStoreObject_20170901` service.
+    /// Performs the `GetObject` operation on the `MediaStoreData` service.
     ///
     /// Downloads the object at the specified path. If the object’s upload availability is set to streaming, AWS Elemental MediaStore downloads the object even if it’s still uploading the object.
     ///
@@ -537,7 +537,7 @@ extension MediaStoreDataClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListItems` operation on the `MediaStoreObject_20170901` service.
+    /// Performs the `ListItems` operation on the `MediaStoreData` service.
     ///
     /// Provides a list of metadata entries about folders and objects in the specified folder.
     ///
@@ -605,7 +605,7 @@ extension MediaStoreDataClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutObject` operation on the `MediaStoreObject_20170901` service.
+    /// Performs the `PutObject` operation on the `MediaStoreData` service.
     ///
     /// Uploads an object to the specified path. Object sizes are limited to 25 MB for standard upload availability and 10 MB for streaming upload availability.
     ///
