@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class LakeFormationClient: ClientRuntime.Client {
     public static let clientName = "LakeFormationClient"
-    public static let version = "1.0.69"
+    public static let version = "1.0.74"
     let client: ClientRuntime.SdkHttpClient
     let config: LakeFormationClient.LakeFormationClientConfiguration
     let serviceName = "LakeFormation"
@@ -330,7 +330,7 @@ extension LakeFormationClient {
 }
 
 extension LakeFormationClient {
-    /// Performs the `AddLFTagsToResource` operation on the `AWSLakeFormation` service.
+    /// Performs the `AddLFTagsToResource` operation on the `LakeFormation` service.
     ///
     /// Attaches one or more LF-tags to an existing resource.
     ///
@@ -404,7 +404,7 @@ extension LakeFormationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssumeDecoratedRoleWithSAML` operation on the `AWSLakeFormation` service.
+    /// Performs the `AssumeDecoratedRoleWithSAML` operation on the `LakeFormation` service.
     ///
     /// Allows a caller to assume an IAM role decorated as the SAML user specified in the SAML assertion included in the request. This decoration allows Lake Formation to enforce access policies against the SAML users and groups. This API operation requires SAML federation setup in the caller’s account as it can only be called with valid SAML assertions. Lake Formation does not scope down the permission of the assumed role. All permissions attached to the role via the SAML federation setup will be included in the role session. This decorated role is expected to access data in Amazon S3 by getting temporary access from Lake Formation which is authorized via the virtual API GetDataAccess. Therefore, all SAML roles that can be assumed via AssumeDecoratedRoleWithSAML must at a minimum include lakeformation:GetDataAccess in their role policies. A typical IAM policy attached to such a role would look as follows:
     ///
@@ -477,7 +477,7 @@ extension LakeFormationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchGrantPermissions` operation on the `AWSLakeFormation` service.
+    /// Performs the `BatchGrantPermissions` operation on the `LakeFormation` service.
     ///
     /// Batch operation to grant permissions to the principal.
     ///
@@ -547,7 +547,7 @@ extension LakeFormationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchRevokePermissions` operation on the `AWSLakeFormation` service.
+    /// Performs the `BatchRevokePermissions` operation on the `LakeFormation` service.
     ///
     /// Batch operation to revoke permissions from the principal.
     ///
@@ -617,7 +617,7 @@ extension LakeFormationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CancelTransaction` operation on the `AWSLakeFormation` service.
+    /// Performs the `CancelTransaction` operation on the `LakeFormation` service.
     ///
     /// Attempts to cancel the specified transaction. Returns an exception if the transaction was previously committed.
     ///
@@ -692,7 +692,7 @@ extension LakeFormationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CommitTransaction` operation on the `AWSLakeFormation` service.
+    /// Performs the `CommitTransaction` operation on the `LakeFormation` service.
     ///
     /// Attempts to commit the specified transaction. Returns an exception if the transaction was previously aborted. This API action is idempotent if called multiple times for the same transaction.
     ///
@@ -766,7 +766,7 @@ extension LakeFormationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateDataCellsFilter` operation on the `AWSLakeFormation` service.
+    /// Performs the `CreateDataCellsFilter` operation on the `LakeFormation` service.
     ///
     /// Creates a data cell filter to allow one to grant access to certain columns on certain rows.
     ///
@@ -841,7 +841,7 @@ extension LakeFormationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateLFTag` operation on the `AWSLakeFormation` service.
+    /// Performs the `CreateLFTag` operation on the `LakeFormation` service.
     ///
     /// Creates an LF-tag with the specified name and values.
     ///
@@ -915,7 +915,7 @@ extension LakeFormationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateLFTagExpression` operation on the `AWSLakeFormation` service.
+    /// Performs the `CreateLFTagExpression` operation on the `LakeFormation` service.
     ///
     /// Creates a new LF-Tag expression with the provided name, description, catalog ID, and expression body. This call fails if a LF-Tag expression with the same name already exists in the caller’s account or if the underlying LF-Tags don't exist. To call this API operation, caller needs the following Lake Formation permissions: CREATE_LF_TAG_EXPRESSION on the root catalog resource. GRANT_WITH_LF_TAG_EXPRESSION on all underlying LF-Tag key:value pairs included in the expression.
     ///
@@ -989,7 +989,7 @@ extension LakeFormationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateLakeFormationIdentityCenterConfiguration` operation on the `AWSLakeFormation` service.
+    /// Performs the `CreateLakeFormationIdentityCenterConfiguration` operation on the `LakeFormation` service.
     ///
     /// Creates an IAM Identity Center connection with Lake Formation to allow IAM Identity Center users and groups to access Data Catalog resources.
     ///
@@ -1063,7 +1063,7 @@ extension LakeFormationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateLakeFormationOptIn` operation on the `AWSLakeFormation` service.
+    /// Performs the `CreateLakeFormationOptIn` operation on the `LakeFormation` service.
     ///
     /// Enforce Lake Formation permissions for the given databases, tables, and principals.
     ///
@@ -1137,7 +1137,7 @@ extension LakeFormationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteDataCellsFilter` operation on the `AWSLakeFormation` service.
+    /// Performs the `DeleteDataCellsFilter` operation on the `LakeFormation` service.
     ///
     /// Deletes a data cell filter.
     ///
@@ -1210,7 +1210,7 @@ extension LakeFormationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteLFTag` operation on the `AWSLakeFormation` service.
+    /// Performs the `DeleteLFTag` operation on the `LakeFormation` service.
     ///
     /// Deletes the specified LF-tag given a key name. If the input parameter tag key was not found, then the operation will throw an exception. When you delete an LF-tag, the LFTagPolicy attached to the LF-tag becomes invalid. If the deleted LF-tag was still assigned to any resource, the tag policy attach to the deleted LF-tag will no longer be applied to the resource.
     ///
@@ -1283,7 +1283,7 @@ extension LakeFormationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteLFTagExpression` operation on the `AWSLakeFormation` service.
+    /// Performs the `DeleteLFTagExpression` operation on the `LakeFormation` service.
     ///
     /// Deletes the LF-Tag expression. The caller must be a data lake admin or have DROP permissions on the LF-Tag expression. Deleting a LF-Tag expression will also delete all LFTagPolicy permissions referencing the LF-Tag expression.
     ///
@@ -1356,7 +1356,7 @@ extension LakeFormationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteLakeFormationIdentityCenterConfiguration` operation on the `AWSLakeFormation` service.
+    /// Performs the `DeleteLakeFormationIdentityCenterConfiguration` operation on the `LakeFormation` service.
     ///
     /// Deletes an IAM Identity Center connection with Lake Formation.
     ///
@@ -1430,7 +1430,7 @@ extension LakeFormationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteLakeFormationOptIn` operation on the `AWSLakeFormation` service.
+    /// Performs the `DeleteLakeFormationOptIn` operation on the `LakeFormation` service.
     ///
     /// Remove the Lake Formation permissions enforcement of the given databases, tables, and principals.
     ///
@@ -1504,7 +1504,7 @@ extension LakeFormationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteObjectsOnCancel` operation on the `AWSLakeFormation` service.
+    /// Performs the `DeleteObjectsOnCancel` operation on the `LakeFormation` service.
     ///
     /// For a specific governed table, provides a list of Amazon S3 objects that will be written during the current transaction and that can be automatically deleted if the transaction is canceled. Without this call, no Amazon S3 objects are automatically deleted when a transaction cancels. The Glue ETL library function write_dynamic_frame.from_catalog() includes an option to automatically call DeleteObjectsOnCancel before writes. For more information, see [Rolling Back Amazon S3 Writes](https://docs.aws.amazon.com/lake-formation/latest/dg/transactions-data-operations.html#rolling-back-writes).
     ///
@@ -1580,7 +1580,7 @@ extension LakeFormationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeregisterResource` operation on the `AWSLakeFormation` service.
+    /// Performs the `DeregisterResource` operation on the `LakeFormation` service.
     ///
     /// Deregisters the resource as managed by the Data Catalog. When you deregister a path, Lake Formation removes the path from the inline policy attached to your service-linked role.
     ///
@@ -1652,7 +1652,7 @@ extension LakeFormationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeLakeFormationIdentityCenterConfiguration` operation on the `AWSLakeFormation` service.
+    /// Performs the `DescribeLakeFormationIdentityCenterConfiguration` operation on the `LakeFormation` service.
     ///
     /// Retrieves the instance ARN and application ARN for the connection.
     ///
@@ -1725,7 +1725,7 @@ extension LakeFormationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeResource` operation on the `AWSLakeFormation` service.
+    /// Performs the `DescribeResource` operation on the `LakeFormation` service.
     ///
     /// Retrieves the current data access role for the given resource registered in Lake Formation.
     ///
@@ -1797,7 +1797,7 @@ extension LakeFormationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeTransaction` operation on the `AWSLakeFormation` service.
+    /// Performs the `DescribeTransaction` operation on the `LakeFormation` service.
     ///
     /// Returns the details of a single transaction.
     ///
@@ -1869,7 +1869,7 @@ extension LakeFormationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ExtendTransaction` operation on the `AWSLakeFormation` service.
+    /// Performs the `ExtendTransaction` operation on the `LakeFormation` service.
     ///
     /// Indicates to the service that the specified transaction is still active and should not be treated as idle and aborted. Write transactions that remain idle for a long period are automatically aborted unless explicitly extended.
     ///
@@ -1944,7 +1944,7 @@ extension LakeFormationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDataCellsFilter` operation on the `AWSLakeFormation` service.
+    /// Performs the `GetDataCellsFilter` operation on the `LakeFormation` service.
     ///
     /// Returns a data cells filter.
     ///
@@ -2017,7 +2017,7 @@ extension LakeFormationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDataLakePrincipal` operation on the `AWSLakeFormation` service.
+    /// Performs the `GetDataLakePrincipal` operation on the `LakeFormation` service.
     ///
     /// Returns the identity of the invoking principal.
     ///
@@ -2085,7 +2085,7 @@ extension LakeFormationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDataLakeSettings` operation on the `AWSLakeFormation` service.
+    /// Performs the `GetDataLakeSettings` operation on the `LakeFormation` service.
     ///
     /// Retrieves the list of the data lake administrators of a Lake Formation-managed data lake.
     ///
@@ -2156,7 +2156,7 @@ extension LakeFormationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetEffectivePermissionsForPath` operation on the `AWSLakeFormation` service.
+    /// Performs the `GetEffectivePermissionsForPath` operation on the `LakeFormation` service.
     ///
     /// Returns the Lake Formation permissions for a specified table or database resource located at a path in Amazon S3. GetEffectivePermissionsForPath will not return databases and tables if the catalog is encrypted.
     ///
@@ -2228,7 +2228,7 @@ extension LakeFormationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetLFTag` operation on the `AWSLakeFormation` service.
+    /// Performs the `GetLFTag` operation on the `LakeFormation` service.
     ///
     /// Returns an LF-tag definition.
     ///
@@ -2301,7 +2301,7 @@ extension LakeFormationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetLFTagExpression` operation on the `AWSLakeFormation` service.
+    /// Performs the `GetLFTagExpression` operation on the `LakeFormation` service.
     ///
     /// Returns the details about the LF-Tag expression. The caller must be a data lake admin or must have DESCRIBE permission on the LF-Tag expression resource.
     ///
@@ -2374,7 +2374,7 @@ extension LakeFormationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetQueryState` operation on the `AWSLakeFormation` service.
+    /// Performs the `GetQueryState` operation on the `LakeFormation` service.
     ///
     /// Returns the state of a query previously submitted. Clients are expected to poll GetQueryState to monitor the current state of the planning before retrieving the work units. A query state is only visible to the principal that made the initial call to StartQueryPlanning.
     ///
@@ -2445,7 +2445,7 @@ extension LakeFormationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetQueryStatistics` operation on the `AWSLakeFormation` service.
+    /// Performs the `GetQueryStatistics` operation on the `LakeFormation` service.
     ///
     /// Retrieves statistics on the planning and execution of a query.
     ///
@@ -2519,7 +2519,7 @@ extension LakeFormationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetResourceLFTags` operation on the `AWSLakeFormation` service.
+    /// Performs the `GetResourceLFTags` operation on the `LakeFormation` service.
     ///
     /// Returns the LF-tags applied to a resource.
     ///
@@ -2593,7 +2593,7 @@ extension LakeFormationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetTableObjects` operation on the `AWSLakeFormation` service.
+    /// Performs the `GetTableObjects` operation on the `LakeFormation` service.
     ///
     /// Returns the set of Amazon S3 objects that make up the specified governed table. A transaction ID or timestamp can be specified for time-travel queries.
     ///
@@ -2668,7 +2668,7 @@ extension LakeFormationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetTemporaryGluePartitionCredentials` operation on the `AWSLakeFormation` service.
+    /// Performs the `GetTemporaryGluePartitionCredentials` operation on the `LakeFormation` service.
     ///
     /// This API is identical to GetTemporaryTableCredentials except that this is used when the target Data Catalog resource is of type Partition. Lake Formation restricts the permission of the vended credentials with the same scope down policy which restricts access to a single Amazon S3 prefix.
     ///
@@ -2742,7 +2742,7 @@ extension LakeFormationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetTemporaryGlueTableCredentials` operation on the `AWSLakeFormation` service.
+    /// Performs the `GetTemporaryGlueTableCredentials` operation on the `LakeFormation` service.
     ///
     /// Allows a caller in a secure environment to assume a role with permission to access Amazon S3. In order to vend such credentials, Lake Formation assumes the role associated with a registered location, for example an Amazon S3 bucket, with a scope down policy which restricts the access to a single prefix. To call this API, the role that the service assumes must have lakeformation:GetDataAccess permission on the resource.
     ///
@@ -2816,7 +2816,7 @@ extension LakeFormationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetWorkUnitResults` operation on the `AWSLakeFormation` service.
+    /// Performs the `GetWorkUnitResults` operation on the `LakeFormation` service.
     ///
     /// Returns the work units resulting from the query. Work units can be executed in any order and in parallel.
     ///
@@ -2889,7 +2889,7 @@ extension LakeFormationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetWorkUnits` operation on the `AWSLakeFormation` service.
+    /// Performs the `GetWorkUnits` operation on the `LakeFormation` service.
     ///
     /// Retrieves the work units generated by the StartQueryPlanning operation.
     ///
@@ -2962,7 +2962,7 @@ extension LakeFormationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GrantPermissions` operation on the `AWSLakeFormation` service.
+    /// Performs the `GrantPermissions` operation on the `LakeFormation` service.
     ///
     /// Grants permissions to the principal to access metadata in the Data Catalog and data organized in underlying data storage such as Amazon S3. For information about permissions, see [Security and Access Control to Metadata and Data](https://docs.aws.amazon.com/lake-formation/latest/dg/security-data-access.html).
     ///
@@ -3033,7 +3033,7 @@ extension LakeFormationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDataCellsFilter` operation on the `AWSLakeFormation` service.
+    /// Performs the `ListDataCellsFilter` operation on the `LakeFormation` service.
     ///
     /// Lists all the data cell filters on a table.
     ///
@@ -3105,7 +3105,7 @@ extension LakeFormationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListLFTagExpressions` operation on the `AWSLakeFormation` service.
+    /// Performs the `ListLFTagExpressions` operation on the `LakeFormation` service.
     ///
     /// Returns the LF-Tag expressions in caller’s account filtered based on caller's permissions. Data Lake and read only admins implicitly can see all tag expressions in their account, else caller needs DESCRIBE permissions on tag expression.
     ///
@@ -3178,7 +3178,7 @@ extension LakeFormationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListLFTags` operation on the `AWSLakeFormation` service.
+    /// Performs the `ListLFTags` operation on the `LakeFormation` service.
     ///
     /// Lists LF-tags that the requester has permission to view.
     ///
@@ -3251,7 +3251,7 @@ extension LakeFormationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListLakeFormationOptIns` operation on the `AWSLakeFormation` service.
+    /// Performs the `ListLakeFormationOptIns` operation on the `LakeFormation` service.
     ///
     /// Retrieve the current list of resources and principals that are opt in to enforce Lake Formation permissions.
     ///
@@ -3323,7 +3323,7 @@ extension LakeFormationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListPermissions` operation on the `AWSLakeFormation` service.
+    /// Performs the `ListPermissions` operation on the `LakeFormation` service.
     ///
     /// Returns a list of the principal permissions on the resource, filtered by the permissions of the caller. For example, if you are granted an ALTER permission, you are able to see only the principal permissions for ALTER. This operation returns only those permissions that have been explicitly granted. For information about permissions, see [Security and Access Control to Metadata and Data](https://docs.aws.amazon.com/lake-formation/latest/dg/security-data-access.html).
     ///
@@ -3394,7 +3394,7 @@ extension LakeFormationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListResources` operation on the `AWSLakeFormation` service.
+    /// Performs the `ListResources` operation on the `LakeFormation` service.
     ///
     /// Lists the resources registered to be managed by the Data Catalog.
     ///
@@ -3465,7 +3465,7 @@ extension LakeFormationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTableStorageOptimizers` operation on the `AWSLakeFormation` service.
+    /// Performs the `ListTableStorageOptimizers` operation on the `LakeFormation` service.
     ///
     /// Returns the configuration of all storage optimizers associated with a specified table.
     ///
@@ -3537,7 +3537,7 @@ extension LakeFormationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTransactions` operation on the `AWSLakeFormation` service.
+    /// Performs the `ListTransactions` operation on the `LakeFormation` service.
     ///
     /// Returns metadata about transactions and their status. To prevent the response from growing indefinitely, only uncommitted transactions and those available for time-travel queries are returned. This operation can help you identify uncommitted transactions or to get information about transactions.
     ///
@@ -3608,7 +3608,7 @@ extension LakeFormationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutDataLakeSettings` operation on the `AWSLakeFormation` service.
+    /// Performs the `PutDataLakeSettings` operation on the `LakeFormation` service.
     ///
     /// Sets the list of data lake administrators who have admin privileges on all resources managed by Lake Formation. For more information on admin privileges, see [Granting Lake Formation Permissions](https://docs.aws.amazon.com/lake-formation/latest/dg/lake-formation-permissions.html). This API replaces the current list of data lake admins with the new list being passed. To add an admin, fetch the current list and add the new admin to that list and pass that list in this API.
     ///
@@ -3678,7 +3678,7 @@ extension LakeFormationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RegisterResource` operation on the `AWSLakeFormation` service.
+    /// Performs the `RegisterResource` operation on the `LakeFormation` service.
     ///
     /// Registers the resource as managed by the Data Catalog. To add or update data, Lake Formation needs read/write access to the chosen Amazon S3 path. Choose a role that you know has permission to do this, or choose the AWSServiceRoleForLakeFormationDataAccess service-linked role. When you register the first Amazon S3 path, the service-linked role and a new inline policy are created on your behalf. Lake Formation adds the first path to the inline policy and attaches it to the service-linked role. When you register subsequent paths, Lake Formation adds the path to the existing policy. The following request registers a new location and gives Lake Formation permission to use the service-linked role to access that location. ResourceArn = arn:aws:s3:::my-bucket/ UseServiceLinkedRole = true If UseServiceLinkedRole is not set to true, you must provide or set the RoleArn: arn:aws:iam::12345:role/my-data-access-role
     ///
@@ -3753,7 +3753,7 @@ extension LakeFormationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RemoveLFTagsFromResource` operation on the `AWSLakeFormation` service.
+    /// Performs the `RemoveLFTagsFromResource` operation on the `LakeFormation` service.
     ///
     /// Removes an LF-tag from the resource. Only database, table, or tableWithColumns resource are allowed. To tag columns, use the column inclusion list in tableWithColumns to specify column input.
     ///
@@ -3828,7 +3828,7 @@ extension LakeFormationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RevokePermissions` operation on the `AWSLakeFormation` service.
+    /// Performs the `RevokePermissions` operation on the `LakeFormation` service.
     ///
     /// Revokes permissions to the principal to access metadata in the Data Catalog and data organized in underlying data storage such as Amazon S3.
     ///
@@ -3899,7 +3899,7 @@ extension LakeFormationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SearchDatabasesByLFTags` operation on the `AWSLakeFormation` service.
+    /// Performs the `SearchDatabasesByLFTags` operation on the `LakeFormation` service.
     ///
     /// This operation allows a search on DATABASE resources by TagCondition. This operation is used by admins who want to grant user permissions on certain TagConditions. Before making a grant, the admin can use SearchDatabasesByTags to find all resources where the given TagConditions are valid to verify whether the returned resources can be shared.
     ///
@@ -3973,7 +3973,7 @@ extension LakeFormationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SearchTablesByLFTags` operation on the `AWSLakeFormation` service.
+    /// Performs the `SearchTablesByLFTags` operation on the `LakeFormation` service.
     ///
     /// This operation allows a search on TABLE resources by LFTags. This will be used by admins who want to grant user permissions on certain LF-tags. Before making a grant, the admin can use SearchTablesByLFTags to find all resources where the given LFTags are valid to verify whether the returned resources can be shared.
     ///
@@ -4047,7 +4047,7 @@ extension LakeFormationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartQueryPlanning` operation on the `AWSLakeFormation` service.
+    /// Performs the `StartQueryPlanning` operation on the `LakeFormation` service.
     ///
     /// Submits a request to process a query statement. This operation generates work units that can be retrieved with the GetWorkUnits operation as soon as the query state is WORKUNITS_AVAILABLE or FINISHED.
     ///
@@ -4119,7 +4119,7 @@ extension LakeFormationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartTransaction` operation on the `AWSLakeFormation` service.
+    /// Performs the `StartTransaction` operation on the `LakeFormation` service.
     ///
     /// Starts a new transaction and returns its transaction ID. Transaction IDs are opaque objects that you can use to identify a transaction.
     ///
@@ -4189,7 +4189,7 @@ extension LakeFormationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateDataCellsFilter` operation on the `AWSLakeFormation` service.
+    /// Performs the `UpdateDataCellsFilter` operation on the `LakeFormation` service.
     ///
     /// Updates a data cell filter.
     ///
@@ -4263,7 +4263,7 @@ extension LakeFormationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateLFTag` operation on the `AWSLakeFormation` service.
+    /// Performs the `UpdateLFTag` operation on the `LakeFormation` service.
     ///
     /// Updates the list of possible values for the specified LF-tag key. If the LF-tag does not exist, the operation throws an EntityNotFoundException. The values in the delete key values will be deleted from list of possible values. If any value in the delete key values is attached to a resource, then API errors out with a 400 Exception - "Update not allowed". Untag the attribute before deleting the LF-tag key's value.
     ///
@@ -4337,7 +4337,7 @@ extension LakeFormationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateLFTagExpression` operation on the `AWSLakeFormation` service.
+    /// Performs the `UpdateLFTagExpression` operation on the `LakeFormation` service.
     ///
     /// Updates the name of the LF-Tag expression to the new description and expression body provided. Updating a LF-Tag expression immediately changes the permission boundaries of all existing LFTagPolicy permission grants that reference the given LF-Tag expression.
     ///
@@ -4411,7 +4411,7 @@ extension LakeFormationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateLakeFormationIdentityCenterConfiguration` operation on the `AWSLakeFormation` service.
+    /// Performs the `UpdateLakeFormationIdentityCenterConfiguration` operation on the `LakeFormation` service.
     ///
     /// Updates the IAM Identity Center connection parameters.
     ///
@@ -4485,7 +4485,7 @@ extension LakeFormationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateResource` operation on the `AWSLakeFormation` service.
+    /// Performs the `UpdateResource` operation on the `LakeFormation` service.
     ///
     /// Updates the data access role used for vending access to the given (registered) resource in Lake Formation.
     ///
@@ -4557,7 +4557,7 @@ extension LakeFormationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateTableObjects` operation on the `AWSLakeFormation` service.
+    /// Performs the `UpdateTableObjects` operation on the `LakeFormation` service.
     ///
     /// Updates the manifest of Amazon S3 objects that make up the specified governed table.
     ///
@@ -4634,7 +4634,7 @@ extension LakeFormationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateTableStorageOptimizer` operation on the `AWSLakeFormation` service.
+    /// Performs the `UpdateTableStorageOptimizer` operation on the `LakeFormation` service.
     ///
     /// Updates the configuration of the storage optimizers for a table.
     ///

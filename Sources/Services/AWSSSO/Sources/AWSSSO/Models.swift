@@ -44,8 +44,7 @@ extension SSOClientTypes {
             accountId: Swift.String? = nil,
             accountName: Swift.String? = nil,
             emailAddress: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.accountName = accountName
             self.emailAddress = emailAddress
@@ -71,8 +70,7 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -95,8 +93,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -119,8 +116,7 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -143,8 +139,7 @@ public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -164,8 +159,7 @@ public struct GetRoleCredentialsInput: Swift.Sendable {
         accessToken: Swift.String? = nil,
         accountId: Swift.String? = nil,
         roleName: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessToken = accessToken
         self.accountId = accountId
         self.roleName = roleName
@@ -195,8 +189,7 @@ extension SSOClientTypes {
             expiration: Swift.Int = 0,
             secretAccessKey: Swift.String? = nil,
             sessionToken: Swift.String? = nil
-        )
-        {
+        ) {
             self.accessKeyId = accessKeyId
             self.expiration = expiration
             self.secretAccessKey = secretAccessKey
@@ -216,8 +209,7 @@ public struct GetRoleCredentialsOutput: Swift.Sendable {
 
     public init(
         roleCredentials: SSOClientTypes.RoleCredentials? = nil
-    )
-    {
+    ) {
         self.roleCredentials = roleCredentials
     }
 }
@@ -239,8 +231,7 @@ public struct ListAccountRolesInput: Swift.Sendable {
         accountId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessToken = accessToken
         self.accountId = accountId
         self.maxResults = maxResults
@@ -265,8 +256,7 @@ extension SSOClientTypes {
         public init(
             accountId: Swift.String? = nil,
             roleName: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.roleName = roleName
         }
@@ -282,8 +272,7 @@ public struct ListAccountRolesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         roleList: [SSOClientTypes.RoleInfo]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.roleList = roleList
     }
@@ -302,8 +291,7 @@ public struct ListAccountsInput: Swift.Sendable {
         accessToken: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessToken = accessToken
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -324,8 +312,7 @@ public struct ListAccountsOutput: Swift.Sendable {
     public init(
         accountList: [SSOClientTypes.AccountInfo]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountList = accountList
         self.nextToken = nextToken
     }
@@ -338,8 +325,7 @@ public struct LogoutInput: Swift.Sendable {
 
     public init(
         accessToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessToken = accessToken
     }
 }

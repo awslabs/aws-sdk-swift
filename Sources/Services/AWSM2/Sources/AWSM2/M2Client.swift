@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class M2Client: ClientRuntime.Client {
     public static let clientName = "M2Client"
-    public static let version = "1.0.69"
+    public static let version = "1.0.74"
     let client: ClientRuntime.SdkHttpClient
     let config: M2Client.M2ClientConfiguration
     let serviceName = "m2"
@@ -331,7 +331,7 @@ extension M2Client {
 }
 
 extension M2Client {
-    /// Performs the `CancelBatchJobExecution` operation on the `AwsSupernovaControlPlaneService` service.
+    /// Performs the `CancelBatchJobExecution` operation on the `M2` service.
     ///
     /// Cancels the running of a specific batch job execution.
     ///
@@ -405,7 +405,7 @@ extension M2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateApplication` operation on the `AwsSupernovaControlPlaneService` service.
+    /// Performs the `CreateApplication` operation on the `M2` service.
     ///
     /// Creates a new application with given parameters. Requires an existing runtime environment and application definition file.
     ///
@@ -480,7 +480,7 @@ extension M2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateDataSetImportTask` operation on the `AwsSupernovaControlPlaneService` service.
+    /// Performs the `CreateDataSetImportTask` operation on the `M2` service.
     ///
     /// Starts a data set import task for a specific application.
     ///
@@ -556,7 +556,7 @@ extension M2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateDeployment` operation on the `AwsSupernovaControlPlaneService` service.
+    /// Performs the `CreateDeployment` operation on the `M2` service.
     ///
     /// Creates and starts a deployment to deploy an application into a runtime environment.
     ///
@@ -632,7 +632,7 @@ extension M2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateEnvironment` operation on the `AwsSupernovaControlPlaneService` service.
+    /// Performs the `CreateEnvironment` operation on the `M2` service.
     ///
     /// Creates a runtime environment for a given runtime engine.
     ///
@@ -707,7 +707,7 @@ extension M2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteApplication` operation on the `AwsSupernovaControlPlaneService` service.
+    /// Performs the `DeleteApplication` operation on the `M2` service.
     ///
     /// Deletes a specific application. You cannot delete a running application.
     ///
@@ -777,7 +777,7 @@ extension M2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteApplicationFromEnvironment` operation on the `AwsSupernovaControlPlaneService` service.
+    /// Performs the `DeleteApplicationFromEnvironment` operation on the `M2` service.
     ///
     /// Deletes a specific application from the specific runtime environment where it was previously deployed. You cannot delete a runtime environment using DeleteEnvironment if any application has ever been deployed to it. This API removes the association of the application with the runtime environment so you can delete the environment smoothly.
     ///
@@ -848,7 +848,7 @@ extension M2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteEnvironment` operation on the `AwsSupernovaControlPlaneService` service.
+    /// Performs the `DeleteEnvironment` operation on the `M2` service.
     ///
     /// Deletes a specific runtime environment. The environment cannot contain deployed applications. If it does, you must delete those applications before you delete the environment.
     ///
@@ -918,7 +918,7 @@ extension M2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetApplication` operation on the `AwsSupernovaControlPlaneService` service.
+    /// Performs the `GetApplication` operation on the `M2` service.
     ///
     /// Describes the details of a specific application.
     ///
@@ -988,7 +988,7 @@ extension M2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetApplicationVersion` operation on the `AwsSupernovaControlPlaneService` service.
+    /// Performs the `GetApplicationVersion` operation on the `M2` service.
     ///
     /// Returns details about a specific version of a specific application.
     ///
@@ -1058,7 +1058,7 @@ extension M2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetBatchJobExecution` operation on the `AwsSupernovaControlPlaneService` service.
+    /// Performs the `GetBatchJobExecution` operation on the `M2` service.
     ///
     /// Gets the details of a specific batch job execution for a specific application.
     ///
@@ -1128,7 +1128,7 @@ extension M2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDataSetDetails` operation on the `AwsSupernovaControlPlaneService` service.
+    /// Performs the `GetDataSetDetails` operation on the `M2` service.
     ///
     /// Gets the details of a specific data set.
     ///
@@ -1201,7 +1201,7 @@ extension M2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDataSetImportTask` operation on the `AwsSupernovaControlPlaneService` service.
+    /// Performs the `GetDataSetImportTask` operation on the `M2` service.
     ///
     /// Gets the status of a data set import task initiated with the [CreateDataSetImportTask] operation.
     ///
@@ -1271,7 +1271,7 @@ extension M2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDeployment` operation on the `AwsSupernovaControlPlaneService` service.
+    /// Performs the `GetDeployment` operation on the `M2` service.
     ///
     /// Gets details of a specific deployment with a given deployment identifier.
     ///
@@ -1341,7 +1341,7 @@ extension M2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetEnvironment` operation on the `AwsSupernovaControlPlaneService` service.
+    /// Performs the `GetEnvironment` operation on the `M2` service.
     ///
     /// Describes a specific runtime environment.
     ///
@@ -1411,7 +1411,7 @@ extension M2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetSignedBluinsightsUrl` operation on the `AwsSupernovaControlPlaneService` service.
+    /// Performs the `GetSignedBluinsightsUrl` operation on the `M2` service.
     ///
     /// Gets a single sign-on URL that can be used to connect to AWS Blu Insights.
     ///
@@ -1479,7 +1479,7 @@ extension M2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListApplicationVersions` operation on the `AwsSupernovaControlPlaneService` service.
+    /// Performs the `ListApplicationVersions` operation on the `M2` service.
     ///
     /// Returns a list of the application versions for a specific application.
     ///
@@ -1550,7 +1550,7 @@ extension M2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListApplications` operation on the `AwsSupernovaControlPlaneService` service.
+    /// Performs the `ListApplications` operation on the `M2` service.
     ///
     /// Lists the applications associated with a specific Amazon Web Services account. You can provide the unique identifier of a specific runtime environment in a query parameter to see all applications associated with that environment.
     ///
@@ -1620,7 +1620,7 @@ extension M2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListBatchJobDefinitions` operation on the `AwsSupernovaControlPlaneService` service.
+    /// Performs the `ListBatchJobDefinitions` operation on the `M2` service.
     ///
     /// Lists all the available batch job definitions based on the batch job resources uploaded during the application creation. You can use the batch job definitions in the list to start a batch job.
     ///
@@ -1691,7 +1691,7 @@ extension M2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListBatchJobExecutions` operation on the `AwsSupernovaControlPlaneService` service.
+    /// Performs the `ListBatchJobExecutions` operation on the `M2` service.
     ///
     /// Lists historical, current, and scheduled batch job executions for a specific application.
     ///
@@ -1762,7 +1762,7 @@ extension M2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListBatchJobRestartPoints` operation on the `AwsSupernovaControlPlaneService` service.
+    /// Performs the `ListBatchJobRestartPoints` operation on the `M2` service.
     ///
     /// Lists all the job steps for a JCL file to restart a batch job. This is only applicable for Micro Focus engine with versions 8.0.6 and above.
     ///
@@ -1834,7 +1834,7 @@ extension M2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDataSetImportHistory` operation on the `AwsSupernovaControlPlaneService` service.
+    /// Performs the `ListDataSetImportHistory` operation on the `M2` service.
     ///
     /// Lists the data set imports for the specified application.
     ///
@@ -1905,7 +1905,7 @@ extension M2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDataSets` operation on the `AwsSupernovaControlPlaneService` service.
+    /// Performs the `ListDataSets` operation on the `M2` service.
     ///
     /// Lists the data sets imported for a specific application. In Amazon Web Services Mainframe Modernization, data sets are associated with applications deployed on runtime environments. This is known as importing data sets. Currently, Amazon Web Services Mainframe Modernization can import data sets into catalogs using [CreateDataSetImportTask](https://docs.aws.amazon.com/m2/latest/APIReference/API_CreateDataSetImportTask.html).
     ///
@@ -1979,7 +1979,7 @@ extension M2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDeployments` operation on the `AwsSupernovaControlPlaneService` service.
+    /// Performs the `ListDeployments` operation on the `M2` service.
     ///
     /// Returns a list of all deployments of a specific application. A deployment is a combination of a specific application and a specific version of that application. Each deployment is mapped to a particular application version.
     ///
@@ -2050,7 +2050,7 @@ extension M2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListEngineVersions` operation on the `AwsSupernovaControlPlaneService` service.
+    /// Performs the `ListEngineVersions` operation on the `M2` service.
     ///
     /// Lists the available engine versions.
     ///
@@ -2120,7 +2120,7 @@ extension M2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListEnvironments` operation on the `AwsSupernovaControlPlaneService` service.
+    /// Performs the `ListEnvironments` operation on the `M2` service.
     ///
     /// Lists the runtime environments.
     ///
@@ -2190,7 +2190,7 @@ extension M2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `AwsSupernovaControlPlaneService` service.
+    /// Performs the `ListTagsForResource` operation on the `M2` service.
     ///
     /// Lists the tags for the specified resource.
     ///
@@ -2260,7 +2260,7 @@ extension M2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartApplication` operation on the `AwsSupernovaControlPlaneService` service.
+    /// Performs the `StartApplication` operation on the `M2` service.
     ///
     /// Starts an application that is currently stopped.
     ///
@@ -2331,7 +2331,7 @@ extension M2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartBatchJob` operation on the `AwsSupernovaControlPlaneService` service.
+    /// Performs the `StartBatchJob` operation on the `M2` service.
     ///
     /// Starts a batch job and returns the unique identifier of this execution of the batch job. The associated application must be running in order to start the batch job.
     ///
@@ -2405,7 +2405,7 @@ extension M2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopApplication` operation on the `AwsSupernovaControlPlaneService` service.
+    /// Performs the `StopApplication` operation on the `M2` service.
     ///
     /// Stops a running application.
     ///
@@ -2479,7 +2479,7 @@ extension M2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `AwsSupernovaControlPlaneService` service.
+    /// Performs the `TagResource` operation on the `M2` service.
     ///
     /// Adds one or more tags to the specified resource.
     ///
@@ -2553,7 +2553,7 @@ extension M2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `AwsSupernovaControlPlaneService` service.
+    /// Performs the `UntagResource` operation on the `M2` service.
     ///
     /// Removes one or more tags from the specified resource.
     ///
@@ -2624,7 +2624,7 @@ extension M2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateApplication` operation on the `AwsSupernovaControlPlaneService` service.
+    /// Performs the `UpdateApplication` operation on the `M2` service.
     ///
     /// Updates an application and creates a new version.
     ///
@@ -2698,7 +2698,7 @@ extension M2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateEnvironment` operation on the `AwsSupernovaControlPlaneService` service.
+    /// Performs the `UpdateEnvironment` operation on the `M2` service.
     ///
     /// Updates the configuration details for a specific runtime environment.
     ///

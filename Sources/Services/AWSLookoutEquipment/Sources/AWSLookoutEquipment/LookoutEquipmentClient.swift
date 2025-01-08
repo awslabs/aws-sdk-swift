@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class LookoutEquipmentClient: ClientRuntime.Client {
     public static let clientName = "LookoutEquipmentClient"
-    public static let version = "1.0.69"
+    public static let version = "1.0.74"
     let client: ClientRuntime.SdkHttpClient
     let config: LookoutEquipmentClient.LookoutEquipmentClientConfiguration
     let serviceName = "LookoutEquipment"
@@ -331,7 +331,7 @@ extension LookoutEquipmentClient {
 }
 
 extension LookoutEquipmentClient {
-    /// Performs the `CreateDataset` operation on the `AWSLookoutEquipmentFrontendService` service.
+    /// Performs the `CreateDataset` operation on the `LookoutEquipment` service.
     ///
     /// Creates a container for a collection of data being ingested for analysis. The dataset contains the metadata describing where the data is and what the data actually looks like. For example, it contains the location of the data source, the data schema, and other information. A dataset also contains any tags associated with the ingested data.
     ///
@@ -407,7 +407,7 @@ extension LookoutEquipmentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateInferenceScheduler` operation on the `AWSLookoutEquipmentFrontendService` service.
+    /// Performs the `CreateInferenceScheduler` operation on the `LookoutEquipment` service.
     ///
     /// Creates a scheduled inference. Scheduling an inference is setting up a continuous real-time inference plan to analyze new measurement data. When setting up the schedule, you provide an S3 bucket location for the input data, assign it a delimiter between separate entries in the data, set an offset delay if desired, and set the frequency of inferencing. You must also provide an S3 bucket location for the output data.
     ///
@@ -484,7 +484,7 @@ extension LookoutEquipmentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateLabel` operation on the `AWSLookoutEquipmentFrontendService` service.
+    /// Performs the `CreateLabel` operation on the `LookoutEquipment` service.
     ///
     /// Creates a label for an event.
     ///
@@ -561,7 +561,7 @@ extension LookoutEquipmentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateLabelGroup` operation on the `AWSLookoutEquipmentFrontendService` service.
+    /// Performs the `CreateLabelGroup` operation on the `LookoutEquipment` service.
     ///
     /// Creates a group of labels.
     ///
@@ -637,7 +637,7 @@ extension LookoutEquipmentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateModel` operation on the `AWSLookoutEquipmentFrontendService` service.
+    /// Performs the `CreateModel` operation on the `LookoutEquipment` service.
     ///
     /// Creates a machine learning model for data inference. A machine-learning (ML) model is a mathematical model that finds patterns in your data. In Amazon Lookout for Equipment, the model learns the patterns of normal behavior and detects abnormal behavior that could be potential equipment failure (or maintenance events). The models are made by analyzing normal data and abnormalities in machine behavior that have already occurred. Your model is trained using a portion of the data from your dataset and uses that data to learn patterns of normal behavior and abnormal patterns that lead to equipment failure. Another portion of the data is used to evaluate the model's accuracy.
     ///
@@ -714,7 +714,7 @@ extension LookoutEquipmentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateRetrainingScheduler` operation on the `AWSLookoutEquipmentFrontendService` service.
+    /// Performs the `CreateRetrainingScheduler` operation on the `LookoutEquipment` service.
     ///
     /// Creates a retraining scheduler on the specified model.
     ///
@@ -790,7 +790,7 @@ extension LookoutEquipmentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteDataset` operation on the `AWSLookoutEquipmentFrontendService` service.
+    /// Performs the `DeleteDataset` operation on the `LookoutEquipment` service.
     ///
     /// Deletes a dataset and associated artifacts. The operation will check to see if any inference scheduler or data ingestion job is currently using the dataset, and if there isn't, the dataset, its metadata, and any associated data stored in S3 will be deleted. This does not affect any models that used this dataset for training and evaluation, but does prevent it from being used in the future.
     ///
@@ -865,7 +865,7 @@ extension LookoutEquipmentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteInferenceScheduler` operation on the `AWSLookoutEquipmentFrontendService` service.
+    /// Performs the `DeleteInferenceScheduler` operation on the `LookoutEquipment` service.
     ///
     /// Deletes an inference scheduler that has been set up. Prior inference results will not be deleted.
     ///
@@ -940,7 +940,7 @@ extension LookoutEquipmentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteLabel` operation on the `AWSLookoutEquipmentFrontendService` service.
+    /// Performs the `DeleteLabel` operation on the `LookoutEquipment` service.
     ///
     /// Deletes a label.
     ///
@@ -1015,7 +1015,7 @@ extension LookoutEquipmentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteLabelGroup` operation on the `AWSLookoutEquipmentFrontendService` service.
+    /// Performs the `DeleteLabelGroup` operation on the `LookoutEquipment` service.
     ///
     /// Deletes a group of labels.
     ///
@@ -1090,7 +1090,7 @@ extension LookoutEquipmentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteModel` operation on the `AWSLookoutEquipmentFrontendService` service.
+    /// Performs the `DeleteModel` operation on the `LookoutEquipment` service.
     ///
     /// Deletes a machine learning model currently available for Amazon Lookout for Equipment. This will prevent it from being used with an inference scheduler, even one that is already set up.
     ///
@@ -1165,7 +1165,7 @@ extension LookoutEquipmentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteResourcePolicy` operation on the `AWSLookoutEquipmentFrontendService` service.
+    /// Performs the `DeleteResourcePolicy` operation on the `LookoutEquipment` service.
     ///
     /// Deletes the resource policy attached to the resource.
     ///
@@ -1240,7 +1240,7 @@ extension LookoutEquipmentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteRetrainingScheduler` operation on the `AWSLookoutEquipmentFrontendService` service.
+    /// Performs the `DeleteRetrainingScheduler` operation on the `LookoutEquipment` service.
     ///
     /// Deletes a retraining scheduler from a model. The retraining scheduler must be in the STOPPED status.
     ///
@@ -1315,7 +1315,7 @@ extension LookoutEquipmentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeDataIngestionJob` operation on the `AWSLookoutEquipmentFrontendService` service.
+    /// Performs the `DescribeDataIngestionJob` operation on the `LookoutEquipment` service.
     ///
     /// Provides information on a specific data ingestion job such as creation time, dataset ARN, and status.
     ///
@@ -1389,7 +1389,7 @@ extension LookoutEquipmentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeDataset` operation on the `AWSLookoutEquipmentFrontendService` service.
+    /// Performs the `DescribeDataset` operation on the `LookoutEquipment` service.
     ///
     /// Provides a JSON description of the data in each time series dataset, including names, column names, and data types.
     ///
@@ -1463,7 +1463,7 @@ extension LookoutEquipmentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeInferenceScheduler` operation on the `AWSLookoutEquipmentFrontendService` service.
+    /// Performs the `DescribeInferenceScheduler` operation on the `LookoutEquipment` service.
     ///
     /// Specifies information about the inference scheduler being used, including name, model, status, and associated metadata
     ///
@@ -1537,7 +1537,7 @@ extension LookoutEquipmentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeLabel` operation on the `AWSLookoutEquipmentFrontendService` service.
+    /// Performs the `DescribeLabel` operation on the `LookoutEquipment` service.
     ///
     /// Returns the name of the label.
     ///
@@ -1611,7 +1611,7 @@ extension LookoutEquipmentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeLabelGroup` operation on the `AWSLookoutEquipmentFrontendService` service.
+    /// Performs the `DescribeLabelGroup` operation on the `LookoutEquipment` service.
     ///
     /// Returns information about the label group.
     ///
@@ -1685,7 +1685,7 @@ extension LookoutEquipmentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeModel` operation on the `AWSLookoutEquipmentFrontendService` service.
+    /// Performs the `DescribeModel` operation on the `LookoutEquipment` service.
     ///
     /// Provides a JSON containing the overall information about a specific machine learning model, including model name and ARN, dataset, training and evaluation information, status, and so on.
     ///
@@ -1759,7 +1759,7 @@ extension LookoutEquipmentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeModelVersion` operation on the `AWSLookoutEquipmentFrontendService` service.
+    /// Performs the `DescribeModelVersion` operation on the `LookoutEquipment` service.
     ///
     /// Retrieves information about a specific machine learning model version.
     ///
@@ -1833,7 +1833,7 @@ extension LookoutEquipmentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeResourcePolicy` operation on the `AWSLookoutEquipmentFrontendService` service.
+    /// Performs the `DescribeResourcePolicy` operation on the `LookoutEquipment` service.
     ///
     /// Provides the details of a resource policy attached to a resource.
     ///
@@ -1907,7 +1907,7 @@ extension LookoutEquipmentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeRetrainingScheduler` operation on the `AWSLookoutEquipmentFrontendService` service.
+    /// Performs the `DescribeRetrainingScheduler` operation on the `LookoutEquipment` service.
     ///
     /// Provides a description of the retraining scheduler, including information such as the model name and retraining parameters.
     ///
@@ -1981,7 +1981,7 @@ extension LookoutEquipmentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ImportDataset` operation on the `AWSLookoutEquipmentFrontendService` service.
+    /// Performs the `ImportDataset` operation on the `LookoutEquipment` service.
     ///
     /// Imports a dataset.
     ///
@@ -2058,7 +2058,7 @@ extension LookoutEquipmentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ImportModelVersion` operation on the `AWSLookoutEquipmentFrontendService` service.
+    /// Performs the `ImportModelVersion` operation on the `LookoutEquipment` service.
     ///
     /// Imports a model that has been trained successfully.
     ///
@@ -2135,7 +2135,7 @@ extension LookoutEquipmentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDataIngestionJobs` operation on the `AWSLookoutEquipmentFrontendService` service.
+    /// Performs the `ListDataIngestionJobs` operation on the `LookoutEquipment` service.
     ///
     /// Provides a list of all data ingestion jobs, including dataset name and ARN, S3 location of the input data, status, and so on.
     ///
@@ -2208,7 +2208,7 @@ extension LookoutEquipmentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDatasets` operation on the `AWSLookoutEquipmentFrontendService` service.
+    /// Performs the `ListDatasets` operation on the `LookoutEquipment` service.
     ///
     /// Lists all datasets currently available in your account, filtering on the dataset name.
     ///
@@ -2281,7 +2281,7 @@ extension LookoutEquipmentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListInferenceEvents` operation on the `AWSLookoutEquipmentFrontendService` service.
+    /// Performs the `ListInferenceEvents` operation on the `LookoutEquipment` service.
     ///
     /// Lists all inference events that have been found for the specified inference scheduler.
     ///
@@ -2355,7 +2355,7 @@ extension LookoutEquipmentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListInferenceExecutions` operation on the `AWSLookoutEquipmentFrontendService` service.
+    /// Performs the `ListInferenceExecutions` operation on the `LookoutEquipment` service.
     ///
     /// Lists all inference executions that have been performed by the specified inference scheduler.
     ///
@@ -2429,7 +2429,7 @@ extension LookoutEquipmentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListInferenceSchedulers` operation on the `AWSLookoutEquipmentFrontendService` service.
+    /// Performs the `ListInferenceSchedulers` operation on the `LookoutEquipment` service.
     ///
     /// Retrieves a list of all inference schedulers currently available for your account.
     ///
@@ -2502,7 +2502,7 @@ extension LookoutEquipmentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListLabelGroups` operation on the `AWSLookoutEquipmentFrontendService` service.
+    /// Performs the `ListLabelGroups` operation on the `LookoutEquipment` service.
     ///
     /// Returns a list of the label groups.
     ///
@@ -2575,7 +2575,7 @@ extension LookoutEquipmentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListLabels` operation on the `AWSLookoutEquipmentFrontendService` service.
+    /// Performs the `ListLabels` operation on the `LookoutEquipment` service.
     ///
     /// Provides a list of labels.
     ///
@@ -2648,7 +2648,7 @@ extension LookoutEquipmentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListModelVersions` operation on the `AWSLookoutEquipmentFrontendService` service.
+    /// Performs the `ListModelVersions` operation on the `LookoutEquipment` service.
     ///
     /// Generates a list of all model versions for a given model, including the model version, model version ARN, and status. To list a subset of versions, use the MaxModelVersion and MinModelVersion fields.
     ///
@@ -2722,7 +2722,7 @@ extension LookoutEquipmentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListModels` operation on the `AWSLookoutEquipmentFrontendService` service.
+    /// Performs the `ListModels` operation on the `LookoutEquipment` service.
     ///
     /// Generates a list of all models in the account, including model name and ARN, dataset, and status.
     ///
@@ -2795,7 +2795,7 @@ extension LookoutEquipmentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListRetrainingSchedulers` operation on the `AWSLookoutEquipmentFrontendService` service.
+    /// Performs the `ListRetrainingSchedulers` operation on the `LookoutEquipment` service.
     ///
     /// Lists all retraining schedulers in your account, filtering by model name prefix and status.
     ///
@@ -2868,7 +2868,7 @@ extension LookoutEquipmentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListSensorStatistics` operation on the `AWSLookoutEquipmentFrontendService` service.
+    /// Performs the `ListSensorStatistics` operation on the `LookoutEquipment` service.
     ///
     /// Lists statistics about the data collected for each of the sensors that have been successfully ingested in the particular dataset. Can also be used to retreive Sensor Statistics for a previous ingestion job.
     ///
@@ -2942,7 +2942,7 @@ extension LookoutEquipmentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `AWSLookoutEquipmentFrontendService` service.
+    /// Performs the `ListTagsForResource` operation on the `LookoutEquipment` service.
     ///
     /// Lists all the tags for a specified resource, including key and value.
     ///
@@ -3016,7 +3016,7 @@ extension LookoutEquipmentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutResourcePolicy` operation on the `AWSLookoutEquipmentFrontendService` service.
+    /// Performs the `PutResourcePolicy` operation on the `LookoutEquipment` service.
     ///
     /// Creates a resource control policy for a given resource.
     ///
@@ -3093,7 +3093,7 @@ extension LookoutEquipmentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartDataIngestionJob` operation on the `AWSLookoutEquipmentFrontendService` service.
+    /// Performs the `StartDataIngestionJob` operation on the `LookoutEquipment` service.
     ///
     /// Starts a data ingestion job. Amazon Lookout for Equipment returns the job status.
     ///
@@ -3170,7 +3170,7 @@ extension LookoutEquipmentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartInferenceScheduler` operation on the `AWSLookoutEquipmentFrontendService` service.
+    /// Performs the `StartInferenceScheduler` operation on the `LookoutEquipment` service.
     ///
     /// Starts an inference scheduler.
     ///
@@ -3245,7 +3245,7 @@ extension LookoutEquipmentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartRetrainingScheduler` operation on the `AWSLookoutEquipmentFrontendService` service.
+    /// Performs the `StartRetrainingScheduler` operation on the `LookoutEquipment` service.
     ///
     /// Starts a retraining scheduler.
     ///
@@ -3320,7 +3320,7 @@ extension LookoutEquipmentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopInferenceScheduler` operation on the `AWSLookoutEquipmentFrontendService` service.
+    /// Performs the `StopInferenceScheduler` operation on the `LookoutEquipment` service.
     ///
     /// Stops an inference scheduler.
     ///
@@ -3395,7 +3395,7 @@ extension LookoutEquipmentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopRetrainingScheduler` operation on the `AWSLookoutEquipmentFrontendService` service.
+    /// Performs the `StopRetrainingScheduler` operation on the `LookoutEquipment` service.
     ///
     /// Stops a retraining scheduler.
     ///
@@ -3470,7 +3470,7 @@ extension LookoutEquipmentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `AWSLookoutEquipmentFrontendService` service.
+    /// Performs the `TagResource` operation on the `LookoutEquipment` service.
     ///
     /// Associates a given tag to a resource in your account. A tag is a key-value pair which can be added to an Amazon Lookout for Equipment resource as metadata. Tags can be used for organizing your resources as well as helping you to search and filter by tag. Multiple tags can be added to a resource, either when you create it, or later. Up to 50 tags can be associated with each resource.
     ///
@@ -3545,7 +3545,7 @@ extension LookoutEquipmentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `AWSLookoutEquipmentFrontendService` service.
+    /// Performs the `UntagResource` operation on the `LookoutEquipment` service.
     ///
     /// Removes a specific tag from a given resource. The tag is specified by its key.
     ///
@@ -3619,7 +3619,7 @@ extension LookoutEquipmentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateActiveModelVersion` operation on the `AWSLookoutEquipmentFrontendService` service.
+    /// Performs the `UpdateActiveModelVersion` operation on the `LookoutEquipment` service.
     ///
     /// Sets the active model version for a given machine learning model.
     ///
@@ -3694,7 +3694,7 @@ extension LookoutEquipmentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateInferenceScheduler` operation on the `AWSLookoutEquipmentFrontendService` service.
+    /// Performs the `UpdateInferenceScheduler` operation on the `LookoutEquipment` service.
     ///
     /// Updates an inference scheduler.
     ///
@@ -3769,7 +3769,7 @@ extension LookoutEquipmentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateLabelGroup` operation on the `AWSLookoutEquipmentFrontendService` service.
+    /// Performs the `UpdateLabelGroup` operation on the `LookoutEquipment` service.
     ///
     /// Updates the label group.
     ///
@@ -3844,7 +3844,7 @@ extension LookoutEquipmentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateModel` operation on the `AWSLookoutEquipmentFrontendService` service.
+    /// Performs the `UpdateModel` operation on the `LookoutEquipment` service.
     ///
     /// Updates a model in the account.
     ///
@@ -3919,7 +3919,7 @@ extension LookoutEquipmentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateRetrainingScheduler` operation on the `AWSLookoutEquipmentFrontendService` service.
+    /// Performs the `UpdateRetrainingScheduler` operation on the `LookoutEquipment` service.
     ///
     /// Updates a retraining scheduler.
     ///

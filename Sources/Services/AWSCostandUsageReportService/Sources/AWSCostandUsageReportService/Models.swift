@@ -76,8 +76,7 @@ public struct InternalErrorException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -101,8 +100,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -115,8 +113,7 @@ public struct DeleteReportDefinitionInput: Swift.Sendable {
 
     public init(
         reportName: Swift.String? = nil
-    )
-    {
+    ) {
         self.reportName = reportName
     }
 }
@@ -128,8 +125,7 @@ public struct DeleteReportDefinitionOutput: Swift.Sendable {
 
     public init(
         responseMessage: Swift.String? = nil
-    )
-    {
+    ) {
         self.responseMessage = responseMessage
     }
 }
@@ -144,8 +140,7 @@ public struct DescribeReportDefinitionsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -291,8 +286,7 @@ extension CostandUsageReportClientTypes {
         public init(
             lastDelivery: Swift.String? = nil,
             lastStatus: CostandUsageReportClientTypes.LastStatus? = nil
-        )
-        {
+        ) {
             self.lastDelivery = lastDelivery
             self.lastStatus = lastStatus
         }
@@ -522,8 +516,7 @@ extension CostandUsageReportClientTypes {
             s3Prefix: Swift.String? = nil,
             s3Region: CostandUsageReportClientTypes.AWSRegion? = nil,
             timeUnit: CostandUsageReportClientTypes.TimeUnit? = nil
-        )
-        {
+        ) {
             self.additionalArtifacts = additionalArtifacts
             self.additionalSchemaElements = additionalSchemaElements
             self.billingViewArn = billingViewArn
@@ -551,8 +544,7 @@ public struct DescribeReportDefinitionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         reportDefinitions: [CostandUsageReportClientTypes.ReportDefinition]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.reportDefinitions = reportDefinitions
     }
@@ -577,8 +569,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -590,8 +581,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         reportName: Swift.String? = nil
-    )
-    {
+    ) {
         self.reportName = reportName
     }
 }
@@ -610,8 +600,7 @@ extension CostandUsageReportClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -624,8 +613,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [CostandUsageReportClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -641,8 +629,7 @@ public struct ModifyReportDefinitionInput: Swift.Sendable {
     public init(
         reportDefinition: CostandUsageReportClientTypes.ReportDefinition? = nil,
         reportName: Swift.String? = nil
-    )
-    {
+    ) {
         self.reportDefinition = reportDefinition
         self.reportName = reportName
     }
@@ -672,8 +659,7 @@ public struct DuplicateReportNameException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -697,8 +683,7 @@ public struct ReportLimitReachedException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -714,8 +699,7 @@ public struct PutReportDefinitionInput: Swift.Sendable {
     public init(
         reportDefinition: CostandUsageReportClientTypes.ReportDefinition? = nil,
         tags: [CostandUsageReportClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.reportDefinition = reportDefinition
         self.tags = tags
     }
@@ -738,8 +722,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         reportName: Swift.String? = nil,
         tags: [CostandUsageReportClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.reportName = reportName
         self.tags = tags
     }
@@ -761,8 +744,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         reportName: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.reportName = reportName
         self.tagKeys = tagKeys
     }

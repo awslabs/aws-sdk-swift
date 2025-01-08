@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class LocationClient: ClientRuntime.Client {
     public static let clientName = "LocationClient"
-    public static let version = "1.0.69"
+    public static let version = "1.0.74"
     let client: ClientRuntime.SdkHttpClient
     let config: LocationClient.LocationClientConfiguration
     let serviceName = "Location"
@@ -330,7 +330,7 @@ extension LocationClient {
 }
 
 extension LocationClient {
-    /// Performs the `AssociateTrackerConsumer` operation on the `LocationService` service.
+    /// Performs the `AssociateTrackerConsumer` operation on the `Location` service.
     ///
     /// Creates an association between a geofence collection and a tracker resource. This allows the tracker resource to communicate location data to the linked geofence collection. You can associate up to five geofence collections to each tracker resource. Currently not supported — Cross-account configurations, such as creating associations between a tracker resource in one account and a geofence collection in another account.
     ///
@@ -405,7 +405,7 @@ extension LocationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchDeleteDevicePositionHistory` operation on the `LocationService` service.
+    /// Performs the `BatchDeleteDevicePositionHistory` operation on the `Location` service.
     ///
     /// Deletes the position history of one or more devices from a tracker resource.
     ///
@@ -478,7 +478,7 @@ extension LocationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchDeleteGeofence` operation on the `LocationService` service.
+    /// Performs the `BatchDeleteGeofence` operation on the `Location` service.
     ///
     /// Deletes a batch of geofences from a geofence collection. This operation deletes the resource permanently.
     ///
@@ -551,7 +551,7 @@ extension LocationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchEvaluateGeofences` operation on the `LocationService` service.
+    /// Performs the `BatchEvaluateGeofences` operation on the `Location` service.
     ///
     /// Evaluates device positions against the geofence geometries from a given geofence collection. This operation always returns an empty response because geofences are asynchronously evaluated. The evaluation determines if the device has entered or exited a geofenced area, and then publishes one of the following events to Amazon EventBridge:
     ///
@@ -631,7 +631,7 @@ extension LocationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchGetDevicePosition` operation on the `LocationService` service.
+    /// Performs the `BatchGetDevicePosition` operation on the `Location` service.
     ///
     /// Lists the latest device positions for requested devices.
     ///
@@ -704,7 +704,7 @@ extension LocationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchPutGeofence` operation on the `LocationService` service.
+    /// Performs the `BatchPutGeofence` operation on the `Location` service.
     ///
     /// A batch request for storing geofence geometries into a given geofence collection, or updates the geometry of an existing geofence if a geofence ID is included in the request.
     ///
@@ -777,7 +777,7 @@ extension LocationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchUpdateDevicePosition` operation on the `LocationService` service.
+    /// Performs the `BatchUpdateDevicePosition` operation on the `Location` service.
     ///
     /// Uploads position update data for one or more devices to a tracker resource (up to 10 devices per batch). Amazon Location uses the data when it reports the last known device position and position history. Amazon Location retains location data for 30 days. Position updates are handled based on the PositionFiltering property of the tracker. When PositionFiltering is set to TimeBased, updates are evaluated against linked geofence collections, and location data is stored at a maximum of one position per 30 second interval. If your update frequency is more often than every 30 seconds, only one update per 30 seconds is stored for each unique device ID. When PositionFiltering is set to DistanceBased filtering, location data is stored and evaluated against linked geofence collections only if the device has moved more than 30 m (98.4 ft). When PositionFiltering is set to AccuracyBased filtering, location data is stored and evaluated against linked geofence collections only if the device has moved more than the measured accuracy. For example, if two consecutive updates from a device have a horizontal accuracy of 5 m and 10 m, the second update is neither stored or evaluated if the device has moved less than 15 m. If PositionFiltering is set to AccuracyBased filtering, Amazon Location uses the default value { "Horizontal": 0} when accuracy is not provided on a DevicePositionUpdate.
     ///
@@ -850,7 +850,7 @@ extension LocationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CalculateRoute` operation on the `LocationService` service.
+    /// Performs the `CalculateRoute` operation on the `Location` service.
     ///
     /// [Calculates a route](https://docs.aws.amazon.com/location/latest/developerguide/calculate-route.html) given the following required parameters: DeparturePosition and DestinationPosition. Requires that you first [create a route calculator resource](https://docs.aws.amazon.com/location-routes/latest/APIReference/API_CreateRouteCalculator.html). By default, a request that doesn't specify a departure time uses the best time of day to travel with the best traffic conditions when calculating the route. Additional options include:
     ///
@@ -928,7 +928,7 @@ extension LocationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CalculateRouteMatrix` operation on the `LocationService` service.
+    /// Performs the `CalculateRouteMatrix` operation on the `Location` service.
     ///
     /// [ Calculates a route matrix](https://docs.aws.amazon.com/location/latest/developerguide/calculate-route-matrix.html) given the following required parameters: DeparturePositions and DestinationPositions. CalculateRouteMatrix calculates routes and returns the travel time and travel distance from each departure position to each destination position in the request. For example, given departure positions A and B, and destination positions X and Y, CalculateRouteMatrix will return time and distance for routes from A to X, A to Y, B to X, and B to Y (in that order). The number of results returned (and routes calculated) will be the number of DeparturePositions times the number of DestinationPositions. Your account is charged for each route calculated, not the number of requests. Requires that you first [create a route calculator resource](https://docs.aws.amazon.com/location-routes/latest/APIReference/API_CreateRouteCalculator.html). By default, a request that doesn't specify a departure time uses the best time of day to travel with the best traffic conditions when calculating routes. Additional options include:
     ///
@@ -1006,7 +1006,7 @@ extension LocationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateGeofenceCollection` operation on the `LocationService` service.
+    /// Performs the `CreateGeofenceCollection` operation on the `Location` service.
     ///
     /// Creates a geofence collection, which manages and stores geofences.
     ///
@@ -1080,7 +1080,7 @@ extension LocationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateKey` operation on the `LocationService` service.
+    /// Performs the `CreateKey` operation on the `Location` service.
     ///
     /// Creates an API key resource in your Amazon Web Services account, which lets you grant actions for Amazon Location resources to the API key bearer. For more information, see [Using API keys](https://docs.aws.amazon.com/location/latest/developerguide/using-apikeys.html).
     ///
@@ -1154,7 +1154,7 @@ extension LocationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateMap` operation on the `LocationService` service.
+    /// Performs the `CreateMap` operation on the `Location` service.
     ///
     /// Creates a map resource in your Amazon Web Services account, which provides map tiles of different styles sourced from global location data providers. If your application is tracking or routing assets you use in your business, such as delivery vehicles or employees, you must not use Esri as your geolocation provider. See section 82 of the [Amazon Web Services service terms](http://aws.amazon.com/service-terms) for more details.
     ///
@@ -1228,7 +1228,7 @@ extension LocationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreatePlaceIndex` operation on the `LocationService` service.
+    /// Performs the `CreatePlaceIndex` operation on the `Location` service.
     ///
     /// Creates a place index resource in your Amazon Web Services account. Use a place index resource to geocode addresses and other text queries by using the SearchPlaceIndexForText operation, and reverse geocode coordinates by using the SearchPlaceIndexForPosition operation, and enable autosuggestions by using the SearchPlaceIndexForSuggestions operation. If your application is tracking or routing assets you use in your business, such as delivery vehicles or employees, you must not use Esri as your geolocation provider. See section 82 of the [Amazon Web Services service terms](http://aws.amazon.com/service-terms) for more details.
     ///
@@ -1302,7 +1302,7 @@ extension LocationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateRouteCalculator` operation on the `LocationService` service.
+    /// Performs the `CreateRouteCalculator` operation on the `Location` service.
     ///
     /// Creates a route calculator resource in your Amazon Web Services account. You can send requests to a route calculator resource to estimate travel time, distance, and get directions. A route calculator sources traffic and road network data from your chosen data provider. If your application is tracking or routing assets you use in your business, such as delivery vehicles or employees, you must not use Esri as your geolocation provider. See section 82 of the [Amazon Web Services service terms](http://aws.amazon.com/service-terms) for more details.
     ///
@@ -1376,7 +1376,7 @@ extension LocationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateTracker` operation on the `LocationService` service.
+    /// Performs the `CreateTracker` operation on the `Location` service.
     ///
     /// Creates a tracker resource in your Amazon Web Services account, which lets you retrieve current and historical location of devices.
     ///
@@ -1450,7 +1450,7 @@ extension LocationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteGeofenceCollection` operation on the `LocationService` service.
+    /// Performs the `DeleteGeofenceCollection` operation on the `Location` service.
     ///
     /// Deletes a geofence collection from your Amazon Web Services account. This operation deletes the resource permanently. If the geofence collection is the target of a tracker resource, the devices will no longer be monitored.
     ///
@@ -1520,7 +1520,7 @@ extension LocationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteKey` operation on the `LocationService` service.
+    /// Performs the `DeleteKey` operation on the `Location` service.
     ///
     /// Deletes the specified API key. The API key must have been deactivated more than 90 days previously.
     ///
@@ -1591,7 +1591,7 @@ extension LocationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteMap` operation on the `LocationService` service.
+    /// Performs the `DeleteMap` operation on the `Location` service.
     ///
     /// Deletes a map resource from your Amazon Web Services account. This operation deletes the resource permanently. If the map is being used in an application, the map may not render.
     ///
@@ -1661,7 +1661,7 @@ extension LocationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeletePlaceIndex` operation on the `LocationService` service.
+    /// Performs the `DeletePlaceIndex` operation on the `Location` service.
     ///
     /// Deletes a place index resource from your Amazon Web Services account. This operation deletes the resource permanently.
     ///
@@ -1731,7 +1731,7 @@ extension LocationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteRouteCalculator` operation on the `LocationService` service.
+    /// Performs the `DeleteRouteCalculator` operation on the `Location` service.
     ///
     /// Deletes a route calculator resource from your Amazon Web Services account. This operation deletes the resource permanently.
     ///
@@ -1801,7 +1801,7 @@ extension LocationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteTracker` operation on the `LocationService` service.
+    /// Performs the `DeleteTracker` operation on the `Location` service.
     ///
     /// Deletes a tracker resource from your Amazon Web Services account. This operation deletes the resource permanently. If the tracker resource is in use, you may encounter an error. Make sure that the target resource isn't a dependency for your applications.
     ///
@@ -1871,7 +1871,7 @@ extension LocationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeGeofenceCollection` operation on the `LocationService` service.
+    /// Performs the `DescribeGeofenceCollection` operation on the `Location` service.
     ///
     /// Retrieves the geofence collection details.
     ///
@@ -1941,7 +1941,7 @@ extension LocationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeKey` operation on the `LocationService` service.
+    /// Performs the `DescribeKey` operation on the `Location` service.
     ///
     /// Retrieves the API key resource details.
     ///
@@ -2011,7 +2011,7 @@ extension LocationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeMap` operation on the `LocationService` service.
+    /// Performs the `DescribeMap` operation on the `Location` service.
     ///
     /// Retrieves the map resource details.
     ///
@@ -2081,7 +2081,7 @@ extension LocationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribePlaceIndex` operation on the `LocationService` service.
+    /// Performs the `DescribePlaceIndex` operation on the `Location` service.
     ///
     /// Retrieves the place index resource details.
     ///
@@ -2151,7 +2151,7 @@ extension LocationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeRouteCalculator` operation on the `LocationService` service.
+    /// Performs the `DescribeRouteCalculator` operation on the `Location` service.
     ///
     /// Retrieves the route calculator resource details.
     ///
@@ -2221,7 +2221,7 @@ extension LocationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeTracker` operation on the `LocationService` service.
+    /// Performs the `DescribeTracker` operation on the `Location` service.
     ///
     /// Retrieves the tracker resource details.
     ///
@@ -2291,7 +2291,7 @@ extension LocationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateTrackerConsumer` operation on the `LocationService` service.
+    /// Performs the `DisassociateTrackerConsumer` operation on the `Location` service.
     ///
     /// Removes the association between a tracker resource and a geofence collection. Once you unlink a tracker resource from a geofence collection, the tracker positions will no longer be automatically evaluated against geofences.
     ///
@@ -2361,7 +2361,7 @@ extension LocationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ForecastGeofenceEvents` operation on the `LocationService` service.
+    /// Performs the `ForecastGeofenceEvents` operation on the `Location` service.
     ///
     /// Evaluates device positions against geofence geometries from a given geofence collection. The event forecasts three states for which a device can be in relative to a geofence: ENTER: If a device is outside of a geofence, but would breach the fence if the device is moving at its current speed within time horizon window. EXIT: If a device is inside of a geofence, but would breach the fence if the device is moving at its current speed within time horizon window. IDLE: If a device is inside of a geofence, and the device is not moving.
     ///
@@ -2434,7 +2434,7 @@ extension LocationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDevicePosition` operation on the `LocationService` service.
+    /// Performs the `GetDevicePosition` operation on the `Location` service.
     ///
     /// Retrieves a device's most recent position according to its sample time. Device positions are deleted after 30 days.
     ///
@@ -2504,7 +2504,7 @@ extension LocationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDevicePositionHistory` operation on the `LocationService` service.
+    /// Performs the `GetDevicePositionHistory` operation on the `Location` service.
     ///
     /// Retrieves the device position history from a tracker resource within a specified range of time. Device positions are deleted after 30 days.
     ///
@@ -2577,7 +2577,7 @@ extension LocationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetGeofence` operation on the `LocationService` service.
+    /// Performs the `GetGeofence` operation on the `Location` service.
     ///
     /// Retrieves the geofence details from a geofence collection. The returned geometry will always match the geometry format used when the geofence was created.
     ///
@@ -2647,7 +2647,7 @@ extension LocationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetMapGlyphs` operation on the `LocationService` service.
+    /// Performs the `GetMapGlyphs` operation on the `Location` service.
     ///
     /// Retrieves glyphs used to display labels on a map.
     ///
@@ -2718,7 +2718,7 @@ extension LocationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetMapSprites` operation on the `LocationService` service.
+    /// Performs the `GetMapSprites` operation on the `Location` service.
     ///
     /// Retrieves the sprite sheet corresponding to a map resource. The sprite sheet is a PNG image paired with a JSON document describing the offsets of individual icons that will be displayed on a rendered map.
     ///
@@ -2789,7 +2789,7 @@ extension LocationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetMapStyleDescriptor` operation on the `LocationService` service.
+    /// Performs the `GetMapStyleDescriptor` operation on the `Location` service.
     ///
     /// Retrieves the map style descriptor from a map resource. The style descriptor contains speciﬁcations on how features render on a map. For example, what data to display, what order to display the data in, and the style for the data. Style descriptors follow the Mapbox Style Specification.
     ///
@@ -2860,7 +2860,7 @@ extension LocationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetMapTile` operation on the `LocationService` service.
+    /// Performs the `GetMapTile` operation on the `Location` service.
     ///
     /// Retrieves a vector data tile from the map resource. Map tiles are used by clients to render a map. they're addressed using a grid arrangement with an X coordinate, Y coordinate, and Z (zoom) level. The origin (0, 0) is the top left of the map. Increasing the zoom level by 1 doubles both the X and Y dimensions, so a tile containing data for the entire world at (0/0/0) will be split into 4 tiles at zoom 1 (1/0/0, 1/0/1, 1/1/0, 1/1/1).
     ///
@@ -2931,7 +2931,7 @@ extension LocationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetPlace` operation on the `LocationService` service.
+    /// Performs the `GetPlace` operation on the `Location` service.
     ///
     /// Finds a place by its unique ID. A PlaceId is returned by other search operations. A PlaceId is valid only if all of the following are the same in the original search request and the call to GetPlace.
     ///
@@ -3008,7 +3008,7 @@ extension LocationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDevicePositions` operation on the `LocationService` service.
+    /// Performs the `ListDevicePositions` operation on the `Location` service.
     ///
     /// A batch request to retrieve all device positions.
     ///
@@ -3080,7 +3080,7 @@ extension LocationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListGeofenceCollections` operation on the `LocationService` service.
+    /// Performs the `ListGeofenceCollections` operation on the `Location` service.
     ///
     /// Lists geofence collections in your Amazon Web Services account.
     ///
@@ -3152,7 +3152,7 @@ extension LocationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListGeofences` operation on the `LocationService` service.
+    /// Performs the `ListGeofences` operation on the `Location` service.
     ///
     /// Lists geofences stored in a given geofence collection.
     ///
@@ -3225,7 +3225,7 @@ extension LocationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListKeys` operation on the `LocationService` service.
+    /// Performs the `ListKeys` operation on the `Location` service.
     ///
     /// Lists API key resources in your Amazon Web Services account.
     ///
@@ -3297,7 +3297,7 @@ extension LocationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListMaps` operation on the `LocationService` service.
+    /// Performs the `ListMaps` operation on the `Location` service.
     ///
     /// Lists map resources in your Amazon Web Services account.
     ///
@@ -3369,7 +3369,7 @@ extension LocationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListPlaceIndexes` operation on the `LocationService` service.
+    /// Performs the `ListPlaceIndexes` operation on the `Location` service.
     ///
     /// Lists place index resources in your Amazon Web Services account.
     ///
@@ -3441,7 +3441,7 @@ extension LocationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListRouteCalculators` operation on the `LocationService` service.
+    /// Performs the `ListRouteCalculators` operation on the `Location` service.
     ///
     /// Lists route calculator resources in your Amazon Web Services account.
     ///
@@ -3513,7 +3513,7 @@ extension LocationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `LocationService` service.
+    /// Performs the `ListTagsForResource` operation on the `Location` service.
     ///
     /// Returns a list of tags that are applied to the specified Amazon Location resource.
     ///
@@ -3583,7 +3583,7 @@ extension LocationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTrackerConsumers` operation on the `LocationService` service.
+    /// Performs the `ListTrackerConsumers` operation on the `Location` service.
     ///
     /// Lists geofence collections currently associated to the given tracker resource.
     ///
@@ -3656,7 +3656,7 @@ extension LocationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTrackers` operation on the `LocationService` service.
+    /// Performs the `ListTrackers` operation on the `Location` service.
     ///
     /// Lists tracker resources in your Amazon Web Services account.
     ///
@@ -3728,7 +3728,7 @@ extension LocationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutGeofence` operation on the `LocationService` service.
+    /// Performs the `PutGeofence` operation on the `Location` service.
     ///
     /// Stores a geofence geometry in a given geofence collection, or updates the geometry of an existing geofence if a geofence ID is included in the request.
     ///
@@ -3802,7 +3802,7 @@ extension LocationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SearchPlaceIndexForPosition` operation on the `LocationService` service.
+    /// Performs the `SearchPlaceIndexForPosition` operation on the `Location` service.
     ///
     /// Reverse geocodes a given coordinate and returns a legible address. Allows you to search for Places or points of interest near a given position.
     ///
@@ -3876,7 +3876,7 @@ extension LocationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SearchPlaceIndexForSuggestions` operation on the `LocationService` service.
+    /// Performs the `SearchPlaceIndexForSuggestions` operation on the `Location` service.
     ///
     /// Generates suggestions for addresses and points of interest based on partial or misspelled free-form text. This operation is also known as autocomplete, autosuggest, or fuzzy matching. Optional parameters let you narrow your search results by bounding box or country, or bias your search toward a specific position on the globe. You can search for suggested place names near a specified position by using BiasPosition, or filter results within a bounding box by using FilterBBox. These parameters are mutually exclusive; using both BiasPosition and FilterBBox in the same command returns an error.
     ///
@@ -3950,7 +3950,7 @@ extension LocationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SearchPlaceIndexForText` operation on the `LocationService` service.
+    /// Performs the `SearchPlaceIndexForText` operation on the `Location` service.
     ///
     /// Geocodes free-form text, such as an address, name, city, or region to allow you to search for Places or points of interest. Optional parameters let you narrow your search results by bounding box or country, or bias your search toward a specific position on the globe. You can search for places near a given position using BiasPosition, or filter results within a bounding box using FilterBBox. Providing both parameters simultaneously returns an error. Search results are returned in order of highest to lowest relevance.
     ///
@@ -4024,7 +4024,7 @@ extension LocationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `LocationService` service.
+    /// Performs the `TagResource` operation on the `Location` service.
     ///
     /// Assigns one or more tags (key-value pairs) to the specified Amazon Location Service resource. Tags can help you organize and categorize your resources. You can also use them to scope user permissions, by granting a user permission to access or change only resources with certain tag values. You can use the TagResource operation with an Amazon Location Service resource that already has tags. If you specify a new tag key for the resource, this tag is appended to the tags already associated with the resource. If you specify a tag key that's already associated with the resource, the new tag value that you specify replaces the previous value for that tag. You can associate up to 50 tags with a resource.
     ///
@@ -4097,7 +4097,7 @@ extension LocationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `LocationService` service.
+    /// Performs the `UntagResource` operation on the `Location` service.
     ///
     /// Removes one or more tags from the specified Amazon Location resource.
     ///
@@ -4168,7 +4168,7 @@ extension LocationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateGeofenceCollection` operation on the `LocationService` service.
+    /// Performs the `UpdateGeofenceCollection` operation on the `Location` service.
     ///
     /// Updates the specified properties of a given geofence collection.
     ///
@@ -4241,7 +4241,7 @@ extension LocationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateKey` operation on the `LocationService` service.
+    /// Performs the `UpdateKey` operation on the `Location` service.
     ///
     /// Updates the specified properties of a given API key resource.
     ///
@@ -4314,7 +4314,7 @@ extension LocationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateMap` operation on the `LocationService` service.
+    /// Performs the `UpdateMap` operation on the `Location` service.
     ///
     /// Updates the specified properties of a given map resource.
     ///
@@ -4387,7 +4387,7 @@ extension LocationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdatePlaceIndex` operation on the `LocationService` service.
+    /// Performs the `UpdatePlaceIndex` operation on the `Location` service.
     ///
     /// Updates the specified properties of a given place index resource.
     ///
@@ -4460,7 +4460,7 @@ extension LocationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateRouteCalculator` operation on the `LocationService` service.
+    /// Performs the `UpdateRouteCalculator` operation on the `Location` service.
     ///
     /// Updates the specified properties for a given route calculator resource.
     ///
@@ -4533,7 +4533,7 @@ extension LocationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateTracker` operation on the `LocationService` service.
+    /// Performs the `UpdateTracker` operation on the `Location` service.
     ///
     /// Updates the specified properties of a given tracker resource.
     ///
@@ -4606,7 +4606,7 @@ extension LocationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `VerifyDevicePosition` operation on the `LocationService` service.
+    /// Performs the `VerifyDevicePosition` operation on the `Location` service.
     ///
     /// Verifies the integrity of the device's position by determining if it was reported behind a proxy, and by comparing it to an inferred position estimated based on the device's state.
     ///

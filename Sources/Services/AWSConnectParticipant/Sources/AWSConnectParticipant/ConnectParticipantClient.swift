@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ConnectParticipantClient: ClientRuntime.Client {
     public static let clientName = "ConnectParticipantClient"
-    public static let version = "1.0.69"
+    public static let version = "1.0.74"
     let client: ClientRuntime.SdkHttpClient
     let config: ConnectParticipantClient.ConnectParticipantClientConfiguration
     let serviceName = "ConnectParticipant"
@@ -330,7 +330,7 @@ extension ConnectParticipantClient {
 }
 
 extension ConnectParticipantClient {
-    /// Performs the `CancelParticipantAuthentication` operation on the `AmazonConnectParticipantServiceLambda` service.
+    /// Performs the `CancelParticipantAuthentication` operation on the `ConnectParticipant` service.
     ///
     /// Cancels the authentication session. The opted out branch of the Authenticate Customer flow block will be taken. The current supported channel is chat. This API is not supported for Apple Messages for Business, WhatsApp, or SMS chats.
     ///
@@ -403,7 +403,7 @@ extension ConnectParticipantClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CompleteAttachmentUpload` operation on the `AmazonConnectParticipantServiceLambda` service.
+    /// Performs the `CompleteAttachmentUpload` operation on the `ConnectParticipant` service.
     ///
     /// Allows you to confirm that the attachment has been uploaded using the pre-signed URL provided in StartAttachmentUpload API. A conflict exception is thrown when an attachment with that identifier is already being uploaded. For security recommendations, see [Amazon Connect Chat security best practices](https://docs.aws.amazon.com/connect/latest/adminguide/security-best-practices.html#bp-security-chat). ConnectionToken is used for invoking this API instead of ParticipantToken. The Amazon Connect Participant Service APIs do not use [Signature Version 4 authentication](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html).
     ///
@@ -479,7 +479,7 @@ extension ConnectParticipantClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateParticipantConnection` operation on the `AmazonConnectParticipantServiceLambda` service.
+    /// Performs the `CreateParticipantConnection` operation on the `ConnectParticipant` service.
     ///
     /// Creates the participant's connection. For security recommendations, see [Amazon Connect Chat security best practices](https://docs.aws.amazon.com/connect/latest/adminguide/security-best-practices.html#bp-security-chat). ParticipantToken is used for invoking this API instead of ConnectionToken. The participant token is valid for the lifetime of the participant – until they are part of a contact. The response URL for WEBSOCKET Type has a connect expiry timeout of 100s. Clients must manually connect to the returned websocket URL and subscribe to the desired topic. For chat, you need to publish the following on the established websocket connection: {"topic":"aws/subscribe","content":{"topics":["aws/chat"]}} Upon websocket URL expiry, as specified in the response ConnectionExpiry parameter, clients need to call this API again to obtain a new websocket URL and perform the same steps as before. Message streaming support: This API can also be used together with the [StartContactStreaming](https://docs.aws.amazon.com/connect/latest/APIReference/API_StartContactStreaming.html) API to create a participant connection for chat contacts that are not using a websocket. For more information about message streaming, [Enable real-time chat message streaming](https://docs.aws.amazon.com/connect/latest/adminguide/chat-message-streaming.html) in the Amazon Connect Administrator Guide. Feature specifications: For information about feature specifications, such as the allowed number of open websocket connections per participant, see [Feature specifications](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html#feature-limits) in the Amazon Connect Administrator Guide. The Amazon Connect Participant Service APIs do not use [Signature Version 4 authentication](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html).
     ///
@@ -552,7 +552,7 @@ extension ConnectParticipantClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeView` operation on the `AmazonConnectParticipantServiceLambda` service.
+    /// Performs the `DescribeView` operation on the `ConnectParticipant` service.
     ///
     /// Retrieves the view for the specified view token. For security recommendations, see [Amazon Connect Chat security best practices](https://docs.aws.amazon.com/connect/latest/adminguide/security-best-practices.html#bp-security-chat).
     ///
@@ -623,7 +623,7 @@ extension ConnectParticipantClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisconnectParticipant` operation on the `AmazonConnectParticipantServiceLambda` service.
+    /// Performs the `DisconnectParticipant` operation on the `ConnectParticipant` service.
     ///
     /// Disconnects a participant. For security recommendations, see [Amazon Connect Chat security best practices](https://docs.aws.amazon.com/connect/latest/adminguide/security-best-practices.html#bp-security-chat). ConnectionToken is used for invoking this API instead of ParticipantToken. The Amazon Connect Participant Service APIs do not use [Signature Version 4 authentication](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html).
     ///
@@ -697,7 +697,7 @@ extension ConnectParticipantClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAttachment` operation on the `AmazonConnectParticipantServiceLambda` service.
+    /// Performs the `GetAttachment` operation on the `ConnectParticipant` service.
     ///
     /// Provides a pre-signed URL for download of a completed attachment. This is an asynchronous API for use with active contacts. For security recommendations, see [Amazon Connect Chat security best practices](https://docs.aws.amazon.com/connect/latest/adminguide/security-best-practices.html#bp-security-chat). ConnectionToken is used for invoking this API instead of ParticipantToken. The Amazon Connect Participant Service APIs do not use [Signature Version 4 authentication](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html).
     ///
@@ -770,7 +770,7 @@ extension ConnectParticipantClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAuthenticationUrl` operation on the `AmazonConnectParticipantServiceLambda` service.
+    /// Performs the `GetAuthenticationUrl` operation on the `ConnectParticipant` service.
     ///
     /// Retrieves the AuthenticationUrl for the current authentication session for the AuthenticateCustomer flow block. For security recommendations, see [Amazon Connect Chat security best practices](https://docs.aws.amazon.com/connect/latest/adminguide/security-best-practices.html#bp-security-chat).
     ///
@@ -847,7 +847,7 @@ extension ConnectParticipantClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetTranscript` operation on the `AmazonConnectParticipantServiceLambda` service.
+    /// Performs the `GetTranscript` operation on the `ConnectParticipant` service.
     ///
     /// Retrieves a transcript of the session, including details about any attachments. For information about accessing past chat contact transcripts for a persistent chat, see [Enable persistent chat](https://docs.aws.amazon.com/connect/latest/adminguide/chat-persistence.html). For security recommendations, see [Amazon Connect Chat security best practices](https://docs.aws.amazon.com/connect/latest/adminguide/security-best-practices.html#bp-security-chat). If you have a process that consumes events in the transcript of an chat that has ended, note that chat transcripts contain the following event content types if the event has occurred during the chat session:
     ///
@@ -933,7 +933,7 @@ extension ConnectParticipantClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SendEvent` operation on the `AmazonConnectParticipantServiceLambda` service.
+    /// Performs the `SendEvent` operation on the `ConnectParticipant` service.
     ///
     /// The application/vnd.amazonaws.connect.event.connection.acknowledged ContentType will no longer be supported starting December 31, 2024. This event has been migrated to the [CreateParticipantConnection](https://docs.aws.amazon.com/connect-participant/latest/APIReference/API_CreateParticipantConnection.html) API using the ConnectParticipant field. Sends an event. Message receipts are not supported when there are more than two active participants in the chat. Using the SendEvent API for message receipts when a supervisor is barged-in will result in a conflict exception. For security recommendations, see [Amazon Connect Chat security best practices](https://docs.aws.amazon.com/connect/latest/adminguide/security-best-practices.html#bp-security-chat). ConnectionToken is used for invoking this API instead of ParticipantToken. The Amazon Connect Participant Service APIs do not use [Signature Version 4 authentication](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html).
     ///
@@ -1008,7 +1008,7 @@ extension ConnectParticipantClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SendMessage` operation on the `AmazonConnectParticipantServiceLambda` service.
+    /// Performs the `SendMessage` operation on the `ConnectParticipant` service.
     ///
     /// Sends a message. For security recommendations, see [Amazon Connect Chat security best practices](https://docs.aws.amazon.com/connect/latest/adminguide/security-best-practices.html#bp-security-chat). ConnectionToken is used for invoking this API instead of ParticipantToken. The Amazon Connect Participant Service APIs do not use [Signature Version 4 authentication](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html).
     ///
@@ -1082,7 +1082,7 @@ extension ConnectParticipantClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartAttachmentUpload` operation on the `AmazonConnectParticipantServiceLambda` service.
+    /// Performs the `StartAttachmentUpload` operation on the `ConnectParticipant` service.
     ///
     /// Provides a pre-signed Amazon S3 URL in response for uploading the file directly to S3. For security recommendations, see [Amazon Connect Chat security best practices](https://docs.aws.amazon.com/connect/latest/adminguide/security-best-practices.html#bp-security-chat). ConnectionToken is used for invoking this API instead of ParticipantToken. The Amazon Connect Participant Service APIs do not use [Signature Version 4 authentication](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html).
     ///

@@ -105,8 +105,7 @@ public struct InternalServiceException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -129,8 +128,7 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -153,8 +151,7 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -177,8 +174,7 @@ public struct UnsupportedRegionException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -198,8 +194,7 @@ public struct AcceptMatchInput: Swift.Sendable {
         acceptanceType: GameLiftClientTypes.AcceptanceType? = nil,
         playerIds: [Swift.String]? = nil,
         ticketId: Swift.String? = nil
-    )
-    {
+    ) {
         self.acceptanceType = acceptanceType
         self.playerIds = playerIds
         self.ticketId = ticketId
@@ -264,8 +259,7 @@ extension GameLiftClientTypes {
             fleetId: Swift.String? = nil,
             message: Swift.String? = nil,
             type: GameLiftClientTypes.RoutingStrategyType? = nil
-        )
-        {
+        ) {
             self.fleetId = fleetId
             self.message = message
             self.type = type
@@ -300,8 +294,7 @@ extension GameLiftClientTypes {
             lastUpdatedTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             routingStrategy: GameLiftClientTypes.RoutingStrategy? = nil
-        )
-        {
+        ) {
             self.aliasArn = aliasArn
             self.aliasId = aliasId
             self.creationTime = creationTime
@@ -323,8 +316,7 @@ extension GameLiftClientTypes {
 
         public init(
             cost: Swift.String? = nil
-        )
-        {
+        ) {
             self.cost = cost
         }
     }
@@ -348,8 +340,7 @@ extension GameLiftClientTypes {
             s: Swift.String? = nil,
             sdm: [Swift.String: Swift.Double]? = nil,
             sl: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.n = n
             self.s = s
             self.sdm = sdm
@@ -362,9 +353,9 @@ extension GameLiftClientTypes {
 
     /// Amazon Web Services account security credentials that allow interactions with Amazon GameLift resources. The credentials are temporary and valid for a limited time span. You can request fresh credentials at any time. Amazon Web Services security credentials consist of three parts: an access key ID, a secret access key, and a session token. You must use all three parts together to authenticate your access requests. You need Amazon Web Services credentials for the following tasks:
     ///
-    /// * To upload a game server build directly to Amazon GameLift S3 storage using CreateBuild. To get access for this task, call [RequestUploadCredentials].
+    /// * To upload a game server build directly to Amazon GameLift S3 storage using CreateBuild. To get access for this task, call [https://docs.aws.amazon.com/gamelift/latest/apireference/API_RequestUploadCredentials.html](https://docs.aws.amazon.com/gamelift/latest/apireference/API_RequestUploadCredentials.html).
     ///
-    /// * To remotely connect to an active Amazon GameLift fleet instances. To get remote access, call [GetComputeAccess].
+    /// * To remotely connect to an active Amazon GameLift fleet instances. To get remote access, call [https://docs.aws.amazon.com/gamelift/latest/apireference/API_GetComputeAccess.html](https://docs.aws.amazon.com/gamelift/latest/apireference/API_GetComputeAccess.html).
     public struct AwsCredentials: Swift.Sendable {
         /// The access key ID that identifies the temporary security credentials.
         public var accessKeyId: Swift.String?
@@ -377,8 +368,7 @@ extension GameLiftClientTypes {
             accessKeyId: Swift.String? = nil,
             secretAccessKey: Swift.String? = nil,
             sessionToken: Swift.String? = nil
-        )
-        {
+        ) {
             self.accessKeyId = accessKeyId
             self.secretAccessKey = secretAccessKey
             self.sessionToken = sessionToken
@@ -562,8 +552,7 @@ extension GameLiftClientTypes {
             sizeOnDisk: Swift.Int? = nil,
             status: GameLiftClientTypes.BuildStatus? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.buildArn = buildArn
             self.buildId = buildId
             self.creationTime = creationTime
@@ -612,16 +601,15 @@ extension GameLiftClientTypes {
     public struct CertificateConfiguration: Swift.Sendable {
         /// Indicates whether a TLS/SSL certificate is generated for a fleet. Valid values include:
         ///
-        /// * GENERATED -- Generate a TLS/SSL certificate for this fleet.
+        /// * GENERATED - Generate a TLS/SSL certificate for this fleet.
         ///
-        /// * DISABLED -- (default) Do not generate a TLS/SSL certificate for this fleet.
+        /// * DISABLED - (default) Do not generate a TLS/SSL certificate for this fleet.
         /// This member is required.
         public var certificateType: GameLiftClientTypes.CertificateType?
 
         public init(
             certificateType: GameLiftClientTypes.CertificateType? = nil
-        )
-        {
+        ) {
             self.certificateType = certificateType
         }
     }
@@ -665,8 +653,7 @@ extension GameLiftClientTypes {
 
         public init(
             instanceStatuses: [GameLiftClientTypes.FilterInstanceStatus]? = nil
-        )
-        {
+        ) {
             self.instanceStatuses = instanceStatuses
         }
     }
@@ -690,8 +677,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -714,8 +700,7 @@ public struct OutOfCapacityException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -738,8 +723,7 @@ public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -760,8 +744,7 @@ public struct ClaimGameServerInput: Swift.Sendable {
         gameServerData: Swift.String? = nil,
         gameServerGroupName: Swift.String? = nil,
         gameServerId: Swift.String? = nil
-    )
-    {
+    ) {
         self.filterOption = filterOption
         self.gameServerData = gameServerData
         self.gameServerGroupName = gameServerGroupName
@@ -867,8 +850,7 @@ extension GameLiftClientTypes {
             lastHealthCheckTime: Foundation.Date? = nil,
             registrationTime: Foundation.Date? = nil,
             utilizationStatus: GameLiftClientTypes.GameServerUtilizationStatus? = nil
-        )
-        {
+        ) {
             self.claimStatus = claimStatus
             self.connectionInfo = connectionInfo
             self.gameServerData = gameServerData
@@ -890,8 +872,7 @@ public struct ClaimGameServerOutput: Swift.Sendable {
 
     public init(
         gameServer: GameLiftClientTypes.GameServer? = nil
-    )
-    {
+    ) {
         self.gameServer = gameServer
     }
 }
@@ -968,7 +949,7 @@ extension GameLiftClientTypes {
 
 extension GameLiftClientTypes {
 
-    /// A unique identifier for a container in a container fleet compute. Returned by: [DescribeCompute]
+    /// A unique identifier for a container in a container fleet compute. Returned by: [DescribeCompute](https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeCompute.html)
     public struct ContainerAttribute: Swift.Sendable {
         /// The identifier for a container that's running in a compute.
         public var containerName: Swift.String?
@@ -978,8 +959,7 @@ extension GameLiftClientTypes {
         public init(
             containerName: Swift.String? = nil,
             containerRuntimeId: Swift.String? = nil
-        )
-        {
+        ) {
             self.containerName = containerName
             self.containerRuntimeId = containerRuntimeId
         }
@@ -1592,8 +1572,7 @@ extension GameLiftClientTypes {
             location: Swift.String? = nil,
             operatingSystem: GameLiftClientTypes.OperatingSystem? = nil,
             type: GameLiftClientTypes.EC2InstanceType? = nil
-        )
-        {
+        ) {
             self.computeArn = computeArn
             self.computeName = computeName
             self.computeStatus = computeStatus
@@ -1662,8 +1641,7 @@ extension GameLiftClientTypes {
         public init(
             fromPort: Swift.Int? = nil,
             toPort: Swift.Int? = nil
-        )
-        {
+        ) {
             self.fromPort = fromPort
             self.toPort = toPort
         }
@@ -1712,7 +1690,7 @@ extension GameLiftClientTypes {
 
 extension GameLiftClientTypes {
 
-    /// A container's dependency on another container in the same container group. The dependency impacts how the dependent container is able to start or shut down based the status of the other container. For example, ContainerA is configured with the following dependency: a START dependency on ContainerB. This means that ContainerA can't start until ContainerB has started. It also means that ContainerA must shut down before ContainerB. eiifcbfhgrdurhnucnufkgbnbnnerrvbtjvljdetkehcPart of: [GameServerContainerDefinition], [GameServerContainerDefinitionInput], [SupportContainerDefinition], [SupportContainerDefinitionInput]
+    /// A container's dependency on another container in the same container group. The dependency impacts how the dependent container is able to start or shut down based the status of the other container. For example, ContainerA is configured with the following dependency: a START dependency on ContainerB. This means that ContainerA can't start until ContainerB has started. It also means that ContainerA must shut down before ContainerB. Part of: [GameServerContainerDefinition](https://docs.aws.amazon.com/gamelift/latest/apireference/API_GameServerContainerDefinition.html), [GameServerContainerDefinitionInput](https://docs.aws.amazon.com/gamelift/latest/apireference/API_GameServerContainerDefinitionInput.html), [SupportContainerDefinition](https://docs.aws.amazon.com/gamelift/latest/apireference/API_SupportContainerDefinition.html), [SupportContainerDefinitionInput](https://docs.aws.amazon.com/gamelift/latest/apireference/API_SupportContainerDefinitionInput.html)
     public struct ContainerDependency: Swift.Sendable {
         /// The condition that the dependency container must reach before the dependent container can start. Valid conditions include:
         ///
@@ -1732,8 +1710,7 @@ extension GameLiftClientTypes {
         public init(
             condition: GameLiftClientTypes.ContainerDependencyCondition? = nil,
             containerName: Swift.String? = nil
-        )
-        {
+        ) {
             self.condition = condition
             self.containerName = containerName
         }
@@ -1742,7 +1719,7 @@ extension GameLiftClientTypes {
 
 extension GameLiftClientTypes {
 
-    /// An environment variable to set inside a container, in the form of a key-value pair. Part of: [GameServerContainerDefinition], [GameServerContainerDefinitionInput], [SupportContainerDefinition], [SupportContainerDefinitionInput]
+    /// An environment variable to set inside a container, in the form of a key-value pair. Part of: [GameServerContainerDefinition](https://docs.aws.amazon.com/gamelift/latest/apireference/API_GameServerContainerDefinition.html), [GameServerContainerDefinitionInput](https://docs.aws.amazon.com/gamelift/latest/apireference/API_GameServerContainerDefinitionInput.html), [SupportContainerDefinition](https://docs.aws.amazon.com/gamelift/latest/apireference/API_SupportContainerDefinition.html), [SupportContainerDefinitionInput](https://docs.aws.amazon.com/gamelift/latest/apireference/API_SupportContainerDefinitionInput.html)
     public struct ContainerEnvironment: Swift.Sendable {
         /// The environment variable name.
         /// This member is required.
@@ -1754,8 +1731,7 @@ extension GameLiftClientTypes {
         public init(
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -1800,8 +1776,7 @@ extension GameLiftClientTypes {
 
         public init(
             latestDeploymentId: Swift.String? = nil
-        )
-        {
+        ) {
             self.latestDeploymentId = latestDeploymentId
         }
     }
@@ -1819,8 +1794,7 @@ extension GameLiftClientTypes {
         public init(
             newGameSessionsPerCreator: Swift.Int? = nil,
             policyPeriodInMinutes: Swift.Int? = nil
-        )
-        {
+        ) {
             self.newGameSessionsPerCreator = newGameSessionsPerCreator
             self.policyPeriodInMinutes = policyPeriodInMinutes
         }
@@ -1858,7 +1832,7 @@ extension GameLiftClientTypes {
 
 extension GameLiftClientTypes {
 
-    /// A range of IP addresses and port settings that allow inbound traffic to connect to processes on an instance in a fleet. Processes are assigned an IP address/port number combination, which must fall into the fleet's allowed ranges. For managed container fleets, the port settings must use the same port numbers as the fleet's connection ports. For Realtime Servers fleets, Amazon GameLift automatically opens two port ranges, one for TCP messaging and one for UDP.
+    /// A range of IP addresses and port settings that allow inbound traffic to connect to processes on an instance in a fleet. Processes are assigned an IP address/port number combination, which must fall into the fleet's allowed ranges. For Realtime Servers fleets, Amazon GameLift automatically opens two port ranges, one for TCP messaging and one for UDP.
     public struct IpPermission: Swift.Sendable {
         /// A starting value for a range of allowed port numbers. For fleets using Linux builds, only ports 22 and 1026-60000 are valid. For fleets using Windows builds, only ports 1026-60000 are valid.
         /// This member is required.
@@ -1878,8 +1852,7 @@ extension GameLiftClientTypes {
             ipRange: Swift.String? = nil,
             `protocol`: GameLiftClientTypes.IpProtocol? = nil,
             toPort: Swift.Int? = nil
-        )
-        {
+        ) {
             self.fromPort = fromPort
             self.ipRange = ipRange
             self.`protocol` = `protocol`
@@ -1961,8 +1934,7 @@ extension GameLiftClientTypes {
         public init(
             location: Swift.String? = nil,
             status: GameLiftClientTypes.ContainerFleetLocationStatus? = nil
-        )
-        {
+        ) {
             self.location = location
             self.status = status
         }
@@ -2022,8 +1994,7 @@ extension GameLiftClientTypes {
             logDestination: GameLiftClientTypes.LogDestination? = nil,
             logGroupArn: Swift.String? = nil,
             s3BucketName: Swift.String? = nil
-        )
-        {
+        ) {
             self.logDestination = logDestination
             self.logGroupArn = logGroupArn
             self.s3BucketName = s3BucketName
@@ -2198,8 +2169,7 @@ extension GameLiftClientTypes {
             perInstanceContainerGroupDefinitionArn: Swift.String? = nil,
             perInstanceContainerGroupDefinitionName: Swift.String? = nil,
             status: GameLiftClientTypes.ContainerFleetStatus? = nil
-        )
-        {
+        ) {
             self.billingType = billingType
             self.creationTime = creationTime
             self.deploymentDetails = deploymentDetails
@@ -2312,7 +2282,7 @@ extension GameLiftClientTypes {
 
 extension GameLiftClientTypes {
 
-    /// A mount point that binds a container to a file or directory on the host system. Part of: [GameServerContainerDefinition], [GameServerContainerDefinitionInput], [SupportContainerDefinition], [SupportContainerDefinitionInput]
+    /// A mount point that binds a container to a file or directory on the host system. Part of: [GameServerContainerDefinition](https://docs.aws.amazon.com/gamelift/latest/apireference/API_GameServerContainerDefinition.html), [https://docs.aws.amazon.com/gamelift/latest/apireference/API_GameServerContainerDefinitionInput.html](https://docs.aws.amazon.com/gamelift/latest/apireference/API_GameServerContainerDefinitionInput.html), [SupportContainerDefinition](https://docs.aws.amazon.com/gamelift/latest/apireference/API_SupportContainerDefinition.html), [https://docs.aws.amazon.com/gamelift/latest/apireference/API_SupportContainerDefinitionInput.html](https://docs.aws.amazon.com/gamelift/latest/apireference/API_SupportContainerDefinitionInput.html)
     public struct ContainerMountPoint: Swift.Sendable {
         /// The type of access for the container.
         public var accessLevel: GameLiftClientTypes.ContainerMountPointAccessLevel?
@@ -2326,8 +2296,7 @@ extension GameLiftClientTypes {
             accessLevel: GameLiftClientTypes.ContainerMountPointAccessLevel? = nil,
             containerPath: Swift.String? = nil,
             instancePath: Swift.String? = nil
-        )
-        {
+        ) {
             self.accessLevel = accessLevel
             self.containerPath = containerPath
             self.instancePath = instancePath
@@ -2337,7 +2306,7 @@ extension GameLiftClientTypes {
 
 extension GameLiftClientTypes {
 
-    /// A set of one or more port numbers that can be opened on the container. Part of: [ContainerPortConfiguration]
+    /// A set of one or more port numbers that can be opened on the container. Part of: [ContainerPortConfiguration](https://docs.aws.amazon.com/gamelift/latest/apireference/API_ContainerPortConfiguration.html)
     public struct ContainerPortRange: Swift.Sendable {
         /// A starting value for the range of allowed port numbers.
         /// This member is required.
@@ -2353,8 +2322,7 @@ extension GameLiftClientTypes {
             fromPort: Swift.Int? = nil,
             `protocol`: GameLiftClientTypes.IpProtocol? = nil,
             toPort: Swift.Int? = nil
-        )
-        {
+        ) {
             self.fromPort = fromPort
             self.`protocol` = `protocol`
             self.toPort = toPort
@@ -2369,7 +2337,7 @@ extension GameLiftClientTypes.ContainerPortRange: Swift.CustomDebugStringConvert
 
 extension GameLiftClientTypes {
 
-    /// A set of port ranges that can be opened on the container. A process that's running in the container can bind to a port number, making it accessible to inbound traffic. Container ports map to a container fleet's connection ports. Part of: [GameServerContainerDefinition], [GameServerContainerDefinitionInput], [SupportContainerDefinition], [SupportContainerDefinitionInput]
+    /// A set of port ranges that can be opened on the container. A process that's running in the container can bind to a port number, making it accessible to inbound traffic. Container ports map to a container fleet's connection ports. Part of: [GameServerContainerDefinition](https://docs.aws.amazon.com/gamelift/latest/apireference/API_GameServerContainerDefinition.html), [GameServerContainerDefinitionInput](https://docs.aws.amazon.com/gamelift/latest/apireference/API_GameServerContainerDefinitionInput.html), [SupportContainerDefinition](https://docs.aws.amazon.com/gamelift/latest/apireference/API_SupportContainerDefinition.html), [SupportContainerDefinitionInput](https://docs.aws.amazon.com/gamelift/latest/apireference/API_SupportContainerDefinitionInput.html)
     public struct ContainerPortConfiguration: Swift.Sendable {
         /// A set of one or more container port number ranges. The ranges can't overlap.
         /// This member is required.
@@ -2377,8 +2345,7 @@ extension GameLiftClientTypes {
 
         public init(
             containerPortRanges: [GameLiftClientTypes.ContainerPortRange]? = nil
-        )
-        {
+        ) {
             self.containerPortRanges = containerPortRanges
         }
     }
@@ -2386,7 +2353,7 @@ extension GameLiftClientTypes {
 
 extension GameLiftClientTypes {
 
-    /// Describes the game server container in an existing game server container group. A game server container identifies a container image with your game server build. A game server container is automatically considered essential; if an essential container fails, the entire container group restarts. You can update a container definition and deploy the updates to an existing fleet. When creating or updating a game server container group definition, use the property [GameServerContainerDefinitionInput]. Part of: [ContainerGroupDefinition] Returned by: [DescribeContainerGroupDefinition], [ListContainerGroupDefinitions], [UpdateContainerGroupDefinition]
+    /// Describes the game server container in an existing game server container group. A game server container identifies a container image with your game server build. A game server container is automatically considered essential; if an essential container fails, the entire container group restarts. You can update a container definition and deploy the updates to an existing fleet. When creating or updating a game server container group definition, use the property [https://docs.aws.amazon.com/gamelift/latest/apireference/API_GameServerContainerDefinitionInput](https://docs.aws.amazon.com/gamelift/latest/apireference/API_GameServerContainerDefinitionInput). Part of: [ContainerGroupDefinition](https://docs.aws.amazon.com/gamelift/latest/apireference/API_ContainerGroupDefinition.html) Returned by: [DescribeContainerGroupDefinition](https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeContainerGroupDefinition.html), [ListContainerGroupDefinitions](https://docs.aws.amazon.com/gamelift/latest/apireference/API_ListContainerGroupDefinitions.html), [UpdateContainerGroupDefinition](https://docs.aws.amazon.com/gamelift/latest/apireference/API_UpdateContainerGroupDefinition.html)
     public struct GameServerContainerDefinition: Swift.Sendable {
         /// The container definition identifier. Container names are unique within a container group definition.
         public var containerName: Swift.String?
@@ -2414,8 +2381,7 @@ extension GameLiftClientTypes {
             portConfiguration: GameLiftClientTypes.ContainerPortConfiguration? = nil,
             resolvedImageDigest: Swift.String? = nil,
             serverSdkVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.containerName = containerName
             self.dependsOn = dependsOn
             self.environmentOverride = environmentOverride
@@ -2488,7 +2454,7 @@ extension GameLiftClientTypes {
 
 extension GameLiftClientTypes {
 
-    /// Instructions on when and how to check the health of a support container in a container fleet. These properties override any Docker health checks that are set in the container image. For more information on container health checks, see [HealthCheck command](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_HealthCheck.html#ECS-Type-HealthCheck-command) in the Amazon Elastic Container Service API. Game server containers don't have a health check parameter; Amazon GameLift automatically handles health checks for these containers. The following example instructs the container to initiate a health check command every 60 seconds and wait 10 seconds for it to succeed. If it fails, retry the command 3 times before flagging the container as unhealthy. It also tells the container to wait 100 seconds after launch before counting failed health checks. {"Command": [ "CMD-SHELL", "ps cax | grep "processmanager" || exit 1" ], "Interval": 60, "Timeout": 10, "Retries": 3, "StartPeriod": 100 } Part of: [SupportContainerDefinition], [SupportContainerDefinitionInput]
+    /// Instructions on when and how to check the health of a support container in a container fleet. These properties override any Docker health checks that are set in the container image. For more information on container health checks, see [HealthCheck command](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_HealthCheck.html#ECS-Type-HealthCheck-command) in the Amazon Elastic Container Service API. Game server containers don't have a health check parameter; Amazon GameLift automatically handles health checks for these containers. The following example instructs the container to initiate a health check command every 60 seconds and wait 10 seconds for it to succeed. If it fails, retry the command 3 times before flagging the container as unhealthy. It also tells the container to wait 100 seconds after launch before counting failed health checks. {"Command": [ "CMD-SHELL", "ps cax | grep "processmanager" || exit 1" ], "Interval": 60, "Timeout": 10, "Retries": 3, "StartPeriod": 100 } Part of: [SupportContainerDefinition](https://docs.aws.amazon.com/gamelift/latest/apireference/API_SupportContainerDefinition.html), [SupportContainerDefinitionInput](https://docs.aws.amazon.com/gamelift/latest/apireference/API_SupportContainerDefinitionInput.html)
     public struct ContainerHealthCheck: Swift.Sendable {
         /// A string array that specifies the command that the container runs to determine if it's healthy.
         /// This member is required.
@@ -2508,8 +2474,7 @@ extension GameLiftClientTypes {
             retries: Swift.Int? = nil,
             startPeriod: Swift.Int? = nil,
             timeout: Swift.Int? = nil
-        )
-        {
+        ) {
             self.command = command
             self.interval = interval
             self.retries = retries
@@ -2521,7 +2486,7 @@ extension GameLiftClientTypes {
 
 extension GameLiftClientTypes {
 
-    /// Describes a support container in a container group. A support container might be in a game server container group or a per-instance container group. Support containers don't run game server processes. You can update a support container definition and deploy the updates to an existing fleet. When creating or updating a game server container group definition, use the property [GameServerContainerDefinitionInput]. Part of: [ContainerGroupDefinition] Returned by: [DescribeContainerGroupDefinition], [ListContainerGroupDefinitions], [UpdateContainerGroupDefinition]
+    /// Describes a support container in a container group. A support container might be in a game server container group or a per-instance container group. Support containers don't run game server processes. You can update a support container definition and deploy the updates to an existing fleet. When creating or updating a game server container group definition, use the property [GameServerContainerDefinitionInput](https://docs.aws.amazon.com/gamelift/latest/apireference/API_GameServerContainerDefinitionInput.html). Part of: [ContainerGroupDefinition](https://docs.aws.amazon.com/gamelift/latest/apireference/API_ContainerGroupDefinition.html) Returned by: [DescribeContainerGroupDefinition](https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeContainerGroupDefinition.html), [ListContainerGroupDefinitions](https://docs.aws.amazon.com/gamelift/latest/apireference/API_ListContainerGroupDefinitions.html), [UpdateContainerGroupDefinition](https://docs.aws.amazon.com/gamelift/latest/apireference/API_UpdateContainerGroupDefinition.html)
     public struct SupportContainerDefinition: Swift.Sendable {
         /// The container definition identifier. Container names are unique within a container group definition.
         public var containerName: Swift.String?
@@ -2535,7 +2500,7 @@ extension GameLiftClientTypes {
         public var healthCheck: GameLiftClientTypes.ContainerHealthCheck?
         /// The URI to the image that Amazon GameLift deploys to a container fleet. For a more specific identifier, see ResolvedImageDigest.
         public var imageUri: Swift.String?
-        /// The amount of memory that Amazon GameLift makes available to the container. If memory limits aren't set for an individual container, the container shares the container group's total memory allocation. Related data type: [ContainerGroupDefinition$TotalMemoryLimitMebibytes]
+        /// The amount of memory that Amazon GameLift makes available to the container. If memory limits aren't set for an individual container, the container shares the container group's total memory allocation. Related data type: [ContainerGroupDefinition TotalMemoryLimitMebibytes](https://docs.aws.amazon.com/gamelift/latest/apireference/API_ContainerGroupDefinition.html)
         public var memoryHardLimitMebibytes: Swift.Int?
         /// A mount point that binds a path inside the container to a file or directory on the host system and lets it access the file or directory.
         public var mountPoints: [GameLiftClientTypes.ContainerMountPoint]?
@@ -2543,7 +2508,7 @@ extension GameLiftClientTypes {
         public var portConfiguration: GameLiftClientTypes.ContainerPortConfiguration?
         /// A unique and immutable identifier for the container image. The digest is a SHA 256 hash of the container image manifest.
         public var resolvedImageDigest: Swift.String?
-        /// The number of vCPU units that are reserved for the container. If no resources are reserved, the container shares the total vCPU limit for the container group. Related data type: [ContainerGroupDefinition$TotalVcpuLimit]
+        /// The number of vCPU units that are reserved for the container. If no resources are reserved, the container shares the total vCPU limit for the container group. Related data type: [ContainerGroupDefinition TotalVcpuLimit](https://docs.aws.amazon.com/gamelift/latest/apireference/API_ContainerGroupDefinition.html)
         public var vcpu: Swift.Double?
 
         public init(
@@ -2558,8 +2523,7 @@ extension GameLiftClientTypes {
             portConfiguration: GameLiftClientTypes.ContainerPortConfiguration? = nil,
             resolvedImageDigest: Swift.String? = nil,
             vcpu: Swift.Double? = nil
-        )
-        {
+        ) {
             self.containerName = containerName
             self.dependsOn = dependsOn
             self.environmentOverride = environmentOverride
@@ -2577,7 +2541,7 @@ extension GameLiftClientTypes {
 
 extension GameLiftClientTypes {
 
-    /// The properties that describe a container group resource. You can update all properties of a container group definition properties. Updates to a container group definition are saved as new versions. Used with: [CreateContainerGroupDefinition] Returned by: [DescribeContainerGroupDefinition], [ListContainerGroupDefinitions], [UpdateContainerGroupDefinition]
+    /// The properties that describe a container group resource. You can update all properties of a container group definition properties. Updates to a container group definition are saved as new versions. Used with: [CreateContainerGroupDefinition](https://docs.aws.amazon.com/gamelift/latest/apireference/API_CreateContainerGroupDefinition.html) Returned by: [DescribeContainerGroupDefinition](https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeContainerGroupDefinition.html), [ListContainerGroupDefinitions](https://docs.aws.amazon.com/gamelift/latest/apireference/API_ListContainerGroupDefinitions.html), [UpdateContainerGroupDefinition](https://docs.aws.amazon.com/gamelift/latest/apireference/API_UpdateContainerGroupDefinition.html)
     public struct ContainerGroupDefinition: Swift.Sendable {
         /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) that is assigned to an Amazon GameLift ContainerGroupDefinition resource. It uniquely identifies the resource across all Amazon Web Services Regions. Format is arn:aws:gamelift:[region]::containergroupdefinition/[container group definition name]:[version].
         public var containerGroupDefinitionArn: Swift.String?
@@ -2602,9 +2566,9 @@ extension GameLiftClientTypes {
         public var status: GameLiftClientTypes.ContainerGroupDefinitionStatus?
         /// Additional information about a container group definition that's in FAILED status. Possible reasons include:
         ///
-        /// * An internal issue prevented Amazon GameLift from creating the container group definition resource. Delete the failed resource and call [CreateContainerGroupDefinition]again.
+        /// * An internal issue prevented Amazon GameLift from creating the container group definition resource. Delete the failed resource and call [CreateContainerGroupDefinition](https://docs.aws.amazon.com/gamelift/latest/apireference/API_CreateContainerGroupDefinition.html)again.
         ///
-        /// * An access-denied message means that you don't have permissions to access the container image on ECR. See [ IAM permission examples](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-iam-policy-examples.html) for help setting up required IAM permissions for Amazon GameLift.
+        /// * An access-denied message means that you don't have permissions to access the container image on ECR. See [ IAM permission examples](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-iam-policy-examples.html.html) for help setting up required IAM permissions for Amazon GameLift.
         ///
         /// * The ImageUri value for at least one of the containers in the container group definition was invalid or not found in the current Amazon Web Services account.
         ///
@@ -2637,8 +2601,7 @@ extension GameLiftClientTypes {
             totalVcpuLimit: Swift.Double? = nil,
             versionDescription: Swift.String? = nil,
             versionNumber: Swift.Int? = nil
-        )
-        {
+        ) {
             self.containerGroupDefinitionArn = containerGroupDefinitionArn
             self.containerGroupType = containerGroupType
             self.creationTime = creationTime
@@ -2658,7 +2621,7 @@ extension GameLiftClientTypes {
 
 extension GameLiftClientTypes {
 
-    /// A unique identifier for a container in a compute on a managed container fleet instance. This information makes it possible to remotely connect to a specific container on a fleet instance. Related to: [ContainerAttribute] Use with: [GetComputeAccess]
+    /// A unique identifier for a container in a compute on a managed container fleet instance. This information makes it possible to remotely connect to a specific container on a fleet instance. Related to: [ContainerAttribute](https://docs.aws.amazon.com/gamelift/latest/apireference/API_ContainerAttribute.html) Use with: [GetComputeAccess](https://docs.aws.amazon.com/gamelift/latest/apireference/API_GetComputeAccess.html)
     public struct ContainerIdentifier: Swift.Sendable {
         /// The identifier for a container that's running in a compute.
         public var containerName: Swift.String?
@@ -2668,8 +2631,7 @@ extension GameLiftClientTypes {
         public init(
             containerName: Swift.String? = nil,
             containerRuntimeId: Swift.String? = nil
-        )
-        {
+        ) {
             self.containerName = containerName
             self.containerRuntimeId = containerRuntimeId
         }
@@ -2694,8 +2656,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2718,8 +2679,7 @@ public struct TaggingFailedException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2738,8 +2698,7 @@ extension GameLiftClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -2763,8 +2722,7 @@ public struct CreateAliasInput: Swift.Sendable {
         name: Swift.String? = nil,
         routingStrategy: GameLiftClientTypes.RoutingStrategy? = nil,
         tags: [GameLiftClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.name = name
         self.routingStrategy = routingStrategy
@@ -2778,8 +2736,7 @@ public struct CreateAliasOutput: Swift.Sendable {
 
     public init(
         alias: GameLiftClientTypes.Alias? = nil
-    )
-    {
+    ) {
         self.alias = alias
     }
 }
@@ -2802,8 +2759,7 @@ extension GameLiftClientTypes {
             key: Swift.String? = nil,
             objectVersion: Swift.String? = nil,
             roleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucket = bucket
             self.key = key
             self.objectVersion = objectVersion
@@ -2815,7 +2771,7 @@ extension GameLiftClientTypes {
 public struct CreateBuildInput: Swift.Sendable {
     /// A descriptive label that is associated with a build. Build names do not need to be unique. You can change this value later.
     public var name: Swift.String?
-    /// The environment that your game server binaries run on. This value determines the type of fleet resources that you use for this build. If your game build contains multiple executables, they all must run on the same operating system. This parameter is required, and there's no default value. You can't change a build's operating system later. Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See more details in the [Amazon Linux 2 FAQs](https://aws.amazon.com/amazon-linux-2/faqs/). For game servers that are hosted on AL2 and use Amazon GameLift server SDK 4.x., first update the game server build to server SDK 5.x, and then deploy to AL2023 instances. See [ Migrate to Amazon GameLift server SDK version 5.](https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-serversdk5-migration.html)
+    /// The operating system that your game server binaries run on. This value determines the type of fleet resources that you use for this build. If your game build contains multiple executables, they all must run on the same operating system. You must specify a valid operating system in this request. There is no default value. You can't change a build's operating system later. Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See more details in the [Amazon Linux 2 FAQs](https://aws.amazon.com/amazon-linux-2/faqs/). For game servers that are hosted on AL2 and use Amazon GameLift server SDK 4.x., first update the game server build to server SDK 5.x, and then deploy to AL2023 instances. See [ Migrate to Amazon GameLift server SDK version 5.](https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-serversdk5-migration.html)
     public var operatingSystem: GameLiftClientTypes.OperatingSystem?
     /// A server SDK version you used when integrating your game server build with Amazon GameLift. For more information see [Integrate games with custom game servers](https://docs.aws.amazon.com/gamelift/latest/developerguide/integration-custom-intro.html). By default Amazon GameLift sets this value to 4.0.2.
     public var serverSdkVersion: Swift.String?
@@ -2833,8 +2789,7 @@ public struct CreateBuildInput: Swift.Sendable {
         storageLocation: GameLiftClientTypes.S3Location? = nil,
         tags: [GameLiftClientTypes.Tag]? = nil,
         version: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
         self.operatingSystem = operatingSystem
         self.serverSdkVersion = serverSdkVersion
@@ -2856,8 +2811,7 @@ public struct CreateBuildOutput: Swift.Sendable {
         build: GameLiftClientTypes.Build? = nil,
         storageLocation: GameLiftClientTypes.S3Location? = nil,
         uploadCredentials: GameLiftClientTypes.AwsCredentials? = nil
-    )
-    {
+    ) {
         self.build = build
         self.storageLocation = storageLocation
         self.uploadCredentials = uploadCredentials
@@ -2879,8 +2833,7 @@ extension GameLiftClientTypes {
 
         public init(
             location: Swift.String? = nil
-        )
-        {
+        ) {
             self.location = location
         }
     }
@@ -2894,7 +2847,7 @@ public struct CreateContainerFleetInput: Swift.Sendable {
     /// The unique identifier for an Identity and Access Management (IAM) role with permissions to run your containers on resources that are managed by Amazon GameLift. Use an IAM service role with the GameLiftContainerFleetPolicy managed policy attached. For more information, see [Set up an IAM service role](https://docs.aws.amazon.com/gamelift/latest/developerguide/setting-up-role.html). You can't change this fleet property after the fleet is created. IAM role ARN values use the following pattern: arn:aws:iam::[Amazon Web Services account]:role/[role name].
     /// This member is required.
     public var fleetRoleArn: Swift.String?
-    /// A container group definition resource that describes how to deploy containers with your game server build and support software onto each fleet instance. You can specify the container group definition's name to use the latest version. Alternatively, provide an ARN value with a specific version number. Create a container group definition by calling [CreateContainerGroupDefinition]. This operation creates a [ContainerGroupDefinition] resource.
+    /// A container group definition resource that describes how to deploy containers with your game server build and support software onto each fleet instance. You can specify the container group definition's name to use the latest version. Alternatively, provide an ARN value with a specific version number. Create a container group definition by calling [CreateContainerGroupDefinition](https://docs.aws.amazon.com/gamelift/latest/apireference/API_CreateContainerGroupDefinition.html). This operation creates a [ContainerGroupDefinition](https://docs.aws.amazon.com/gamelift/latest/apireference/API_ContainerGroupDefinition.html) resource.
     public var gameServerContainerGroupDefinitionName: Swift.String?
     /// The number of times to replicate the game server container group on each fleet instance. By default, Amazon GameLift calculates the maximum number of game server container groups that can fit on each instance. This calculation is based on the CPU and memory resources of the fleet's instance type). To use the calculated maximum, don't set this parameter. If you set this number manually, Amazon GameLift uses your value as long as it's less than the calculated maximum.
     public var gameServerContainerGroupsPerInstance: Swift.Int?
@@ -2942,7 +2895,7 @@ public struct CreateContainerFleetInput: Swift.Sendable {
     ///
     /// By default, this property is set to NoProtection.
     public var newGameSessionProtectionPolicy: GameLiftClientTypes.ProtectionPolicy?
-    /// The name of a container group definition resource that describes a set of axillary software. A fleet instance has one process for executables in this container group. A per-instance container group is optional. You can update the fleet to add or remove a per-instance container group at any time. You can specify the container group definition's name to use the latest version. Alternatively, provide an ARN value with a specific version number. Create a container group definition by calling [CreateContainerGroupDefinition]. This operation creates a [ContainerGroupDefinition] resource.
+    /// The name of a container group definition resource that describes a set of axillary software. A fleet instance has one process for executables in this container group. A per-instance container group is optional. You can update the fleet to add or remove a per-instance container group at any time. You can specify the container group definition's name to use the latest version. Alternatively, provide an ARN value with a specific version number. Create a container group definition by calling [https://docs.aws.amazon.com/gamelift/latest/apireference/API_CreateContainerGroupDefinition.html](https://docs.aws.amazon.com/gamelift/latest/apireference/API_CreateContainerGroupDefinition.html). This operation creates a [https://docs.aws.amazon.com/gamelift/latest/apireference/API_ContainerGroupDefinition.html](https://docs.aws.amazon.com/gamelift/latest/apireference/API_ContainerGroupDefinition.html) resource.
     public var perInstanceContainerGroupDefinitionName: Swift.String?
     /// A list of labels to assign to the new fleet resource. Tags are developer-defined key-value pairs. Tagging Amazon Web Services resources are useful for resource management, access management and cost allocation. For more information, see [ Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in the Amazon Web Services General Reference.
     public var tags: [GameLiftClientTypes.Tag]?
@@ -2963,8 +2916,7 @@ public struct CreateContainerFleetInput: Swift.Sendable {
         newGameSessionProtectionPolicy: GameLiftClientTypes.ProtectionPolicy? = nil,
         perInstanceContainerGroupDefinitionName: Swift.String? = nil,
         tags: [GameLiftClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.billingType = billingType
         self.description = description
         self.fleetRoleArn = fleetRoleArn
@@ -2989,15 +2941,14 @@ public struct CreateContainerFleetOutput: Swift.Sendable {
 
     public init(
         containerFleet: GameLiftClientTypes.ContainerFleet? = nil
-    )
-    {
+    ) {
         self.containerFleet = containerFleet
     }
 }
 
 extension GameLiftClientTypes {
 
-    /// Describes the configuration for a container that runs your game server executable. This definition includes container configuration, resources, and start instructions. Use this data type when creating or updating a game server container group definition. For properties of a deployed container, see [GameServerContainerDefinition]. A game server container is automatically considered essential; if an essential container fails, the entire container group restarts. Use with: [CreateContainerGroupDefinition], [UpdateContainerGroupDefinition]
+    /// Describes the configuration for a container that runs your game server executable. This definition includes container configuration, resources, and start instructions. Use this data type when creating or updating a game server container group definition. For properties of a deployed container, see [GameServerContainerDefinition](https://docs.aws.amazon.com/gamelift/latest/apireference/API_GameServerContainerDefinition.html). A game server container is automatically considered essential; if an essential container fails, the entire container group restarts. Use with: [CreateContainerGroupDefinition](https://docs.aws.amazon.com/gamelift/latest/apireference/API_CreateContainerGroupDefinition.html), [UpdateContainerGroupDefinition](https://docs.aws.amazon.com/gamelift/latest/apireference/API_UpdateContainerGroupDefinition.html)
     public struct GameServerContainerDefinitionInput: Swift.Sendable {
         /// A string that uniquely identifies the container definition within a container group.
         /// This member is required.
@@ -3032,8 +2983,7 @@ extension GameLiftClientTypes {
             mountPoints: [GameLiftClientTypes.ContainerMountPoint]? = nil,
             portConfiguration: GameLiftClientTypes.ContainerPortConfiguration? = nil,
             serverSdkVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.containerName = containerName
             self.dependsOn = dependsOn
             self.environmentOverride = environmentOverride
@@ -3047,7 +2997,7 @@ extension GameLiftClientTypes {
 
 extension GameLiftClientTypes {
 
-    /// Describes a support container in a container group. You can define a support container in either a game server container group or a per-instance container group. Support containers don't run game server processes. This definition includes container configuration, resources, and start instructions. Use this data type when creating or updating a container group definition. For properties of a deployed support container, see [SupportContainerDefinition]. Use with: [CreateContainerGroupDefinition], [UpdateContainerGroupDefinition]
+    /// Describes a support container in a container group. You can define a support container in either a game server container group or a per-instance container group. Support containers don't run game server processes. This definition includes container configuration, resources, and start instructions. Use this data type when creating or updating a container group definition. For properties of a deployed support container, see [SupportContainerDefinition](https://docs.aws.amazon.com/gamelift/latest/apireference/API_SupportContainerDefinition.html). Use with: [CreateContainerGroupDefinition](https://docs.aws.amazon.com/gamelift/latest/apireference/API_CreateContainerGroupDefinition.html), [UpdateContainerGroupDefinition](https://docs.aws.amazon.com/gamelift/latest/apireference/API_UpdateContainerGroupDefinition.html)
     public struct SupportContainerDefinitionInput: Swift.Sendable {
         /// A string that uniquely identifies the container definition within a container group.
         /// This member is required.
@@ -3069,13 +3019,13 @@ extension GameLiftClientTypes {
         /// * Image ID and tag: [AWS account].dkr.ecr.[AWS region].amazonaws.com/[repository ID]:[tag]
         /// This member is required.
         public var imageUri: Swift.String?
-        /// A specified amount of memory (in MiB) to reserve for this container. If you don't specify a container-specific memory limit, the container shares the container group's total memory allocation. Related data type: [ContainerGroupDefinition] TotalMemoryLimitMebibytes
+        /// A specified amount of memory (in MiB) to reserve for this container. If you don't specify a container-specific memory limit, the container shares the container group's total memory allocation. Related data type: [ContainerGroupDefinition](https://docs.aws.amazon.com/gamelift/latest/apireference/API_ContainerGroupDefinition.html)TotalMemoryLimitMebibytes
         public var memoryHardLimitMebibytes: Swift.Int?
         /// A mount point that binds a path inside the container to a file or directory on the host system and lets it access the file or directory.
         public var mountPoints: [GameLiftClientTypes.ContainerMountPoint]?
         /// A set of ports that Amazon GameLift can assign to processes in the container. Any processes that accept inbound traffic connections must be assigned a port from this set. The container port range must be large enough to assign one to each process in the container that needs one. Container ports aren't directly accessed by inbound traffic. Amazon GameLift maps these container ports to externally accessible connection ports, which are assigned as needed from the container fleet's ConnectionPortRange.
         public var portConfiguration: GameLiftClientTypes.ContainerPortConfiguration?
-        /// The number of vCPU units to reserve for this container. The container can use more resources when needed, if available. If you don't reserve CPU units for this container, it shares the container group's total vCPU limit. Related data type: [ContainerGroupDefinition] TotalCpuLimit
+        /// The number of vCPU units to reserve for this container. The container can use more resources when needed, if available. If you don't reserve CPU units for this container, it shares the container group's total vCPU limit. Related data type: [ContainerGroupDefinition](https://docs.aws.amazon.com/gamelift/latest/apireference/API_ContainerGroupDefinition.html) TotalCpuLimit
         public var vcpu: Swift.Double?
 
         public init(
@@ -3089,8 +3039,7 @@ extension GameLiftClientTypes {
             mountPoints: [GameLiftClientTypes.ContainerMountPoint]? = nil,
             portConfiguration: GameLiftClientTypes.ContainerPortConfiguration? = nil,
             vcpu: Swift.Double? = nil
-        )
-        {
+        ) {
             self.containerName = containerName
             self.dependsOn = dependsOn
             self.environmentOverride = environmentOverride
@@ -3139,8 +3088,7 @@ public struct CreateContainerGroupDefinitionInput: Swift.Sendable {
         totalMemoryLimitMebibytes: Swift.Int? = nil,
         totalVcpuLimit: Swift.Double? = nil,
         versionDescription: Swift.String? = nil
-    )
-    {
+    ) {
         self.containerGroupType = containerGroupType
         self.gameServerContainerDefinition = gameServerContainerDefinition
         self.name = name
@@ -3159,8 +3107,7 @@ public struct CreateContainerGroupDefinitionOutput: Swift.Sendable {
 
     public init(
         containerGroupDefinition: GameLiftClientTypes.ContainerGroupDefinition? = nil
-    )
-    {
+    ) {
         self.containerGroupDefinition = containerGroupDefinition
     }
 }
@@ -3183,8 +3130,7 @@ public struct NotReadyException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3256,8 +3202,7 @@ extension GameLiftClientTypes {
         public init(
             newGameSessionsPerCreator: Swift.Int? = nil,
             policyPeriodInMinutes: Swift.Int? = nil
-        )
-        {
+        ) {
             self.newGameSessionsPerCreator = newGameSessionsPerCreator
             self.policyPeriodInMinutes = policyPeriodInMinutes
         }
@@ -3288,8 +3233,7 @@ extension GameLiftClientTypes {
             concurrentExecutions: Swift.Int? = nil,
             launchPath: Swift.String? = nil,
             parameters: Swift.String? = nil
-        )
-        {
+        ) {
             self.concurrentExecutions = concurrentExecutions
             self.launchPath = launchPath
             self.parameters = parameters
@@ -3303,7 +3247,7 @@ extension GameLiftClientTypes {
     public struct RuntimeConfiguration: Swift.Sendable {
         /// The maximum amount of time (in seconds) allowed to launch a new game session and have it report ready to host players. During this time, the game session is in status ACTIVATING. If the game session does not become active before the timeout, it is ended and the game session status is changed to TERMINATED.
         public var gameSessionActivationTimeoutSeconds: Swift.Int?
-        /// The number of game sessions in status ACTIVATING to allow on an instance. This setting limits the instance resources that can be used for new game activations at any one time.
+        /// The number of game sessions in status ACTIVATING to allow on an instance or compute. This setting limits the instance resources that can be used for new game activations at any one time.
         public var maxConcurrentGameSessionActivations: Swift.Int?
         /// A collection of server process configurations that identify what server processes to run on fleet computes.
         public var serverProcesses: [GameLiftClientTypes.ServerProcess]?
@@ -3312,8 +3256,7 @@ extension GameLiftClientTypes {
             gameSessionActivationTimeoutSeconds: Swift.Int? = nil,
             maxConcurrentGameSessionActivations: Swift.Int? = nil,
             serverProcesses: [GameLiftClientTypes.ServerProcess]? = nil
-        )
-        {
+        ) {
             self.gameSessionActivationTimeoutSeconds = gameSessionActivationTimeoutSeconds
             self.maxConcurrentGameSessionActivations = maxConcurrentGameSessionActivations
             self.serverProcesses = serverProcesses
@@ -3332,11 +3275,11 @@ public struct CreateFleetInput: Swift.Sendable {
     ///
     /// * EC2 – The game server build is deployed to Amazon EC2 instances for cloud hosting. This is the default setting.
     ///
-    /// * ANYWHERE – Your game server and supporting software is deployed to compute resources that are provided and managed by you. With this compute type, you can also set the AnywhereConfiguration parameter.
+    /// * ANYWHERE – Game servers and supporting software are deployed to compute resources that you provide and manage. With this compute type, you can also set the AnywhereConfiguration parameter.
     public var computeType: GameLiftClientTypes.ComputeType?
     /// A description for the fleet.
     public var description: Swift.String?
-    /// The IP address ranges and port settings that allow inbound traffic to access game server processes and other processes on this fleet. Set this parameter for managed EC2 fleets. You can leave this parameter empty when creating the fleet, but you must call [UpdateFleetPortSettings] to set it before players can connect to game sessions. As a best practice, we recommend opening ports for remote access only when you need them and closing them when you're finished. For Realtime Servers fleets, Amazon GameLift automatically sets TCP and UDP ranges.
+    /// The IP address ranges and port settings that allow inbound traffic to access game server processes and other processes on this fleet. Set this parameter for managed EC2 fleets. You can leave this parameter empty when creating the fleet, but you must call [https://docs.aws.amazon.com/gamelift/latest/apireference/API_UpdateFleetPortSettings](https://docs.aws.amazon.com/gamelift/latest/apireference/API_UpdateFleetPortSettings) to set it before players can connect to game sessions. As a best practice, we recommend opening ports for remote access only when you need them and closing them when you're finished. For Realtime Servers fleets, Amazon GameLift automatically sets TCP and UDP ranges.
     public var ec2InboundPermissions: [GameLiftClientTypes.IpPermission]?
     /// The Amazon GameLift-supported Amazon EC2 instance type to use with managed EC2 fleets. Instance type determines the computing resources that will be used to host your game servers, including CPU, memory, storage, and networking capacity. See [Amazon Elastic Compute Cloud Instance Types](http://aws.amazon.com/ec2/instance-types/) for detailed descriptions of Amazon EC2 instance types.
     public var ec2InstanceType: GameLiftClientTypes.EC2InstanceType?
@@ -3402,8 +3345,7 @@ public struct CreateFleetInput: Swift.Sendable {
         serverLaunchParameters: Swift.String? = nil,
         serverLaunchPath: Swift.String? = nil,
         tags: [GameLiftClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.anywhereConfiguration = anywhereConfiguration
         self.buildId = buildId
         self.certificateConfiguration = certificateConfiguration
@@ -3518,9 +3460,9 @@ extension GameLiftClientTypes {
     /// * Amazon GameLift Anywhere fleets have an abbreviated set of attributes, because most fleet configurations are set directly on the fleet's computes. Attributes include fleet identifiers and descriptive properties, creation/termination time, and fleet status.
     ///
     ///
-    /// Returned by: [DescribeFleetAttributes]
+    /// Returned by: [https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeFleetAttributes](https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeFleetAttributes)
     public struct FleetAttributes: Swift.Sendable {
-        /// Amazon GameLift Anywhere configuration options.
+        /// A set of attributes that are specific to an Anywhere fleet.
         public var anywhereConfiguration: GameLiftClientTypes.AnywhereConfiguration?
         /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) associated with the Amazon GameLift build resource that is deployed on instances in this fleet. In a GameLift build ARN, the resource ID matches the BuildId value. This attribute is used with fleets where ComputeType is "EC2".
         public var buildArn: Swift.String?
@@ -3540,25 +3482,25 @@ extension GameLiftClientTypes {
         public var fleetId: Swift.String?
         /// Indicates whether the fleet uses On-Demand or Spot instances. For more information, see [ On-Demand versus Spot Instances](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-ec2-instances.html#gamelift-ec2-instances-spot). This fleet property can't be changed after the fleet is created.
         public var fleetType: GameLiftClientTypes.FleetType?
-        /// A unique identifier for an IAM role that manages access to your Amazon Web Services services. With an instance role ARN set, any application that runs on an instance in this fleet can assume the role, including install scripts, server processes, and daemons (background processes). Create a role or look up a role's ARN by using the [IAM dashboard](https://console.aws.amazon.com/iam/) in the Amazon Web Services Management Console. Learn more about using on-box credentials for your game servers at [ Access external resources from a game server](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-resources.html). This attribute is used with fleets where ComputeType is "EC2".
+        /// A unique identifier for an IAM role that manages access to your Amazon Web Services services. With an instance role ARN set, any application that runs on an instance in this fleet can assume the role, including install scripts, server processes, and daemons (background processes). Create a role or look up a role's ARN by using the [IAM dashboard](https://console.aws.amazon.com/iam/) in the Amazon Web Services Management Console. Learn more about using on-box credentials for your game servers at [ Access external resources from a game server](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-resources.html). This attribute is used with fleets where ComputeType is EC2.
         public var instanceRoleArn: Swift.String?
-        /// Indicates that fleet instances maintain a shared credentials file for the IAM role defined in InstanceRoleArn. Shared credentials allow applications that are deployed with the game server executable to communicate with other Amazon Web Services resources. This property is used only when the game server is integrated with the server SDK version 5.x. For more information about using shared credentials, see [ Communicate with other Amazon Web Services resources from your fleets](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-resources.html). This attribute is used with fleets where ComputeType is "EC2".
+        /// Indicates that fleet instances maintain a shared credentials file for the IAM role defined in InstanceRoleArn. Shared credentials allow applications that are deployed with the game server executable to communicate with other Amazon Web Services resources. This property is used only when the game server is integrated with the server SDK version 5.x. For more information about using shared credentials, see [ Communicate with other Amazon Web Services resources from your fleets](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-resources.html). This attribute is used with fleets where ComputeType is EC2.
         public var instanceRoleCredentialsProvider: GameLiftClientTypes.InstanceRoleCredentialsProvider?
-        /// The Amazon EC2 instance type that the fleet uses. Instance type determines the computing resources of each instance in the fleet, including CPU, memory, storage, and networking capacity. See [Amazon Elastic Compute Cloud Instance Types](http://aws.amazon.com/ec2/instance-types/) for detailed descriptions. This attribute is used with fleets where ComputeType is "EC2".
+        /// The Amazon EC2 instance type that the fleet uses. Instance type determines the computing resources of each instance in the fleet, including CPU, memory, storage, and networking capacity. See [Amazon Elastic Compute Cloud Instance Types](http://aws.amazon.com/ec2/instance-types/) for detailed descriptions. This attribute is used with fleets where ComputeType is EC2.
         public var instanceType: GameLiftClientTypes.EC2InstanceType?
         /// This parameter is no longer used. Game session log paths are now defined using the Amazon GameLift server API ProcessReady()logParameters. See more information in the [Server API Reference](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api-ref.html#gamelift-sdk-server-api-ref-dataypes-process).
         public var logPaths: [Swift.String]?
-        /// Name of a metric group that metrics for this fleet are added to. In Amazon CloudWatch, you can view aggregated metrics for fleets that are in a metric group. A fleet can be included in only one metric group at a time. This attribute is used with fleets where ComputeType is "EC2".
+        /// Name of a metric group that metrics for this fleet are added to. In Amazon CloudWatch, you can view aggregated metrics for fleets that are in a metric group. A fleet can be included in only one metric group at a time. This attribute is used with fleets where ComputeType is EC2.
         public var metricGroups: [Swift.String]?
         /// A descriptive label that is associated with a fleet. Fleet names do not need to be unique.
         public var name: Swift.String?
-        /// The type of game session protection to set on all new instances that are started in the fleet. This attribute is used with fleets where ComputeType is "EC2".
+        /// The type of game session protection to set on all new instances that are started in the fleet. This attribute is used with fleets where ComputeType is EC2.
         ///
         /// * NoProtection -- The game session can be terminated during a scale-down event.
         ///
         /// * FullProtection -- If the game session is in an ACTIVE status, it cannot be terminated during a scale-down event.
         public var newGameSessionProtectionPolicy: GameLiftClientTypes.ProtectionPolicy?
-        /// The operating system of the fleet's computing resources. A fleet's operating system is determined by the OS of the build or script that is deployed on this fleet. This attribute is used with fleets where ComputeType is "EC2". Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See more details in the [Amazon Linux 2 FAQs](https://aws.amazon.com/amazon-linux-2/faqs/). For game servers that are hosted on AL2 and use Amazon GameLift server SDK 4.x, first update the game server build to server SDK 5.x, and then deploy to AL2023 instances. See [ Migrate to Amazon GameLift server SDK version 5.](https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-serversdk5-migration.html)
+        /// The operating system of the fleet's computing resources. A fleet's operating system is determined by the OS of the build or script that is deployed on this fleet. This attribute is used with fleets where ComputeType is EC2. Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See more details in the [Amazon Linux 2 FAQs](https://aws.amazon.com/amazon-linux-2/faqs/). For game servers that are hosted on AL2 and use Amazon GameLift server SDK 4.x., first update the game server build to server SDK 5.x, and then deploy to AL2023 instances. See [ Migrate to Amazon GameLift server SDK version 5.](https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-serversdk5-migration.html)
         public var operatingSystem: GameLiftClientTypes.OperatingSystem?
         /// A policy that puts limits on the number of game sessions that a player can create within a specified span of time. With this policy, you can control players' ability to consume available resources. The policy is evaluated when a player tries to create a new game session. On receiving a CreateGameSession request, Amazon GameLift checks that the player (identified by CreatorId) has created fewer than game session limit in the specified time period.
         public var resourceCreationLimitPolicy: GameLiftClientTypes.ResourceCreationLimitPolicy?
@@ -3586,7 +3528,7 @@ extension GameLiftClientTypes {
         ///
         /// * TERMINATED -- The fleet no longer exists.
         public var status: GameLiftClientTypes.FleetStatus?
-        /// A list of fleet activity that has been suspended using [StopFleetActions](https://docs.aws.amazon.com/gamelift/latest/apireference/API_StopFleetActions.html). This includes fleet auto-scaling. This attribute is used with fleets where ComputeType is "EC2".
+        /// A list of fleet activity that has been suspended using [StopFleetActions](https://docs.aws.amazon.com/gamelift/latest/apireference/API_StopFleetActions.html). This includes fleet auto-scaling. This attribute is used with fleets where ComputeType is EC2.
         public var stoppedActions: [GameLiftClientTypes.FleetAction]?
         /// A time stamp indicating when this data object was terminated. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public var terminationTime: Foundation.Date?
@@ -3618,8 +3560,7 @@ extension GameLiftClientTypes {
             status: GameLiftClientTypes.FleetStatus? = nil,
             stoppedActions: [GameLiftClientTypes.FleetAction]? = nil,
             terminationTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.anywhereConfiguration = anywhereConfiguration
             self.buildArn = buildArn
             self.buildId = buildId
@@ -3676,8 +3617,7 @@ extension GameLiftClientTypes {
         public init(
             location: Swift.String? = nil,
             status: GameLiftClientTypes.FleetStatus? = nil
-        )
-        {
+        ) {
             self.location = location
             self.status = status
         }
@@ -3693,8 +3633,7 @@ public struct CreateFleetOutput: Swift.Sendable {
     public init(
         fleetAttributes: GameLiftClientTypes.FleetAttributes? = nil,
         locationStates: [GameLiftClientTypes.LocationState]? = nil
-    )
-    {
+    ) {
         self.fleetAttributes = fleetAttributes
         self.locationStates = locationStates
     }
@@ -3718,8 +3657,7 @@ public struct InvalidFleetStatusException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3735,8 +3673,7 @@ public struct CreateFleetLocationsInput: Swift.Sendable {
     public init(
         fleetId: Swift.String? = nil,
         locations: [GameLiftClientTypes.LocationConfiguration]? = nil
-    )
-    {
+    ) {
         self.fleetId = fleetId
         self.locations = locations
     }
@@ -3754,8 +3691,7 @@ public struct CreateFleetLocationsOutput: Swift.Sendable {
         fleetArn: Swift.String? = nil,
         fleetId: Swift.String? = nil,
         locationStates: [GameLiftClientTypes.LocationState]? = nil
-    )
-    {
+    ) {
         self.fleetArn = fleetArn
         self.fleetId = fleetId
         self.locationStates = locationStates
@@ -3772,8 +3708,7 @@ extension GameLiftClientTypes {
 
         public init(
             targetValue: Swift.Double? = nil
-        )
-        {
+        ) {
             self.targetValue = targetValue
         }
     }
@@ -3792,8 +3727,7 @@ extension GameLiftClientTypes {
         public init(
             estimatedInstanceWarmup: Swift.Int? = nil,
             targetTrackingConfiguration: GameLiftClientTypes.TargetTrackingConfiguration? = nil
-        )
-        {
+        ) {
             self.estimatedInstanceWarmup = estimatedInstanceWarmup
             self.targetTrackingConfiguration = targetTrackingConfiguration
         }
@@ -4129,8 +4063,7 @@ extension GameLiftClientTypes {
         public init(
             instanceType: GameLiftClientTypes.GameServerGroupInstanceType? = nil,
             weightedCapacity: Swift.String? = nil
-        )
-        {
+        ) {
             self.instanceType = instanceType
             self.weightedCapacity = weightedCapacity
         }
@@ -4152,8 +4085,7 @@ extension GameLiftClientTypes {
             launchTemplateId: Swift.String? = nil,
             launchTemplateName: Swift.String? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.launchTemplateId = launchTemplateId
             self.launchTemplateName = launchTemplateName
             self.version = version
@@ -4209,8 +4141,7 @@ public struct CreateGameServerGroupInput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         tags: [GameLiftClientTypes.Tag]? = nil,
         vpcSubnets: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.autoScalingPolicy = autoScalingPolicy
         self.balancingStrategy = balancingStrategy
         self.gameServerGroupName = gameServerGroupName
@@ -4357,8 +4288,7 @@ extension GameLiftClientTypes {
             status: GameLiftClientTypes.GameServerGroupStatus? = nil,
             statusReason: Swift.String? = nil,
             suspendedActions: [GameLiftClientTypes.GameServerGroupAction]? = nil
-        )
-        {
+        ) {
             self.autoScalingGroupArn = autoScalingGroupArn
             self.balancingStrategy = balancingStrategy
             self.creationTime = creationTime
@@ -4381,8 +4311,7 @@ public struct CreateGameServerGroupOutput: Swift.Sendable {
 
     public init(
         gameServerGroup: GameLiftClientTypes.GameServerGroup? = nil
-    )
-    {
+    ) {
         self.gameServerGroup = gameServerGroup
     }
 }
@@ -4405,8 +4334,7 @@ public struct FleetCapacityExceededException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4429,8 +4357,7 @@ public struct IdempotentParameterMismatchException: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4453,8 +4380,7 @@ public struct TerminalRoutingStrategyException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4473,8 +4399,7 @@ extension GameLiftClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -4515,8 +4440,7 @@ public struct CreateGameSessionInput: Swift.Sendable {
         location: Swift.String? = nil,
         maximumPlayerSessionCount: Swift.Int? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.aliasId = aliasId
         self.creatorId = creatorId
         self.fleetId = fleetId
@@ -4600,12 +4524,16 @@ extension GameLiftClientTypes {
 extension GameLiftClientTypes {
 
     public enum GameSessionStatusReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case forceTerminated
         case interrupted
+        case triggeredOnProcessTerminate
         case sdkUnknown(Swift.String)
 
         public static var allCases: [GameSessionStatusReason] {
             return [
-                .interrupted
+                .forceTerminated,
+                .interrupted,
+                .triggeredOnProcessTerminate
             ]
         }
 
@@ -4616,7 +4544,9 @@ extension GameLiftClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .forceTerminated: return "FORCE_TERMINATED"
             case .interrupted: return "INTERRUPTED"
+            case .triggeredOnProcessTerminate: return "TRIGGERED_ON_PROCESS_TERMINATE"
             case let .sdkUnknown(s): return s
             }
         }
@@ -4662,13 +4592,19 @@ extension GameLiftClientTypes {
         public var maximumPlayerSessionCount: Swift.Int?
         /// A descriptive label that is associated with a game session. Session names do not need to be unique.
         public var name: Swift.String?
-        /// Indicates whether or not the game session is accepting new players.
+        /// Indicates whether the game session is accepting new players.
         public var playerSessionCreationPolicy: GameLiftClientTypes.PlayerSessionCreationPolicy?
         /// The port number for the game session. To connect to a Amazon GameLift game server, an app needs both the IP address and port number.
         public var port: Swift.Int?
         /// Current status of the game session. A game session must have an ACTIVE status to have player sessions.
         public var status: GameLiftClientTypes.GameSessionStatus?
-        /// Provides additional information about game session status. INTERRUPTED indicates that the game session was hosted on a spot instance that was reclaimed, causing the active game session to be terminated.
+        /// Provides additional information about game session status.
+        ///
+        /// * INTERRUPTED -- The game session was hosted on an EC2 Spot instance that was reclaimed, causing the active game session to be stopped.
+        ///
+        /// * TRIGGERED_ON_PROCESS_TERMINATE – The game session was stopped by calling TerminateGameSession with the termination mode TRIGGER_ON_PROCESS_TERMINATE.
+        ///
+        /// * FORCE_TERMINATED – The game session was stopped by calling TerminateGameSession with the termination mode FORCE_TERMINATE.
         public var statusReason: GameLiftClientTypes.GameSessionStatusReason?
         /// A time stamp indicating when this data object was terminated. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public var terminationTime: Foundation.Date?
@@ -4693,8 +4629,7 @@ extension GameLiftClientTypes {
             status: GameLiftClientTypes.GameSessionStatus? = nil,
             statusReason: GameLiftClientTypes.GameSessionStatusReason? = nil,
             terminationTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.creatorId = creatorId
             self.currentPlayerSessionCount = currentPlayerSessionCount
@@ -4729,8 +4664,7 @@ public struct CreateGameSessionOutput: Swift.Sendable {
 
     public init(
         gameSession: GameLiftClientTypes.GameSession? = nil
-    )
-    {
+    ) {
         self.gameSession = gameSession
     }
 }
@@ -4744,8 +4678,7 @@ extension GameLiftClientTypes {
 
         public init(
             destinationArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.destinationArn = destinationArn
         }
     }
@@ -4760,8 +4693,7 @@ extension GameLiftClientTypes {
 
         public init(
             allowedLocations: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.allowedLocations = allowedLocations
         }
     }
@@ -4779,8 +4711,7 @@ extension GameLiftClientTypes {
         public init(
             maximumIndividualPlayerLatencyMilliseconds: Swift.Int? = nil,
             policyDurationSeconds: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maximumIndividualPlayerLatencyMilliseconds = maximumIndividualPlayerLatencyMilliseconds
             self.policyDurationSeconds = policyDurationSeconds
         }
@@ -4849,8 +4780,7 @@ extension GameLiftClientTypes {
         public init(
             locationOrder: [Swift.String]? = nil,
             priorityOrder: [GameLiftClientTypes.PriorityType]? = nil
-        )
-        {
+        ) {
             self.locationOrder = locationOrder
             self.priorityOrder = priorityOrder
         }
@@ -4888,8 +4818,7 @@ public struct CreateGameSessionQueueInput: Swift.Sendable {
         priorityConfiguration: GameLiftClientTypes.PriorityConfiguration? = nil,
         tags: [GameLiftClientTypes.Tag]? = nil,
         timeoutInSeconds: Swift.Int? = nil
-    )
-    {
+    ) {
         self.customEventData = customEventData
         self.destinations = destinations
         self.filterConfiguration = filterConfiguration
@@ -4935,8 +4864,7 @@ extension GameLiftClientTypes {
             playerLatencyPolicies: [GameLiftClientTypes.PlayerLatencyPolicy]? = nil,
             priorityConfiguration: GameLiftClientTypes.PriorityConfiguration? = nil,
             timeoutInSeconds: Swift.Int? = nil
-        )
-        {
+        ) {
             self.customEventData = customEventData
             self.destinations = destinations
             self.filterConfiguration = filterConfiguration
@@ -4956,8 +4884,7 @@ public struct CreateGameSessionQueueOutput: Swift.Sendable {
 
     public init(
         gameSessionQueue: GameLiftClientTypes.GameSessionQueue? = nil
-    )
-    {
+    ) {
         self.gameSessionQueue = gameSessionQueue
     }
 }
@@ -4972,8 +4899,7 @@ public struct CreateLocationInput: Swift.Sendable {
     public init(
         locationName: Swift.String? = nil,
         tags: [GameLiftClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.locationName = locationName
         self.tags = tags
     }
@@ -4981,7 +4907,7 @@ public struct CreateLocationInput: Swift.Sendable {
 
 extension GameLiftClientTypes {
 
-    /// Properties of a custom location for use in an Amazon GameLift Anywhere fleet. This data type is returned in response to a call to [CreateLocation].
+    /// Properties of a custom location for use in an Amazon GameLift Anywhere fleet. This data type is returned in response to a call to [https://docs.aws.amazon.com/gamelift/latest/apireference/API_CreateLocation](https://docs.aws.amazon.com/gamelift/latest/apireference/API_CreateLocation).
     public struct LocationModel: Swift.Sendable {
         /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) that is assigned to a Amazon GameLift location resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:::location/location-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912.
         public var locationArn: Swift.String?
@@ -4991,8 +4917,7 @@ extension GameLiftClientTypes {
         public init(
             locationArn: Swift.String? = nil,
             locationName: Swift.String? = nil
-        )
-        {
+        ) {
             self.locationArn = locationArn
             self.locationName = locationName
         }
@@ -5005,8 +4930,7 @@ public struct CreateLocationOutput: Swift.Sendable {
 
     public init(
         location: GameLiftClientTypes.LocationModel? = nil
-    )
-    {
+    ) {
         self.location = location
     }
 }
@@ -5096,8 +5020,7 @@ public struct CreateMatchmakingConfigurationInput: Swift.Sendable {
         requestTimeoutSeconds: Swift.Int? = nil,
         ruleSetName: Swift.String? = nil,
         tags: [GameLiftClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.acceptanceRequired = acceptanceRequired
         self.acceptanceTimeoutSeconds = acceptanceTimeoutSeconds
         self.additionalPlayerCount = additionalPlayerCount
@@ -5177,8 +5100,7 @@ extension GameLiftClientTypes {
             requestTimeoutSeconds: Swift.Int? = nil,
             ruleSetArn: Swift.String? = nil,
             ruleSetName: Swift.String? = nil
-        )
-        {
+        ) {
             self.acceptanceRequired = acceptanceRequired
             self.acceptanceTimeoutSeconds = acceptanceTimeoutSeconds
             self.additionalPlayerCount = additionalPlayerCount
@@ -5206,8 +5128,7 @@ public struct CreateMatchmakingConfigurationOutput: Swift.Sendable {
 
     public init(
         configuration: GameLiftClientTypes.MatchmakingConfiguration? = nil
-    )
-    {
+    ) {
         self.configuration = configuration
     }
 }
@@ -5226,8 +5147,7 @@ public struct CreateMatchmakingRuleSetInput: Swift.Sendable {
         name: Swift.String? = nil,
         ruleSetBody: Swift.String? = nil,
         tags: [GameLiftClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.name = name
         self.ruleSetBody = ruleSetBody
         self.tags = tags
@@ -5261,8 +5181,7 @@ extension GameLiftClientTypes {
             ruleSetArn: Swift.String? = nil,
             ruleSetBody: Swift.String? = nil,
             ruleSetName: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.ruleSetArn = ruleSetArn
             self.ruleSetBody = ruleSetBody
@@ -5278,8 +5197,7 @@ public struct CreateMatchmakingRuleSetOutput: Swift.Sendable {
 
     public init(
         ruleSet: GameLiftClientTypes.MatchmakingRuleSet? = nil
-    )
-    {
+    ) {
         self.ruleSet = ruleSet
     }
 }
@@ -5302,8 +5220,7 @@ public struct GameSessionFullException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5326,8 +5243,7 @@ public struct InvalidGameSessionStatusException: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5346,8 +5262,7 @@ public struct CreatePlayerSessionInput: Swift.Sendable {
         gameSessionId: Swift.String? = nil,
         playerData: Swift.String? = nil,
         playerId: Swift.String? = nil
-    )
-    {
+    ) {
         self.gameSessionId = gameSessionId
         self.playerData = playerData
         self.playerId = playerId
@@ -5451,8 +5366,7 @@ extension GameLiftClientTypes {
             port: Swift.Int? = nil,
             status: GameLiftClientTypes.PlayerSessionStatus? = nil,
             terminationTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.dnsName = dnsName
             self.fleetArn = fleetArn
@@ -5480,8 +5394,7 @@ public struct CreatePlayerSessionOutput: Swift.Sendable {
 
     public init(
         playerSession: GameLiftClientTypes.PlayerSession? = nil
-    )
-    {
+    ) {
         self.playerSession = playerSession
     }
 }
@@ -5500,8 +5413,7 @@ public struct CreatePlayerSessionsInput: Swift.Sendable {
         gameSessionId: Swift.String? = nil,
         playerDataMap: [Swift.String: Swift.String]? = nil,
         playerIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.gameSessionId = gameSessionId
         self.playerDataMap = playerDataMap
         self.playerIds = playerIds
@@ -5519,8 +5431,7 @@ public struct CreatePlayerSessionsOutput: Swift.Sendable {
 
     public init(
         playerSessions: [GameLiftClientTypes.PlayerSession]? = nil
-    )
-    {
+    ) {
         self.playerSessions = playerSessions
     }
 }
@@ -5543,8 +5454,7 @@ public struct CreateScriptInput: Swift.Sendable {
         tags: [GameLiftClientTypes.Tag]? = nil,
         version: Swift.String? = nil,
         zipFile: Foundation.Data? = nil
-    )
-    {
+    ) {
         self.name = name
         self.storageLocation = storageLocation
         self.tags = tags
@@ -5580,8 +5490,7 @@ extension GameLiftClientTypes {
             sizeOnDisk: Swift.Int? = nil,
             storageLocation: GameLiftClientTypes.S3Location? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.name = name
             self.scriptArn = scriptArn
@@ -5599,8 +5508,7 @@ public struct CreateScriptOutput: Swift.Sendable {
 
     public init(
         script: GameLiftClientTypes.Script? = nil
-    )
-    {
+    ) {
         self.script = script
     }
 }
@@ -5616,8 +5524,7 @@ public struct CreateVpcPeeringAuthorizationInput: Swift.Sendable {
     public init(
         gameLiftAwsAccountId: Swift.String? = nil,
         peerVpcId: Swift.String? = nil
-    )
-    {
+    ) {
         self.gameLiftAwsAccountId = gameLiftAwsAccountId
         self.peerVpcId = peerVpcId
     }
@@ -5644,8 +5551,7 @@ extension GameLiftClientTypes {
             gameLiftAwsAccountId: Swift.String? = nil,
             peerVpcAwsAccountId: Swift.String? = nil,
             peerVpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.expirationTime = expirationTime
             self.gameLiftAwsAccountId = gameLiftAwsAccountId
@@ -5661,8 +5567,7 @@ public struct CreateVpcPeeringAuthorizationOutput: Swift.Sendable {
 
     public init(
         vpcPeeringAuthorization: GameLiftClientTypes.VpcPeeringAuthorization? = nil
-    )
-    {
+    ) {
         self.vpcPeeringAuthorization = vpcPeeringAuthorization
     }
 }
@@ -5682,8 +5587,7 @@ public struct CreateVpcPeeringConnectionInput: Swift.Sendable {
         fleetId: Swift.String? = nil,
         peerVpcAwsAccountId: Swift.String? = nil,
         peerVpcId: Swift.String? = nil
-    )
-    {
+    ) {
         self.fleetId = fleetId
         self.peerVpcAwsAccountId = peerVpcAwsAccountId
         self.peerVpcId = peerVpcId
@@ -5702,8 +5606,7 @@ public struct DeleteAliasInput: Swift.Sendable {
 
     public init(
         aliasId: Swift.String? = nil
-    )
-    {
+    ) {
         self.aliasId = aliasId
     }
 }
@@ -5715,8 +5618,7 @@ public struct DeleteBuildInput: Swift.Sendable {
 
     public init(
         buildId: Swift.String? = nil
-    )
-    {
+    ) {
         self.buildId = buildId
     }
 }
@@ -5728,8 +5630,7 @@ public struct DeleteContainerFleetInput: Swift.Sendable {
 
     public init(
         fleetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.fleetId = fleetId
     }
 }
@@ -5752,8 +5653,7 @@ public struct DeleteContainerGroupDefinitionInput: Swift.Sendable {
         name: Swift.String? = nil,
         versionCountToRetain: Swift.Int? = nil,
         versionNumber: Swift.Int? = nil
-    )
-    {
+    ) {
         self.name = name
         self.versionCountToRetain = versionCountToRetain
         self.versionNumber = versionNumber
@@ -5772,8 +5672,7 @@ public struct DeleteFleetInput: Swift.Sendable {
 
     public init(
         fleetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.fleetId = fleetId
     }
 }
@@ -5789,8 +5688,7 @@ public struct DeleteFleetLocationsInput: Swift.Sendable {
     public init(
         fleetId: Swift.String? = nil,
         locations: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.fleetId = fleetId
         self.locations = locations
     }
@@ -5808,8 +5706,7 @@ public struct DeleteFleetLocationsOutput: Swift.Sendable {
         fleetArn: Swift.String? = nil,
         fleetId: Swift.String? = nil,
         locationStates: [GameLiftClientTypes.LocationState]? = nil
-    )
-    {
+    ) {
         self.fleetArn = fleetArn
         self.fleetId = fleetId
         self.locationStates = locationStates
@@ -5864,8 +5761,7 @@ public struct DeleteGameServerGroupInput: Swift.Sendable {
     public init(
         deleteOption: GameLiftClientTypes.GameServerGroupDeleteOption? = nil,
         gameServerGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.deleteOption = deleteOption
         self.gameServerGroupName = gameServerGroupName
     }
@@ -5877,8 +5773,7 @@ public struct DeleteGameServerGroupOutput: Swift.Sendable {
 
     public init(
         gameServerGroup: GameLiftClientTypes.GameServerGroup? = nil
-    )
-    {
+    ) {
         self.gameServerGroup = gameServerGroup
     }
 }
@@ -5890,8 +5785,7 @@ public struct DeleteGameSessionQueueInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -5908,8 +5802,7 @@ public struct DeleteLocationInput: Swift.Sendable {
 
     public init(
         locationName: Swift.String? = nil
-    )
-    {
+    ) {
         self.locationName = locationName
     }
 }
@@ -5926,8 +5819,7 @@ public struct DeleteMatchmakingConfigurationInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -5944,8 +5836,7 @@ public struct DeleteMatchmakingRuleSetInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -5966,8 +5857,7 @@ public struct DeleteScalingPolicyInput: Swift.Sendable {
     public init(
         fleetId: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.fleetId = fleetId
         self.name = name
     }
@@ -5980,8 +5870,7 @@ public struct DeleteScriptInput: Swift.Sendable {
 
     public init(
         scriptId: Swift.String? = nil
-    )
-    {
+    ) {
         self.scriptId = scriptId
     }
 }
@@ -5997,8 +5886,7 @@ public struct DeleteVpcPeeringAuthorizationInput: Swift.Sendable {
     public init(
         gameLiftAwsAccountId: Swift.String? = nil,
         peerVpcId: Swift.String? = nil
-    )
-    {
+    ) {
         self.gameLiftAwsAccountId = gameLiftAwsAccountId
         self.peerVpcId = peerVpcId
     }
@@ -6020,8 +5908,7 @@ public struct DeleteVpcPeeringConnectionInput: Swift.Sendable {
     public init(
         fleetId: Swift.String? = nil,
         vpcPeeringConnectionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.fleetId = fleetId
         self.vpcPeeringConnectionId = vpcPeeringConnectionId
     }
@@ -6105,8 +5992,7 @@ extension GameLiftClientTypes {
             impairmentStrategy: GameLiftClientTypes.DeploymentImpairmentStrategy? = nil,
             minimumHealthyPercentage: Swift.Int? = nil,
             protectionStrategy: GameLiftClientTypes.DeploymentProtectionStrategy? = nil
-        )
-        {
+        ) {
             self.impairmentStrategy = impairmentStrategy
             self.minimumHealthyPercentage = minimumHealthyPercentage
             self.protectionStrategy = protectionStrategy
@@ -6169,8 +6055,7 @@ public struct DeregisterComputeInput: Swift.Sendable {
     public init(
         computeName: Swift.String? = nil,
         fleetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.computeName = computeName
         self.fleetId = fleetId
     }
@@ -6192,8 +6077,7 @@ public struct DeregisterGameServerInput: Swift.Sendable {
     public init(
         gameServerGroupName: Swift.String? = nil,
         gameServerId: Swift.String? = nil
-    )
-    {
+    ) {
         self.gameServerGroupName = gameServerGroupName
         self.gameServerId = gameServerId
     }
@@ -6206,8 +6090,7 @@ public struct DescribeAliasInput: Swift.Sendable {
 
     public init(
         aliasId: Swift.String? = nil
-    )
-    {
+    ) {
         self.aliasId = aliasId
     }
 }
@@ -6218,8 +6101,7 @@ public struct DescribeAliasOutput: Swift.Sendable {
 
     public init(
         alias: GameLiftClientTypes.Alias? = nil
-    )
-    {
+    ) {
         self.alias = alias
     }
 }
@@ -6231,8 +6113,7 @@ public struct DescribeBuildInput: Swift.Sendable {
 
     public init(
         buildId: Swift.String? = nil
-    )
-    {
+    ) {
         self.buildId = buildId
     }
 }
@@ -6243,8 +6124,7 @@ public struct DescribeBuildOutput: Swift.Sendable {
 
     public init(
         build: GameLiftClientTypes.Build? = nil
-    )
-    {
+    ) {
         self.build = build
     }
 }
@@ -6260,8 +6140,7 @@ public struct DescribeComputeInput: Swift.Sendable {
     public init(
         computeName: Swift.String? = nil,
         fleetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.computeName = computeName
         self.fleetId = fleetId
     }
@@ -6273,8 +6152,7 @@ public struct DescribeComputeOutput: Swift.Sendable {
 
     public init(
         compute: GameLiftClientTypes.Compute? = nil
-    )
-    {
+    ) {
         self.compute = compute
     }
 }
@@ -6286,8 +6164,7 @@ public struct DescribeContainerFleetInput: Swift.Sendable {
 
     public init(
         fleetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.fleetId = fleetId
     }
 }
@@ -6298,8 +6175,7 @@ public struct DescribeContainerFleetOutput: Swift.Sendable {
 
     public init(
         containerFleet: GameLiftClientTypes.ContainerFleet? = nil
-    )
-    {
+    ) {
         self.containerFleet = containerFleet
     }
 }
@@ -6314,8 +6190,7 @@ public struct DescribeContainerGroupDefinitionInput: Swift.Sendable {
     public init(
         name: Swift.String? = nil,
         versionNumber: Swift.Int? = nil
-    )
-    {
+    ) {
         self.name = name
         self.versionNumber = versionNumber
     }
@@ -6327,8 +6202,7 @@ public struct DescribeContainerGroupDefinitionOutput: Swift.Sendable {
 
     public init(
         containerGroupDefinition: GameLiftClientTypes.ContainerGroupDefinition? = nil
-    )
-    {
+    ) {
         self.containerGroupDefinition = containerGroupDefinition
     }
 }
@@ -6342,8 +6216,7 @@ public struct DescribeEC2InstanceLimitsInput: Swift.Sendable {
     public init(
         ec2InstanceType: GameLiftClientTypes.EC2InstanceType? = nil,
         location: Swift.String? = nil
-    )
-    {
+    ) {
         self.ec2InstanceType = ec2InstanceType
         self.location = location
     }
@@ -6367,8 +6240,7 @@ extension GameLiftClientTypes {
             ec2InstanceType: GameLiftClientTypes.EC2InstanceType? = nil,
             instanceLimit: Swift.Int? = nil,
             location: Swift.String? = nil
-        )
-        {
+        ) {
             self.currentInstances = currentInstances
             self.ec2InstanceType = ec2InstanceType
             self.instanceLimit = instanceLimit
@@ -6383,8 +6255,7 @@ public struct DescribeEC2InstanceLimitsOutput: Swift.Sendable {
 
     public init(
         ec2InstanceLimits: [GameLiftClientTypes.EC2InstanceLimit]? = nil
-    )
-    {
+    ) {
         self.ec2InstanceLimits = ec2InstanceLimits
     }
 }
@@ -6401,8 +6272,7 @@ public struct DescribeFleetAttributesInput: Swift.Sendable {
         fleetIds: [Swift.String]? = nil,
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.fleetIds = fleetIds
         self.limit = limit
         self.nextToken = nextToken
@@ -6418,8 +6288,7 @@ public struct DescribeFleetAttributesOutput: Swift.Sendable {
     public init(
         fleetAttributes: [GameLiftClientTypes.FleetAttributes]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.fleetAttributes = fleetAttributes
         self.nextToken = nextToken
     }
@@ -6437,8 +6306,7 @@ public struct DescribeFleetCapacityInput: Swift.Sendable {
         fleetIds: [Swift.String]? = nil,
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.fleetIds = fleetIds
         self.limit = limit
         self.nextToken = nextToken
@@ -6447,7 +6315,7 @@ public struct DescribeFleetCapacityInput: Swift.Sendable {
 
 extension GameLiftClientTypes {
 
-    /// The number and status of game server container groups that are deployed across a container fleet. Combine this count with the number of server processes that each game server container group runs to learn how many game sessions the fleet is capable of hosting concurrently. For example, if a fleet has 50 game server container groups, and the game server container in each group runs 1 game server process, then the fleet has the capacity to run host 50 game sessions at a time. Returned by: [DescribeFleetCapacity], [DescribeFleetLocationCapacity]
+    /// The number and status of game server container groups that are deployed across a container fleet. Combine this count with the number of server processes that each game server container group runs to learn how many game sessions the fleet is capable of hosting concurrently. For example, if a fleet has 50 game server container groups, and the game server container in each group runs 1 game server process, then the fleet has the capacity to run host 50 game sessions at a time. Returned by: [https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeFleetCapacity.html](https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeFleetCapacity.html), [https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeFleetLocationCapacity.html](https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeFleetLocationCapacity.html)
     public struct GameServerContainerGroupCounts: Swift.Sendable {
         /// The number of container groups that have active game sessions.
         public var active: Swift.Int?
@@ -6463,8 +6331,7 @@ extension GameLiftClientTypes {
             idle: Swift.Int? = nil,
             pending: Swift.Int? = nil,
             terminating: Swift.Int? = nil
-        )
-        {
+        ) {
             self.active = active
             self.idle = idle
             self.pending = pending
@@ -6500,8 +6367,7 @@ extension GameLiftClientTypes {
             minimum: Swift.Int? = nil,
             pending: Swift.Int? = nil,
             terminating: Swift.Int? = nil
-        )
-        {
+        ) {
             self.active = active
             self.desired = desired
             self.idle = idle
@@ -6537,8 +6403,7 @@ extension GameLiftClientTypes {
             instanceCounts: GameLiftClientTypes.EC2InstanceCounts? = nil,
             instanceType: GameLiftClientTypes.EC2InstanceType? = nil,
             location: Swift.String? = nil
-        )
-        {
+        ) {
             self.fleetArn = fleetArn
             self.fleetId = fleetId
             self.gameServerContainerGroupCounts = gameServerContainerGroupCounts
@@ -6558,8 +6423,7 @@ public struct DescribeFleetCapacityOutput: Swift.Sendable {
     public init(
         fleetCapacity: [GameLiftClientTypes.FleetCapacity]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.fleetCapacity = fleetCapacity
         self.nextToken = nextToken
     }
@@ -6575,8 +6439,7 @@ public struct DescribeFleetDeploymentInput: Swift.Sendable {
     public init(
         deploymentId: Swift.String? = nil,
         fleetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.deploymentId = deploymentId
         self.fleetId = fleetId
     }
@@ -6612,9 +6475,9 @@ extension GameLiftClientTypes {
         public var gameServerBinaryArn: Swift.String?
         /// The unique identifier for the version of the per-instance container group definition that is being deployed.
         public var perInstanceBinaryArn: Swift.String?
-        /// The unique identifier for the version of the game server container group definition to roll back to if deployment fails.
+        /// The unique identifier for the version of the game server container group definition to roll back to if deployment fails. Amazon GameLift sets this property to the container group definition version that the fleet used when it was last active.
         public var rollbackGameServerBinaryArn: Swift.String?
-        /// The unique identifier for the version of the per-instance container group definition to roll back to if deployment fails.
+        /// The unique identifier for the version of the per-instance container group definition to roll back to if deployment fails. Amazon GameLift sets this property to the container group definition version that the fleet used when it was last active.
         public var rollbackPerInstanceBinaryArn: Swift.String?
 
         public init(
@@ -6627,8 +6490,7 @@ extension GameLiftClientTypes {
             perInstanceBinaryArn: Swift.String? = nil,
             rollbackGameServerBinaryArn: Swift.String? = nil,
             rollbackPerInstanceBinaryArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.deploymentConfiguration = deploymentConfiguration
             self.deploymentId = deploymentId
@@ -6663,8 +6525,7 @@ extension GameLiftClientTypes {
 
         public init(
             deploymentStatus: GameLiftClientTypes.DeploymentStatus? = nil
-        )
-        {
+        ) {
             self.deploymentStatus = deploymentStatus
         }
     }
@@ -6679,8 +6540,7 @@ public struct DescribeFleetDeploymentOutput: Swift.Sendable {
     public init(
         fleetDeployment: GameLiftClientTypes.FleetDeployment? = nil,
         locationalDeployments: [Swift.String: GameLiftClientTypes.LocationalDeployment]? = nil
-    )
-    {
+    ) {
         self.fleetDeployment = fleetDeployment
         self.locationalDeployments = locationalDeployments
     }
@@ -6705,8 +6565,7 @@ public struct DescribeFleetEventsInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         startTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.endTime = endTime
         self.fleetId = fleetId
         self.limit = limit
@@ -6965,13 +6824,6 @@ extension GameLiftClientTypes {
         /// * FLEET_VPC_PEERING_DELETED -- A VPC peering connection has been successfully deleted.
         ///
         ///
-        /// Container group events:
-        ///
-        /// * CONTAINER_GROUP_REGISTRATION_FAILED – A game server container group started, but timed out before calling RegisterCompute.
-        ///
-        /// * CONTAINER_GROUP_CRASHED A game server container group started and terminated without calling RegisterCompute.
-        ///
-        ///
         /// Spot instance events:
         ///
         /// * INSTANCE_INTERRUPTED -- A spot instance was interrupted by EC2 with a two-minute notification.
@@ -7030,8 +6882,7 @@ extension GameLiftClientTypes {
             message: Swift.String? = nil,
             preSignedLogUrl: Swift.String? = nil,
             resourceId: Swift.String? = nil
-        )
-        {
+        ) {
             self.count = count
             self.eventCode = eventCode
             self.eventId = eventId
@@ -7052,8 +6903,7 @@ public struct DescribeFleetEventsOutput: Swift.Sendable {
     public init(
         events: [GameLiftClientTypes.Event]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.events = events
         self.nextToken = nextToken
     }
@@ -7075,8 +6925,7 @@ public struct DescribeFleetLocationAttributesInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         locations: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.fleetId = fleetId
         self.limit = limit
         self.locations = locations
@@ -7125,8 +6974,7 @@ extension GameLiftClientTypes {
             locationState: GameLiftClientTypes.LocationState? = nil,
             stoppedActions: [GameLiftClientTypes.FleetAction]? = nil,
             updateStatus: GameLiftClientTypes.LocationUpdateStatus? = nil
-        )
-        {
+        ) {
             self.locationState = locationState
             self.stoppedActions = stoppedActions
             self.updateStatus = updateStatus
@@ -7149,8 +6997,7 @@ public struct DescribeFleetLocationAttributesOutput: Swift.Sendable {
         fleetId: Swift.String? = nil,
         locationAttributes: [GameLiftClientTypes.LocationAttributes]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.fleetArn = fleetArn
         self.fleetId = fleetId
         self.locationAttributes = locationAttributes
@@ -7169,8 +7016,7 @@ public struct DescribeFleetLocationCapacityInput: Swift.Sendable {
     public init(
         fleetId: Swift.String? = nil,
         location: Swift.String? = nil
-    )
-    {
+    ) {
         self.fleetId = fleetId
         self.location = location
     }
@@ -7182,8 +7028,7 @@ public struct DescribeFleetLocationCapacityOutput: Swift.Sendable {
 
     public init(
         fleetCapacity: GameLiftClientTypes.FleetCapacity? = nil
-    )
-    {
+    ) {
         self.fleetCapacity = fleetCapacity
     }
 }
@@ -7199,8 +7044,7 @@ public struct DescribeFleetLocationUtilizationInput: Swift.Sendable {
     public init(
         fleetId: Swift.String? = nil,
         location: Swift.String? = nil
-    )
-    {
+    ) {
         self.fleetId = fleetId
         self.location = location
     }
@@ -7233,8 +7077,7 @@ extension GameLiftClientTypes {
             fleetId: Swift.String? = nil,
             location: Swift.String? = nil,
             maximumPlayerSessionCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.activeGameSessionCount = activeGameSessionCount
             self.activeServerProcessCount = activeServerProcessCount
             self.currentPlayerSessionCount = currentPlayerSessionCount
@@ -7252,8 +7095,7 @@ public struct DescribeFleetLocationUtilizationOutput: Swift.Sendable {
 
     public init(
         fleetUtilization: GameLiftClientTypes.FleetUtilization? = nil
-    )
-    {
+    ) {
         self.fleetUtilization = fleetUtilization
     }
 }
@@ -7268,8 +7110,7 @@ public struct DescribeFleetPortSettingsInput: Swift.Sendable {
     public init(
         fleetId: Swift.String? = nil,
         location: Swift.String? = nil
-    )
-    {
+    ) {
         self.fleetId = fleetId
         self.location = location
     }
@@ -7293,8 +7134,7 @@ public struct DescribeFleetPortSettingsOutput: Swift.Sendable {
         inboundPermissions: [GameLiftClientTypes.IpPermission]? = nil,
         location: Swift.String? = nil,
         updateStatus: GameLiftClientTypes.LocationUpdateStatus? = nil
-    )
-    {
+    ) {
         self.fleetArn = fleetArn
         self.fleetId = fleetId
         self.inboundPermissions = inboundPermissions
@@ -7315,8 +7155,7 @@ public struct DescribeFleetUtilizationInput: Swift.Sendable {
         fleetIds: [Swift.String]? = nil,
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.fleetIds = fleetIds
         self.limit = limit
         self.nextToken = nextToken
@@ -7332,8 +7171,7 @@ public struct DescribeFleetUtilizationOutput: Swift.Sendable {
     public init(
         fleetUtilization: [GameLiftClientTypes.FleetUtilization]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.fleetUtilization = fleetUtilization
         self.nextToken = nextToken
     }
@@ -7350,8 +7188,7 @@ public struct DescribeGameServerInput: Swift.Sendable {
     public init(
         gameServerGroupName: Swift.String? = nil,
         gameServerId: Swift.String? = nil
-    )
-    {
+    ) {
         self.gameServerGroupName = gameServerGroupName
         self.gameServerId = gameServerId
     }
@@ -7363,8 +7200,7 @@ public struct DescribeGameServerOutput: Swift.Sendable {
 
     public init(
         gameServer: GameLiftClientTypes.GameServer? = nil
-    )
-    {
+    ) {
         self.gameServer = gameServer
     }
 }
@@ -7376,8 +7212,7 @@ public struct DescribeGameServerGroupInput: Swift.Sendable {
 
     public init(
         gameServerGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.gameServerGroupName = gameServerGroupName
     }
 }
@@ -7388,8 +7223,7 @@ public struct DescribeGameServerGroupOutput: Swift.Sendable {
 
     public init(
         gameServerGroup: GameLiftClientTypes.GameServerGroup? = nil
-    )
-    {
+    ) {
         self.gameServerGroup = gameServerGroup
     }
 }
@@ -7410,8 +7244,7 @@ public struct DescribeGameServerInstancesInput: Swift.Sendable {
         instanceIds: [Swift.String]? = nil,
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.gameServerGroupName = gameServerGroupName
         self.instanceIds = instanceIds
         self.limit = limit
@@ -7469,8 +7302,7 @@ extension GameLiftClientTypes {
             gameServerGroupName: Swift.String? = nil,
             instanceId: Swift.String? = nil,
             instanceStatus: GameLiftClientTypes.GameServerInstanceStatus? = nil
-        )
-        {
+        ) {
             self.gameServerGroupArn = gameServerGroupArn
             self.gameServerGroupName = gameServerGroupName
             self.instanceId = instanceId
@@ -7488,8 +7320,7 @@ public struct DescribeGameServerInstancesOutput: Swift.Sendable {
     public init(
         gameServerInstances: [GameLiftClientTypes.GameServerInstance]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.gameServerInstances = gameServerInstances
         self.nextToken = nextToken
     }
@@ -7519,8 +7350,7 @@ public struct DescribeGameSessionDetailsInput: Swift.Sendable {
         location: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         statusFilter: Swift.String? = nil
-    )
-    {
+    ) {
         self.aliasId = aliasId
         self.fleetId = fleetId
         self.gameSessionId = gameSessionId
@@ -7547,8 +7377,7 @@ extension GameLiftClientTypes {
         public init(
             gameSession: GameLiftClientTypes.GameSession? = nil,
             protectionPolicy: GameLiftClientTypes.ProtectionPolicy? = nil
-        )
-        {
+        ) {
             self.gameSession = gameSession
             self.protectionPolicy = protectionPolicy
         }
@@ -7564,8 +7393,7 @@ public struct DescribeGameSessionDetailsOutput: Swift.Sendable {
     public init(
         gameSessionDetails: [GameLiftClientTypes.GameSessionDetail]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.gameSessionDetails = gameSessionDetails
         self.nextToken = nextToken
     }
@@ -7578,8 +7406,7 @@ public struct DescribeGameSessionPlacementInput: Swift.Sendable {
 
     public init(
         placementId: Swift.String? = nil
-    )
-    {
+    ) {
         self.placementId = placementId
     }
 }
@@ -7596,8 +7423,7 @@ extension GameLiftClientTypes {
         public init(
             playerId: Swift.String? = nil,
             playerSessionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.playerId = playerId
             self.playerSessionId = playerSessionId
         }
@@ -7624,8 +7450,7 @@ extension GameLiftClientTypes {
             latencyInMilliseconds: Swift.Float? = nil,
             playerId: Swift.String? = nil,
             regionIdentifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.latencyInMilliseconds = latencyInMilliseconds
             self.playerId = playerId
             self.regionIdentifier = regionIdentifier
@@ -7678,7 +7503,7 @@ extension GameLiftClientTypes {
 
 extension GameLiftClientTypes {
 
-    /// Represents a potential game session placement, including the full details of the original placement request and the current status. If the game session placement status is PENDING, the properties for game session ID/ARN, region, IP address/DNS, and port aren't final. A game session is not active and ready to accept players until placement status reaches FULFILLED. When the placement is in PENDING status, Amazon GameLift may attempt to place a game session multiple times before succeeding. With each attempt it creates a [GameSession] object and updates this placement object with the new game session properties..
+    /// Represents a potential game session placement, including the full details of the original placement request and the current status. If the game session placement status is PENDING, the properties for game session ID/ARN, region, IP address/DNS, and port aren't final. A game session is not active and ready to accept players until placement status reaches FULFILLED. When the placement is in PENDING status, Amazon GameLift may attempt to place a game session multiple times before succeeding. With each attempt it creates a [https://docs.aws.amazon.com/gamelift/latest/apireference/API_GameSession](https://docs.aws.amazon.com/gamelift/latest/apireference/API_GameSession) object and updates this placement object with the new game session properties..
     public struct GameSessionPlacement: Swift.Sendable {
         /// The DNS identifier assigned to the instance that is running the game session. Values have the following format:
         ///
@@ -7729,7 +7554,7 @@ extension GameLiftClientTypes {
         ///
         /// * CANCELLED -- The placement request was canceled.
         ///
-        /// * TIMED_OUT -- A new game session was not successfully created before the time limit expired. You can resubmit as a new placement request as needed.
+        /// * TIMED_OUT -- A new game session was not successfully created before the time limit expired. You can resubmit the placement request as needed.
         ///
         /// * FAILED -- Amazon GameLift is not able to complete the process of placing the game session. Common reasons are the game session terminated before the placement process was completed, or an unexpected internal error.
         public var status: GameLiftClientTypes.GameSessionPlacementState?
@@ -7753,8 +7578,7 @@ extension GameLiftClientTypes {
             port: Swift.Int? = nil,
             startTime: Foundation.Date? = nil,
             status: GameLiftClientTypes.GameSessionPlacementState? = nil
-        )
-        {
+        ) {
             self.dnsName = dnsName
             self.endTime = endTime
             self.gameProperties = gameProperties
@@ -7788,8 +7612,7 @@ public struct DescribeGameSessionPlacementOutput: Swift.Sendable {
 
     public init(
         gameSessionPlacement: GameLiftClientTypes.GameSessionPlacement? = nil
-    )
-    {
+    ) {
         self.gameSessionPlacement = gameSessionPlacement
     }
 }
@@ -7806,8 +7629,7 @@ public struct DescribeGameSessionQueuesInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         names: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.names = names
         self.nextToken = nextToken
@@ -7823,8 +7645,7 @@ public struct DescribeGameSessionQueuesOutput: Swift.Sendable {
     public init(
         gameSessionQueues: [GameLiftClientTypes.GameSessionQueue]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.gameSessionQueues = gameSessionQueues
         self.nextToken = nextToken
     }
@@ -7854,8 +7675,7 @@ public struct DescribeGameSessionsInput: Swift.Sendable {
         location: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         statusFilter: Swift.String? = nil
-    )
-    {
+    ) {
         self.aliasId = aliasId
         self.fleetId = fleetId
         self.gameSessionId = gameSessionId
@@ -7875,8 +7695,7 @@ public struct DescribeGameSessionsOutput: Swift.Sendable {
     public init(
         gameSessions: [GameLiftClientTypes.GameSession]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.gameSessions = gameSessions
         self.nextToken = nextToken
     }
@@ -7901,8 +7720,7 @@ public struct DescribeInstancesInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         location: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.fleetId = fleetId
         self.instanceId = instanceId
         self.limit = limit
@@ -7992,8 +7810,7 @@ extension GameLiftClientTypes {
             operatingSystem: GameLiftClientTypes.OperatingSystem? = nil,
             status: GameLiftClientTypes.InstanceStatus? = nil,
             type: GameLiftClientTypes.EC2InstanceType? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.dnsName = dnsName
             self.fleetArn = fleetArn
@@ -8022,8 +7839,7 @@ public struct DescribeInstancesOutput: Swift.Sendable {
     public init(
         instances: [GameLiftClientTypes.Instance]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.instances = instances
         self.nextToken = nextToken
     }
@@ -8036,8 +7852,7 @@ public struct DescribeMatchmakingInput: Swift.Sendable {
 
     public init(
         ticketIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.ticketIds = ticketIds
     }
 }
@@ -8054,8 +7869,7 @@ extension GameLiftClientTypes {
         public init(
             playerId: Swift.String? = nil,
             playerSessionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.playerId = playerId
             self.playerSessionId = playerSessionId
         }
@@ -8095,8 +7909,7 @@ extension GameLiftClientTypes {
             ipAddress: Swift.String? = nil,
             matchedPlayerSessions: [GameLiftClientTypes.MatchedPlayerSession]? = nil,
             port: Swift.Int? = nil
-        )
-        {
+        ) {
             self.dnsName = dnsName
             self.gameSessionArn = gameSessionArn
             self.ipAddress = ipAddress
@@ -8129,8 +7942,7 @@ extension GameLiftClientTypes {
             playerAttributes: [Swift.String: GameLiftClientTypes.AttributeValue]? = nil,
             playerId: Swift.String? = nil,
             team: Swift.String? = nil
-        )
-        {
+        ) {
             self.latencyInMs = latencyInMs
             self.playerAttributes = playerAttributes
             self.playerId = playerId
@@ -8249,8 +8061,7 @@ extension GameLiftClientTypes {
             statusMessage: Swift.String? = nil,
             statusReason: Swift.String? = nil,
             ticketId: Swift.String? = nil
-        )
-        {
+        ) {
             self.configurationArn = configurationArn
             self.configurationName = configurationName
             self.endTime = endTime
@@ -8272,8 +8083,7 @@ public struct DescribeMatchmakingOutput: Swift.Sendable {
 
     public init(
         ticketList: [GameLiftClientTypes.MatchmakingTicket]? = nil
-    )
-    {
+    ) {
         self.ticketList = ticketList
     }
 }
@@ -8293,8 +8103,7 @@ public struct DescribeMatchmakingConfigurationsInput: Swift.Sendable {
         names: [Swift.String]? = nil,
         nextToken: Swift.String? = nil,
         ruleSetName: Swift.String? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.names = names
         self.nextToken = nextToken
@@ -8311,8 +8120,7 @@ public struct DescribeMatchmakingConfigurationsOutput: Swift.Sendable {
     public init(
         configurations: [GameLiftClientTypes.MatchmakingConfiguration]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurations = configurations
         self.nextToken = nextToken
     }
@@ -8330,8 +8138,7 @@ public struct DescribeMatchmakingRuleSetsInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         names: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.names = names
         self.nextToken = nextToken
@@ -8348,8 +8155,7 @@ public struct DescribeMatchmakingRuleSetsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         ruleSets: [GameLiftClientTypes.MatchmakingRuleSet]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.ruleSets = ruleSets
     }
@@ -8384,8 +8190,7 @@ public struct DescribePlayerSessionsInput: Swift.Sendable {
         playerId: Swift.String? = nil,
         playerSessionId: Swift.String? = nil,
         playerSessionStatusFilter: Swift.String? = nil
-    )
-    {
+    ) {
         self.gameSessionId = gameSessionId
         self.limit = limit
         self.nextToken = nextToken
@@ -8409,8 +8214,7 @@ public struct DescribePlayerSessionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         playerSessions: [GameLiftClientTypes.PlayerSession]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.playerSessions = playerSessions
     }
@@ -8423,8 +8227,7 @@ public struct DescribeRuntimeConfigurationInput: Swift.Sendable {
 
     public init(
         fleetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.fleetId = fleetId
     }
 }
@@ -8435,8 +8238,7 @@ public struct DescribeRuntimeConfigurationOutput: Swift.Sendable {
 
     public init(
         runtimeConfiguration: GameLiftClientTypes.RuntimeConfiguration? = nil
-    )
-    {
+    ) {
         self.runtimeConfiguration = runtimeConfiguration
     }
 }
@@ -8518,8 +8320,7 @@ public struct DescribeScalingPoliciesInput: Swift.Sendable {
         location: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         statusFilter: GameLiftClientTypes.ScalingStatusType? = nil
-    )
-    {
+    ) {
         self.fleetId = fleetId
         self.limit = limit
         self.location = location
@@ -8658,8 +8459,7 @@ extension GameLiftClientTypes {
 
         public init(
             targetValue: Swift.Double? = nil
-        )
-        {
+        ) {
             self.targetValue = targetValue
         }
     }
@@ -8755,8 +8555,7 @@ extension GameLiftClientTypes {
             targetConfiguration: GameLiftClientTypes.TargetConfiguration? = nil,
             threshold: Swift.Double? = nil,
             updateStatus: GameLiftClientTypes.LocationUpdateStatus? = nil
-        )
-        {
+        ) {
             self.comparisonOperator = comparisonOperator
             self.evaluationPeriods = evaluationPeriods
             self.fleetArn = fleetArn
@@ -8784,8 +8583,7 @@ public struct DescribeScalingPoliciesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         scalingPolicies: [GameLiftClientTypes.ScalingPolicy]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.scalingPolicies = scalingPolicies
     }
@@ -8798,8 +8596,7 @@ public struct DescribeScriptInput: Swift.Sendable {
 
     public init(
         scriptId: Swift.String? = nil
-    )
-    {
+    ) {
         self.scriptId = scriptId
     }
 }
@@ -8810,8 +8607,7 @@ public struct DescribeScriptOutput: Swift.Sendable {
 
     public init(
         script: GameLiftClientTypes.Script? = nil
-    )
-    {
+    ) {
         self.script = script
     }
 }
@@ -8827,8 +8623,7 @@ public struct DescribeVpcPeeringAuthorizationsOutput: Swift.Sendable {
 
     public init(
         vpcPeeringAuthorizations: [GameLiftClientTypes.VpcPeeringAuthorization]? = nil
-    )
-    {
+    ) {
         self.vpcPeeringAuthorizations = vpcPeeringAuthorizations
     }
 }
@@ -8839,8 +8634,7 @@ public struct DescribeVpcPeeringConnectionsInput: Swift.Sendable {
 
     public init(
         fleetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.fleetId = fleetId
     }
 }
@@ -8857,8 +8651,7 @@ extension GameLiftClientTypes {
         public init(
             code: Swift.String? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.message = message
         }
@@ -8892,8 +8685,7 @@ extension GameLiftClientTypes {
             peerVpcId: Swift.String? = nil,
             status: GameLiftClientTypes.VpcPeeringConnectionStatus? = nil,
             vpcPeeringConnectionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.fleetArn = fleetArn
             self.fleetId = fleetId
             self.gameLiftVpcId = gameLiftVpcId
@@ -8911,8 +8703,7 @@ public struct DescribeVpcPeeringConnectionsOutput: Swift.Sendable {
 
     public init(
         vpcPeeringConnections: [GameLiftClientTypes.VpcPeeringConnection]? = nil
-    )
-    {
+    ) {
         self.vpcPeeringConnections = vpcPeeringConnections
     }
 }
@@ -8929,8 +8720,7 @@ extension GameLiftClientTypes {
         public init(
             playerData: Swift.String? = nil,
             playerId: Swift.String? = nil
-        )
-        {
+        ) {
             self.playerData = playerData
             self.playerId = playerId
         }
@@ -8943,7 +8733,7 @@ extension GameLiftClientTypes.DesiredPlayerSession: Swift.CustomDebugStringConve
 }
 
 public struct GetComputeAccessInput: Swift.Sendable {
-    /// A unique identifier for the compute resource that you want to connect to. For an EC2 fleet compute, use the instance ID. Use [ListCompute] to retrieve compute identifiers.
+    /// A unique identifier for the compute resource that you want to connect to. For an EC2 fleet compute, use the instance ID. Use [https://docs.aws.amazon.com/gamelift/latest/apireference/API_ListCompute.html](https://docs.aws.amazon.com/gamelift/latest/apireference/API_ListCompute.html) to retrieve compute identifiers.
     /// This member is required.
     public var computeName: Swift.String?
     /// A unique identifier for the fleet that holds the compute resource that you want to connect to. You can use either the fleet ID or ARN value.
@@ -8953,8 +8743,7 @@ public struct GetComputeAccessInput: Swift.Sendable {
     public init(
         computeName: Swift.String? = nil,
         fleetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.computeName = computeName
         self.fleetId = fleetId
     }
@@ -8984,8 +8773,7 @@ public struct GetComputeAccessOutput: Swift.Sendable {
         fleetArn: Swift.String? = nil,
         fleetId: Swift.String? = nil,
         target: Swift.String? = nil
-    )
-    {
+    ) {
         self.computeArn = computeArn
         self.computeName = computeName
         self.containerIdentifiers = containerIdentifiers
@@ -9012,8 +8800,7 @@ public struct GetComputeAuthTokenInput: Swift.Sendable {
     public init(
         computeName: Swift.String? = nil,
         fleetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.computeName = computeName
         self.fleetId = fleetId
     }
@@ -9040,8 +8827,7 @@ public struct GetComputeAuthTokenOutput: Swift.Sendable {
         expirationTimestamp: Foundation.Date? = nil,
         fleetArn: Swift.String? = nil,
         fleetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.authToken = authToken
         self.computeArn = computeArn
         self.computeName = computeName
@@ -9058,8 +8844,7 @@ public struct GetGameSessionLogUrlInput: Swift.Sendable {
 
     public init(
         gameSessionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.gameSessionId = gameSessionId
     }
 }
@@ -9070,8 +8855,7 @@ public struct GetGameSessionLogUrlOutput: Swift.Sendable {
 
     public init(
         preSignedUrl: Swift.String? = nil
-    )
-    {
+    ) {
         self.preSignedUrl = preSignedUrl
     }
 }
@@ -9087,8 +8871,7 @@ public struct GetInstanceAccessInput: Swift.Sendable {
     public init(
         fleetId: Swift.String? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.fleetId = fleetId
         self.instanceId = instanceId
     }
@@ -9096,7 +8879,7 @@ public struct GetInstanceAccessInput: Swift.Sendable {
 
 extension GameLiftClientTypes {
 
-    /// A set of credentials that allow remote access to an instance in an EC2 managed fleet. These credentials are returned in response to a call to [GetInstanceAccess], which requests access for instances that are running game servers with the Amazon GameLift server SDK version 4.x or earlier.
+    /// A set of credentials that allow remote access to an instance in an EC2 managed fleet. These credentials are returned in response to a call to [https://docs.aws.amazon.com/gamelift/latest/apireference/API_GetInstanceAccess](https://docs.aws.amazon.com/gamelift/latest/apireference/API_GetInstanceAccess), which requests access for instances that are running game servers with the Amazon GameLift server SDK version 4.x or earlier.
     public struct InstanceCredentials: Swift.Sendable {
         /// Secret string. For Windows instances, the secret is a password for use with Windows Remote Desktop. For Linux instances, it's a private key for use with SSH.
         public var secret: Swift.String?
@@ -9106,8 +8889,7 @@ extension GameLiftClientTypes {
         public init(
             secret: Swift.String? = nil,
             userName: Swift.String? = nil
-        )
-        {
+        ) {
             self.secret = secret
             self.userName = userName
         }
@@ -9122,7 +8904,7 @@ extension GameLiftClientTypes.InstanceCredentials: Swift.CustomDebugStringConver
 
 extension GameLiftClientTypes {
 
-    /// Information and credentials that you can use to remotely connect to an instance in an EC2 managed fleet. This data type is returned in response to a call to [GetInstanceAccess].
+    /// Information and credentials that you can use to remotely connect to an instance in an EC2 managed fleet. This data type is returned in response to a call to [https://docs.aws.amazon.com/gamelift/latest/apireference/API_GetInstanceAccess](https://docs.aws.amazon.com/gamelift/latest/apireference/API_GetInstanceAccess).
     public struct InstanceAccess: Swift.Sendable {
         /// Security credentials that are required to access the instance.
         public var credentials: GameLiftClientTypes.InstanceCredentials?
@@ -9141,8 +8923,7 @@ extension GameLiftClientTypes {
             instanceId: Swift.String? = nil,
             ipAddress: Swift.String? = nil,
             operatingSystem: GameLiftClientTypes.OperatingSystem? = nil
-        )
-        {
+        ) {
             self.credentials = credentials
             self.fleetId = fleetId
             self.instanceId = instanceId
@@ -9163,8 +8944,7 @@ public struct GetInstanceAccessOutput: Swift.Sendable {
 
     public init(
         instanceAccess: GameLiftClientTypes.InstanceAccess? = nil
-    )
-    {
+    ) {
         self.instanceAccess = instanceAccess
     }
 }
@@ -9188,8 +8968,7 @@ public struct ListAliasesInput: Swift.Sendable {
         name: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         routingStrategyType: GameLiftClientTypes.RoutingStrategyType? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.name = name
         self.nextToken = nextToken
@@ -9206,8 +8985,7 @@ public struct ListAliasesOutput: Swift.Sendable {
     public init(
         aliases: [GameLiftClientTypes.Alias]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.aliases = aliases
         self.nextToken = nextToken
     }
@@ -9231,8 +9009,7 @@ public struct ListBuildsInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         status: GameLiftClientTypes.BuildStatus? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.nextToken = nextToken
         self.status = status
@@ -9248,8 +9025,7 @@ public struct ListBuildsOutput: Swift.Sendable {
     public init(
         builds: [GameLiftClientTypes.Build]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.builds = builds
         self.nextToken = nextToken
     }
@@ -9310,8 +9086,7 @@ public struct ListComputeInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         location: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.computeStatus = computeStatus
         self.containerGroupDefinitionName = containerGroupDefinitionName
         self.fleetId = fleetId
@@ -9330,8 +9105,7 @@ public struct ListComputeOutput: Swift.Sendable {
     public init(
         computeList: [GameLiftClientTypes.Compute]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.computeList = computeList
         self.nextToken = nextToken
     }
@@ -9349,8 +9123,7 @@ public struct ListContainerFleetsInput: Swift.Sendable {
         containerGroupDefinitionName: Swift.String? = nil,
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.containerGroupDefinitionName = containerGroupDefinitionName
         self.limit = limit
         self.nextToken = nextToken
@@ -9366,8 +9139,7 @@ public struct ListContainerFleetsOutput: Swift.Sendable {
     public init(
         containerFleets: [GameLiftClientTypes.ContainerFleet]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.containerFleets = containerFleets
         self.nextToken = nextToken
     }
@@ -9385,8 +9157,7 @@ public struct ListContainerGroupDefinitionsInput: Swift.Sendable {
         containerGroupType: GameLiftClientTypes.ContainerGroupType? = nil,
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.containerGroupType = containerGroupType
         self.limit = limit
         self.nextToken = nextToken
@@ -9402,8 +9173,7 @@ public struct ListContainerGroupDefinitionsOutput: Swift.Sendable {
     public init(
         containerGroupDefinitions: [GameLiftClientTypes.ContainerGroupDefinition]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.containerGroupDefinitions = containerGroupDefinitions
         self.nextToken = nextToken
     }
@@ -9422,8 +9192,7 @@ public struct ListContainerGroupDefinitionVersionsInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         name: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.name = name
         self.nextToken = nextToken
@@ -9439,8 +9208,7 @@ public struct ListContainerGroupDefinitionVersionsOutput: Swift.Sendable {
     public init(
         containerGroupDefinitions: [GameLiftClientTypes.ContainerGroupDefinition]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.containerGroupDefinitions = containerGroupDefinitions
         self.nextToken = nextToken
     }
@@ -9458,8 +9226,7 @@ public struct ListFleetDeploymentsInput: Swift.Sendable {
         fleetId: Swift.String? = nil,
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.fleetId = fleetId
         self.limit = limit
         self.nextToken = nextToken
@@ -9475,8 +9242,7 @@ public struct ListFleetDeploymentsOutput: Swift.Sendable {
     public init(
         fleetDeployments: [GameLiftClientTypes.FleetDeployment]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.fleetDeployments = fleetDeployments
         self.nextToken = nextToken
     }
@@ -9497,8 +9263,7 @@ public struct ListFleetsInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         scriptId: Swift.String? = nil
-    )
-    {
+    ) {
         self.buildId = buildId
         self.limit = limit
         self.nextToken = nextToken
@@ -9515,8 +9280,7 @@ public struct ListFleetsOutput: Swift.Sendable {
     public init(
         fleetIds: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.fleetIds = fleetIds
         self.nextToken = nextToken
     }
@@ -9531,8 +9295,7 @@ public struct ListGameServerGroupsInput: Swift.Sendable {
     public init(
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.nextToken = nextToken
     }
@@ -9547,8 +9310,7 @@ public struct ListGameServerGroupsOutput: Swift.Sendable {
     public init(
         gameServerGroups: [GameLiftClientTypes.GameServerGroup]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.gameServerGroups = gameServerGroups
         self.nextToken = nextToken
     }
@@ -9599,8 +9361,7 @@ public struct ListGameServersInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sortOrder: GameLiftClientTypes.SortOrder? = nil
-    )
-    {
+    ) {
         self.gameServerGroupName = gameServerGroupName
         self.limit = limit
         self.nextToken = nextToken
@@ -9617,8 +9378,7 @@ public struct ListGameServersOutput: Swift.Sendable {
     public init(
         gameServers: [GameLiftClientTypes.GameServer]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.gameServers = gameServers
         self.nextToken = nextToken
     }
@@ -9665,8 +9425,7 @@ public struct ListLocationsInput: Swift.Sendable {
         filters: [GameLiftClientTypes.LocationFilter]? = nil,
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.limit = limit
         self.nextToken = nextToken
@@ -9682,8 +9441,7 @@ public struct ListLocationsOutput: Swift.Sendable {
     public init(
         locations: [GameLiftClientTypes.LocationModel]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.locations = locations
         self.nextToken = nextToken
     }
@@ -9698,8 +9456,7 @@ public struct ListScriptsInput: Swift.Sendable {
     public init(
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.nextToken = nextToken
     }
@@ -9714,8 +9471,7 @@ public struct ListScriptsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         scripts: [GameLiftClientTypes.Script]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.scripts = scripts
     }
@@ -9728,8 +9484,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
     }
 }
@@ -9740,8 +9495,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [GameLiftClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -9810,8 +9564,7 @@ public struct PutScalingPolicyInput: Swift.Sendable {
         scalingAdjustmentType: GameLiftClientTypes.ScalingAdjustmentType? = nil,
         targetConfiguration: GameLiftClientTypes.TargetConfiguration? = nil,
         threshold: Swift.Double? = nil
-    )
-    {
+    ) {
         self.comparisonOperator = comparisonOperator
         self.evaluationPeriods = evaluationPeriods
         self.fleetId = fleetId
@@ -9831,8 +9584,7 @@ public struct PutScalingPolicyOutput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -9860,8 +9612,7 @@ public struct RegisterComputeInput: Swift.Sendable {
         fleetId: Swift.String? = nil,
         ipAddress: Swift.String? = nil,
         location: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificatePath = certificatePath
         self.computeName = computeName
         self.dnsName = dnsName
@@ -9882,8 +9633,7 @@ public struct RegisterComputeOutput: Swift.Sendable {
 
     public init(
         compute: GameLiftClientTypes.Compute? = nil
-    )
-    {
+    ) {
         self.compute = compute
     }
 }
@@ -9909,8 +9659,7 @@ public struct RegisterGameServerInput: Swift.Sendable {
         gameServerGroupName: Swift.String? = nil,
         gameServerId: Swift.String? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectionInfo = connectionInfo
         self.gameServerData = gameServerData
         self.gameServerGroupName = gameServerGroupName
@@ -9925,8 +9674,7 @@ public struct RegisterGameServerOutput: Swift.Sendable {
 
     public init(
         gameServer: GameLiftClientTypes.GameServer? = nil
-    )
-    {
+    ) {
         self.gameServer = gameServer
     }
 }
@@ -9938,8 +9686,7 @@ public struct RequestUploadCredentialsInput: Swift.Sendable {
 
     public init(
         buildId: Swift.String? = nil
-    )
-    {
+    ) {
         self.buildId = buildId
     }
 }
@@ -9953,8 +9700,7 @@ public struct RequestUploadCredentialsOutput: Swift.Sendable {
     public init(
         storageLocation: GameLiftClientTypes.S3Location? = nil,
         uploadCredentials: GameLiftClientTypes.AwsCredentials? = nil
-    )
-    {
+    ) {
         self.storageLocation = storageLocation
         self.uploadCredentials = uploadCredentials
     }
@@ -9972,8 +9718,7 @@ public struct ResolveAliasInput: Swift.Sendable {
 
     public init(
         aliasId: Swift.String? = nil
-    )
-    {
+    ) {
         self.aliasId = aliasId
     }
 }
@@ -9987,8 +9732,7 @@ public struct ResolveAliasOutput: Swift.Sendable {
     public init(
         fleetArn: Swift.String? = nil,
         fleetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.fleetArn = fleetArn
         self.fleetId = fleetId
     }
@@ -10005,8 +9749,7 @@ public struct ResumeGameServerGroupInput: Swift.Sendable {
     public init(
         gameServerGroupName: Swift.String? = nil,
         resumeActions: [GameLiftClientTypes.GameServerGroupAction]? = nil
-    )
-    {
+    ) {
         self.gameServerGroupName = gameServerGroupName
         self.resumeActions = resumeActions
     }
@@ -10018,8 +9761,7 @@ public struct ResumeGameServerGroupOutput: Swift.Sendable {
 
     public init(
         gameServerGroup: GameLiftClientTypes.GameServerGroup? = nil
-    )
-    {
+    ) {
         self.gameServerGroup = gameServerGroup
     }
 }
@@ -10077,8 +9819,7 @@ public struct SearchGameSessionsInput: Swift.Sendable {
         location: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         sortExpression: Swift.String? = nil
-    )
-    {
+    ) {
         self.aliasId = aliasId
         self.filterExpression = filterExpression
         self.fleetId = fleetId
@@ -10098,8 +9839,7 @@ public struct SearchGameSessionsOutput: Swift.Sendable {
     public init(
         gameSessions: [GameLiftClientTypes.GameSession]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.gameSessions = gameSessions
         self.nextToken = nextToken
     }
@@ -10119,8 +9859,7 @@ public struct StartFleetActionsInput: Swift.Sendable {
         actions: [GameLiftClientTypes.FleetAction]? = nil,
         fleetId: Swift.String? = nil,
         location: Swift.String? = nil
-    )
-    {
+    ) {
         self.actions = actions
         self.fleetId = fleetId
         self.location = location
@@ -10136,8 +9875,7 @@ public struct StartFleetActionsOutput: Swift.Sendable {
     public init(
         fleetArn: Swift.String? = nil,
         fleetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.fleetArn = fleetArn
         self.fleetId = fleetId
     }
@@ -10173,8 +9911,7 @@ public struct StartGameSessionPlacementInput: Swift.Sendable {
         maximumPlayerSessionCount: Swift.Int? = nil,
         placementId: Swift.String? = nil,
         playerLatencies: [GameLiftClientTypes.PlayerLatency]? = nil
-    )
-    {
+    ) {
         self.desiredPlayerSessions = desiredPlayerSessions
         self.gameProperties = gameProperties
         self.gameSessionData = gameSessionData
@@ -10192,8 +9929,7 @@ public struct StartGameSessionPlacementOutput: Swift.Sendable {
 
     public init(
         gameSessionPlacement: GameLiftClientTypes.GameSessionPlacement? = nil
-    )
-    {
+    ) {
         self.gameSessionPlacement = gameSessionPlacement
     }
 }
@@ -10219,8 +9955,7 @@ public struct StartMatchBackfillInput: Swift.Sendable {
         gameSessionArn: Swift.String? = nil,
         players: [GameLiftClientTypes.Player]? = nil,
         ticketId: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurationName = configurationName
         self.gameSessionArn = gameSessionArn
         self.players = players
@@ -10234,8 +9969,7 @@ public struct StartMatchBackfillOutput: Swift.Sendable {
 
     public init(
         matchmakingTicket: GameLiftClientTypes.MatchmakingTicket? = nil
-    )
-    {
+    ) {
         self.matchmakingTicket = matchmakingTicket
     }
 }
@@ -10254,8 +9988,7 @@ public struct StartMatchmakingInput: Swift.Sendable {
         configurationName: Swift.String? = nil,
         players: [GameLiftClientTypes.Player]? = nil,
         ticketId: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurationName = configurationName
         self.players = players
         self.ticketId = ticketId
@@ -10268,8 +10001,7 @@ public struct StartMatchmakingOutput: Swift.Sendable {
 
     public init(
         matchmakingTicket: GameLiftClientTypes.MatchmakingTicket? = nil
-    )
-    {
+    ) {
         self.matchmakingTicket = matchmakingTicket
     }
 }
@@ -10288,8 +10020,7 @@ public struct StopFleetActionsInput: Swift.Sendable {
         actions: [GameLiftClientTypes.FleetAction]? = nil,
         fleetId: Swift.String? = nil,
         location: Swift.String? = nil
-    )
-    {
+    ) {
         self.actions = actions
         self.fleetId = fleetId
         self.location = location
@@ -10305,8 +10036,7 @@ public struct StopFleetActionsOutput: Swift.Sendable {
     public init(
         fleetArn: Swift.String? = nil,
         fleetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.fleetArn = fleetArn
         self.fleetId = fleetId
     }
@@ -10319,8 +10049,7 @@ public struct StopGameSessionPlacementInput: Swift.Sendable {
 
     public init(
         placementId: Swift.String? = nil
-    )
-    {
+    ) {
         self.placementId = placementId
     }
 }
@@ -10331,8 +10060,7 @@ public struct StopGameSessionPlacementOutput: Swift.Sendable {
 
     public init(
         gameSessionPlacement: GameLiftClientTypes.GameSessionPlacement? = nil
-    )
-    {
+    ) {
         self.gameSessionPlacement = gameSessionPlacement
     }
 }
@@ -10344,8 +10072,7 @@ public struct StopMatchmakingInput: Swift.Sendable {
 
     public init(
         ticketId: Swift.String? = nil
-    )
-    {
+    ) {
         self.ticketId = ticketId
     }
 }
@@ -10366,8 +10093,7 @@ public struct SuspendGameServerGroupInput: Swift.Sendable {
     public init(
         gameServerGroupName: Swift.String? = nil,
         suspendActions: [GameLiftClientTypes.GameServerGroupAction]? = nil
-    )
-    {
+    ) {
         self.gameServerGroupName = gameServerGroupName
         self.suspendActions = suspendActions
     }
@@ -10379,8 +10105,7 @@ public struct SuspendGameServerGroupOutput: Swift.Sendable {
 
     public init(
         gameServerGroup: GameLiftClientTypes.GameServerGroup? = nil
-    )
-    {
+    ) {
         self.gameServerGroup = gameServerGroup
     }
 }
@@ -10396,8 +10121,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tags: [GameLiftClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tags = tags
     }
@@ -10406,6 +10130,67 @@ public struct TagResourceInput: Swift.Sendable {
 public struct TagResourceOutput: Swift.Sendable {
 
     public init() { }
+}
+
+extension GameLiftClientTypes {
+
+    public enum TerminationMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case forceTerminate
+        case triggerOnProcessTerminate
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TerminationMode] {
+            return [
+                .forceTerminate,
+                .triggerOnProcessTerminate
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .forceTerminate: return "FORCE_TERMINATE"
+            case .triggerOnProcessTerminate: return "TRIGGER_ON_PROCESS_TERMINATE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct TerminateGameSessionInput: Swift.Sendable {
+    /// A unique identifier for the game session to be terminated. A game session ARN has the following format: arn:aws:gamelift:::gamesession//.
+    /// This member is required.
+    public var gameSessionId: Swift.String?
+    /// The method to use to terminate the game session. Available methods include:
+    ///
+    /// * TRIGGER_ON_PROCESS_TERMINATE – Sends an OnProcessTerminate() callback to the server process to initiate the normal game session shutdown sequence. At a minimum, the callback method must include a call to the server SDK action ProcessEnding(), which is how the server process signals that a game session is ending. If the server process doesn't call ProcessEnding(), this termination method won't be successful.
+    ///
+    /// * FORCE_TERMINATE – Takes action to stop the server process, using existing methods to control how server processes run on an Amazon GameLift managed compute. This method is not available for game sessions that are running on Anywhere fleets unless the fleet is deployed with the Amazon GameLift Agent. In this scenario, a force terminate request results in an invalid or bad request exception.
+    /// This member is required.
+    public var terminationMode: GameLiftClientTypes.TerminationMode?
+
+    public init(
+        gameSessionId: Swift.String? = nil,
+        terminationMode: GameLiftClientTypes.TerminationMode? = nil
+    ) {
+        self.gameSessionId = gameSessionId
+        self.terminationMode = terminationMode
+    }
+}
+
+public struct TerminateGameSessionOutput: Swift.Sendable {
+    /// Properties describing a game session. A game session in ACTIVE status can host players. When a game session ends, its status is set to TERMINATED. Amazon GameLift retains a game session resource for 30 days after the game session ends. You can reuse idempotency token values after this time. Game session logs are retained for 14 days. [All APIs by task](https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-awssdk.html#reference-awssdk-resources-fleets)
+    public var gameSession: GameLiftClientTypes.GameSession?
+
+    public init(
+        gameSession: GameLiftClientTypes.GameSession? = nil
+    ) {
+        self.gameSession = gameSession
+    }
 }
 
 public struct UntagResourceInput: Swift.Sendable {
@@ -10419,8 +10204,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tagKeys = tagKeys
     }
@@ -10447,8 +10231,7 @@ public struct UpdateAliasInput: Swift.Sendable {
         description: Swift.String? = nil,
         name: Swift.String? = nil,
         routingStrategy: GameLiftClientTypes.RoutingStrategy? = nil
-    )
-    {
+    ) {
         self.aliasId = aliasId
         self.description = description
         self.name = name
@@ -10462,8 +10245,7 @@ public struct UpdateAliasOutput: Swift.Sendable {
 
     public init(
         alias: GameLiftClientTypes.Alias? = nil
-    )
-    {
+    ) {
         self.alias = alias
     }
 }
@@ -10481,8 +10263,7 @@ public struct UpdateBuildInput: Swift.Sendable {
         buildId: Swift.String? = nil,
         name: Swift.String? = nil,
         version: Swift.String? = nil
-    )
-    {
+    ) {
         self.buildId = buildId
         self.name = name
         self.version = version
@@ -10495,8 +10276,7 @@ public struct UpdateBuildOutput: Swift.Sendable {
 
     public init(
         build: GameLiftClientTypes.Build? = nil
-    )
-    {
+    ) {
         self.build = build
     }
 }
@@ -10509,7 +10289,7 @@ public struct UpdateContainerFleetInput: Swift.Sendable {
     /// A unique identifier for the container fleet to update. You can use either the fleet ID or ARN value.
     /// This member is required.
     public var fleetId: Swift.String?
-    /// The name or ARN value of a new game server container group definition to deploy on the fleet. If you're updating the fleet to a specific version of a container group definition, use the ARN value and include the version number. If you're updating the fleet to the latest version of a container group definition, you can use the name value. You can't remove a fleet's game server container group definition, you can only update or replace it with another definition. Update a container group definition by calling [UpdateContainerGroupDefinition]. This operation creates a [ContainerGroupDefinition] resource with an incremented version.
+    /// The name or ARN value of a new game server container group definition to deploy on the fleet. If you're updating the fleet to a specific version of a container group definition, use the ARN value and include the version number. If you're updating the fleet to the latest version of a container group definition, you can use the name value. You can't remove a fleet's game server container group definition, you can only update or replace it with another definition. Update a container group definition by calling [UpdateContainerGroupDefinition](https://docs.aws.amazon.com/gamelift/latest/apireference/API_UpdateContainerGroupDefinition.html). This operation creates a [ContainerGroupDefinition](https://docs.aws.amazon.com/gamelift/latest/apireference/API_ContainerGroupDefinition.html) resource with an incremented version.
     public var gameServerContainerGroupDefinitionName: Swift.String?
     /// The number of times to replicate the game server container group on each fleet instance. By default, Amazon GameLift calculates the maximum number of game server container groups that can fit on each instance. You can remove this property value to use the calculated value, or set it manually. If you set this number manually, Amazon GameLift uses your value as long as it's less than the calculated maximum.
     public var gameServerContainerGroupsPerInstance: Swift.Int?
@@ -10527,7 +10307,7 @@ public struct UpdateContainerFleetInput: Swift.Sendable {
     public var metricGroups: [Swift.String]?
     /// The game session protection policy to apply to all new game sessions that are started in this fleet. Game sessions that already exist are not affected.
     public var newGameSessionProtectionPolicy: GameLiftClientTypes.ProtectionPolicy?
-    /// The name or ARN value of a new per-instance container group definition to deploy on the fleet. If you're updating the fleet to a specific version of a container group definition, use the ARN value and include the version number. If you're updating the fleet to the latest version of a container group definition, you can use the name value. Update a container group definition by calling [UpdateContainerGroupDefinition]. This operation creates a [ContainerGroupDefinition] resource with an incremented version. To remove a fleet's per-instance container group definition, leave this parameter empty and use the parameter RemoveAttributes.
+    /// The name or ARN value of a new per-instance container group definition to deploy on the fleet. If you're updating the fleet to a specific version of a container group definition, use the ARN value and include the version number. If you're updating the fleet to the latest version of a container group definition, you can use the name value. Update a container group definition by calling [UpdateContainerGroupDefinition](https://docs.aws.amazon.com/gamelift/latest/apireference/API_UpdateContainerGroupDefinition.html). This operation creates a [ContainerGroupDefinition](https://docs.aws.amazon.com/gamelift/latest/apireference/API_ContainerGroupDefinition.html) resource with an incremented version. To remove a fleet's per-instance container group definition, leave this parameter empty and use the parameter RemoveAttributes.
     public var perInstanceContainerGroupDefinitionName: Swift.String?
     /// If set, this update removes a fleet's per-instance container group definition. You can't remove a fleet's game server container group definition.
     public var removeAttributes: [GameLiftClientTypes.ContainerFleetRemoveAttribute]?
@@ -10547,8 +10327,7 @@ public struct UpdateContainerFleetInput: Swift.Sendable {
         newGameSessionProtectionPolicy: GameLiftClientTypes.ProtectionPolicy? = nil,
         perInstanceContainerGroupDefinitionName: Swift.String? = nil,
         removeAttributes: [GameLiftClientTypes.ContainerFleetRemoveAttribute]? = nil
-    )
-    {
+    ) {
         self.deploymentConfiguration = deploymentConfiguration
         self.description = description
         self.fleetId = fleetId
@@ -10572,8 +10351,7 @@ public struct UpdateContainerFleetOutput: Swift.Sendable {
 
     public init(
         containerFleet: GameLiftClientTypes.ContainerFleet? = nil
-    )
-    {
+    ) {
         self.containerFleet = containerFleet
     }
 }
@@ -10606,8 +10384,7 @@ public struct UpdateContainerGroupDefinitionInput: Swift.Sendable {
         totalMemoryLimitMebibytes: Swift.Int? = nil,
         totalVcpuLimit: Swift.Double? = nil,
         versionDescription: Swift.String? = nil
-    )
-    {
+    ) {
         self.gameServerContainerDefinition = gameServerContainerDefinition
         self.name = name
         self.operatingSystem = operatingSystem
@@ -10625,8 +10402,7 @@ public struct UpdateContainerGroupDefinitionOutput: Swift.Sendable {
 
     public init(
         containerGroupDefinition: GameLiftClientTypes.ContainerGroupDefinition? = nil
-    )
-    {
+    ) {
         self.containerGroupDefinition = containerGroupDefinition
     }
 }
@@ -10643,7 +10419,7 @@ public struct UpdateFleetAttributesInput: Swift.Sendable {
     public var metricGroups: [Swift.String]?
     /// A descriptive label that is associated with a fleet. Fleet names do not need to be unique.
     public var name: Swift.String?
-    /// The game session protection policy to apply to all new game sessions created in this fleet. Game sessions that already exist are not affected. You can set protection for individual game sessions using [UpdateGameSession](https://docs.aws.amazon.com/gamelift/latest/apireference/API_UpdateGameSession.html).
+    /// The game session protection policy to apply to all new game sessions created in this fleet. Game sessions that already exist are not affected. You can set protection for individual game sessions using [UpdateGameSession](https://docs.aws.amazon.com/gamelift/latest/apireference/API_UpdateGameSession.html) .
     ///
     /// * NoProtection -- The game session can be terminated during a scale-down event.
     ///
@@ -10660,8 +10436,7 @@ public struct UpdateFleetAttributesInput: Swift.Sendable {
         name: Swift.String? = nil,
         newGameSessionProtectionPolicy: GameLiftClientTypes.ProtectionPolicy? = nil,
         resourceCreationLimitPolicy: GameLiftClientTypes.ResourceCreationLimitPolicy? = nil
-    )
-    {
+    ) {
         self.anywhereConfiguration = anywhereConfiguration
         self.description = description
         self.fleetId = fleetId
@@ -10681,8 +10456,7 @@ public struct UpdateFleetAttributesOutput: Swift.Sendable {
     public init(
         fleetArn: Swift.String? = nil,
         fleetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.fleetArn = fleetArn
         self.fleetId = fleetId
     }
@@ -10707,8 +10481,7 @@ public struct UpdateFleetCapacityInput: Swift.Sendable {
         location: Swift.String? = nil,
         maxSize: Swift.Int? = nil,
         minSize: Swift.Int? = nil
-    )
-    {
+    ) {
         self.desiredInstances = desiredInstances
         self.fleetId = fleetId
         self.location = location
@@ -10729,8 +10502,7 @@ public struct UpdateFleetCapacityOutput: Swift.Sendable {
         fleetArn: Swift.String? = nil,
         fleetId: Swift.String? = nil,
         location: Swift.String? = nil
-    )
-    {
+    ) {
         self.fleetArn = fleetArn
         self.fleetId = fleetId
         self.location = location
@@ -10750,8 +10522,7 @@ public struct UpdateFleetPortSettingsInput: Swift.Sendable {
         fleetId: Swift.String? = nil,
         inboundPermissionAuthorizations: [GameLiftClientTypes.IpPermission]? = nil,
         inboundPermissionRevocations: [GameLiftClientTypes.IpPermission]? = nil
-    )
-    {
+    ) {
         self.fleetId = fleetId
         self.inboundPermissionAuthorizations = inboundPermissionAuthorizations
         self.inboundPermissionRevocations = inboundPermissionRevocations
@@ -10767,8 +10538,7 @@ public struct UpdateFleetPortSettingsOutput: Swift.Sendable {
     public init(
         fleetArn: Swift.String? = nil,
         fleetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.fleetArn = fleetArn
         self.fleetId = fleetId
     }
@@ -10820,8 +10590,7 @@ public struct UpdateGameServerInput: Swift.Sendable {
         gameServerId: Swift.String? = nil,
         healthCheck: GameLiftClientTypes.GameServerHealthCheck? = nil,
         utilizationStatus: GameLiftClientTypes.GameServerUtilizationStatus? = nil
-    )
-    {
+    ) {
         self.gameServerData = gameServerData
         self.gameServerGroupName = gameServerGroupName
         self.gameServerId = gameServerId
@@ -10836,8 +10605,7 @@ public struct UpdateGameServerOutput: Swift.Sendable {
 
     public init(
         gameServer: GameLiftClientTypes.GameServer? = nil
-    )
-    {
+    ) {
         self.gameServer = gameServer
     }
 }
@@ -10867,8 +10635,7 @@ public struct UpdateGameServerGroupInput: Swift.Sendable {
         gameServerProtectionPolicy: GameLiftClientTypes.GameServerProtectionPolicy? = nil,
         instanceDefinitions: [GameLiftClientTypes.InstanceDefinition]? = nil,
         roleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.balancingStrategy = balancingStrategy
         self.gameServerGroupName = gameServerGroupName
         self.gameServerProtectionPolicy = gameServerProtectionPolicy
@@ -10883,8 +10650,7 @@ public struct UpdateGameServerGroupOutput: Swift.Sendable {
 
     public init(
         gameServerGroup: GameLiftClientTypes.GameServerGroup? = nil
-    )
-    {
+    ) {
         self.gameServerGroup = gameServerGroup
     }
 }
@@ -10915,8 +10681,7 @@ public struct UpdateGameSessionInput: Swift.Sendable {
         name: Swift.String? = nil,
         playerSessionCreationPolicy: GameLiftClientTypes.PlayerSessionCreationPolicy? = nil,
         protectionPolicy: GameLiftClientTypes.ProtectionPolicy? = nil
-    )
-    {
+    ) {
         self.gameProperties = gameProperties
         self.gameSessionId = gameSessionId
         self.maximumPlayerSessionCount = maximumPlayerSessionCount
@@ -10932,8 +10697,7 @@ public struct UpdateGameSessionOutput: Swift.Sendable {
 
     public init(
         gameSession: GameLiftClientTypes.GameSession? = nil
-    )
-    {
+    ) {
         self.gameSession = gameSession
     }
 }
@@ -10966,8 +10730,7 @@ public struct UpdateGameSessionQueueInput: Swift.Sendable {
         playerLatencyPolicies: [GameLiftClientTypes.PlayerLatencyPolicy]? = nil,
         priorityConfiguration: GameLiftClientTypes.PriorityConfiguration? = nil,
         timeoutInSeconds: Swift.Int? = nil
-    )
-    {
+    ) {
         self.customEventData = customEventData
         self.destinations = destinations
         self.filterConfiguration = filterConfiguration
@@ -10985,8 +10748,7 @@ public struct UpdateGameSessionQueueOutput: Swift.Sendable {
 
     public init(
         gameSessionQueue: GameLiftClientTypes.GameSessionQueue? = nil
-    )
-    {
+    ) {
         self.gameSessionQueue = gameSessionQueue
     }
 }
@@ -11041,8 +10803,7 @@ public struct UpdateMatchmakingConfigurationInput: Swift.Sendable {
         notificationTarget: Swift.String? = nil,
         requestTimeoutSeconds: Swift.Int? = nil,
         ruleSetName: Swift.String? = nil
-    )
-    {
+    ) {
         self.acceptanceRequired = acceptanceRequired
         self.acceptanceTimeoutSeconds = acceptanceTimeoutSeconds
         self.additionalPlayerCount = additionalPlayerCount
@@ -11066,8 +10827,7 @@ public struct UpdateMatchmakingConfigurationOutput: Swift.Sendable {
 
     public init(
         configuration: GameLiftClientTypes.MatchmakingConfiguration? = nil
-    )
-    {
+    ) {
         self.configuration = configuration
     }
 }
@@ -11083,8 +10843,7 @@ public struct UpdateRuntimeConfigurationInput: Swift.Sendable {
     public init(
         fleetId: Swift.String? = nil,
         runtimeConfiguration: GameLiftClientTypes.RuntimeConfiguration? = nil
-    )
-    {
+    ) {
         self.fleetId = fleetId
         self.runtimeConfiguration = runtimeConfiguration
     }
@@ -11096,8 +10855,7 @@ public struct UpdateRuntimeConfigurationOutput: Swift.Sendable {
 
     public init(
         runtimeConfiguration: GameLiftClientTypes.RuntimeConfiguration? = nil
-    )
-    {
+    ) {
         self.runtimeConfiguration = runtimeConfiguration
     }
 }
@@ -11121,8 +10879,7 @@ public struct UpdateScriptInput: Swift.Sendable {
         storageLocation: GameLiftClientTypes.S3Location? = nil,
         version: Swift.String? = nil,
         zipFile: Foundation.Data? = nil
-    )
-    {
+    ) {
         self.name = name
         self.scriptId = scriptId
         self.storageLocation = storageLocation
@@ -11137,8 +10894,7 @@ public struct UpdateScriptOutput: Swift.Sendable {
 
     public init(
         script: GameLiftClientTypes.Script? = nil
-    )
-    {
+    ) {
         self.script = script
     }
 }
@@ -11150,8 +10906,7 @@ public struct ValidateMatchmakingRuleSetInput: Swift.Sendable {
 
     public init(
         ruleSetBody: Swift.String? = nil
-    )
-    {
+    ) {
         self.ruleSetBody = ruleSetBody
     }
 }
@@ -11162,8 +10917,7 @@ public struct ValidateMatchmakingRuleSetOutput: Swift.Sendable {
 
     public init(
         valid: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.valid = valid
     }
 }
@@ -11871,6 +11625,13 @@ extension SuspendGameServerGroupInput {
 extension TagResourceInput {
 
     static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension TerminateGameSessionInput {
+
+    static func urlPathProvider(_ value: TerminateGameSessionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -13044,6 +12805,15 @@ extension TagResourceInput {
         guard let value else { return }
         try writer["ResourceARN"].write(value.resourceARN)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: GameLiftClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension TerminateGameSessionInput {
+
+    static func write(value: TerminateGameSessionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["GameSessionId"].write(value.gameSessionId)
+        try writer["TerminationMode"].write(value.terminationMode)
     }
 }
 
@@ -14421,6 +14191,18 @@ extension TagResourceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> TagResourceOutput {
         return TagResourceOutput()
+    }
+}
+
+extension TerminateGameSessionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> TerminateGameSessionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = TerminateGameSessionOutput()
+        value.gameSession = try reader["GameSession"].readIfPresent(with: GameLiftClientTypes.GameSession.read(from:))
+        return value
     }
 }
 
@@ -16406,6 +16188,25 @@ enum TagResourceOutputError {
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
             case "TaggingFailedException": return try TaggingFailedException.makeError(baseError: baseError)
             case "UnsupportedRegionException": return try UnsupportedRegionException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum TerminateGameSessionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidGameSessionStatusException": return try InvalidGameSessionStatusException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "NotReadyException": return try NotReadyException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }

@@ -65,8 +65,7 @@ extension AmplifyUIBuilderClientTypes {
         public init(
             field: Swift.String? = nil,
             property: Swift.String? = nil
-        )
-        {
+        ) {
             self.field = field
             self.property = property
         }
@@ -87,8 +86,7 @@ extension AmplifyUIBuilderClientTypes {
         public init(
             element: Swift.String? = nil,
             property: Swift.String? = nil
-        )
-        {
+        ) {
             self.element = element
             self.property = property
         }
@@ -113,8 +111,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -137,8 +134,7 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -161,8 +157,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -185,8 +180,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -206,8 +200,7 @@ public struct GetCodegenJobInput: Swift.Sendable {
         appId: Swift.String? = nil,
         environmentName: Swift.String? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.environmentName = environmentName
         self.id = id
@@ -223,8 +216,7 @@ extension AmplifyUIBuilderClientTypes {
 
         public init(
             downloadUrl: Swift.String? = nil
-        )
-        {
+        ) {
             self.downloadUrl = downloadUrl
         }
     }
@@ -248,8 +240,7 @@ extension AmplifyUIBuilderClientTypes {
             name: Swift.String? = nil,
             reason: Swift.String? = nil,
             supportedVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.isSemVer = isSemVer
             self.name = name
             self.reason = reason
@@ -270,8 +261,7 @@ extension AmplifyUIBuilderClientTypes {
         public init(
             isNonModelSupported: Swift.Bool? = nil,
             isRelationshipSupported: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.isNonModelSupported = isNonModelSupported
             self.isRelationshipSupported = isRelationshipSupported
         }
@@ -314,8 +304,7 @@ extension AmplifyUIBuilderClientTypes {
 
         public init(
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.values = values
         }
     }
@@ -462,8 +451,7 @@ extension AmplifyUIBuilderClientTypes {
             relatedModelFields: [Swift.String]? = nil,
             relatedModelName: Swift.String? = nil,
             type: AmplifyUIBuilderClientTypes.GenericDataRelationshipType? = nil
-        )
-        {
+        ) {
             self.associatedFields = associatedFields
             self.belongsToFieldOnRelatedModel = belongsToFieldOnRelatedModel
             self.canUnlinkAssociatedModel = canUnlinkAssociatedModel
@@ -506,8 +494,7 @@ extension AmplifyUIBuilderClientTypes {
             readOnly: Swift.Bool? = nil,
             relationship: AmplifyUIBuilderClientTypes.CodegenGenericDataRelationshipType? = nil,
             `required`: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.dataType = dataType
             self.dataTypeValue = dataTypeValue
             self.isArray = isArray
@@ -535,8 +522,7 @@ extension AmplifyUIBuilderClientTypes {
             fields: [Swift.String: AmplifyUIBuilderClientTypes.CodegenGenericDataField]? = nil,
             isJoinTable: Swift.Bool? = nil,
             primaryKeys: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.fields = fields
             self.isJoinTable = isJoinTable
             self.primaryKeys = primaryKeys
@@ -554,8 +540,7 @@ extension AmplifyUIBuilderClientTypes {
 
         public init(
             fields: [Swift.String: AmplifyUIBuilderClientTypes.CodegenGenericDataField]? = nil
-        )
-        {
+        ) {
             self.fields = fields
         }
     }
@@ -583,8 +568,7 @@ extension AmplifyUIBuilderClientTypes {
             enums: [Swift.String: AmplifyUIBuilderClientTypes.CodegenGenericDataEnum]? = nil,
             models: [Swift.String: AmplifyUIBuilderClientTypes.CodegenGenericDataModel]? = nil,
             nonModels: [Swift.String: AmplifyUIBuilderClientTypes.CodegenGenericDataNonModel]? = nil
-        )
-        {
+        ) {
             self.dataSourceType = dataSourceType
             self.enums = enums
             self.models = models
@@ -628,8 +612,7 @@ extension AmplifyUIBuilderClientTypes {
             queriesFilePath: Swift.String? = nil,
             subscriptionsFilePath: Swift.String? = nil,
             typesFilePath: Swift.String? = nil
-        )
-        {
+        ) {
             self.fragmentsFilePath = fragmentsFilePath
             self.mutationsFilePath = mutationsFilePath
             self.queriesFilePath = queriesFilePath
@@ -779,8 +762,7 @@ extension AmplifyUIBuilderClientTypes {
             renderTypeDeclarations: Swift.Bool = false,
             script: AmplifyUIBuilderClientTypes.JSScript? = nil,
             target: AmplifyUIBuilderClientTypes.JSTarget? = nil
-        )
-        {
+        ) {
             self.apiConfiguration = apiConfiguration
             self.dependencies = dependencies
             self.inlineSourceMap = inlineSourceMap
@@ -885,8 +867,7 @@ extension AmplifyUIBuilderClientTypes {
             status: AmplifyUIBuilderClientTypes.CodegenJobStatus? = nil,
             statusMessage: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.appId = appId
             self.asset = asset
             self.autoGenerateForms = autoGenerateForms
@@ -911,8 +892,7 @@ public struct GetCodegenJobOutput: Swift.Sendable {
 
     public init(
         job: AmplifyUIBuilderClientTypes.CodegenJob? = nil
-    )
-    {
+    ) {
         self.job = job
     }
 }
@@ -934,8 +914,7 @@ public struct ListCodegenJobsInput: Swift.Sendable {
         environmentName: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.environmentName = environmentName
         self.maxResults = maxResults
@@ -967,8 +946,7 @@ extension AmplifyUIBuilderClientTypes {
             environmentName: Swift.String? = nil,
             id: Swift.String? = nil,
             modifiedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.appId = appId
             self.createdAt = createdAt
             self.environmentName = environmentName
@@ -988,8 +966,7 @@ public struct ListCodegenJobsOutput: Swift.Sendable {
     public init(
         entities: [AmplifyUIBuilderClientTypes.CodegenJobSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.entities = entities
         self.nextToken = nextToken
     }
@@ -1017,8 +994,7 @@ extension AmplifyUIBuilderClientTypes {
             genericDataSchema: AmplifyUIBuilderClientTypes.CodegenJobGenericDataSchema? = nil,
             renderConfig: AmplifyUIBuilderClientTypes.CodegenJobRenderConfig? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.autoGenerateForms = autoGenerateForms
             self.features = features
             self.genericDataSchema = genericDataSchema
@@ -1046,8 +1022,7 @@ public struct StartCodegenJobInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         codegenJobToCreate: AmplifyUIBuilderClientTypes.StartCodegenJobData? = nil,
         environmentName: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.clientToken = clientToken
         self.codegenJobToCreate = codegenJobToCreate
@@ -1061,8 +1036,7 @@ public struct StartCodegenJobOutput: Swift.Sendable {
 
     public init(
         entity: AmplifyUIBuilderClientTypes.CodegenJob? = nil
-    )
-    {
+    ) {
         self.entity = entity
     }
 }
@@ -1085,8 +1059,7 @@ public struct ResourceConflictException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1109,8 +1082,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1158,8 +1130,7 @@ extension AmplifyUIBuilderClientTypes {
         public init(
             direction: AmplifyUIBuilderClientTypes.SortDirection? = nil,
             field: Swift.String? = nil
-        )
-        {
+        ) {
             self.direction = direction
             self.field = field
         }
@@ -1178,8 +1149,7 @@ extension AmplifyUIBuilderClientTypes {
         public init(
             overrides: [Swift.String: [Swift.String: Swift.String]]? = nil,
             variantValues: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.overrides = overrides
             self.variantValues = variantValues
         }
@@ -1201,8 +1171,7 @@ public struct DeleteComponentInput: Swift.Sendable {
         appId: Swift.String? = nil,
         environmentName: Swift.String? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.environmentName = environmentName
         self.id = id
@@ -1223,8 +1192,7 @@ public struct ExportComponentsInput: Swift.Sendable {
         appId: Swift.String? = nil,
         environmentName: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.environmentName = environmentName
         self.nextToken = nextToken
@@ -1246,8 +1214,7 @@ public struct GetComponentInput: Swift.Sendable {
         appId: Swift.String? = nil,
         environmentName: Swift.String? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.environmentName = environmentName
         self.id = id
@@ -1271,8 +1238,7 @@ public struct ListComponentsInput: Swift.Sendable {
         environmentName: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.environmentName = environmentName
         self.maxResults = maxResults
@@ -1306,8 +1272,7 @@ extension AmplifyUIBuilderClientTypes {
             environmentName: Swift.String? = nil,
             id: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.appId = appId
             self.componentType = componentType
             self.environmentName = environmentName
@@ -1327,8 +1292,7 @@ public struct ListComponentsOutput: Swift.Sendable {
     public init(
         entities: [AmplifyUIBuilderClientTypes.ComponentSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.entities = entities
         self.nextToken = nextToken
     }
@@ -1378,8 +1342,7 @@ extension AmplifyUIBuilderClientTypes {
             clientId: Swift.String? = nil,
             code: Swift.String? = nil,
             redirectUri: Swift.String? = nil
-        )
-        {
+        ) {
             self.clientId = clientId
             self.code = code
             self.redirectUri = redirectUri
@@ -1403,8 +1366,7 @@ public struct ExchangeCodeForTokenInput: Swift.Sendable {
     public init(
         provider: AmplifyUIBuilderClientTypes.TokenProviders? = nil,
         request: AmplifyUIBuilderClientTypes.ExchangeCodeForTokenRequestBody? = nil
-    )
-    {
+    ) {
         self.provider = provider
         self.request = request
     }
@@ -1425,8 +1387,7 @@ public struct ExchangeCodeForTokenOutput: Swift.Sendable {
         accessToken: Swift.String? = nil,
         expiresIn: Swift.Int? = nil,
         refreshToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessToken = accessToken
         self.expiresIn = expiresIn
         self.refreshToken = refreshToken
@@ -1493,8 +1454,7 @@ extension AmplifyUIBuilderClientTypes {
             children: Swift.String? = nil,
             excluded: Swift.Bool? = nil,
             position: AmplifyUIBuilderClientTypes.FieldPosition? = nil
-        )
-        {
+        ) {
             self.children = children
             self.excluded = excluded
             self.position = position
@@ -1552,8 +1512,7 @@ extension AmplifyUIBuilderClientTypes {
             clear: AmplifyUIBuilderClientTypes.FormButton? = nil,
             position: AmplifyUIBuilderClientTypes.FormButtonsPosition? = nil,
             submit: AmplifyUIBuilderClientTypes.FormButton? = nil
-        )
-        {
+        ) {
             self.cancel = cancel
             self.clear = clear
             self.position = position
@@ -1607,8 +1566,7 @@ extension AmplifyUIBuilderClientTypes {
         public init(
             dataSourceType: AmplifyUIBuilderClientTypes.FormDataSourceType? = nil,
             dataTypeName: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataSourceType = dataSourceType
             self.dataTypeName = dataTypeName
         }
@@ -1673,8 +1631,7 @@ extension AmplifyUIBuilderClientTypes {
             maxFileCount: Swift.Int? = nil,
             maxSize: Swift.Int? = nil,
             showThumbnails: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.acceptedFileTypes = acceptedFileTypes
             self.accessLevel = accessLevel
             self.isResumable = isResumable
@@ -1694,8 +1651,7 @@ extension AmplifyUIBuilderClientTypes {
 
         public init(
             model: Swift.String? = nil
-        )
-        {
+        ) {
             self.model = model
         }
     }
@@ -1713,8 +1669,7 @@ extension AmplifyUIBuilderClientTypes {
         public init(
             bindingProperties: AmplifyUIBuilderClientTypes.FormInputBindingPropertiesValueProperties? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.bindingProperties = bindingProperties
             self.type = type
         }
@@ -1734,8 +1689,7 @@ extension AmplifyUIBuilderClientTypes {
         public init(
             field: Swift.String? = nil,
             property: Swift.String? = nil
-        )
-        {
+        ) {
             self.field = field
             self.property = property
         }
@@ -1761,8 +1715,7 @@ extension AmplifyUIBuilderClientTypes {
             strValues: [Swift.String]? = nil,
             type: Swift.String? = nil,
             validationMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.numValues = numValues
             self.strValues = strValues
             self.type = type
@@ -1857,8 +1810,7 @@ extension AmplifyUIBuilderClientTypes {
             position: AmplifyUIBuilderClientTypes.FieldPosition? = nil,
             text: Swift.String? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.excluded = excluded
             self.level = level
             self.orientation = orientation
@@ -1896,8 +1848,7 @@ extension AmplifyUIBuilderClientTypes {
             horizontalGap: AmplifyUIBuilderClientTypes.FormStyleConfig? = nil,
             outerPadding: AmplifyUIBuilderClientTypes.FormStyleConfig? = nil,
             verticalGap: AmplifyUIBuilderClientTypes.FormStyleConfig? = nil
-        )
-        {
+        ) {
             self.horizontalGap = horizontalGap
             self.outerPadding = outerPadding
             self.verticalGap = verticalGap
@@ -1920,8 +1871,7 @@ public struct DeleteFormInput: Swift.Sendable {
         appId: Swift.String? = nil,
         environmentName: Swift.String? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.environmentName = environmentName
         self.id = id
@@ -1942,8 +1892,7 @@ public struct ExportFormsInput: Swift.Sendable {
         appId: Swift.String? = nil,
         environmentName: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.environmentName = environmentName
         self.nextToken = nextToken
@@ -1965,8 +1914,7 @@ public struct GetFormInput: Swift.Sendable {
         appId: Swift.String? = nil,
         environmentName: Swift.String? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.environmentName = environmentName
         self.id = id
@@ -1990,8 +1938,7 @@ public struct ListFormsInput: Swift.Sendable {
         environmentName: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.environmentName = environmentName
         self.maxResults = maxResults
@@ -2029,8 +1976,7 @@ extension AmplifyUIBuilderClientTypes {
             formActionType: AmplifyUIBuilderClientTypes.FormActionType? = nil,
             id: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.appId = appId
             self.dataType = dataType
             self.environmentName = environmentName
@@ -2051,8 +1997,7 @@ public struct ListFormsOutput: Swift.Sendable {
     public init(
         entities: [AmplifyUIBuilderClientTypes.FormSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.entities = entities
         self.nextToken = nextToken
     }
@@ -2076,8 +2021,7 @@ public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2093,8 +2037,7 @@ public struct GetMetadataInput: Swift.Sendable {
     public init(
         appId: Swift.String? = nil,
         environmentName: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.environmentName = environmentName
     }
@@ -2107,8 +2050,7 @@ public struct GetMetadataOutput: Swift.Sendable {
 
     public init(
         features: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.features = features
     }
 }
@@ -2120,8 +2062,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -2133,8 +2074,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -2149,8 +2089,7 @@ extension AmplifyUIBuilderClientTypes {
 
         public init(
             newValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.newValue = newValue
         }
     }
@@ -2175,8 +2114,7 @@ public struct PutMetadataFlagInput: Swift.Sendable {
         body: AmplifyUIBuilderClientTypes.PutMetadataFlagBody? = nil,
         environmentName: Swift.String? = nil,
         featureName: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.body = body
         self.environmentName = environmentName
@@ -2197,8 +2135,7 @@ extension AmplifyUIBuilderClientTypes {
         public init(
             clientId: Swift.String? = nil,
             token: Swift.String? = nil
-        )
-        {
+        ) {
             self.clientId = clientId
             self.token = token
         }
@@ -2221,8 +2158,7 @@ public struct RefreshTokenInput: Swift.Sendable {
     public init(
         provider: AmplifyUIBuilderClientTypes.TokenProviders? = nil,
         refreshTokenBody: AmplifyUIBuilderClientTypes.RefreshTokenRequestBody? = nil
-    )
-    {
+    ) {
         self.provider = provider
         self.refreshTokenBody = refreshTokenBody
     }
@@ -2239,8 +2175,7 @@ public struct RefreshTokenOutput: Swift.Sendable {
     public init(
         accessToken: Swift.String? = nil,
         expiresIn: Swift.Int? = nil
-    )
-    {
+    ) {
         self.accessToken = accessToken
         self.expiresIn = expiresIn
     }
@@ -2262,8 +2197,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -2289,8 +2223,7 @@ public struct DeleteThemeInput: Swift.Sendable {
         appId: Swift.String? = nil,
         environmentName: Swift.String? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.environmentName = environmentName
         self.id = id
@@ -2311,8 +2244,7 @@ public struct ExportThemesInput: Swift.Sendable {
         appId: Swift.String? = nil,
         environmentName: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.environmentName = environmentName
         self.nextToken = nextToken
@@ -2334,8 +2266,7 @@ public struct GetThemeInput: Swift.Sendable {
         appId: Swift.String? = nil,
         environmentName: Swift.String? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.environmentName = environmentName
         self.id = id
@@ -2359,8 +2290,7 @@ public struct ListThemesInput: Swift.Sendable {
         environmentName: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.environmentName = environmentName
         self.maxResults = maxResults
@@ -2390,8 +2320,7 @@ extension AmplifyUIBuilderClientTypes {
             environmentName: Swift.String? = nil,
             id: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.appId = appId
             self.environmentName = environmentName
             self.id = id
@@ -2410,8 +2339,7 @@ public struct ListThemesOutput: Swift.Sendable {
     public init(
         entities: [AmplifyUIBuilderClientTypes.ThemeSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.entities = entities
         self.nextToken = nextToken
     }
@@ -2428,8 +2356,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -2455,8 +2382,7 @@ extension AmplifyUIBuilderClientTypes {
             bindingProperties: AmplifyUIBuilderClientTypes.FormInputValuePropertyBindingProperties? = nil,
             concat: [AmplifyUIBuilderClientTypes.FormInputValueProperty]? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.bindingProperties = bindingProperties
             self.concat = concat
             self.value = value
@@ -2476,8 +2402,7 @@ extension AmplifyUIBuilderClientTypes {
         public init(
             children: [AmplifyUIBuilderClientTypes.ThemeValues]? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.children = children
             self.value = value
         }
@@ -2496,8 +2421,7 @@ extension AmplifyUIBuilderClientTypes {
         public init(
             key: Swift.String? = nil,
             value: AmplifyUIBuilderClientTypes.ThemeValue? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -2528,8 +2452,7 @@ extension AmplifyUIBuilderClientTypes {
             operandType: Swift.String? = nil,
             `operator`: Swift.String? = nil,
             or: [AmplifyUIBuilderClientTypes.Predicate]? = nil
-        )
-        {
+        ) {
             self.and = and
             self.field = field
             self.operand = operand
@@ -2570,8 +2493,7 @@ extension AmplifyUIBuilderClientTypes {
             predicates: [AmplifyUIBuilderClientTypes.Predicate]? = nil,
             slotName: Swift.String? = nil,
             userAttribute: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucket = bucket
             self.defaultValue = defaultValue
             self.field = field
@@ -2603,8 +2525,7 @@ extension AmplifyUIBuilderClientTypes {
             model: Swift.String? = nil,
             predicate: AmplifyUIBuilderClientTypes.Predicate? = nil,
             sort: [AmplifyUIBuilderClientTypes.SortProperty]? = nil
-        )
-        {
+        ) {
             self.identifiers = identifiers
             self.model = model
             self.predicate = predicate
@@ -2664,8 +2585,7 @@ extension AmplifyUIBuilderClientTypes {
             type: Swift.String? = nil,
             userAttribute: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.bindingProperties = bindingProperties
             self.bindings = bindings
             self.collectionBindingProperties = collectionBindingProperties
@@ -2698,8 +2618,7 @@ extension AmplifyUIBuilderClientTypes {
         public init(
             displayValue: AmplifyUIBuilderClientTypes.FormInputValueProperty? = nil,
             value: AmplifyUIBuilderClientTypes.FormInputValueProperty? = nil
-        )
-        {
+        ) {
             self.displayValue = displayValue
             self.value = value
         }
@@ -2721,8 +2640,7 @@ extension AmplifyUIBuilderClientTypes {
             bindingProperties: AmplifyUIBuilderClientTypes.ComponentBindingPropertiesValueProperties? = nil,
             defaultValue: Swift.String? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.bindingProperties = bindingProperties
             self.defaultValue = defaultValue
             self.type = type
@@ -2750,8 +2668,7 @@ extension AmplifyUIBuilderClientTypes {
             overrides: [AmplifyUIBuilderClientTypes.ThemeValues]? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             values: [AmplifyUIBuilderClientTypes.ThemeValues]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.overrides = overrides
             self.tags = tags
@@ -2799,8 +2716,7 @@ extension AmplifyUIBuilderClientTypes {
             overrides: [AmplifyUIBuilderClientTypes.ThemeValues]? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             values: [AmplifyUIBuilderClientTypes.ThemeValues]? = nil
-        )
-        {
+        ) {
             self.appId = appId
             self.createdAt = createdAt
             self.environmentName = environmentName
@@ -2833,8 +2749,7 @@ extension AmplifyUIBuilderClientTypes {
             name: Swift.String? = nil,
             overrides: [AmplifyUIBuilderClientTypes.ThemeValues]? = nil,
             values: [AmplifyUIBuilderClientTypes.ThemeValues]? = nil
-        )
-        {
+        ) {
             self.id = id
             self.name = name
             self.overrides = overrides
@@ -2861,8 +2776,7 @@ extension AmplifyUIBuilderClientTypes {
             componentName: Swift.String? = nil,
             property: Swift.String? = nil,
             `set`: AmplifyUIBuilderClientTypes.ComponentProperty? = nil
-        )
-        {
+        ) {
             self.componentName = componentName
             self.property = property
             self.`set` = `set`
@@ -2897,8 +2811,7 @@ extension AmplifyUIBuilderClientTypes {
             `operator`: Swift.String? = nil,
             property: Swift.String? = nil,
             then: AmplifyUIBuilderClientTypes.ComponentProperty? = nil
-        )
-        {
+        ) {
             self.`else` = `else`
             self.field = field
             self.operand = operand
@@ -2923,8 +2836,7 @@ extension AmplifyUIBuilderClientTypes {
         public init(
             bindingProperties: [Swift.String: AmplifyUIBuilderClientTypes.FormInputBindingPropertiesValue]? = nil,
             values: [AmplifyUIBuilderClientTypes.ValueMapping]? = nil
-        )
-        {
+        ) {
             self.bindingProperties = bindingProperties
             self.values = values
         }
@@ -2949,8 +2861,7 @@ public struct CreateThemeInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         environmentName: Swift.String? = nil,
         themeToCreate: AmplifyUIBuilderClientTypes.CreateThemeData? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.clientToken = clientToken
         self.environmentName = environmentName
@@ -2964,8 +2875,7 @@ public struct CreateThemeOutput: Swift.Sendable {
 
     public init(
         entity: AmplifyUIBuilderClientTypes.Theme? = nil
-    )
-    {
+    ) {
         self.entity = entity
     }
 }
@@ -2976,8 +2886,7 @@ public struct GetThemeOutput: Swift.Sendable {
 
     public init(
         theme: AmplifyUIBuilderClientTypes.Theme? = nil
-    )
-    {
+    ) {
         self.theme = theme
     }
 }
@@ -3004,8 +2913,7 @@ public struct UpdateThemeInput: Swift.Sendable {
         environmentName: Swift.String? = nil,
         id: Swift.String? = nil,
         updatedTheme: AmplifyUIBuilderClientTypes.UpdateThemeData? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.clientToken = clientToken
         self.environmentName = environmentName
@@ -3020,8 +2928,7 @@ public struct UpdateThemeOutput: Swift.Sendable {
 
     public init(
         entity: AmplifyUIBuilderClientTypes.Theme? = nil
-    )
-    {
+    ) {
         self.entity = entity
     }
 }
@@ -3081,8 +2988,7 @@ extension AmplifyUIBuilderClientTypes {
             type: Swift.String? = nil,
             value: Swift.String? = nil,
             valueMappings: AmplifyUIBuilderClientTypes.ValueMappings? = nil
-        )
-        {
+        ) {
             self.defaultChecked = defaultChecked
             self.defaultCountryCode = defaultCountryCode
             self.defaultValue = defaultValue
@@ -3113,8 +3019,7 @@ public struct ExportThemesOutput: Swift.Sendable {
     public init(
         entities: [AmplifyUIBuilderClientTypes.Theme]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.entities = entities
         self.nextToken = nextToken
     }
@@ -3141,8 +3046,7 @@ extension AmplifyUIBuilderClientTypes {
             label: Swift.String? = nil,
             position: AmplifyUIBuilderClientTypes.FieldPosition? = nil,
             validations: [AmplifyUIBuilderClientTypes.FieldValidationConfiguration]? = nil
-        )
-        {
+        ) {
             self.excluded = excluded
             self.inputType = inputType
             self.label = label
@@ -3195,8 +3099,7 @@ extension AmplifyUIBuilderClientTypes {
             sectionalElements: [Swift.String: AmplifyUIBuilderClientTypes.SectionalElement]? = nil,
             style: AmplifyUIBuilderClientTypes.FormStyle? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.cta = cta
             self.dataType = dataType
             self.fields = fields
@@ -3266,8 +3169,7 @@ extension AmplifyUIBuilderClientTypes {
             sectionalElements: [Swift.String: AmplifyUIBuilderClientTypes.SectionalElement]? = nil,
             style: AmplifyUIBuilderClientTypes.FormStyle? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.appId = appId
             self.cta = cta
             self.dataType = dataType
@@ -3318,8 +3220,7 @@ extension AmplifyUIBuilderClientTypes {
             schemaVersion: Swift.String? = nil,
             sectionalElements: [Swift.String: AmplifyUIBuilderClientTypes.SectionalElement]? = nil,
             style: AmplifyUIBuilderClientTypes.FormStyle? = nil
-        )
-        {
+        ) {
             self.cta = cta
             self.dataType = dataType
             self.fields = fields
@@ -3351,8 +3252,7 @@ public struct CreateFormInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         environmentName: Swift.String? = nil,
         formToCreate: AmplifyUIBuilderClientTypes.CreateFormData? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.clientToken = clientToken
         self.environmentName = environmentName
@@ -3366,8 +3266,7 @@ public struct CreateFormOutput: Swift.Sendable {
 
     public init(
         entity: AmplifyUIBuilderClientTypes.Form? = nil
-    )
-    {
+    ) {
         self.entity = entity
     }
 }
@@ -3378,8 +3277,7 @@ public struct GetFormOutput: Swift.Sendable {
 
     public init(
         form: AmplifyUIBuilderClientTypes.Form? = nil
-    )
-    {
+    ) {
         self.form = form
     }
 }
@@ -3406,8 +3304,7 @@ public struct UpdateFormInput: Swift.Sendable {
         environmentName: Swift.String? = nil,
         id: Swift.String? = nil,
         updatedForm: AmplifyUIBuilderClientTypes.UpdateFormData? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.clientToken = clientToken
         self.environmentName = environmentName
@@ -3422,8 +3319,7 @@ public struct UpdateFormOutput: Swift.Sendable {
 
     public init(
         entity: AmplifyUIBuilderClientTypes.Form? = nil
-    )
-    {
+    ) {
         self.entity = entity
     }
 }
@@ -3438,8 +3334,7 @@ public struct ExportFormsOutput: Swift.Sendable {
     public init(
         entities: [AmplifyUIBuilderClientTypes.Form]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.entities = entities
         self.nextToken = nextToken
     }
@@ -3478,8 +3373,7 @@ extension AmplifyUIBuilderClientTypes {
             target: AmplifyUIBuilderClientTypes.ComponentProperty? = nil,
             type: AmplifyUIBuilderClientTypes.ComponentProperty? = nil,
             url: AmplifyUIBuilderClientTypes.ComponentProperty? = nil
-        )
-        {
+        ) {
             self.anchor = anchor
             self.fields = fields
             self.global = global
@@ -3508,8 +3402,7 @@ extension AmplifyUIBuilderClientTypes {
             action: Swift.String? = nil,
             bindingEvent: Swift.String? = nil,
             parameters: AmplifyUIBuilderClientTypes.ActionParameters? = nil
-        )
-        {
+        ) {
             self.action = action
             self.bindingEvent = bindingEvent
             self.parameters = parameters
@@ -3544,8 +3437,7 @@ extension AmplifyUIBuilderClientTypes {
             name: Swift.String? = nil,
             properties: [Swift.String: AmplifyUIBuilderClientTypes.ComponentProperty]? = nil,
             sourceId: Swift.String? = nil
-        )
-        {
+        ) {
             self.children = children
             self.componentType = componentType
             self.events = events
@@ -3623,8 +3515,7 @@ extension AmplifyUIBuilderClientTypes {
             sourceId: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             variants: [AmplifyUIBuilderClientTypes.ComponentVariant]? = nil
-        )
-        {
+        ) {
             self.appId = appId
             self.bindingProperties = bindingProperties
             self.children = children
@@ -3694,8 +3585,7 @@ extension AmplifyUIBuilderClientTypes {
             sourceId: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             variants: [AmplifyUIBuilderClientTypes.ComponentVariant]? = nil
-        )
-        {
+        ) {
             self.bindingProperties = bindingProperties
             self.children = children
             self.collectionProperties = collectionProperties
@@ -3754,8 +3644,7 @@ extension AmplifyUIBuilderClientTypes {
             schemaVersion: Swift.String? = nil,
             sourceId: Swift.String? = nil,
             variants: [AmplifyUIBuilderClientTypes.ComponentVariant]? = nil
-        )
-        {
+        ) {
             self.bindingProperties = bindingProperties
             self.children = children
             self.collectionProperties = collectionProperties
@@ -3790,8 +3679,7 @@ public struct CreateComponentInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         componentToCreate: AmplifyUIBuilderClientTypes.CreateComponentData? = nil,
         environmentName: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.clientToken = clientToken
         self.componentToCreate = componentToCreate
@@ -3805,8 +3693,7 @@ public struct CreateComponentOutput: Swift.Sendable {
 
     public init(
         entity: AmplifyUIBuilderClientTypes.Component? = nil
-    )
-    {
+    ) {
         self.entity = entity
     }
 }
@@ -3817,8 +3704,7 @@ public struct GetComponentOutput: Swift.Sendable {
 
     public init(
         component: AmplifyUIBuilderClientTypes.Component? = nil
-    )
-    {
+    ) {
         self.component = component
     }
 }
@@ -3845,8 +3731,7 @@ public struct UpdateComponentInput: Swift.Sendable {
         environmentName: Swift.String? = nil,
         id: Swift.String? = nil,
         updatedComponent: AmplifyUIBuilderClientTypes.UpdateComponentData? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.clientToken = clientToken
         self.environmentName = environmentName
@@ -3861,8 +3746,7 @@ public struct UpdateComponentOutput: Swift.Sendable {
 
     public init(
         entity: AmplifyUIBuilderClientTypes.Component? = nil
-    )
-    {
+    ) {
         self.entity = entity
     }
 }
@@ -3877,8 +3761,7 @@ public struct ExportComponentsOutput: Swift.Sendable {
     public init(
         entities: [AmplifyUIBuilderClientTypes.Component]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.entities = entities
         self.nextToken = nextToken
     }

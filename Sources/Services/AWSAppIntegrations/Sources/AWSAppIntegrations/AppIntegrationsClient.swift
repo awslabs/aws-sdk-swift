@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class AppIntegrationsClient: ClientRuntime.Client {
     public static let clientName = "AppIntegrationsClient"
-    public static let version = "1.0.69"
+    public static let version = "1.0.74"
     let client: ClientRuntime.SdkHttpClient
     let config: AppIntegrationsClient.AppIntegrationsClientConfiguration
     let serviceName = "AppIntegrations"
@@ -331,7 +331,7 @@ extension AppIntegrationsClient {
 }
 
 extension AppIntegrationsClient {
-    /// Performs the `CreateApplication` operation on the `AmazonAppIntegrationService` service.
+    /// Performs the `CreateApplication` operation on the `AppIntegrations` service.
     ///
     /// Creates and persists an Application resource.
     ///
@@ -407,7 +407,7 @@ extension AppIntegrationsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateDataIntegration` operation on the `AmazonAppIntegrationService` service.
+    /// Performs the `CreateDataIntegration` operation on the `AppIntegrations` service.
     ///
     /// Creates and persists a DataIntegration resource. You cannot create a DataIntegration association for a DataIntegration that has been previously associated. Use a different DataIntegration, or recreate the DataIntegration using the CreateDataIntegration API.
     ///
@@ -482,7 +482,7 @@ extension AppIntegrationsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateDataIntegrationAssociation` operation on the `AmazonAppIntegrationService` service.
+    /// Performs the `CreateDataIntegrationAssociation` operation on the `AppIntegrations` service.
     ///
     /// Creates and persists a DataIntegrationAssociation resource.
     ///
@@ -557,7 +557,7 @@ extension AppIntegrationsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateEventIntegration` operation on the `AmazonAppIntegrationService` service.
+    /// Performs the `CreateEventIntegration` operation on the `AppIntegrations` service.
     ///
     /// Creates an EventIntegration, given a specified name, description, and a reference to an Amazon EventBridge bus in your account and a partner event source that pushes events to that bus. No objects are created in the your account, only metadata that is persisted on the EventIntegration control plane.
     ///
@@ -632,7 +632,7 @@ extension AppIntegrationsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteApplication` operation on the `AmazonAppIntegrationService` service.
+    /// Performs the `DeleteApplication` operation on the `AppIntegrations` service.
     ///
     /// Deletes the Application. Only Applications that don't have any Application Associations can be deleted.
     ///
@@ -702,7 +702,7 @@ extension AppIntegrationsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteDataIntegration` operation on the `AmazonAppIntegrationService` service.
+    /// Performs the `DeleteDataIntegration` operation on the `AppIntegrations` service.
     ///
     /// Deletes the DataIntegration. Only DataIntegrations that don't have any DataIntegrationAssociations can be deleted. Deleting a DataIntegration also deletes the underlying Amazon AppFlow flow and service linked role. You cannot create a DataIntegration association for a DataIntegration that has been previously associated. Use a different DataIntegration, or recreate the DataIntegration using the [CreateDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_CreateDataIntegration.html) API.
     ///
@@ -772,7 +772,7 @@ extension AppIntegrationsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteEventIntegration` operation on the `AmazonAppIntegrationService` service.
+    /// Performs the `DeleteEventIntegration` operation on the `AppIntegrations` service.
     ///
     /// Deletes the specified existing event integration. If the event integration is associated with clients, the request is rejected.
     ///
@@ -842,7 +842,7 @@ extension AppIntegrationsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetApplication` operation on the `AmazonAppIntegrationService` service.
+    /// Performs the `GetApplication` operation on the `AppIntegrations` service.
     ///
     /// Get an Application resource.
     ///
@@ -912,7 +912,7 @@ extension AppIntegrationsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDataIntegration` operation on the `AmazonAppIntegrationService` service.
+    /// Performs the `GetDataIntegration` operation on the `AppIntegrations` service.
     ///
     /// Returns information about the DataIntegration. You cannot create a DataIntegration association for a DataIntegration that has been previously associated. Use a different DataIntegration, or recreate the DataIntegration using the [CreateDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_CreateDataIntegration.html) API.
     ///
@@ -982,7 +982,7 @@ extension AppIntegrationsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetEventIntegration` operation on the `AmazonAppIntegrationService` service.
+    /// Performs the `GetEventIntegration` operation on the `AppIntegrations` service.
     ///
     /// Returns information about the event integration.
     ///
@@ -1052,7 +1052,7 @@ extension AppIntegrationsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListApplicationAssociations` operation on the `AmazonAppIntegrationService` service.
+    /// Performs the `ListApplicationAssociations` operation on the `AppIntegrations` service.
     ///
     /// Returns a paginated list of application associations for an application.
     ///
@@ -1123,7 +1123,7 @@ extension AppIntegrationsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListApplications` operation on the `AmazonAppIntegrationService` service.
+    /// Performs the `ListApplications` operation on the `AppIntegrations` service.
     ///
     /// Lists applications in the account.
     ///
@@ -1193,7 +1193,7 @@ extension AppIntegrationsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDataIntegrationAssociations` operation on the `AmazonAppIntegrationService` service.
+    /// Performs the `ListDataIntegrationAssociations` operation on the `AppIntegrations` service.
     ///
     /// Returns a paginated list of DataIntegration associations in the account. You cannot create a DataIntegration association for a DataIntegration that has been previously associated. Use a different DataIntegration, or recreate the DataIntegration using the [CreateDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_CreateDataIntegration.html) API.
     ///
@@ -1264,7 +1264,7 @@ extension AppIntegrationsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDataIntegrations` operation on the `AmazonAppIntegrationService` service.
+    /// Performs the `ListDataIntegrations` operation on the `AppIntegrations` service.
     ///
     /// Returns a paginated list of DataIntegrations in the account. You cannot create a DataIntegration association for a DataIntegration that has been previously associated. Use a different DataIntegration, or recreate the DataIntegration using the [CreateDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_CreateDataIntegration.html) API.
     ///
@@ -1334,7 +1334,7 @@ extension AppIntegrationsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListEventIntegrationAssociations` operation on the `AmazonAppIntegrationService` service.
+    /// Performs the `ListEventIntegrationAssociations` operation on the `AppIntegrations` service.
     ///
     /// Returns a paginated list of event integration associations in the account.
     ///
@@ -1405,7 +1405,7 @@ extension AppIntegrationsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListEventIntegrations` operation on the `AmazonAppIntegrationService` service.
+    /// Performs the `ListEventIntegrations` operation on the `AppIntegrations` service.
     ///
     /// Returns a paginated list of event integrations in the account.
     ///
@@ -1475,7 +1475,7 @@ extension AppIntegrationsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `AmazonAppIntegrationService` service.
+    /// Performs the `ListTagsForResource` operation on the `AppIntegrations` service.
     ///
     /// Lists the tags for the specified resource.
     ///
@@ -1544,7 +1544,7 @@ extension AppIntegrationsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `AmazonAppIntegrationService` service.
+    /// Performs the `TagResource` operation on the `AppIntegrations` service.
     ///
     /// Adds the specified tags to the specified resource.
     ///
@@ -1616,7 +1616,7 @@ extension AppIntegrationsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `AmazonAppIntegrationService` service.
+    /// Performs the `UntagResource` operation on the `AppIntegrations` service.
     ///
     /// Removes the specified tags from the specified resource.
     ///
@@ -1686,7 +1686,7 @@ extension AppIntegrationsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateApplication` operation on the `AmazonAppIntegrationService` service.
+    /// Performs the `UpdateApplication` operation on the `AppIntegrations` service.
     ///
     /// Updates and persists an Application resource.
     ///
@@ -1760,7 +1760,7 @@ extension AppIntegrationsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateDataIntegration` operation on the `AmazonAppIntegrationService` service.
+    /// Performs the `UpdateDataIntegration` operation on the `AppIntegrations` service.
     ///
     /// Updates the description of a DataIntegration. You cannot create a DataIntegration association for a DataIntegration that has been previously associated. Use a different DataIntegration, or recreate the DataIntegration using the [CreateDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_CreateDataIntegration.html) API.
     ///
@@ -1833,7 +1833,7 @@ extension AppIntegrationsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateDataIntegrationAssociation` operation on the `AmazonAppIntegrationService` service.
+    /// Performs the `UpdateDataIntegrationAssociation` operation on the `AppIntegrations` service.
     ///
     /// Updates and persists a DataIntegrationAssociation resource. Updating a DataIntegrationAssociation with ExecutionConfiguration will rerun the on-demand job.
     ///
@@ -1906,7 +1906,7 @@ extension AppIntegrationsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateEventIntegration` operation on the `AmazonAppIntegrationService` service.
+    /// Performs the `UpdateEventIntegration` operation on the `AppIntegrations` service.
     ///
     /// Updates the description of an event integration.
     ///

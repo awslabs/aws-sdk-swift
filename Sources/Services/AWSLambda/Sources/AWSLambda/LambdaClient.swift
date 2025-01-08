@@ -69,7 +69,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class LambdaClient: ClientRuntime.Client {
     public static let clientName = "LambdaClient"
-    public static let version = "1.0.69"
+    public static let version = "1.0.74"
     let client: ClientRuntime.SdkHttpClient
     let config: LambdaClient.LambdaClientConfiguration
     let serviceName = "Lambda"
@@ -335,7 +335,7 @@ extension LambdaClient {
 }
 
 extension LambdaClient {
-    /// Performs the `AddLayerVersionPermission` operation on the `AWSGirApiService` service.
+    /// Performs the `AddLayerVersionPermission` operation on the `Lambda` service.
     ///
     /// Adds permissions to the resource-based policy of a version of an [Lambda layer](https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html). Use this action to grant layer usage permission to other accounts. You can grant permission to a single account, all accounts in an organization, or all Amazon Web Services accounts. To revoke permission, call [RemoveLayerVersionPermission] with the statement ID that you specified when you added it.
     ///
@@ -415,7 +415,7 @@ extension LambdaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AddPermission` operation on the `AWSGirApiService` service.
+    /// Performs the `AddPermission` operation on the `Lambda` service.
     ///
     /// Grants a [principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_principal.html#Principal_specifying) permission to use a function. You can apply the policy at the function level, or specify a qualifier to restrict access to a single version or alias. If you use a qualifier, the invoker must use the full Amazon Resource Name (ARN) of that version or alias to invoke the function. Note: Lambda does not support adding policies to version $LATEST. To grant permission to another account, specify the account ID as the Principal. To grant permission to an organization defined in Organizations, specify the organization ID as the PrincipalOrgID. For Amazon Web Services services, the principal is a domain-style identifier that the service defines, such as s3.amazonaws.com or sns.amazonaws.com. For Amazon Web Services services, you can also specify the ARN of the associated resource as the SourceArn. If you grant permission to a service principal without specifying the source, other accounts could potentially configure resources in their account to invoke your Lambda function. This operation adds a statement to a resource-based permissions policy for the function. For more information about function policies, see [Using resource-based policies for Lambda](https://docs.aws.amazon.com/lambda/latest/dg/access-control-resource-based.html).
     ///
@@ -495,7 +495,7 @@ extension LambdaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateAlias` operation on the `AWSGirApiService` service.
+    /// Performs the `CreateAlias` operation on the `Lambda` service.
     ///
     /// Creates an [alias](https://docs.aws.amazon.com/lambda/latest/dg/configuration-aliases.html) for a Lambda function version. Use aliases to provide clients with a function identifier that you can update to invoke a different version. You can also map an alias to split invocation requests between two versions. Use the RoutingConfig parameter to specify a second version and the percentage of invocation requests that it receives.
     ///
@@ -568,7 +568,7 @@ extension LambdaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateCodeSigningConfig` operation on the `AWSGirApiService` service.
+    /// Performs the `CreateCodeSigningConfig` operation on the `Lambda` service.
     ///
     /// Creates a code signing configuration. A [code signing configuration](https://docs.aws.amazon.com/lambda/latest/dg/configuration-codesigning.html) defines a list of allowed signing profiles and defines the code-signing validation policy (action to be taken if deployment validation checks fail).
     ///
@@ -638,7 +638,7 @@ extension LambdaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateEventSourceMapping` operation on the `AWSGirApiService` service.
+    /// Performs the `CreateEventSourceMapping` operation on the `Lambda` service.
     ///
     /// Creates a mapping between an event source and an Lambda function. Lambda reads items from the event source and invokes the function. For details about how to configure different event sources, see the following topics.
     ///
@@ -758,7 +758,7 @@ extension LambdaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateFunction` operation on the `AWSGirApiService` service.
+    /// Performs the `CreateFunction` operation on the `Lambda` service.
     ///
     /// Creates a Lambda function. To create a function, you need a [deployment package](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-package.html) and an [execution role](https://docs.aws.amazon.com/lambda/latest/dg/intro-permission-model.html#lambda-intro-execution-role). The deployment package is a .zip file archive or container image that contains your function code. The execution role grants the function permission to use Amazon Web Services services, such as Amazon CloudWatch Logs for log streaming and X-Ray for request tracing. If the deployment package is a [container image](https://docs.aws.amazon.com/lambda/latest/dg/lambda-images.html), then you set the package type to Image. For a container image, the code property must include the URI of a container image in the Amazon ECR registry. You do not need to specify the handler and runtime properties. If the deployment package is a [.zip file archive](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-package.html#gettingstarted-package-zip), then you set the package type to Zip. For a .zip file archive, the code property specifies the location of the .zip file. You must also specify the handler and runtime properties. The code in the deployment package must be compatible with the target instruction set architecture of the function (x86-64 or arm64). If you do not specify the architecture, then the default value is x86-64. When you create a function, Lambda provisions an instance of the function and its supporting resources. If your function connects to a VPC, this process can take a minute or so. During this time, you can't invoke or modify the function. The State, StateReason, and StateReasonCode fields in the response from [GetFunctionConfiguration] indicate when the function is ready to invoke. For more information, see [Lambda function states](https://docs.aws.amazon.com/lambda/latest/dg/functions-states.html). A function has an unpublished version, and can have published versions and aliases. The unpublished version changes when you update your function's code and configuration. A published version is a snapshot of your function code and configuration that can't be changed. An alias is a named resource that maps to a version, and can be changed to map to a different version. Use the Publish parameter to create version 1 of your function from its initial configuration. The other parameters let you configure version-specific and function-level settings. You can modify version-specific settings later with [UpdateFunctionConfiguration]. Function-level settings apply to both the unpublished and published versions of the function, and include tags ([TagResource]) and per-function concurrency limits ([PutFunctionConcurrency]). You can use code signing if your deployment package is a .zip file archive. To enable code signing for this function, specify the ARN of a code-signing configuration. When a user attempts to deploy a code package with [UpdateFunctionCode], Lambda checks that the code package has a valid signature from a trusted publisher. The code-signing configuration includes set of signing profiles, which define the trusted publishers for this function. If another Amazon Web Services account or an Amazon Web Services service invokes your function, use [AddPermission] to grant permission by creating a resource-based Identity and Access Management (IAM) policy. You can grant permissions at the function level, on a version, or on an alias. To invoke your function directly, use [Invoke]. To invoke your function in response to events in other Amazon Web Services services, create an event source mapping ([CreateEventSourceMapping]), or configure a function trigger in the other service. For more information, see [Invoking Lambda functions](https://docs.aws.amazon.com/lambda/latest/dg/lambda-invocation.html).
     ///
@@ -835,7 +835,7 @@ extension LambdaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateFunctionUrlConfig` operation on the `AWSGirApiService` service.
+    /// Performs the `CreateFunctionUrlConfig` operation on the `Lambda` service.
     ///
     /// Creates a Lambda function URL with the specified configuration parameters. A function URL is a dedicated HTTP(S) endpoint that you can use to invoke your function.
     ///
@@ -909,7 +909,7 @@ extension LambdaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAlias` operation on the `AWSGirApiService` service.
+    /// Performs the `DeleteAlias` operation on the `Lambda` service.
     ///
     /// Deletes a Lambda function [alias](https://docs.aws.amazon.com/lambda/latest/dg/configuration-aliases.html).
     ///
@@ -978,7 +978,7 @@ extension LambdaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteCodeSigningConfig` operation on the `AWSGirApiService` service.
+    /// Performs the `DeleteCodeSigningConfig` operation on the `Lambda` service.
     ///
     /// Deletes the code signing configuration. You can delete the code signing configuration only if no function is using it.
     ///
@@ -1047,7 +1047,7 @@ extension LambdaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteEventSourceMapping` operation on the `AWSGirApiService` service.
+    /// Performs the `DeleteEventSourceMapping` operation on the `Lambda` service.
     ///
     /// Deletes an [event source mapping](https://docs.aws.amazon.com/lambda/latest/dg/intro-invocation-modes.html). You can get the identifier of a mapping from the output of [ListEventSourceMappings]. When you delete an event source mapping, it enters a Deleting state and might not be completely deleted for several seconds.
     ///
@@ -1118,7 +1118,7 @@ extension LambdaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteFunction` operation on the `AWSGirApiService` service.
+    /// Performs the `DeleteFunction` operation on the `Lambda` service.
     ///
     /// Deletes a Lambda function. To delete a specific function version, use the Qualifier parameter. Otherwise, all versions and aliases are deleted. This doesn't require the user to have explicit permissions for [DeleteAlias]. To delete Lambda event source mappings that invoke a function, use [DeleteEventSourceMapping]. For Amazon Web Services services and resources that invoke your function directly, delete the trigger in the service where you originally configured it.
     ///
@@ -1189,7 +1189,7 @@ extension LambdaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteFunctionCodeSigningConfig` operation on the `AWSGirApiService` service.
+    /// Performs the `DeleteFunctionCodeSigningConfig` operation on the `Lambda` service.
     ///
     /// Removes the code signing configuration from the function.
     ///
@@ -1260,7 +1260,7 @@ extension LambdaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteFunctionConcurrency` operation on the `AWSGirApiService` service.
+    /// Performs the `DeleteFunctionConcurrency` operation on the `Lambda` service.
     ///
     /// Removes a concurrent execution limit from a function.
     ///
@@ -1330,7 +1330,7 @@ extension LambdaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteFunctionEventInvokeConfig` operation on the `AWSGirApiService` service.
+    /// Performs the `DeleteFunctionEventInvokeConfig` operation on the `Lambda` service.
     ///
     /// Deletes the configuration for asynchronous invocation for a function, version, or alias. To configure options for asynchronous invocation, use [PutFunctionEventInvokeConfig].
     ///
@@ -1401,7 +1401,7 @@ extension LambdaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteFunctionUrlConfig` operation on the `AWSGirApiService` service.
+    /// Performs the `DeleteFunctionUrlConfig` operation on the `Lambda` service.
     ///
     /// Deletes a Lambda function URL. When you delete a function URL, you can't recover it. Creating a new function URL results in a different URL address.
     ///
@@ -1471,7 +1471,7 @@ extension LambdaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteLayerVersion` operation on the `AWSGirApiService` service.
+    /// Performs the `DeleteLayerVersion` operation on the `Lambda` service.
     ///
     /// Deletes a version of an [Lambda layer](https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html). Deleted versions can no longer be viewed or added to functions. To avoid breaking functions, a copy of the version remains in Lambda until no functions refer to it.
     ///
@@ -1538,7 +1538,7 @@ extension LambdaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteProvisionedConcurrencyConfig` operation on the `AWSGirApiService` service.
+    /// Performs the `DeleteProvisionedConcurrencyConfig` operation on the `Lambda` service.
     ///
     /// Deletes the provisioned concurrency configuration for a function.
     ///
@@ -1609,7 +1609,7 @@ extension LambdaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAccountSettings` operation on the `AWSGirApiService` service.
+    /// Performs the `GetAccountSettings` operation on the `Lambda` service.
     ///
     /// Retrieves details about your account's [limits](https://docs.aws.amazon.com/lambda/latest/dg/limits.html) and usage in an Amazon Web Services Region.
     ///
@@ -1676,7 +1676,7 @@ extension LambdaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAlias` operation on the `AWSGirApiService` service.
+    /// Performs the `GetAlias` operation on the `Lambda` service.
     ///
     /// Returns details about a Lambda function [alias](https://docs.aws.amazon.com/lambda/latest/dg/configuration-aliases.html).
     ///
@@ -1745,7 +1745,7 @@ extension LambdaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetCodeSigningConfig` operation on the `AWSGirApiService` service.
+    /// Performs the `GetCodeSigningConfig` operation on the `Lambda` service.
     ///
     /// Returns information about the specified code signing configuration.
     ///
@@ -1813,7 +1813,7 @@ extension LambdaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetEventSourceMapping` operation on the `AWSGirApiService` service.
+    /// Performs the `GetEventSourceMapping` operation on the `Lambda` service.
     ///
     /// Returns details about an event source mapping. You can get the identifier of a mapping from the output of [ListEventSourceMappings].
     ///
@@ -1882,7 +1882,7 @@ extension LambdaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetFunction` operation on the `AWSGirApiService` service.
+    /// Performs the `GetFunction` operation on the `Lambda` service.
     ///
     /// Returns information about the function or function version, with a link to download the deployment package that's valid for 10 minutes. If you specify a function version, only details that are specific to that version are returned.
     ///
@@ -1952,7 +1952,7 @@ extension LambdaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetFunctionCodeSigningConfig` operation on the `AWSGirApiService` service.
+    /// Performs the `GetFunctionCodeSigningConfig` operation on the `Lambda` service.
     ///
     /// Returns the code signing configuration for the specified function.
     ///
@@ -2021,7 +2021,7 @@ extension LambdaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetFunctionConcurrency` operation on the `AWSGirApiService` service.
+    /// Performs the `GetFunctionConcurrency` operation on the `Lambda` service.
     ///
     /// Returns details about the reserved concurrency configuration for a function. To set a concurrency limit for a function, use [PutFunctionConcurrency].
     ///
@@ -2090,7 +2090,7 @@ extension LambdaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetFunctionConfiguration` operation on the `AWSGirApiService` service.
+    /// Performs the `GetFunctionConfiguration` operation on the `Lambda` service.
     ///
     /// Returns the version-specific settings of a Lambda function or version. The output includes only options that can vary between versions of a function. To modify these settings, use [UpdateFunctionConfiguration]. To get all of a function's details, including function-level settings, use [GetFunction].
     ///
@@ -2160,7 +2160,7 @@ extension LambdaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetFunctionEventInvokeConfig` operation on the `AWSGirApiService` service.
+    /// Performs the `GetFunctionEventInvokeConfig` operation on the `Lambda` service.
     ///
     /// Retrieves the configuration for asynchronous invocation for a function, version, or alias. To configure options for asynchronous invocation, use [PutFunctionEventInvokeConfig].
     ///
@@ -2230,7 +2230,7 @@ extension LambdaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetFunctionRecursionConfig` operation on the `AWSGirApiService` service.
+    /// Performs the `GetFunctionRecursionConfig` operation on the `Lambda` service.
     ///
     /// Returns your function's [recursive loop detection](https://docs.aws.amazon.com/lambda/latest/dg/invocation-recursion.html) configuration.
     ///
@@ -2299,7 +2299,7 @@ extension LambdaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetFunctionUrlConfig` operation on the `AWSGirApiService` service.
+    /// Performs the `GetFunctionUrlConfig` operation on the `Lambda` service.
     ///
     /// Returns details about a Lambda function URL.
     ///
@@ -2369,7 +2369,7 @@ extension LambdaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetLayerVersion` operation on the `AWSGirApiService` service.
+    /// Performs the `GetLayerVersion` operation on the `Lambda` service.
     ///
     /// Returns information about a version of an [Lambda layer](https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html), with a link to download the layer archive that's valid for 10 minutes.
     ///
@@ -2438,7 +2438,7 @@ extension LambdaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetLayerVersionByArn` operation on the `AWSGirApiService` service.
+    /// Performs the `GetLayerVersionByArn` operation on the `Lambda` service.
     ///
     /// Returns information about a version of an [Lambda layer](https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html), with a link to download the layer archive that's valid for 10 minutes.
     ///
@@ -2508,7 +2508,7 @@ extension LambdaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetLayerVersionPolicy` operation on the `AWSGirApiService` service.
+    /// Performs the `GetLayerVersionPolicy` operation on the `Lambda` service.
     ///
     /// Returns the permission policy for a version of an [Lambda layer](https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html). For more information, see [AddLayerVersionPermission].
     ///
@@ -2577,7 +2577,7 @@ extension LambdaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetPolicy` operation on the `AWSGirApiService` service.
+    /// Performs the `GetPolicy` operation on the `Lambda` service.
     ///
     /// Returns the [resource-based IAM policy](https://docs.aws.amazon.com/lambda/latest/dg/access-control-resource-based.html) for a function, version, or alias.
     ///
@@ -2647,7 +2647,7 @@ extension LambdaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetProvisionedConcurrencyConfig` operation on the `AWSGirApiService` service.
+    /// Performs the `GetProvisionedConcurrencyConfig` operation on the `Lambda` service.
     ///
     /// Retrieves the provisioned concurrency configuration for a function's alias or version.
     ///
@@ -2718,7 +2718,7 @@ extension LambdaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetRuntimeManagementConfig` operation on the `AWSGirApiService` service.
+    /// Performs the `GetRuntimeManagementConfig` operation on the `Lambda` service.
     ///
     /// Retrieves the runtime management configuration for a function's version. If the runtime update mode is Manual, this includes the ARN of the runtime version and the runtime update mode. If the runtime update mode is Auto or Function update, this includes the runtime update mode and null is returned for the ARN. For more information, see [Runtime updates](https://docs.aws.amazon.com/lambda/latest/dg/runtimes-update.html).
     ///
@@ -2788,7 +2788,7 @@ extension LambdaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `Invoke` operation on the `AWSGirApiService` service.
+    /// Performs the `Invoke` operation on the `Lambda` service.
     ///
     /// Invokes a Lambda function. You can invoke a function synchronously (and wait for the response), or asynchronously. By default, Lambda invokes your function synchronously (i.e. theInvocationType is RequestResponse). To invoke a function asynchronously, set InvocationType to Event. Lambda passes the ClientContext object to your function for synchronous invocations only. For [synchronous invocation](https://docs.aws.amazon.com/lambda/latest/dg/invocation-sync.html), details about the function response, including errors, are included in the response body and headers. For either invocation type, you can find more information in the [execution log](https://docs.aws.amazon.com/lambda/latest/dg/monitoring-functions.html) and [trace](https://docs.aws.amazon.com/lambda/latest/dg/lambda-x-ray.html). When an error occurs, your function may be invoked multiple times. Retry behavior varies by error type, client, event source, and invocation type. For example, if you invoke a function asynchronously and it returns an error, Lambda executes the function up to two more times. For more information, see [Error handling and automatic retries in Lambda](https://docs.aws.amazon.com/lambda/latest/dg/invocation-retries.html). For [asynchronous invocation](https://docs.aws.amazon.com/lambda/latest/dg/invocation-async.html), Lambda adds events to a queue before sending them to your function. If your function does not have enough capacity to keep up with the queue, events may be lost. Occasionally, your function may receive the same event multiple times, even if no error occurs. To retain events that were not processed, configure your function with a [dead-letter queue](https://docs.aws.amazon.com/lambda/latest/dg/invocation-async.html#invocation-dlq). The status code in the API response doesn't reflect function errors. Error codes are reserved for errors that prevent your function from executing, such as permissions errors, [quota](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html) errors, or issues with your function's code and configuration. For example, Lambda returns TooManyRequestsException if running the function would cause you to exceed a concurrency limit at either the account level (ConcurrentInvocationLimitExceeded) or function level (ReservedFunctionConcurrentInvocationLimitExceeded). For functions with a long timeout, your client might disconnect during synchronous invocation while it waits for a response. Configure your HTTP client, SDK, firewall, proxy, or operating system to allow for long connections with timeout or keep-alive settings. This operation requires permission for the [lambda:InvokeFunction](https://docs.aws.amazon.com/IAM/latest/UserGuide/list_awslambda.html) action. For details on how to set up permissions for cross-account invocations, see [Granting function access to other accounts](https://docs.aws.amazon.com/lambda/latest/dg/access-control-resource-based.html#permissions-resource-xaccountinvoke).
     ///
@@ -2888,7 +2888,7 @@ extension LambdaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `InvokeAsync` operation on the `AWSGirApiService` service.
+    /// Performs the `InvokeAsync` operation on the `Lambda` service.
     ///
     /// For asynchronous function invocation, use [Invoke]. Invokes a function asynchronously. If you do use the InvokeAsync action, note that it doesn't support the use of X-Ray active tracing. Trace ID is not propagated to the function, even if X-Ray active tracing is turned on.
     @available(*, deprecated)
@@ -2962,7 +2962,7 @@ extension LambdaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `InvokeWithResponseStream` operation on the `AWSGirApiService` service.
+    /// Performs the `InvokeWithResponseStream` operation on the `Lambda` service.
     ///
     /// Configure your Lambda functions to stream response payloads back to clients. For more information, see [Configuring a Lambda function to stream responses](https://docs.aws.amazon.com/lambda/latest/dg/configuration-response-streaming.html). This operation requires permission for the [lambda:InvokeFunction](https://docs.aws.amazon.com/IAM/latest/UserGuide/list_awslambda.html) action. For details on how to set up permissions for cross-account invocations, see [Granting function access to other accounts](https://docs.aws.amazon.com/lambda/latest/dg/access-control-resource-based.html#permissions-resource-xaccountinvoke).
     ///
@@ -3062,7 +3062,7 @@ extension LambdaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAliases` operation on the `AWSGirApiService` service.
+    /// Performs the `ListAliases` operation on the `Lambda` service.
     ///
     /// Returns a list of [aliases](https://docs.aws.amazon.com/lambda/latest/dg/configuration-aliases.html) for a Lambda function.
     ///
@@ -3132,7 +3132,7 @@ extension LambdaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListCodeSigningConfigs` operation on the `AWSGirApiService` service.
+    /// Performs the `ListCodeSigningConfigs` operation on the `Lambda` service.
     ///
     /// Returns a list of [code signing configurations](https://docs.aws.amazon.com/lambda/latest/dg/configuring-codesigning.html). A request returns up to 10,000 configurations per call. You can use the MaxItems parameter to return fewer configurations per call.
     ///
@@ -3200,7 +3200,7 @@ extension LambdaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListEventSourceMappings` operation on the `AWSGirApiService` service.
+    /// Performs the `ListEventSourceMappings` operation on the `Lambda` service.
     ///
     /// Lists event source mappings. Specify an EventSourceArn to show only event source mappings for a single event source.
     ///
@@ -3270,7 +3270,7 @@ extension LambdaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListFunctionEventInvokeConfigs` operation on the `AWSGirApiService` service.
+    /// Performs the `ListFunctionEventInvokeConfigs` operation on the `Lambda` service.
     ///
     /// Retrieves a list of configurations for asynchronous invocation for a function. To configure options for asynchronous invocation, use [PutFunctionEventInvokeConfig].
     ///
@@ -3340,7 +3340,7 @@ extension LambdaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListFunctionUrlConfigs` operation on the `AWSGirApiService` service.
+    /// Performs the `ListFunctionUrlConfigs` operation on the `Lambda` service.
     ///
     /// Returns a list of Lambda function URLs for the specified function.
     ///
@@ -3410,7 +3410,7 @@ extension LambdaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListFunctions` operation on the `AWSGirApiService` service.
+    /// Performs the `ListFunctions` operation on the `Lambda` service.
     ///
     /// Returns a list of Lambda functions, with the version-specific configuration of each. Lambda returns up to 50 functions per call. Set FunctionVersion to ALL to include all published versions of each function in addition to the unpublished version. The ListFunctions operation returns a subset of the [FunctionConfiguration] fields. To get the additional fields (State, StateReasonCode, StateReason, LastUpdateStatus, LastUpdateStatusReason, LastUpdateStatusReasonCode, RuntimeVersionConfig) for a function or version, use [GetFunction].
     ///
@@ -3479,7 +3479,7 @@ extension LambdaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListFunctionsByCodeSigningConfig` operation on the `AWSGirApiService` service.
+    /// Performs the `ListFunctionsByCodeSigningConfig` operation on the `Lambda` service.
     ///
     /// List the functions that use the specified code signing configuration. You can use this method prior to deleting a code signing configuration, to verify that no functions are using it.
     ///
@@ -3548,7 +3548,7 @@ extension LambdaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListLayerVersions` operation on the `AWSGirApiService` service.
+    /// Performs the `ListLayerVersions` operation on the `Lambda` service.
     ///
     /// Lists the versions of an [Lambda layer](https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html). Versions that have been deleted aren't listed. Specify a [runtime identifier](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html) to list only versions that indicate that they're compatible with that runtime. Specify a compatible architecture to include only layer versions that are compatible with that architecture.
     ///
@@ -3618,7 +3618,7 @@ extension LambdaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListLayers` operation on the `AWSGirApiService` service.
+    /// Performs the `ListLayers` operation on the `Lambda` service.
     ///
     /// Lists [Lambda layers](https://docs.aws.amazon.com/lambda/latest/dg/invocation-layers.html) and shows information about the latest version of each. Specify a [runtime identifier](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html) to list only layers that indicate that they're compatible with that runtime. Specify a compatible architecture to include only layers that are compatible with that [instruction set architecture](https://docs.aws.amazon.com/lambda/latest/dg/foundation-arch.html).
     ///
@@ -3687,7 +3687,7 @@ extension LambdaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListProvisionedConcurrencyConfigs` operation on the `AWSGirApiService` service.
+    /// Performs the `ListProvisionedConcurrencyConfigs` operation on the `Lambda` service.
     ///
     /// Retrieves a list of provisioned concurrency configurations for a function.
     ///
@@ -3757,7 +3757,7 @@ extension LambdaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTags` operation on the `AWSGirApiService` service.
+    /// Performs the `ListTags` operation on the `Lambda` service.
     ///
     /// Returns a function, event source mapping, or code signing configuration's [tags](https://docs.aws.amazon.com/lambda/latest/dg/tagging.html). You can also view function tags with [GetFunction].
     ///
@@ -3826,7 +3826,7 @@ extension LambdaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListVersionsByFunction` operation on the `AWSGirApiService` service.
+    /// Performs the `ListVersionsByFunction` operation on the `Lambda` service.
     ///
     /// Returns a list of [versions](https://docs.aws.amazon.com/lambda/latest/dg/versioning-aliases.html), with the version-specific configuration of each. Lambda returns up to 50 versions per call.
     ///
@@ -3896,7 +3896,7 @@ extension LambdaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PublishLayerVersion` operation on the `AWSGirApiService` service.
+    /// Performs the `PublishLayerVersion` operation on the `Lambda` service.
     ///
     /// Creates an [Lambda layer](https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html) from a ZIP archive. Each time you call PublishLayerVersion with the same layer name, a new version is created. Add layers to your function with [CreateFunction] or [UpdateFunctionConfiguration].
     ///
@@ -3969,7 +3969,7 @@ extension LambdaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PublishVersion` operation on the `AWSGirApiService` service.
+    /// Performs the `PublishVersion` operation on the `Lambda` service.
     ///
     /// Creates a [version](https://docs.aws.amazon.com/lambda/latest/dg/versioning-aliases.html) from the current code and configuration of a function. Use versions to create a snapshot of your function code and configuration that doesn't change. Lambda doesn't publish a version if the function's configuration and code haven't changed since the last version. Use [UpdateFunctionCode] or [UpdateFunctionConfiguration] to update the function before publishing a version. Clients can invoke versions directly or with an alias. To create an alias, use [CreateAlias].
     ///
@@ -4048,7 +4048,7 @@ extension LambdaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutFunctionCodeSigningConfig` operation on the `AWSGirApiService` service.
+    /// Performs the `PutFunctionCodeSigningConfig` operation on the `Lambda` service.
     ///
     /// Update the code signing configuration for the function. Changes to the code signing configuration take effect the next time a user tries to deploy a code package to the function.
     ///
@@ -4122,7 +4122,7 @@ extension LambdaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutFunctionConcurrency` operation on the `AWSGirApiService` service.
+    /// Performs the `PutFunctionConcurrency` operation on the `Lambda` service.
     ///
     /// Sets the maximum number of simultaneous executions for a function, and reserves capacity for that concurrency level. Concurrency settings apply to the function as a whole, including all published versions and the unpublished version. Reserving concurrency both ensures that your function has capacity to process the specified number of events simultaneously, and prevents it from scaling beyond that level. Use [GetFunction] to see the current setting for a function. Use [GetAccountSettings] to see your Regional concurrency limit. You can reserve concurrency for as many functions as you like, as long as you leave at least 100 simultaneous executions unreserved for functions that aren't configured with a per-function limit. For more information, see [Lambda function scaling](https://docs.aws.amazon.com/lambda/latest/dg/invocation-scaling.html).
     ///
@@ -4195,7 +4195,7 @@ extension LambdaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutFunctionEventInvokeConfig` operation on the `AWSGirApiService` service.
+    /// Performs the `PutFunctionEventInvokeConfig` operation on the `Lambda` service.
     ///
     /// Configures options for [asynchronous invocation](https://docs.aws.amazon.com/lambda/latest/dg/invocation-async.html) on a function, version, or alias. If a configuration already exists for a function, version, or alias, this operation overwrites it. If you exclude any settings, they are removed. To set one option without affecting existing settings for other options, use [UpdateFunctionEventInvokeConfig]. By default, Lambda retries an asynchronous invocation twice if the function returns an error. It retains events in a queue for up to six hours. When an event fails all processing attempts or stays in the asynchronous invocation queue for too long, Lambda discards it. To retain discarded events, configure a dead-letter queue with [UpdateFunctionConfiguration]. To send an invocation record to a queue, topic, S3 bucket, function, or event bus, specify a [destination](https://docs.aws.amazon.com/lambda/latest/dg/invocation-async.html#invocation-async-destinations). You can configure separate destinations for successful invocations (on-success) and events that fail all processing attempts (on-failure). You can configure destinations in addition to or instead of a dead-letter queue. S3 buckets are supported only for on-failure destinations. To retain records of successful invocations, use another destination type.
     ///
@@ -4269,7 +4269,7 @@ extension LambdaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutFunctionRecursionConfig` operation on the `AWSGirApiService` service.
+    /// Performs the `PutFunctionRecursionConfig` operation on the `Lambda` service.
     ///
     /// Sets your function's [recursive loop detection](https://docs.aws.amazon.com/lambda/latest/dg/invocation-recursion.html) configuration. When you configure a Lambda function to output to the same service or resource that invokes the function, it's possible to create an infinite recursive loop. For example, a Lambda function might write a message to an Amazon Simple Queue Service (Amazon SQS) queue, which then invokes the same function. This invocation causes the function to write another message to the queue, which in turn invokes the function again. Lambda can detect certain types of recursive loops shortly after they occur. When Lambda detects a recursive loop and your function's recursive loop detection configuration is set to Terminate, it stops your function being invoked and notifies you.
     ///
@@ -4342,7 +4342,7 @@ extension LambdaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutProvisionedConcurrencyConfig` operation on the `AWSGirApiService` service.
+    /// Performs the `PutProvisionedConcurrencyConfig` operation on the `Lambda` service.
     ///
     /// Adds a provisioned concurrency configuration to a function's alias or version.
     ///
@@ -4416,7 +4416,7 @@ extension LambdaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutRuntimeManagementConfig` operation on the `AWSGirApiService` service.
+    /// Performs the `PutRuntimeManagementConfig` operation on the `Lambda` service.
     ///
     /// Sets the runtime management configuration for a function's version. For more information, see [Runtime updates](https://docs.aws.amazon.com/lambda/latest/dg/runtimes-update.html).
     ///
@@ -4490,7 +4490,7 @@ extension LambdaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RemoveLayerVersionPermission` operation on the `AWSGirApiService` service.
+    /// Performs the `RemoveLayerVersionPermission` operation on the `Lambda` service.
     ///
     /// Removes a statement from the permissions policy for a version of an [Lambda layer](https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html). For more information, see [AddLayerVersionPermission].
     ///
@@ -4565,7 +4565,7 @@ extension LambdaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RemovePermission` operation on the `AWSGirApiService` service.
+    /// Performs the `RemovePermission` operation on the `Lambda` service.
     ///
     /// Revokes function-use permission from an Amazon Web Services service or another Amazon Web Services account. You can get the ID of the statement from the output of [GetPolicy].
     ///
@@ -4640,7 +4640,7 @@ extension LambdaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `AWSGirApiService` service.
+    /// Performs the `TagResource` operation on the `Lambda` service.
     ///
     /// Adds [tags](https://docs.aws.amazon.com/lambda/latest/dg/tagging.html) to a function, event source mapping, or code signing configuration.
     ///
@@ -4713,7 +4713,7 @@ extension LambdaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `AWSGirApiService` service.
+    /// Performs the `UntagResource` operation on the `Lambda` service.
     ///
     /// Removes [tags](https://docs.aws.amazon.com/lambda/latest/dg/tagging.html) from a function, event source mapping, or code signing configuration.
     ///
@@ -4784,7 +4784,7 @@ extension LambdaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateAlias` operation on the `AWSGirApiService` service.
+    /// Performs the `UpdateAlias` operation on the `Lambda` service.
     ///
     /// Updates the configuration of a Lambda function [alias](https://docs.aws.amazon.com/lambda/latest/dg/configuration-aliases.html).
     ///
@@ -4862,7 +4862,7 @@ extension LambdaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateCodeSigningConfig` operation on the `AWSGirApiService` service.
+    /// Performs the `UpdateCodeSigningConfig` operation on the `Lambda` service.
     ///
     /// Update the code signing configuration. Changes to the code signing configuration take effect the next time a user tries to deploy a code package to the function.
     ///
@@ -4933,7 +4933,7 @@ extension LambdaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateEventSourceMapping` operation on the `AWSGirApiService` service.
+    /// Performs the `UpdateEventSourceMapping` operation on the `Lambda` service.
     ///
     /// Updates an event source mapping. You can change the function that Lambda invokes, or pause invocation and resume later from the same location. For details about how to configure different event sources, see the following topics.
     ///
@@ -5054,7 +5054,7 @@ extension LambdaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateFunctionCode` operation on the `AWSGirApiService` service.
+    /// Performs the `UpdateFunctionCode` operation on the `Lambda` service.
     ///
     /// Updates a Lambda function's code. If code signing is enabled for the function, the code package must be signed by a trusted publisher. For more information, see [Configuring code signing for Lambda](https://docs.aws.amazon.com/lambda/latest/dg/configuration-codesigning.html). If the function's package type is Image, then you must specify the code package in ImageUri as the URI of a [container image](https://docs.aws.amazon.com/lambda/latest/dg/lambda-images.html) in the Amazon ECR registry. If the function's package type is Zip, then you must specify the deployment package as a [.zip file archive](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-package.html#gettingstarted-package-zip). Enter the Amazon S3 bucket and key of the code .zip file location. You can also provide the function code inline using the ZipFile field. The code in the deployment package must be compatible with the target instruction set architecture of the function (x86-64 or arm64). The function's code is locked when you publish a version. You can't modify the code of a published version, only the unpublished version. For a function defined as a container image, Lambda resolves the image tag to an image digest. In Amazon ECR, if you update the image tag to a new image, Lambda does not automatically update the function.
     ///
@@ -5136,7 +5136,7 @@ extension LambdaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateFunctionConfiguration` operation on the `AWSGirApiService` service.
+    /// Performs the `UpdateFunctionConfiguration` operation on the `Lambda` service.
     ///
     /// Modify the version-specific settings of a Lambda function. When you update a function, Lambda provisions an instance of the function and its supporting resources. If your function connects to a VPC, this process can take a minute. During this time, you can't modify the function, but you can still invoke it. The LastUpdateStatus, LastUpdateStatusReason, and LastUpdateStatusReasonCode fields in the response from [GetFunctionConfiguration] indicate when the update is complete and the function is processing events with the new configuration. For more information, see [Lambda function states](https://docs.aws.amazon.com/lambda/latest/dg/functions-states.html). These settings can vary between versions of a function and are locked when you publish a version. You can't modify the configuration of a published version, only the unpublished version. To configure function concurrency, use [PutFunctionConcurrency]. To grant invoke permissions to an Amazon Web Services account or Amazon Web Services service, use [AddPermission].
     ///
@@ -5217,7 +5217,7 @@ extension LambdaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateFunctionEventInvokeConfig` operation on the `AWSGirApiService` service.
+    /// Performs the `UpdateFunctionEventInvokeConfig` operation on the `Lambda` service.
     ///
     /// Updates the configuration for asynchronous invocation for a function, version, or alias. To configure options for asynchronous invocation, use [PutFunctionEventInvokeConfig].
     ///
@@ -5291,7 +5291,7 @@ extension LambdaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateFunctionUrlConfig` operation on the `AWSGirApiService` service.
+    /// Performs the `UpdateFunctionUrlConfig` operation on the `Lambda` service.
     ///
     /// Updates the configuration for a Lambda function URL.
     ///

@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class QuickSightClient: ClientRuntime.Client {
     public static let clientName = "QuickSightClient"
-    public static let version = "1.0.69"
+    public static let version = "1.0.74"
     let client: ClientRuntime.SdkHttpClient
     let config: QuickSightClient.QuickSightClientConfiguration
     let serviceName = "QuickSight"
@@ -330,7 +330,7 @@ extension QuickSightClient {
 }
 
 extension QuickSightClient {
-    /// Performs the `BatchCreateTopicReviewedAnswer` operation on the `QuickSight_20180401` service.
+    /// Performs the `BatchCreateTopicReviewedAnswer` operation on the `QuickSight` service.
     ///
     /// Creates new reviewed answers for a Q Topic.
     ///
@@ -403,7 +403,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchDeleteTopicReviewedAnswer` operation on the `QuickSight_20180401` service.
+    /// Performs the `BatchDeleteTopicReviewedAnswer` operation on the `QuickSight` service.
     ///
     /// Deletes reviewed answers for Q Topic.
     ///
@@ -477,7 +477,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CancelIngestion` operation on the `QuickSight_20180401` service.
+    /// Performs the `CancelIngestion` operation on the `QuickSight` service.
     ///
     /// Cancels an ongoing ingestion of data into SPICE.
     ///
@@ -548,7 +548,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateAccountCustomization` operation on the `QuickSight_20180401` service.
+    /// Performs the `CreateAccountCustomization` operation on the `QuickSight` service.
     ///
     /// Creates Amazon QuickSight customizations for the current Amazon Web Services Region. Currently, you can add a custom default theme by using the CreateAccountCustomization or UpdateAccountCustomization API operation. To further customize Amazon QuickSight by removing Amazon QuickSight sample assets and videos for all new users, see [Customizing Amazon QuickSight](https://docs.aws.amazon.com/quicksight/latest/user/customizing-quicksight.html) in the Amazon QuickSight User Guide. You can create customizations for your Amazon Web Services account or, if you specify a namespace, for a QuickSight namespace instead. Customizations that apply to a namespace always override customizations that apply to an Amazon Web Services account. To find out which customizations apply, use the DescribeAccountCustomization API operation. Before you use the CreateAccountCustomization API operation to add a theme as the namespace default, make sure that you first share the theme with the namespace. If you don't share it with the namespace, the theme isn't visible to your users even if you make it the default theme. To check if the theme is shared, view the current permissions by using the [DescribeThemePermissions](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_DescribeThemePermissions.html) API operation. To share the theme, grant permissions by using the [UpdateThemePermissions](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_UpdateThemePermissions.html) API operation.
     ///
@@ -625,7 +625,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateAccountSubscription` operation on the `QuickSight_20180401` service.
+    /// Performs the `CreateAccountSubscription` operation on the `QuickSight` service.
     ///
     /// Creates an Amazon QuickSight account, or subscribes to Amazon QuickSight Q. The Amazon Web Services Region for the account is derived from what is configured in the CLI or SDK. Before you use this operation, make sure that you can connect to an existing Amazon Web Services account. If you don't have an Amazon Web Services account, see [Sign up for Amazon Web Services](https://docs.aws.amazon.com/quicksight/latest/user/setting-up-aws-sign-up.html) in the Amazon QuickSight User Guide. The person who signs up for Amazon QuickSight needs to have the correct Identity and Access Management (IAM) permissions. For more information, see [IAM Policy Examples for Amazon QuickSight](https://docs.aws.amazon.com/quicksight/latest/user/iam-policy-examples.html) in the Amazon QuickSight User Guide. If your IAM policy includes both the Subscribe and CreateAccountSubscription actions, make sure that both actions are set to Allow. If either action is set to Deny, the Deny action prevails and your API call fails. You can't pass an existing IAM role to access other Amazon Web Services services using this API operation. To pass your existing IAM role to Amazon QuickSight, see [Passing IAM roles to Amazon QuickSight](https://docs.aws.amazon.com/quicksight/latest/user/security_iam_service-with-iam.html#security-create-iam-role) in the Amazon QuickSight User Guide. You can't set default resource access on the new account from the Amazon QuickSight API. Instead, add default resource access from the Amazon QuickSight console. For more information about setting default resource access to Amazon Web Services services, see [Setting default resource access to Amazon Web Services services](https://docs.aws.amazon.com/quicksight/latest/user/scoping-policies-defaults.html) in the Amazon QuickSight User Guide.
     ///
@@ -702,7 +702,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateAnalysis` operation on the `QuickSight_20180401` service.
+    /// Performs the `CreateAnalysis` operation on the `QuickSight` service.
     ///
     /// Creates an analysis in Amazon QuickSight. Analyses can be created either from a template or from an AnalysisDefinition.
     ///
@@ -778,7 +778,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateBrand` operation on the `QuickSight_20180401` service.
+    /// Performs the `CreateBrand` operation on the `QuickSight` service.
     ///
     /// Creates an Amazon QuickSight brand.
     ///
@@ -852,7 +852,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateCustomPermissions` operation on the `QuickSight_20180401` service.
+    /// Performs the `CreateCustomPermissions` operation on the `QuickSight` service.
     ///
     /// Creates a custom permissions profile.
     ///
@@ -930,7 +930,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateDashboard` operation on the `QuickSight_20180401` service.
+    /// Performs the `CreateDashboard` operation on the `QuickSight` service.
     ///
     /// Creates a dashboard from either a template or directly with a DashboardDefinition. To first create a template, see the [CreateTemplate](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_CreateTemplate.html) API operation. A dashboard is an entity in Amazon QuickSight that identifies Amazon QuickSight reports, created from analyses. You can share Amazon QuickSight dashboards. With the right permissions, you can create scheduled email reports from them. If you have the correct permissions, you can create a dashboard from a template that exists in a different Amazon Web Services account.
     ///
@@ -1006,7 +1006,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateDataSet` operation on the `QuickSight_20180401` service.
+    /// Performs the `CreateDataSet` operation on the `QuickSight` service.
     ///
     /// Creates a dataset. This operation doesn't support datasets that include uploaded files as a source.
     ///
@@ -1083,7 +1083,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateDataSource` operation on the `QuickSight_20180401` service.
+    /// Performs the `CreateDataSource` operation on the `QuickSight` service.
     ///
     /// Creates a data source.
     ///
@@ -1160,7 +1160,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateFolder` operation on the `QuickSight_20180401` service.
+    /// Performs the `CreateFolder` operation on the `QuickSight` service.
     ///
     /// Creates an empty shared folder.
     ///
@@ -1237,7 +1237,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateFolderMembership` operation on the `QuickSight_20180401` service.
+    /// Performs the `CreateFolderMembership` operation on the `QuickSight` service.
     ///
     /// Adds an asset, such as a dashboard, analysis, or dataset into a folder.
     ///
@@ -1310,7 +1310,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateGroup` operation on the `QuickSight_20180401` service.
+    /// Performs the `CreateGroup` operation on the `QuickSight` service.
     ///
     /// Use the CreateGroup operation to create a group in Amazon QuickSight. You can create up to 10,000 groups in a namespace. If you want to create more than 10,000 groups in a namespace, contact Amazon Web Services Support. The permissions resource is arn:aws:quicksight:::group/default/ . The response is a group object.
     ///
@@ -1387,7 +1387,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateGroupMembership` operation on the `QuickSight_20180401` service.
+    /// Performs the `CreateGroupMembership` operation on the `QuickSight` service.
     ///
     /// Adds an Amazon QuickSight user to an Amazon QuickSight group.
     ///
@@ -1459,7 +1459,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateIAMPolicyAssignment` operation on the `QuickSight_20180401` service.
+    /// Performs the `CreateIAMPolicyAssignment` operation on the `QuickSight` service.
     ///
     /// Creates an assignment with one specified IAM policy, identified by its Amazon Resource Name (ARN). This policy assignment is attached to the specified groups or users of Amazon QuickSight. Assignment names are unique per Amazon Web Services account. To avoid overwriting rules in other namespaces, use assignment names that are unique.
     ///
@@ -1534,7 +1534,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateIngestion` operation on the `QuickSight_20180401` service.
+    /// Performs the `CreateIngestion` operation on the `QuickSight` service.
     ///
     /// Creates and starts a new SPICE ingestion for a dataset. You can manually refresh datasets in an Enterprise edition account 32 times in a 24-hour period. You can manually refresh datasets in a Standard edition account 8 times in a 24-hour period. Each 24-hour period is measured starting 24 hours before the current date and time. Any ingestions operating on tagged datasets inherit the same tags automatically for use in access control. For an example, see [How do I create an IAM policy to control access to Amazon EC2 resources using tags?](http://aws.amazon.com/premiumsupport/knowledge-center/iam-ec2-resource-tags/) in the Amazon Web Services Knowledge Center. Tags are visible on the tagged dataset, but not on the ingestion resource.
     ///
@@ -1609,7 +1609,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateNamespace` operation on the `QuickSight_20180401` service.
+    /// Performs the `CreateNamespace` operation on the `QuickSight` service.
     ///
     /// (Enterprise edition only) Creates a new namespace for you to use with Amazon QuickSight. A namespace allows you to isolate the Amazon QuickSight users and groups that are registered for that namespace. Users that access the namespace can share assets only with other users or groups in the same namespace. They can't see users and groups in other namespaces. You can create a namespace after your Amazon Web Services account is subscribed to Amazon QuickSight. The namespace must be unique within the Amazon Web Services account. By default, there is a limit of 100 namespaces per Amazon Web Services account. To increase your limit, create a ticket with Amazon Web Services Support.
     ///
@@ -1687,7 +1687,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateRefreshSchedule` operation on the `QuickSight_20180401` service.
+    /// Performs the `CreateRefreshSchedule` operation on the `QuickSight` service.
     ///
     /// Creates a refresh schedule for a dataset. You can create up to 5 different schedules for a single dataset.
     ///
@@ -1763,7 +1763,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateRoleMembership` operation on the `QuickSight_20180401` service.
+    /// Performs the `CreateRoleMembership` operation on the `QuickSight` service.
     ///
     /// Use CreateRoleMembership to add an existing Amazon QuickSight group to an existing role.
     ///
@@ -1835,7 +1835,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateTemplate` operation on the `QuickSight_20180401` service.
+    /// Performs the `CreateTemplate` operation on the `QuickSight` service.
     ///
     /// Creates a template either from a TemplateDefinition or from an existing Amazon QuickSight analysis or template. You can use the resulting template to create additional dashboards, templates, or analyses. A template is an entity in Amazon QuickSight that encapsulates the metadata required to create an analysis and that you can use to create s dashboard. A template adds a layer of abstraction by using placeholders to replace the dataset associated with the analysis. You can use templates to create dashboards by replacing dataset placeholders with datasets that follow the same schema that was used to create the source analysis and template.
     ///
@@ -1912,7 +1912,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateTemplateAlias` operation on the `QuickSight_20180401` service.
+    /// Performs the `CreateTemplateAlias` operation on the `QuickSight` service.
     ///
     /// Creates a template alias for a template.
     ///
@@ -1987,7 +1987,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateTheme` operation on the `QuickSight_20180401` service.
+    /// Performs the `CreateTheme` operation on the `QuickSight` service.
     ///
     /// Creates a theme. A theme is set of configuration options for color and layout. Themes apply to analyses and dashboards. For more information, see [Using Themes in Amazon QuickSight](https://docs.aws.amazon.com/quicksight/latest/user/themes-in-quicksight.html) in the Amazon QuickSight User Guide.
     ///
@@ -2063,7 +2063,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateThemeAlias` operation on the `QuickSight_20180401` service.
+    /// Performs the `CreateThemeAlias` operation on the `QuickSight` service.
     ///
     /// Creates a theme alias for a theme.
     ///
@@ -2139,7 +2139,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateTopic` operation on the `QuickSight_20180401` service.
+    /// Performs the `CreateTopic` operation on the `QuickSight` service.
     ///
     /// Creates a new Q topic.
     ///
@@ -2215,7 +2215,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateTopicRefreshSchedule` operation on the `QuickSight_20180401` service.
+    /// Performs the `CreateTopicRefreshSchedule` operation on the `QuickSight` service.
     ///
     /// Creates a topic refresh schedule.
     ///
@@ -2291,7 +2291,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateVPCConnection` operation on the `QuickSight_20180401` service.
+    /// Performs the `CreateVPCConnection` operation on the `QuickSight` service.
     ///
     /// Creates a new VPC connection.
     ///
@@ -2367,7 +2367,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAccountCustomization` operation on the `QuickSight_20180401` service.
+    /// Performs the `DeleteAccountCustomization` operation on the `QuickSight` service.
     ///
     /// Deletes all Amazon QuickSight customizations in this Amazon Web Services Region for the specified Amazon Web Services account and Amazon QuickSight namespace.
     ///
@@ -2442,7 +2442,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAccountSubscription` operation on the `QuickSight_20180401` service.
+    /// Performs the `DeleteAccountSubscription` operation on the `QuickSight` service.
     ///
     /// Use the DeleteAccountSubscription operation to delete an Amazon QuickSight account. This operation will result in an error message if you have configured your account termination protection settings to True. To change this setting and delete your account, call the UpdateAccountSettings API and set the value of the TerminationProtectionEnabled parameter to False, then make another call to the DeleteAccountSubscription API.
     ///
@@ -2514,7 +2514,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAnalysis` operation on the `QuickSight_20180401` service.
+    /// Performs the `DeleteAnalysis` operation on the `QuickSight` service.
     ///
     /// Deletes an analysis from Amazon QuickSight. You can optionally include a recovery window during which you can restore the analysis. If you don't specify a recovery window value, the operation defaults to 30 days. Amazon QuickSight attaches a DeletionTime stamp to the response that specifies the end of the recovery window. At the end of the recovery window, Amazon QuickSight deletes the analysis permanently. At any time before recovery window ends, you can use the RestoreAnalysis API operation to remove the DeletionTime stamp and cancel the deletion of the analysis. The analysis remains visible in the API until it's deleted, so you can describe it but you can't make a template from it. An analysis that's scheduled for deletion isn't accessible in the Amazon QuickSight console. To access it in the console, restore it. Deleting an analysis doesn't delete the dashboards that you publish from it.
     ///
@@ -2586,7 +2586,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteBrand` operation on the `QuickSight_20180401` service.
+    /// Performs the `DeleteBrand` operation on the `QuickSight` service.
     ///
     /// Deletes an Amazon QuickSight brand.
     ///
@@ -2657,7 +2657,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteBrandAssignment` operation on the `QuickSight_20180401` service.
+    /// Performs the `DeleteBrandAssignment` operation on the `QuickSight` service.
     ///
     /// Deletes a brand assignment.
     ///
@@ -2728,7 +2728,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteCustomPermissions` operation on the `QuickSight_20180401` service.
+    /// Performs the `DeleteCustomPermissions` operation on the `QuickSight` service.
     ///
     /// Deletes a custom permissions profile.
     ///
@@ -2802,7 +2802,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteDashboard` operation on the `QuickSight_20180401` service.
+    /// Performs the `DeleteDashboard` operation on the `QuickSight` service.
     ///
     /// Deletes a dashboard.
     ///
@@ -2874,7 +2874,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteDataSet` operation on the `QuickSight_20180401` service.
+    /// Performs the `DeleteDataSet` operation on the `QuickSight` service.
     ///
     /// Deletes a dataset.
     ///
@@ -2944,7 +2944,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteDataSetRefreshProperties` operation on the `QuickSight_20180401` service.
+    /// Performs the `DeleteDataSetRefreshProperties` operation on the `QuickSight` service.
     ///
     /// Deletes the dataset refresh properties of the dataset.
     ///
@@ -3016,7 +3016,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteDataSource` operation on the `QuickSight_20180401` service.
+    /// Performs the `DeleteDataSource` operation on the `QuickSight` service.
     ///
     /// Deletes the data source permanently. This operation breaks all the datasets that reference the deleted data source.
     ///
@@ -3086,7 +3086,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteDefaultQBusinessApplication` operation on the `QuickSight_20180401` service.
+    /// Performs the `DeleteDefaultQBusinessApplication` operation on the `QuickSight` service.
     ///
     /// Deletes a linked Amazon Q Business application from an Amazon QuickSight account
     ///
@@ -3157,7 +3157,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteFolder` operation on the `QuickSight_20180401` service.
+    /// Performs the `DeleteFolder` operation on the `QuickSight` service.
     ///
     /// Deletes an empty folder.
     ///
@@ -3230,7 +3230,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteFolderMembership` operation on the `QuickSight_20180401` service.
+    /// Performs the `DeleteFolderMembership` operation on the `QuickSight` service.
     ///
     /// Removes an asset, such as a dashboard, analysis, or dataset, from a folder.
     ///
@@ -3301,7 +3301,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteGroup` operation on the `QuickSight_20180401` service.
+    /// Performs the `DeleteGroup` operation on the `QuickSight` service.
     ///
     /// Removes a user group from Amazon QuickSight.
     ///
@@ -3373,7 +3373,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteGroupMembership` operation on the `QuickSight_20180401` service.
+    /// Performs the `DeleteGroupMembership` operation on the `QuickSight` service.
     ///
     /// Removes a user from a group so that the user is no longer a member of the group.
     ///
@@ -3445,7 +3445,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteIAMPolicyAssignment` operation on the `QuickSight_20180401` service.
+    /// Performs the `DeleteIAMPolicyAssignment` operation on the `QuickSight` service.
     ///
     /// Deletes an existing IAM policy assignment.
     ///
@@ -3517,7 +3517,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteIdentityPropagationConfig` operation on the `QuickSight_20180401` service.
+    /// Performs the `DeleteIdentityPropagationConfig` operation on the `QuickSight` service.
     ///
     /// Deletes all access scopes and authorized targets that are associated with a service from the Amazon QuickSight IAM Identity Center application. This operation is only supported for Amazon QuickSight accounts that use IAM Identity Center.
     ///
@@ -3587,7 +3587,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteNamespace` operation on the `QuickSight_20180401` service.
+    /// Performs the `DeleteNamespace` operation on the `QuickSight` service.
     ///
     /// Deletes a namespace and the users and groups that are associated with the namespace. This is an asynchronous process. Assets including dashboards, analyses, datasets and data sources are not deleted. To delete these assets, you use the API operations for the relevant asset.
     ///
@@ -3659,7 +3659,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteRefreshSchedule` operation on the `QuickSight_20180401` service.
+    /// Performs the `DeleteRefreshSchedule` operation on the `QuickSight` service.
     ///
     /// Deletes a refresh schedule from a dataset.
     ///
@@ -3730,7 +3730,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteRoleCustomPermission` operation on the `QuickSight_20180401` service.
+    /// Performs the `DeleteRoleCustomPermission` operation on the `QuickSight` service.
     ///
     /// Removes custom permissions from the role.
     ///
@@ -3802,7 +3802,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteRoleMembership` operation on the `QuickSight_20180401` service.
+    /// Performs the `DeleteRoleMembership` operation on the `QuickSight` service.
     ///
     /// Removes a group from a role.
     ///
@@ -3874,7 +3874,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteTemplate` operation on the `QuickSight_20180401` service.
+    /// Performs the `DeleteTemplate` operation on the `QuickSight` service.
     ///
     /// Deletes a template.
     ///
@@ -3947,7 +3947,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteTemplateAlias` operation on the `QuickSight_20180401` service.
+    /// Performs the `DeleteTemplateAlias` operation on the `QuickSight` service.
     ///
     /// Deletes the item that the specified template alias points to. If you provide a specific alias, you delete the version of the template that the alias points to.
     ///
@@ -4017,7 +4017,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteTheme` operation on the `QuickSight_20180401` service.
+    /// Performs the `DeleteTheme` operation on the `QuickSight` service.
     ///
     /// Deletes a theme.
     ///
@@ -4090,7 +4090,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteThemeAlias` operation on the `QuickSight_20180401` service.
+    /// Performs the `DeleteThemeAlias` operation on the `QuickSight` service.
     ///
     /// Deletes the version of the theme that the specified theme alias points to. If you provide a specific alias, you delete the version of the theme that the alias points to.
     ///
@@ -4161,7 +4161,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteTopic` operation on the `QuickSight_20180401` service.
+    /// Performs the `DeleteTopic` operation on the `QuickSight` service.
     ///
     /// Deletes a topic.
     ///
@@ -4232,7 +4232,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteTopicRefreshSchedule` operation on the `QuickSight_20180401` service.
+    /// Performs the `DeleteTopicRefreshSchedule` operation on the `QuickSight` service.
     ///
     /// Deletes a topic refresh schedule.
     ///
@@ -4305,7 +4305,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteUser` operation on the `QuickSight_20180401` service.
+    /// Performs the `DeleteUser` operation on the `QuickSight` service.
     ///
     /// Deletes the Amazon QuickSight user that is associated with the identity of the IAM user or role that's making the call. The IAM user isn't deleted as a result of this call.
     ///
@@ -4377,7 +4377,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteUserByPrincipalId` operation on the `QuickSight_20180401` service.
+    /// Performs the `DeleteUserByPrincipalId` operation on the `QuickSight` service.
     ///
     /// Deletes a user identified by its principal ID.
     ///
@@ -4449,7 +4449,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteUserCustomPermission` operation on the `QuickSight_20180401` service.
+    /// Performs the `DeleteUserCustomPermission` operation on the `QuickSight` service.
     ///
     /// Deletes a custom permissions profile from a user.
     ///
@@ -4522,7 +4522,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteVPCConnection` operation on the `QuickSight_20180401` service.
+    /// Performs the `DeleteVPCConnection` operation on the `QuickSight` service.
     ///
     /// Deletes a VPC connection.
     ///
@@ -4594,7 +4594,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeAccountCustomization` operation on the `QuickSight_20180401` service.
+    /// Performs the `DescribeAccountCustomization` operation on the `QuickSight` service.
     ///
     /// Describes the customizations associated with the provided Amazon Web Services account and Amazon Amazon QuickSight namespace in an Amazon Web Services Region. The Amazon QuickSight console evaluates which customizations to apply by running this API operation with the Resolved flag included. To determine what customizations display when you run this command, it can help to visualize the relationship of the entities involved.
     ///
@@ -4683,7 +4683,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeAccountSettings` operation on the `QuickSight_20180401` service.
+    /// Performs the `DescribeAccountSettings` operation on the `QuickSight` service.
     ///
     /// Describes the settings that were used when your Amazon QuickSight subscription was first created in this Amazon Web Services account.
     ///
@@ -4754,7 +4754,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeAccountSubscription` operation on the `QuickSight_20180401` service.
+    /// Performs the `DescribeAccountSubscription` operation on the `QuickSight` service.
     ///
     /// Use the DescribeAccountSubscription operation to receive a description of an Amazon QuickSight account's subscription. A successful API call returns an AccountInfo object that includes an account's name, subscription status, authentication type, edition, and notification email address.
     ///
@@ -4825,7 +4825,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeAnalysis` operation on the `QuickSight_20180401` service.
+    /// Performs the `DescribeAnalysis` operation on the `QuickSight` service.
     ///
     /// Provides a summary of the metadata for an analysis.
     ///
@@ -4896,7 +4896,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeAnalysisDefinition` operation on the `QuickSight_20180401` service.
+    /// Performs the `DescribeAnalysisDefinition` operation on the `QuickSight` service.
     ///
     /// Provides a detailed description of the definition of an analysis. If you do not need to know details about the content of an Analysis, for instance if you are trying to check the status of a recently created or updated Analysis, use the [DescribeAnalysis](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_DescribeAnalysis.html) instead.
     ///
@@ -4969,7 +4969,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeAnalysisPermissions` operation on the `QuickSight_20180401` service.
+    /// Performs the `DescribeAnalysisPermissions` operation on the `QuickSight` service.
     ///
     /// Provides the read and write permissions for an analysis.
     ///
@@ -5039,7 +5039,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeAssetBundleExportJob` operation on the `QuickSight_20180401` service.
+    /// Performs the `DescribeAssetBundleExportJob` operation on the `QuickSight` service.
     ///
     /// Describes an existing export job. Poll job descriptions after a job starts to know the status of the job. When a job succeeds, a URL is provided to download the exported assets' data from. Download URLs are valid for five minutes after they are generated. You can call the DescribeAssetBundleExportJob API for a new download URL as needed. Job descriptions are available for 14 days after the job starts.
     ///
@@ -5107,7 +5107,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeAssetBundleImportJob` operation on the `QuickSight_20180401` service.
+    /// Performs the `DescribeAssetBundleImportJob` operation on the `QuickSight` service.
     ///
     /// Describes an existing import job. Poll job descriptions after starting a job to know when it has succeeded or failed. Job descriptions are available for 14 days after job starts.
     ///
@@ -5175,7 +5175,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeBrand` operation on the `QuickSight_20180401` service.
+    /// Performs the `DescribeBrand` operation on the `QuickSight` service.
     ///
     /// Describes a brand.
     ///
@@ -5247,7 +5247,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeBrandAssignment` operation on the `QuickSight_20180401` service.
+    /// Performs the `DescribeBrandAssignment` operation on the `QuickSight` service.
     ///
     /// Describes a brand assignment.
     ///
@@ -5318,7 +5318,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeBrandPublishedVersion` operation on the `QuickSight_20180401` service.
+    /// Performs the `DescribeBrandPublishedVersion` operation on the `QuickSight` service.
     ///
     /// Describes the published version of the brand.
     ///
@@ -5389,7 +5389,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeCustomPermissions` operation on the `QuickSight_20180401` service.
+    /// Performs the `DescribeCustomPermissions` operation on the `QuickSight` service.
     ///
     /// Describes a custom permissions profile.
     ///
@@ -5461,7 +5461,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeDashboard` operation on the `QuickSight_20180401` service.
+    /// Performs the `DescribeDashboard` operation on the `QuickSight` service.
     ///
     /// Provides a summary for a dashboard.
     ///
@@ -5533,7 +5533,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeDashboardDefinition` operation on the `QuickSight_20180401` service.
+    /// Performs the `DescribeDashboardDefinition` operation on the `QuickSight` service.
     ///
     /// Provides a detailed description of the definition of a dashboard. If you do not need to know details about the content of a dashboard, for instance if you are trying to check the status of a recently created or updated dashboard, use the [DescribeDashboard](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_DescribeDashboard.html) instead.
     ///
@@ -5607,7 +5607,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeDashboardPermissions` operation on the `QuickSight_20180401` service.
+    /// Performs the `DescribeDashboardPermissions` operation on the `QuickSight` service.
     ///
     /// Describes read and write permissions for a dashboard.
     ///
@@ -5677,7 +5677,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeDashboardSnapshotJob` operation on the `QuickSight_20180401` service.
+    /// Performs the `DescribeDashboardSnapshotJob` operation on the `QuickSight` service.
     ///
     /// Describes an existing snapshot job. Poll job descriptions after a job starts to know the status of the job. For information on available status codes, see JobStatus.
     ///
@@ -5747,7 +5747,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeDashboardSnapshotJobResult` operation on the `QuickSight_20180401` service.
+    /// Performs the `DescribeDashboardSnapshotJobResult` operation on the `QuickSight` service.
     ///
     /// Describes the result of an existing snapshot job that has finished running. A finished snapshot job will return a COMPLETED or FAILED status when you poll the job with a DescribeDashboardSnapshotJob API call. If the job has not finished running, this operation returns a message that says Dashboard Snapshot Job with id has not reached a terminal state..
     ///
@@ -5819,7 +5819,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeDashboardsQAConfiguration` operation on the `QuickSight_20180401` service.
+    /// Performs the `DescribeDashboardsQAConfiguration` operation on the `QuickSight` service.
     ///
     /// Describes an existing dashboard QA configuration.
     ///
@@ -5890,7 +5890,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeDataSet` operation on the `QuickSight_20180401` service.
+    /// Performs the `DescribeDataSet` operation on the `QuickSight` service.
     ///
     /// Describes a dataset. This operation doesn't support datasets that include uploaded files as a source.
     ///
@@ -5960,7 +5960,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeDataSetPermissions` operation on the `QuickSight_20180401` service.
+    /// Performs the `DescribeDataSetPermissions` operation on the `QuickSight` service.
     ///
     /// Describes the permissions on a dataset. The permissions resource is arn:aws:quicksight:region:aws-account-id:dataset/data-set-id.
     ///
@@ -6030,7 +6030,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeDataSetRefreshProperties` operation on the `QuickSight_20180401` service.
+    /// Performs the `DescribeDataSetRefreshProperties` operation on the `QuickSight` service.
     ///
     /// Describes the refresh properties of a dataset.
     ///
@@ -6102,7 +6102,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeDataSource` operation on the `QuickSight_20180401` service.
+    /// Performs the `DescribeDataSource` operation on the `QuickSight` service.
     ///
     /// Describes a data source.
     ///
@@ -6172,7 +6172,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeDataSourcePermissions` operation on the `QuickSight_20180401` service.
+    /// Performs the `DescribeDataSourcePermissions` operation on the `QuickSight` service.
     ///
     /// Describes the resource permissions for a data source.
     ///
@@ -6242,7 +6242,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeDefaultQBusinessApplication` operation on the `QuickSight_20180401` service.
+    /// Performs the `DescribeDefaultQBusinessApplication` operation on the `QuickSight` service.
     ///
     /// Describes a Amazon Q Business application that is linked to an Amazon QuickSight account.
     ///
@@ -6313,7 +6313,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeFolder` operation on the `QuickSight_20180401` service.
+    /// Performs the `DescribeFolder` operation on the `QuickSight` service.
     ///
     /// Describes a folder.
     ///
@@ -6384,7 +6384,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeFolderPermissions` operation on the `QuickSight_20180401` service.
+    /// Performs the `DescribeFolderPermissions` operation on the `QuickSight` service.
     ///
     /// Describes permissions for a folder.
     ///
@@ -6457,7 +6457,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeFolderResolvedPermissions` operation on the `QuickSight_20180401` service.
+    /// Performs the `DescribeFolderResolvedPermissions` operation on the `QuickSight` service.
     ///
     /// Describes the folder resolved permissions. Permissions consists of both folder direct permissions and the inherited permissions from the ancestor folders.
     ///
@@ -6530,7 +6530,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeGroup` operation on the `QuickSight_20180401` service.
+    /// Performs the `DescribeGroup` operation on the `QuickSight` service.
     ///
     /// Returns an Amazon QuickSight group's description and Amazon Resource Name (ARN).
     ///
@@ -6602,7 +6602,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeGroupMembership` operation on the `QuickSight_20180401` service.
+    /// Performs the `DescribeGroupMembership` operation on the `QuickSight` service.
     ///
     /// Use the DescribeGroupMembership operation to determine if a user is a member of the specified group. If the user exists and is a member of the specified group, an associated GroupMember object is returned.
     ///
@@ -6674,7 +6674,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeIAMPolicyAssignment` operation on the `QuickSight_20180401` service.
+    /// Performs the `DescribeIAMPolicyAssignment` operation on the `QuickSight` service.
     ///
     /// Describes an existing IAM policy assignment, as specified by the assignment name.
     ///
@@ -6745,7 +6745,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeIngestion` operation on the `QuickSight_20180401` service.
+    /// Performs the `DescribeIngestion` operation on the `QuickSight` service.
     ///
     /// Describes a SPICE ingestion.
     ///
@@ -6816,7 +6816,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeIpRestriction` operation on the `QuickSight_20180401` service.
+    /// Performs the `DescribeIpRestriction` operation on the `QuickSight` service.
     ///
     /// Provides a summary and status of IP rules.
     ///
@@ -6886,7 +6886,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeKeyRegistration` operation on the `QuickSight_20180401` service.
+    /// Performs the `DescribeKeyRegistration` operation on the `QuickSight` service.
     ///
     /// Describes all customer managed key registrations in a Amazon QuickSight account.
     ///
@@ -6956,7 +6956,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeNamespace` operation on the `QuickSight_20180401` service.
+    /// Performs the `DescribeNamespace` operation on the `QuickSight` service.
     ///
     /// Describes the current namespace.
     ///
@@ -7027,7 +7027,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeQPersonalizationConfiguration` operation on the `QuickSight_20180401` service.
+    /// Performs the `DescribeQPersonalizationConfiguration` operation on the `QuickSight` service.
     ///
     /// Describes a personalization configuration.
     ///
@@ -7098,7 +7098,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeQuickSightQSearchConfiguration` operation on the `QuickSight_20180401` service.
+    /// Performs the `DescribeQuickSightQSearchConfiguration` operation on the `QuickSight` service.
     ///
     /// Describes the state of a Amazon QuickSight Q Search configuration.
     ///
@@ -7169,7 +7169,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeRefreshSchedule` operation on the `QuickSight_20180401` service.
+    /// Performs the `DescribeRefreshSchedule` operation on the `QuickSight` service.
     ///
     /// Provides a summary of a refresh schedule.
     ///
@@ -7240,7 +7240,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeRoleCustomPermission` operation on the `QuickSight_20180401` service.
+    /// Performs the `DescribeRoleCustomPermission` operation on the `QuickSight` service.
     ///
     /// Describes all custom permissions that are mapped to a role.
     ///
@@ -7312,7 +7312,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeTemplate` operation on the `QuickSight_20180401` service.
+    /// Performs the `DescribeTemplate` operation on the `QuickSight` service.
     ///
     /// Describes a template's metadata.
     ///
@@ -7386,7 +7386,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeTemplateAlias` operation on the `QuickSight_20180401` service.
+    /// Performs the `DescribeTemplateAlias` operation on the `QuickSight` service.
     ///
     /// Describes the template alias for a template.
     ///
@@ -7455,7 +7455,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeTemplateDefinition` operation on the `QuickSight_20180401` service.
+    /// Performs the `DescribeTemplateDefinition` operation on the `QuickSight` service.
     ///
     /// Provides a detailed description of the definition of a template. If you do not need to know details about the content of a template, for instance if you are trying to check the status of a recently created or updated template, use the [DescribeTemplate](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_DescribeTemplate.html) instead.
     ///
@@ -7529,7 +7529,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeTemplatePermissions` operation on the `QuickSight_20180401` service.
+    /// Performs the `DescribeTemplatePermissions` operation on the `QuickSight` service.
     ///
     /// Describes read and write permissions on a template.
     ///
@@ -7600,7 +7600,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeTheme` operation on the `QuickSight_20180401` service.
+    /// Performs the `DescribeTheme` operation on the `QuickSight` service.
     ///
     /// Describes a theme.
     ///
@@ -7673,7 +7673,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeThemeAlias` operation on the `QuickSight_20180401` service.
+    /// Performs the `DescribeThemeAlias` operation on the `QuickSight` service.
     ///
     /// Describes the alias for a theme.
     ///
@@ -7744,7 +7744,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeThemePermissions` operation on the `QuickSight_20180401` service.
+    /// Performs the `DescribeThemePermissions` operation on the `QuickSight` service.
     ///
     /// Describes the read and write permissions for a theme.
     ///
@@ -7815,7 +7815,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeTopic` operation on the `QuickSight_20180401` service.
+    /// Performs the `DescribeTopic` operation on the `QuickSight` service.
     ///
     /// Describes a topic.
     ///
@@ -7885,7 +7885,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeTopicPermissions` operation on the `QuickSight_20180401` service.
+    /// Performs the `DescribeTopicPermissions` operation on the `QuickSight` service.
     ///
     /// Describes the permissions of a topic.
     ///
@@ -7955,7 +7955,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeTopicRefresh` operation on the `QuickSight_20180401` service.
+    /// Performs the `DescribeTopicRefresh` operation on the `QuickSight` service.
     ///
     /// Describes the status of a topic refresh.
     ///
@@ -8025,7 +8025,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeTopicRefreshSchedule` operation on the `QuickSight_20180401` service.
+    /// Performs the `DescribeTopicRefreshSchedule` operation on the `QuickSight` service.
     ///
     /// Deletes a topic refresh schedule.
     ///
@@ -8098,7 +8098,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeUser` operation on the `QuickSight_20180401` service.
+    /// Performs the `DescribeUser` operation on the `QuickSight` service.
     ///
     /// Returns information about a user, given the user name.
     ///
@@ -8170,7 +8170,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeVPCConnection` operation on the `QuickSight_20180401` service.
+    /// Performs the `DescribeVPCConnection` operation on the `QuickSight` service.
     ///
     /// Describes a VPC connection.
     ///
@@ -8241,7 +8241,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GenerateEmbedUrlForAnonymousUser` operation on the `QuickSight_20180401` service.
+    /// Performs the `GenerateEmbedUrlForAnonymousUser` operation on the `QuickSight` service.
     ///
     /// Generates an embed URL that you can use to embed an Amazon QuickSight dashboard or visual in your website, without having to register any reader users. Before you use this action, make sure that you have configured the dashboards and permissions. The following rules apply to the generated URL:
     ///
@@ -8326,7 +8326,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GenerateEmbedUrlForRegisteredUser` operation on the `QuickSight_20180401` service.
+    /// Performs the `GenerateEmbedUrlForRegisteredUser` operation on the `QuickSight` service.
     ///
     /// Generates an embed URL that you can use to embed an Amazon QuickSight experience in your website. This action can be used for any type of user registered in an Amazon QuickSight account. Before you use this action, make sure that you have configured the relevant Amazon QuickSight resource and permissions. The following rules apply to the generated URL:
     ///
@@ -8412,7 +8412,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GenerateEmbedUrlForRegisteredUserWithIdentity` operation on the `QuickSight_20180401` service.
+    /// Performs the `GenerateEmbedUrlForRegisteredUserWithIdentity` operation on the `QuickSight` service.
     ///
     /// Generates an embed URL that you can use to embed an Amazon QuickSight experience in your website. This action can be used for any type of user that is registered in an Amazon QuickSight account that uses IAM Identity Center for authentication. This API requires [identity-enhanced IAM Role sessions](https://docs.aws.amazon.com/singlesignon/latest/userguide/trustedidentitypropagation-overview.html#types-identity-enhanced-iam-role-sessions) for the authenticated user that the API call is being made for. This API uses [trusted identity propagation](https://docs.aws.amazon.com/singlesignon/latest/userguide/trustedidentitypropagation.html) to ensure that an end user is authenticated and receives the embed URL that is specific to that user. The IAM Identity Center application that the user has logged into needs to have [trusted Identity Propagation enabled for Amazon QuickSight](https://docs.aws.amazon.com/singlesignon/latest/userguide/trustedidentitypropagation-using-customermanagedapps-specify-trusted-apps.html) with the scope value set to quicksight:read. Before you use this action, make sure that you have configured the relevant Amazon QuickSight resource and permissions.
     ///
@@ -8489,7 +8489,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDashboardEmbedUrl` operation on the `QuickSight_20180401` service.
+    /// Performs the `GetDashboardEmbedUrl` operation on the `QuickSight` service.
     ///
     /// Generates a temporary session URL and authorization code(bearer token) that you can use to embed an Amazon QuickSight read-only dashboard in your website or application. Before you use this command, make sure that you have configured the dashboards and permissions. Currently, you can use GetDashboardEmbedURL only from the server, not from the user's browser. The following rules apply to the generated URL:
     ///
@@ -8580,7 +8580,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetSessionEmbedUrl` operation on the `QuickSight_20180401` service.
+    /// Performs the `GetSessionEmbedUrl` operation on the `QuickSight` service.
     ///
     /// Generates a session URL and authorization code that you can use to embed the Amazon Amazon QuickSight console in your web server code. Use GetSessionEmbedUrl where you want to provide an authoring portal that allows users to create data sources, datasets, analyses, and dashboards. The users who access an embedded Amazon QuickSight console need belong to the author or admin security cohort. If you want to restrict permissions to some of these features, add a custom permissions profile to the user with the [UpdateUser](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_UpdateUser.html) API operation. Use [RegisterUser](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_RegisterUser.html) API operation to add a new user with a custom permission profile attached. For more information, see the following sections in the Amazon QuickSight User Guide:
     ///
@@ -8659,7 +8659,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAnalyses` operation on the `QuickSight_20180401` service.
+    /// Performs the `ListAnalyses` operation on the `QuickSight` service.
     ///
     /// Lists Amazon QuickSight analyses that exist in the specified Amazon Web Services account.
     ///
@@ -8729,7 +8729,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAssetBundleExportJobs` operation on the `QuickSight_20180401` service.
+    /// Performs the `ListAssetBundleExportJobs` operation on the `QuickSight` service.
     ///
     /// Lists all asset bundle export jobs that have been taken place in the last 14 days. Jobs created more than 14 days ago are deleted forever and are not returned. If you are using the same job ID for multiple jobs, ListAssetBundleExportJobs only returns the most recent job that uses the repeated job ID.
     ///
@@ -8800,7 +8800,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAssetBundleImportJobs` operation on the `QuickSight_20180401` service.
+    /// Performs the `ListAssetBundleImportJobs` operation on the `QuickSight` service.
     ///
     /// Lists all asset bundle import jobs that have taken place in the last 14 days. Jobs created more than 14 days ago are deleted forever and are not returned. If you are using the same job ID for multiple jobs, ListAssetBundleImportJobs only returns the most recent job that uses the repeated job ID.
     ///
@@ -8871,7 +8871,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListBrands` operation on the `QuickSight_20180401` service.
+    /// Performs the `ListBrands` operation on the `QuickSight` service.
     ///
     /// Lists all brands in an Amazon QuickSight account.
     ///
@@ -8941,7 +8941,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListCustomPermissions` operation on the `QuickSight_20180401` service.
+    /// Performs the `ListCustomPermissions` operation on the `QuickSight` service.
     ///
     /// Returns a list of all the custom permissions profiles.
     ///
@@ -9014,7 +9014,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDashboardVersions` operation on the `QuickSight_20180401` service.
+    /// Performs the `ListDashboardVersions` operation on the `QuickSight` service.
     ///
     /// Lists all the versions of the dashboards in the Amazon QuickSight subscription.
     ///
@@ -9086,7 +9086,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDashboards` operation on the `QuickSight_20180401` service.
+    /// Performs the `ListDashboards` operation on the `QuickSight` service.
     ///
     /// Lists dashboards in an Amazon Web Services account.
     ///
@@ -9156,7 +9156,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDataSets` operation on the `QuickSight_20180401` service.
+    /// Performs the `ListDataSets` operation on the `QuickSight` service.
     ///
     /// Lists all of the datasets belonging to the current Amazon Web Services account in an Amazon Web Services Region. The permissions resource is arn:aws:quicksight:region:aws-account-id:dataset/*.
     ///
@@ -9227,7 +9227,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDataSources` operation on the `QuickSight_20180401` service.
+    /// Performs the `ListDataSources` operation on the `QuickSight` service.
     ///
     /// Lists data sources in current Amazon Web Services Region that belong to this Amazon Web Services account.
     ///
@@ -9298,7 +9298,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListFolderMembers` operation on the `QuickSight_20180401` service.
+    /// Performs the `ListFolderMembers` operation on the `QuickSight` service.
     ///
     /// List all assets (DASHBOARD, ANALYSIS, and DATASET) in a folder.
     ///
@@ -9371,7 +9371,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListFolders` operation on the `QuickSight_20180401` service.
+    /// Performs the `ListFolders` operation on the `QuickSight` service.
     ///
     /// Lists all folders in an account.
     ///
@@ -9444,7 +9444,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListFoldersForResource` operation on the `QuickSight_20180401` service.
+    /// Performs the `ListFoldersForResource` operation on the `QuickSight` service.
     ///
     /// List all folders that a resource is a member of.
     ///
@@ -9517,7 +9517,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListGroupMemberships` operation on the `QuickSight_20180401` service.
+    /// Performs the `ListGroupMemberships` operation on the `QuickSight` service.
     ///
     /// Lists member users in a group.
     ///
@@ -9591,7 +9591,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListGroups` operation on the `QuickSight_20180401` service.
+    /// Performs the `ListGroups` operation on the `QuickSight` service.
     ///
     /// Lists all user groups in Amazon QuickSight.
     ///
@@ -9665,7 +9665,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListIAMPolicyAssignments` operation on the `QuickSight_20180401` service.
+    /// Performs the `ListIAMPolicyAssignments` operation on the `QuickSight` service.
     ///
     /// Lists the IAM policy assignments in the current Amazon QuickSight account.
     ///
@@ -9737,7 +9737,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListIAMPolicyAssignmentsForUser` operation on the `QuickSight_20180401` service.
+    /// Performs the `ListIAMPolicyAssignmentsForUser` operation on the `QuickSight` service.
     ///
     /// Lists all of the IAM policy assignments, including the Amazon Resource Names (ARNs), for the IAM policies assigned to the specified user and group, or groups that the user belongs to.
     ///
@@ -9810,7 +9810,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListIdentityPropagationConfigs` operation on the `QuickSight_20180401` service.
+    /// Performs the `ListIdentityPropagationConfigs` operation on the `QuickSight` service.
     ///
     /// Lists all services and authorized targets that the Amazon QuickSight IAM Identity Center application can access. This operation is only supported for Amazon QuickSight accounts that use IAM Identity Center.
     ///
@@ -9881,7 +9881,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListIngestions` operation on the `QuickSight_20180401` service.
+    /// Performs the `ListIngestions` operation on the `QuickSight` service.
     ///
     /// Lists the history of SPICE ingestions for a dataset.
     ///
@@ -9954,7 +9954,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListNamespaces` operation on the `QuickSight_20180401` service.
+    /// Performs the `ListNamespaces` operation on the `QuickSight` service.
     ///
     /// Lists the namespaces for the specified Amazon Web Services account. This operation doesn't list deleted namespaces.
     ///
@@ -10028,7 +10028,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListRefreshSchedules` operation on the `QuickSight_20180401` service.
+    /// Performs the `ListRefreshSchedules` operation on the `QuickSight` service.
     ///
     /// Lists the refresh schedules of a dataset. Each dataset can have up to 5 schedules.
     ///
@@ -10099,7 +10099,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListRoleMemberships` operation on the `QuickSight_20180401` service.
+    /// Performs the `ListRoleMemberships` operation on the `QuickSight` service.
     ///
     /// Lists all groups that are associated with a role.
     ///
@@ -10174,7 +10174,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `QuickSight_20180401` service.
+    /// Performs the `ListTagsForResource` operation on the `QuickSight` service.
     ///
     /// Lists the tags assigned to a resource.
     ///
@@ -10244,7 +10244,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTemplateAliases` operation on the `QuickSight_20180401` service.
+    /// Performs the `ListTemplateAliases` operation on the `QuickSight` service.
     ///
     /// Lists all the aliases of a template.
     ///
@@ -10315,7 +10315,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTemplateVersions` operation on the `QuickSight_20180401` service.
+    /// Performs the `ListTemplateVersions` operation on the `QuickSight` service.
     ///
     /// Lists all the versions of the templates in the current Amazon QuickSight account.
     ///
@@ -10387,7 +10387,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTemplates` operation on the `QuickSight_20180401` service.
+    /// Performs the `ListTemplates` operation on the `QuickSight` service.
     ///
     /// Lists all the templates in the current Amazon QuickSight account.
     ///
@@ -10459,7 +10459,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListThemeAliases` operation on the `QuickSight_20180401` service.
+    /// Performs the `ListThemeAliases` operation on the `QuickSight` service.
     ///
     /// Lists all the aliases of a theme.
     ///
@@ -10532,7 +10532,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListThemeVersions` operation on the `QuickSight_20180401` service.
+    /// Performs the `ListThemeVersions` operation on the `QuickSight` service.
     ///
     /// Lists all the versions of the themes in the current Amazon Web Services account.
     ///
@@ -10605,7 +10605,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListThemes` operation on the `QuickSight_20180401` service.
+    /// Performs the `ListThemes` operation on the `QuickSight` service.
     ///
     /// Lists all the themes in the current Amazon Web Services account.
     ///
@@ -10678,7 +10678,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTopicRefreshSchedules` operation on the `QuickSight_20180401` service.
+    /// Performs the `ListTopicRefreshSchedules` operation on the `QuickSight` service.
     ///
     /// Lists all of the refresh schedules for a topic.
     ///
@@ -10751,7 +10751,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTopicReviewedAnswers` operation on the `QuickSight_20180401` service.
+    /// Performs the `ListTopicReviewedAnswers` operation on the `QuickSight` service.
     ///
     /// Lists all reviewed answers for a Q Topic.
     ///
@@ -10821,7 +10821,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTopics` operation on the `QuickSight_20180401` service.
+    /// Performs the `ListTopics` operation on the `QuickSight` service.
     ///
     /// Lists all of the topics within an account.
     ///
@@ -10892,7 +10892,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListUserGroups` operation on the `QuickSight_20180401` service.
+    /// Performs the `ListUserGroups` operation on the `QuickSight` service.
     ///
     /// Lists the Amazon QuickSight groups that an Amazon QuickSight user is a member of.
     ///
@@ -10965,7 +10965,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListUsers` operation on the `QuickSight_20180401` service.
+    /// Performs the `ListUsers` operation on the `QuickSight` service.
     ///
     /// Returns a list of all of the Amazon QuickSight users belonging to this account.
     ///
@@ -11039,7 +11039,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListVPCConnections` operation on the `QuickSight_20180401` service.
+    /// Performs the `ListVPCConnections` operation on the `QuickSight` service.
     ///
     /// Lists all of the VPC connections in the current set Amazon Web Services Region of an Amazon Web Services account.
     ///
@@ -11111,7 +11111,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PredictQAResults` operation on the `QuickSight_20180401` service.
+    /// Performs the `PredictQAResults` operation on the `QuickSight` service.
     ///
     /// Predicts existing visuals or generates new visuals to answer a given query.
     ///
@@ -11183,7 +11183,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutDataSetRefreshProperties` operation on the `QuickSight_20180401` service.
+    /// Performs the `PutDataSetRefreshProperties` operation on the `QuickSight` service.
     ///
     /// Creates or updates the dataset refresh properties for the dataset.
     ///
@@ -11259,7 +11259,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RegisterUser` operation on the `QuickSight_20180401` service.
+    /// Performs the `RegisterUser` operation on the `QuickSight` service.
     ///
     /// Creates an Amazon QuickSight user whose identity is associated with the Identity and Access Management (IAM) identity or role specified in the request. When you register a new user from the Amazon QuickSight API, Amazon QuickSight generates a registration URL. The user accesses this registration URL to create their account. Amazon QuickSight doesn't send a registration email to users who are registered from the Amazon QuickSight API. If you want new users to receive a registration email, then add those users in the Amazon QuickSight console. For more information on registering a new user in the Amazon QuickSight console, see [ Inviting users to access Amazon QuickSight](https://docs.aws.amazon.com/quicksight/latest/user/managing-users.html#inviting-users).
     ///
@@ -11336,7 +11336,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RestoreAnalysis` operation on the `QuickSight_20180401` service.
+    /// Performs the `RestoreAnalysis` operation on the `QuickSight` service.
     ///
     /// Restores an analysis.
     ///
@@ -11410,7 +11410,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SearchAnalyses` operation on the `QuickSight_20180401` service.
+    /// Performs the `SearchAnalyses` operation on the `QuickSight` service.
     ///
     /// Searches for analyses that belong to the user specified in the filter. This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes.
     ///
@@ -11484,7 +11484,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SearchDashboards` operation on the `QuickSight_20180401` service.
+    /// Performs the `SearchDashboards` operation on the `QuickSight` service.
     ///
     /// Searches for dashboards that belong to a user. This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes.
     ///
@@ -11558,7 +11558,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SearchDataSets` operation on the `QuickSight_20180401` service.
+    /// Performs the `SearchDataSets` operation on the `QuickSight` service.
     ///
     /// Use the SearchDataSets operation to search for datasets that belong to an account.
     ///
@@ -11632,7 +11632,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SearchDataSources` operation on the `QuickSight_20180401` service.
+    /// Performs the `SearchDataSources` operation on the `QuickSight` service.
     ///
     /// Use the SearchDataSources operation to search for data sources that belong to an account.
     ///
@@ -11706,7 +11706,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SearchFolders` operation on the `QuickSight_20180401` service.
+    /// Performs the `SearchFolders` operation on the `QuickSight` service.
     ///
     /// Searches the subfolders in a folder.
     ///
@@ -11782,7 +11782,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SearchGroups` operation on the `QuickSight_20180401` service.
+    /// Performs the `SearchGroups` operation on the `QuickSight` service.
     ///
     /// Use the SearchGroups operation to search groups in a specified Amazon QuickSight namespace using the supplied filters.
     ///
@@ -11859,7 +11859,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SearchTopics` operation on the `QuickSight_20180401` service.
+    /// Performs the `SearchTopics` operation on the `QuickSight` service.
     ///
     /// Searches for any Q topic that exists in an Amazon QuickSight account.
     ///
@@ -11933,7 +11933,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartAssetBundleExportJob` operation on the `QuickSight_20180401` service.
+    /// Performs the `StartAssetBundleExportJob` operation on the `QuickSight` service.
     ///
     /// Starts an Asset Bundle export job. An Asset Bundle export job exports specified Amazon QuickSight assets. You can also choose to export any asset dependencies in the same job. Export jobs run asynchronously and can be polled with a DescribeAssetBundleExportJob API call. When a job is successfully completed, a download URL that contains the exported assets is returned. The URL is valid for 5 minutes and can be refreshed with a DescribeAssetBundleExportJob API call. Each Amazon QuickSight account can run up to 5 export jobs concurrently. The API caller must have the necessary permissions in their IAM role to access each resource before the resources can be exported.
     ///
@@ -12008,7 +12008,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartAssetBundleImportJob` operation on the `QuickSight_20180401` service.
+    /// Performs the `StartAssetBundleImportJob` operation on the `QuickSight` service.
     ///
     /// Starts an Asset Bundle import job. An Asset Bundle import job imports specified Amazon QuickSight assets into an Amazon QuickSight account. You can also choose to import a naming prefix and specified configuration overrides. The assets that are contained in the bundle file that you provide are used to create or update a new or existing asset in your Amazon QuickSight account. Each Amazon QuickSight account can run up to 5 import jobs concurrently. The API caller must have the necessary "create", "describe", and "update" permissions in their IAM role to access each resource type that is contained in the bundle file before the resources can be imported.
     ///
@@ -12083,7 +12083,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartDashboardSnapshotJob` operation on the `QuickSight_20180401` service.
+    /// Performs the `StartDashboardSnapshotJob` operation on the `QuickSight` service.
     ///
     /// Starts an asynchronous job that generates a snapshot of a dashboard's output. You can request one or several of the following format configurations in each API call.
     ///
@@ -12190,7 +12190,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartDashboardSnapshotJobSchedule` operation on the `QuickSight_20180401` service.
+    /// Performs the `StartDashboardSnapshotJobSchedule` operation on the `QuickSight` service.
     ///
     /// Starts an asynchronous job that runs an existing dashboard schedule and sends the dashboard snapshot through email. Only one job can run simultaneously in a given schedule. Repeated requests are skipped with a 202 HTTP status code. For more information, see [Scheduling and sending Amazon QuickSight reports by email](https://docs.aws.amazon.com/quicksight/latest/user/sending-reports.html) and [Configuring email report settings for a Amazon QuickSight dashboard](https://docs.aws.amazon.com/quicksight/latest/user/email-reports-from-dashboard.html) in the Amazon QuickSight User Guide.
     ///
@@ -12262,7 +12262,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `QuickSight_20180401` service.
+    /// Performs the `TagResource` operation on the `QuickSight` service.
     ///
     /// Assigns one or more tags (key-value pairs) to the specified Amazon QuickSight resource. Tags can help you organize and categorize your resources. You can also use them to scope user permissions, by granting a user permission to access or change only resources with certain tag values. You can use the TagResource operation with a resource that already has tags. If you specify a new tag key for the resource, this tag is appended to the list of tags associated with the resource. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag. You can associate as many as 50 tags with a resource. Amazon QuickSight supports tagging on data set, data source, dashboard, template, topic, and user. Tagging for Amazon QuickSight works in a similar way to tagging for other Amazon Web Services services, except for the following:
     ///
@@ -12340,7 +12340,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `QuickSight_20180401` service.
+    /// Performs the `UntagResource` operation on the `QuickSight` service.
     ///
     /// Removes a tag or tags from a resource.
     ///
@@ -12411,7 +12411,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateAccountCustomization` operation on the `QuickSight_20180401` service.
+    /// Performs the `UpdateAccountCustomization` operation on the `QuickSight` service.
     ///
     /// Updates Amazon QuickSight customizations for the current Amazon Web Services Region. Currently, the only customization that you can use is a theme. You can use customizations for your Amazon Web Services account or, if you specify a namespace, for a Amazon QuickSight namespace instead. Customizations that apply to a namespace override customizations that apply to an Amazon Web Services account. To find out which customizations apply, use the DescribeAccountCustomization API operation.
     ///
@@ -12487,7 +12487,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateAccountSettings` operation on the `QuickSight_20180401` service.
+    /// Performs the `UpdateAccountSettings` operation on the `QuickSight` service.
     ///
     /// Updates the Amazon QuickSight settings in your Amazon Web Services account.
     ///
@@ -12561,7 +12561,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateAnalysis` operation on the `QuickSight_20180401` service.
+    /// Performs the `UpdateAnalysis` operation on the `QuickSight` service.
     ///
     /// Updates an analysis in Amazon QuickSight
     ///
@@ -12636,7 +12636,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateAnalysisPermissions` operation on the `QuickSight_20180401` service.
+    /// Performs the `UpdateAnalysisPermissions` operation on the `QuickSight` service.
     ///
     /// Updates the read and write permissions for an analysis.
     ///
@@ -12711,7 +12711,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateApplicationWithTokenExchangeGrant` operation on the `QuickSight_20180401` service.
+    /// Performs the `UpdateApplicationWithTokenExchangeGrant` operation on the `QuickSight` service.
     ///
     /// Updates an Amazon QuickSight application with a token exchange grant. This operation only supports Amazon QuickSight applications that are registered with IAM Identity Center.
     ///
@@ -12784,7 +12784,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateBrand` operation on the `QuickSight_20180401` service.
+    /// Performs the `UpdateBrand` operation on the `QuickSight` service.
     ///
     /// Updates a brand.
     ///
@@ -12858,7 +12858,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateBrandAssignment` operation on the `QuickSight_20180401` service.
+    /// Performs the `UpdateBrandAssignment` operation on the `QuickSight` service.
     ///
     /// Updates a brand assignment.
     ///
@@ -12932,7 +12932,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateBrandPublishedVersion` operation on the `QuickSight_20180401` service.
+    /// Performs the `UpdateBrandPublishedVersion` operation on the `QuickSight` service.
     ///
     /// Updates the published version of a brand.
     ///
@@ -13006,7 +13006,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateCustomPermissions` operation on the `QuickSight_20180401` service.
+    /// Performs the `UpdateCustomPermissions` operation on the `QuickSight` service.
     ///
     /// Updates a custom permissions profile.
     ///
@@ -13082,7 +13082,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateDashboard` operation on the `QuickSight_20180401` service.
+    /// Performs the `UpdateDashboard` operation on the `QuickSight` service.
     ///
     /// Updates a dashboard in an Amazon Web Services account. Updating a Dashboard creates a new dashboard version but does not immediately publish the new version. You can update the published version of a dashboard by using the [UpdateDashboardPublishedVersion](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_UpdateDashboardPublishedVersion.html) API operation.
     ///
@@ -13157,7 +13157,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateDashboardLinks` operation on the `QuickSight_20180401` service.
+    /// Performs the `UpdateDashboardLinks` operation on the `QuickSight` service.
     ///
     /// Updates the linked analyses on a dashboard.
     ///
@@ -13232,7 +13232,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateDashboardPermissions` operation on the `QuickSight_20180401` service.
+    /// Performs the `UpdateDashboardPermissions` operation on the `QuickSight` service.
     ///
     /// Updates read and write permissions on a dashboard.
     ///
@@ -13307,7 +13307,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateDashboardPublishedVersion` operation on the `QuickSight_20180401` service.
+    /// Performs the `UpdateDashboardPublishedVersion` operation on the `QuickSight` service.
     ///
     /// Updates the published version of a dashboard.
     ///
@@ -13378,7 +13378,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateDashboardsQAConfiguration` operation on the `QuickSight_20180401` service.
+    /// Performs the `UpdateDashboardsQAConfiguration` operation on the `QuickSight` service.
     ///
     /// Updates a Dashboard QA configuration.
     ///
@@ -13452,7 +13452,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateDataSet` operation on the `QuickSight_20180401` service.
+    /// Performs the `UpdateDataSet` operation on the `QuickSight` service.
     ///
     /// Updates a dataset. This operation doesn't support datasets that include uploaded files as a source. Partial updates are not supported by this operation.
     ///
@@ -13528,7 +13528,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateDataSetPermissions` operation on the `QuickSight_20180401` service.
+    /// Performs the `UpdateDataSetPermissions` operation on the `QuickSight` service.
     ///
     /// Updates the permissions on a dataset. The permissions resource is arn:aws:quicksight:region:aws-account-id:dataset/data-set-id.
     ///
@@ -13602,7 +13602,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateDataSource` operation on the `QuickSight_20180401` service.
+    /// Performs the `UpdateDataSource` operation on the `QuickSight` service.
     ///
     /// Updates a data source.
     ///
@@ -13677,7 +13677,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateDataSourcePermissions` operation on the `QuickSight_20180401` service.
+    /// Performs the `UpdateDataSourcePermissions` operation on the `QuickSight` service.
     ///
     /// Updates the permissions to a data source.
     ///
@@ -13751,7 +13751,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateDefaultQBusinessApplication` operation on the `QuickSight_20180401` service.
+    /// Performs the `UpdateDefaultQBusinessApplication` operation on the `QuickSight` service.
     ///
     /// Updates a Amazon Q Business application that is linked to a Amazon QuickSight account.
     ///
@@ -13826,7 +13826,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateFolder` operation on the `QuickSight_20180401` service.
+    /// Performs the `UpdateFolder` operation on the `QuickSight` service.
     ///
     /// Updates the name of a folder.
     ///
@@ -13902,7 +13902,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateFolderPermissions` operation on the `QuickSight_20180401` service.
+    /// Performs the `UpdateFolderPermissions` operation on the `QuickSight` service.
     ///
     /// Updates permissions of a folder.
     ///
@@ -13977,7 +13977,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateGroup` operation on the `QuickSight_20180401` service.
+    /// Performs the `UpdateGroup` operation on the `QuickSight` service.
     ///
     /// Changes a group description.
     ///
@@ -14052,7 +14052,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateIAMPolicyAssignment` operation on the `QuickSight_20180401` service.
+    /// Performs the `UpdateIAMPolicyAssignment` operation on the `QuickSight` service.
     ///
     /// Updates an existing IAM policy assignment. This operation updates only the optional parameter or parameters that are specified in the request. This overwrites all of the users included in Identities.
     ///
@@ -14127,7 +14127,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateIdentityPropagationConfig` operation on the `QuickSight_20180401` service.
+    /// Performs the `UpdateIdentityPropagationConfig` operation on the `QuickSight` service.
     ///
     /// Adds or updates services and authorized targets to configure what the Amazon QuickSight IAM Identity Center application can access. This operation is only supported for Amazon QuickSight accounts using IAM Identity Center
     ///
@@ -14200,7 +14200,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateIpRestriction` operation on the `QuickSight_20180401` service.
+    /// Performs the `UpdateIpRestriction` operation on the `QuickSight` service.
     ///
     /// Updates the content and status of IP rules. Traffic from a source is allowed when the source satisfies either the IpRestrictionRule, VpcIdRestrictionRule, or VpcEndpointIdRestrictionRule. To use this operation, you must provide the entire map of rules. You can use the DescribeIpRestriction operation to get the current rule map.
     ///
@@ -14274,7 +14274,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateKeyRegistration` operation on the `QuickSight_20180401` service.
+    /// Performs the `UpdateKeyRegistration` operation on the `QuickSight` service.
     ///
     /// Updates a customer managed key in a Amazon QuickSight account.
     ///
@@ -14346,7 +14346,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdatePublicSharingSettings` operation on the `QuickSight_20180401` service.
+    /// Performs the `UpdatePublicSharingSettings` operation on the `QuickSight` service.
     ///
     /// Use the UpdatePublicSharingSettings operation to turn on or turn off the public sharing settings of an Amazon QuickSight dashboard. To use this operation, turn on session capacity pricing for your Amazon QuickSight account. Before you can turn on public sharing on your account, make sure to give public sharing permissions to an administrative user in the Identity and Access Management (IAM) console. For more information on using IAM with Amazon QuickSight, see [Using Amazon QuickSight with IAM](https://docs.aws.amazon.com/quicksight/latest/user/security_iam_service-with-iam.html) in the Amazon QuickSight User Guide.
     ///
@@ -14420,7 +14420,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateQPersonalizationConfiguration` operation on the `QuickSight_20180401` service.
+    /// Performs the `UpdateQPersonalizationConfiguration` operation on the `QuickSight` service.
     ///
     /// Updates a personalization configuration.
     ///
@@ -14495,7 +14495,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateQuickSightQSearchConfiguration` operation on the `QuickSight_20180401` service.
+    /// Performs the `UpdateQuickSightQSearchConfiguration` operation on the `QuickSight` service.
     ///
     /// Updates the state of a Amazon QuickSight Q Search configuration.
     ///
@@ -14569,7 +14569,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateRefreshSchedule` operation on the `QuickSight_20180401` service.
+    /// Performs the `UpdateRefreshSchedule` operation on the `QuickSight` service.
     ///
     /// Updates a refresh schedule for a dataset.
     ///
@@ -14644,7 +14644,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateRoleCustomPermission` operation on the `QuickSight_20180401` service.
+    /// Performs the `UpdateRoleCustomPermission` operation on the `QuickSight` service.
     ///
     /// Updates the custom permissions that are associated with a role.
     ///
@@ -14719,7 +14719,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateSPICECapacityConfiguration` operation on the `QuickSight_20180401` service.
+    /// Performs the `UpdateSPICECapacityConfiguration` operation on the `QuickSight` service.
     ///
     /// Updates the SPICE capacity configuration for a Amazon QuickSight account.
     ///
@@ -14792,7 +14792,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateTemplate` operation on the `QuickSight_20180401` service.
+    /// Performs the `UpdateTemplate` operation on the `QuickSight` service.
     ///
     /// Updates a template from an existing Amazon QuickSight analysis or another template.
     ///
@@ -14868,7 +14868,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateTemplateAlias` operation on the `QuickSight_20180401` service.
+    /// Performs the `UpdateTemplateAlias` operation on the `QuickSight` service.
     ///
     /// Updates the template alias of a template.
     ///
@@ -14941,7 +14941,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateTemplatePermissions` operation on the `QuickSight_20180401` service.
+    /// Performs the `UpdateTemplatePermissions` operation on the `QuickSight` service.
     ///
     /// Updates the resource permissions for a template.
     ///
@@ -15016,7 +15016,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateTheme` operation on the `QuickSight_20180401` service.
+    /// Performs the `UpdateTheme` operation on the `QuickSight` service.
     ///
     /// Updates a theme.
     ///
@@ -15092,7 +15092,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateThemeAlias` operation on the `QuickSight_20180401` service.
+    /// Performs the `UpdateThemeAlias` operation on the `QuickSight` service.
     ///
     /// Updates an alias of a theme.
     ///
@@ -15167,7 +15167,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateThemePermissions` operation on the `QuickSight_20180401` service.
+    /// Performs the `UpdateThemePermissions` operation on the `QuickSight` service.
     ///
     /// Updates the resource permissions for a theme. Permissions apply to the action to grant or revoke permissions on, for example "quicksight:DescribeTheme". Theme permissions apply in groupings. Valid groupings include the following for the three levels of permissions, which are user, owner, or no permissions:
     ///
@@ -15284,7 +15284,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateTopic` operation on the `QuickSight_20180401` service.
+    /// Performs the `UpdateTopic` operation on the `QuickSight` service.
     ///
     /// Updates a topic.
     ///
@@ -15360,7 +15360,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateTopicPermissions` operation on the `QuickSight_20180401` service.
+    /// Performs the `UpdateTopicPermissions` operation on the `QuickSight` service.
     ///
     /// Updates the permissions of a topic.
     ///
@@ -15436,7 +15436,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateTopicRefreshSchedule` operation on the `QuickSight_20180401` service.
+    /// Performs the `UpdateTopicRefreshSchedule` operation on the `QuickSight` service.
     ///
     /// Updates a topic refresh schedule.
     ///
@@ -15512,7 +15512,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateUser` operation on the `QuickSight_20180401` service.
+    /// Performs the `UpdateUser` operation on the `QuickSight` service.
     ///
     /// Updates an Amazon QuickSight user.
     ///
@@ -15587,7 +15587,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateUserCustomPermission` operation on the `QuickSight_20180401` service.
+    /// Performs the `UpdateUserCustomPermission` operation on the `QuickSight` service.
     ///
     /// Updates a custom permissions profile for a user.
     ///
@@ -15663,7 +15663,7 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateVPCConnection` operation on the `QuickSight_20180401` service.
+    /// Performs the `UpdateVPCConnection` operation on the `QuickSight` service.
     ///
     /// Updates a VPC connection.
     ///

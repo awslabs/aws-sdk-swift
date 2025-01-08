@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class QAppsClient: ClientRuntime.Client {
     public static let clientName = "QAppsClient"
-    public static let version = "1.0.69"
+    public static let version = "1.0.74"
     let client: ClientRuntime.SdkHttpClient
     let config: QAppsClient.QAppsClientConfiguration
     let serviceName = "QApps"
@@ -331,7 +331,7 @@ extension QAppsClient {
 }
 
 extension QAppsClient {
-    /// Performs the `AssociateLibraryItemReview` operation on the `QAppsService` service.
+    /// Performs the `AssociateLibraryItemReview` operation on the `QApps` service.
     ///
     /// Associates a rating or review for a library item with the user submitting the request. This increments the rating count for the specified library item.
     ///
@@ -408,7 +408,7 @@ extension QAppsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssociateQAppWithUser` operation on the `QAppsService` service.
+    /// Performs the `AssociateQAppWithUser` operation on the `QApps` service.
     ///
     /// This operation creates a link between the user's identity calling the operation and a specific Q App. This is useful to mark the Q App as a favorite for the user if the user doesn't own the Amazon Q App so they can still run it and see it in their inventory of Q Apps.
     ///
@@ -484,7 +484,7 @@ extension QAppsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchCreateCategory` operation on the `QAppsService` service.
+    /// Performs the `BatchCreateCategory` operation on the `QApps` service.
     ///
     /// Creates Categories for the Amazon Q Business application environment instance. Web experience users use Categories to tag and filter library items. For more information, see [Custom labels for Amazon Q Apps](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/qapps-custom-labels.html).
     ///
@@ -560,7 +560,7 @@ extension QAppsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchDeleteCategory` operation on the `QAppsService` service.
+    /// Performs the `BatchDeleteCategory` operation on the `QApps` service.
     ///
     /// Deletes Categories for the Amazon Q Business application environment instance. Web experience users use Categories to tag and filter library items. For more information, see [Custom labels for Amazon Q Apps](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/qapps-custom-labels.html).
     ///
@@ -636,7 +636,7 @@ extension QAppsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchUpdateCategory` operation on the `QAppsService` service.
+    /// Performs the `BatchUpdateCategory` operation on the `QApps` service.
     ///
     /// Updates Categories for the Amazon Q Business application environment instance. Web experience users use Categories to tag and filter library items. For more information, see [Custom labels for Amazon Q Apps](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/qapps-custom-labels.html).
     ///
@@ -712,7 +712,7 @@ extension QAppsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateLibraryItem` operation on the `QAppsService` service.
+    /// Performs the `CreateLibraryItem` operation on the `QApps` service.
     ///
     /// Creates a new library item for an Amazon Q App, allowing it to be discovered and used by other allowed users.
     ///
@@ -788,7 +788,7 @@ extension QAppsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreatePresignedUrl` operation on the `QAppsService` service.
+    /// Performs the `CreatePresignedUrl` operation on the `QApps` service.
     ///
     /// Creates a presigned URL for an S3 POST operation to upload a file. You can use this URL to set a default file for a FileUploadCard in a Q App definition or to provide a file for a single Q App run. The scope parameter determines how the file will be used, either at the app definition level or the app session level.
     ///
@@ -862,7 +862,7 @@ extension QAppsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateQApp` operation on the `QAppsService` service.
+    /// Performs the `CreateQApp` operation on the `QApps` service.
     ///
     /// Creates a new Amazon Q App based on the provided definition. The Q App definition specifies the cards and flow of the Q App. This operation also calculates the dependencies between the cards by inspecting the references in the prompts.
     ///
@@ -939,7 +939,7 @@ extension QAppsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteLibraryItem` operation on the `QAppsService` service.
+    /// Performs the `DeleteLibraryItem` operation on the `QApps` service.
     ///
     /// Deletes a library item for an Amazon Q App, removing it from the library so it can no longer be discovered or used by other users.
     ///
@@ -1015,7 +1015,7 @@ extension QAppsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteQApp` operation on the `QAppsService` service.
+    /// Performs the `DeleteQApp` operation on the `QApps` service.
     ///
     /// Deletes an Amazon Q App owned by the user. If the Q App was previously published to the library, it is also removed from the library.
     ///
@@ -1090,7 +1090,7 @@ extension QAppsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeQAppPermissions` operation on the `QAppsService` service.
+    /// Performs the `DescribeQAppPermissions` operation on the `QApps` service.
     ///
     /// Describes read permissions for a Amazon Q App in Amazon Q Business application environment instance.
     ///
@@ -1163,7 +1163,7 @@ extension QAppsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateLibraryItemReview` operation on the `QAppsService` service.
+    /// Performs the `DisassociateLibraryItemReview` operation on the `QApps` service.
     ///
     /// Removes a rating or review previously submitted by the user for a library item.
     ///
@@ -1240,7 +1240,7 @@ extension QAppsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateQAppFromUser` operation on the `QAppsService` service.
+    /// Performs the `DisassociateQAppFromUser` operation on the `QApps` service.
     ///
     /// Disassociates a Q App from a user removing the user's access to run the Q App.
     ///
@@ -1315,7 +1315,7 @@ extension QAppsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ExportQAppSessionData` operation on the `QAppsService` service.
+    /// Performs the `ExportQAppSessionData` operation on the `QApps` service.
     ///
     /// Exports the collected data of a Q App data collection session.
     ///
@@ -1392,7 +1392,7 @@ extension QAppsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetLibraryItem` operation on the `QAppsService` service.
+    /// Performs the `GetLibraryItem` operation on the `QApps` service.
     ///
     /// Retrieves details about a library item for an Amazon Q App, including its metadata, categories, ratings, and usage statistics.
     ///
@@ -1465,7 +1465,7 @@ extension QAppsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetQApp` operation on the `QAppsService` service.
+    /// Performs the `GetQApp` operation on the `QApps` service.
     ///
     /// Retrieves the full details of an Q App, including its definition specifying the cards and flow.
     ///
@@ -1538,7 +1538,7 @@ extension QAppsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetQAppSession` operation on the `QAppsService` service.
+    /// Performs the `GetQAppSession` operation on the `QApps` service.
     ///
     /// Retrieves the current state and results for an active session of an Amazon Q App.
     ///
@@ -1612,7 +1612,7 @@ extension QAppsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetQAppSessionMetadata` operation on the `QAppsService` service.
+    /// Performs the `GetQAppSessionMetadata` operation on the `QApps` service.
     ///
     /// Retrieves the current configuration of a Q App session.
     ///
@@ -1686,7 +1686,7 @@ extension QAppsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ImportDocument` operation on the `QAppsService` service.
+    /// Performs the `ImportDocument` operation on the `QApps` service.
     ///
     /// Uploads a file that can then be used either as a default in a FileUploadCard from Q App definition or as a file that is used inside a single Q App run. The purpose of the document is determined by a scope parameter that indicates whether it is at the app definition level or at the app session level.
     ///
@@ -1763,7 +1763,7 @@ extension QAppsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListCategories` operation on the `QAppsService` service.
+    /// Performs the `ListCategories` operation on the `QApps` service.
     ///
     /// Lists the categories of a Amazon Q Business application environment instance. For more information, see [Custom labels for Amazon Q Apps](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/qapps-custom-labels.html).
     ///
@@ -1835,7 +1835,7 @@ extension QAppsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListLibraryItems` operation on the `QAppsService` service.
+    /// Performs the `ListLibraryItems` operation on the `QApps` service.
     ///
     /// Lists the library items for Amazon Q Apps that are published and available for users in your Amazon Web Services account.
     ///
@@ -1908,7 +1908,7 @@ extension QAppsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListQAppSessionData` operation on the `QAppsService` service.
+    /// Performs the `ListQAppSessionData` operation on the `QApps` service.
     ///
     /// Lists the collected data of a Q App data collection session.
     ///
@@ -1982,7 +1982,7 @@ extension QAppsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListQApps` operation on the `QAppsService` service.
+    /// Performs the `ListQApps` operation on the `QApps` service.
     ///
     /// Lists the Amazon Q Apps owned by or associated with the user either because they created it or because they used it from the library in the past. The user identity is extracted from the credentials used to invoke this operation..
     ///
@@ -2054,7 +2054,7 @@ extension QAppsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `QAppsService` service.
+    /// Performs the `ListTagsForResource` operation on the `QApps` service.
     ///
     /// Lists the tags associated with an Amazon Q Apps resource.
     ///
@@ -2124,7 +2124,7 @@ extension QAppsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PredictQApp` operation on the `QAppsService` service.
+    /// Performs the `PredictQApp` operation on the `QApps` service.
     ///
     /// Generates an Amazon Q App definition based on either a conversation or a problem statement provided as input.The resulting app definition can be used to call CreateQApp. This API doesn't create Amazon Q Apps directly.
     ///
@@ -2198,7 +2198,7 @@ extension QAppsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartQAppSession` operation on the `QAppsService` service.
+    /// Performs the `StartQAppSession` operation on the `QApps` service.
     ///
     /// Starts a new session for an Amazon Q App, allowing inputs to be provided and the app to be run. Each Q App session will be condensed into a single conversation in the web experience.
     ///
@@ -2274,7 +2274,7 @@ extension QAppsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopQAppSession` operation on the `QAppsService` service.
+    /// Performs the `StopQAppSession` operation on the `QApps` service.
     ///
     /// Stops an active session for an Amazon Q App.This deletes all data related to the session and makes it invalid for future uses. The results of the session will be persisted as part of the conversation.
     ///
@@ -2350,7 +2350,7 @@ extension QAppsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `QAppsService` service.
+    /// Performs the `TagResource` operation on the `QApps` service.
     ///
     /// Associates tags with an Amazon Q Apps resource.
     ///
@@ -2424,7 +2424,7 @@ extension QAppsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `QAppsService` service.
+    /// Performs the `UntagResource` operation on the `QApps` service.
     ///
     /// Disassociates tags from an Amazon Q Apps resource.
     ///
@@ -2495,7 +2495,7 @@ extension QAppsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateLibraryItem` operation on the `QAppsService` service.
+    /// Performs the `UpdateLibraryItem` operation on the `QApps` service.
     ///
     /// Updates the library item for an Amazon Q App.
     ///
@@ -2571,7 +2571,7 @@ extension QAppsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateLibraryItemMetadata` operation on the `QAppsService` service.
+    /// Performs the `UpdateLibraryItemMetadata` operation on the `QApps` service.
     ///
     /// Updates the verification status of a library item for an Amazon Q App.
     ///
@@ -2647,7 +2647,7 @@ extension QAppsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateQApp` operation on the `QAppsService` service.
+    /// Performs the `UpdateQApp` operation on the `QApps` service.
     ///
     /// Updates an existing Amazon Q App, allowing modifications to its title, description, and definition.
     ///
@@ -2723,7 +2723,7 @@ extension QAppsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateQAppPermissions` operation on the `QAppsService` service.
+    /// Performs the `UpdateQAppPermissions` operation on the `QApps` service.
     ///
     /// Updates read permissions for a Amazon Q App in Amazon Q Business application environment instance.
     ///
@@ -2798,7 +2798,7 @@ extension QAppsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateQAppSession` operation on the `QAppsService` service.
+    /// Performs the `UpdateQAppSession` operation on the `QApps` service.
     ///
     /// Updates the session for a given Q App sessionId. This is only valid when at least one card of the session is in the WAITING state. Data for each WAITING card can be provided as input. If inputs are not provided, the call will be accepted but session will not move forward. Inputs for cards that are not in the WAITING status will be ignored.
     ///
@@ -2874,7 +2874,7 @@ extension QAppsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateQAppSessionMetadata` operation on the `QAppsService` service.
+    /// Performs the `UpdateQAppSessionMetadata` operation on the `QApps` service.
     ///
     /// Updates the configuration metadata of a session for a given Q App sessionId.
     ///

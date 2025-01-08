@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MediaPackageV2Client: ClientRuntime.Client {
     public static let clientName = "MediaPackageV2Client"
-    public static let version = "1.0.69"
+    public static let version = "1.0.74"
     let client: ClientRuntime.SdkHttpClient
     let config: MediaPackageV2Client.MediaPackageV2ClientConfiguration
     let serviceName = "MediaPackageV2"
@@ -332,7 +332,7 @@ extension MediaPackageV2Client {
 }
 
 extension MediaPackageV2Client {
-    /// Performs the `CancelHarvestJob` operation on the `mediapackagev2` service.
+    /// Performs the `CancelHarvestJob` operation on the `MediaPackageV2` service.
     ///
     /// Cancels an in-progress harvest job.
     ///
@@ -404,7 +404,7 @@ extension MediaPackageV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateChannel` operation on the `mediapackagev2` service.
+    /// Performs the `CreateChannel` operation on the `MediaPackageV2` service.
     ///
     /// Create a channel to start receiving content streams. The channel represents the input to MediaPackage for incoming live content from an encoder such as AWS Elemental MediaLive. The channel receives content, and after packaging it, outputs it through an origin endpoint to downstream devices (such as video players or CDNs) that request the content. You can create only one channel with each request. We recommend that you spread out channels between channel groups, such as putting redundant channels in the same AWS Region in different channel groups.
     ///
@@ -481,7 +481,7 @@ extension MediaPackageV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateChannelGroup` operation on the `mediapackagev2` service.
+    /// Performs the `CreateChannelGroup` operation on the `MediaPackageV2` service.
     ///
     /// Create a channel group to group your channels and origin endpoints. A channel group is the top-level resource that consists of channels and origin endpoints that are associated with it and that provides predictable URLs for stream delivery. All channels and origin endpoints within the channel group are guaranteed to share the DNS. You can create only one channel group with each request.
     ///
@@ -558,7 +558,7 @@ extension MediaPackageV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateHarvestJob` operation on the `mediapackagev2` service.
+    /// Performs the `CreateHarvestJob` operation on the `MediaPackageV2` service.
     ///
     /// Creates a new harvest job to export content from a MediaPackage v2 channel to an S3 bucket.
     ///
@@ -635,7 +635,7 @@ extension MediaPackageV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateOriginEndpoint` operation on the `mediapackagev2` service.
+    /// Performs the `CreateOriginEndpoint` operation on the `MediaPackageV2` service.
     ///
     /// The endpoint is attached to a channel, and represents the output of the live content. You can associate multiple endpoints to a single channel. Each endpoint gives players and downstream CDNs (such as Amazon CloudFront) access to the content for playback. Content can't be served from a channel until it has an endpoint. You can create only one endpoint with each request.
     ///
@@ -712,7 +712,7 @@ extension MediaPackageV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteChannel` operation on the `mediapackagev2` service.
+    /// Performs the `DeleteChannel` operation on the `MediaPackageV2` service.
     ///
     /// Delete a channel to stop AWS Elemental MediaPackage from receiving further content. You must delete the channel's origin endpoints before you can delete the channel.
     ///
@@ -782,7 +782,7 @@ extension MediaPackageV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteChannelGroup` operation on the `mediapackagev2` service.
+    /// Performs the `DeleteChannelGroup` operation on the `MediaPackageV2` service.
     ///
     /// Delete a channel group. You must delete the channel group's channels and origin endpoints before you can delete the channel group. If you delete a channel group, you'll lose access to the egress domain and will have to create a new channel group to replace it.
     ///
@@ -852,7 +852,7 @@ extension MediaPackageV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteChannelPolicy` operation on the `mediapackagev2` service.
+    /// Performs the `DeleteChannelPolicy` operation on the `MediaPackageV2` service.
     ///
     /// Delete a channel policy.
     ///
@@ -922,7 +922,7 @@ extension MediaPackageV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteOriginEndpoint` operation on the `mediapackagev2` service.
+    /// Performs the `DeleteOriginEndpoint` operation on the `MediaPackageV2` service.
     ///
     /// Origin endpoints can serve content until they're deleted. Delete the endpoint if it should no longer respond to playback requests. You must delete all endpoints from a channel before you can delete the channel.
     ///
@@ -991,7 +991,7 @@ extension MediaPackageV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteOriginEndpointPolicy` operation on the `mediapackagev2` service.
+    /// Performs the `DeleteOriginEndpointPolicy` operation on the `MediaPackageV2` service.
     ///
     /// Delete an origin endpoint policy.
     ///
@@ -1061,7 +1061,7 @@ extension MediaPackageV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetChannel` operation on the `mediapackagev2` service.
+    /// Performs the `GetChannel` operation on the `MediaPackageV2` service.
     ///
     /// Retrieves the specified channel that's configured in AWS Elemental MediaPackage, including the origin endpoints that are associated with it.
     ///
@@ -1131,7 +1131,7 @@ extension MediaPackageV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetChannelGroup` operation on the `mediapackagev2` service.
+    /// Performs the `GetChannelGroup` operation on the `MediaPackageV2` service.
     ///
     /// Retrieves the specified channel group that's configured in AWS Elemental MediaPackage, including the channels and origin endpoints that are associated with it.
     ///
@@ -1201,7 +1201,7 @@ extension MediaPackageV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetChannelPolicy` operation on the `mediapackagev2` service.
+    /// Performs the `GetChannelPolicy` operation on the `MediaPackageV2` service.
     ///
     /// Retrieves the specified channel policy that's configured in AWS Elemental MediaPackage. With policies, you can specify who has access to AWS resources and what actions they can perform on those resources.
     ///
@@ -1271,7 +1271,7 @@ extension MediaPackageV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetHarvestJob` operation on the `mediapackagev2` service.
+    /// Performs the `GetHarvestJob` operation on the `MediaPackageV2` service.
     ///
     /// Retrieves the details of a specific harvest job.
     ///
@@ -1341,7 +1341,7 @@ extension MediaPackageV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetOriginEndpoint` operation on the `mediapackagev2` service.
+    /// Performs the `GetOriginEndpoint` operation on the `MediaPackageV2` service.
     ///
     /// Retrieves the specified origin endpoint that's configured in AWS Elemental MediaPackage to obtain its playback URL and to view the packaging settings that it's currently using.
     ///
@@ -1411,7 +1411,7 @@ extension MediaPackageV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetOriginEndpointPolicy` operation on the `mediapackagev2` service.
+    /// Performs the `GetOriginEndpointPolicy` operation on the `MediaPackageV2` service.
     ///
     /// Retrieves the specified origin endpoint policy that's configured in AWS Elemental MediaPackage.
     ///
@@ -1481,7 +1481,7 @@ extension MediaPackageV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListChannelGroups` operation on the `mediapackagev2` service.
+    /// Performs the `ListChannelGroups` operation on the `MediaPackageV2` service.
     ///
     /// Retrieves all channel groups that are configured in AWS Elemental MediaPackage, including the channels and origin endpoints that are associated with it.
     ///
@@ -1551,7 +1551,7 @@ extension MediaPackageV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListChannels` operation on the `mediapackagev2` service.
+    /// Performs the `ListChannels` operation on the `MediaPackageV2` service.
     ///
     /// Retrieves all channels in a specific channel group that are configured in AWS Elemental MediaPackage, including the origin endpoints that are associated with it.
     ///
@@ -1622,7 +1622,7 @@ extension MediaPackageV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListHarvestJobs` operation on the `mediapackagev2` service.
+    /// Performs the `ListHarvestJobs` operation on the `MediaPackageV2` service.
     ///
     /// Retrieves a list of harvest jobs that match the specified criteria.
     ///
@@ -1693,7 +1693,7 @@ extension MediaPackageV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListOriginEndpoints` operation on the `mediapackagev2` service.
+    /// Performs the `ListOriginEndpoints` operation on the `MediaPackageV2` service.
     ///
     /// Retrieves all origin endpoints in a specific channel that are configured in AWS Elemental MediaPackage.
     ///
@@ -1764,7 +1764,7 @@ extension MediaPackageV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `mediapackagev2` service.
+    /// Performs the `ListTagsForResource` operation on the `MediaPackageV2` service.
     ///
     /// Lists the tags assigned to a resource.
     ///
@@ -1830,7 +1830,7 @@ extension MediaPackageV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutChannelPolicy` operation on the `mediapackagev2` service.
+    /// Performs the `PutChannelPolicy` operation on the `MediaPackageV2` service.
     ///
     /// Attaches an IAM policy to the specified channel. With policies, you can specify who has access to AWS resources and what actions they can perform on those resources. You can attach only one policy with each request.
     ///
@@ -1904,7 +1904,7 @@ extension MediaPackageV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutOriginEndpointPolicy` operation on the `mediapackagev2` service.
+    /// Performs the `PutOriginEndpointPolicy` operation on the `MediaPackageV2` service.
     ///
     /// Attaches an IAM policy to the specified origin endpoint. You can attach only one policy with each request.
     ///
@@ -1978,7 +1978,7 @@ extension MediaPackageV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `mediapackagev2` service.
+    /// Performs the `TagResource` operation on the `MediaPackageV2` service.
     ///
     /// Assigns one of more tags (key-value pairs) to the specified MediaPackage resource. Tags can help you organize and categorize your resources. You can also use them to scope user permissions, by granting a user permission to access or change only resources with certain tag values. You can use the TagResource operation with a resource that already has tags. If you specify a new tag key for the resource, this tag is appended to the list of tags associated with the resource. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag.
     ///
@@ -2047,7 +2047,7 @@ extension MediaPackageV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `mediapackagev2` service.
+    /// Performs the `UntagResource` operation on the `MediaPackageV2` service.
     ///
     /// Removes one or more tags from the specified resource.
     ///
@@ -2114,7 +2114,7 @@ extension MediaPackageV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateChannel` operation on the `mediapackagev2` service.
+    /// Performs the `UpdateChannel` operation on the `MediaPackageV2` service.
     ///
     /// Update the specified channel. You can edit if MediaPackage sends ingest or egress access logs to the CloudWatch log group, if content will be encrypted, the description on a channel, and your channel's policy settings. You can't edit the name of the channel or CloudFront distribution details. Any edits you make that impact the video output may not be reflected for a few minutes.
     ///
@@ -2189,7 +2189,7 @@ extension MediaPackageV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateChannelGroup` operation on the `mediapackagev2` service.
+    /// Performs the `UpdateChannelGroup` operation on the `MediaPackageV2` service.
     ///
     /// Update the specified channel group. You can edit the description on a channel group for easier identification later from the AWS Elemental MediaPackage console. You can't edit the name of the channel group. Any edits you make that impact the video output may not be reflected for a few minutes.
     ///
@@ -2264,7 +2264,7 @@ extension MediaPackageV2Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateOriginEndpoint` operation on the `mediapackagev2` service.
+    /// Performs the `UpdateOriginEndpoint` operation on the `MediaPackageV2` service.
     ///
     /// Update the specified origin endpoint. Edit the packaging preferences on an endpoint to optimize the viewing experience. You can't edit the name of the endpoint. Any edits you make that impact the video output may not be reflected for a few minutes.
     ///

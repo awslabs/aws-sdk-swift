@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class KinesisVideoArchivedMediaClient: ClientRuntime.Client {
     public static let clientName = "KinesisVideoArchivedMediaClient"
-    public static let version = "1.0.69"
+    public static let version = "1.0.74"
     let client: ClientRuntime.SdkHttpClient
     let config: KinesisVideoArchivedMediaClient.KinesisVideoArchivedMediaClientConfiguration
     let serviceName = "Kinesis Video Archived Media"
@@ -330,7 +330,7 @@ extension KinesisVideoArchivedMediaClient {
 }
 
 extension KinesisVideoArchivedMediaClient {
-    /// Performs the `GetClip` operation on the `AWSAcuityReader` service.
+    /// Performs the `GetClip` operation on the `KinesisVideoArchivedMedia` service.
     ///
     /// Downloads an MP4 file (clip) containing the archived, on-demand media from the specified video stream over the specified time range. Both the StreamName and the StreamARN parameters are optional, but you must specify either the StreamName or the StreamARN when invoking this API operation. As a prerequisite to using GetCLip API, you must obtain an endpoint using GetDataEndpoint, specifying GET_CLIP for the APIName parameter. An Amazon Kinesis video stream has the following requirements for providing data through MP4:
     ///
@@ -418,7 +418,7 @@ extension KinesisVideoArchivedMediaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDASHStreamingSessionURL` operation on the `AWSAcuityReader` service.
+    /// Performs the `GetDASHStreamingSessionURL` operation on the `KinesisVideoArchivedMedia` service.
     ///
     /// Retrieves an MPEG Dynamic Adaptive Streaming over HTTP (DASH) URL for the stream. You can then open the URL in a media player to view the stream contents. Both the StreamName and the StreamARN parameters are optional, but you must specify either the StreamName or the StreamARN when invoking this API operation. An Amazon Kinesis video stream has the following requirements for providing data through MPEG-DASH:
     ///
@@ -532,7 +532,7 @@ extension KinesisVideoArchivedMediaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetHLSStreamingSessionURL` operation on the `AWSAcuityReader` service.
+    /// Performs the `GetHLSStreamingSessionURL` operation on the `KinesisVideoArchivedMedia` service.
     ///
     /// Retrieves an HTTP Live Streaming (HLS) URL for the stream. You can then open the URL in a browser or media player to view the stream contents. Both the StreamName and the StreamARN parameters are optional, but you must specify either the StreamName or the StreamARN when invoking this API operation. An Amazon Kinesis video stream has the following requirements for providing data through HLS:
     ///
@@ -650,7 +650,7 @@ extension KinesisVideoArchivedMediaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetImages` operation on the `AWSAcuityReader` service.
+    /// Performs the `GetImages` operation on the `KinesisVideoArchivedMedia` service.
     ///
     /// Retrieves a list of images corresponding to each timestamp for a given time range, sampling interval, and image format configuration.
     ///
@@ -723,7 +723,7 @@ extension KinesisVideoArchivedMediaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetMediaForFragmentList` operation on the `AWSAcuityReader` service.
+    /// Performs the `GetMediaForFragmentList` operation on the `KinesisVideoArchivedMedia` service.
     ///
     /// Gets media for a list of fragments (specified by fragment number) from the archived data in an Amazon Kinesis video stream. You must first call the GetDataEndpoint API to get an endpoint. Then send the GetMediaForFragmentList requests to this endpoint using the [--endpoint-url parameter](https://docs.aws.amazon.com/cli/latest/reference/). For limits, see [Kinesis Video Streams Limits](http://docs.aws.amazon.com/kinesisvideostreams/latest/dg/limits.html). If an error is thrown after invoking a Kinesis Video Streams archived media API, in addition to the HTTP status code and the response body, it includes the following pieces of information:
     ///
@@ -802,7 +802,7 @@ extension KinesisVideoArchivedMediaClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListFragments` operation on the `AWSAcuityReader` service.
+    /// Performs the `ListFragments` operation on the `KinesisVideoArchivedMedia` service.
     ///
     /// Returns a list of [Fragment] objects from the specified stream and timestamp range within the archived data. Listing fragments is eventually consistent. This means that even if the producer receives an acknowledgment that a fragment is persisted, the result might not be returned immediately from a request to ListFragments. However, results are typically available in less than one second. You must first call the GetDataEndpoint API to get an endpoint. Then send the ListFragments requests to this endpoint using the [--endpoint-url parameter](https://docs.aws.amazon.com/cli/latest/reference/). If an error is thrown after invoking a Kinesis Video Streams archived media API, in addition to the HTTP status code and the response body, it includes the following pieces of information:
     ///

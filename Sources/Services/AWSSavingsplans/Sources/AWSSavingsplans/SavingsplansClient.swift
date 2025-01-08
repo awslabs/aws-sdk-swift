@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SavingsplansClient: ClientRuntime.Client {
     public static let clientName = "SavingsplansClient"
-    public static let version = "1.0.69"
+    public static let version = "1.0.74"
     let client: ClientRuntime.SdkHttpClient
     let config: SavingsplansClient.SavingsplansClientConfiguration
     let serviceName = "savingsplans"
@@ -330,7 +330,7 @@ extension SavingsplansClient {
 }
 
 extension SavingsplansClient {
-    /// Performs the `CreateSavingsPlan` operation on the `AWSSavingsPlan` service.
+    /// Performs the `CreateSavingsPlan` operation on the `Savingsplans` service.
     ///
     /// Creates a Savings Plan.
     ///
@@ -403,7 +403,7 @@ extension SavingsplansClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteQueuedSavingsPlan` operation on the `AWSSavingsPlan` service.
+    /// Performs the `DeleteQueuedSavingsPlan` operation on the `Savingsplans` service.
     ///
     /// Deletes the queued purchase for the specified Savings Plan.
     ///
@@ -475,7 +475,7 @@ extension SavingsplansClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeSavingsPlanRates` operation on the `AWSSavingsPlan` service.
+    /// Performs the `DescribeSavingsPlanRates` operation on the `Savingsplans` service.
     ///
     /// Describes the rates for the specified Savings Plan.
     ///
@@ -545,7 +545,7 @@ extension SavingsplansClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeSavingsPlans` operation on the `AWSSavingsPlan` service.
+    /// Performs the `DescribeSavingsPlans` operation on the `Savingsplans` service.
     ///
     /// Describes the specified Savings Plans.
     ///
@@ -615,7 +615,7 @@ extension SavingsplansClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeSavingsPlansOfferingRates` operation on the `AWSSavingsPlan` service.
+    /// Performs the `DescribeSavingsPlansOfferingRates` operation on the `Savingsplans` service.
     ///
     /// Describes the offering rates for the specified Savings Plans.
     ///
@@ -685,7 +685,7 @@ extension SavingsplansClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeSavingsPlansOfferings` operation on the `AWSSavingsPlan` service.
+    /// Performs the `DescribeSavingsPlansOfferings` operation on the `Savingsplans` service.
     ///
     /// Describes the offerings for the specified Savings Plans.
     ///
@@ -755,7 +755,7 @@ extension SavingsplansClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `AWSSavingsPlan` service.
+    /// Performs the `ListTagsForResource` operation on the `Savingsplans` service.
     ///
     /// Lists the tags for the specified resource.
     ///
@@ -826,7 +826,7 @@ extension SavingsplansClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ReturnSavingsPlan` operation on the `AWSSavingsPlan` service.
+    /// Performs the `ReturnSavingsPlan` operation on the `Savingsplans` service.
     ///
     /// Returns the specified Savings Plan.
     ///
@@ -899,7 +899,7 @@ extension SavingsplansClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `AWSSavingsPlan` service.
+    /// Performs the `TagResource` operation on the `Savingsplans` service.
     ///
     /// Adds the specified tags to the specified resource.
     ///
@@ -971,7 +971,7 @@ extension SavingsplansClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `AWSSavingsPlan` service.
+    /// Performs the `UntagResource` operation on the `Savingsplans` service.
     ///
     /// Removes the specified tags from the specified resource.
     ///

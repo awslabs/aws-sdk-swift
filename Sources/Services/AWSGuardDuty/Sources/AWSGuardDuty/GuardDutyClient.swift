@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class GuardDutyClient: ClientRuntime.Client {
     public static let clientName = "GuardDutyClient"
-    public static let version = "1.0.69"
+    public static let version = "1.0.74"
     let client: ClientRuntime.SdkHttpClient
     let config: GuardDutyClient.GuardDutyClientConfiguration
     let serviceName = "GuardDuty"
@@ -331,7 +331,7 @@ extension GuardDutyClient {
 }
 
 extension GuardDutyClient {
-    /// Performs the `AcceptAdministratorInvitation` operation on the `GuardDutyAPIService` service.
+    /// Performs the `AcceptAdministratorInvitation` operation on the `GuardDuty` service.
     ///
     /// Accepts the invitation to be a member account and get monitored by a GuardDuty administrator account that sent the invitation.
     ///
@@ -401,7 +401,7 @@ extension GuardDutyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AcceptInvitation` operation on the `GuardDutyAPIService` service.
+    /// Performs the `AcceptInvitation` operation on the `GuardDuty` service.
     ///
     /// Accepts the invitation to be monitored by a GuardDuty administrator account.
     @available(*, deprecated, message: "This operation is deprecated, use AcceptAdministratorInvitation instead")
@@ -472,7 +472,7 @@ extension GuardDutyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ArchiveFindings` operation on the `GuardDutyAPIService` service.
+    /// Performs the `ArchiveFindings` operation on the `GuardDuty` service.
     ///
     /// Archives GuardDuty findings that are specified by the list of finding IDs. Only the administrator account can archive findings. Member accounts don't have permission to archive findings from their accounts.
     ///
@@ -542,7 +542,7 @@ extension GuardDutyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateDetector` operation on the `GuardDutyAPIService` service.
+    /// Performs the `CreateDetector` operation on the `GuardDuty` service.
     ///
     /// Creates a single GuardDuty detector. A detector is a resource that represents the GuardDuty service. To start using GuardDuty, you must create a detector in each Region where you enable the service. You can have only one detector per account per Region. All data sources are enabled in a new detector by default.
     ///
@@ -620,7 +620,7 @@ extension GuardDutyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateFilter` operation on the `GuardDutyAPIService` service.
+    /// Performs the `CreateFilter` operation on the `GuardDuty` service.
     ///
     /// Creates a filter using the specified finding criteria. The maximum number of saved filters per Amazon Web Services account per Region is 100. For more information, see [Quotas for GuardDuty](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_limits.html).
     ///
@@ -691,7 +691,7 @@ extension GuardDutyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateIPSet` operation on the `GuardDutyAPIService` service.
+    /// Performs the `CreateIPSet` operation on the `GuardDuty` service.
     ///
     /// Creates a new IPSet, which is called a trusted IP list in the console user interface. An IPSet is a list of IP addresses that are trusted for secure communication with Amazon Web Services infrastructure and applications. GuardDuty doesn't generate findings for IP addresses that are included in IPSets. Only users from the administrator account can use this operation.
     ///
@@ -762,7 +762,7 @@ extension GuardDutyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateMalwareProtectionPlan` operation on the `GuardDutyAPIService` service.
+    /// Performs the `CreateMalwareProtectionPlan` operation on the `GuardDuty` service.
     ///
     /// Creates a new Malware Protection plan for the protected resource. When you create a Malware Protection plan, the Amazon Web Services service terms for GuardDuty Malware Protection apply. For more information, see [Amazon Web Services service terms for GuardDuty Malware Protection](http://aws.amazon.com/service-terms/#87._Amazon_GuardDuty).
     ///
@@ -835,7 +835,7 @@ extension GuardDutyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateMembers` operation on the `GuardDutyAPIService` service.
+    /// Performs the `CreateMembers` operation on the `GuardDuty` service.
     ///
     /// Creates member accounts of the current Amazon Web Services account by specifying a list of Amazon Web Services account IDs. This step is a prerequisite for managing the associated member accounts either by invitation or through an organization. As a delegated administrator, using CreateMembers will enable GuardDuty in the added member accounts, with the exception of the organization delegated administrator account. A delegated administrator must enable GuardDuty prior to being added as a member. When you use CreateMembers as an Organizations delegated administrator, GuardDuty applies your organization's auto-enable settings to the member accounts in this request, irrespective of the accounts being new or existing members. For more information about the existing auto-enable settings for your organization, see [DescribeOrganizationConfiguration](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_DescribeOrganizationConfiguration.html). If you disassociate a member account that was added by invitation, the member account details obtained from this API, including the associated email addresses, will be retained. This is done so that the delegated administrator can invoke the [InviteMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_InviteMembers.html) API without the need to invoke the CreateMembers API again. To remove the details associated with a member account, the delegated administrator must invoke the [DeleteMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_DeleteMembers.html) API. When the member accounts added through Organizations are later disassociated, you (administrator) can't invite them by calling the InviteMembers API. You can create an association with these member accounts again only by calling the CreateMembers API.
     ///
@@ -905,7 +905,7 @@ extension GuardDutyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreatePublishingDestination` operation on the `GuardDutyAPIService` service.
+    /// Performs the `CreatePublishingDestination` operation on the `GuardDuty` service.
     ///
     /// Creates a publishing destination where you can export your GuardDuty findings. Before you start exporting the findings, the destination resource must exist.
     ///
@@ -976,7 +976,7 @@ extension GuardDutyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateSampleFindings` operation on the `GuardDutyAPIService` service.
+    /// Performs the `CreateSampleFindings` operation on the `GuardDuty` service.
     ///
     /// Generates sample findings of types specified by the list of finding types. If 'NULL' is specified for findingTypes, the API generates sample findings of all supported finding types.
     ///
@@ -1046,7 +1046,7 @@ extension GuardDutyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateThreatIntelSet` operation on the `GuardDutyAPIService` service.
+    /// Performs the `CreateThreatIntelSet` operation on the `GuardDuty` service.
     ///
     /// Creates a new ThreatIntelSet. ThreatIntelSets consist of known malicious IP addresses. GuardDuty generates findings based on ThreatIntelSets. Only users of the administrator account can use this operation.
     ///
@@ -1117,7 +1117,7 @@ extension GuardDutyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeclineInvitations` operation on the `GuardDutyAPIService` service.
+    /// Performs the `DeclineInvitations` operation on the `GuardDuty` service.
     ///
     /// Declines invitations sent to the current member account by Amazon Web Services accounts specified by their account IDs.
     ///
@@ -1187,7 +1187,7 @@ extension GuardDutyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteDetector` operation on the `GuardDutyAPIService` service.
+    /// Performs the `DeleteDetector` operation on the `GuardDuty` service.
     ///
     /// Deletes an Amazon GuardDuty detector that is specified by the detector ID.
     ///
@@ -1254,7 +1254,7 @@ extension GuardDutyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteFilter` operation on the `GuardDutyAPIService` service.
+    /// Performs the `DeleteFilter` operation on the `GuardDuty` service.
     ///
     /// Deletes the filter specified by the filter name.
     ///
@@ -1321,7 +1321,7 @@ extension GuardDutyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteIPSet` operation on the `GuardDutyAPIService` service.
+    /// Performs the `DeleteIPSet` operation on the `GuardDuty` service.
     ///
     /// Deletes the IPSet specified by the ipSetId. IPSets are called trusted IP lists in the console user interface.
     ///
@@ -1388,7 +1388,7 @@ extension GuardDutyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteInvitations` operation on the `GuardDutyAPIService` service.
+    /// Performs the `DeleteInvitations` operation on the `GuardDuty` service.
     ///
     /// Deletes invitations sent to the current member account by Amazon Web Services accounts specified by their account IDs.
     ///
@@ -1458,7 +1458,7 @@ extension GuardDutyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteMalwareProtectionPlan` operation on the `GuardDutyAPIService` service.
+    /// Performs the `DeleteMalwareProtectionPlan` operation on the `GuardDuty` service.
     ///
     /// Deletes the Malware Protection plan ID associated with the Malware Protection plan resource. Use this API only when you no longer want to protect the resource associated with this Malware Protection plan ID.
     ///
@@ -1527,7 +1527,7 @@ extension GuardDutyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteMembers` operation on the `GuardDutyAPIService` service.
+    /// Performs the `DeleteMembers` operation on the `GuardDuty` service.
     ///
     /// Deletes GuardDuty member accounts (to the current GuardDuty administrator account) specified by the account IDs. With autoEnableOrganizationMembers configuration for your organization set to ALL, you'll receive an error if you attempt to disable GuardDuty for a member account in your organization.
     ///
@@ -1597,7 +1597,7 @@ extension GuardDutyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeletePublishingDestination` operation on the `GuardDutyAPIService` service.
+    /// Performs the `DeletePublishingDestination` operation on the `GuardDuty` service.
     ///
     /// Deletes the publishing definition with the specified destinationId.
     ///
@@ -1664,7 +1664,7 @@ extension GuardDutyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteThreatIntelSet` operation on the `GuardDutyAPIService` service.
+    /// Performs the `DeleteThreatIntelSet` operation on the `GuardDuty` service.
     ///
     /// Deletes the ThreatIntelSet specified by the ThreatIntelSet ID.
     ///
@@ -1731,7 +1731,7 @@ extension GuardDutyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeMalwareScans` operation on the `GuardDutyAPIService` service.
+    /// Performs the `DescribeMalwareScans` operation on the `GuardDuty` service.
     ///
     /// Returns a list of malware scans. Each member account can view the malware scans for their own accounts. An administrator can view the malware scans for all the member accounts. There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
     ///
@@ -1801,7 +1801,7 @@ extension GuardDutyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeOrganizationConfiguration` operation on the `GuardDutyAPIService` service.
+    /// Performs the `DescribeOrganizationConfiguration` operation on the `GuardDuty` service.
     ///
     /// Returns information about the account selected as the delegated administrator for GuardDuty. There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
     ///
@@ -1869,7 +1869,7 @@ extension GuardDutyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribePublishingDestination` operation on the `GuardDutyAPIService` service.
+    /// Performs the `DescribePublishingDestination` operation on the `GuardDuty` service.
     ///
     /// Returns information about the publishing destination specified by the provided destinationId.
     ///
@@ -1936,7 +1936,7 @@ extension GuardDutyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisableOrganizationAdminAccount` operation on the `GuardDutyAPIService` service.
+    /// Performs the `DisableOrganizationAdminAccount` operation on the `GuardDuty` service.
     ///
     /// Removes the existing GuardDuty delegated administrator of the organization. Only the organization's management account can run this API operation.
     ///
@@ -2006,7 +2006,7 @@ extension GuardDutyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateFromAdministratorAccount` operation on the `GuardDutyAPIService` service.
+    /// Performs the `DisassociateFromAdministratorAccount` operation on the `GuardDuty` service.
     ///
     /// Disassociates the current GuardDuty member account from its administrator account. When you disassociate an invited member from a GuardDuty delegated administrator, the member account details obtained from the [CreateMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_CreateMembers.html) API, including the associated email addresses, are retained. This is done so that the delegated administrator can invoke the [InviteMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_InviteMembers.html) API without the need to invoke the CreateMembers API again. To remove the details associated with a member account, the delegated administrator must invoke the [DeleteMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_DeleteMembers.html) API. With autoEnableOrganizationMembers configuration for your organization set to ALL, you'll receive an error if you attempt to disable GuardDuty in a member account.
     ///
@@ -2073,7 +2073,7 @@ extension GuardDutyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateFromMasterAccount` operation on the `GuardDutyAPIService` service.
+    /// Performs the `DisassociateFromMasterAccount` operation on the `GuardDuty` service.
     ///
     /// Disassociates the current GuardDuty member account from its administrator account. When you disassociate an invited member from a GuardDuty delegated administrator, the member account details obtained from the [CreateMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_CreateMembers.html) API, including the associated email addresses, are retained. This is done so that the delegated administrator can invoke the [InviteMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_InviteMembers.html) API without the need to invoke the CreateMembers API again. To remove the details associated with a member account, the delegated administrator must invoke the [DeleteMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_DeleteMembers.html) API.
     @available(*, deprecated, message: "This operation is deprecated, use DisassociateFromAdministratorAccount instead")
@@ -2141,7 +2141,7 @@ extension GuardDutyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateMembers` operation on the `GuardDutyAPIService` service.
+    /// Performs the `DisassociateMembers` operation on the `GuardDuty` service.
     ///
     /// Disassociates GuardDuty member accounts (from the current administrator account) specified by the account IDs. When you disassociate an invited member from a GuardDuty delegated administrator, the member account details obtained from the [CreateMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_CreateMembers.html) API, including the associated email addresses, are retained. This is done so that the delegated administrator can invoke the [InviteMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_InviteMembers.html) API without the need to invoke the CreateMembers API again. To remove the details associated with a member account, the delegated administrator must invoke the [DeleteMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_DeleteMembers.html) API. With autoEnableOrganizationMembers configuration for your organization set to ALL, you'll receive an error if you attempt to disassociate a member account before removing them from your organization. If you disassociate a member account that was added by invitation, the member account details obtained from this API, including the associated email addresses, will be retained. This is done so that the delegated administrator can invoke the [InviteMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_InviteMembers.html) API without the need to invoke the CreateMembers API again. To remove the details associated with a member account, the delegated administrator must invoke the [DeleteMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_DeleteMembers.html) API. When the member accounts added through Organizations are later disassociated, you (administrator) can't invite them by calling the InviteMembers API. You can create an association with these member accounts again only by calling the CreateMembers API.
     ///
@@ -2211,7 +2211,7 @@ extension GuardDutyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `EnableOrganizationAdminAccount` operation on the `GuardDutyAPIService` service.
+    /// Performs the `EnableOrganizationAdminAccount` operation on the `GuardDuty` service.
     ///
     /// Designates an Amazon Web Services account within the organization as your GuardDuty delegated administrator. Only the organization's management account can run this API operation.
     ///
@@ -2281,7 +2281,7 @@ extension GuardDutyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAdministratorAccount` operation on the `GuardDutyAPIService` service.
+    /// Performs the `GetAdministratorAccount` operation on the `GuardDuty` service.
     ///
     /// Provides the details of the GuardDuty administrator account associated with the current GuardDuty member account. If the organization's management account or a delegated administrator runs this API, it will return success (HTTP 200) but no content.
     ///
@@ -2348,7 +2348,7 @@ extension GuardDutyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetCoverageStatistics` operation on the `GuardDutyAPIService` service.
+    /// Performs the `GetCoverageStatistics` operation on the `GuardDuty` service.
     ///
     /// Retrieves aggregated statistics for your account. If you are a GuardDuty administrator, you can retrieve the statistics for all the resources associated with the active member accounts in your organization who have enabled Runtime Monitoring and have the GuardDuty security agent running on their resources.
     ///
@@ -2418,7 +2418,7 @@ extension GuardDutyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDetector` operation on the `GuardDutyAPIService` service.
+    /// Performs the `GetDetector` operation on the `GuardDuty` service.
     ///
     /// Retrieves a GuardDuty detector specified by the detectorId. There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
     ///
@@ -2485,7 +2485,7 @@ extension GuardDutyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetFilter` operation on the `GuardDutyAPIService` service.
+    /// Performs the `GetFilter` operation on the `GuardDuty` service.
     ///
     /// Returns the details of the filter specified by the filter name.
     ///
@@ -2552,7 +2552,7 @@ extension GuardDutyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetFindings` operation on the `GuardDutyAPIService` service.
+    /// Performs the `GetFindings` operation on the `GuardDuty` service.
     ///
     /// Describes Amazon GuardDuty findings specified by finding IDs.
     ///
@@ -2622,7 +2622,7 @@ extension GuardDutyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetFindingsStatistics` operation on the `GuardDutyAPIService` service.
+    /// Performs the `GetFindingsStatistics` operation on the `GuardDuty` service.
     ///
     /// Lists GuardDuty findings statistics for the specified detector ID. You must provide either findingStatisticTypes or groupBy parameter, and not both. You can use the maxResults and orderBy parameters only when using groupBy. There might be regional differences because some flags might not be available in all the Regions where GuardDuty is currently supported. For more information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
     ///
@@ -2692,7 +2692,7 @@ extension GuardDutyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetIPSet` operation on the `GuardDutyAPIService` service.
+    /// Performs the `GetIPSet` operation on the `GuardDuty` service.
     ///
     /// Retrieves the IPSet specified by the ipSetId.
     ///
@@ -2759,7 +2759,7 @@ extension GuardDutyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetInvitationsCount` operation on the `GuardDutyAPIService` service.
+    /// Performs the `GetInvitationsCount` operation on the `GuardDuty` service.
     ///
     /// Returns the count of all GuardDuty membership invitations that were sent to the current member account except the currently accepted invitation.
     ///
@@ -2826,7 +2826,7 @@ extension GuardDutyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetMalwareProtectionPlan` operation on the `GuardDutyAPIService` service.
+    /// Performs the `GetMalwareProtectionPlan` operation on the `GuardDuty` service.
     ///
     /// Retrieves the Malware Protection plan details associated with a Malware Protection plan ID.
     ///
@@ -2895,7 +2895,7 @@ extension GuardDutyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetMalwareScanSettings` operation on the `GuardDutyAPIService` service.
+    /// Performs the `GetMalwareScanSettings` operation on the `GuardDuty` service.
     ///
     /// Returns the details of the malware scan settings. There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
     ///
@@ -2962,7 +2962,7 @@ extension GuardDutyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetMasterAccount` operation on the `GuardDutyAPIService` service.
+    /// Performs the `GetMasterAccount` operation on the `GuardDuty` service.
     ///
     /// Provides the details for the GuardDuty administrator account associated with the current GuardDuty member account.
     @available(*, deprecated, message: "This operation is deprecated, use GetAdministratorAccount instead")
@@ -3030,7 +3030,7 @@ extension GuardDutyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetMemberDetectors` operation on the `GuardDutyAPIService` service.
+    /// Performs the `GetMemberDetectors` operation on the `GuardDuty` service.
     ///
     /// Describes which data sources are enabled for the member account's detector. There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
     ///
@@ -3100,7 +3100,7 @@ extension GuardDutyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetMembers` operation on the `GuardDutyAPIService` service.
+    /// Performs the `GetMembers` operation on the `GuardDuty` service.
     ///
     /// Retrieves GuardDuty member accounts (of the current GuardDuty administrator account) specified by the account IDs.
     ///
@@ -3170,7 +3170,7 @@ extension GuardDutyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetOrganizationStatistics` operation on the `GuardDutyAPIService` service.
+    /// Performs the `GetOrganizationStatistics` operation on the `GuardDuty` service.
     ///
     /// Retrieves how many active member accounts have each feature enabled within GuardDuty. Only a delegated GuardDuty administrator of an organization can run this API. When you create a new organization, it might take up to 24 hours to generate the statistics for the entire organization.
     ///
@@ -3237,7 +3237,7 @@ extension GuardDutyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetRemainingFreeTrialDays` operation on the `GuardDutyAPIService` service.
+    /// Performs the `GetRemainingFreeTrialDays` operation on the `GuardDuty` service.
     ///
     /// Provides the number of days left for each data source used in the free trial period.
     ///
@@ -3307,7 +3307,7 @@ extension GuardDutyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetThreatIntelSet` operation on the `GuardDutyAPIService` service.
+    /// Performs the `GetThreatIntelSet` operation on the `GuardDuty` service.
     ///
     /// Retrieves the ThreatIntelSet that is specified by the ThreatIntelSet ID.
     ///
@@ -3374,7 +3374,7 @@ extension GuardDutyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetUsageStatistics` operation on the `GuardDutyAPIService` service.
+    /// Performs the `GetUsageStatistics` operation on the `GuardDuty` service.
     ///
     /// Lists Amazon GuardDuty usage statistics over the last 30 days for the specified detector ID. For newly enabled detectors or data sources, the cost returned will include only the usage so far under 30 days. This may differ from the cost metrics in the console, which project usage over 30 days to provide a monthly cost estimate. For more information, see [Understanding How Usage Costs are Calculated](https://docs.aws.amazon.com/guardduty/latest/ug/monitoring_costs.html#usage-calculations).
     ///
@@ -3444,7 +3444,7 @@ extension GuardDutyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `InviteMembers` operation on the `GuardDutyAPIService` service.
+    /// Performs the `InviteMembers` operation on the `GuardDuty` service.
     ///
     /// Invites Amazon Web Services accounts to become members of an organization administered by the Amazon Web Services account that invokes this API. If you are using Amazon Web Services Organizations to manage your GuardDuty environment, this step is not needed. For more information, see [Managing accounts with organizations](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_organizations.html). To invite Amazon Web Services accounts, the first step is to ensure that GuardDuty has been enabled in the potential member accounts. You can now invoke this API to add accounts by invitation. The invited accounts can either accept or decline the invitation from their GuardDuty accounts. Each invited Amazon Web Services account can choose to accept the invitation from only one Amazon Web Services account. For more information, see [Managing GuardDuty accounts by invitation](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_invitations.html). After the invite has been accepted and you choose to disassociate a member account (by using [DisassociateMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_DisassociateMembers.html)) from your account, the details of the member account obtained by invoking [CreateMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_CreateMembers.html), including the associated email addresses, will be retained. This is done so that you can invoke InviteMembers without the need to invoke [CreateMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_CreateMembers.html) again. To remove the details associated with a member account, you must also invoke [DeleteMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_DeleteMembers.html). If you disassociate a member account that was added by invitation, the member account details obtained from this API, including the associated email addresses, will be retained. This is done so that the delegated administrator can invoke the [InviteMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_InviteMembers.html) API without the need to invoke the CreateMembers API again. To remove the details associated with a member account, the delegated administrator must invoke the [DeleteMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_DeleteMembers.html) API. When the member accounts added through Organizations are later disassociated, you (administrator) can't invite them by calling the InviteMembers API. You can create an association with these member accounts again only by calling the CreateMembers API.
     ///
@@ -3514,7 +3514,7 @@ extension GuardDutyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListCoverage` operation on the `GuardDutyAPIService` service.
+    /// Performs the `ListCoverage` operation on the `GuardDuty` service.
     ///
     /// Lists coverage details for your GuardDuty account. If you're a GuardDuty administrator, you can retrieve all resources associated with the active member accounts in your organization. Make sure the accounts have Runtime Monitoring enabled and GuardDuty agent running on their resources.
     ///
@@ -3584,7 +3584,7 @@ extension GuardDutyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDetectors` operation on the `GuardDutyAPIService` service.
+    /// Performs the `ListDetectors` operation on the `GuardDuty` service.
     ///
     /// Lists detectorIds of all the existing Amazon GuardDuty detector resources.
     ///
@@ -3652,7 +3652,7 @@ extension GuardDutyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListFilters` operation on the `GuardDutyAPIService` service.
+    /// Performs the `ListFilters` operation on the `GuardDuty` service.
     ///
     /// Returns a paginated list of the current filters.
     ///
@@ -3720,7 +3720,7 @@ extension GuardDutyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListFindings` operation on the `GuardDutyAPIService` service.
+    /// Performs the `ListFindings` operation on the `GuardDuty` service.
     ///
     /// Lists GuardDuty findings for the specified detector ID. There might be regional differences because some flags might not be available in all the Regions where GuardDuty is currently supported. For more information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
     ///
@@ -3790,7 +3790,7 @@ extension GuardDutyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListIPSets` operation on the `GuardDutyAPIService` service.
+    /// Performs the `ListIPSets` operation on the `GuardDuty` service.
     ///
     /// Lists the IPSets of the GuardDuty service specified by the detector ID. If you use this operation from a member account, the IPSets returned are the IPSets from the associated administrator account.
     ///
@@ -3858,7 +3858,7 @@ extension GuardDutyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListInvitations` operation on the `GuardDutyAPIService` service.
+    /// Performs the `ListInvitations` operation on the `GuardDuty` service.
     ///
     /// Lists all GuardDuty membership invitations that were sent to the current Amazon Web Services account.
     ///
@@ -3926,7 +3926,7 @@ extension GuardDutyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListMalwareProtectionPlans` operation on the `GuardDutyAPIService` service.
+    /// Performs the `ListMalwareProtectionPlans` operation on the `GuardDuty` service.
     ///
     /// Lists the Malware Protection plan IDs associated with the protected resources in your Amazon Web Services account.
     ///
@@ -3995,7 +3995,7 @@ extension GuardDutyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListMembers` operation on the `GuardDutyAPIService` service.
+    /// Performs the `ListMembers` operation on the `GuardDuty` service.
     ///
     /// Lists details about all member accounts for the current GuardDuty administrator account.
     ///
@@ -4063,7 +4063,7 @@ extension GuardDutyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListOrganizationAdminAccounts` operation on the `GuardDutyAPIService` service.
+    /// Performs the `ListOrganizationAdminAccounts` operation on the `GuardDuty` service.
     ///
     /// Lists the accounts designated as GuardDuty delegated administrators. Only the organization's management account can run this API operation.
     ///
@@ -4131,7 +4131,7 @@ extension GuardDutyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListPublishingDestinations` operation on the `GuardDutyAPIService` service.
+    /// Performs the `ListPublishingDestinations` operation on the `GuardDuty` service.
     ///
     /// Returns a list of publishing destinations associated with the specified detectorId.
     ///
@@ -4199,7 +4199,7 @@ extension GuardDutyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `GuardDutyAPIService` service.
+    /// Performs the `ListTagsForResource` operation on the `GuardDuty` service.
     ///
     /// Lists tags for a resource. Tagging is currently supported for detectors, finding filters, IP sets, threat intel sets, and publishing destination, with a limit of 50 tags per resource. When invoked, this operation returns all assigned tags for a given resource.
     ///
@@ -4267,7 +4267,7 @@ extension GuardDutyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListThreatIntelSets` operation on the `GuardDutyAPIService` service.
+    /// Performs the `ListThreatIntelSets` operation on the `GuardDuty` service.
     ///
     /// Lists the ThreatIntelSets of the GuardDuty service specified by the detector ID. If you use this operation from a member account, the ThreatIntelSets associated with the administrator account are returned.
     ///
@@ -4335,7 +4335,7 @@ extension GuardDutyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartMalwareScan` operation on the `GuardDutyAPIService` service.
+    /// Performs the `StartMalwareScan` operation on the `GuardDuty` service.
     ///
     /// Initiates the malware scan. Invoking this API will automatically create the [Service-linked role](https://docs.aws.amazon.com/guardduty/latest/ug/slr-permissions-malware-protection.html) in the corresponding account. When the malware scan starts, you can use the associated scan ID to track the status of the scan. For more information, see [DescribeMalwareScans](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_DescribeMalwareScans.html).
     ///
@@ -4406,7 +4406,7 @@ extension GuardDutyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartMonitoringMembers` operation on the `GuardDutyAPIService` service.
+    /// Performs the `StartMonitoringMembers` operation on the `GuardDuty` service.
     ///
     /// Turns on GuardDuty monitoring of the specified member accounts. Use this operation to restart monitoring of accounts that you stopped monitoring with the [StopMonitoringMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_StopMonitoringMembers.html) operation.
     ///
@@ -4476,7 +4476,7 @@ extension GuardDutyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopMonitoringMembers` operation on the `GuardDutyAPIService` service.
+    /// Performs the `StopMonitoringMembers` operation on the `GuardDuty` service.
     ///
     /// Stops GuardDuty monitoring for the specified member accounts. Use the StartMonitoringMembers operation to restart monitoring for those accounts. With autoEnableOrganizationMembers configuration for your organization set to ALL, you'll receive an error if you attempt to stop monitoring the member accounts in your organization.
     ///
@@ -4546,7 +4546,7 @@ extension GuardDutyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `GuardDutyAPIService` service.
+    /// Performs the `TagResource` operation on the `GuardDuty` service.
     ///
     /// Adds tags to a resource.
     ///
@@ -4617,7 +4617,7 @@ extension GuardDutyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UnarchiveFindings` operation on the `GuardDutyAPIService` service.
+    /// Performs the `UnarchiveFindings` operation on the `GuardDuty` service.
     ///
     /// Unarchives GuardDuty findings specified by the findingIds.
     ///
@@ -4687,7 +4687,7 @@ extension GuardDutyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `GuardDutyAPIService` service.
+    /// Performs the `UntagResource` operation on the `GuardDuty` service.
     ///
     /// Removes tags from a resource.
     ///
@@ -4756,7 +4756,7 @@ extension GuardDutyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateDetector` operation on the `GuardDutyAPIService` service.
+    /// Performs the `UpdateDetector` operation on the `GuardDuty` service.
     ///
     /// Updates the GuardDuty detector specified by the detector ID. Specifying both EKS Runtime Monitoring (EKS_RUNTIME_MONITORING) and Runtime Monitoring (RUNTIME_MONITORING) will cause an error. You can add only one of these two features because Runtime Monitoring already includes the threat detection for Amazon EKS resources. For more information, see [Runtime Monitoring](https://docs.aws.amazon.com/guardduty/latest/ug/runtime-monitoring.html). There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
     ///
@@ -4826,7 +4826,7 @@ extension GuardDutyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateFilter` operation on the `GuardDutyAPIService` service.
+    /// Performs the `UpdateFilter` operation on the `GuardDuty` service.
     ///
     /// Updates the filter specified by the filter name.
     ///
@@ -4896,7 +4896,7 @@ extension GuardDutyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateFindingsFeedback` operation on the `GuardDutyAPIService` service.
+    /// Performs the `UpdateFindingsFeedback` operation on the `GuardDuty` service.
     ///
     /// Marks the specified GuardDuty findings as useful or not useful.
     ///
@@ -4966,7 +4966,7 @@ extension GuardDutyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateIPSet` operation on the `GuardDutyAPIService` service.
+    /// Performs the `UpdateIPSet` operation on the `GuardDuty` service.
     ///
     /// Updates the IPSet specified by the IPSet ID.
     ///
@@ -5036,7 +5036,7 @@ extension GuardDutyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateMalwareProtectionPlan` operation on the `GuardDutyAPIService` service.
+    /// Performs the `UpdateMalwareProtectionPlan` operation on the `GuardDuty` service.
     ///
     /// Updates an existing Malware Protection plan resource.
     ///
@@ -5108,7 +5108,7 @@ extension GuardDutyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateMalwareScanSettings` operation on the `GuardDutyAPIService` service.
+    /// Performs the `UpdateMalwareScanSettings` operation on the `GuardDuty` service.
     ///
     /// Updates the malware scan settings. There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
     ///
@@ -5178,7 +5178,7 @@ extension GuardDutyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateMemberDetectors` operation on the `GuardDutyAPIService` service.
+    /// Performs the `UpdateMemberDetectors` operation on the `GuardDuty` service.
     ///
     /// Contains information on member accounts to be updated. Specifying both EKS Runtime Monitoring (EKS_RUNTIME_MONITORING) and Runtime Monitoring (RUNTIME_MONITORING) will cause an error. You can add only one of these two features because Runtime Monitoring already includes the threat detection for Amazon EKS resources. For more information, see [Runtime Monitoring](https://docs.aws.amazon.com/guardduty/latest/ug/runtime-monitoring.html). There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
     ///
@@ -5248,7 +5248,7 @@ extension GuardDutyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateOrganizationConfiguration` operation on the `GuardDutyAPIService` service.
+    /// Performs the `UpdateOrganizationConfiguration` operation on the `GuardDuty` service.
     ///
     /// Configures the delegated administrator account with the provided values. You must provide a value for either autoEnableOrganizationMembers or autoEnable, but not both. Specifying both EKS Runtime Monitoring (EKS_RUNTIME_MONITORING) and Runtime Monitoring (RUNTIME_MONITORING) will cause an error. You can add only one of these two features because Runtime Monitoring already includes the threat detection for Amazon EKS resources. For more information, see [Runtime Monitoring](https://docs.aws.amazon.com/guardduty/latest/ug/runtime-monitoring.html). There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
     ///
@@ -5318,7 +5318,7 @@ extension GuardDutyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdatePublishingDestination` operation on the `GuardDutyAPIService` service.
+    /// Performs the `UpdatePublishingDestination` operation on the `GuardDuty` service.
     ///
     /// Updates information about the publishing destination specified by the destinationId.
     ///
@@ -5388,7 +5388,7 @@ extension GuardDutyClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateThreatIntelSet` operation on the `GuardDutyAPIService` service.
+    /// Performs the `UpdateThreatIntelSet` operation on the `GuardDuty` service.
     ///
     /// Updates the ThreatIntelSet specified by the ThreatIntelSet ID.
     ///

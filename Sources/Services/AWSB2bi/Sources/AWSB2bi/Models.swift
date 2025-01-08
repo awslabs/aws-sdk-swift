@@ -77,8 +77,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -102,8 +101,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -130,8 +128,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public init(
         message: Swift.String? = nil,
         retryAfterSeconds: Swift.Int? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.retryAfterSeconds = retryAfterSeconds
     }
@@ -156,8 +153,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -197,8 +193,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.quotaCode = quotaCode
         self.properties.resourceId = resourceId
@@ -229,8 +224,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         message: Swift.String? = nil,
         retryAfterSeconds: Swift.Int? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.retryAfterSeconds = retryAfterSeconds
     }
@@ -255,8 +249,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -302,8 +295,7 @@ extension B2biClientTypes {
         public init(
             bucketName: Swift.String? = nil,
             key: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucketName = bucketName
             self.key = key
         }
@@ -1412,8 +1404,7 @@ extension B2biClientTypes {
         public init(
             transactionSet: B2biClientTypes.X12TransactionSet? = nil,
             version: B2biClientTypes.X12Version? = nil
-        )
-        {
+        ) {
             self.transactionSet = transactionSet
             self.version = version
         }
@@ -1455,8 +1446,7 @@ extension B2biClientTypes {
             outputLocation: B2biClientTypes.S3Location? = nil,
             transformerId: Swift.String? = nil,
             type: B2biClientTypes.EdiType? = nil
-        )
-        {
+        ) {
             self.capabilityDirection = capabilityDirection
             self.inputLocation = inputLocation
             self.outputLocation = outputLocation
@@ -1490,8 +1480,7 @@ extension B2biClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -1548,8 +1537,7 @@ public struct CreateCapabilityInput: Swift.Sendable {
         name: Swift.String? = nil,
         tags: [B2biClientTypes.Tag]? = nil,
         type: B2biClientTypes.CapabilityType? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.configuration = configuration
         self.instructionsDocuments = instructionsDocuments
@@ -1589,8 +1577,7 @@ public struct CreateCapabilityOutput: Swift.Sendable {
         instructionsDocuments: [B2biClientTypes.S3Location]? = nil,
         name: Swift.String? = nil,
         type: B2biClientTypes.CapabilityType? = nil
-    )
-    {
+    ) {
         self.capabilityArn = capabilityArn
         self.capabilityId = capabilityId
         self.configuration = configuration
@@ -1608,8 +1595,7 @@ public struct DeleteCapabilityInput: Swift.Sendable {
 
     public init(
         capabilityId: Swift.String? = nil
-    )
-    {
+    ) {
         self.capabilityId = capabilityId
     }
 }
@@ -1621,8 +1607,7 @@ public struct GetCapabilityInput: Swift.Sendable {
 
     public init(
         capabilityId: Swift.String? = nil
-    )
-    {
+    ) {
         self.capabilityId = capabilityId
     }
 }
@@ -1660,8 +1645,7 @@ public struct GetCapabilityOutput: Swift.Sendable {
         modifiedAt: Foundation.Date? = nil,
         name: Swift.String? = nil,
         type: B2biClientTypes.CapabilityType? = nil
-    )
-    {
+    ) {
         self.capabilityArn = capabilityArn
         self.capabilityId = capabilityId
         self.configuration = configuration
@@ -1682,8 +1666,7 @@ public struct ListCapabilitiesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -1714,8 +1697,7 @@ extension B2biClientTypes {
             modifiedAt: Foundation.Date? = nil,
             name: Swift.String? = nil,
             type: B2biClientTypes.CapabilityType? = nil
-        )
-        {
+        ) {
             self.capabilityId = capabilityId
             self.createdAt = createdAt
             self.modifiedAt = modifiedAt
@@ -1735,8 +1717,7 @@ public struct ListCapabilitiesOutput: Swift.Sendable {
     public init(
         capabilities: [B2biClientTypes.CapabilitySummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.capabilities = capabilities
         self.nextToken = nextToken
     }
@@ -1758,8 +1739,7 @@ public struct UpdateCapabilityInput: Swift.Sendable {
         configuration: B2biClientTypes.CapabilityConfiguration? = nil,
         instructionsDocuments: [B2biClientTypes.S3Location]? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.capabilityId = capabilityId
         self.configuration = configuration
         self.instructionsDocuments = instructionsDocuments
@@ -1800,8 +1780,7 @@ public struct UpdateCapabilityOutput: Swift.Sendable {
         modifiedAt: Foundation.Date? = nil,
         name: Swift.String? = nil,
         type: B2biClientTypes.CapabilityType? = nil
-    )
-    {
+    ) {
         self.capabilityArn = capabilityArn
         self.capabilityId = capabilityId
         self.configuration = configuration
@@ -1866,8 +1845,7 @@ public struct CreateStarterMappingTemplateInput: Swift.Sendable {
         mappingType: B2biClientTypes.MappingType? = nil,
         outputSampleLocation: B2biClientTypes.S3Location? = nil,
         templateDetails: B2biClientTypes.TemplateDetails? = nil
-    )
-    {
+    ) {
         self.mappingType = mappingType
         self.outputSampleLocation = outputSampleLocation
         self.templateDetails = templateDetails
@@ -1881,8 +1859,7 @@ public struct CreateStarterMappingTemplateOutput: Swift.Sendable {
 
     public init(
         mappingTemplate: Swift.String? = nil
-    )
-    {
+    ) {
         self.mappingTemplate = mappingTemplate
     }
 }
@@ -1902,8 +1879,7 @@ public struct GenerateMappingInput: Swift.Sendable {
         inputFileContent: Swift.String? = nil,
         mappingType: B2biClientTypes.MappingType? = nil,
         outputFileContent: Swift.String? = nil
-    )
-    {
+    ) {
         self.inputFileContent = inputFileContent
         self.mappingType = mappingType
         self.outputFileContent = outputFileContent
@@ -1920,8 +1896,7 @@ public struct GenerateMappingOutput: Swift.Sendable {
     public init(
         mappingAccuracy: Swift.Float? = nil,
         mappingTemplate: Swift.String? = nil
-    )
-    {
+    ) {
         self.mappingAccuracy = mappingAccuracy
         self.mappingTemplate = mappingTemplate
     }
@@ -1938,8 +1913,7 @@ public struct GetTransformerJobInput: Swift.Sendable {
     public init(
         transformerId: Swift.String? = nil,
         transformerJobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.transformerId = transformerId
         self.transformerJobId = transformerJobId
     }
@@ -1990,8 +1964,7 @@ public struct GetTransformerJobOutput: Swift.Sendable {
         message: Swift.String? = nil,
         outputFiles: [B2biClientTypes.S3Location]? = nil,
         status: B2biClientTypes.TransformerJobStatus? = nil
-    )
-    {
+    ) {
         self.message = message
         self.outputFiles = outputFiles
         self.status = status
@@ -2005,8 +1978,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
     }
 }
@@ -2017,8 +1989,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [B2biClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -2038,8 +2009,7 @@ extension B2biClientTypes {
             componentSeparator: Swift.String? = nil,
             dataElementSeparator: Swift.String? = nil,
             segmentTerminator: Swift.String? = nil
-        )
-        {
+        ) {
             self.componentSeparator = componentSeparator
             self.dataElementSeparator = dataElementSeparator
             self.segmentTerminator = segmentTerminator
@@ -2062,8 +2032,7 @@ extension B2biClientTypes {
             applicationReceiverCode: Swift.String? = nil,
             applicationSenderCode: Swift.String? = nil,
             responsibleAgencyCode: Swift.String? = nil
-        )
-        {
+        ) {
             self.applicationReceiverCode = applicationReceiverCode
             self.applicationSenderCode = applicationSenderCode
             self.responsibleAgencyCode = responsibleAgencyCode
@@ -2104,8 +2073,7 @@ extension B2biClientTypes {
             senderId: Swift.String? = nil,
             senderIdQualifier: Swift.String? = nil,
             usageIndicatorCode: Swift.String? = nil
-        )
-        {
+        ) {
             self.acknowledgmentRequestedCode = acknowledgmentRequestedCode
             self.receiverId = receiverId
             self.receiverIdQualifier = receiverIdQualifier
@@ -2135,8 +2103,7 @@ extension B2biClientTypes {
             functionalGroupHeaders: B2biClientTypes.X12FunctionalGroupHeaders? = nil,
             interchangeControlHeaders: B2biClientTypes.X12InterchangeControlHeaders? = nil,
             validateEdi: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.delimiters = delimiters
             self.functionalGroupHeaders = functionalGroupHeaders
             self.interchangeControlHeaders = interchangeControlHeaders
@@ -2160,8 +2127,7 @@ extension B2biClientTypes {
 
         public init(
             common: B2biClientTypes.X12OutboundEdiHeaders? = nil
-        )
-        {
+        ) {
             self.common = common
         }
     }
@@ -2186,8 +2152,7 @@ extension B2biClientTypes {
 
         public init(
             outboundEdi: B2biClientTypes.OutboundEdiOptions? = nil
-        )
-        {
+        ) {
             self.outboundEdi = outboundEdi
         }
     }
@@ -2224,8 +2189,7 @@ public struct CreatePartnershipInput: Swift.Sendable {
         phone: Swift.String? = nil,
         profileId: Swift.String? = nil,
         tags: [B2biClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.capabilities = capabilities
         self.capabilityOptions = capabilityOptions
         self.clientToken = clientToken
@@ -2279,8 +2243,7 @@ public struct CreatePartnershipOutput: Swift.Sendable {
         phone: Swift.String? = nil,
         profileId: Swift.String? = nil,
         tradingPartnerId: Swift.String? = nil
-    )
-    {
+    ) {
         self.capabilities = capabilities
         self.capabilityOptions = capabilityOptions
         self.createdAt = createdAt
@@ -2306,8 +2269,7 @@ public struct DeletePartnershipInput: Swift.Sendable {
 
     public init(
         partnershipId: Swift.String? = nil
-    )
-    {
+    ) {
         self.partnershipId = partnershipId
     }
 }
@@ -2319,8 +2281,7 @@ public struct GetPartnershipInput: Swift.Sendable {
 
     public init(
         partnershipId: Swift.String? = nil
-    )
-    {
+    ) {
         self.partnershipId = partnershipId
     }
 }
@@ -2365,8 +2326,7 @@ public struct GetPartnershipOutput: Swift.Sendable {
         phone: Swift.String? = nil,
         profileId: Swift.String? = nil,
         tradingPartnerId: Swift.String? = nil
-    )
-    {
+    ) {
         self.capabilities = capabilities
         self.capabilityOptions = capabilityOptions
         self.createdAt = createdAt
@@ -2398,8 +2358,7 @@ public struct ListPartnershipsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         profileId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.profileId = profileId
@@ -2439,8 +2398,7 @@ extension B2biClientTypes {
             partnershipId: Swift.String? = nil,
             profileId: Swift.String? = nil,
             tradingPartnerId: Swift.String? = nil
-        )
-        {
+        ) {
             self.capabilities = capabilities
             self.capabilityOptions = capabilityOptions
             self.createdAt = createdAt
@@ -2463,8 +2421,7 @@ public struct ListPartnershipsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         partnerships: [B2biClientTypes.PartnershipSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.partnerships = partnerships
     }
@@ -2486,8 +2443,7 @@ public struct UpdatePartnershipInput: Swift.Sendable {
         capabilityOptions: B2biClientTypes.CapabilityOptions? = nil,
         name: Swift.String? = nil,
         partnershipId: Swift.String? = nil
-    )
-    {
+    ) {
         self.capabilities = capabilities
         self.capabilityOptions = capabilityOptions
         self.name = name
@@ -2535,8 +2491,7 @@ public struct UpdatePartnershipOutput: Swift.Sendable {
         phone: Swift.String? = nil,
         profileId: Swift.String? = nil,
         tradingPartnerId: Swift.String? = nil
-    )
-    {
+    ) {
         self.capabilities = capabilities
         self.capabilityOptions = capabilityOptions
         self.createdAt = createdAt
@@ -2613,8 +2568,7 @@ public struct CreateProfileInput: Swift.Sendable {
         name: Swift.String? = nil,
         phone: Swift.String? = nil,
         tags: [B2biClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.businessName = businessName
         self.clientToken = clientToken
         self.email = email
@@ -2666,8 +2620,7 @@ public struct CreateProfileOutput: Swift.Sendable {
         phone: Swift.String? = nil,
         profileArn: Swift.String? = nil,
         profileId: Swift.String? = nil
-    )
-    {
+    ) {
         self.businessName = businessName
         self.createdAt = createdAt
         self.email = email
@@ -2692,8 +2645,7 @@ public struct DeleteProfileInput: Swift.Sendable {
 
     public init(
         profileId: Swift.String? = nil
-    )
-    {
+    ) {
         self.profileId = profileId
     }
 }
@@ -2705,8 +2657,7 @@ public struct GetProfileInput: Swift.Sendable {
 
     public init(
         profileId: Swift.String? = nil
-    )
-    {
+    ) {
         self.profileId = profileId
     }
 }
@@ -2750,8 +2701,7 @@ public struct GetProfileOutput: Swift.Sendable {
         phone: Swift.String? = nil,
         profileArn: Swift.String? = nil,
         profileId: Swift.String? = nil
-    )
-    {
+    ) {
         self.businessName = businessName
         self.createdAt = createdAt
         self.email = email
@@ -2779,8 +2729,7 @@ public struct ListProfilesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -2817,8 +2766,7 @@ extension B2biClientTypes {
             modifiedAt: Foundation.Date? = nil,
             name: Swift.String? = nil,
             profileId: Swift.String? = nil
-        )
-        {
+        ) {
             self.businessName = businessName
             self.createdAt = createdAt
             self.logGroupName = logGroupName
@@ -2840,8 +2788,7 @@ public struct ListProfilesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         profiles: [B2biClientTypes.ProfileSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.profiles = profiles
     }
@@ -2866,8 +2813,7 @@ public struct UpdateProfileInput: Swift.Sendable {
         name: Swift.String? = nil,
         phone: Swift.String? = nil,
         profileId: Swift.String? = nil
-    )
-    {
+    ) {
         self.businessName = businessName
         self.email = email
         self.name = name
@@ -2920,8 +2866,7 @@ public struct UpdateProfileOutput: Swift.Sendable {
         phone: Swift.String? = nil,
         profileArn: Swift.String? = nil,
         profileId: Swift.String? = nil
-    )
-    {
+    ) {
         self.businessName = businessName
         self.createdAt = createdAt
         self.email = email
@@ -2958,8 +2903,7 @@ public struct StartTransformerJobInput: Swift.Sendable {
         inputFile: B2biClientTypes.S3Location? = nil,
         outputLocation: B2biClientTypes.S3Location? = nil,
         transformerId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.inputFile = inputFile
         self.outputLocation = outputLocation
@@ -2974,8 +2918,7 @@ public struct StartTransformerJobOutput: Swift.Sendable {
 
     public init(
         transformerJobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.transformerJobId = transformerJobId
     }
 }
@@ -2991,8 +2934,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tags: [B2biClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tags = tags
     }
@@ -3051,8 +2993,7 @@ extension B2biClientTypes {
         public init(
             fileFormat: B2biClientTypes.ConversionSourceFormat? = nil,
             inputFile: B2biClientTypes.InputFileSource? = nil
-        )
-        {
+        ) {
             self.fileFormat = fileFormat
             self.inputFile = inputFile
         }
@@ -3121,8 +3062,7 @@ extension B2biClientTypes {
             fileFormat: B2biClientTypes.ConversionTargetFormat? = nil,
             formatDetails: B2biClientTypes.ConversionTargetFormatDetails? = nil,
             outputSampleFile: B2biClientTypes.OutputSampleFileSource? = nil
-        )
-        {
+        ) {
             self.fileFormat = fileFormat
             self.formatDetails = formatDetails
             self.outputSampleFile = outputSampleFile
@@ -3141,8 +3081,7 @@ public struct TestConversionInput: Swift.Sendable {
     public init(
         source: B2biClientTypes.ConversionSource? = nil,
         target: B2biClientTypes.ConversionTarget? = nil
-    )
-    {
+    ) {
         self.source = source
         self.target = target
     }
@@ -3158,8 +3097,7 @@ public struct TestConversionOutput: Swift.Sendable {
     public init(
         convertedFileContent: Swift.String? = nil,
         validationMessages: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.convertedFileContent = convertedFileContent
         self.validationMessages = validationMessages
     }
@@ -3212,8 +3150,7 @@ public struct TestMappingInput: Swift.Sendable {
         fileFormat: B2biClientTypes.FileFormat? = nil,
         inputFileContent: Swift.String? = nil,
         mappingTemplate: Swift.String? = nil
-    )
-    {
+    ) {
         self.fileFormat = fileFormat
         self.inputFileContent = inputFileContent
         self.mappingTemplate = mappingTemplate
@@ -3227,8 +3164,7 @@ public struct TestMappingOutput: Swift.Sendable {
 
     public init(
         mappedFileContent: Swift.String? = nil
-    )
-    {
+    ) {
         self.mappedFileContent = mappedFileContent
     }
 }
@@ -3248,8 +3184,7 @@ public struct TestParsingInput: Swift.Sendable {
         ediType: B2biClientTypes.EdiType? = nil,
         fileFormat: B2biClientTypes.FileFormat? = nil,
         inputFile: B2biClientTypes.S3Location? = nil
-    )
-    {
+    ) {
         self.ediType = ediType
         self.fileFormat = fileFormat
         self.inputFile = inputFile
@@ -3263,8 +3198,7 @@ public struct TestParsingOutput: Swift.Sendable {
 
     public init(
         parsedFileContent: Swift.String? = nil
-    )
-    {
+    ) {
         self.parsedFileContent = parsedFileContent
     }
 }
@@ -3318,8 +3252,7 @@ extension B2biClientTypes {
         public init(
             formatOptions: B2biClientTypes.FormatOptions? = nil,
             fromFormat: B2biClientTypes.FromFormat? = nil
-        )
-        {
+        ) {
             self.formatOptions = formatOptions
             self.fromFormat = fromFormat
         }
@@ -3368,8 +3301,7 @@ extension B2biClientTypes {
         public init(
             template: Swift.String? = nil,
             templateLanguage: B2biClientTypes.MappingTemplateLanguage? = nil
-        )
-        {
+        ) {
             self.template = template
             self.templateLanguage = templateLanguage
         }
@@ -3415,8 +3347,7 @@ extension B2biClientTypes {
         public init(
             formatOptions: B2biClientTypes.FormatOptions? = nil,
             toFormat: B2biClientTypes.ToFormat? = nil
-        )
-        {
+        ) {
             self.formatOptions = formatOptions
             self.toFormat = toFormat
         }
@@ -3435,8 +3366,7 @@ extension B2biClientTypes {
         public init(
             input: Swift.String? = nil,
             output: Swift.String? = nil
-        )
-        {
+        ) {
             self.input = input
             self.output = output
         }
@@ -3457,8 +3387,7 @@ extension B2biClientTypes {
         public init(
             bucketName: Swift.String? = nil,
             keys: [B2biClientTypes.SampleDocumentKeys]? = nil
-        )
-        {
+        ) {
             self.bucketName = bucketName
             self.keys = keys
         }
@@ -3506,8 +3435,7 @@ public struct CreateTransformerInput: Swift.Sendable {
         sampleDocument: Swift.String? = nil,
         sampleDocuments: B2biClientTypes.SampleDocuments? = nil,
         tags: [B2biClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.ediType = ediType
         self.fileFormat = fileFormat
@@ -3602,8 +3530,7 @@ public struct CreateTransformerOutput: Swift.Sendable {
         status: B2biClientTypes.TransformerStatus? = nil,
         transformerArn: Swift.String? = nil,
         transformerId: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.ediType = ediType
         self.fileFormat = fileFormat
@@ -3627,8 +3554,7 @@ public struct DeleteTransformerInput: Swift.Sendable {
 
     public init(
         transformerId: Swift.String? = nil
-    )
-    {
+    ) {
         self.transformerId = transformerId
     }
 }
@@ -3640,8 +3566,7 @@ public struct GetTransformerInput: Swift.Sendable {
 
     public init(
         transformerId: Swift.String? = nil
-    )
-    {
+    ) {
         self.transformerId = transformerId
     }
 }
@@ -3700,8 +3625,7 @@ public struct GetTransformerOutput: Swift.Sendable {
         status: B2biClientTypes.TransformerStatus? = nil,
         transformerArn: Swift.String? = nil,
         transformerId: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.ediType = ediType
         self.fileFormat = fileFormat
@@ -3728,8 +3652,7 @@ public struct ListTransformersInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -3788,8 +3711,7 @@ extension B2biClientTypes {
             sampleDocuments: B2biClientTypes.SampleDocuments? = nil,
             status: B2biClientTypes.TransformerStatus? = nil,
             transformerId: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.ediType = ediType
             self.fileFormat = fileFormat
@@ -3817,8 +3739,7 @@ public struct ListTransformersOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         transformers: [B2biClientTypes.TransformerSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.transformers = transformers
     }
@@ -3865,8 +3786,7 @@ public struct UpdateTransformerInput: Swift.Sendable {
         sampleDocuments: B2biClientTypes.SampleDocuments? = nil,
         status: B2biClientTypes.TransformerStatus? = nil,
         transformerId: Swift.String? = nil
-    )
-    {
+    ) {
         self.ediType = ediType
         self.fileFormat = fileFormat
         self.inputConversion = inputConversion
@@ -3936,8 +3856,7 @@ public struct UpdateTransformerOutput: Swift.Sendable {
         status: B2biClientTypes.TransformerStatus? = nil,
         transformerArn: Swift.String? = nil,
         transformerId: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.ediType = ediType
         self.fileFormat = fileFormat
@@ -3966,8 +3885,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tagKeys = tagKeys
     }

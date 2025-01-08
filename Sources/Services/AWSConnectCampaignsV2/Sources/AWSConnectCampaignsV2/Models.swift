@@ -160,8 +160,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     public init(
         message: Swift.String? = nil,
         xAmzErrorType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.xAmzErrorType = xAmzErrorType
     }
@@ -198,8 +197,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public init(
         message: Swift.String? = nil,
         xAmzErrorType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.xAmzErrorType = xAmzErrorType
     }
@@ -227,8 +225,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public init(
         message: Swift.String? = nil,
         xAmzErrorType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.xAmzErrorType = xAmzErrorType
     }
@@ -256,8 +253,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public init(
         message: Swift.String? = nil,
         xAmzErrorType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.xAmzErrorType = xAmzErrorType
     }
@@ -285,8 +281,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     public init(
         message: Swift.String? = nil,
         xAmzErrorType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.xAmzErrorType = xAmzErrorType
     }
@@ -314,8 +309,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         message: Swift.String? = nil,
         xAmzErrorType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.xAmzErrorType = xAmzErrorType
     }
@@ -343,8 +337,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         message: Swift.String? = nil,
         xAmzErrorType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.xAmzErrorType = xAmzErrorType
     }
@@ -367,8 +360,7 @@ extension ConnectCampaignsV2ClientTypes {
             connectSourceEmailAddress: Swift.String? = nil,
             sourceEmailAddressDisplayName: Swift.String? = nil,
             wisdomTemplateArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.connectSourceEmailAddress = connectSourceEmailAddress
             self.sourceEmailAddressDisplayName = sourceEmailAddressDisplayName
             self.wisdomTemplateArn = wisdomTemplateArn
@@ -408,8 +400,7 @@ extension ConnectCampaignsV2ClientTypes {
             capacity: Swift.Double? = nil,
             defaultOutboundConfig: ConnectCampaignsV2ClientTypes.EmailOutboundConfig? = nil,
             outboundMode: ConnectCampaignsV2ClientTypes.EmailOutboundMode? = nil
-        )
-        {
+        ) {
             self.capacity = capacity
             self.defaultOutboundConfig = defaultOutboundConfig
             self.outboundMode = outboundMode
@@ -431,8 +422,7 @@ extension ConnectCampaignsV2ClientTypes {
         public init(
             connectSourcePhoneNumberArn: Swift.String? = nil,
             wisdomTemplateArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.connectSourcePhoneNumberArn = connectSourcePhoneNumberArn
             self.wisdomTemplateArn = wisdomTemplateArn
         }
@@ -466,8 +456,7 @@ extension ConnectCampaignsV2ClientTypes {
             capacity: Swift.Double? = nil,
             defaultOutboundConfig: ConnectCampaignsV2ClientTypes.SmsOutboundConfig? = nil,
             outboundMode: ConnectCampaignsV2ClientTypes.SmsOutboundMode? = nil
-        )
-        {
+        ) {
             self.capacity = capacity
             self.defaultOutboundConfig = defaultOutboundConfig
             self.outboundMode = outboundMode
@@ -488,8 +477,7 @@ extension ConnectCampaignsV2ClientTypes {
         public init(
             awaitAnswerMachinePrompt: Swift.Bool? = nil,
             enableAnswerMachineDetection: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.awaitAnswerMachinePrompt = awaitAnswerMachinePrompt
             self.enableAnswerMachineDetection = enableAnswerMachineDetection
         }
@@ -512,8 +500,7 @@ extension ConnectCampaignsV2ClientTypes {
             answerMachineDetectionConfig: ConnectCampaignsV2ClientTypes.AnswerMachineDetectionConfig? = nil,
             connectContactFlowId: Swift.String? = nil,
             connectSourcePhoneNumber: Swift.String? = nil
-        )
-        {
+        ) {
             self.answerMachineDetectionConfig = answerMachineDetectionConfig
             self.connectContactFlowId = connectContactFlowId
             self.connectSourcePhoneNumber = connectSourcePhoneNumber
@@ -531,8 +518,7 @@ extension ConnectCampaignsV2ClientTypes {
 
         public init(
             bandwidthAllocation: Swift.Double? = nil
-        )
-        {
+        ) {
             self.bandwidthAllocation = bandwidthAllocation
         }
     }
@@ -548,8 +534,7 @@ extension ConnectCampaignsV2ClientTypes {
 
         public init(
             bandwidthAllocation: Swift.Double? = nil
-        )
-        {
+        ) {
             self.bandwidthAllocation = bandwidthAllocation
         }
     }
@@ -589,8 +574,7 @@ extension ConnectCampaignsV2ClientTypes {
             connectQueueId: Swift.String? = nil,
             defaultOutboundConfig: ConnectCampaignsV2ClientTypes.TelephonyOutboundConfig? = nil,
             outboundMode: ConnectCampaignsV2ClientTypes.TelephonyOutboundMode? = nil
-        )
-        {
+        ) {
             self.capacity = capacity
             self.connectQueueId = connectQueueId
             self.defaultOutboundConfig = defaultOutboundConfig
@@ -614,8 +598,7 @@ extension ConnectCampaignsV2ClientTypes {
             email: ConnectCampaignsV2ClientTypes.EmailChannelSubtypeConfig? = nil,
             sms: ConnectCampaignsV2ClientTypes.SmsChannelSubtypeConfig? = nil,
             telephony: ConnectCampaignsV2ClientTypes.TelephonyChannelSubtypeConfig? = nil
-        )
-        {
+        ) {
             self.email = email
             self.sms = sms
             self.telephony = telephony
@@ -668,8 +651,7 @@ extension ConnectCampaignsV2ClientTypes {
             frequency: Swift.Int? = nil,
             maxCountPerRecipient: Swift.Int? = nil,
             unit: ConnectCampaignsV2ClientTypes.CommunicationLimitTimeUnit? = nil
-        )
-        {
+        ) {
             self.frequency = frequency
             self.maxCountPerRecipient = maxCountPerRecipient
             self.unit = unit
@@ -696,8 +678,7 @@ extension ConnectCampaignsV2ClientTypes {
 
         public init(
             allChannelSubtypes: ConnectCampaignsV2ClientTypes.CommunicationLimits? = nil
-        )
-        {
+        ) {
             self.allChannelSubtypes = allChannelSubtypes
         }
     }
@@ -762,8 +743,7 @@ extension ConnectCampaignsV2ClientTypes {
         public init(
             endTime: Swift.String? = nil,
             startTime: Swift.String? = nil
-        )
-        {
+        ) {
             self.endTime = endTime
             self.startTime = startTime
         }
@@ -797,8 +777,7 @@ extension ConnectCampaignsV2ClientTypes {
             endDate: Swift.String? = nil,
             name: Swift.String? = nil,
             startDate: Swift.String? = nil
-        )
-        {
+        ) {
             self.endDate = endDate
             self.name = name
             self.startDate = startDate
@@ -829,8 +808,7 @@ extension ConnectCampaignsV2ClientTypes {
         public init(
             openHours: ConnectCampaignsV2ClientTypes.OpenHours? = nil,
             restrictedPeriods: ConnectCampaignsV2ClientTypes.RestrictedPeriods? = nil
-        )
-        {
+        ) {
             self.openHours = openHours
             self.restrictedPeriods = restrictedPeriods
         }
@@ -879,8 +857,7 @@ extension ConnectCampaignsV2ClientTypes {
         public init(
             defaultTimeZone: Swift.String? = nil,
             localTimeZoneDetection: [ConnectCampaignsV2ClientTypes.LocalTimeZoneDetectionType]? = nil
-        )
-        {
+        ) {
             self.defaultTimeZone = defaultTimeZone
             self.localTimeZoneDetection = localTimeZoneDetection
         }
@@ -906,8 +883,7 @@ extension ConnectCampaignsV2ClientTypes {
             localTimeZoneConfig: ConnectCampaignsV2ClientTypes.LocalTimeZoneConfig? = nil,
             sms: ConnectCampaignsV2ClientTypes.TimeWindow? = nil,
             telephony: ConnectCampaignsV2ClientTypes.TimeWindow? = nil
-        )
-        {
+        ) {
             self.email = email
             self.localTimeZoneConfig = localTimeZoneConfig
             self.sms = sms
@@ -933,8 +909,7 @@ extension ConnectCampaignsV2ClientTypes {
             endTime: Foundation.Date? = nil,
             refreshFrequency: Swift.String? = nil,
             startTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.endTime = endTime
             self.refreshFrequency = refreshFrequency
             self.startTime = startTime
@@ -951,8 +926,7 @@ extension ConnectCampaignsV2ClientTypes {
 
         public init(
             customerProfilesDomainArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.customerProfilesDomainArn = customerProfilesDomainArn
         }
     }
@@ -1004,8 +978,7 @@ public struct CreateCampaignInput: Swift.Sendable {
         schedule: ConnectCampaignsV2ClientTypes.Schedule? = nil,
         source: ConnectCampaignsV2ClientTypes.Source? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.channelSubtypeConfig = channelSubtypeConfig
         self.communicationLimitsOverride = communicationLimitsOverride
         self.communicationTimeConfig = communicationTimeConfig
@@ -1031,8 +1004,7 @@ public struct CreateCampaignOutput: Swift.Sendable {
         arn: Swift.String? = nil,
         id: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.id = id
         self.tags = tags
@@ -1047,8 +1019,7 @@ public struct DeleteCampaignInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -1098,8 +1069,7 @@ public struct DeleteCampaignChannelSubtypeConfigInput: Swift.Sendable {
     public init(
         channelSubtype: ConnectCampaignsV2ClientTypes.ChannelSubtype? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelSubtype = channelSubtype
         self.id = id
     }
@@ -1179,8 +1149,7 @@ public struct InvalidCampaignStateException: ClientRuntime.ModeledError, AWSClie
         message: Swift.String? = nil,
         state: ConnectCampaignsV2ClientTypes.CampaignState? = nil,
         xAmzErrorType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.state = state
         self.properties.xAmzErrorType = xAmzErrorType
@@ -1226,8 +1195,7 @@ public struct DeleteCampaignCommunicationLimitsInput: Swift.Sendable {
     public init(
         config: ConnectCampaignsV2ClientTypes.CommunicationLimitsConfigType? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.config = config
         self.id = id
     }
@@ -1278,8 +1246,7 @@ public struct DeleteCampaignCommunicationTimeInput: Swift.Sendable {
     public init(
         config: ConnectCampaignsV2ClientTypes.CommunicationTimeConfigType? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.config = config
         self.id = id
     }
@@ -1307,8 +1274,7 @@ public struct InvalidStateException: ClientRuntime.ModeledError, AWSClientRuntim
     public init(
         message: Swift.String? = nil,
         xAmzErrorType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.xAmzErrorType = xAmzErrorType
     }
@@ -1355,8 +1321,7 @@ public struct DeleteConnectInstanceConfigInput: Swift.Sendable {
     public init(
         campaignDeletionPolicy: ConnectCampaignsV2ClientTypes.CampaignDeletionPolicy? = nil,
         connectInstanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.campaignDeletionPolicy = campaignDeletionPolicy
         self.connectInstanceId = connectInstanceId
     }
@@ -1372,8 +1337,7 @@ extension ConnectCampaignsV2ClientTypes {
 
         public init(
             domainArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.domainArn = domainArn
         }
     }
@@ -1389,8 +1353,7 @@ extension ConnectCampaignsV2ClientTypes {
 
         public init(
             knowledgeBaseArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.knowledgeBaseArn = knowledgeBaseArn
         }
     }
@@ -1420,8 +1383,7 @@ public struct DeleteConnectInstanceIntegrationInput: Swift.Sendable {
     public init(
         connectInstanceId: Swift.String? = nil,
         integrationIdentifier: ConnectCampaignsV2ClientTypes.IntegrationIdentifier? = nil
-    )
-    {
+    ) {
         self.connectInstanceId = connectInstanceId
         self.integrationIdentifier = integrationIdentifier
     }
@@ -1435,8 +1397,7 @@ public struct DeleteInstanceOnboardingJobInput: Swift.Sendable {
 
     public init(
         connectInstanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectInstanceId = connectInstanceId
     }
 }
@@ -1449,8 +1410,7 @@ public struct DescribeCampaignInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -1499,8 +1459,7 @@ extension ConnectCampaignsV2ClientTypes {
             schedule: ConnectCampaignsV2ClientTypes.Schedule? = nil,
             source: ConnectCampaignsV2ClientTypes.Source? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.channelSubtypeConfig = channelSubtypeConfig
             self.communicationLimitsOverride = communicationLimitsOverride
@@ -1523,8 +1482,7 @@ public struct DescribeCampaignOutput: Swift.Sendable {
 
     public init(
         campaign: ConnectCampaignsV2ClientTypes.Campaign? = nil
-    )
-    {
+    ) {
         self.campaign = campaign
     }
 }
@@ -1537,8 +1495,7 @@ public struct GetCampaignStateInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -1550,8 +1507,7 @@ public struct GetCampaignStateOutput: Swift.Sendable {
 
     public init(
         state: ConnectCampaignsV2ClientTypes.CampaignState? = nil
-    )
-    {
+    ) {
         self.state = state
     }
 }
@@ -1564,8 +1520,7 @@ public struct GetCampaignStateBatchInput: Swift.Sendable {
 
     public init(
         campaignIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.campaignIds = campaignIds
     }
 }
@@ -1614,8 +1569,7 @@ extension ConnectCampaignsV2ClientTypes {
         public init(
             campaignId: Swift.String? = nil,
             failureCode: ConnectCampaignsV2ClientTypes.GetCampaignStateBatchFailureCode? = nil
-        )
-        {
+        ) {
             self.campaignId = campaignId
             self.failureCode = failureCode
         }
@@ -1634,8 +1588,7 @@ extension ConnectCampaignsV2ClientTypes {
         public init(
             campaignId: Swift.String? = nil,
             state: ConnectCampaignsV2ClientTypes.CampaignState? = nil
-        )
-        {
+        ) {
             self.campaignId = campaignId
             self.state = state
         }
@@ -1652,8 +1605,7 @@ public struct GetCampaignStateBatchOutput: Swift.Sendable {
     public init(
         failedRequests: [ConnectCampaignsV2ClientTypes.FailedCampaignStateResponse]? = nil,
         successfulRequests: [ConnectCampaignsV2ClientTypes.SuccessfulCampaignStateResponse]? = nil
-    )
-    {
+    ) {
         self.failedRequests = failedRequests
         self.successfulRequests = successfulRequests
     }
@@ -1667,8 +1619,7 @@ public struct GetConnectInstanceConfigInput: Swift.Sendable {
 
     public init(
         connectInstanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectInstanceId = connectInstanceId
     }
 }
@@ -1716,8 +1667,7 @@ extension ConnectCampaignsV2ClientTypes {
             enabled: Swift.Bool = false,
             encryptionType: ConnectCampaignsV2ClientTypes.EncryptionType? = nil,
             keyArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
             self.encryptionType = encryptionType
             self.keyArn = keyArn
@@ -1743,8 +1693,7 @@ extension ConnectCampaignsV2ClientTypes {
             connectInstanceId: Swift.String? = nil,
             encryptionConfig: ConnectCampaignsV2ClientTypes.EncryptionConfig? = nil,
             serviceLinkedRoleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.connectInstanceId = connectInstanceId
             self.encryptionConfig = encryptionConfig
             self.serviceLinkedRoleArn = serviceLinkedRoleArn
@@ -1759,8 +1708,7 @@ public struct GetConnectInstanceConfigOutput: Swift.Sendable {
 
     public init(
         connectInstanceConfig: ConnectCampaignsV2ClientTypes.InstanceConfig? = nil
-    )
-    {
+    ) {
         self.connectInstanceConfig = connectInstanceConfig
     }
 }
@@ -1773,8 +1721,7 @@ public struct GetInstanceOnboardingJobStatusInput: Swift.Sendable {
 
     public init(
         connectInstanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectInstanceId = connectInstanceId
     }
 }
@@ -1871,8 +1818,7 @@ extension ConnectCampaignsV2ClientTypes {
             connectInstanceId: Swift.String? = nil,
             failureCode: ConnectCampaignsV2ClientTypes.InstanceOnboardingJobFailureCode? = nil,
             status: ConnectCampaignsV2ClientTypes.InstanceOnboardingJobStatusCode? = nil
-        )
-        {
+        ) {
             self.connectInstanceId = connectInstanceId
             self.failureCode = failureCode
             self.status = status
@@ -1887,8 +1833,7 @@ public struct GetInstanceOnboardingJobStatusOutput: Swift.Sendable {
 
     public init(
         connectInstanceOnboardingJobStatus: ConnectCampaignsV2ClientTypes.InstanceOnboardingJobStatus? = nil
-    )
-    {
+    ) {
         self.connectInstanceOnboardingJobStatus = connectInstanceOnboardingJobStatus
     }
 }
@@ -1935,8 +1880,7 @@ extension ConnectCampaignsV2ClientTypes {
         public init(
             `operator`: ConnectCampaignsV2ClientTypes.InstanceIdFilterOperator? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.`operator` = `operator`
             self.value = value
         }
@@ -1952,8 +1896,7 @@ extension ConnectCampaignsV2ClientTypes {
 
         public init(
             instanceIdFilter: ConnectCampaignsV2ClientTypes.InstanceIdFilter? = nil
-        )
-        {
+        ) {
             self.instanceIdFilter = instanceIdFilter
         }
     }
@@ -1972,8 +1915,7 @@ public struct ListCampaignsInput: Swift.Sendable {
         filters: ConnectCampaignsV2ClientTypes.CampaignFilters? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2012,8 +1954,7 @@ extension ConnectCampaignsV2ClientTypes {
             id: Swift.String? = nil,
             name: Swift.String? = nil,
             schedule: ConnectCampaignsV2ClientTypes.Schedule? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.channelSubtypes = channelSubtypes
             self.connectCampaignFlowArn = connectCampaignFlowArn
@@ -2035,8 +1976,7 @@ public struct ListCampaignsOutput: Swift.Sendable {
     public init(
         campaignSummaryList: [ConnectCampaignsV2ClientTypes.CampaignSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.campaignSummaryList = campaignSummaryList
         self.nextToken = nextToken
     }
@@ -2056,8 +1996,7 @@ public struct ListConnectInstanceIntegrationsInput: Swift.Sendable {
         connectInstanceId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectInstanceId = connectInstanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2114,8 +2053,7 @@ extension ConnectCampaignsV2ClientTypes {
         public init(
             domainArn: Swift.String? = nil,
             objectTypeNames: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.domainArn = domainArn
             self.objectTypeNames = objectTypeNames
         }
@@ -2132,8 +2070,7 @@ extension ConnectCampaignsV2ClientTypes {
 
         public init(
             knowledgeBaseArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.knowledgeBaseArn = knowledgeBaseArn
         }
     }
@@ -2161,8 +2098,7 @@ public struct ListConnectInstanceIntegrationsOutput: Swift.Sendable {
     public init(
         integrationSummaryList: [ConnectCampaignsV2ClientTypes.IntegrationSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.integrationSummaryList = integrationSummaryList
         self.nextToken = nextToken
     }
@@ -2176,8 +2112,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -2189,8 +2124,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -2203,8 +2137,7 @@ public struct PauseCampaignInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -2223,8 +2156,7 @@ extension ConnectCampaignsV2ClientTypes {
         public init(
             domainArn: Swift.String? = nil,
             objectTypeNames: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.domainArn = domainArn
             self.objectTypeNames = objectTypeNames
         }
@@ -2241,8 +2173,7 @@ extension ConnectCampaignsV2ClientTypes {
 
         public init(
             knowledgeBaseArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.knowledgeBaseArn = knowledgeBaseArn
         }
     }
@@ -2272,8 +2203,7 @@ public struct PutConnectInstanceIntegrationInput: Swift.Sendable {
     public init(
         connectInstanceId: Swift.String? = nil,
         integrationConfig: ConnectCampaignsV2ClientTypes.IntegrationConfig? = nil
-    )
-    {
+    ) {
         self.connectInstanceId = connectInstanceId
         self.integrationConfig = integrationConfig
     }
@@ -2299,8 +2229,7 @@ extension ConnectCampaignsV2ClientTypes {
             destinationEmailAddress: Swift.String? = nil,
             templateArn: Swift.String? = nil,
             templateParameters: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.connectSourceEmailAddress = connectSourceEmailAddress
             self.destinationEmailAddress = destinationEmailAddress
             self.templateArn = templateArn
@@ -2334,8 +2263,7 @@ extension ConnectCampaignsV2ClientTypes {
             destinationPhoneNumber: Swift.String? = nil,
             templateArn: Swift.String? = nil,
             templateParameters: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.connectSourcePhoneNumberArn = connectSourcePhoneNumberArn
             self.destinationPhoneNumber = destinationPhoneNumber
             self.templateArn = templateArn
@@ -2369,8 +2297,7 @@ extension ConnectCampaignsV2ClientTypes {
             attributes: [Swift.String: Swift.String]? = nil,
             connectSourcePhoneNumber: Swift.String? = nil,
             destinationPhoneNumber: Swift.String? = nil
-        )
-        {
+        ) {
             self.answerMachineDetectionConfig = answerMachineDetectionConfig
             self.attributes = attributes
             self.connectSourcePhoneNumber = connectSourcePhoneNumber
@@ -2416,8 +2343,7 @@ extension ConnectCampaignsV2ClientTypes {
             channelSubtypeParameters: ConnectCampaignsV2ClientTypes.ChannelSubtypeParameters? = nil,
             clientToken: Swift.String? = nil,
             expirationTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.channelSubtypeParameters = channelSubtypeParameters
             self.clientToken = clientToken
             self.expirationTime = expirationTime
@@ -2437,8 +2363,7 @@ public struct PutOutboundRequestBatchInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         outboundRequests: [ConnectCampaignsV2ClientTypes.OutboundRequest]? = nil
-    )
-    {
+    ) {
         self.id = id
         self.outboundRequests = outboundRequests
     }
@@ -2499,8 +2424,7 @@ extension ConnectCampaignsV2ClientTypes {
             clientToken: Swift.String? = nil,
             failureCode: ConnectCampaignsV2ClientTypes.FailureCode? = nil,
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.clientToken = clientToken
             self.failureCode = failureCode
             self.id = id
@@ -2520,8 +2444,7 @@ extension ConnectCampaignsV2ClientTypes {
         public init(
             clientToken: Swift.String? = nil,
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.clientToken = clientToken
             self.id = id
         }
@@ -2538,8 +2461,7 @@ public struct PutOutboundRequestBatchOutput: Swift.Sendable {
     public init(
         failedRequests: [ConnectCampaignsV2ClientTypes.FailedRequest]? = nil,
         successfulRequests: [ConnectCampaignsV2ClientTypes.SuccessfulRequest]? = nil
-    )
-    {
+    ) {
         self.failedRequests = failedRequests
         self.successfulRequests = successfulRequests
     }
@@ -2562,8 +2484,7 @@ extension ConnectCampaignsV2ClientTypes {
             clientToken: Swift.String? = nil,
             expirationTime: Foundation.Date? = nil,
             profileId: Swift.String? = nil
-        )
-        {
+        ) {
             self.clientToken = clientToken
             self.expirationTime = expirationTime
             self.profileId = profileId
@@ -2583,8 +2504,7 @@ public struct PutProfileOutboundRequestBatchInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         profileOutboundRequests: [ConnectCampaignsV2ClientTypes.ProfileOutboundRequest]? = nil
-    )
-    {
+    ) {
         self.id = id
         self.profileOutboundRequests = profileOutboundRequests
     }
@@ -2649,8 +2569,7 @@ extension ConnectCampaignsV2ClientTypes {
             clientToken: Swift.String? = nil,
             failureCode: ConnectCampaignsV2ClientTypes.ProfileOutboundRequestFailureCode? = nil,
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.clientToken = clientToken
             self.failureCode = failureCode
             self.id = id
@@ -2670,8 +2589,7 @@ extension ConnectCampaignsV2ClientTypes {
         public init(
             clientToken: Swift.String? = nil,
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.clientToken = clientToken
             self.id = id
         }
@@ -2688,8 +2606,7 @@ public struct PutProfileOutboundRequestBatchOutput: Swift.Sendable {
     public init(
         failedRequests: [ConnectCampaignsV2ClientTypes.FailedProfileOutboundRequest]? = nil,
         successfulRequests: [ConnectCampaignsV2ClientTypes.SuccessfulProfileOutboundRequest]? = nil
-    )
-    {
+    ) {
         self.failedRequests = failedRequests
         self.successfulRequests = successfulRequests
     }
@@ -2703,8 +2620,7 @@ public struct ResumeCampaignInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -2717,8 +2633,7 @@ public struct StartCampaignInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -2735,8 +2650,7 @@ public struct StartInstanceOnboardingJobInput: Swift.Sendable {
     public init(
         connectInstanceId: Swift.String? = nil,
         encryptionConfig: ConnectCampaignsV2ClientTypes.EncryptionConfig? = nil
-    )
-    {
+    ) {
         self.connectInstanceId = connectInstanceId
         self.encryptionConfig = encryptionConfig
     }
@@ -2749,8 +2663,7 @@ public struct StartInstanceOnboardingJobOutput: Swift.Sendable {
 
     public init(
         connectInstanceOnboardingJobStatus: ConnectCampaignsV2ClientTypes.InstanceOnboardingJobStatus? = nil
-    )
-    {
+    ) {
         self.connectInstanceOnboardingJobStatus = connectInstanceOnboardingJobStatus
     }
 }
@@ -2763,8 +2676,7 @@ public struct StopCampaignInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -2781,8 +2693,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.tags = tags
     }
@@ -2800,8 +2711,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.tagKeys = tagKeys
     }
@@ -2819,8 +2729,7 @@ public struct UpdateCampaignChannelSubtypeConfigInput: Swift.Sendable {
     public init(
         channelSubtypeConfig: ConnectCampaignsV2ClientTypes.ChannelSubtypeConfig? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelSubtypeConfig = channelSubtypeConfig
         self.id = id
     }
@@ -2838,8 +2747,7 @@ public struct UpdateCampaignCommunicationLimitsInput: Swift.Sendable {
     public init(
         communicationLimitsOverride: ConnectCampaignsV2ClientTypes.CommunicationLimitsConfig? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.communicationLimitsOverride = communicationLimitsOverride
         self.id = id
     }
@@ -2857,8 +2765,7 @@ public struct UpdateCampaignCommunicationTimeInput: Swift.Sendable {
     public init(
         communicationTimeConfig: ConnectCampaignsV2ClientTypes.CommunicationTimeConfig? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.communicationTimeConfig = communicationTimeConfig
         self.id = id
     }
@@ -2876,8 +2783,7 @@ public struct UpdateCampaignFlowAssociationInput: Swift.Sendable {
     public init(
         connectCampaignFlowArn: Swift.String? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectCampaignFlowArn = connectCampaignFlowArn
         self.id = id
     }
@@ -2895,8 +2801,7 @@ public struct UpdateCampaignNameInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.name = name
     }
@@ -2914,8 +2819,7 @@ public struct UpdateCampaignScheduleInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         schedule: ConnectCampaignsV2ClientTypes.Schedule? = nil
-    )
-    {
+    ) {
         self.id = id
         self.schedule = schedule
     }
@@ -2933,8 +2837,7 @@ public struct UpdateCampaignSourceInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         source: ConnectCampaignsV2ClientTypes.Source? = nil
-    )
-    {
+    ) {
         self.id = id
         self.source = source
     }

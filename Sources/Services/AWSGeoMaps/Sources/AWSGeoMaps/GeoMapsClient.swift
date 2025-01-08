@@ -59,7 +59,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class GeoMapsClient: ClientRuntime.Client {
     public static let clientName = "GeoMapsClient"
-    public static let version = "1.0.69"
+    public static let version = "1.0.74"
     let client: ClientRuntime.SdkHttpClient
     let config: GeoMapsClient.GeoMapsClientConfiguration
     let serviceName = "Geo Maps"
@@ -325,7 +325,7 @@ extension GeoMapsClient {
 }
 
 extension GeoMapsClient {
-    /// Performs the `GetGlyphs` operation on the `MapsService` service.
+    /// Performs the `GetGlyphs` operation on the `GeoMaps` service.
     ///
     /// Returns the map's glyphs.
     ///
@@ -386,7 +386,7 @@ extension GeoMapsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetSprites` operation on the `MapsService` service.
+    /// Performs the `GetSprites` operation on the `GeoMaps` service.
     ///
     /// Returns the map's sprites.
     ///
@@ -447,7 +447,7 @@ extension GeoMapsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetStaticMap` operation on the `MapsService` service.
+    /// Performs the `GetStaticMap` operation on the `GeoMaps` service.
     ///
     /// Provides high-quality static map images with customizable options. You can modify the map's appearance and overlay additional information. It's an ideal solution for applications requiring tailored static map snapshots.
     ///
@@ -517,7 +517,7 @@ extension GeoMapsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetStyleDescriptor` operation on the `MapsService` service.
+    /// Performs the `GetStyleDescriptor` operation on the `GeoMaps` service.
     ///
     /// Returns information about the style.
     ///
@@ -579,7 +579,7 @@ extension GeoMapsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetTile` operation on the `MapsService` service.
+    /// Performs the `GetTile` operation on the `GeoMaps` service.
     ///
     /// Returns a tile. Map tiles are used by clients to render a map. they're addressed using a grid arrangement with an X coordinate, Y coordinate, and Z (zoom) level.
     ///

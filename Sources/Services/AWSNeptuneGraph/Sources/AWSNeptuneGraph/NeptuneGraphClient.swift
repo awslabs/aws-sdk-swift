@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class NeptuneGraphClient: ClientRuntime.Client {
     public static let clientName = "NeptuneGraphClient"
-    public static let version = "1.0.69"
+    public static let version = "1.0.74"
     let client: ClientRuntime.SdkHttpClient
     let config: NeptuneGraphClient.NeptuneGraphClientConfiguration
     let serviceName = "Neptune Graph"
@@ -333,7 +333,7 @@ extension NeptuneGraphClient {
 }
 
 extension NeptuneGraphClient {
-    /// Performs the `CancelExportTask` operation on the `AmazonNeptuneGraph` service.
+    /// Performs the `CancelExportTask` operation on the `NeptuneGraph` service.
     ///
     /// Cancel the specified export task.
     ///
@@ -403,7 +403,7 @@ extension NeptuneGraphClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CancelImportTask` operation on the `AmazonNeptuneGraph` service.
+    /// Performs the `CancelImportTask` operation on the `NeptuneGraph` service.
     ///
     /// Deletes the specified import task.
     ///
@@ -473,7 +473,7 @@ extension NeptuneGraphClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CancelQuery` operation on the `AmazonNeptuneGraph` service.
+    /// Performs the `CancelQuery` operation on the `NeptuneGraph` service.
     ///
     /// Cancels a specified query.
     ///
@@ -544,7 +544,7 @@ extension NeptuneGraphClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateGraph` operation on the `AmazonNeptuneGraph` service.
+    /// Performs the `CreateGraph` operation on the `NeptuneGraph` service.
     ///
     /// Creates a new Neptune Analytics graph.
     ///
@@ -617,7 +617,7 @@ extension NeptuneGraphClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateGraphSnapshot` operation on the `AmazonNeptuneGraph` service.
+    /// Performs the `CreateGraphSnapshot` operation on the `NeptuneGraph` service.
     ///
     /// Creates a snapshot of the specific graph.
     ///
@@ -691,7 +691,7 @@ extension NeptuneGraphClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateGraphUsingImportTask` operation on the `AmazonNeptuneGraph` service.
+    /// Performs the `CreateGraphUsingImportTask` operation on the `NeptuneGraph` service.
     ///
     /// Creates a new Neptune Analytics graph and imports data into it, either from Amazon Simple Storage Service (S3) or from a Neptune database or a Neptune database snapshot. The data can be loaded from files in S3 that in either the [Gremlin CSV format](https://docs.aws.amazon.com/neptune/latest/userguide/bulk-load-tutorial-format-gremlin.html) or the [openCypher load format](https://docs.aws.amazon.com/neptune/latest/userguide/bulk-load-tutorial-format-opencypher.html).
     ///
@@ -764,7 +764,7 @@ extension NeptuneGraphClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreatePrivateGraphEndpoint` operation on the `AmazonNeptuneGraph` service.
+    /// Performs the `CreatePrivateGraphEndpoint` operation on the `NeptuneGraph` service.
     ///
     /// Create a private graph endpoint to allow private access from to the graph from within a VPC. You can attach security groups to the private graph endpoint. VPC endpoint charges apply.
     ///
@@ -838,7 +838,7 @@ extension NeptuneGraphClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteGraph` operation on the `AmazonNeptuneGraph` service.
+    /// Performs the `DeleteGraph` operation on the `NeptuneGraph` service.
     ///
     /// Deletes the specified graph. Graphs cannot be deleted if delete-protection is enabled.
     ///
@@ -909,7 +909,7 @@ extension NeptuneGraphClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteGraphSnapshot` operation on the `AmazonNeptuneGraph` service.
+    /// Performs the `DeleteGraphSnapshot` operation on the `NeptuneGraph` service.
     ///
     /// Deletes the specifed graph snapshot.
     ///
@@ -979,7 +979,7 @@ extension NeptuneGraphClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeletePrivateGraphEndpoint` operation on the `AmazonNeptuneGraph` service.
+    /// Performs the `DeletePrivateGraphEndpoint` operation on the `NeptuneGraph` service.
     ///
     /// Deletes a private graph endpoint.
     ///
@@ -1049,7 +1049,7 @@ extension NeptuneGraphClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ExecuteQuery` operation on the `AmazonNeptuneGraph` service.
+    /// Performs the `ExecuteQuery` operation on the `NeptuneGraph` service.
     ///
     /// Execute an openCypher query. When invoking this operation in a Neptune Analytics cluster, the IAM user or role making the request must have a policy attached that allows one of the following IAM actions in that cluster, depending on the query:
     ///
@@ -1130,7 +1130,7 @@ extension NeptuneGraphClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetExportTask` operation on the `AmazonNeptuneGraph` service.
+    /// Performs the `GetExportTask` operation on the `NeptuneGraph` service.
     ///
     /// Retrieves a specified export task.
     ///
@@ -1199,7 +1199,7 @@ extension NeptuneGraphClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetGraph` operation on the `AmazonNeptuneGraph` service.
+    /// Performs the `GetGraph` operation on the `NeptuneGraph` service.
     ///
     /// Gets information about a specified graph.
     ///
@@ -1268,7 +1268,7 @@ extension NeptuneGraphClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetGraphSnapshot` operation on the `AmazonNeptuneGraph` service.
+    /// Performs the `GetGraphSnapshot` operation on the `NeptuneGraph` service.
     ///
     /// Retrieves a specified graph snapshot.
     ///
@@ -1337,7 +1337,7 @@ extension NeptuneGraphClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetGraphSummary` operation on the `AmazonNeptuneGraph` service.
+    /// Performs the `GetGraphSummary` operation on the `NeptuneGraph` service.
     ///
     /// Gets a graph summary for a property graph.
     ///
@@ -1409,7 +1409,7 @@ extension NeptuneGraphClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetImportTask` operation on the `AmazonNeptuneGraph` service.
+    /// Performs the `GetImportTask` operation on the `NeptuneGraph` service.
     ///
     /// Retrieves a specified import task.
     ///
@@ -1478,7 +1478,7 @@ extension NeptuneGraphClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetPrivateGraphEndpoint` operation on the `AmazonNeptuneGraph` service.
+    /// Performs the `GetPrivateGraphEndpoint` operation on the `NeptuneGraph` service.
     ///
     /// Retrieves information about a specified private endpoint.
     ///
@@ -1547,7 +1547,7 @@ extension NeptuneGraphClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetQuery` operation on the `AmazonNeptuneGraph` service.
+    /// Performs the `GetQuery` operation on the `NeptuneGraph` service.
     ///
     /// Retrieves the status of a specified query. When invoking this operation in a Neptune Analytics cluster, the IAM user or role making the request must have the neptune-graph:GetQueryStatus IAM action attached.
     ///
@@ -1618,7 +1618,7 @@ extension NeptuneGraphClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListExportTasks` operation on the `AmazonNeptuneGraph` service.
+    /// Performs the `ListExportTasks` operation on the `NeptuneGraph` service.
     ///
     /// Retrieves a list of export tasks.
     ///
@@ -1688,7 +1688,7 @@ extension NeptuneGraphClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListGraphSnapshots` operation on the `AmazonNeptuneGraph` service.
+    /// Performs the `ListGraphSnapshots` operation on the `NeptuneGraph` service.
     ///
     /// Lists available snapshots of a specified Neptune Analytics graph.
     ///
@@ -1758,7 +1758,7 @@ extension NeptuneGraphClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListGraphs` operation on the `AmazonNeptuneGraph` service.
+    /// Performs the `ListGraphs` operation on the `NeptuneGraph` service.
     ///
     /// Lists available Neptune Analytics graphs.
     ///
@@ -1827,7 +1827,7 @@ extension NeptuneGraphClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListImportTasks` operation on the `AmazonNeptuneGraph` service.
+    /// Performs the `ListImportTasks` operation on the `NeptuneGraph` service.
     ///
     /// Lists import tasks.
     ///
@@ -1897,7 +1897,7 @@ extension NeptuneGraphClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListPrivateGraphEndpoints` operation on the `AmazonNeptuneGraph` service.
+    /// Performs the `ListPrivateGraphEndpoints` operation on the `NeptuneGraph` service.
     ///
     /// Lists private endpoints for a specified Neptune Analytics graph.
     ///
@@ -1967,7 +1967,7 @@ extension NeptuneGraphClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListQueries` operation on the `AmazonNeptuneGraph` service.
+    /// Performs the `ListQueries` operation on the `NeptuneGraph` service.
     ///
     /// Lists active openCypher queries.
     ///
@@ -2038,7 +2038,7 @@ extension NeptuneGraphClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `AmazonNeptuneGraph` service.
+    /// Performs the `ListTagsForResource` operation on the `NeptuneGraph` service.
     ///
     /// Lists tags associated with a specified resource.
     ///
@@ -2107,7 +2107,7 @@ extension NeptuneGraphClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ResetGraph` operation on the `AmazonNeptuneGraph` service.
+    /// Performs the `ResetGraph` operation on the `NeptuneGraph` service.
     ///
     /// Empties the data from a specified Neptune Analytics graph.
     ///
@@ -2180,7 +2180,7 @@ extension NeptuneGraphClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RestoreGraphFromSnapshot` operation on the `AmazonNeptuneGraph` service.
+    /// Performs the `RestoreGraphFromSnapshot` operation on the `NeptuneGraph` service.
     ///
     /// Restores a graph from a snapshot.
     ///
@@ -2254,7 +2254,7 @@ extension NeptuneGraphClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartExportTask` operation on the `AmazonNeptuneGraph` service.
+    /// Performs the `StartExportTask` operation on the `NeptuneGraph` service.
     ///
     /// Export data from an existing Neptune Analytics graph to Amazon S3. The graph state should be AVAILABLE.
     ///
@@ -2327,7 +2327,7 @@ extension NeptuneGraphClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartImportTask` operation on the `AmazonNeptuneGraph` service.
+    /// Performs the `StartImportTask` operation on the `NeptuneGraph` service.
     ///
     /// Import data into existing Neptune Analytics graph from Amazon Simple Storage Service (S3). The graph needs to be empty and in the AVAILABLE state.
     ///
@@ -2400,7 +2400,7 @@ extension NeptuneGraphClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `AmazonNeptuneGraph` service.
+    /// Performs the `TagResource` operation on the `NeptuneGraph` service.
     ///
     /// Adds tags to the specified resource.
     ///
@@ -2472,7 +2472,7 @@ extension NeptuneGraphClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `AmazonNeptuneGraph` service.
+    /// Performs the `UntagResource` operation on the `NeptuneGraph` service.
     ///
     /// Removes the specified tags from the specified resource.
     ///
@@ -2542,7 +2542,7 @@ extension NeptuneGraphClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateGraph` operation on the `AmazonNeptuneGraph` service.
+    /// Performs the `UpdateGraph` operation on the `NeptuneGraph` service.
     ///
     /// Updates the configuration of a specified Neptune Analytics graph
     ///

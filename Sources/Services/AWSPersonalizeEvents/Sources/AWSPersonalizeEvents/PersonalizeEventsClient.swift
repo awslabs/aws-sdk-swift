@@ -62,7 +62,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class PersonalizeEventsClient: ClientRuntime.Client {
     public static let clientName = "PersonalizeEventsClient"
-    public static let version = "1.0.69"
+    public static let version = "1.0.74"
     let client: ClientRuntime.SdkHttpClient
     let config: PersonalizeEventsClient.PersonalizeEventsClientConfiguration
     let serviceName = "Personalize Events"
@@ -328,7 +328,7 @@ extension PersonalizeEventsClient {
 }
 
 extension PersonalizeEventsClient {
-    /// Performs the `PutActionInteractions` operation on the `AmazonPersonalizeEvents` service.
+    /// Performs the `PutActionInteractions` operation on the `PersonalizeEvents` service.
     ///
     /// Records action interaction event data. An action interaction event is an interaction between a user and an action. For example, a user taking an action, such a enrolling in a membership program or downloading your app. For more information about recording action interactions, see [Recording action interaction events](https://docs.aws.amazon.com/personalize/latest/dg/recording-action-interaction-events.html). For more information about actions in an Actions dataset, see [Actions dataset](https://docs.aws.amazon.com/personalize/latest/dg/actions-datasets.html).
     ///
@@ -399,7 +399,7 @@ extension PersonalizeEventsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutActions` operation on the `AmazonPersonalizeEvents` service.
+    /// Performs the `PutActions` operation on the `PersonalizeEvents` service.
     ///
     /// Adds one or more actions to an Actions dataset. For more information see [Importing actions individually](https://docs.aws.amazon.com/personalize/latest/dg/importing-actions.html).
     ///
@@ -470,7 +470,7 @@ extension PersonalizeEventsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutEvents` operation on the `AmazonPersonalizeEvents` service.
+    /// Performs the `PutEvents` operation on the `PersonalizeEvents` service.
     ///
     /// Records item interaction event data. For more information see [Recording item interaction events](https://docs.aws.amazon.com/personalize/latest/dg/recording-item-interaction-events.html).
     ///
@@ -539,7 +539,7 @@ extension PersonalizeEventsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutItems` operation on the `AmazonPersonalizeEvents` service.
+    /// Performs the `PutItems` operation on the `PersonalizeEvents` service.
     ///
     /// Adds one or more items to an Items dataset. For more information see [Importing items individually](https://docs.aws.amazon.com/personalize/latest/dg/importing-items.html).
     ///
@@ -610,7 +610,7 @@ extension PersonalizeEventsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutUsers` operation on the `AmazonPersonalizeEvents` service.
+    /// Performs the `PutUsers` operation on the `PersonalizeEvents` service.
     ///
     /// Adds one or more users to a Users dataset. For more information see [Importing users individually](https://docs.aws.amazon.com/personalize/latest/dg/importing-users.html).
     ///

@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class PartnerCentralSellingClient: ClientRuntime.Client {
     public static let clientName = "PartnerCentralSellingClient"
-    public static let version = "1.0.69"
+    public static let version = "1.0.74"
     let client: ClientRuntime.SdkHttpClient
     let config: PartnerCentralSellingClient.PartnerCentralSellingClientConfiguration
     let serviceName = "PartnerCentral Selling"
@@ -331,7 +331,7 @@ extension PartnerCentralSellingClient {
 }
 
 extension PartnerCentralSellingClient {
-    /// Performs the `AcceptEngagementInvitation` operation on the `AWSPartnerCentralSelling` service.
+    /// Performs the `AcceptEngagementInvitation` operation on the `PartnerCentralSelling` service.
     ///
     /// Use the AcceptEngagementInvitation action to accept an engagement invitation shared by AWS. Accepting the invitation indicates your willingness to participate in the engagement, granting you access to all engagement-related data.
     ///
@@ -405,7 +405,7 @@ extension PartnerCentralSellingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssignOpportunity` operation on the `AWSPartnerCentralSelling` service.
+    /// Performs the `AssignOpportunity` operation on the `PartnerCentralSelling` service.
     ///
     /// Enables you to reassign an existing Opportunity to another user within your Partner Central account. The specified user receives the opportunity, and it appears on their Partner Central dashboard, allowing them to take necessary actions or proceed with the opportunity. This is useful for distributing opportunities to the appropriate team members or departments within your organization, ensuring that each opportunity is handled by the right person. By default, the opportunity owner is the one who creates it. Currently, there's no API to enumerate the list of available users.
     ///
@@ -479,7 +479,7 @@ extension PartnerCentralSellingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssociateOpportunity` operation on the `AWSPartnerCentralSelling` service.
+    /// Performs the `AssociateOpportunity` operation on the `PartnerCentralSelling` service.
     ///
     /// Enables you to create a formal association between an Opportunity and various related entities, enriching the context and details of the opportunity for better collaboration and decision making. You can associate an opportunity with the following entity types:
     ///
@@ -568,7 +568,7 @@ extension PartnerCentralSellingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateEngagement` operation on the `AWSPartnerCentralSelling` service.
+    /// Performs the `CreateEngagement` operation on the `PartnerCentralSelling` service.
     ///
     /// The CreateEngagement action allows you to create an Engagement, which serves as a collaborative space between different parties such as AWS Partners and AWS Sellers. This action automatically adds the caller's AWS account as an active member of the newly created Engagement.
     ///
@@ -644,7 +644,7 @@ extension PartnerCentralSellingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateEngagementInvitation` operation on the `AWSPartnerCentralSelling` service.
+    /// Performs the `CreateEngagementInvitation` operation on the `PartnerCentralSelling` service.
     ///
     /// This action creates an invitation from a sender to a single receiver to join an engagement.
     ///
@@ -720,7 +720,7 @@ extension PartnerCentralSellingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateOpportunity` operation on the `AWSPartnerCentralSelling` service.
+    /// Performs the `CreateOpportunity` operation on the `PartnerCentralSelling` service.
     ///
     /// Creates an Opportunity record in Partner Central. Use this operation to create a potential business opportunity for submission to Amazon Web Services. Creating an opportunity sets Lifecycle.ReviewStatus to Pending Submission. To submit an opportunity, follow these steps:
     ///
@@ -805,7 +805,7 @@ extension PartnerCentralSellingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateResourceSnapshot` operation on the `AWSPartnerCentralSelling` service.
+    /// Performs the `CreateResourceSnapshot` operation on the `PartnerCentralSelling` service.
     ///
     /// This action allows you to create an immutable snapshot of a specific resource, such as an opportunity, within the context of an engagement. The snapshot captures a subset of the resource's data based on the schema defined by the provided template.
     ///
@@ -881,7 +881,7 @@ extension PartnerCentralSellingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateResourceSnapshotJob` operation on the `AWSPartnerCentralSelling` service.
+    /// Performs the `CreateResourceSnapshotJob` operation on the `PartnerCentralSelling` service.
     ///
     /// Use this action to create a job to generate a snapshot of the specified resource within an engagement. It initiates an asynchronous process to create a resource snapshot. The job creates a new snapshot only if the resource state has changed, adhering to the same access control and immutability rules as direct snapshot creation.
     ///
@@ -957,7 +957,7 @@ extension PartnerCentralSellingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteResourceSnapshotJob` operation on the `AWSPartnerCentralSelling` service.
+    /// Performs the `DeleteResourceSnapshotJob` operation on the `PartnerCentralSelling` service.
     ///
     /// Use this action to deletes a previously created resource snapshot job. The job must be in a stopped state before it can be deleted.
     ///
@@ -1030,7 +1030,7 @@ extension PartnerCentralSellingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateOpportunity` operation on the `AWSPartnerCentralSelling` service.
+    /// Performs the `DisassociateOpportunity` operation on the `PartnerCentralSelling` service.
     ///
     /// Allows you to remove an existing association between an Opportunity and related entities, such as a Partner Solution, Amazon Web Services product, or an Amazon Web Services Marketplace offer. This operation is the counterpart to AssociateOpportunity, and it provides flexibility to manage associations as business needs change. Use this operation to update the associations of an Opportunity due to changes in the related entities, or if an association was made in error. Ensuring accurate associations helps maintain clarity and accuracy to track and manage business opportunities. When you replace an entity, first attach the new entity and then disassociate the one to be removed, especially if it's the last remaining entity that's required.
     ///
@@ -1104,7 +1104,7 @@ extension PartnerCentralSellingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAwsOpportunitySummary` operation on the `AWSPartnerCentralSelling` service.
+    /// Performs the `GetAwsOpportunitySummary` operation on the `PartnerCentralSelling` service.
     ///
     /// Retrieves a summary of an AWS Opportunity. This summary includes high-level details about the opportunity sourced from AWS, such as lifecycle information, customer details, and involvement type. It is useful for tracking updates on the AWS opportunity corresponding to an opportunity in the partner's account.
     ///
@@ -1178,7 +1178,7 @@ extension PartnerCentralSellingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetEngagement` operation on the `AWSPartnerCentralSelling` service.
+    /// Performs the `GetEngagement` operation on the `PartnerCentralSelling` service.
     ///
     /// Use this action to retrieve the engagement record for a given EngagementIdentifier.
     ///
@@ -1251,7 +1251,7 @@ extension PartnerCentralSellingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetEngagementInvitation` operation on the `AWSPartnerCentralSelling` service.
+    /// Performs the `GetEngagementInvitation` operation on the `PartnerCentralSelling` service.
     ///
     /// Retrieves the details of an engagement invitation shared by AWS with a partner. The information includes aspects such as customer, project details, and lifecycle information. To connect an engagement invitation with an opportunity, match the invitation’s Payload.Project.Title with opportunity Project.Title.
     ///
@@ -1325,7 +1325,7 @@ extension PartnerCentralSellingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetOpportunity` operation on the `AWSPartnerCentralSelling` service.
+    /// Performs the `GetOpportunity` operation on the `PartnerCentralSelling` service.
     ///
     /// Fetches the Opportunity record from Partner Central by a given Identifier. Use the ListOpportunities action or the event notification (from Amazon EventBridge) to obtain this identifier.
     ///
@@ -1399,7 +1399,7 @@ extension PartnerCentralSellingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetResourceSnapshot` operation on the `AWSPartnerCentralSelling` service.
+    /// Performs the `GetResourceSnapshot` operation on the `PartnerCentralSelling` service.
     ///
     /// Use this action to retrieve a specific snapshot record.
     ///
@@ -1472,7 +1472,7 @@ extension PartnerCentralSellingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetResourceSnapshotJob` operation on the `AWSPartnerCentralSelling` service.
+    /// Performs the `GetResourceSnapshotJob` operation on the `PartnerCentralSelling` service.
     ///
     /// Use this action to retrieves information about a specific resource snapshot job.
     ///
@@ -1545,7 +1545,7 @@ extension PartnerCentralSellingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetSellingSystemSettings` operation on the `AWSPartnerCentralSelling` service.
+    /// Performs the `GetSellingSystemSettings` operation on the `PartnerCentralSelling` service.
     ///
     /// Retrieves the currently set system settings, which include the IAM Role used for resource snapshot jobs.
     ///
@@ -1618,7 +1618,7 @@ extension PartnerCentralSellingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListEngagementByAcceptingInvitationTasks` operation on the `AWSPartnerCentralSelling` service.
+    /// Performs the `ListEngagementByAcceptingInvitationTasks` operation on the `PartnerCentralSelling` service.
     ///
     /// Lists all in-progress, completed, or failed StartEngagementByAcceptingInvitationTask tasks that were initiated by the caller's account.
     ///
@@ -1691,7 +1691,7 @@ extension PartnerCentralSellingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListEngagementFromOpportunityTasks` operation on the `AWSPartnerCentralSelling` service.
+    /// Performs the `ListEngagementFromOpportunityTasks` operation on the `PartnerCentralSelling` service.
     ///
     /// Lists all in-progress, completed, or failed EngagementFromOpportunity tasks that were initiated by the caller's account.
     ///
@@ -1764,7 +1764,7 @@ extension PartnerCentralSellingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListEngagementInvitations` operation on the `AWSPartnerCentralSelling` service.
+    /// Performs the `ListEngagementInvitations` operation on the `PartnerCentralSelling` service.
     ///
     /// Retrieves a list of engagement invitations sent to the partner. This allows partners to view all pending or past engagement invitations, helping them track opportunities shared by AWS.
     ///
@@ -1838,7 +1838,7 @@ extension PartnerCentralSellingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListEngagementMembers` operation on the `AWSPartnerCentralSelling` service.
+    /// Performs the `ListEngagementMembers` operation on the `PartnerCentralSelling` service.
     ///
     /// Retrieves the details of member partners in an engagement. This operation can only be invoked by members of the engagement. The ListEngagementMembers operation allows you to fetch information about the members of a specific engagement. This action is restricted to members of the engagement being queried.
     ///
@@ -1911,7 +1911,7 @@ extension PartnerCentralSellingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListEngagementResourceAssociations` operation on the `AWSPartnerCentralSelling` service.
+    /// Performs the `ListEngagementResourceAssociations` operation on the `PartnerCentralSelling` service.
     ///
     /// Lists the associations between resources and engagements where the caller is a member and has at least one snapshot in the engagement.
     ///
@@ -1984,7 +1984,7 @@ extension PartnerCentralSellingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListEngagements` operation on the `AWSPartnerCentralSelling` service.
+    /// Performs the `ListEngagements` operation on the `PartnerCentralSelling` service.
     ///
     /// This action allows users to retrieve a list of engagement records from Partner Central. This action can be used to manage and track various engagements across different stages of the partner selling process.
     ///
@@ -2057,7 +2057,7 @@ extension PartnerCentralSellingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListOpportunities` operation on the `AWSPartnerCentralSelling` service.
+    /// Performs the `ListOpportunities` operation on the `PartnerCentralSelling` service.
     ///
     /// This request accepts a list of filters that retrieve opportunity subsets as well as sort options. This feature is available to partners from [Partner Central](https://partnercentral.awspartner.com/) using the ListOpportunities API action. To synchronize your system with Amazon Web Services, only list the opportunities that were newly created or updated. We recommend you rely on events emitted by the service into your Amazon Web Services account’s Amazon EventBridge default event bus, you can also use the ListOpportunities action. We recommend the following approach:
     ///
@@ -2137,7 +2137,7 @@ extension PartnerCentralSellingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListResourceSnapshotJobs` operation on the `AWSPartnerCentralSelling` service.
+    /// Performs the `ListResourceSnapshotJobs` operation on the `PartnerCentralSelling` service.
     ///
     /// Lists resource snapshot jobs owned by the customer. This operation supports various filtering scenarios, including listing all jobs owned by the caller, jobs for a specific engagement, jobs with a specific status, or any combination of these filters.
     ///
@@ -2209,7 +2209,7 @@ extension PartnerCentralSellingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListResourceSnapshots` operation on the `AWSPartnerCentralSelling` service.
+    /// Performs the `ListResourceSnapshots` operation on the `PartnerCentralSelling` service.
     ///
     /// Retrieves a list of resource view snapshots based on specified criteria.
     ///
@@ -2282,7 +2282,7 @@ extension PartnerCentralSellingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListSolutions` operation on the `AWSPartnerCentralSelling` service.
+    /// Performs the `ListSolutions` operation on the `PartnerCentralSelling` service.
     ///
     /// Retrieves a list of Partner Solutions that the partner registered on Partner Central. This API is used to generate a list of solutions that an end user selects from for association with an opportunity.
     ///
@@ -2355,7 +2355,7 @@ extension PartnerCentralSellingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutSellingSystemSettings` operation on the `AWSPartnerCentralSelling` service.
+    /// Performs the `PutSellingSystemSettings` operation on the `PartnerCentralSelling` service.
     ///
     /// Updates the currently set system settings, which include the IAM Role used for resource snapshot jobs.
     ///
@@ -2428,7 +2428,7 @@ extension PartnerCentralSellingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RejectEngagementInvitation` operation on the `AWSPartnerCentralSelling` service.
+    /// Performs the `RejectEngagementInvitation` operation on the `PartnerCentralSelling` service.
     ///
     /// This action rejects an EngagementInvitation that AWS shared. Rejecting an invitation indicates that the partner doesn't want to pursue the opportunity, and all related data will become inaccessible thereafter.
     ///
@@ -2502,7 +2502,7 @@ extension PartnerCentralSellingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartEngagementByAcceptingInvitationTask` operation on the `AWSPartnerCentralSelling` service.
+    /// Performs the `StartEngagementByAcceptingInvitationTask` operation on the `PartnerCentralSelling` service.
     ///
     /// This action starts the engagement by accepting an EngagementInvitation. The task is asynchronous and involves the following steps: accepting the invitation, creating an opportunity in the partner’s account from the AWS opportunity, and copying details for tracking. When completed, an Opportunity Created event is generated, indicating that the opportunity has been successfully created in the partner's account.
     ///
@@ -2579,7 +2579,7 @@ extension PartnerCentralSellingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartEngagementFromOpportunityTask` operation on the `AWSPartnerCentralSelling` service.
+    /// Performs the `StartEngagementFromOpportunityTask` operation on the `PartnerCentralSelling` service.
     ///
     /// This action initiates the engagement process from an existing opportunity by accepting the engagement invitation and creating a corresponding opportunity in the partner’s system. Similar to StartEngagementByAcceptingInvitationTask, this action is asynchronous and performs multiple steps before completion.
     ///
@@ -2656,7 +2656,7 @@ extension PartnerCentralSellingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartResourceSnapshotJob` operation on the `AWSPartnerCentralSelling` service.
+    /// Performs the `StartResourceSnapshotJob` operation on the `PartnerCentralSelling` service.
     ///
     /// Starts a resource snapshot job that has been previously created.
     ///
@@ -2729,7 +2729,7 @@ extension PartnerCentralSellingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopResourceSnapshotJob` operation on the `AWSPartnerCentralSelling` service.
+    /// Performs the `StopResourceSnapshotJob` operation on the `PartnerCentralSelling` service.
     ///
     /// Stops a resource snapshot job. The job must be started prior to being stopped.
     ///
@@ -2802,7 +2802,7 @@ extension PartnerCentralSellingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SubmitOpportunity` operation on the `AWSPartnerCentralSelling` service.
+    /// Performs the `SubmitOpportunity` operation on the `PartnerCentralSelling` service.
     ///
     /// Use this action to submit an opportunity that was previously created by partner for AWS review. After you perform this action, the opportunity becomes non-editable until it is reviewed by AWS and has  LifeCycle.ReviewStatus  as either Approved or Action Required.
     ///
@@ -2876,7 +2876,7 @@ extension PartnerCentralSellingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateOpportunity` operation on the `AWSPartnerCentralSelling` service.
+    /// Performs the `UpdateOpportunity` operation on the `PartnerCentralSelling` service.
     ///
     /// Updates the Opportunity record identified by a given Identifier. This operation allows you to modify the details of an existing opportunity to reflect the latest information and progress. Use this action to keep the opportunity record up-to-date and accurate. When you perform updates, include the entire payload with each request. If any field is omitted, the API assumes that the field is set to null. The best practice is to always perform a GetOpportunity to retrieve the latest values, then send the complete payload with the updated values to be changed.
     ///

@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SupplyChainClient: ClientRuntime.Client {
     public static let clientName = "SupplyChainClient"
-    public static let version = "1.0.69"
+    public static let version = "1.0.74"
     let client: ClientRuntime.SdkHttpClient
     let config: SupplyChainClient.SupplyChainClientConfiguration
     let serviceName = "SupplyChain"
@@ -331,7 +331,7 @@ extension SupplyChainClient {
 }
 
 extension SupplyChainClient {
-    /// Performs the `CreateBillOfMaterialsImportJob` operation on the `GalaxyPublicAPIGateway` service.
+    /// Performs the `CreateBillOfMaterialsImportJob` operation on the `SupplyChain` service.
     ///
     /// CreateBillOfMaterialsImportJob creates an import job for the Product Bill Of Materials (BOM) entity. For information on the product_bom entity, see the AWS Supply Chain User Guide. The CSV file must be located in an Amazon S3 location accessible to AWS Supply Chain. It is recommended to use the same Amazon S3 bucket created during your AWS Supply Chain instance creation.
     ///
@@ -407,7 +407,7 @@ extension SupplyChainClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateDataIntegrationFlow` operation on the `GalaxyPublicAPIGateway` service.
+    /// Performs the `CreateDataIntegrationFlow` operation on the `SupplyChain` service.
     ///
     /// Enables you to programmatically create a data pipeline to ingest data from source systems such as Amazon S3 buckets, to a predefined Amazon Web Services Supply Chain dataset (product, inbound_order) or a temporary dataset along with the data transformation query provided with the API.
     ///
@@ -482,7 +482,7 @@ extension SupplyChainClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateDataLakeDataset` operation on the `GalaxyPublicAPIGateway` service.
+    /// Performs the `CreateDataLakeDataset` operation on the `SupplyChain` service.
     ///
     /// Enables you to programmatically create an Amazon Web Services Supply Chain data lake dataset. Developers can create the datasets using their pre-defined or custom schema for a given instance ID, namespace, and dataset name.
     ///
@@ -557,7 +557,7 @@ extension SupplyChainClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateInstance` operation on the `GalaxyPublicAPIGateway` service.
+    /// Performs the `CreateInstance` operation on the `SupplyChain` service.
     ///
     /// Enables you to programmatically create an Amazon Web Services Supply Chain instance by applying KMS keys and relevant information associated with the API without using the Amazon Web Services console. This is an asynchronous operation. Upon receiving a CreateInstance request, Amazon Web Services Supply Chain immediately returns the instance resource, instance ID, and the initializing state while simultaneously creating all required Amazon Web Services resources for an instance creation. You can use GetInstance to check the status of the instance. If the instance results in an unhealthy state, you need to check the error message, delete the current instance, and recreate a new one based on the mitigation from the error message.
     ///
@@ -633,7 +633,7 @@ extension SupplyChainClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteDataIntegrationFlow` operation on the `GalaxyPublicAPIGateway` service.
+    /// Performs the `DeleteDataIntegrationFlow` operation on the `SupplyChain` service.
     ///
     /// Enable you to programmatically delete an existing data pipeline for the provided Amazon Web Services Supply Chain instance and DataIntegrationFlow name.
     ///
@@ -705,7 +705,7 @@ extension SupplyChainClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteDataLakeDataset` operation on the `GalaxyPublicAPIGateway` service.
+    /// Performs the `DeleteDataLakeDataset` operation on the `SupplyChain` service.
     ///
     /// Enables you to programmatically delete an Amazon Web Services Supply Chain data lake dataset. Developers can delete the existing datasets for a given instance ID, namespace, and instance name.
     ///
@@ -777,7 +777,7 @@ extension SupplyChainClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteInstance` operation on the `GalaxyPublicAPIGateway` service.
+    /// Performs the `DeleteInstance` operation on the `SupplyChain` service.
     ///
     /// Enables you to programmatically delete an Amazon Web Services Supply Chain instance by deleting the KMS keys and relevant information associated with the API without using the Amazon Web Services console. This is an asynchronous operation. Upon receiving a DeleteInstance request, Amazon Web Services Supply Chain immediately returns a response with the instance resource, delete state while cleaning up all Amazon Web Services resources created during the instance creation process. You can use the GetInstance action to check the instance status.
     ///
@@ -849,7 +849,7 @@ extension SupplyChainClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetBillOfMaterialsImportJob` operation on the `GalaxyPublicAPIGateway` service.
+    /// Performs the `GetBillOfMaterialsImportJob` operation on the `SupplyChain` service.
     ///
     /// Get status and details of a BillOfMaterialsImportJob.
     ///
@@ -921,7 +921,7 @@ extension SupplyChainClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDataIntegrationFlow` operation on the `GalaxyPublicAPIGateway` service.
+    /// Performs the `GetDataIntegrationFlow` operation on the `SupplyChain` service.
     ///
     /// Enables you to programmatically view a specific data pipeline for the provided Amazon Web Services Supply Chain instance and DataIntegrationFlow name.
     ///
@@ -993,7 +993,7 @@ extension SupplyChainClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDataLakeDataset` operation on the `GalaxyPublicAPIGateway` service.
+    /// Performs the `GetDataLakeDataset` operation on the `SupplyChain` service.
     ///
     /// Enables you to programmatically view an Amazon Web Services Supply Chain data lake dataset. Developers can view the data lake dataset information such as namespace, schema, and so on for a given instance ID, namespace, and dataset name.
     ///
@@ -1065,7 +1065,7 @@ extension SupplyChainClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetInstance` operation on the `GalaxyPublicAPIGateway` service.
+    /// Performs the `GetInstance` operation on the `SupplyChain` service.
     ///
     /// Enables you to programmatically retrieve the information related to an Amazon Web Services Supply Chain instance ID.
     ///
@@ -1137,7 +1137,7 @@ extension SupplyChainClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDataIntegrationFlows` operation on the `GalaxyPublicAPIGateway` service.
+    /// Performs the `ListDataIntegrationFlows` operation on the `SupplyChain` service.
     ///
     /// Enables you to programmatically list all data pipelines for the provided Amazon Web Services Supply Chain instance.
     ///
@@ -1210,7 +1210,7 @@ extension SupplyChainClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDataLakeDatasets` operation on the `GalaxyPublicAPIGateway` service.
+    /// Performs the `ListDataLakeDatasets` operation on the `SupplyChain` service.
     ///
     /// Enables you to programmatically view the list of Amazon Web Services Supply Chain data lake datasets. Developers can view the datasets and the corresponding information such as namespace, schema, and so on for a given instance ID and namespace.
     ///
@@ -1283,7 +1283,7 @@ extension SupplyChainClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListInstances` operation on the `GalaxyPublicAPIGateway` service.
+    /// Performs the `ListInstances` operation on the `SupplyChain` service.
     ///
     /// List all Amazon Web Services Supply Chain instances for a specific account. Enables you to programmatically list all Amazon Web Services Supply Chain instances based on their account ID, instance name, and state of the instance (active or delete).
     ///
@@ -1356,7 +1356,7 @@ extension SupplyChainClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `GalaxyPublicAPIGateway` service.
+    /// Performs the `ListTagsForResource` operation on the `SupplyChain` service.
     ///
     /// List all the tags for an Amazon Web ServicesSupply Chain resource. You can list all the tags added to a resource. By listing the tags, developers can view the tag level information on a resource and perform actions such as, deleting a resource associated with a particular tag.
     ///
@@ -1428,7 +1428,7 @@ extension SupplyChainClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SendDataIntegrationEvent` operation on the `GalaxyPublicAPIGateway` service.
+    /// Performs the `SendDataIntegrationEvent` operation on the `SupplyChain` service.
     ///
     /// Send the transactional data payload for the event with real-time data for analysis or monitoring. The real-time data events are stored in an Amazon Web Services service before being processed and stored in data lake. New data events are synced with data lake at 5 PM GMT everyday. The updated transactional data is available in data lake after ingestion.
     ///
@@ -1504,7 +1504,7 @@ extension SupplyChainClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `GalaxyPublicAPIGateway` service.
+    /// Performs the `TagResource` operation on the `SupplyChain` service.
     ///
     /// You can create tags during or after creating a resource such as instance, data flow, or dataset in AWS Supply chain. During the data ingestion process, you can add tags such as dev, test, or prod to data flows created during the data ingestion process in the AWS Supply Chain datasets. You can use these tags to identify a group of resources or a single resource used by the developer.
     ///
@@ -1579,7 +1579,7 @@ extension SupplyChainClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `GalaxyPublicAPIGateway` service.
+    /// Performs the `UntagResource` operation on the `SupplyChain` service.
     ///
     /// You can delete tags for an Amazon Web Services Supply chain resource such as instance, data flow, or dataset in AWS Supply Chain. During the data ingestion process, you can delete tags such as dev, test, or prod to data flows created during the data ingestion process in the AWS Supply Chain datasets.
     ///
@@ -1652,7 +1652,7 @@ extension SupplyChainClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateDataIntegrationFlow` operation on the `GalaxyPublicAPIGateway` service.
+    /// Performs the `UpdateDataIntegrationFlow` operation on the `SupplyChain` service.
     ///
     /// Enables you to programmatically update an existing data pipeline to ingest data from the source systems such as, Amazon S3 buckets, to a predefined Amazon Web Services Supply Chain dataset (product, inbound_order) or a temporary dataset along with the data transformation query provided with the API.
     ///
@@ -1727,7 +1727,7 @@ extension SupplyChainClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateDataLakeDataset` operation on the `GalaxyPublicAPIGateway` service.
+    /// Performs the `UpdateDataLakeDataset` operation on the `SupplyChain` service.
     ///
     /// Enables you to programmatically update an Amazon Web Services Supply Chain data lake dataset. Developers can update the description of a data lake dataset for a given instance ID, namespace, and dataset name.
     ///
@@ -1802,7 +1802,7 @@ extension SupplyChainClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateInstance` operation on the `GalaxyPublicAPIGateway` service.
+    /// Performs the `UpdateInstance` operation on the `SupplyChain` service.
     ///
     /// Enables you to programmatically update an Amazon Web Services Supply Chain instance description by providing all the relevant information such as account ID, instance ID and so on without using the AWS console.
     ///

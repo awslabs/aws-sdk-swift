@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SchemasClient: ClientRuntime.Client {
     public static let clientName = "SchemasClient"
-    public static let version = "1.0.69"
+    public static let version = "1.0.74"
     let client: ClientRuntime.SdkHttpClient
     let config: SchemasClient.SchemasClientConfiguration
     let serviceName = "schemas"
@@ -331,7 +331,7 @@ extension SchemasClient {
 }
 
 extension SchemasClient {
-    /// Performs the `CreateDiscoverer` operation on the `schemas` service.
+    /// Performs the `CreateDiscoverer` operation on the `Schemas` service.
     ///
     /// Creates a discoverer.
     ///
@@ -405,7 +405,7 @@ extension SchemasClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateRegistry` operation on the `schemas` service.
+    /// Performs the `CreateRegistry` operation on the `Schemas` service.
     ///
     /// Creates a registry.
     ///
@@ -479,7 +479,7 @@ extension SchemasClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateSchema` operation on the `schemas` service.
+    /// Performs the `CreateSchema` operation on the `Schemas` service.
     ///
     /// Creates a schema definition. Inactive schemas will be deleted after two years.
     ///
@@ -551,7 +551,7 @@ extension SchemasClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteDiscoverer` operation on the `schemas` service.
+    /// Performs the `DeleteDiscoverer` operation on the `Schemas` service.
     ///
     /// Deletes a discoverer.
     ///
@@ -622,7 +622,7 @@ extension SchemasClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteRegistry` operation on the `schemas` service.
+    /// Performs the `DeleteRegistry` operation on the `Schemas` service.
     ///
     /// Deletes a Registry.
     ///
@@ -693,7 +693,7 @@ extension SchemasClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteResourcePolicy` operation on the `schemas` service.
+    /// Performs the `DeleteResourcePolicy` operation on the `Schemas` service.
     ///
     /// Delete the resource-based policy attached to the specified registry.
     ///
@@ -765,7 +765,7 @@ extension SchemasClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteSchema` operation on the `schemas` service.
+    /// Performs the `DeleteSchema` operation on the `Schemas` service.
     ///
     /// Delete a schema definition.
     ///
@@ -836,7 +836,7 @@ extension SchemasClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteSchemaVersion` operation on the `schemas` service.
+    /// Performs the `DeleteSchemaVersion` operation on the `Schemas` service.
     ///
     /// Delete the schema version definition
     ///
@@ -907,7 +907,7 @@ extension SchemasClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeCodeBinding` operation on the `schemas` service.
+    /// Performs the `DescribeCodeBinding` operation on the `Schemas` service.
     ///
     /// Describe the code binding URI.
     ///
@@ -979,7 +979,7 @@ extension SchemasClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeDiscoverer` operation on the `schemas` service.
+    /// Performs the `DescribeDiscoverer` operation on the `Schemas` service.
     ///
     /// Describes the discoverer.
     ///
@@ -1050,7 +1050,7 @@ extension SchemasClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeRegistry` operation on the `schemas` service.
+    /// Performs the `DescribeRegistry` operation on the `Schemas` service.
     ///
     /// Describes the registry.
     ///
@@ -1121,7 +1121,7 @@ extension SchemasClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeSchema` operation on the `schemas` service.
+    /// Performs the `DescribeSchema` operation on the `Schemas` service.
     ///
     /// Retrieve the schema definition.
     ///
@@ -1193,7 +1193,7 @@ extension SchemasClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ExportSchema` operation on the `schemas` service.
+    /// Performs the `ExportSchema` operation on the `Schemas` service.
     ///
     ///
     /// - Parameter ExportSchemaInput : [no documentation found]
@@ -1265,7 +1265,7 @@ extension SchemasClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetCodeBindingSource` operation on the `schemas` service.
+    /// Performs the `GetCodeBindingSource` operation on the `Schemas` service.
     ///
     /// Get the code binding source URI.
     ///
@@ -1337,7 +1337,7 @@ extension SchemasClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDiscoveredSchema` operation on the `schemas` service.
+    /// Performs the `GetDiscoveredSchema` operation on the `Schemas` service.
     ///
     /// Get the discovered schema that was generated based on sampled events.
     ///
@@ -1410,7 +1410,7 @@ extension SchemasClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetResourcePolicy` operation on the `schemas` service.
+    /// Performs the `GetResourcePolicy` operation on the `Schemas` service.
     ///
     /// Retrieves the resource-based policy attached to a given registry.
     ///
@@ -1482,7 +1482,7 @@ extension SchemasClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDiscoverers` operation on the `schemas` service.
+    /// Performs the `ListDiscoverers` operation on the `Schemas` service.
     ///
     /// List the discoverers.
     ///
@@ -1553,7 +1553,7 @@ extension SchemasClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListRegistries` operation on the `schemas` service.
+    /// Performs the `ListRegistries` operation on the `Schemas` service.
     ///
     /// List the registries.
     ///
@@ -1624,7 +1624,7 @@ extension SchemasClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListSchemaVersions` operation on the `schemas` service.
+    /// Performs the `ListSchemaVersions` operation on the `Schemas` service.
     ///
     /// Provides a list of the schema versions and related information.
     ///
@@ -1696,7 +1696,7 @@ extension SchemasClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListSchemas` operation on the `schemas` service.
+    /// Performs the `ListSchemas` operation on the `Schemas` service.
     ///
     /// List the schemas.
     ///
@@ -1767,7 +1767,7 @@ extension SchemasClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `schemas` service.
+    /// Performs the `ListTagsForResource` operation on the `Schemas` service.
     ///
     /// Get tags for resource.
     ///
@@ -1836,7 +1836,7 @@ extension SchemasClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutCodeBinding` operation on the `schemas` service.
+    /// Performs the `PutCodeBinding` operation on the `Schemas` service.
     ///
     /// Put code binding URI
     ///
@@ -1909,7 +1909,7 @@ extension SchemasClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutResourcePolicy` operation on the `schemas` service.
+    /// Performs the `PutResourcePolicy` operation on the `Schemas` service.
     ///
     /// The name of the policy.
     ///
@@ -1985,7 +1985,7 @@ extension SchemasClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SearchSchemas` operation on the `schemas` service.
+    /// Performs the `SearchSchemas` operation on the `Schemas` service.
     ///
     /// Search the schemas
     ///
@@ -2056,7 +2056,7 @@ extension SchemasClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartDiscoverer` operation on the `schemas` service.
+    /// Performs the `StartDiscoverer` operation on the `Schemas` service.
     ///
     /// Starts the discoverer
     ///
@@ -2127,7 +2127,7 @@ extension SchemasClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopDiscoverer` operation on the `schemas` service.
+    /// Performs the `StopDiscoverer` operation on the `Schemas` service.
     ///
     /// Stops the discoverer
     ///
@@ -2198,7 +2198,7 @@ extension SchemasClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `schemas` service.
+    /// Performs the `TagResource` operation on the `Schemas` service.
     ///
     /// Add tags to a resource.
     ///
@@ -2270,7 +2270,7 @@ extension SchemasClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `schemas` service.
+    /// Performs the `UntagResource` operation on the `Schemas` service.
     ///
     /// Removes tags from a resource.
     ///
@@ -2340,7 +2340,7 @@ extension SchemasClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateDiscoverer` operation on the `schemas` service.
+    /// Performs the `UpdateDiscoverer` operation on the `Schemas` service.
     ///
     /// Updates the discoverer
     ///
@@ -2414,7 +2414,7 @@ extension SchemasClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateRegistry` operation on the `schemas` service.
+    /// Performs the `UpdateRegistry` operation on the `Schemas` service.
     ///
     /// Updates a registry.
     ///
@@ -2488,7 +2488,7 @@ extension SchemasClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateSchema` operation on the `schemas` service.
+    /// Performs the `UpdateSchema` operation on the `Schemas` service.
     ///
     /// Updates the schema definition Inactive schemas will be deleted after two years.
     ///

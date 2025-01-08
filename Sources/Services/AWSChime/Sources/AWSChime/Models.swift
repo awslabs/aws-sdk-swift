@@ -316,8 +316,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     public init(
         code: ChimeClientTypes.ErrorCode? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
@@ -431,8 +430,7 @@ extension ChimeClientTypes {
 
         public init(
             groupName: Swift.String? = nil
-        )
-        {
+        ) {
             self.groupName = groupName
         }
     }
@@ -474,8 +472,7 @@ extension ChimeClientTypes {
             name: Swift.String? = nil,
             signinDelegateGroups: [ChimeClientTypes.SigninDelegateGroup]? = nil,
             supportedLicenses: [ChimeClientTypes.License]? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.accountStatus = accountStatus
             self.accountType = accountType
@@ -501,8 +498,7 @@ extension ChimeClientTypes {
         public init(
             disableRemoteControl: Swift.Bool? = nil,
             enableDialOut: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.disableRemoteControl = disableRemoteControl
             self.enableDialOut = enableDialOut
         }
@@ -545,8 +541,7 @@ extension ChimeClientTypes {
             streetName: Swift.String? = nil,
             streetNumber: Swift.String? = nil,
             streetSuffix: Swift.String? = nil
-        )
-        {
+        ) {
             self.city = city
             self.country = country
             self.postDirectional = postDirectional
@@ -578,8 +573,7 @@ extension ChimeClientTypes {
         public init(
             alexaForBusinessRoomArn: Swift.String? = nil,
             isAlexaForBusinessEnabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.alexaForBusinessRoomArn = alexaForBusinessRoomArn
             self.isAlexaForBusinessEnabled = isAlexaForBusinessEnabled
         }
@@ -612,8 +606,7 @@ extension ChimeClientTypes {
             lastUpdatedTimestamp: Foundation.Date? = nil,
             metadata: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.appInstanceArn = appInstanceArn
             self.createdTimestamp = createdTimestamp
             self.lastUpdatedTimestamp = lastUpdatedTimestamp
@@ -640,8 +633,7 @@ extension ChimeClientTypes {
         public init(
             arn: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.name = name
         }
@@ -668,8 +660,7 @@ extension ChimeClientTypes {
             admin: ChimeClientTypes.Identity? = nil,
             appInstanceArn: Swift.String? = nil,
             createdTimestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.admin = admin
             self.appInstanceArn = appInstanceArn
             self.createdTimestamp = createdTimestamp
@@ -686,8 +677,7 @@ extension ChimeClientTypes {
 
         public init(
             admin: ChimeClientTypes.Identity? = nil
-        )
-        {
+        ) {
             self.admin = admin
         }
     }
@@ -737,8 +727,7 @@ extension ChimeClientTypes {
             appInstanceArn: Swift.String? = nil,
             metadata: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.appInstanceArn = appInstanceArn
             self.metadata = metadata
             self.name = name
@@ -760,8 +749,7 @@ extension ChimeClientTypes {
 
         public init(
             retentionDays: Swift.Int? = nil
-        )
-        {
+        ) {
             self.retentionDays = retentionDays
         }
     }
@@ -776,8 +764,7 @@ extension ChimeClientTypes {
 
         public init(
             channelRetentionSettings: ChimeClientTypes.ChannelRetentionSettings? = nil
-        )
-        {
+        ) {
             self.channelRetentionSettings = channelRetentionSettings
         }
     }
@@ -797,8 +784,7 @@ extension ChimeClientTypes {
         public init(
             appInstanceDataType: ChimeClientTypes.AppInstanceDataType? = nil,
             resourceArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.appInstanceDataType = appInstanceDataType
             self.resourceArn = resourceArn
         }
@@ -831,8 +817,7 @@ extension ChimeClientTypes {
             lastUpdatedTimestamp: Foundation.Date? = nil,
             metadata: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.appInstanceUserArn = appInstanceUserArn
             self.createdTimestamp = createdTimestamp
             self.lastUpdatedTimestamp = lastUpdatedTimestamp
@@ -862,8 +847,7 @@ extension ChimeClientTypes {
             appInstanceUserArn: Swift.String? = nil,
             metadata: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.appInstanceUserArn = appInstanceUserArn
             self.metadata = metadata
             self.name = name
@@ -917,8 +901,7 @@ extension ChimeClientTypes {
         public init(
             readMarkerTimestamp: Foundation.Date? = nil,
             type: ChimeClientTypes.ChannelMembershipType? = nil
-        )
-        {
+        ) {
             self.readMarkerTimestamp = readMarkerTimestamp
             self.type = type
         }
@@ -964,8 +947,7 @@ extension ChimeClientTypes {
 
         public init(
             muxType: ChimeClientTypes.AudioMuxType? = nil
-        )
-        {
+        ) {
             self.muxType = muxType
         }
     }
@@ -1039,8 +1021,7 @@ extension ChimeClientTypes {
         public init(
             muxType: ChimeClientTypes.ContentMuxType? = nil,
             state: ChimeClientTypes.ArtifactsState? = nil
-        )
-        {
+        ) {
             self.muxType = muxType
             self.state = state
         }
@@ -1086,8 +1067,7 @@ extension ChimeClientTypes {
         public init(
             muxType: ChimeClientTypes.VideoMuxType? = nil,
             state: ChimeClientTypes.ArtifactsState? = nil
-        )
-        {
+        ) {
             self.muxType = muxType
             self.state = state
         }
@@ -1112,8 +1092,7 @@ extension ChimeClientTypes {
             audio: ChimeClientTypes.AudioArtifactsConfiguration? = nil,
             content: ChimeClientTypes.ContentArtifactsConfiguration? = nil,
             video: ChimeClientTypes.VideoArtifactsConfiguration? = nil
-        )
-        {
+        ) {
             self.audio = audio
             self.content = content
             self.video = video
@@ -1141,8 +1120,7 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         code: ChimeClientTypes.ErrorCode? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
@@ -1168,8 +1146,7 @@ public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.A
     public init(
         code: ChimeClientTypes.ErrorCode? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
@@ -1195,8 +1172,7 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public init(
         code: ChimeClientTypes.ErrorCode? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
@@ -1222,8 +1198,7 @@ public struct ServiceFailureException: ClientRuntime.ModeledError, AWSClientRunt
     public init(
         code: ChimeClientTypes.ErrorCode? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
@@ -1249,8 +1224,7 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
     public init(
         code: ChimeClientTypes.ErrorCode? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
@@ -1276,8 +1250,7 @@ public struct ThrottledClientException: ClientRuntime.ModeledError, AWSClientRun
     public init(
         code: ChimeClientTypes.ErrorCode? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
@@ -1303,8 +1276,7 @@ public struct UnauthorizedClientException: ClientRuntime.ModeledError, AWSClient
     public init(
         code: ChimeClientTypes.ErrorCode? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
@@ -1324,8 +1296,7 @@ public struct AssociatePhoneNumbersWithVoiceConnectorInput: Swift.Sendable {
         e164PhoneNumbers: [Swift.String]? = nil,
         forceAssociate: Swift.Bool? = nil,
         voiceConnectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.e164PhoneNumbers = e164PhoneNumbers
         self.forceAssociate = forceAssociate
         self.voiceConnectorId = voiceConnectorId
@@ -1352,8 +1323,7 @@ extension ChimeClientTypes {
             errorCode: ChimeClientTypes.ErrorCode? = nil,
             errorMessage: Swift.String? = nil,
             phoneNumberId: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.phoneNumberId = phoneNumberId
@@ -1367,8 +1337,7 @@ public struct AssociatePhoneNumbersWithVoiceConnectorOutput: Swift.Sendable {
 
     public init(
         phoneNumberErrors: [ChimeClientTypes.PhoneNumberError]? = nil
-    )
-    {
+    ) {
         self.phoneNumberErrors = phoneNumberErrors
     }
 }
@@ -1387,8 +1356,7 @@ public struct AssociatePhoneNumbersWithVoiceConnectorGroupInput: Swift.Sendable 
         e164PhoneNumbers: [Swift.String]? = nil,
         forceAssociate: Swift.Bool? = nil,
         voiceConnectorGroupId: Swift.String? = nil
-    )
-    {
+    ) {
         self.e164PhoneNumbers = e164PhoneNumbers
         self.forceAssociate = forceAssociate
         self.voiceConnectorGroupId = voiceConnectorGroupId
@@ -1406,8 +1374,7 @@ public struct AssociatePhoneNumbersWithVoiceConnectorGroupOutput: Swift.Sendable
 
     public init(
         phoneNumberErrors: [ChimeClientTypes.PhoneNumberError]? = nil
-    )
-    {
+    ) {
         self.phoneNumberErrors = phoneNumberErrors
     }
 }
@@ -1427,8 +1394,7 @@ public struct AssociatePhoneNumberWithUserInput: Swift.Sendable {
         accountId: Swift.String? = nil,
         e164PhoneNumber: Swift.String? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.e164PhoneNumber = e164PhoneNumber
         self.userId = userId
@@ -1456,8 +1422,7 @@ public struct AssociateSigninDelegateGroupsWithAccountInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         signinDelegateGroups: [ChimeClientTypes.SigninDelegateGroup]? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.signinDelegateGroups = signinDelegateGroups
     }
@@ -1483,8 +1448,7 @@ extension ChimeClientTypes {
             attendeeId: Swift.String? = nil,
             externalUserId: Swift.String? = nil,
             joinToken: Swift.String? = nil
-        )
-        {
+        ) {
             self.attendeeId = attendeeId
             self.externalUserId = externalUserId
             self.joinToken = joinToken
@@ -1511,8 +1475,7 @@ extension ChimeClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -1542,8 +1505,7 @@ extension ChimeClientTypes {
             invitedBy: ChimeClientTypes.Identity? = nil,
             members: [ChimeClientTypes.Identity]? = nil,
             type: ChimeClientTypes.ChannelMembershipType? = nil
-        )
-        {
+        ) {
             self.channelArn = channelArn
             self.invitedBy = invitedBy
             self.members = members
@@ -1572,8 +1534,7 @@ public struct ResourceLimitExceededException: ClientRuntime.ModeledError, AWSCli
     public init(
         code: ChimeClientTypes.ErrorCode? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
@@ -1592,8 +1553,7 @@ extension ChimeClientTypes {
         public init(
             externalUserId: Swift.String? = nil,
             tags: [ChimeClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.externalUserId = externalUserId
             self.tags = tags
         }
@@ -1616,8 +1576,7 @@ public struct BatchCreateAttendeeInput: Swift.Sendable {
     public init(
         attendees: [ChimeClientTypes.CreateAttendeeRequestItem]? = nil,
         meetingId: Swift.String? = nil
-    )
-    {
+    ) {
         self.attendees = attendees
         self.meetingId = meetingId
     }
@@ -1638,8 +1597,7 @@ extension ChimeClientTypes {
             errorCode: Swift.String? = nil,
             errorMessage: Swift.String? = nil,
             externalUserId: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.externalUserId = externalUserId
@@ -1661,8 +1619,7 @@ public struct BatchCreateAttendeeOutput: Swift.Sendable {
     public init(
         attendees: [ChimeClientTypes.Attendee]? = nil,
         errors: [ChimeClientTypes.CreateAttendeeError]? = nil
-    )
-    {
+    ) {
         self.attendees = attendees
         self.errors = errors
     }
@@ -1685,8 +1642,7 @@ public struct BatchCreateChannelMembershipInput: Swift.Sendable {
         chimeBearer: Swift.String? = nil,
         memberArns: [Swift.String]? = nil,
         type: ChimeClientTypes.ChannelMembershipType? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.chimeBearer = chimeBearer
         self.memberArns = memberArns
@@ -1709,8 +1665,7 @@ extension ChimeClientTypes {
             errorCode: ChimeClientTypes.ErrorCode? = nil,
             errorMessage: Swift.String? = nil,
             memberArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.memberArn = memberArn
@@ -1727,8 +1682,7 @@ public struct BatchCreateChannelMembershipOutput: Swift.Sendable {
     public init(
         batchChannelMemberships: ChimeClientTypes.BatchChannelMemberships? = nil,
         errors: [ChimeClientTypes.BatchCreateChannelMembershipError]? = nil
-    )
-    {
+    ) {
         self.batchChannelMemberships = batchChannelMemberships
         self.errors = errors
     }
@@ -1775,8 +1729,7 @@ extension ChimeClientTypes {
         public init(
             memberId: Swift.String? = nil,
             role: ChimeClientTypes.RoomMembershipRole? = nil
-        )
-        {
+        ) {
             self.memberId = memberId
             self.role = role
         }
@@ -1798,8 +1751,7 @@ public struct BatchCreateRoomMembershipInput: Swift.Sendable {
         accountId: Swift.String? = nil,
         membershipItemList: [ChimeClientTypes.MembershipItem]? = nil,
         roomId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.membershipItemList = membershipItemList
         self.roomId = roomId
@@ -1821,8 +1773,7 @@ extension ChimeClientTypes {
             errorCode: ChimeClientTypes.ErrorCode? = nil,
             errorMessage: Swift.String? = nil,
             memberId: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.memberId = memberId
@@ -1836,8 +1787,7 @@ public struct BatchCreateRoomMembershipOutput: Swift.Sendable {
 
     public init(
         errors: [ChimeClientTypes.MemberError]? = nil
-    )
-    {
+    ) {
         self.errors = errors
     }
 }
@@ -1849,8 +1799,7 @@ public struct BatchDeletePhoneNumberInput: Swift.Sendable {
 
     public init(
         phoneNumberIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.phoneNumberIds = phoneNumberIds
     }
 }
@@ -1861,8 +1810,7 @@ public struct BatchDeletePhoneNumberOutput: Swift.Sendable {
 
     public init(
         phoneNumberErrors: [ChimeClientTypes.PhoneNumberError]? = nil
-    )
-    {
+    ) {
         self.phoneNumberErrors = phoneNumberErrors
     }
 }
@@ -1878,8 +1826,7 @@ public struct BatchSuspendUserInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         userIdList: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.userIdList = userIdList
     }
@@ -1900,8 +1847,7 @@ extension ChimeClientTypes {
             errorCode: ChimeClientTypes.ErrorCode? = nil,
             errorMessage: Swift.String? = nil,
             userId: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.userId = userId
@@ -1915,8 +1861,7 @@ public struct BatchSuspendUserOutput: Swift.Sendable {
 
     public init(
         userErrors: [ChimeClientTypes.UserError]? = nil
-    )
-    {
+    ) {
         self.userErrors = userErrors
     }
 }
@@ -1932,8 +1877,7 @@ public struct BatchUnsuspendUserInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         userIdList: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.userIdList = userIdList
     }
@@ -1945,8 +1889,7 @@ public struct BatchUnsuspendUserOutput: Swift.Sendable {
 
     public init(
         userErrors: [ChimeClientTypes.UserError]? = nil
-    )
-    {
+    ) {
         self.userErrors = userErrors
     }
 }
@@ -1999,8 +1942,7 @@ extension ChimeClientTypes {
             callingName: Swift.String? = nil,
             phoneNumberId: Swift.String? = nil,
             productType: ChimeClientTypes.PhoneNumberProductType? = nil
-        )
-        {
+        ) {
             self.callingName = callingName
             self.phoneNumberId = phoneNumberId
             self.productType = productType
@@ -2020,8 +1962,7 @@ public struct BatchUpdatePhoneNumberInput: Swift.Sendable {
 
     public init(
         updatePhoneNumberRequestItems: [ChimeClientTypes.UpdatePhoneNumberRequestItem]? = nil
-    )
-    {
+    ) {
         self.updatePhoneNumberRequestItems = updatePhoneNumberRequestItems
     }
 }
@@ -2032,8 +1973,7 @@ public struct BatchUpdatePhoneNumberOutput: Swift.Sendable {
 
     public init(
         phoneNumberErrors: [ChimeClientTypes.PhoneNumberError]? = nil
-    )
-    {
+    ) {
         self.phoneNumberErrors = phoneNumberErrors
     }
 }
@@ -2086,8 +2026,7 @@ extension ChimeClientTypes {
             licenseType: ChimeClientTypes.License? = nil,
             userId: Swift.String? = nil,
             userType: ChimeClientTypes.UserType? = nil
-        )
-        {
+        ) {
             self.alexaForBusinessMetadata = alexaForBusinessMetadata
             self.licenseType = licenseType
             self.userId = userId
@@ -2107,8 +2046,7 @@ public struct BatchUpdateUserInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         updateUserRequestItems: [ChimeClientTypes.UpdateUserRequestItem]? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.updateUserRequestItems = updateUserRequestItems
     }
@@ -2120,8 +2058,7 @@ public struct BatchUpdateUserOutput: Swift.Sendable {
 
     public init(
         userErrors: [ChimeClientTypes.UserError]? = nil
-    )
-    {
+    ) {
         self.userErrors = userErrors
     }
 }
@@ -2185,8 +2122,7 @@ extension ChimeClientTypes {
             securityToken: Swift.String? = nil,
             updatedTimestamp: Foundation.Date? = nil,
             userId: Swift.String? = nil
-        )
-        {
+        ) {
             self.botEmail = botEmail
             self.botId = botId
             self.botType = botType
@@ -2214,8 +2150,7 @@ extension ChimeClientTypes {
 
         public init(
             cdrBucket: Swift.String? = nil
-        )
-        {
+        ) {
             self.cdrBucket = cdrBucket
         }
     }
@@ -2283,8 +2218,7 @@ extension ChimeClientTypes {
             state: Swift.String? = nil,
             streetInfo: Swift.String? = nil,
             streetNumber: Swift.String? = nil
-        )
-        {
+        ) {
             self.city = city
             self.country = country
             self.postalCode = postalCode
@@ -2421,8 +2355,7 @@ extension ChimeClientTypes {
             mode: ChimeClientTypes.ChannelMode? = nil,
             name: Swift.String? = nil,
             privacy: ChimeClientTypes.ChannelPrivacy? = nil
-        )
-        {
+        ) {
             self.channelArn = channelArn
             self.createdBy = createdBy
             self.createdTimestamp = createdTimestamp
@@ -2459,8 +2392,7 @@ extension ChimeClientTypes {
             createdBy: ChimeClientTypes.Identity? = nil,
             createdTimestamp: Foundation.Date? = nil,
             member: ChimeClientTypes.Identity? = nil
-        )
-        {
+        ) {
             self.channelArn = channelArn
             self.createdBy = createdBy
             self.createdTimestamp = createdTimestamp
@@ -2478,8 +2410,7 @@ extension ChimeClientTypes {
 
         public init(
             member: ChimeClientTypes.Identity? = nil
-        )
-        {
+        ) {
             self.member = member
         }
     }
@@ -2509,8 +2440,7 @@ extension ChimeClientTypes {
             lastUpdatedTimestamp: Foundation.Date? = nil,
             member: ChimeClientTypes.Identity? = nil,
             type: ChimeClientTypes.ChannelMembershipType? = nil
-        )
-        {
+        ) {
             self.channelArn = channelArn
             self.createdTimestamp = createdTimestamp
             self.invitedBy = invitedBy
@@ -2545,8 +2475,7 @@ extension ChimeClientTypes {
             mode: ChimeClientTypes.ChannelMode? = nil,
             name: Swift.String? = nil,
             privacy: ChimeClientTypes.ChannelPrivacy? = nil
-        )
-        {
+        ) {
             self.channelArn = channelArn
             self.lastMessageTimestamp = lastMessageTimestamp
             self.metadata = metadata
@@ -2574,8 +2503,7 @@ extension ChimeClientTypes {
         public init(
             appInstanceUserMembershipSummary: ChimeClientTypes.AppInstanceUserMembershipSummary? = nil,
             channelSummary: ChimeClientTypes.ChannelSummary? = nil
-        )
-        {
+        ) {
             self.appInstanceUserMembershipSummary = appInstanceUserMembershipSummary
             self.channelSummary = channelSummary
         }
@@ -2591,8 +2519,7 @@ extension ChimeClientTypes {
 
         public init(
             member: ChimeClientTypes.Identity? = nil
-        )
-        {
+        ) {
             self.member = member
         }
     }
@@ -2695,8 +2622,7 @@ extension ChimeClientTypes {
             redacted: Swift.Bool = false,
             sender: ChimeClientTypes.Identity? = nil,
             type: ChimeClientTypes.ChannelMessageType? = nil
-        )
-        {
+        ) {
             self.channelArn = channelArn
             self.content = content
             self.createdTimestamp = createdTimestamp
@@ -2750,8 +2676,7 @@ extension ChimeClientTypes {
             redacted: Swift.Bool = false,
             sender: ChimeClientTypes.Identity? = nil,
             type: ChimeClientTypes.ChannelMessageType? = nil
-        )
-        {
+        ) {
             self.content = content
             self.createdTimestamp = createdTimestamp
             self.lastEditedTimestamp = lastEditedTimestamp
@@ -2779,8 +2704,7 @@ extension ChimeClientTypes {
 
         public init(
             channelSummary: ChimeClientTypes.ChannelSummary? = nil
-        )
-        {
+        ) {
             self.channelSummary = channelSummary
         }
     }
@@ -2804,8 +2728,7 @@ extension ChimeClientTypes {
             createdBy: ChimeClientTypes.Identity? = nil,
             createdTimestamp: Foundation.Date? = nil,
             moderator: ChimeClientTypes.Identity? = nil
-        )
-        {
+        ) {
             self.channelArn = channelArn
             self.createdBy = createdBy
             self.createdTimestamp = createdTimestamp
@@ -2823,8 +2746,7 @@ extension ChimeClientTypes {
 
         public init(
             moderator: ChimeClientTypes.Identity? = nil
-        )
-        {
+        ) {
             self.moderator = moderator
         }
     }
@@ -2842,8 +2764,7 @@ extension ChimeClientTypes {
         public init(
             attendeeIds: [Swift.String]? = nil,
             externalUserIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.attendeeIds = attendeeIds
             self.externalUserIds = externalUserIds
         }
@@ -2864,8 +2785,7 @@ extension ChimeClientTypes {
 
         public init(
             selectedVideoStreams: ChimeClientTypes.SelectedVideoStreams? = nil
-        )
-        {
+        ) {
             self.selectedVideoStreams = selectedVideoStreams
         }
     }
@@ -2883,8 +2803,7 @@ extension ChimeClientTypes {
         public init(
             artifactsConfiguration: ChimeClientTypes.ArtifactsConfiguration? = nil,
             sourceConfiguration: ChimeClientTypes.SourceConfiguration? = nil
-        )
-        {
+        ) {
             self.artifactsConfiguration = artifactsConfiguration
             self.sourceConfiguration = sourceConfiguration
         }
@@ -2911,8 +2830,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public init(
         code: ChimeClientTypes.ErrorCode? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
@@ -2927,8 +2845,7 @@ extension ChimeClientTypes {
 
         public init(
             retentionDays: Swift.Int? = nil
-        )
-        {
+        ) {
             self.retentionDays = retentionDays
         }
     }
@@ -2941,8 +2858,7 @@ public struct CreateAccountInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -2953,8 +2869,7 @@ public struct CreateAccountOutput: Swift.Sendable {
 
     public init(
         account: ChimeClientTypes.Account? = nil
-    )
-    {
+    ) {
         self.account = account
     }
 }
@@ -2976,8 +2891,7 @@ public struct CreateAppInstanceInput: Swift.Sendable {
         metadata: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [ChimeClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.metadata = metadata
         self.name = name
@@ -2996,8 +2910,7 @@ public struct CreateAppInstanceOutput: Swift.Sendable {
 
     public init(
         appInstanceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.appInstanceArn = appInstanceArn
     }
 }
@@ -3013,8 +2926,7 @@ public struct CreateAppInstanceAdminInput: Swift.Sendable {
     public init(
         appInstanceAdminArn: Swift.String? = nil,
         appInstanceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.appInstanceAdminArn = appInstanceAdminArn
         self.appInstanceArn = appInstanceArn
     }
@@ -3029,8 +2941,7 @@ public struct CreateAppInstanceAdminOutput: Swift.Sendable {
     public init(
         appInstanceAdmin: ChimeClientTypes.Identity? = nil,
         appInstanceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.appInstanceAdmin = appInstanceAdmin
         self.appInstanceArn = appInstanceArn
     }
@@ -3061,8 +2972,7 @@ public struct CreateAppInstanceUserInput: Swift.Sendable {
         metadata: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [ChimeClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.appInstanceArn = appInstanceArn
         self.appInstanceUserId = appInstanceUserId
         self.clientRequestToken = clientRequestToken
@@ -3083,8 +2993,7 @@ public struct CreateAppInstanceUserOutput: Swift.Sendable {
 
     public init(
         appInstanceUserArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.appInstanceUserArn = appInstanceUserArn
     }
 }
@@ -3103,8 +3012,7 @@ public struct CreateAttendeeInput: Swift.Sendable {
         externalUserId: Swift.String? = nil,
         meetingId: Swift.String? = nil,
         tags: [ChimeClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.externalUserId = externalUserId
         self.meetingId = meetingId
         self.tags = tags
@@ -3122,8 +3030,7 @@ public struct CreateAttendeeOutput: Swift.Sendable {
 
     public init(
         attendee: ChimeClientTypes.Attendee? = nil
-    )
-    {
+    ) {
         self.attendee = attendee
     }
 }
@@ -3142,8 +3049,7 @@ public struct CreateBotInput: Swift.Sendable {
         accountId: Swift.String? = nil,
         displayName: Swift.String? = nil,
         domain: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.displayName = displayName
         self.domain = domain
@@ -3161,8 +3067,7 @@ public struct CreateBotOutput: Swift.Sendable {
 
     public init(
         bot: ChimeClientTypes.Bot? = nil
-    )
-    {
+    ) {
         self.bot = bot
     }
 }
@@ -3197,8 +3102,7 @@ public struct CreateChannelInput: Swift.Sendable {
         name: Swift.String? = nil,
         privacy: ChimeClientTypes.ChannelPrivacy? = nil,
         tags: [ChimeClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.appInstanceArn = appInstanceArn
         self.chimeBearer = chimeBearer
         self.clientRequestToken = clientRequestToken
@@ -3221,8 +3125,7 @@ public struct CreateChannelOutput: Swift.Sendable {
 
     public init(
         channelArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
     }
 }
@@ -3241,8 +3144,7 @@ public struct CreateChannelBanInput: Swift.Sendable {
         channelArn: Swift.String? = nil,
         chimeBearer: Swift.String? = nil,
         memberArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.chimeBearer = chimeBearer
         self.memberArn = memberArn
@@ -3258,8 +3160,7 @@ public struct CreateChannelBanOutput: Swift.Sendable {
     public init(
         channelArn: Swift.String? = nil,
         member: ChimeClientTypes.Identity? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.member = member
     }
@@ -3283,8 +3184,7 @@ public struct CreateChannelMembershipInput: Swift.Sendable {
         chimeBearer: Swift.String? = nil,
         memberArn: Swift.String? = nil,
         type: ChimeClientTypes.ChannelMembershipType? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.chimeBearer = chimeBearer
         self.memberArn = memberArn
@@ -3301,8 +3201,7 @@ public struct CreateChannelMembershipOutput: Swift.Sendable {
     public init(
         channelArn: Swift.String? = nil,
         member: ChimeClientTypes.Identity? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.member = member
     }
@@ -3322,8 +3221,7 @@ public struct CreateChannelModeratorInput: Swift.Sendable {
         channelArn: Swift.String? = nil,
         channelModeratorArn: Swift.String? = nil,
         chimeBearer: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.channelModeratorArn = channelModeratorArn
         self.chimeBearer = chimeBearer
@@ -3339,8 +3237,7 @@ public struct CreateChannelModeratorOutput: Swift.Sendable {
     public init(
         channelArn: Swift.String? = nil,
         channelModerator: ChimeClientTypes.Identity? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.channelModerator = channelModerator
     }
@@ -3423,8 +3320,7 @@ public struct CreateMediaCapturePipelineInput: Swift.Sendable {
         sinkType: ChimeClientTypes.MediaPipelineSinkType? = nil,
         sourceArn: Swift.String? = nil,
         sourceType: ChimeClientTypes.MediaPipelineSourceType? = nil
-    )
-    {
+    ) {
         self.chimeSdkMeetingConfiguration = chimeSdkMeetingConfiguration
         self.clientRequestToken = clientRequestToken
         self.sinkArn = sinkArn
@@ -3510,8 +3406,7 @@ extension ChimeClientTypes {
             sourceType: ChimeClientTypes.MediaPipelineSourceType? = nil,
             status: ChimeClientTypes.MediaPipelineStatus? = nil,
             updatedTimestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.chimeSdkMeetingConfiguration = chimeSdkMeetingConfiguration
             self.createdTimestamp = createdTimestamp
             self.mediaPipelineId = mediaPipelineId
@@ -3536,8 +3431,7 @@ public struct CreateMediaCapturePipelineOutput: Swift.Sendable {
 
     public init(
         mediaCapturePipeline: ChimeClientTypes.MediaCapturePipeline? = nil
-    )
-    {
+    ) {
         self.mediaCapturePipeline = mediaCapturePipeline
     }
 }
@@ -3554,8 +3448,7 @@ extension ChimeClientTypes {
         public init(
             snsTopicArn: Swift.String? = nil,
             sqsQueueArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.snsTopicArn = snsTopicArn
             self.sqsQueueArn = sqsQueueArn
         }
@@ -3589,8 +3482,7 @@ public struct CreateMeetingInput: Swift.Sendable {
         meetingHostId: Swift.String? = nil,
         notificationsConfiguration: ChimeClientTypes.MeetingNotificationConfiguration? = nil,
         tags: [ChimeClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.externalMeetingId = externalMeetingId
         self.mediaRegion = mediaRegion
@@ -3635,8 +3527,7 @@ extension ChimeClientTypes {
             screenViewingUrl: Swift.String? = nil,
             signalingUrl: Swift.String? = nil,
             turnControlUrl: Swift.String? = nil
-        )
-        {
+        ) {
             self.audioFallbackUrl = audioFallbackUrl
             self.audioHostUrl = audioHostUrl
             self.eventIngestionUrl = eventIngestionUrl
@@ -3667,8 +3558,7 @@ extension ChimeClientTypes {
             mediaPlacement: ChimeClientTypes.MediaPlacement? = nil,
             mediaRegion: Swift.String? = nil,
             meetingId: Swift.String? = nil
-        )
-        {
+        ) {
             self.externalMeetingId = externalMeetingId
             self.mediaPlacement = mediaPlacement
             self.mediaRegion = mediaRegion
@@ -3688,8 +3578,7 @@ public struct CreateMeetingOutput: Swift.Sendable {
 
     public init(
         meeting: ChimeClientTypes.Meeting? = nil
-    )
-    {
+    ) {
         self.meeting = meeting
     }
 }
@@ -3713,8 +3602,7 @@ public struct CreateMeetingDialOutInput: Swift.Sendable {
         joinToken: Swift.String? = nil,
         meetingId: Swift.String? = nil,
         toPhoneNumber: Swift.String? = nil
-    )
-    {
+    ) {
         self.fromPhoneNumber = fromPhoneNumber
         self.joinToken = joinToken
         self.meetingId = meetingId
@@ -3733,8 +3621,7 @@ public struct CreateMeetingDialOutOutput: Swift.Sendable {
 
     public init(
         transactionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.transactionId = transactionId
     }
 }
@@ -3764,8 +3651,7 @@ public struct CreateMeetingWithAttendeesInput: Swift.Sendable {
         meetingHostId: Swift.String? = nil,
         notificationsConfiguration: ChimeClientTypes.MeetingNotificationConfiguration? = nil,
         tags: [ChimeClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.attendees = attendees
         self.clientRequestToken = clientRequestToken
         self.externalMeetingId = externalMeetingId
@@ -3793,8 +3679,7 @@ public struct CreateMeetingWithAttendeesOutput: Swift.Sendable {
         attendees: [ChimeClientTypes.Attendee]? = nil,
         errors: [ChimeClientTypes.CreateAttendeeError]? = nil,
         meeting: ChimeClientTypes.Meeting? = nil
-    )
-    {
+    ) {
         self.attendees = attendees
         self.errors = errors
         self.meeting = meeting
@@ -3812,8 +3697,7 @@ public struct CreatePhoneNumberOrderInput: Swift.Sendable {
     public init(
         e164PhoneNumbers: [Swift.String]? = nil,
         productType: ChimeClientTypes.PhoneNumberProductType? = nil
-    )
-    {
+    ) {
         self.e164PhoneNumbers = e164PhoneNumbers
         self.productType = productType
     }
@@ -3868,8 +3752,7 @@ extension ChimeClientTypes {
         public init(
             e164PhoneNumber: Swift.String? = nil,
             status: ChimeClientTypes.OrderedPhoneNumberStatus? = nil
-        )
-        {
+        ) {
             self.e164PhoneNumber = e164PhoneNumber
             self.status = status
         }
@@ -3940,8 +3823,7 @@ extension ChimeClientTypes {
             productType: ChimeClientTypes.PhoneNumberProductType? = nil,
             status: ChimeClientTypes.PhoneNumberOrderStatus? = nil,
             updatedTimestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.createdTimestamp = createdTimestamp
             self.orderedPhoneNumbers = orderedPhoneNumbers
             self.phoneNumberOrderId = phoneNumberOrderId
@@ -3958,8 +3840,7 @@ public struct CreatePhoneNumberOrderOutput: Swift.Sendable {
 
     public init(
         phoneNumberOrder: ChimeClientTypes.PhoneNumberOrder? = nil
-    )
-    {
+    ) {
         self.phoneNumberOrder = phoneNumberOrder
     }
 }
@@ -4007,8 +3888,7 @@ extension ChimeClientTypes {
         public init(
             areaCode: Swift.String? = nil,
             country: Swift.String? = nil
-        )
-        {
+        ) {
             self.areaCode = areaCode
             self.country = country
         }
@@ -4074,8 +3954,7 @@ public struct CreateProxySessionInput: Swift.Sendable {
         numberSelectionBehavior: ChimeClientTypes.NumberSelectionBehavior? = nil,
         participantPhoneNumbers: [Swift.String]? = nil,
         voiceConnectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.capabilities = capabilities
         self.expiryMinutes = expiryMinutes
         self.geoMatchLevel = geoMatchLevel
@@ -4104,8 +3983,7 @@ extension ChimeClientTypes {
         public init(
             phoneNumber: Swift.String? = nil,
             proxyPhoneNumber: Swift.String? = nil
-        )
-        {
+        ) {
             self.phoneNumber = phoneNumber
             self.proxyPhoneNumber = proxyPhoneNumber
         }
@@ -4194,8 +4072,7 @@ extension ChimeClientTypes {
             status: ChimeClientTypes.ProxySessionStatus? = nil,
             updatedTimestamp: Foundation.Date? = nil,
             voiceConnectorId: Swift.String? = nil
-        )
-        {
+        ) {
             self.capabilities = capabilities
             self.createdTimestamp = createdTimestamp
             self.endedTimestamp = endedTimestamp
@@ -4219,8 +4096,7 @@ public struct CreateProxySessionOutput: Swift.Sendable {
 
     public init(
         proxySession: ChimeClientTypes.ProxySession? = nil
-    )
-    {
+    ) {
         self.proxySession = proxySession
     }
 }
@@ -4239,8 +4115,7 @@ public struct CreateRoomInput: Swift.Sendable {
         accountId: Swift.String? = nil,
         clientRequestToken: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.clientRequestToken = clientRequestToken
         self.name = name
@@ -4276,8 +4151,7 @@ extension ChimeClientTypes {
             name: Swift.String? = nil,
             roomId: Swift.String? = nil,
             updatedTimestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.createdBy = createdBy
             self.createdTimestamp = createdTimestamp
@@ -4299,8 +4173,7 @@ public struct CreateRoomOutput: Swift.Sendable {
 
     public init(
         room: ChimeClientTypes.Room? = nil
-    )
-    {
+    ) {
         self.room = room
     }
 }
@@ -4323,8 +4196,7 @@ public struct CreateRoomMembershipInput: Swift.Sendable {
         memberId: Swift.String? = nil,
         role: ChimeClientTypes.RoomMembershipRole? = nil,
         roomId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.memberId = memberId
         self.role = role
@@ -4385,8 +4257,7 @@ extension ChimeClientTypes {
             fullName: Swift.String? = nil,
             memberId: Swift.String? = nil,
             memberType: ChimeClientTypes.MemberType? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.email = email
             self.fullName = fullName
@@ -4422,8 +4293,7 @@ extension ChimeClientTypes {
             role: ChimeClientTypes.RoomMembershipRole? = nil,
             roomId: Swift.String? = nil,
             updatedTimestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.invitedBy = invitedBy
             self.member = member
             self.role = role
@@ -4439,8 +4309,7 @@ public struct CreateRoomMembershipOutput: Swift.Sendable {
 
     public init(
         roomMembership: ChimeClientTypes.RoomMembership? = nil
-    )
-    {
+    ) {
         self.roomMembership = roomMembership
     }
 }
@@ -4454,8 +4323,7 @@ extension ChimeClientTypes {
 
         public init(
             lambdaArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.lambdaArn = lambdaArn
         }
     }
@@ -4481,8 +4349,7 @@ public struct CreateSipMediaApplicationInput: Swift.Sendable {
         awsRegion: Swift.String? = nil,
         endpoints: [ChimeClientTypes.SipMediaApplicationEndpoint]? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsRegion = awsRegion
         self.endpoints = endpoints
         self.name = name
@@ -4513,8 +4380,7 @@ extension ChimeClientTypes {
             name: Swift.String? = nil,
             sipMediaApplicationId: Swift.String? = nil,
             updatedTimestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.awsRegion = awsRegion
             self.createdTimestamp = createdTimestamp
             self.endpoints = endpoints
@@ -4531,8 +4397,7 @@ public struct CreateSipMediaApplicationOutput: Swift.Sendable {
 
     public init(
         sipMediaApplication: ChimeClientTypes.SipMediaApplication? = nil
-    )
-    {
+    ) {
         self.sipMediaApplication = sipMediaApplication
     }
 }
@@ -4555,8 +4420,7 @@ public struct CreateSipMediaApplicationCallInput: Swift.Sendable {
         sipHeaders: [Swift.String: Swift.String]? = nil,
         sipMediaApplicationId: Swift.String? = nil,
         toPhoneNumber: Swift.String? = nil
-    )
-    {
+    ) {
         self.fromPhoneNumber = fromPhoneNumber
         self.sipHeaders = sipHeaders
         self.sipMediaApplicationId = sipMediaApplicationId
@@ -4578,8 +4442,7 @@ extension ChimeClientTypes {
 
         public init(
             transactionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.transactionId = transactionId
         }
     }
@@ -4591,8 +4454,7 @@ public struct CreateSipMediaApplicationCallOutput: Swift.Sendable {
 
     public init(
         sipMediaApplicationCall: ChimeClientTypes.SipMediaApplicationCall? = nil
-    )
-    {
+    ) {
         self.sipMediaApplicationCall = sipMediaApplicationCall
     }
 }
@@ -4612,8 +4474,7 @@ extension ChimeClientTypes {
             awsRegion: Swift.String? = nil,
             priority: Swift.Int? = nil,
             sipMediaApplicationId: Swift.String? = nil
-        )
-        {
+        ) {
             self.awsRegion = awsRegion
             self.priority = priority
             self.sipMediaApplicationId = sipMediaApplicationId
@@ -4672,8 +4533,7 @@ public struct CreateSipRuleInput: Swift.Sendable {
         targetApplications: [ChimeClientTypes.SipRuleTargetApplication]? = nil,
         triggerType: ChimeClientTypes.SipRuleTriggerType? = nil,
         triggerValue: Swift.String? = nil
-    )
-    {
+    ) {
         self.disabled = disabled
         self.name = name
         self.targetApplications = targetApplications
@@ -4712,8 +4572,7 @@ extension ChimeClientTypes {
             triggerType: ChimeClientTypes.SipRuleTriggerType? = nil,
             triggerValue: Swift.String? = nil,
             updatedTimestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.createdTimestamp = createdTimestamp
             self.disabled = disabled
             self.name = name
@@ -4732,8 +4591,7 @@ public struct CreateSipRuleOutput: Swift.Sendable {
 
     public init(
         sipRule: ChimeClientTypes.SipRule? = nil
-    )
-    {
+    ) {
         self.sipRule = sipRule
     }
 }
@@ -4754,8 +4612,7 @@ public struct CreateUserInput: Swift.Sendable {
         email: Swift.String? = nil,
         userType: ChimeClientTypes.UserType? = nil,
         username: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.email = email
         self.userType = userType
@@ -4878,8 +4735,7 @@ extension ChimeClientTypes {
             userInvitationStatus: ChimeClientTypes.InviteStatus? = nil,
             userRegistrationStatus: ChimeClientTypes.RegistrationStatus? = nil,
             userType: ChimeClientTypes.UserType? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.alexaForBusinessMetadata = alexaForBusinessMetadata
             self.displayName = displayName
@@ -4908,8 +4764,7 @@ public struct CreateUserOutput: Swift.Sendable {
 
     public init(
         user: ChimeClientTypes.User? = nil
-    )
-    {
+    ) {
         self.user = user
     }
 }
@@ -4957,8 +4812,7 @@ public struct CreateVoiceConnectorInput: Swift.Sendable {
         awsRegion: ChimeClientTypes.VoiceConnectorAwsRegion? = nil,
         name: Swift.String? = nil,
         requireEncryption: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.awsRegion = awsRegion
         self.name = name
         self.requireEncryption = requireEncryption
@@ -4995,8 +4849,7 @@ extension ChimeClientTypes {
             updatedTimestamp: Foundation.Date? = nil,
             voiceConnectorArn: Swift.String? = nil,
             voiceConnectorId: Swift.String? = nil
-        )
-        {
+        ) {
             self.awsRegion = awsRegion
             self.createdTimestamp = createdTimestamp
             self.name = name
@@ -5015,8 +4868,7 @@ public struct CreateVoiceConnectorOutput: Swift.Sendable {
 
     public init(
         voiceConnector: ChimeClientTypes.VoiceConnector? = nil
-    )
-    {
+    ) {
         self.voiceConnector = voiceConnector
     }
 }
@@ -5035,8 +4887,7 @@ extension ChimeClientTypes {
         public init(
             priority: Swift.Int? = nil,
             voiceConnectorId: Swift.String? = nil
-        )
-        {
+        ) {
             self.priority = priority
             self.voiceConnectorId = voiceConnectorId
         }
@@ -5053,8 +4904,7 @@ public struct CreateVoiceConnectorGroupInput: Swift.Sendable {
     public init(
         name: Swift.String? = nil,
         voiceConnectorItems: [ChimeClientTypes.VoiceConnectorItem]? = nil
-    )
-    {
+    ) {
         self.name = name
         self.voiceConnectorItems = voiceConnectorItems
     }
@@ -5084,8 +4934,7 @@ extension ChimeClientTypes {
             voiceConnectorGroupArn: Swift.String? = nil,
             voiceConnectorGroupId: Swift.String? = nil,
             voiceConnectorItems: [ChimeClientTypes.VoiceConnectorItem]? = nil
-        )
-        {
+        ) {
             self.createdTimestamp = createdTimestamp
             self.name = name
             self.updatedTimestamp = updatedTimestamp
@@ -5102,8 +4951,7 @@ public struct CreateVoiceConnectorGroupOutput: Swift.Sendable {
 
     public init(
         voiceConnectorGroup: ChimeClientTypes.VoiceConnectorGroup? = nil
-    )
-    {
+    ) {
         self.voiceConnectorGroup = voiceConnectorGroup
     }
 }
@@ -5120,8 +4968,7 @@ extension ChimeClientTypes {
         public init(
             password: Swift.String? = nil,
             username: Swift.String? = nil
-        )
-        {
+        ) {
             self.password = password
             self.username = username
         }
@@ -5153,8 +5000,7 @@ public struct UnprocessableEntityException: ClientRuntime.ModeledError, AWSClien
     public init(
         code: ChimeClientTypes.ErrorCode? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
@@ -5167,8 +5013,7 @@ public struct DeleteAccountInput: Swift.Sendable {
 
     public init(
         accountId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
     }
 }
@@ -5185,8 +5030,7 @@ public struct DeleteAppInstanceInput: Swift.Sendable {
 
     public init(
         appInstanceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.appInstanceArn = appInstanceArn
     }
 }
@@ -5202,8 +5046,7 @@ public struct DeleteAppInstanceAdminInput: Swift.Sendable {
     public init(
         appInstanceAdminArn: Swift.String? = nil,
         appInstanceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.appInstanceAdminArn = appInstanceAdminArn
         self.appInstanceArn = appInstanceArn
     }
@@ -5216,8 +5059,7 @@ public struct DeleteAppInstanceStreamingConfigurationsInput: Swift.Sendable {
 
     public init(
         appInstanceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.appInstanceArn = appInstanceArn
     }
 }
@@ -5229,8 +5071,7 @@ public struct DeleteAppInstanceUserInput: Swift.Sendable {
 
     public init(
         appInstanceUserArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.appInstanceUserArn = appInstanceUserArn
     }
 }
@@ -5246,8 +5087,7 @@ public struct DeleteAttendeeInput: Swift.Sendable {
     public init(
         attendeeId: Swift.String? = nil,
         meetingId: Swift.String? = nil
-    )
-    {
+    ) {
         self.attendeeId = attendeeId
         self.meetingId = meetingId
     }
@@ -5263,8 +5103,7 @@ public struct DeleteChannelInput: Swift.Sendable {
     public init(
         channelArn: Swift.String? = nil,
         chimeBearer: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.chimeBearer = chimeBearer
     }
@@ -5284,8 +5123,7 @@ public struct DeleteChannelBanInput: Swift.Sendable {
         channelArn: Swift.String? = nil,
         chimeBearer: Swift.String? = nil,
         memberArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.chimeBearer = chimeBearer
         self.memberArn = memberArn
@@ -5306,8 +5144,7 @@ public struct DeleteChannelMembershipInput: Swift.Sendable {
         channelArn: Swift.String? = nil,
         chimeBearer: Swift.String? = nil,
         memberArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.chimeBearer = chimeBearer
         self.memberArn = memberArn
@@ -5328,8 +5165,7 @@ public struct DeleteChannelMessageInput: Swift.Sendable {
         channelArn: Swift.String? = nil,
         chimeBearer: Swift.String? = nil,
         messageId: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.chimeBearer = chimeBearer
         self.messageId = messageId
@@ -5350,8 +5186,7 @@ public struct DeleteChannelModeratorInput: Swift.Sendable {
         channelArn: Swift.String? = nil,
         channelModeratorArn: Swift.String? = nil,
         chimeBearer: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.channelModeratorArn = channelModeratorArn
         self.chimeBearer = chimeBearer
@@ -5369,8 +5204,7 @@ public struct DeleteEventsConfigurationInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         botId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.botId = botId
     }
@@ -5383,8 +5217,7 @@ public struct DeleteMediaCapturePipelineInput: Swift.Sendable {
 
     public init(
         mediaPipelineId: Swift.String? = nil
-    )
-    {
+    ) {
         self.mediaPipelineId = mediaPipelineId
     }
 }
@@ -5396,8 +5229,7 @@ public struct DeleteMeetingInput: Swift.Sendable {
 
     public init(
         meetingId: Swift.String? = nil
-    )
-    {
+    ) {
         self.meetingId = meetingId
     }
 }
@@ -5409,8 +5241,7 @@ public struct DeletePhoneNumberInput: Swift.Sendable {
 
     public init(
         phoneNumberId: Swift.String? = nil
-    )
-    {
+    ) {
         self.phoneNumberId = phoneNumberId
     }
 }
@@ -5426,8 +5257,7 @@ public struct DeleteProxySessionInput: Swift.Sendable {
     public init(
         proxySessionId: Swift.String? = nil,
         voiceConnectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.proxySessionId = proxySessionId
         self.voiceConnectorId = voiceConnectorId
     }
@@ -5444,8 +5274,7 @@ public struct DeleteRoomInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         roomId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.roomId = roomId
     }
@@ -5466,8 +5295,7 @@ public struct DeleteRoomMembershipInput: Swift.Sendable {
         accountId: Swift.String? = nil,
         memberId: Swift.String? = nil,
         roomId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.memberId = memberId
         self.roomId = roomId
@@ -5481,8 +5309,7 @@ public struct DeleteSipMediaApplicationInput: Swift.Sendable {
 
     public init(
         sipMediaApplicationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.sipMediaApplicationId = sipMediaApplicationId
     }
 }
@@ -5494,8 +5321,7 @@ public struct DeleteSipRuleInput: Swift.Sendable {
 
     public init(
         sipRuleId: Swift.String? = nil
-    )
-    {
+    ) {
         self.sipRuleId = sipRuleId
     }
 }
@@ -5507,8 +5333,7 @@ public struct DeleteVoiceConnectorInput: Swift.Sendable {
 
     public init(
         voiceConnectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.voiceConnectorId = voiceConnectorId
     }
 }
@@ -5520,8 +5345,7 @@ public struct DeleteVoiceConnectorEmergencyCallingConfigurationInput: Swift.Send
 
     public init(
         voiceConnectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.voiceConnectorId = voiceConnectorId
     }
 }
@@ -5533,8 +5357,7 @@ public struct DeleteVoiceConnectorGroupInput: Swift.Sendable {
 
     public init(
         voiceConnectorGroupId: Swift.String? = nil
-    )
-    {
+    ) {
         self.voiceConnectorGroupId = voiceConnectorGroupId
     }
 }
@@ -5546,8 +5369,7 @@ public struct DeleteVoiceConnectorOriginationInput: Swift.Sendable {
 
     public init(
         voiceConnectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.voiceConnectorId = voiceConnectorId
     }
 }
@@ -5559,8 +5381,7 @@ public struct DeleteVoiceConnectorProxyInput: Swift.Sendable {
 
     public init(
         voiceConnectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.voiceConnectorId = voiceConnectorId
     }
 }
@@ -5572,8 +5393,7 @@ public struct DeleteVoiceConnectorStreamingConfigurationInput: Swift.Sendable {
 
     public init(
         voiceConnectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.voiceConnectorId = voiceConnectorId
     }
 }
@@ -5585,8 +5405,7 @@ public struct DeleteVoiceConnectorTerminationInput: Swift.Sendable {
 
     public init(
         voiceConnectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.voiceConnectorId = voiceConnectorId
     }
 }
@@ -5602,8 +5421,7 @@ public struct DeleteVoiceConnectorTerminationCredentialsInput: Swift.Sendable {
     public init(
         usernames: [Swift.String]? = nil,
         voiceConnectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.usernames = usernames
         self.voiceConnectorId = voiceConnectorId
     }
@@ -5621,8 +5439,7 @@ public struct DescribeAppInstanceInput: Swift.Sendable {
 
     public init(
         appInstanceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.appInstanceArn = appInstanceArn
     }
 }
@@ -5633,8 +5450,7 @@ public struct DescribeAppInstanceOutput: Swift.Sendable {
 
     public init(
         appInstance: ChimeClientTypes.AppInstance? = nil
-    )
-    {
+    ) {
         self.appInstance = appInstance
     }
 }
@@ -5650,8 +5466,7 @@ public struct DescribeAppInstanceAdminInput: Swift.Sendable {
     public init(
         appInstanceAdminArn: Swift.String? = nil,
         appInstanceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.appInstanceAdminArn = appInstanceAdminArn
         self.appInstanceArn = appInstanceArn
     }
@@ -5663,8 +5478,7 @@ public struct DescribeAppInstanceAdminOutput: Swift.Sendable {
 
     public init(
         appInstanceAdmin: ChimeClientTypes.AppInstanceAdmin? = nil
-    )
-    {
+    ) {
         self.appInstanceAdmin = appInstanceAdmin
     }
 }
@@ -5676,8 +5490,7 @@ public struct DescribeAppInstanceUserInput: Swift.Sendable {
 
     public init(
         appInstanceUserArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.appInstanceUserArn = appInstanceUserArn
     }
 }
@@ -5688,8 +5501,7 @@ public struct DescribeAppInstanceUserOutput: Swift.Sendable {
 
     public init(
         appInstanceUser: ChimeClientTypes.AppInstanceUser? = nil
-    )
-    {
+    ) {
         self.appInstanceUser = appInstanceUser
     }
 }
@@ -5704,8 +5516,7 @@ public struct DescribeChannelInput: Swift.Sendable {
     public init(
         channelArn: Swift.String? = nil,
         chimeBearer: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.chimeBearer = chimeBearer
     }
@@ -5717,8 +5528,7 @@ public struct DescribeChannelOutput: Swift.Sendable {
 
     public init(
         channel: ChimeClientTypes.Channel? = nil
-    )
-    {
+    ) {
         self.channel = channel
     }
 }
@@ -5737,8 +5547,7 @@ public struct DescribeChannelBanInput: Swift.Sendable {
         channelArn: Swift.String? = nil,
         chimeBearer: Swift.String? = nil,
         memberArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.chimeBearer = chimeBearer
         self.memberArn = memberArn
@@ -5751,8 +5560,7 @@ public struct DescribeChannelBanOutput: Swift.Sendable {
 
     public init(
         channelBan: ChimeClientTypes.ChannelBan? = nil
-    )
-    {
+    ) {
         self.channelBan = channelBan
     }
 }
@@ -5771,8 +5579,7 @@ public struct DescribeChannelMembershipInput: Swift.Sendable {
         channelArn: Swift.String? = nil,
         chimeBearer: Swift.String? = nil,
         memberArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.chimeBearer = chimeBearer
         self.memberArn = memberArn
@@ -5785,8 +5592,7 @@ public struct DescribeChannelMembershipOutput: Swift.Sendable {
 
     public init(
         channelMembership: ChimeClientTypes.ChannelMembership? = nil
-    )
-    {
+    ) {
         self.channelMembership = channelMembership
     }
 }
@@ -5805,8 +5611,7 @@ public struct DescribeChannelMembershipForAppInstanceUserInput: Swift.Sendable {
         appInstanceUserArn: Swift.String? = nil,
         channelArn: Swift.String? = nil,
         chimeBearer: Swift.String? = nil
-    )
-    {
+    ) {
         self.appInstanceUserArn = appInstanceUserArn
         self.channelArn = channelArn
         self.chimeBearer = chimeBearer
@@ -5819,8 +5624,7 @@ public struct DescribeChannelMembershipForAppInstanceUserOutput: Swift.Sendable 
 
     public init(
         channelMembership: ChimeClientTypes.ChannelMembershipForAppInstanceUserSummary? = nil
-    )
-    {
+    ) {
         self.channelMembership = channelMembership
     }
 }
@@ -5839,8 +5643,7 @@ public struct DescribeChannelModeratedByAppInstanceUserInput: Swift.Sendable {
         appInstanceUserArn: Swift.String? = nil,
         channelArn: Swift.String? = nil,
         chimeBearer: Swift.String? = nil
-    )
-    {
+    ) {
         self.appInstanceUserArn = appInstanceUserArn
         self.channelArn = channelArn
         self.chimeBearer = chimeBearer
@@ -5853,8 +5656,7 @@ public struct DescribeChannelModeratedByAppInstanceUserOutput: Swift.Sendable {
 
     public init(
         channel: ChimeClientTypes.ChannelModeratedByAppInstanceUserSummary? = nil
-    )
-    {
+    ) {
         self.channel = channel
     }
 }
@@ -5873,8 +5675,7 @@ public struct DescribeChannelModeratorInput: Swift.Sendable {
         channelArn: Swift.String? = nil,
         channelModeratorArn: Swift.String? = nil,
         chimeBearer: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.channelModeratorArn = channelModeratorArn
         self.chimeBearer = chimeBearer
@@ -5887,8 +5688,7 @@ public struct DescribeChannelModeratorOutput: Swift.Sendable {
 
     public init(
         channelModerator: ChimeClientTypes.ChannelModerator? = nil
-    )
-    {
+    ) {
         self.channelModerator = channelModerator
     }
 }
@@ -5904,8 +5704,7 @@ public struct DisassociatePhoneNumberFromUserInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.userId = userId
     }
@@ -5927,8 +5726,7 @@ public struct DisassociatePhoneNumbersFromVoiceConnectorInput: Swift.Sendable {
     public init(
         e164PhoneNumbers: [Swift.String]? = nil,
         voiceConnectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.e164PhoneNumbers = e164PhoneNumbers
         self.voiceConnectorId = voiceConnectorId
     }
@@ -5945,8 +5743,7 @@ public struct DisassociatePhoneNumbersFromVoiceConnectorOutput: Swift.Sendable {
 
     public init(
         phoneNumberErrors: [ChimeClientTypes.PhoneNumberError]? = nil
-    )
-    {
+    ) {
         self.phoneNumberErrors = phoneNumberErrors
     }
 }
@@ -5962,8 +5759,7 @@ public struct DisassociatePhoneNumbersFromVoiceConnectorGroupInput: Swift.Sendab
     public init(
         e164PhoneNumbers: [Swift.String]? = nil,
         voiceConnectorGroupId: Swift.String? = nil
-    )
-    {
+    ) {
         self.e164PhoneNumbers = e164PhoneNumbers
         self.voiceConnectorGroupId = voiceConnectorGroupId
     }
@@ -5980,8 +5776,7 @@ public struct DisassociatePhoneNumbersFromVoiceConnectorGroupOutput: Swift.Senda
 
     public init(
         phoneNumberErrors: [ChimeClientTypes.PhoneNumberError]? = nil
-    )
-    {
+    ) {
         self.phoneNumberErrors = phoneNumberErrors
     }
 }
@@ -5997,8 +5792,7 @@ public struct DisassociateSigninDelegateGroupsFromAccountInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         groupNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.groupNames = groupNames
     }
@@ -6026,8 +5820,7 @@ extension ChimeClientTypes {
             callingCountry: Swift.String? = nil,
             emergencyPhoneNumber: Swift.String? = nil,
             testPhoneNumber: Swift.String? = nil
-        )
-        {
+        ) {
             self.callingCountry = callingCountry
             self.emergencyPhoneNumber = emergencyPhoneNumber
             self.testPhoneNumber = testPhoneNumber
@@ -6081,8 +5874,7 @@ extension ChimeClientTypes {
 
         public init(
             dnis: [ChimeClientTypes.DNISEmergencyCallingConfiguration]? = nil
-        )
-        {
+        ) {
             self.dnis = dnis
         }
     }
@@ -6281,8 +6073,7 @@ extension ChimeClientTypes {
             specialty: ChimeClientTypes.TranscribeMedicalSpecialty? = nil,
             type: ChimeClientTypes.TranscribeMedicalType? = nil,
             vocabularyName: Swift.String? = nil
-        )
-        {
+        ) {
             self.contentIdentificationType = contentIdentificationType
             self.languageCode = languageCode
             self.region = region
@@ -6587,8 +6378,7 @@ extension ChimeClientTypes {
             vocabularyFilterNames: Swift.String? = nil,
             vocabularyName: Swift.String? = nil,
             vocabularyNames: Swift.String? = nil
-        )
-        {
+        ) {
             self.contentIdentificationType = contentIdentificationType
             self.contentRedactionType = contentRedactionType
             self.enablePartialResultsStabilization = enablePartialResultsStabilization
@@ -6624,8 +6414,7 @@ extension ChimeClientTypes {
             botId: Swift.String? = nil,
             lambdaFunctionArn: Swift.String? = nil,
             outboundEventsHTTPSEndpoint: Swift.String? = nil
-        )
-        {
+        ) {
             self.botId = botId
             self.lambdaFunctionArn = lambdaFunctionArn
             self.outboundEventsHTTPSEndpoint = outboundEventsHTTPSEndpoint
@@ -6645,8 +6434,7 @@ public struct GetAccountInput: Swift.Sendable {
 
     public init(
         accountId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
     }
 }
@@ -6657,8 +6445,7 @@ public struct GetAccountOutput: Swift.Sendable {
 
     public init(
         account: ChimeClientTypes.Account? = nil
-    )
-    {
+    ) {
         self.account = account
     }
 }
@@ -6670,8 +6457,7 @@ public struct GetAccountSettingsInput: Swift.Sendable {
 
     public init(
         accountId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
     }
 }
@@ -6682,8 +6468,7 @@ public struct GetAccountSettingsOutput: Swift.Sendable {
 
     public init(
         accountSettings: ChimeClientTypes.AccountSettings? = nil
-    )
-    {
+    ) {
         self.accountSettings = accountSettings
     }
 }
@@ -6695,8 +6480,7 @@ public struct GetAppInstanceRetentionSettingsInput: Swift.Sendable {
 
     public init(
         appInstanceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.appInstanceArn = appInstanceArn
     }
 }
@@ -6710,8 +6494,7 @@ public struct GetAppInstanceRetentionSettingsOutput: Swift.Sendable {
     public init(
         appInstanceRetentionSettings: ChimeClientTypes.AppInstanceRetentionSettings? = nil,
         initiateDeletionTimestamp: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.appInstanceRetentionSettings = appInstanceRetentionSettings
         self.initiateDeletionTimestamp = initiateDeletionTimestamp
     }
@@ -6724,8 +6507,7 @@ public struct GetAppInstanceStreamingConfigurationsInput: Swift.Sendable {
 
     public init(
         appInstanceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.appInstanceArn = appInstanceArn
     }
 }
@@ -6736,8 +6518,7 @@ public struct GetAppInstanceStreamingConfigurationsOutput: Swift.Sendable {
 
     public init(
         appInstanceStreamingConfigurations: [ChimeClientTypes.AppInstanceStreamingConfiguration]? = nil
-    )
-    {
+    ) {
         self.appInstanceStreamingConfigurations = appInstanceStreamingConfigurations
     }
 }
@@ -6753,8 +6534,7 @@ public struct GetAttendeeInput: Swift.Sendable {
     public init(
         attendeeId: Swift.String? = nil,
         meetingId: Swift.String? = nil
-    )
-    {
+    ) {
         self.attendeeId = attendeeId
         self.meetingId = meetingId
     }
@@ -6766,8 +6546,7 @@ public struct GetAttendeeOutput: Swift.Sendable {
 
     public init(
         attendee: ChimeClientTypes.Attendee? = nil
-    )
-    {
+    ) {
         self.attendee = attendee
     }
 }
@@ -6783,8 +6562,7 @@ public struct GetBotInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         botId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.botId = botId
     }
@@ -6796,8 +6574,7 @@ public struct GetBotOutput: Swift.Sendable {
 
     public init(
         bot: ChimeClientTypes.Bot? = nil
-    )
-    {
+    ) {
         self.bot = bot
     }
 }
@@ -6816,8 +6593,7 @@ public struct GetChannelMessageInput: Swift.Sendable {
         channelArn: Swift.String? = nil,
         chimeBearer: Swift.String? = nil,
         messageId: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.chimeBearer = chimeBearer
         self.messageId = messageId
@@ -6830,8 +6606,7 @@ public struct GetChannelMessageOutput: Swift.Sendable {
 
     public init(
         channelMessage: ChimeClientTypes.ChannelMessage? = nil
-    )
-    {
+    ) {
         self.channelMessage = channelMessage
     }
 }
@@ -6847,8 +6622,7 @@ public struct GetEventsConfigurationInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         botId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.botId = botId
     }
@@ -6860,8 +6634,7 @@ public struct GetEventsConfigurationOutput: Swift.Sendable {
 
     public init(
         eventsConfiguration: ChimeClientTypes.EventsConfiguration? = nil
-    )
-    {
+    ) {
         self.eventsConfiguration = eventsConfiguration
     }
 }
@@ -6875,8 +6648,7 @@ extension ChimeClientTypes {
 
         public init(
             cdrBucket: Swift.String? = nil
-        )
-        {
+        ) {
             self.cdrBucket = cdrBucket
         }
     }
@@ -6891,8 +6663,7 @@ public struct GetGlobalSettingsOutput: Swift.Sendable {
     public init(
         businessCalling: ChimeClientTypes.BusinessCallingSettings? = nil,
         voiceConnector: ChimeClientTypes.VoiceConnectorSettings? = nil
-    )
-    {
+    ) {
         self.businessCalling = businessCalling
         self.voiceConnector = voiceConnector
     }
@@ -6905,8 +6676,7 @@ public struct GetMediaCapturePipelineInput: Swift.Sendable {
 
     public init(
         mediaPipelineId: Swift.String? = nil
-    )
-    {
+    ) {
         self.mediaPipelineId = mediaPipelineId
     }
 }
@@ -6917,8 +6687,7 @@ public struct GetMediaCapturePipelineOutput: Swift.Sendable {
 
     public init(
         mediaCapturePipeline: ChimeClientTypes.MediaCapturePipeline? = nil
-    )
-    {
+    ) {
         self.mediaCapturePipeline = mediaCapturePipeline
     }
 }
@@ -6930,8 +6699,7 @@ public struct GetMeetingInput: Swift.Sendable {
 
     public init(
         meetingId: Swift.String? = nil
-    )
-    {
+    ) {
         self.meetingId = meetingId
     }
 }
@@ -6942,8 +6710,7 @@ public struct GetMeetingOutput: Swift.Sendable {
 
     public init(
         meeting: ChimeClientTypes.Meeting? = nil
-    )
-    {
+    ) {
         self.meeting = meeting
     }
 }
@@ -6962,8 +6729,7 @@ extension ChimeClientTypes {
 
         public init(
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.url = url
         }
     }
@@ -6975,8 +6741,7 @@ public struct GetMessagingSessionEndpointOutput: Swift.Sendable {
 
     public init(
         endpoint: ChimeClientTypes.MessagingSessionEndpoint? = nil
-    )
-    {
+    ) {
         self.endpoint = endpoint
     }
 }
@@ -6988,8 +6753,7 @@ public struct GetPhoneNumberInput: Swift.Sendable {
 
     public init(
         phoneNumberId: Swift.String? = nil
-    )
-    {
+    ) {
         self.phoneNumberId = phoneNumberId
     }
 }
@@ -7047,8 +6811,7 @@ extension ChimeClientTypes {
             associatedTimestamp: Foundation.Date? = nil,
             name: ChimeClientTypes.PhoneNumberAssociationName? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.associatedTimestamp = associatedTimestamp
             self.name = name
             self.value = value
@@ -7080,8 +6843,7 @@ extension ChimeClientTypes {
             outboundCall: Swift.Bool? = nil,
             outboundMMS: Swift.Bool? = nil,
             outboundSMS: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.inboundCall = inboundCall
             self.inboundMMS = inboundMMS
             self.inboundSMS = inboundSMS
@@ -7213,8 +6975,7 @@ extension ChimeClientTypes {
             status: ChimeClientTypes.PhoneNumberStatus? = nil,
             type: ChimeClientTypes.PhoneNumberType? = nil,
             updatedTimestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.associations = associations
             self.callingName = callingName
             self.callingNameStatus = callingNameStatus
@@ -7243,8 +7004,7 @@ public struct GetPhoneNumberOutput: Swift.Sendable {
 
     public init(
         phoneNumber: ChimeClientTypes.PhoneNumber? = nil
-    )
-    {
+    ) {
         self.phoneNumber = phoneNumber
     }
 }
@@ -7256,8 +7016,7 @@ public struct GetPhoneNumberOrderInput: Swift.Sendable {
 
     public init(
         phoneNumberOrderId: Swift.String? = nil
-    )
-    {
+    ) {
         self.phoneNumberOrderId = phoneNumberOrderId
     }
 }
@@ -7268,8 +7027,7 @@ public struct GetPhoneNumberOrderOutput: Swift.Sendable {
 
     public init(
         phoneNumberOrder: ChimeClientTypes.PhoneNumberOrder? = nil
-    )
-    {
+    ) {
         self.phoneNumberOrder = phoneNumberOrder
     }
 }
@@ -7283,8 +7041,7 @@ public struct GetPhoneNumberSettingsOutput: Swift.Sendable {
     public init(
         callingName: Swift.String? = nil,
         callingNameUpdatedTimestamp: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.callingName = callingName
         self.callingNameUpdatedTimestamp = callingNameUpdatedTimestamp
     }
@@ -7306,8 +7063,7 @@ public struct GetProxySessionInput: Swift.Sendable {
     public init(
         proxySessionId: Swift.String? = nil,
         voiceConnectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.proxySessionId = proxySessionId
         self.voiceConnectorId = voiceConnectorId
     }
@@ -7319,8 +7075,7 @@ public struct GetProxySessionOutput: Swift.Sendable {
 
     public init(
         proxySession: ChimeClientTypes.ProxySession? = nil
-    )
-    {
+    ) {
         self.proxySession = proxySession
     }
 }
@@ -7332,8 +7087,7 @@ public struct GetRetentionSettingsInput: Swift.Sendable {
 
     public init(
         accountId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
     }
 }
@@ -7347,8 +7101,7 @@ extension ChimeClientTypes {
 
         public init(
             retentionDays: Swift.Int? = nil
-        )
-        {
+        ) {
             self.retentionDays = retentionDays
         }
     }
@@ -7366,8 +7119,7 @@ extension ChimeClientTypes {
         public init(
             conversationRetentionSettings: ChimeClientTypes.ConversationRetentionSettings? = nil,
             roomRetentionSettings: ChimeClientTypes.RoomRetentionSettings? = nil
-        )
-        {
+        ) {
             self.conversationRetentionSettings = conversationRetentionSettings
             self.roomRetentionSettings = roomRetentionSettings
         }
@@ -7383,8 +7135,7 @@ public struct GetRetentionSettingsOutput: Swift.Sendable {
     public init(
         initiateDeletionTimestamp: Foundation.Date? = nil,
         retentionSettings: ChimeClientTypes.RetentionSettings? = nil
-    )
-    {
+    ) {
         self.initiateDeletionTimestamp = initiateDeletionTimestamp
         self.retentionSettings = retentionSettings
     }
@@ -7401,8 +7152,7 @@ public struct GetRoomInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         roomId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.roomId = roomId
     }
@@ -7414,8 +7164,7 @@ public struct GetRoomOutput: Swift.Sendable {
 
     public init(
         room: ChimeClientTypes.Room? = nil
-    )
-    {
+    ) {
         self.room = room
     }
 }
@@ -7427,8 +7176,7 @@ public struct GetSipMediaApplicationInput: Swift.Sendable {
 
     public init(
         sipMediaApplicationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.sipMediaApplicationId = sipMediaApplicationId
     }
 }
@@ -7439,8 +7187,7 @@ public struct GetSipMediaApplicationOutput: Swift.Sendable {
 
     public init(
         sipMediaApplication: ChimeClientTypes.SipMediaApplication? = nil
-    )
-    {
+    ) {
         self.sipMediaApplication = sipMediaApplication
     }
 }
@@ -7452,8 +7199,7 @@ public struct GetSipMediaApplicationLoggingConfigurationInput: Swift.Sendable {
 
     public init(
         sipMediaApplicationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.sipMediaApplicationId = sipMediaApplicationId
     }
 }
@@ -7467,8 +7213,7 @@ extension ChimeClientTypes {
 
         public init(
             enableSipMediaApplicationMessageLogs: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.enableSipMediaApplicationMessageLogs = enableSipMediaApplicationMessageLogs
         }
     }
@@ -7480,8 +7225,7 @@ public struct GetSipMediaApplicationLoggingConfigurationOutput: Swift.Sendable {
 
     public init(
         sipMediaApplicationLoggingConfiguration: ChimeClientTypes.SipMediaApplicationLoggingConfiguration? = nil
-    )
-    {
+    ) {
         self.sipMediaApplicationLoggingConfiguration = sipMediaApplicationLoggingConfiguration
     }
 }
@@ -7493,8 +7237,7 @@ public struct GetSipRuleInput: Swift.Sendable {
 
     public init(
         sipRuleId: Swift.String? = nil
-    )
-    {
+    ) {
         self.sipRuleId = sipRuleId
     }
 }
@@ -7505,8 +7248,7 @@ public struct GetSipRuleOutput: Swift.Sendable {
 
     public init(
         sipRule: ChimeClientTypes.SipRule? = nil
-    )
-    {
+    ) {
         self.sipRule = sipRule
     }
 }
@@ -7522,8 +7264,7 @@ public struct GetUserInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.userId = userId
     }
@@ -7535,8 +7276,7 @@ public struct GetUserOutput: Swift.Sendable {
 
     public init(
         user: ChimeClientTypes.User? = nil
-    )
-    {
+    ) {
         self.user = user
     }
 }
@@ -7552,8 +7292,7 @@ public struct GetUserSettingsInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.userId = userId
     }
@@ -7577,8 +7316,7 @@ extension ChimeClientTypes {
             inboundCalling: Swift.Bool? = nil,
             outboundCalling: Swift.Bool? = nil,
             sms: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.inboundCalling = inboundCalling
             self.outboundCalling = outboundCalling
             self.sms = sms
@@ -7596,8 +7334,7 @@ extension ChimeClientTypes {
 
         public init(
             telephony: ChimeClientTypes.TelephonySettings? = nil
-        )
-        {
+        ) {
             self.telephony = telephony
         }
     }
@@ -7609,8 +7346,7 @@ public struct GetUserSettingsOutput: Swift.Sendable {
 
     public init(
         userSettings: ChimeClientTypes.UserSettings? = nil
-    )
-    {
+    ) {
         self.userSettings = userSettings
     }
 }
@@ -7622,8 +7358,7 @@ public struct GetVoiceConnectorInput: Swift.Sendable {
 
     public init(
         voiceConnectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.voiceConnectorId = voiceConnectorId
     }
 }
@@ -7634,8 +7369,7 @@ public struct GetVoiceConnectorOutput: Swift.Sendable {
 
     public init(
         voiceConnector: ChimeClientTypes.VoiceConnector? = nil
-    )
-    {
+    ) {
         self.voiceConnector = voiceConnector
     }
 }
@@ -7647,8 +7381,7 @@ public struct GetVoiceConnectorEmergencyCallingConfigurationInput: Swift.Sendabl
 
     public init(
         voiceConnectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.voiceConnectorId = voiceConnectorId
     }
 }
@@ -7659,8 +7392,7 @@ public struct GetVoiceConnectorEmergencyCallingConfigurationOutput: Swift.Sendab
 
     public init(
         emergencyCallingConfiguration: ChimeClientTypes.EmergencyCallingConfiguration? = nil
-    )
-    {
+    ) {
         self.emergencyCallingConfiguration = emergencyCallingConfiguration
     }
 }
@@ -7672,8 +7404,7 @@ public struct GetVoiceConnectorGroupInput: Swift.Sendable {
 
     public init(
         voiceConnectorGroupId: Swift.String? = nil
-    )
-    {
+    ) {
         self.voiceConnectorGroupId = voiceConnectorGroupId
     }
 }
@@ -7684,8 +7415,7 @@ public struct GetVoiceConnectorGroupOutput: Swift.Sendable {
 
     public init(
         voiceConnectorGroup: ChimeClientTypes.VoiceConnectorGroup? = nil
-    )
-    {
+    ) {
         self.voiceConnectorGroup = voiceConnectorGroup
     }
 }
@@ -7697,8 +7427,7 @@ public struct GetVoiceConnectorLoggingConfigurationInput: Swift.Sendable {
 
     public init(
         voiceConnectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.voiceConnectorId = voiceConnectorId
     }
 }
@@ -7715,8 +7444,7 @@ extension ChimeClientTypes {
         public init(
             enableMediaMetricLogs: Swift.Bool? = nil,
             enableSIPLogs: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.enableMediaMetricLogs = enableMediaMetricLogs
             self.enableSIPLogs = enableSIPLogs
         }
@@ -7729,8 +7457,7 @@ public struct GetVoiceConnectorLoggingConfigurationOutput: Swift.Sendable {
 
     public init(
         loggingConfiguration: ChimeClientTypes.LoggingConfiguration? = nil
-    )
-    {
+    ) {
         self.loggingConfiguration = loggingConfiguration
     }
 }
@@ -7742,8 +7469,7 @@ public struct GetVoiceConnectorOriginationInput: Swift.Sendable {
 
     public init(
         voiceConnectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.voiceConnectorId = voiceConnectorId
     }
 }
@@ -7798,8 +7524,7 @@ extension ChimeClientTypes {
             priority: Swift.Int? = nil,
             `protocol`: ChimeClientTypes.OriginationRouteProtocol? = nil,
             weight: Swift.Int? = nil
-        )
-        {
+        ) {
             self.host = host
             self.port = port
             self.priority = priority
@@ -7821,8 +7546,7 @@ extension ChimeClientTypes {
         public init(
             disabled: Swift.Bool? = nil,
             routes: [ChimeClientTypes.OriginationRoute]? = nil
-        )
-        {
+        ) {
             self.disabled = disabled
             self.routes = routes
         }
@@ -7835,8 +7559,7 @@ public struct GetVoiceConnectorOriginationOutput: Swift.Sendable {
 
     public init(
         origination: ChimeClientTypes.Origination? = nil
-    )
-    {
+    ) {
         self.origination = origination
     }
 }
@@ -7848,8 +7571,7 @@ public struct GetVoiceConnectorProxyInput: Swift.Sendable {
 
     public init(
         voiceConnectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.voiceConnectorId = voiceConnectorId
     }
 }
@@ -7872,8 +7594,7 @@ extension ChimeClientTypes {
             disabled: Swift.Bool? = nil,
             fallBackPhoneNumber: Swift.String? = nil,
             phoneNumberCountries: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.defaultSessionExpiryMinutes = defaultSessionExpiryMinutes
             self.disabled = disabled
             self.fallBackPhoneNumber = fallBackPhoneNumber
@@ -7893,8 +7614,7 @@ public struct GetVoiceConnectorProxyOutput: Swift.Sendable {
 
     public init(
         proxy: ChimeClientTypes.Proxy? = nil
-    )
-    {
+    ) {
         self.proxy = proxy
     }
 }
@@ -7906,8 +7626,7 @@ public struct GetVoiceConnectorStreamingConfigurationInput: Swift.Sendable {
 
     public init(
         voiceConnectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.voiceConnectorId = voiceConnectorId
     }
 }
@@ -7954,8 +7673,7 @@ extension ChimeClientTypes {
 
         public init(
             notificationTarget: ChimeClientTypes.NotificationTarget? = nil
-        )
-        {
+        ) {
             self.notificationTarget = notificationTarget
         }
     }
@@ -7977,8 +7695,7 @@ extension ChimeClientTypes {
             dataRetentionInHours: Swift.Int? = nil,
             disabled: Swift.Bool? = nil,
             streamingNotificationTargets: [ChimeClientTypes.StreamingNotificationTarget]? = nil
-        )
-        {
+        ) {
             self.dataRetentionInHours = dataRetentionInHours
             self.disabled = disabled
             self.streamingNotificationTargets = streamingNotificationTargets
@@ -7992,8 +7709,7 @@ public struct GetVoiceConnectorStreamingConfigurationOutput: Swift.Sendable {
 
     public init(
         streamingConfiguration: ChimeClientTypes.StreamingConfiguration? = nil
-    )
-    {
+    ) {
         self.streamingConfiguration = streamingConfiguration
     }
 }
@@ -8005,8 +7721,7 @@ public struct GetVoiceConnectorTerminationInput: Swift.Sendable {
 
     public init(
         voiceConnectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.voiceConnectorId = voiceConnectorId
     }
 }
@@ -8032,8 +7747,7 @@ extension ChimeClientTypes {
             cpsLimit: Swift.Int? = nil,
             defaultPhoneNumber: Swift.String? = nil,
             disabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.callingRegions = callingRegions
             self.cidrAllowedList = cidrAllowedList
             self.cpsLimit = cpsLimit
@@ -8054,8 +7768,7 @@ public struct GetVoiceConnectorTerminationOutput: Swift.Sendable {
 
     public init(
         termination: ChimeClientTypes.Termination? = nil
-    )
-    {
+    ) {
         self.termination = termination
     }
 }
@@ -8067,8 +7780,7 @@ public struct GetVoiceConnectorTerminationHealthInput: Swift.Sendable {
 
     public init(
         voiceConnectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.voiceConnectorId = voiceConnectorId
     }
 }
@@ -8085,8 +7797,7 @@ extension ChimeClientTypes {
         public init(
             source: Swift.String? = nil,
             timestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.source = source
             self.timestamp = timestamp
         }
@@ -8099,8 +7810,7 @@ public struct GetVoiceConnectorTerminationHealthOutput: Swift.Sendable {
 
     public init(
         terminationHealth: ChimeClientTypes.TerminationHealth? = nil
-    )
-    {
+    ) {
         self.terminationHealth = terminationHealth
     }
 }
@@ -8123,8 +7833,7 @@ extension ChimeClientTypes {
             emailStatus: ChimeClientTypes.EmailStatus? = nil,
             inviteId: Swift.String? = nil,
             status: ChimeClientTypes.InviteStatus? = nil
-        )
-        {
+        ) {
             self.emailAddress = emailAddress
             self.emailStatus = emailStatus
             self.inviteId = inviteId
@@ -8152,8 +7861,7 @@ public struct InviteUsersInput: Swift.Sendable {
         accountId: Swift.String? = nil,
         userEmailList: [Swift.String]? = nil,
         userType: ChimeClientTypes.UserType? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.userEmailList = userEmailList
         self.userType = userType
@@ -8171,8 +7879,7 @@ public struct InviteUsersOutput: Swift.Sendable {
 
     public init(
         invites: [ChimeClientTypes.Invite]? = nil
-    )
-    {
+    ) {
         self.invites = invites
     }
 }
@@ -8192,8 +7899,7 @@ public struct ListAccountsInput: Swift.Sendable {
         name: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         userEmail: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.name = name
         self.nextToken = nextToken
@@ -8215,8 +7921,7 @@ public struct ListAccountsOutput: Swift.Sendable {
     public init(
         accounts: [ChimeClientTypes.Account]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accounts = accounts
         self.nextToken = nextToken
     }
@@ -8235,8 +7940,7 @@ public struct ListAppInstanceAdminsInput: Swift.Sendable {
         appInstanceArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.appInstanceArn = appInstanceArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -8260,8 +7964,7 @@ public struct ListAppInstanceAdminsOutput: Swift.Sendable {
         appInstanceAdmins: [ChimeClientTypes.AppInstanceAdminSummary]? = nil,
         appInstanceArn: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.appInstanceAdmins = appInstanceAdmins
         self.appInstanceArn = appInstanceArn
         self.nextToken = nextToken
@@ -8282,8 +7985,7 @@ public struct ListAppInstancesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -8303,8 +8005,7 @@ public struct ListAppInstancesOutput: Swift.Sendable {
     public init(
         appInstances: [ChimeClientTypes.AppInstanceSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.appInstances = appInstances
         self.nextToken = nextToken
     }
@@ -8328,8 +8029,7 @@ public struct ListAppInstanceUsersInput: Swift.Sendable {
         appInstanceArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.appInstanceArn = appInstanceArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -8353,8 +8053,7 @@ public struct ListAppInstanceUsersOutput: Swift.Sendable {
         appInstanceArn: Swift.String? = nil,
         appInstanceUsers: [ChimeClientTypes.AppInstanceUserSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.appInstanceArn = appInstanceArn
         self.appInstanceUsers = appInstanceUsers
         self.nextToken = nextToken
@@ -8379,8 +8078,7 @@ public struct ListAttendeesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         meetingId: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.meetingId = meetingId
         self.nextToken = nextToken
@@ -8396,8 +8094,7 @@ public struct ListAttendeesOutput: Swift.Sendable {
     public init(
         attendees: [ChimeClientTypes.Attendee]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.attendees = attendees
         self.nextToken = nextToken
     }
@@ -8414,8 +8111,7 @@ public struct ListAttendeeTagsInput: Swift.Sendable {
     public init(
         attendeeId: Swift.String? = nil,
         meetingId: Swift.String? = nil
-    )
-    {
+    ) {
         self.attendeeId = attendeeId
         self.meetingId = meetingId
     }
@@ -8427,8 +8123,7 @@ public struct ListAttendeeTagsOutput: Swift.Sendable {
 
     public init(
         tags: [ChimeClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -8446,8 +8141,7 @@ public struct ListBotsInput: Swift.Sendable {
         accountId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -8463,8 +8157,7 @@ public struct ListBotsOutput: Swift.Sendable {
     public init(
         bots: [ChimeClientTypes.Bot]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.bots = bots
         self.nextToken = nextToken
     }
@@ -8486,8 +8179,7 @@ public struct ListChannelBansInput: Swift.Sendable {
         chimeBearer: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.chimeBearer = chimeBearer
         self.maxResults = maxResults
@@ -8512,8 +8204,7 @@ public struct ListChannelBansOutput: Swift.Sendable {
         channelArn: Swift.String? = nil,
         channelBans: [ChimeClientTypes.ChannelBanSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.channelBans = channelBans
         self.nextToken = nextToken
@@ -8544,8 +8235,7 @@ public struct ListChannelMembershipsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         type: ChimeClientTypes.ChannelMembershipType? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.chimeBearer = chimeBearer
         self.maxResults = maxResults
@@ -8571,8 +8261,7 @@ public struct ListChannelMembershipsOutput: Swift.Sendable {
         channelArn: Swift.String? = nil,
         channelMemberships: [ChimeClientTypes.ChannelMembershipSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.channelMemberships = channelMemberships
         self.nextToken = nextToken
@@ -8599,8 +8288,7 @@ public struct ListChannelMembershipsForAppInstanceUserInput: Swift.Sendable {
         chimeBearer: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.appInstanceUserArn = appInstanceUserArn
         self.chimeBearer = chimeBearer
         self.maxResults = maxResults
@@ -8622,8 +8310,7 @@ public struct ListChannelMembershipsForAppInstanceUserOutput: Swift.Sendable {
     public init(
         channelMemberships: [ChimeClientTypes.ChannelMembershipForAppInstanceUserSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelMemberships = channelMemberships
         self.nextToken = nextToken
     }
@@ -8688,8 +8375,7 @@ public struct ListChannelMessagesInput: Swift.Sendable {
         notAfter: Foundation.Date? = nil,
         notBefore: Foundation.Date? = nil,
         sortOrder: ChimeClientTypes.SortOrder? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.chimeBearer = chimeBearer
         self.maxResults = maxResults
@@ -8717,8 +8403,7 @@ public struct ListChannelMessagesOutput: Swift.Sendable {
         channelArn: Swift.String? = nil,
         channelMessages: [ChimeClientTypes.ChannelMessageSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.channelMessages = channelMessages
         self.nextToken = nextToken
@@ -8746,8 +8431,7 @@ public struct ListChannelModeratorsInput: Swift.Sendable {
         chimeBearer: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.chimeBearer = chimeBearer
         self.maxResults = maxResults
@@ -8772,8 +8456,7 @@ public struct ListChannelModeratorsOutput: Swift.Sendable {
         channelArn: Swift.String? = nil,
         channelModerators: [ChimeClientTypes.ChannelModeratorSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.channelModerators = channelModerators
         self.nextToken = nextToken
@@ -8804,8 +8487,7 @@ public struct ListChannelsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         privacy: ChimeClientTypes.ChannelPrivacy? = nil
-    )
-    {
+    ) {
         self.appInstanceArn = appInstanceArn
         self.chimeBearer = chimeBearer
         self.maxResults = maxResults
@@ -8828,8 +8510,7 @@ public struct ListChannelsOutput: Swift.Sendable {
     public init(
         channels: [ChimeClientTypes.ChannelSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.channels = channels
         self.nextToken = nextToken
     }
@@ -8855,8 +8536,7 @@ public struct ListChannelsModeratedByAppInstanceUserInput: Swift.Sendable {
         chimeBearer: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.appInstanceUserArn = appInstanceUserArn
         self.chimeBearer = chimeBearer
         self.maxResults = maxResults
@@ -8878,8 +8558,7 @@ public struct ListChannelsModeratedByAppInstanceUserOutput: Swift.Sendable {
     public init(
         channels: [ChimeClientTypes.ChannelModeratedByAppInstanceUserSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.channels = channels
         self.nextToken = nextToken
     }
@@ -8899,8 +8578,7 @@ public struct ListMediaCapturePipelinesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -8915,8 +8593,7 @@ public struct ListMediaCapturePipelinesOutput: Swift.Sendable {
     public init(
         mediaCapturePipelines: [ChimeClientTypes.MediaCapturePipeline]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.mediaCapturePipelines = mediaCapturePipelines
         self.nextToken = nextToken
     }
@@ -8931,8 +8608,7 @@ public struct ListMeetingsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -8947,8 +8623,7 @@ public struct ListMeetingsOutput: Swift.Sendable {
     public init(
         meetings: [ChimeClientTypes.Meeting]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.meetings = meetings
         self.nextToken = nextToken
     }
@@ -8961,8 +8636,7 @@ public struct ListMeetingTagsInput: Swift.Sendable {
 
     public init(
         meetingId: Swift.String? = nil
-    )
-    {
+    ) {
         self.meetingId = meetingId
     }
 }
@@ -8973,8 +8647,7 @@ public struct ListMeetingTagsOutput: Swift.Sendable {
 
     public init(
         tags: [ChimeClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -8988,8 +8661,7 @@ public struct ListPhoneNumberOrdersInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -9004,8 +8676,7 @@ public struct ListPhoneNumberOrdersOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         phoneNumberOrders: [ChimeClientTypes.PhoneNumberOrder]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.phoneNumberOrders = phoneNumberOrders
     }
@@ -9032,8 +8703,7 @@ public struct ListPhoneNumbersInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         productType: ChimeClientTypes.PhoneNumberProductType? = nil,
         status: ChimeClientTypes.PhoneNumberStatus? = nil
-    )
-    {
+    ) {
         self.filterName = filterName
         self.filterValue = filterValue
         self.maxResults = maxResults
@@ -9052,8 +8722,7 @@ public struct ListPhoneNumbersOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         phoneNumbers: [ChimeClientTypes.PhoneNumber]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.phoneNumbers = phoneNumbers
     }
@@ -9075,8 +8744,7 @@ public struct ListProxySessionsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         status: ChimeClientTypes.ProxySessionStatus? = nil,
         voiceConnectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.status = status
@@ -9093,8 +8761,7 @@ public struct ListProxySessionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         proxySessions: [ChimeClientTypes.ProxySession]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.proxySessions = proxySessions
     }
@@ -9117,8 +8784,7 @@ public struct ListRoomMembershipsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         roomId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -9135,8 +8801,7 @@ public struct ListRoomMembershipsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         roomMemberships: [ChimeClientTypes.RoomMembership]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.roomMemberships = roomMemberships
     }
@@ -9158,8 +8823,7 @@ public struct ListRoomsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         memberId: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.maxResults = maxResults
         self.memberId = memberId
@@ -9176,8 +8840,7 @@ public struct ListRoomsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         rooms: [ChimeClientTypes.Room]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.rooms = rooms
     }
@@ -9192,8 +8855,7 @@ public struct ListSipMediaApplicationsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -9208,8 +8870,7 @@ public struct ListSipMediaApplicationsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         sipMediaApplications: [ChimeClientTypes.SipMediaApplication]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.sipMediaApplications = sipMediaApplications
     }
@@ -9227,8 +8888,7 @@ public struct ListSipRulesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sipMediaApplicationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.sipMediaApplicationId = sipMediaApplicationId
@@ -9244,8 +8904,7 @@ public struct ListSipRulesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         sipRules: [ChimeClientTypes.SipRule]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.sipRules = sipRules
     }
@@ -9258,8 +8917,7 @@ public struct ListSupportedPhoneNumberCountriesInput: Swift.Sendable {
 
     public init(
         productType: ChimeClientTypes.PhoneNumberProductType? = nil
-    )
-    {
+    ) {
         self.productType = productType
     }
 }
@@ -9276,8 +8934,7 @@ extension ChimeClientTypes {
         public init(
             countryCode: Swift.String? = nil,
             supportedPhoneNumberTypes: [ChimeClientTypes.PhoneNumberType]? = nil
-        )
-        {
+        ) {
             self.countryCode = countryCode
             self.supportedPhoneNumberTypes = supportedPhoneNumberTypes
         }
@@ -9290,8 +8947,7 @@ public struct ListSupportedPhoneNumberCountriesOutput: Swift.Sendable {
 
     public init(
         phoneNumberCountries: [ChimeClientTypes.PhoneNumberCountry]? = nil
-    )
-    {
+    ) {
         self.phoneNumberCountries = phoneNumberCountries
     }
 }
@@ -9303,8 +8959,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
     }
 }
@@ -9320,8 +8975,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [ChimeClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -9345,8 +8999,7 @@ public struct ListUsersInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         userEmail: Swift.String? = nil,
         userType: ChimeClientTypes.UserType? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -9369,8 +9022,7 @@ public struct ListUsersOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         users: [ChimeClientTypes.User]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.users = users
     }
@@ -9385,8 +9037,7 @@ public struct ListVoiceConnectorGroupsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -9401,8 +9052,7 @@ public struct ListVoiceConnectorGroupsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         voiceConnectorGroups: [ChimeClientTypes.VoiceConnectorGroup]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.voiceConnectorGroups = voiceConnectorGroups
     }
@@ -9417,8 +9067,7 @@ public struct ListVoiceConnectorsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -9433,8 +9082,7 @@ public struct ListVoiceConnectorsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         voiceConnectors: [ChimeClientTypes.VoiceConnector]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.voiceConnectors = voiceConnectors
     }
@@ -9447,8 +9095,7 @@ public struct ListVoiceConnectorTerminationCredentialsInput: Swift.Sendable {
 
     public init(
         voiceConnectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.voiceConnectorId = voiceConnectorId
     }
 }
@@ -9459,8 +9106,7 @@ public struct ListVoiceConnectorTerminationCredentialsOutput: Swift.Sendable {
 
     public init(
         usernames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.usernames = usernames
     }
 }
@@ -9481,8 +9127,7 @@ public struct LogoutUserInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.userId = userId
     }
@@ -9504,8 +9149,7 @@ public struct PutAppInstanceRetentionSettingsInput: Swift.Sendable {
     public init(
         appInstanceArn: Swift.String? = nil,
         appInstanceRetentionSettings: ChimeClientTypes.AppInstanceRetentionSettings? = nil
-    )
-    {
+    ) {
         self.appInstanceArn = appInstanceArn
         self.appInstanceRetentionSettings = appInstanceRetentionSettings
     }
@@ -9520,8 +9164,7 @@ public struct PutAppInstanceRetentionSettingsOutput: Swift.Sendable {
     public init(
         appInstanceRetentionSettings: ChimeClientTypes.AppInstanceRetentionSettings? = nil,
         initiateDeletionTimestamp: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.appInstanceRetentionSettings = appInstanceRetentionSettings
         self.initiateDeletionTimestamp = initiateDeletionTimestamp
     }
@@ -9538,8 +9181,7 @@ public struct PutAppInstanceStreamingConfigurationsInput: Swift.Sendable {
     public init(
         appInstanceArn: Swift.String? = nil,
         appInstanceStreamingConfigurations: [ChimeClientTypes.AppInstanceStreamingConfiguration]? = nil
-    )
-    {
+    ) {
         self.appInstanceArn = appInstanceArn
         self.appInstanceStreamingConfigurations = appInstanceStreamingConfigurations
     }
@@ -9551,8 +9193,7 @@ public struct PutAppInstanceStreamingConfigurationsOutput: Swift.Sendable {
 
     public init(
         appInstanceStreamingConfigurations: [ChimeClientTypes.AppInstanceStreamingConfiguration]? = nil
-    )
-    {
+    ) {
         self.appInstanceStreamingConfigurations = appInstanceStreamingConfigurations
     }
 }
@@ -9574,8 +9215,7 @@ public struct PutEventsConfigurationInput: Swift.Sendable {
         botId: Swift.String? = nil,
         lambdaFunctionArn: Swift.String? = nil,
         outboundEventsHTTPSEndpoint: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.botId = botId
         self.lambdaFunctionArn = lambdaFunctionArn
@@ -9594,8 +9234,7 @@ public struct PutEventsConfigurationOutput: Swift.Sendable {
 
     public init(
         eventsConfiguration: ChimeClientTypes.EventsConfiguration? = nil
-    )
-    {
+    ) {
         self.eventsConfiguration = eventsConfiguration
     }
 }
@@ -9611,8 +9250,7 @@ public struct PutRetentionSettingsInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         retentionSettings: ChimeClientTypes.RetentionSettings? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.retentionSettings = retentionSettings
     }
@@ -9627,8 +9265,7 @@ public struct PutRetentionSettingsOutput: Swift.Sendable {
     public init(
         initiateDeletionTimestamp: Foundation.Date? = nil,
         retentionSettings: ChimeClientTypes.RetentionSettings? = nil
-    )
-    {
+    ) {
         self.initiateDeletionTimestamp = initiateDeletionTimestamp
         self.retentionSettings = retentionSettings
     }
@@ -9644,8 +9281,7 @@ public struct PutSipMediaApplicationLoggingConfigurationInput: Swift.Sendable {
     public init(
         sipMediaApplicationId: Swift.String? = nil,
         sipMediaApplicationLoggingConfiguration: ChimeClientTypes.SipMediaApplicationLoggingConfiguration? = nil
-    )
-    {
+    ) {
         self.sipMediaApplicationId = sipMediaApplicationId
         self.sipMediaApplicationLoggingConfiguration = sipMediaApplicationLoggingConfiguration
     }
@@ -9657,8 +9293,7 @@ public struct PutSipMediaApplicationLoggingConfigurationOutput: Swift.Sendable {
 
     public init(
         sipMediaApplicationLoggingConfiguration: ChimeClientTypes.SipMediaApplicationLoggingConfiguration? = nil
-    )
-    {
+    ) {
         self.sipMediaApplicationLoggingConfiguration = sipMediaApplicationLoggingConfiguration
     }
 }
@@ -9674,8 +9309,7 @@ public struct PutVoiceConnectorEmergencyCallingConfigurationInput: Swift.Sendabl
     public init(
         emergencyCallingConfiguration: ChimeClientTypes.EmergencyCallingConfiguration? = nil,
         voiceConnectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.emergencyCallingConfiguration = emergencyCallingConfiguration
         self.voiceConnectorId = voiceConnectorId
     }
@@ -9687,8 +9321,7 @@ public struct PutVoiceConnectorEmergencyCallingConfigurationOutput: Swift.Sendab
 
     public init(
         emergencyCallingConfiguration: ChimeClientTypes.EmergencyCallingConfiguration? = nil
-    )
-    {
+    ) {
         self.emergencyCallingConfiguration = emergencyCallingConfiguration
     }
 }
@@ -9704,8 +9337,7 @@ public struct PutVoiceConnectorLoggingConfigurationInput: Swift.Sendable {
     public init(
         loggingConfiguration: ChimeClientTypes.LoggingConfiguration? = nil,
         voiceConnectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.loggingConfiguration = loggingConfiguration
         self.voiceConnectorId = voiceConnectorId
     }
@@ -9717,8 +9349,7 @@ public struct PutVoiceConnectorLoggingConfigurationOutput: Swift.Sendable {
 
     public init(
         loggingConfiguration: ChimeClientTypes.LoggingConfiguration? = nil
-    )
-    {
+    ) {
         self.loggingConfiguration = loggingConfiguration
     }
 }
@@ -9734,8 +9365,7 @@ public struct PutVoiceConnectorOriginationInput: Swift.Sendable {
     public init(
         origination: ChimeClientTypes.Origination? = nil,
         voiceConnectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.origination = origination
         self.voiceConnectorId = voiceConnectorId
     }
@@ -9747,8 +9377,7 @@ public struct PutVoiceConnectorOriginationOutput: Swift.Sendable {
 
     public init(
         origination: ChimeClientTypes.Origination? = nil
-    )
-    {
+    ) {
         self.origination = origination
     }
 }
@@ -9774,8 +9403,7 @@ public struct PutVoiceConnectorProxyInput: Swift.Sendable {
         fallBackPhoneNumber: Swift.String? = nil,
         phoneNumberPoolCountries: [Swift.String]? = nil,
         voiceConnectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.defaultSessionExpiryMinutes = defaultSessionExpiryMinutes
         self.disabled = disabled
         self.fallBackPhoneNumber = fallBackPhoneNumber
@@ -9795,8 +9423,7 @@ public struct PutVoiceConnectorProxyOutput: Swift.Sendable {
 
     public init(
         proxy: ChimeClientTypes.Proxy? = nil
-    )
-    {
+    ) {
         self.proxy = proxy
     }
 }
@@ -9812,8 +9439,7 @@ public struct PutVoiceConnectorStreamingConfigurationInput: Swift.Sendable {
     public init(
         streamingConfiguration: ChimeClientTypes.StreamingConfiguration? = nil,
         voiceConnectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.streamingConfiguration = streamingConfiguration
         self.voiceConnectorId = voiceConnectorId
     }
@@ -9825,8 +9451,7 @@ public struct PutVoiceConnectorStreamingConfigurationOutput: Swift.Sendable {
 
     public init(
         streamingConfiguration: ChimeClientTypes.StreamingConfiguration? = nil
-    )
-    {
+    ) {
         self.streamingConfiguration = streamingConfiguration
     }
 }
@@ -9842,8 +9467,7 @@ public struct PutVoiceConnectorTerminationInput: Swift.Sendable {
     public init(
         termination: ChimeClientTypes.Termination? = nil,
         voiceConnectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.termination = termination
         self.voiceConnectorId = voiceConnectorId
     }
@@ -9855,8 +9479,7 @@ public struct PutVoiceConnectorTerminationOutput: Swift.Sendable {
 
     public init(
         termination: ChimeClientTypes.Termination? = nil
-    )
-    {
+    ) {
         self.termination = termination
     }
 }
@@ -9871,8 +9494,7 @@ public struct PutVoiceConnectorTerminationCredentialsInput: Swift.Sendable {
     public init(
         credentials: [ChimeClientTypes.Credential]? = nil,
         voiceConnectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.credentials = credentials
         self.voiceConnectorId = voiceConnectorId
     }
@@ -9892,8 +9514,7 @@ public struct RedactChannelMessageInput: Swift.Sendable {
         channelArn: Swift.String? = nil,
         chimeBearer: Swift.String? = nil,
         messageId: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.chimeBearer = chimeBearer
         self.messageId = messageId
@@ -9909,8 +9530,7 @@ public struct RedactChannelMessageOutput: Swift.Sendable {
     public init(
         channelArn: Swift.String? = nil,
         messageId: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.messageId = messageId
     }
@@ -9931,8 +9551,7 @@ public struct RedactConversationMessageInput: Swift.Sendable {
         accountId: Swift.String? = nil,
         conversationId: Swift.String? = nil,
         messageId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.conversationId = conversationId
         self.messageId = messageId
@@ -9959,8 +9578,7 @@ public struct RedactRoomMessageInput: Swift.Sendable {
         accountId: Swift.String? = nil,
         messageId: Swift.String? = nil,
         roomId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.messageId = messageId
         self.roomId = roomId
@@ -9983,8 +9601,7 @@ public struct RegenerateSecurityTokenInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         botId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.botId = botId
     }
@@ -9996,8 +9613,7 @@ public struct RegenerateSecurityTokenOutput: Swift.Sendable {
 
     public init(
         bot: ChimeClientTypes.Bot? = nil
-    )
-    {
+    ) {
         self.bot = bot
     }
 }
@@ -10013,8 +9629,7 @@ public struct ResetPersonalPINInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.userId = userId
     }
@@ -10026,8 +9641,7 @@ public struct ResetPersonalPINOutput: Swift.Sendable {
 
     public init(
         user: ChimeClientTypes.User? = nil
-    )
-    {
+    ) {
         self.user = user
     }
 }
@@ -10039,8 +9653,7 @@ public struct RestorePhoneNumberInput: Swift.Sendable {
 
     public init(
         phoneNumberId: Swift.String? = nil
-    )
-    {
+    ) {
         self.phoneNumberId = phoneNumberId
     }
 }
@@ -10051,8 +9664,7 @@ public struct RestorePhoneNumberOutput: Swift.Sendable {
 
     public init(
         phoneNumber: ChimeClientTypes.PhoneNumber? = nil
-    )
-    {
+    ) {
         self.phoneNumber = phoneNumber
     }
 }
@@ -10084,8 +9696,7 @@ public struct SearchAvailablePhoneNumbersInput: Swift.Sendable {
         phoneNumberType: ChimeClientTypes.PhoneNumberType? = nil,
         state: Swift.String? = nil,
         tollFreePrefix: Swift.String? = nil
-    )
-    {
+    ) {
         self.areaCode = areaCode
         self.city = city
         self.country = country
@@ -10106,8 +9717,7 @@ public struct SearchAvailablePhoneNumbersOutput: Swift.Sendable {
     public init(
         e164PhoneNumbers: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.e164PhoneNumbers = e164PhoneNumbers
         self.nextToken = nextToken
     }
@@ -10147,8 +9757,7 @@ public struct SendChannelMessageInput: Swift.Sendable {
         metadata: Swift.String? = nil,
         persistence: ChimeClientTypes.ChannelMessagePersistenceType? = nil,
         type: ChimeClientTypes.ChannelMessageType? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.chimeBearer = chimeBearer
         self.clientRequestToken = clientRequestToken
@@ -10173,8 +9782,7 @@ public struct SendChannelMessageOutput: Swift.Sendable {
     public init(
         channelArn: Swift.String? = nil,
         messageId: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.messageId = messageId
     }
@@ -10192,8 +9800,7 @@ extension ChimeClientTypes {
         public init(
             engineTranscribeMedicalSettings: ChimeClientTypes.EngineTranscribeMedicalSettings? = nil,
             engineTranscribeSettings: ChimeClientTypes.EngineTranscribeSettings? = nil
-        )
-        {
+        ) {
             self.engineTranscribeMedicalSettings = engineTranscribeMedicalSettings
             self.engineTranscribeSettings = engineTranscribeSettings
         }
@@ -10211,8 +9818,7 @@ public struct StartMeetingTranscriptionInput: Swift.Sendable {
     public init(
         meetingId: Swift.String? = nil,
         transcriptionConfiguration: ChimeClientTypes.TranscriptionConfiguration? = nil
-    )
-    {
+    ) {
         self.meetingId = meetingId
         self.transcriptionConfiguration = transcriptionConfiguration
     }
@@ -10230,8 +9836,7 @@ public struct StopMeetingTranscriptionInput: Swift.Sendable {
 
     public init(
         meetingId: Swift.String? = nil
-    )
-    {
+    ) {
         self.meetingId = meetingId
     }
 }
@@ -10256,8 +9861,7 @@ public struct TagAttendeeInput: Swift.Sendable {
         attendeeId: Swift.String? = nil,
         meetingId: Swift.String? = nil,
         tags: [ChimeClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.attendeeId = attendeeId
         self.meetingId = meetingId
         self.tags = tags
@@ -10275,8 +9879,7 @@ public struct TagMeetingInput: Swift.Sendable {
     public init(
         meetingId: Swift.String? = nil,
         tags: [ChimeClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.meetingId = meetingId
         self.tags = tags
     }
@@ -10293,8 +9896,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tags: [ChimeClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tags = tags
     }
@@ -10320,8 +9922,7 @@ public struct UntagAttendeeInput: Swift.Sendable {
         attendeeId: Swift.String? = nil,
         meetingId: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.attendeeId = attendeeId
         self.meetingId = meetingId
         self.tagKeys = tagKeys
@@ -10344,8 +9945,7 @@ public struct UntagMeetingInput: Swift.Sendable {
     public init(
         meetingId: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.meetingId = meetingId
         self.tagKeys = tagKeys
     }
@@ -10367,8 +9967,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tagKeys = tagKeys
     }
@@ -10392,8 +9991,7 @@ public struct UpdateAccountInput: Swift.Sendable {
         accountId: Swift.String? = nil,
         defaultLicense: ChimeClientTypes.License? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.defaultLicense = defaultLicense
         self.name = name
@@ -10406,8 +10004,7 @@ public struct UpdateAccountOutput: Swift.Sendable {
 
     public init(
         account: ChimeClientTypes.Account? = nil
-    )
-    {
+    ) {
         self.account = account
     }
 }
@@ -10423,8 +10020,7 @@ public struct UpdateAccountSettingsInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         accountSettings: ChimeClientTypes.AccountSettings? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.accountSettings = accountSettings
     }
@@ -10449,8 +10045,7 @@ public struct UpdateAppInstanceInput: Swift.Sendable {
         appInstanceArn: Swift.String? = nil,
         metadata: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.appInstanceArn = appInstanceArn
         self.metadata = metadata
         self.name = name
@@ -10468,8 +10063,7 @@ public struct UpdateAppInstanceOutput: Swift.Sendable {
 
     public init(
         appInstanceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.appInstanceArn = appInstanceArn
     }
 }
@@ -10488,8 +10082,7 @@ public struct UpdateAppInstanceUserInput: Swift.Sendable {
         appInstanceUserArn: Swift.String? = nil,
         metadata: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.appInstanceUserArn = appInstanceUserArn
         self.metadata = metadata
         self.name = name
@@ -10507,8 +10100,7 @@ public struct UpdateAppInstanceUserOutput: Swift.Sendable {
 
     public init(
         appInstanceUserArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.appInstanceUserArn = appInstanceUserArn
     }
 }
@@ -10527,8 +10119,7 @@ public struct UpdateBotInput: Swift.Sendable {
         accountId: Swift.String? = nil,
         botId: Swift.String? = nil,
         disabled: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.botId = botId
         self.disabled = disabled
@@ -10541,8 +10132,7 @@ public struct UpdateBotOutput: Swift.Sendable {
 
     public init(
         bot: ChimeClientTypes.Bot? = nil
-    )
-    {
+    ) {
         self.bot = bot
     }
 }
@@ -10568,8 +10158,7 @@ public struct UpdateChannelInput: Swift.Sendable {
         metadata: Swift.String? = nil,
         mode: ChimeClientTypes.ChannelMode? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.chimeBearer = chimeBearer
         self.metadata = metadata
@@ -10589,8 +10178,7 @@ public struct UpdateChannelOutput: Swift.Sendable {
 
     public init(
         channelArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
     }
 }
@@ -10615,8 +10203,7 @@ public struct UpdateChannelMessageInput: Swift.Sendable {
         content: Swift.String? = nil,
         messageId: Swift.String? = nil,
         metadata: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.chimeBearer = chimeBearer
         self.content = content
@@ -10639,8 +10226,7 @@ public struct UpdateChannelMessageOutput: Swift.Sendable {
     public init(
         channelArn: Swift.String? = nil,
         messageId: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.messageId = messageId
     }
@@ -10656,8 +10242,7 @@ public struct UpdateChannelReadMarkerInput: Swift.Sendable {
     public init(
         channelArn: Swift.String? = nil,
         chimeBearer: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.chimeBearer = chimeBearer
     }
@@ -10669,8 +10254,7 @@ public struct UpdateChannelReadMarkerOutput: Swift.Sendable {
 
     public init(
         channelArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
     }
 }
@@ -10684,8 +10268,7 @@ public struct UpdateGlobalSettingsInput: Swift.Sendable {
     public init(
         businessCalling: ChimeClientTypes.BusinessCallingSettings? = nil,
         voiceConnector: ChimeClientTypes.VoiceConnectorSettings? = nil
-    )
-    {
+    ) {
         self.businessCalling = businessCalling
         self.voiceConnector = voiceConnector
     }
@@ -10704,8 +10287,7 @@ public struct UpdatePhoneNumberInput: Swift.Sendable {
         callingName: Swift.String? = nil,
         phoneNumberId: Swift.String? = nil,
         productType: ChimeClientTypes.PhoneNumberProductType? = nil
-    )
-    {
+    ) {
         self.callingName = callingName
         self.phoneNumberId = phoneNumberId
         self.productType = productType
@@ -10723,8 +10305,7 @@ public struct UpdatePhoneNumberOutput: Swift.Sendable {
 
     public init(
         phoneNumber: ChimeClientTypes.PhoneNumber? = nil
-    )
-    {
+    ) {
         self.phoneNumber = phoneNumber
     }
 }
@@ -10736,8 +10317,7 @@ public struct UpdatePhoneNumberSettingsInput: Swift.Sendable {
 
     public init(
         callingName: Swift.String? = nil
-    )
-    {
+    ) {
         self.callingName = callingName
     }
 }
@@ -10765,8 +10345,7 @@ public struct UpdateProxySessionInput: Swift.Sendable {
         expiryMinutes: Swift.Int? = nil,
         proxySessionId: Swift.String? = nil,
         voiceConnectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.capabilities = capabilities
         self.expiryMinutes = expiryMinutes
         self.proxySessionId = proxySessionId
@@ -10780,8 +10359,7 @@ public struct UpdateProxySessionOutput: Swift.Sendable {
 
     public init(
         proxySession: ChimeClientTypes.ProxySession? = nil
-    )
-    {
+    ) {
         self.proxySession = proxySession
     }
 }
@@ -10800,8 +10378,7 @@ public struct UpdateRoomInput: Swift.Sendable {
         accountId: Swift.String? = nil,
         name: Swift.String? = nil,
         roomId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.name = name
         self.roomId = roomId
@@ -10819,8 +10396,7 @@ public struct UpdateRoomOutput: Swift.Sendable {
 
     public init(
         room: ChimeClientTypes.Room? = nil
-    )
-    {
+    ) {
         self.room = room
     }
 }
@@ -10843,8 +10419,7 @@ public struct UpdateRoomMembershipInput: Swift.Sendable {
         memberId: Swift.String? = nil,
         role: ChimeClientTypes.RoomMembershipRole? = nil,
         roomId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.memberId = memberId
         self.role = role
@@ -10858,8 +10433,7 @@ public struct UpdateRoomMembershipOutput: Swift.Sendable {
 
     public init(
         roomMembership: ChimeClientTypes.RoomMembership? = nil
-    )
-    {
+    ) {
         self.roomMembership = roomMembership
     }
 }
@@ -10877,8 +10451,7 @@ public struct UpdateSipMediaApplicationInput: Swift.Sendable {
         endpoints: [ChimeClientTypes.SipMediaApplicationEndpoint]? = nil,
         name: Swift.String? = nil,
         sipMediaApplicationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.endpoints = endpoints
         self.name = name
         self.sipMediaApplicationId = sipMediaApplicationId
@@ -10891,8 +10464,7 @@ public struct UpdateSipMediaApplicationOutput: Swift.Sendable {
 
     public init(
         sipMediaApplication: ChimeClientTypes.SipMediaApplication? = nil
-    )
-    {
+    ) {
         self.sipMediaApplication = sipMediaApplication
     }
 }
@@ -10912,8 +10484,7 @@ public struct UpdateSipMediaApplicationCallInput: Swift.Sendable {
         arguments: [Swift.String: Swift.String]? = nil,
         sipMediaApplicationId: Swift.String? = nil,
         transactionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.arguments = arguments
         self.sipMediaApplicationId = sipMediaApplicationId
         self.transactionId = transactionId
@@ -10931,8 +10502,7 @@ public struct UpdateSipMediaApplicationCallOutput: Swift.Sendable {
 
     public init(
         sipMediaApplicationCall: ChimeClientTypes.SipMediaApplicationCall? = nil
-    )
-    {
+    ) {
         self.sipMediaApplicationCall = sipMediaApplicationCall
     }
 }
@@ -10954,8 +10524,7 @@ public struct UpdateSipRuleInput: Swift.Sendable {
         name: Swift.String? = nil,
         sipRuleId: Swift.String? = nil,
         targetApplications: [ChimeClientTypes.SipRuleTargetApplication]? = nil
-    )
-    {
+    ) {
         self.disabled = disabled
         self.name = name
         self.sipRuleId = sipRuleId
@@ -10969,8 +10538,7 @@ public struct UpdateSipRuleOutput: Swift.Sendable {
 
     public init(
         sipRule: ChimeClientTypes.SipRule? = nil
-    )
-    {
+    ) {
         self.sipRule = sipRule
     }
 }
@@ -10995,8 +10563,7 @@ public struct UpdateUserInput: Swift.Sendable {
         licenseType: ChimeClientTypes.License? = nil,
         userId: Swift.String? = nil,
         userType: ChimeClientTypes.UserType? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.alexaForBusinessMetadata = alexaForBusinessMetadata
         self.licenseType = licenseType
@@ -11011,8 +10578,7 @@ public struct UpdateUserOutput: Swift.Sendable {
 
     public init(
         user: ChimeClientTypes.User? = nil
-    )
-    {
+    ) {
         self.user = user
     }
 }
@@ -11032,8 +10598,7 @@ public struct UpdateUserSettingsInput: Swift.Sendable {
         accountId: Swift.String? = nil,
         userId: Swift.String? = nil,
         userSettings: ChimeClientTypes.UserSettings? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.userId = userId
         self.userSettings = userSettings
@@ -11055,8 +10620,7 @@ public struct UpdateVoiceConnectorInput: Swift.Sendable {
         name: Swift.String? = nil,
         requireEncryption: Swift.Bool? = nil,
         voiceConnectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
         self.requireEncryption = requireEncryption
         self.voiceConnectorId = voiceConnectorId
@@ -11069,8 +10633,7 @@ public struct UpdateVoiceConnectorOutput: Swift.Sendable {
 
     public init(
         voiceConnector: ChimeClientTypes.VoiceConnector? = nil
-    )
-    {
+    ) {
         self.voiceConnector = voiceConnector
     }
 }
@@ -11090,8 +10653,7 @@ public struct UpdateVoiceConnectorGroupInput: Swift.Sendable {
         name: Swift.String? = nil,
         voiceConnectorGroupId: Swift.String? = nil,
         voiceConnectorItems: [ChimeClientTypes.VoiceConnectorItem]? = nil
-    )
-    {
+    ) {
         self.name = name
         self.voiceConnectorGroupId = voiceConnectorGroupId
         self.voiceConnectorItems = voiceConnectorItems
@@ -11104,8 +10666,7 @@ public struct UpdateVoiceConnectorGroupOutput: Swift.Sendable {
 
     public init(
         voiceConnectorGroup: ChimeClientTypes.VoiceConnectorGroup? = nil
-    )
-    {
+    ) {
         self.voiceConnectorGroup = voiceConnectorGroup
     }
 }
@@ -11141,8 +10702,7 @@ public struct ValidateE911AddressInput: Swift.Sendable {
         state: Swift.String? = nil,
         streetInfo: Swift.String? = nil,
         streetNumber: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.city = city
         self.country = country
@@ -11173,8 +10733,7 @@ public struct ValidateE911AddressOutput: Swift.Sendable {
         addressExternalId: Swift.String? = nil,
         candidateAddressList: [ChimeClientTypes.CandidateAddress]? = nil,
         validationResult: Swift.Int = 0
-    )
-    {
+    ) {
         self.address = address
         self.addressExternalId = addressExternalId
         self.candidateAddressList = candidateAddressList

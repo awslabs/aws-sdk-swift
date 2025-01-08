@@ -69,7 +69,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class EBSClient: ClientRuntime.Client {
     public static let clientName = "EBSClient"
-    public static let version = "1.0.69"
+    public static let version = "1.0.74"
     let client: ClientRuntime.SdkHttpClient
     let config: EBSClient.EBSClientConfiguration
     let serviceName = "EBS"
@@ -335,7 +335,7 @@ extension EBSClient {
 }
 
 extension EBSClient {
-    /// Performs the `CompleteSnapshot` operation on the `Ebs` service.
+    /// Performs the `CompleteSnapshot` operation on the `EBS` service.
     ///
     /// Seals and completes the snapshot after all of the required blocks of data have been written to it. Completing the snapshot changes the status to completed. You cannot write new blocks to a snapshot after it has been completed. You should always retry requests that receive server (5xx) error responses, and ThrottlingException and RequestThrottledException client error responses. For more information see [Error retries](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/error-retries.html) in the Amazon Elastic Compute Cloud User Guide.
     ///
@@ -407,7 +407,7 @@ extension EBSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetSnapshotBlock` operation on the `Ebs` service.
+    /// Performs the `GetSnapshotBlock` operation on the `EBS` service.
     ///
     /// Returns the data in a block in an Amazon Elastic Block Store snapshot. You should always retry requests that receive server (5xx) error responses, and ThrottlingException and RequestThrottledException client error responses. For more information see [Error retries](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/error-retries.html) in the Amazon Elastic Compute Cloud User Guide.
     ///
@@ -479,7 +479,7 @@ extension EBSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListChangedBlocks` operation on the `Ebs` service.
+    /// Performs the `ListChangedBlocks` operation on the `EBS` service.
     ///
     /// Returns information about the blocks that are different between two Amazon Elastic Block Store snapshots of the same volume/snapshot lineage. You should always retry requests that receive server (5xx) error responses, and ThrottlingException and RequestThrottledException client error responses. For more information see [Error retries](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/error-retries.html) in the Amazon Elastic Compute Cloud User Guide.
     ///
@@ -551,7 +551,7 @@ extension EBSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListSnapshotBlocks` operation on the `Ebs` service.
+    /// Performs the `ListSnapshotBlocks` operation on the `EBS` service.
     ///
     /// Returns information about the blocks in an Amazon Elastic Block Store snapshot. You should always retry requests that receive server (5xx) error responses, and ThrottlingException and RequestThrottledException client error responses. For more information see [Error retries](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/error-retries.html) in the Amazon Elastic Compute Cloud User Guide.
     ///
@@ -623,7 +623,7 @@ extension EBSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutSnapshotBlock` operation on the `Ebs` service.
+    /// Performs the `PutSnapshotBlock` operation on the `EBS` service.
     ///
     /// Writes a block of data to a snapshot. If the specified block contains data, the existing data is overwritten. The target snapshot must be in the pending state. Data written to a snapshot must be aligned with 512-KiB sectors. You should always retry requests that receive server (5xx) error responses, and ThrottlingException and RequestThrottledException client error responses. For more information see [Error retries](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/error-retries.html) in the Amazon Elastic Compute Cloud User Guide.
     ///
@@ -698,7 +698,7 @@ extension EBSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartSnapshot` operation on the `Ebs` service.
+    /// Performs the `StartSnapshot` operation on the `EBS` service.
     ///
     /// Creates a new Amazon EBS snapshot. The new snapshot enters the pending state after the request completes. After creating the snapshot, use [ PutSnapshotBlock](https://docs.aws.amazon.com/ebs/latest/APIReference/API_PutSnapshotBlock.html) to write blocks of data to the snapshot. You should always retry requests that receive server (5xx) error responses, and ThrottlingException and RequestThrottledException client error responses. For more information see [Error retries](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/error-retries.html) in the Amazon Elastic Compute Cloud User Guide.
     ///

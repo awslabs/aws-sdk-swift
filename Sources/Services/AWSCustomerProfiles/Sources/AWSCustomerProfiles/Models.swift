@@ -50,8 +50,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -70,8 +69,7 @@ extension CustomerProfilesClientTypes {
         public init(
             keyName: Swift.String? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.keyName = keyName
             self.values = values
         }
@@ -96,8 +94,7 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -120,8 +117,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -144,8 +140,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -168,8 +163,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -193,8 +187,7 @@ public struct AddProfileKeyInput: Swift.Sendable {
         keyName: Swift.String? = nil,
         profileId: Swift.String? = nil,
         values: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.keyName = keyName
         self.profileId = profileId
@@ -211,8 +204,7 @@ public struct AddProfileKeyOutput: Swift.Sendable {
     public init(
         keyName: Swift.String? = nil,
         values: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.keyName = keyName
         self.values = values
     }
@@ -254,8 +246,7 @@ extension CustomerProfilesClientTypes {
             postalCode: Swift.String? = nil,
             province: Swift.String? = nil,
             state: Swift.String? = nil
-        )
-        {
+        ) {
             self.address1 = address1
             self.address2 = address2
             self.address3 = address3
@@ -328,8 +319,7 @@ extension CustomerProfilesClientTypes {
         public init(
             dimensionType: CustomerProfilesClientTypes.StringDimensionType? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.dimensionType = dimensionType
             self.values = values
         }
@@ -360,8 +350,7 @@ extension CustomerProfilesClientTypes {
             postalCode: CustomerProfilesClientTypes.ProfileDimension? = nil,
             province: CustomerProfilesClientTypes.ProfileDimension? = nil,
             state: CustomerProfilesClientTypes.ProfileDimension? = nil
-        )
-        {
+        ) {
             self.city = city
             self.country = country
             self.county = county
@@ -386,8 +375,7 @@ extension CustomerProfilesClientTypes {
         public init(
             endTime: Foundation.Date? = nil,
             startTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.endTime = endTime
             self.startTime = startTime
         }
@@ -441,8 +429,7 @@ extension CustomerProfilesClientTypes {
 
         public init(
             datetimeTypeFieldName: Swift.String? = nil
-        )
-        {
+        ) {
             self.datetimeTypeFieldName = datetimeTypeFieldName
         }
     }
@@ -458,8 +445,7 @@ extension CustomerProfilesClientTypes {
 
         public init(
             object: Swift.String? = nil
-        )
-        {
+        ) {
             self.object = object
         }
     }
@@ -478,8 +464,7 @@ extension CustomerProfilesClientTypes {
         public init(
             bucketName: Swift.String? = nil,
             bucketPrefix: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucketName = bucketName
             self.bucketPrefix = bucketPrefix
         }
@@ -502,8 +487,7 @@ extension CustomerProfilesClientTypes {
             enableDynamicFieldUpdate: Swift.Bool = false,
             includeDeletedRecords: Swift.Bool = false,
             object: Swift.String? = nil
-        )
-        {
+        ) {
             self.enableDynamicFieldUpdate = enableDynamicFieldUpdate
             self.includeDeletedRecords = includeDeletedRecords
             self.object = object
@@ -521,8 +505,7 @@ extension CustomerProfilesClientTypes {
 
         public init(
             object: Swift.String? = nil
-        )
-        {
+        ) {
             self.object = object
         }
     }
@@ -538,8 +521,7 @@ extension CustomerProfilesClientTypes {
 
         public init(
             object: Swift.String? = nil
-        )
-        {
+        ) {
             self.object = object
         }
     }
@@ -566,8 +548,7 @@ extension CustomerProfilesClientTypes {
             salesforce: CustomerProfilesClientTypes.SalesforceSourceProperties? = nil,
             serviceNow: CustomerProfilesClientTypes.ServiceNowSourceProperties? = nil,
             zendesk: CustomerProfilesClientTypes.ZendeskSourceProperties? = nil
-        )
-        {
+        ) {
             self.marketo = marketo
             self.s3 = s3
             self.salesforce = salesforce
@@ -597,8 +578,7 @@ extension CustomerProfilesClientTypes {
             connectorType: CustomerProfilesClientTypes.SourceConnectorType? = nil,
             incrementalPullConfig: CustomerProfilesClientTypes.IncrementalPullConfig? = nil,
             sourceConnectorProperties: CustomerProfilesClientTypes.SourceConnectorProperties? = nil
-        )
-        {
+        ) {
             self.connectorProfileName = connectorProfileName
             self.connectorType = connectorType
             self.incrementalPullConfig = incrementalPullConfig
@@ -1019,8 +999,7 @@ extension CustomerProfilesClientTypes {
             salesforce: CustomerProfilesClientTypes.SalesforceConnectorOperator? = nil,
             serviceNow: CustomerProfilesClientTypes.ServiceNowConnectorOperator? = nil,
             zendesk: CustomerProfilesClientTypes.ZendeskConnectorOperator? = nil
-        )
-        {
+        ) {
             self.marketo = marketo
             self.s3 = s3
             self.salesforce = salesforce
@@ -1162,8 +1141,7 @@ extension CustomerProfilesClientTypes {
             sourceFields: [Swift.String]? = nil,
             taskProperties: [Swift.String: Swift.String]? = nil,
             taskType: CustomerProfilesClientTypes.TaskType? = nil
-        )
-        {
+        ) {
             self.connectorOperator = connectorOperator
             self.destinationField = destinationField
             self.sourceFields = sourceFields
@@ -1230,8 +1208,7 @@ extension CustomerProfilesClientTypes {
             scheduleOffset: Swift.Int? = 0,
             scheduleStartTime: Foundation.Date? = nil,
             timezone: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataPullMode = dataPullMode
             self.firstExecutionFrom = firstExecutionFrom
             self.scheduleEndTime = scheduleEndTime
@@ -1252,8 +1229,7 @@ extension CustomerProfilesClientTypes {
 
         public init(
             scheduled: CustomerProfilesClientTypes.ScheduledTriggerProperties? = nil
-        )
-        {
+        ) {
             self.scheduled = scheduled
         }
     }
@@ -1304,8 +1280,7 @@ extension CustomerProfilesClientTypes {
         public init(
             triggerProperties: CustomerProfilesClientTypes.TriggerProperties? = nil,
             triggerType: CustomerProfilesClientTypes.TriggerType? = nil
-        )
-        {
+        ) {
             self.triggerProperties = triggerProperties
             self.triggerType = triggerType
         }
@@ -1341,8 +1316,7 @@ extension CustomerProfilesClientTypes {
             sourceFlowConfig: CustomerProfilesClientTypes.SourceFlowConfig? = nil,
             tasks: [CustomerProfilesClientTypes.Task]? = nil,
             triggerConfig: CustomerProfilesClientTypes.TriggerConfig? = nil
-        )
-        {
+        ) {
             self.description = description
             self.flowName = flowName
             self.kmsArn = kmsArn
@@ -1372,8 +1346,7 @@ extension CustomerProfilesClientTypes {
         public init(
             batches: [CustomerProfilesClientTypes.Batch]? = nil,
             flowDefinition: CustomerProfilesClientTypes.FlowDefinition? = nil
-        )
-        {
+        ) {
             self.batches = batches
             self.flowDefinition = flowDefinition
         }
@@ -1402,8 +1375,7 @@ extension CustomerProfilesClientTypes {
             connectorProfileName: Swift.String? = nil,
             roleArn: Swift.String? = nil,
             sourceConnectorType: CustomerProfilesClientTypes.SourceConnectorType? = nil
-        )
-        {
+        ) {
             self.connectorProfileName = connectorProfileName
             self.roleArn = roleArn
             self.sourceConnectorType = sourceConnectorType
@@ -1429,8 +1401,7 @@ extension CustomerProfilesClientTypes {
             recordsProcessed: Swift.Int = 0,
             stepsCompleted: Swift.Int = 0,
             totalSteps: Swift.Int = 0
-        )
-        {
+        ) {
             self.recordsProcessed = recordsProcessed
             self.stepsCompleted = stepsCompleted
             self.totalSteps = totalSteps
@@ -1520,8 +1491,7 @@ extension CustomerProfilesClientTypes {
             lastUpdatedAt: Foundation.Date? = nil,
             recordsProcessed: Swift.Int = 0,
             status: CustomerProfilesClientTypes.Status? = nil
-        )
-        {
+        ) {
             self.batchRecordsEndTime = batchRecordsEndTime
             self.batchRecordsStartTime = batchRecordsStartTime
             self.createdAt = createdAt
@@ -1544,8 +1514,7 @@ extension CustomerProfilesClientTypes {
 
         public init(
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
         }
     }
@@ -1565,8 +1534,7 @@ extension CustomerProfilesClientTypes {
         public init(
             attributes: [CustomerProfilesClientTypes.AttributeItem]? = nil,
             expression: Swift.String? = nil
-        )
-        {
+        ) {
             self.attributes = attributes
             self.expression = expression
         }
@@ -1661,8 +1629,7 @@ extension CustomerProfilesClientTypes {
         public init(
             dimensionType: CustomerProfilesClientTypes.AttributeDimensionType? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.dimensionType = dimensionType
             self.values = values
         }
@@ -1751,8 +1718,7 @@ extension CustomerProfilesClientTypes {
         public init(
             dimensionType: CustomerProfilesClientTypes.FilterDimensionType? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.dimensionType = dimensionType
             self.values = values
         }
@@ -1831,8 +1797,7 @@ extension CustomerProfilesClientTypes {
             attributeMatchingModel: CustomerProfilesClientTypes.AttributeMatchingModel? = nil,
             emailAddress: [Swift.String]? = nil,
             phoneNumber: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.address = address
             self.attributeMatchingModel = attributeMatchingModel
             self.emailAddress = emailAddress
@@ -1850,8 +1815,7 @@ extension CustomerProfilesClientTypes {
 
         public init(
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.value = value
         }
     }
@@ -1903,8 +1867,7 @@ extension CustomerProfilesClientTypes {
         public init(
             conflictResolvingModel: CustomerProfilesClientTypes.ConflictResolvingModel? = nil,
             sourceName: Swift.String? = nil
-        )
-        {
+        ) {
             self.conflictResolvingModel = conflictResolvingModel
             self.sourceName = sourceName
         }
@@ -1921,8 +1884,7 @@ extension CustomerProfilesClientTypes {
 
         public init(
             matchingAttributesList: [[Swift.String]]? = nil
-        )
-        {
+        ) {
             self.matchingAttributesList = matchingAttributesList
         }
     }
@@ -1947,8 +1909,7 @@ extension CustomerProfilesClientTypes {
             consolidation: CustomerProfilesClientTypes.Consolidation? = nil,
             enabled: Swift.Bool? = nil,
             minAllowedConfidenceScoreForMerging: Swift.Double? = nil
-        )
-        {
+        ) {
             self.conflictResolution = conflictResolution
             self.consolidation = consolidation
             self.enabled = enabled
@@ -2000,8 +1961,7 @@ extension CustomerProfilesClientTypes {
             end: Swift.Int = 0,
             start: Swift.Int? = 366,
             unit: CustomerProfilesClientTypes.RangeUnit? = nil
-        )
-        {
+        ) {
             self.end = end
             self.start = start
             self.unit = unit
@@ -2018,8 +1978,7 @@ extension CustomerProfilesClientTypes {
 
         public init(
             range: CustomerProfilesClientTypes.RangeOverride? = nil
-        )
-        {
+        ) {
             self.range = range
         }
     }
@@ -2049,8 +2008,7 @@ public struct BatchGetCalculatedAttributeForProfileInput: Swift.Sendable {
         conditionOverrides: CustomerProfilesClientTypes.ConditionOverrides? = nil,
         domainName: Swift.String? = nil,
         profileIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.calculatedAttributeName = calculatedAttributeName
         self.conditionOverrides = conditionOverrides
         self.domainName = domainName
@@ -2084,8 +2042,7 @@ extension CustomerProfilesClientTypes {
             isDataPartial: Swift.String? = nil,
             profileId: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.calculatedAttributeName = calculatedAttributeName
             self.displayName = displayName
             self.isDataPartial = isDataPartial
@@ -2113,8 +2070,7 @@ extension CustomerProfilesClientTypes {
             code: Swift.String? = nil,
             message: Swift.String? = nil,
             profileId: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.message = message
             self.profileId = profileId
@@ -2134,8 +2090,7 @@ public struct BatchGetCalculatedAttributeForProfileOutput: Swift.Sendable {
         calculatedAttributeValues: [CustomerProfilesClientTypes.CalculatedAttributeValue]? = nil,
         conditionOverrides: CustomerProfilesClientTypes.ConditionOverrides? = nil,
         errors: [CustomerProfilesClientTypes.BatchGetCalculatedAttributeForProfileError]? = nil
-    )
-    {
+    ) {
         self.calculatedAttributeValues = calculatedAttributeValues
         self.conditionOverrides = conditionOverrides
         self.errors = errors
@@ -2158,8 +2113,7 @@ public struct BatchGetProfileInput: Swift.Sendable {
     public init(
         domainName: Swift.String? = nil,
         profileIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.profileIds = profileIds
     }
@@ -2183,8 +2137,7 @@ extension CustomerProfilesClientTypes {
             code: Swift.String? = nil,
             message: Swift.String? = nil,
             profileId: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.message = message
             self.profileId = profileId
@@ -2204,8 +2157,7 @@ extension CustomerProfilesClientTypes {
         public init(
             keyName: Swift.String? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.keyName = keyName
             self.values = values
         }
@@ -2368,8 +2320,7 @@ extension CustomerProfilesClientTypes {
             phoneNumber: Swift.String? = nil,
             profileId: Swift.String? = nil,
             shippingAddress: CustomerProfilesClientTypes.Address? = nil
-        )
-        {
+        ) {
             self.accountNumber = accountNumber
             self.additionalInformation = additionalInformation
             self.address = address
@@ -2413,8 +2364,7 @@ public struct BatchGetProfileOutput: Swift.Sendable {
     public init(
         errors: [CustomerProfilesClientTypes.BatchGetProfileError]? = nil,
         profiles: [CustomerProfilesClientTypes.Profile]? = nil
-    )
-    {
+    ) {
         self.errors = errors
         self.profiles = profiles
     }
@@ -2444,8 +2394,7 @@ extension CustomerProfilesClientTypes {
             displayName: Swift.String? = nil,
             lastUpdatedAt: Foundation.Date? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.calculatedAttributeName = calculatedAttributeName
             self.createdAt = createdAt
             self.description = description
@@ -2478,8 +2427,7 @@ extension CustomerProfilesClientTypes {
             conditionOverrides: CustomerProfilesClientTypes.ConditionOverrides? = nil,
             dimensionType: CustomerProfilesClientTypes.AttributeDimensionType? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.conditionOverrides = conditionOverrides
             self.dimensionType = dimensionType
             self.values = values
@@ -2510,8 +2458,7 @@ extension CustomerProfilesClientTypes {
             displayName: Swift.String? = nil,
             isDataPartial: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.calculatedAttributeName = calculatedAttributeName
             self.displayName = displayName
             self.isDataPartial = isDataPartial
@@ -2628,8 +2575,7 @@ extension CustomerProfilesClientTypes {
         public init(
             unit: CustomerProfilesClientTypes.Unit? = nil,
             value: Swift.Int? = nil
-        )
-        {
+        ) {
             self.unit = unit
             self.value = value
         }
@@ -2685,8 +2631,7 @@ extension CustomerProfilesClientTypes {
         public init(
             `operator`: CustomerProfilesClientTypes.Operator? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.`operator` = `operator`
             self.value = value
         }
@@ -2708,8 +2653,7 @@ extension CustomerProfilesClientTypes {
             objectCount: Swift.Int? = nil,
             range: CustomerProfilesClientTypes.Range? = nil,
             threshold: CustomerProfilesClientTypes.Threshold? = nil
-        )
-        {
+        ) {
             self.objectCount = objectCount
             self.range = range
             self.threshold = threshold
@@ -2733,8 +2677,7 @@ extension CustomerProfilesClientTypes {
 
         public init(
             attributes: [Swift.String: CustomerProfilesClientTypes.FilterAttributeDimension]? = nil
-        )
-        {
+        ) {
             self.attributes = attributes
         }
     }
@@ -2786,8 +2729,7 @@ extension CustomerProfilesClientTypes {
         public init(
             dimensions: [CustomerProfilesClientTypes.FilterDimension]? = nil,
             type: CustomerProfilesClientTypes.ModelType? = nil
-        )
-        {
+        ) {
             self.dimensions = dimensions
             self.type = type
         }
@@ -2840,8 +2782,7 @@ extension CustomerProfilesClientTypes {
         public init(
             groups: [CustomerProfilesClientTypes.FilterGroup]? = nil,
             include: CustomerProfilesClientTypes.Include? = nil
-        )
-        {
+        ) {
             self.groups = groups
             self.include = include
         }
@@ -2929,8 +2870,7 @@ public struct CreateCalculatedAttributeDefinitionInput: Swift.Sendable {
         filter: CustomerProfilesClientTypes.Filter? = nil,
         statistic: CustomerProfilesClientTypes.Statistic? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.attributeDetails = attributeDetails
         self.calculatedAttributeName = calculatedAttributeName
         self.conditions = conditions
@@ -2981,8 +2921,7 @@ public struct CreateCalculatedAttributeDefinitionOutput: Swift.Sendable {
         lastUpdatedAt: Foundation.Date? = nil,
         statistic: CustomerProfilesClientTypes.Statistic? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.attributeDetails = attributeDetails
         self.calculatedAttributeName = calculatedAttributeName
         self.conditions = conditions
@@ -3014,8 +2953,7 @@ extension CustomerProfilesClientTypes {
         public init(
             s3BucketName: Swift.String? = nil,
             s3KeyName: Swift.String? = nil
-        )
-        {
+        ) {
             self.s3BucketName = s3BucketName
             self.s3KeyName = s3KeyName
         }
@@ -3031,8 +2969,7 @@ extension CustomerProfilesClientTypes {
 
         public init(
             s3Exporting: CustomerProfilesClientTypes.S3ExportingConfig? = nil
-        )
-        {
+        ) {
             self.s3Exporting = s3Exporting
         }
     }
@@ -3096,8 +3033,7 @@ extension CustomerProfilesClientTypes {
         public init(
             dayOfTheWeek: CustomerProfilesClientTypes.JobScheduleDayOfTheWeek? = nil,
             time: Swift.String? = nil
-        )
-        {
+        ) {
             self.dayOfTheWeek = dayOfTheWeek
             self.time = time
         }
@@ -3123,8 +3059,7 @@ extension CustomerProfilesClientTypes {
             enabled: Swift.Bool? = nil,
             exportingConfig: CustomerProfilesClientTypes.ExportingConfig? = nil,
             jobSchedule: CustomerProfilesClientTypes.JobSchedule? = nil
-        )
-        {
+        ) {
             self.autoMerging = autoMerging
             self.enabled = enabled
             self.exportingConfig = exportingConfig
@@ -3177,8 +3112,7 @@ extension CustomerProfilesClientTypes {
 
         public init(
             rule: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.rule = rule
         }
     }
@@ -3212,8 +3146,7 @@ extension CustomerProfilesClientTypes {
             matchingRules: [CustomerProfilesClientTypes.MatchingRule]? = nil,
             maxAllowedRuleLevelForMatching: Swift.Int? = nil,
             maxAllowedRuleLevelForMerging: Swift.Int? = nil
-        )
-        {
+        ) {
             self.attributeTypesSelector = attributeTypesSelector
             self.conflictResolution = conflictResolution
             self.enabled = enabled
@@ -3251,8 +3184,7 @@ public struct CreateDomainInput: Swift.Sendable {
         matching: CustomerProfilesClientTypes.MatchingRequest? = nil,
         ruleBasedMatching: CustomerProfilesClientTypes.RuleBasedMatchingRequest? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.deadLetterQueueUrl = deadLetterQueueUrl
         self.defaultEncryptionKey = defaultEncryptionKey
         self.defaultExpirationDays = defaultExpirationDays
@@ -3281,8 +3213,7 @@ extension CustomerProfilesClientTypes {
             enabled: Swift.Bool? = nil,
             exportingConfig: CustomerProfilesClientTypes.ExportingConfig? = nil,
             jobSchedule: CustomerProfilesClientTypes.JobSchedule? = nil
-        )
-        {
+        ) {
             self.autoMerging = autoMerging
             self.enabled = enabled
             self.exportingConfig = exportingConfig
@@ -3365,8 +3296,7 @@ extension CustomerProfilesClientTypes {
             maxAllowedRuleLevelForMatching: Swift.Int? = nil,
             maxAllowedRuleLevelForMerging: Swift.Int? = nil,
             status: CustomerProfilesClientTypes.RuleBasedMatchingStatus? = nil
-        )
-        {
+        ) {
             self.attributeTypesSelector = attributeTypesSelector
             self.conflictResolution = conflictResolution
             self.enabled = enabled
@@ -3413,8 +3343,7 @@ public struct CreateDomainOutput: Swift.Sendable {
         matching: CustomerProfilesClientTypes.MatchingResponse? = nil,
         ruleBasedMatching: CustomerProfilesClientTypes.RuleBasedMatchingResponse? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.deadLetterQueueUrl = deadLetterQueueUrl
         self.defaultEncryptionKey = defaultEncryptionKey
@@ -3445,8 +3374,7 @@ public struct CreateEventStreamInput: Swift.Sendable {
         eventStreamName: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         uri: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.eventStreamName = eventStreamName
         self.tags = tags
@@ -3464,8 +3392,7 @@ public struct CreateEventStreamOutput: Swift.Sendable {
     public init(
         eventStreamArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.eventStreamArn = eventStreamArn
         self.tags = tags
     }
@@ -3491,8 +3418,7 @@ extension CustomerProfilesClientTypes {
             fieldName: Swift.String? = nil,
             source: Swift.String? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.comparisonOperator = comparisonOperator
             self.fieldName = fieldName
             self.source = source
@@ -3511,8 +3437,7 @@ extension CustomerProfilesClientTypes {
 
         public init(
             objectAttributes: [CustomerProfilesClientTypes.ObjectAttribute]? = nil
-        )
-        {
+        ) {
             self.objectAttributes = objectAttributes
         }
     }
@@ -3564,8 +3489,7 @@ extension CustomerProfilesClientTypes {
         public init(
             eventTriggerDimensions: [CustomerProfilesClientTypes.EventTriggerDimension]? = nil,
             logicalOperator: CustomerProfilesClientTypes.EventTriggerLogicalOperator? = nil
-        )
-        {
+        ) {
             self.eventTriggerDimensions = eventTriggerDimensions
             self.logicalOperator = logicalOperator
         }
@@ -3627,8 +3551,7 @@ extension CustomerProfilesClientTypes {
             unit: CustomerProfilesClientTypes.PeriodUnit? = nil,
             unlimited: Swift.Bool = false,
             value: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maxInvocationsPerProfile = maxInvocationsPerProfile
             self.unit = unit
             self.unlimited = unlimited
@@ -3649,8 +3572,7 @@ extension CustomerProfilesClientTypes {
         public init(
             eventExpiration: Swift.Int? = nil,
             periods: [CustomerProfilesClientTypes.Period]? = nil
-        )
-        {
+        ) {
             self.eventExpiration = eventExpiration
             self.periods = periods
         }
@@ -3688,8 +3610,7 @@ public struct CreateEventTriggerInput: Swift.Sendable {
         objectTypeName: Swift.String? = nil,
         segmentFilter: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.domainName = domainName
         self.eventTriggerConditions = eventTriggerConditions
@@ -3736,8 +3657,7 @@ public struct CreateEventTriggerOutput: Swift.Sendable {
         objectTypeName: Swift.String? = nil,
         segmentFilter: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.description = description
         self.eventTriggerConditions = eventTriggerConditions
@@ -3764,8 +3684,7 @@ extension CustomerProfilesClientTypes {
 
         public init(
             appflowIntegration: CustomerProfilesClientTypes.AppflowIntegration? = nil
-        )
-        {
+        ) {
             self.appflowIntegration = appflowIntegration
         }
     }
@@ -3823,8 +3742,7 @@ public struct CreateIntegrationWorkflowInput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         workflowType: CustomerProfilesClientTypes.WorkflowType? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.integrationConfig = integrationConfig
         self.objectTypeName = objectTypeName
@@ -3845,8 +3763,7 @@ public struct CreateIntegrationWorkflowOutput: Swift.Sendable {
     public init(
         message: Swift.String? = nil,
         workflowId: Swift.String? = nil
-    )
-    {
+    ) {
         self.message = message
         self.workflowId = workflowId
     }
@@ -3930,8 +3847,7 @@ public struct CreateProfileInput: Swift.Sendable {
         personalEmailAddress: Swift.String? = nil,
         phoneNumber: Swift.String? = nil,
         shippingAddress: CustomerProfilesClientTypes.Address? = nil
-    )
-    {
+    ) {
         self.accountNumber = accountNumber
         self.additionalInformation = additionalInformation
         self.address = address
@@ -3971,8 +3887,7 @@ public struct CreateProfileOutput: Swift.Sendable {
 
     public init(
         profileId: Swift.String? = nil
-    )
-    {
+    ) {
         self.profileId = profileId
     }
 }
@@ -3991,8 +3906,7 @@ extension CustomerProfilesClientTypes {
         public init(
             dimensionType: CustomerProfilesClientTypes.StringDimensionType? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.dimensionType = dimensionType
             self.values = values
         }
@@ -4051,8 +3965,7 @@ extension CustomerProfilesClientTypes {
         public init(
             dimensionType: CustomerProfilesClientTypes.DateDimensionType? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.dimensionType = dimensionType
             self.values = values
         }
@@ -4128,8 +4041,7 @@ extension CustomerProfilesClientTypes {
             personalEmailAddress: CustomerProfilesClientTypes.ProfileDimension? = nil,
             phoneNumber: CustomerProfilesClientTypes.ProfileDimension? = nil,
             shippingAddress: CustomerProfilesClientTypes.AddressDimension? = nil
-        )
-        {
+        ) {
             self.accountNumber = accountNumber
             self.additionalInformation = additionalInformation
             self.address = address
@@ -4182,8 +4094,7 @@ extension CustomerProfilesClientTypes {
 
         public init(
             segmentDefinitionName: Swift.String? = nil
-        )
-        {
+        ) {
             self.segmentDefinitionName = segmentDefinitionName
         }
     }
@@ -4239,8 +4150,7 @@ extension CustomerProfilesClientTypes {
             sourceSegments: [CustomerProfilesClientTypes.SourceSegment]? = nil,
             sourceType: CustomerProfilesClientTypes.IncludeOptions? = .all,
             type: CustomerProfilesClientTypes.IncludeOptions? = .all
-        )
-        {
+        ) {
             self.dimensions = dimensions
             self.sourceSegments = sourceSegments
             self.sourceType = sourceType
@@ -4261,8 +4171,7 @@ extension CustomerProfilesClientTypes {
         public init(
             groups: [CustomerProfilesClientTypes.Group]? = nil,
             include: CustomerProfilesClientTypes.IncludeOptions? = .all
-        )
-        {
+        ) {
             self.groups = groups
             self.include = include
         }
@@ -4300,8 +4209,7 @@ public struct CreateSegmentDefinitionInput: Swift.Sendable {
         segmentDefinitionName: Swift.String? = nil,
         segmentGroups: CustomerProfilesClientTypes.SegmentGroup? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.displayName = displayName
         self.domainName = domainName
@@ -4338,8 +4246,7 @@ public struct CreateSegmentDefinitionOutput: Swift.Sendable {
         segmentDefinitionArn: Swift.String? = nil,
         segmentDefinitionName: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.description = description
         self.displayName = displayName
@@ -4366,8 +4273,7 @@ extension CustomerProfilesClientTypes {
         public init(
             groups: [CustomerProfilesClientTypes.Group]? = nil,
             include: CustomerProfilesClientTypes.IncludeOptions? = nil
-        )
-        {
+        ) {
             self.groups = groups
             self.include = include
         }
@@ -4385,8 +4291,7 @@ public struct CreateSegmentEstimateInput: Swift.Sendable {
     public init(
         domainName: Swift.String? = nil,
         segmentQuery: CustomerProfilesClientTypes.SegmentGroupStructure? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.segmentQuery = segmentQuery
     }
@@ -4404,8 +4309,7 @@ public struct CreateSegmentEstimateOutput: Swift.Sendable {
         domainName: Swift.String? = nil,
         estimateId: Swift.String? = nil,
         statusCode: Swift.Int = 0
-    )
-    {
+    ) {
         self.domainName = domainName
         self.estimateId = estimateId
         self.statusCode = statusCode
@@ -4468,8 +4372,7 @@ public struct CreateSegmentSnapshotInput: Swift.Sendable {
         encryptionKey: Swift.String? = nil,
         roleArn: Swift.String? = nil,
         segmentDefinitionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataFormat = dataFormat
         self.destinationUri = destinationUri
         self.domainName = domainName
@@ -4486,8 +4389,7 @@ public struct CreateSegmentSnapshotOutput: Swift.Sendable {
 
     public init(
         snapshotId: Swift.String? = nil
-    )
-    {
+    ) {
         self.snapshotId = snapshotId
     }
 }
@@ -4503,8 +4405,7 @@ public struct DeleteCalculatedAttributeDefinitionInput: Swift.Sendable {
     public init(
         calculatedAttributeName: Swift.String? = nil,
         domainName: Swift.String? = nil
-    )
-    {
+    ) {
         self.calculatedAttributeName = calculatedAttributeName
         self.domainName = domainName
     }
@@ -4522,8 +4423,7 @@ public struct DeleteDomainInput: Swift.Sendable {
 
     public init(
         domainName: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
     }
 }
@@ -4535,8 +4435,7 @@ public struct DeleteDomainOutput: Swift.Sendable {
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.message = message
     }
 }
@@ -4552,8 +4451,7 @@ public struct DeleteEventStreamInput: Swift.Sendable {
     public init(
         domainName: Swift.String? = nil,
         eventStreamName: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.eventStreamName = eventStreamName
     }
@@ -4575,8 +4473,7 @@ public struct DeleteEventTriggerInput: Swift.Sendable {
     public init(
         domainName: Swift.String? = nil,
         eventTriggerName: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.eventTriggerName = eventTriggerName
     }
@@ -4589,8 +4486,7 @@ public struct DeleteEventTriggerOutput: Swift.Sendable {
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.message = message
     }
 }
@@ -4606,8 +4502,7 @@ public struct DeleteIntegrationInput: Swift.Sendable {
     public init(
         domainName: Swift.String? = nil,
         uri: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.uri = uri
     }
@@ -4620,8 +4515,7 @@ public struct DeleteIntegrationOutput: Swift.Sendable {
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.message = message
     }
 }
@@ -4637,8 +4531,7 @@ public struct DeleteProfileInput: Swift.Sendable {
     public init(
         domainName: Swift.String? = nil,
         profileId: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.profileId = profileId
     }
@@ -4650,8 +4543,7 @@ public struct DeleteProfileOutput: Swift.Sendable {
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.message = message
     }
 }
@@ -4675,8 +4567,7 @@ public struct DeleteProfileKeyInput: Swift.Sendable {
         keyName: Swift.String? = nil,
         profileId: Swift.String? = nil,
         values: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.keyName = keyName
         self.profileId = profileId
@@ -4690,8 +4581,7 @@ public struct DeleteProfileKeyOutput: Swift.Sendable {
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.message = message
     }
 }
@@ -4715,8 +4605,7 @@ public struct DeleteProfileObjectInput: Swift.Sendable {
         objectTypeName: Swift.String? = nil,
         profileId: Swift.String? = nil,
         profileObjectUniqueKey: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.objectTypeName = objectTypeName
         self.profileId = profileId
@@ -4730,8 +4619,7 @@ public struct DeleteProfileObjectOutput: Swift.Sendable {
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.message = message
     }
 }
@@ -4747,8 +4635,7 @@ public struct DeleteProfileObjectTypeInput: Swift.Sendable {
     public init(
         domainName: Swift.String? = nil,
         objectTypeName: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.objectTypeName = objectTypeName
     }
@@ -4761,8 +4648,7 @@ public struct DeleteProfileObjectTypeOutput: Swift.Sendable {
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.message = message
     }
 }
@@ -4778,8 +4664,7 @@ public struct DeleteSegmentDefinitionInput: Swift.Sendable {
     public init(
         domainName: Swift.String? = nil,
         segmentDefinitionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.segmentDefinitionName = segmentDefinitionName
     }
@@ -4791,8 +4676,7 @@ public struct DeleteSegmentDefinitionOutput: Swift.Sendable {
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.message = message
     }
 }
@@ -4808,8 +4692,7 @@ public struct DeleteWorkflowInput: Swift.Sendable {
     public init(
         domainName: Swift.String? = nil,
         workflowId: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.workflowId = workflowId
     }
@@ -4831,8 +4714,7 @@ public struct DetectProfileObjectTypeInput: Swift.Sendable {
     public init(
         domainName: Swift.String? = nil,
         objects: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.objects = objects
     }
@@ -4896,8 +4778,7 @@ extension CustomerProfilesClientTypes {
             contentType: CustomerProfilesClientTypes.FieldContentType? = nil,
             source: Swift.String? = nil,
             target: Swift.String? = nil
-        )
-        {
+        ) {
             self.contentType = contentType
             self.source = source
             self.target = target
@@ -4967,8 +4848,7 @@ extension CustomerProfilesClientTypes {
         public init(
             fieldNames: [Swift.String]? = nil,
             standardIdentifiers: [CustomerProfilesClientTypes.StandardIdentifier]? = nil
-        )
-        {
+        ) {
             self.fieldNames = fieldNames
             self.standardIdentifiers = standardIdentifiers
         }
@@ -4990,8 +4870,7 @@ extension CustomerProfilesClientTypes {
             fields: [Swift.String: CustomerProfilesClientTypes.ObjectTypeField]? = nil,
             keys: [Swift.String: [CustomerProfilesClientTypes.ObjectTypeKey]]? = nil,
             sourceLastUpdatedTimestampFormat: Swift.String? = nil
-        )
-        {
+        ) {
             self.fields = fields
             self.keys = keys
             self.sourceLastUpdatedTimestampFormat = sourceLastUpdatedTimestampFormat
@@ -5010,8 +4889,7 @@ public struct DetectProfileObjectTypeOutput: Swift.Sendable {
 
     public init(
         detectedProfileObjectTypes: [CustomerProfilesClientTypes.DetectedProfileObjectType]? = nil
-    )
-    {
+    ) {
         self.detectedProfileObjectTypes = detectedProfileObjectTypes
     }
 }
@@ -5034,8 +4912,7 @@ public struct GetAutoMergingPreviewInput: Swift.Sendable {
         consolidation: CustomerProfilesClientTypes.Consolidation? = nil,
         domainName: Swift.String? = nil,
         minAllowedConfidenceScoreForMerging: Swift.Double? = nil
-    )
-    {
+    ) {
         self.conflictResolution = conflictResolution
         self.consolidation = consolidation
         self.domainName = domainName
@@ -5059,8 +4936,7 @@ public struct GetAutoMergingPreviewOutput: Swift.Sendable {
         numberOfMatchesInSample: Swift.Int = 0,
         numberOfProfilesInSample: Swift.Int = 0,
         numberOfProfilesWillBeMerged: Swift.Int = 0
-    )
-    {
+    ) {
         self.domainName = domainName
         self.numberOfMatchesInSample = numberOfMatchesInSample
         self.numberOfProfilesInSample = numberOfProfilesInSample
@@ -5079,8 +4955,7 @@ public struct GetCalculatedAttributeDefinitionInput: Swift.Sendable {
     public init(
         calculatedAttributeName: Swift.String? = nil,
         domainName: Swift.String? = nil
-    )
-    {
+    ) {
         self.calculatedAttributeName = calculatedAttributeName
         self.domainName = domainName
     }
@@ -5119,8 +4994,7 @@ public struct GetCalculatedAttributeDefinitionOutput: Swift.Sendable {
         lastUpdatedAt: Foundation.Date? = nil,
         statistic: CustomerProfilesClientTypes.Statistic? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.attributeDetails = attributeDetails
         self.calculatedAttributeName = calculatedAttributeName
         self.conditions = conditions
@@ -5154,8 +5028,7 @@ public struct GetCalculatedAttributeForProfileInput: Swift.Sendable {
         calculatedAttributeName: Swift.String? = nil,
         domainName: Swift.String? = nil,
         profileId: Swift.String? = nil
-    )
-    {
+    ) {
         self.calculatedAttributeName = calculatedAttributeName
         self.domainName = domainName
         self.profileId = profileId
@@ -5177,8 +5050,7 @@ public struct GetCalculatedAttributeForProfileOutput: Swift.Sendable {
         displayName: Swift.String? = nil,
         isDataPartial: Swift.String? = nil,
         value: Swift.String? = nil
-    )
-    {
+    ) {
         self.calculatedAttributeName = calculatedAttributeName
         self.displayName = displayName
         self.isDataPartial = isDataPartial
@@ -5193,8 +5065,7 @@ public struct GetDomainInput: Swift.Sendable {
 
     public init(
         domainName: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
     }
 }
@@ -5217,8 +5088,7 @@ extension CustomerProfilesClientTypes {
             objectCount: Swift.Int = 0,
             profileCount: Swift.Int = 0,
             totalSize: Swift.Int = 0
-        )
-        {
+        ) {
             self.meteringProfileCount = meteringProfileCount
             self.objectCount = objectCount
             self.profileCount = profileCount
@@ -5263,8 +5133,7 @@ public struct GetDomainOutput: Swift.Sendable {
         ruleBasedMatching: CustomerProfilesClientTypes.RuleBasedMatchingResponse? = nil,
         stats: CustomerProfilesClientTypes.DomainStats? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.deadLetterQueueUrl = deadLetterQueueUrl
         self.defaultEncryptionKey = defaultEncryptionKey
@@ -5289,8 +5158,7 @@ public struct GetEventStreamInput: Swift.Sendable {
     public init(
         domainName: Swift.String? = nil,
         eventStreamName: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.eventStreamName = eventStreamName
     }
@@ -5345,8 +5213,7 @@ extension CustomerProfilesClientTypes {
             status: CustomerProfilesClientTypes.EventStreamDestinationStatus? = nil,
             unhealthySince: Foundation.Date? = nil,
             uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
             self.status = status
             self.unhealthySince = unhealthySince
@@ -5413,8 +5280,7 @@ public struct GetEventStreamOutput: Swift.Sendable {
         state: CustomerProfilesClientTypes.EventStreamState? = nil,
         stoppedSince: Foundation.Date? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.destinationDetails = destinationDetails
         self.domainName = domainName
@@ -5436,8 +5302,7 @@ public struct GetEventTriggerInput: Swift.Sendable {
     public init(
         domainName: Swift.String? = nil,
         eventTriggerName: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.eventTriggerName = eventTriggerName
     }
@@ -5473,8 +5338,7 @@ public struct GetEventTriggerOutput: Swift.Sendable {
         objectTypeName: Swift.String? = nil,
         segmentFilter: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.description = description
         self.eventTriggerConditions = eventTriggerConditions
@@ -5503,8 +5367,7 @@ public struct GetIdentityResolutionJobInput: Swift.Sendable {
     public init(
         domainName: Swift.String? = nil,
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.jobId = jobId
     }
@@ -5522,8 +5385,7 @@ extension CustomerProfilesClientTypes {
         public init(
             s3BucketName: Swift.String? = nil,
             s3KeyName: Swift.String? = nil
-        )
-        {
+        ) {
             self.s3BucketName = s3BucketName
             self.s3KeyName = s3KeyName
         }
@@ -5539,8 +5401,7 @@ extension CustomerProfilesClientTypes {
 
         public init(
             s3Exporting: CustomerProfilesClientTypes.S3ExportingLocation? = nil
-        )
-        {
+        ) {
             self.s3Exporting = s3Exporting
         }
     }
@@ -5561,8 +5422,7 @@ extension CustomerProfilesClientTypes {
             numberOfMatchesFound: Swift.Int = 0,
             numberOfMergesDone: Swift.Int = 0,
             numberOfProfilesReviewed: Swift.Int = 0
-        )
-        {
+        ) {
             self.numberOfMatchesFound = numberOfMatchesFound
             self.numberOfMergesDone = numberOfMergesDone
             self.numberOfProfilesReviewed = numberOfProfilesReviewed
@@ -5664,8 +5524,7 @@ public struct GetIdentityResolutionJobOutput: Swift.Sendable {
         lastUpdatedAt: Foundation.Date? = nil,
         message: Swift.String? = nil,
         status: CustomerProfilesClientTypes.IdentityResolutionJobStatus? = nil
-    )
-    {
+    ) {
         self.autoMerging = autoMerging
         self.domainName = domainName
         self.exportingLocation = exportingLocation
@@ -5691,8 +5550,7 @@ public struct GetIntegrationInput: Swift.Sendable {
     public init(
         domainName: Swift.String? = nil,
         uri: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.uri = uri
     }
@@ -5738,8 +5596,7 @@ public struct GetIntegrationOutput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         uri: Swift.String? = nil,
         workflowId: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.domainName = domainName
         self.eventTriggerNames = eventTriggerNames
@@ -5767,8 +5624,7 @@ public struct GetMatchesInput: Swift.Sendable {
         domainName: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -5790,8 +5646,7 @@ extension CustomerProfilesClientTypes {
             confidenceScore: Swift.Double? = nil,
             matchId: Swift.String? = nil,
             profileIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.confidenceScore = confidenceScore
             self.matchId = matchId
             self.profileIds = profileIds
@@ -5814,8 +5669,7 @@ public struct GetMatchesOutput: Swift.Sendable {
         matches: [CustomerProfilesClientTypes.MatchItem]? = nil,
         nextToken: Swift.String? = nil,
         potentialMatches: Swift.Int? = nil
-    )
-    {
+    ) {
         self.matchGenerationDate = matchGenerationDate
         self.matches = matches
         self.nextToken = nextToken
@@ -5834,8 +5688,7 @@ public struct GetProfileObjectTypeInput: Swift.Sendable {
     public init(
         domainName: Swift.String? = nil,
         objectTypeName: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.objectTypeName = objectTypeName
     }
@@ -5888,8 +5741,7 @@ public struct GetProfileObjectTypeOutput: Swift.Sendable {
         sourceLastUpdatedTimestampFormat: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         templateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.allowProfileCreation = allowProfileCreation
         self.createdAt = createdAt
         self.description = description
@@ -5919,8 +5771,7 @@ public struct GetProfileObjectTypeTemplateInput: Swift.Sendable {
 
     public init(
         templateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.templateId = templateId
     }
 }
@@ -5949,8 +5800,7 @@ public struct GetProfileObjectTypeTemplateOutput: Swift.Sendable {
         sourceName: Swift.String? = nil,
         sourceObject: Swift.String? = nil,
         templateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.allowProfileCreation = allowProfileCreation
         self.fields = fields
         self.keys = keys
@@ -5977,8 +5827,7 @@ public struct GetSegmentDefinitionInput: Swift.Sendable {
     public init(
         domainName: Swift.String? = nil,
         segmentDefinitionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.segmentDefinitionName = segmentDefinitionName
     }
@@ -6009,8 +5858,7 @@ public struct GetSegmentDefinitionOutput: Swift.Sendable {
         segmentDefinitionName: Swift.String? = nil,
         segmentGroups: CustomerProfilesClientTypes.SegmentGroup? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.description = description
         self.displayName = displayName
@@ -6037,8 +5885,7 @@ public struct GetSegmentEstimateInput: Swift.Sendable {
     public init(
         domainName: Swift.String? = nil,
         estimateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.estimateId = estimateId
     }
@@ -6097,8 +5944,7 @@ public struct GetSegmentEstimateOutput: Swift.Sendable {
         message: Swift.String? = nil,
         status: CustomerProfilesClientTypes.EstimateStatus? = nil,
         statusCode: Swift.Int = 0
-    )
-    {
+    ) {
         self.domainName = domainName
         self.estimate = estimate
         self.estimateId = estimateId
@@ -6123,8 +5969,7 @@ public struct GetSegmentMembershipInput: Swift.Sendable {
         domainName: Swift.String? = nil,
         profileIds: [Swift.String]? = nil,
         segmentDefinitionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.profileIds = profileIds
         self.segmentDefinitionName = segmentDefinitionName
@@ -6148,8 +5993,7 @@ extension CustomerProfilesClientTypes {
             message: Swift.String? = nil,
             profileId: Swift.String? = nil,
             status: Swift.Int? = nil
-        )
-        {
+        ) {
             self.message = message
             self.profileId = profileId
             self.status = status
@@ -6203,8 +6047,7 @@ extension CustomerProfilesClientTypes {
             profile: CustomerProfilesClientTypes.Profile? = nil,
             profileId: Swift.String? = nil,
             queryResult: CustomerProfilesClientTypes.QueryResult? = nil
-        )
-        {
+        ) {
             self.profile = profile
             self.profileId = profileId
             self.queryResult = queryResult
@@ -6224,8 +6067,7 @@ public struct GetSegmentMembershipOutput: Swift.Sendable {
         failures: [CustomerProfilesClientTypes.ProfileQueryFailures]? = nil,
         profiles: [CustomerProfilesClientTypes.ProfileQueryResult]? = nil,
         segmentDefinitionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.failures = failures
         self.profiles = profiles
         self.segmentDefinitionName = segmentDefinitionName
@@ -6247,8 +6089,7 @@ public struct GetSegmentSnapshotInput: Swift.Sendable {
         domainName: Swift.String? = nil,
         segmentDefinitionName: Swift.String? = nil,
         snapshotId: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.segmentDefinitionName = segmentDefinitionName
         self.snapshotId = snapshotId
@@ -6314,8 +6155,7 @@ public struct GetSegmentSnapshotOutput: Swift.Sendable {
         snapshotId: Swift.String? = nil,
         status: CustomerProfilesClientTypes.SegmentSnapshotStatus? = nil,
         statusMessage: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataFormat = dataFormat
         self.destinationUri = destinationUri
         self.encryptionKey = encryptionKey
@@ -6380,8 +6220,7 @@ public struct GetSimilarProfilesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         searchKey: Swift.String? = nil,
         searchValue: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.matchType = matchType
         self.maxResults = maxResults
@@ -6412,8 +6251,7 @@ public struct GetSimilarProfilesOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         profileIds: [Swift.String]? = nil,
         ruleLevel: Swift.Int? = nil
-    )
-    {
+    ) {
         self.confidenceScore = confidenceScore
         self.matchId = matchId
         self.matchType = matchType
@@ -6434,8 +6272,7 @@ public struct GetWorkflowInput: Swift.Sendable {
     public init(
         domainName: Swift.String? = nil,
         workflowId: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.workflowId = workflowId
     }
@@ -6450,8 +6287,7 @@ extension CustomerProfilesClientTypes {
 
         public init(
             appflowIntegration: CustomerProfilesClientTypes.AppflowIntegrationWorkflowAttributes? = nil
-        )
-        {
+        ) {
             self.appflowIntegration = appflowIntegration
         }
     }
@@ -6466,8 +6302,7 @@ extension CustomerProfilesClientTypes {
 
         public init(
             appflowIntegration: CustomerProfilesClientTypes.AppflowIntegrationWorkflowMetrics? = nil
-        )
-        {
+        ) {
             self.appflowIntegration = appflowIntegration
         }
     }
@@ -6500,8 +6335,7 @@ public struct GetWorkflowOutput: Swift.Sendable {
         status: CustomerProfilesClientTypes.Status? = nil,
         workflowId: Swift.String? = nil,
         workflowType: CustomerProfilesClientTypes.WorkflowType? = nil
-    )
-    {
+    ) {
         self.attributes = attributes
         self.errorDescription = errorDescription
         self.lastUpdatedAt = lastUpdatedAt
@@ -6530,8 +6364,7 @@ public struct GetWorkflowStepsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         workflowId: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -6548,8 +6381,7 @@ extension CustomerProfilesClientTypes {
 
         public init(
             appflowIntegration: CustomerProfilesClientTypes.AppflowIntegrationWorkflowStep? = nil
-        )
-        {
+        ) {
             self.appflowIntegration = appflowIntegration
         }
     }
@@ -6570,8 +6402,7 @@ public struct GetWorkflowStepsOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         workflowId: Swift.String? = nil,
         workflowType: CustomerProfilesClientTypes.WorkflowType? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
         self.workflowId = workflowId
@@ -6595,8 +6426,7 @@ public struct ListAccountIntegrationsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         uri: Swift.String? = nil
-    )
-    {
+    ) {
         self.includeHidden = includeHidden
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -6647,8 +6477,7 @@ extension CustomerProfilesClientTypes {
             tags: [Swift.String: Swift.String]? = nil,
             uri: Swift.String? = nil,
             workflowId: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.domainName = domainName
             self.eventTriggerNames = eventTriggerNames
@@ -6673,8 +6502,7 @@ public struct ListAccountIntegrationsOutput: Swift.Sendable {
     public init(
         items: [CustomerProfilesClientTypes.ListIntegrationItem]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -6693,8 +6521,7 @@ public struct ListCalculatedAttributeDefinitionsInput: Swift.Sendable {
         domainName: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -6710,8 +6537,7 @@ public struct ListCalculatedAttributeDefinitionsOutput: Swift.Sendable {
     public init(
         items: [CustomerProfilesClientTypes.ListCalculatedAttributeDefinitionItem]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -6739,8 +6565,7 @@ public struct ListCalculatedAttributesForProfileInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         profileId: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -6757,8 +6582,7 @@ public struct ListCalculatedAttributesForProfileOutput: Swift.Sendable {
     public init(
         items: [CustomerProfilesClientTypes.ListCalculatedAttributeForProfileItem]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -6773,8 +6597,7 @@ public struct ListDomainsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -6801,8 +6624,7 @@ extension CustomerProfilesClientTypes {
             domainName: Swift.String? = nil,
             lastUpdatedAt: Foundation.Date? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.domainName = domainName
             self.lastUpdatedAt = lastUpdatedAt
@@ -6820,8 +6642,7 @@ public struct ListDomainsOutput: Swift.Sendable {
     public init(
         items: [CustomerProfilesClientTypes.ListDomainItem]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -6840,8 +6661,7 @@ public struct ListEventStreamsInput: Swift.Sendable {
         domainName: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -6865,8 +6685,7 @@ extension CustomerProfilesClientTypes {
             status: CustomerProfilesClientTypes.EventStreamDestinationStatus? = nil,
             unhealthySince: Foundation.Date? = nil,
             uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.status = status
             self.unhealthySince = unhealthySince
             self.uri = uri
@@ -6905,8 +6724,7 @@ extension CustomerProfilesClientTypes {
             state: CustomerProfilesClientTypes.EventStreamState? = nil,
             stoppedSince: Foundation.Date? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.destinationSummary = destinationSummary
             self.domainName = domainName
             self.eventStreamArn = eventStreamArn
@@ -6927,8 +6745,7 @@ public struct ListEventStreamsOutput: Swift.Sendable {
     public init(
         items: [CustomerProfilesClientTypes.EventStreamSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -6947,8 +6764,7 @@ public struct ListEventTriggersInput: Swift.Sendable {
         domainName: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -6979,8 +6795,7 @@ extension CustomerProfilesClientTypes {
             lastUpdatedAt: Foundation.Date? = nil,
             objectTypeName: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.description = description
             self.eventTriggerName = eventTriggerName
@@ -7000,8 +6815,7 @@ public struct ListEventTriggersOutput: Swift.Sendable {
     public init(
         items: [CustomerProfilesClientTypes.EventTriggerSummaryItem]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -7025,8 +6839,7 @@ public struct ListIdentityResolutionJobsInput: Swift.Sendable {
         domainName: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -7077,8 +6890,7 @@ extension CustomerProfilesClientTypes {
             jobStats: CustomerProfilesClientTypes.JobStats? = nil,
             message: Swift.String? = nil,
             status: CustomerProfilesClientTypes.IdentityResolutionJobStatus? = nil
-        )
-        {
+        ) {
             self.domainName = domainName
             self.exportingLocation = exportingLocation
             self.jobEndTime = jobEndTime
@@ -7100,8 +6912,7 @@ public struct ListIdentityResolutionJobsOutput: Swift.Sendable {
     public init(
         identityResolutionJobsList: [CustomerProfilesClientTypes.IdentityResolutionJob]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.identityResolutionJobsList = identityResolutionJobsList
         self.nextToken = nextToken
     }
@@ -7123,8 +6934,7 @@ public struct ListIntegrationsInput: Swift.Sendable {
         includeHidden: Swift.Bool? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.includeHidden = includeHidden
         self.maxResults = maxResults
@@ -7141,8 +6951,7 @@ public struct ListIntegrationsOutput: Swift.Sendable {
     public init(
         items: [CustomerProfilesClientTypes.ListIntegrationItem]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -7165,8 +6974,7 @@ public struct ListObjectTypeAttributesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         objectTypeName: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -7188,8 +6996,7 @@ extension CustomerProfilesClientTypes {
         public init(
             attributeName: Swift.String? = nil,
             lastUpdatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.attributeName = attributeName
             self.lastUpdatedAt = lastUpdatedAt
         }
@@ -7205,8 +7012,7 @@ public struct ListObjectTypeAttributesOutput: Swift.Sendable {
     public init(
         items: [CustomerProfilesClientTypes.ListObjectTypeAttributeItem]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -7223,8 +7029,7 @@ public struct ListProfileAttributeValuesInput: Swift.Sendable {
     public init(
         attributeName: Swift.String? = nil,
         domainName: Swift.String? = nil
-    )
-    {
+    ) {
         self.attributeName = attributeName
         self.domainName = domainName
     }
@@ -7245,8 +7050,7 @@ public struct ListProfileAttributeValuesOutput: Swift.Sendable {
         domainName: Swift.String? = nil,
         items: [CustomerProfilesClientTypes.AttributeValueItem]? = nil,
         statusCode: Swift.Int = 0
-    )
-    {
+    ) {
         self.attributeName = attributeName
         self.domainName = domainName
         self.items = items
@@ -7268,8 +7072,7 @@ extension CustomerProfilesClientTypes {
         public init(
             keyName: Swift.String? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.keyName = keyName
             self.values = values
         }
@@ -7300,8 +7103,7 @@ public struct ListProfileObjectsInput: Swift.Sendable {
         objectFilter: CustomerProfilesClientTypes.ObjectFilter? = nil,
         objectTypeName: Swift.String? = nil,
         profileId: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -7326,8 +7128,7 @@ extension CustomerProfilesClientTypes {
             object: Swift.String? = nil,
             objectTypeName: Swift.String? = nil,
             profileObjectUniqueKey: Swift.String? = nil
-        )
-        {
+        ) {
             self.object = object
             self.objectTypeName = objectTypeName
             self.profileObjectUniqueKey = profileObjectUniqueKey
@@ -7349,8 +7150,7 @@ public struct ListProfileObjectsOutput: Swift.Sendable {
     public init(
         items: [CustomerProfilesClientTypes.ListProfileObjectsItem]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -7369,8 +7169,7 @@ public struct ListProfileObjectTypesInput: Swift.Sendable {
         domainName: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -7406,8 +7205,7 @@ extension CustomerProfilesClientTypes {
             maxProfileObjectCount: Swift.Int? = nil,
             objectTypeName: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.description = description
             self.lastUpdatedAt = lastUpdatedAt
@@ -7428,8 +7226,7 @@ public struct ListProfileObjectTypesOutput: Swift.Sendable {
     public init(
         items: [CustomerProfilesClientTypes.ListProfileObjectTypeItem]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -7449,8 +7246,7 @@ public struct ListProfileObjectTypeTemplatesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -7471,8 +7267,7 @@ extension CustomerProfilesClientTypes {
             sourceName: Swift.String? = nil,
             sourceObject: Swift.String? = nil,
             templateId: Swift.String? = nil
-        )
-        {
+        ) {
             self.sourceName = sourceName
             self.sourceObject = sourceObject
             self.templateId = templateId
@@ -7489,8 +7284,7 @@ public struct ListProfileObjectTypeTemplatesOutput: Swift.Sendable {
     public init(
         items: [CustomerProfilesClientTypes.ListProfileObjectTypeTemplateItem]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -7509,8 +7303,7 @@ public struct ListRuleBasedMatchesInput: Swift.Sendable {
         domainName: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -7526,8 +7319,7 @@ public struct ListRuleBasedMatchesOutput: Swift.Sendable {
     public init(
         matchIds: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.matchIds = matchIds
         self.nextToken = nextToken
     }
@@ -7546,8 +7338,7 @@ public struct ListSegmentDefinitionsInput: Swift.Sendable {
         domainName: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -7578,8 +7369,7 @@ extension CustomerProfilesClientTypes {
             segmentDefinitionArn: Swift.String? = nil,
             segmentDefinitionName: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.description = description
             self.displayName = displayName
@@ -7604,8 +7394,7 @@ public struct ListSegmentDefinitionsOutput: Swift.Sendable {
     public init(
         items: [CustomerProfilesClientTypes.SegmentDefinitionItem]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -7618,8 +7407,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -7630,8 +7418,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -7661,8 +7448,7 @@ public struct ListWorkflowsInput: Swift.Sendable {
         queryStartDate: Foundation.Date? = nil,
         status: CustomerProfilesClientTypes.Status? = nil,
         workflowType: CustomerProfilesClientTypes.WorkflowType? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -7703,8 +7489,7 @@ extension CustomerProfilesClientTypes {
             statusDescription: Swift.String? = nil,
             workflowId: Swift.String? = nil,
             workflowType: CustomerProfilesClientTypes.WorkflowType? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.lastUpdatedAt = lastUpdatedAt
             self.status = status
@@ -7724,8 +7509,7 @@ public struct ListWorkflowsOutput: Swift.Sendable {
     public init(
         items: [CustomerProfilesClientTypes.ListWorkflowsItem]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -7800,8 +7584,7 @@ extension CustomerProfilesClientTypes {
             personalEmailAddress: Swift.String? = nil,
             phoneNumber: Swift.String? = nil,
             shippingAddress: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountNumber = accountNumber
             self.additionalInformation = additionalInformation
             self.address = address
@@ -7845,8 +7628,7 @@ public struct MergeProfilesInput: Swift.Sendable {
         fieldSourceProfileIds: CustomerProfilesClientTypes.FieldSourceProfileIds? = nil,
         mainProfileId: Swift.String? = nil,
         profileIdsToBeMerged: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.fieldSourceProfileIds = fieldSourceProfileIds
         self.mainProfileId = mainProfileId
@@ -7860,8 +7642,7 @@ public struct MergeProfilesOutput: Swift.Sendable {
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.message = message
     }
 }
@@ -7894,8 +7675,7 @@ public struct PutIntegrationInput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         uri: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.eventTriggerNames = eventTriggerNames
         self.flowDefinition = flowDefinition
@@ -7952,8 +7732,7 @@ public struct PutIntegrationOutput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         uri: Swift.String? = nil,
         workflowId: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.domainName = domainName
         self.eventTriggerNames = eventTriggerNames
@@ -7983,8 +7762,7 @@ public struct PutProfileObjectInput: Swift.Sendable {
         domainName: Swift.String? = nil,
         object: Swift.String? = nil,
         objectTypeName: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.object = object
         self.objectTypeName = objectTypeName
@@ -8002,8 +7780,7 @@ public struct PutProfileObjectOutput: Swift.Sendable {
 
     public init(
         profileObjectUniqueKey: Swift.String? = nil
-    )
-    {
+    ) {
         self.profileObjectUniqueKey = profileObjectUniqueKey
     }
 }
@@ -8050,8 +7827,7 @@ public struct PutProfileObjectTypeInput: Swift.Sendable {
         sourceLastUpdatedTimestampFormat: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         templateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.allowProfileCreation = allowProfileCreation
         self.description = description
         self.domainName = domainName
@@ -8119,8 +7895,7 @@ public struct PutProfileObjectTypeOutput: Swift.Sendable {
         sourceLastUpdatedTimestampFormat: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         templateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.allowProfileCreation = allowProfileCreation
         self.createdAt = createdAt
         self.description = description
@@ -8206,8 +7981,7 @@ public struct SearchProfilesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         values: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.additionalSearchKeys = additionalSearchKeys
         self.domainName = domainName
         self.keyName = keyName
@@ -8227,8 +8001,7 @@ public struct SearchProfilesOutput: Swift.Sendable {
     public init(
         items: [CustomerProfilesClientTypes.Profile]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -8245,8 +8018,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -8268,8 +8040,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -8300,8 +8071,7 @@ public struct UpdateCalculatedAttributeDefinitionInput: Swift.Sendable {
         description: Swift.String? = nil,
         displayName: Swift.String? = nil,
         domainName: Swift.String? = nil
-    )
-    {
+    ) {
         self.calculatedAttributeName = calculatedAttributeName
         self.conditions = conditions
         self.description = description
@@ -8345,8 +8115,7 @@ public struct UpdateCalculatedAttributeDefinitionOutput: Swift.Sendable {
         lastUpdatedAt: Foundation.Date? = nil,
         statistic: CustomerProfilesClientTypes.Statistic? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.attributeDetails = attributeDetails
         self.calculatedAttributeName = calculatedAttributeName
         self.conditions = conditions
@@ -8389,8 +8158,7 @@ public struct UpdateDomainInput: Swift.Sendable {
         matching: CustomerProfilesClientTypes.MatchingRequest? = nil,
         ruleBasedMatching: CustomerProfilesClientTypes.RuleBasedMatchingRequest? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.deadLetterQueueUrl = deadLetterQueueUrl
         self.defaultEncryptionKey = defaultEncryptionKey
         self.defaultExpirationDays = defaultExpirationDays
@@ -8434,8 +8202,7 @@ public struct UpdateDomainOutput: Swift.Sendable {
         matching: CustomerProfilesClientTypes.MatchingResponse? = nil,
         ruleBasedMatching: CustomerProfilesClientTypes.RuleBasedMatchingResponse? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.deadLetterQueueUrl = deadLetterQueueUrl
         self.defaultEncryptionKey = defaultEncryptionKey
@@ -8474,8 +8241,7 @@ public struct UpdateEventTriggerInput: Swift.Sendable {
         eventTriggerName: Swift.String? = nil,
         objectTypeName: Swift.String? = nil,
         segmentFilter: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.domainName = domainName
         self.eventTriggerConditions = eventTriggerConditions
@@ -8521,8 +8287,7 @@ public struct UpdateEventTriggerOutput: Swift.Sendable {
         objectTypeName: Swift.String? = nil,
         segmentFilter: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.description = description
         self.eventTriggerConditions = eventTriggerConditions
@@ -8576,8 +8341,7 @@ extension CustomerProfilesClientTypes {
             postalCode: Swift.String? = nil,
             province: Swift.String? = nil,
             state: Swift.String? = nil
-        )
-        {
+        ) {
             self.address1 = address1
             self.address2 = address2
             self.address3 = address3
@@ -8680,8 +8444,7 @@ public struct UpdateProfileInput: Swift.Sendable {
         phoneNumber: Swift.String? = nil,
         profileId: Swift.String? = nil,
         shippingAddress: CustomerProfilesClientTypes.UpdateAddress? = nil
-    )
-    {
+    ) {
         self.accountNumber = accountNumber
         self.additionalInformation = additionalInformation
         self.address = address
@@ -8722,8 +8485,7 @@ public struct UpdateProfileOutput: Swift.Sendable {
 
     public init(
         profileId: Swift.String? = nil
-    )
-    {
+    ) {
         self.profileId = profileId
     }
 }

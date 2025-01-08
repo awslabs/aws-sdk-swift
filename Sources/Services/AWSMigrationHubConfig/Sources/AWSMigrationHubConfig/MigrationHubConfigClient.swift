@@ -63,7 +63,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MigrationHubConfigClient: ClientRuntime.Client {
     public static let clientName = "MigrationHubConfigClient"
-    public static let version = "1.0.69"
+    public static let version = "1.0.74"
     let client: ClientRuntime.SdkHttpClient
     let config: MigrationHubConfigClient.MigrationHubConfigClientConfiguration
     let serviceName = "MigrationHub Config"
@@ -329,7 +329,7 @@ extension MigrationHubConfigClient {
 }
 
 extension MigrationHubConfigClient {
-    /// Performs the `CreateHomeRegionControl` operation on the `AWSMigrationHubMultiAccountService` service.
+    /// Performs the `CreateHomeRegionControl` operation on the `MigrationHubConfig` service.
     ///
     /// This API sets up the home region for the calling account only.
     ///
@@ -404,7 +404,7 @@ extension MigrationHubConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteHomeRegionControl` operation on the `AWSMigrationHubMultiAccountService` service.
+    /// Performs the `DeleteHomeRegionControl` operation on the `MigrationHubConfig` service.
     ///
     /// This operation deletes the home region configuration for the calling account. The operation does not delete discovery or migration tracking data in the home region.
     ///
@@ -478,7 +478,7 @@ extension MigrationHubConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeHomeRegionControls` operation on the `AWSMigrationHubMultiAccountService` service.
+    /// Performs the `DescribeHomeRegionControls` operation on the `MigrationHubConfig` service.
     ///
     /// This API permits filtering on the ControlId and HomeRegion fields.
     ///
@@ -552,7 +552,7 @@ extension MigrationHubConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetHomeRegion` operation on the `AWSMigrationHubMultiAccountService` service.
+    /// Performs the `GetHomeRegion` operation on the `MigrationHubConfig` service.
     ///
     /// Returns the calling account’s home region, if configured. This API is used by other AWS services to determine the regional endpoint for calling AWS Application Discovery Service and Migration Hub. You must call GetHomeRegion at least once before you call any other AWS Application Discovery Service and AWS Migration Hub APIs, to obtain the account's Migration Hub home region.
     ///

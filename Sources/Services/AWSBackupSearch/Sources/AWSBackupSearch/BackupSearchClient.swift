@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class BackupSearchClient: ClientRuntime.Client {
     public static let clientName = "BackupSearchClient"
-    public static let version = "1.0.69"
+    public static let version = "1.0.74"
     let client: ClientRuntime.SdkHttpClient
     let config: BackupSearchClient.BackupSearchClientConfiguration
     let serviceName = "BackupSearch"
@@ -330,7 +330,7 @@ extension BackupSearchClient {
 }
 
 extension BackupSearchClient {
-    /// Performs the `GetSearchJob` operation on the `CryoBackupSearchService` service.
+    /// Performs the `GetSearchJob` operation on the `BackupSearch` service.
     ///
     /// This operation retrieves metadata of a search job, including its progress.
     ///
@@ -400,7 +400,7 @@ extension BackupSearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetSearchResultExportJob` operation on the `CryoBackupSearchService` service.
+    /// Performs the `GetSearchResultExportJob` operation on the `BackupSearch` service.
     ///
     /// This operation retrieves the metadata of an export job. An export job is an operation that transmits the results of a search job to a specified S3 bucket in a .csv file. An export job allows you to retain results of a search beyond the search job's scheduled retention of 7 days.
     ///
@@ -470,7 +470,7 @@ extension BackupSearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListSearchJobBackups` operation on the `CryoBackupSearchService` service.
+    /// Performs the `ListSearchJobBackups` operation on the `BackupSearch` service.
     ///
     /// This operation returns a list of all backups (recovery points) in a paginated format that were included in the search job. If a search does not display an expected backup in the results, you can call this operation to display each backup included in the search. Any backups that were not included because they have a FAILED status from a permissions issue will be displayed, along with a status message. Only recovery points with a backup index that has a status of ACTIVE will be included in search results. If the index has any other status, its status will be displayed along with a status message.
     ///
@@ -541,7 +541,7 @@ extension BackupSearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListSearchJobResults` operation on the `CryoBackupSearchService` service.
+    /// Performs the `ListSearchJobResults` operation on the `BackupSearch` service.
     ///
     /// This operation returns a list of a specified search job.
     ///
@@ -612,7 +612,7 @@ extension BackupSearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListSearchJobs` operation on the `CryoBackupSearchService` service.
+    /// Performs the `ListSearchJobs` operation on the `BackupSearch` service.
     ///
     /// This operation returns a list of search jobs belonging to an account.
     ///
@@ -682,7 +682,7 @@ extension BackupSearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListSearchResultExportJobs` operation on the `CryoBackupSearchService` service.
+    /// Performs the `ListSearchResultExportJobs` operation on the `BackupSearch` service.
     ///
     /// This operation exports search results of a search job to a specified destination S3 bucket.
     ///
@@ -754,7 +754,7 @@ extension BackupSearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `CryoBackupSearchService` service.
+    /// Performs the `ListTagsForResource` operation on the `BackupSearch` service.
     ///
     /// This operation returns the tags for a resource type.
     ///
@@ -824,7 +824,7 @@ extension BackupSearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartSearchJob` operation on the `CryoBackupSearchService` service.
+    /// Performs the `StartSearchJob` operation on the `BackupSearch` service.
     ///
     /// This operation creates a search job which returns recovery points filtered by SearchScope and items filtered by ItemFilters. You can optionally include ClientToken, EncryptionKeyArn, Name, and/or Tags.
     ///
@@ -898,7 +898,7 @@ extension BackupSearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartSearchResultExportJob` operation on the `CryoBackupSearchService` service.
+    /// Performs the `StartSearchResultExportJob` operation on the `BackupSearch` service.
     ///
     /// This operations starts a job to export the results of search job to a designated S3 bucket.
     ///
@@ -973,7 +973,7 @@ extension BackupSearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopSearchJob` operation on the `CryoBackupSearchService` service.
+    /// Performs the `StopSearchJob` operation on the `BackupSearch` service.
     ///
     /// This operations ends a search job. Only a search job with a status of RUNNING can be stopped.
     ///
@@ -1044,7 +1044,7 @@ extension BackupSearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `CryoBackupSearchService` service.
+    /// Performs the `TagResource` operation on the `BackupSearch` service.
     ///
     /// This operation puts tags on the resource you indicate.
     ///
@@ -1117,7 +1117,7 @@ extension BackupSearchClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `CryoBackupSearchService` service.
+    /// Performs the `UntagResource` operation on the `BackupSearch` service.
     ///
     /// This operation removes tags from the specified resource.
     ///

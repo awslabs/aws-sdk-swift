@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ConnectCasesClient: ClientRuntime.Client {
     public static let clientName = "ConnectCasesClient"
-    public static let version = "1.0.69"
+    public static let version = "1.0.74"
     let client: ClientRuntime.SdkHttpClient
     let config: ConnectCasesClient.ConnectCasesClientConfiguration
     let serviceName = "ConnectCases"
@@ -331,7 +331,7 @@ extension ConnectCasesClient {
 }
 
 extension ConnectCasesClient {
-    /// Performs the `BatchGetField` operation on the `AmazonConnectCases` service.
+    /// Performs the `BatchGetField` operation on the `ConnectCases` service.
     ///
     /// Returns the description for the list of fields in the request parameters.
     ///
@@ -404,7 +404,7 @@ extension ConnectCasesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchPutFieldOptions` operation on the `AmazonConnectCases` service.
+    /// Performs the `BatchPutFieldOptions` operation on the `ConnectCases` service.
     ///
     /// Creates and updates a set of field options for a single select field in a Cases domain.
     ///
@@ -478,7 +478,7 @@ extension ConnectCasesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateCase` operation on the `AmazonConnectCases` service.
+    /// Performs the `CreateCase` operation on the `ConnectCases` service.
     ///
     /// If you provide a value for PerformedBy.UserArn you must also have [connect:DescribeUser](https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribeUser.html) permission on the User ARN resource that you provide Creates a case in the specified Cases domain. Case system and custom fields are taken as an array id/value pairs with a declared data types. The following fields are required when creating a case:
     ///
@@ -557,7 +557,7 @@ extension ConnectCasesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateDomain` operation on the `AmazonConnectCases` service.
+    /// Performs the `CreateDomain` operation on the `ConnectCases` service.
     ///
     /// Creates a domain, which is a container for all case data, such as cases, fields, templates and layouts. Each Amazon Connect instance can be associated with only one Cases domain. This will not associate your connect instance to Cases domain. Instead, use the Amazon Connect [CreateIntegrationAssociation](https://docs.aws.amazon.com/connect/latest/APIReference/API_CreateIntegrationAssociation.html) API. You need specific IAM permissions to successfully associate the Cases domain. For more information, see [Onboard to Cases](https://docs.aws.amazon.com/connect/latest/adminguide/required-permissions-iam-cases.html#onboard-cases-iam).
     ///
@@ -631,7 +631,7 @@ extension ConnectCasesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateField` operation on the `AmazonConnectCases` service.
+    /// Performs the `CreateField` operation on the `ConnectCases` service.
     ///
     /// Creates a field in the Cases domain. This field is used to define the case object model (that is, defines what data can be captured on cases) in a Cases domain.
     ///
@@ -706,7 +706,7 @@ extension ConnectCasesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateLayout` operation on the `AmazonConnectCases` service.
+    /// Performs the `CreateLayout` operation on the `ConnectCases` service.
     ///
     /// Creates a layout in the Cases domain. Layouts define the following configuration in the top section and More Info tab of the Cases user interface:
     ///
@@ -788,7 +788,7 @@ extension ConnectCasesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateRelatedItem` operation on the `AmazonConnectCases` service.
+    /// Performs the `CreateRelatedItem` operation on the `ConnectCases` service.
     ///
     /// Creates a related item (comments, tasks, and contacts) and associates it with a case.
     ///
@@ -866,7 +866,7 @@ extension ConnectCasesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateTemplate` operation on the `AmazonConnectCases` service.
+    /// Performs the `CreateTemplate` operation on the `ConnectCases` service.
     ///
     /// Creates a template in the Cases domain. This template is used to define the case object model (that is, to define what data can be captured on cases) in a Cases domain. A template must have a unique name within a domain, and it must reference existing field IDs and layout IDs. Additionally, multiple fields with same IDs are not allowed within the same Template. A template can be either Active or Inactive, as indicated by its status. Inactive templates cannot be used to create cases.
     ///
@@ -941,7 +941,7 @@ extension ConnectCasesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteDomain` operation on the `AmazonConnectCases` service.
+    /// Performs the `DeleteDomain` operation on the `ConnectCases` service.
     ///
     /// Deletes a Cases domain. After deleting your domain you must disassociate the deleted domain from your Amazon Connect instance with another API call before being able to use Cases again with this Amazon Connect instance. See [DeleteIntegrationAssociation](https://docs.aws.amazon.com/connect/latest/APIReference/API_DeleteIntegrationAssociation.html).
     ///
@@ -1012,7 +1012,7 @@ extension ConnectCasesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteField` operation on the `AmazonConnectCases` service.
+    /// Performs the `DeleteField` operation on the `ConnectCases` service.
     ///
     /// Deletes a field from a cases template. You can delete up to 100 fields per domain. After a field is deleted:
     ///
@@ -1108,7 +1108,7 @@ extension ConnectCasesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteLayout` operation on the `AmazonConnectCases` service.
+    /// Performs the `DeleteLayout` operation on the `ConnectCases` service.
     ///
     /// Deletes a layout from a cases template. You can delete up to 100 layouts per domain. After a layout is deleted:
     ///
@@ -1185,7 +1185,7 @@ extension ConnectCasesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteTemplate` operation on the `AmazonConnectCases` service.
+    /// Performs the `DeleteTemplate` operation on the `ConnectCases` service.
     ///
     /// Deletes a cases template. You can delete up to 100 templates per domain. After a cases template is deleted:
     ///
@@ -1264,7 +1264,7 @@ extension ConnectCasesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetCase` operation on the `AmazonConnectCases` service.
+    /// Performs the `GetCase` operation on the `ConnectCases` service.
     ///
     /// Returns information about a specific case if it exists.
     ///
@@ -1337,7 +1337,7 @@ extension ConnectCasesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetCaseAuditEvents` operation on the `AmazonConnectCases` service.
+    /// Performs the `GetCaseAuditEvents` operation on the `ConnectCases` service.
     ///
     /// Returns the audit history about a specific case if it exists.
     ///
@@ -1410,7 +1410,7 @@ extension ConnectCasesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetCaseEventConfiguration` operation on the `AmazonConnectCases` service.
+    /// Performs the `GetCaseEventConfiguration` operation on the `ConnectCases` service.
     ///
     /// Returns the case event publishing configuration.
     ///
@@ -1480,7 +1480,7 @@ extension ConnectCasesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDomain` operation on the `AmazonConnectCases` service.
+    /// Performs the `GetDomain` operation on the `ConnectCases` service.
     ///
     /// Returns information about a specific domain if it exists.
     ///
@@ -1550,7 +1550,7 @@ extension ConnectCasesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetLayout` operation on the `AmazonConnectCases` service.
+    /// Performs the `GetLayout` operation on the `ConnectCases` service.
     ///
     /// Returns the details for the requested layout.
     ///
@@ -1620,7 +1620,7 @@ extension ConnectCasesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetTemplate` operation on the `AmazonConnectCases` service.
+    /// Performs the `GetTemplate` operation on the `ConnectCases` service.
     ///
     /// Returns the details for the requested template.
     ///
@@ -1690,7 +1690,7 @@ extension ConnectCasesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListCasesForContact` operation on the `AmazonConnectCases` service.
+    /// Performs the `ListCasesForContact` operation on the `ConnectCases` service.
     ///
     /// Lists cases for a given contact.
     ///
@@ -1763,7 +1763,7 @@ extension ConnectCasesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDomains` operation on the `AmazonConnectCases` service.
+    /// Performs the `ListDomains` operation on the `ConnectCases` service.
     ///
     /// Lists all cases domains in the Amazon Web Services account. Each list item is a condensed summary object of the domain.
     ///
@@ -1833,7 +1833,7 @@ extension ConnectCasesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListFieldOptions` operation on the `AmazonConnectCases` service.
+    /// Performs the `ListFieldOptions` operation on the `ConnectCases` service.
     ///
     /// Lists all of the field options for a field identifier in the domain.
     ///
@@ -1904,7 +1904,7 @@ extension ConnectCasesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListFields` operation on the `AmazonConnectCases` service.
+    /// Performs the `ListFields` operation on the `ConnectCases` service.
     ///
     /// Lists all fields in a Cases domain.
     ///
@@ -1975,7 +1975,7 @@ extension ConnectCasesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListLayouts` operation on the `AmazonConnectCases` service.
+    /// Performs the `ListLayouts` operation on the `ConnectCases` service.
     ///
     /// Lists all layouts in the given cases domain. Each list item is a condensed summary object of the layout.
     ///
@@ -2046,7 +2046,7 @@ extension ConnectCasesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `AmazonConnectCases` service.
+    /// Performs the `ListTagsForResource` operation on the `ConnectCases` service.
     ///
     /// Lists tags for a resource.
     ///
@@ -2116,7 +2116,7 @@ extension ConnectCasesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTemplates` operation on the `AmazonConnectCases` service.
+    /// Performs the `ListTemplates` operation on the `ConnectCases` service.
     ///
     /// Lists all of the templates in a Cases domain. Each list item is a condensed summary object of the template.
     ///
@@ -2187,7 +2187,7 @@ extension ConnectCasesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutCaseEventConfiguration` operation on the `AmazonConnectCases` service.
+    /// Performs the `PutCaseEventConfiguration` operation on the `ConnectCases` service.
     ///
     /// Adds case event publishing configuration. For a complete list of fields you can add to the event message, see [Create case fields](https://docs.aws.amazon.com/connect/latest/adminguide/case-fields.html) in the Amazon Connect Administrator Guide
     ///
@@ -2260,7 +2260,7 @@ extension ConnectCasesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SearchCases` operation on the `AmazonConnectCases` service.
+    /// Performs the `SearchCases` operation on the `ConnectCases` service.
     ///
     /// Searches for cases within their associated Cases domain. Search results are returned as a paginated list of abridged case documents. For customer_id you must provide the full customer profile ARN in this format:  arn:aws:profile:your AWS Region:your AWS account ID:domains/profiles domain name/profiles/profile ID.
     ///
@@ -2333,7 +2333,7 @@ extension ConnectCasesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SearchRelatedItems` operation on the `AmazonConnectCases` service.
+    /// Performs the `SearchRelatedItems` operation on the `ConnectCases` service.
     ///
     /// Searches for related items that are associated with a case. If no filters are provided, this returns all related items associated with a case.
     ///
@@ -2406,7 +2406,7 @@ extension ConnectCasesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `AmazonConnectCases` service.
+    /// Performs the `TagResource` operation on the `ConnectCases` service.
     ///
     /// Adds tags to a resource.
     ///
@@ -2479,7 +2479,7 @@ extension ConnectCasesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `AmazonConnectCases` service.
+    /// Performs the `UntagResource` operation on the `ConnectCases` service.
     ///
     /// Untags a resource.
     ///
@@ -2550,7 +2550,7 @@ extension ConnectCasesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateCase` operation on the `AmazonConnectCases` service.
+    /// Performs the `UpdateCase` operation on the `ConnectCases` service.
     ///
     /// If you provide a value for PerformedBy.UserArn you must also have [connect:DescribeUser](https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribeUser.html) permission on the User ARN resource that you provide Updates the values of fields on a case. Fields to be updated are received as an array of id/value pairs identical to the CreateCase input . If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body.
     ///
@@ -2623,7 +2623,7 @@ extension ConnectCasesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateField` operation on the `AmazonConnectCases` service.
+    /// Performs the `UpdateField` operation on the `ConnectCases` service.
     ///
     /// Updates the properties of an existing field.
     ///
@@ -2697,7 +2697,7 @@ extension ConnectCasesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateLayout` operation on the `AmazonConnectCases` service.
+    /// Performs the `UpdateLayout` operation on the `ConnectCases` service.
     ///
     /// Updates the attributes of an existing layout. If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body. A ValidationException is returned when you add non-existent fieldIds to a layout. Title and Status fields cannot be part of layouts because they are not configurable.
     ///
@@ -2772,7 +2772,7 @@ extension ConnectCasesClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateTemplate` operation on the `AmazonConnectCases` service.
+    /// Performs the `UpdateTemplate` operation on the `ConnectCases` service.
     ///
     /// Updates the attributes of an existing template. The template attributes that can be modified include name, description, layoutConfiguration, requiredFields, and status. At least one of these attributes must not be null. If a null value is provided for a given attribute, that attribute is ignored and its current value is preserved.
     ///

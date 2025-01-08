@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ComputeOptimizerClient: ClientRuntime.Client {
     public static let clientName = "ComputeOptimizerClient"
-    public static let version = "1.0.69"
+    public static let version = "1.0.74"
     let client: ClientRuntime.SdkHttpClient
     let config: ComputeOptimizerClient.ComputeOptimizerClientConfiguration
     let serviceName = "Compute Optimizer"
@@ -330,7 +330,7 @@ extension ComputeOptimizerClient {
 }
 
 extension ComputeOptimizerClient {
-    /// Performs the `DeleteRecommendationPreferences` operation on the `ComputeOptimizerService` service.
+    /// Performs the `DeleteRecommendationPreferences` operation on the `ComputeOptimizer` service.
     ///
     /// Deletes a recommendation preference, such as enhanced infrastructure metrics. For more information, see [Activating enhanced infrastructure metrics](https://docs.aws.amazon.com/compute-optimizer/latest/ug/enhanced-infrastructure-metrics.html) in the Compute Optimizer User Guide.
     ///
@@ -407,7 +407,7 @@ extension ComputeOptimizerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeRecommendationExportJobs` operation on the `ComputeOptimizerService` service.
+    /// Performs the `DescribeRecommendationExportJobs` operation on the `ComputeOptimizer` service.
     ///
     /// Describes recommendation export jobs created in the last seven days. Use the [ExportAutoScalingGroupRecommendations] or [ExportEC2InstanceRecommendations] actions to request an export of your recommendations. Then use the [DescribeRecommendationExportJobs] action to view your export jobs.
     ///
@@ -484,7 +484,7 @@ extension ComputeOptimizerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ExportAutoScalingGroupRecommendations` operation on the `ComputeOptimizerService` service.
+    /// Performs the `ExportAutoScalingGroupRecommendations` operation on the `ComputeOptimizer` service.
     ///
     /// Exports optimization recommendations for Auto Scaling groups. Recommendations are exported in a comma-separated values (.csv) file, and its metadata in a JavaScript Object Notation (JSON) (.json) file, to an existing Amazon Simple Storage Service (Amazon S3) bucket that you specify. For more information, see [Exporting Recommendations](https://docs.aws.amazon.com/compute-optimizer/latest/ug/exporting-recommendations.html) in the Compute Optimizer User Guide. You can have only one Auto Scaling group export job in progress per Amazon Web Services Region.
     ///
@@ -561,7 +561,7 @@ extension ComputeOptimizerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ExportEBSVolumeRecommendations` operation on the `ComputeOptimizerService` service.
+    /// Performs the `ExportEBSVolumeRecommendations` operation on the `ComputeOptimizer` service.
     ///
     /// Exports optimization recommendations for Amazon EBS volumes. Recommendations are exported in a comma-separated values (.csv) file, and its metadata in a JavaScript Object Notation (JSON) (.json) file, to an existing Amazon Simple Storage Service (Amazon S3) bucket that you specify. For more information, see [Exporting Recommendations](https://docs.aws.amazon.com/compute-optimizer/latest/ug/exporting-recommendations.html) in the Compute Optimizer User Guide. You can have only one Amazon EBS volume export job in progress per Amazon Web Services Region.
     ///
@@ -638,7 +638,7 @@ extension ComputeOptimizerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ExportEC2InstanceRecommendations` operation on the `ComputeOptimizerService` service.
+    /// Performs the `ExportEC2InstanceRecommendations` operation on the `ComputeOptimizer` service.
     ///
     /// Exports optimization recommendations for Amazon EC2 instances. Recommendations are exported in a comma-separated values (.csv) file, and its metadata in a JavaScript Object Notation (JSON) (.json) file, to an existing Amazon Simple Storage Service (Amazon S3) bucket that you specify. For more information, see [Exporting Recommendations](https://docs.aws.amazon.com/compute-optimizer/latest/ug/exporting-recommendations.html) in the Compute Optimizer User Guide. You can have only one Amazon EC2 instance export job in progress per Amazon Web Services Region.
     ///
@@ -715,7 +715,7 @@ extension ComputeOptimizerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ExportECSServiceRecommendations` operation on the `ComputeOptimizerService` service.
+    /// Performs the `ExportECSServiceRecommendations` operation on the `ComputeOptimizer` service.
     ///
     /// Exports optimization recommendations for Amazon ECS services on Fargate. Recommendations are exported in a CSV file, and its metadata in a JSON file, to an existing Amazon Simple Storage Service (Amazon S3) bucket that you specify. For more information, see [Exporting Recommendations](https://docs.aws.amazon.com/compute-optimizer/latest/ug/exporting-recommendations.html) in the Compute Optimizer User Guide. You can only have one Amazon ECS service export job in progress per Amazon Web Services Region.
     ///
@@ -792,7 +792,7 @@ extension ComputeOptimizerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ExportIdleRecommendations` operation on the `ComputeOptimizerService` service.
+    /// Performs the `ExportIdleRecommendations` operation on the `ComputeOptimizer` service.
     ///
     /// Export optimization recommendations for your idle resources. Recommendations are exported in a comma-separated values (CSV) file, and its metadata in a JavaScript Object Notation (JSON) file, to an existing Amazon Simple Storage Service (Amazon S3) bucket that you specify. For more information, see [Exporting Recommendations](https://docs.aws.amazon.com/compute-optimizer/latest/ug/exporting-recommendations.html) in the Compute Optimizer User Guide. You can have only one idle resource export job in progress per Amazon Web Services Region.
     ///
@@ -869,7 +869,7 @@ extension ComputeOptimizerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ExportLambdaFunctionRecommendations` operation on the `ComputeOptimizerService` service.
+    /// Performs the `ExportLambdaFunctionRecommendations` operation on the `ComputeOptimizer` service.
     ///
     /// Exports optimization recommendations for Lambda functions. Recommendations are exported in a comma-separated values (.csv) file, and its metadata in a JavaScript Object Notation (JSON) (.json) file, to an existing Amazon Simple Storage Service (Amazon S3) bucket that you specify. For more information, see [Exporting Recommendations](https://docs.aws.amazon.com/compute-optimizer/latest/ug/exporting-recommendations.html) in the Compute Optimizer User Guide. You can have only one Lambda function export job in progress per Amazon Web Services Region.
     ///
@@ -946,7 +946,7 @@ extension ComputeOptimizerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ExportLicenseRecommendations` operation on the `ComputeOptimizerService` service.
+    /// Performs the `ExportLicenseRecommendations` operation on the `ComputeOptimizer` service.
     ///
     /// Export optimization recommendations for your licenses. Recommendations are exported in a comma-separated values (CSV) file, and its metadata in a JavaScript Object Notation (JSON) file, to an existing Amazon Simple Storage Service (Amazon S3) bucket that you specify. For more information, see [Exporting Recommendations](https://docs.aws.amazon.com/compute-optimizer/latest/ug/exporting-recommendations.html) in the Compute Optimizer User Guide. You can have only one license export job in progress per Amazon Web Services Region.
     ///
@@ -1023,7 +1023,7 @@ extension ComputeOptimizerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ExportRDSDatabaseRecommendations` operation on the `ComputeOptimizerService` service.
+    /// Performs the `ExportRDSDatabaseRecommendations` operation on the `ComputeOptimizer` service.
     ///
     /// Export optimization recommendations for your Amazon Relational Database Service (Amazon RDS). Recommendations are exported in a comma-separated values (CSV) file, and its metadata in a JavaScript Object Notation (JSON) file, to an existing Amazon Simple Storage Service (Amazon S3) bucket that you specify. For more information, see [Exporting Recommendations](https://docs.aws.amazon.com/compute-optimizer/latest/ug/exporting-recommendations.html) in the Compute Optimizer User Guide. You can have only one Amazon RDS export job in progress per Amazon Web Services Region.
     ///
@@ -1100,7 +1100,7 @@ extension ComputeOptimizerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAutoScalingGroupRecommendations` operation on the `ComputeOptimizerService` service.
+    /// Performs the `GetAutoScalingGroupRecommendations` operation on the `ComputeOptimizer` service.
     ///
     /// Returns Auto Scaling group recommendations. Compute Optimizer generates recommendations for Amazon EC2 Auto Scaling groups that meet a specific set of requirements. For more information, see the [Supported resources and requirements](https://docs.aws.amazon.com/compute-optimizer/latest/ug/requirements.html) in the Compute Optimizer User Guide.
     ///
@@ -1177,7 +1177,7 @@ extension ComputeOptimizerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetEBSVolumeRecommendations` operation on the `ComputeOptimizerService` service.
+    /// Performs the `GetEBSVolumeRecommendations` operation on the `ComputeOptimizer` service.
     ///
     /// Returns Amazon Elastic Block Store (Amazon EBS) volume recommendations. Compute Optimizer generates recommendations for Amazon EBS volumes that meet a specific set of requirements. For more information, see the [Supported resources and requirements](https://docs.aws.amazon.com/compute-optimizer/latest/ug/requirements.html) in the Compute Optimizer User Guide.
     ///
@@ -1254,7 +1254,7 @@ extension ComputeOptimizerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetEC2InstanceRecommendations` operation on the `ComputeOptimizerService` service.
+    /// Performs the `GetEC2InstanceRecommendations` operation on the `ComputeOptimizer` service.
     ///
     /// Returns Amazon EC2 instance recommendations. Compute Optimizer generates recommendations for Amazon Elastic Compute Cloud (Amazon EC2) instances that meet a specific set of requirements. For more information, see the [Supported resources and requirements](https://docs.aws.amazon.com/compute-optimizer/latest/ug/requirements.html) in the Compute Optimizer User Guide.
     ///
@@ -1331,7 +1331,7 @@ extension ComputeOptimizerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetEC2RecommendationProjectedMetrics` operation on the `ComputeOptimizerService` service.
+    /// Performs the `GetEC2RecommendationProjectedMetrics` operation on the `ComputeOptimizer` service.
     ///
     /// Returns the projected utilization metrics of Amazon EC2 instance recommendations. The Cpu and Memory metrics are the only projected utilization metrics returned when you run this action. Additionally, the Memory metric is returned only for resources that have the unified CloudWatch agent installed on them. For more information, see [Enabling Memory Utilization with the CloudWatch Agent](https://docs.aws.amazon.com/compute-optimizer/latest/ug/metrics.html#cw-agent).
     ///
@@ -1408,7 +1408,7 @@ extension ComputeOptimizerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetECSServiceRecommendationProjectedMetrics` operation on the `ComputeOptimizerService` service.
+    /// Performs the `GetECSServiceRecommendationProjectedMetrics` operation on the `ComputeOptimizer` service.
     ///
     /// Returns the projected metrics of Amazon ECS service recommendations.
     ///
@@ -1485,7 +1485,7 @@ extension ComputeOptimizerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetECSServiceRecommendations` operation on the `ComputeOptimizerService` service.
+    /// Performs the `GetECSServiceRecommendations` operation on the `ComputeOptimizer` service.
     ///
     /// Returns Amazon ECS service recommendations. Compute Optimizer generates recommendations for Amazon ECS services on Fargate that meet a specific set of requirements. For more information, see the [Supported resources and requirements](https://docs.aws.amazon.com/compute-optimizer/latest/ug/requirements.html) in the Compute Optimizer User Guide.
     ///
@@ -1562,7 +1562,7 @@ extension ComputeOptimizerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetEffectiveRecommendationPreferences` operation on the `ComputeOptimizerService` service.
+    /// Performs the `GetEffectiveRecommendationPreferences` operation on the `ComputeOptimizer` service.
     ///
     /// Returns the recommendation preferences that are in effect for a given resource, such as enhanced infrastructure metrics. Considers all applicable preferences that you might have set at the resource, account, and organization level. When you create a recommendation preference, you can set its status to Active or Inactive. Use this action to view the recommendation preferences that are in effect, or Active.
     ///
@@ -1639,7 +1639,7 @@ extension ComputeOptimizerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetEnrollmentStatus` operation on the `ComputeOptimizerService` service.
+    /// Performs the `GetEnrollmentStatus` operation on the `ComputeOptimizer` service.
     ///
     /// Returns the enrollment (opt in) status of an account to the Compute Optimizer service. If the account is the management account of an organization, this action also confirms the enrollment status of member accounts of the organization. Use the [GetEnrollmentStatusesForOrganization] action to get detailed information about the enrollment status of member accounts of an organization.
     ///
@@ -1714,7 +1714,7 @@ extension ComputeOptimizerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetEnrollmentStatusesForOrganization` operation on the `ComputeOptimizerService` service.
+    /// Performs the `GetEnrollmentStatusesForOrganization` operation on the `ComputeOptimizer` service.
     ///
     /// Returns the Compute Optimizer enrollment (opt-in) status of organization member accounts, if your account is an organization management account. To get the enrollment status of standalone accounts, use the [GetEnrollmentStatus] action.
     ///
@@ -1789,7 +1789,7 @@ extension ComputeOptimizerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetIdleRecommendations` operation on the `ComputeOptimizerService` service.
+    /// Performs the `GetIdleRecommendations` operation on the `ComputeOptimizer` service.
     ///
     /// Returns idle resource recommendations. Compute Optimizer generates recommendations for idle resources that meet a specific set of requirements. For more information, see [Resource requirements](https://docs.aws.amazon.com/compute-optimizer/latest/ug/requirements.html) in the Compute Optimizer User Guide
     ///
@@ -1866,7 +1866,7 @@ extension ComputeOptimizerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetLambdaFunctionRecommendations` operation on the `ComputeOptimizerService` service.
+    /// Performs the `GetLambdaFunctionRecommendations` operation on the `ComputeOptimizer` service.
     ///
     /// Returns Lambda function recommendations. Compute Optimizer generates recommendations for functions that meet a specific set of requirements. For more information, see the [Supported resources and requirements](https://docs.aws.amazon.com/compute-optimizer/latest/ug/requirements.html) in the Compute Optimizer User Guide.
     ///
@@ -1943,7 +1943,7 @@ extension ComputeOptimizerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetLicenseRecommendations` operation on the `ComputeOptimizerService` service.
+    /// Performs the `GetLicenseRecommendations` operation on the `ComputeOptimizer` service.
     ///
     /// Returns license recommendations for Amazon EC2 instances that run on a specific license. Compute Optimizer generates recommendations for licenses that meet a specific set of requirements. For more information, see the [Supported resources and requirements](https://docs.aws.amazon.com/compute-optimizer/latest/ug/requirements.html) in the Compute Optimizer User Guide.
     ///
@@ -2020,7 +2020,7 @@ extension ComputeOptimizerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetRDSDatabaseRecommendationProjectedMetrics` operation on the `ComputeOptimizerService` service.
+    /// Performs the `GetRDSDatabaseRecommendationProjectedMetrics` operation on the `ComputeOptimizer` service.
     ///
     /// Returns the projected metrics of Amazon RDS recommendations.
     ///
@@ -2097,7 +2097,7 @@ extension ComputeOptimizerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetRDSDatabaseRecommendations` operation on the `ComputeOptimizerService` service.
+    /// Performs the `GetRDSDatabaseRecommendations` operation on the `ComputeOptimizer` service.
     ///
     /// Returns Amazon RDS recommendations. Compute Optimizer generates recommendations for Amazon RDS that meet a specific set of requirements. For more information, see the [Supported resources and requirements](https://docs.aws.amazon.com/compute-optimizer/latest/ug/requirements.html) in the Compute Optimizer User Guide.
     ///
@@ -2174,7 +2174,7 @@ extension ComputeOptimizerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetRecommendationPreferences` operation on the `ComputeOptimizerService` service.
+    /// Performs the `GetRecommendationPreferences` operation on the `ComputeOptimizer` service.
     ///
     /// Returns existing recommendation preferences, such as enhanced infrastructure metrics. Use the scope parameter to specify which preferences to return. You can specify to return preferences for an organization, a specific account ID, or a specific EC2 instance or Auto Scaling group Amazon Resource Name (ARN). For more information, see [Activating enhanced infrastructure metrics](https://docs.aws.amazon.com/compute-optimizer/latest/ug/enhanced-infrastructure-metrics.html) in the Compute Optimizer User Guide.
     ///
@@ -2251,7 +2251,7 @@ extension ComputeOptimizerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetRecommendationSummaries` operation on the `ComputeOptimizerService` service.
+    /// Performs the `GetRecommendationSummaries` operation on the `ComputeOptimizer` service.
     ///
     /// Returns the optimization findings for an account. It returns the number of:
     ///
@@ -2337,7 +2337,7 @@ extension ComputeOptimizerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutRecommendationPreferences` operation on the `ComputeOptimizerService` service.
+    /// Performs the `PutRecommendationPreferences` operation on the `ComputeOptimizer` service.
     ///
     /// Creates a new recommendation preference or updates an existing recommendation preference, such as enhanced infrastructure metrics. For more information, see [Activating enhanced infrastructure metrics](https://docs.aws.amazon.com/compute-optimizer/latest/ug/enhanced-infrastructure-metrics.html) in the Compute Optimizer User Guide.
     ///
@@ -2414,7 +2414,7 @@ extension ComputeOptimizerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateEnrollmentStatus` operation on the `ComputeOptimizerService` service.
+    /// Performs the `UpdateEnrollmentStatus` operation on the `ComputeOptimizer` service.
     ///
     /// Updates the enrollment (opt in and opt out) status of an account to the Compute Optimizer service. If the account is a management account of an organization, this action can also be used to enroll member accounts of the organization. You must have the appropriate permissions to opt in to Compute Optimizer, to view its recommendations, and to opt out. For more information, see [Controlling access with Amazon Web Services Identity and Access Management](https://docs.aws.amazon.com/compute-optimizer/latest/ug/security-iam.html) in the Compute Optimizer User Guide. When you opt in, Compute Optimizer automatically creates a service-linked role in your account to access its data. For more information, see [Using Service-Linked Roles for Compute Optimizer](https://docs.aws.amazon.com/compute-optimizer/latest/ug/using-service-linked-roles.html) in the Compute Optimizer User Guide.
     ///

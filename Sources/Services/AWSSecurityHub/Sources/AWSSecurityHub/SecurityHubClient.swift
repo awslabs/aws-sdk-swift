@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SecurityHubClient: ClientRuntime.Client {
     public static let clientName = "SecurityHubClient"
-    public static let version = "1.0.69"
+    public static let version = "1.0.74"
     let client: ClientRuntime.SdkHttpClient
     let config: SecurityHubClient.SecurityHubClientConfiguration
     let serviceName = "SecurityHub"
@@ -330,7 +330,7 @@ extension SecurityHubClient {
 }
 
 extension SecurityHubClient {
-    /// Performs the `AcceptAdministratorInvitation` operation on the `SecurityHubAPIService` service.
+    /// Performs the `AcceptAdministratorInvitation` operation on the `SecurityHub` service.
     ///
     /// We recommend using Organizations instead of Security Hub invitations to manage your member accounts. For information, see [Managing Security Hub administrator and member accounts with Organizations](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-accounts-orgs.html) in the Security Hub User Guide. Accepts the invitation to be a member account and be monitored by the Security Hub administrator account that the invitation was sent from. This operation is only used by member accounts that are not added through Organizations. When the member account accepts the invitation, permission is granted to the administrator account to view findings generated in the member account.
     ///
@@ -403,7 +403,7 @@ extension SecurityHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AcceptInvitation` operation on the `SecurityHubAPIService` service.
+    /// Performs the `AcceptInvitation` operation on the `SecurityHub` service.
     ///
     /// This method is deprecated. Instead, use AcceptAdministratorInvitation. The Security Hub console continues to use AcceptInvitation. It will eventually change to use AcceptAdministratorInvitation. Any IAM policies that specifically control access to this function must continue to use AcceptInvitation. You should also add AcceptAdministratorInvitation to your policies to ensure that the correct permissions are in place after the console begins to use AcceptAdministratorInvitation. Accepts the invitation to be a member account and be monitored by the Security Hub administrator account that the invitation was sent from. This operation is only used by member accounts that are not added through Organizations. When the member account accepts the invitation, permission is granted to the administrator account to view findings generated in the member account.
     @available(*, deprecated, message: "This API has been deprecated, use AcceptAdministratorInvitation API instead.")
@@ -477,7 +477,7 @@ extension SecurityHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchDeleteAutomationRules` operation on the `SecurityHubAPIService` service.
+    /// Performs the `BatchDeleteAutomationRules` operation on the `SecurityHub` service.
     ///
     /// Deletes one or more automation rules.
     ///
@@ -550,7 +550,7 @@ extension SecurityHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchDisableStandards` operation on the `SecurityHubAPIService` service.
+    /// Performs the `BatchDisableStandards` operation on the `SecurityHub` service.
     ///
     /// Disables the standards specified by the provided StandardsSubscriptionArns. For more information, see [Security Standards](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards.html) section of the Security Hub User Guide.
     ///
@@ -623,7 +623,7 @@ extension SecurityHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchEnableStandards` operation on the `SecurityHubAPIService` service.
+    /// Performs the `BatchEnableStandards` operation on the `SecurityHub` service.
     ///
     /// Enables the standards specified by the provided StandardsArn. To obtain the ARN for a standard, use the DescribeStandards operation. For more information, see the [Security Standards](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards.html) section of the Security Hub User Guide.
     ///
@@ -696,7 +696,7 @@ extension SecurityHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchGetAutomationRules` operation on the `SecurityHubAPIService` service.
+    /// Performs the `BatchGetAutomationRules` operation on the `SecurityHub` service.
     ///
     /// Retrieves a list of details for automation rules based on rule Amazon Resource Names (ARNs).
     ///
@@ -770,7 +770,7 @@ extension SecurityHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchGetConfigurationPolicyAssociations` operation on the `SecurityHubAPIService` service.
+    /// Performs the `BatchGetConfigurationPolicyAssociations` operation on the `SecurityHub` service.
     ///
     /// Returns associations between an Security Hub configuration and a batch of target accounts, organizational units, or the root. Only the Security Hub delegated administrator can invoke this operation from the home Region. A configuration can refer to a configuration policy or to a self-managed configuration.
     ///
@@ -844,7 +844,7 @@ extension SecurityHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchGetSecurityControls` operation on the `SecurityHubAPIService` service.
+    /// Performs the `BatchGetSecurityControls` operation on the `SecurityHub` service.
     ///
     /// Provides details about a batch of security controls for the current Amazon Web Services account and Amazon Web Services Region.
     ///
@@ -916,7 +916,7 @@ extension SecurityHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchGetStandardsControlAssociations` operation on the `SecurityHubAPIService` service.
+    /// Performs the `BatchGetStandardsControlAssociations` operation on the `SecurityHub` service.
     ///
     /// For a batch of security controls and standards, identifies whether each control is currently enabled or disabled in a standard.
     ///
@@ -988,7 +988,7 @@ extension SecurityHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchImportFindings` operation on the `SecurityHubAPIService` service.
+    /// Performs the `BatchImportFindings` operation on the `SecurityHub` service.
     ///
     /// Imports security findings generated by a finding provider into Security Hub. This action is requested by the finding provider to import its findings into Security Hub. BatchImportFindings must be called by one of the following:
     ///
@@ -1091,7 +1091,7 @@ extension SecurityHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchUpdateAutomationRules` operation on the `SecurityHubAPIService` service.
+    /// Performs the `BatchUpdateAutomationRules` operation on the `SecurityHub` service.
     ///
     /// Updates one or more automation rules based on rule Amazon Resource Names (ARNs) and input parameters.
     ///
@@ -1164,7 +1164,7 @@ extension SecurityHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchUpdateFindings` operation on the `SecurityHubAPIService` service.
+    /// Performs the `BatchUpdateFindings` operation on the `SecurityHub` service.
     ///
     /// Used by Security Hub customers to update information about their investigation into a finding. Requested by administrator accounts or member accounts. Administrator accounts can update findings for their account and their member accounts. Member accounts can update findings for their account. Updates from BatchUpdateFindings don't affect the value of UpdatedAt for a finding. Administrator and member accounts can use BatchUpdateFindings to update the following finding fields and objects.
     ///
@@ -1257,7 +1257,7 @@ extension SecurityHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchUpdateStandardsControlAssociations` operation on the `SecurityHubAPIService` service.
+    /// Performs the `BatchUpdateStandardsControlAssociations` operation on the `SecurityHub` service.
     ///
     /// For a batch of security controls and standards, this operation updates the enablement status of a control in a standard.
     ///
@@ -1330,7 +1330,7 @@ extension SecurityHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateActionTarget` operation on the `SecurityHubAPIService` service.
+    /// Performs the `CreateActionTarget` operation on the `SecurityHub` service.
     ///
     /// Creates a custom action target in Security Hub. You can use custom actions on findings and insights in Security Hub to trigger target actions in Amazon CloudWatch Events.
     ///
@@ -1403,7 +1403,7 @@ extension SecurityHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateAutomationRule` operation on the `SecurityHubAPIService` service.
+    /// Performs the `CreateAutomationRule` operation on the `SecurityHub` service.
     ///
     /// Creates an automation rule based on input parameters.
     ///
@@ -1476,7 +1476,7 @@ extension SecurityHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateConfigurationPolicy` operation on the `SecurityHubAPIService` service.
+    /// Performs the `CreateConfigurationPolicy` operation on the `SecurityHub` service.
     ///
     /// Creates a configuration policy with the defined configuration. Only the Security Hub delegated administrator can invoke this operation from the home Region.
     ///
@@ -1550,7 +1550,7 @@ extension SecurityHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateFindingAggregator` operation on the `SecurityHubAPIService` service.
+    /// Performs the `CreateFindingAggregator` operation on the `SecurityHub` service.
     ///
     /// The aggregation Region is now called the home Region. Used to enable cross-Region aggregation. This operation can be invoked from the home Region only. For information about how cross-Region aggregation works, see [Understanding cross-Region aggregation in Security Hub](https://docs.aws.amazon.com/securityhub/latest/userguide/finding-aggregation.html) in the Security Hub User Guide.
     ///
@@ -1623,7 +1623,7 @@ extension SecurityHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateInsight` operation on the `SecurityHubAPIService` service.
+    /// Performs the `CreateInsight` operation on the `SecurityHub` service.
     ///
     /// Creates a custom insight in Security Hub. An insight is a consolidation of findings that relate to a security issue that requires attention or remediation. To group the related findings in the insight, use the GroupByAttribute.
     ///
@@ -1696,7 +1696,7 @@ extension SecurityHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateMembers` operation on the `SecurityHubAPIService` service.
+    /// Performs the `CreateMembers` operation on the `SecurityHub` service.
     ///
     /// Creates a member association in Security Hub between the specified accounts and the account used to make the request, which is the administrator account. If you are integrated with Organizations, then the administrator account is designated by the organization management account. CreateMembers is always used to add accounts that are not organization members. For accounts that are managed using Organizations, CreateMembers is only used in the following cases:
     ///
@@ -1784,7 +1784,7 @@ extension SecurityHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeclineInvitations` operation on the `SecurityHubAPIService` service.
+    /// Performs the `DeclineInvitations` operation on the `SecurityHub` service.
     ///
     /// We recommend using Organizations instead of Security Hub invitations to manage your member accounts. For information, see [Managing Security Hub administrator and member accounts with Organizations](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-accounts-orgs.html) in the Security Hub User Guide. Declines invitations to become a Security Hub member account. A prospective member account uses this operation to decline an invitation to become a member. Only member accounts that aren't part of an Amazon Web Services organization should use this operation. Organization accounts don't receive invitations.
     ///
@@ -1856,7 +1856,7 @@ extension SecurityHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteActionTarget` operation on the `SecurityHubAPIService` service.
+    /// Performs the `DeleteActionTarget` operation on the `SecurityHub` service.
     ///
     /// Deletes a custom action target from Security Hub. Deleting a custom action target does not affect any findings or insights that were already sent to Amazon CloudWatch Events using the custom action.
     ///
@@ -1925,7 +1925,7 @@ extension SecurityHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteConfigurationPolicy` operation on the `SecurityHubAPIService` service.
+    /// Performs the `DeleteConfigurationPolicy` operation on the `SecurityHub` service.
     ///
     /// Deletes a configuration policy. Only the Security Hub delegated administrator can invoke this operation from the home Region. For the deletion to succeed, you must first disassociate a configuration policy from target accounts, organizational units, or the root by invoking the StartConfigurationPolicyDisassociation operation.
     ///
@@ -1997,7 +1997,7 @@ extension SecurityHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteFindingAggregator` operation on the `SecurityHubAPIService` service.
+    /// Performs the `DeleteFindingAggregator` operation on the `SecurityHub` service.
     ///
     /// The aggregation Region is now called the home Region. Deletes a finding aggregator. When you delete the finding aggregator, you stop cross-Region aggregation. Finding replication stops occurring from the linked Regions to the home Region. When you stop cross-Region aggregation, findings that were already replicated and sent to the home Region are still visible from the home Region. However, new findings and finding updates are no longer replicated and sent to the home Region.
     ///
@@ -2068,7 +2068,7 @@ extension SecurityHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteInsight` operation on the `SecurityHubAPIService` service.
+    /// Performs the `DeleteInsight` operation on the `SecurityHub` service.
     ///
     /// Deletes the insight specified by the InsightArn.
     ///
@@ -2138,7 +2138,7 @@ extension SecurityHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteInvitations` operation on the `SecurityHubAPIService` service.
+    /// Performs the `DeleteInvitations` operation on the `SecurityHub` service.
     ///
     /// We recommend using Organizations instead of Security Hub invitations to manage your member accounts. For information, see [Managing Security Hub administrator and member accounts with Organizations](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-accounts-orgs.html) in the Security Hub User Guide. Deletes invitations to become a Security Hub member account. A Security Hub administrator account can use this operation to delete invitations sent to one or more prospective member accounts. This operation is only used to delete invitations that are sent to prospective member accounts that aren't part of an Amazon Web Services organization. Organization accounts don't receive invitations.
     ///
@@ -2211,7 +2211,7 @@ extension SecurityHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteMembers` operation on the `SecurityHubAPIService` service.
+    /// Performs the `DeleteMembers` operation on the `SecurityHub` service.
     ///
     /// Deletes the specified member accounts from Security Hub. You can invoke this API only to delete accounts that became members through invitation. You can't invoke this API to delete accounts that belong to an Organizations organization.
     ///
@@ -2284,7 +2284,7 @@ extension SecurityHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeActionTargets` operation on the `SecurityHubAPIService` service.
+    /// Performs the `DescribeActionTargets` operation on the `SecurityHub` service.
     ///
     /// Returns a list of the custom action targets in Security Hub in your account.
     ///
@@ -2356,7 +2356,7 @@ extension SecurityHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeHub` operation on the `SecurityHubAPIService` service.
+    /// Performs the `DescribeHub` operation on the `SecurityHub` service.
     ///
     /// Returns details about the Hub resource in your account, including the HubArn and the time when you enabled Security Hub.
     ///
@@ -2427,7 +2427,7 @@ extension SecurityHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeOrganizationConfiguration` operation on the `SecurityHubAPIService` service.
+    /// Performs the `DescribeOrganizationConfiguration` operation on the `SecurityHub` service.
     ///
     /// Returns information about the way your organization is configured in Security Hub. Only the Security Hub administrator account can invoke this operation.
     ///
@@ -2496,7 +2496,7 @@ extension SecurityHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeProducts` operation on the `SecurityHubAPIService` service.
+    /// Performs the `DescribeProducts` operation on the `SecurityHub` service.
     ///
     /// Returns information about product integrations in Security Hub. You can optionally provide an integration ARN. If you provide an integration ARN, then the results only include that integration. If you don't provide an integration ARN, then the results include all of the available product integrations.
     ///
@@ -2566,7 +2566,7 @@ extension SecurityHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeStandards` operation on the `SecurityHubAPIService` service.
+    /// Performs the `DescribeStandards` operation on the `SecurityHub` service.
     ///
     /// Returns a list of the available standards in Security Hub. For each standard, the results include the standard ARN, the name, and a description.
     ///
@@ -2635,7 +2635,7 @@ extension SecurityHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeStandardsControls` operation on the `SecurityHubAPIService` service.
+    /// Performs the `DescribeStandardsControls` operation on the `SecurityHub` service.
     ///
     /// Returns a list of security standards controls. For each control, the results include information about whether it is currently enabled, the severity, and a link to remediation information.
     ///
@@ -2705,7 +2705,7 @@ extension SecurityHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisableImportFindingsForProduct` operation on the `SecurityHubAPIService` service.
+    /// Performs the `DisableImportFindingsForProduct` operation on the `SecurityHub` service.
     ///
     /// Disables the integration of the specified product with Security Hub. After the integration is disabled, findings from that product are no longer sent to Security Hub.
     ///
@@ -2775,7 +2775,7 @@ extension SecurityHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisableOrganizationAdminAccount` operation on the `SecurityHubAPIService` service.
+    /// Performs the `DisableOrganizationAdminAccount` operation on the `SecurityHub` service.
     ///
     /// Disables a Security Hub administrator account. Can only be called by the organization management account.
     ///
@@ -2848,7 +2848,7 @@ extension SecurityHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisableSecurityHub` operation on the `SecurityHubAPIService` service.
+    /// Performs the `DisableSecurityHub` operation on the `SecurityHub` service.
     ///
     /// Disables Security Hub in your account only in the current Amazon Web Services Region. To disable Security Hub in all Regions, you must submit one request per Region where you have enabled Security Hub. You can't disable Security Hub in an account that is currently the Security Hub administrator. When you disable Security Hub, your existing findings and insights and any Security Hub configuration settings are deleted after 90 days and cannot be recovered. Any standards that were enabled are disabled, and your administrator and member account associations are removed. If you want to save your existing findings, you must export them before you disable Security Hub.
     ///
@@ -2918,7 +2918,7 @@ extension SecurityHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateFromAdministratorAccount` operation on the `SecurityHubAPIService` service.
+    /// Performs the `DisassociateFromAdministratorAccount` operation on the `SecurityHub` service.
     ///
     /// Disassociates the current Security Hub member account from the associated administrator account. This operation is only used by accounts that are not part of an organization. For organization accounts, only the administrator account can disassociate a member account.
     ///
@@ -2988,7 +2988,7 @@ extension SecurityHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateFromMasterAccount` operation on the `SecurityHubAPIService` service.
+    /// Performs the `DisassociateFromMasterAccount` operation on the `SecurityHub` service.
     ///
     /// This method is deprecated. Instead, use DisassociateFromAdministratorAccount. The Security Hub console continues to use DisassociateFromMasterAccount. It will eventually change to use DisassociateFromAdministratorAccount. Any IAM policies that specifically control access to this function must continue to use DisassociateFromMasterAccount. You should also add DisassociateFromAdministratorAccount to your policies to ensure that the correct permissions are in place after the console begins to use DisassociateFromAdministratorAccount. Disassociates the current Security Hub member account from the associated administrator account. This operation is only used by accounts that are not part of an organization. For organization accounts, only the administrator account can disassociate a member account.
     @available(*, deprecated, message: "This API has been deprecated, use DisassociateFromAdministratorAccount API instead.")
@@ -3059,7 +3059,7 @@ extension SecurityHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateMembers` operation on the `SecurityHubAPIService` service.
+    /// Performs the `DisassociateMembers` operation on the `SecurityHub` service.
     ///
     /// Disassociates the specified member accounts from the associated administrator account. Can be used to disassociate both accounts that are managed using Organizations and accounts that were invited manually.
     ///
@@ -3133,7 +3133,7 @@ extension SecurityHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `EnableImportFindingsForProduct` operation on the `SecurityHubAPIService` service.
+    /// Performs the `EnableImportFindingsForProduct` operation on the `SecurityHub` service.
     ///
     /// Enables the integration of a partner product with Security Hub. Integrated products send findings to Security Hub. When you enable a product integration, a permissions policy that grants permission for the product to send findings to Security Hub is applied.
     ///
@@ -3206,7 +3206,7 @@ extension SecurityHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `EnableOrganizationAdminAccount` operation on the `SecurityHubAPIService` service.
+    /// Performs the `EnableOrganizationAdminAccount` operation on the `SecurityHub` service.
     ///
     /// Designates the Security Hub administrator account for an organization. Can only be called by the organization management account.
     ///
@@ -3279,7 +3279,7 @@ extension SecurityHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `EnableSecurityHub` operation on the `SecurityHubAPIService` service.
+    /// Performs the `EnableSecurityHub` operation on the `SecurityHub` service.
     ///
     /// Enables Security Hub for your account in the current Region or the Region you specify in the request. When you enable Security Hub, you grant to Security Hub the permissions necessary to gather findings from other services that are integrated with Security Hub. When you use the EnableSecurityHub operation to enable Security Hub, you also automatically enable the following standards:
     ///
@@ -3359,7 +3359,7 @@ extension SecurityHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAdministratorAccount` operation on the `SecurityHubAPIService` service.
+    /// Performs the `GetAdministratorAccount` operation on the `SecurityHub` service.
     ///
     /// Provides the details for the Security Hub administrator account for the current member account. Can be used by both member accounts that are managed using Organizations and accounts that were invited manually.
     ///
@@ -3429,7 +3429,7 @@ extension SecurityHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetConfigurationPolicy` operation on the `SecurityHubAPIService` service.
+    /// Performs the `GetConfigurationPolicy` operation on the `SecurityHub` service.
     ///
     /// Provides information about a configuration policy. Only the Security Hub delegated administrator can invoke this operation from the home Region.
     ///
@@ -3500,7 +3500,7 @@ extension SecurityHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetConfigurationPolicyAssociation` operation on the `SecurityHubAPIService` service.
+    /// Performs the `GetConfigurationPolicyAssociation` operation on the `SecurityHub` service.
     ///
     /// Returns the association between a configuration and a target account, organizational unit, or the root. The configuration can be a configuration policy or self-managed behavior. Only the Security Hub delegated administrator can invoke this operation from the home Region.
     ///
@@ -3574,7 +3574,7 @@ extension SecurityHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetEnabledStandards` operation on the `SecurityHubAPIService` service.
+    /// Performs the `GetEnabledStandards` operation on the `SecurityHub` service.
     ///
     /// Returns a list of the standards that are currently enabled.
     ///
@@ -3646,7 +3646,7 @@ extension SecurityHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetFindingAggregator` operation on the `SecurityHubAPIService` service.
+    /// Performs the `GetFindingAggregator` operation on the `SecurityHub` service.
     ///
     /// The aggregation Region is now called the home Region. Returns the current configuration in the calling account for cross-Region aggregation. A finding aggregator is a resource that establishes the home Region and any linked Regions.
     ///
@@ -3717,7 +3717,7 @@ extension SecurityHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetFindingHistory` operation on the `SecurityHubAPIService` service.
+    /// Performs the `GetFindingHistory` operation on the `SecurityHub` service.
     ///
     /// Returns history for a Security Hub finding in the last 90 days. The history includes changes made to any fields in the Amazon Web Services Security Finding Format (ASFF).
     ///
@@ -3789,7 +3789,7 @@ extension SecurityHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetFindings` operation on the `SecurityHubAPIService` service.
+    /// Performs the `GetFindings` operation on the `SecurityHub` service.
     ///
     /// Returns a list of findings that match the specified criteria. If cross-Region aggregation is enabled, then when you call GetFindings from the home Region, the results include all of the matching findings from both the home Region and linked Regions.
     ///
@@ -3861,7 +3861,7 @@ extension SecurityHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetInsightResults` operation on the `SecurityHubAPIService` service.
+    /// Performs the `GetInsightResults` operation on the `SecurityHub` service.
     ///
     /// Lists the results of the Security Hub insight specified by the insight ARN.
     ///
@@ -3931,7 +3931,7 @@ extension SecurityHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetInsights` operation on the `SecurityHubAPIService` service.
+    /// Performs the `GetInsights` operation on the `SecurityHub` service.
     ///
     /// Lists and describes insights for the specified insight ARNs.
     ///
@@ -4004,7 +4004,7 @@ extension SecurityHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetInvitationsCount` operation on the `SecurityHubAPIService` service.
+    /// Performs the `GetInvitationsCount` operation on the `SecurityHub` service.
     ///
     /// We recommend using Organizations instead of Security Hub invitations to manage your member accounts. For information, see [Managing Security Hub administrator and member accounts with Organizations](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-accounts-orgs.html) in the Security Hub User Guide. Returns the count of all Security Hub membership invitations that were sent to the calling member account, not including the currently accepted invitation.
     ///
@@ -4073,7 +4073,7 @@ extension SecurityHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetMasterAccount` operation on the `SecurityHubAPIService` service.
+    /// Performs the `GetMasterAccount` operation on the `SecurityHub` service.
     ///
     /// This method is deprecated. Instead, use GetAdministratorAccount. The Security Hub console continues to use GetMasterAccount. It will eventually change to use GetAdministratorAccount. Any IAM policies that specifically control access to this function must continue to use GetMasterAccount. You should also add GetAdministratorAccount to your policies to ensure that the correct permissions are in place after the console begins to use GetAdministratorAccount. Provides the details for the Security Hub administrator account for the current member account. Can be used by both member accounts that are managed using Organizations and accounts that were invited manually.
     @available(*, deprecated, message: "This API has been deprecated, use GetAdministratorAccount API instead.")
@@ -4144,7 +4144,7 @@ extension SecurityHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetMembers` operation on the `SecurityHubAPIService` service.
+    /// Performs the `GetMembers` operation on the `SecurityHub` service.
     ///
     /// Returns the details for the Security Hub member accounts for the specified account IDs. An administrator account can be either the delegated Security Hub administrator account for an organization or an administrator account that enabled Security Hub manually. The results include both member accounts that are managed using Organizations and accounts that were invited manually.
     ///
@@ -4217,7 +4217,7 @@ extension SecurityHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetSecurityControlDefinition` operation on the `SecurityHubAPIService` service.
+    /// Performs the `GetSecurityControlDefinition` operation on the `SecurityHub` service.
     ///
     /// Retrieves the definition of a security control. The definition includes the control title, description, Region availability, parameter definitions, and other details.
     ///
@@ -4288,7 +4288,7 @@ extension SecurityHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `InviteMembers` operation on the `SecurityHubAPIService` service.
+    /// Performs the `InviteMembers` operation on the `SecurityHub` service.
     ///
     /// We recommend using Organizations instead of Security Hub invitations to manage your member accounts. For information, see [Managing Security Hub administrator and member accounts with Organizations](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-accounts-orgs.html) in the Security Hub User Guide. Invites other Amazon Web Services accounts to become member accounts for the Security Hub administrator account that the invitation is sent from. This operation is only used to invite accounts that don't belong to an Amazon Web Services organization. Organization accounts don't receive invitations. Before you can use this action to invite a member, you must first use the CreateMembers action to create the member account in Security Hub. When the account owner enables Security Hub and accepts the invitation to become a member account, the administrator account can view the findings generated in the member account.
     ///
@@ -4361,7 +4361,7 @@ extension SecurityHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAutomationRules` operation on the `SecurityHubAPIService` service.
+    /// Performs the `ListAutomationRules` operation on the `SecurityHub` service.
     ///
     /// A list of automation rules and their metadata for the calling account.
     ///
@@ -4432,7 +4432,7 @@ extension SecurityHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListConfigurationPolicies` operation on the `SecurityHubAPIService` service.
+    /// Performs the `ListConfigurationPolicies` operation on the `SecurityHub` service.
     ///
     /// Lists the configuration policies that the Security Hub delegated administrator has created for your organization. Only the delegated administrator can invoke this operation from the home Region.
     ///
@@ -4503,7 +4503,7 @@ extension SecurityHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListConfigurationPolicyAssociations` operation on the `SecurityHubAPIService` service.
+    /// Performs the `ListConfigurationPolicyAssociations` operation on the `SecurityHub` service.
     ///
     /// Provides information about the associations for your configuration policies and self-managed behavior. Only the Security Hub delegated administrator can invoke this operation from the home Region.
     ///
@@ -4576,7 +4576,7 @@ extension SecurityHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListEnabledProductsForImport` operation on the `SecurityHubAPIService` service.
+    /// Performs the `ListEnabledProductsForImport` operation on the `SecurityHub` service.
     ///
     /// Lists all findings-generating solutions (products) that you are subscribed to receive findings from in Security Hub.
     ///
@@ -4645,7 +4645,7 @@ extension SecurityHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListFindingAggregators` operation on the `SecurityHubAPIService` service.
+    /// Performs the `ListFindingAggregators` operation on the `SecurityHub` service.
     ///
     /// If cross-Region aggregation is enabled, then ListFindingAggregators returns the Amazon Resource Name (ARN) of the finding aggregator. You can run this operation from any Amazon Web Services Region.
     ///
@@ -4716,7 +4716,7 @@ extension SecurityHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListInvitations` operation on the `SecurityHubAPIService` service.
+    /// Performs the `ListInvitations` operation on the `SecurityHub` service.
     ///
     /// We recommend using Organizations instead of Security Hub invitations to manage your member accounts. For information, see [Managing Security Hub administrator and member accounts with Organizations](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-accounts-orgs.html) in the Security Hub User Guide. Lists all Security Hub membership invitations that were sent to the calling account. Only accounts that are managed by invitation can use this operation. Accounts that are managed using the integration with Organizations don't receive invitations.
     ///
@@ -4786,7 +4786,7 @@ extension SecurityHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListMembers` operation on the `SecurityHubAPIService` service.
+    /// Performs the `ListMembers` operation on the `SecurityHub` service.
     ///
     /// Lists details about all member accounts for the current Security Hub administrator account. The results include both member accounts that belong to an organization and member accounts that were invited manually.
     ///
@@ -4856,7 +4856,7 @@ extension SecurityHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListOrganizationAdminAccounts` operation on the `SecurityHubAPIService` service.
+    /// Performs the `ListOrganizationAdminAccounts` operation on the `SecurityHub` service.
     ///
     /// Lists the Security Hub administrator accounts. Can only be called by the organization management account.
     ///
@@ -4926,7 +4926,7 @@ extension SecurityHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListSecurityControlDefinitions` operation on the `SecurityHubAPIService` service.
+    /// Performs the `ListSecurityControlDefinitions` operation on the `SecurityHub` service.
     ///
     /// Lists all of the security controls that apply to a specified standard.
     ///
@@ -4996,7 +4996,7 @@ extension SecurityHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListStandardsControlAssociations` operation on the `SecurityHubAPIService` service.
+    /// Performs the `ListStandardsControlAssociations` operation on the `SecurityHub` service.
     ///
     /// Specifies whether a control is currently enabled or disabled in each enabled standard in the calling account.
     ///
@@ -5066,7 +5066,7 @@ extension SecurityHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `SecurityHubAPIService` service.
+    /// Performs the `ListTagsForResource` operation on the `SecurityHub` service.
     ///
     /// Returns a list of tags associated with a resource.
     ///
@@ -5134,7 +5134,7 @@ extension SecurityHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartConfigurationPolicyAssociation` operation on the `SecurityHubAPIService` service.
+    /// Performs the `StartConfigurationPolicyAssociation` operation on the `SecurityHub` service.
     ///
     /// Associates a target account, organizational unit, or the root with a specified configuration. The target can be associated with a configuration policy or self-managed behavior. Only the Security Hub delegated administrator can invoke this operation from the home Region.
     ///
@@ -5208,7 +5208,7 @@ extension SecurityHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartConfigurationPolicyDisassociation` operation on the `SecurityHubAPIService` service.
+    /// Performs the `StartConfigurationPolicyDisassociation` operation on the `SecurityHub` service.
     ///
     /// Disassociates a target account, organizational unit, or the root from a specified configuration. When you disassociate a configuration from its target, the target inherits the configuration of the closest parent. If there’s no configuration to inherit, the target retains its settings but becomes a self-managed account. A target can be disassociated from a configuration policy or self-managed behavior. Only the Security Hub delegated administrator can invoke this operation from the home Region.
     ///
@@ -5282,7 +5282,7 @@ extension SecurityHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `SecurityHubAPIService` service.
+    /// Performs the `TagResource` operation on the `SecurityHub` service.
     ///
     /// Adds one or more tags to a resource.
     ///
@@ -5353,7 +5353,7 @@ extension SecurityHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `SecurityHubAPIService` service.
+    /// Performs the `UntagResource` operation on the `SecurityHub` service.
     ///
     /// Removes one or more tags from a resource.
     ///
@@ -5422,7 +5422,7 @@ extension SecurityHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateActionTarget` operation on the `SecurityHubAPIService` service.
+    /// Performs the `UpdateActionTarget` operation on the `SecurityHub` service.
     ///
     /// Updates the name and description of a custom action target in Security Hub.
     ///
@@ -5494,7 +5494,7 @@ extension SecurityHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateConfigurationPolicy` operation on the `SecurityHubAPIService` service.
+    /// Performs the `UpdateConfigurationPolicy` operation on the `SecurityHub` service.
     ///
     /// Updates a configuration policy. Only the Security Hub delegated administrator can invoke this operation from the home Region.
     ///
@@ -5569,7 +5569,7 @@ extension SecurityHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateFindingAggregator` operation on the `SecurityHubAPIService` service.
+    /// Performs the `UpdateFindingAggregator` operation on the `SecurityHub` service.
     ///
     /// The aggregation Region is now called the home Region. Updates cross-Region aggregation settings. You can use this operation to update the Region linking mode and the list of included or excluded Amazon Web Services Regions. However, you can't use this operation to change the home Region. You can invoke this operation from the current home Region only.
     ///
@@ -5643,7 +5643,7 @@ extension SecurityHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateFindings` operation on the `SecurityHubAPIService` service.
+    /// Performs the `UpdateFindings` operation on the `SecurityHub` service.
     ///
     /// UpdateFindings is a deprecated operation. Instead of UpdateFindings, use the BatchUpdateFindings operation. The UpdateFindings operation updates the Note and RecordState of the Security Hub aggregated findings that the filter attributes specify. Any member account that can view the finding can also see the update to the finding. Finding updates made with UpdateFindings aren't persisted if the same finding is later updated by the finding provider through the BatchImportFindings operation. In addition, Security Hub doesn't record updates made with UpdateFindings in the finding history.
     ///
@@ -5716,7 +5716,7 @@ extension SecurityHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateInsight` operation on the `SecurityHubAPIService` service.
+    /// Performs the `UpdateInsight` operation on the `SecurityHub` service.
     ///
     /// Updates the Security Hub insight identified by the specified insight ARN.
     ///
@@ -5789,7 +5789,7 @@ extension SecurityHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateOrganizationConfiguration` operation on the `SecurityHubAPIService` service.
+    /// Performs the `UpdateOrganizationConfiguration` operation on the `SecurityHub` service.
     ///
     /// Updates the configuration of your organization in Security Hub. Only the Security Hub administrator account can invoke this operation.
     ///
@@ -5864,7 +5864,7 @@ extension SecurityHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateSecurityControl` operation on the `SecurityHubAPIService` service.
+    /// Performs the `UpdateSecurityControl` operation on the `SecurityHub` service.
     ///
     /// Updates the properties of a security control.
     ///
@@ -5939,7 +5939,7 @@ extension SecurityHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateSecurityHubConfiguration` operation on the `SecurityHubAPIService` service.
+    /// Performs the `UpdateSecurityHubConfiguration` operation on the `SecurityHub` service.
     ///
     /// Updates configuration options for Security Hub.
     ///
@@ -6013,7 +6013,7 @@ extension SecurityHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateStandardsControl` operation on the `SecurityHubAPIService` service.
+    /// Performs the `UpdateStandardsControl` operation on the `SecurityHub` service.
     ///
     /// Used to control whether an individual security standard control is enabled or disabled.
     ///

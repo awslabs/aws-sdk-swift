@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class IVSRealTimeClient: ClientRuntime.Client {
     public static let clientName = "IVSRealTimeClient"
-    public static let version = "1.0.69"
+    public static let version = "1.0.74"
     let client: ClientRuntime.SdkHttpClient
     let config: IVSRealTimeClient.IVSRealTimeClientConfiguration
     let serviceName = "IVS RealTime"
@@ -330,7 +330,7 @@ extension IVSRealTimeClient {
 }
 
 extension IVSRealTimeClient {
-    /// Performs the `CreateEncoderConfiguration` operation on the `AmazonInteractiveVideoServiceRealTime` service.
+    /// Performs the `CreateEncoderConfiguration` operation on the `IVSRealTime` service.
     ///
     /// Creates an EncoderConfiguration object.
     ///
@@ -405,7 +405,7 @@ extension IVSRealTimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateIngestConfiguration` operation on the `AmazonInteractiveVideoServiceRealTime` service.
+    /// Performs the `CreateIngestConfiguration` operation on the `IVSRealTime` service.
     ///
     /// Creates a new IngestConfiguration resource, used to specify the ingest protocol for a stage.
     ///
@@ -477,7 +477,7 @@ extension IVSRealTimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateParticipantToken` operation on the `AmazonInteractiveVideoServiceRealTime` service.
+    /// Performs the `CreateParticipantToken` operation on the `IVSRealTime` service.
     ///
     /// Creates an additional token for a specified stage. This can be done after stage creation or when tokens expire. Tokens always are scoped to the stage for which they are created. Encryption keys are owned by Amazon IVS and never used directly by your application.
     ///
@@ -550,7 +550,7 @@ extension IVSRealTimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateStage` operation on the `AmazonInteractiveVideoServiceRealTime` service.
+    /// Performs the `CreateStage` operation on the `IVSRealTime` service.
     ///
     /// Creates a new stage (and optionally participant tokens).
     ///
@@ -622,7 +622,7 @@ extension IVSRealTimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateStorageConfiguration` operation on the `AmazonInteractiveVideoServiceRealTime` service.
+    /// Performs the `CreateStorageConfiguration` operation on the `IVSRealTime` service.
     ///
     /// Creates a new storage configuration, used to enable recording to Amazon S3. When a StorageConfiguration is created, IVS will modify the S3 bucketPolicy of the provided bucket. This will ensure that IVS has sufficient permissions to write content to the provided bucket.
     ///
@@ -697,7 +697,7 @@ extension IVSRealTimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteEncoderConfiguration` operation on the `AmazonInteractiveVideoServiceRealTime` service.
+    /// Performs the `DeleteEncoderConfiguration` operation on the `IVSRealTime` service.
     ///
     /// Deletes an EncoderConfiguration resource. Ensures that no Compositions are using this template; otherwise, returns an error.
     ///
@@ -771,7 +771,7 @@ extension IVSRealTimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteIngestConfiguration` operation on the `AmazonInteractiveVideoServiceRealTime` service.
+    /// Performs the `DeleteIngestConfiguration` operation on the `IVSRealTime` service.
     ///
     /// Deletes a specified IngestConfiguration, so it can no longer be used to broadcast. An IngestConfiguration cannot be deleted if the publisher is actively streaming to a stage, unless force is set to true.
     ///
@@ -844,7 +844,7 @@ extension IVSRealTimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeletePublicKey` operation on the `AmazonInteractiveVideoServiceRealTime` service.
+    /// Performs the `DeletePublicKey` operation on the `IVSRealTime` service.
     ///
     /// Deletes the specified public key used to sign stage participant tokens. This invalidates future participant tokens generated using the key pair’s private key.
     ///
@@ -917,7 +917,7 @@ extension IVSRealTimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteStage` operation on the `AmazonInteractiveVideoServiceRealTime` service.
+    /// Performs the `DeleteStage` operation on the `IVSRealTime` service.
     ///
     /// Shuts down and deletes the specified stage (disconnecting all participants). This operation also removes the stageArn from the associated [IngestConfiguration], if there are participants using the IngestConfiguration to publish to the stage.
     ///
@@ -990,7 +990,7 @@ extension IVSRealTimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteStorageConfiguration` operation on the `AmazonInteractiveVideoServiceRealTime` service.
+    /// Performs the `DeleteStorageConfiguration` operation on the `IVSRealTime` service.
     ///
     /// Deletes the storage configuration for the specified ARN. If you try to delete a storage configuration that is used by a Composition, you will get an error (409 ConflictException). To avoid this, for all Compositions that reference the storage configuration, first use [StopComposition] and wait for it to complete, then use DeleteStorageConfiguration.
     ///
@@ -1064,7 +1064,7 @@ extension IVSRealTimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisconnectParticipant` operation on the `AmazonInteractiveVideoServiceRealTime` service.
+    /// Performs the `DisconnectParticipant` operation on the `IVSRealTime` service.
     ///
     /// Disconnects a specified participant from a specified stage. If the participant is publishing using an [IngestConfiguration], DisconnectParticipant also updates the stageArn in the IngestConfiguration to be an empty string.
     ///
@@ -1136,7 +1136,7 @@ extension IVSRealTimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetComposition` operation on the `AmazonInteractiveVideoServiceRealTime` service.
+    /// Performs the `GetComposition` operation on the `IVSRealTime` service.
     ///
     /// Get information about the specified Composition resource.
     ///
@@ -1210,7 +1210,7 @@ extension IVSRealTimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetEncoderConfiguration` operation on the `AmazonInteractiveVideoServiceRealTime` service.
+    /// Performs the `GetEncoderConfiguration` operation on the `IVSRealTime` service.
     ///
     /// Gets information about the specified EncoderConfiguration resource.
     ///
@@ -1284,7 +1284,7 @@ extension IVSRealTimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetIngestConfiguration` operation on the `AmazonInteractiveVideoServiceRealTime` service.
+    /// Performs the `GetIngestConfiguration` operation on the `IVSRealTime` service.
     ///
     /// Gets information about the specified IngestConfiguration.
     ///
@@ -1355,7 +1355,7 @@ extension IVSRealTimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetParticipant` operation on the `AmazonInteractiveVideoServiceRealTime` service.
+    /// Performs the `GetParticipant` operation on the `IVSRealTime` service.
     ///
     /// Gets information about the specified participant token.
     ///
@@ -1426,7 +1426,7 @@ extension IVSRealTimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetPublicKey` operation on the `AmazonInteractiveVideoServiceRealTime` service.
+    /// Performs the `GetPublicKey` operation on the `IVSRealTime` service.
     ///
     /// Gets information for the specified public key.
     ///
@@ -1497,7 +1497,7 @@ extension IVSRealTimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetStage` operation on the `AmazonInteractiveVideoServiceRealTime` service.
+    /// Performs the `GetStage` operation on the `IVSRealTime` service.
     ///
     /// Gets information for the specified stage.
     ///
@@ -1568,7 +1568,7 @@ extension IVSRealTimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetStageSession` operation on the `AmazonInteractiveVideoServiceRealTime` service.
+    /// Performs the `GetStageSession` operation on the `IVSRealTime` service.
     ///
     /// Gets information for the specified stage session.
     ///
@@ -1639,7 +1639,7 @@ extension IVSRealTimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetStorageConfiguration` operation on the `AmazonInteractiveVideoServiceRealTime` service.
+    /// Performs the `GetStorageConfiguration` operation on the `IVSRealTime` service.
     ///
     /// Gets the storage configuration for the specified ARN.
     ///
@@ -1713,7 +1713,7 @@ extension IVSRealTimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ImportPublicKey` operation on the `AmazonInteractiveVideoServiceRealTime` service.
+    /// Performs the `ImportPublicKey` operation on the `IVSRealTime` service.
     ///
     /// Import a public key to be used for signing stage participant tokens.
     ///
@@ -1786,7 +1786,7 @@ extension IVSRealTimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListCompositions` operation on the `AmazonInteractiveVideoServiceRealTime` service.
+    /// Performs the `ListCompositions` operation on the `IVSRealTime` service.
     ///
     /// Gets summary information about all Compositions in your account, in the AWS region where the API request is processed.
     ///
@@ -1859,7 +1859,7 @@ extension IVSRealTimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListEncoderConfigurations` operation on the `AmazonInteractiveVideoServiceRealTime` service.
+    /// Performs the `ListEncoderConfigurations` operation on the `IVSRealTime` service.
     ///
     /// Gets summary information about all EncoderConfigurations in your account, in the AWS region where the API request is processed.
     ///
@@ -1932,7 +1932,7 @@ extension IVSRealTimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListIngestConfigurations` operation on the `AmazonInteractiveVideoServiceRealTime` service.
+    /// Performs the `ListIngestConfigurations` operation on the `IVSRealTime` service.
     ///
     /// Lists all IngestConfigurations in your account, in the AWS region where the API request is processed.
     ///
@@ -2002,7 +2002,7 @@ extension IVSRealTimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListParticipantEvents` operation on the `AmazonInteractiveVideoServiceRealTime` service.
+    /// Performs the `ListParticipantEvents` operation on the `IVSRealTime` service.
     ///
     /// Lists events for a specified participant that occurred during a specified stage session.
     ///
@@ -2072,7 +2072,7 @@ extension IVSRealTimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListParticipants` operation on the `AmazonInteractiveVideoServiceRealTime` service.
+    /// Performs the `ListParticipants` operation on the `IVSRealTime` service.
     ///
     /// Lists all participants in a specified stage session.
     ///
@@ -2142,7 +2142,7 @@ extension IVSRealTimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListPublicKeys` operation on the `AmazonInteractiveVideoServiceRealTime` service.
+    /// Performs the `ListPublicKeys` operation on the `IVSRealTime` service.
     ///
     /// Gets summary information about all public keys in your account, in the AWS region where the API request is processed.
     ///
@@ -2212,7 +2212,7 @@ extension IVSRealTimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListStageSessions` operation on the `AmazonInteractiveVideoServiceRealTime` service.
+    /// Performs the `ListStageSessions` operation on the `IVSRealTime` service.
     ///
     /// Gets all sessions for a specified stage.
     ///
@@ -2282,7 +2282,7 @@ extension IVSRealTimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListStages` operation on the `AmazonInteractiveVideoServiceRealTime` service.
+    /// Performs the `ListStages` operation on the `IVSRealTime` service.
     ///
     /// Gets summary information about all stages in your account, in the AWS region where the API request is processed.
     ///
@@ -2353,7 +2353,7 @@ extension IVSRealTimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListStorageConfigurations` operation on the `AmazonInteractiveVideoServiceRealTime` service.
+    /// Performs the `ListStorageConfigurations` operation on the `IVSRealTime` service.
     ///
     /// Gets summary information about all storage configurations in your account, in the AWS region where the API request is processed.
     ///
@@ -2426,7 +2426,7 @@ extension IVSRealTimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `AmazonInteractiveVideoServiceRealTime` service.
+    /// Performs the `ListTagsForResource` operation on the `IVSRealTime` service.
     ///
     /// Gets information about AWS tags for the specified ARN.
     ///
@@ -2494,7 +2494,7 @@ extension IVSRealTimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartComposition` operation on the `AmazonInteractiveVideoServiceRealTime` service.
+    /// Performs the `StartComposition` operation on the `IVSRealTime` service.
     ///
     /// Starts a Composition from a stage based on the configuration provided in the request. A Composition is an ephemeral resource that exists after this operation returns successfully. Composition stops and the resource is deleted:
     ///
@@ -2580,7 +2580,7 @@ extension IVSRealTimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopComposition` operation on the `AmazonInteractiveVideoServiceRealTime` service.
+    /// Performs the `StopComposition` operation on the `IVSRealTime` service.
     ///
     /// Stops and deletes a Composition resource. Any broadcast from the Composition resource is stopped.
     ///
@@ -2654,7 +2654,7 @@ extension IVSRealTimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `AmazonInteractiveVideoServiceRealTime` service.
+    /// Performs the `TagResource` operation on the `IVSRealTime` service.
     ///
     /// Adds or updates tags for the AWS resource with the specified ARN.
     ///
@@ -2725,7 +2725,7 @@ extension IVSRealTimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `AmazonInteractiveVideoServiceRealTime` service.
+    /// Performs the `UntagResource` operation on the `IVSRealTime` service.
     ///
     /// Removes tags from the resource with the specified ARN.
     ///
@@ -2794,7 +2794,7 @@ extension IVSRealTimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateIngestConfiguration` operation on the `AmazonInteractiveVideoServiceRealTime` service.
+    /// Performs the `UpdateIngestConfiguration` operation on the `IVSRealTime` service.
     ///
     /// Updates a specified IngestConfiguration. Only the stage ARN attached to the IngestConfiguration can be updated. An IngestConfiguration that is active cannot be updated.
     ///
@@ -2867,7 +2867,7 @@ extension IVSRealTimeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateStage` operation on the `AmazonInteractiveVideoServiceRealTime` service.
+    /// Performs the `UpdateStage` operation on the `IVSRealTime` service.
     ///
     /// Updates a stage’s configuration.
     ///

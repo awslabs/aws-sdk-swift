@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class AmpClient: ClientRuntime.Client {
     public static let clientName = "AmpClient"
-    public static let version = "1.0.69"
+    public static let version = "1.0.74"
     let client: ClientRuntime.SdkHttpClient
     let config: AmpClient.AmpClientConfiguration
     let serviceName = "amp"
@@ -331,7 +331,7 @@ extension AmpClient {
 }
 
 extension AmpClient {
-    /// Performs the `CreateAlertManagerDefinition` operation on the `AmazonPrometheusService` service.
+    /// Performs the `CreateAlertManagerDefinition` operation on the `Amp` service.
     ///
     /// The CreateAlertManagerDefinition operation creates the alert manager definition in a workspace. If a workspace already has an alert manager definition, don't use this operation to update it. Instead, use PutAlertManagerDefinition.
     ///
@@ -407,7 +407,7 @@ extension AmpClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateLoggingConfiguration` operation on the `AmazonPrometheusService` service.
+    /// Performs the `CreateLoggingConfiguration` operation on the `Amp` service.
     ///
     /// The CreateLoggingConfiguration operation creates a logging configuration for the workspace. Use this operation to set the CloudWatch log group to which the logs will be published to.
     ///
@@ -480,7 +480,7 @@ extension AmpClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateRuleGroupsNamespace` operation on the `AmazonPrometheusService` service.
+    /// Performs the `CreateRuleGroupsNamespace` operation on the `Amp` service.
     ///
     /// The CreateRuleGroupsNamespace operation creates a rule groups namespace within a workspace. A rule groups namespace is associated with exactly one rules file. A workspace can have multiple rule groups namespaces. Use this operation only to create new rule groups namespaces. To update an existing rule groups namespace, use PutRuleGroupsNamespace.
     ///
@@ -556,7 +556,7 @@ extension AmpClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateScraper` operation on the `AmazonPrometheusService` service.
+    /// Performs the `CreateScraper` operation on the `Amp` service.
     ///
     /// The CreateScraper operation creates a scraper to collect metrics. A scraper pulls metrics from Prometheus-compatible sources within an Amazon EKS cluster, and sends them to your Amazon Managed Service for Prometheus workspace. Scrapers are flexible, and can be configured to control what metrics are collected, the frequency of collection, what transformations are applied to the metrics, and more. An IAM role will be created for you that Amazon Managed Service for Prometheus uses to access the metrics in your cluster. You must configure this role with a policy that allows it to scrape metrics from your cluster. For more information, see [Configuring your Amazon EKS cluster](https://docs.aws.amazon.com/prometheus/latest/userguide/AMP-collector-how-to.html#AMP-collector-eks-setup) in the Amazon Managed Service for Prometheus User Guide. The scrapeConfiguration parameter contains the base-64 encoded YAML configuration for the scraper. For more information about collectors, including what metrics are collected, and how to configure the scraper, see [Using an Amazon Web Services managed collector](https://docs.aws.amazon.com/prometheus/latest/userguide/AMP-collector-how-to.html) in the Amazon Managed Service for Prometheus User Guide.
     ///
@@ -632,7 +632,7 @@ extension AmpClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateWorkspace` operation on the `AmazonPrometheusService` service.
+    /// Performs the `CreateWorkspace` operation on the `Amp` service.
     ///
     /// Creates a Prometheus workspace. A workspace is a logical space dedicated to the storage and querying of Prometheus metrics. You can have one or more workspaces in each Region in your account.
     ///
@@ -707,7 +707,7 @@ extension AmpClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAlertManagerDefinition` operation on the `AmazonPrometheusService` service.
+    /// Performs the `DeleteAlertManagerDefinition` operation on the `Amp` service.
     ///
     /// Deletes the alert manager definition from a workspace.
     ///
@@ -780,7 +780,7 @@ extension AmpClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteLoggingConfiguration` operation on the `AmazonPrometheusService` service.
+    /// Performs the `DeleteLoggingConfiguration` operation on the `Amp` service.
     ///
     /// Deletes the logging configuration for a workspace.
     ///
@@ -852,7 +852,7 @@ extension AmpClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteRuleGroupsNamespace` operation on the `AmazonPrometheusService` service.
+    /// Performs the `DeleteRuleGroupsNamespace` operation on the `Amp` service.
     ///
     /// Deletes one rule groups namespace and its associated rule groups definition.
     ///
@@ -925,7 +925,7 @@ extension AmpClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteScraper` operation on the `AmazonPrometheusService` service.
+    /// Performs the `DeleteScraper` operation on the `Amp` service.
     ///
     /// The DeleteScraper operation deletes one scraper, and stops any metrics collection that the scraper performs.
     ///
@@ -998,7 +998,7 @@ extension AmpClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteWorkspace` operation on the `AmazonPrometheusService` service.
+    /// Performs the `DeleteWorkspace` operation on the `Amp` service.
     ///
     /// Deletes an existing workspace. When you delete a workspace, the data that has been ingested into it is not immediately deleted. It will be permanently deleted within one month.
     ///
@@ -1071,7 +1071,7 @@ extension AmpClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeAlertManagerDefinition` operation on the `AmazonPrometheusService` service.
+    /// Performs the `DescribeAlertManagerDefinition` operation on the `Amp` service.
     ///
     /// Retrieves the full information about the alert manager definition for a workspace.
     ///
@@ -1141,7 +1141,7 @@ extension AmpClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeLoggingConfiguration` operation on the `AmazonPrometheusService` service.
+    /// Performs the `DescribeLoggingConfiguration` operation on the `Amp` service.
     ///
     /// Returns complete information about the current logging configuration of the workspace.
     ///
@@ -1210,7 +1210,7 @@ extension AmpClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeRuleGroupsNamespace` operation on the `AmazonPrometheusService` service.
+    /// Performs the `DescribeRuleGroupsNamespace` operation on the `Amp` service.
     ///
     /// Returns complete information about one rule groups namespace. To retrieve a list of rule groups namespaces, use ListRuleGroupsNamespaces.
     ///
@@ -1280,7 +1280,7 @@ extension AmpClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeScraper` operation on the `AmazonPrometheusService` service.
+    /// Performs the `DescribeScraper` operation on the `Amp` service.
     ///
     /// The DescribeScraper operation displays information about an existing scraper.
     ///
@@ -1350,7 +1350,7 @@ extension AmpClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeWorkspace` operation on the `AmazonPrometheusService` service.
+    /// Performs the `DescribeWorkspace` operation on the `Amp` service.
     ///
     /// Returns information about an existing workspace.
     ///
@@ -1420,7 +1420,7 @@ extension AmpClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDefaultScraperConfiguration` operation on the `AmazonPrometheusService` service.
+    /// Performs the `GetDefaultScraperConfiguration` operation on the `Amp` service.
     ///
     /// The GetDefaultScraperConfiguration operation returns the default scraper configuration used when Amazon EKS creates a scraper for you.
     ///
@@ -1488,7 +1488,7 @@ extension AmpClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListRuleGroupsNamespaces` operation on the `AmazonPrometheusService` service.
+    /// Performs the `ListRuleGroupsNamespaces` operation on the `Amp` service.
     ///
     /// Returns a list of rule groups namespaces in a workspace.
     ///
@@ -1559,7 +1559,7 @@ extension AmpClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListScrapers` operation on the `AmazonPrometheusService` service.
+    /// Performs the `ListScrapers` operation on the `Amp` service.
     ///
     /// The ListScrapers operation lists all of the scrapers in your account. This includes scrapers being created or deleted. You can optionally filter the returned list.
     ///
@@ -1629,7 +1629,7 @@ extension AmpClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `AmazonPrometheusService` service.
+    /// Performs the `ListTagsForResource` operation on the `Amp` service.
     ///
     /// The ListTagsForResource operation returns the tags that are associated with an Amazon Managed Service for Prometheus resource. Currently, the only resources that can be tagged are scrapers, workspaces, and rule groups namespaces.
     ///
@@ -1699,7 +1699,7 @@ extension AmpClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListWorkspaces` operation on the `AmazonPrometheusService` service.
+    /// Performs the `ListWorkspaces` operation on the `Amp` service.
     ///
     /// Lists all of the Amazon Managed Service for Prometheus workspaces in your account. This includes workspaces being created or deleted.
     ///
@@ -1769,7 +1769,7 @@ extension AmpClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutAlertManagerDefinition` operation on the `AmazonPrometheusService` service.
+    /// Performs the `PutAlertManagerDefinition` operation on the `Amp` service.
     ///
     /// Updates an existing alert manager definition in a workspace. If the workspace does not already have an alert manager definition, don't use this operation to create it. Instead, use CreateAlertManagerDefinition.
     ///
@@ -1845,7 +1845,7 @@ extension AmpClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutRuleGroupsNamespace` operation on the `AmazonPrometheusService` service.
+    /// Performs the `PutRuleGroupsNamespace` operation on the `Amp` service.
     ///
     /// Updates an existing rule groups namespace within a workspace. A rule groups namespace is associated with exactly one rules file. A workspace can have multiple rule groups namespaces. Use this operation only to update existing rule groups namespaces. To create a new rule groups namespace, use CreateRuleGroupsNamespace. You can't use this operation to add tags to an existing rule groups namespace. Instead, use TagResource.
     ///
@@ -1921,7 +1921,7 @@ extension AmpClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `AmazonPrometheusService` service.
+    /// Performs the `TagResource` operation on the `Amp` service.
     ///
     /// The TagResource operation associates tags with an Amazon Managed Service for Prometheus resource. The only resources that can be tagged are rule groups namespaces, scrapers, and workspaces. If you specify a new tag key for the resource, this tag is appended to the list of tags associated with the resource. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag. To remove a tag, use UntagResource.
     ///
@@ -1994,7 +1994,7 @@ extension AmpClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `AmazonPrometheusService` service.
+    /// Performs the `UntagResource` operation on the `Amp` service.
     ///
     /// Removes the specified tags from an Amazon Managed Service for Prometheus resource. The only resources that can be tagged are rule groups namespaces, scrapers, and workspaces.
     ///
@@ -2065,7 +2065,7 @@ extension AmpClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateLoggingConfiguration` operation on the `AmazonPrometheusService` service.
+    /// Performs the `UpdateLoggingConfiguration` operation on the `Amp` service.
     ///
     /// Updates the log group ARN or the workspace ID of the current logging configuration.
     ///
@@ -2139,7 +2139,7 @@ extension AmpClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateScraper` operation on the `AmazonPrometheusService` service.
+    /// Performs the `UpdateScraper` operation on the `Amp` service.
     ///
     /// Updates an existing scraper. You can't use this function to update the source from which the scraper is collecting metrics. To change the source, delete the scraper and create a new one.
     ///
@@ -2215,7 +2215,7 @@ extension AmpClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateWorkspaceAlias` operation on the `AmazonPrometheusService` service.
+    /// Performs the `UpdateWorkspaceAlias` operation on the `Amp` service.
     ///
     /// Updates the alias of an existing workspace.
     ///

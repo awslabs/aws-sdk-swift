@@ -62,7 +62,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ConnectContactLensClient: ClientRuntime.Client {
     public static let clientName = "ConnectContactLensClient"
-    public static let version = "1.0.69"
+    public static let version = "1.0.74"
     let client: ClientRuntime.SdkHttpClient
     let config: ConnectContactLensClient.ConnectContactLensClientConfiguration
     let serviceName = "Connect Contact Lens"
@@ -328,7 +328,7 @@ extension ConnectContactLensClient {
 }
 
 extension ConnectContactLensClient {
-    /// Performs the `ListRealtimeContactAnalysisSegments` operation on the `AmazonConnectContactLens` service.
+    /// Performs the `ListRealtimeContactAnalysisSegments` operation on the `ConnectContactLens` service.
     ///
     /// Provides a list of analysis segments for a real-time analysis session.
     ///

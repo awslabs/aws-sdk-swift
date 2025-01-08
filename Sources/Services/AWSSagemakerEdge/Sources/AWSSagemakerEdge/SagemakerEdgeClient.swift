@@ -62,7 +62,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SagemakerEdgeClient: ClientRuntime.Client {
     public static let clientName = "SagemakerEdgeClient"
-    public static let version = "1.0.69"
+    public static let version = "1.0.74"
     let client: ClientRuntime.SdkHttpClient
     let config: SagemakerEdgeClient.SagemakerEdgeClientConfiguration
     let serviceName = "Sagemaker Edge"
@@ -328,7 +328,7 @@ extension SagemakerEdgeClient {
 }
 
 extension SagemakerEdgeClient {
-    /// Performs the `GetDeployments` operation on the `AmazonSageMakerEdge` service.
+    /// Performs the `GetDeployments` operation on the `SagemakerEdge` service.
     ///
     /// Use to get the active deployments from a device.
     ///
@@ -397,7 +397,7 @@ extension SagemakerEdgeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDeviceRegistration` operation on the `AmazonSageMakerEdge` service.
+    /// Performs the `GetDeviceRegistration` operation on the `SagemakerEdge` service.
     ///
     /// Use to check if a device is registered with SageMaker Edge Manager.
     ///
@@ -466,7 +466,7 @@ extension SagemakerEdgeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SendHeartbeat` operation on the `AmazonSageMakerEdge` service.
+    /// Performs the `SendHeartbeat` operation on the `SagemakerEdge` service.
     ///
     /// Use to get the current status of devices registered on SageMaker Edge Manager.
     ///

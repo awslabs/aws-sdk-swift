@@ -39,8 +39,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -52,8 +51,7 @@ public struct GetRawMessageContentInput: Swift.Sendable {
 
     public init(
         messageId: Swift.String? = nil
-    )
-    {
+    ) {
         self.messageId = messageId
     }
 }
@@ -65,8 +63,7 @@ public struct GetRawMessageContentOutput: Swift.Sendable {
 
     public init(
         messageContent: Smithy.ByteStream? = nil
-    )
-    {
+    ) {
         self.messageContent = messageContent
     }
 }
@@ -95,8 +92,7 @@ public struct InvalidContentLocation: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -119,8 +115,7 @@ public struct MessageFrozen: ClientRuntime.ModeledError, AWSClientRuntime.AWSSer
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -143,8 +138,7 @@ public struct MessageRejected: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -166,8 +160,7 @@ extension WorkMailMessageFlowClientTypes {
             bucket: Swift.String? = nil,
             key: Swift.String? = nil,
             objectVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucket = bucket
             self.key = key
             self.objectVersion = objectVersion
@@ -199,8 +192,7 @@ extension WorkMailMessageFlowClientTypes {
 
         public init(
             s3Reference: WorkMailMessageFlowClientTypes.S3Reference? = nil
-        )
-        {
+        ) {
             self.s3Reference = s3Reference
         }
     }
@@ -217,8 +209,7 @@ public struct PutRawMessageContentInput: Swift.Sendable {
     public init(
         content: WorkMailMessageFlowClientTypes.RawMessageContent? = nil,
         messageId: Swift.String? = nil
-    )
-    {
+    ) {
         self.content = content
         self.messageId = messageId
     }

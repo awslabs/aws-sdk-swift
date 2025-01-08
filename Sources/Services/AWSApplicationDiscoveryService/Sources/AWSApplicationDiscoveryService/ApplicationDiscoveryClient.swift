@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ApplicationDiscoveryClient: ClientRuntime.Client {
     public static let clientName = "ApplicationDiscoveryClient"
-    public static let version = "1.0.69"
+    public static let version = "1.0.74"
     let client: ClientRuntime.SdkHttpClient
     let config: ApplicationDiscoveryClient.ApplicationDiscoveryClientConfiguration
     let serviceName = "Application Discovery"
@@ -331,7 +331,7 @@ extension ApplicationDiscoveryClient {
 }
 
 extension ApplicationDiscoveryClient {
-    /// Performs the `AssociateConfigurationItemsToApplication` operation on the `AWSPoseidonService_V2015_11_01` service.
+    /// Performs the `AssociateConfigurationItemsToApplication` operation on the `ApplicationDiscovery` service.
     ///
     /// Associates one or more configuration items with an application.
     ///
@@ -405,7 +405,7 @@ extension ApplicationDiscoveryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchDeleteAgents` operation on the `AWSPoseidonService_V2015_11_01` service.
+    /// Performs the `BatchDeleteAgents` operation on the `ApplicationDiscovery` service.
     ///
     /// Deletes one or more agents or collectors as specified by ID. Deleting an agent or collector does not delete the previously discovered data. To delete the data collected, use StartBatchDeleteConfigurationTask.
     ///
@@ -478,7 +478,7 @@ extension ApplicationDiscoveryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchDeleteImportData` operation on the `AWSPoseidonService_V2015_11_01` service.
+    /// Performs the `BatchDeleteImportData` operation on the `ApplicationDiscovery` service.
     ///
     /// Deletes one or more import tasks, each identified by their import ID. Each import task has a number of records that can identify servers or applications. Amazon Web Services Application Discovery Service has built-in matching logic that will identify when discovered servers match existing entries that you've previously discovered, the information for the already-existing discovered server is updated. When you delete an import task that contains records that were used to match, the information in those matched records that comes from the deleted records will also be deleted.
     ///
@@ -552,7 +552,7 @@ extension ApplicationDiscoveryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateApplication` operation on the `AWSPoseidonService_V2015_11_01` service.
+    /// Performs the `CreateApplication` operation on the `ApplicationDiscovery` service.
     ///
     /// Creates an application with the given name and description.
     ///
@@ -626,7 +626,7 @@ extension ApplicationDiscoveryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateTags` operation on the `AWSPoseidonService_V2015_11_01` service.
+    /// Performs the `CreateTags` operation on the `ApplicationDiscovery` service.
     ///
     /// Creates one or more tags for configuration items. Tags are metadata that help you categorize IT assets. This API accepts a list of multiple configuration items. Do not store sensitive information (like personal data) in tags.
     ///
@@ -701,7 +701,7 @@ extension ApplicationDiscoveryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteApplications` operation on the `AWSPoseidonService_V2015_11_01` service.
+    /// Performs the `DeleteApplications` operation on the `ApplicationDiscovery` service.
     ///
     /// Deletes a list of applications and their associations with configuration items.
     ///
@@ -775,7 +775,7 @@ extension ApplicationDiscoveryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteTags` operation on the `AWSPoseidonService_V2015_11_01` service.
+    /// Performs the `DeleteTags` operation on the `ApplicationDiscovery` service.
     ///
     /// Deletes the association between configuration items and one or more tags. This API accepts a list of multiple configuration items.
     ///
@@ -850,7 +850,7 @@ extension ApplicationDiscoveryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeAgents` operation on the `AWSPoseidonService_V2015_11_01` service.
+    /// Performs the `DescribeAgents` operation on the `ApplicationDiscovery` service.
     ///
     /// Lists agents or collectors as specified by ID or other filters. All agents/collectors associated with your user can be listed if you call DescribeAgents as is without passing any parameters.
     ///
@@ -924,7 +924,7 @@ extension ApplicationDiscoveryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeBatchDeleteConfigurationTask` operation on the `AWSPoseidonService_V2015_11_01` service.
+    /// Performs the `DescribeBatchDeleteConfigurationTask` operation on the `ApplicationDiscovery` service.
     ///
     /// Takes a unique deletion task identifier as input and returns metadata about a configuration deletion task.
     ///
@@ -997,7 +997,7 @@ extension ApplicationDiscoveryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeConfigurations` operation on the `AWSPoseidonService_V2015_11_01` service.
+    /// Performs the `DescribeConfigurations` operation on the `ApplicationDiscovery` service.
     ///
     /// Retrieves attributes for a list of configuration item IDs. All of the supplied IDs must be for the same asset type from one of the following:
     ///
@@ -1082,7 +1082,7 @@ extension ApplicationDiscoveryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeContinuousExports` operation on the `AWSPoseidonService_V2015_11_01` service.
+    /// Performs the `DescribeContinuousExports` operation on the `ApplicationDiscovery` service.
     ///
     /// Lists exports as specified by ID. All continuous exports associated with your user can be listed if you call DescribeContinuousExports as is without passing any parameters.
     ///
@@ -1158,7 +1158,7 @@ extension ApplicationDiscoveryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeExportConfigurations` operation on the `AWSPoseidonService_V2015_11_01` service.
+    /// Performs the `DescribeExportConfigurations` operation on the `ApplicationDiscovery` service.
     ///
     /// DescribeExportConfigurations is deprecated. Use [DescribeExportTasks](https://docs.aws.amazon.com/application-discovery/latest/APIReference/API_DescribeExportTasks.html), instead.
     @available(*, deprecated)
@@ -1234,7 +1234,7 @@ extension ApplicationDiscoveryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeExportTasks` operation on the `AWSPoseidonService_V2015_11_01` service.
+    /// Performs the `DescribeExportTasks` operation on the `ApplicationDiscovery` service.
     ///
     /// Retrieve status of one or more export tasks. You can retrieve the status of up to 100 export tasks.
     ///
@@ -1308,7 +1308,7 @@ extension ApplicationDiscoveryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeImportTasks` operation on the `AWSPoseidonService_V2015_11_01` service.
+    /// Performs the `DescribeImportTasks` operation on the `ApplicationDiscovery` service.
     ///
     /// Returns an array of import tasks for your account, including status information, times, IDs, the Amazon S3 Object URL for the import file, and more.
     ///
@@ -1382,7 +1382,7 @@ extension ApplicationDiscoveryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeTags` operation on the `AWSPoseidonService_V2015_11_01` service.
+    /// Performs the `DescribeTags` operation on the `ApplicationDiscovery` service.
     ///
     /// Retrieves a list of configuration items that have tags as specified by the key-value pairs, name and value, passed to the optional parameter filters. There are three valid tag filter names:
     ///
@@ -1466,7 +1466,7 @@ extension ApplicationDiscoveryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateConfigurationItemsFromApplication` operation on the `AWSPoseidonService_V2015_11_01` service.
+    /// Performs the `DisassociateConfigurationItemsFromApplication` operation on the `ApplicationDiscovery` service.
     ///
     /// Disassociates one or more configuration items from an application.
     ///
@@ -1540,7 +1540,7 @@ extension ApplicationDiscoveryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ExportConfigurations` operation on the `AWSPoseidonService_V2015_11_01` service.
+    /// Performs the `ExportConfigurations` operation on the `ApplicationDiscovery` service.
     ///
     /// Deprecated. Use StartExportTask instead. Exports all discovered configuration data to an Amazon S3 bucket or an application that enables you to view and evaluate the data. Data includes tags and tag associations, processes, connections, servers, and system performance. This API returns an export ID that you can query using the DescribeExportConfigurations API. The system imposes a limit of two configuration exports in six hours.
     @available(*, deprecated)
@@ -1616,7 +1616,7 @@ extension ApplicationDiscoveryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDiscoverySummary` operation on the `AWSPoseidonService_V2015_11_01` service.
+    /// Performs the `GetDiscoverySummary` operation on the `ApplicationDiscovery` service.
     ///
     /// Retrieves a short summary of discovered assets. This API operation takes no request parameters and is called as is at the command prompt as shown in the example.
     ///
@@ -1690,7 +1690,7 @@ extension ApplicationDiscoveryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListConfigurations` operation on the `AWSPoseidonService_V2015_11_01` service.
+    /// Performs the `ListConfigurations` operation on the `ApplicationDiscovery` service.
     ///
     /// Retrieves a list of configuration items as specified by the value passed to the required parameter configurationType. Optional filtering may be applied to refine search results.
     ///
@@ -1765,7 +1765,7 @@ extension ApplicationDiscoveryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListServerNeighbors` operation on the `AWSPoseidonService_V2015_11_01` service.
+    /// Performs the `ListServerNeighbors` operation on the `ApplicationDiscovery` service.
     ///
     /// Retrieves a list of servers that are one network hop away from a specified server.
     ///
@@ -1839,7 +1839,7 @@ extension ApplicationDiscoveryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartBatchDeleteConfigurationTask` operation on the `AWSPoseidonService_V2015_11_01` service.
+    /// Performs the `StartBatchDeleteConfigurationTask` operation on the `ApplicationDiscovery` service.
     ///
     /// Takes a list of configurationId as input and starts an asynchronous deletion task to remove the configurationItems. Returns a unique deletion task identifier.
     ///
@@ -1915,7 +1915,7 @@ extension ApplicationDiscoveryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartContinuousExport` operation on the `AWSPoseidonService_V2015_11_01` service.
+    /// Performs the `StartContinuousExport` operation on the `ApplicationDiscovery` service.
     ///
     /// Start the continuous flow of agent's discovered data into Amazon Athena.
     ///
@@ -1992,7 +1992,7 @@ extension ApplicationDiscoveryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartDataCollectionByAgentIds` operation on the `AWSPoseidonService_V2015_11_01` service.
+    /// Performs the `StartDataCollectionByAgentIds` operation on the `ApplicationDiscovery` service.
     ///
     /// Instructs the specified agents to start collecting data.
     ///
@@ -2066,7 +2066,7 @@ extension ApplicationDiscoveryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartExportTask` operation on the `AWSPoseidonService_V2015_11_01` service.
+    /// Performs the `StartExportTask` operation on the `ApplicationDiscovery` service.
     ///
     /// Begins the export of a discovered data report to an Amazon S3 bucket managed by Amazon Web Services. Exports might provide an estimate of fees and savings based on certain information that you provide. Fee estimates do not include any taxes that might apply. Your actual fees and savings depend on a variety of factors, including your actual usage of Amazon Web Services services, which might vary from the estimates provided in this report. If you do not specify preferences or agentIds in the filter, a summary of all servers, applications, tags, and performance is generated. This data is an aggregation of all server data collected through on-premises tooling, file import, application grouping and applying tags. If you specify agentIds in a filter, the task exports up to 72 hours of detailed data collected by the identified Application Discovery Agent, including network, process, and performance details. A time range for exported agent data may be set by using startTime and endTime. Export of detailed agent data is limited to five concurrently running exports. Export of detailed agent data is limited to two exports per day. If you enable ec2RecommendationsPreferences in preferences , an Amazon EC2 instance matching the characteristics of each server in Application Discovery Service is generated. Changing the attributes of the ec2RecommendationsPreferences changes the criteria of the recommendation.
     ///
@@ -2141,7 +2141,7 @@ extension ApplicationDiscoveryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartImportTask` operation on the `AWSPoseidonService_V2015_11_01` service.
+    /// Performs the `StartImportTask` operation on the `ApplicationDiscovery` service.
     ///
     /// Starts an import task, which allows you to import details of your on-premises environment directly into Amazon Web Services Migration Hub without having to use the Amazon Web Services Application Discovery Service (Application Discovery Service) tools such as the Amazon Web Services Application Discovery Service Agentless Collector or Application Discovery Agent. This gives you the option to perform migration assessment and planning directly from your imported data, including the ability to group your devices as applications and track their migration status. To start an import request, do this:
     ///
@@ -2228,7 +2228,7 @@ extension ApplicationDiscoveryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopContinuousExport` operation on the `AWSPoseidonService_V2015_11_01` service.
+    /// Performs the `StopContinuousExport` operation on the `ApplicationDiscovery` service.
     ///
     /// Stop the continuous flow of agent's discovered data into Amazon Athena.
     ///
@@ -2305,7 +2305,7 @@ extension ApplicationDiscoveryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopDataCollectionByAgentIds` operation on the `AWSPoseidonService_V2015_11_01` service.
+    /// Performs the `StopDataCollectionByAgentIds` operation on the `ApplicationDiscovery` service.
     ///
     /// Instructs the specified agents to stop collecting data.
     ///
@@ -2379,7 +2379,7 @@ extension ApplicationDiscoveryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateApplication` operation on the `AWSPoseidonService_V2015_11_01` service.
+    /// Performs the `UpdateApplication` operation on the `ApplicationDiscovery` service.
     ///
     /// Updates metadata about an application.
     ///

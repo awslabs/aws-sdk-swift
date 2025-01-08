@@ -49,8 +49,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -73,8 +72,7 @@ public struct ClientLimitExceededException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -97,8 +95,7 @@ public struct InvalidArgumentException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -121,8 +118,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -134,8 +130,7 @@ public struct JoinStorageSessionInput: Swift.Sendable {
 
     public init(
         channelArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
     }
 }
@@ -151,8 +146,7 @@ public struct JoinStorageSessionAsViewerInput: Swift.Sendable {
     public init(
         channelArn: Swift.String? = nil,
         clientId: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.clientId = clientId
     }

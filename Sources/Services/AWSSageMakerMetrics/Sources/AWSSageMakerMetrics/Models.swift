@@ -157,8 +157,7 @@ extension SageMakerMetricsClientTypes {
             resourceArn: Swift.String? = nil,
             start: Swift.Int? = nil,
             xAxisType: SageMakerMetricsClientTypes.XAxisType? = nil
-        )
-        {
+        ) {
             self.end = end
             self.metricName = metricName
             self.metricStat = metricStat
@@ -177,8 +176,7 @@ public struct BatchGetMetricsInput: Swift.Sendable {
 
     public init(
         metricQueries: [SageMakerMetricsClientTypes.MetricQuery]? = nil
-    )
-    {
+    ) {
         self.metricQueries = metricQueries
     }
 }
@@ -239,8 +237,7 @@ extension SageMakerMetricsClientTypes {
             metricValues: [Swift.Double]? = nil,
             status: SageMakerMetricsClientTypes.MetricQueryResultStatus? = nil,
             xAxisValues: [Swift.Int]? = nil
-        )
-        {
+        ) {
             self.message = message
             self.metricValues = metricValues
             self.status = status
@@ -255,8 +252,7 @@ public struct BatchGetMetricsOutput: Swift.Sendable {
 
     public init(
         metricQueryResults: [SageMakerMetricsClientTypes.MetricQueryResult]? = nil
-    )
-    {
+    ) {
         self.metricQueryResults = metricQueryResults
     }
 }
@@ -282,8 +278,7 @@ extension SageMakerMetricsClientTypes {
             step: Swift.Int? = nil,
             timestamp: Foundation.Date? = nil,
             value: Swift.Double? = nil
-        )
-        {
+        ) {
             self.metricName = metricName
             self.step = step
             self.timestamp = timestamp
@@ -303,8 +298,7 @@ public struct BatchPutMetricsInput: Swift.Sendable {
     public init(
         metricData: [SageMakerMetricsClientTypes.RawMetricData]? = nil,
         trialComponentName: Swift.String? = nil
-    )
-    {
+    ) {
         self.metricData = metricData
         self.trialComponentName = trialComponentName
     }
@@ -365,8 +359,7 @@ extension SageMakerMetricsClientTypes {
         public init(
             code: SageMakerMetricsClientTypes.PutMetricsErrorCode? = nil,
             metricIndex: Swift.Int? = nil
-        )
-        {
+        ) {
             self.code = code
             self.metricIndex = metricIndex
         }
@@ -379,8 +372,7 @@ public struct BatchPutMetricsOutput: Swift.Sendable {
 
     public init(
         errors: [SageMakerMetricsClientTypes.BatchPutMetricsError]? = nil
-    )
-    {
+    ) {
         self.errors = errors
     }
 }

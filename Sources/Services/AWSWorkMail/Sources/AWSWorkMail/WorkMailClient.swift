@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class WorkMailClient: ClientRuntime.Client {
     public static let clientName = "WorkMailClient"
-    public static let version = "1.0.69"
+    public static let version = "1.0.74"
     let client: ClientRuntime.SdkHttpClient
     let config: WorkMailClient.WorkMailClientConfiguration
     let serviceName = "WorkMail"
@@ -331,7 +331,7 @@ extension WorkMailClient {
 }
 
 extension WorkMailClient {
-    /// Performs the `AssociateDelegateToResource` operation on the `WorkMailService` service.
+    /// Performs the `AssociateDelegateToResource` operation on the `WorkMail` service.
     ///
     /// Adds a member (user or group) to the resource's set of delegates.
     ///
@@ -406,7 +406,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssociateMemberToGroup` operation on the `WorkMailService` service.
+    /// Performs the `AssociateMemberToGroup` operation on the `WorkMail` service.
     ///
     /// Adds a member (user or group) to the group's set.
     ///
@@ -483,7 +483,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssumeImpersonationRole` operation on the `WorkMailService` service.
+    /// Performs the `AssumeImpersonationRole` operation on the `WorkMail` service.
     ///
     /// Assumes an impersonation role for the given WorkMail organization. This method returns an authentication token you can use to make impersonated calls.
     ///
@@ -556,7 +556,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CancelMailboxExportJob` operation on the `WorkMailService` service.
+    /// Performs the `CancelMailboxExportJob` operation on the `WorkMail` service.
     ///
     /// Cancels a mailbox export job. If the mailbox export job is near completion, it might not be possible to cancel it.
     ///
@@ -630,7 +630,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateAlias` operation on the `WorkMailService` service.
+    /// Performs the `CreateAlias` operation on the `WorkMail` service.
     ///
     /// Adds an alias to the set of a given member (user or group) of WorkMail.
     ///
@@ -708,7 +708,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateAvailabilityConfiguration` operation on the `WorkMailService` service.
+    /// Performs the `CreateAvailabilityConfiguration` operation on the `WorkMail` service.
     ///
     /// Creates an AvailabilityConfiguration for the given WorkMail organization and domain.
     ///
@@ -783,7 +783,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateGroup` operation on the `WorkMailService` service.
+    /// Performs the `CreateGroup` operation on the `WorkMail` service.
     ///
     /// Creates a group that can be used in WorkMail by calling the [RegisterToWorkMail] operation.
     ///
@@ -860,7 +860,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateIdentityCenterApplication` operation on the `WorkMailService` service.
+    /// Performs the `CreateIdentityCenterApplication` operation on the `WorkMail` service.
     ///
     /// Creates the WorkMail application in IAM Identity Center that can be used later in the WorkMail - IdC integration. For more information, see PutIdentityProviderConfiguration. This action does not affect the authentication settings for any WorkMail organizations.
     ///
@@ -931,7 +931,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateImpersonationRole` operation on the `WorkMailService` service.
+    /// Performs the `CreateImpersonationRole` operation on the `WorkMail` service.
     ///
     /// Creates an impersonation role for the given WorkMail organization. Idempotency ensures that an API request completes no more than one time. With an idempotent request, if the original request completes successfully, any subsequent retries also complete successfully without performing any further actions.
     ///
@@ -1007,7 +1007,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateMobileDeviceAccessRule` operation on the `WorkMailService` service.
+    /// Performs the `CreateMobileDeviceAccessRule` operation on the `WorkMail` service.
     ///
     /// Creates a new mobile device access rule for the specified WorkMail organization.
     ///
@@ -1081,7 +1081,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateOrganization` operation on the `WorkMailService` service.
+    /// Performs the `CreateOrganization` operation on the `WorkMail` service.
     ///
     /// Creates a new WorkMail organization. Optionally, you can choose to associate an existing AWS Directory Service directory with your organization. If an AWS Directory Service directory ID is specified, the organization alias must match the directory alias. If you choose not to associate an existing directory with your organization, then we create a new WorkMail directory for you. For more information, see [Adding an organization](https://docs.aws.amazon.com/workmail/latest/adminguide/add_new_organization.html) in the WorkMail Administrator Guide. You can associate multiple email domains with an organization, then choose your default email domain from the WorkMail console. You can also associate a domain that is managed in an Amazon Route 53 public hosted zone. For more information, see [Adding a domain](https://docs.aws.amazon.com/workmail/latest/adminguide/add_domain.html) and [Choosing the default domain](https://docs.aws.amazon.com/workmail/latest/adminguide/default_domain.html) in the WorkMail Administrator Guide. Optionally, you can use a customer managed key from AWS Key Management Service (AWS KMS) to encrypt email for your organization. If you don't associate an AWS KMS key, WorkMail creates a default, AWS managed key for you.
     ///
@@ -1156,7 +1156,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateResource` operation on the `WorkMailService` service.
+    /// Performs the `CreateResource` operation on the `WorkMail` service.
     ///
     /// Creates a new WorkMail resource.
     ///
@@ -1233,7 +1233,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateUser` operation on the `WorkMailService` service.
+    /// Performs the `CreateUser` operation on the `WorkMail` service.
     ///
     /// Creates a user who can be used in WorkMail by calling the [RegisterToWorkMail] operation.
     ///
@@ -1311,7 +1311,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAccessControlRule` operation on the `WorkMailService` service.
+    /// Performs the `DeleteAccessControlRule` operation on the `WorkMail` service.
     ///
     /// Deletes an access control rule for the specified WorkMail organization. Deleting already deleted and non-existing rules does not produce an error. In those cases, the service sends back an HTTP 200 response with an empty HTTP body.
     ///
@@ -1382,7 +1382,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAlias` operation on the `WorkMailService` service.
+    /// Performs the `DeleteAlias` operation on the `WorkMail` service.
     ///
     /// Remove one or more specified aliases from a set of aliases for a given user.
     ///
@@ -1456,7 +1456,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAvailabilityConfiguration` operation on the `WorkMailService` service.
+    /// Performs the `DeleteAvailabilityConfiguration` operation on the `WorkMail` service.
     ///
     /// Deletes the AvailabilityConfiguration for the given WorkMail organization and domain.
     ///
@@ -1527,7 +1527,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteEmailMonitoringConfiguration` operation on the `WorkMailService` service.
+    /// Performs the `DeleteEmailMonitoringConfiguration` operation on the `WorkMail` service.
     ///
     /// Deletes the email monitoring configuration for a specified organization.
     ///
@@ -1599,7 +1599,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteGroup` operation on the `WorkMailService` service.
+    /// Performs the `DeleteGroup` operation on the `WorkMail` service.
     ///
     /// Deletes a group from WorkMail.
     ///
@@ -1675,7 +1675,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteIdentityCenterApplication` operation on the `WorkMailService` service.
+    /// Performs the `DeleteIdentityCenterApplication` operation on the `WorkMail` service.
     ///
     /// Deletes the IAM Identity Center application from WorkMail. This action does not affect the authentication settings for any WorkMail organizations.
     ///
@@ -1746,7 +1746,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteIdentityProviderConfiguration` operation on the `WorkMailService` service.
+    /// Performs the `DeleteIdentityProviderConfiguration` operation on the `WorkMail` service.
     ///
     /// Disables the integration between IdC and WorkMail. Authentication will continue with the directory as it was before the IdC integration. You might have to reset your directory passwords and reconfigure your desktop and mobile email clients.
     ///
@@ -1818,7 +1818,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteImpersonationRole` operation on the `WorkMailService` service.
+    /// Performs the `DeleteImpersonationRole` operation on the `WorkMail` service.
     ///
     /// Deletes an impersonation role for the given WorkMail organization.
     ///
@@ -1890,7 +1890,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteMailboxPermissions` operation on the `WorkMailService` service.
+    /// Performs the `DeleteMailboxPermissions` operation on the `WorkMail` service.
     ///
     /// Deletes permissions granted to a member (user or group).
     ///
@@ -1964,7 +1964,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteMobileDeviceAccessOverride` operation on the `WorkMailService` service.
+    /// Performs the `DeleteMobileDeviceAccessOverride` operation on the `WorkMail` service.
     ///
     /// Deletes the mobile device access override for the given WorkMail organization, user, and device. Deleting already deleted and non-existing overrides does not produce an error. In those cases, the service sends back an HTTP 200 response with an empty HTTP body.
     ///
@@ -2037,7 +2037,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteMobileDeviceAccessRule` operation on the `WorkMailService` service.
+    /// Performs the `DeleteMobileDeviceAccessRule` operation on the `WorkMail` service.
     ///
     /// Deletes a mobile device access rule for the specified WorkMail organization. Deleting already deleted and non-existing rules does not produce an error. In those cases, the service sends back an HTTP 200 response with an empty HTTP body.
     ///
@@ -2109,7 +2109,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteOrganization` operation on the `WorkMailService` service.
+    /// Performs the `DeleteOrganization` operation on the `WorkMail` service.
     ///
     /// Deletes an WorkMail organization and all underlying AWS resources managed by WorkMail as part of the organization. You can choose whether to delete the associated directory. For more information, see [Removing an organization](https://docs.aws.amazon.com/workmail/latest/adminguide/remove_organization.html) in the WorkMail Administrator Guide.
     ///
@@ -2182,7 +2182,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeletePersonalAccessToken` operation on the `WorkMailService` service.
+    /// Performs the `DeletePersonalAccessToken` operation on the `WorkMail` service.
     ///
     /// Deletes the Personal Access Token from the provided WorkMail Organization.
     ///
@@ -2254,7 +2254,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteResource` operation on the `WorkMailService` service.
+    /// Performs the `DeleteResource` operation on the `WorkMail` service.
     ///
     /// Deletes the specified resource.
     ///
@@ -2328,7 +2328,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteRetentionPolicy` operation on the `WorkMailService` service.
+    /// Performs the `DeleteRetentionPolicy` operation on the `WorkMail` service.
     ///
     /// Deletes the specified retention policy from the specified organization.
     ///
@@ -2400,7 +2400,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteUser` operation on the `WorkMailService` service.
+    /// Performs the `DeleteUser` operation on the `WorkMail` service.
     ///
     /// Deletes a user from WorkMail and all subsequent systems. Before you can delete a user, the user state must be DISABLED. Use the [DescribeUser] action to confirm the user state. Deleting a user is permanent and cannot be undone. WorkMail archives user mailboxes for 30 days before they are permanently removed.
     ///
@@ -2476,7 +2476,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeregisterFromWorkMail` operation on the `WorkMailService` service.
+    /// Performs the `DeregisterFromWorkMail` operation on the `WorkMail` service.
     ///
     /// Mark a user, group, or resource as no longer used in WorkMail. This action disassociates the mailbox and schedules it for clean-up. WorkMail keeps mailboxes for 30 days before they are permanently removed. The functionality in the console is Disable.
     ///
@@ -2550,7 +2550,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeregisterMailDomain` operation on the `WorkMailService` service.
+    /// Performs the `DeregisterMailDomain` operation on the `WorkMail` service.
     ///
     /// Removes a domain from WorkMail, stops email routing to WorkMail, and removes the authorization allowing WorkMail use. SES keeps the domain because other applications may use it. You must first remove any email address used by WorkMail entities before you remove the domain.
     ///
@@ -2624,7 +2624,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeEmailMonitoringConfiguration` operation on the `WorkMailService` service.
+    /// Performs the `DescribeEmailMonitoringConfiguration` operation on the `WorkMail` service.
     ///
     /// Describes the current email monitoring configuration for a specified organization.
     ///
@@ -2697,7 +2697,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeEntity` operation on the `WorkMailService` service.
+    /// Performs the `DescribeEntity` operation on the `WorkMail` service.
     ///
     /// Returns basic details about an entity in WorkMail.
     ///
@@ -2770,7 +2770,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeGroup` operation on the `WorkMailService` service.
+    /// Performs the `DescribeGroup` operation on the `WorkMail` service.
     ///
     /// Returns the data available for the group.
     ///
@@ -2843,7 +2843,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeIdentityProviderConfiguration` operation on the `WorkMailService` service.
+    /// Performs the `DescribeIdentityProviderConfiguration` operation on the `WorkMail` service.
     ///
     /// Returns detailed information on the current IdC setup for the WorkMail organization.
     ///
@@ -2916,7 +2916,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeInboundDmarcSettings` operation on the `WorkMailService` service.
+    /// Performs the `DescribeInboundDmarcSettings` operation on the `WorkMail` service.
     ///
     /// Lists the settings in a DMARC policy for a specified organization.
     ///
@@ -2987,7 +2987,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeMailboxExportJob` operation on the `WorkMailService` service.
+    /// Performs the `DescribeMailboxExportJob` operation on the `WorkMail` service.
     ///
     /// Describes the current status of a mailbox export job.
     ///
@@ -3060,7 +3060,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeOrganization` operation on the `WorkMailService` service.
+    /// Performs the `DescribeOrganization` operation on the `WorkMail` service.
     ///
     /// Provides more information regarding a given organization based on its identifier.
     ///
@@ -3131,7 +3131,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeResource` operation on the `WorkMailService` service.
+    /// Performs the `DescribeResource` operation on the `WorkMail` service.
     ///
     /// Returns the data available for the resource.
     ///
@@ -3205,7 +3205,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeUser` operation on the `WorkMailService` service.
+    /// Performs the `DescribeUser` operation on the `WorkMail` service.
     ///
     /// Provides information regarding the user.
     ///
@@ -3280,7 +3280,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateDelegateFromResource` operation on the `WorkMailService` service.
+    /// Performs the `DisassociateDelegateFromResource` operation on the `WorkMail` service.
     ///
     /// Removes a member from the resource's set of delegates.
     ///
@@ -3355,7 +3355,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateMemberFromGroup` operation on the `WorkMailService` service.
+    /// Performs the `DisassociateMemberFromGroup` operation on the `WorkMail` service.
     ///
     /// Removes a member from a group.
     ///
@@ -3432,7 +3432,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAccessControlEffect` operation on the `WorkMailService` service.
+    /// Performs the `GetAccessControlEffect` operation on the `WorkMail` service.
     ///
     /// Gets the effects of an organization's access control rules as they apply to a specified IPv4 address, access protocol action, and user ID or impersonation role ID. You must provide either the user ID or impersonation role ID. Impersonation role ID can only be used with Action EWS.
     ///
@@ -3506,7 +3506,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDefaultRetentionPolicy` operation on the `WorkMailService` service.
+    /// Performs the `GetDefaultRetentionPolicy` operation on the `WorkMail` service.
     ///
     /// Gets the default retention policy details for the specified organization.
     ///
@@ -3579,7 +3579,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetImpersonationRole` operation on the `WorkMailService` service.
+    /// Performs the `GetImpersonationRole` operation on the `WorkMail` service.
     ///
     /// Gets the impersonation role details for the given WorkMail organization.
     ///
@@ -3652,7 +3652,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetImpersonationRoleEffect` operation on the `WorkMailService` service.
+    /// Performs the `GetImpersonationRoleEffect` operation on the `WorkMail` service.
     ///
     /// Tests whether the given impersonation role can impersonate a target user.
     ///
@@ -3727,7 +3727,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetMailDomain` operation on the `WorkMailService` service.
+    /// Performs the `GetMailDomain` operation on the `WorkMail` service.
     ///
     /// Gets details for a mail domain, including domain records required to configure your domain with recommended security.
     ///
@@ -3800,7 +3800,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetMailboxDetails` operation on the `WorkMailService` service.
+    /// Performs the `GetMailboxDetails` operation on the `WorkMail` service.
     ///
     /// Requests a user's mailbox details for a specified organization and user.
     ///
@@ -3873,7 +3873,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetMobileDeviceAccessEffect` operation on the `WorkMailService` service.
+    /// Performs the `GetMobileDeviceAccessEffect` operation on the `WorkMail` service.
     ///
     /// Simulates the effect of the mobile device access rules for the given attributes of a sample access event. Use this method to test the effects of the current set of mobile device access rules for the WorkMail organization for a particular user's attributes.
     ///
@@ -3945,7 +3945,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetMobileDeviceAccessOverride` operation on the `WorkMailService` service.
+    /// Performs the `GetMobileDeviceAccessOverride` operation on the `WorkMail` service.
     ///
     /// Gets the mobile device access override for the given WorkMail organization, user, and device.
     ///
@@ -4019,7 +4019,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetPersonalAccessTokenMetadata` operation on the `WorkMailService` service.
+    /// Performs the `GetPersonalAccessTokenMetadata` operation on the `WorkMail` service.
     ///
     /// Requests details of a specific Personal Access Token within the WorkMail organization.
     ///
@@ -4092,7 +4092,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAccessControlRules` operation on the `WorkMailService` service.
+    /// Performs the `ListAccessControlRules` operation on the `WorkMail` service.
     ///
     /// Lists the access control rules for the specified organization.
     ///
@@ -4163,7 +4163,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAliases` operation on the `WorkMailService` service.
+    /// Performs the `ListAliases` operation on the `WorkMail` service.
     ///
     /// Creates a paginated call to list the aliases associated with a given entity.
     ///
@@ -4237,7 +4237,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAvailabilityConfigurations` operation on the `WorkMailService` service.
+    /// Performs the `ListAvailabilityConfigurations` operation on the `WorkMail` service.
     ///
     /// List all the AvailabilityConfiguration's for the given WorkMail organization.
     ///
@@ -4309,7 +4309,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListGroupMembers` operation on the `WorkMailService` service.
+    /// Performs the `ListGroupMembers` operation on the `WorkMail` service.
     ///
     /// Returns an overview of the members of a group. Users and groups can be members of a group.
     ///
@@ -4383,7 +4383,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListGroups` operation on the `WorkMailService` service.
+    /// Performs the `ListGroups` operation on the `WorkMail` service.
     ///
     /// Returns summaries of the organization's groups.
     ///
@@ -4456,7 +4456,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListGroupsForEntity` operation on the `WorkMailService` service.
+    /// Performs the `ListGroupsForEntity` operation on the `WorkMail` service.
     ///
     /// Returns all the groups to which an entity belongs.
     ///
@@ -4530,7 +4530,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListImpersonationRoles` operation on the `WorkMailService` service.
+    /// Performs the `ListImpersonationRoles` operation on the `WorkMail` service.
     ///
     /// Lists all the impersonation roles for the given WorkMail organization.
     ///
@@ -4602,7 +4602,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListMailDomains` operation on the `WorkMailService` service.
+    /// Performs the `ListMailDomains` operation on the `WorkMail` service.
     ///
     /// Lists the mail domains in a given WorkMail organization.
     ///
@@ -4674,7 +4674,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListMailboxExportJobs` operation on the `WorkMailService` service.
+    /// Performs the `ListMailboxExportJobs` operation on the `WorkMail` service.
     ///
     /// Lists the mailbox export jobs started for the specified organization within the last seven days.
     ///
@@ -4746,7 +4746,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListMailboxPermissions` operation on the `WorkMailService` service.
+    /// Performs the `ListMailboxPermissions` operation on the `WorkMail` service.
     ///
     /// Lists the mailbox permissions associated with a user, group, or resource mailbox.
     ///
@@ -4819,7 +4819,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListMobileDeviceAccessOverrides` operation on the `WorkMailService` service.
+    /// Performs the `ListMobileDeviceAccessOverrides` operation on the `WorkMail` service.
     ///
     /// Lists all the mobile device access overrides for any given combination of WorkMail organization, user, or device.
     ///
@@ -4892,7 +4892,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListMobileDeviceAccessRules` operation on the `WorkMailService` service.
+    /// Performs the `ListMobileDeviceAccessRules` operation on the `WorkMail` service.
     ///
     /// Lists the mobile device access rules for the specified WorkMail organization.
     ///
@@ -4964,7 +4964,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListOrganizations` operation on the `WorkMailService` service.
+    /// Performs the `ListOrganizations` operation on the `WorkMail` service.
     ///
     /// Returns summaries of the customer's organizations.
     ///
@@ -5034,7 +5034,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListPersonalAccessTokens` operation on the `WorkMailService` service.
+    /// Performs the `ListPersonalAccessTokens` operation on the `WorkMail` service.
     ///
     /// Returns a summary of your Personal Access Tokens.
     ///
@@ -5108,7 +5108,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListResourceDelegates` operation on the `WorkMailService` service.
+    /// Performs the `ListResourceDelegates` operation on the `WorkMail` service.
     ///
     /// Lists the delegates associated with a resource. Users and groups can be resource delegates and answer requests on behalf of the resource.
     ///
@@ -5183,7 +5183,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListResources` operation on the `WorkMailService` service.
+    /// Performs the `ListResources` operation on the `WorkMail` service.
     ///
     /// Returns summaries of the organization's resources.
     ///
@@ -5256,7 +5256,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `WorkMailService` service.
+    /// Performs the `ListTagsForResource` operation on the `WorkMail` service.
     ///
     /// Lists the tags applied to an WorkMail organization resource.
     ///
@@ -5326,7 +5326,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListUsers` operation on the `WorkMailService` service.
+    /// Performs the `ListUsers` operation on the `WorkMail` service.
     ///
     /// Returns summaries of the organization's users.
     ///
@@ -5398,7 +5398,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutAccessControlRule` operation on the `WorkMailService` service.
+    /// Performs the `PutAccessControlRule` operation on the `WorkMail` service.
     ///
     /// Adds a new access control rule for the specified organization. The rule allows or denies access to the organization for the specified IPv4 addresses, access protocol actions, user IDs and impersonation IDs. Adding a new rule with the same name as an existing rule replaces the older rule.
     ///
@@ -5473,7 +5473,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutEmailMonitoringConfiguration` operation on the `WorkMailService` service.
+    /// Performs the `PutEmailMonitoringConfiguration` operation on the `WorkMail` service.
     ///
     /// Creates or updates the email monitoring configuration for a specified organization.
     ///
@@ -5546,7 +5546,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutIdentityProviderConfiguration` operation on the `WorkMailService` service.
+    /// Performs the `PutIdentityProviderConfiguration` operation on the `WorkMail` service.
     ///
     /// Enables integration between IAM Identity Center (IdC) and WorkMail to proxy authentication requests for mailbox users. You can connect your IdC directory or your external directory to WorkMail through IdC and manage access to WorkMail mailboxes in a single place. For enhanced protection, you could enable Multifactor Authentication (MFA) and Personal Access Tokens.
     ///
@@ -5619,7 +5619,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutInboundDmarcSettings` operation on the `WorkMailService` service.
+    /// Performs the `PutInboundDmarcSettings` operation on the `WorkMail` service.
     ///
     /// Enables or disables a DMARC policy for a given organization.
     ///
@@ -5690,7 +5690,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutMailboxPermissions` operation on the `WorkMailService` service.
+    /// Performs the `PutMailboxPermissions` operation on the `WorkMail` service.
     ///
     /// Sets permissions for a user, group, or resource. This replaces any pre-existing permissions.
     ///
@@ -5764,7 +5764,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutMobileDeviceAccessOverride` operation on the `WorkMailService` service.
+    /// Performs the `PutMobileDeviceAccessOverride` operation on the `WorkMail` service.
     ///
     /// Creates or updates a mobile device access override for the given WorkMail organization, user, and device.
     ///
@@ -5838,7 +5838,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutRetentionPolicy` operation on the `WorkMailService` service.
+    /// Performs the `PutRetentionPolicy` operation on the `WorkMail` service.
     ///
     /// Puts a retention policy to the specified organization.
     ///
@@ -5911,7 +5911,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RegisterMailDomain` operation on the `WorkMailService` service.
+    /// Performs the `RegisterMailDomain` operation on the `WorkMail` service.
     ///
     /// Registers a new domain in WorkMail and SES, and configures it for use by WorkMail. Emails received by SES for this domain are routed to the specified WorkMail organization, and WorkMail has permanent permission to use the specified domain for sending your users' emails.
     ///
@@ -5986,7 +5986,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RegisterToWorkMail` operation on the `WorkMailService` service.
+    /// Performs the `RegisterToWorkMail` operation on the `WorkMail` service.
     ///
     /// Registers an existing and disabled user, group, or resource for WorkMail use by associating a mailbox and calendaring capabilities. It performs no change if the user, group, or resource is enabled and fails if the user, group, or resource is deleted. This operation results in the accumulation of costs. For more information, see [Pricing](https://aws.amazon.com/workmail/pricing). The equivalent console functionality for this operation is Enable. Users can either be created by calling the [CreateUser] API operation or they can be synchronized from your directory. For more information, see [DeregisterFromWorkMail].
     ///
@@ -6066,7 +6066,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ResetPassword` operation on the `WorkMailService` service.
+    /// Performs the `ResetPassword` operation on the `WorkMail` service.
     ///
     /// Allows the administrator to reset the password for a user.
     ///
@@ -6144,7 +6144,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartMailboxExportJob` operation on the `WorkMailService` service.
+    /// Performs the `StartMailboxExportJob` operation on the `WorkMail` service.
     ///
     /// Starts a mailbox export job to export MIME-format email messages and calendar items from the specified mailbox to the specified Amazon Simple Storage Service (Amazon S3) bucket. For more information, see [Exporting mailbox content](https://docs.aws.amazon.com/workmail/latest/adminguide/mail-export.html) in the WorkMail Administrator Guide.
     ///
@@ -6219,7 +6219,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `WorkMailService` service.
+    /// Performs the `TagResource` operation on the `WorkMail` service.
     ///
     /// Applies the specified tags to the specified WorkMailorganization resource.
     ///
@@ -6292,7 +6292,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TestAvailabilityConfiguration` operation on the `WorkMailService` service.
+    /// Performs the `TestAvailabilityConfiguration` operation on the `WorkMail` service.
     ///
     /// Performs a test on an availability provider to ensure that access is allowed. For EWS, it verifies the provided credentials can be used to successfully log in. For Lambda, it verifies that the Lambda function can be invoked and that the resource access policy was configured to deny anonymous access. An anonymous invocation is one done without providing either a SourceArn or SourceAccount header. The request must contain either one provider definition (EwsProvider or LambdaProvider) or the DomainName parameter. If the DomainName parameter is provided, the configuration stored under the DomainName will be tested.
     ///
@@ -6365,7 +6365,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `WorkMailService` service.
+    /// Performs the `UntagResource` operation on the `WorkMail` service.
     ///
     /// Untags the specified tags from the specified WorkMail organization resource.
     ///
@@ -6435,7 +6435,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateAvailabilityConfiguration` operation on the `WorkMailService` service.
+    /// Performs the `UpdateAvailabilityConfiguration` operation on the `WorkMail` service.
     ///
     /// Updates an existing AvailabilityConfiguration for the given WorkMail organization and domain.
     ///
@@ -6508,7 +6508,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateDefaultMailDomain` operation on the `WorkMailService` service.
+    /// Performs the `UpdateDefaultMailDomain` operation on the `WorkMail` service.
     ///
     /// Updates the default mail domain for an organization. The default mail domain is used by the WorkMail AWS Console to suggest an email address when enabling a mail user. You can only have one default domain.
     ///
@@ -6582,7 +6582,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateGroup` operation on the `WorkMailService` service.
+    /// Performs the `UpdateGroup` operation on the `WorkMail` service.
     ///
     /// Updates attributes in a group.
     ///
@@ -6657,7 +6657,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateImpersonationRole` operation on the `WorkMailService` service.
+    /// Performs the `UpdateImpersonationRole` operation on the `WorkMail` service.
     ///
     /// Updates an impersonation role for the given WorkMail organization.
     ///
@@ -6733,7 +6733,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateMailboxQuota` operation on the `WorkMailService` service.
+    /// Performs the `UpdateMailboxQuota` operation on the `WorkMail` service.
     ///
     /// Updates a user's current mailbox quota for a specified organization and user.
     ///
@@ -6807,7 +6807,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateMobileDeviceAccessRule` operation on the `WorkMailService` service.
+    /// Performs the `UpdateMobileDeviceAccessRule` operation on the `WorkMail` service.
     ///
     /// Updates a mobile device access rule for the specified WorkMail organization.
     ///
@@ -6880,7 +6880,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdatePrimaryEmailAddress` operation on the `WorkMailService` service.
+    /// Performs the `UpdatePrimaryEmailAddress` operation on the `WorkMail` service.
     ///
     /// Updates the primary email for a user, group, or resource. The current email is moved into the list of aliases (or swapped between an existing alias and the current primary email), and the email provided in the input is promoted as the primary.
     ///
@@ -6960,7 +6960,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateResource` operation on the `WorkMailService` service.
+    /// Performs the `UpdateResource` operation on the `WorkMail` service.
     ///
     /// Updates data for the resource. To have the latest information, it must be preceded by a [DescribeResource] call. The dataset in the request should be the one expected when performing another DescribeResource call.
     ///
@@ -7041,7 +7041,7 @@ extension WorkMailClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateUser` operation on the `WorkMailService` service.
+    /// Performs the `UpdateUser` operation on the `WorkMail` service.
     ///
     /// Updates data for the user. To have the latest information, it must be preceded by a [DescribeUser] call. The dataset in the request should be the one expected when performing another DescribeUser call.
     ///

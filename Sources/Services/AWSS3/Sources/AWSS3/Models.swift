@@ -254,8 +254,7 @@ extension S3ClientTypes {
 
         public init(
             daysAfterInitiation: Swift.Int? = nil
-        )
-        {
+        ) {
             self.daysAfterInitiation = daysAfterInitiation
         }
     }
@@ -326,8 +325,7 @@ public struct AbortMultipartUploadInput: Swift.Sendable {
         key: Swift.String? = nil,
         requestPayer: S3ClientTypes.RequestPayer? = nil,
         uploadId: Swift.String? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.expectedBucketOwner = expectedBucketOwner
         self.ifMatchInitiatedTime = ifMatchInitiatedTime
@@ -370,8 +368,7 @@ public struct AbortMultipartUploadOutput: Swift.Sendable {
 
     public init(
         requestCharged: S3ClientTypes.RequestCharged? = nil
-    )
-    {
+    ) {
         self.requestCharged = requestCharged
     }
 }
@@ -414,8 +411,7 @@ extension S3ClientTypes {
 
         public init(
             status: S3ClientTypes.BucketAccelerateStatus? = nil
-        )
-        {
+        ) {
             self.status = status
         }
     }
@@ -494,8 +490,7 @@ extension S3ClientTypes {
             id: Swift.String? = nil,
             type: S3ClientTypes.ModelType? = nil,
             uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.displayName = displayName
             self.emailAddress = emailAddress
             self.id = id
@@ -555,8 +550,7 @@ extension S3ClientTypes {
         public init(
             grantee: S3ClientTypes.Grantee? = nil,
             permission: S3ClientTypes.Permission? = nil
-        )
-        {
+        ) {
             self.grantee = grantee
             self.permission = permission
         }
@@ -594,8 +588,7 @@ extension S3ClientTypes {
         public init(
             displayName: Swift.String? = nil,
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.displayName = displayName
             self.id = id
         }
@@ -614,8 +607,7 @@ extension S3ClientTypes {
         public init(
             grants: [S3ClientTypes.Grant]? = nil,
             owner: S3ClientTypes.Owner? = nil
-        )
-        {
+        ) {
             self.grants = grants
             self.owner = owner
         }
@@ -658,8 +650,7 @@ extension S3ClientTypes {
 
         public init(
             owner: S3ClientTypes.OwnerOverride? = nil
-        )
-        {
+        ) {
             self.owner = owner
         }
     }
@@ -693,8 +684,7 @@ extension S3ClientTypes {
             checksumSHA256: Swift.String? = nil,
             eTag: Swift.String? = nil,
             partNumber: Swift.Int? = nil
-        )
-        {
+        ) {
             self.checksumCRC32 = checksumCRC32
             self.checksumCRC32C = checksumCRC32C
             self.checksumSHA1 = checksumSHA1
@@ -714,8 +704,7 @@ extension S3ClientTypes {
 
         public init(
             parts: [S3ClientTypes.CompletedPart]? = nil
-        )
-        {
+        ) {
             self.parts = parts
         }
     }
@@ -772,8 +761,7 @@ public struct CompleteMultipartUploadInput: Swift.Sendable {
         sseCustomerKey: Swift.String? = nil,
         sseCustomerKeyMD5: Swift.String? = nil,
         uploadId: Swift.String? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.checksumCRC32 = checksumCRC32
         self.checksumCRC32C = checksumCRC32C
@@ -874,8 +862,7 @@ public struct CompleteMultipartUploadOutput: Swift.Sendable {
         serverSideEncryption: S3ClientTypes.ServerSideEncryption? = nil,
         ssekmsKeyId: Swift.String? = nil,
         versionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.bucketKeyEnabled = bucketKeyEnabled
         self.checksumCRC32 = checksumCRC32
@@ -1403,8 +1390,7 @@ public struct CopyObjectInput: Swift.Sendable {
         tagging: Swift.String? = nil,
         taggingDirective: S3ClientTypes.TaggingDirective? = nil,
         websiteRedirectLocation: Swift.String? = nil
-    )
-    {
+    ) {
         self.acl = acl
         self.bucket = bucket
         self.bucketKeyEnabled = bucketKeyEnabled
@@ -1478,8 +1464,7 @@ extension S3ClientTypes {
             checksumSHA256: Swift.String? = nil,
             eTag: Swift.String? = nil,
             lastModified: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.checksumCRC32 = checksumCRC32
             self.checksumCRC32C = checksumCRC32C
             self.checksumSHA1 = checksumSHA1
@@ -1526,8 +1511,7 @@ public struct CopyObjectOutput: Swift.Sendable {
         ssekmsEncryptionContext: Swift.String? = nil,
         ssekmsKeyId: Swift.String? = nil,
         versionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.bucketKeyEnabled = bucketKeyEnabled
         self.copyObjectResult = copyObjectResult
         self.copySourceVersionId = copySourceVersionId
@@ -1677,8 +1661,7 @@ extension S3ClientTypes {
         public init(
             dataRedundancy: S3ClientTypes.DataRedundancy? = nil,
             type: S3ClientTypes.BucketType? = nil
-        )
-        {
+        ) {
             self.dataRedundancy = dataRedundancy
             self.type = type
         }
@@ -1716,7 +1699,7 @@ extension S3ClientTypes {
 
 extension S3ClientTypes {
 
-    /// Specifies the location where the bucket will be created. For directory buckets, the location type is Availability Zone or Local Zone. For more information about directory buckets, see [Directory buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-buckets-overview.html) in the Amazon S3 User Guide. This functionality is only supported by directory buckets.
+    /// Specifies the location where the bucket will be created. For directory buckets, the location type is Availability Zone or Local Zone. For more information about directory buckets, see [Working with directory buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-buckets-overview.html) in the Amazon S3 User Guide. This functionality is only supported by directory buckets.
     public struct LocationInfo: Swift.Sendable {
         /// The name of the location where the bucket will be created. For directory buckets, the name of the location is the Zone ID of the Availability Zone (AZ) or Local Zone (LZ) where the bucket will be created. An example AZ ID value is usw2-az1.
         public var name: Swift.String?
@@ -1726,8 +1709,7 @@ extension S3ClientTypes {
         public init(
             name: Swift.String? = nil,
             type: S3ClientTypes.LocationType? = nil
-        )
-        {
+        ) {
             self.name = name
             self.type = type
         }
@@ -1847,17 +1829,16 @@ extension S3ClientTypes {
     public struct CreateBucketConfiguration: Swift.Sendable {
         /// Specifies the information about the bucket that will be created. This functionality is only supported by directory buckets.
         public var bucket: S3ClientTypes.BucketInfo?
-        /// Specifies the location where the bucket will be created. Directory buckets - The location type is Availability Zone or Local Zone. When the location type is Local Zone, your Local Zone must be in opt-in status. Otherwise, you get an HTTP 400 Bad Request error with the error code Access denied. To learn more about opt-in Local Zones, see [Opt-in Dedicated Local Zones](https://docs.aws.amazon.com/AmazonS3/latest/userguide/opt-in-directory-bucket-lz.html)in the Amazon S3 User Guide. This functionality is only supported by directory buckets.
+        /// Specifies the location where the bucket will be created. Directory buckets - The location type is Availability Zone or Local Zone. To use the Local Zone location type, your account must be enabled for Dedicated Local Zones. Otherwise, you get an HTTP 403 Forbidden error with the error code AccessDenied. To learn more, see [Enable accounts for Dedicated Local Zones](https://docs.aws.amazon.com/AmazonS3/latest/userguide/opt-in-directory-bucket-lz.html) in the Amazon S3 User Guide. This functionality is only supported by directory buckets.
         public var location: S3ClientTypes.LocationInfo?
-        /// Specifies the Region where the bucket will be created. You might choose a Region to optimize latency, minimize costs, or address regulatory requirements. For example, if you reside in Europe, you will probably find it advantageous to create buckets in the Europe (Ireland) Region. For more information, see [Accessing a bucket](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingBucket.html#access-bucket-intro) in the Amazon S3 User Guide. If you don't specify a Region, the bucket is created in the US East (N. Virginia) Region (us-east-1) by default. This functionality is not supported for directory buckets.
+        /// Specifies the Region where the bucket will be created. You might choose a Region to optimize latency, minimize costs, or address regulatory requirements. For example, if you reside in Europe, you will probably find it advantageous to create buckets in the Europe (Ireland) Region. If you don't specify a Region, the bucket is created in the US East (N. Virginia) Region (us-east-1) by default. For a list of the valid values for all of the Amazon Web Services Regions, see [Regions and Endpoints](https://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region). This functionality is not supported for directory buckets.
         public var locationConstraint: S3ClientTypes.BucketLocationConstraint?
 
         public init(
             bucket: S3ClientTypes.BucketInfo? = nil,
             location: S3ClientTypes.LocationInfo? = nil,
             locationConstraint: S3ClientTypes.BucketLocationConstraint? = nil
-        )
-        {
+        ) {
             self.bucket = bucket
             self.location = location
             self.locationConstraint = locationConstraint
@@ -1932,8 +1913,7 @@ public struct CreateBucketInput: Swift.Sendable {
         grantWriteACP: Swift.String? = nil,
         objectLockEnabledForBucket: Swift.Bool? = nil,
         objectOwnership: S3ClientTypes.ObjectOwnership? = nil
-    )
-    {
+    ) {
         self.acl = acl
         self.bucket = bucket
         self.createBucketConfiguration = createBucketConfiguration
@@ -1953,8 +1933,7 @@ public struct CreateBucketOutput: Swift.Sendable {
 
     public init(
         location: Swift.String? = nil
-    )
-    {
+    ) {
         self.location = location
     }
 }
@@ -1973,8 +1952,7 @@ extension S3ClientTypes {
         public init(
             tableBucketArn: Swift.String? = nil,
             tableName: Swift.String? = nil
-        )
-        {
+        ) {
             self.tableBucketArn = tableBucketArn
             self.tableName = tableName
         }
@@ -1991,8 +1969,7 @@ extension S3ClientTypes {
 
         public init(
             s3TablesDestination: S3ClientTypes.S3TablesDestination? = nil
-        )
-        {
+        ) {
             self.s3TablesDestination = s3TablesDestination
         }
     }
@@ -2018,8 +1995,7 @@ public struct CreateBucketMetadataTableConfigurationInput: Swift.Sendable {
         contentMD5: Swift.String? = nil,
         expectedBucketOwner: Swift.String? = nil,
         metadataTableConfiguration: S3ClientTypes.MetadataTableConfiguration? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.checksumAlgorithm = checksumAlgorithm
         self.contentMD5 = contentMD5
@@ -2261,8 +2237,7 @@ public struct CreateMultipartUploadInput: Swift.Sendable {
         storageClass: S3ClientTypes.StorageClass? = nil,
         tagging: Swift.String? = nil,
         websiteRedirectLocation: Swift.String? = nil
-    )
-    {
+    ) {
         self.acl = acl
         self.bucket = bucket
         self.bucketKeyEnabled = bucketKeyEnabled
@@ -2343,8 +2318,7 @@ public struct CreateMultipartUploadOutput: Swift.Sendable {
         ssekmsEncryptionContext: Swift.String? = nil,
         ssekmsKeyId: Swift.String? = nil,
         uploadId: Swift.String? = nil
-    )
-    {
+    ) {
         self.abortDate = abortDate
         self.abortRuleId = abortRuleId
         self.bucket = bucket
@@ -2431,8 +2405,7 @@ public struct CreateSessionInput: Swift.Sendable {
         sessionMode: S3ClientTypes.SessionMode? = nil,
         ssekmsEncryptionContext: Swift.String? = nil,
         ssekmsKeyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.bucketKeyEnabled = bucketKeyEnabled
         self.serverSideEncryption = serverSideEncryption
@@ -2469,8 +2442,7 @@ extension S3ClientTypes {
             expiration: Foundation.Date? = nil,
             secretAccessKey: Swift.String? = nil,
             sessionToken: Swift.String? = nil
-        )
-        {
+        ) {
             self.accessKeyId = accessKeyId
             self.expiration = expiration
             self.secretAccessKey = secretAccessKey
@@ -2503,8 +2475,7 @@ public struct CreateSessionOutput: Swift.Sendable {
         serverSideEncryption: S3ClientTypes.ServerSideEncryption? = nil,
         ssekmsEncryptionContext: Swift.String? = nil,
         ssekmsKeyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.bucketKeyEnabled = bucketKeyEnabled
         self.credentials = credentials
         self.serverSideEncryption = serverSideEncryption
@@ -2528,8 +2499,7 @@ public struct DeleteBucketInput: Swift.Sendable {
     public init(
         bucket: Swift.String? = nil,
         expectedBucketOwner: Swift.String? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.expectedBucketOwner = expectedBucketOwner
     }
@@ -2549,8 +2519,7 @@ public struct DeleteBucketAnalyticsConfigurationInput: Swift.Sendable {
         bucket: Swift.String? = nil,
         expectedBucketOwner: Swift.String? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.expectedBucketOwner = expectedBucketOwner
         self.id = id
@@ -2567,8 +2536,7 @@ public struct DeleteBucketCorsInput: Swift.Sendable {
     public init(
         bucket: Swift.String? = nil,
         expectedBucketOwner: Swift.String? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.expectedBucketOwner = expectedBucketOwner
     }
@@ -2584,8 +2552,7 @@ public struct DeleteBucketEncryptionInput: Swift.Sendable {
     public init(
         bucket: Swift.String? = nil,
         expectedBucketOwner: Swift.String? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.expectedBucketOwner = expectedBucketOwner
     }
@@ -2602,8 +2569,7 @@ public struct DeleteBucketIntelligentTieringConfigurationInput: Swift.Sendable {
     public init(
         bucket: Swift.String? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.id = id
     }
@@ -2623,8 +2589,7 @@ public struct DeleteBucketInventoryConfigurationInput: Swift.Sendable {
         bucket: Swift.String? = nil,
         expectedBucketOwner: Swift.String? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.expectedBucketOwner = expectedBucketOwner
         self.id = id
@@ -2641,8 +2606,7 @@ public struct DeleteBucketLifecycleInput: Swift.Sendable {
     public init(
         bucket: Swift.String? = nil,
         expectedBucketOwner: Swift.String? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.expectedBucketOwner = expectedBucketOwner
     }
@@ -2658,8 +2622,7 @@ public struct DeleteBucketMetadataTableConfigurationInput: Swift.Sendable {
     public init(
         bucket: Swift.String? = nil,
         expectedBucketOwner: Swift.String? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.expectedBucketOwner = expectedBucketOwner
     }
@@ -2679,8 +2642,7 @@ public struct DeleteBucketMetricsConfigurationInput: Swift.Sendable {
         bucket: Swift.String? = nil,
         expectedBucketOwner: Swift.String? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.expectedBucketOwner = expectedBucketOwner
         self.id = id
@@ -2697,8 +2659,7 @@ public struct DeleteBucketOwnershipControlsInput: Swift.Sendable {
     public init(
         bucket: Swift.String? = nil,
         expectedBucketOwner: Swift.String? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.expectedBucketOwner = expectedBucketOwner
     }
@@ -2714,8 +2675,7 @@ public struct DeleteBucketPolicyInput: Swift.Sendable {
     public init(
         bucket: Swift.String? = nil,
         expectedBucketOwner: Swift.String? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.expectedBucketOwner = expectedBucketOwner
     }
@@ -2731,8 +2691,7 @@ public struct DeleteBucketReplicationInput: Swift.Sendable {
     public init(
         bucket: Swift.String? = nil,
         expectedBucketOwner: Swift.String? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.expectedBucketOwner = expectedBucketOwner
     }
@@ -2748,8 +2707,7 @@ public struct DeleteBucketTaggingInput: Swift.Sendable {
     public init(
         bucket: Swift.String? = nil,
         expectedBucketOwner: Swift.String? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.expectedBucketOwner = expectedBucketOwner
     }
@@ -2765,8 +2723,7 @@ public struct DeleteBucketWebsiteInput: Swift.Sendable {
     public init(
         bucket: Swift.String? = nil,
         expectedBucketOwner: Swift.String? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.expectedBucketOwner = expectedBucketOwner
     }
@@ -2807,8 +2764,7 @@ public struct DeleteObjectInput: Swift.Sendable {
         mfa: Swift.String? = nil,
         requestPayer: S3ClientTypes.RequestPayer? = nil,
         versionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.bypassGovernanceRetention = bypassGovernanceRetention
         self.expectedBucketOwner = expectedBucketOwner
@@ -2834,8 +2790,7 @@ public struct DeleteObjectOutput: Swift.Sendable {
         deleteMarker: Swift.Bool? = nil,
         requestCharged: S3ClientTypes.RequestCharged? = nil,
         versionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.deleteMarker = deleteMarker
         self.requestCharged = requestCharged
         self.versionId = versionId
@@ -2864,8 +2819,7 @@ extension S3ClientTypes {
             lastModifiedTime: Foundation.Date? = nil,
             size: Swift.Int? = nil,
             versionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.eTag = eTag
             self.key = key
             self.lastModifiedTime = lastModifiedTime
@@ -2888,8 +2842,7 @@ extension S3ClientTypes {
         public init(
             objects: [S3ClientTypes.ObjectIdentifier]? = nil,
             quiet: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.objects = objects
             self.quiet = quiet
         }
@@ -2933,8 +2886,7 @@ public struct DeleteObjectsInput: Swift.Sendable {
         expectedBucketOwner: Swift.String? = nil,
         mfa: Swift.String? = nil,
         requestPayer: S3ClientTypes.RequestPayer? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.bypassGovernanceRetention = bypassGovernanceRetention
         self.checksumAlgorithm = checksumAlgorithm
@@ -2963,8 +2915,7 @@ extension S3ClientTypes {
             deleteMarkerVersionId: Swift.String? = nil,
             key: Swift.String? = nil,
             versionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.deleteMarker = deleteMarker
             self.deleteMarkerVersionId = deleteMarkerVersionId
             self.key = key
@@ -4044,8 +3995,7 @@ extension S3ClientTypes {
             key: Swift.String? = nil,
             message: Swift.String? = nil,
             versionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.key = key
             self.message = message
@@ -4066,8 +4016,7 @@ public struct DeleteObjectsOutput: Swift.Sendable {
         deleted: [S3ClientTypes.DeletedObject]? = nil,
         errors: [S3ClientTypes.Error]? = nil,
         requestCharged: S3ClientTypes.RequestCharged? = nil
-    )
-    {
+    ) {
         self.deleted = deleted
         self.errors = errors
         self.requestCharged = requestCharged
@@ -4091,8 +4040,7 @@ public struct DeleteObjectTaggingInput: Swift.Sendable {
         expectedBucketOwner: Swift.String? = nil,
         key: Swift.String? = nil,
         versionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.expectedBucketOwner = expectedBucketOwner
         self.key = key
@@ -4106,8 +4054,7 @@ public struct DeleteObjectTaggingOutput: Swift.Sendable {
 
     public init(
         versionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.versionId = versionId
     }
 }
@@ -4122,8 +4069,7 @@ public struct DeletePublicAccessBlockInput: Swift.Sendable {
     public init(
         bucket: Swift.String? = nil,
         expectedBucketOwner: Swift.String? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.expectedBucketOwner = expectedBucketOwner
     }
@@ -4142,8 +4088,7 @@ public struct GetBucketAccelerateConfigurationInput: Swift.Sendable {
         bucket: Swift.String? = nil,
         expectedBucketOwner: Swift.String? = nil,
         requestPayer: S3ClientTypes.RequestPayer? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.expectedBucketOwner = expectedBucketOwner
         self.requestPayer = requestPayer
@@ -4159,8 +4104,7 @@ public struct GetBucketAccelerateConfigurationOutput: Swift.Sendable {
     public init(
         requestCharged: S3ClientTypes.RequestCharged? = nil,
         status: S3ClientTypes.BucketAccelerateStatus? = nil
-    )
-    {
+    ) {
         self.requestCharged = requestCharged
         self.status = status
     }
@@ -4176,8 +4120,7 @@ public struct GetBucketAclInput: Swift.Sendable {
     public init(
         bucket: Swift.String? = nil,
         expectedBucketOwner: Swift.String? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.expectedBucketOwner = expectedBucketOwner
     }
@@ -4192,8 +4135,7 @@ public struct GetBucketAclOutput: Swift.Sendable {
     public init(
         grants: [S3ClientTypes.Grant]? = nil,
         owner: S3ClientTypes.Owner? = nil
-    )
-    {
+    ) {
         self.grants = grants
         self.owner = owner
     }
@@ -4213,8 +4155,7 @@ public struct GetBucketAnalyticsConfigurationInput: Swift.Sendable {
         bucket: Swift.String? = nil,
         expectedBucketOwner: Swift.String? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.expectedBucketOwner = expectedBucketOwner
         self.id = id
@@ -4235,8 +4176,7 @@ extension S3ClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -4255,8 +4195,7 @@ extension S3ClientTypes {
         public init(
             `prefix`: Swift.String? = nil,
             tags: [S3ClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.`prefix` = `prefix`
             self.tags = tags
         }
@@ -4323,8 +4262,7 @@ extension S3ClientTypes {
             bucketAccountId: Swift.String? = nil,
             format: S3ClientTypes.AnalyticsS3ExportFileFormat? = nil,
             `prefix`: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucket = bucket
             self.bucketAccountId = bucketAccountId
             self.format = format
@@ -4343,8 +4281,7 @@ extension S3ClientTypes {
 
         public init(
             s3BucketDestination: S3ClientTypes.AnalyticsS3BucketDestination? = nil
-        )
-        {
+        ) {
             self.s3BucketDestination = s3BucketDestination
         }
     }
@@ -4390,8 +4327,7 @@ extension S3ClientTypes {
         public init(
             destination: S3ClientTypes.AnalyticsExportDestination? = nil,
             outputSchemaVersion: S3ClientTypes.StorageClassAnalysisSchemaVersion? = nil
-        )
-        {
+        ) {
             self.destination = destination
             self.outputSchemaVersion = outputSchemaVersion
         }
@@ -4407,8 +4343,7 @@ extension S3ClientTypes {
 
         public init(
             dataExport: S3ClientTypes.StorageClassAnalysisDataExport? = nil
-        )
-        {
+        ) {
             self.dataExport = dataExport
         }
     }
@@ -4431,8 +4366,7 @@ extension S3ClientTypes {
             filter: S3ClientTypes.AnalyticsFilter? = nil,
             id: Swift.String? = nil,
             storageClassAnalysis: S3ClientTypes.StorageClassAnalysis? = nil
-        )
-        {
+        ) {
             self.filter = filter
             self.id = id
             self.storageClassAnalysis = storageClassAnalysis
@@ -4446,8 +4380,7 @@ public struct GetBucketAnalyticsConfigurationOutput: Swift.Sendable {
 
     public init(
         analyticsConfiguration: S3ClientTypes.AnalyticsConfiguration? = nil
-    )
-    {
+    ) {
         self.analyticsConfiguration = analyticsConfiguration
     }
 }
@@ -4462,8 +4395,7 @@ public struct GetBucketCorsInput: Swift.Sendable {
     public init(
         bucket: Swift.String? = nil,
         expectedBucketOwner: Swift.String? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.expectedBucketOwner = expectedBucketOwner
     }
@@ -4495,8 +4427,7 @@ extension S3ClientTypes {
             exposeHeaders: [Swift.String]? = nil,
             id: Swift.String? = nil,
             maxAgeSeconds: Swift.Int? = nil
-        )
-        {
+        ) {
             self.allowedHeaders = allowedHeaders
             self.allowedMethods = allowedMethods
             self.allowedOrigins = allowedOrigins
@@ -4513,8 +4444,7 @@ public struct GetBucketCorsOutput: Swift.Sendable {
 
     public init(
         corsRules: [S3ClientTypes.CORSRule]? = nil
-    )
-    {
+    ) {
         self.corsRules = corsRules
     }
 }
@@ -4529,8 +4459,7 @@ public struct GetBucketEncryptionInput: Swift.Sendable {
     public init(
         bucket: Swift.String? = nil,
         expectedBucketOwner: Swift.String? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.expectedBucketOwner = expectedBucketOwner
     }
@@ -4578,8 +4507,7 @@ extension S3ClientTypes {
         public init(
             kmsMasterKeyID: Swift.String? = nil,
             sseAlgorithm: S3ClientTypes.ServerSideEncryption? = nil
-        )
-        {
+        ) {
             self.kmsMasterKeyID = kmsMasterKeyID
             self.sseAlgorithm = sseAlgorithm
         }
@@ -4611,8 +4539,7 @@ extension S3ClientTypes {
         public init(
             applyServerSideEncryptionByDefault: S3ClientTypes.ServerSideEncryptionByDefault? = nil,
             bucketKeyEnabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.applyServerSideEncryptionByDefault = applyServerSideEncryptionByDefault
             self.bucketKeyEnabled = bucketKeyEnabled
         }
@@ -4629,8 +4556,7 @@ extension S3ClientTypes {
 
         public init(
             rules: [S3ClientTypes.ServerSideEncryptionRule]? = nil
-        )
-        {
+        ) {
             self.rules = rules
         }
     }
@@ -4642,8 +4568,7 @@ public struct GetBucketEncryptionOutput: Swift.Sendable {
 
     public init(
         serverSideEncryptionConfiguration: S3ClientTypes.ServerSideEncryptionConfiguration? = nil
-    )
-    {
+    ) {
         self.serverSideEncryptionConfiguration = serverSideEncryptionConfiguration
     }
 }
@@ -4659,8 +4584,7 @@ public struct GetBucketIntelligentTieringConfigurationInput: Swift.Sendable {
     public init(
         bucket: Swift.String? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.id = id
     }
@@ -4678,8 +4602,7 @@ extension S3ClientTypes {
         public init(
             `prefix`: Swift.String? = nil,
             tags: [S3ClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.`prefix` = `prefix`
             self.tags = tags
         }
@@ -4701,8 +4624,7 @@ extension S3ClientTypes {
             and: S3ClientTypes.IntelligentTieringAndOperator? = nil,
             `prefix`: Swift.String? = nil,
             tag: S3ClientTypes.Tag? = nil
-        )
-        {
+        ) {
             self.and = and
             self.`prefix` = `prefix`
             self.tag = tag
@@ -4782,8 +4704,7 @@ extension S3ClientTypes {
         public init(
             accessTier: S3ClientTypes.IntelligentTieringAccessTier? = nil,
             days: Swift.Int? = nil
-        )
-        {
+        ) {
             self.accessTier = accessTier
             self.days = days
         }
@@ -4811,8 +4732,7 @@ extension S3ClientTypes {
             id: Swift.String? = nil,
             status: S3ClientTypes.IntelligentTieringStatus? = nil,
             tierings: [S3ClientTypes.Tiering]? = nil
-        )
-        {
+        ) {
             self.filter = filter
             self.id = id
             self.status = status
@@ -4827,8 +4747,7 @@ public struct GetBucketIntelligentTieringConfigurationOutput: Swift.Sendable {
 
     public init(
         intelligentTieringConfiguration: S3ClientTypes.IntelligentTieringConfiguration? = nil
-    )
-    {
+    ) {
         self.intelligentTieringConfiguration = intelligentTieringConfiguration
     }
 }
@@ -4847,8 +4766,7 @@ public struct GetBucketInventoryConfigurationInput: Swift.Sendable {
         bucket: Swift.String? = nil,
         expectedBucketOwner: Swift.String? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.expectedBucketOwner = expectedBucketOwner
         self.id = id
@@ -4865,8 +4783,7 @@ extension S3ClientTypes {
 
         public init(
             keyId: Swift.String? = nil
-        )
-        {
+        ) {
             self.keyId = keyId
         }
     }
@@ -4898,8 +4815,7 @@ extension S3ClientTypes {
         public init(
             ssekms: S3ClientTypes.SSEKMS? = nil,
             sses3: S3ClientTypes.SSES3? = nil
-        )
-        {
+        ) {
             self.ssekms = ssekms
             self.sses3 = sses3
         }
@@ -4961,8 +4877,7 @@ extension S3ClientTypes {
             encryption: S3ClientTypes.InventoryEncryption? = nil,
             format: S3ClientTypes.InventoryFormat? = nil,
             `prefix`: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.bucket = bucket
             self.encryption = encryption
@@ -4982,8 +4897,7 @@ extension S3ClientTypes {
 
         public init(
             s3BucketDestination: S3ClientTypes.InventoryS3BucketDestination? = nil
-        )
-        {
+        ) {
             self.s3BucketDestination = s3BucketDestination
         }
     }
@@ -4999,8 +4913,7 @@ extension S3ClientTypes {
 
         public init(
             `prefix`: Swift.String? = nil
-        )
-        {
+        ) {
             self.`prefix` = `prefix`
         }
     }
@@ -5142,8 +5055,7 @@ extension S3ClientTypes {
 
         public init(
             frequency: S3ClientTypes.InventoryFrequency? = nil
-        )
-        {
+        ) {
             self.frequency = frequency
         }
     }
@@ -5181,8 +5093,7 @@ extension S3ClientTypes {
             isEnabled: Swift.Bool? = nil,
             optionalFields: [S3ClientTypes.InventoryOptionalField]? = nil,
             schedule: S3ClientTypes.InventorySchedule? = nil
-        )
-        {
+        ) {
             self.destination = destination
             self.filter = filter
             self.id = id
@@ -5200,8 +5111,7 @@ public struct GetBucketInventoryConfigurationOutput: Swift.Sendable {
 
     public init(
         inventoryConfiguration: S3ClientTypes.InventoryConfiguration? = nil
-    )
-    {
+    ) {
         self.inventoryConfiguration = inventoryConfiguration
     }
 }
@@ -5216,8 +5126,7 @@ public struct GetBucketLifecycleConfigurationInput: Swift.Sendable {
     public init(
         bucket: Swift.String? = nil,
         expectedBucketOwner: Swift.String? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.expectedBucketOwner = expectedBucketOwner
     }
@@ -5238,8 +5147,7 @@ extension S3ClientTypes {
             date: Foundation.Date? = nil,
             days: Swift.Int? = nil,
             expiredObjectDeleteMarker: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.date = date
             self.days = days
             self.expiredObjectDeleteMarker = expiredObjectDeleteMarker
@@ -5265,8 +5173,7 @@ extension S3ClientTypes {
             objectSizeLessThan: Swift.Int? = nil,
             `prefix`: Swift.String? = nil,
             tags: [S3ClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.objectSizeGreaterThan = objectSizeGreaterThan
             self.objectSizeLessThan = objectSizeLessThan
             self.`prefix` = `prefix`
@@ -5296,8 +5203,7 @@ extension S3ClientTypes {
             objectSizeLessThan: Swift.Int? = nil,
             `prefix`: Swift.String? = nil,
             tag: S3ClientTypes.Tag? = nil
-        )
-        {
+        ) {
             self.and = and
             self.objectSizeGreaterThan = objectSizeGreaterThan
             self.objectSizeLessThan = objectSizeLessThan
@@ -5319,8 +5225,7 @@ extension S3ClientTypes {
         public init(
             newerNoncurrentVersions: Swift.Int? = nil,
             noncurrentDays: Swift.Int? = nil
-        )
-        {
+        ) {
             self.newerNoncurrentVersions = newerNoncurrentVersions
             self.noncurrentDays = noncurrentDays
         }
@@ -5383,8 +5288,7 @@ extension S3ClientTypes {
             newerNoncurrentVersions: Swift.Int? = nil,
             noncurrentDays: Swift.Int? = nil,
             storageClass: S3ClientTypes.TransitionStorageClass? = nil
-        )
-        {
+        ) {
             self.newerNoncurrentVersions = newerNoncurrentVersions
             self.noncurrentDays = noncurrentDays
             self.storageClass = storageClass
@@ -5436,8 +5340,7 @@ extension S3ClientTypes {
             date: Foundation.Date? = nil,
             days: Swift.Int? = nil,
             storageClass: S3ClientTypes.TransitionStorageClass? = nil
-        )
-        {
+        ) {
             self.date = date
             self.days = days
             self.storageClass = storageClass
@@ -5480,8 +5383,7 @@ extension S3ClientTypes {
             `prefix`: Swift.String? = nil,
             status: S3ClientTypes.ExpirationStatus? = nil,
             transitions: [S3ClientTypes.Transition]? = nil
-        )
-        {
+        ) {
             self.abortIncompleteMultipartUpload = abortIncompleteMultipartUpload
             self.expiration = expiration
             self.filter = filter
@@ -5540,8 +5442,7 @@ public struct GetBucketLifecycleConfigurationOutput: Swift.Sendable {
     public init(
         rules: [S3ClientTypes.LifecycleRule]? = nil,
         transitionDefaultMinimumObjectSize: S3ClientTypes.TransitionDefaultMinimumObjectSize? = nil
-    )
-    {
+    ) {
         self.rules = rules
         self.transitionDefaultMinimumObjectSize = transitionDefaultMinimumObjectSize
     }
@@ -5557,8 +5458,7 @@ public struct GetBucketLocationInput: Swift.Sendable {
     public init(
         bucket: Swift.String? = nil,
         expectedBucketOwner: Swift.String? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.expectedBucketOwner = expectedBucketOwner
     }
@@ -5570,8 +5470,7 @@ public struct GetBucketLocationOutput: Swift.Sendable {
 
     public init(
         locationConstraint: S3ClientTypes.BucketLocationConstraint? = nil
-    )
-    {
+    ) {
         self.locationConstraint = locationConstraint
     }
 }
@@ -5586,8 +5485,7 @@ public struct GetBucketLoggingInput: Swift.Sendable {
     public init(
         bucket: Swift.String? = nil,
         expectedBucketOwner: Swift.String? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.expectedBucketOwner = expectedBucketOwner
     }
@@ -5637,8 +5535,7 @@ extension S3ClientTypes {
         public init(
             grantee: S3ClientTypes.Grantee? = nil,
             permission: S3ClientTypes.BucketLogsPermission? = nil
-        )
-        {
+        ) {
             self.grantee = grantee
             self.permission = permission
         }
@@ -5683,8 +5580,7 @@ extension S3ClientTypes {
 
         public init(
             partitionDateSource: S3ClientTypes.PartitionDateSource? = nil
-        )
-        {
+        ) {
             self.partitionDateSource = partitionDateSource
         }
     }
@@ -5711,8 +5607,7 @@ extension S3ClientTypes {
         public init(
             partitionedPrefix: S3ClientTypes.PartitionedPrefix? = nil,
             simplePrefix: S3ClientTypes.SimplePrefix? = nil
-        )
-        {
+        ) {
             self.partitionedPrefix = partitionedPrefix
             self.simplePrefix = simplePrefix
         }
@@ -5739,8 +5634,7 @@ extension S3ClientTypes {
             targetGrants: [S3ClientTypes.TargetGrant]? = nil,
             targetObjectKeyFormat: S3ClientTypes.TargetObjectKeyFormat? = nil,
             targetPrefix: Swift.String? = nil
-        )
-        {
+        ) {
             self.targetBucket = targetBucket
             self.targetGrants = targetGrants
             self.targetObjectKeyFormat = targetObjectKeyFormat
@@ -5755,8 +5649,7 @@ public struct GetBucketLoggingOutput: Swift.Sendable {
 
     public init(
         loggingEnabled: S3ClientTypes.LoggingEnabled? = nil
-    )
-    {
+    ) {
         self.loggingEnabled = loggingEnabled
     }
 }
@@ -5771,8 +5664,7 @@ public struct GetBucketMetadataTableConfigurationInput: Swift.Sendable {
     public init(
         bucket: Swift.String? = nil,
         expectedBucketOwner: Swift.String? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.expectedBucketOwner = expectedBucketOwner
     }
@@ -5814,8 +5706,7 @@ extension S3ClientTypes {
         public init(
             errorCode: Swift.String? = nil,
             errorMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
         }
@@ -5844,8 +5735,7 @@ extension S3ClientTypes {
             tableBucketArn: Swift.String? = nil,
             tableName: Swift.String? = nil,
             tableNamespace: Swift.String? = nil
-        )
-        {
+        ) {
             self.tableArn = tableArn
             self.tableBucketArn = tableBucketArn
             self.tableName = tableName
@@ -5864,8 +5754,7 @@ extension S3ClientTypes {
 
         public init(
             s3TablesDestinationResult: S3ClientTypes.S3TablesDestinationResult? = nil
-        )
-        {
+        ) {
             self.s3TablesDestinationResult = s3TablesDestinationResult
         }
     }
@@ -5894,8 +5783,7 @@ extension S3ClientTypes {
             error: S3ClientTypes.ErrorDetails? = nil,
             metadataTableConfigurationResult: S3ClientTypes.MetadataTableConfigurationResult? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.error = error
             self.metadataTableConfigurationResult = metadataTableConfigurationResult
             self.status = status
@@ -5909,8 +5797,7 @@ public struct GetBucketMetadataTableConfigurationOutput: Swift.Sendable {
 
     public init(
         getBucketMetadataTableConfigurationResult: S3ClientTypes.GetBucketMetadataTableConfigurationResult? = nil
-    )
-    {
+    ) {
         self.getBucketMetadataTableConfigurationResult = getBucketMetadataTableConfigurationResult
     }
 }
@@ -5929,8 +5816,7 @@ public struct GetBucketMetricsConfigurationInput: Swift.Sendable {
         bucket: Swift.String? = nil,
         expectedBucketOwner: Swift.String? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.expectedBucketOwner = expectedBucketOwner
         self.id = id
@@ -5952,8 +5838,7 @@ extension S3ClientTypes {
             accessPointArn: Swift.String? = nil,
             `prefix`: Swift.String? = nil,
             tags: [S3ClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.accessPointArn = accessPointArn
             self.`prefix` = `prefix`
             self.tags = tags
@@ -5990,8 +5875,7 @@ extension S3ClientTypes {
         public init(
             filter: S3ClientTypes.MetricsFilter? = nil,
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.filter = filter
             self.id = id
         }
@@ -6004,8 +5888,7 @@ public struct GetBucketMetricsConfigurationOutput: Swift.Sendable {
 
     public init(
         metricsConfiguration: S3ClientTypes.MetricsConfiguration? = nil
-    )
-    {
+    ) {
         self.metricsConfiguration = metricsConfiguration
     }
 }
@@ -6020,8 +5903,7 @@ public struct GetBucketNotificationConfigurationInput: Swift.Sendable {
     public init(
         bucket: Swift.String? = nil,
         expectedBucketOwner: Swift.String? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.expectedBucketOwner = expectedBucketOwner
     }
@@ -6182,8 +6064,7 @@ extension S3ClientTypes {
         public init(
             name: S3ClientTypes.FilterRuleName? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -6199,8 +6080,7 @@ extension S3ClientTypes {
 
         public init(
             filterRules: [S3ClientTypes.FilterRule]? = nil
-        )
-        {
+        ) {
             self.filterRules = filterRules
         }
     }
@@ -6215,8 +6095,7 @@ extension S3ClientTypes {
 
         public init(
             key: S3ClientTypes.S3KeyFilter? = nil
-        )
-        {
+        ) {
             self.key = key
         }
     }
@@ -6242,8 +6121,7 @@ extension S3ClientTypes {
             filter: S3ClientTypes.NotificationConfigurationFilter? = nil,
             id: Swift.String? = nil,
             lambdaFunctionArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.events = events
             self.filter = filter
             self.id = id
@@ -6272,8 +6150,7 @@ extension S3ClientTypes {
             filter: S3ClientTypes.NotificationConfigurationFilter? = nil,
             id: Swift.String? = nil,
             queueArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.events = events
             self.filter = filter
             self.id = id
@@ -6302,8 +6179,7 @@ extension S3ClientTypes {
             filter: S3ClientTypes.NotificationConfigurationFilter? = nil,
             id: Swift.String? = nil,
             topicArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.events = events
             self.filter = filter
             self.id = id
@@ -6328,8 +6204,7 @@ public struct GetBucketNotificationConfigurationOutput: Swift.Sendable {
         lambdaFunctionConfigurations: [S3ClientTypes.LambdaFunctionConfiguration]? = nil,
         queueConfigurations: [S3ClientTypes.QueueConfiguration]? = nil,
         topicConfigurations: [S3ClientTypes.TopicConfiguration]? = nil
-    )
-    {
+    ) {
         self.eventBridgeConfiguration = eventBridgeConfiguration
         self.lambdaFunctionConfigurations = lambdaFunctionConfigurations
         self.queueConfigurations = queueConfigurations
@@ -6347,8 +6222,7 @@ public struct GetBucketOwnershipControlsInput: Swift.Sendable {
     public init(
         bucket: Swift.String? = nil,
         expectedBucketOwner: Swift.String? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.expectedBucketOwner = expectedBucketOwner
     }
@@ -6364,8 +6238,7 @@ extension S3ClientTypes {
 
         public init(
             objectOwnership: S3ClientTypes.ObjectOwnership? = nil
-        )
-        {
+        ) {
             self.objectOwnership = objectOwnership
         }
     }
@@ -6381,8 +6254,7 @@ extension S3ClientTypes {
 
         public init(
             rules: [S3ClientTypes.OwnershipControlsRule]? = nil
-        )
-        {
+        ) {
             self.rules = rules
         }
     }
@@ -6394,8 +6266,7 @@ public struct GetBucketOwnershipControlsOutput: Swift.Sendable {
 
     public init(
         ownershipControls: S3ClientTypes.OwnershipControls? = nil
-    )
-    {
+    ) {
         self.ownershipControls = ownershipControls
     }
 }
@@ -6410,8 +6281,7 @@ public struct GetBucketPolicyInput: Swift.Sendable {
     public init(
         bucket: Swift.String? = nil,
         expectedBucketOwner: Swift.String? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.expectedBucketOwner = expectedBucketOwner
     }
@@ -6423,8 +6293,7 @@ public struct GetBucketPolicyOutput: Swift.Sendable {
 
     public init(
         policy: Swift.String? = nil
-    )
-    {
+    ) {
         self.policy = policy
     }
 }
@@ -6439,8 +6308,7 @@ public struct GetBucketPolicyStatusInput: Swift.Sendable {
     public init(
         bucket: Swift.String? = nil,
         expectedBucketOwner: Swift.String? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.expectedBucketOwner = expectedBucketOwner
     }
@@ -6455,8 +6323,7 @@ extension S3ClientTypes {
 
         public init(
             isPublic: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.isPublic = isPublic
         }
     }
@@ -6468,8 +6335,7 @@ public struct GetBucketPolicyStatusOutput: Swift.Sendable {
 
     public init(
         policyStatus: S3ClientTypes.PolicyStatus? = nil
-    )
-    {
+    ) {
         self.policyStatus = policyStatus
     }
 }
@@ -6484,8 +6350,7 @@ public struct GetBucketReplicationInput: Swift.Sendable {
     public init(
         bucket: Swift.String? = nil,
         expectedBucketOwner: Swift.String? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.expectedBucketOwner = expectedBucketOwner
     }
@@ -6529,8 +6394,7 @@ extension S3ClientTypes {
 
         public init(
             status: S3ClientTypes.DeleteMarkerReplicationStatus? = nil
-        )
-        {
+        ) {
             self.status = status
         }
     }
@@ -6545,8 +6409,7 @@ extension S3ClientTypes {
 
         public init(
             replicaKmsKeyID: Swift.String? = nil
-        )
-        {
+        ) {
             self.replicaKmsKeyID = replicaKmsKeyID
         }
     }
@@ -6561,8 +6424,7 @@ extension S3ClientTypes {
 
         public init(
             minutes: Swift.Int? = nil
-        )
-        {
+        ) {
             self.minutes = minutes
         }
     }
@@ -6610,8 +6472,7 @@ extension S3ClientTypes {
         public init(
             eventThreshold: S3ClientTypes.ReplicationTimeValue? = nil,
             status: S3ClientTypes.MetricsStatus? = nil
-        )
-        {
+        ) {
             self.eventThreshold = eventThreshold
             self.status = status
         }
@@ -6661,8 +6522,7 @@ extension S3ClientTypes {
         public init(
             status: S3ClientTypes.ReplicationTimeStatus? = nil,
             time: S3ClientTypes.ReplicationTimeValue? = nil
-        )
-        {
+        ) {
             self.status = status
             self.time = time
         }
@@ -6697,8 +6557,7 @@ extension S3ClientTypes {
             metrics: S3ClientTypes.Metrics? = nil,
             replicationTime: S3ClientTypes.ReplicationTime? = nil,
             storageClass: S3ClientTypes.StorageClass? = nil
-        )
-        {
+        ) {
             self.accessControlTranslation = accessControlTranslation
             self.account = account
             self.bucket = bucket
@@ -6749,8 +6608,7 @@ extension S3ClientTypes {
 
         public init(
             status: S3ClientTypes.ExistingObjectReplicationStatus? = nil
-        )
-        {
+        ) {
             self.status = status
         }
     }
@@ -6772,8 +6630,7 @@ extension S3ClientTypes {
         public init(
             `prefix`: Swift.String? = nil,
             tags: [S3ClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.`prefix` = `prefix`
             self.tags = tags
         }
@@ -6799,8 +6656,7 @@ extension S3ClientTypes {
             and: S3ClientTypes.ReplicationRuleAndOperator? = nil,
             `prefix`: Swift.String? = nil,
             tag: S3ClientTypes.Tag? = nil
-        )
-        {
+        ) {
             self.and = and
             self.`prefix` = `prefix`
             self.tag = tag
@@ -6847,8 +6703,7 @@ extension S3ClientTypes {
 
         public init(
             status: S3ClientTypes.ReplicaModificationsStatus? = nil
-        )
-        {
+        ) {
             self.status = status
         }
     }
@@ -6893,8 +6748,7 @@ extension S3ClientTypes {
 
         public init(
             status: S3ClientTypes.SseKmsEncryptedObjectsStatus? = nil
-        )
-        {
+        ) {
             self.status = status
         }
     }
@@ -6912,8 +6766,7 @@ extension S3ClientTypes {
         public init(
             replicaModifications: S3ClientTypes.ReplicaModifications? = nil,
             sseKmsEncryptedObjects: S3ClientTypes.SseKmsEncryptedObjects? = nil
-        )
-        {
+        ) {
             self.replicaModifications = replicaModifications
             self.sseKmsEncryptedObjects = sseKmsEncryptedObjects
         }
@@ -6985,8 +6838,7 @@ extension S3ClientTypes {
             priority: Swift.Int? = nil,
             sourceSelectionCriteria: S3ClientTypes.SourceSelectionCriteria? = nil,
             status: S3ClientTypes.ReplicationRuleStatus? = nil
-        )
-        {
+        ) {
             self.deleteMarkerReplication = deleteMarkerReplication
             self.destination = destination
             self.existingObjectReplication = existingObjectReplication
@@ -7014,8 +6866,7 @@ extension S3ClientTypes {
         public init(
             role: Swift.String? = nil,
             rules: [S3ClientTypes.ReplicationRule]? = nil
-        )
-        {
+        ) {
             self.role = role
             self.rules = rules
         }
@@ -7028,8 +6879,7 @@ public struct GetBucketReplicationOutput: Swift.Sendable {
 
     public init(
         replicationConfiguration: S3ClientTypes.ReplicationConfiguration? = nil
-    )
-    {
+    ) {
         self.replicationConfiguration = replicationConfiguration
     }
 }
@@ -7044,8 +6894,7 @@ public struct GetBucketRequestPaymentInput: Swift.Sendable {
     public init(
         bucket: Swift.String? = nil,
         expectedBucketOwner: Swift.String? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.expectedBucketOwner = expectedBucketOwner
     }
@@ -7086,8 +6935,7 @@ public struct GetBucketRequestPaymentOutput: Swift.Sendable {
 
     public init(
         payer: S3ClientTypes.Payer? = nil
-    )
-    {
+    ) {
         self.payer = payer
     }
 }
@@ -7102,8 +6950,7 @@ public struct GetBucketTaggingInput: Swift.Sendable {
     public init(
         bucket: Swift.String? = nil,
         expectedBucketOwner: Swift.String? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.expectedBucketOwner = expectedBucketOwner
     }
@@ -7116,8 +6963,7 @@ public struct GetBucketTaggingOutput: Swift.Sendable {
 
     public init(
         tagSet: [S3ClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tagSet = tagSet
     }
 }
@@ -7132,8 +6978,7 @@ public struct GetBucketVersioningInput: Swift.Sendable {
     public init(
         bucket: Swift.String? = nil,
         expectedBucketOwner: Swift.String? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.expectedBucketOwner = expectedBucketOwner
     }
@@ -7206,8 +7051,7 @@ public struct GetBucketVersioningOutput: Swift.Sendable {
     public init(
         mfaDelete: S3ClientTypes.MFADeleteStatus? = nil,
         status: S3ClientTypes.BucketVersioningStatus? = nil
-    )
-    {
+    ) {
         self.mfaDelete = mfaDelete
         self.status = status
     }
@@ -7223,8 +7067,7 @@ public struct GetBucketWebsiteInput: Swift.Sendable {
     public init(
         bucket: Swift.String? = nil,
         expectedBucketOwner: Swift.String? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.expectedBucketOwner = expectedBucketOwner
     }
@@ -7240,8 +7083,7 @@ extension S3ClientTypes {
 
         public init(
             key: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
         }
     }
@@ -7257,8 +7099,7 @@ extension S3ClientTypes {
 
         public init(
             suffix: Swift.String? = nil
-        )
-        {
+        ) {
             self.suffix = suffix
         }
     }
@@ -7306,8 +7147,7 @@ extension S3ClientTypes {
         public init(
             hostName: Swift.String? = nil,
             `protocol`: S3ClientTypes.ModelProtocol? = nil
-        )
-        {
+        ) {
             self.hostName = hostName
             self.`protocol` = `protocol`
         }
@@ -7326,8 +7166,7 @@ extension S3ClientTypes {
         public init(
             httpErrorCodeReturnedEquals: Swift.String? = nil,
             keyPrefixEquals: Swift.String? = nil
-        )
-        {
+        ) {
             self.httpErrorCodeReturnedEquals = httpErrorCodeReturnedEquals
             self.keyPrefixEquals = keyPrefixEquals
         }
@@ -7355,8 +7194,7 @@ extension S3ClientTypes {
             `protocol`: S3ClientTypes.ModelProtocol? = nil,
             replaceKeyPrefixWith: Swift.String? = nil,
             replaceKeyWith: Swift.String? = nil
-        )
-        {
+        ) {
             self.hostName = hostName
             self.httpRedirectCode = httpRedirectCode
             self.`protocol` = `protocol`
@@ -7379,8 +7217,7 @@ extension S3ClientTypes {
         public init(
             condition: S3ClientTypes.Condition? = nil,
             redirect: S3ClientTypes.Redirect? = nil
-        )
-        {
+        ) {
             self.condition = condition
             self.redirect = redirect
         }
@@ -7402,8 +7239,7 @@ public struct GetBucketWebsiteOutput: Swift.Sendable {
         indexDocument: S3ClientTypes.IndexDocument? = nil,
         redirectAllRequestsTo: S3ClientTypes.RedirectAllRequestsTo? = nil,
         routingRules: [S3ClientTypes.RoutingRule]? = nil
-    )
-    {
+    ) {
         self.errorDocument = errorDocument
         self.indexDocument = indexDocument
         self.redirectAllRequestsTo = redirectAllRequestsTo
@@ -7432,8 +7268,7 @@ public struct InvalidObjectState: ClientRuntime.ModeledError, AWSClientRuntime.A
     public init(
         accessTier: S3ClientTypes.IntelligentTieringAccessTier? = nil,
         storageClass: S3ClientTypes.StorageClass? = nil
-    )
-    {
+    ) {
         self.properties.accessTier = accessTier
         self.properties.storageClass = storageClass
     }
@@ -7583,8 +7418,7 @@ public struct GetObjectInput: Swift.Sendable {
         sseCustomerKey: Swift.String? = nil,
         sseCustomerKeyMD5: Swift.String? = nil,
         versionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.checksumMode = checksumMode
         self.expectedBucketOwner = expectedBucketOwner
@@ -7767,8 +7601,7 @@ public struct GetObjectOutput: Swift.Sendable {
         tagCount: Swift.Int? = nil,
         versionId: Swift.String? = nil,
         websiteRedirectLocation: Swift.String? = nil
-    )
-    {
+    ) {
         self.acceptRanges = acceptRanges
         self.body = body
         self.bucketKeyEnabled = bucketKeyEnabled
@@ -7833,8 +7666,7 @@ public struct GetObjectAclInput: Swift.Sendable {
         key: Swift.String? = nil,
         requestPayer: S3ClientTypes.RequestPayer? = nil,
         versionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.expectedBucketOwner = expectedBucketOwner
         self.key = key
@@ -7855,8 +7687,7 @@ public struct GetObjectAclOutput: Swift.Sendable {
         grants: [S3ClientTypes.Grant]? = nil,
         owner: S3ClientTypes.Owner? = nil,
         requestCharged: S3ClientTypes.RequestCharged? = nil
-    )
-    {
+    ) {
         self.grants = grants
         self.owner = owner
         self.requestCharged = requestCharged
@@ -7940,8 +7771,7 @@ public struct GetObjectAttributesInput: Swift.Sendable {
         sseCustomerKey: Swift.String? = nil,
         sseCustomerKeyMD5: Swift.String? = nil,
         versionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.expectedBucketOwner = expectedBucketOwner
         self.key = key
@@ -7979,8 +7809,7 @@ extension S3ClientTypes {
             checksumCRC32C: Swift.String? = nil,
             checksumSHA1: Swift.String? = nil,
             checksumSHA256: Swift.String? = nil
-        )
-        {
+        ) {
             self.checksumCRC32 = checksumCRC32
             self.checksumCRC32C = checksumCRC32C
             self.checksumSHA1 = checksumSHA1
@@ -8013,8 +7842,7 @@ extension S3ClientTypes {
             checksumSHA256: Swift.String? = nil,
             partNumber: Swift.Int? = nil,
             size: Swift.Int? = nil
-        )
-        {
+        ) {
             self.checksumCRC32 = checksumCRC32
             self.checksumCRC32C = checksumCRC32C
             self.checksumSHA1 = checksumSHA1
@@ -8053,8 +7881,7 @@ extension S3ClientTypes {
             partNumberMarker: Swift.String? = nil,
             parts: [S3ClientTypes.ObjectPart]? = nil,
             totalPartsCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.isTruncated = isTruncated
             self.maxParts = maxParts
             self.nextPartNumberMarker = nextPartNumberMarker
@@ -8095,8 +7922,7 @@ public struct GetObjectAttributesOutput: Swift.Sendable {
         requestCharged: S3ClientTypes.RequestCharged? = nil,
         storageClass: S3ClientTypes.StorageClass? = nil,
         versionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.checksum = checksum
         self.deleteMarker = deleteMarker
         self.eTag = eTag
@@ -8129,8 +7955,7 @@ public struct GetObjectLegalHoldInput: Swift.Sendable {
         key: Swift.String? = nil,
         requestPayer: S3ClientTypes.RequestPayer? = nil,
         versionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.expectedBucketOwner = expectedBucketOwner
         self.key = key
@@ -8148,8 +7973,7 @@ extension S3ClientTypes {
 
         public init(
             status: S3ClientTypes.ObjectLockLegalHoldStatus? = nil
-        )
-        {
+        ) {
             self.status = status
         }
     }
@@ -8161,8 +7985,7 @@ public struct GetObjectLegalHoldOutput: Swift.Sendable {
 
     public init(
         legalHold: S3ClientTypes.ObjectLockLegalHold? = nil
-    )
-    {
+    ) {
         self.legalHold = legalHold
     }
 }
@@ -8177,8 +8000,7 @@ public struct GetObjectLockConfigurationInput: Swift.Sendable {
     public init(
         bucket: Swift.String? = nil,
         expectedBucketOwner: Swift.String? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.expectedBucketOwner = expectedBucketOwner
     }
@@ -8258,8 +8080,7 @@ extension S3ClientTypes {
             days: Swift.Int? = nil,
             mode: S3ClientTypes.ObjectLockRetentionMode? = nil,
             years: Swift.Int? = nil
-        )
-        {
+        ) {
             self.days = days
             self.mode = mode
             self.years = years
@@ -8276,8 +8097,7 @@ extension S3ClientTypes {
 
         public init(
             defaultRetention: S3ClientTypes.DefaultRetention? = nil
-        )
-        {
+        ) {
             self.defaultRetention = defaultRetention
         }
     }
@@ -8295,8 +8115,7 @@ extension S3ClientTypes {
         public init(
             objectLockEnabled: S3ClientTypes.ObjectLockEnabled? = nil,
             rule: S3ClientTypes.ObjectLockRule? = nil
-        )
-        {
+        ) {
             self.objectLockEnabled = objectLockEnabled
             self.rule = rule
         }
@@ -8309,8 +8128,7 @@ public struct GetObjectLockConfigurationOutput: Swift.Sendable {
 
     public init(
         objectLockConfiguration: S3ClientTypes.ObjectLockConfiguration? = nil
-    )
-    {
+    ) {
         self.objectLockConfiguration = objectLockConfiguration
     }
 }
@@ -8335,8 +8153,7 @@ public struct GetObjectRetentionInput: Swift.Sendable {
         key: Swift.String? = nil,
         requestPayer: S3ClientTypes.RequestPayer? = nil,
         versionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.expectedBucketOwner = expectedBucketOwner
         self.key = key
@@ -8357,8 +8174,7 @@ extension S3ClientTypes {
         public init(
             mode: S3ClientTypes.ObjectLockRetentionMode? = nil,
             retainUntilDate: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.mode = mode
             self.retainUntilDate = retainUntilDate
         }
@@ -8371,8 +8187,7 @@ public struct GetObjectRetentionOutput: Swift.Sendable {
 
     public init(
         retention: S3ClientTypes.ObjectLockRetention? = nil
-    )
-    {
+    ) {
         self.retention = retention
     }
 }
@@ -8397,8 +8212,7 @@ public struct GetObjectTaggingInput: Swift.Sendable {
         key: Swift.String? = nil,
         requestPayer: S3ClientTypes.RequestPayer? = nil,
         versionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.expectedBucketOwner = expectedBucketOwner
         self.key = key
@@ -8417,8 +8231,7 @@ public struct GetObjectTaggingOutput: Swift.Sendable {
     public init(
         tagSet: [S3ClientTypes.Tag]? = nil,
         versionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.tagSet = tagSet
         self.versionId = versionId
     }
@@ -8441,8 +8254,7 @@ public struct GetObjectTorrentInput: Swift.Sendable {
         expectedBucketOwner: Swift.String? = nil,
         key: Swift.String? = nil,
         requestPayer: S3ClientTypes.RequestPayer? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.expectedBucketOwner = expectedBucketOwner
         self.key = key
@@ -8459,8 +8271,7 @@ public struct GetObjectTorrentOutput: Swift.Sendable {
     public init(
         body: Smithy.ByteStream? = Smithy.ByteStream.data(Foundation.Data(base64Encoded: "")),
         requestCharged: S3ClientTypes.RequestCharged? = nil
-    )
-    {
+    ) {
         self.body = body
         self.requestCharged = requestCharged
     }
@@ -8476,8 +8287,7 @@ public struct GetPublicAccessBlockInput: Swift.Sendable {
     public init(
         bucket: Swift.String? = nil,
         expectedBucketOwner: Swift.String? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.expectedBucketOwner = expectedBucketOwner
     }
@@ -8510,8 +8320,7 @@ extension S3ClientTypes {
             blockPublicPolicy: Swift.Bool? = nil,
             ignorePublicAcls: Swift.Bool? = nil,
             restrictPublicBuckets: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.blockPublicAcls = blockPublicAcls
             self.blockPublicPolicy = blockPublicPolicy
             self.ignorePublicAcls = ignorePublicAcls
@@ -8526,8 +8335,7 @@ public struct GetPublicAccessBlockOutput: Swift.Sendable {
 
     public init(
         publicAccessBlockConfiguration: S3ClientTypes.PublicAccessBlockConfiguration? = nil
-    )
-    {
+    ) {
         self.publicAccessBlockConfiguration = publicAccessBlockConfiguration
     }
 }
@@ -8556,8 +8364,7 @@ public struct HeadBucketInput: Swift.Sendable {
     public init(
         bucket: Swift.String? = nil,
         expectedBucketOwner: Swift.String? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.expectedBucketOwner = expectedBucketOwner
     }
@@ -8578,8 +8385,7 @@ public struct HeadBucketOutput: Swift.Sendable {
         bucketLocationName: Swift.String? = nil,
         bucketLocationType: S3ClientTypes.LocationType? = nil,
         bucketRegion: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessPointAlias = accessPointAlias
         self.bucketLocationName = bucketLocationName
         self.bucketLocationType = bucketLocationType
@@ -8683,8 +8489,7 @@ public struct HeadObjectInput: Swift.Sendable {
         sseCustomerKey: Swift.String? = nil,
         sseCustomerKeyMD5: Swift.String? = nil,
         versionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.checksumMode = checksumMode
         self.expectedBucketOwner = expectedBucketOwner
@@ -8857,8 +8662,7 @@ public struct HeadObjectOutput: Swift.Sendable {
         storageClass: S3ClientTypes.StorageClass? = nil,
         versionId: Swift.String? = nil,
         websiteRedirectLocation: Swift.String? = nil
-    )
-    {
+    ) {
         self.acceptRanges = acceptRanges
         self.archiveStatus = archiveStatus
         self.bucketKeyEnabled = bucketKeyEnabled
@@ -8914,8 +8718,7 @@ public struct ListBucketAnalyticsConfigurationsInput: Swift.Sendable {
         bucket: Swift.String? = nil,
         continuationToken: Swift.String? = nil,
         expectedBucketOwner: Swift.String? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.continuationToken = continuationToken
         self.expectedBucketOwner = expectedBucketOwner
@@ -8937,8 +8740,7 @@ public struct ListBucketAnalyticsConfigurationsOutput: Swift.Sendable {
         continuationToken: Swift.String? = nil,
         isTruncated: Swift.Bool? = nil,
         nextContinuationToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.analyticsConfigurationList = analyticsConfigurationList
         self.continuationToken = continuationToken
         self.isTruncated = isTruncated
@@ -8956,8 +8758,7 @@ public struct ListBucketIntelligentTieringConfigurationsInput: Swift.Sendable {
     public init(
         bucket: Swift.String? = nil,
         continuationToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.continuationToken = continuationToken
     }
@@ -8978,8 +8779,7 @@ public struct ListBucketIntelligentTieringConfigurationsOutput: Swift.Sendable {
         intelligentTieringConfigurationList: [S3ClientTypes.IntelligentTieringConfiguration]? = nil,
         isTruncated: Swift.Bool? = nil,
         nextContinuationToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.continuationToken = continuationToken
         self.intelligentTieringConfigurationList = intelligentTieringConfigurationList
         self.isTruncated = isTruncated
@@ -9000,8 +8800,7 @@ public struct ListBucketInventoryConfigurationsInput: Swift.Sendable {
         bucket: Swift.String? = nil,
         continuationToken: Swift.String? = nil,
         expectedBucketOwner: Swift.String? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.continuationToken = continuationToken
         self.expectedBucketOwner = expectedBucketOwner
@@ -9023,8 +8822,7 @@ public struct ListBucketInventoryConfigurationsOutput: Swift.Sendable {
         inventoryConfigurationList: [S3ClientTypes.InventoryConfiguration]? = nil,
         isTruncated: Swift.Bool? = nil,
         nextContinuationToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.continuationToken = continuationToken
         self.inventoryConfigurationList = inventoryConfigurationList
         self.isTruncated = isTruncated
@@ -9045,8 +8843,7 @@ public struct ListBucketMetricsConfigurationsInput: Swift.Sendable {
         bucket: Swift.String? = nil,
         continuationToken: Swift.String? = nil,
         expectedBucketOwner: Swift.String? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.continuationToken = continuationToken
         self.expectedBucketOwner = expectedBucketOwner
@@ -9068,8 +8865,7 @@ public struct ListBucketMetricsConfigurationsOutput: Swift.Sendable {
         isTruncated: Swift.Bool? = nil,
         metricsConfigurationList: [S3ClientTypes.MetricsConfiguration]? = nil,
         nextContinuationToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.continuationToken = continuationToken
         self.isTruncated = isTruncated
         self.metricsConfigurationList = metricsConfigurationList
@@ -9092,8 +8888,7 @@ public struct ListBucketsInput: Swift.Sendable {
         continuationToken: Swift.String? = nil,
         maxBuckets: Swift.Int? = nil,
         `prefix`: Swift.String? = nil
-    )
-    {
+    ) {
         self.bucketRegion = bucketRegion
         self.continuationToken = continuationToken
         self.maxBuckets = maxBuckets
@@ -9116,8 +8911,7 @@ extension S3ClientTypes {
             bucketRegion: Swift.String? = nil,
             creationDate: Foundation.Date? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucketRegion = bucketRegion
             self.creationDate = creationDate
             self.name = name
@@ -9140,8 +8934,7 @@ public struct ListBucketsOutput: Swift.Sendable {
         continuationToken: Swift.String? = nil,
         owner: S3ClientTypes.Owner? = nil,
         `prefix`: Swift.String? = nil
-    )
-    {
+    ) {
         self.buckets = buckets
         self.continuationToken = continuationToken
         self.owner = owner
@@ -9158,8 +8951,7 @@ public struct ListDirectoryBucketsInput: Swift.Sendable {
     public init(
         continuationToken: Swift.String? = nil,
         maxDirectoryBuckets: Swift.Int? = nil
-    )
-    {
+    ) {
         self.continuationToken = continuationToken
         self.maxDirectoryBuckets = maxDirectoryBuckets
     }
@@ -9174,8 +8966,7 @@ public struct ListDirectoryBucketsOutput: Swift.Sendable {
     public init(
         buckets: [S3ClientTypes.Bucket]? = nil,
         continuationToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.buckets = buckets
         self.continuationToken = continuationToken
     }
@@ -9243,8 +9034,7 @@ public struct ListMultipartUploadsInput: Swift.Sendable {
         `prefix`: Swift.String? = nil,
         requestPayer: S3ClientTypes.RequestPayer? = nil,
         uploadIdMarker: Swift.String? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.delimiter = delimiter
         self.encodingType = encodingType
@@ -9266,8 +9056,7 @@ extension S3ClientTypes {
 
         public init(
             `prefix`: Swift.String? = nil
-        )
-        {
+        ) {
             self.`prefix` = `prefix`
         }
     }
@@ -9285,8 +9074,7 @@ extension S3ClientTypes {
         public init(
             displayName: Swift.String? = nil,
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.displayName = displayName
             self.id = id
         }
@@ -9320,8 +9108,7 @@ extension S3ClientTypes {
             owner: S3ClientTypes.Owner? = nil,
             storageClass: S3ClientTypes.StorageClass? = nil,
             uploadId: Swift.String? = nil
-        )
-        {
+        ) {
             self.checksumAlgorithm = checksumAlgorithm
             self.initiated = initiated
             self.initiator = initiator
@@ -9375,8 +9162,7 @@ public struct ListMultipartUploadsOutput: Swift.Sendable {
         requestCharged: S3ClientTypes.RequestCharged? = nil,
         uploadIdMarker: Swift.String? = nil,
         uploads: [S3ClientTypes.MultipartUpload]? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.commonPrefixes = commonPrefixes
         self.delimiter = delimiter
@@ -9450,8 +9236,7 @@ public struct ListObjectsInput: Swift.Sendable {
         optionalObjectAttributes: [S3ClientTypes.OptionalObjectAttributes]? = nil,
         `prefix`: Swift.String? = nil,
         requestPayer: S3ClientTypes.RequestPayer? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.delimiter = delimiter
         self.encodingType = encodingType
@@ -9476,8 +9261,7 @@ extension S3ClientTypes {
         public init(
             isRestoreInProgress: Swift.Bool? = nil,
             restoreExpiryDate: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.isRestoreInProgress = isRestoreInProgress
             self.restoreExpiryDate = restoreExpiryDate
         }
@@ -9579,8 +9363,7 @@ extension S3ClientTypes {
             restoreStatus: S3ClientTypes.RestoreStatus? = nil,
             size: Swift.Int? = nil,
             storageClass: S3ClientTypes.ObjectStorageClass? = nil
-        )
-        {
+        ) {
             self.checksumAlgorithm = checksumAlgorithm
             self.eTag = eTag
             self.key = key
@@ -9629,8 +9412,7 @@ public struct ListObjectsOutput: Swift.Sendable {
         nextMarker: Swift.String? = nil,
         `prefix`: Swift.String? = nil,
         requestCharged: S3ClientTypes.RequestCharged? = nil
-    )
-    {
+    ) {
         self.commonPrefixes = commonPrefixes
         self.contents = contents
         self.delimiter = delimiter
@@ -9686,8 +9468,7 @@ public struct ListObjectsV2Input: Swift.Sendable {
         `prefix`: Swift.String? = nil,
         requestPayer: S3ClientTypes.RequestPayer? = nil,
         startAfter: Swift.String? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.continuationToken = continuationToken
         self.delimiter = delimiter
@@ -9748,8 +9529,7 @@ public struct ListObjectsV2Output: Swift.Sendable {
         `prefix`: Swift.String? = nil,
         requestCharged: S3ClientTypes.RequestCharged? = nil,
         startAfter: Swift.String? = nil
-    )
-    {
+    ) {
         self.commonPrefixes = commonPrefixes
         self.contents = contents
         self.continuationToken = continuationToken
@@ -9800,8 +9580,7 @@ public struct ListObjectVersionsInput: Swift.Sendable {
         `prefix`: Swift.String? = nil,
         requestPayer: S3ClientTypes.RequestPayer? = nil,
         versionIdMarker: Swift.String? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.delimiter = delimiter
         self.encodingType = encodingType
@@ -9836,8 +9615,7 @@ extension S3ClientTypes {
             lastModified: Foundation.Date? = nil,
             owner: S3ClientTypes.Owner? = nil,
             versionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.isLatest = isLatest
             self.key = key
             self.lastModified = lastModified
@@ -9909,8 +9687,7 @@ extension S3ClientTypes {
             size: Swift.Int? = nil,
             storageClass: S3ClientTypes.ObjectVersionStorageClass? = nil,
             versionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.checksumAlgorithm = checksumAlgorithm
             self.eTag = eTag
             self.isLatest = isLatest
@@ -9970,8 +9747,7 @@ public struct ListObjectVersionsOutput: Swift.Sendable {
         requestCharged: S3ClientTypes.RequestCharged? = nil,
         versionIdMarker: Swift.String? = nil,
         versions: [S3ClientTypes.ObjectVersion]? = nil
-    )
-    {
+    ) {
         self.commonPrefixes = commonPrefixes
         self.deleteMarkers = deleteMarkers
         self.delimiter = delimiter
@@ -10025,8 +9801,7 @@ public struct ListPartsInput: Swift.Sendable {
         sseCustomerKey: Swift.String? = nil,
         sseCustomerKeyMD5: Swift.String? = nil,
         uploadId: Swift.String? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.expectedBucketOwner = expectedBucketOwner
         self.key = key
@@ -10075,8 +9850,7 @@ extension S3ClientTypes {
             lastModified: Foundation.Date? = nil,
             partNumber: Swift.Int? = nil,
             size: Swift.Int? = nil
-        )
-        {
+        ) {
             self.checksumCRC32 = checksumCRC32
             self.checksumCRC32C = checksumCRC32C
             self.checksumSHA1 = checksumSHA1
@@ -10137,8 +9911,7 @@ public struct ListPartsOutput: Swift.Sendable {
         requestCharged: S3ClientTypes.RequestCharged? = nil,
         storageClass: S3ClientTypes.StorageClass? = nil,
         uploadId: Swift.String? = nil
-    )
-    {
+    ) {
         self.abortDate = abortDate
         self.abortRuleId = abortRuleId
         self.bucket = bucket
@@ -10174,8 +9947,7 @@ public struct PutBucketAccelerateConfigurationInput: Swift.Sendable {
         bucket: Swift.String? = nil,
         checksumAlgorithm: S3ClientTypes.ChecksumAlgorithm? = nil,
         expectedBucketOwner: Swift.String? = nil
-    )
-    {
+    ) {
         self.accelerateConfiguration = accelerateConfiguration
         self.bucket = bucket
         self.checksumAlgorithm = checksumAlgorithm
@@ -10220,8 +9992,7 @@ public struct PutBucketAclInput: Swift.Sendable {
         grantReadACP: Swift.String? = nil,
         grantWrite: Swift.String? = nil,
         grantWriteACP: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessControlPolicy = accessControlPolicy
         self.acl = acl
         self.bucket = bucket
@@ -10254,8 +10025,7 @@ public struct PutBucketAnalyticsConfigurationInput: Swift.Sendable {
         bucket: Swift.String? = nil,
         expectedBucketOwner: Swift.String? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.analyticsConfiguration = analyticsConfiguration
         self.bucket = bucket
         self.expectedBucketOwner = expectedBucketOwner
@@ -10273,8 +10043,7 @@ extension S3ClientTypes {
 
         public init(
             corsRules: [S3ClientTypes.CORSRule]? = nil
-        )
-        {
+        ) {
             self.corsRules = corsRules
         }
     }
@@ -10300,8 +10069,7 @@ public struct PutBucketCorsInput: Swift.Sendable {
         contentMD5: Swift.String? = nil,
         corsConfiguration: S3ClientTypes.CORSConfiguration? = nil,
         expectedBucketOwner: Swift.String? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.checksumAlgorithm = checksumAlgorithm
         self.contentMD5 = contentMD5
@@ -10330,8 +10098,7 @@ public struct PutBucketEncryptionInput: Swift.Sendable {
         contentMD5: Swift.String? = nil,
         expectedBucketOwner: Swift.String? = nil,
         serverSideEncryptionConfiguration: S3ClientTypes.ServerSideEncryptionConfiguration? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.checksumAlgorithm = checksumAlgorithm
         self.contentMD5 = contentMD5
@@ -10355,8 +10122,7 @@ public struct PutBucketIntelligentTieringConfigurationInput: Swift.Sendable {
         bucket: Swift.String? = nil,
         id: Swift.String? = nil,
         intelligentTieringConfiguration: S3ClientTypes.IntelligentTieringConfiguration? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.id = id
         self.intelligentTieringConfiguration = intelligentTieringConfiguration
@@ -10381,8 +10147,7 @@ public struct PutBucketInventoryConfigurationInput: Swift.Sendable {
         expectedBucketOwner: Swift.String? = nil,
         id: Swift.String? = nil,
         inventoryConfiguration: S3ClientTypes.InventoryConfiguration? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.expectedBucketOwner = expectedBucketOwner
         self.id = id
@@ -10400,8 +10165,7 @@ extension S3ClientTypes {
 
         public init(
             rules: [S3ClientTypes.LifecycleRule]? = nil
-        )
-        {
+        ) {
             self.rules = rules
         }
     }
@@ -10433,8 +10197,7 @@ public struct PutBucketLifecycleConfigurationInput: Swift.Sendable {
         expectedBucketOwner: Swift.String? = nil,
         lifecycleConfiguration: S3ClientTypes.BucketLifecycleConfiguration? = nil,
         transitionDefaultMinimumObjectSize: S3ClientTypes.TransitionDefaultMinimumObjectSize? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.checksumAlgorithm = checksumAlgorithm
         self.expectedBucketOwner = expectedBucketOwner
@@ -10456,8 +10219,7 @@ public struct PutBucketLifecycleConfigurationOutput: Swift.Sendable {
 
     public init(
         transitionDefaultMinimumObjectSize: S3ClientTypes.TransitionDefaultMinimumObjectSize? = nil
-    )
-    {
+    ) {
         self.transitionDefaultMinimumObjectSize = transitionDefaultMinimumObjectSize
     }
 }
@@ -10471,8 +10233,7 @@ extension S3ClientTypes {
 
         public init(
             loggingEnabled: S3ClientTypes.LoggingEnabled? = nil
-        )
-        {
+        ) {
             self.loggingEnabled = loggingEnabled
         }
     }
@@ -10498,8 +10259,7 @@ public struct PutBucketLoggingInput: Swift.Sendable {
         checksumAlgorithm: S3ClientTypes.ChecksumAlgorithm? = nil,
         contentMD5: Swift.String? = nil,
         expectedBucketOwner: Swift.String? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.bucketLoggingStatus = bucketLoggingStatus
         self.checksumAlgorithm = checksumAlgorithm
@@ -10526,8 +10286,7 @@ public struct PutBucketMetricsConfigurationInput: Swift.Sendable {
         expectedBucketOwner: Swift.String? = nil,
         id: Swift.String? = nil,
         metricsConfiguration: S3ClientTypes.MetricsConfiguration? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.expectedBucketOwner = expectedBucketOwner
         self.id = id
@@ -10553,8 +10312,7 @@ extension S3ClientTypes {
             lambdaFunctionConfigurations: [S3ClientTypes.LambdaFunctionConfiguration]? = nil,
             queueConfigurations: [S3ClientTypes.QueueConfiguration]? = nil,
             topicConfigurations: [S3ClientTypes.TopicConfiguration]? = nil
-        )
-        {
+        ) {
             self.eventBridgeConfiguration = eventBridgeConfiguration
             self.lambdaFunctionConfigurations = lambdaFunctionConfigurations
             self.queueConfigurations = queueConfigurations
@@ -10580,8 +10338,7 @@ public struct PutBucketNotificationConfigurationInput: Swift.Sendable {
         expectedBucketOwner: Swift.String? = nil,
         notificationConfiguration: S3ClientTypes.NotificationConfiguration? = nil,
         skipDestinationValidation: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.expectedBucketOwner = expectedBucketOwner
         self.notificationConfiguration = notificationConfiguration
@@ -10606,8 +10363,7 @@ public struct PutBucketOwnershipControlsInput: Swift.Sendable {
         contentMD5: Swift.String? = nil,
         expectedBucketOwner: Swift.String? = nil,
         ownershipControls: S3ClientTypes.OwnershipControls? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.contentMD5 = contentMD5
         self.expectedBucketOwner = expectedBucketOwner
@@ -10649,8 +10405,7 @@ public struct PutBucketPolicyInput: Swift.Sendable {
         contentMD5: Swift.String? = nil,
         expectedBucketOwner: Swift.String? = nil,
         policy: Swift.String? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.checksumAlgorithm = checksumAlgorithm
         self.confirmRemoveSelfBucketAccess = confirmRemoveSelfBucketAccess
@@ -10683,8 +10438,7 @@ public struct PutBucketReplicationInput: Swift.Sendable {
         expectedBucketOwner: Swift.String? = nil,
         replicationConfiguration: S3ClientTypes.ReplicationConfiguration? = nil,
         token: Swift.String? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.checksumAlgorithm = checksumAlgorithm
         self.contentMD5 = contentMD5
@@ -10704,8 +10458,7 @@ extension S3ClientTypes {
 
         public init(
             payer: S3ClientTypes.Payer? = nil
-        )
-        {
+        ) {
             self.payer = payer
         }
     }
@@ -10731,8 +10484,7 @@ public struct PutBucketRequestPaymentInput: Swift.Sendable {
         contentMD5: Swift.String? = nil,
         expectedBucketOwner: Swift.String? = nil,
         requestPaymentConfiguration: S3ClientTypes.RequestPaymentConfiguration? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.checksumAlgorithm = checksumAlgorithm
         self.contentMD5 = contentMD5
@@ -10751,8 +10503,7 @@ extension S3ClientTypes {
 
         public init(
             tagSet: [S3ClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.tagSet = tagSet
         }
     }
@@ -10778,8 +10529,7 @@ public struct PutBucketTaggingInput: Swift.Sendable {
         contentMD5: Swift.String? = nil,
         expectedBucketOwner: Swift.String? = nil,
         tagging: S3ClientTypes.Tagging? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.checksumAlgorithm = checksumAlgorithm
         self.contentMD5 = contentMD5
@@ -10829,8 +10579,7 @@ extension S3ClientTypes {
         public init(
             mfaDelete: S3ClientTypes.MFADelete? = nil,
             status: S3ClientTypes.BucketVersioningStatus? = nil
-        )
-        {
+        ) {
             self.mfaDelete = mfaDelete
             self.status = status
         }
@@ -10860,8 +10609,7 @@ public struct PutBucketVersioningInput: Swift.Sendable {
         expectedBucketOwner: Swift.String? = nil,
         mfa: Swift.String? = nil,
         versioningConfiguration: S3ClientTypes.VersioningConfiguration? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.checksumAlgorithm = checksumAlgorithm
         self.contentMD5 = contentMD5
@@ -10889,8 +10637,7 @@ extension S3ClientTypes {
             indexDocument: S3ClientTypes.IndexDocument? = nil,
             redirectAllRequestsTo: S3ClientTypes.RedirectAllRequestsTo? = nil,
             routingRules: [S3ClientTypes.RoutingRule]? = nil
-        )
-        {
+        ) {
             self.errorDocument = errorDocument
             self.indexDocument = indexDocument
             self.redirectAllRequestsTo = redirectAllRequestsTo
@@ -10919,8 +10666,7 @@ public struct PutBucketWebsiteInput: Swift.Sendable {
         contentMD5: Swift.String? = nil,
         expectedBucketOwner: Swift.String? = nil,
         websiteConfiguration: S3ClientTypes.WebsiteConfiguration? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.checksumAlgorithm = checksumAlgorithm
         self.contentMD5 = contentMD5
@@ -11155,8 +10901,7 @@ public struct PutObjectInput: Swift.Sendable {
         tagging: Swift.String? = nil,
         websiteRedirectLocation: Swift.String? = nil,
         writeOffsetBytes: Swift.Int? = nil
-    )
-    {
+    ) {
         self.acl = acl
         self.body = body
         self.bucket = bucket
@@ -11253,8 +10998,7 @@ public struct PutObjectOutput: Swift.Sendable {
         ssekmsEncryptionContext: Swift.String? = nil,
         ssekmsKeyId: Swift.String? = nil,
         versionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.bucketKeyEnabled = bucketKeyEnabled
         self.checksumCRC32 = checksumCRC32
         self.checksumCRC32C = checksumCRC32C
@@ -11325,8 +11069,7 @@ public struct PutObjectAclInput: Swift.Sendable {
         key: Swift.String? = nil,
         requestPayer: S3ClientTypes.RequestPayer? = nil,
         versionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessControlPolicy = accessControlPolicy
         self.acl = acl
         self.bucket = bucket
@@ -11350,8 +11093,7 @@ public struct PutObjectAclOutput: Swift.Sendable {
 
     public init(
         requestCharged: S3ClientTypes.RequestCharged? = nil
-    )
-    {
+    ) {
         self.requestCharged = requestCharged
     }
 }
@@ -11385,8 +11127,7 @@ public struct PutObjectLegalHoldInput: Swift.Sendable {
         legalHold: S3ClientTypes.ObjectLockLegalHold? = nil,
         requestPayer: S3ClientTypes.RequestPayer? = nil,
         versionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.checksumAlgorithm = checksumAlgorithm
         self.contentMD5 = contentMD5
@@ -11404,8 +11145,7 @@ public struct PutObjectLegalHoldOutput: Swift.Sendable {
 
     public init(
         requestCharged: S3ClientTypes.RequestCharged? = nil
-    )
-    {
+    ) {
         self.requestCharged = requestCharged
     }
 }
@@ -11435,8 +11175,7 @@ public struct PutObjectLockConfigurationInput: Swift.Sendable {
         objectLockConfiguration: S3ClientTypes.ObjectLockConfiguration? = nil,
         requestPayer: S3ClientTypes.RequestPayer? = nil,
         token: Swift.String? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.checksumAlgorithm = checksumAlgorithm
         self.contentMD5 = contentMD5
@@ -11453,8 +11192,7 @@ public struct PutObjectLockConfigurationOutput: Swift.Sendable {
 
     public init(
         requestCharged: S3ClientTypes.RequestCharged? = nil
-    )
-    {
+    ) {
         self.requestCharged = requestCharged
     }
 }
@@ -11491,8 +11229,7 @@ public struct PutObjectRetentionInput: Swift.Sendable {
         requestPayer: S3ClientTypes.RequestPayer? = nil,
         retention: S3ClientTypes.ObjectLockRetention? = nil,
         versionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.bypassGovernanceRetention = bypassGovernanceRetention
         self.checksumAlgorithm = checksumAlgorithm
@@ -11511,8 +11248,7 @@ public struct PutObjectRetentionOutput: Swift.Sendable {
 
     public init(
         requestCharged: S3ClientTypes.RequestCharged? = nil
-    )
-    {
+    ) {
         self.requestCharged = requestCharged
     }
 }
@@ -11547,8 +11283,7 @@ public struct PutObjectTaggingInput: Swift.Sendable {
         requestPayer: S3ClientTypes.RequestPayer? = nil,
         tagging: S3ClientTypes.Tagging? = nil,
         versionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.checksumAlgorithm = checksumAlgorithm
         self.contentMD5 = contentMD5
@@ -11566,8 +11301,7 @@ public struct PutObjectTaggingOutput: Swift.Sendable {
 
     public init(
         versionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.versionId = versionId
     }
 }
@@ -11592,8 +11326,7 @@ public struct PutPublicAccessBlockInput: Swift.Sendable {
         contentMD5: Swift.String? = nil,
         expectedBucketOwner: Swift.String? = nil,
         publicAccessBlockConfiguration: S3ClientTypes.PublicAccessBlockConfiguration? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.checksumAlgorithm = checksumAlgorithm
         self.contentMD5 = contentMD5
@@ -11658,8 +11391,7 @@ extension S3ClientTypes {
 
         public init(
             tier: S3ClientTypes.Tier? = nil
-        )
-        {
+        ) {
             self.tier = tier
         }
     }
@@ -11681,8 +11413,7 @@ extension S3ClientTypes {
             encryptionType: S3ClientTypes.ServerSideEncryption? = nil,
             kmsContext: Swift.String? = nil,
             kmsKeyId: Swift.String? = nil
-        )
-        {
+        ) {
             self.encryptionType = encryptionType
             self.kmsContext = kmsContext
             self.kmsKeyId = kmsKeyId
@@ -11707,8 +11438,7 @@ extension S3ClientTypes {
         public init(
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -11747,8 +11477,7 @@ extension S3ClientTypes {
             storageClass: S3ClientTypes.StorageClass? = nil,
             tagging: S3ClientTypes.Tagging? = nil,
             userMetadata: [S3ClientTypes.MetadataEntry]? = nil
-        )
-        {
+        ) {
             self.accessControlList = accessControlList
             self.bucketName = bucketName
             self.cannedACL = cannedACL
@@ -11770,8 +11499,7 @@ extension S3ClientTypes {
 
         public init(
             s3: S3ClientTypes.S3Location? = nil
-        )
-        {
+        ) {
             self.s3 = s3
         }
     }
@@ -11900,8 +11628,7 @@ extension S3ClientTypes {
             quoteCharacter: Swift.String? = nil,
             quoteEscapeCharacter: Swift.String? = nil,
             recordDelimiter: Swift.String? = nil
-        )
-        {
+        ) {
             self.allowQuotedRecordDelimiter = allowQuotedRecordDelimiter
             self.comments = comments
             self.fieldDelimiter = fieldDelimiter
@@ -11951,8 +11678,7 @@ extension S3ClientTypes {
 
         public init(
             type: S3ClientTypes.JSONType? = nil
-        )
-        {
+        ) {
             self.type = type
         }
     }
@@ -11985,8 +11711,7 @@ extension S3ClientTypes {
             csv: S3ClientTypes.CSVInput? = nil,
             json: S3ClientTypes.JSONInput? = nil,
             parquet: S3ClientTypes.ParquetInput? = nil
-        )
-        {
+        ) {
             self.compressionType = compressionType
             self.csv = csv
             self.json = json
@@ -12049,8 +11774,7 @@ extension S3ClientTypes {
             quoteEscapeCharacter: Swift.String? = nil,
             quoteFields: S3ClientTypes.QuoteFields? = nil,
             recordDelimiter: Swift.String? = nil
-        )
-        {
+        ) {
             self.fieldDelimiter = fieldDelimiter
             self.quoteCharacter = quoteCharacter
             self.quoteEscapeCharacter = quoteEscapeCharacter
@@ -12069,8 +11793,7 @@ extension S3ClientTypes {
 
         public init(
             recordDelimiter: Swift.String? = nil
-        )
-        {
+        ) {
             self.recordDelimiter = recordDelimiter
         }
     }
@@ -12088,8 +11811,7 @@ extension S3ClientTypes {
         public init(
             csv: S3ClientTypes.CSVOutput? = nil,
             json: S3ClientTypes.JSONOutput? = nil
-        )
-        {
+        ) {
             self.csv = csv
             self.json = json
         }
@@ -12118,8 +11840,7 @@ extension S3ClientTypes {
             expressionType: S3ClientTypes.ExpressionType? = nil,
             inputSerialization: S3ClientTypes.InputSerialization? = nil,
             outputSerialization: S3ClientTypes.OutputSerialization? = nil
-        )
-        {
+        ) {
             self.expression = expression
             self.expressionType = expressionType
             self.inputSerialization = inputSerialization
@@ -12181,8 +11902,7 @@ extension S3ClientTypes {
             selectParameters: S3ClientTypes.SelectParameters? = nil,
             tier: S3ClientTypes.Tier? = nil,
             type: S3ClientTypes.RestoreRequestType? = nil
-        )
-        {
+        ) {
             self.days = days
             self.description = description
             self.glacierJobParameters = glacierJobParameters
@@ -12220,8 +11940,7 @@ public struct RestoreObjectInput: Swift.Sendable {
         requestPayer: S3ClientTypes.RequestPayer? = nil,
         restoreRequest: S3ClientTypes.RestoreRequest? = nil,
         versionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.checksumAlgorithm = checksumAlgorithm
         self.expectedBucketOwner = expectedBucketOwner
@@ -12241,8 +11960,7 @@ public struct RestoreObjectOutput: Swift.Sendable {
     public init(
         requestCharged: S3ClientTypes.RequestCharged? = nil,
         restoreOutputPath: Swift.String? = nil
-    )
-    {
+    ) {
         self.requestCharged = requestCharged
         self.restoreOutputPath = restoreOutputPath
     }
@@ -12257,8 +11975,7 @@ extension S3ClientTypes {
 
         public init(
             enabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
         }
     }
@@ -12276,8 +11993,7 @@ extension S3ClientTypes {
         public init(
             end: Swift.Int? = nil,
             start: Swift.Int? = nil
-        )
-        {
+        ) {
             self.end = end
             self.start = start
         }
@@ -12336,8 +12052,7 @@ public struct SelectObjectContentInput: Swift.Sendable {
         sseCustomerAlgorithm: Swift.String? = nil,
         sseCustomerKey: Swift.String? = nil,
         sseCustomerKeyMD5: Swift.String? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.expectedBucketOwner = expectedBucketOwner
         self.expression = expression
@@ -12391,8 +12106,7 @@ extension S3ClientTypes {
             bytesProcessed: Swift.Int? = nil,
             bytesReturned: Swift.Int? = nil,
             bytesScanned: Swift.Int? = nil
-        )
-        {
+        ) {
             self.bytesProcessed = bytesProcessed
             self.bytesReturned = bytesReturned
             self.bytesScanned = bytesScanned
@@ -12409,8 +12123,7 @@ extension S3ClientTypes {
 
         public init(
             details: S3ClientTypes.Progress? = nil
-        )
-        {
+        ) {
             self.details = details
         }
     }
@@ -12425,8 +12138,7 @@ extension S3ClientTypes {
 
         public init(
             payload: Foundation.Data? = nil
-        )
-        {
+        ) {
             self.payload = payload
         }
     }
@@ -12447,8 +12159,7 @@ extension S3ClientTypes {
             bytesProcessed: Swift.Int? = nil,
             bytesReturned: Swift.Int? = nil,
             bytesScanned: Swift.Int? = nil
-        )
-        {
+        ) {
             self.bytesProcessed = bytesProcessed
             self.bytesReturned = bytesReturned
             self.bytesScanned = bytesScanned
@@ -12465,8 +12176,7 @@ extension S3ClientTypes {
 
         public init(
             details: S3ClientTypes.Stats? = nil
-        )
-        {
+        ) {
             self.details = details
         }
     }
@@ -12496,8 +12206,7 @@ public struct SelectObjectContentOutput: Swift.Sendable {
 
     public init(
         payload: AsyncThrowingStream<S3ClientTypes.SelectObjectContentEventStream, Swift.Error>? = nil
-    )
-    {
+    ) {
         self.payload = payload
     }
 }
@@ -12560,8 +12269,7 @@ public struct UploadPartInput: Swift.Sendable {
         sseCustomerKey: Swift.String? = nil,
         sseCustomerKeyMD5: Swift.String? = nil,
         uploadId: Swift.String? = nil
-    )
-    {
+    ) {
         self.body = body
         self.bucket = bucket
         self.checksumAlgorithm = checksumAlgorithm
@@ -12623,8 +12331,7 @@ public struct UploadPartOutput: Swift.Sendable {
         sseCustomerAlgorithm: Swift.String? = nil,
         sseCustomerKeyMD5: Swift.String? = nil,
         ssekmsKeyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.bucketKeyEnabled = bucketKeyEnabled
         self.checksumCRC32 = checksumCRC32
         self.checksumCRC32C = checksumCRC32C
@@ -12723,8 +12430,7 @@ public struct UploadPartCopyInput: Swift.Sendable {
         sseCustomerKey: Swift.String? = nil,
         sseCustomerKeyMD5: Swift.String? = nil,
         uploadId: Swift.String? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.copySource = copySource
         self.copySourceIfMatch = copySourceIfMatch
@@ -12776,8 +12482,7 @@ extension S3ClientTypes {
             checksumSHA256: Swift.String? = nil,
             eTag: Swift.String? = nil,
             lastModified: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.checksumCRC32 = checksumCRC32
             self.checksumCRC32C = checksumCRC32C
             self.checksumSHA1 = checksumSHA1
@@ -12815,8 +12520,7 @@ public struct UploadPartCopyOutput: Swift.Sendable {
         sseCustomerAlgorithm: Swift.String? = nil,
         sseCustomerKeyMD5: Swift.String? = nil,
         ssekmsKeyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.bucketKeyEnabled = bucketKeyEnabled
         self.copyPartResult = copyPartResult
         self.copySourceVersionId = copySourceVersionId
@@ -12986,8 +12690,7 @@ public struct WriteGetObjectResponseInput: Swift.Sendable {
         storageClass: S3ClientTypes.StorageClass? = nil,
         tagCount: Swift.Int? = nil,
         versionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.acceptRanges = acceptRanges
         self.body = body
         self.bucketKeyEnabled = bucketKeyEnabled

@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class OutpostsClient: ClientRuntime.Client {
     public static let clientName = "OutpostsClient"
-    public static let version = "1.0.69"
+    public static let version = "1.0.74"
     let client: ClientRuntime.SdkHttpClient
     let config: OutpostsClient.OutpostsClientConfiguration
     let serviceName = "Outposts"
@@ -330,7 +330,7 @@ extension OutpostsClient {
 }
 
 extension OutpostsClient {
-    /// Performs the `CancelCapacityTask` operation on the `OutpostsOlafService` service.
+    /// Performs the `CancelCapacityTask` operation on the `Outposts` service.
     ///
     /// Cancels the capacity task.
     ///
@@ -400,7 +400,7 @@ extension OutpostsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CancelOrder` operation on the `OutpostsOlafService` service.
+    /// Performs the `CancelOrder` operation on the `Outposts` service.
     ///
     /// Cancels the specified order for an Outpost.
     ///
@@ -470,7 +470,7 @@ extension OutpostsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateOrder` operation on the `OutpostsOlafService` service.
+    /// Performs the `CreateOrder` operation on the `Outposts` service.
     ///
     /// Creates an order for an Outpost.
     ///
@@ -544,7 +544,7 @@ extension OutpostsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateOutpost` operation on the `OutpostsOlafService` service.
+    /// Performs the `CreateOutpost` operation on the `Outposts` service.
     ///
     /// Creates an Outpost. You can specify either an Availability one or an AZ ID.
     ///
@@ -618,7 +618,7 @@ extension OutpostsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateSite` operation on the `OutpostsOlafService` service.
+    /// Performs the `CreateSite` operation on the `Outposts` service.
     ///
     /// Creates a site for an Outpost.
     ///
@@ -691,7 +691,7 @@ extension OutpostsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteOutpost` operation on the `OutpostsOlafService` service.
+    /// Performs the `DeleteOutpost` operation on the `Outposts` service.
     ///
     /// Deletes the specified Outpost.
     ///
@@ -761,7 +761,7 @@ extension OutpostsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteSite` operation on the `OutpostsOlafService` service.
+    /// Performs the `DeleteSite` operation on the `Outposts` service.
     ///
     /// Deletes the specified site.
     ///
@@ -831,7 +831,7 @@ extension OutpostsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetCapacityTask` operation on the `OutpostsOlafService` service.
+    /// Performs the `GetCapacityTask` operation on the `Outposts` service.
     ///
     /// Gets details of the specified capacity task.
     ///
@@ -900,7 +900,7 @@ extension OutpostsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetCatalogItem` operation on the `OutpostsOlafService` service.
+    /// Performs the `GetCatalogItem` operation on the `Outposts` service.
     ///
     /// Gets information about the specified catalog item.
     ///
@@ -968,7 +968,7 @@ extension OutpostsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetConnection` operation on the `OutpostsOlafService` service.
+    /// Performs the `GetConnection` operation on the `Outposts` service.
     ///
     /// Amazon Web Services uses this action to install Outpost servers. Gets information about the specified connection. Use CloudTrail to monitor this action or Amazon Web Services managed policy for Amazon Web Services Outposts to secure it. For more information, see [ Amazon Web Services managed policies for Amazon Web Services Outposts](https://docs.aws.amazon.com/outposts/latest/userguide/security-iam-awsmanpol.html) and [ Logging Amazon Web Services Outposts API calls with Amazon Web Services CloudTrail](https://docs.aws.amazon.com/outposts/latest/userguide/logging-using-cloudtrail.html) in the Amazon Web Services Outposts User Guide.
     ///
@@ -1037,7 +1037,7 @@ extension OutpostsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetOrder` operation on the `OutpostsOlafService` service.
+    /// Performs the `GetOrder` operation on the `Outposts` service.
     ///
     /// Gets information about the specified order.
     ///
@@ -1105,7 +1105,7 @@ extension OutpostsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetOutpost` operation on the `OutpostsOlafService` service.
+    /// Performs the `GetOutpost` operation on the `Outposts` service.
     ///
     /// Gets information about the specified Outpost.
     ///
@@ -1174,7 +1174,7 @@ extension OutpostsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetOutpostInstanceTypes` operation on the `OutpostsOlafService` service.
+    /// Performs the `GetOutpostInstanceTypes` operation on the `Outposts` service.
     ///
     /// Gets the instance types for the specified Outpost.
     ///
@@ -1244,7 +1244,7 @@ extension OutpostsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetOutpostSupportedInstanceTypes` operation on the `OutpostsOlafService` service.
+    /// Performs the `GetOutpostSupportedInstanceTypes` operation on the `Outposts` service.
     ///
     /// Gets the instance types that an Outpost can support in InstanceTypeCapacity. This will generally include instance types that are not currently configured and therefore cannot be launched with the current Outpost capacity configuration.
     ///
@@ -1314,7 +1314,7 @@ extension OutpostsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetSite` operation on the `OutpostsOlafService` service.
+    /// Performs the `GetSite` operation on the `Outposts` service.
     ///
     /// Gets information about the specified Outpost site.
     ///
@@ -1383,7 +1383,7 @@ extension OutpostsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetSiteAddress` operation on the `OutpostsOlafService` service.
+    /// Performs the `GetSiteAddress` operation on the `Outposts` service.
     ///
     /// Gets the site address of the specified site.
     ///
@@ -1453,7 +1453,7 @@ extension OutpostsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAssetInstances` operation on the `OutpostsOlafService` service.
+    /// Performs the `ListAssetInstances` operation on the `Outposts` service.
     ///
     /// A list of Amazon EC2 instances, belonging to all accounts, running on the specified Outpost. Does not include Amazon EBS or Amazon S3 instances.
     ///
@@ -1523,7 +1523,7 @@ extension OutpostsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAssets` operation on the `OutpostsOlafService` service.
+    /// Performs the `ListAssets` operation on the `Outposts` service.
     ///
     /// Lists the hardware assets for the specified Outpost. Use filters to return specific results. If you specify multiple filters, the results include only the resources that match all of the specified filters. For a filter where you can specify multiple values, the results include items that match any of the values that you specify for the filter.
     ///
@@ -1593,7 +1593,7 @@ extension OutpostsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListBlockingInstancesForCapacityTask` operation on the `OutpostsOlafService` service.
+    /// Performs the `ListBlockingInstancesForCapacityTask` operation on the `Outposts` service.
     ///
     /// A list of Amazon EC2 instances running on the Outpost and belonging to the account that initiated the capacity task. Use this list to specify the instances you cannot stop to free up capacity to run the capacity task.
     ///
@@ -1663,7 +1663,7 @@ extension OutpostsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListCapacityTasks` operation on the `OutpostsOlafService` service.
+    /// Performs the `ListCapacityTasks` operation on the `Outposts` service.
     ///
     /// Lists the capacity tasks for your Amazon Web Services account. Use filters to return specific results. If you specify multiple filters, the results include only the resources that match all of the specified filters. For a filter where you can specify multiple values, the results include items that match any of the values that you specify for the filter.
     ///
@@ -1733,7 +1733,7 @@ extension OutpostsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListCatalogItems` operation on the `OutpostsOlafService` service.
+    /// Performs the `ListCatalogItems` operation on the `Outposts` service.
     ///
     /// Lists the items in the catalog. Use filters to return specific results. If you specify multiple filters, the results include only the resources that match all of the specified filters. For a filter where you can specify multiple values, the results include items that match any of the values that you specify for the filter.
     ///
@@ -1802,7 +1802,7 @@ extension OutpostsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListOrders` operation on the `OutpostsOlafService` service.
+    /// Performs the `ListOrders` operation on the `Outposts` service.
     ///
     /// Lists the Outpost orders for your Amazon Web Services account.
     ///
@@ -1872,7 +1872,7 @@ extension OutpostsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListOutposts` operation on the `OutpostsOlafService` service.
+    /// Performs the `ListOutposts` operation on the `Outposts` service.
     ///
     /// Lists the Outposts for your Amazon Web Services account. Use filters to return specific results. If you specify multiple filters, the results include only the resources that match all of the specified filters. For a filter where you can specify multiple values, the results include items that match any of the values that you specify for the filter.
     ///
@@ -1941,7 +1941,7 @@ extension OutpostsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListSites` operation on the `OutpostsOlafService` service.
+    /// Performs the `ListSites` operation on the `Outposts` service.
     ///
     /// Lists the Outpost sites for your Amazon Web Services account. Use filters to return specific results. Use filters to return specific results. If you specify multiple filters, the results include only the resources that match all of the specified filters. For a filter where you can specify multiple values, the results include items that match any of the values that you specify for the filter.
     ///
@@ -2010,7 +2010,7 @@ extension OutpostsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `OutpostsOlafService` service.
+    /// Performs the `ListTagsForResource` operation on the `Outposts` service.
     ///
     /// Lists the tags for the specified resource.
     ///
@@ -2078,7 +2078,7 @@ extension OutpostsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartCapacityTask` operation on the `OutpostsOlafService` service.
+    /// Performs the `StartCapacityTask` operation on the `Outposts` service.
     ///
     /// Starts the specified capacity task. You can have one active capacity task for each order and each Outpost.
     ///
@@ -2151,7 +2151,7 @@ extension OutpostsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartConnection` operation on the `OutpostsOlafService` service.
+    /// Performs the `StartConnection` operation on the `Outposts` service.
     ///
     /// Amazon Web Services uses this action to install Outpost servers. Starts the connection required for Outpost server installation. Use CloudTrail to monitor this action or Amazon Web Services managed policy for Amazon Web Services Outposts to secure it. For more information, see [ Amazon Web Services managed policies for Amazon Web Services Outposts](https://docs.aws.amazon.com/outposts/latest/userguide/security-iam-awsmanpol.html) and [ Logging Amazon Web Services Outposts API calls with Amazon Web Services CloudTrail](https://docs.aws.amazon.com/outposts/latest/userguide/logging-using-cloudtrail.html) in the Amazon Web Services Outposts User Guide.
     ///
@@ -2223,7 +2223,7 @@ extension OutpostsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `OutpostsOlafService` service.
+    /// Performs the `TagResource` operation on the `Outposts` service.
     ///
     /// Adds tags to the specified resource.
     ///
@@ -2294,7 +2294,7 @@ extension OutpostsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `OutpostsOlafService` service.
+    /// Performs the `UntagResource` operation on the `Outposts` service.
     ///
     /// Removes tags from the specified resource.
     ///
@@ -2363,7 +2363,7 @@ extension OutpostsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateOutpost` operation on the `OutpostsOlafService` service.
+    /// Performs the `UpdateOutpost` operation on the `Outposts` service.
     ///
     /// Updates an Outpost.
     ///
@@ -2436,7 +2436,7 @@ extension OutpostsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateSite` operation on the `OutpostsOlafService` service.
+    /// Performs the `UpdateSite` operation on the `Outposts` service.
     ///
     /// Updates the specified site.
     ///
@@ -2509,7 +2509,7 @@ extension OutpostsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateSiteAddress` operation on the `OutpostsOlafService` service.
+    /// Performs the `UpdateSiteAddress` operation on the `Outposts` service.
     ///
     /// Updates the address of the specified site. You can't update a site address if there is an order in progress. You must wait for the order to complete or cancel the order. You can update the operating address before you place an order at the site, or after all Outposts that belong to the site have been deactivated.
     ///
@@ -2582,7 +2582,7 @@ extension OutpostsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateSiteRackPhysicalProperties` operation on the `OutpostsOlafService` service.
+    /// Performs the `UpdateSiteRackPhysicalProperties` operation on the `Outposts` service.
     ///
     /// Update the physical and logistical details for a rack at a site. For more information about hardware requirements for racks, see [Network readiness checklist](https://docs.aws.amazon.com/outposts/latest/userguide/outposts-requirements.html#checklist) in the Amazon Web Services Outposts User Guide. To update a rack at a site with an order of IN_PROGRESS, you must wait for the order to complete or cancel the order.
     ///

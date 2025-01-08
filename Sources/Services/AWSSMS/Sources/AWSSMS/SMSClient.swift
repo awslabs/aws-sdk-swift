@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SMSClient: ClientRuntime.Client {
     public static let clientName = "SMSClient"
-    public static let version = "1.0.69"
+    public static let version = "1.0.74"
     let client: ClientRuntime.SdkHttpClient
     let config: SMSClient.SMSClientConfiguration
     let serviceName = "SMS"
@@ -330,7 +330,7 @@ extension SMSClient {
 }
 
 extension SMSClient {
-    /// Performs the `CreateApp` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    /// Performs the `CreateApp` operation on the `SMS` service.
     ///
     /// Creates an application. An application consists of one or more server groups. Each server group contain one or more servers.
     ///
@@ -404,7 +404,7 @@ extension SMSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateReplicationJob` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    /// Performs the `CreateReplicationJob` operation on the `SMS` service.
     ///
     /// Creates a replication job. The replication job schedules periodic replication runs to replicate your server to Amazon Web Services. Each replication run creates an Amazon Machine Image (AMI).
     ///
@@ -482,7 +482,7 @@ extension SMSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteApp` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    /// Performs the `DeleteApp` operation on the `SMS` service.
     ///
     /// Deletes the specified application. Optionally deletes the launched stack associated with the application and all Server Migration Service replication jobs for servers in the application.
     ///
@@ -556,7 +556,7 @@ extension SMSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAppLaunchConfiguration` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    /// Performs the `DeleteAppLaunchConfiguration` operation on the `SMS` service.
     ///
     /// Deletes the launch configuration for the specified application.
     ///
@@ -630,7 +630,7 @@ extension SMSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAppReplicationConfiguration` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    /// Performs the `DeleteAppReplicationConfiguration` operation on the `SMS` service.
     ///
     /// Deletes the replication configuration for the specified application.
     ///
@@ -704,7 +704,7 @@ extension SMSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAppValidationConfiguration` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    /// Performs the `DeleteAppValidationConfiguration` operation on the `SMS` service.
     ///
     /// Deletes the validation configuration for the specified application.
     ///
@@ -778,7 +778,7 @@ extension SMSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteReplicationJob` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    /// Performs the `DeleteReplicationJob` operation on the `SMS` service.
     ///
     /// Deletes the specified replication job. After you delete a replication job, there are no further replication runs. Amazon Web Services deletes the contents of the Amazon S3 bucket used to store Server Migration Service artifacts. The AMIs created by the replication runs are not deleted.
     ///
@@ -852,7 +852,7 @@ extension SMSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteServerCatalog` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    /// Performs the `DeleteServerCatalog` operation on the `SMS` service.
     ///
     /// Deletes all servers from your server catalog.
     ///
@@ -925,7 +925,7 @@ extension SMSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateConnector` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    /// Performs the `DisassociateConnector` operation on the `SMS` service.
     ///
     /// Disassociates the specified connector from Server Migration Service. After you disassociate a connector, it is no longer available to support replication jobs.
     ///
@@ -998,7 +998,7 @@ extension SMSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GenerateChangeSet` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    /// Performs the `GenerateChangeSet` operation on the `SMS` service.
     ///
     /// Generates a target change set for a currently launched stack and writes it to an Amazon S3 object in the customer’s Amazon S3 bucket.
     ///
@@ -1072,7 +1072,7 @@ extension SMSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GenerateTemplate` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    /// Performs the `GenerateTemplate` operation on the `SMS` service.
     ///
     /// Generates an CloudFormation template based on the current launch configuration and writes it to an Amazon S3 object in the customer’s Amazon S3 bucket.
     ///
@@ -1146,7 +1146,7 @@ extension SMSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetApp` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    /// Performs the `GetApp` operation on the `SMS` service.
     ///
     /// Retrieve information about the specified application.
     ///
@@ -1220,7 +1220,7 @@ extension SMSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAppLaunchConfiguration` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    /// Performs the `GetAppLaunchConfiguration` operation on the `SMS` service.
     ///
     /// Retrieves the application launch configuration associated with the specified application.
     ///
@@ -1294,7 +1294,7 @@ extension SMSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAppReplicationConfiguration` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    /// Performs the `GetAppReplicationConfiguration` operation on the `SMS` service.
     ///
     /// Retrieves the application replication configuration associated with the specified application.
     ///
@@ -1368,7 +1368,7 @@ extension SMSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAppValidationConfiguration` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    /// Performs the `GetAppValidationConfiguration` operation on the `SMS` service.
     ///
     /// Retrieves information about a configuration for validating an application.
     ///
@@ -1442,7 +1442,7 @@ extension SMSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAppValidationOutput` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    /// Performs the `GetAppValidationOutput` operation on the `SMS` service.
     ///
     /// Retrieves output from validating an application.
     ///
@@ -1516,7 +1516,7 @@ extension SMSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetConnectors` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    /// Performs the `GetConnectors` operation on the `SMS` service.
     ///
     /// Describes the connectors registered with the Server Migration Service.
     ///
@@ -1586,7 +1586,7 @@ extension SMSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetReplicationJobs` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    /// Performs the `GetReplicationJobs` operation on the `SMS` service.
     ///
     /// Describes the specified replication job or all of your replication jobs.
     ///
@@ -1658,7 +1658,7 @@ extension SMSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetReplicationRuns` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    /// Performs the `GetReplicationRuns` operation on the `SMS` service.
     ///
     /// Describes the replication runs for the specified replication job.
     ///
@@ -1730,7 +1730,7 @@ extension SMSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetServers` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    /// Performs the `GetServers` operation on the `SMS` service.
     ///
     /// Describes the servers in your server catalog. Before you can describe your servers, you must import them using [ImportServerCatalog].
     ///
@@ -1803,7 +1803,7 @@ extension SMSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ImportAppCatalog` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    /// Performs the `ImportAppCatalog` operation on the `SMS` service.
     ///
     /// Allows application import from Migration Hub.
     ///
@@ -1877,7 +1877,7 @@ extension SMSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ImportServerCatalog` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    /// Performs the `ImportServerCatalog` operation on the `SMS` service.
     ///
     /// Gathers a complete list of on-premises servers. Connectors must be installed and monitoring all servers to import. This call returns immediately, but might take additional time to retrieve all the servers.
     ///
@@ -1951,7 +1951,7 @@ extension SMSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `LaunchApp` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    /// Performs the `LaunchApp` operation on the `SMS` service.
     ///
     /// Launches the specified application as a stack in CloudFormation.
     ///
@@ -2025,7 +2025,7 @@ extension SMSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListApps` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    /// Performs the `ListApps` operation on the `SMS` service.
     ///
     /// Retrieves summaries for all applications.
     ///
@@ -2099,7 +2099,7 @@ extension SMSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `NotifyAppValidationOutput` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    /// Performs the `NotifyAppValidationOutput` operation on the `SMS` service.
     ///
     /// Provides information to Server Migration Service about whether application validation is successful.
     ///
@@ -2173,7 +2173,7 @@ extension SMSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutAppLaunchConfiguration` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    /// Performs the `PutAppLaunchConfiguration` operation on the `SMS` service.
     ///
     /// Creates or updates the launch configuration for the specified application.
     ///
@@ -2247,7 +2247,7 @@ extension SMSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutAppReplicationConfiguration` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    /// Performs the `PutAppReplicationConfiguration` operation on the `SMS` service.
     ///
     /// Creates or updates the replication configuration for the specified application.
     ///
@@ -2321,7 +2321,7 @@ extension SMSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutAppValidationConfiguration` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    /// Performs the `PutAppValidationConfiguration` operation on the `SMS` service.
     ///
     /// Creates or updates a validation configuration for the specified application.
     ///
@@ -2395,7 +2395,7 @@ extension SMSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartAppReplication` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    /// Performs the `StartAppReplication` operation on the `SMS` service.
     ///
     /// Starts replicating the specified application by creating replication jobs for each server in the application.
     ///
@@ -2469,7 +2469,7 @@ extension SMSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartOnDemandAppReplication` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    /// Performs the `StartOnDemandAppReplication` operation on the `SMS` service.
     ///
     /// Starts an on-demand replication run for the specified application.
     ///
@@ -2543,7 +2543,7 @@ extension SMSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartOnDemandReplicationRun` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    /// Performs the `StartOnDemandReplicationRun` operation on the `SMS` service.
     ///
     /// Starts an on-demand replication run for the specified replication job. This replication run starts immediately. This replication run is in addition to the ones already scheduled. There is a limit on the number of on-demand replications runs that you can request in a 24-hour period.
     ///
@@ -2618,7 +2618,7 @@ extension SMSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopAppReplication` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    /// Performs the `StopAppReplication` operation on the `SMS` service.
     ///
     /// Stops replicating the specified application by deleting the replication job for each server in the application.
     ///
@@ -2692,7 +2692,7 @@ extension SMSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TerminateApp` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    /// Performs the `TerminateApp` operation on the `SMS` service.
     ///
     /// Terminates the stack for the specified application.
     ///
@@ -2766,7 +2766,7 @@ extension SMSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateApp` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    /// Performs the `UpdateApp` operation on the `SMS` service.
     ///
     /// Updates the specified application.
     ///
@@ -2840,7 +2840,7 @@ extension SMSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateReplicationJob` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    /// Performs the `UpdateReplicationJob` operation on the `SMS` service.
     ///
     /// Updates the specified settings for the specified replication job.
     ///

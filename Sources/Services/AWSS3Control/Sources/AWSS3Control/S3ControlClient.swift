@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class S3ControlClient: ClientRuntime.Client {
     public static let clientName = "S3ControlClient"
-    public static let version = "1.0.69"
+    public static let version = "1.0.74"
     let client: ClientRuntime.SdkHttpClient
     let config: S3ControlClient.S3ControlClientConfiguration
     let serviceName = "S3 Control"
@@ -343,7 +343,7 @@ extension S3ControlClient {
 }
 
 extension S3ControlClient {
-    /// Performs the `AssociateAccessGrantsIdentityCenter` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `AssociateAccessGrantsIdentityCenter` operation on the `S3Control` service.
     ///
     /// Associate your S3 Access Grants instance with an Amazon Web Services IAM Identity Center instance. Use this action if you want to create access grants for users or groups from your corporate identity directory. First, you must add your corporate identity directory to Amazon Web Services IAM Identity Center. Then, you can associate this IAM Identity Center instance with your S3 Access Grants instance. Permissions You must have the s3:AssociateAccessGrantsIdentityCenter permission to use this operation. Additional Permissions You must also have the following permissions: sso:CreateApplication, sso:PutApplicationGrant, and sso:PutApplicationAuthenticationMethod.
     ///
@@ -409,7 +409,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateAccessGrant` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `CreateAccessGrant` operation on the `S3Control` service.
     ///
     /// Creates an access grant that gives a grantee access to your S3 data. The grantee can be an IAM user or role or a directory user, or group. Before you can create a grant, you must have an S3 Access Grants instance in the same Region as the S3 data. You can create an S3 Access Grants instance using the [CreateAccessGrantsInstance](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_CreateAccessGrantsInstance.html). You must also have registered at least one S3 data location in your S3 Access Grants instance using [CreateAccessGrantsLocation](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_CreateAccessGrantsLocation.html). Permissions You must have the s3:CreateAccessGrant permission to use this operation. Additional Permissions For any directory identity - sso:DescribeInstance and sso:DescribeApplication For directory users - identitystore:DescribeUser For directory groups - identitystore:DescribeGroup
     ///
@@ -475,7 +475,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateAccessGrantsInstance` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `CreateAccessGrantsInstance` operation on the `S3Control` service.
     ///
     /// Creates an S3 Access Grants instance, which serves as a logical grouping for access grants. You can create one S3 Access Grants instance per Region per account. Permissions You must have the s3:CreateAccessGrantsInstance permission to use this operation. Additional Permissions To associate an IAM Identity Center instance with your S3 Access Grants instance, you must also have the sso:DescribeInstance, sso:CreateApplication, sso:PutApplicationGrant, and sso:PutApplicationAuthenticationMethod permissions.
     ///
@@ -541,7 +541,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateAccessGrantsLocation` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `CreateAccessGrantsLocation` operation on the `S3Control` service.
     ///
     /// The S3 data location that you would like to register in your S3 Access Grants instance. Your S3 data must be in the same Region as your S3 Access Grants instance. The location can be one of the following:
     ///
@@ -616,7 +616,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateAccessPoint` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `CreateAccessPoint` operation on the `S3Control` service.
     ///
     /// This operation is not supported by directory buckets. Creates an access point and associates it with the specified bucket. For more information, see [Managing Data Access with Amazon S3 Access Points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points.html) in the Amazon S3 User Guide. S3 on Outposts only supports VPC-style access points. For more information, see [ Accessing Amazon S3 on Outposts using virtual private cloud (VPC) only access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide. All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the [Examples](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_CreateAccessPoint.html#API_control_CreateAccessPoint_Examples) section. The following actions are related to CreateAccessPoint:
     ///
@@ -687,7 +687,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateAccessPointForObjectLambda` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `CreateAccessPointForObjectLambda` operation on the `S3Control` service.
     ///
     /// This operation is not supported by directory buckets. Creates an Object Lambda Access Point. For more information, see [Transforming objects with Object Lambda Access Points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/transforming-objects.html) in the Amazon S3 User Guide. The following actions are related to CreateAccessPointForObjectLambda:
     ///
@@ -758,7 +758,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateBucket` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `CreateBucket` operation on the `S3Control` service.
     ///
     /// This action creates an Amazon S3 on Outposts bucket. To create an S3 bucket, see [Create Bucket](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucket.html) in the Amazon S3 API Reference. Creates a new Outposts bucket. By creating the bucket, you become the bucket owner. To create an Outposts bucket, you must have S3 on Outposts. For more information, see [Using Amazon S3 on Outposts](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in Amazon S3 User Guide. Not every string is an acceptable bucket name. For information on bucket naming restrictions, see [Working with Amazon S3 Buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/BucketRestrictions.html#bucketnamingrules). S3 on Outposts buckets support:
     ///
@@ -847,7 +847,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateJob` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `CreateJob` operation on the `S3Control` service.
     ///
     /// This operation creates an S3 Batch Operations job. You can use S3 Batch Operations to perform large-scale batch actions on Amazon S3 objects. Batch Operations can run a single action on lists of Amazon S3 objects that you specify. For more information, see [S3 Batch Operations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/batch-ops.html) in the Amazon S3 User Guide. Permissions For information about permissions required to use the Batch Operations, see [Granting permissions for S3 Batch Operations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/batch-ops-iam-role-policies.html) in the Amazon S3 User Guide. Related actions include:
     ///
@@ -931,7 +931,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateMultiRegionAccessPoint` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `CreateMultiRegionAccessPoint` operation on the `S3Control` service.
     ///
     /// This operation is not supported by directory buckets. Creates a Multi-Region Access Point and associates it with the specified buckets. For more information about creating Multi-Region Access Points, see [Creating Multi-Region Access Points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/CreatingMultiRegionAccessPoints.html) in the Amazon S3 User Guide. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around working with Multi-Region Access Points, see [Multi-Region Access Point restrictions and limitations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/MultiRegionAccessPointRestrictions.html) in the Amazon S3 User Guide. This request is asynchronous, meaning that you might receive a response before the command has completed. When this request provides a response, it provides a token that you can use to monitor the status of the request with DescribeMultiRegionAccessPointOperation. The following actions are related to CreateMultiRegionAccessPoint:
     ///
@@ -1006,7 +1006,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateStorageLensGroup` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `CreateStorageLensGroup` operation on the `S3Control` service.
     ///
     /// Creates a new S3 Storage Lens group and associates it with the specified Amazon Web Services account ID. An S3 Storage Lens group is a custom grouping of objects based on prefix, suffix, object tags, object size, object age, or a combination of these filters. For each Storage Lens group that you’ve created, you can also optionally add Amazon Web Services resource tags. For more information about S3 Storage Lens groups, see [Working with S3 Storage Lens groups](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-lens-groups-overview.html). To use this operation, you must have the permission to perform the s3:CreateStorageLensGroup action. If you’re trying to create a Storage Lens group with Amazon Web Services resource tags, you must also have permission to perform the s3:TagResource action. For more information about the required Storage Lens Groups permissions, see [Setting account permissions to use S3 Storage Lens groups](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_iam_permissions.html#storage_lens_groups_permissions). For information about Storage Lens groups errors, see [List of Amazon S3 Storage Lens error codes](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#S3LensErrorCodeList).
     ///
@@ -1071,7 +1071,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAccessGrant` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `DeleteAccessGrant` operation on the `S3Control` service.
     ///
     /// Deletes the access grant from the S3 Access Grants instance. You cannot undo an access grant deletion and the grantee will no longer have access to the S3 data. Permissions You must have the s3:DeleteAccessGrant permission to use this operation.
     ///
@@ -1134,7 +1134,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAccessGrantsInstance` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `DeleteAccessGrantsInstance` operation on the `S3Control` service.
     ///
     /// Deletes your S3 Access Grants instance. You must first delete the access grants and locations before S3 Access Grants can delete the instance. See [DeleteAccessGrant](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteAccessGrant.html) and [DeleteAccessGrantsLocation](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteAccessGrantsLocation.html). If you have associated an IAM Identity Center instance with your S3 Access Grants instance, you must first dissassociate the Identity Center instance from the S3 Access Grants instance before you can delete the S3 Access Grants instance. See [AssociateAccessGrantsIdentityCenter](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_AssociateAccessGrantsIdentityCenter.html) and [DissociateAccessGrantsIdentityCenter](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DissociateAccessGrantsIdentityCenter.html). Permissions You must have the s3:DeleteAccessGrantsInstance permission to use this operation.
     ///
@@ -1197,7 +1197,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAccessGrantsInstanceResourcePolicy` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `DeleteAccessGrantsInstanceResourcePolicy` operation on the `S3Control` service.
     ///
     /// Deletes the resource policy of the S3 Access Grants instance. The resource policy is used to manage cross-account access to your S3 Access Grants instance. By deleting the resource policy, you delete any cross-account permissions to your S3 Access Grants instance. Permissions You must have the s3:DeleteAccessGrantsInstanceResourcePolicy permission to use this operation.
     ///
@@ -1260,7 +1260,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAccessGrantsLocation` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `DeleteAccessGrantsLocation` operation on the `S3Control` service.
     ///
     /// Deregisters a location from your S3 Access Grants instance. You can only delete a location registration from an S3 Access Grants instance if there are no grants associated with this location. See [Delete a grant](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteAccessGrant.html) for information on how to delete grants. You need to have at least one registered location in your S3 Access Grants instance in order to create access grants. Permissions You must have the s3:DeleteAccessGrantsLocation permission to use this operation.
     ///
@@ -1323,7 +1323,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAccessPoint` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `DeleteAccessPoint` operation on the `S3Control` service.
     ///
     /// This operation is not supported by directory buckets. Deletes the specified access point. All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the [Examples](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteAccessPoint.html#API_control_DeleteAccessPoint_Examples) section. The following actions are related to DeleteAccessPoint:
     ///
@@ -1391,7 +1391,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAccessPointForObjectLambda` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `DeleteAccessPointForObjectLambda` operation on the `S3Control` service.
     ///
     /// This operation is not supported by directory buckets. Deletes the specified Object Lambda Access Point. The following actions are related to DeleteAccessPointForObjectLambda:
     ///
@@ -1459,7 +1459,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAccessPointPolicy` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `DeleteAccessPointPolicy` operation on the `S3Control` service.
     ///
     /// This operation is not supported by directory buckets. Deletes the access point policy for the specified access point. All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the [Examples](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteAccessPointPolicy.html#API_control_DeleteAccessPointPolicy_Examples) section. The following actions are related to DeleteAccessPointPolicy:
     ///
@@ -1525,7 +1525,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAccessPointPolicyForObjectLambda` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `DeleteAccessPointPolicyForObjectLambda` operation on the `S3Control` service.
     ///
     /// This operation is not supported by directory buckets. Removes the resource policy for an Object Lambda Access Point. The following actions are related to DeleteAccessPointPolicyForObjectLambda:
     ///
@@ -1591,7 +1591,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteBucket` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `DeleteBucket` operation on the `S3Control` service.
     ///
     /// This action deletes an Amazon S3 on Outposts bucket. To delete an S3 bucket, see [DeleteBucket](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucket.html) in the Amazon S3 API Reference. Deletes the Amazon S3 on Outposts bucket. All objects (including all object versions and delete markers) in the bucket must be deleted before the bucket itself can be deleted. For more information, see [Using Amazon S3 on Outposts](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in Amazon S3 User Guide. All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the [Examples](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteBucket.html#API_control_DeleteBucket_Examples) section. Related Resources
     ///
@@ -1659,7 +1659,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteBucketLifecycleConfiguration` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `DeleteBucketLifecycleConfiguration` operation on the `S3Control` service.
     ///
     /// This action deletes an Amazon S3 on Outposts bucket's lifecycle configuration. To delete an S3 bucket's lifecycle configuration, see [DeleteBucketLifecycle](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketLifecycle.html) in the Amazon S3 API Reference. Deletes the lifecycle configuration from the specified Outposts bucket. Amazon S3 on Outposts removes all the lifecycle configuration rules in the lifecycle subresource associated with the bucket. Your objects never expire, and Amazon S3 on Outposts no longer automatically deletes any objects on the basis of rules contained in the deleted lifecycle configuration. For more information, see [Using Amazon S3 on Outposts](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in Amazon S3 User Guide. To use this operation, you must have permission to perform the s3-outposts:PutLifecycleConfiguration action. By default, the bucket owner has this permission and the Outposts bucket owner can grant this permission to others. All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the [Examples](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteBucketLifecycleConfiguration.html#API_control_DeleteBucketLifecycleConfiguration_Examples) section. For more information about object expiration, see [Elements to Describe Lifecycle Actions](https://docs.aws.amazon.com/AmazonS3/latest/dev/intro-lifecycle-rules.html#intro-lifecycle-rules-actions). Related actions include:
     ///
@@ -1725,7 +1725,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteBucketPolicy` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `DeleteBucketPolicy` operation on the `S3Control` service.
     ///
     /// This action deletes an Amazon S3 on Outposts bucket policy. To delete an S3 bucket policy, see [DeleteBucketPolicy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketPolicy.html) in the Amazon S3 API Reference. This implementation of the DELETE action uses the policy subresource to delete the policy of a specified Amazon S3 on Outposts bucket. If you are using an identity other than the root user of the Amazon Web Services account that owns the bucket, the calling identity must have the s3-outposts:DeleteBucketPolicy permissions on the specified Outposts bucket and belong to the bucket owner's account to use this action. For more information, see [Using Amazon S3 on Outposts](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in Amazon S3 User Guide. If you don't have DeleteBucketPolicy permissions, Amazon S3 returns a 403 Access Denied error. If you have the correct permissions, but you're not using an identity that belongs to the bucket owner's account, Amazon S3 returns a 405 Method Not Allowed error. As a security precaution, the root user of the Amazon Web Services account that owns a bucket can always use this action, even if the policy explicitly denies the root user the ability to perform this action. For more information about bucket policies, see [Using Bucket Policies and User Policies](https://docs.aws.amazon.com/AmazonS3/latest/dev/using-iam-policies.html). All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the [Examples](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteBucketPolicy.html#API_control_DeleteBucketPolicy_Examples) section. The following actions are related to DeleteBucketPolicy:
     ///
@@ -1791,7 +1791,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteBucketReplication` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `DeleteBucketReplication` operation on the `S3Control` service.
     ///
     /// This operation deletes an Amazon S3 on Outposts bucket's replication configuration. To delete an S3 bucket's replication configuration, see [DeleteBucketReplication](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketReplication.html) in the Amazon S3 API Reference. Deletes the replication configuration from the specified S3 on Outposts bucket. To use this operation, you must have permissions to perform the s3-outposts:PutReplicationConfiguration action. The Outposts bucket owner has this permission by default and can grant it to others. For more information about permissions, see [Setting up IAM with S3 on Outposts](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3OutpostsIAM.html) and [Managing access to S3 on Outposts buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3OutpostsBucketPolicy.html) in the Amazon S3 User Guide. It can take a while to propagate PUT or DELETE requests for a replication configuration to all S3 on Outposts systems. Therefore, the replication configuration that's returned by a GET request soon after a PUT or DELETE request might return a more recent result than what's on the Outpost. If an Outpost is offline, the delay in updating the replication configuration on that Outpost can be significant. All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the [Examples](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteBucketReplication.html#API_control_DeleteBucketReplication_Examples) section. For information about S3 replication on Outposts configuration, see [Replicating objects for S3 on Outposts](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3OutpostsReplication.html) in the Amazon S3 User Guide. The following operations are related to DeleteBucketReplication:
     ///
@@ -1857,7 +1857,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteBucketTagging` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `DeleteBucketTagging` operation on the `S3Control` service.
     ///
     /// This action deletes an Amazon S3 on Outposts bucket's tags. To delete an S3 bucket tags, see [DeleteBucketTagging](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketTagging.html) in the Amazon S3 API Reference. Deletes the tags from the Outposts bucket. For more information, see [Using Amazon S3 on Outposts](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in Amazon S3 User Guide. To use this action, you must have permission to perform the PutBucketTagging action. By default, the bucket owner has this permission and can grant this permission to others. All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the [Examples](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteBucketTagging.html#API_control_DeleteBucketTagging_Examples) section. The following actions are related to DeleteBucketTagging:
     ///
@@ -1923,7 +1923,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteJobTagging` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `DeleteJobTagging` operation on the `S3Control` service.
     ///
     /// Removes the entire tag set from the specified S3 Batch Operations job. Permissions To use the DeleteJobTagging operation, you must have permission to perform the s3:DeleteJobTagging action. For more information, see [Controlling access and labeling jobs using tags](https://docs.aws.amazon.com/AmazonS3/latest/dev/batch-ops-managing-jobs.html#batch-ops-job-tags) in the Amazon S3 User Guide. Related actions include:
     ///
@@ -1998,7 +1998,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteMultiRegionAccessPoint` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `DeleteMultiRegionAccessPoint` operation on the `S3Control` service.
     ///
     /// This operation is not supported by directory buckets. Deletes a Multi-Region Access Point. This action does not delete the buckets associated with the Multi-Region Access Point, only the Multi-Region Access Point itself. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around working with Multi-Region Access Points, see [Multi-Region Access Point restrictions and limitations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/MultiRegionAccessPointRestrictions.html) in the Amazon S3 User Guide. This request is asynchronous, meaning that you might receive a response before the command has completed. When this request provides a response, it provides a token that you can use to monitor the status of the request with DescribeMultiRegionAccessPointOperation. The following actions are related to DeleteMultiRegionAccessPoint:
     ///
@@ -2073,7 +2073,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeletePublicAccessBlock` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `DeletePublicAccessBlock` operation on the `S3Control` service.
     ///
     /// This operation is not supported by directory buckets. Removes the PublicAccessBlock configuration for an Amazon Web Services account. For more information, see [ Using Amazon S3 block public access](https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html). Related actions include:
     ///
@@ -2139,7 +2139,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteStorageLensConfiguration` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `DeleteStorageLensConfiguration` operation on the `S3Control` service.
     ///
     /// This operation is not supported by directory buckets. Deletes the Amazon S3 Storage Lens configuration. For more information about S3 Storage Lens, see [Assessing your storage activity and usage with Amazon S3 Storage Lens ](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens.html) in the Amazon S3 User Guide. To use this action, you must have permission to perform the s3:DeleteStorageLensConfiguration action. For more information, see [Setting permissions to use Amazon S3 Storage Lens](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens_iam_permissions.html) in the Amazon S3 User Guide.
     ///
@@ -2201,7 +2201,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteStorageLensConfigurationTagging` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `DeleteStorageLensConfigurationTagging` operation on the `S3Control` service.
     ///
     /// This operation is not supported by directory buckets. Deletes the Amazon S3 Storage Lens configuration tags. For more information about S3 Storage Lens, see [Assessing your storage activity and usage with Amazon S3 Storage Lens ](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens.html) in the Amazon S3 User Guide. To use this action, you must have permission to perform the s3:DeleteStorageLensConfigurationTagging action. For more information, see [Setting permissions to use Amazon S3 Storage Lens](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens_iam_permissions.html) in the Amazon S3 User Guide.
     ///
@@ -2263,7 +2263,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteStorageLensGroup` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `DeleteStorageLensGroup` operation on the `S3Control` service.
     ///
     /// Deletes an existing S3 Storage Lens group. To use this operation, you must have the permission to perform the s3:DeleteStorageLensGroup action. For more information about the required Storage Lens Groups permissions, see [Setting account permissions to use S3 Storage Lens groups](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_iam_permissions.html#storage_lens_groups_permissions). For information about Storage Lens groups errors, see [List of Amazon S3 Storage Lens error codes](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#S3LensErrorCodeList).
     ///
@@ -2325,7 +2325,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeJob` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `DescribeJob` operation on the `S3Control` service.
     ///
     /// Retrieves the configuration parameters and status for a Batch Operations job. For more information, see [S3 Batch Operations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/batch-ops.html) in the Amazon S3 User Guide. Permissions To use the DescribeJob operation, you must have permission to perform the s3:DescribeJob action. Related actions include:
     ///
@@ -2403,7 +2403,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeMultiRegionAccessPointOperation` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `DescribeMultiRegionAccessPointOperation` operation on the `S3Control` service.
     ///
     /// This operation is not supported by directory buckets. Retrieves the status of an asynchronous request to manage a Multi-Region Access Point. For more information about managing Multi-Region Access Points and how asynchronous requests work, see [Using Multi-Region Access Points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/MrapOperations.html) in the Amazon S3 User Guide. The following actions are related to GetMultiRegionAccessPoint:
     ///
@@ -2474,7 +2474,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DissociateAccessGrantsIdentityCenter` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `DissociateAccessGrantsIdentityCenter` operation on the `S3Control` service.
     ///
     /// Dissociates the Amazon Web Services IAM Identity Center instance from the S3 Access Grants instance. Permissions You must have the s3:DissociateAccessGrantsIdentityCenter permission to use this operation. Additional Permissions You must have the sso:DeleteApplication permission to use this operation.
     ///
@@ -2537,7 +2537,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAccessGrant` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `GetAccessGrant` operation on the `S3Control` service.
     ///
     /// Get the details of an access grant from your S3 Access Grants instance. Permissions You must have the s3:GetAccessGrant permission to use this operation.
     ///
@@ -2600,7 +2600,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAccessGrantsInstance` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `GetAccessGrantsInstance` operation on the `S3Control` service.
     ///
     /// Retrieves the S3 Access Grants instance for a Region in your account. Permissions You must have the s3:GetAccessGrantsInstance permission to use this operation. GetAccessGrantsInstance is not supported for cross-account access. You can only call the API from the account that owns the S3 Access Grants instance.
     ///
@@ -2663,7 +2663,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAccessGrantsInstanceForPrefix` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `GetAccessGrantsInstanceForPrefix` operation on the `S3Control` service.
     ///
     /// Retrieve the S3 Access Grants instance that contains a particular prefix. Permissions You must have the s3:GetAccessGrantsInstanceForPrefix permission for the caller account to use this operation. Additional Permissions The prefix owner account must grant you the following permissions to their S3 Access Grants instance: s3:GetAccessGrantsInstanceForPrefix.
     ///
@@ -2727,7 +2727,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAccessGrantsInstanceResourcePolicy` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `GetAccessGrantsInstanceResourcePolicy` operation on the `S3Control` service.
     ///
     /// Returns the resource policy of the S3 Access Grants instance. Permissions You must have the s3:GetAccessGrantsInstanceResourcePolicy permission to use this operation.
     ///
@@ -2790,7 +2790,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAccessGrantsLocation` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `GetAccessGrantsLocation` operation on the `S3Control` service.
     ///
     /// Retrieves the details of a particular location registered in your S3 Access Grants instance. Permissions You must have the s3:GetAccessGrantsLocation permission to use this operation.
     ///
@@ -2853,7 +2853,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAccessPoint` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `GetAccessPoint` operation on the `S3Control` service.
     ///
     /// This operation is not supported by directory buckets. Returns configuration information about the specified access point. All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the [Examples](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetAccessPoint.html#API_control_GetAccessPoint_Examples) section. The following actions are related to GetAccessPoint:
     ///
@@ -2921,7 +2921,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAccessPointConfigurationForObjectLambda` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `GetAccessPointConfigurationForObjectLambda` operation on the `S3Control` service.
     ///
     /// This operation is not supported by directory buckets. Returns configuration for an Object Lambda Access Point. The following actions are related to GetAccessPointConfigurationForObjectLambda:
     ///
@@ -2985,7 +2985,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAccessPointForObjectLambda` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `GetAccessPointForObjectLambda` operation on the `S3Control` service.
     ///
     /// This operation is not supported by directory buckets. Returns configuration information about the specified Object Lambda Access Point The following actions are related to GetAccessPointForObjectLambda:
     ///
@@ -3053,7 +3053,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAccessPointPolicy` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `GetAccessPointPolicy` operation on the `S3Control` service.
     ///
     /// This operation is not supported by directory buckets. Returns the access point policy associated with the specified access point. The following actions are related to GetAccessPointPolicy:
     ///
@@ -3119,7 +3119,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAccessPointPolicyForObjectLambda` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `GetAccessPointPolicyForObjectLambda` operation on the `S3Control` service.
     ///
     /// This operation is not supported by directory buckets. Returns the resource policy for an Object Lambda Access Point. The following actions are related to GetAccessPointPolicyForObjectLambda:
     ///
@@ -3185,7 +3185,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAccessPointPolicyStatus` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `GetAccessPointPolicyStatus` operation on the `S3Control` service.
     ///
     /// This operation is not supported by directory buckets. Indicates whether the specified access point currently has a policy that allows public access. For more information about public access through access points, see [Managing Data Access with Amazon S3 access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points.html) in the Amazon S3 User Guide.
     ///
@@ -3247,7 +3247,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAccessPointPolicyStatusForObjectLambda` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `GetAccessPointPolicyStatusForObjectLambda` operation on the `S3Control` service.
     ///
     /// This operation is not supported by directory buckets. Returns the status of the resource policy associated with an Object Lambda Access Point.
     ///
@@ -3309,7 +3309,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetBucket` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `GetBucket` operation on the `S3Control` service.
     ///
     /// Gets an Amazon S3 on Outposts bucket. For more information, see [ Using Amazon S3 on Outposts](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide. If you are using an identity other than the root user of the Amazon Web Services account that owns the Outposts bucket, the calling identity must have the s3-outposts:GetBucket permissions on the specified Outposts bucket and belong to the Outposts bucket owner's account in order to use this action. Only users from Outposts bucket owner account with the right permissions can perform actions on an Outposts bucket. If you don't have s3-outposts:GetBucket permissions or you're not using an identity that belongs to the bucket owner's account, Amazon S3 returns a 403 Access Denied error. The following actions are related to GetBucket for Amazon S3 on Outposts: All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the [Examples](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetBucket.html#API_control_GetBucket_Examples) section.
     ///
@@ -3377,7 +3377,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetBucketLifecycleConfiguration` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `GetBucketLifecycleConfiguration` operation on the `S3Control` service.
     ///
     /// This action gets an Amazon S3 on Outposts bucket's lifecycle configuration. To get an S3 bucket's lifecycle configuration, see [GetBucketLifecycleConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketLifecycleConfiguration.html) in the Amazon S3 API Reference. Returns the lifecycle configuration information set on the Outposts bucket. For more information, see [Using Amazon S3 on Outposts](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) and for information about lifecycle configuration, see [ Object Lifecycle Management](https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lifecycle-mgmt.html) in Amazon S3 User Guide. To use this action, you must have permission to perform the s3-outposts:GetLifecycleConfiguration action. The Outposts bucket owner has this permission, by default. The bucket owner can grant this permission to others. For more information about permissions, see [Permissions Related to Bucket Subresource Operations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources) and [Managing Access Permissions to Your Amazon S3 Resources](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html). All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the [Examples](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetBucketLifecycleConfiguration.html#API_control_GetBucketLifecycleConfiguration_Examples) section. GetBucketLifecycleConfiguration has the following special error:
     ///
@@ -3457,7 +3457,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetBucketPolicy` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `GetBucketPolicy` operation on the `S3Control` service.
     ///
     /// This action gets a bucket policy for an Amazon S3 on Outposts bucket. To get a policy for an S3 bucket, see [GetBucketPolicy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketPolicy.html) in the Amazon S3 API Reference. Returns the policy of a specified Outposts bucket. For more information, see [Using Amazon S3 on Outposts](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide. If you are using an identity other than the root user of the Amazon Web Services account that owns the bucket, the calling identity must have the GetBucketPolicy permissions on the specified bucket and belong to the bucket owner's account in order to use this action. Only users from Outposts bucket owner account with the right permissions can perform actions on an Outposts bucket. If you don't have s3-outposts:GetBucketPolicy permissions or you're not using an identity that belongs to the bucket owner's account, Amazon S3 returns a 403 Access Denied error. As a security precaution, the root user of the Amazon Web Services account that owns a bucket can always use this action, even if the policy explicitly denies the root user the ability to perform this action. For more information about bucket policies, see [Using Bucket Policies and User Policies](https://docs.aws.amazon.com/AmazonS3/latest/dev/using-iam-policies.html). All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the [Examples](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetBucketPolicy.html#API_control_GetBucketPolicy_Examples) section. The following actions are related to GetBucketPolicy:
     ///
@@ -3525,7 +3525,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetBucketReplication` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `GetBucketReplication` operation on the `S3Control` service.
     ///
     /// This operation gets an Amazon S3 on Outposts bucket's replication configuration. To get an S3 bucket's replication configuration, see [GetBucketReplication](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketReplication.html) in the Amazon S3 API Reference. Returns the replication configuration of an S3 on Outposts bucket. For more information about S3 on Outposts, see [Using Amazon S3 on Outposts](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide. For information about S3 replication on Outposts configuration, see [Replicating objects for S3 on Outposts](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3OutpostsReplication.html) in the Amazon S3 User Guide. It can take a while to propagate PUT or DELETE requests for a replication configuration to all S3 on Outposts systems. Therefore, the replication configuration that's returned by a GET request soon after a PUT or DELETE request might return a more recent result than what's on the Outpost. If an Outpost is offline, the delay in updating the replication configuration on that Outpost can be significant. This action requires permissions for the s3-outposts:GetReplicationConfiguration action. The Outposts bucket owner has this permission by default and can grant it to others. For more information about permissions, see [Setting up IAM with S3 on Outposts](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3OutpostsIAM.html) and [Managing access to S3 on Outposts bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3OutpostsBucketPolicy.html) in the Amazon S3 User Guide. All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the [Examples](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetBucketReplication.html#API_control_GetBucketReplication_Examples) section. If you include the Filter element in a replication configuration, you must also include the DeleteMarkerReplication, Status, and Priority elements. The response also returns those elements. For information about S3 on Outposts replication failure reasons, see [Replication failure reasons](https://docs.aws.amazon.com/AmazonS3/latest/userguide/outposts-replication-eventbridge.html#outposts-replication-failure-codes) in the Amazon S3 User Guide. The following operations are related to GetBucketReplication:
     ///
@@ -3591,7 +3591,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetBucketTagging` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `GetBucketTagging` operation on the `S3Control` service.
     ///
     /// This action gets an Amazon S3 on Outposts bucket's tags. To get an S3 bucket tags, see [GetBucketTagging](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketTagging.html) in the Amazon S3 API Reference. Returns the tag set associated with the Outposts bucket. For more information, see [Using Amazon S3 on Outposts](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide. To use this action, you must have permission to perform the GetBucketTagging action. By default, the bucket owner has this permission and can grant this permission to others. GetBucketTagging has the following special error:
     ///
@@ -3667,7 +3667,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetBucketVersioning` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `GetBucketVersioning` operation on the `S3Control` service.
     ///
     /// This operation returns the versioning state for S3 on Outposts buckets only. To return the versioning state for an S3 bucket, see [GetBucketVersioning](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketVersioning.html) in the Amazon S3 API Reference. Returns the versioning state for an S3 on Outposts bucket. With S3 Versioning, you can save multiple distinct copies of your objects and recover from unintended user actions and application failures. If you've never set versioning on your bucket, it has no versioning state. In that case, the GetBucketVersioning request does not return a versioning state value. For more information about versioning, see [Versioning](https://docs.aws.amazon.com/AmazonS3/latest/userguide/Versioning.html) in the Amazon S3 User Guide. All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the [Examples](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetBucketVersioning.html#API_control_GetBucketVersioning_Examples) section. The following operations are related to GetBucketVersioning for S3 on Outposts.
     ///
@@ -3735,7 +3735,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDataAccess` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `GetDataAccess` operation on the `S3Control` service.
     ///
     /// Returns a temporary access credential from S3 Access Grants to the grantee or client application. The [temporary credential](https://docs.aws.amazon.com/STS/latest/APIReference/API_Credentials.html) is an Amazon Web Services STS token that grants them access to the S3 data. Permissions You must have the s3:GetDataAccess permission to use this operation. Additional Permissions The IAM role that S3 Access Grants assumes must have the following permissions specified in the trust policy when registering the location: sts:AssumeRole, for directory users or groups sts:SetContext, and for IAM users or roles sts:SetSourceIdentity.
     ///
@@ -3799,7 +3799,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetJobTagging` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `GetJobTagging` operation on the `S3Control` service.
     ///
     /// Returns the tags on an S3 Batch Operations job. Permissions To use the GetJobTagging operation, you must have permission to perform the s3:GetJobTagging action. For more information, see [Controlling access and labeling jobs using tags](https://docs.aws.amazon.com/AmazonS3/latest/dev/batch-ops-managing-jobs.html#batch-ops-job-tags) in the Amazon S3 User Guide. Related actions include:
     ///
@@ -3874,7 +3874,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetMultiRegionAccessPoint` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `GetMultiRegionAccessPoint` operation on the `S3Control` service.
     ///
     /// This operation is not supported by directory buckets. Returns configuration information about the specified Multi-Region Access Point. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around working with Multi-Region Access Points, see [Multi-Region Access Point restrictions and limitations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/MultiRegionAccessPointRestrictions.html) in the Amazon S3 User Guide. The following actions are related to GetMultiRegionAccessPoint:
     ///
@@ -3945,7 +3945,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetMultiRegionAccessPointPolicy` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `GetMultiRegionAccessPointPolicy` operation on the `S3Control` service.
     ///
     /// This operation is not supported by directory buckets. Returns the access control policy of the specified Multi-Region Access Point. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around working with Multi-Region Access Points, see [Multi-Region Access Point restrictions and limitations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/MultiRegionAccessPointRestrictions.html) in the Amazon S3 User Guide. The following actions are related to GetMultiRegionAccessPointPolicy:
     ///
@@ -4012,7 +4012,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetMultiRegionAccessPointPolicyStatus` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `GetMultiRegionAccessPointPolicyStatus` operation on the `S3Control` service.
     ///
     /// This operation is not supported by directory buckets. Indicates whether the specified Multi-Region Access Point has an access control policy that allows public access. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around working with Multi-Region Access Points, see [Multi-Region Access Point restrictions and limitations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/MultiRegionAccessPointRestrictions.html) in the Amazon S3 User Guide. The following actions are related to GetMultiRegionAccessPointPolicyStatus:
     ///
@@ -4079,7 +4079,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetMultiRegionAccessPointRoutes` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `GetMultiRegionAccessPointRoutes` operation on the `S3Control` service.
     ///
     /// This operation is not supported by directory buckets. Returns the routing configuration for a Multi-Region Access Point, indicating which Regions are active or passive. To obtain routing control changes and failover requests, use the Amazon S3 failover control infrastructure endpoints in these five Amazon Web Services Regions:
     ///
@@ -4152,7 +4152,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetPublicAccessBlock` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `GetPublicAccessBlock` operation on the `S3Control` service.
     ///
     /// This operation is not supported by directory buckets. Retrieves the PublicAccessBlock configuration for an Amazon Web Services account. For more information, see [ Using Amazon S3 block public access](https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html). Related actions include:
     ///
@@ -4223,7 +4223,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetStorageLensConfiguration` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `GetStorageLensConfiguration` operation on the `S3Control` service.
     ///
     /// This operation is not supported by directory buckets. Gets the Amazon S3 Storage Lens configuration. For more information, see [Assessing your storage activity and usage with Amazon S3 Storage Lens ](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens.html) in the Amazon S3 User Guide. For a complete list of S3 Storage Lens metrics, see [S3 Storage Lens metrics glossary](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_metrics_glossary.html) in the Amazon S3 User Guide. To use this action, you must have permission to perform the s3:GetStorageLensConfiguration action. For more information, see [Setting permissions to use Amazon S3 Storage Lens](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens_iam_permissions.html) in the Amazon S3 User Guide.
     ///
@@ -4285,7 +4285,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetStorageLensConfigurationTagging` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `GetStorageLensConfigurationTagging` operation on the `S3Control` service.
     ///
     /// This operation is not supported by directory buckets. Gets the tags of Amazon S3 Storage Lens configuration. For more information about S3 Storage Lens, see [Assessing your storage activity and usage with Amazon S3 Storage Lens ](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens.html) in the Amazon S3 User Guide. To use this action, you must have permission to perform the s3:GetStorageLensConfigurationTagging action. For more information, see [Setting permissions to use Amazon S3 Storage Lens](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens_iam_permissions.html) in the Amazon S3 User Guide.
     ///
@@ -4347,7 +4347,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetStorageLensGroup` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `GetStorageLensGroup` operation on the `S3Control` service.
     ///
     /// Retrieves the Storage Lens group configuration details. To use this operation, you must have the permission to perform the s3:GetStorageLensGroup action. For more information about the required Storage Lens Groups permissions, see [Setting account permissions to use S3 Storage Lens groups](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_iam_permissions.html#storage_lens_groups_permissions). For information about Storage Lens groups errors, see [List of Amazon S3 Storage Lens error codes](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#S3LensErrorCodeList).
     ///
@@ -4409,7 +4409,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAccessGrants` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `ListAccessGrants` operation on the `S3Control` service.
     ///
     /// Returns the list of access grants in your S3 Access Grants instance. Permissions You must have the s3:ListAccessGrants permission to use this operation.
     ///
@@ -4473,7 +4473,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAccessGrantsInstances` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `ListAccessGrantsInstances` operation on the `S3Control` service.
     ///
     /// Returns a list of S3 Access Grants instances. An S3 Access Grants instance serves as a logical grouping for your individual access grants. You can only have one S3 Access Grants instance per Region per account. Permissions You must have the s3:ListAccessGrantsInstances permission to use this operation.
     ///
@@ -4537,7 +4537,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAccessGrantsLocations` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `ListAccessGrantsLocations` operation on the `S3Control` service.
     ///
     /// Returns a list of the locations registered in your S3 Access Grants instance. Permissions You must have the s3:ListAccessGrantsLocations permission to use this operation.
     ///
@@ -4601,7 +4601,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAccessPoints` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `ListAccessPoints` operation on the `S3Control` service.
     ///
     /// This operation is not supported by directory buckets. Returns a list of the access points that are owned by the current account that's associated with the specified bucket. You can retrieve up to 1000 access points per call. If the specified bucket has more than 1,000 access points (or the number specified in maxResults, whichever is less), the response will include a continuation token that you can use to list the additional access points. All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the [Examples](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetAccessPoint.html#API_control_GetAccessPoint_Examples) section. The following actions are related to ListAccessPoints:
     ///
@@ -4670,7 +4670,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAccessPointsForObjectLambda` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `ListAccessPointsForObjectLambda` operation on the `S3Control` service.
     ///
     /// This operation is not supported by directory buckets. Returns some or all (up to 1,000) access points associated with the Object Lambda Access Point per call. If there are more access points than what can be returned in one call, the response will include a continuation token that you can use to list the additional access points. The following actions are related to ListAccessPointsForObjectLambda:
     ///
@@ -4739,7 +4739,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListCallerAccessGrants` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `ListCallerAccessGrants` operation on the `S3Control` service.
     ///
     /// Use this API to list the access grants that grant the caller access to Amazon S3 data through S3 Access Grants. The caller (grantee) can be an Identity and Access Management (IAM) identity or Amazon Web Services Identity Center corporate directory identity. You must pass the Amazon Web Services account of the S3 data owner (grantor) in the request. You can, optionally, narrow the results by GrantScope, using a fragment of the data's S3 path, and S3 Access Grants will return only the grants with a path that contains the path fragment. You can also pass the AllowedByApplication filter in the request, which returns only the grants authorized for applications, whether the application is the caller's Identity Center application or any other application (ALL). For more information, see [List the caller's access grants](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-grants-list-grants.html) in the Amazon S3 User Guide. Permissions You must have the s3:ListCallerAccessGrants permission to use this operation.
     ///
@@ -4803,7 +4803,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListJobs` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `ListJobs` operation on the `S3Control` service.
     ///
     /// Lists current S3 Batch Operations jobs as well as the jobs that have ended within the last 90 days for the Amazon Web Services account making the request. For more information, see [S3 Batch Operations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/batch-ops.html) in the Amazon S3 User Guide. Permissions To use the ListJobs operation, you must have permission to perform the s3:ListJobs action. Related actions include:
     ///
@@ -4881,7 +4881,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListMultiRegionAccessPoints` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `ListMultiRegionAccessPoints` operation on the `S3Control` service.
     ///
     /// This operation is not supported by directory buckets. Returns a list of the Multi-Region Access Points currently associated with the specified Amazon Web Services account. Each call can return up to 100 Multi-Region Access Points, the maximum number of Multi-Region Access Points that can be associated with a single account. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around working with Multi-Region Access Points, see [Multi-Region Access Point restrictions and limitations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/MultiRegionAccessPointRestrictions.html) in the Amazon S3 User Guide. The following actions are related to ListMultiRegionAccessPoint:
     ///
@@ -4953,7 +4953,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListRegionalBuckets` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `ListRegionalBuckets` operation on the `S3Control` service.
     ///
     /// This operation is not supported by directory buckets. Returns a list of all Outposts buckets in an Outpost that are owned by the authenticated sender of the request. For more information, see [Using Amazon S3 on Outposts](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and x-amz-outpost-id in your request, see the [Examples](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_ListRegionalBuckets.html#API_control_ListRegionalBuckets_Examples) section.
     ///
@@ -5016,7 +5016,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListStorageLensConfigurations` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `ListStorageLensConfigurations` operation on the `S3Control` service.
     ///
     /// This operation is not supported by directory buckets. Gets a list of Amazon S3 Storage Lens configurations. For more information about S3 Storage Lens, see [Assessing your storage activity and usage with Amazon S3 Storage Lens ](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens.html) in the Amazon S3 User Guide. To use this action, you must have permission to perform the s3:ListStorageLensConfigurations action. For more information, see [Setting permissions to use Amazon S3 Storage Lens](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens_iam_permissions.html) in the Amazon S3 User Guide.
     ///
@@ -5079,7 +5079,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListStorageLensGroups` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `ListStorageLensGroups` operation on the `S3Control` service.
     ///
     /// Lists all the Storage Lens groups in the specified home Region. To use this operation, you must have the permission to perform the s3:ListStorageLensGroups action. For more information about the required Storage Lens Groups permissions, see [Setting account permissions to use S3 Storage Lens groups](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_iam_permissions.html#storage_lens_groups_permissions). For information about Storage Lens groups errors, see [List of Amazon S3 Storage Lens error codes](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#S3LensErrorCodeList).
     ///
@@ -5142,7 +5142,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `ListTagsForResource` operation on the `S3Control` service.
     ///
     /// This operation allows you to list all the Amazon Web Services resource tags for a specified resource. Each tag is a label consisting of a user-defined key and value. Tags can help you manage, identify, organize, search for, and filter resources. Permissions You must have the s3:ListTagsForResource permission to use this operation. This operation is only supported for [S3 Storage Lens groups](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-lens-groups.html) and for [S3 Access Grants](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-grants-tagging.html). The tagged resource can be an S3 Storage Lens group or S3 Access Grants instance, registered location, or grant. For more information about the required Storage Lens Groups permissions, see [Setting account permissions to use S3 Storage Lens groups](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_iam_permissions.html#storage_lens_groups_permissions). For information about S3 Tagging errors, see [List of Amazon S3 Tagging error codes](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#S3TaggingErrorCodeList).
     ///
@@ -5204,7 +5204,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutAccessGrantsInstanceResourcePolicy` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `PutAccessGrantsInstanceResourcePolicy` operation on the `S3Control` service.
     ///
     /// Updates the resource policy of the S3 Access Grants instance. Permissions You must have the s3:PutAccessGrantsInstanceResourcePolicy permission to use this operation.
     ///
@@ -5270,7 +5270,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutAccessPointConfigurationForObjectLambda` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `PutAccessPointConfigurationForObjectLambda` operation on the `S3Control` service.
     ///
     /// This operation is not supported by directory buckets. Replaces configuration for an Object Lambda Access Point. The following actions are related to PutAccessPointConfigurationForObjectLambda:
     ///
@@ -5337,7 +5337,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutAccessPointPolicy` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `PutAccessPointPolicy` operation on the `S3Control` service.
     ///
     /// This operation is not supported by directory buckets. Associates an access policy with the specified access point. Each access point can have only one policy, so a request made to this API replaces any existing policy associated with the specified access point. All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the [Examples](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutAccessPointPolicy.html#API_control_PutAccessPointPolicy_Examples) section. The following actions are related to PutAccessPointPolicy:
     ///
@@ -5406,7 +5406,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutAccessPointPolicyForObjectLambda` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `PutAccessPointPolicyForObjectLambda` operation on the `S3Control` service.
     ///
     /// This operation is not supported by directory buckets. Creates or replaces resource policy for an Object Lambda Access Point. For an example policy, see [Creating Object Lambda Access Points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/olap-create.html#olap-create-cli) in the Amazon S3 User Guide. The following actions are related to PutAccessPointPolicyForObjectLambda:
     ///
@@ -5475,7 +5475,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutBucketLifecycleConfiguration` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `PutBucketLifecycleConfiguration` operation on the `S3Control` service.
     ///
     /// This action puts a lifecycle configuration to an Amazon S3 on Outposts bucket. To put a lifecycle configuration to an S3 bucket, see [PutBucketLifecycleConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketLifecycleConfiguration.html) in the Amazon S3 API Reference. Creates a new lifecycle configuration for the S3 on Outposts bucket or replaces an existing lifecycle configuration. Outposts buckets only support lifecycle configurations that delete/expire objects after a certain period of time and abort incomplete multipart uploads. All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the [Examples](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutBucketLifecycleConfiguration.html#API_control_PutBucketLifecycleConfiguration_Examples) section. The following actions are related to PutBucketLifecycleConfiguration:
     ///
@@ -5545,7 +5545,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutBucketPolicy` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `PutBucketPolicy` operation on the `S3Control` service.
     ///
     /// This action puts a bucket policy to an Amazon S3 on Outposts bucket. To put a policy on an S3 bucket, see [PutBucketPolicy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketPolicy.html) in the Amazon S3 API Reference. Applies an Amazon S3 bucket policy to an Outposts bucket. For more information, see [Using Amazon S3 on Outposts](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide. If you are using an identity other than the root user of the Amazon Web Services account that owns the Outposts bucket, the calling identity must have the PutBucketPolicy permissions on the specified Outposts bucket and belong to the bucket owner's account in order to use this action. If you don't have PutBucketPolicy permissions, Amazon S3 returns a 403 Access Denied error. If you have the correct permissions, but you're not using an identity that belongs to the bucket owner's account, Amazon S3 returns a 405 Method Not Allowed error. As a security precaution, the root user of the Amazon Web Services account that owns a bucket can always use this action, even if the policy explicitly denies the root user the ability to perform this action. For more information about bucket policies, see [Using Bucket Policies and User Policies](https://docs.aws.amazon.com/AmazonS3/latest/dev/using-iam-policies.html). All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the [Examples](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutBucketPolicy.html#API_control_PutBucketPolicy_Examples) section. The following actions are related to PutBucketPolicy:
     ///
@@ -5615,7 +5615,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutBucketReplication` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `PutBucketReplication` operation on the `S3Control` service.
     ///
     /// This action creates an Amazon S3 on Outposts bucket's replication configuration. To create an S3 bucket's replication configuration, see [PutBucketReplication](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketReplication.html) in the Amazon S3 API Reference. Creates a replication configuration or replaces an existing one. For information about S3 replication on Outposts configuration, see [Replicating objects for S3 on Outposts](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3OutpostsReplication.html) in the Amazon S3 User Guide. It can take a while to propagate PUT or DELETE requests for a replication configuration to all S3 on Outposts systems. Therefore, the replication configuration that's returned by a GET request soon after a PUT or DELETE request might return a more recent result than what's on the Outpost. If an Outpost is offline, the delay in updating the replication configuration on that Outpost can be significant. Specify the replication configuration in the request body. In the replication configuration, you provide the following information:
     ///
@@ -5694,7 +5694,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutBucketTagging` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `PutBucketTagging` operation on the `S3Control` service.
     ///
     /// This action puts tags on an Amazon S3 on Outposts bucket. To put tags on an S3 bucket, see [PutBucketTagging](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketTagging.html) in the Amazon S3 API Reference. Sets the tags for an S3 on Outposts bucket. For more information, see [Using Amazon S3 on Outposts](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide. Use tags to organize your Amazon Web Services bill to reflect your own cost structure. To do this, sign up to get your Amazon Web Services account bill with tag key values included. Then, to see the cost of combined resources, organize your billing information according to resources with the same tag key values. For example, you can tag several resources with a specific application name, and then organize your billing information to see the total cost of that application across several services. For more information, see [Cost allocation and tagging](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html). Within a bucket, if you add a tag that has the same key as an existing tag, the new value overwrites the old value. For more information, see [ Using cost allocation in Amazon S3 bucket tags](https://docs.aws.amazon.com/AmazonS3/latest/userguide/CostAllocTagging.html). To use this action, you must have permissions to perform the s3-outposts:PutBucketTagging action. The Outposts bucket owner has this permission by default and can grant this permission to others. For more information about permissions, see [ Permissions Related to Bucket Subresource Operations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources) and [Managing access permissions to your Amazon S3 resources](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html). PutBucketTagging has the following special errors:
     ///
@@ -5795,7 +5795,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutBucketVersioning` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `PutBucketVersioning` operation on the `S3Control` service.
     ///
     /// This operation sets the versioning state for S3 on Outposts buckets only. To set the versioning state for an S3 bucket, see [PutBucketVersioning](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketVersioning.html) in the Amazon S3 API Reference. Sets the versioning state for an S3 on Outposts bucket. With S3 Versioning, you can save multiple distinct copies of your objects and recover from unintended user actions and application failures. You can set the versioning state to one of the following:
     ///
@@ -5874,7 +5874,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutJobTagging` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `PutJobTagging` operation on the `S3Control` service.
     ///
     /// Sets the supplied tag-set on an S3 Batch Operations job. A tag is a key-value pair. You can associate S3 Batch Operations tags with any job by sending a PUT request against the tagging subresource that is associated with the job. To modify the existing tag set, you can either replace the existing tag set entirely, or make changes within the existing tag set by retrieving the existing tag set using [GetJobTagging](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetJobTagging.html), modify that tag set, and use this operation to replace the tag set with the one you modified. For more information, see [Controlling access and labeling jobs using tags](https://docs.aws.amazon.com/AmazonS3/latest/dev/batch-ops-managing-jobs.html#batch-ops-job-tags) in the Amazon S3 User Guide.
     ///
@@ -5975,7 +5975,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutMultiRegionAccessPointPolicy` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `PutMultiRegionAccessPointPolicy` operation on the `S3Control` service.
     ///
     /// This operation is not supported by directory buckets. Associates an access control policy with the specified Multi-Region Access Point. Each Multi-Region Access Point can have only one policy, so a request made to this action replaces any existing policy that is associated with the specified Multi-Region Access Point. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around working with Multi-Region Access Points, see [Multi-Region Access Point restrictions and limitations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/MultiRegionAccessPointRestrictions.html) in the Amazon S3 User Guide. The following actions are related to PutMultiRegionAccessPointPolicy:
     ///
@@ -6046,7 +6046,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutPublicAccessBlock` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `PutPublicAccessBlock` operation on the `S3Control` service.
     ///
     /// This operation is not supported by directory buckets. Creates or modifies the PublicAccessBlock configuration for an Amazon Web Services account. For this operation, users must have the s3:PutAccountPublicAccessBlock permission. For more information, see [ Using Amazon S3 block public access](https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html). Related actions include:
     ///
@@ -6115,7 +6115,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutStorageLensConfiguration` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `PutStorageLensConfiguration` operation on the `S3Control` service.
     ///
     /// This operation is not supported by directory buckets. Puts an Amazon S3 Storage Lens configuration. For more information about S3 Storage Lens, see [Working with Amazon S3 Storage Lens](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens.html) in the Amazon S3 User Guide. For a complete list of S3 Storage Lens metrics, see [S3 Storage Lens metrics glossary](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_metrics_glossary.html) in the Amazon S3 User Guide. To use this action, you must have permission to perform the s3:PutStorageLensConfiguration action. For more information, see [Setting permissions to use Amazon S3 Storage Lens](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens_iam_permissions.html) in the Amazon S3 User Guide.
     ///
@@ -6180,7 +6180,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutStorageLensConfigurationTagging` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `PutStorageLensConfigurationTagging` operation on the `S3Control` service.
     ///
     /// This operation is not supported by directory buckets. Put or replace tags on an existing Amazon S3 Storage Lens configuration. For more information about S3 Storage Lens, see [Assessing your storage activity and usage with Amazon S3 Storage Lens ](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens.html) in the Amazon S3 User Guide. To use this action, you must have permission to perform the s3:PutStorageLensConfigurationTagging action. For more information, see [Setting permissions to use Amazon S3 Storage Lens](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens_iam_permissions.html) in the Amazon S3 User Guide.
     ///
@@ -6245,7 +6245,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SubmitMultiRegionAccessPointRoutes` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `SubmitMultiRegionAccessPointRoutes` operation on the `S3Control` service.
     ///
     /// This operation is not supported by directory buckets. Submits an updated route configuration for a Multi-Region Access Point. This API operation updates the routing status for the specified Regions from active to passive, or from passive to active. A value of 0 indicates a passive status, which means that traffic won't be routed to the specified Region. A value of 100 indicates an active status, which means that traffic will be routed to the specified Region. At least one Region must be active at all times. When the routing configuration is changed, any in-progress operations (uploads, copies, deletes, and so on) to formerly active Regions will continue to run to their final completion state (success or failure). The routing configurations of any Regions that aren’t specified remain unchanged. Updated routing configurations might not be immediately applied. It can take up to 2 minutes for your changes to take effect. To submit routing control changes and failover requests, use the Amazon S3 failover control infrastructure endpoints in these five Amazon Web Services Regions:
     ///
@@ -6321,7 +6321,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `TagResource` operation on the `S3Control` service.
     ///
     /// Creates a new Amazon Web Services resource tag or updates an existing resource tag. Each tag is a label consisting of a user-defined key and value. Tags can help you manage, identify, organize, search for, and filter resources. You can add up to 50 Amazon Web Services resource tags for each S3 resource. This operation is only supported for [S3 Storage Lens groups](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-lens-groups.html) and for [S3 Access Grants](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-grants-tagging.html). The tagged resource can be an S3 Storage Lens group or S3 Access Grants instance, registered location, or grant. Permissions You must have the s3:TagResource permission to use this operation. For more information about the required Storage Lens Groups permissions, see [Setting account permissions to use S3 Storage Lens groups](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_iam_permissions.html#storage_lens_groups_permissions). For information about S3 Tagging errors, see [List of Amazon S3 Tagging error codes](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#S3TaggingErrorCodeList).
     ///
@@ -6386,7 +6386,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `UntagResource` operation on the `S3Control` service.
     ///
     /// This operation removes the specified Amazon Web Services resource tags from an S3 resource. Each tag is a label consisting of a user-defined key and value. Tags can help you manage, identify, organize, search for, and filter resources. This operation is only supported for [S3 Storage Lens groups](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-lens-groups.html) and for [S3 Access Grants](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-grants-tagging.html). The tagged resource can be an S3 Storage Lens group or S3 Access Grants instance, registered location, or grant. Permissions You must have the s3:UntagResource permission to use this operation. For more information about the required Storage Lens Groups permissions, see [Setting account permissions to use S3 Storage Lens groups](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_iam_permissions.html#storage_lens_groups_permissions). For information about S3 Tagging errors, see [List of Amazon S3 Tagging error codes](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#S3TaggingErrorCodeList).
     ///
@@ -6449,7 +6449,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateAccessGrantsLocation` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `UpdateAccessGrantsLocation` operation on the `S3Control` service.
     ///
     /// Updates the IAM role of a registered location in your S3 Access Grants instance. Permissions You must have the s3:UpdateAccessGrantsLocation permission to use this operation. Additional Permissions You must also have the following permission: iam:PassRole
     ///
@@ -6515,7 +6515,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateJobPriority` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `UpdateJobPriority` operation on the `S3Control` service.
     ///
     /// Updates an existing S3 Batch Operations job's priority. For more information, see [S3 Batch Operations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/batch-ops.html) in the Amazon S3 User Guide. Permissions To use the UpdateJobPriority operation, you must have permission to perform the s3:UpdateJobPriority action. Related actions include:
     ///
@@ -6594,7 +6594,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateJobStatus` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `UpdateJobStatus` operation on the `S3Control` service.
     ///
     /// Updates the status for the specified job. Use this operation to confirm that you want to run a job or to cancel an existing job. For more information, see [S3 Batch Operations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/batch-ops.html) in the Amazon S3 User Guide. Permissions To use the UpdateJobStatus operation, you must have permission to perform the s3:UpdateJobStatus action. Related actions include:
     ///
@@ -6674,7 +6674,7 @@ extension S3ControlClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateStorageLensGroup` operation on the `AWSS3ControlServiceV20180820` service.
+    /// Performs the `UpdateStorageLensGroup` operation on the `S3Control` service.
     ///
     /// Updates the existing Storage Lens group. To use this operation, you must have the permission to perform the s3:UpdateStorageLensGroup action. For more information about the required Storage Lens Groups permissions, see [Setting account permissions to use S3 Storage Lens groups](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_iam_permissions.html#storage_lens_groups_permissions). For information about Storage Lens groups errors, see [List of Amazon S3 Storage Lens error codes](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#S3LensErrorCodeList).
     ///

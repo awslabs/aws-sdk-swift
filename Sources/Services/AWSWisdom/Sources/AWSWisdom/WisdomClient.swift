@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class WisdomClient: ClientRuntime.Client {
     public static let clientName = "WisdomClient"
-    public static let version = "1.0.69"
+    public static let version = "1.0.74"
     let client: ClientRuntime.SdkHttpClient
     let config: WisdomClient.WisdomClientConfiguration
     let serviceName = "Wisdom"
@@ -331,7 +331,7 @@ extension WisdomClient {
 }
 
 extension WisdomClient {
-    /// Performs the `CreateAssistant` operation on the `WisdomService` service.
+    /// Performs the `CreateAssistant` operation on the `Wisdom` service.
     ///
     /// Creates an Amazon Connect Wisdom assistant.
     ///
@@ -404,7 +404,7 @@ extension WisdomClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateAssistantAssociation` operation on the `WisdomService` service.
+    /// Performs the `CreateAssistantAssociation` operation on the `Wisdom` service.
     ///
     /// Creates an association between an Amazon Connect Wisdom assistant and another resource. Currently, the only supported association is with a knowledge base. An assistant can have only a single association.
     ///
@@ -478,7 +478,7 @@ extension WisdomClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateContent` operation on the `WisdomService` service.
+    /// Performs the `CreateContent` operation on the `Wisdom` service.
     ///
     /// Creates Wisdom content. Before to calling this API, use [StartContentUpload](https://docs.aws.amazon.com/wisdom/latest/APIReference/API_StartContentUpload.html) to upload an asset.
     ///
@@ -552,7 +552,7 @@ extension WisdomClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateKnowledgeBase` operation on the `WisdomService` service.
+    /// Performs the `CreateKnowledgeBase` operation on the `Wisdom` service.
     ///
     /// Creates a knowledge base. When using this API, you cannot reuse [Amazon AppIntegrations](https://docs.aws.amazon.com/appintegrations/latest/APIReference/Welcome.html) DataIntegrations with external knowledge bases such as Salesforce and ServiceNow. If you do, you'll get an InvalidRequestException error. For example, you're programmatically managing your external knowledge base, and you want to add or remove one of the fields that is being ingested from Salesforce. Do the following:
     ///
@@ -633,7 +633,7 @@ extension WisdomClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateQuickResponse` operation on the `WisdomService` service.
+    /// Performs the `CreateQuickResponse` operation on the `Wisdom` service.
     ///
     /// Creates a Wisdom quick response.
     ///
@@ -707,7 +707,7 @@ extension WisdomClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateSession` operation on the `WisdomService` service.
+    /// Performs the `CreateSession` operation on the `Wisdom` service.
     ///
     /// Creates a session. A session is a contextual container used for generating recommendations. Amazon Connect creates a new Wisdom session for each contact on which Wisdom is enabled.
     ///
@@ -779,7 +779,7 @@ extension WisdomClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAssistant` operation on the `WisdomService` service.
+    /// Performs the `DeleteAssistant` operation on the `Wisdom` service.
     ///
     /// Deletes an assistant.
     ///
@@ -847,7 +847,7 @@ extension WisdomClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAssistantAssociation` operation on the `WisdomService` service.
+    /// Performs the `DeleteAssistantAssociation` operation on the `Wisdom` service.
     ///
     /// Deletes an assistant association.
     ///
@@ -915,7 +915,7 @@ extension WisdomClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteContent` operation on the `WisdomService` service.
+    /// Performs the `DeleteContent` operation on the `Wisdom` service.
     ///
     /// Deletes the content.
     ///
@@ -983,7 +983,7 @@ extension WisdomClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteImportJob` operation on the `WisdomService` service.
+    /// Performs the `DeleteImportJob` operation on the `Wisdom` service.
     ///
     /// Deletes the quick response import job.
     ///
@@ -1052,7 +1052,7 @@ extension WisdomClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteKnowledgeBase` operation on the `WisdomService` service.
+    /// Performs the `DeleteKnowledgeBase` operation on the `Wisdom` service.
     ///
     /// Deletes the knowledge base. When you use this API to delete an external knowledge base such as Salesforce or ServiceNow, you must also delete the [Amazon AppIntegrations](https://docs.aws.amazon.com/appintegrations/latest/APIReference/Welcome.html) DataIntegration. This is because you can't reuse the DataIntegration after it's been associated with an external knowledge base. However, you can delete and recreate it. See [DeleteDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_DeleteDataIntegration.html) and [CreateDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_CreateDataIntegration.html) in the Amazon AppIntegrations API Reference.
     ///
@@ -1121,7 +1121,7 @@ extension WisdomClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteQuickResponse` operation on the `WisdomService` service.
+    /// Performs the `DeleteQuickResponse` operation on the `Wisdom` service.
     ///
     /// Deletes a quick response.
     ///
@@ -1189,7 +1189,7 @@ extension WisdomClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAssistant` operation on the `WisdomService` service.
+    /// Performs the `GetAssistant` operation on the `Wisdom` service.
     ///
     /// Retrieves information about an assistant.
     ///
@@ -1257,7 +1257,7 @@ extension WisdomClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAssistantAssociation` operation on the `WisdomService` service.
+    /// Performs the `GetAssistantAssociation` operation on the `Wisdom` service.
     ///
     /// Retrieves information about an assistant association.
     ///
@@ -1325,7 +1325,7 @@ extension WisdomClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetContent` operation on the `WisdomService` service.
+    /// Performs the `GetContent` operation on the `Wisdom` service.
     ///
     /// Retrieves content, including a pre-signed URL to download the content.
     ///
@@ -1393,7 +1393,7 @@ extension WisdomClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetContentSummary` operation on the `WisdomService` service.
+    /// Performs the `GetContentSummary` operation on the `Wisdom` service.
     ///
     /// Retrieves summary information about the content.
     ///
@@ -1461,7 +1461,7 @@ extension WisdomClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetImportJob` operation on the `WisdomService` service.
+    /// Performs the `GetImportJob` operation on the `Wisdom` service.
     ///
     /// Retrieves the started import job.
     ///
@@ -1529,7 +1529,7 @@ extension WisdomClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetKnowledgeBase` operation on the `WisdomService` service.
+    /// Performs the `GetKnowledgeBase` operation on the `Wisdom` service.
     ///
     /// Retrieves information about the knowledge base.
     ///
@@ -1597,7 +1597,7 @@ extension WisdomClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetQuickResponse` operation on the `WisdomService` service.
+    /// Performs the `GetQuickResponse` operation on the `Wisdom` service.
     ///
     /// Retrieves the quick response.
     ///
@@ -1665,7 +1665,7 @@ extension WisdomClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetRecommendations` operation on the `WisdomService` service.
+    /// Performs the `GetRecommendations` operation on the `Wisdom` service.
     ///
     /// Retrieves recommendations for the specified session. To avoid retrieving the same recommendations in subsequent calls, use [NotifyRecommendationsReceived](https://docs.aws.amazon.com/wisdom/latest/APIReference/API_NotifyRecommendationsReceived.html). This API supports long-polling behavior with the waitTimeSeconds parameter. Short poll is the default behavior and only returns recommendations already available. To perform a manual query against an assistant, use [QueryAssistant](https://docs.aws.amazon.com/wisdom/latest/APIReference/API_QueryAssistant.html).
     @available(*, deprecated, message: "GetRecommendations API will be discontinued starting June 1, 2024. To receive generative responses after March 1, 2024 you will need to create a new Assistant in the Connect console and integrate the Amazon Q in Connect JavaScript library (amazon-q-connectjs) into your applications.")
@@ -1735,7 +1735,7 @@ extension WisdomClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetSession` operation on the `WisdomService` service.
+    /// Performs the `GetSession` operation on the `Wisdom` service.
     ///
     /// Retrieves information for a specified session.
     ///
@@ -1803,7 +1803,7 @@ extension WisdomClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAssistantAssociations` operation on the `WisdomService` service.
+    /// Performs the `ListAssistantAssociations` operation on the `Wisdom` service.
     ///
     /// Lists information about assistant associations.
     ///
@@ -1872,7 +1872,7 @@ extension WisdomClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAssistants` operation on the `WisdomService` service.
+    /// Performs the `ListAssistants` operation on the `Wisdom` service.
     ///
     /// Lists information about assistants.
     ///
@@ -1940,7 +1940,7 @@ extension WisdomClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListContents` operation on the `WisdomService` service.
+    /// Performs the `ListContents` operation on the `Wisdom` service.
     ///
     /// Lists the content.
     ///
@@ -2009,7 +2009,7 @@ extension WisdomClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListImportJobs` operation on the `WisdomService` service.
+    /// Performs the `ListImportJobs` operation on the `Wisdom` service.
     ///
     /// Lists information about import jobs.
     ///
@@ -2077,7 +2077,7 @@ extension WisdomClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListKnowledgeBases` operation on the `WisdomService` service.
+    /// Performs the `ListKnowledgeBases` operation on the `Wisdom` service.
     ///
     /// Lists the knowledge bases.
     ///
@@ -2145,7 +2145,7 @@ extension WisdomClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListQuickResponses` operation on the `WisdomService` service.
+    /// Performs the `ListQuickResponses` operation on the `Wisdom` service.
     ///
     /// Lists information about quick response.
     ///
@@ -2214,7 +2214,7 @@ extension WisdomClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `WisdomService` service.
+    /// Performs the `ListTagsForResource` operation on the `Wisdom` service.
     ///
     /// Lists the tags for the specified resource.
     ///
@@ -2280,7 +2280,7 @@ extension WisdomClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `NotifyRecommendationsReceived` operation on the `WisdomService` service.
+    /// Performs the `NotifyRecommendationsReceived` operation on the `Wisdom` service.
     ///
     /// Removes the specified recommendations from the specified assistant's queue of newly available recommendations. You can use this API in conjunction with [GetRecommendations](https://docs.aws.amazon.com/wisdom/latest/APIReference/API_GetRecommendations.html) and a waitTimeSeconds input for long-polling behavior and avoiding duplicate recommendations.
     ///
@@ -2351,7 +2351,7 @@ extension WisdomClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `QueryAssistant` operation on the `WisdomService` service.
+    /// Performs the `QueryAssistant` operation on the `Wisdom` service.
     ///
     /// Performs a manual search against the specified assistant. To retrieve recommendations for an assistant, use [GetRecommendations](https://docs.aws.amazon.com/wisdom/latest/APIReference/API_GetRecommendations.html).
     @available(*, deprecated, message: "QueryAssistant API will be discontinued starting June 1, 2024. To receive generative responses after March 1, 2024 you will need to create a new Assistant in the Connect console and integrate the Amazon Q in Connect JavaScript library (amazon-q-connectjs) into your applications.")
@@ -2424,7 +2424,7 @@ extension WisdomClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RemoveKnowledgeBaseTemplateUri` operation on the `WisdomService` service.
+    /// Performs the `RemoveKnowledgeBaseTemplateUri` operation on the `Wisdom` service.
     ///
     /// Removes a URI template from a knowledge base.
     ///
@@ -2492,7 +2492,7 @@ extension WisdomClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SearchContent` operation on the `WisdomService` service.
+    /// Performs the `SearchContent` operation on the `Wisdom` service.
     ///
     /// Searches for content in a specified knowledge base. Can be used to get a specific content resource by its name.
     ///
@@ -2564,7 +2564,7 @@ extension WisdomClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SearchQuickResponses` operation on the `WisdomService` service.
+    /// Performs the `SearchQuickResponses` operation on the `Wisdom` service.
     ///
     /// Searches existing Wisdom quick responses in a Wisdom knowledge base.
     ///
@@ -2637,7 +2637,7 @@ extension WisdomClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SearchSessions` operation on the `WisdomService` service.
+    /// Performs the `SearchSessions` operation on the `Wisdom` service.
     ///
     /// Searches for sessions.
     ///
@@ -2709,7 +2709,7 @@ extension WisdomClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartContentUpload` operation on the `WisdomService` service.
+    /// Performs the `StartContentUpload` operation on the `Wisdom` service.
     ///
     /// Get a URL to upload content to a knowledge base. To upload content, first make a PUT request to the returned URL with your file, making sure to include the required headers. Then use [CreateContent](https://docs.aws.amazon.com/wisdom/latest/APIReference/API_CreateContent.html) to finalize the content creation process or [UpdateContent](https://docs.aws.amazon.com/wisdom/latest/APIReference/API_UpdateContent.html) to modify an existing resource. You can only upload content to a knowledge base of type CUSTOM.
     ///
@@ -2780,7 +2780,7 @@ extension WisdomClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartImportJob` operation on the `WisdomService` service.
+    /// Performs the `StartImportJob` operation on the `Wisdom` service.
     ///
     /// Start an asynchronous job to import Wisdom resources from an uploaded source file. Before calling this API, use [StartContentUpload](https://docs.aws.amazon.com/wisdom/latest/APIReference/API_StartContentUpload.html) to upload an asset that contains the resource data.
     ///
@@ -2856,7 +2856,7 @@ extension WisdomClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `WisdomService` service.
+    /// Performs the `TagResource` operation on the `Wisdom` service.
     ///
     /// Adds the specified tags to the specified resource.
     ///
@@ -2926,7 +2926,7 @@ extension WisdomClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `WisdomService` service.
+    /// Performs the `UntagResource` operation on the `Wisdom` service.
     ///
     /// Removes the specified tags from the specified resource.
     ///
@@ -2993,7 +2993,7 @@ extension WisdomClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateContent` operation on the `WisdomService` service.
+    /// Performs the `UpdateContent` operation on the `Wisdom` service.
     ///
     /// Updates information about the content.
     ///
@@ -3065,7 +3065,7 @@ extension WisdomClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateKnowledgeBaseTemplateUri` operation on the `WisdomService` service.
+    /// Performs the `UpdateKnowledgeBaseTemplateUri` operation on the `Wisdom` service.
     ///
     /// Updates the template URI of a knowledge base. This is only supported for knowledge bases of type EXTERNAL. Include a single variable in ${variable} format; this interpolated by Wisdom using ingested content. For example, if you ingest a Salesforce article, it has an Id value, and you can set the template URI to https://myInstanceName.lightning.force.com/lightning/r/Knowledge__kav/*${Id}*/view.
     ///
@@ -3136,7 +3136,7 @@ extension WisdomClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateQuickResponse` operation on the `WisdomService` service.
+    /// Performs the `UpdateQuickResponse` operation on the `Wisdom` service.
     ///
     /// Updates an existing Wisdom quick response.
     ///

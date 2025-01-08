@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class VPCLatticeClient: ClientRuntime.Client {
     public static let clientName = "VPCLatticeClient"
-    public static let version = "1.0.69"
+    public static let version = "1.0.74"
     let client: ClientRuntime.SdkHttpClient
     let config: VPCLatticeClient.VPCLatticeClientConfiguration
     let serviceName = "VPC Lattice"
@@ -331,7 +331,7 @@ extension VPCLatticeClient {
 }
 
 extension VPCLatticeClient {
-    /// Performs the `BatchUpdateRule` operation on the `MercuryControlPlane` service.
+    /// Performs the `BatchUpdateRule` operation on the `VPCLattice` service.
     ///
     /// Updates the listener rules in a batch. You can use this operation to change the priority of listener rules. This can be useful when bulk updating or swapping rule priority. Required permissions: vpc-lattice:UpdateRule For more information, see [How Amazon VPC Lattice works with IAM](https://docs.aws.amazon.com/vpc-lattice/latest/ug/security_iam_service-with-iam.html) in the Amazon VPC Lattice User Guide.
     ///
@@ -405,7 +405,7 @@ extension VPCLatticeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateAccessLogSubscription` operation on the `MercuryControlPlane` service.
+    /// Performs the `CreateAccessLogSubscription` operation on the `VPCLattice` service.
     ///
     /// Enables access logs to be sent to Amazon CloudWatch, Amazon S3, and Amazon Kinesis Data Firehose. The service network owner can use the access logs to audit the services in the network. The service network owner can only see access logs from clients and services that are associated with their service network. Access log entries represent traffic originated from VPCs associated with that network. For more information, see [Access logs](https://docs.aws.amazon.com/vpc-lattice/latest/ug/monitoring-access-logs.html) in the Amazon VPC Lattice User Guide.
     ///
@@ -480,7 +480,7 @@ extension VPCLatticeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateListener` operation on the `MercuryControlPlane` service.
+    /// Performs the `CreateListener` operation on the `VPCLattice` service.
     ///
     /// Creates a listener for a service. Before you start using your Amazon VPC Lattice service, you must add one or more listeners. A listener is a process that checks for connection requests to your services. For more information, see [Listeners](https://docs.aws.amazon.com/vpc-lattice/latest/ug/listeners.html) in the Amazon VPC Lattice User Guide.
     ///
@@ -556,7 +556,7 @@ extension VPCLatticeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateResourceConfiguration` operation on the `MercuryControlPlane` service.
+    /// Performs the `CreateResourceConfiguration` operation on the `VPCLattice` service.
     ///
     /// Creates a resource configuration. A resource configuration defines a specific resource. You can associate a resource configuration with a service network or a VPC endpoint.
     ///
@@ -632,7 +632,7 @@ extension VPCLatticeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateResourceGateway` operation on the `MercuryControlPlane` service.
+    /// Performs the `CreateResourceGateway` operation on the `VPCLattice` service.
     ///
     /// Creates a resource gateway.
     ///
@@ -708,7 +708,7 @@ extension VPCLatticeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateRule` operation on the `MercuryControlPlane` service.
+    /// Performs the `CreateRule` operation on the `VPCLattice` service.
     ///
     /// Creates a listener rule. Each listener has a default rule for checking connection requests, but you can define additional rules. Each rule consists of a priority, one or more actions, and one or more conditions. For more information, see [Listener rules](https://docs.aws.amazon.com/vpc-lattice/latest/ug/listeners.html#listener-rules) in the Amazon VPC Lattice User Guide.
     ///
@@ -784,7 +784,7 @@ extension VPCLatticeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateService` operation on the `MercuryControlPlane` service.
+    /// Performs the `CreateService` operation on the `VPCLattice` service.
     ///
     /// Creates a service. A service is any software application that can run on instances containers, or serverless functions within an account or virtual private cloud (VPC). For more information, see [Services](https://docs.aws.amazon.com/vpc-lattice/latest/ug/services.html) in the Amazon VPC Lattice User Guide.
     ///
@@ -860,7 +860,7 @@ extension VPCLatticeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateServiceNetwork` operation on the `MercuryControlPlane` service.
+    /// Performs the `CreateServiceNetwork` operation on the `VPCLattice` service.
     ///
     /// Creates a service network. A service network is a logical boundary for a collection of services. You can associate services and VPCs with a service network. For more information, see [Service networks](https://docs.aws.amazon.com/vpc-lattice/latest/ug/service-networks.html) in the Amazon VPC Lattice User Guide.
     ///
@@ -936,7 +936,7 @@ extension VPCLatticeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateServiceNetworkResourceAssociation` operation on the `MercuryControlPlane` service.
+    /// Performs the `CreateServiceNetworkResourceAssociation` operation on the `VPCLattice` service.
     ///
     /// Associates the specified service network with the specified resource configuration. This allows the resource configuration to receive connections through the service network, including through a service network VPC endpoint.
     ///
@@ -1012,7 +1012,7 @@ extension VPCLatticeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateServiceNetworkServiceAssociation` operation on the `MercuryControlPlane` service.
+    /// Performs the `CreateServiceNetworkServiceAssociation` operation on the `VPCLattice` service.
     ///
     /// Associates the specified service with the specified service network. For more information, see [Manage service associations](https://docs.aws.amazon.com/vpc-lattice/latest/ug/service-network-associations.html#service-network-service-associations) in the Amazon VPC Lattice User Guide. You can't use this operation if the service and service network are already associated or if there is a disassociation or deletion in progress. If the association fails, you can retry the operation by deleting the association and recreating it. You cannot associate a service and service network that are shared with a caller. The caller must own either the service or the service network. As a result of this operation, the association is created in the service network account and the association owner account.
     ///
@@ -1088,7 +1088,7 @@ extension VPCLatticeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateServiceNetworkVpcAssociation` operation on the `MercuryControlPlane` service.
+    /// Performs the `CreateServiceNetworkVpcAssociation` operation on the `VPCLattice` service.
     ///
     /// Associates a VPC with a service network. When you associate a VPC with the service network, it enables all the resources within that VPC to be clients and communicate with other services in the service network. For more information, see [Manage VPC associations](https://docs.aws.amazon.com/vpc-lattice/latest/ug/service-network-associations.html#service-network-vpc-associations) in the Amazon VPC Lattice User Guide. You can't use this operation if there is a disassociation in progress. If the association fails, retry by deleting the association and recreating it. As a result of this operation, the association gets created in the service network account and the VPC owner account. If you add a security group to the service network and VPC association, the association must continue to always have at least one security group. You can add or edit security groups at any time. However, to remove all security groups, you must first delete the association and recreate it without security groups.
     ///
@@ -1164,7 +1164,7 @@ extension VPCLatticeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateTargetGroup` operation on the `MercuryControlPlane` service.
+    /// Performs the `CreateTargetGroup` operation on the `VPCLattice` service.
     ///
     /// Creates a target group. A target group is a collection of targets, or compute resources, that run your application or service. A target group can only be used by a single service. For more information, see [Target groups](https://docs.aws.amazon.com/vpc-lattice/latest/ug/target-groups.html) in the Amazon VPC Lattice User Guide.
     ///
@@ -1240,7 +1240,7 @@ extension VPCLatticeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAccessLogSubscription` operation on the `MercuryControlPlane` service.
+    /// Performs the `DeleteAccessLogSubscription` operation on the `VPCLattice` service.
     ///
     /// Deletes the specified access log subscription.
     ///
@@ -1310,7 +1310,7 @@ extension VPCLatticeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAuthPolicy` operation on the `MercuryControlPlane` service.
+    /// Performs the `DeleteAuthPolicy` operation on the `VPCLattice` service.
     ///
     /// Deletes the specified auth policy. If an auth is set to AWS_IAM and the auth policy is deleted, all requests are denied. If you are trying to remove the auth policy completely, you must set the auth type to NONE. If auth is enabled on the resource, but no auth policy is set, all requests are denied.
     ///
@@ -1380,7 +1380,7 @@ extension VPCLatticeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteListener` operation on the `MercuryControlPlane` service.
+    /// Performs the `DeleteListener` operation on the `VPCLattice` service.
     ///
     /// Deletes the specified listener.
     ///
@@ -1451,7 +1451,7 @@ extension VPCLatticeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteResourceConfiguration` operation on the `MercuryControlPlane` service.
+    /// Performs the `DeleteResourceConfiguration` operation on the `VPCLattice` service.
     ///
     /// Deletes the specified resource configuration.
     ///
@@ -1522,7 +1522,7 @@ extension VPCLatticeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteResourceEndpointAssociation` operation on the `MercuryControlPlane` service.
+    /// Performs the `DeleteResourceEndpointAssociation` operation on the `VPCLattice` service.
     ///
     /// Disassociates the resource configuration from the resource VPC endpoint.
     ///
@@ -1592,7 +1592,7 @@ extension VPCLatticeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteResourceGateway` operation on the `MercuryControlPlane` service.
+    /// Performs the `DeleteResourceGateway` operation on the `VPCLattice` service.
     ///
     /// Deletes the specified resource gateway.
     ///
@@ -1663,7 +1663,7 @@ extension VPCLatticeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteResourcePolicy` operation on the `MercuryControlPlane` service.
+    /// Performs the `DeleteResourcePolicy` operation on the `VPCLattice` service.
     ///
     /// Deletes the specified resource policy.
     ///
@@ -1733,7 +1733,7 @@ extension VPCLatticeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteRule` operation on the `MercuryControlPlane` service.
+    /// Performs the `DeleteRule` operation on the `VPCLattice` service.
     ///
     /// Deletes a listener rule. Each listener has a default rule for checking connection requests, but you can define additional rules. Each rule consists of a priority, one or more actions, and one or more conditions. You can delete additional listener rules, but you cannot delete the default rule. For more information, see [Listener rules](https://docs.aws.amazon.com/vpc-lattice/latest/ug/listeners.html#listener-rules) in the Amazon VPC Lattice User Guide.
     ///
@@ -1804,7 +1804,7 @@ extension VPCLatticeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteService` operation on the `MercuryControlPlane` service.
+    /// Performs the `DeleteService` operation on the `VPCLattice` service.
     ///
     /// Deletes a service. A service can't be deleted if it's associated with a service network. If you delete a service, all resources related to the service, such as the resource policy, auth policy, listeners, listener rules, and access log subscriptions, are also deleted. For more information, see [Delete a service](https://docs.aws.amazon.com/vpc-lattice/latest/ug/services.html#delete-service) in the Amazon VPC Lattice User Guide.
     ///
@@ -1875,7 +1875,7 @@ extension VPCLatticeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteServiceNetwork` operation on the `MercuryControlPlane` service.
+    /// Performs the `DeleteServiceNetwork` operation on the `VPCLattice` service.
     ///
     /// Deletes a service network. You can only delete the service network if there is no service or VPC associated with it. If you delete a service network, all resources related to the service network, such as the resource policy, auth policy, and access log subscriptions, are also deleted. For more information, see [Delete a service network](https://docs.aws.amazon.com/vpc-lattice/latest/ug/service-networks.html#delete-service-network) in the Amazon VPC Lattice User Guide.
     ///
@@ -1946,7 +1946,7 @@ extension VPCLatticeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteServiceNetworkResourceAssociation` operation on the `MercuryControlPlane` service.
+    /// Performs the `DeleteServiceNetworkResourceAssociation` operation on the `VPCLattice` service.
     ///
     /// Deletes the association between a service network and a resource configuration.
     ///
@@ -2017,7 +2017,7 @@ extension VPCLatticeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteServiceNetworkServiceAssociation` operation on the `MercuryControlPlane` service.
+    /// Performs the `DeleteServiceNetworkServiceAssociation` operation on the `VPCLattice` service.
     ///
     /// Deletes the association between a service and a service network. This operation fails if an association is still in progress.
     ///
@@ -2088,7 +2088,7 @@ extension VPCLatticeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteServiceNetworkVpcAssociation` operation on the `MercuryControlPlane` service.
+    /// Performs the `DeleteServiceNetworkVpcAssociation` operation on the `VPCLattice` service.
     ///
     /// Disassociates the VPC from the service network. You can't disassociate the VPC if there is a create or update association in progress.
     ///
@@ -2159,7 +2159,7 @@ extension VPCLatticeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteTargetGroup` operation on the `MercuryControlPlane` service.
+    /// Performs the `DeleteTargetGroup` operation on the `VPCLattice` service.
     ///
     /// Deletes a target group. You can't delete a target group if it is used in a listener rule or if the target group creation is in progress.
     ///
@@ -2229,7 +2229,7 @@ extension VPCLatticeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeregisterTargets` operation on the `MercuryControlPlane` service.
+    /// Performs the `DeregisterTargets` operation on the `VPCLattice` service.
     ///
     /// Deregisters the specified targets from the specified target group.
     ///
@@ -2303,7 +2303,7 @@ extension VPCLatticeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAccessLogSubscription` operation on the `MercuryControlPlane` service.
+    /// Performs the `GetAccessLogSubscription` operation on the `VPCLattice` service.
     ///
     /// Retrieves information about the specified access log subscription.
     ///
@@ -2373,7 +2373,7 @@ extension VPCLatticeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAuthPolicy` operation on the `MercuryControlPlane` service.
+    /// Performs the `GetAuthPolicy` operation on the `VPCLattice` service.
     ///
     /// Retrieves information about the auth policy for the specified service or service network.
     ///
@@ -2443,7 +2443,7 @@ extension VPCLatticeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetListener` operation on the `MercuryControlPlane` service.
+    /// Performs the `GetListener` operation on the `VPCLattice` service.
     ///
     /// Retrieves information about the specified listener for the specified service.
     ///
@@ -2513,7 +2513,7 @@ extension VPCLatticeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetResourceConfiguration` operation on the `MercuryControlPlane` service.
+    /// Performs the `GetResourceConfiguration` operation on the `VPCLattice` service.
     ///
     /// Retrieves information about the specified resource configuration.
     ///
@@ -2583,7 +2583,7 @@ extension VPCLatticeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetResourceGateway` operation on the `MercuryControlPlane` service.
+    /// Performs the `GetResourceGateway` operation on the `VPCLattice` service.
     ///
     /// Retrieves information about the specified resource gateway.
     ///
@@ -2653,7 +2653,7 @@ extension VPCLatticeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetResourcePolicy` operation on the `MercuryControlPlane` service.
+    /// Performs the `GetResourcePolicy` operation on the `VPCLattice` service.
     ///
     /// Retrieves information about the specified resource policy. The resource policy is an IAM policy created on behalf of the resource owner when they share a resource.
     ///
@@ -2723,7 +2723,7 @@ extension VPCLatticeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetRule` operation on the `MercuryControlPlane` service.
+    /// Performs the `GetRule` operation on the `VPCLattice` service.
     ///
     /// Retrieves information about the specified listener rules. You can also retrieve information about the default listener rule. For more information, see [Listener rules](https://docs.aws.amazon.com/vpc-lattice/latest/ug/listeners.html#listener-rules) in the Amazon VPC Lattice User Guide.
     ///
@@ -2793,7 +2793,7 @@ extension VPCLatticeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetService` operation on the `MercuryControlPlane` service.
+    /// Performs the `GetService` operation on the `VPCLattice` service.
     ///
     /// Retrieves information about the specified service.
     ///
@@ -2863,7 +2863,7 @@ extension VPCLatticeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetServiceNetwork` operation on the `MercuryControlPlane` service.
+    /// Performs the `GetServiceNetwork` operation on the `VPCLattice` service.
     ///
     /// Retrieves information about the specified service network.
     ///
@@ -2933,7 +2933,7 @@ extension VPCLatticeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetServiceNetworkResourceAssociation` operation on the `MercuryControlPlane` service.
+    /// Performs the `GetServiceNetworkResourceAssociation` operation on the `VPCLattice` service.
     ///
     /// Retrieves information about the specified association between a service network and a resource configuration.
     ///
@@ -3003,7 +3003,7 @@ extension VPCLatticeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetServiceNetworkServiceAssociation` operation on the `MercuryControlPlane` service.
+    /// Performs the `GetServiceNetworkServiceAssociation` operation on the `VPCLattice` service.
     ///
     /// Retrieves information about the specified association between a service network and a service.
     ///
@@ -3073,7 +3073,7 @@ extension VPCLatticeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetServiceNetworkVpcAssociation` operation on the `MercuryControlPlane` service.
+    /// Performs the `GetServiceNetworkVpcAssociation` operation on the `VPCLattice` service.
     ///
     /// Retrieves information about the specified association between a service network and a VPC.
     ///
@@ -3143,7 +3143,7 @@ extension VPCLatticeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetTargetGroup` operation on the `MercuryControlPlane` service.
+    /// Performs the `GetTargetGroup` operation on the `VPCLattice` service.
     ///
     /// Retrieves information about the specified target group.
     ///
@@ -3213,7 +3213,7 @@ extension VPCLatticeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAccessLogSubscriptions` operation on the `MercuryControlPlane` service.
+    /// Performs the `ListAccessLogSubscriptions` operation on the `VPCLattice` service.
     ///
     /// Lists the access log subscriptions for the specified service network or service.
     ///
@@ -3283,7 +3283,7 @@ extension VPCLatticeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListListeners` operation on the `MercuryControlPlane` service.
+    /// Performs the `ListListeners` operation on the `VPCLattice` service.
     ///
     /// Lists the listeners for the specified service.
     ///
@@ -3354,7 +3354,7 @@ extension VPCLatticeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListResourceConfigurations` operation on the `MercuryControlPlane` service.
+    /// Performs the `ListResourceConfigurations` operation on the `VPCLattice` service.
     ///
     /// Lists the resource configurations owned by or shared with this account.
     ///
@@ -3424,7 +3424,7 @@ extension VPCLatticeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListResourceEndpointAssociations` operation on the `MercuryControlPlane` service.
+    /// Performs the `ListResourceEndpointAssociations` operation on the `VPCLattice` service.
     ///
     /// Lists the associations for the specified VPC endpoint.
     ///
@@ -3494,7 +3494,7 @@ extension VPCLatticeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListResourceGateways` operation on the `MercuryControlPlane` service.
+    /// Performs the `ListResourceGateways` operation on the `VPCLattice` service.
     ///
     /// Lists the resource gateways that you own or that were shared with you.
     ///
@@ -3564,7 +3564,7 @@ extension VPCLatticeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListRules` operation on the `MercuryControlPlane` service.
+    /// Performs the `ListRules` operation on the `VPCLattice` service.
     ///
     /// Lists the rules for the specified listener.
     ///
@@ -3635,7 +3635,7 @@ extension VPCLatticeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListServiceNetworkResourceAssociations` operation on the `MercuryControlPlane` service.
+    /// Performs the `ListServiceNetworkResourceAssociations` operation on the `VPCLattice` service.
     ///
     /// Lists the associations between a service network and a resource configuration.
     ///
@@ -3705,7 +3705,7 @@ extension VPCLatticeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListServiceNetworkServiceAssociations` operation on the `MercuryControlPlane` service.
+    /// Performs the `ListServiceNetworkServiceAssociations` operation on the `VPCLattice` service.
     ///
     /// Lists the associations between a service network and a service. You can filter the list either by service or service network. You must provide either the service network identifier or the service identifier. Every association in Amazon VPC Lattice has a unique Amazon Resource Name (ARN), such as when a service network is associated with a VPC or when a service is associated with a service network. If the association is for a resource is shared with another account, the association includes the local account ID as the prefix in the ARN.
     ///
@@ -3775,7 +3775,7 @@ extension VPCLatticeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListServiceNetworkVpcAssociations` operation on the `MercuryControlPlane` service.
+    /// Performs the `ListServiceNetworkVpcAssociations` operation on the `VPCLattice` service.
     ///
     /// Lists the associations between a service network and a VPC. You can filter the list either by VPC or service network. You must provide either the ID of the service network identifier or the ID of the VPC.
     ///
@@ -3845,7 +3845,7 @@ extension VPCLatticeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListServiceNetworkVpcEndpointAssociations` operation on the `MercuryControlPlane` service.
+    /// Performs the `ListServiceNetworkVpcEndpointAssociations` operation on the `VPCLattice` service.
     ///
     /// Lists the associations between a service network and a VPC endpoint.
     ///
@@ -3915,7 +3915,7 @@ extension VPCLatticeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListServiceNetworks` operation on the `MercuryControlPlane` service.
+    /// Performs the `ListServiceNetworks` operation on the `VPCLattice` service.
     ///
     /// Lists the service networks owned by or shared with this account. The account ID in the ARN shows which account owns the service network.
     ///
@@ -3985,7 +3985,7 @@ extension VPCLatticeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListServices` operation on the `MercuryControlPlane` service.
+    /// Performs the `ListServices` operation on the `VPCLattice` service.
     ///
     /// Lists the services owned by the caller account or shared with the caller account.
     ///
@@ -4055,7 +4055,7 @@ extension VPCLatticeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `MercuryControlPlane` service.
+    /// Performs the `ListTagsForResource` operation on the `VPCLattice` service.
     ///
     /// Lists the tags for the specified resource.
     ///
@@ -4124,7 +4124,7 @@ extension VPCLatticeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTargetGroups` operation on the `MercuryControlPlane` service.
+    /// Performs the `ListTargetGroups` operation on the `VPCLattice` service.
     ///
     /// Lists your target groups. You can narrow your search by using the filters below in your request.
     ///
@@ -4194,7 +4194,7 @@ extension VPCLatticeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTargets` operation on the `MercuryControlPlane` service.
+    /// Performs the `ListTargets` operation on the `VPCLattice` service.
     ///
     /// Lists the targets for the target group. By default, all targets are included. You can use this API to check the health status of targets. You can also ﬁlter the results by target.
     ///
@@ -4268,7 +4268,7 @@ extension VPCLatticeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutAuthPolicy` operation on the `MercuryControlPlane` service.
+    /// Performs the `PutAuthPolicy` operation on the `VPCLattice` service.
     ///
     /// Creates or updates the auth policy. The policy string in JSON must not contain newlines or blank lines. For more information, see [Auth policies](https://docs.aws.amazon.com/vpc-lattice/latest/ug/auth-policies.html) in the Amazon VPC Lattice User Guide.
     ///
@@ -4341,7 +4341,7 @@ extension VPCLatticeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutResourcePolicy` operation on the `MercuryControlPlane` service.
+    /// Performs the `PutResourcePolicy` operation on the `VPCLattice` service.
     ///
     /// Attaches a resource-based permission policy to a service or service network. The policy must contain the same actions and condition statements as the Amazon Web Services Resource Access Manager permission for sharing services and service networks.
     ///
@@ -4414,7 +4414,7 @@ extension VPCLatticeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RegisterTargets` operation on the `MercuryControlPlane` service.
+    /// Performs the `RegisterTargets` operation on the `VPCLattice` service.
     ///
     /// Registers the targets with the target group. If it's a Lambda target, you can only have one target in a target group.
     ///
@@ -4489,7 +4489,7 @@ extension VPCLatticeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `MercuryControlPlane` service.
+    /// Performs the `TagResource` operation on the `VPCLattice` service.
     ///
     /// Adds the specified tags to the specified resource.
     ///
@@ -4562,7 +4562,7 @@ extension VPCLatticeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `MercuryControlPlane` service.
+    /// Performs the `UntagResource` operation on the `VPCLattice` service.
     ///
     /// Removes the specified tags from the specified resource.
     ///
@@ -4632,7 +4632,7 @@ extension VPCLatticeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateAccessLogSubscription` operation on the `MercuryControlPlane` service.
+    /// Performs the `UpdateAccessLogSubscription` operation on the `VPCLattice` service.
     ///
     /// Updates the specified access log subscription.
     ///
@@ -4706,7 +4706,7 @@ extension VPCLatticeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateListener` operation on the `MercuryControlPlane` service.
+    /// Performs the `UpdateListener` operation on the `VPCLattice` service.
     ///
     /// Updates the specified listener for the specified service.
     ///
@@ -4781,7 +4781,7 @@ extension VPCLatticeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateResourceConfiguration` operation on the `MercuryControlPlane` service.
+    /// Performs the `UpdateResourceConfiguration` operation on the `VPCLattice` service.
     ///
     /// Updates the specified resource configuration.
     ///
@@ -4855,7 +4855,7 @@ extension VPCLatticeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateResourceGateway` operation on the `MercuryControlPlane` service.
+    /// Performs the `UpdateResourceGateway` operation on the `VPCLattice` service.
     ///
     /// Updates the specified resource gateway.
     ///
@@ -4928,7 +4928,7 @@ extension VPCLatticeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateRule` operation on the `MercuryControlPlane` service.
+    /// Performs the `UpdateRule` operation on the `VPCLattice` service.
     ///
     /// Updates a specified rule for the listener. You can't modify a default listener rule. To modify a default listener rule, use UpdateListener.
     ///
@@ -5003,7 +5003,7 @@ extension VPCLatticeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateService` operation on the `MercuryControlPlane` service.
+    /// Performs the `UpdateService` operation on the `VPCLattice` service.
     ///
     /// Updates the specified service.
     ///
@@ -5078,7 +5078,7 @@ extension VPCLatticeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateServiceNetwork` operation on the `MercuryControlPlane` service.
+    /// Performs the `UpdateServiceNetwork` operation on the `VPCLattice` service.
     ///
     /// Updates the specified service network.
     ///
@@ -5152,7 +5152,7 @@ extension VPCLatticeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateServiceNetworkVpcAssociation` operation on the `MercuryControlPlane` service.
+    /// Performs the `UpdateServiceNetworkVpcAssociation` operation on the `VPCLattice` service.
     ///
     /// Updates the service network and VPC association. If you add a security group to the service network and VPC association, the association must continue to have at least one security group. You can add or edit security groups at any time. However, to remove all security groups, you must first delete the association and then recreate it without security groups.
     ///
@@ -5226,7 +5226,7 @@ extension VPCLatticeClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateTargetGroup` operation on the `MercuryControlPlane` service.
+    /// Performs the `UpdateTargetGroup` operation on the `VPCLattice` service.
     ///
     /// Updates the specified target group.
     ///

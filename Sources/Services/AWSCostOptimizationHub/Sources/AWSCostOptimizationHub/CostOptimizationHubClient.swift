@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CostOptimizationHubClient: ClientRuntime.Client {
     public static let clientName = "CostOptimizationHubClient"
-    public static let version = "1.0.69"
+    public static let version = "1.0.74"
     let client: ClientRuntime.SdkHttpClient
     let config: CostOptimizationHubClient.CostOptimizationHubClientConfiguration
     let serviceName = "Cost Optimization Hub"
@@ -330,7 +330,7 @@ extension CostOptimizationHubClient {
 }
 
 extension CostOptimizationHubClient {
-    /// Performs the `GetPreferences` operation on the `CostOptimizationHubService` service.
+    /// Performs the `GetPreferences` operation on the `CostOptimizationHub` service.
     ///
     /// Returns a set of preferences for an account in order to add account-specific preferences into the service. These preferences impact how the savings associated with recommendations are presented—estimated savings after discounts or estimated savings before discounts, for example.
     ///
@@ -403,7 +403,7 @@ extension CostOptimizationHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetRecommendation` operation on the `CostOptimizationHubService` service.
+    /// Performs the `GetRecommendation` operation on the `CostOptimizationHub` service.
     ///
     /// Returns both the current and recommended resource configuration and the estimated cost impact for a recommendation. The recommendationId is only valid for up to a maximum of 24 hours as recommendations are refreshed daily. To retrieve the recommendationId, use the ListRecommendations API.
     ///
@@ -477,7 +477,7 @@ extension CostOptimizationHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListEnrollmentStatuses` operation on the `CostOptimizationHubService` service.
+    /// Performs the `ListEnrollmentStatuses` operation on the `CostOptimizationHub` service.
     ///
     /// Retrieves the enrollment status for an account. It can also return the list of accounts that are enrolled under the organization.
     ///
@@ -550,7 +550,7 @@ extension CostOptimizationHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListRecommendationSummaries` operation on the `CostOptimizationHubService` service.
+    /// Performs the `ListRecommendationSummaries` operation on the `CostOptimizationHub` service.
     ///
     /// Returns a concise representation of savings estimates for resources. Also returns de-duped savings across different types of recommendations. The following filters are not supported for this API: recommendationIds, resourceArns, and resourceIds.
     ///
@@ -623,7 +623,7 @@ extension CostOptimizationHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListRecommendations` operation on the `CostOptimizationHubService` service.
+    /// Performs the `ListRecommendations` operation on the `CostOptimizationHub` service.
     ///
     /// Returns a list of recommendations.
     ///
@@ -696,7 +696,7 @@ extension CostOptimizationHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateEnrollmentStatus` operation on the `CostOptimizationHubService` service.
+    /// Performs the `UpdateEnrollmentStatus` operation on the `CostOptimizationHub` service.
     ///
     /// Updates the enrollment (opt in and opt out) status of an account to the Cost Optimization Hub service. If the account is a management account or delegated administrator of an organization, this action can also be used to enroll member accounts of the organization. You must have the appropriate permissions to opt in to Cost Optimization Hub and to view its recommendations. When you opt in, Cost Optimization Hub automatically creates a service-linked role in your account to access its data.
     ///
@@ -769,7 +769,7 @@ extension CostOptimizationHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdatePreferences` operation on the `CostOptimizationHubService` service.
+    /// Performs the `UpdatePreferences` operation on the `CostOptimizationHub` service.
     ///
     /// Updates a set of preferences for an account in order to add account-specific preferences into the service. These preferences impact how the savings associated with recommendations are presented.
     ///

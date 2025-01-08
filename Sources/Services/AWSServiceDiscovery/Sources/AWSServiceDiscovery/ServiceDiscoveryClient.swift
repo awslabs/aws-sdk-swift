@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ServiceDiscoveryClient: ClientRuntime.Client {
     public static let clientName = "ServiceDiscoveryClient"
-    public static let version = "1.0.69"
+    public static let version = "1.0.74"
     let client: ClientRuntime.SdkHttpClient
     let config: ServiceDiscoveryClient.ServiceDiscoveryClientConfiguration
     let serviceName = "ServiceDiscovery"
@@ -330,7 +330,7 @@ extension ServiceDiscoveryClient {
 }
 
 extension ServiceDiscoveryClient {
-    /// Performs the `CreateHttpNamespace` operation on the `Route53AutoNaming_v20170314` service.
+    /// Performs the `CreateHttpNamespace` operation on the `ServiceDiscovery` service.
     ///
     /// Creates an HTTP namespace. Service instances registered using an HTTP namespace can be discovered using a DiscoverInstances request but can't be discovered using DNS. For the current quota on the number of namespaces that you can create using the same Amazon Web Services account, see [Cloud Map quotas](https://docs.aws.amazon.com/cloud-map/latest/dg/cloud-map-limits.html) in the Cloud Map Developer Guide.
     ///
@@ -405,7 +405,7 @@ extension ServiceDiscoveryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreatePrivateDnsNamespace` operation on the `Route53AutoNaming_v20170314` service.
+    /// Performs the `CreatePrivateDnsNamespace` operation on the `ServiceDiscovery` service.
     ///
     /// Creates a private namespace based on DNS, which is visible only inside a specified Amazon VPC. The namespace defines your service naming scheme. For example, if you name your namespace example.com and name your service backend, the resulting DNS name for the service is backend.example.com. Service instances that are registered using a private DNS namespace can be discovered using either a DiscoverInstances request or using DNS. For the current quota on the number of namespaces that you can create using the same Amazon Web Services account, see [Cloud Map quotas](https://docs.aws.amazon.com/cloud-map/latest/dg/cloud-map-limits.html) in the Cloud Map Developer Guide.
     ///
@@ -480,7 +480,7 @@ extension ServiceDiscoveryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreatePublicDnsNamespace` operation on the `Route53AutoNaming_v20170314` service.
+    /// Performs the `CreatePublicDnsNamespace` operation on the `ServiceDiscovery` service.
     ///
     /// Creates a public namespace based on DNS, which is visible on the internet. The namespace defines your service naming scheme. For example, if you name your namespace example.com and name your service backend, the resulting DNS name for the service is backend.example.com. You can discover instances that were registered with a public DNS namespace by using either a DiscoverInstances request or using DNS. For the current quota on the number of namespaces that you can create using the same Amazon Web Services account, see [Cloud Map quotas](https://docs.aws.amazon.com/cloud-map/latest/dg/cloud-map-limits.html) in the Cloud Map Developer Guide. The CreatePublicDnsNamespace API operation is not supported in the Amazon Web Services GovCloud (US) Regions.
     ///
@@ -555,7 +555,7 @@ extension ServiceDiscoveryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateService` operation on the `Route53AutoNaming_v20170314` service.
+    /// Performs the `CreateService` operation on the `ServiceDiscovery` service.
     ///
     /// Creates a service. This action defines the configuration for the following entities:
     ///
@@ -650,7 +650,7 @@ extension ServiceDiscoveryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteNamespace` operation on the `Route53AutoNaming_v20170314` service.
+    /// Performs the `DeleteNamespace` operation on the `ServiceDiscovery` service.
     ///
     /// Deletes a namespace from the current account. If the namespace still contains one or more services, the request fails.
     ///
@@ -723,7 +723,7 @@ extension ServiceDiscoveryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteService` operation on the `Route53AutoNaming_v20170314` service.
+    /// Performs the `DeleteService` operation on the `ServiceDiscovery` service.
     ///
     /// Deletes a specified service and all associated service attributes. If the service still contains one or more registered instances, the request fails.
     ///
@@ -795,7 +795,7 @@ extension ServiceDiscoveryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteServiceAttributes` operation on the `Route53AutoNaming_v20170314` service.
+    /// Performs the `DeleteServiceAttributes` operation on the `ServiceDiscovery` service.
     ///
     /// Deletes specific attributes associated with a service.
     ///
@@ -866,7 +866,7 @@ extension ServiceDiscoveryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeregisterInstance` operation on the `Route53AutoNaming_v20170314` service.
+    /// Performs the `DeregisterInstance` operation on the `ServiceDiscovery` service.
     ///
     /// Deletes the Amazon Route 53 DNS records and health check, if any, that Cloud Map created for the specified instance.
     ///
@@ -940,7 +940,7 @@ extension ServiceDiscoveryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DiscoverInstances` operation on the `Route53AutoNaming_v20170314` service.
+    /// Performs the `DiscoverInstances` operation on the `ServiceDiscovery` service.
     ///
     /// Discovers registered instances for a specified namespace and service. You can use DiscoverInstances to discover instances for any type of namespace. DiscoverInstances returns a randomized list of instances allowing customers to distribute traffic evenly across instances. For public and private DNS namespaces, you can also use DNS queries to discover instances.
     ///
@@ -1013,7 +1013,7 @@ extension ServiceDiscoveryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DiscoverInstancesRevision` operation on the `Route53AutoNaming_v20170314` service.
+    /// Performs the `DiscoverInstancesRevision` operation on the `ServiceDiscovery` service.
     ///
     /// Discovers the increasing revision associated with an instance.
     ///
@@ -1086,7 +1086,7 @@ extension ServiceDiscoveryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetInstance` operation on the `Route53AutoNaming_v20170314` service.
+    /// Performs the `GetInstance` operation on the `ServiceDiscovery` service.
     ///
     /// Gets information about a specified instance.
     ///
@@ -1158,7 +1158,7 @@ extension ServiceDiscoveryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetInstancesHealthStatus` operation on the `Route53AutoNaming_v20170314` service.
+    /// Performs the `GetInstancesHealthStatus` operation on the `ServiceDiscovery` service.
     ///
     /// Gets the current health status (Healthy, Unhealthy, or Unknown) of one or more instances that are associated with a specified service. There's a brief delay between when you register an instance and when the health status for the instance is available.
     ///
@@ -1230,7 +1230,7 @@ extension ServiceDiscoveryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetNamespace` operation on the `Route53AutoNaming_v20170314` service.
+    /// Performs the `GetNamespace` operation on the `ServiceDiscovery` service.
     ///
     /// Gets information about a namespace.
     ///
@@ -1301,7 +1301,7 @@ extension ServiceDiscoveryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetOperation` operation on the `Route53AutoNaming_v20170314` service.
+    /// Performs the `GetOperation` operation on the `ServiceDiscovery` service.
     ///
     /// Gets information about any operation that returns an operation ID in the response, such as a CreateHttpNamespace request. To get a list of operations that match specified criteria, see [ListOperations](https://docs.aws.amazon.com/cloud-map/latest/api/API_ListOperations.html).
     ///
@@ -1372,7 +1372,7 @@ extension ServiceDiscoveryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetService` operation on the `Route53AutoNaming_v20170314` service.
+    /// Performs the `GetService` operation on the `ServiceDiscovery` service.
     ///
     /// Gets the settings for a specified service.
     ///
@@ -1443,7 +1443,7 @@ extension ServiceDiscoveryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetServiceAttributes` operation on the `Route53AutoNaming_v20170314` service.
+    /// Performs the `GetServiceAttributes` operation on the `ServiceDiscovery` service.
     ///
     /// Returns the attributes associated with a specified service.
     ///
@@ -1514,7 +1514,7 @@ extension ServiceDiscoveryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListInstances` operation on the `Route53AutoNaming_v20170314` service.
+    /// Performs the `ListInstances` operation on the `ServiceDiscovery` service.
     ///
     /// Lists summary information about the instances that you registered by using a specified service.
     ///
@@ -1585,7 +1585,7 @@ extension ServiceDiscoveryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListNamespaces` operation on the `Route53AutoNaming_v20170314` service.
+    /// Performs the `ListNamespaces` operation on the `ServiceDiscovery` service.
     ///
     /// Lists summary information about the namespaces that were created by the current Amazon Web Services account.
     ///
@@ -1655,7 +1655,7 @@ extension ServiceDiscoveryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListOperations` operation on the `Route53AutoNaming_v20170314` service.
+    /// Performs the `ListOperations` operation on the `ServiceDiscovery` service.
     ///
     /// Lists operations that match the criteria that you specify.
     ///
@@ -1725,7 +1725,7 @@ extension ServiceDiscoveryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListServices` operation on the `Route53AutoNaming_v20170314` service.
+    /// Performs the `ListServices` operation on the `ServiceDiscovery` service.
     ///
     /// Lists summary information for all the services that are associated with one or more namespaces.
     ///
@@ -1795,7 +1795,7 @@ extension ServiceDiscoveryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `Route53AutoNaming_v20170314` service.
+    /// Performs the `ListTagsForResource` operation on the `ServiceDiscovery` service.
     ///
     /// Lists tags for the specified resource.
     ///
@@ -1866,7 +1866,7 @@ extension ServiceDiscoveryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RegisterInstance` operation on the `Route53AutoNaming_v20170314` service.
+    /// Performs the `RegisterInstance` operation on the `ServiceDiscovery` service.
     ///
     /// Creates or updates one or more records and, optionally, creates a health check based on the settings in a specified service. When you submit a RegisterInstance request, the following occurs:
     ///
@@ -1959,7 +1959,7 @@ extension ServiceDiscoveryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `Route53AutoNaming_v20170314` service.
+    /// Performs the `TagResource` operation on the `ServiceDiscovery` service.
     ///
     /// Adds one or more tags to the specified resource.
     ///
@@ -2031,7 +2031,7 @@ extension ServiceDiscoveryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `Route53AutoNaming_v20170314` service.
+    /// Performs the `UntagResource` operation on the `ServiceDiscovery` service.
     ///
     /// Removes one or more tags from the specified resource.
     ///
@@ -2102,7 +2102,7 @@ extension ServiceDiscoveryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateHttpNamespace` operation on the `Route53AutoNaming_v20170314` service.
+    /// Performs the `UpdateHttpNamespace` operation on the `ServiceDiscovery` service.
     ///
     /// Updates an HTTP namespace.
     ///
@@ -2176,7 +2176,7 @@ extension ServiceDiscoveryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateInstanceCustomHealthStatus` operation on the `Route53AutoNaming_v20170314` service.
+    /// Performs the `UpdateInstanceCustomHealthStatus` operation on the `ServiceDiscovery` service.
     ///
     /// Submits a request to change the health status of a custom health check to healthy or unhealthy. You can use UpdateInstanceCustomHealthStatus to change the status only for custom health checks, which you define using HealthCheckCustomConfig when you create a service. You can't use it to change the status for Route 53 health checks, which you define using HealthCheckConfig. For more information, see [HealthCheckCustomConfig](https://docs.aws.amazon.com/cloud-map/latest/api/API_HealthCheckCustomConfig.html).
     ///
@@ -2249,7 +2249,7 @@ extension ServiceDiscoveryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdatePrivateDnsNamespace` operation on the `Route53AutoNaming_v20170314` service.
+    /// Performs the `UpdatePrivateDnsNamespace` operation on the `ServiceDiscovery` service.
     ///
     /// Updates a private DNS namespace.
     ///
@@ -2323,7 +2323,7 @@ extension ServiceDiscoveryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdatePublicDnsNamespace` operation on the `Route53AutoNaming_v20170314` service.
+    /// Performs the `UpdatePublicDnsNamespace` operation on the `ServiceDiscovery` service.
     ///
     /// Updates a public DNS namespace.
     ///
@@ -2397,7 +2397,7 @@ extension ServiceDiscoveryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateService` operation on the `Route53AutoNaming_v20170314` service.
+    /// Performs the `UpdateService` operation on the `ServiceDiscovery` service.
     ///
     /// Submits a request to perform the following operations:
     ///
@@ -2483,7 +2483,7 @@ extension ServiceDiscoveryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateServiceAttributes` operation on the `Route53AutoNaming_v20170314` service.
+    /// Performs the `UpdateServiceAttributes` operation on the `ServiceDiscovery` service.
     ///
     /// Submits a request to update a specified service to add service-level attributes.
     ///

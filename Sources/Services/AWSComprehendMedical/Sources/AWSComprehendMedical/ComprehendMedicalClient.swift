@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ComprehendMedicalClient: ClientRuntime.Client {
     public static let clientName = "ComprehendMedicalClient"
-    public static let version = "1.0.69"
+    public static let version = "1.0.74"
     let client: ClientRuntime.SdkHttpClient
     let config: ComprehendMedicalClient.ComprehendMedicalClientConfiguration
     let serviceName = "ComprehendMedical"
@@ -330,7 +330,7 @@ extension ComprehendMedicalClient {
 }
 
 extension ComprehendMedicalClient {
-    /// Performs the `DescribeEntitiesDetectionV2Job` operation on the `ComprehendMedical_20181030` service.
+    /// Performs the `DescribeEntitiesDetectionV2Job` operation on the `ComprehendMedical` service.
     ///
     /// Gets the properties associated with a medical entities detection job. Use this operation to get the status of a detection job.
     ///
@@ -403,7 +403,7 @@ extension ComprehendMedicalClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeICD10CMInferenceJob` operation on the `ComprehendMedical_20181030` service.
+    /// Performs the `DescribeICD10CMInferenceJob` operation on the `ComprehendMedical` service.
     ///
     /// Gets the properties associated with an InferICD10CM job. Use this operation to get the status of an inference job.
     ///
@@ -476,7 +476,7 @@ extension ComprehendMedicalClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribePHIDetectionJob` operation on the `ComprehendMedical_20181030` service.
+    /// Performs the `DescribePHIDetectionJob` operation on the `ComprehendMedical` service.
     ///
     /// Gets the properties associated with a protected health information (PHI) detection job. Use this operation to get the status of a detection job.
     ///
@@ -549,7 +549,7 @@ extension ComprehendMedicalClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeRxNormInferenceJob` operation on the `ComprehendMedical_20181030` service.
+    /// Performs the `DescribeRxNormInferenceJob` operation on the `ComprehendMedical` service.
     ///
     /// Gets the properties associated with an InferRxNorm job. Use this operation to get the status of an inference job.
     ///
@@ -622,7 +622,7 @@ extension ComprehendMedicalClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeSNOMEDCTInferenceJob` operation on the `ComprehendMedical_20181030` service.
+    /// Performs the `DescribeSNOMEDCTInferenceJob` operation on the `ComprehendMedical` service.
     ///
     /// Gets the properties associated with an InferSNOMEDCT job. Use this operation to get the status of an inference job.
     ///
@@ -695,7 +695,7 @@ extension ComprehendMedicalClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DetectEntities` operation on the `ComprehendMedical_20181030` service.
+    /// Performs the `DetectEntities` operation on the `ComprehendMedical` service.
     ///
     /// The DetectEntities operation is deprecated. You should use the [DetectEntitiesV2] operation instead. Inspects the clinical text for a variety of medical entities and returns specific information about them such as entity category, location, and confidence score on that information.
     @available(*, deprecated, message: "This operation is deprecated, use DetectEntitiesV2 instead.")
@@ -771,7 +771,7 @@ extension ComprehendMedicalClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DetectEntitiesV2` operation on the `ComprehendMedical_20181030` service.
+    /// Performs the `DetectEntitiesV2` operation on the `ComprehendMedical` service.
     ///
     /// Inspects the clinical text for a variety of medical entities and returns specific information about them such as entity category, location, and confidence score on that information. Amazon Comprehend Medical only detects medical entities in English language texts. The DetectEntitiesV2 operation replaces the [DetectEntities] operation. This new action uses a different model for determining the entities in your medical text and changes the way that some entities are returned in the output. You should use the DetectEntitiesV2 operation in all new applications. The DetectEntitiesV2 operation returns the Acuity and Direction entities as attributes instead of types.
     ///
@@ -846,7 +846,7 @@ extension ComprehendMedicalClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DetectPHI` operation on the `ComprehendMedical_20181030` service.
+    /// Performs the `DetectPHI` operation on the `ComprehendMedical` service.
     ///
     /// Inspects the clinical text for protected health information (PHI) entities and returns the entity category, location, and confidence score for each entity. Amazon Comprehend Medical only detects entities in English language texts.
     ///
@@ -921,7 +921,7 @@ extension ComprehendMedicalClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `InferICD10CM` operation on the `ComprehendMedical_20181030` service.
+    /// Performs the `InferICD10CM` operation on the `ComprehendMedical` service.
     ///
     /// InferICD10CM detects medical conditions as entities listed in a patient record and links those entities to normalized concept identifiers in the ICD-10-CM knowledge base from the Centers for Disease Control. Amazon Comprehend Medical only detects medical entities in English language texts.
     ///
@@ -996,7 +996,7 @@ extension ComprehendMedicalClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `InferRxNorm` operation on the `ComprehendMedical_20181030` service.
+    /// Performs the `InferRxNorm` operation on the `ComprehendMedical` service.
     ///
     /// InferRxNorm detects medications as entities listed in a patient record and links to the normalized concept identifiers in the RxNorm database from the National Library of Medicine. Amazon Comprehend Medical only detects medical entities in English language texts.
     ///
@@ -1071,7 +1071,7 @@ extension ComprehendMedicalClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `InferSNOMEDCT` operation on the `ComprehendMedical_20181030` service.
+    /// Performs the `InferSNOMEDCT` operation on the `ComprehendMedical` service.
     ///
     /// InferSNOMEDCT detects possible medical concepts as entities and links them to codes from the Systematized Nomenclature of Medicine, Clinical Terms (SNOMED-CT) ontology
     ///
@@ -1146,7 +1146,7 @@ extension ComprehendMedicalClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListEntitiesDetectionV2Jobs` operation on the `ComprehendMedical_20181030` service.
+    /// Performs the `ListEntitiesDetectionV2Jobs` operation on the `ComprehendMedical` service.
     ///
     /// Gets a list of medical entity detection jobs that you have submitted.
     ///
@@ -1219,7 +1219,7 @@ extension ComprehendMedicalClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListICD10CMInferenceJobs` operation on the `ComprehendMedical_20181030` service.
+    /// Performs the `ListICD10CMInferenceJobs` operation on the `ComprehendMedical` service.
     ///
     /// Gets a list of InferICD10CM jobs that you have submitted.
     ///
@@ -1292,7 +1292,7 @@ extension ComprehendMedicalClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListPHIDetectionJobs` operation on the `ComprehendMedical_20181030` service.
+    /// Performs the `ListPHIDetectionJobs` operation on the `ComprehendMedical` service.
     ///
     /// Gets a list of protected health information (PHI) detection jobs you have submitted.
     ///
@@ -1365,7 +1365,7 @@ extension ComprehendMedicalClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListRxNormInferenceJobs` operation on the `ComprehendMedical_20181030` service.
+    /// Performs the `ListRxNormInferenceJobs` operation on the `ComprehendMedical` service.
     ///
     /// Gets a list of InferRxNorm jobs that you have submitted.
     ///
@@ -1438,7 +1438,7 @@ extension ComprehendMedicalClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListSNOMEDCTInferenceJobs` operation on the `ComprehendMedical_20181030` service.
+    /// Performs the `ListSNOMEDCTInferenceJobs` operation on the `ComprehendMedical` service.
     ///
     /// Gets a list of InferSNOMEDCT jobs a user has submitted.
     ///
@@ -1511,7 +1511,7 @@ extension ComprehendMedicalClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartEntitiesDetectionV2Job` operation on the `ComprehendMedical_20181030` service.
+    /// Performs the `StartEntitiesDetectionV2Job` operation on the `ComprehendMedical` service.
     ///
     /// Starts an asynchronous medical entity detection job for a collection of documents. Use the DescribeEntitiesDetectionV2Job operation to track the status of a job.
     ///
@@ -1585,7 +1585,7 @@ extension ComprehendMedicalClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartICD10CMInferenceJob` operation on the `ComprehendMedical_20181030` service.
+    /// Performs the `StartICD10CMInferenceJob` operation on the `ComprehendMedical` service.
     ///
     /// Starts an asynchronous job to detect medical conditions and link them to the ICD-10-CM ontology. Use the DescribeICD10CMInferenceJob operation to track the status of a job.
     ///
@@ -1659,7 +1659,7 @@ extension ComprehendMedicalClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartPHIDetectionJob` operation on the `ComprehendMedical_20181030` service.
+    /// Performs the `StartPHIDetectionJob` operation on the `ComprehendMedical` service.
     ///
     /// Starts an asynchronous job to detect protected health information (PHI). Use the DescribePHIDetectionJob operation to track the status of a job.
     ///
@@ -1733,7 +1733,7 @@ extension ComprehendMedicalClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartRxNormInferenceJob` operation on the `ComprehendMedical_20181030` service.
+    /// Performs the `StartRxNormInferenceJob` operation on the `ComprehendMedical` service.
     ///
     /// Starts an asynchronous job to detect medication entities and link them to the RxNorm ontology. Use the DescribeRxNormInferenceJob operation to track the status of a job.
     ///
@@ -1807,7 +1807,7 @@ extension ComprehendMedicalClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartSNOMEDCTInferenceJob` operation on the `ComprehendMedical_20181030` service.
+    /// Performs the `StartSNOMEDCTInferenceJob` operation on the `ComprehendMedical` service.
     ///
     /// Starts an asynchronous job to detect medical concepts and link them to the SNOMED-CT ontology. Use the DescribeSNOMEDCTInferenceJob operation to track the status of a job.
     ///
@@ -1881,7 +1881,7 @@ extension ComprehendMedicalClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopEntitiesDetectionV2Job` operation on the `ComprehendMedical_20181030` service.
+    /// Performs the `StopEntitiesDetectionV2Job` operation on the `ComprehendMedical` service.
     ///
     /// Stops a medical entities detection job in progress.
     ///
@@ -1953,7 +1953,7 @@ extension ComprehendMedicalClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopICD10CMInferenceJob` operation on the `ComprehendMedical_20181030` service.
+    /// Performs the `StopICD10CMInferenceJob` operation on the `ComprehendMedical` service.
     ///
     /// Stops an InferICD10CM inference job in progress.
     ///
@@ -2025,7 +2025,7 @@ extension ComprehendMedicalClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopPHIDetectionJob` operation on the `ComprehendMedical_20181030` service.
+    /// Performs the `StopPHIDetectionJob` operation on the `ComprehendMedical` service.
     ///
     /// Stops a protected health information (PHI) detection job in progress.
     ///
@@ -2097,7 +2097,7 @@ extension ComprehendMedicalClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopRxNormInferenceJob` operation on the `ComprehendMedical_20181030` service.
+    /// Performs the `StopRxNormInferenceJob` operation on the `ComprehendMedical` service.
     ///
     /// Stops an InferRxNorm inference job in progress.
     ///
@@ -2169,7 +2169,7 @@ extension ComprehendMedicalClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopSNOMEDCTInferenceJob` operation on the `ComprehendMedical_20181030` service.
+    /// Performs the `StopSNOMEDCTInferenceJob` operation on the `ComprehendMedical` service.
     ///
     /// Stops an InferSNOMEDCT inference job in progress.
     ///

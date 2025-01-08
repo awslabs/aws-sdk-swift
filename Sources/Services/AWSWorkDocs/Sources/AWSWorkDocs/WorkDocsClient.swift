@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class WorkDocsClient: ClientRuntime.Client {
     public static let clientName = "WorkDocsClient"
-    public static let version = "1.0.69"
+    public static let version = "1.0.74"
     let client: ClientRuntime.SdkHttpClient
     let config: WorkDocsClient.WorkDocsClientConfiguration
     let serviceName = "WorkDocs"
@@ -331,7 +331,7 @@ extension WorkDocsClient {
 }
 
 extension WorkDocsClient {
-    /// Performs the `AbortDocumentVersionUpload` operation on the `AWSGorillaBoyService` service.
+    /// Performs the `AbortDocumentVersionUpload` operation on the `WorkDocs` service.
     ///
     /// Aborts the upload of the specified document version that was previously initiated by [InitiateDocumentVersionUpload]. The client should make this call only when it no longer intends to upload the document version, or fails to do so.
     ///
@@ -404,7 +404,7 @@ extension WorkDocsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ActivateUser` operation on the `AWSGorillaBoyService` service.
+    /// Performs the `ActivateUser` operation on the `WorkDocs` service.
     ///
     /// Activates the specified user. Only active users can access Amazon WorkDocs.
     ///
@@ -475,7 +475,7 @@ extension WorkDocsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AddResourcePermissions` operation on the `AWSGorillaBoyService` service.
+    /// Performs the `AddResourcePermissions` operation on the `WorkDocs` service.
     ///
     /// Creates a set of permissions for the specified folder or document. The resource permissions are overwritten if the principals already have different permissions.
     ///
@@ -549,7 +549,7 @@ extension WorkDocsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateComment` operation on the `AWSGorillaBoyService` service.
+    /// Performs the `CreateComment` operation on the `WorkDocs` service.
     ///
     /// Adds a new comment to the specified document version.
     ///
@@ -626,7 +626,7 @@ extension WorkDocsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateCustomMetadata` operation on the `AWSGorillaBoyService` service.
+    /// Performs the `CreateCustomMetadata` operation on the `WorkDocs` service.
     ///
     /// Adds one or more custom properties to the specified resource (a folder, document, or version).
     ///
@@ -703,7 +703,7 @@ extension WorkDocsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateFolder` operation on the `AWSGorillaBoyService` service.
+    /// Performs the `CreateFolder` operation on the `WorkDocs` service.
     ///
     /// Creates a folder with the specified name and parent folder.
     ///
@@ -782,7 +782,7 @@ extension WorkDocsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateLabels` operation on the `AWSGorillaBoyService` service.
+    /// Performs the `CreateLabels` operation on the `WorkDocs` service.
     ///
     /// Adds the specified list of labels to the given resource (a document or folder)
     ///
@@ -857,7 +857,7 @@ extension WorkDocsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateNotificationSubscription` operation on the `AWSGorillaBoyService` service.
+    /// Performs the `CreateNotificationSubscription` operation on the `WorkDocs` service.
     ///
     /// Configure Amazon WorkDocs to use Amazon SNS notifications. The endpoint receives a confirmation message, and must confirm the subscription. For more information, see [Setting up notifications for an IAM user or role](https://docs.aws.amazon.com/workdocs/latest/developerguide/manage-notifications.html) in the Amazon WorkDocs Developer Guide.
     ///
@@ -929,7 +929,7 @@ extension WorkDocsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateUser` operation on the `AWSGorillaBoyService` service.
+    /// Performs the `CreateUser` operation on the `WorkDocs` service.
     ///
     /// Creates a user in a Simple AD or Microsoft AD directory. The status of a newly created user is "ACTIVE". New users can access Amazon WorkDocs.
     ///
@@ -1003,7 +1003,7 @@ extension WorkDocsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeactivateUser` operation on the `AWSGorillaBoyService` service.
+    /// Performs the `DeactivateUser` operation on the `WorkDocs` service.
     ///
     /// Deactivates the specified user, which revokes the user's access to Amazon WorkDocs.
     ///
@@ -1074,7 +1074,7 @@ extension WorkDocsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteComment` operation on the `AWSGorillaBoyService` service.
+    /// Performs the `DeleteComment` operation on the `WorkDocs` service.
     ///
     /// Deletes the specified comment from the document version.
     ///
@@ -1147,7 +1147,7 @@ extension WorkDocsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteCustomMetadata` operation on the `AWSGorillaBoyService` service.
+    /// Performs the `DeleteCustomMetadata` operation on the `WorkDocs` service.
     ///
     /// Deletes custom metadata from the specified resource.
     ///
@@ -1220,7 +1220,7 @@ extension WorkDocsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteDocument` operation on the `AWSGorillaBoyService` service.
+    /// Performs the `DeleteDocument` operation on the `WorkDocs` service.
     ///
     /// Permanently deletes the specified document and its associated metadata.
     ///
@@ -1295,7 +1295,7 @@ extension WorkDocsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteDocumentVersion` operation on the `AWSGorillaBoyService` service.
+    /// Performs the `DeleteDocumentVersion` operation on the `WorkDocs` service.
     ///
     /// Deletes a specific version of a document.
     ///
@@ -1370,7 +1370,7 @@ extension WorkDocsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteFolder` operation on the `AWSGorillaBoyService` service.
+    /// Performs the `DeleteFolder` operation on the `WorkDocs` service.
     ///
     /// Permanently deletes the specified folder and its contents.
     ///
@@ -1445,7 +1445,7 @@ extension WorkDocsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteFolderContents` operation on the `AWSGorillaBoyService` service.
+    /// Performs the `DeleteFolderContents` operation on the `WorkDocs` service.
     ///
     /// Deletes the contents of the specified folder.
     ///
@@ -1518,7 +1518,7 @@ extension WorkDocsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteLabels` operation on the `AWSGorillaBoyService` service.
+    /// Performs the `DeleteLabels` operation on the `WorkDocs` service.
     ///
     /// Deletes the specified list of labels from a resource.
     ///
@@ -1591,7 +1591,7 @@ extension WorkDocsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteNotificationSubscription` operation on the `AWSGorillaBoyService` service.
+    /// Performs the `DeleteNotificationSubscription` operation on the `WorkDocs` service.
     ///
     /// Deletes the specified subscription from the specified organization.
     ///
@@ -1660,7 +1660,7 @@ extension WorkDocsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteUser` operation on the `AWSGorillaBoyService` service.
+    /// Performs the `DeleteUser` operation on the `WorkDocs` service.
     ///
     /// Deletes the specified user from a Simple AD or Microsoft AD directory. Deleting a user immediately and permanently deletes all content in that user's folder structure. Site retention policies do NOT apply to this type of deletion.
     ///
@@ -1731,7 +1731,7 @@ extension WorkDocsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeActivities` operation on the `AWSGorillaBoyService` service.
+    /// Performs the `DescribeActivities` operation on the `WorkDocs` service.
     ///
     /// Describes the user activities in a specified time period.
     ///
@@ -1803,7 +1803,7 @@ extension WorkDocsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeComments` operation on the `AWSGorillaBoyService` service.
+    /// Performs the `DescribeComments` operation on the `WorkDocs` service.
     ///
     /// List all the comments for the specified document version.
     ///
@@ -1876,7 +1876,7 @@ extension WorkDocsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeDocumentVersions` operation on the `AWSGorillaBoyService` service.
+    /// Performs the `DescribeDocumentVersions` operation on the `WorkDocs` service.
     ///
     /// Retrieves the document versions for the specified document. By default, only active versions are returned.
     ///
@@ -1951,7 +1951,7 @@ extension WorkDocsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeFolderContents` operation on the `AWSGorillaBoyService` service.
+    /// Performs the `DescribeFolderContents` operation on the `WorkDocs` service.
     ///
     /// Describes the contents of the specified folder, including its documents and subfolders. By default, Amazon WorkDocs returns the first 100 active document and folder metadata items. If there are more results, the response includes a marker that you can use to request the next set of results. You can also request initialized documents.
     ///
@@ -2024,7 +2024,7 @@ extension WorkDocsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeGroups` operation on the `AWSGorillaBoyService` service.
+    /// Performs the `DescribeGroups` operation on the `WorkDocs` service.
     ///
     /// Describes the groups specified by the query. Groups are defined by the underlying Active Directory.
     ///
@@ -2095,7 +2095,7 @@ extension WorkDocsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeNotificationSubscriptions` operation on the `AWSGorillaBoyService` service.
+    /// Performs the `DescribeNotificationSubscriptions` operation on the `WorkDocs` service.
     ///
     /// Lists the specified notification subscriptions.
     ///
@@ -2164,7 +2164,7 @@ extension WorkDocsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeResourcePermissions` operation on the `AWSGorillaBoyService` service.
+    /// Performs the `DescribeResourcePermissions` operation on the `WorkDocs` service.
     ///
     /// Describes the permissions of a specified resource.
     ///
@@ -2236,7 +2236,7 @@ extension WorkDocsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeRootFolders` operation on the `AWSGorillaBoyService` service.
+    /// Performs the `DescribeRootFolders` operation on the `WorkDocs` service.
     ///
     /// Describes the current user's special folders; the RootFolder and the RecycleBin. RootFolder is the root of user's files and folders and RecycleBin is the root of recycled items. This is not a valid action for SigV4 (administrative API) clients. This action requires an authentication token. To get an authentication token, register an application with Amazon WorkDocs. For more information, see [Authentication and Access Control for User Applications](https://docs.aws.amazon.com/workdocs/latest/developerguide/wd-auth-user.html) in the Amazon WorkDocs Developer Guide.
     ///
@@ -2308,7 +2308,7 @@ extension WorkDocsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeUsers` operation on the `AWSGorillaBoyService` service.
+    /// Performs the `DescribeUsers` operation on the `WorkDocs` service.
     ///
     /// Describes the specified users. You can describe all users or filter the results (for example, by status or organization). By default, Amazon WorkDocs returns the first 24 active or pending users. If there are more results, the response includes a marker that you can use to request the next set of results.
     ///
@@ -2382,7 +2382,7 @@ extension WorkDocsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetCurrentUser` operation on the `AWSGorillaBoyService` service.
+    /// Performs the `GetCurrentUser` operation on the `WorkDocs` service.
     ///
     /// Retrieves details of the current user for whom the authentication token was generated. This is not a valid action for SigV4 (administrative API) clients. This action requires an authentication token. To get an authentication token, register an application with Amazon WorkDocs. For more information, see [Authentication and Access Control for User Applications](https://docs.aws.amazon.com/workdocs/latest/developerguide/wd-auth-user.html) in the Amazon WorkDocs Developer Guide.
     ///
@@ -2453,7 +2453,7 @@ extension WorkDocsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDocument` operation on the `AWSGorillaBoyService` service.
+    /// Performs the `GetDocument` operation on the `WorkDocs` service.
     ///
     /// Retrieves details of a document.
     ///
@@ -2527,7 +2527,7 @@ extension WorkDocsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDocumentPath` operation on the `AWSGorillaBoyService` service.
+    /// Performs the `GetDocumentPath` operation on the `WorkDocs` service.
     ///
     /// Retrieves the path information (the hierarchy from the root folder) for the requested document. By default, Amazon WorkDocs returns a maximum of 100 levels upwards from the requested document and only includes the IDs of the parent folders in the path. You can limit the maximum number of levels. You can also request the names of the parent folders.
     ///
@@ -2599,7 +2599,7 @@ extension WorkDocsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDocumentVersion` operation on the `AWSGorillaBoyService` service.
+    /// Performs the `GetDocumentVersion` operation on the `WorkDocs` service.
     ///
     /// Retrieves version metadata for the specified document.
     ///
@@ -2673,7 +2673,7 @@ extension WorkDocsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetFolder` operation on the `AWSGorillaBoyService` service.
+    /// Performs the `GetFolder` operation on the `WorkDocs` service.
     ///
     /// Retrieves the metadata of the specified folder.
     ///
@@ -2747,7 +2747,7 @@ extension WorkDocsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetFolderPath` operation on the `AWSGorillaBoyService` service.
+    /// Performs the `GetFolderPath` operation on the `WorkDocs` service.
     ///
     /// Retrieves the path information (the hierarchy from the root folder) for the specified folder. By default, Amazon WorkDocs returns a maximum of 100 levels upwards from the requested folder and only includes the IDs of the parent folders in the path. You can limit the maximum number of levels. You can also request the parent folder names.
     ///
@@ -2819,7 +2819,7 @@ extension WorkDocsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetResources` operation on the `AWSGorillaBoyService` service.
+    /// Performs the `GetResources` operation on the `WorkDocs` service.
     ///
     /// Retrieves a collection of resources, including folders and documents. The only CollectionType supported is SHARED_WITH_ME.
     ///
@@ -2891,7 +2891,7 @@ extension WorkDocsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `InitiateDocumentVersionUpload` operation on the `AWSGorillaBoyService` service.
+    /// Performs the `InitiateDocumentVersionUpload` operation on the `WorkDocs` service.
     ///
     /// Creates a new document object and version object. The client specifies the parent folder ID and name of the document to upload. The ID is optionally specified when creating a new version of an existing document. This is the first step to upload a document. Next, upload the document to the URL returned from the call, and then call [UpdateDocumentVersion]. To cancel the document upload, call [AbortDocumentVersionUpload].
     ///
@@ -2974,7 +2974,7 @@ extension WorkDocsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RemoveAllResourcePermissions` operation on the `AWSGorillaBoyService` service.
+    /// Performs the `RemoveAllResourcePermissions` operation on the `WorkDocs` service.
     ///
     /// Removes all the permissions from the specified resource.
     ///
@@ -3044,7 +3044,7 @@ extension WorkDocsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RemoveResourcePermission` operation on the `AWSGorillaBoyService` service.
+    /// Performs the `RemoveResourcePermission` operation on the `WorkDocs` service.
     ///
     /// Removes the permission for the specified principal from the specified resource.
     ///
@@ -3115,7 +3115,7 @@ extension WorkDocsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RestoreDocumentVersions` operation on the `AWSGorillaBoyService` service.
+    /// Performs the `RestoreDocumentVersions` operation on the `WorkDocs` service.
     ///
     /// Recovers a deleted version of an Amazon WorkDocs document.
     ///
@@ -3189,7 +3189,7 @@ extension WorkDocsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SearchResources` operation on the `AWSGorillaBoyService` service.
+    /// Performs the `SearchResources` operation on the `WorkDocs` service.
     ///
     /// Searches metadata and the content of folders, documents, document versions, and comments.
     ///
@@ -3262,7 +3262,7 @@ extension WorkDocsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateDocument` operation on the `AWSGorillaBoyService` service.
+    /// Performs the `UpdateDocument` operation on the `WorkDocs` service.
     ///
     /// Updates the specified attributes of a document. The user must have access to both the document and its parent folder, if applicable.
     ///
@@ -3341,7 +3341,7 @@ extension WorkDocsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateDocumentVersion` operation on the `AWSGorillaBoyService` service.
+    /// Performs the `UpdateDocumentVersion` operation on the `WorkDocs` service.
     ///
     /// Changes the status of the document version to ACTIVE. Amazon WorkDocs also sets its document container to ACTIVE. This is the last step in a document upload, after the client uploads the document to an S3-presigned URL returned by [InitiateDocumentVersionUpload].
     ///
@@ -3418,7 +3418,7 @@ extension WorkDocsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateFolder` operation on the `AWSGorillaBoyService` service.
+    /// Performs the `UpdateFolder` operation on the `WorkDocs` service.
     ///
     /// Updates the specified attributes of the specified folder. The user must have access to both the folder and its parent folder, if applicable.
     ///
@@ -3497,7 +3497,7 @@ extension WorkDocsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateUser` operation on the `AWSGorillaBoyService` service.
+    /// Performs the `UpdateUser` operation on the `WorkDocs` service.
     ///
     /// Updates the specified attributes of the specified user, and grants or revokes administrative privileges to the Amazon WorkDocs site.
     ///

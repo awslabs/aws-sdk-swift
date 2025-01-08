@@ -151,8 +151,7 @@ extension QBusinessClientTypes {
             access: QBusinessClientTypes.ReadAccessType? = nil,
             membershipType: QBusinessClientTypes.MembershipType? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.access = access
             self.membershipType = membershipType
             self.name = name
@@ -176,8 +175,7 @@ extension QBusinessClientTypes {
             access: QBusinessClientTypes.ReadAccessType? = nil,
             id: Swift.String? = nil,
             membershipType: QBusinessClientTypes.MembershipType? = nil
-        )
-        {
+        ) {
             self.access = access
             self.id = id
             self.membershipType = membershipType
@@ -210,8 +208,7 @@ extension QBusinessClientTypes {
         public init(
             memberRelation: QBusinessClientTypes.MemberRelation? = nil,
             principals: [QBusinessClientTypes.Principal]? = nil
-        )
-        {
+        ) {
             self.memberRelation = memberRelation
             self.principals = principals
         }
@@ -231,8 +228,7 @@ extension QBusinessClientTypes {
         public init(
             accessControls: [QBusinessClientTypes.AccessControl]? = nil,
             memberRelation: QBusinessClientTypes.MemberRelation? = nil
-        )
-        {
+        ) {
             self.accessControls = accessControls
             self.memberRelation = memberRelation
         }
@@ -258,8 +254,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -294,8 +289,7 @@ extension QBusinessClientTypes {
         public init(
             name: Swift.String? = nil,
             value: QBusinessClientTypes.DocumentAttributeValue? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -312,8 +306,7 @@ extension QBusinessClientTypes {
 
         public init(
             value: Smithy.Document? = nil
-        )
-        {
+        ) {
             self.value = value
         }
     }
@@ -337,8 +330,7 @@ extension QBusinessClientTypes {
             payload: [Swift.String: QBusinessClientTypes.ActionExecutionPayloadField]? = nil,
             payloadFieldNameSeparator: Swift.String? = nil,
             pluginId: Swift.String? = nil
-        )
-        {
+        ) {
             self.payload = payload
             self.payloadFieldNameSeparator = payloadFieldNameSeparator
             self.pluginId = pluginId
@@ -364,8 +356,7 @@ extension QBusinessClientTypes {
             payload: [Swift.String: QBusinessClientTypes.ActionExecutionPayloadField]? = nil,
             payloadFieldNameSeparator: Swift.String? = nil,
             pluginId: Swift.String? = nil
-        )
-        {
+        ) {
             self.payload = payload
             self.payloadFieldNameSeparator = payloadFieldNameSeparator
             self.pluginId = pluginId
@@ -420,8 +411,7 @@ extension QBusinessClientTypes {
         public init(
             displayValue: Smithy.Document? = nil,
             value: Smithy.Document? = nil
-        )
-        {
+        ) {
             self.displayValue = displayValue
             self.value = value
         }
@@ -461,8 +451,7 @@ extension QBusinessClientTypes {
             `required`: Swift.Bool? = nil,
             type: QBusinessClientTypes.ActionPayloadFieldType? = nil,
             value: Smithy.Document? = nil
-        )
-        {
+        ) {
             self.allowedFormat = allowedFormat
             self.allowedValues = allowedValues
             self.arrayItemJsonSchema = arrayItemJsonSchema
@@ -568,8 +557,7 @@ extension QBusinessClientTypes {
             payloadFieldNameSeparator: Swift.String? = nil,
             pluginId: Swift.String? = nil,
             pluginType: QBusinessClientTypes.PluginType? = nil
-        )
-        {
+        ) {
             self.payload = payload
             self.payloadFieldNameSeparator = payloadFieldNameSeparator
             self.pluginId = pluginId
@@ -605,8 +593,7 @@ extension QBusinessClientTypes {
             pluginType: QBusinessClientTypes.PluginType? = nil,
             systemMessageId: Swift.String? = nil,
             userMessageId: Swift.String? = nil
-        )
-        {
+        ) {
             self.conversationId = conversationId
             self.payload = payload
             self.payloadFieldNameSeparator = payloadFieldNameSeparator
@@ -640,8 +627,7 @@ extension QBusinessClientTypes {
             description: Swift.String? = nil,
             displayName: Swift.String? = nil,
             instructionExample: Swift.String? = nil
-        )
-        {
+        ) {
             self.actionIdentifier = actionIdentifier
             self.description = description
             self.displayName = displayName
@@ -664,8 +650,7 @@ extension QBusinessClientTypes {
         public init(
             bucket: Swift.String? = nil,
             key: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucket = bucket
             self.key = key
         }
@@ -755,8 +740,7 @@ extension QBusinessClientTypes {
 
         public init(
             clientNamespace: Swift.String? = nil
-        )
-        {
+        ) {
             self.clientNamespace = clientNamespace
         }
     }
@@ -827,8 +811,7 @@ extension QBusinessClientTypes {
             quickSightConfiguration: QBusinessClientTypes.QuickSightConfiguration? = nil,
             status: QBusinessClientTypes.ApplicationStatus? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.applicationId = applicationId
             self.createdAt = createdAt
             self.displayName = displayName
@@ -868,8 +851,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -895,8 +877,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -929,8 +910,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -965,8 +945,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -992,8 +971,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1012,8 +990,7 @@ extension QBusinessClientTypes {
         public init(
             message: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
             self.name = name
         }
@@ -1079,8 +1056,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
         fields: [QBusinessClientTypes.ValidationExceptionField]? = nil,
         message: Swift.String? = nil,
         reason: QBusinessClientTypes.ValidationExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.fields = fields
         self.properties.message = message
         self.properties.reason = reason
@@ -1126,8 +1102,7 @@ extension QBusinessClientTypes {
 
         public init(
             attachmentsControlMode: QBusinessClientTypes.AttachmentsControlMode? = nil
-        )
-        {
+        ) {
             self.attachmentsControlMode = attachmentsControlMode
         }
     }
@@ -1142,8 +1117,7 @@ extension QBusinessClientTypes {
 
         public init(
             kmsKeyId: Swift.String? = nil
-        )
-        {
+        ) {
             self.kmsKeyId = kmsKeyId
         }
     }
@@ -1193,8 +1167,7 @@ extension QBusinessClientTypes {
 
         public init(
             personalizationControlMode: QBusinessClientTypes.PersonalizationControlMode? = nil
-        )
-        {
+        ) {
             self.personalizationControlMode = personalizationControlMode
         }
     }
@@ -1239,8 +1212,7 @@ extension QBusinessClientTypes {
 
         public init(
             qAppsControlMode: QBusinessClientTypes.QAppsControlMode? = nil
-        )
-        {
+        ) {
             self.qAppsControlMode = qAppsControlMode
         }
     }
@@ -1260,8 +1232,7 @@ extension QBusinessClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -1314,8 +1285,7 @@ public struct CreateApplicationInput: Swift.Sendable {
         quickSightConfiguration: QBusinessClientTypes.QuickSightConfiguration? = nil,
         roleArn: Swift.String? = nil,
         tags: [QBusinessClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.attachmentsConfiguration = attachmentsConfiguration
         self.clientIdsForOIDC = clientIdsForOIDC
         self.clientToken = clientToken
@@ -1342,8 +1312,7 @@ public struct CreateApplicationOutput: Swift.Sendable {
     public init(
         applicationArn: Swift.String? = nil,
         applicationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationArn = applicationArn
         self.applicationId = applicationId
     }
@@ -1364,8 +1333,7 @@ public struct CreateDataAccessorOutput: Swift.Sendable {
         dataAccessorArn: Swift.String? = nil,
         dataAccessorId: Swift.String? = nil,
         idcApplicationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataAccessorArn = dataAccessorArn
         self.dataAccessorId = dataAccessorId
         self.idcApplicationArn = idcApplicationArn
@@ -1383,8 +1351,7 @@ public struct DeleteDataAccessorInput: Swift.Sendable {
     public init(
         applicationId: Swift.String? = nil,
         dataAccessorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.dataAccessorId = dataAccessorId
     }
@@ -1406,8 +1373,7 @@ public struct GetDataAccessorInput: Swift.Sendable {
     public init(
         applicationId: Swift.String? = nil,
         dataAccessorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.dataAccessorId = dataAccessorId
     }
@@ -1426,8 +1392,7 @@ public struct ListDataAccessorsInput: Swift.Sendable {
         applicationId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1461,8 +1426,7 @@ extension QBusinessClientTypes {
             idcApplicationArn: Swift.String? = nil,
             principal: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.dataAccessorArn = dataAccessorArn
             self.dataAccessorId = dataAccessorId
@@ -1488,8 +1452,7 @@ public struct ListDataAccessorsOutput: Swift.Sendable {
     public init(
         dataAccessors: [QBusinessClientTypes.DataAccessor]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataAccessors = dataAccessors
         self.nextToken = nextToken
     }
@@ -1507,8 +1470,7 @@ public struct DeleteApplicationInput: Swift.Sendable {
 
     public init(
         applicationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
     }
 }
@@ -1525,8 +1487,7 @@ public struct GetApplicationInput: Swift.Sendable {
 
     public init(
         applicationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
     }
 }
@@ -1540,8 +1501,7 @@ extension QBusinessClientTypes {
 
         public init(
             attachmentsControlMode: QBusinessClientTypes.AttachmentsControlMode? = nil
-        )
-        {
+        ) {
             self.attachmentsControlMode = attachmentsControlMode
         }
     }
@@ -1618,8 +1578,7 @@ extension QBusinessClientTypes {
         public init(
             autoSubscribe: QBusinessClientTypes.AutoSubscriptionStatus? = nil,
             defaultSubscriptionType: QBusinessClientTypes.SubscriptionType? = nil
-        )
-        {
+        ) {
             self.autoSubscribe = autoSubscribe
             self.defaultSubscriptionType = defaultSubscriptionType
         }
@@ -1673,8 +1632,7 @@ extension QBusinessClientTypes {
         public init(
             errorCode: QBusinessClientTypes.ErrorCode? = nil,
             errorMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
         }
@@ -1741,8 +1699,7 @@ public struct GetApplicationOutput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         status: QBusinessClientTypes.ApplicationStatus? = nil,
         updatedAt: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.applicationArn = applicationArn
         self.applicationId = applicationId
         self.attachmentsConfiguration = attachmentsConfiguration
@@ -1774,8 +1731,7 @@ extension QBusinessClientTypes {
 
         public init(
             units: Swift.Int? = nil
-        )
-        {
+        ) {
             self.units = units
         }
     }
@@ -1836,8 +1792,7 @@ public struct CreateIndexInput: Swift.Sendable {
         displayName: Swift.String? = nil,
         tags: [QBusinessClientTypes.Tag]? = nil,
         type: QBusinessClientTypes.IndexType? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.capacityConfiguration = capacityConfiguration
         self.clientToken = clientToken
@@ -1857,8 +1812,7 @@ public struct CreateIndexOutput: Swift.Sendable {
     public init(
         indexArn: Swift.String? = nil,
         indexId: Swift.String? = nil
-    )
-    {
+    ) {
         self.indexArn = indexArn
         self.indexId = indexId
     }
@@ -1937,8 +1891,7 @@ extension QBusinessClientTypes {
             key: Swift.String? = nil,
             `operator`: QBusinessClientTypes.DocumentEnrichmentConditionOperator? = nil,
             value: QBusinessClientTypes.DocumentAttributeValue? = nil
-        )
-        {
+        ) {
             self.key = key
             self.`operator` = `operator`
             self.value = value
@@ -2014,8 +1967,7 @@ extension QBusinessClientTypes {
             attributeValueOperator: QBusinessClientTypes.AttributeValueOperator? = nil,
             key: Swift.String? = nil,
             value: QBusinessClientTypes.DocumentAttributeValue? = nil
-        )
-        {
+        ) {
             self.attributeValueOperator = attributeValueOperator
             self.key = key
             self.value = value
@@ -2038,8 +1990,7 @@ extension QBusinessClientTypes {
             condition: QBusinessClientTypes.DocumentAttributeCondition? = nil,
             documentContentOperator: QBusinessClientTypes.DocumentContentOperator? = nil,
             target: QBusinessClientTypes.DocumentAttributeTarget? = nil
-        )
-        {
+        ) {
             self.condition = condition
             self.documentContentOperator = documentContentOperator
             self.target = target
@@ -2065,8 +2016,7 @@ extension QBusinessClientTypes {
             lambdaArn: Swift.String? = nil,
             roleArn: Swift.String? = nil,
             s3BucketName: Swift.String? = nil
-        )
-        {
+        ) {
             self.invocationCondition = invocationCondition
             self.lambdaArn = lambdaArn
             self.roleArn = roleArn
@@ -2090,8 +2040,7 @@ extension QBusinessClientTypes {
             inlineConfigurations: [QBusinessClientTypes.InlineDocumentEnrichmentConfiguration]? = nil,
             postExtractionHookConfiguration: QBusinessClientTypes.HookConfiguration? = nil,
             preExtractionHookConfiguration: QBusinessClientTypes.HookConfiguration? = nil
-        )
-        {
+        ) {
             self.inlineConfigurations = inlineConfigurations
             self.postExtractionHookConfiguration = postExtractionHookConfiguration
             self.preExtractionHookConfiguration = preExtractionHookConfiguration
@@ -2138,8 +2087,7 @@ extension QBusinessClientTypes {
 
         public init(
             imageExtractionStatus: QBusinessClientTypes.ImageExtractionStatus? = nil
-        )
-        {
+        ) {
             self.imageExtractionStatus = imageExtractionStatus
         }
     }
@@ -2154,8 +2102,7 @@ extension QBusinessClientTypes {
 
         public init(
             imageExtractionConfiguration: QBusinessClientTypes.ImageExtractionConfiguration? = nil
-        )
-        {
+        ) {
             self.imageExtractionConfiguration = imageExtractionConfiguration
         }
     }
@@ -2175,8 +2122,7 @@ extension QBusinessClientTypes {
         public init(
             securityGroupIds: [Swift.String]? = nil,
             subnetIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
         }
@@ -2237,8 +2183,7 @@ public struct CreateDataSourceInput: Swift.Sendable {
         syncSchedule: Swift.String? = nil,
         tags: [QBusinessClientTypes.Tag]? = nil,
         vpcConfiguration: QBusinessClientTypes.DataSourceVpcConfiguration? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.clientToken = clientToken
         self.configuration = configuration
@@ -2263,8 +2208,7 @@ public struct CreateDataSourceOutput: Swift.Sendable {
     public init(
         dataSourceArn: Swift.String? = nil,
         dataSourceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataSourceArn = dataSourceArn
         self.dataSourceId = dataSourceId
     }
@@ -2285,8 +2229,7 @@ public struct DeleteDataSourceInput: Swift.Sendable {
         applicationId: Swift.String? = nil,
         dataSourceId: Swift.String? = nil,
         indexId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.dataSourceId = dataSourceId
         self.indexId = indexId
@@ -2313,8 +2256,7 @@ public struct GetDataSourceInput: Swift.Sendable {
         applicationId: Swift.String? = nil,
         dataSourceId: Swift.String? = nil,
         indexId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.dataSourceId = dataSourceId
         self.indexId = indexId
@@ -2416,8 +2358,7 @@ public struct GetDataSourceOutput: Swift.Sendable {
         type: Swift.String? = nil,
         updatedAt: Foundation.Date? = nil,
         vpcConfiguration: QBusinessClientTypes.DataSourceVpcConfiguration? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.configuration = configuration
         self.createdAt = createdAt
@@ -2455,8 +2396,7 @@ public struct ListDataSourcesInput: Swift.Sendable {
         indexId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.indexId = indexId
         self.maxResults = maxResults
@@ -2488,8 +2428,7 @@ extension QBusinessClientTypes {
             status: QBusinessClientTypes.DataSourceStatus? = nil,
             type: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.dataSourceId = dataSourceId
             self.displayName = displayName
@@ -2509,8 +2448,7 @@ public struct ListDataSourcesOutput: Swift.Sendable {
     public init(
         dataSources: [QBusinessClientTypes.DataSource]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataSources = dataSources
         self.nextToken = nextToken
     }
@@ -2555,8 +2493,7 @@ public struct UpdateDataSourceInput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         syncSchedule: Swift.String? = nil,
         vpcConfiguration: QBusinessClientTypes.DataSourceVpcConfiguration? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.configuration = configuration
         self.dataSourceId = dataSourceId
@@ -2587,8 +2524,7 @@ public struct DeleteIndexInput: Swift.Sendable {
     public init(
         applicationId: Swift.String? = nil,
         indexId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.indexId = indexId
     }
@@ -2610,8 +2546,7 @@ public struct GetIndexInput: Swift.Sendable {
     public init(
         applicationId: Swift.String? = nil,
         indexId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.indexId = indexId
     }
@@ -2696,8 +2631,7 @@ extension QBusinessClientTypes {
             name: Swift.String? = nil,
             search: QBusinessClientTypes.Status? = nil,
             type: QBusinessClientTypes.AttributeType? = nil
-        )
-        {
+        ) {
             self.name = name
             self.search = search
             self.type = type
@@ -2717,8 +2651,7 @@ extension QBusinessClientTypes {
         public init(
             indexedTextBytes: Swift.Int? = nil,
             indexedTextDocumentCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.indexedTextBytes = indexedTextBytes
             self.indexedTextDocumentCount = indexedTextDocumentCount
         }
@@ -2734,8 +2667,7 @@ extension QBusinessClientTypes {
 
         public init(
             textDocumentStatistics: QBusinessClientTypes.TextDocumentStatistics? = nil
-        )
-        {
+        ) {
             self.textDocumentStatistics = textDocumentStatistics
         }
     }
@@ -2821,8 +2753,7 @@ public struct GetIndexOutput: Swift.Sendable {
         status: QBusinessClientTypes.IndexStatus? = nil,
         type: QBusinessClientTypes.IndexType? = nil,
         updatedAt: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.capacityConfiguration = capacityConfiguration
         self.createdAt = createdAt
@@ -2852,8 +2783,7 @@ public struct ListIndicesInput: Swift.Sendable {
         applicationId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2881,8 +2811,7 @@ extension QBusinessClientTypes {
             indexId: Swift.String? = nil,
             status: QBusinessClientTypes.IndexStatus? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.displayName = displayName
             self.indexId = indexId
@@ -2901,8 +2830,7 @@ public struct ListIndicesOutput: Swift.Sendable {
     public init(
         indices: [QBusinessClientTypes.Index]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.indices = indices
         self.nextToken = nextToken
     }
@@ -2931,8 +2859,7 @@ public struct UpdateIndexInput: Swift.Sendable {
         displayName: Swift.String? = nil,
         documentAttributeConfigurations: [QBusinessClientTypes.DocumentAttributeConfiguration]? = nil,
         indexId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.capacityConfiguration = capacityConfiguration
         self.description = description
@@ -2956,8 +2883,7 @@ public struct ListApplicationsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -2972,8 +2898,7 @@ public struct ListApplicationsOutput: Swift.Sendable {
     public init(
         applications: [QBusinessClientTypes.Application]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.applications = applications
         self.nextToken = nextToken
     }
@@ -2993,8 +2918,7 @@ extension QBusinessClientTypes {
         public init(
             roleArn: Swift.String? = nil,
             secretArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.roleArn = roleArn
             self.secretArn = secretArn
         }
@@ -3015,8 +2939,7 @@ extension QBusinessClientTypes {
         public init(
             idcApplicationArn: Swift.String? = nil,
             roleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.idcApplicationArn = idcApplicationArn
             self.roleArn = roleArn
         }
@@ -3052,8 +2975,7 @@ extension QBusinessClientTypes {
             roleArn: Swift.String? = nil,
             secretArn: Swift.String? = nil,
             tokenUrl: Swift.String? = nil
-        )
-        {
+        ) {
             self.authorizationUrl = authorizationUrl
             self.roleArn = roleArn
             self.secretArn = secretArn
@@ -3096,8 +3018,7 @@ extension QBusinessClientTypes {
             apiSchema: QBusinessClientTypes.APISchema? = nil,
             apiSchemaType: QBusinessClientTypes.APISchemaType? = nil,
             description: Swift.String? = nil
-        )
-        {
+        ) {
             self.apiSchema = apiSchema
             self.apiSchemaType = apiSchemaType
             self.description = description
@@ -3136,8 +3057,7 @@ public struct CreatePluginInput: Swift.Sendable {
         serverUrl: Swift.String? = nil,
         tags: [QBusinessClientTypes.Tag]? = nil,
         type: QBusinessClientTypes.PluginType? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.authConfiguration = authConfiguration
         self.clientToken = clientToken
@@ -3205,8 +3125,7 @@ public struct CreatePluginOutput: Swift.Sendable {
         buildStatus: QBusinessClientTypes.PluginBuildStatus? = nil,
         pluginArn: Swift.String? = nil,
         pluginId: Swift.String? = nil
-    )
-    {
+    ) {
         self.buildStatus = buildStatus
         self.pluginArn = pluginArn
         self.pluginId = pluginId
@@ -3224,8 +3143,7 @@ public struct DeletePluginInput: Swift.Sendable {
     public init(
         applicationId: Swift.String? = nil,
         pluginId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.pluginId = pluginId
     }
@@ -3247,8 +3165,7 @@ public struct GetPluginInput: Swift.Sendable {
     public init(
         applicationId: Swift.String? = nil,
         pluginId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.pluginId = pluginId
     }
@@ -3322,8 +3239,7 @@ public struct GetPluginOutput: Swift.Sendable {
         state: QBusinessClientTypes.PluginState? = nil,
         type: QBusinessClientTypes.PluginType? = nil,
         updatedAt: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.authConfiguration = authConfiguration
         self.buildStatus = buildStatus
@@ -3352,8 +3268,7 @@ public struct ListPluginsInput: Swift.Sendable {
         applicationId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3390,8 +3305,7 @@ extension QBusinessClientTypes {
             state: QBusinessClientTypes.PluginState? = nil,
             type: QBusinessClientTypes.PluginType? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.buildStatus = buildStatus
             self.createdAt = createdAt
             self.displayName = displayName
@@ -3413,8 +3327,7 @@ public struct ListPluginsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         plugins: [QBusinessClientTypes.Plugin]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.plugins = plugins
     }
@@ -3446,8 +3359,7 @@ public struct UpdatePluginInput: Swift.Sendable {
         pluginId: Swift.String? = nil,
         serverUrl: Swift.String? = nil,
         state: QBusinessClientTypes.PluginState? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.authConfiguration = authConfiguration
         self.customPluginConfiguration = customPluginConfiguration
@@ -3473,8 +3385,7 @@ extension QBusinessClientTypes {
 
         public init(
             indexId: Swift.String? = nil
-        )
-        {
+        ) {
             self.indexId = indexId
         }
     }
@@ -3531,8 +3442,7 @@ extension QBusinessClientTypes {
         public init(
             boostingDurationInSeconds: Swift.Int? = nil,
             boostingLevel: QBusinessClientTypes.DocumentAttributeBoostingLevel? = nil
-        )
-        {
+        ) {
             self.boostingDurationInSeconds = boostingDurationInSeconds
             self.boostingLevel = boostingLevel
         }
@@ -3581,8 +3491,7 @@ extension QBusinessClientTypes {
         public init(
             boostingLevel: QBusinessClientTypes.DocumentAttributeBoostingLevel? = nil,
             boostingType: QBusinessClientTypes.NumberAttributeBoostingType? = nil
-        )
-        {
+        ) {
             self.boostingLevel = boostingLevel
             self.boostingType = boostingType
         }
@@ -3637,8 +3546,7 @@ extension QBusinessClientTypes {
         public init(
             attributeValueBoosting: [Swift.String: QBusinessClientTypes.StringAttributeValueBoostingLevel]? = nil,
             boostingLevel: QBusinessClientTypes.DocumentAttributeBoostingLevel? = nil
-        )
-        {
+        ) {
             self.attributeValueBoosting = attributeValueBoosting
             self.boostingLevel = boostingLevel
         }
@@ -3655,8 +3563,7 @@ extension QBusinessClientTypes {
 
         public init(
             boostingLevel: QBusinessClientTypes.DocumentAttributeBoostingLevel? = nil
-        )
-        {
+        ) {
             self.boostingLevel = boostingLevel
         }
     }
@@ -3691,8 +3598,7 @@ extension QBusinessClientTypes {
         public init(
             boostingOverride: [Swift.String: QBusinessClientTypes.DocumentAttributeBoostingConfiguration]? = nil,
             indexId: Swift.String? = nil
-        )
-        {
+        ) {
             self.boostingOverride = boostingOverride
             self.indexId = indexId
         }
@@ -3768,8 +3674,7 @@ public struct CreateRetrieverInput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         tags: [QBusinessClientTypes.Tag]? = nil,
         type: QBusinessClientTypes.RetrieverType? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.clientToken = clientToken
         self.configuration = configuration
@@ -3789,8 +3694,7 @@ public struct CreateRetrieverOutput: Swift.Sendable {
     public init(
         retrieverArn: Swift.String? = nil,
         retrieverId: Swift.String? = nil
-    )
-    {
+    ) {
         self.retrieverArn = retrieverArn
         self.retrieverId = retrieverId
     }
@@ -3807,8 +3711,7 @@ public struct DeleteRetrieverInput: Swift.Sendable {
     public init(
         applicationId: Swift.String? = nil,
         retrieverId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.retrieverId = retrieverId
     }
@@ -3830,8 +3733,7 @@ public struct GetRetrieverInput: Swift.Sendable {
     public init(
         applicationId: Swift.String? = nil,
         retrieverId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.retrieverId = retrieverId
     }
@@ -3902,8 +3804,7 @@ public struct GetRetrieverOutput: Swift.Sendable {
         status: QBusinessClientTypes.RetrieverStatus? = nil,
         type: QBusinessClientTypes.RetrieverType? = nil,
         updatedAt: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.configuration = configuration
         self.createdAt = createdAt
@@ -3930,8 +3831,7 @@ public struct ListRetrieversInput: Swift.Sendable {
         applicationId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3959,8 +3859,7 @@ extension QBusinessClientTypes {
             retrieverId: Swift.String? = nil,
             status: QBusinessClientTypes.RetrieverStatus? = nil,
             type: QBusinessClientTypes.RetrieverType? = nil
-        )
-        {
+        ) {
             self.applicationId = applicationId
             self.displayName = displayName
             self.retrieverId = retrieverId
@@ -3979,8 +3878,7 @@ public struct ListRetrieversOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         retrievers: [QBusinessClientTypes.Retriever]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.retrievers = retrievers
     }
@@ -4006,8 +3904,7 @@ public struct UpdateRetrieverInput: Swift.Sendable {
         displayName: Swift.String? = nil,
         retrieverId: Swift.String? = nil,
         roleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.configuration = configuration
         self.displayName = displayName
@@ -4052,8 +3949,7 @@ public struct UpdateApplicationInput: Swift.Sendable {
         personalizationConfiguration: QBusinessClientTypes.PersonalizationConfiguration? = nil,
         qAppsConfiguration: QBusinessClientTypes.QAppsConfiguration? = nil,
         roleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.attachmentsConfiguration = attachmentsConfiguration
         self.autoSubscriptionConfiguration = autoSubscriptionConfiguration
@@ -4116,8 +4012,7 @@ extension QBusinessClientTypes {
 
         public init(
             enabledBrowserExtensions: [QBusinessClientTypes.BrowserExtension]? = nil
-        )
-        {
+        ) {
             self.enabledBrowserExtensions = enabledBrowserExtensions
         }
     }
@@ -4141,8 +4036,7 @@ extension QBusinessClientTypes {
             faviconUrl: Swift.String? = nil,
             fontUrl: Swift.String? = nil,
             logoUrl: Swift.String? = nil
-        )
-        {
+        ) {
             self.customCSSUrl = customCSSUrl
             self.faviconUrl = faviconUrl
             self.fontUrl = fontUrl
@@ -4165,8 +4059,7 @@ extension QBusinessClientTypes {
         public init(
             secretsArn: Swift.String? = nil,
             secretsRole: Swift.String? = nil
-        )
-        {
+        ) {
             self.secretsArn = secretsArn
             self.secretsRole = secretsRole
         }
@@ -4183,8 +4076,7 @@ extension QBusinessClientTypes {
 
         public init(
             authenticationUrl: Swift.String? = nil
-        )
-        {
+        ) {
             self.authenticationUrl = authenticationUrl
         }
     }
@@ -4271,8 +4163,7 @@ public struct CreateWebExperienceInput: Swift.Sendable {
         tags: [QBusinessClientTypes.Tag]? = nil,
         title: Swift.String? = nil,
         welcomeMessage: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.browserExtensionConfiguration = browserExtensionConfiguration
         self.clientToken = clientToken
@@ -4297,8 +4188,7 @@ public struct CreateWebExperienceOutput: Swift.Sendable {
     public init(
         webExperienceArn: Swift.String? = nil,
         webExperienceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.webExperienceArn = webExperienceArn
         self.webExperienceId = webExperienceId
     }
@@ -4315,8 +4205,7 @@ public struct DeleteWebExperienceInput: Swift.Sendable {
     public init(
         applicationId: Swift.String? = nil,
         webExperienceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.webExperienceId = webExperienceId
     }
@@ -4338,8 +4227,7 @@ public struct GetWebExperienceInput: Swift.Sendable {
     public init(
         applicationId: Swift.String? = nil,
         webExperienceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.webExperienceId = webExperienceId
     }
@@ -4366,8 +4254,7 @@ extension QBusinessClientTypes {
             roleArn: Swift.String? = nil,
             userGroupAttribute: Swift.String? = nil,
             userIdAttribute: Swift.String? = nil
-        )
-        {
+        ) {
             self.metadataXML = metadataXML
             self.roleArn = roleArn
             self.userGroupAttribute = userGroupAttribute
@@ -4482,8 +4369,7 @@ public struct GetWebExperienceOutput: Swift.Sendable {
         webExperienceArn: Swift.String? = nil,
         webExperienceId: Swift.String? = nil,
         welcomeMessage: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.authenticationConfiguration = authenticationConfiguration
         self.browserExtensionConfiguration = browserExtensionConfiguration
@@ -4518,8 +4404,7 @@ public struct ListWebExperiencesInput: Swift.Sendable {
         applicationId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4547,8 +4432,7 @@ extension QBusinessClientTypes {
             status: QBusinessClientTypes.WebExperienceStatus? = nil,
             updatedAt: Foundation.Date? = nil,
             webExperienceId: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.defaultEndpoint = defaultEndpoint
             self.status = status
@@ -4567,8 +4451,7 @@ public struct ListWebExperiencesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         webExperiences: [QBusinessClientTypes.WebExperience]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.webExperiences = webExperiences
     }
@@ -4620,8 +4503,7 @@ public struct UpdateWebExperienceInput: Swift.Sendable {
         title: Swift.String? = nil,
         webExperienceId: Swift.String? = nil,
         welcomeMessage: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.authenticationConfiguration = authenticationConfiguration
         self.browserExtensionConfiguration = browserExtensionConfiguration
@@ -4681,8 +4563,7 @@ extension QBusinessClientTypes {
 
         public init(
             creatorModeControl: QBusinessClientTypes.CreatorModeControl? = nil
-        )
-        {
+        ) {
             self.creatorModeControl = creatorModeControl
         }
     }
@@ -4707,8 +4588,7 @@ public struct AssociatePermissionInput: Swift.Sendable {
         applicationId: Swift.String? = nil,
         principal: Swift.String? = nil,
         statementId: Swift.String? = nil
-    )
-    {
+    ) {
         self.actions = actions
         self.applicationId = applicationId
         self.principal = principal
@@ -4722,8 +4602,7 @@ public struct AssociatePermissionOutput: Swift.Sendable {
 
     public init(
         statement: Swift.String? = nil
-    )
-    {
+    ) {
         self.statement = statement
     }
 }
@@ -4742,8 +4621,7 @@ extension QBusinessClientTypes {
         public init(
             attachmentId: Swift.String? = nil,
             conversationId: Swift.String? = nil
-        )
-        {
+        ) {
             self.attachmentId = attachmentId
             self.conversationId = conversationId
         }
@@ -4825,8 +4703,7 @@ extension QBusinessClientTypes {
             md5chksum: Swift.String? = nil,
             name: Swift.String? = nil,
             status: QBusinessClientTypes.AttachmentStatus? = nil
-        )
-        {
+        ) {
             self.attachmentId = attachmentId
             self.conversationId = conversationId
             self.copyFrom = copyFrom
@@ -4856,8 +4733,7 @@ extension QBusinessClientTypes {
             copyFrom: QBusinessClientTypes.CopyFromSource? = nil,
             data: Foundation.Data? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.copyFrom = copyFrom
             self.data = data
             self.name = name
@@ -4874,8 +4750,7 @@ extension QBusinessClientTypes {
 
         public init(
             attachment: QBusinessClientTypes.AttachmentInput? = nil
-        )
-        {
+        ) {
             self.attachment = attachment
         }
     }
@@ -4902,8 +4777,7 @@ extension QBusinessClientTypes {
             error: QBusinessClientTypes.ErrorDetail? = nil,
             name: Swift.String? = nil,
             status: QBusinessClientTypes.AttachmentStatus? = nil
-        )
-        {
+        ) {
             self.attachmentId = attachmentId
             self.conversationId = conversationId
             self.error = error
@@ -4923,8 +4797,7 @@ extension QBusinessClientTypes {
 
         public init(
             authorizationUrl: Swift.String? = nil
-        )
-        {
+        ) {
             self.authorizationUrl = authorizationUrl
         }
     }
@@ -4940,8 +4813,7 @@ extension QBusinessClientTypes {
 
         public init(
             authorizationUrl: Swift.String? = nil
-        )
-        {
+        ) {
             self.authorizationUrl = authorizationUrl
         }
     }
@@ -4957,8 +4829,7 @@ extension QBusinessClientTypes {
 
         public init(
             responseMap: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.responseMap = responseMap
         }
     }
@@ -4974,8 +4845,7 @@ extension QBusinessClientTypes {
 
         public init(
             responseMap: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.responseMap = responseMap
         }
     }
@@ -4991,8 +4861,7 @@ extension QBusinessClientTypes {
 
         public init(
             documentId: Swift.String? = nil
-        )
-        {
+        ) {
             self.documentId = documentId
         }
     }
@@ -5016,8 +4885,7 @@ public struct BatchDeleteDocumentInput: Swift.Sendable {
         dataSourceSyncId: Swift.String? = nil,
         documents: [QBusinessClientTypes.DeleteDocument]? = nil,
         indexId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.dataSourceSyncId = dataSourceSyncId
         self.documents = documents
@@ -5040,8 +4908,7 @@ extension QBusinessClientTypes {
             dataSourceId: Swift.String? = nil,
             error: QBusinessClientTypes.ErrorDetail? = nil,
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataSourceId = dataSourceId
             self.error = error
             self.id = id
@@ -5055,8 +4922,7 @@ public struct BatchDeleteDocumentOutput: Swift.Sendable {
 
     public init(
         failedDocuments: [QBusinessClientTypes.FailedDocument]? = nil
-    )
-    {
+    ) {
         self.failedDocuments = failedDocuments
     }
 }
@@ -5163,8 +5029,7 @@ extension QBusinessClientTypes {
             id: Swift.String? = nil,
             mediaExtractionConfiguration: QBusinessClientTypes.MediaExtractionConfiguration? = nil,
             title: Swift.String? = nil
-        )
-        {
+        ) {
             self.accessConfiguration = accessConfiguration
             self.attributes = attributes
             self.content = content
@@ -5198,8 +5063,7 @@ public struct BatchPutDocumentInput: Swift.Sendable {
         documents: [QBusinessClientTypes.Document]? = nil,
         indexId: Swift.String? = nil,
         roleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.dataSourceSyncId = dataSourceSyncId
         self.documents = documents
@@ -5214,8 +5078,7 @@ public struct BatchPutDocumentOutput: Swift.Sendable {
 
     public init(
         failedDocuments: [QBusinessClientTypes.FailedDocument]? = nil
-    )
-    {
+    ) {
         self.failedDocuments = failedDocuments
     }
 }
@@ -5232,8 +5095,7 @@ extension QBusinessClientTypes {
         public init(
             blockedPhrases: [Swift.String]? = nil,
             systemMessageOverride: Swift.String? = nil
-        )
-        {
+        ) {
             self.blockedPhrases = blockedPhrases
             self.systemMessageOverride = systemMessageOverride
         }
@@ -5255,8 +5117,7 @@ extension QBusinessClientTypes {
             blockedPhrasesToCreateOrUpdate: [Swift.String]? = nil,
             blockedPhrasesToDelete: [Swift.String]? = nil,
             systemMessageOverride: Swift.String? = nil
-        )
-        {
+        ) {
             self.blockedPhrasesToCreateOrUpdate = blockedPhrasesToCreateOrUpdate
             self.blockedPhrasesToDelete = blockedPhrasesToDelete
             self.systemMessageOverride = systemMessageOverride
@@ -5283,8 +5144,7 @@ public struct ExternalResourceException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5308,8 +5168,7 @@ public struct LicenseNotFoundException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5356,8 +5215,7 @@ extension QBusinessClientTypes {
 
         public init(
             pluginId: Swift.String? = nil
-        )
-        {
+        ) {
             self.pluginId = pluginId
         }
     }
@@ -5392,8 +5250,7 @@ extension QBusinessClientTypes {
 
         public init(
             userMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.userMessage = userMessage
         }
     }
@@ -5417,8 +5274,7 @@ extension QBusinessClientTypes {
             conversationId: Swift.String? = nil,
             systemMessageId: Swift.String? = nil,
             userMessageId: Swift.String? = nil
-        )
-        {
+        ) {
             self.attachment = attachment
             self.conversationId = conversationId
             self.systemMessageId = systemMessageId
@@ -5436,8 +5292,7 @@ extension QBusinessClientTypes {
 
         public init(
             text: Swift.String? = nil
-        )
-        {
+        ) {
             self.text = text
         }
     }
@@ -5464,8 +5319,7 @@ extension QBusinessClientTypes {
             mediaId: Swift.String? = nil,
             mediaMimeType: Swift.String? = nil,
             snippetExcerpt: QBusinessClientTypes.SnippetExcerpt? = nil
-        )
-        {
+        ) {
             self.beginOffset = beginOffset
             self.endOffset = endOffset
             self.mediaId = mediaId
@@ -5499,8 +5353,7 @@ extension QBusinessClientTypes {
             title: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil,
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.citationNumber = citationNumber
             self.snippet = snippet
             self.textMessageSegments = textMessageSegments
@@ -5532,8 +5385,7 @@ extension QBusinessClientTypes {
             sourceAttributions: [QBusinessClientTypes.SourceAttribution?]? = nil,
             systemMessageId: Swift.String? = nil,
             userMessageId: Swift.String? = nil
-        )
-        {
+        ) {
             self.conversationId = conversationId
             self.finalTextMessage = finalTextMessage
             self.sourceAttributions = sourceAttributions
@@ -5561,8 +5413,7 @@ extension QBusinessClientTypes {
             systemMessage: Swift.String? = nil,
             systemMessageId: Swift.String? = nil,
             userMessageId: Swift.String? = nil
-        )
-        {
+        ) {
             self.conversationId = conversationId
             self.systemMessage = systemMessage
             self.systemMessageId = systemMessageId
@@ -5595,8 +5446,7 @@ public struct ChatOutput: Swift.Sendable {
 
     public init(
         outputStream: AsyncThrowingStream<QBusinessClientTypes.ChatOutputStream, Swift.Error>? = nil
-    )
-    {
+    ) {
         self.outputStream = outputStream
     }
 }
@@ -5628,8 +5478,7 @@ public struct ChatSyncOutput: Swift.Sendable {
         systemMessage: Swift.String? = nil,
         systemMessageId: Swift.String? = nil,
         userMessageId: Swift.String? = nil
-    )
-    {
+    ) {
         self.actionReview = actionReview
         self.authChallengeRequest = authChallengeRequest
         self.conversationId = conversationId
@@ -5650,8 +5499,7 @@ extension QBusinessClientTypes {
 
         public init(
             systemMessageOverride: Swift.String? = nil
-        )
-        {
+        ) {
             self.systemMessageOverride = systemMessageOverride
         }
     }
@@ -5669,8 +5517,7 @@ extension QBusinessClientTypes {
         public init(
             dataSourceId: Swift.String? = nil,
             indexId: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataSourceId = dataSourceId
             self.indexId = indexId
         }
@@ -5686,8 +5533,7 @@ extension QBusinessClientTypes {
 
         public init(
             eligibleDataSources: [QBusinessClientTypes.EligibleDataSource]? = nil
-        )
-        {
+        ) {
             self.eligibleDataSources = eligibleDataSources
         }
     }
@@ -5703,8 +5549,7 @@ extension QBusinessClientTypes {
 
         public init(
             retrieverId: Swift.String? = nil
-        )
-        {
+        ) {
             self.retrieverId = retrieverId
         }
     }
@@ -5735,8 +5580,7 @@ extension QBusinessClientTypes {
             conversationId: Swift.String? = nil,
             startTime: Foundation.Date? = nil,
             title: Swift.String? = nil
-        )
-        {
+        ) {
             self.conversationId = conversationId
             self.startTime = startTime
             self.title = title
@@ -5760,8 +5604,7 @@ extension QBusinessClientTypes {
             dataSourceId: Swift.String? = nil,
             indexId: Swift.String? = nil,
             userId: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataSourceId = dataSourceId
             self.indexId = indexId
             self.userId = userId
@@ -5786,8 +5629,7 @@ public struct CreateUserInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         userAliases: [QBusinessClientTypes.UserAlias]? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.clientToken = clientToken
         self.userAliases = userAliases
@@ -5810,8 +5652,7 @@ extension QBusinessClientTypes {
 
         public init(
             creatorModeControl: QBusinessClientTypes.CreatorModeControl? = nil
-        )
-        {
+        ) {
             self.creatorModeControl = creatorModeControl
         }
     }
@@ -5838,8 +5679,7 @@ extension QBusinessClientTypes {
             documentsFailed: Swift.String? = nil,
             documentsModified: Swift.String? = nil,
             documentsScanned: Swift.String? = nil
-        )
-        {
+        ) {
             self.documentsAdded = documentsAdded
             self.documentsDeleted = documentsDeleted
             self.documentsFailed = documentsFailed
@@ -5920,8 +5760,7 @@ extension QBusinessClientTypes {
             metrics: QBusinessClientTypes.DataSourceSyncJobMetrics? = nil,
             startTime: Foundation.Date? = nil,
             status: QBusinessClientTypes.DataSourceSyncJobStatus? = nil
-        )
-        {
+        ) {
             self.dataSourceErrorCode = dataSourceErrorCode
             self.endTime = endTime
             self.error = error
@@ -5940,8 +5779,7 @@ public struct DeleteChatControlsConfigurationInput: Swift.Sendable {
 
     public init(
         applicationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
     }
 }
@@ -5965,8 +5803,7 @@ public struct DeleteConversationInput: Swift.Sendable {
         applicationId: Swift.String? = nil,
         conversationId: Swift.String? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.conversationId = conversationId
         self.userId = userId
@@ -5996,8 +5833,7 @@ public struct DeleteGroupInput: Swift.Sendable {
         dataSourceId: Swift.String? = nil,
         groupName: Swift.String? = nil,
         indexId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.dataSourceId = dataSourceId
         self.groupName = groupName
@@ -6021,8 +5857,7 @@ public struct DeleteUserInput: Swift.Sendable {
     public init(
         applicationId: Swift.String? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.userId = userId
     }
@@ -6044,8 +5879,7 @@ public struct DisassociatePermissionInput: Swift.Sendable {
     public init(
         applicationId: Swift.String? = nil,
         statementId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.statementId = statementId
     }
@@ -6124,8 +5958,7 @@ extension QBusinessClientTypes {
             error: QBusinessClientTypes.ErrorDetail? = nil,
             status: QBusinessClientTypes.DocumentStatus? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.documentId = documentId
             self.error = error
@@ -6148,8 +5981,7 @@ public struct GetChatControlsConfigurationInput: Swift.Sendable {
         applicationId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -6197,8 +6029,7 @@ extension QBusinessClientTypes {
         public init(
             userGroups: [Swift.String]? = nil,
             userIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.userGroups = userGroups
             self.userIds = userIds
         }
@@ -6265,8 +6096,7 @@ extension QBusinessClientTypes {
             includedUsersAndGroups: QBusinessClientTypes.UsersAndGroups? = nil,
             ruleConfiguration: QBusinessClientTypes.RuleConfiguration? = nil,
             ruleType: QBusinessClientTypes.RuleType? = nil
-        )
-        {
+        ) {
             self.excludedUsersAndGroups = excludedUsersAndGroups
             self.includedUsersAndGroups = includedUsersAndGroups
             self.ruleConfiguration = ruleConfiguration
@@ -6295,8 +6125,7 @@ extension QBusinessClientTypes {
             exampleChatMessages: [Swift.String]? = nil,
             name: Swift.String? = nil,
             rules: [QBusinessClientTypes.Rule]? = nil
-        )
-        {
+        ) {
             self.description = description
             self.exampleChatMessages = exampleChatMessages
             self.name = name
@@ -6323,8 +6152,7 @@ public struct GetChatControlsConfigurationOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         responseScope: QBusinessClientTypes.ResponseScope? = nil,
         topicConfigurations: [QBusinessClientTypes.TopicConfiguration]? = nil
-    )
-    {
+    ) {
         self.blockedPhrases = blockedPhrases
         self.creatorModeConfiguration = creatorModeConfiguration
         self.nextToken = nextToken
@@ -6351,8 +6179,7 @@ public struct GetGroupInput: Swift.Sendable {
         dataSourceId: Swift.String? = nil,
         groupName: Swift.String? = nil,
         indexId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.dataSourceId = dataSourceId
         self.groupName = groupName
@@ -6413,8 +6240,7 @@ extension QBusinessClientTypes {
             errorDetail: QBusinessClientTypes.ErrorDetail? = nil,
             lastUpdatedAt: Foundation.Date? = nil,
             status: QBusinessClientTypes.GroupStatus? = nil
-        )
-        {
+        ) {
             self.errorDetail = errorDetail
             self.lastUpdatedAt = lastUpdatedAt
             self.status = status
@@ -6431,8 +6257,7 @@ public struct GetGroupOutput: Swift.Sendable {
     public init(
         status: QBusinessClientTypes.GroupStatusDetail? = nil,
         statusHistory: [QBusinessClientTypes.GroupStatusDetail]? = nil
-    )
-    {
+    ) {
         self.status = status
         self.statusHistory = statusHistory
     }
@@ -6457,8 +6282,7 @@ public struct MediaTooLargeException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -6482,8 +6306,7 @@ public struct GetMediaInput: Swift.Sendable {
         conversationId: Swift.String? = nil,
         mediaId: Swift.String? = nil,
         messageId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.conversationId = conversationId
         self.mediaId = mediaId
@@ -6500,8 +6323,7 @@ public struct GetMediaOutput: Swift.Sendable {
     public init(
         mediaBytes: Foundation.Data? = nil,
         mediaMimeType: Swift.String? = nil
-    )
-    {
+    ) {
         self.mediaBytes = mediaBytes
         self.mediaMimeType = mediaMimeType
     }
@@ -6514,8 +6336,7 @@ public struct GetPolicyInput: Swift.Sendable {
 
     public init(
         applicationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
     }
 }
@@ -6526,8 +6347,7 @@ public struct GetPolicyOutput: Swift.Sendable {
 
     public init(
         policy: Swift.String? = nil
-    )
-    {
+    ) {
         self.policy = policy
     }
 }
@@ -6543,8 +6363,7 @@ public struct GetUserInput: Swift.Sendable {
     public init(
         applicationId: Swift.String? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.userId = userId
     }
@@ -6556,8 +6375,7 @@ public struct GetUserOutput: Swift.Sendable {
 
     public init(
         userAliases: [QBusinessClientTypes.UserAlias]? = nil
-    )
-    {
+    ) {
         self.userAliases = userAliases
     }
 }
@@ -6581,8 +6399,7 @@ public struct ListAttachmentsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.conversationId = conversationId
         self.maxResults = maxResults
@@ -6600,8 +6417,7 @@ public struct ListAttachmentsOutput: Swift.Sendable {
     public init(
         attachments: [QBusinessClientTypes.Attachment]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.attachments = attachments
         self.nextToken = nextToken
     }
@@ -6623,8 +6439,7 @@ public struct ListConversationsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -6641,8 +6456,7 @@ public struct ListConversationsOutput: Swift.Sendable {
     public init(
         conversations: [QBusinessClientTypes.Conversation]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.conversations = conversations
         self.nextToken = nextToken
     }
@@ -6678,8 +6492,7 @@ public struct ListDataSourceSyncJobsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         startTime: Foundation.Date? = nil,
         statusFilter: QBusinessClientTypes.DataSourceSyncJobStatus? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.dataSourceId = dataSourceId
         self.endTime = endTime
@@ -6700,8 +6513,7 @@ public struct ListDataSourceSyncJobsOutput: Swift.Sendable {
     public init(
         history: [QBusinessClientTypes.DataSourceSyncJob]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.history = history
         self.nextToken = nextToken
     }
@@ -6727,8 +6539,7 @@ public struct ListDocumentsInput: Swift.Sendable {
         indexId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.dataSourceIds = dataSourceIds
         self.indexId = indexId
@@ -6746,8 +6557,7 @@ public struct ListDocumentsOutput: Swift.Sendable {
     public init(
         documentDetailList: [QBusinessClientTypes.DocumentDetails]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.documentDetailList = documentDetailList
         self.nextToken = nextToken
     }
@@ -6777,8 +6587,7 @@ public struct ListGroupsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         updatedEarlierThan: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.dataSourceId = dataSourceId
         self.indexId = indexId
@@ -6797,8 +6606,7 @@ extension QBusinessClientTypes {
 
         public init(
             groupName: Swift.String? = nil
-        )
-        {
+        ) {
             self.groupName = groupName
         }
     }
@@ -6813,8 +6621,7 @@ public struct ListGroupsOutput: Swift.Sendable {
     public init(
         items: [QBusinessClientTypes.GroupSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -6840,8 +6647,7 @@ public struct ListMessagesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.conversationId = conversationId
         self.maxResults = maxResults
@@ -6909,8 +6715,7 @@ extension QBusinessClientTypes {
             sourceAttribution: [QBusinessClientTypes.SourceAttribution?]? = nil,
             time: Foundation.Date? = nil,
             type: QBusinessClientTypes.MessageType? = nil
-        )
-        {
+        ) {
             self.actionExecution = actionExecution
             self.actionReview = actionReview
             self.attachments = attachments
@@ -6932,8 +6737,7 @@ public struct ListMessagesOutput: Swift.Sendable {
     public init(
         messages: [QBusinessClientTypes.Message]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.messages = messages
         self.nextToken = nextToken
     }
@@ -6956,8 +6760,7 @@ public struct ListPluginActionsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         pluginId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -6974,8 +6777,7 @@ public struct ListPluginActionsOutput: Swift.Sendable {
     public init(
         items: [QBusinessClientTypes.ActionSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -6994,8 +6796,7 @@ public struct ListPluginTypeActionsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         pluginType: QBusinessClientTypes.PluginType? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.pluginType = pluginType
@@ -7011,8 +6812,7 @@ public struct ListPluginTypeActionsOutput: Swift.Sendable {
     public init(
         items: [QBusinessClientTypes.ActionSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -7027,8 +6827,7 @@ public struct ListPluginTypeMetadataInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -7087,8 +6886,7 @@ extension QBusinessClientTypes {
             category: QBusinessClientTypes.PluginTypeCategory? = nil,
             description: Swift.String? = nil,
             type: QBusinessClientTypes.PluginType? = nil
-        )
-        {
+        ) {
             self.category = category
             self.description = description
             self.type = type
@@ -7105,8 +6903,7 @@ public struct ListPluginTypeMetadataOutput: Swift.Sendable {
     public init(
         items: [QBusinessClientTypes.PluginTypeMetadataSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -7119,8 +6916,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
     }
 }
@@ -7131,8 +6927,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [QBusinessClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -7245,8 +7040,7 @@ extension QBusinessClientTypes {
             reason: QBusinessClientTypes.MessageUsefulnessReason? = nil,
             submittedAt: Foundation.Date? = nil,
             usefulness: QBusinessClientTypes.MessageUsefulness? = nil
-        )
-        {
+        ) {
             self.comment = comment
             self.reason = reason
             self.submittedAt = submittedAt
@@ -7279,8 +7073,7 @@ public struct PutFeedbackInput: Swift.Sendable {
         messageId: Swift.String? = nil,
         messageUsefulness: QBusinessClientTypes.MessageUsefulnessFeedback? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.conversationId = conversationId
         self.messageCopiedAt = messageCopiedAt
@@ -7303,8 +7096,7 @@ extension QBusinessClientTypes {
         public init(
             groupName: Swift.String? = nil,
             type: QBusinessClientTypes.MembershipType? = nil
-        )
-        {
+        ) {
             self.groupName = groupName
             self.type = type
         }
@@ -7324,8 +7116,7 @@ extension QBusinessClientTypes {
         public init(
             type: QBusinessClientTypes.MembershipType? = nil,
             userId: Swift.String? = nil
-        )
-        {
+        ) {
             self.type = type
             self.userId = userId
         }
@@ -7347,8 +7138,7 @@ extension QBusinessClientTypes {
             memberGroups: [QBusinessClientTypes.MemberGroup]? = nil,
             memberUsers: [QBusinessClientTypes.MemberUser]? = nil,
             s3PathForGroupMembers: QBusinessClientTypes.S3? = nil
-        )
-        {
+        ) {
             self.memberGroups = memberGroups
             self.memberUsers = memberUsers
             self.s3PathForGroupMembers = s3PathForGroupMembers
@@ -7385,8 +7175,7 @@ public struct PutGroupInput: Swift.Sendable {
         indexId: Swift.String? = nil,
         roleArn: Swift.String? = nil,
         type: QBusinessClientTypes.MembershipType? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.dataSourceId = dataSourceId
         self.groupMembers = groupMembers
@@ -7449,8 +7238,7 @@ extension QBusinessClientTypes {
 
         public init(
             scoreConfidence: QBusinessClientTypes.ScoreConfidence? = nil
-        )
-        {
+        ) {
             self.scoreConfidence = scoreConfidence
         }
     }
@@ -7480,8 +7268,7 @@ extension QBusinessClientTypes {
             documentTitle: Swift.String? = nil,
             documentUri: Swift.String? = nil,
             scoreAttributes: QBusinessClientTypes.ScoreAttributes? = nil
-        )
-        {
+        ) {
             self.content = content
             self.documentAttributes = documentAttributes
             self.documentId = documentId
@@ -7501,8 +7288,7 @@ public struct SearchRelevantContentOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         relevantContent: [QBusinessClientTypes.RelevantContent]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.relevantContent = relevantContent
     }
@@ -7523,8 +7309,7 @@ public struct StartDataSourceSyncJobInput: Swift.Sendable {
         applicationId: Swift.String? = nil,
         dataSourceId: Swift.String? = nil,
         indexId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.dataSourceId = dataSourceId
         self.indexId = indexId
@@ -7537,8 +7322,7 @@ public struct StartDataSourceSyncJobOutput: Swift.Sendable {
 
     public init(
         executionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.executionId = executionId
     }
 }
@@ -7558,8 +7342,7 @@ public struct StopDataSourceSyncJobInput: Swift.Sendable {
         applicationId: Swift.String? = nil,
         dataSourceId: Swift.String? = nil,
         indexId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.dataSourceId = dataSourceId
         self.indexId = indexId
@@ -7582,8 +7365,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tags: [QBusinessClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tags = tags
     }
@@ -7605,8 +7387,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tagKeys = tagKeys
     }
@@ -7642,8 +7423,7 @@ public struct UpdateChatControlsConfigurationInput: Swift.Sendable {
         responseScope: QBusinessClientTypes.ResponseScope? = nil,
         topicConfigurationsToCreateOrUpdate: [QBusinessClientTypes.TopicConfiguration]? = nil,
         topicConfigurationsToDelete: [QBusinessClientTypes.TopicConfiguration]? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.blockedPhrasesConfigurationUpdate = blockedPhrasesConfigurationUpdate
         self.clientToken = clientToken
@@ -7676,8 +7456,7 @@ public struct UpdateUserInput: Swift.Sendable {
         userAliasesToDelete: [QBusinessClientTypes.UserAlias]? = nil,
         userAliasesToUpdate: [QBusinessClientTypes.UserAlias]? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.userAliasesToDelete = userAliasesToDelete
         self.userAliasesToUpdate = userAliasesToUpdate
@@ -7697,8 +7476,7 @@ public struct UpdateUserOutput: Swift.Sendable {
         userAliasesAdded: [QBusinessClientTypes.UserAlias]? = nil,
         userAliasesDeleted: [QBusinessClientTypes.UserAlias]? = nil,
         userAliasesUpdated: [QBusinessClientTypes.UserAlias]? = nil
-    )
-    {
+    ) {
         self.userAliasesAdded = userAliasesAdded
         self.userAliasesDeleted = userAliasesDeleted
         self.userAliasesUpdated = userAliasesUpdated
@@ -7741,8 +7519,7 @@ extension QBusinessClientTypes {
             lessThanOrEquals: QBusinessClientTypes.DocumentAttribute? = nil,
             notFilter: QBusinessClientTypes.AttributeFilter? = nil,
             orAllFilters: [QBusinessClientTypes.AttributeFilter]? = nil
-        )
-        {
+        ) {
             self.andAllFilters = andAllFilters
             self.containsAll = containsAll
             self.containsAny = containsAny
@@ -7767,8 +7544,7 @@ extension QBusinessClientTypes {
 
         public init(
             documentAttributeFilter: QBusinessClientTypes.AttributeFilter? = nil
-        )
-        {
+        ) {
             self.documentAttributeFilter = documentAttributeFilter
         }
     }
@@ -7798,8 +7574,7 @@ extension QBusinessClientTypes {
             attributeFilter: QBusinessClientTypes.AttributeFilter? = nil,
             chatMode: QBusinessClientTypes.ChatMode? = nil,
             chatModeConfiguration: QBusinessClientTypes.ChatModeConfiguration? = nil
-        )
-        {
+        ) {
             self.attributeFilter = attributeFilter
             self.chatMode = chatMode
             self.chatModeConfiguration = chatModeConfiguration
@@ -7859,8 +7634,7 @@ public struct ChatSyncInput: Swift.Sendable {
         userGroups: [Swift.String]? = nil,
         userId: Swift.String? = nil,
         userMessage: Swift.String? = nil
-    )
-    {
+    ) {
         self.actionExecution = actionExecution
         self.applicationId = applicationId
         self.attachments = attachments
@@ -7901,8 +7675,7 @@ public struct SearchRelevantContentInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         queryText: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.attributeFilter = attributeFilter
         self.contentSource = contentSource
@@ -7925,8 +7698,7 @@ extension QBusinessClientTypes {
         public init(
             action: Swift.String? = nil,
             filterConfiguration: QBusinessClientTypes.ActionFilterConfiguration? = nil
-        )
-        {
+        ) {
             self.action = action
             self.filterConfiguration = filterConfiguration
         }
@@ -7978,8 +7750,7 @@ public struct ChatInput: Swift.Sendable {
         parentMessageId: Swift.String? = nil,
         userGroups: [Swift.String]? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.clientToken = clientToken
         self.conversationId = conversationId
@@ -8015,8 +7786,7 @@ public struct CreateDataAccessorInput: Swift.Sendable {
         displayName: Swift.String? = nil,
         principal: Swift.String? = nil,
         tags: [QBusinessClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.actionConfigurations = actionConfigurations
         self.applicationId = applicationId
         self.clientToken = clientToken
@@ -8061,8 +7831,7 @@ public struct GetDataAccessorOutput: Swift.Sendable {
         idcApplicationArn: Swift.String? = nil,
         principal: Swift.String? = nil,
         updatedAt: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.actionConfigurations = actionConfigurations
         self.applicationId = applicationId
         self.createdAt = createdAt
@@ -8098,8 +7867,7 @@ public struct UpdateDataAccessorInput: Swift.Sendable {
         applicationId: Swift.String? = nil,
         dataAccessorId: Swift.String? = nil,
         displayName: Swift.String? = nil
-    )
-    {
+    ) {
         self.actionConfigurations = actionConfigurations
         self.applicationId = applicationId
         self.dataAccessorId = dataAccessorId

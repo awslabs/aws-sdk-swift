@@ -94,8 +94,7 @@ extension MediaPackageVodClientTypes {
             sourceArn: Swift.String? = nil,
             sourceRoleArn: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.id = id
@@ -242,8 +241,7 @@ extension MediaPackageVodClientTypes {
             maxVideoBitsPerSecond: Swift.Int? = nil,
             minVideoBitsPerSecond: Swift.Int? = nil,
             streamOrder: MediaPackageVodClientTypes.StreamOrder? = nil
-        )
-        {
+        ) {
             self.maxVideoBitsPerSecond = maxVideoBitsPerSecond
             self.minVideoBitsPerSecond = minVideoBitsPerSecond
             self.streamOrder = streamOrder
@@ -275,8 +273,7 @@ extension MediaPackageVodClientTypes {
             profile: MediaPackageVodClientTypes.Profile? = nil,
             scteMarkersSource: MediaPackageVodClientTypes.ScteMarkersSource? = nil,
             streamSelection: MediaPackageVodClientTypes.StreamSelection? = nil
-        )
-        {
+        ) {
             self.manifestLayout = manifestLayout
             self.manifestName = manifestName
             self.minBufferTimeSeconds = minBufferTimeSeconds
@@ -302,8 +299,7 @@ extension MediaPackageVodClientTypes {
             packagingConfigurationId: Swift.String? = nil,
             status: Swift.String? = nil,
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.packagingConfigurationId = packagingConfigurationId
             self.status = status
             self.url = url
@@ -367,8 +363,7 @@ extension MediaPackageVodClientTypes {
             programDateTimeIntervalSeconds: Swift.Int? = nil,
             repeatExtXKey: Swift.Bool? = nil,
             streamSelection: MediaPackageVodClientTypes.StreamSelection? = nil
-        )
-        {
+        ) {
             self.adMarkers = adMarkers
             self.includeIframeOnlyStream = includeIframeOnlyStream
             self.manifestName = manifestName
@@ -391,8 +386,7 @@ extension MediaPackageVodClientTypes {
         public init(
             manifestName: Swift.String? = nil,
             streamSelection: MediaPackageVodClientTypes.StreamSelection? = nil
-        )
-        {
+        ) {
             self.manifestName = manifestName
             self.streamSelection = streamSelection
         }
@@ -504,8 +498,7 @@ extension MediaPackageVodClientTypes {
         public init(
             presetSpeke20Audio: MediaPackageVodClientTypes.PresetSpeke20Audio? = nil,
             presetSpeke20Video: MediaPackageVodClientTypes.PresetSpeke20Video? = nil
-        )
-        {
+        ) {
             self.presetSpeke20Audio = presetSpeke20Audio
             self.presetSpeke20Video = presetSpeke20Video
         }
@@ -533,8 +526,7 @@ extension MediaPackageVodClientTypes {
             roleArn: Swift.String? = nil,
             systemIds: [Swift.String]? = nil,
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.encryptionContractConfiguration = encryptionContractConfiguration
             self.roleArn = roleArn
             self.systemIds = systemIds
@@ -556,8 +548,7 @@ extension MediaPackageVodClientTypes {
         public init(
             constantInitializationVector: Swift.String? = nil,
             spekeKeyProvider: MediaPackageVodClientTypes.SpekeKeyProvider? = nil
-        )
-        {
+        ) {
             self.constantInitializationVector = constantInitializationVector
             self.spekeKeyProvider = spekeKeyProvider
         }
@@ -583,8 +574,7 @@ extension MediaPackageVodClientTypes {
             hlsManifests: [MediaPackageVodClientTypes.HlsManifest]? = nil,
             includeEncoderConfigurationInSegments: Swift.Bool? = nil,
             segmentDurationSeconds: Swift.Int? = nil
-        )
-        {
+        ) {
             self.encryption = encryption
             self.hlsManifests = hlsManifests
             self.includeEncoderConfigurationInSegments = includeEncoderConfigurationInSegments
@@ -603,8 +593,7 @@ extension MediaPackageVodClientTypes {
 
         public init(
             spekeKeyProvider: MediaPackageVodClientTypes.SpekeKeyProvider? = nil
-        )
-        {
+        ) {
             self.spekeKeyProvider = spekeKeyProvider
         }
     }
@@ -670,8 +659,7 @@ extension MediaPackageVodClientTypes {
             periodTriggers: [MediaPackageVodClientTypes.__PeriodTriggersElement]? = nil,
             segmentDurationSeconds: Swift.Int? = nil,
             segmentTemplateFormat: MediaPackageVodClientTypes.SegmentTemplateFormat? = nil
-        )
-        {
+        ) {
             self.dashManifests = dashManifests
             self.encryption = encryption
             self.includeEncoderConfigurationInSegments = includeEncoderConfigurationInSegments
@@ -728,8 +716,7 @@ extension MediaPackageVodClientTypes {
             constantInitializationVector: Swift.String? = nil,
             encryptionMethod: MediaPackageVodClientTypes.EncryptionMethod? = nil,
             spekeKeyProvider: MediaPackageVodClientTypes.SpekeKeyProvider? = nil
-        )
-        {
+        ) {
             self.constantInitializationVector = constantInitializationVector
             self.encryptionMethod = encryptionMethod
             self.spekeKeyProvider = spekeKeyProvider
@@ -759,8 +746,7 @@ extension MediaPackageVodClientTypes {
             includeDvbSubtitles: Swift.Bool? = nil,
             segmentDurationSeconds: Swift.Int? = nil,
             useAudioRenditionGroup: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.encryption = encryption
             self.hlsManifests = hlsManifests
             self.includeDvbSubtitles = includeDvbSubtitles
@@ -780,8 +766,7 @@ extension MediaPackageVodClientTypes {
 
         public init(
             spekeKeyProvider: MediaPackageVodClientTypes.SpekeKeyProvider? = nil
-        )
-        {
+        ) {
             self.spekeKeyProvider = spekeKeyProvider
         }
     }
@@ -803,8 +788,7 @@ extension MediaPackageVodClientTypes {
             encryption: MediaPackageVodClientTypes.MssEncryption? = nil,
             mssManifests: [MediaPackageVodClientTypes.MssManifest]? = nil,
             segmentDurationSeconds: Swift.Int? = nil
-        )
-        {
+        ) {
             self.encryption = encryption
             self.mssManifests = mssManifests
             self.segmentDurationSeconds = segmentDurationSeconds
@@ -845,8 +829,7 @@ extension MediaPackageVodClientTypes {
             mssPackage: MediaPackageVodClientTypes.MssPackage? = nil,
             packagingGroupId: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.cmafPackage = cmafPackage
             self.createdAt = createdAt
@@ -874,8 +857,7 @@ extension MediaPackageVodClientTypes {
         public init(
             cdnIdentifierSecret: Swift.String? = nil,
             secretsRoleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.cdnIdentifierSecret = cdnIdentifierSecret
             self.secretsRoleArn = secretsRoleArn
         }
@@ -891,8 +873,7 @@ extension MediaPackageVodClientTypes {
 
         public init(
             logGroupName: Swift.String? = nil
-        )
-        {
+        ) {
             self.logGroupName = logGroupName
         }
     }
@@ -928,8 +909,7 @@ extension MediaPackageVodClientTypes {
             egressAccessLogs: MediaPackageVodClientTypes.EgressAccessLogs? = nil,
             id: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.approximateAssetCount = approximateAssetCount
             self.arn = arn
             self.authorization = authorization
@@ -960,8 +940,7 @@ public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -984,8 +963,7 @@ public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1008,8 +986,7 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1032,8 +1009,7 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1056,8 +1032,7 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1080,8 +1055,7 @@ public struct UnprocessableEntityException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1097,8 +1071,7 @@ public struct ConfigureLogsInput: Swift.Sendable {
     public init(
         egressAccessLogs: MediaPackageVodClientTypes.EgressAccessLogs? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.egressAccessLogs = egressAccessLogs
         self.id = id
     }
@@ -1128,8 +1101,7 @@ public struct ConfigureLogsOutput: Swift.Sendable {
         egressAccessLogs: MediaPackageVodClientTypes.EgressAccessLogs? = nil,
         id: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.authorization = authorization
         self.createdAt = createdAt
@@ -1166,8 +1138,7 @@ public struct CreateAssetInput: Swift.Sendable {
         sourceArn: Swift.String? = nil,
         sourceRoleArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.id = id
         self.packagingGroupId = packagingGroupId
         self.resourceId = resourceId
@@ -1207,8 +1178,7 @@ public struct CreateAssetOutput: Swift.Sendable {
         sourceArn: Swift.String? = nil,
         sourceRoleArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.createdAt = createdAt
         self.egressEndpoints = egressEndpoints
@@ -1248,8 +1218,7 @@ public struct CreatePackagingConfigurationInput: Swift.Sendable {
         mssPackage: MediaPackageVodClientTypes.MssPackage? = nil,
         packagingGroupId: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.cmafPackage = cmafPackage
         self.dashPackage = dashPackage
         self.hlsPackage = hlsPackage
@@ -1290,8 +1259,7 @@ public struct CreatePackagingConfigurationOutput: Swift.Sendable {
         mssPackage: MediaPackageVodClientTypes.MssPackage? = nil,
         packagingGroupId: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.cmafPackage = cmafPackage
         self.createdAt = createdAt
@@ -1321,8 +1289,7 @@ public struct CreatePackagingGroupInput: Swift.Sendable {
         egressAccessLogs: MediaPackageVodClientTypes.EgressAccessLogs? = nil,
         id: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.authorization = authorization
         self.egressAccessLogs = egressAccessLogs
         self.id = id
@@ -1354,8 +1321,7 @@ public struct CreatePackagingGroupOutput: Swift.Sendable {
         egressAccessLogs: MediaPackageVodClientTypes.EgressAccessLogs? = nil,
         id: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.authorization = authorization
         self.createdAt = createdAt
@@ -1373,8 +1339,7 @@ public struct DeleteAssetInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -1391,8 +1356,7 @@ public struct DeletePackagingConfigurationInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -1409,8 +1373,7 @@ public struct DeletePackagingGroupInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -1427,8 +1390,7 @@ public struct DescribeAssetInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -1463,8 +1425,7 @@ public struct DescribeAssetOutput: Swift.Sendable {
         sourceArn: Swift.String? = nil,
         sourceRoleArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.createdAt = createdAt
         self.egressEndpoints = egressEndpoints
@@ -1484,8 +1445,7 @@ public struct DescribePackagingConfigurationInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -1520,8 +1480,7 @@ public struct DescribePackagingConfigurationOutput: Swift.Sendable {
         mssPackage: MediaPackageVodClientTypes.MssPackage? = nil,
         packagingGroupId: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.cmafPackage = cmafPackage
         self.createdAt = createdAt
@@ -1541,8 +1500,7 @@ public struct DescribePackagingGroupInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -1574,8 +1532,7 @@ public struct DescribePackagingGroupOutput: Swift.Sendable {
         egressAccessLogs: MediaPackageVodClientTypes.EgressAccessLogs? = nil,
         id: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.approximateAssetCount = approximateAssetCount
         self.arn = arn
         self.authorization = authorization
@@ -1599,8 +1556,7 @@ public struct ListAssetsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         packagingGroupId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.packagingGroupId = packagingGroupId
@@ -1616,8 +1572,7 @@ public struct ListAssetsOutput: Swift.Sendable {
     public init(
         assets: [MediaPackageVodClientTypes.AssetShallow]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.assets = assets
         self.nextToken = nextToken
     }
@@ -1635,8 +1590,7 @@ public struct ListPackagingConfigurationsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         packagingGroupId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.packagingGroupId = packagingGroupId
@@ -1652,8 +1606,7 @@ public struct ListPackagingConfigurationsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         packagingConfigurations: [MediaPackageVodClientTypes.PackagingConfiguration]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.packagingConfigurations = packagingConfigurations
     }
@@ -1668,8 +1621,7 @@ public struct ListPackagingGroupsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -1684,8 +1636,7 @@ public struct ListPackagingGroupsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         packagingGroups: [MediaPackageVodClientTypes.PackagingGroup]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.packagingGroups = packagingGroups
     }
@@ -1698,8 +1649,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -1710,8 +1660,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -1727,8 +1676,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -1745,8 +1693,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -1763,8 +1710,7 @@ public struct UpdatePackagingGroupInput: Swift.Sendable {
     public init(
         authorization: MediaPackageVodClientTypes.Authorization? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.authorization = authorization
         self.id = id
     }
@@ -1797,8 +1743,7 @@ public struct UpdatePackagingGroupOutput: Swift.Sendable {
         egressAccessLogs: MediaPackageVodClientTypes.EgressAccessLogs? = nil,
         id: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.approximateAssetCount = approximateAssetCount
         self.arn = arn
         self.authorization = authorization

@@ -62,7 +62,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ManagedBlockchainQueryClient: ClientRuntime.Client {
     public static let clientName = "ManagedBlockchainQueryClient"
-    public static let version = "1.0.69"
+    public static let version = "1.0.74"
     let client: ClientRuntime.SdkHttpClient
     let config: ManagedBlockchainQueryClient.ManagedBlockchainQueryClientConfiguration
     let serviceName = "ManagedBlockchain Query"
@@ -328,7 +328,7 @@ extension ManagedBlockchainQueryClient {
 }
 
 extension ManagedBlockchainQueryClient {
-    /// Performs the `BatchGetTokenBalance` operation on the `TietonChainQueryService` service.
+    /// Performs the `BatchGetTokenBalance` operation on the `ManagedBlockchainQuery` service.
     ///
     /// Gets the token balance for a batch of tokens by using the BatchGetTokenBalance action for every token in the request. Only the native tokens BTC and ETH, and the ERC-20, ERC-721, and ERC 1155 token standards are supported.
     ///
@@ -402,7 +402,7 @@ extension ManagedBlockchainQueryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAssetContract` operation on the `TietonChainQueryService` service.
+    /// Performs the `GetAssetContract` operation on the `ManagedBlockchainQuery` service.
     ///
     /// Gets the information about a specific contract deployed on the blockchain.
     ///
@@ -480,7 +480,7 @@ extension ManagedBlockchainQueryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetTokenBalance` operation on the `TietonChainQueryService` service.
+    /// Performs the `GetTokenBalance` operation on the `ManagedBlockchainQuery` service.
     ///
     /// Gets the balance of a specific token, including native tokens, for a given address (wallet or contract) on the blockchain. Only the native tokens BTC and ETH, and the ERC-20, ERC-721, and ERC 1155 token standards are supported.
     ///
@@ -554,7 +554,7 @@ extension ManagedBlockchainQueryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetTransaction` operation on the `TietonChainQueryService` service.
+    /// Performs the `GetTransaction` operation on the `ManagedBlockchainQuery` service.
     ///
     /// Gets the details of a transaction. This action will return transaction details for all transactions that are confirmed on the blockchain, even if they have not reached [finality](https://docs.aws.amazon.com/managed-blockchain/latest/ambq-dg/key-concepts.html#finality).
     ///
@@ -628,7 +628,7 @@ extension ManagedBlockchainQueryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAssetContracts` operation on the `TietonChainQueryService` service.
+    /// Performs the `ListAssetContracts` operation on the `ManagedBlockchainQuery` service.
     ///
     /// Lists all the contracts for a given contract type deployed by an address (either a contract address or a wallet address). The Bitcoin blockchain networks do not support this operation.
     ///
@@ -701,7 +701,7 @@ extension ManagedBlockchainQueryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListFilteredTransactionEvents` operation on the `TietonChainQueryService` service.
+    /// Performs the `ListFilteredTransactionEvents` operation on the `ManagedBlockchainQuery` service.
     ///
     /// Lists all the transaction events for an address on the blockchain. This operation is only supported on the Bitcoin networks.
     ///
@@ -774,7 +774,7 @@ extension ManagedBlockchainQueryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTokenBalances` operation on the `TietonChainQueryService` service.
+    /// Performs the `ListTokenBalances` operation on the `ManagedBlockchainQuery` service.
     ///
     /// This action returns the following for a given blockchain network:
     ///
@@ -856,7 +856,7 @@ extension ManagedBlockchainQueryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTransactionEvents` operation on the `TietonChainQueryService` service.
+    /// Performs the `ListTransactionEvents` operation on the `ManagedBlockchainQuery` service.
     ///
     /// Lists all the transaction events for a transaction This action will return transaction details for all transactions that are confirmed on the blockchain, even if they have not reached [finality](https://docs.aws.amazon.com/managed-blockchain/latest/ambq-dg/key-concepts.html#finality).
     ///
@@ -929,7 +929,7 @@ extension ManagedBlockchainQueryClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTransactions` operation on the `TietonChainQueryService` service.
+    /// Performs the `ListTransactions` operation on the `ManagedBlockchainQuery` service.
     ///
     /// Lists all the transaction events for a transaction.
     ///

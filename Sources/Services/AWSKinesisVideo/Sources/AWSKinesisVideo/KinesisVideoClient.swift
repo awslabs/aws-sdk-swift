@@ -63,7 +63,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class KinesisVideoClient: ClientRuntime.Client {
     public static let clientName = "KinesisVideoClient"
-    public static let version = "1.0.69"
+    public static let version = "1.0.74"
     let client: ClientRuntime.SdkHttpClient
     let config: KinesisVideoClient.KinesisVideoClientConfiguration
     let serviceName = "Kinesis Video"
@@ -329,7 +329,7 @@ extension KinesisVideoClient {
 }
 
 extension KinesisVideoClient {
-    /// Performs the `CreateSignalingChannel` operation on the `KinesisVideo_20170930` service.
+    /// Performs the `CreateSignalingChannel` operation on the `KinesisVideo` service.
     ///
     /// Creates a signaling channel. CreateSignalingChannel is an asynchronous operation.
     ///
@@ -409,7 +409,7 @@ extension KinesisVideoClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateStream` operation on the `KinesisVideo_20170930` service.
+    /// Performs the `CreateStream` operation on the `KinesisVideo` service.
     ///
     /// Creates a new Kinesis video stream. When you create a new stream, Kinesis Video Streams assigns it a version number. When you change the stream's metadata, Kinesis Video Streams updates the version. CreateStream is an asynchronous operation. For information about how the service works, see [How it Works](https://docs.aws.amazon.com/kinesisvideostreams/latest/dg/how-it-works.html). You must have permissions for the KinesisVideo:CreateStream action.
     ///
@@ -490,7 +490,7 @@ extension KinesisVideoClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteEdgeConfiguration` operation on the `KinesisVideo_20170930` service.
+    /// Performs the `DeleteEdgeConfiguration` operation on the `KinesisVideo` service.
     ///
     /// An asynchronous API that deletes a stream’s existing edge configuration, as well as the corresponding media from the Edge Agent. When you invoke this API, the sync status is set to DELETING. A deletion process starts, in which active edge jobs are stopped and all media is deleted from the edge device. The time to delete varies, depending on the total amount of stored media. If the deletion process fails, the sync status changes to DELETE_FAILED. You will need to re-try the deletion. When the deletion process has completed successfully, the edge configuration is no longer accessible.
     ///
@@ -563,7 +563,7 @@ extension KinesisVideoClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteSignalingChannel` operation on the `KinesisVideo_20170930` service.
+    /// Performs the `DeleteSignalingChannel` operation on the `KinesisVideo` service.
     ///
     /// Deletes a specified signaling channel. DeleteSignalingChannel is an asynchronous operation. If you don't specify the channel's current version, the most recent version is deleted.
     ///
@@ -643,7 +643,7 @@ extension KinesisVideoClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteStream` operation on the `KinesisVideo_20170930` service.
+    /// Performs the `DeleteStream` operation on the `KinesisVideo` service.
     ///
     /// Deletes a Kinesis video stream and the data contained in the stream. This method marks the stream for deletion, and makes the data in the stream inaccessible immediately. To ensure that you have the latest version of the stream before deleting it, you can specify the stream version. Kinesis Video Streams assigns a version to each stream. When you update a stream, Kinesis Video Streams assigns a new version number. To get the latest stream version, use the DescribeStream API. This operation requires permission for the KinesisVideo:DeleteStream action.
     ///
@@ -723,7 +723,7 @@ extension KinesisVideoClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeEdgeConfiguration` operation on the `KinesisVideo_20170930` service.
+    /// Performs the `DescribeEdgeConfiguration` operation on the `KinesisVideo` service.
     ///
     /// Describes a stream’s edge configuration that was set using the StartEdgeConfigurationUpdate API and the latest status of the edge agent's recorder and uploader jobs. Use this API to get the status of the configuration to determine if the configuration is in sync with the Edge Agent. Use this API to evaluate the health of the Edge Agent.
     ///
@@ -796,7 +796,7 @@ extension KinesisVideoClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeImageGenerationConfiguration` operation on the `KinesisVideo_20170930` service.
+    /// Performs the `DescribeImageGenerationConfiguration` operation on the `KinesisVideo` service.
     ///
     /// Gets the ImageGenerationConfiguration for a given Kinesis video stream.
     ///
@@ -868,7 +868,7 @@ extension KinesisVideoClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeMappedResourceConfiguration` operation on the `KinesisVideo_20170930` service.
+    /// Performs the `DescribeMappedResourceConfiguration` operation on the `KinesisVideo` service.
     ///
     /// Returns the most current information about the stream. The streamName or streamARN should be provided in the input.
     ///
@@ -940,7 +940,7 @@ extension KinesisVideoClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeMediaStorageConfiguration` operation on the `KinesisVideo_20170930` service.
+    /// Performs the `DescribeMediaStorageConfiguration` operation on the `KinesisVideo` service.
     ///
     /// Returns the most current information about the channel. Specify the ChannelName or ChannelARN in the input.
     ///
@@ -1012,7 +1012,7 @@ extension KinesisVideoClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeNotificationConfiguration` operation on the `KinesisVideo_20170930` service.
+    /// Performs the `DescribeNotificationConfiguration` operation on the `KinesisVideo` service.
     ///
     /// Gets the NotificationConfiguration for a given Kinesis video stream.
     ///
@@ -1084,7 +1084,7 @@ extension KinesisVideoClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeSignalingChannel` operation on the `KinesisVideo_20170930` service.
+    /// Performs the `DescribeSignalingChannel` operation on the `KinesisVideo` service.
     ///
     /// Returns the most current information about the signaling channel. You must specify either the name or the Amazon Resource Name (ARN) of the channel that you want to describe.
     ///
@@ -1156,7 +1156,7 @@ extension KinesisVideoClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeStream` operation on the `KinesisVideo_20170930` service.
+    /// Performs the `DescribeStream` operation on the `KinesisVideo` service.
     ///
     /// Returns the most current information about the specified stream. You must specify either the StreamName or the StreamARN.
     ///
@@ -1228,7 +1228,7 @@ extension KinesisVideoClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDataEndpoint` operation on the `KinesisVideo_20170930` service.
+    /// Performs the `GetDataEndpoint` operation on the `KinesisVideo` service.
     ///
     /// Gets an endpoint for a specified stream for either reading or writing. Use this endpoint in your application to read from the specified stream (using the GetMedia or GetMediaForFragmentList operations) or write to it (using the PutMedia operation). The returned endpoint does not have the API name appended. The client needs to add the API name to the returned endpoint. In the request, specify the stream either by StreamName or StreamARN.
     ///
@@ -1300,7 +1300,7 @@ extension KinesisVideoClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetSignalingChannelEndpoint` operation on the `KinesisVideo_20170930` service.
+    /// Performs the `GetSignalingChannelEndpoint` operation on the `KinesisVideo` service.
     ///
     /// Provides an endpoint for the specified signaling channel to send and receive messages. This API uses the SingleMasterChannelEndpointConfiguration input parameter, which consists of the Protocols and Role properties. Protocols is used to determine the communication mechanism. For example, if you specify WSS as the protocol, this API produces a secure websocket endpoint. If you specify HTTPS as the protocol, this API generates an HTTPS endpoint. Role determines the messaging permissions. A MASTER role results in this API generating an endpoint that a client can use to communicate with any of the viewers on the channel. A VIEWER role results in this API generating an endpoint that a client can use to communicate only with a MASTER.
     ///
@@ -1379,7 +1379,7 @@ extension KinesisVideoClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListEdgeAgentConfigurations` operation on the `KinesisVideo_20170930` service.
+    /// Performs the `ListEdgeAgentConfigurations` operation on the `KinesisVideo` service.
     ///
     /// Returns an array of edge configurations associated with the specified Edge Agent. In the request, you must specify the Edge Agent HubDeviceArn.
     ///
@@ -1450,7 +1450,7 @@ extension KinesisVideoClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListSignalingChannels` operation on the `KinesisVideo_20170930` service.
+    /// Performs the `ListSignalingChannels` operation on the `KinesisVideo` service.
     ///
     /// Returns an array of ChannelInfo objects. Each object describes a signaling channel. To retrieve only those channels that satisfy a specific condition, you can specify a ChannelNameCondition.
     ///
@@ -1521,7 +1521,7 @@ extension KinesisVideoClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListStreams` operation on the `KinesisVideo_20170930` service.
+    /// Performs the `ListStreams` operation on the `KinesisVideo` service.
     ///
     /// Returns an array of StreamInfo objects. Each object describes a stream. To retrieve only streams that satisfy a specific condition, you can specify a StreamNameCondition.
     ///
@@ -1591,7 +1591,7 @@ extension KinesisVideoClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `KinesisVideo_20170930` service.
+    /// Performs the `ListTagsForResource` operation on the `KinesisVideo` service.
     ///
     /// Returns a list of tags associated with the specified signaling channel.
     ///
@@ -1663,7 +1663,7 @@ extension KinesisVideoClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForStream` operation on the `KinesisVideo_20170930` service.
+    /// Performs the `ListTagsForStream` operation on the `KinesisVideo` service.
     ///
     /// Returns a list of tags associated with the specified stream. In the request, you must specify either the StreamName or the StreamARN.
     ///
@@ -1736,7 +1736,7 @@ extension KinesisVideoClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartEdgeConfigurationUpdate` operation on the `KinesisVideo_20170930` service.
+    /// Performs the `StartEdgeConfigurationUpdate` operation on the `KinesisVideo` service.
     ///
     /// An asynchronous API that updates a stream’s existing edge configuration. The Kinesis Video Stream will sync the stream’s edge configuration with the Edge Agent IoT Greengrass component that runs on an IoT Hub Device, setup at your premise. The time to sync can vary and depends on the connectivity of the Hub Device. The SyncStatus will be updated as the edge configuration is acknowledged, and synced with the Edge Agent. If this API is invoked for the first time, a new edge configuration will be created for the stream, and the sync status will be set to SYNCING. You will have to wait for the sync status to reach a terminal state such as: IN_SYNC, or SYNC_FAILED, before using this API again. If you invoke this API during the syncing process, a ResourceInUseException will be thrown. The connectivity of the stream’s edge configuration and the Edge Agent will be retried for 15 minutes. After 15 minutes, the status will transition into the SYNC_FAILED state. To move an edge configuration from one device to another, use [DeleteEdgeConfiguration] to delete the current edge configuration. You can then invoke StartEdgeConfigurationUpdate with an updated Hub Device ARN.
     ///
@@ -1816,7 +1816,7 @@ extension KinesisVideoClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `KinesisVideo_20170930` service.
+    /// Performs the `TagResource` operation on the `KinesisVideo` service.
     ///
     /// Adds one or more tags to a signaling channel. A tag is a key-value pair (the value is optional) that you can define and assign to Amazon Web Services resources. If you specify a tag that already exists, the tag value is replaced with the value that you specify in the request. For more information, see [Using Cost Allocation Tags](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html) in the Billing and Cost Management and Cost Management User Guide.
     ///
@@ -1889,7 +1889,7 @@ extension KinesisVideoClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagStream` operation on the `KinesisVideo_20170930` service.
+    /// Performs the `TagStream` operation on the `KinesisVideo` service.
     ///
     /// Adds one or more tags to a stream. A tag is a key-value pair (the value is optional) that you can define and assign to Amazon Web Services resources. If you specify a tag that already exists, the tag value is replaced with the value that you specify in the request. For more information, see [Using Cost Allocation Tags](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html) in the Billing and Cost Management and Cost Management User Guide. You must provide either the StreamName or the StreamARN. This operation requires permission for the KinesisVideo:TagStream action. A Kinesis video stream can support up to 50 tags.
     ///
@@ -1963,7 +1963,7 @@ extension KinesisVideoClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `KinesisVideo_20170930` service.
+    /// Performs the `UntagResource` operation on the `KinesisVideo` service.
     ///
     /// Removes one or more tags from a signaling channel. In the request, specify only a tag key or keys; don't specify the value. If you specify a tag key that does not exist, it's ignored.
     ///
@@ -2035,7 +2035,7 @@ extension KinesisVideoClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagStream` operation on the `KinesisVideo_20170930` service.
+    /// Performs the `UntagStream` operation on the `KinesisVideo` service.
     ///
     /// Removes one or more tags from a stream. In the request, specify only a tag key or keys; don't specify the value. If you specify a tag key that does not exist, it's ignored. In the request, you must provide the StreamName or StreamARN.
     ///
@@ -2108,7 +2108,7 @@ extension KinesisVideoClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateDataRetention` operation on the `KinesisVideo_20170930` service.
+    /// Performs the `UpdateDataRetention` operation on the `KinesisVideo` service.
     ///
     /// Increases or decreases the stream's data retention period by the value that you specify. To indicate whether you want to increase or decrease the data retention period, specify the Operation parameter in the request body. In the request, you must specify either the StreamName or the StreamARN. This operation requires permission for the KinesisVideo:UpdateDataRetention action. Changing the data retention period affects the data in the stream as follows:
     ///
@@ -2192,7 +2192,7 @@ extension KinesisVideoClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateImageGenerationConfiguration` operation on the `KinesisVideo_20170930` service.
+    /// Performs the `UpdateImageGenerationConfiguration` operation on the `KinesisVideo` service.
     ///
     /// Updates the StreamInfo and ImageProcessingConfiguration fields.
     ///
@@ -2272,7 +2272,7 @@ extension KinesisVideoClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateMediaStorageConfiguration` operation on the `KinesisVideo_20170930` service.
+    /// Performs the `UpdateMediaStorageConfiguration` operation on the `KinesisVideo` service.
     ///
     /// Associates a SignalingChannel to a stream to store the media. There are two signaling modes that you can specify :
     ///
@@ -2359,7 +2359,7 @@ extension KinesisVideoClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateNotificationConfiguration` operation on the `KinesisVideo_20170930` service.
+    /// Performs the `UpdateNotificationConfiguration` operation on the `KinesisVideo` service.
     ///
     /// Updates the notification information for a stream.
     ///
@@ -2439,7 +2439,7 @@ extension KinesisVideoClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateSignalingChannel` operation on the `KinesisVideo_20170930` service.
+    /// Performs the `UpdateSignalingChannel` operation on the `KinesisVideo` service.
     ///
     /// Updates the existing signaling channel. This is an asynchronous operation and takes time to complete. If the MessageTtlSeconds value is updated (either increased or reduced), it only applies to new messages sent via this channel after it's been updated. Existing messages are still expired as per the previous MessageTtlSeconds value.
     ///
@@ -2519,7 +2519,7 @@ extension KinesisVideoClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateStream` operation on the `KinesisVideo_20170930` service.
+    /// Performs the `UpdateStream` operation on the `KinesisVideo` service.
     ///
     /// Updates stream metadata, such as the device name and media type. You must provide the stream name or the Amazon Resource Name (ARN) of the stream. To make sure that you have the latest version of the stream before updating it, you can specify the stream version. Kinesis Video Streams assigns a version to each stream. When you update a stream, Kinesis Video Streams assigns a new version number. To get the latest stream version, use the DescribeStream API. UpdateStream is an asynchronous operation, and takes time to complete.
     ///

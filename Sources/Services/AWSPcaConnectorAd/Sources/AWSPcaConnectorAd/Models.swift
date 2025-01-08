@@ -124,8 +124,7 @@ extension PcaConnectorAdClientTypes {
         public init(
             autoEnroll: PcaConnectorAdClientTypes.AccessRight? = nil,
             enroll: PcaConnectorAdClientTypes.AccessRight? = nil
-        )
-        {
+        ) {
             self.autoEnroll = autoEnroll
             self.enroll = enroll
         }
@@ -156,8 +155,7 @@ extension PcaConnectorAdClientTypes {
             groupSecurityIdentifier: Swift.String? = nil,
             templateArn: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.accessRights = accessRights
             self.createdAt = createdAt
             self.groupDisplayName = groupDisplayName
@@ -192,8 +190,7 @@ extension PcaConnectorAdClientTypes {
             groupSecurityIdentifier: Swift.String? = nil,
             templateArn: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.accessRights = accessRights
             self.createdAt = createdAt
             self.groupDisplayName = groupDisplayName
@@ -223,8 +220,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -478,8 +474,7 @@ extension PcaConnectorAdClientTypes {
         public init(
             critical: Swift.Bool? = nil,
             policies: [PcaConnectorAdClientTypes.ApplicationPolicy]? = nil
-        )
-        {
+        ) {
             self.critical = critical
             self.policies = policies
         }
@@ -538,8 +533,7 @@ extension PcaConnectorAdClientTypes {
         public init(
             period: Swift.Int? = nil,
             periodType: PcaConnectorAdClientTypes.ValidityPeriodType? = nil
-        )
-        {
+        ) {
             self.period = period
             self.periodType = periodType
         }
@@ -560,8 +554,7 @@ extension PcaConnectorAdClientTypes {
         public init(
             renewalPeriod: PcaConnectorAdClientTypes.ValidityPeriod? = nil,
             validityPeriod: PcaConnectorAdClientTypes.ValidityPeriod? = nil
-        )
-        {
+        ) {
             self.renewalPeriod = renewalPeriod
             self.validityPeriod = validityPeriod
         }
@@ -706,8 +699,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -806,8 +798,7 @@ extension PcaConnectorAdClientTypes {
 
         public init(
             securityGroupIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.securityGroupIds = securityGroupIds
         }
     }
@@ -846,8 +837,7 @@ extension PcaConnectorAdClientTypes {
             statusReason: PcaConnectorAdClientTypes.ConnectorStatusReason? = nil,
             updatedAt: Foundation.Date? = nil,
             vpcInformation: PcaConnectorAdClientTypes.VpcInformation? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.certificateAuthorityArn = certificateAuthorityArn
             self.certificateEnrollmentPolicyServerEndpoint = certificateEnrollmentPolicyServerEndpoint
@@ -894,8 +884,7 @@ extension PcaConnectorAdClientTypes {
             statusReason: PcaConnectorAdClientTypes.ConnectorStatusReason? = nil,
             updatedAt: Foundation.Date? = nil,
             vpcInformation: PcaConnectorAdClientTypes.VpcInformation? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.certificateAuthorityArn = certificateAuthorityArn
             self.certificateEnrollmentPolicyServerEndpoint = certificateEnrollmentPolicyServerEndpoint
@@ -928,8 +917,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -961,8 +949,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -1004,8 +991,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.quotaCode = quotaCode
         self.properties.resourceId = resourceId
@@ -1039,8 +1025,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
         message: Swift.String? = nil,
         quotaCode: Swift.String? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.quotaCode = quotaCode
         self.properties.serviceCode = serviceCode
@@ -1116,8 +1101,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         message: Swift.String? = nil,
         reason: PcaConnectorAdClientTypes.ValidationExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.reason = reason
     }
@@ -1144,8 +1128,7 @@ public struct CreateConnectorInput: Swift.Sendable {
         directoryId: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         vpcInformation: PcaConnectorAdClientTypes.VpcInformation? = nil
-    )
-    {
+    ) {
         self.certificateAuthorityArn = certificateAuthorityArn
         self.clientToken = clientToken
         self.directoryId = directoryId
@@ -1160,8 +1143,7 @@ public struct CreateConnectorOutput: Swift.Sendable {
 
     public init(
         connectorArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectorArn = connectorArn
     }
 }
@@ -1173,8 +1155,7 @@ public struct DeleteConnectorInput: Swift.Sendable {
 
     public init(
         connectorArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectorArn = connectorArn
     }
 }
@@ -1186,8 +1167,7 @@ public struct GetConnectorInput: Swift.Sendable {
 
     public init(
         connectorArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectorArn = connectorArn
     }
 }
@@ -1198,8 +1178,7 @@ public struct GetConnectorOutput: Swift.Sendable {
 
     public init(
         connector: PcaConnectorAdClientTypes.Connector? = nil
-    )
-    {
+    ) {
         self.connector = connector
     }
 }
@@ -1213,8 +1192,7 @@ public struct ListConnectorsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -1229,8 +1207,7 @@ public struct ListConnectorsOutput: Swift.Sendable {
     public init(
         connectors: [PcaConnectorAdClientTypes.ConnectorSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectors = connectors
         self.nextToken = nextToken
     }
@@ -1249,8 +1226,7 @@ public struct CreateDirectoryRegistrationInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         directoryId: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.directoryId = directoryId
         self.tags = tags
@@ -1263,8 +1239,7 @@ public struct CreateDirectoryRegistrationOutput: Swift.Sendable {
 
     public init(
         directoryRegistrationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.directoryRegistrationArn = directoryRegistrationArn
     }
 }
@@ -1283,8 +1258,7 @@ public struct CreateServicePrincipalNameInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         connectorArn: Swift.String? = nil,
         directoryRegistrationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.connectorArn = connectorArn
         self.directoryRegistrationArn = directoryRegistrationArn
@@ -1312,8 +1286,7 @@ extension PcaConnectorAdClientTypes {
             noSecurityExtension: Swift.Bool? = nil,
             removeInvalidCertificateFromPersonalStore: Swift.Bool? = nil,
             userInteractionRequired: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.enableKeyReuseOnNtTokenKeysetStorageFull = enableKeyReuseOnNtTokenKeysetStorageFull
             self.includeSymmetricAlgorithms = includeSymmetricAlgorithms
             self.noSecurityExtension = noSecurityExtension
@@ -1344,8 +1317,7 @@ extension PcaConnectorAdClientTypes {
             keyAgreement: Swift.Bool? = nil,
             keyEncipherment: Swift.Bool? = nil,
             nonRepudiation: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.dataEncipherment = dataEncipherment
             self.digitalSignature = digitalSignature
             self.keyAgreement = keyAgreement
@@ -1368,8 +1340,7 @@ extension PcaConnectorAdClientTypes {
         public init(
             critical: Swift.Bool? = nil,
             usageFlags: PcaConnectorAdClientTypes.KeyUsageFlags? = nil
-        )
-        {
+        ) {
             self.critical = critical
             self.usageFlags = usageFlags
         }
@@ -1389,8 +1360,7 @@ extension PcaConnectorAdClientTypes {
         public init(
             applicationPolicies: PcaConnectorAdClientTypes.ApplicationPolicies? = nil,
             keyUsage: PcaConnectorAdClientTypes.KeyUsage? = nil
-        )
-        {
+        ) {
             self.applicationPolicies = applicationPolicies
             self.keyUsage = keyUsage
         }
@@ -1409,8 +1379,7 @@ extension PcaConnectorAdClientTypes {
         public init(
             autoEnrollment: Swift.Bool? = nil,
             machineType: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.autoEnrollment = autoEnrollment
             self.machineType = machineType
         }
@@ -1463,8 +1432,7 @@ extension PcaConnectorAdClientTypes {
             cryptoProviders: [Swift.String]? = nil,
             keySpec: PcaConnectorAdClientTypes.KeySpec? = nil,
             minimalKeyLength: Swift.Int? = nil
-        )
-        {
+        ) {
             self.cryptoProviders = cryptoProviders
             self.keySpec = keySpec
             self.minimalKeyLength = minimalKeyLength
@@ -1488,8 +1456,7 @@ extension PcaConnectorAdClientTypes {
             clientVersion: PcaConnectorAdClientTypes.ClientCompatibilityV2? = nil,
             exportableKey: Swift.Bool? = nil,
             strongKeyProtectionRequired: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.clientVersion = clientVersion
             self.exportableKey = exportableKey
             self.strongKeyProtectionRequired = strongKeyProtectionRequired
@@ -1533,8 +1500,7 @@ extension PcaConnectorAdClientTypes {
             sanRequireEmail: Swift.Bool? = nil,
             sanRequireSpn: Swift.Bool? = nil,
             sanRequireUpn: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.requireCommonName = requireCommonName
             self.requireDirectoryPath = requireDirectoryPath
             self.requireDnsAsCn = requireDnsAsCn
@@ -1586,8 +1552,7 @@ extension PcaConnectorAdClientTypes {
             privateKeyFlags: PcaConnectorAdClientTypes.PrivateKeyFlagsV2? = nil,
             subjectNameFlags: PcaConnectorAdClientTypes.SubjectNameFlagsV2? = nil,
             supersededTemplates: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.certificateValidity = certificateValidity
             self.enrollmentFlags = enrollmentFlags
             self.extensions = extensions
@@ -1621,8 +1586,7 @@ extension PcaConnectorAdClientTypes {
             noSecurityExtension: Swift.Bool? = nil,
             removeInvalidCertificateFromPersonalStore: Swift.Bool? = nil,
             userInteractionRequired: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.enableKeyReuseOnNtTokenKeysetStorageFull = enableKeyReuseOnNtTokenKeysetStorageFull
             self.includeSymmetricAlgorithms = includeSymmetricAlgorithms
             self.noSecurityExtension = noSecurityExtension
@@ -1645,8 +1609,7 @@ extension PcaConnectorAdClientTypes {
         public init(
             applicationPolicies: PcaConnectorAdClientTypes.ApplicationPolicies? = nil,
             keyUsage: PcaConnectorAdClientTypes.KeyUsage? = nil
-        )
-        {
+        ) {
             self.applicationPolicies = applicationPolicies
             self.keyUsage = keyUsage
         }
@@ -1665,8 +1628,7 @@ extension PcaConnectorAdClientTypes {
         public init(
             autoEnrollment: Swift.Bool? = nil,
             machineType: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.autoEnrollment = autoEnrollment
             self.machineType = machineType
         }
@@ -1755,8 +1717,7 @@ extension PcaConnectorAdClientTypes {
             decrypt: Swift.Bool? = nil,
             keyAgreement: Swift.Bool? = nil,
             sign: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.decrypt = decrypt
             self.keyAgreement = keyAgreement
             self.sign = sign
@@ -1827,8 +1788,7 @@ extension PcaConnectorAdClientTypes {
             keySpec: PcaConnectorAdClientTypes.KeySpec? = nil,
             keyUsageProperty: PcaConnectorAdClientTypes.KeyUsageProperty? = nil,
             minimalKeyLength: Swift.Int? = nil
-        )
-        {
+        ) {
             self.algorithm = algorithm
             self.cryptoProviders = cryptoProviders
             self.keySpec = keySpec
@@ -1857,8 +1817,7 @@ extension PcaConnectorAdClientTypes {
             exportableKey: Swift.Bool? = nil,
             requireAlternateSignatureAlgorithm: Swift.Bool? = nil,
             strongKeyProtectionRequired: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.clientVersion = clientVersion
             self.exportableKey = exportableKey
             self.requireAlternateSignatureAlgorithm = requireAlternateSignatureAlgorithm
@@ -1903,8 +1862,7 @@ extension PcaConnectorAdClientTypes {
             sanRequireEmail: Swift.Bool? = nil,
             sanRequireSpn: Swift.Bool? = nil,
             sanRequireUpn: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.requireCommonName = requireCommonName
             self.requireDirectoryPath = requireDirectoryPath
             self.requireDnsAsCn = requireDnsAsCn
@@ -1960,8 +1918,7 @@ extension PcaConnectorAdClientTypes {
             privateKeyFlags: PcaConnectorAdClientTypes.PrivateKeyFlagsV3? = nil,
             subjectNameFlags: PcaConnectorAdClientTypes.SubjectNameFlagsV3? = nil,
             supersededTemplates: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.certificateValidity = certificateValidity
             self.enrollmentFlags = enrollmentFlags
             self.extensions = extensions
@@ -1996,8 +1953,7 @@ extension PcaConnectorAdClientTypes {
             noSecurityExtension: Swift.Bool? = nil,
             removeInvalidCertificateFromPersonalStore: Swift.Bool? = nil,
             userInteractionRequired: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.enableKeyReuseOnNtTokenKeysetStorageFull = enableKeyReuseOnNtTokenKeysetStorageFull
             self.includeSymmetricAlgorithms = includeSymmetricAlgorithms
             self.noSecurityExtension = noSecurityExtension
@@ -2020,8 +1976,7 @@ extension PcaConnectorAdClientTypes {
         public init(
             applicationPolicies: PcaConnectorAdClientTypes.ApplicationPolicies? = nil,
             keyUsage: PcaConnectorAdClientTypes.KeyUsage? = nil
-        )
-        {
+        ) {
             self.applicationPolicies = applicationPolicies
             self.keyUsage = keyUsage
         }
@@ -2040,8 +1995,7 @@ extension PcaConnectorAdClientTypes {
         public init(
             autoEnrollment: Swift.Bool? = nil,
             machineType: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.autoEnrollment = autoEnrollment
             self.machineType = machineType
         }
@@ -2071,8 +2025,7 @@ extension PcaConnectorAdClientTypes {
             keySpec: PcaConnectorAdClientTypes.KeySpec? = nil,
             keyUsageProperty: PcaConnectorAdClientTypes.KeyUsageProperty? = nil,
             minimalKeyLength: Swift.Int? = nil
-        )
-        {
+        ) {
             self.algorithm = algorithm
             self.cryptoProviders = cryptoProviders
             self.keySpec = keySpec
@@ -2107,8 +2060,7 @@ extension PcaConnectorAdClientTypes {
             requireSameKeyRenewal: Swift.Bool? = nil,
             strongKeyProtectionRequired: Swift.Bool? = nil,
             useLegacyProvider: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.clientVersion = clientVersion
             self.exportableKey = exportableKey
             self.requireAlternateSignatureAlgorithm = requireAlternateSignatureAlgorithm
@@ -2155,8 +2107,7 @@ extension PcaConnectorAdClientTypes {
             sanRequireEmail: Swift.Bool? = nil,
             sanRequireSpn: Swift.Bool? = nil,
             sanRequireUpn: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.requireCommonName = requireCommonName
             self.requireDirectoryPath = requireDirectoryPath
             self.requireDnsAsCn = requireDnsAsCn
@@ -2211,8 +2162,7 @@ extension PcaConnectorAdClientTypes {
             privateKeyFlags: PcaConnectorAdClientTypes.PrivateKeyFlagsV4? = nil,
             subjectNameFlags: PcaConnectorAdClientTypes.SubjectNameFlagsV4? = nil,
             supersededTemplates: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.certificateValidity = certificateValidity
             self.enrollmentFlags = enrollmentFlags
             self.extensions = extensions
@@ -2261,8 +2211,7 @@ public struct CreateTemplateInput: Swift.Sendable {
         definition: PcaConnectorAdClientTypes.TemplateDefinition? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.connectorArn = connectorArn
         self.definition = definition
@@ -2277,8 +2226,7 @@ public struct CreateTemplateOutput: Swift.Sendable {
 
     public init(
         templateArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.templateArn = templateArn
     }
 }
@@ -2305,8 +2253,7 @@ public struct CreateTemplateGroupAccessControlEntryInput: Swift.Sendable {
         groupDisplayName: Swift.String? = nil,
         groupSecurityIdentifier: Swift.String? = nil,
         templateArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessRights = accessRights
         self.clientToken = clientToken
         self.groupDisplayName = groupDisplayName
@@ -2322,8 +2269,7 @@ public struct DeleteDirectoryRegistrationInput: Swift.Sendable {
 
     public init(
         directoryRegistrationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.directoryRegistrationArn = directoryRegistrationArn
     }
 }
@@ -2339,8 +2285,7 @@ public struct DeleteServicePrincipalNameInput: Swift.Sendable {
     public init(
         connectorArn: Swift.String? = nil,
         directoryRegistrationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectorArn = connectorArn
         self.directoryRegistrationArn = directoryRegistrationArn
     }
@@ -2353,8 +2298,7 @@ public struct DeleteTemplateInput: Swift.Sendable {
 
     public init(
         templateArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.templateArn = templateArn
     }
 }
@@ -2370,8 +2314,7 @@ public struct DeleteTemplateGroupAccessControlEntryInput: Swift.Sendable {
     public init(
         groupSecurityIdentifier: Swift.String? = nil,
         templateArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.groupSecurityIdentifier = groupSecurityIdentifier
         self.templateArn = templateArn
     }
@@ -2477,8 +2420,7 @@ extension PcaConnectorAdClientTypes {
             status: PcaConnectorAdClientTypes.DirectoryRegistrationStatus? = nil,
             statusReason: PcaConnectorAdClientTypes.DirectoryRegistrationStatusReason? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.directoryId = directoryId
@@ -2513,8 +2455,7 @@ extension PcaConnectorAdClientTypes {
             status: PcaConnectorAdClientTypes.DirectoryRegistrationStatus? = nil,
             statusReason: PcaConnectorAdClientTypes.DirectoryRegistrationStatusReason? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.directoryId = directoryId
@@ -2532,8 +2473,7 @@ public struct GetDirectoryRegistrationInput: Swift.Sendable {
 
     public init(
         directoryRegistrationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.directoryRegistrationArn = directoryRegistrationArn
     }
 }
@@ -2544,8 +2484,7 @@ public struct GetDirectoryRegistrationOutput: Swift.Sendable {
 
     public init(
         directoryRegistration: PcaConnectorAdClientTypes.DirectoryRegistration? = nil
-    )
-    {
+    ) {
         self.directoryRegistration = directoryRegistration
     }
 }
@@ -2559,8 +2498,7 @@ public struct ListDirectoryRegistrationsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -2575,8 +2513,7 @@ public struct ListDirectoryRegistrationsOutput: Swift.Sendable {
     public init(
         directoryRegistrations: [PcaConnectorAdClientTypes.DirectoryRegistrationSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.directoryRegistrations = directoryRegistrations
         self.nextToken = nextToken
     }
@@ -2593,8 +2530,7 @@ public struct GetServicePrincipalNameInput: Swift.Sendable {
     public init(
         connectorArn: Swift.String? = nil,
         directoryRegistrationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectorArn = connectorArn
         self.directoryRegistrationArn = directoryRegistrationArn
     }
@@ -2697,8 +2633,7 @@ extension PcaConnectorAdClientTypes {
             status: PcaConnectorAdClientTypes.ServicePrincipalNameStatus? = nil,
             statusReason: PcaConnectorAdClientTypes.ServicePrincipalNameStatusReason? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.connectorArn = connectorArn
             self.createdAt = createdAt
             self.directoryRegistrationArn = directoryRegistrationArn
@@ -2715,8 +2650,7 @@ public struct GetServicePrincipalNameOutput: Swift.Sendable {
 
     public init(
         servicePrincipalName: PcaConnectorAdClientTypes.ServicePrincipalName? = nil
-    )
-    {
+    ) {
         self.servicePrincipalName = servicePrincipalName
     }
 }
@@ -2728,8 +2662,7 @@ public struct GetTemplateInput: Swift.Sendable {
 
     public init(
         templateArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.templateArn = templateArn
     }
 }
@@ -2748,8 +2681,7 @@ extension PcaConnectorAdClientTypes {
         public init(
             majorRevision: Swift.Int? = nil,
             minorRevision: Swift.Int? = nil
-        )
-        {
+        ) {
             self.majorRevision = majorRevision
             self.minorRevision = minorRevision
         }
@@ -2821,8 +2753,7 @@ extension PcaConnectorAdClientTypes {
             revision: PcaConnectorAdClientTypes.TemplateRevision? = nil,
             status: PcaConnectorAdClientTypes.TemplateStatus? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.connectorArn = connectorArn
             self.createdAt = createdAt
@@ -2843,8 +2774,7 @@ public struct GetTemplateOutput: Swift.Sendable {
 
     public init(
         template: PcaConnectorAdClientTypes.Template? = nil
-    )
-    {
+    ) {
         self.template = template
     }
 }
@@ -2860,8 +2790,7 @@ public struct GetTemplateGroupAccessControlEntryInput: Swift.Sendable {
     public init(
         groupSecurityIdentifier: Swift.String? = nil,
         templateArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.groupSecurityIdentifier = groupSecurityIdentifier
         self.templateArn = templateArn
     }
@@ -2873,8 +2802,7 @@ public struct GetTemplateGroupAccessControlEntryOutput: Swift.Sendable {
 
     public init(
         accessControlEntry: PcaConnectorAdClientTypes.AccessControlEntry? = nil
-    )
-    {
+    ) {
         self.accessControlEntry = accessControlEntry
     }
 }
@@ -2892,8 +2820,7 @@ public struct ListServicePrincipalNamesInput: Swift.Sendable {
         directoryRegistrationArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.directoryRegistrationArn = directoryRegistrationArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2924,8 +2851,7 @@ extension PcaConnectorAdClientTypes {
             status: PcaConnectorAdClientTypes.ServicePrincipalNameStatus? = nil,
             statusReason: PcaConnectorAdClientTypes.ServicePrincipalNameStatusReason? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.connectorArn = connectorArn
             self.createdAt = createdAt
             self.directoryRegistrationArn = directoryRegistrationArn
@@ -2945,8 +2871,7 @@ public struct ListServicePrincipalNamesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         servicePrincipalNames: [PcaConnectorAdClientTypes.ServicePrincipalNameSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.servicePrincipalNames = servicePrincipalNames
     }
@@ -2959,8 +2884,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -2971,8 +2895,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -2990,8 +2913,7 @@ public struct ListTemplateGroupAccessControlEntriesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         templateArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.templateArn = templateArn
@@ -3007,8 +2929,7 @@ public struct ListTemplateGroupAccessControlEntriesOutput: Swift.Sendable {
     public init(
         accessControlEntries: [PcaConnectorAdClientTypes.AccessControlEntrySummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessControlEntries = accessControlEntries
         self.nextToken = nextToken
     }
@@ -3027,8 +2948,7 @@ public struct ListTemplatesInput: Swift.Sendable {
         connectorArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectorArn = connectorArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3071,8 +2991,7 @@ extension PcaConnectorAdClientTypes {
             revision: PcaConnectorAdClientTypes.TemplateRevision? = nil,
             status: PcaConnectorAdClientTypes.TemplateStatus? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.connectorArn = connectorArn
             self.createdAt = createdAt
@@ -3096,8 +3015,7 @@ public struct ListTemplatesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         templates: [PcaConnectorAdClientTypes.TemplateSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.templates = templates
     }
@@ -3114,8 +3032,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -3138,8 +3055,7 @@ public struct UpdateTemplateGroupAccessControlEntryInput: Swift.Sendable {
         groupDisplayName: Swift.String? = nil,
         groupSecurityIdentifier: Swift.String? = nil,
         templateArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessRights = accessRights
         self.groupDisplayName = groupDisplayName
         self.groupSecurityIdentifier = groupSecurityIdentifier
@@ -3160,8 +3076,7 @@ public struct UpdateTemplateInput: Swift.Sendable {
         definition: PcaConnectorAdClientTypes.TemplateDefinition? = nil,
         reenrollAllCertificateHolders: Swift.Bool? = nil,
         templateArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.definition = definition
         self.reenrollAllCertificateHolders = reenrollAllCertificateHolders
         self.templateArn = templateArn
@@ -3179,8 +3094,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }

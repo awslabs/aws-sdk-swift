@@ -58,8 +58,7 @@ extension TranscribeStreamingClientTypes {
             endTime: Swift.Double = 0.0,
             startTime: Swift.Double = 0.0,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.category = category
             self.confidence = confidence
             self.content = content
@@ -129,8 +128,7 @@ extension TranscribeStreamingClientTypes {
             startTime: Swift.Double = 0.0,
             type: TranscribeStreamingClientTypes.ItemType? = nil,
             vocabularyFilterMatch: Swift.Bool = false
-        )
-        {
+        ) {
             self.confidence = confidence
             self.content = content
             self.endTime = endTime
@@ -158,8 +156,7 @@ extension TranscribeStreamingClientTypes {
             entities: [TranscribeStreamingClientTypes.Entity]? = nil,
             items: [TranscribeStreamingClientTypes.Item]? = nil,
             transcript: Swift.String? = nil
-        )
-        {
+        ) {
             self.entities = entities
             self.items = items
             self.transcript = transcript
@@ -176,8 +173,7 @@ extension TranscribeStreamingClientTypes {
 
         public init(
             audioChunk: Foundation.Data? = nil
-        )
-        {
+        ) {
             self.audioChunk = audioChunk
         }
     }
@@ -226,8 +222,7 @@ extension TranscribeStreamingClientTypes {
         public init(
             channelId: Swift.Int = 0,
             participantRole: TranscribeStreamingClientTypes.ParticipantRole? = nil
-        )
-        {
+        ) {
             self.channelId = channelId
             self.participantRole = participantRole
         }
@@ -307,8 +302,7 @@ extension TranscribeStreamingClientTypes {
             dataAccessRoleArn: Swift.String? = nil,
             outputEncryptionKMSKeyId: Swift.String? = nil,
             outputLocation: Swift.String? = nil
-        )
-        {
+        ) {
             self.contentRedactionOutput = contentRedactionOutput
             self.dataAccessRoleArn = dataAccessRoleArn
             self.outputEncryptionKMSKeyId = outputEncryptionKMSKeyId
@@ -329,8 +323,7 @@ extension TranscribeStreamingClientTypes {
         public init(
             channelDefinitions: [TranscribeStreamingClientTypes.ChannelDefinition]? = nil,
             postCallAnalyticsSettings: TranscribeStreamingClientTypes.PostCallAnalyticsSettings? = nil
-        )
-        {
+        ) {
             self.channelDefinitions = channelDefinitions
             self.postCallAnalyticsSettings = postCallAnalyticsSettings
         }
@@ -367,8 +360,7 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -397,8 +389,7 @@ extension TranscribeStreamingClientTypes {
             content: Swift.String? = nil,
             endOffsetMillis: Swift.Int? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.beginOffsetMillis = beginOffsetMillis
             self.category = category
             self.confidence = confidence
@@ -436,8 +427,7 @@ extension TranscribeStreamingClientTypes {
             stable: Swift.Bool? = nil,
             type: TranscribeStreamingClientTypes.ItemType? = nil,
             vocabularyFilterMatch: Swift.Bool = false
-        )
-        {
+        ) {
             self.beginOffsetMillis = beginOffsetMillis
             self.confidence = confidence
             self.content = content
@@ -511,8 +501,7 @@ extension TranscribeStreamingClientTypes {
         public init(
             beginOffsetMillis: Swift.Int? = nil,
             endOffsetMillis: Swift.Int? = nil
-        )
-        {
+        ) {
             self.beginOffsetMillis = beginOffsetMillis
             self.endOffsetMillis = endOffsetMillis
         }
@@ -528,8 +517,7 @@ extension TranscribeStreamingClientTypes {
 
         public init(
             timestampRanges: [TranscribeStreamingClientTypes.TimestampRange]? = nil
-        )
-        {
+        ) {
             self.timestampRanges = timestampRanges
         }
     }
@@ -547,8 +535,7 @@ extension TranscribeStreamingClientTypes {
         public init(
             matchedCategories: [Swift.String]? = nil,
             matchedDetails: [Swift.String: TranscribeStreamingClientTypes.PointsOfInterest]? = nil
-        )
-        {
+        ) {
             self.matchedCategories = matchedCategories
             self.matchedDetails = matchedDetails
         }
@@ -573,8 +560,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -597,8 +583,7 @@ public struct InternalFailureException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -621,8 +606,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -645,8 +629,7 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -663,8 +646,7 @@ extension TranscribeStreamingClientTypes {
         public init(
             begin: Swift.Int? = nil,
             end: Swift.Int? = nil
-        )
-        {
+        ) {
             self.begin = begin
             self.end = end
         }
@@ -680,8 +662,7 @@ extension TranscribeStreamingClientTypes {
 
         public init(
             characterOffsets: TranscribeStreamingClientTypes.CharacterOffsets? = nil
-        )
-        {
+        ) {
             self.characterOffsets = characterOffsets
         }
     }
@@ -758,8 +739,7 @@ extension TranscribeStreamingClientTypes {
             sentiment: TranscribeStreamingClientTypes.Sentiment? = nil,
             transcript: Swift.String? = nil,
             utteranceId: Swift.String? = nil
-        )
-        {
+        ) {
             self.beginOffsetMillis = beginOffsetMillis
             self.endOffsetMillis = endOffsetMillis
             self.entities = entities
@@ -1035,8 +1015,7 @@ extension TranscribeStreamingClientTypes {
         public init(
             languageCode: TranscribeStreamingClientTypes.LanguageCode? = nil,
             score: Swift.Double = 0.0
-        )
-        {
+        ) {
             self.languageCode = languageCode
             self.score = score
         }
@@ -1096,8 +1075,7 @@ extension TranscribeStreamingClientTypes {
             content: Swift.String? = nil,
             endTime: Swift.Double = 0.0,
             startTime: Swift.Double = 0.0
-        )
-        {
+        ) {
             self.category = category
             self.confidence = confidence
             self.content = content
@@ -1131,8 +1109,7 @@ extension TranscribeStreamingClientTypes {
             speaker: Swift.String? = nil,
             startTime: Swift.Double = 0.0,
             type: TranscribeStreamingClientTypes.ItemType? = nil
-        )
-        {
+        ) {
             self.confidence = confidence
             self.content = content
             self.endTime = endTime
@@ -1158,8 +1135,7 @@ extension TranscribeStreamingClientTypes {
             entities: [TranscribeStreamingClientTypes.MedicalEntity]? = nil,
             items: [TranscribeStreamingClientTypes.MedicalItem]? = nil,
             transcript: Swift.String? = nil
-        )
-        {
+        ) {
             self.entities = entities
             self.items = items
             self.transcript = transcript
@@ -1217,8 +1193,7 @@ extension TranscribeStreamingClientTypes {
             isPartial: Swift.Bool = false,
             resultId: Swift.String? = nil,
             startTime: Swift.Double = 0.0
-        )
-        {
+        ) {
             self.alternatives = alternatives
             self.channelId = channelId
             self.endTime = endTime
@@ -1238,8 +1213,7 @@ extension TranscribeStreamingClientTypes {
 
         public init(
             results: [TranscribeStreamingClientTypes.MedicalResult]? = nil
-        )
-        {
+        ) {
             self.results = results
         }
     }
@@ -1254,8 +1228,7 @@ extension TranscribeStreamingClientTypes {
 
         public init(
             transcript: TranscribeStreamingClientTypes.MedicalTranscript? = nil
-        )
-        {
+        ) {
             self.transcript = transcript
         }
     }
@@ -1333,8 +1306,7 @@ extension TranscribeStreamingClientTypes {
             languageIdentification: [TranscribeStreamingClientTypes.LanguageWithScore]? = nil,
             resultId: Swift.String? = nil,
             startTime: Swift.Double = 0.0
-        )
-        {
+        ) {
             self.alternatives = alternatives
             self.channelId = channelId
             self.endTime = endTime
@@ -1478,8 +1450,7 @@ public struct StartCallAnalyticsStreamTranscriptionInput: Swift.Sendable {
         vocabularyFilterMethod: TranscribeStreamingClientTypes.VocabularyFilterMethod? = nil,
         vocabularyFilterName: Swift.String? = nil,
         vocabularyName: Swift.String? = nil
-    )
-    {
+    ) {
         self.audioStream = audioStream
         self.contentIdentificationType = contentIdentificationType
         self.contentRedactionType = contentRedactionType
@@ -1545,8 +1516,7 @@ public struct StartCallAnalyticsStreamTranscriptionOutput: Swift.Sendable {
         vocabularyFilterMethod: TranscribeStreamingClientTypes.VocabularyFilterMethod? = nil,
         vocabularyFilterName: Swift.String? = nil,
         vocabularyName: Swift.String? = nil
-    )
-    {
+    ) {
         self.callAnalyticsTranscriptResultStream = callAnalyticsTranscriptResultStream
         self.contentIdentificationType = contentIdentificationType
         self.contentRedactionType = contentRedactionType
@@ -1648,8 +1618,7 @@ public struct StartMedicalStreamTranscriptionInput: Swift.Sendable {
         specialty: TranscribeStreamingClientTypes.Specialty? = nil,
         type: TranscribeStreamingClientTypes.ModelType? = nil,
         vocabularyName: Swift.String? = nil
-    )
-    {
+    ) {
         self.audioStream = audioStream
         self.contentIdentificationType = contentIdentificationType
         self.enableChannelIdentification = enableChannelIdentification
@@ -1707,8 +1676,7 @@ public struct StartMedicalStreamTranscriptionOutput: Swift.Sendable {
         transcriptResultStream: AsyncThrowingStream<TranscribeStreamingClientTypes.MedicalTranscriptResultStream, Swift.Error>? = nil,
         type: TranscribeStreamingClientTypes.ModelType? = nil,
         vocabularyName: Swift.String? = nil
-    )
-    {
+    ) {
         self.contentIdentificationType = contentIdentificationType
         self.enableChannelIdentification = enableChannelIdentification
         self.languageCode = languageCode
@@ -1809,8 +1777,7 @@ public struct StartStreamTranscriptionInput: Swift.Sendable {
         vocabularyFilterNames: Swift.String? = nil,
         vocabularyName: Swift.String? = nil,
         vocabularyNames: Swift.String? = nil
-    )
-    {
+    ) {
         self.audioStream = audioStream
         self.contentIdentificationType = contentIdentificationType
         self.contentRedactionType = contentRedactionType
@@ -1846,8 +1813,7 @@ extension TranscribeStreamingClientTypes {
 
         public init(
             results: [TranscribeStreamingClientTypes.Result]? = nil
-        )
-        {
+        ) {
             self.results = results
         }
     }
@@ -1862,8 +1828,7 @@ extension TranscribeStreamingClientTypes {
 
         public init(
             transcript: TranscribeStreamingClientTypes.Transcript? = nil
-        )
-        {
+        ) {
             self.transcript = transcript
         }
     }
@@ -1954,8 +1919,7 @@ public struct StartStreamTranscriptionOutput: Swift.Sendable {
         vocabularyFilterNames: Swift.String? = nil,
         vocabularyName: Swift.String? = nil,
         vocabularyNames: Swift.String? = nil
-    )
-    {
+    ) {
         self.contentIdentificationType = contentIdentificationType
         self.contentRedactionType = contentRedactionType
         self.enableChannelIdentification = enableChannelIdentification

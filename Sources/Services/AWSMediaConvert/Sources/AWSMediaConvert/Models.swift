@@ -73,8 +73,7 @@ extension MediaConvertClientTypes {
             height: Swift.Int? = nil,
             `required`: MediaConvertClientTypes.RequiredFlag? = nil,
             width: Swift.Int? = nil
-        )
-        {
+        ) {
             self.height = height
             self.`required` = `required`
             self.width = width
@@ -202,8 +201,7 @@ extension MediaConvertClientTypes {
         public init(
             channelTag: MediaConvertClientTypes.AudioChannelTag? = nil,
             channelTags: [MediaConvertClientTypes.AudioChannelTag]? = nil
-        )
-        {
+        ) {
             self.channelTag = channelTag
             self.channelTags = channelTags
         }
@@ -363,8 +361,7 @@ extension MediaConvertClientTypes {
             peakCalculation: MediaConvertClientTypes.AudioNormalizationPeakCalculation? = nil,
             targetLkfs: Swift.Double? = nil,
             truePeakLimiterThreshold: Swift.Double? = nil
-        )
-        {
+        ) {
             self.algorithm = algorithm
             self.algorithmControl = algorithmControl
             self.correctionGateLevel = correctionGateLevel
@@ -667,8 +664,7 @@ extension MediaConvertClientTypes {
             sampleRate: Swift.Int? = nil,
             specification: MediaConvertClientTypes.AacSpecification? = nil,
             vbrQuality: MediaConvertClientTypes.AacVbrQuality? = nil
-        )
-        {
+        ) {
             self.audioDescriptionBroadcasterMix = audioDescriptionBroadcasterMix
             self.bitrate = bitrate
             self.codecProfile = codecProfile
@@ -976,8 +972,7 @@ extension MediaConvertClientTypes {
             lfeFilter: MediaConvertClientTypes.Ac3LfeFilter? = nil,
             metadataControl: MediaConvertClientTypes.Ac3MetadataControl? = nil,
             sampleRate: Swift.Int? = nil
-        )
-        {
+        ) {
             self.bitrate = bitrate
             self.bitstreamMode = bitstreamMode
             self.codingMode = codingMode
@@ -1007,8 +1002,7 @@ extension MediaConvertClientTypes {
             bitDepth: Swift.Int? = nil,
             channels: Swift.Int? = nil,
             sampleRate: Swift.Int? = nil
-        )
-        {
+        ) {
             self.bitDepth = bitDepth
             self.channels = channels
             self.sampleRate = sampleRate
@@ -1478,8 +1472,7 @@ extension MediaConvertClientTypes {
             speechThreshold: Swift.Int? = nil,
             stereoDownmix: MediaConvertClientTypes.Eac3AtmosStereoDownmix? = nil,
             surroundExMode: MediaConvertClientTypes.Eac3AtmosSurroundExMode? = nil
-        )
-        {
+        ) {
             self.bitrate = bitrate
             self.bitstreamMode = bitstreamMode
             self.codingMode = codingMode
@@ -2038,8 +2031,7 @@ extension MediaConvertClientTypes {
             stereoDownmix: MediaConvertClientTypes.Eac3StereoDownmix? = nil,
             surroundExMode: MediaConvertClientTypes.Eac3SurroundExMode? = nil,
             surroundMode: MediaConvertClientTypes.Eac3SurroundMode? = nil
-        )
-        {
+        ) {
             self.attenuationControl = attenuationControl
             self.bitrate = bitrate
             self.bitstreamMode = bitstreamMode
@@ -2080,8 +2072,7 @@ extension MediaConvertClientTypes {
             bitDepth: Swift.Int? = nil,
             channels: Swift.Int? = nil,
             sampleRate: Swift.Int? = nil
-        )
-        {
+        ) {
             self.bitDepth = bitDepth
             self.channels = channels
             self.sampleRate = sampleRate
@@ -2104,8 +2095,7 @@ extension MediaConvertClientTypes {
             bitrate: Swift.Int? = nil,
             channels: Swift.Int? = nil,
             sampleRate: Swift.Int? = nil
-        )
-        {
+        ) {
             self.bitrate = bitrate
             self.channels = channels
             self.sampleRate = sampleRate
@@ -2164,8 +2154,7 @@ extension MediaConvertClientTypes {
             rateControlMode: MediaConvertClientTypes.Mp3RateControlMode? = nil,
             sampleRate: Swift.Int? = nil,
             vbrQuality: Swift.Int? = nil
-        )
-        {
+        ) {
             self.bitrate = bitrate
             self.channels = channels
             self.rateControlMode = rateControlMode
@@ -2190,8 +2179,7 @@ extension MediaConvertClientTypes {
             bitrate: Swift.Int? = nil,
             channels: Swift.Int? = nil,
             sampleRate: Swift.Int? = nil
-        )
-        {
+        ) {
             self.bitrate = bitrate
             self.channels = channels
             self.sampleRate = sampleRate
@@ -2214,8 +2202,7 @@ extension MediaConvertClientTypes {
             channels: Swift.Int? = nil,
             sampleRate: Swift.Int? = nil,
             vbrQuality: Swift.Int? = nil
-        )
-        {
+        ) {
             self.channels = channels
             self.sampleRate = sampleRate
             self.vbrQuality = vbrQuality
@@ -2271,8 +2258,7 @@ extension MediaConvertClientTypes {
             channels: Swift.Int? = nil,
             format: MediaConvertClientTypes.WavFormat? = nil,
             sampleRate: Swift.Int? = nil
-        )
-        {
+        ) {
             self.bitDepth = bitDepth
             self.channels = channels
             self.format = format
@@ -2323,8 +2309,7 @@ extension MediaConvertClientTypes {
             opusSettings: MediaConvertClientTypes.OpusSettings? = nil,
             vorbisSettings: MediaConvertClientTypes.VorbisSettings? = nil,
             wavSettings: MediaConvertClientTypes.WavSettings? = nil
-        )
-        {
+        ) {
             self.aacSettings = aacSettings
             self.ac3Settings = ac3Settings
             self.aiffSettings = aiffSettings
@@ -2983,8 +2968,7 @@ extension MediaConvertClientTypes {
         public init(
             inputChannels: [Swift.Int]? = nil,
             inputChannelsFineTune: [Swift.Double]? = nil
-        )
-        {
+        ) {
             self.inputChannels = inputChannels
             self.inputChannelsFineTune = inputChannelsFineTune
         }
@@ -3000,8 +2984,7 @@ extension MediaConvertClientTypes {
 
         public init(
             outputChannels: [MediaConvertClientTypes.OutputChannelMapping]? = nil
-        )
-        {
+        ) {
             self.outputChannels = outputChannels
         }
     }
@@ -3028,8 +3011,7 @@ extension MediaConvertClientTypes {
             channelMapping: MediaConvertClientTypes.ChannelMapping? = nil,
             channelsIn: Swift.Int? = nil,
             channelsOut: Swift.Int? = nil
-        )
-        {
+        ) {
             self.audioDescriptionAudioChannel = audioDescriptionAudioChannel
             self.audioDescriptionDataChannel = audioDescriptionDataChannel
             self.channelMapping = channelMapping
@@ -3078,8 +3060,7 @@ extension MediaConvertClientTypes {
             languageCodeControl: MediaConvertClientTypes.AudioLanguageCodeControl? = nil,
             remixSettings: MediaConvertClientTypes.RemixSettings? = nil,
             streamName: Swift.String? = nil
-        )
-        {
+        ) {
             self.audioChannelTaggingSettings = audioChannelTaggingSettings
             self.audioNormalizationSettings = audioNormalizationSettings
             self.audioSourceName = audioSourceName
@@ -3107,8 +3088,7 @@ extension MediaConvertClientTypes {
         public init(
             height: Swift.Int? = nil,
             width: Swift.Int? = nil
-        )
-        {
+        ) {
             self.height = height
             self.width = width
         }
@@ -3127,8 +3107,7 @@ extension MediaConvertClientTypes {
         public init(
             height: Swift.Int? = nil,
             width: Swift.Int? = nil
-        )
-        {
+        ) {
             self.height = height
             self.width = width
         }
@@ -3147,8 +3126,7 @@ extension MediaConvertClientTypes {
         public init(
             height: Swift.Int? = nil,
             width: Swift.Int? = nil
-        )
-        {
+        ) {
             self.height = height
             self.width = width
         }
@@ -3212,8 +3190,7 @@ extension MediaConvertClientTypes {
             minBottomRenditionSize: MediaConvertClientTypes.MinBottomRenditionSize? = nil,
             minTopRenditionSize: MediaConvertClientTypes.MinTopRenditionSize? = nil,
             type: MediaConvertClientTypes.RuleType? = nil
-        )
-        {
+        ) {
             self.allowedRenditions = allowedRenditions
             self.forceIncludeRenditions = forceIncludeRenditions
             self.minBottomRenditionSize = minBottomRenditionSize
@@ -3700,8 +3677,7 @@ extension MediaConvertClientTypes {
             teletextSpacing: MediaConvertClientTypes.BurninSubtitleTeletextSpacing? = nil,
             xPosition: Swift.Int? = nil,
             yPosition: Swift.Int? = nil
-        )
-        {
+        ) {
             self.alignment = alignment
             self.applyFontColor = applyFontColor
             self.backgroundColor = backgroundColor
@@ -4284,8 +4260,7 @@ extension MediaConvertClientTypes {
             width: Swift.Int? = nil,
             xPosition: Swift.Int? = nil,
             yPosition: Swift.Int? = nil
-        )
-        {
+        ) {
             self.alignment = alignment
             self.applyFontColor = applyFontColor
             self.backgroundColor = backgroundColor
@@ -4333,8 +4308,7 @@ extension MediaConvertClientTypes {
         public init(
             destination608ChannelNumber: Swift.Int? = nil,
             destination708ServiceNumber: Swift.Int? = nil
-        )
-        {
+        ) {
             self.destination608ChannelNumber = destination608ChannelNumber
             self.destination708ServiceNumber = destination708ServiceNumber
         }
@@ -4413,8 +4387,7 @@ extension MediaConvertClientTypes {
         public init(
             accessibility: MediaConvertClientTypes.ImscAccessibilitySubs? = nil,
             stylePassthrough: MediaConvertClientTypes.ImscStylePassthrough? = nil
-        )
-        {
+        ) {
             self.accessibility = accessibility
             self.stylePassthrough = stylePassthrough
         }
@@ -4469,8 +4442,7 @@ extension MediaConvertClientTypes {
 
         public init(
             framerate: MediaConvertClientTypes.SccDestinationFramerate? = nil
-        )
-        {
+        ) {
             self.framerate = framerate
         }
     }
@@ -4515,8 +4487,7 @@ extension MediaConvertClientTypes {
 
         public init(
             stylePassthrough: MediaConvertClientTypes.SrtStylePassthrough? = nil
-        )
-        {
+        ) {
             self.stylePassthrough = stylePassthrough
         }
     }
@@ -4573,8 +4544,7 @@ extension MediaConvertClientTypes {
         public init(
             pageNumber: Swift.String? = nil,
             pageTypes: [MediaConvertClientTypes.TeletextPageType]? = nil
-        )
-        {
+        ) {
             self.pageNumber = pageNumber
             self.pageTypes = pageTypes
         }
@@ -4620,8 +4590,7 @@ extension MediaConvertClientTypes {
 
         public init(
             stylePassthrough: MediaConvertClientTypes.TtmlStylePassthrough? = nil
-        )
-        {
+        ) {
             self.stylePassthrough = stylePassthrough
         }
     }
@@ -4702,8 +4671,7 @@ extension MediaConvertClientTypes {
         public init(
             accessibility: MediaConvertClientTypes.WebvttAccessibilitySubs? = nil,
             stylePassthrough: MediaConvertClientTypes.WebvttStylePassthrough? = nil
-        )
-        {
+        ) {
             self.accessibility = accessibility
             self.stylePassthrough = stylePassthrough
         }
@@ -4746,8 +4714,7 @@ extension MediaConvertClientTypes {
             teletextDestinationSettings: MediaConvertClientTypes.TeletextDestinationSettings? = nil,
             ttmlDestinationSettings: MediaConvertClientTypes.TtmlDestinationSettings? = nil,
             webvttDestinationSettings: MediaConvertClientTypes.WebvttDestinationSettings? = nil
-        )
-        {
+        ) {
             self.burninDestinationSettings = burninDestinationSettings
             self.destinationType = destinationType
             self.dvbSubDestinationSettings = dvbSubDestinationSettings
@@ -4783,8 +4750,7 @@ extension MediaConvertClientTypes {
             destinationSettings: MediaConvertClientTypes.CaptionDestinationSettings? = nil,
             languageCode: MediaConvertClientTypes.LanguageCode? = nil,
             languageDescription: Swift.String? = nil
-        )
-        {
+        ) {
             self.captionSelectorName = captionSelectorName
             self.customLanguageCode = customLanguageCode
             self.destinationSettings = destinationSettings
@@ -4812,8 +4778,7 @@ extension MediaConvertClientTypes {
             destinationSettings: MediaConvertClientTypes.CaptionDestinationSettings? = nil,
             languageCode: MediaConvertClientTypes.LanguageCode? = nil,
             languageDescription: Swift.String? = nil
-        )
-        {
+        ) {
             self.customLanguageCode = customLanguageCode
             self.destinationSettings = destinationSettings
             self.languageCode = languageCode
@@ -4834,8 +4799,7 @@ extension MediaConvertClientTypes {
         public init(
             manifestNameModifier: Swift.String? = nil,
             selectedOutputs: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.manifestNameModifier = manifestNameModifier
             self.selectedOutputs = selectedOutputs
         }
@@ -4921,8 +4885,7 @@ extension MediaConvertClientTypes {
             inputMasteringLuminance: Swift.Int? = nil,
             outputColorSpace: MediaConvertClientTypes.ColorSpace? = nil,
             outputMasteringLuminance: Swift.Int? = nil
-        )
-        {
+        ) {
             self.fileInput = fileInput
             self.inputColorSpace = inputColorSpace
             self.inputMasteringLuminance = inputMasteringLuminance
@@ -4944,8 +4907,7 @@ extension MediaConvertClientTypes {
         public init(
             manifestNameModifier: Swift.String? = nil,
             selectedOutputs: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.manifestNameModifier = manifestNameModifier
             self.selectedOutputs = selectedOutputs
         }
@@ -4961,8 +4923,7 @@ extension MediaConvertClientTypes {
 
         public init(
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.url = url
         }
     }
@@ -4980,8 +4941,7 @@ extension MediaConvertClientTypes {
         public init(
             manifestNameModifier: Swift.String? = nil,
             selectedOutputs: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.manifestNameModifier = manifestNameModifier
             self.selectedOutputs = selectedOutputs
         }
@@ -5036,8 +4996,7 @@ extension MediaConvertClientTypes {
             customLanguageCode: Swift.String? = nil,
             languageCode: MediaConvertClientTypes.LanguageCode? = nil,
             languageDescription: Swift.String? = nil
-        )
-        {
+        ) {
             self.captionChannel = captionChannel
             self.customLanguageCode = customLanguageCode
             self.languageCode = languageCode
@@ -5061,8 +5020,7 @@ extension MediaConvertClientTypes {
             priority: Swift.Int? = nil,
             queue: Swift.String? = nil,
             waitMinutes: Swift.Int? = nil
-        )
-        {
+        ) {
             self.priority = priority
             self.queue = queue
             self.waitMinutes = waitMinutes
@@ -5082,8 +5040,7 @@ extension MediaConvertClientTypes {
         public init(
             id3: Swift.String? = nil,
             timecode: Swift.String? = nil
-        )
-        {
+        ) {
             self.id3 = id3
             self.timecode = timecode
         }
@@ -5195,8 +5152,7 @@ extension MediaConvertClientTypes {
         public init(
             addTexture: MediaConvertClientTypes.AdvancedInputFilterAddTexture? = nil,
             sharpening: MediaConvertClientTypes.AdvancedInputFilterSharpen? = nil
-        )
-        {
+        ) {
             self.addTexture = addTexture
             self.sharpening = sharpening
         }
@@ -5212,8 +5168,7 @@ extension MediaConvertClientTypes {
 
         public init(
             audioSelectorNames: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.audioSelectorNames = audioSelectorNames
         }
     }
@@ -5303,8 +5258,7 @@ extension MediaConvertClientTypes {
             renditionGroupId: Swift.String? = nil,
             renditionLanguageCode: MediaConvertClientTypes.LanguageCode? = nil,
             renditionName: Swift.String? = nil
-        )
-        {
+        ) {
             self.renditionGroupId = renditionGroupId
             self.renditionLanguageCode = renditionLanguageCode
             self.renditionName = renditionName
@@ -5390,8 +5344,7 @@ extension MediaConvertClientTypes {
             remixSettings: MediaConvertClientTypes.RemixSettings? = nil,
             selectorType: MediaConvertClientTypes.AudioSelectorType? = nil,
             tracks: [Swift.Int]? = nil
-        )
-        {
+        ) {
             self.audioDurationCorrection = audioDurationCorrection
             self.customLanguageCode = customLanguageCode
             self.defaultSelection = defaultSelection
@@ -5483,8 +5436,7 @@ extension MediaConvertClientTypes {
             convert608To708: MediaConvertClientTypes.AncillaryConvert608To708? = nil,
             sourceAncillaryChannelNumber: Swift.Int? = nil,
             terminateCaptions: MediaConvertClientTypes.AncillaryTerminateCaptions? = nil
-        )
-        {
+        ) {
             self.convert608To708 = convert608To708
             self.sourceAncillaryChannelNumber = sourceAncillaryChannelNumber
             self.terminateCaptions = terminateCaptions
@@ -5501,8 +5453,7 @@ extension MediaConvertClientTypes {
 
         public init(
             pid: Swift.Int? = nil
-        )
-        {
+        ) {
             self.pid = pid
         }
     }
@@ -5586,8 +5537,7 @@ extension MediaConvertClientTypes {
             source608ChannelNumber: Swift.Int? = nil,
             source608TrackNumber: Swift.Int? = nil,
             terminateCaptions: MediaConvertClientTypes.EmbeddedTerminateCaptions? = nil
-        )
-        {
+        ) {
             self.convert608To708 = convert608To708
             self.source608ChannelNumber = source608ChannelNumber
             self.source608TrackNumber = source608TrackNumber
@@ -5698,8 +5648,7 @@ extension MediaConvertClientTypes {
         public init(
             framerateDenominator: Swift.Int? = nil,
             framerateNumerator: Swift.Int? = nil
-        )
-        {
+        ) {
             self.framerateDenominator = framerateDenominator
             self.framerateNumerator = framerateNumerator
         }
@@ -5763,8 +5712,7 @@ extension MediaConvertClientTypes {
             sourceFile: Swift.String? = nil,
             timeDelta: Swift.Int? = nil,
             timeDeltaUnits: MediaConvertClientTypes.FileSourceTimeDeltaUnits? = nil
-        )
-        {
+        ) {
             self.byteRateLimit = byteRateLimit
             self.convert608To708 = convert608To708
             self.convertPaintToPop = convertPaintToPop
@@ -5851,8 +5799,7 @@ extension MediaConvertClientTypes {
 
         public init(
             pageNumber: Swift.String? = nil
-        )
-        {
+        ) {
             self.pageNumber = pageNumber
         }
     }
@@ -5867,8 +5814,7 @@ extension MediaConvertClientTypes {
 
         public init(
             trackNumber: Swift.Int? = nil
-        )
-        {
+        ) {
             self.trackNumber = trackNumber
         }
     }
@@ -5889,8 +5835,7 @@ extension MediaConvertClientTypes {
             renditionGroupId: Swift.String? = nil,
             renditionLanguageCode: MediaConvertClientTypes.LanguageCode? = nil,
             renditionName: Swift.String? = nil
-        )
-        {
+        ) {
             self.renditionGroupId = renditionGroupId
             self.renditionLanguageCode = renditionLanguageCode
             self.renditionName = renditionName
@@ -5928,8 +5873,7 @@ extension MediaConvertClientTypes {
             teletextSourceSettings: MediaConvertClientTypes.TeletextSourceSettings? = nil,
             trackSourceSettings: MediaConvertClientTypes.TrackSourceSettings? = nil,
             webvttHlsSourceSettings: MediaConvertClientTypes.WebvttHlsSourceSettings? = nil
-        )
-        {
+        ) {
             self.ancillarySourceSettings = ancillarySourceSettings
             self.dvbSubSourceSettings = dvbSubSourceSettings
             self.embeddedSourceSettings = embeddedSourceSettings
@@ -5957,8 +5901,7 @@ extension MediaConvertClientTypes {
             customLanguageCode: Swift.String? = nil,
             languageCode: MediaConvertClientTypes.LanguageCode? = nil,
             sourceSettings: MediaConvertClientTypes.CaptionSourceSettings? = nil
-        )
-        {
+        ) {
             self.customLanguageCode = customLanguageCode
             self.languageCode = languageCode
             self.sourceSettings = sourceSettings
@@ -5984,8 +5927,7 @@ extension MediaConvertClientTypes {
             width: Swift.Int? = nil,
             x: Swift.Int? = nil,
             y: Swift.Int? = nil
-        )
-        {
+        ) {
             self.height = height
             self.width = width
             self.x = x
@@ -6075,8 +6017,7 @@ extension MediaConvertClientTypes {
             encryptedDecryptionKey: Swift.String? = nil,
             initializationVector: Swift.String? = nil,
             kmsKeyRegion: Swift.String? = nil
-        )
-        {
+        ) {
             self.decryptionMode = decryptionMode
             self.encryptedDecryptionKey = encryptedDecryptionKey
             self.initializationVector = initializationVector
@@ -6187,8 +6128,7 @@ extension MediaConvertClientTypes {
             opacity: Swift.Int? = nil,
             startTime: Swift.String? = nil,
             width: Swift.Int? = nil
-        )
-        {
+        ) {
             self.duration = duration
             self.fadeIn = fadeIn
             self.fadeOut = fadeOut
@@ -6216,8 +6156,7 @@ extension MediaConvertClientTypes {
         public init(
             insertableImages: [MediaConvertClientTypes.InsertableImage]? = nil,
             sdrReferenceWhiteLevel: Swift.Int? = nil
-        )
-        {
+        ) {
             self.insertableImages = insertableImages
             self.sdrReferenceWhiteLevel = sdrReferenceWhiteLevel
         }
@@ -6236,8 +6175,7 @@ extension MediaConvertClientTypes {
         public init(
             endTimecode: Swift.String? = nil,
             startTimecode: Swift.String? = nil
-        )
-        {
+        ) {
             self.endTimecode = endTimecode
             self.startTimecode = startTimecode
         }
@@ -6362,8 +6300,7 @@ extension MediaConvertClientTypes {
             framerateDenominator: Swift.Int? = nil,
             framerateNumerator: Swift.Int? = nil,
             sampleRate: Swift.Int? = nil
-        )
-        {
+        ) {
             self.channels = channels
             self.duration = duration
             self.framerateDenominator = framerateDenominator
@@ -6424,8 +6361,7 @@ extension MediaConvertClientTypes {
             width: Swift.Int? = nil,
             xPosition: Swift.Int? = nil,
             yPosition: Swift.Int? = nil
-        )
-        {
+        ) {
             self.height = height
             self.unit = unit
             self.width = width
@@ -6447,8 +6383,7 @@ extension MediaConvertClientTypes {
         public init(
             endTimecode: Swift.String? = nil,
             startTimecode: Swift.String? = nil
-        )
-        {
+        ) {
             self.endTimecode = endTimecode
             self.startTimecode = startTimecode
         }
@@ -6473,8 +6408,7 @@ extension MediaConvertClientTypes {
             inputClippings: [MediaConvertClientTypes.VideoOverlayInputClipping]? = nil,
             timecodeSource: MediaConvertClientTypes.InputTimecodeSource? = nil,
             timecodeStart: Swift.String? = nil
-        )
-        {
+        ) {
             self.fileInput = fileInput
             self.inputClippings = inputClippings
             self.timecodeSource = timecodeSource
@@ -6528,8 +6462,7 @@ extension MediaConvertClientTypes {
             endPosition: MediaConvertClientTypes.VideoOverlayPosition? = nil,
             endTimecode: Swift.String? = nil,
             startTimecode: Swift.String? = nil
-        )
-        {
+        ) {
             self.endPosition = endPosition
             self.endTimecode = endTimecode
             self.startTimecode = startTimecode
@@ -6561,8 +6494,7 @@ extension MediaConvertClientTypes {
             playback: MediaConvertClientTypes.VideoOverlayPlayBackMode? = nil,
             startTimecode: Swift.String? = nil,
             transitions: [MediaConvertClientTypes.VideoOverlayTransition]? = nil
-        )
-        {
+        ) {
             self.endTimecode = endTimecode
             self.initialPosition = initialPosition
             self.input = input
@@ -6705,8 +6637,7 @@ extension MediaConvertClientTypes {
             redPrimaryY: Swift.Int? = nil,
             whitePointX: Swift.Int? = nil,
             whitePointY: Swift.Int? = nil
-        )
-        {
+        ) {
             self.bluePrimaryX = bluePrimaryX
             self.bluePrimaryY = bluePrimaryY
             self.greenPrimaryX = greenPrimaryX
@@ -6874,8 +6805,7 @@ extension MediaConvertClientTypes {
             programNumber: Swift.Int? = nil,
             rotate: MediaConvertClientTypes.InputRotate? = nil,
             sampleRange: MediaConvertClientTypes.InputSampleRange? = nil
-        )
-        {
+        ) {
             self.alphaBehavior = alphaBehavior
             self.colorSpace = colorSpace
             self.colorSpaceUsage = colorSpaceUsage
@@ -6976,8 +6906,7 @@ extension MediaConvertClientTypes {
             videoGenerator: MediaConvertClientTypes.InputVideoGenerator? = nil,
             videoOverlays: [MediaConvertClientTypes.VideoOverlay]? = nil,
             videoSelector: MediaConvertClientTypes.VideoSelector? = nil
-        )
-        {
+        ) {
             self.advancedInputFilter = advancedInputFilter
             self.advancedInputFilterSettings = advancedInputFilterSettings
             self.audioSelectorGroups = audioSelectorGroups
@@ -7080,8 +7009,7 @@ extension MediaConvertClientTypes {
             timecodeStart: Swift.String? = nil,
             videoOverlays: [MediaConvertClientTypes.VideoOverlay]? = nil,
             videoSelector: MediaConvertClientTypes.VideoSelector? = nil
-        )
-        {
+        ) {
             self.advancedInputFilter = advancedInputFilter
             self.advancedInputFilterSettings = advancedInputFilterSettings
             self.audioSelectorGroups = audioSelectorGroups
@@ -7150,8 +7078,7 @@ extension MediaConvertClientTypes {
 
         public init(
             mode: MediaConvertClientTypes.AccelerationMode? = nil
-        )
-        {
+        ) {
             self.mode = mode
         }
     }
@@ -7274,8 +7201,7 @@ extension MediaConvertClientTypes {
         public init(
             info: [Swift.String]? = nil,
             warning: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.info = info
             self.warning = warning
         }
@@ -7294,8 +7220,7 @@ extension MediaConvertClientTypes {
         public init(
             heightInPx: Swift.Int? = nil,
             widthInPx: Swift.Int? = nil
-        )
-        {
+        ) {
             self.heightInPx = heightInPx
             self.widthInPx = widthInPx
         }
@@ -7314,8 +7239,7 @@ extension MediaConvertClientTypes {
         public init(
             durationInMs: Swift.Int? = nil,
             videoDetails: MediaConvertClientTypes.VideoDetail? = nil
-        )
-        {
+        ) {
             self.durationInMs = durationInMs
             self.videoDetails = videoDetails
         }
@@ -7331,8 +7255,7 @@ extension MediaConvertClientTypes {
 
         public init(
             outputDetails: [MediaConvertClientTypes.OutputDetail]? = nil
-        )
-        {
+        ) {
             self.outputDetails = outputDetails
         }
     }
@@ -7353,8 +7276,7 @@ extension MediaConvertClientTypes {
             destinationQueue: Swift.String? = nil,
             sourceQueue: Swift.String? = nil,
             timestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.destinationQueue = destinationQueue
             self.sourceQueue = sourceQueue
             self.timestamp = timestamp
@@ -7371,8 +7293,7 @@ extension MediaConvertClientTypes {
 
         public init(
             availBlankingImage: Swift.String? = nil
-        )
-        {
+        ) {
             self.availBlankingImage = availBlankingImage
         }
     }
@@ -7387,8 +7308,7 @@ extension MediaConvertClientTypes {
 
         public init(
             mccXml: Swift.String? = nil
-        )
-        {
+        ) {
             self.mccXml = mccXml
         }
     }
@@ -7403,8 +7323,7 @@ extension MediaConvertClientTypes {
 
         public init(
             sccXml: Swift.String? = nil
-        )
-        {
+        ) {
             self.sccXml = sccXml
         }
     }
@@ -7425,8 +7344,7 @@ extension MediaConvertClientTypes {
             manifestConfirmConditionNotification: MediaConvertClientTypes.EsamManifestConfirmConditionNotification? = nil,
             responseSignalPreroll: Swift.Int? = nil,
             signalProcessingNotification: MediaConvertClientTypes.EsamSignalProcessingNotification? = nil
-        )
-        {
+        ) {
             self.manifestConfirmConditionNotification = manifestConfirmConditionNotification
             self.responseSignalPreroll = responseSignalPreroll
             self.signalProcessingNotification = signalProcessingNotification
@@ -7506,8 +7424,7 @@ extension MediaConvertClientTypes {
         public init(
             copyProtectionAction: MediaConvertClientTypes.CopyProtectionAction? = nil,
             vchipAction: MediaConvertClientTypes.VchipAction? = nil
-        )
-        {
+        ) {
             self.copyProtectionAction = copyProtectionAction
             self.vchipAction = vchipAction
         }
@@ -7559,8 +7476,7 @@ extension MediaConvertClientTypes {
             metadata6: Swift.String? = nil,
             metadata7: Swift.String? = nil,
             metadata8: Swift.String? = nil
-        )
-        {
+        ) {
             self.channelName = channelName
             self.contentReference = contentReference
             self.credentialsSecretName = credentialsSecretName
@@ -7590,8 +7506,7 @@ extension MediaConvertClientTypes {
         public init(
             framerateDenominator: Swift.Int? = nil,
             framerateNumerator: Swift.Int? = nil
-        )
-        {
+        ) {
             self.framerateDenominator = framerateDenominator
             self.framerateNumerator = framerateNumerator
         }
@@ -7640,8 +7555,7 @@ extension MediaConvertClientTypes {
         public init(
             imagex: Swift.Int? = nil,
             imagey: Swift.Int? = nil
-        )
-        {
+        ) {
             self.imagex = imagex
             self.imagey = imagey
         }
@@ -7702,8 +7616,7 @@ extension MediaConvertClientTypes {
             offset: MediaConvertClientTypes.MotionImageInsertionOffset? = nil,
             playback: MediaConvertClientTypes.MotionImagePlayback? = nil,
             startTime: Swift.String? = nil
-        )
-        {
+        ) {
             self.framerate = framerate
             self.input = input
             self.insertionMode = insertionMode
@@ -7726,8 +7639,7 @@ extension MediaConvertClientTypes {
         public init(
             breakoutCode: Swift.Int? = nil,
             distributorId: Swift.String? = nil
-        )
-        {
+        ) {
             self.breakoutCode = breakoutCode
             self.distributorId = distributorId
         }
@@ -7866,8 +7778,7 @@ extension MediaConvertClientTypes {
             sourceWatermarkStatus: MediaConvertClientTypes.NielsenSourceWatermarkStatusType? = nil,
             ticServerUrl: Swift.String? = nil,
             uniqueTicPerAudioTrack: MediaConvertClientTypes.NielsenUniqueTicPerAudioTrackType? = nil
-        )
-        {
+        ) {
             self.activeWatermarkProcess = activeWatermarkProcess
             self.adiFilename = adiFilename
             self.assetId = assetId
@@ -7901,8 +7812,7 @@ extension MediaConvertClientTypes {
             maxRenditions: Swift.Int? = nil,
             minAbrBitrate: Swift.Int? = nil,
             rules: [MediaConvertClientTypes.AutomatedAbrRule]? = nil
-        )
-        {
+        ) {
             self.maxAbrBitrate = maxAbrBitrate
             self.maxRenditions = maxRenditions
             self.minAbrBitrate = minAbrBitrate
@@ -7920,8 +7830,7 @@ extension MediaConvertClientTypes {
 
         public init(
             abrSettings: MediaConvertClientTypes.AutomatedAbrSettings? = nil
-        )
-        {
+        ) {
             self.abrSettings = abrSettings
         }
     }
@@ -8065,8 +7974,7 @@ extension MediaConvertClientTypes {
 
         public init(
             cannedAcl: MediaConvertClientTypes.S3ObjectCannedAcl? = nil
-        )
-        {
+        ) {
             self.cannedAcl = cannedAcl
         }
     }
@@ -8117,8 +8025,7 @@ extension MediaConvertClientTypes {
             encryptionType: MediaConvertClientTypes.S3ServerSideEncryptionType? = nil,
             kmsEncryptionContext: Swift.String? = nil,
             kmsKeyArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.encryptionType = encryptionType
             self.kmsEncryptionContext = kmsEncryptionContext
             self.kmsKeyArn = kmsKeyArn
@@ -8186,8 +8093,7 @@ extension MediaConvertClientTypes {
             accessControl: MediaConvertClientTypes.S3DestinationAccessControl? = nil,
             encryption: MediaConvertClientTypes.S3EncryptionSettings? = nil,
             storageClass: MediaConvertClientTypes.S3StorageClass? = nil
-        )
-        {
+        ) {
             self.accessControl = accessControl
             self.encryption = encryption
             self.storageClass = storageClass
@@ -8204,8 +8110,7 @@ extension MediaConvertClientTypes {
 
         public init(
             s3Settings: MediaConvertClientTypes.S3DestinationSettings? = nil
-        )
-        {
+        ) {
             self.s3Settings = s3Settings
         }
     }
@@ -8376,8 +8281,7 @@ extension MediaConvertClientTypes {
         public init(
             spekeAudioPreset: MediaConvertClientTypes.PresetSpeke20Audio? = nil,
             spekeVideoPreset: MediaConvertClientTypes.PresetSpeke20Video? = nil
-        )
-        {
+        ) {
             self.spekeAudioPreset = spekeAudioPreset
             self.spekeVideoPreset = spekeVideoPreset
         }
@@ -8408,8 +8312,7 @@ extension MediaConvertClientTypes {
             hlsSignaledSystemIds: [Swift.String]? = nil,
             resourceId: Swift.String? = nil,
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.certificateArn = certificateArn
             self.dashSignaledSystemIds = dashSignaledSystemIds
             self.encryptionContractConfiguration = encryptionContractConfiguration
@@ -8438,8 +8341,7 @@ extension MediaConvertClientTypes {
             keyFormatVersions: Swift.String? = nil,
             staticKeyValue: Swift.String? = nil,
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.keyFormat = keyFormat
             self.keyFormatVersions = keyFormatVersions
             self.staticKeyValue = staticKeyValue
@@ -8502,8 +8404,7 @@ extension MediaConvertClientTypes {
             spekeKeyProvider: MediaConvertClientTypes.SpekeKeyProviderCmaf? = nil,
             staticKeyProvider: MediaConvertClientTypes.StaticKeyProvider? = nil,
             type: MediaConvertClientTypes.CmafKeyProviderType? = nil
-        )
-        {
+        ) {
             self.constantInitializationVector = constantInitializationVector
             self.encryptionMethod = encryptionMethod
             self.initializationVectorInManifest = initializationVectorInManifest
@@ -8604,8 +8505,7 @@ extension MediaConvertClientTypes {
             thumbnailWidth: Swift.Int? = nil,
             tileHeight: Swift.Int? = nil,
             tileWidth: Swift.Int? = nil
-        )
-        {
+        ) {
             self.intervalCadence = intervalCadence
             self.thumbnailHeight = thumbnailHeight
             self.thumbnailInterval = thumbnailInterval
@@ -9096,8 +8996,7 @@ extension MediaConvertClientTypes {
             writeDashManifest: MediaConvertClientTypes.CmafWriteDASHManifest? = nil,
             writeHlsManifest: MediaConvertClientTypes.CmafWriteHLSManifest? = nil,
             writeSegmentTimelineInRepresentation: MediaConvertClientTypes.CmafWriteSegmentTimelineInRepresentation? = nil
-        )
-        {
+        ) {
             self.additionalManifests = additionalManifests
             self.baseUrl = baseUrl
             self.clientCache = clientCache
@@ -9211,8 +9110,7 @@ extension MediaConvertClientTypes {
             resourceId: Swift.String? = nil,
             systemIds: [Swift.String]? = nil,
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.certificateArn = certificateArn
             self.encryptionContractConfiguration = encryptionContractConfiguration
             self.resourceId = resourceId
@@ -9234,8 +9132,7 @@ extension MediaConvertClientTypes {
         public init(
             playbackDeviceCompatibility: MediaConvertClientTypes.DashIsoPlaybackDeviceCompatibility? = nil,
             spekeKeyProvider: MediaConvertClientTypes.SpekeKeyProvider? = nil
-        )
-        {
+        ) {
             self.playbackDeviceCompatibility = playbackDeviceCompatibility
             self.spekeKeyProvider = spekeKeyProvider
         }
@@ -9362,8 +9259,7 @@ extension MediaConvertClientTypes {
             thumbnailWidth: Swift.Int? = nil,
             tileHeight: Swift.Int? = nil,
             tileWidth: Swift.Int? = nil
-        )
-        {
+        ) {
             self.intervalCadence = intervalCadence
             self.thumbnailHeight = thumbnailHeight
             self.thumbnailInterval = thumbnailInterval
@@ -9656,8 +9552,7 @@ extension MediaConvertClientTypes {
             segmentLengthControl: MediaConvertClientTypes.DashIsoSegmentLengthControl? = nil,
             videoCompositionOffsets: MediaConvertClientTypes.DashIsoVideoCompositionOffsets? = nil,
             writeSegmentTimelineInRepresentation: MediaConvertClientTypes.DashIsoWriteSegmentTimelineInRepresentation? = nil
-        )
-        {
+        ) {
             self.additionalManifests = additionalManifests
             self.audioChannelConfigSchemeIdUri = audioChannelConfigSchemeIdUri
             self.baseUrl = baseUrl
@@ -9696,8 +9591,7 @@ extension MediaConvertClientTypes {
         public init(
             destination: Swift.String? = nil,
             destinationSettings: MediaConvertClientTypes.DestinationSettings? = nil
-        )
-        {
+        ) {
             self.destination = destination
             self.destinationSettings = destinationSettings
         }
@@ -10034,8 +9928,7 @@ extension MediaConvertClientTypes {
             spekeKeyProvider: MediaConvertClientTypes.SpekeKeyProvider? = nil,
             staticKeyProvider: MediaConvertClientTypes.StaticKeyProvider? = nil,
             type: MediaConvertClientTypes.HlsKeyProviderType? = nil
-        )
-        {
+        ) {
             self.constantInitializationVector = constantInitializationVector
             self.encryptionMethod = encryptionMethod
             self.initializationVectorInManifest = initializationVectorInManifest
@@ -10137,8 +10030,7 @@ extension MediaConvertClientTypes {
             thumbnailWidth: Swift.Int? = nil,
             tileHeight: Swift.Int? = nil,
             tileWidth: Swift.Int? = nil
-        )
-        {
+        ) {
             self.intervalCadence = intervalCadence
             self.thumbnailHeight = thumbnailHeight
             self.thumbnailInterval = thumbnailInterval
@@ -10554,8 +10446,7 @@ extension MediaConvertClientTypes {
             timedMetadataId3Frame: MediaConvertClientTypes.HlsTimedMetadataId3Frame? = nil,
             timedMetadataId3Period: Swift.Int? = nil,
             timestampDeltaMilliseconds: Swift.Int? = nil
-        )
-        {
+        ) {
             self.adMarkers = adMarkers
             self.additionalManifests = additionalManifests
             self.audioOnlyHeader = audioOnlyHeader
@@ -10604,8 +10495,7 @@ extension MediaConvertClientTypes {
         public init(
             manifestNameModifier: Swift.String? = nil,
             selectedOutputs: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.manifestNameModifier = manifestNameModifier
             self.selectedOutputs = selectedOutputs
         }
@@ -10651,8 +10541,7 @@ extension MediaConvertClientTypes {
 
         public init(
             spekeKeyProvider: MediaConvertClientTypes.SpekeKeyProvider? = nil
-        )
-        {
+        ) {
             self.spekeKeyProvider = spekeKeyProvider
         }
     }
@@ -10748,8 +10637,7 @@ extension MediaConvertClientTypes {
             fragmentLength: Swift.Int? = nil,
             fragmentLengthControl: MediaConvertClientTypes.MsSmoothFragmentLengthControl? = nil,
             manifestEncoding: MediaConvertClientTypes.MsSmoothManifestEncoding? = nil
-        )
-        {
+        ) {
             self.additionalManifests = additionalManifests
             self.audioDeduplication = audioDeduplication
             self.destination = destination
@@ -10825,8 +10713,7 @@ extension MediaConvertClientTypes {
             hlsGroupSettings: MediaConvertClientTypes.HlsGroupSettings? = nil,
             msSmoothGroupSettings: MediaConvertClientTypes.MsSmoothGroupSettings? = nil,
             type: MediaConvertClientTypes.OutputGroupType? = nil
-        )
-        {
+        ) {
             self.cmafGroupSettings = cmafGroupSettings
             self.dashIsoGroupSettings = dashIsoGroupSettings
             self.fileGroupSettings = fileGroupSettings
@@ -11191,8 +11078,7 @@ extension MediaConvertClientTypes {
             timedMetadataBoxVersion: MediaConvertClientTypes.CmfcTimedMetadataBoxVersion? = nil,
             timedMetadataSchemeIdUri: Swift.String? = nil,
             timedMetadataValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.audioDuration = audioDuration
             self.audioGroupId = audioGroupId
             self.audioRenditionSets = audioRenditionSets
@@ -11313,8 +11199,7 @@ extension MediaConvertClientTypes {
 
         public init(
             moovPlacement: MediaConvertClientTypes.F4vMoovPlacement? = nil
-        )
-        {
+        ) {
             self.moovPlacement = moovPlacement
         }
     }
@@ -11455,8 +11340,7 @@ extension MediaConvertClientTypes {
             networkId: Swift.Int? = nil,
             networkName: Swift.String? = nil,
             nitInterval: Swift.Int? = nil
-        )
-        {
+        ) {
             self.networkId = networkId
             self.networkName = networkName
             self.nitInterval = nitInterval
@@ -11518,8 +11402,7 @@ extension MediaConvertClientTypes {
             sdtInterval: Swift.Int? = nil,
             serviceName: Swift.String? = nil,
             serviceProviderName: Swift.String? = nil
-        )
-        {
+        ) {
             self.outputSdt = outputSdt
             self.sdtInterval = sdtInterval
             self.serviceName = serviceName
@@ -11537,8 +11420,7 @@ extension MediaConvertClientTypes {
 
         public init(
             tdtInterval: Swift.Int? = nil
-        )
-        {
+        ) {
             self.tdtInterval = tdtInterval
         }
     }
@@ -11853,8 +11735,7 @@ extension MediaConvertClientTypes {
 
         public init(
             scte35EsamPid: Swift.Int? = nil
-        )
-        {
+        ) {
             self.scte35EsamPid = scte35EsamPid
         }
     }
@@ -12094,8 +11975,7 @@ extension MediaConvertClientTypes {
             timedMetadataPid: Swift.Int? = nil,
             transportStreamId: Swift.Int? = nil,
             videoPid: Swift.Int? = nil
-        )
-        {
+        ) {
             self.audioBufferModel = audioBufferModel
             self.audioDuration = audioDuration
             self.audioFramesPerPes = audioFramesPerPes
@@ -12391,8 +12271,7 @@ extension MediaConvertClientTypes {
             timedMetadataPid: Swift.Int? = nil,
             transportStreamId: Swift.Int? = nil,
             videoPid: Swift.Int? = nil
-        )
-        {
+        ) {
             self.audioDuration = audioDuration
             self.audioFramesPerPes = audioFramesPerPes
             self.audioPids = audioPids
@@ -12589,8 +12468,7 @@ extension MediaConvertClientTypes {
             mpeg2FourCCControl: MediaConvertClientTypes.MovMpeg2FourCCControl? = nil,
             paddingControl: MediaConvertClientTypes.MovPaddingControl? = nil,
             reference: MediaConvertClientTypes.MovReference? = nil
-        )
-        {
+        ) {
             self.clapAtom = clapAtom
             self.cslgAtom = cslgAtom
             self.mpeg2FourCCControl = mpeg2FourCCControl
@@ -12714,8 +12592,7 @@ extension MediaConvertClientTypes {
             freeSpaceBox: MediaConvertClientTypes.Mp4FreeSpaceBox? = nil,
             moovPlacement: MediaConvertClientTypes.Mp4MoovPlacement? = nil,
             mp4MajorBrand: Swift.String? = nil
-        )
-        {
+        ) {
             self.audioDuration = audioDuration
             self.cslgAtom = cslgAtom
             self.cttsVersion = cttsVersion
@@ -13035,8 +12912,7 @@ extension MediaConvertClientTypes {
             timedMetadataBoxVersion: MediaConvertClientTypes.MpdTimedMetadataBoxVersion? = nil,
             timedMetadataSchemeIdUri: Swift.String? = nil,
             timedMetadataValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.accessibilityCaptionHints = accessibilityCaptionHints
             self.audioDuration = audioDuration
             self.captionContainerType = captionContainerType
@@ -13163,8 +13039,7 @@ extension MediaConvertClientTypes {
         public init(
             durationMode: MediaConvertClientTypes.MxfXavcDurationMode? = nil,
             maxAncDataSize: Swift.Int? = nil
-        )
-        {
+        ) {
             self.durationMode = durationMode
             self.maxAncDataSize = maxAncDataSize
         }
@@ -13186,8 +13061,7 @@ extension MediaConvertClientTypes {
             afdSignaling: MediaConvertClientTypes.MxfAfdSignaling? = nil,
             profile: MediaConvertClientTypes.MxfProfile? = nil,
             xavcProfileSettings: MediaConvertClientTypes.MxfXavcProfileSettings? = nil
-        )
-        {
+        ) {
             self.afdSignaling = afdSignaling
             self.profile = profile
             self.xavcProfileSettings = xavcProfileSettings
@@ -13228,8 +13102,7 @@ extension MediaConvertClientTypes {
             mp4Settings: MediaConvertClientTypes.Mp4Settings? = nil,
             mpdSettings: MediaConvertClientTypes.MpdSettings? = nil,
             mxfSettings: MediaConvertClientTypes.MxfSettings? = nil
-        )
-        {
+        ) {
             self.cmfcSettings = cmfcSettings
             self.container = container
             self.f4vSettings = f4vSettings
@@ -13396,8 +13269,7 @@ extension MediaConvertClientTypes {
             descriptiveVideoServiceFlag: MediaConvertClientTypes.HlsDescriptiveVideoServiceFlag? = nil,
             iFrameOnlyManifest: MediaConvertClientTypes.HlsIFrameOnlyManifest? = nil,
             segmentModifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.audioGroupId = audioGroupId
             self.audioOnlyContainer = audioOnlyContainer
             self.audioRenditionSets = audioRenditionSets
@@ -13418,8 +13290,7 @@ extension MediaConvertClientTypes {
 
         public init(
             hlsSettings: MediaConvertClientTypes.HlsSettings? = nil
-        )
-        {
+        ) {
             self.hlsSettings = hlsSettings
         }
     }
@@ -13665,8 +13536,7 @@ extension MediaConvertClientTypes {
         public init(
             qvbrQualityLevel: Swift.Int? = nil,
             qvbrQualityLevelFineTune: Swift.Double? = nil
-        )
-        {
+        ) {
             self.qvbrQualityLevel = qvbrQualityLevel
             self.qvbrQualityLevelFineTune = qvbrQualityLevelFineTune
         }
@@ -13778,8 +13648,7 @@ extension MediaConvertClientTypes {
             rateControlMode: MediaConvertClientTypes.Av1RateControlMode? = nil,
             slices: Swift.Int? = nil,
             spatialAdaptiveQuantization: MediaConvertClientTypes.Av1SpatialAdaptiveQuantization? = nil
-        )
-        {
+        ) {
             self.adaptiveQuantization = adaptiveQuantization
             self.bitDepth = bitDepth
             self.filmGrainSynthesis = filmGrainSynthesis
@@ -13873,8 +13742,7 @@ extension MediaConvertClientTypes {
 
         public init(
             qualityTuningLevel: MediaConvertClientTypes.AvcIntraUhdQualityTuningLevel? = nil
-        )
-        {
+        ) {
             self.qualityTuningLevel = qualityTuningLevel
         }
     }
@@ -14108,8 +13976,7 @@ extension MediaConvertClientTypes {
             scanTypeConversionMode: MediaConvertClientTypes.AvcIntraScanTypeConversionMode? = nil,
             slowPal: MediaConvertClientTypes.AvcIntraSlowPal? = nil,
             telecine: MediaConvertClientTypes.AvcIntraTelecine? = nil
-        )
-        {
+        ) {
             self.avcIntraClass = avcIntraClass
             self.avcIntraUhdSettings = avcIntraUhdSettings
             self.framerateControl = framerateControl
@@ -14205,8 +14072,7 @@ extension MediaConvertClientTypes {
             framerateNumerator: Swift.Int? = nil,
             maxCaptures: Swift.Int? = nil,
             quality: Swift.Int? = nil
-        )
-        {
+        ) {
             self.framerateDenominator = framerateDenominator
             self.framerateNumerator = framerateNumerator
             self.maxCaptures = maxCaptures
@@ -14347,8 +14213,7 @@ extension MediaConvertClientTypes {
         public init(
             sharpening: MediaConvertClientTypes.BandwidthReductionFilterSharpening? = nil,
             strength: MediaConvertClientTypes.BandwidthReductionFilterStrength? = nil
-        )
-        {
+        ) {
             self.sharpening = sharpening
             self.strength = strength
         }
@@ -14868,8 +14733,7 @@ extension MediaConvertClientTypes {
             maxAverageBitrate: Swift.Int? = nil,
             qvbrQualityLevel: Swift.Int? = nil,
             qvbrQualityLevelFineTune: Swift.Double? = nil
-        )
-        {
+        ) {
             self.maxAverageBitrate = maxAverageBitrate
             self.qvbrQualityLevel = qvbrQualityLevel
             self.qvbrQualityLevelFineTune = qvbrQualityLevelFineTune
@@ -15218,6 +15082,36 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
+    /// Specify how SPS and PPS NAL units are written in your output MP4 container, according to ISO/IEC 14496-15. If the location of these parameters doesn't matter in your workflow: Keep the default value, AVC1. MediaConvert writes SPS and PPS NAL units in the sample description ('stsd') box (but not into samples directly). To write SPS and PPS NAL units directly into samples (but not in the 'stsd' box): Choose AVC3. When you do, note that your output might not play properly with some downstream systems or players.
+    public enum H264WriteMp4PackagingType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case avc1
+        case avc3
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [H264WriteMp4PackagingType] {
+            return [
+                .avc1,
+                .avc3
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .avc1: return "AVC1"
+            case .avc3: return "AVC3"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
     /// Required when you set Codec to the value H_264.
     public struct H264Settings: Swift.Sendable {
         /// Keep the default value, Auto, for this setting to have MediaConvert automatically apply the best types of quantization for your video content. When you want to apply your quantization settings manually, you must set H264AdaptiveQuantization to a value other than Auto. Use this setting to specify the strength of any adaptive quantization filters that you enable. If you don't want MediaConvert to do any adaptive quantization in this transcode, set Adaptive quantization to Off. Related settings: The value that you choose here applies to the following settings: H264FlickerAdaptiveQuantization, H264SpatialAdaptiveQuantization, and H264TemporalAdaptiveQuantization.
@@ -15308,6 +15202,8 @@ extension MediaConvertClientTypes {
         public var temporalAdaptiveQuantization: MediaConvertClientTypes.H264TemporalAdaptiveQuantization?
         /// Inserts timecode for each frame as 4 bytes of an unregistered SEI message.
         public var unregisteredSeiTimecode: MediaConvertClientTypes.H264UnregisteredSeiTimecode?
+        /// Specify how SPS and PPS NAL units are written in your output MP4 container, according to ISO/IEC 14496-15. If the location of these parameters doesn't matter in your workflow: Keep the default value, AVC1. MediaConvert writes SPS and PPS NAL units in the sample description ('stsd') box (but not into samples directly). To write SPS and PPS NAL units directly into samples (but not in the 'stsd' box): Choose AVC3. When you do, note that your output might not play properly with some downstream systems or players.
+        public var writeMp4PackagingType: MediaConvertClientTypes.H264WriteMp4PackagingType?
 
         public init(
             adaptiveQuantization: MediaConvertClientTypes.H264AdaptiveQuantization? = nil,
@@ -15353,9 +15249,9 @@ extension MediaConvertClientTypes {
             syntax: MediaConvertClientTypes.H264Syntax? = nil,
             telecine: MediaConvertClientTypes.H264Telecine? = nil,
             temporalAdaptiveQuantization: MediaConvertClientTypes.H264TemporalAdaptiveQuantization? = nil,
-            unregisteredSeiTimecode: MediaConvertClientTypes.H264UnregisteredSeiTimecode? = nil
-        )
-        {
+            unregisteredSeiTimecode: MediaConvertClientTypes.H264UnregisteredSeiTimecode? = nil,
+            writeMp4PackagingType: MediaConvertClientTypes.H264WriteMp4PackagingType? = nil
+        ) {
             self.adaptiveQuantization = adaptiveQuantization
             self.bandwidthReductionFilter = bandwidthReductionFilter
             self.bitrate = bitrate
@@ -15400,6 +15296,7 @@ extension MediaConvertClientTypes {
             self.telecine = telecine
             self.temporalAdaptiveQuantization = temporalAdaptiveQuantization
             self.unregisteredSeiTimecode = unregisteredSeiTimecode
+            self.writeMp4PackagingType = writeMp4PackagingType
         }
     }
 }
@@ -15926,8 +15823,7 @@ extension MediaConvertClientTypes {
             maxAverageBitrate: Swift.Int? = nil,
             qvbrQualityLevel: Swift.Int? = nil,
             qvbrQualityLevelFineTune: Swift.Double? = nil
-        )
-        {
+        ) {
             self.maxAverageBitrate = maxAverageBitrate
             self.qvbrQualityLevel = qvbrQualityLevel
             self.qvbrQualityLevelFineTune = qvbrQualityLevelFineTune
@@ -16442,8 +16338,7 @@ extension MediaConvertClientTypes {
             tiles: MediaConvertClientTypes.H265Tiles? = nil,
             unregisteredSeiTimecode: MediaConvertClientTypes.H265UnregisteredSeiTimecode? = nil,
             writeMp4PackagingType: MediaConvertClientTypes.H265WriteMp4PackagingType? = nil
-        )
-        {
+        ) {
             self.adaptiveQuantization = adaptiveQuantization
             self.alternateTransferFunctionSei = alternateTransferFunctionSei
             self.bandwidthReductionFilter = bandwidthReductionFilter
@@ -17205,8 +17100,7 @@ extension MediaConvertClientTypes {
             syntax: MediaConvertClientTypes.Mpeg2Syntax? = nil,
             telecine: MediaConvertClientTypes.Mpeg2Telecine? = nil,
             temporalAdaptiveQuantization: MediaConvertClientTypes.Mpeg2TemporalAdaptiveQuantization? = nil
-        )
-        {
+        ) {
             self.adaptiveQuantization = adaptiveQuantization
             self.bitrate = bitrate
             self.codecLevel = codecLevel
@@ -17583,8 +17477,7 @@ extension MediaConvertClientTypes {
             scanTypeConversionMode: MediaConvertClientTypes.ProresScanTypeConversionMode? = nil,
             slowPal: MediaConvertClientTypes.ProresSlowPal? = nil,
             telecine: MediaConvertClientTypes.ProresTelecine? = nil
-        )
-        {
+        ) {
             self.chromaSampling = chromaSampling
             self.codecProfile = codecProfile
             self.framerateControl = framerateControl
@@ -17851,8 +17744,7 @@ extension MediaConvertClientTypes {
             scanTypeConversionMode: MediaConvertClientTypes.UncompressedScanTypeConversionMode? = nil,
             slowPal: MediaConvertClientTypes.UncompressedSlowPal? = nil,
             telecine: MediaConvertClientTypes.UncompressedTelecine? = nil
-        )
-        {
+        ) {
             self.fourcc = fourcc
             self.framerateControl = framerateControl
             self.framerateConversionAlgorithm = framerateConversionAlgorithm
@@ -18115,8 +18007,7 @@ extension MediaConvertClientTypes {
             slowPal: MediaConvertClientTypes.Vc3SlowPal? = nil,
             telecine: MediaConvertClientTypes.Vc3Telecine? = nil,
             vc3Class: MediaConvertClientTypes.Vc3Class? = nil
-        )
-        {
+        ) {
             self.framerateControl = framerateControl
             self.framerateConversionAlgorithm = framerateConversionAlgorithm
             self.framerateDenominator = framerateDenominator
@@ -18325,8 +18216,7 @@ extension MediaConvertClientTypes {
             parNumerator: Swift.Int? = nil,
             qualityTuningLevel: MediaConvertClientTypes.Vp8QualityTuningLevel? = nil,
             rateControlMode: MediaConvertClientTypes.Vp8RateControlMode? = nil
-        )
-        {
+        ) {
             self.bitrate = bitrate
             self.framerateControl = framerateControl
             self.framerateConversionAlgorithm = framerateConversionAlgorithm
@@ -18539,8 +18429,7 @@ extension MediaConvertClientTypes {
             parNumerator: Swift.Int? = nil,
             qualityTuningLevel: MediaConvertClientTypes.Vp9QualityTuningLevel? = nil,
             rateControlMode: MediaConvertClientTypes.Vp9RateControlMode? = nil
-        )
-        {
+        ) {
             self.bitrate = bitrate
             self.framerateControl = framerateControl
             self.framerateConversionAlgorithm = framerateConversionAlgorithm
@@ -18870,8 +18759,7 @@ extension MediaConvertClientTypes {
 
         public init(
             xavcClass: MediaConvertClientTypes.Xavc4kIntraCbgProfileClass? = nil
-        )
-        {
+        ) {
             self.xavcClass = xavcClass
         }
     }
@@ -18919,8 +18807,7 @@ extension MediaConvertClientTypes {
 
         public init(
             xavcClass: MediaConvertClientTypes.Xavc4kIntraVbrProfileClass? = nil
-        )
-        {
+        ) {
             self.xavcClass = xavcClass
         }
     }
@@ -19112,8 +18999,7 @@ extension MediaConvertClientTypes {
             hrdBufferSize: Swift.Int? = nil,
             qualityTuningLevel: MediaConvertClientTypes.Xavc4kProfileQualityTuningLevel? = nil,
             slices: Swift.Int? = nil
-        )
-        {
+        ) {
             self.bitrateClass = bitrateClass
             self.codecProfile = codecProfile
             self.flickerAdaptiveQuantization = flickerAdaptiveQuantization
@@ -19168,8 +19054,7 @@ extension MediaConvertClientTypes {
 
         public init(
             xavcClass: MediaConvertClientTypes.XavcHdIntraCbgProfileClass? = nil
-        )
-        {
+        ) {
             self.xavcClass = xavcClass
         }
     }
@@ -19343,8 +19228,7 @@ extension MediaConvertClientTypes {
             qualityTuningLevel: MediaConvertClientTypes.XavcHdProfileQualityTuningLevel? = nil,
             slices: Swift.Int? = nil,
             telecine: MediaConvertClientTypes.XavcHdProfileTelecine? = nil
-        )
-        {
+        ) {
             self.bitrateClass = bitrateClass
             self.flickerAdaptiveQuantization = flickerAdaptiveQuantization
             self.gopBReference = gopBReference
@@ -19412,8 +19296,7 @@ extension MediaConvertClientTypes {
             xavc4kProfileSettings: MediaConvertClientTypes.Xavc4kProfileSettings? = nil,
             xavcHdIntraCbgProfileSettings: MediaConvertClientTypes.XavcHdIntraCbgProfileSettings? = nil,
             xavcHdProfileSettings: MediaConvertClientTypes.XavcHdProfileSettings? = nil
-        )
-        {
+        ) {
             self.adaptiveQuantization = adaptiveQuantization
             self.entropyEncoding = entropyEncoding
             self.framerateControl = framerateControl
@@ -19479,8 +19362,7 @@ extension MediaConvertClientTypes {
             vp8Settings: MediaConvertClientTypes.Vp8Settings? = nil,
             vp9Settings: MediaConvertClientTypes.Vp9Settings? = nil,
             xavcSettings: MediaConvertClientTypes.XavcSettings? = nil
-        )
-        {
+        ) {
             self.av1Settings = av1Settings
             self.avcIntraSettings = avcIntraSettings
             self.codec = codec
@@ -19708,8 +19590,7 @@ extension MediaConvertClientTypes {
             maximumYUV: Swift.Int? = nil,
             minimumRGBTolerance: Swift.Int? = nil,
             minimumYUV: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maximumRGBTolerance = maximumRGBTolerance
             self.maximumYUV = maximumYUV
             self.minimumRGBTolerance = minimumRGBTolerance
@@ -19888,8 +19769,7 @@ extension MediaConvertClientTypes {
             sampleRangeConversion: MediaConvertClientTypes.SampleRangeConversion? = nil,
             saturation: Swift.Int? = nil,
             sdrReferenceWhiteLevel: Swift.Int? = nil
-        )
-        {
+        ) {
             self.brightness = brightness
             self.clipLimits = clipLimits
             self.colorSpaceConversion = colorSpaceConversion
@@ -20034,8 +19914,7 @@ extension MediaConvertClientTypes {
             algorithm: MediaConvertClientTypes.DeinterlaceAlgorithm? = nil,
             control: MediaConvertClientTypes.DeinterlacerControl? = nil,
             mode: MediaConvertClientTypes.DeinterlacerMode? = nil
-        )
-        {
+        ) {
             self.algorithm = algorithm
             self.control = control
             self.mode = mode
@@ -20055,8 +19934,7 @@ extension MediaConvertClientTypes {
         public init(
             maxCll: Swift.Int? = nil,
             maxFall: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maxCll = maxCll
             self.maxFall = maxFall
         }
@@ -20174,8 +20052,7 @@ extension MediaConvertClientTypes {
             l6Mode: MediaConvertClientTypes.DolbyVisionLevel6Mode? = nil,
             mapping: MediaConvertClientTypes.DolbyVisionMapping? = nil,
             profile: MediaConvertClientTypes.DolbyVisionProfile? = nil
-        )
-        {
+        ) {
             self.l6Metadata = l6Metadata
             self.l6Mode = l6Mode
             self.mapping = mapping
@@ -20196,8 +20073,7 @@ extension MediaConvertClientTypes {
         public init(
             masteringMonitorNits: Swift.Int? = nil,
             targetMonitorNits: Swift.Int? = nil
-        )
-        {
+        ) {
             self.masteringMonitorNits = masteringMonitorNits
             self.targetMonitorNits = targetMonitorNits
         }
@@ -20261,8 +20137,7 @@ extension MediaConvertClientTypes {
 
         public init(
             strength: Swift.Int? = nil
-        )
-        {
+        ) {
             self.strength = strength
         }
     }
@@ -20283,8 +20158,7 @@ extension MediaConvertClientTypes {
             postFilterSharpenStrength: Swift.Int? = nil,
             speed: Swift.Int? = nil,
             strength: Swift.Int? = nil
-        )
-        {
+        ) {
             self.postFilterSharpenStrength = postFilterSharpenStrength
             self.speed = speed
             self.strength = strength
@@ -20379,8 +20253,7 @@ extension MediaConvertClientTypes {
             postTemporalSharpeningStrength: MediaConvertClientTypes.NoiseFilterPostTemporalSharpeningStrength? = nil,
             speed: Swift.Int? = nil,
             strength: Swift.Int? = nil
-        )
-        {
+        ) {
             self.aggressiveMode = aggressiveMode
             self.postTemporalSharpening = postTemporalSharpening
             self.postTemporalSharpeningStrength = postTemporalSharpeningStrength
@@ -20408,8 +20281,7 @@ extension MediaConvertClientTypes {
             filterSettings: MediaConvertClientTypes.NoiseReducerFilterSettings? = nil,
             spatialFilterSettings: MediaConvertClientTypes.NoiseReducerSpatialFilterSettings? = nil,
             temporalFilterSettings: MediaConvertClientTypes.NoiseReducerTemporalFilterSettings? = nil
-        )
-        {
+        ) {
             self.filter = filter
             self.filterSettings = filterSettings
             self.spatialFilterSettings = spatialFilterSettings
@@ -20475,8 +20347,7 @@ extension MediaConvertClientTypes {
             payload: Swift.Int? = nil,
             preset: Swift.String? = nil,
             strength: MediaConvertClientTypes.WatermarkingStrength? = nil
-        )
-        {
+        ) {
             self.license = license
             self.payload = payload
             self.preset = preset
@@ -20494,8 +20365,7 @@ extension MediaConvertClientTypes {
 
         public init(
             nexguardFileMarkerSettings: MediaConvertClientTypes.NexGuardFileMarkerSettings? = nil
-        )
-        {
+        ) {
             self.nexguardFileMarkerSettings = nexguardFileMarkerSettings
         }
     }
@@ -20567,8 +20437,7 @@ extension MediaConvertClientTypes {
             fontSize: Swift.Int? = nil,
             position: MediaConvertClientTypes.TimecodeBurninPosition? = nil,
             `prefix`: Swift.String? = nil
-        )
-        {
+        ) {
             self.fontSize = fontSize
             self.position = position
             self.`prefix` = `prefix`
@@ -20606,8 +20475,7 @@ extension MediaConvertClientTypes {
             noiseReducer: MediaConvertClientTypes.NoiseReducer? = nil,
             partnerWatermarking: MediaConvertClientTypes.PartnerWatermarking? = nil,
             timecodeBurnin: MediaConvertClientTypes.TimecodeBurnin? = nil
-        )
-        {
+        ) {
             self.colorCorrector = colorCorrector
             self.deinterlacer = deinterlacer
             self.dolbyVision = dolbyVision
@@ -20674,8 +20542,7 @@ extension MediaConvertClientTypes {
             timecodeTrack: MediaConvertClientTypes.TimecodeTrack? = nil,
             videoPreprocessors: MediaConvertClientTypes.VideoPreprocessor? = nil,
             width: Swift.Int? = nil
-        )
-        {
+        ) {
             self.afdSignaling = afdSignaling
             self.antiAlias = antiAlias
             self.codecSettings = codecSettings
@@ -20726,8 +20593,7 @@ extension MediaConvertClientTypes {
             outputSettings: MediaConvertClientTypes.OutputSettings? = nil,
             preset: Swift.String? = nil,
             videoDescription: MediaConvertClientTypes.VideoDescription? = nil
-        )
-        {
+        ) {
             self.audioDescriptions = audioDescriptions
             self.captionDescriptions = captionDescriptions
             self.containerSettings = containerSettings
@@ -20761,8 +20627,7 @@ extension MediaConvertClientTypes {
             name: Swift.String? = nil,
             outputGroupSettings: MediaConvertClientTypes.OutputGroupSettings? = nil,
             outputs: [MediaConvertClientTypes.Output]? = nil
-        )
-        {
+        ) {
             self.automatedEncodingSettings = automatedEncodingSettings
             self.customName = customName
             self.name = name
@@ -20823,8 +20688,7 @@ extension MediaConvertClientTypes {
             source: MediaConvertClientTypes.TimecodeSource? = nil,
             start: Swift.String? = nil,
             timestampOffset: Swift.String? = nil
-        )
-        {
+        ) {
             self.anchor = anchor
             self.source = source
             self.start = start
@@ -20842,8 +20706,7 @@ extension MediaConvertClientTypes {
 
         public init(
             id3Insertions: [MediaConvertClientTypes.Id3Insertion]? = nil
-        )
-        {
+        ) {
             self.id3Insertions = id3Insertions
         }
     }
@@ -20897,8 +20760,7 @@ extension MediaConvertClientTypes {
             outputGroups: [MediaConvertClientTypes.OutputGroup]? = nil,
             timecodeConfig: MediaConvertClientTypes.TimecodeConfig? = nil,
             timedMetadataInsertion: MediaConvertClientTypes.TimedMetadataInsertion? = nil
-        )
-        {
+        ) {
             self.adAvailOffset = adAvailOffset
             self.availBlanking = availBlanking
             self.colorConversion3DLUTSettings = colorConversion3DLUTSettings
@@ -21070,8 +20932,7 @@ extension MediaConvertClientTypes {
             finishTime: Foundation.Date? = nil,
             startTime: Foundation.Date? = nil,
             submitTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.finishTime = finishTime
             self.startTime = startTime
             self.submitTime = submitTime
@@ -21093,8 +20954,7 @@ extension MediaConvertClientTypes {
         public init(
             code: Swift.Int? = nil,
             count: Swift.Int? = nil
-        )
-        {
+        ) {
             self.code = code
             self.count = count
         }
@@ -21196,8 +21056,7 @@ extension MediaConvertClientTypes {
             timing: MediaConvertClientTypes.Timing? = nil,
             userMetadata: [Swift.String: Swift.String]? = nil,
             warnings: [MediaConvertClientTypes.WarningGroup]? = nil
-        )
-        {
+        ) {
             self.accelerationSettings = accelerationSettings
             self.accelerationStatus = accelerationStatus
             self.arn = arn
@@ -21243,8 +21102,7 @@ extension MediaConvertClientTypes {
         public init(
             expirationDate: Foundation.Date? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.expirationDate = expirationDate
             self.version = version
         }
@@ -21299,8 +21157,7 @@ extension MediaConvertClientTypes {
             outputGroups: [MediaConvertClientTypes.OutputGroup]? = nil,
             timecodeConfig: MediaConvertClientTypes.TimecodeConfig? = nil,
             timedMetadataInsertion: MediaConvertClientTypes.TimedMetadataInsertion? = nil
-        )
-        {
+        ) {
             self.adAvailOffset = adAvailOffset
             self.availBlanking = availBlanking
             self.colorConversion3DLUTSettings = colorConversion3DLUTSettings
@@ -21395,8 +21252,7 @@ extension MediaConvertClientTypes {
             settings: MediaConvertClientTypes.JobTemplateSettings? = nil,
             statusUpdateInterval: MediaConvertClientTypes.StatusUpdateInterval? = nil,
             type: MediaConvertClientTypes.ModelType? = nil
-        )
-        {
+        ) {
             self.accelerationSettings = accelerationSettings
             self.arn = arn
             self.category = category
@@ -21432,8 +21288,7 @@ extension MediaConvertClientTypes {
             captionDescriptions: [MediaConvertClientTypes.CaptionDescriptionPreset]? = nil,
             containerSettings: MediaConvertClientTypes.ContainerSettings? = nil,
             videoDescription: MediaConvertClientTypes.VideoDescription? = nil
-        )
-        {
+        ) {
             self.audioDescriptions = audioDescriptions
             self.captionDescriptions = captionDescriptions
             self.containerSettings = containerSettings
@@ -21474,8 +21329,7 @@ extension MediaConvertClientTypes {
             name: Swift.String? = nil,
             settings: MediaConvertClientTypes.PresetSettings? = nil,
             type: MediaConvertClientTypes.ModelType? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.category = category
             self.createdAt = createdAt
@@ -21629,8 +21483,7 @@ extension MediaConvertClientTypes {
             renewalType: MediaConvertClientTypes.RenewalType? = nil,
             reservedSlots: Swift.Int? = nil,
             status: MediaConvertClientTypes.ReservationPlanStatus? = nil
-        )
-        {
+        ) {
             self.commitment = commitment
             self.expiresAt = expiresAt
             self.purchasedAt = purchasedAt
@@ -21659,8 +21512,7 @@ extension MediaConvertClientTypes {
             name: Swift.String? = nil,
             overrideValue: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
             self.name = name
             self.overrideValue = overrideValue
@@ -21745,8 +21597,7 @@ extension MediaConvertClientTypes {
             status: MediaConvertClientTypes.QueueStatus? = nil,
             submittedJobsCount: Swift.Int? = nil,
             type: MediaConvertClientTypes.ModelType? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.concurrentJobs = concurrentJobs
             self.createdAt = createdAt
@@ -21782,8 +21633,7 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -21806,8 +21656,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -21830,8 +21679,7 @@ public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -21854,8 +21702,7 @@ public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -21878,8 +21725,7 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -21902,8 +21748,7 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -21915,8 +21760,7 @@ public struct AssociateCertificateInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -21933,8 +21777,7 @@ public struct CancelJobInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -21991,8 +21834,7 @@ public struct CreateJobInput: Swift.Sendable {
         statusUpdateInterval: MediaConvertClientTypes.StatusUpdateInterval? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         userMetadata: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.accelerationSettings = accelerationSettings
         self.billingTagsSource = billingTagsSource
         self.clientRequestToken = clientRequestToken
@@ -22016,8 +21858,7 @@ public struct CreateJobOutput: Swift.Sendable {
 
     public init(
         job: MediaConvertClientTypes.Job? = nil
-    )
-    {
+    ) {
         self.job = job
     }
 }
@@ -22057,8 +21898,7 @@ public struct CreateJobTemplateInput: Swift.Sendable {
         settings: MediaConvertClientTypes.JobTemplateSettings? = nil,
         statusUpdateInterval: MediaConvertClientTypes.StatusUpdateInterval? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.accelerationSettings = accelerationSettings
         self.category = category
         self.description = description
@@ -22078,8 +21918,7 @@ public struct CreateJobTemplateOutput: Swift.Sendable {
 
     public init(
         jobTemplate: MediaConvertClientTypes.JobTemplate? = nil
-    )
-    {
+    ) {
         self.jobTemplate = jobTemplate
     }
 }
@@ -22104,8 +21943,7 @@ public struct CreatePresetInput: Swift.Sendable {
         name: Swift.String? = nil,
         settings: MediaConvertClientTypes.PresetSettings? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.category = category
         self.description = description
         self.name = name
@@ -22120,8 +21958,7 @@ public struct CreatePresetOutput: Swift.Sendable {
 
     public init(
         preset: MediaConvertClientTypes.Preset? = nil
-    )
-    {
+    ) {
         self.preset = preset
     }
 }
@@ -22144,8 +21981,7 @@ extension MediaConvertClientTypes {
             commitment: MediaConvertClientTypes.Commitment? = nil,
             renewalType: MediaConvertClientTypes.RenewalType? = nil,
             reservedSlots: Swift.Int? = nil
-        )
-        {
+        ) {
             self.commitment = commitment
             self.renewalType = renewalType
             self.reservedSlots = reservedSlots
@@ -22178,8 +22014,7 @@ public struct CreateQueueInput: Swift.Sendable {
         reservationPlanSettings: MediaConvertClientTypes.ReservationPlanSettings? = nil,
         status: MediaConvertClientTypes.QueueStatus? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.concurrentJobs = concurrentJobs
         self.description = description
         self.name = name
@@ -22196,8 +22031,7 @@ public struct CreateQueueOutput: Swift.Sendable {
 
     public init(
         queue: MediaConvertClientTypes.Queue? = nil
-    )
-    {
+    ) {
         self.queue = queue
     }
 }
@@ -22209,8 +22043,7 @@ public struct DeleteJobTemplateInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -22237,8 +22070,7 @@ public struct DeletePresetInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -22255,8 +22087,7 @@ public struct DeleteQueueInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -22311,8 +22142,7 @@ public struct DescribeEndpointsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         mode: MediaConvertClientTypes.DescribeEndpointsMode? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.mode = mode
         self.nextToken = nextToken
@@ -22329,8 +22159,7 @@ public struct DescribeEndpointsOutput: Swift.Sendable {
     public init(
         endpoints: [MediaConvertClientTypes.Endpoint]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.endpoints = endpoints
         self.nextToken = nextToken
     }
@@ -22343,8 +22172,7 @@ public struct DisassociateCertificateInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -22361,8 +22189,7 @@ public struct GetJobInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -22373,8 +22200,7 @@ public struct GetJobOutput: Swift.Sendable {
 
     public init(
         job: MediaConvertClientTypes.Job? = nil
-    )
-    {
+    ) {
         self.job = job
     }
 }
@@ -22386,8 +22212,7 @@ public struct GetJobTemplateInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -22398,8 +22223,7 @@ public struct GetJobTemplateOutput: Swift.Sendable {
 
     public init(
         jobTemplate: MediaConvertClientTypes.JobTemplate? = nil
-    )
-    {
+    ) {
         self.jobTemplate = jobTemplate
     }
 }
@@ -22454,8 +22278,7 @@ extension MediaConvertClientTypes {
             httpInputs: MediaConvertClientTypes.InputPolicy? = nil,
             httpsInputs: MediaConvertClientTypes.InputPolicy? = nil,
             s3Inputs: MediaConvertClientTypes.InputPolicy? = nil
-        )
-        {
+        ) {
             self.httpInputs = httpInputs
             self.httpsInputs = httpsInputs
             self.s3Inputs = s3Inputs
@@ -22469,8 +22292,7 @@ public struct GetPolicyOutput: Swift.Sendable {
 
     public init(
         policy: MediaConvertClientTypes.Policy? = nil
-    )
-    {
+    ) {
         self.policy = policy
     }
 }
@@ -22482,8 +22304,7 @@ public struct GetPresetInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -22494,8 +22315,7 @@ public struct GetPresetOutput: Swift.Sendable {
 
     public init(
         preset: MediaConvertClientTypes.Preset? = nil
-    )
-    {
+    ) {
         self.preset = preset
     }
 }
@@ -22507,8 +22327,7 @@ public struct GetQueueInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -22519,8 +22338,7 @@ public struct GetQueueOutput: Swift.Sendable {
 
     public init(
         queue: MediaConvertClientTypes.Queue? = nil
-    )
-    {
+    ) {
         self.queue = queue
     }
 }
@@ -22606,8 +22424,7 @@ public struct ListJobsInput: Swift.Sendable {
         order: MediaConvertClientTypes.Order? = nil,
         queue: Swift.String? = nil,
         status: MediaConvertClientTypes.JobStatus? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.order = order
@@ -22625,8 +22442,7 @@ public struct ListJobsOutput: Swift.Sendable {
     public init(
         jobs: [MediaConvertClientTypes.Job]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobs = jobs
         self.nextToken = nextToken
     }
@@ -22650,8 +22466,7 @@ public struct ListJobTemplatesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         order: MediaConvertClientTypes.Order? = nil
-    )
-    {
+    ) {
         self.category = category
         self.listBy = listBy
         self.maxResults = maxResults
@@ -22669,8 +22484,7 @@ public struct ListJobTemplatesOutput: Swift.Sendable {
     public init(
         jobTemplates: [MediaConvertClientTypes.JobTemplate]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobTemplates = jobTemplates
         self.nextToken = nextToken
     }
@@ -22727,8 +22541,7 @@ public struct ListPresetsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         order: MediaConvertClientTypes.Order? = nil
-    )
-    {
+    ) {
         self.category = category
         self.listBy = listBy
         self.maxResults = maxResults
@@ -22746,8 +22559,7 @@ public struct ListPresetsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         presets: [MediaConvertClientTypes.Preset]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.presets = presets
     }
@@ -22798,8 +22610,7 @@ public struct ListQueuesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         order: MediaConvertClientTypes.Order? = nil
-    )
-    {
+    ) {
         self.listBy = listBy
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -22822,8 +22633,7 @@ public struct ListQueuesOutput: Swift.Sendable {
         queues: [MediaConvertClientTypes.Queue]? = nil,
         totalConcurrentJobs: Swift.Int? = nil,
         unallocatedConcurrentJobs: Swift.Int? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.queues = queues
         self.totalConcurrentJobs = totalConcurrentJobs
@@ -22838,8 +22648,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -22856,8 +22665,7 @@ extension MediaConvertClientTypes {
         public init(
             arn: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.tags = tags
         }
@@ -22870,8 +22678,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         resourceTags: MediaConvertClientTypes.ResourceTags? = nil
-    )
-    {
+    ) {
         self.resourceTags = resourceTags
     }
 }
@@ -22885,8 +22692,7 @@ public struct ListVersionsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -22901,8 +22707,7 @@ public struct ListVersionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         versions: [MediaConvertClientTypes.JobEngineVersion]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.versions = versions
     }
@@ -22915,8 +22720,7 @@ public struct PutPolicyInput: Swift.Sendable {
 
     public init(
         policy: MediaConvertClientTypes.Policy? = nil
-    )
-    {
+    ) {
         self.policy = policy
     }
 }
@@ -22927,8 +22731,7 @@ public struct PutPolicyOutput: Swift.Sendable {
 
     public init(
         policy: MediaConvertClientTypes.Policy? = nil
-    )
-    {
+    ) {
         self.policy = policy
     }
 }
@@ -22954,8 +22757,7 @@ public struct SearchJobsInput: Swift.Sendable {
         order: MediaConvertClientTypes.Order? = nil,
         queue: Swift.String? = nil,
         status: MediaConvertClientTypes.JobStatus? = nil
-    )
-    {
+    ) {
         self.inputFile = inputFile
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -22974,8 +22776,7 @@ public struct SearchJobsOutput: Swift.Sendable {
     public init(
         jobs: [MediaConvertClientTypes.Job]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobs = jobs
         self.nextToken = nextToken
     }
@@ -22992,8 +22793,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.tags = tags
     }
@@ -23014,8 +22814,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.tagKeys = tagKeys
     }
@@ -23057,8 +22856,7 @@ public struct UpdateJobTemplateInput: Swift.Sendable {
         queue: Swift.String? = nil,
         settings: MediaConvertClientTypes.JobTemplateSettings? = nil,
         statusUpdateInterval: MediaConvertClientTypes.StatusUpdateInterval? = nil
-    )
-    {
+    ) {
         self.accelerationSettings = accelerationSettings
         self.category = category
         self.description = description
@@ -23077,8 +22875,7 @@ public struct UpdateJobTemplateOutput: Swift.Sendable {
 
     public init(
         jobTemplate: MediaConvertClientTypes.JobTemplate? = nil
-    )
-    {
+    ) {
         self.jobTemplate = jobTemplate
     }
 }
@@ -23099,8 +22896,7 @@ public struct UpdatePresetInput: Swift.Sendable {
         description: Swift.String? = nil,
         name: Swift.String? = nil,
         settings: MediaConvertClientTypes.PresetSettings? = nil
-    )
-    {
+    ) {
         self.category = category
         self.description = description
         self.name = name
@@ -23114,8 +22910,7 @@ public struct UpdatePresetOutput: Swift.Sendable {
 
     public init(
         preset: MediaConvertClientTypes.Preset? = nil
-    )
-    {
+    ) {
         self.preset = preset
     }
 }
@@ -23139,8 +22934,7 @@ public struct UpdateQueueInput: Swift.Sendable {
         name: Swift.String? = nil,
         reservationPlanSettings: MediaConvertClientTypes.ReservationPlanSettings? = nil,
         status: MediaConvertClientTypes.QueueStatus? = nil
-    )
-    {
+    ) {
         self.concurrentJobs = concurrentJobs
         self.description = description
         self.name = name
@@ -23155,8 +22949,7 @@ public struct UpdateQueueOutput: Swift.Sendable {
 
     public init(
         queue: MediaConvertClientTypes.Queue? = nil
-    )
-    {
+    ) {
         self.queue = queue
     }
 }
@@ -25968,6 +25761,7 @@ extension MediaConvertClientTypes.H264Settings {
         try writer["telecine"].write(value.telecine)
         try writer["temporalAdaptiveQuantization"].write(value.temporalAdaptiveQuantization)
         try writer["unregisteredSeiTimecode"].write(value.unregisteredSeiTimecode)
+        try writer["writeMp4PackagingType"].write(value.writeMp4PackagingType)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.H264Settings {
@@ -26017,6 +25811,7 @@ extension MediaConvertClientTypes.H264Settings {
         value.telecine = try reader["telecine"].readIfPresent()
         value.temporalAdaptiveQuantization = try reader["temporalAdaptiveQuantization"].readIfPresent()
         value.unregisteredSeiTimecode = try reader["unregisteredSeiTimecode"].readIfPresent()
+        value.writeMp4PackagingType = try reader["writeMp4PackagingType"].readIfPresent()
         return value
     }
 }

@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class IoTTwinMakerClient: ClientRuntime.Client {
     public static let clientName = "IoTTwinMakerClient"
-    public static let version = "1.0.69"
+    public static let version = "1.0.74"
     let client: ClientRuntime.SdkHttpClient
     let config: IoTTwinMakerClient.IoTTwinMakerClientConfiguration
     let serviceName = "IoTTwinMaker"
@@ -330,7 +330,7 @@ extension IoTTwinMakerClient {
 }
 
 extension IoTTwinMakerClient {
-    /// Performs the `BatchPutPropertyValues` operation on the `AWSIoTTwinMaker` service.
+    /// Performs the `BatchPutPropertyValues` operation on the `IoTTwinMaker` service.
     ///
     /// Sets values for multiple time series properties.
     ///
@@ -402,7 +402,7 @@ extension IoTTwinMakerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CancelMetadataTransferJob` operation on the `AWSIoTTwinMaker` service.
+    /// Performs the `CancelMetadataTransferJob` operation on the `IoTTwinMaker` service.
     ///
     /// Cancels the metadata transfer job.
     ///
@@ -473,7 +473,7 @@ extension IoTTwinMakerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateComponentType` operation on the `AWSIoTTwinMaker` service.
+    /// Performs the `CreateComponentType` operation on the `IoTTwinMaker` service.
     ///
     /// Creates a component type.
     ///
@@ -547,7 +547,7 @@ extension IoTTwinMakerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateEntity` operation on the `AWSIoTTwinMaker` service.
+    /// Performs the `CreateEntity` operation on the `IoTTwinMaker` service.
     ///
     /// Creates an entity.
     ///
@@ -621,7 +621,7 @@ extension IoTTwinMakerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateMetadataTransferJob` operation on the `AWSIoTTwinMaker` service.
+    /// Performs the `CreateMetadataTransferJob` operation on the `IoTTwinMaker` service.
     ///
     /// Creates a new metadata transfer job.
     ///
@@ -696,7 +696,7 @@ extension IoTTwinMakerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateScene` operation on the `AWSIoTTwinMaker` service.
+    /// Performs the `CreateScene` operation on the `IoTTwinMaker` service.
     ///
     /// Creates a scene.
     ///
@@ -770,7 +770,7 @@ extension IoTTwinMakerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateSyncJob` operation on the `AWSIoTTwinMaker` service.
+    /// Performs the `CreateSyncJob` operation on the `IoTTwinMaker` service.
     ///
     /// This action creates a SyncJob.
     ///
@@ -844,7 +844,7 @@ extension IoTTwinMakerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateWorkspace` operation on the `AWSIoTTwinMaker` service.
+    /// Performs the `CreateWorkspace` operation on the `IoTTwinMaker` service.
     ///
     /// Creates a workplace.
     ///
@@ -918,7 +918,7 @@ extension IoTTwinMakerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteComponentType` operation on the `AWSIoTTwinMaker` service.
+    /// Performs the `DeleteComponentType` operation on the `IoTTwinMaker` service.
     ///
     /// Deletes a component type.
     ///
@@ -988,7 +988,7 @@ extension IoTTwinMakerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteEntity` operation on the `AWSIoTTwinMaker` service.
+    /// Performs the `DeleteEntity` operation on the `IoTTwinMaker` service.
     ///
     /// Deletes an entity.
     ///
@@ -1059,7 +1059,7 @@ extension IoTTwinMakerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteScene` operation on the `AWSIoTTwinMaker` service.
+    /// Performs the `DeleteScene` operation on the `IoTTwinMaker` service.
     ///
     /// Deletes a scene.
     ///
@@ -1129,7 +1129,7 @@ extension IoTTwinMakerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteSyncJob` operation on the `AWSIoTTwinMaker` service.
+    /// Performs the `DeleteSyncJob` operation on the `IoTTwinMaker` service.
     ///
     /// Delete the SyncJob.
     ///
@@ -1200,7 +1200,7 @@ extension IoTTwinMakerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteWorkspace` operation on the `AWSIoTTwinMaker` service.
+    /// Performs the `DeleteWorkspace` operation on the `IoTTwinMaker` service.
     ///
     /// Deletes a workspace.
     ///
@@ -1270,7 +1270,7 @@ extension IoTTwinMakerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ExecuteQuery` operation on the `AWSIoTTwinMaker` service.
+    /// Performs the `ExecuteQuery` operation on the `IoTTwinMaker` service.
     ///
     /// Run queries to access information from your knowledge graph of entities within individual workspaces. The ExecuteQuery action only works with [Amazon Web Services Java SDK2](https://docs.aws.amazon.com/sdk-for-java/latest/developer-guide/home.html). ExecuteQuery will not work with any Amazon Web Services Java SDK version < 2.x.
     ///
@@ -1344,7 +1344,7 @@ extension IoTTwinMakerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetComponentType` operation on the `AWSIoTTwinMaker` service.
+    /// Performs the `GetComponentType` operation on the `IoTTwinMaker` service.
     ///
     /// Retrieves information about a component type.
     ///
@@ -1414,7 +1414,7 @@ extension IoTTwinMakerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetEntity` operation on the `AWSIoTTwinMaker` service.
+    /// Performs the `GetEntity` operation on the `IoTTwinMaker` service.
     ///
     /// Retrieves information about an entity.
     ///
@@ -1484,7 +1484,7 @@ extension IoTTwinMakerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetMetadataTransferJob` operation on the `AWSIoTTwinMaker` service.
+    /// Performs the `GetMetadataTransferJob` operation on the `IoTTwinMaker` service.
     ///
     /// Gets a nmetadata transfer job.
     ///
@@ -1554,7 +1554,7 @@ extension IoTTwinMakerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetPricingPlan` operation on the `AWSIoTTwinMaker` service.
+    /// Performs the `GetPricingPlan` operation on the `IoTTwinMaker` service.
     ///
     /// Gets the pricing plan.
     ///
@@ -1623,7 +1623,7 @@ extension IoTTwinMakerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetPropertyValue` operation on the `AWSIoTTwinMaker` service.
+    /// Performs the `GetPropertyValue` operation on the `IoTTwinMaker` service.
     ///
     /// Gets the property values for a component, component type, entity, or workspace. You must specify a value for either componentName, componentTypeId, entityId, or workspaceId.
     ///
@@ -1698,7 +1698,7 @@ extension IoTTwinMakerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetPropertyValueHistory` operation on the `AWSIoTTwinMaker` service.
+    /// Performs the `GetPropertyValueHistory` operation on the `IoTTwinMaker` service.
     ///
     /// Retrieves information about the history of a time series property value for a component, component type, entity, or workspace. You must specify a value for workspaceId. For entity-specific queries, specify values for componentName and entityId. For cross-entity quries, specify a value for componentTypeId.
     ///
@@ -1773,7 +1773,7 @@ extension IoTTwinMakerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetScene` operation on the `AWSIoTTwinMaker` service.
+    /// Performs the `GetScene` operation on the `IoTTwinMaker` service.
     ///
     /// Retrieves information about a scene.
     ///
@@ -1843,7 +1843,7 @@ extension IoTTwinMakerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetSyncJob` operation on the `AWSIoTTwinMaker` service.
+    /// Performs the `GetSyncJob` operation on the `IoTTwinMaker` service.
     ///
     /// Gets the SyncJob.
     ///
@@ -1915,7 +1915,7 @@ extension IoTTwinMakerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetWorkspace` operation on the `AWSIoTTwinMaker` service.
+    /// Performs the `GetWorkspace` operation on the `IoTTwinMaker` service.
     ///
     /// Retrieves information about a workspace.
     ///
@@ -1985,7 +1985,7 @@ extension IoTTwinMakerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListComponentTypes` operation on the `AWSIoTTwinMaker` service.
+    /// Performs the `ListComponentTypes` operation on the `IoTTwinMaker` service.
     ///
     /// Lists all component types in a workspace.
     ///
@@ -2057,7 +2057,7 @@ extension IoTTwinMakerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListComponents` operation on the `AWSIoTTwinMaker` service.
+    /// Performs the `ListComponents` operation on the `IoTTwinMaker` service.
     ///
     /// This API lists the components of an entity.
     ///
@@ -2130,7 +2130,7 @@ extension IoTTwinMakerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListEntities` operation on the `AWSIoTTwinMaker` service.
+    /// Performs the `ListEntities` operation on the `IoTTwinMaker` service.
     ///
     /// Lists all entities in a workspace.
     ///
@@ -2202,7 +2202,7 @@ extension IoTTwinMakerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListMetadataTransferJobs` operation on the `AWSIoTTwinMaker` service.
+    /// Performs the `ListMetadataTransferJobs` operation on the `IoTTwinMaker` service.
     ///
     /// Lists the metadata transfer jobs.
     ///
@@ -2274,7 +2274,7 @@ extension IoTTwinMakerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListProperties` operation on the `AWSIoTTwinMaker` service.
+    /// Performs the `ListProperties` operation on the `IoTTwinMaker` service.
     ///
     /// This API lists the properties of a component.
     ///
@@ -2347,7 +2347,7 @@ extension IoTTwinMakerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListScenes` operation on the `AWSIoTTwinMaker` service.
+    /// Performs the `ListScenes` operation on the `IoTTwinMaker` service.
     ///
     /// Lists all scenes in a workspace.
     ///
@@ -2419,7 +2419,7 @@ extension IoTTwinMakerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListSyncJobs` operation on the `AWSIoTTwinMaker` service.
+    /// Performs the `ListSyncJobs` operation on the `IoTTwinMaker` service.
     ///
     /// List all SyncJobs.
     ///
@@ -2492,7 +2492,7 @@ extension IoTTwinMakerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListSyncResources` operation on the `AWSIoTTwinMaker` service.
+    /// Performs the `ListSyncResources` operation on the `IoTTwinMaker` service.
     ///
     /// Lists the sync resources.
     ///
@@ -2565,7 +2565,7 @@ extension IoTTwinMakerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `AWSIoTTwinMaker` service.
+    /// Performs the `ListTagsForResource` operation on the `IoTTwinMaker` service.
     ///
     /// Lists all tags associated with a resource.
     ///
@@ -2635,7 +2635,7 @@ extension IoTTwinMakerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListWorkspaces` operation on the `AWSIoTTwinMaker` service.
+    /// Performs the `ListWorkspaces` operation on the `IoTTwinMaker` service.
     ///
     /// Retrieves information about workspaces in the current account.
     ///
@@ -2707,7 +2707,7 @@ extension IoTTwinMakerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `AWSIoTTwinMaker` service.
+    /// Performs the `TagResource` operation on the `IoTTwinMaker` service.
     ///
     /// Adds tags to a resource.
     ///
@@ -2778,7 +2778,7 @@ extension IoTTwinMakerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `AWSIoTTwinMaker` service.
+    /// Performs the `UntagResource` operation on the `IoTTwinMaker` service.
     ///
     /// Removes tags from a resource.
     ///
@@ -2846,7 +2846,7 @@ extension IoTTwinMakerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateComponentType` operation on the `AWSIoTTwinMaker` service.
+    /// Performs the `UpdateComponentType` operation on the `IoTTwinMaker` service.
     ///
     /// Updates information in a component type.
     ///
@@ -2920,7 +2920,7 @@ extension IoTTwinMakerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateEntity` operation on the `AWSIoTTwinMaker` service.
+    /// Performs the `UpdateEntity` operation on the `IoTTwinMaker` service.
     ///
     /// Updates an entity.
     ///
@@ -2995,7 +2995,7 @@ extension IoTTwinMakerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdatePricingPlan` operation on the `AWSIoTTwinMaker` service.
+    /// Performs the `UpdatePricingPlan` operation on the `IoTTwinMaker` service.
     ///
     /// Update the pricing plan.
     ///
@@ -3067,7 +3067,7 @@ extension IoTTwinMakerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateScene` operation on the `AWSIoTTwinMaker` service.
+    /// Performs the `UpdateScene` operation on the `IoTTwinMaker` service.
     ///
     /// Updates a scene.
     ///
@@ -3140,7 +3140,7 @@ extension IoTTwinMakerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateWorkspace` operation on the `AWSIoTTwinMaker` service.
+    /// Performs the `UpdateWorkspace` operation on the `IoTTwinMaker` service.
     ///
     /// Updates a workspace.
     ///

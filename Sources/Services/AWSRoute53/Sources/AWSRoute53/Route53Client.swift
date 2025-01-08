@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class Route53Client: ClientRuntime.Client {
     public static let clientName = "Route53Client"
-    public static let version = "1.0.69"
+    public static let version = "1.0.74"
     let client: ClientRuntime.SdkHttpClient
     let config: Route53Client.Route53ClientConfiguration
     let serviceName = "Route 53"
@@ -330,7 +330,7 @@ extension Route53Client {
 }
 
 extension Route53Client {
-    /// Performs the `ActivateKeySigningKey` operation on the `AWSDnsV20130401` service.
+    /// Performs the `ActivateKeySigningKey` operation on the `Route53` service.
     ///
     /// Activates a key-signing key (KSK) so that it can be used for signing by DNSSEC. This operation changes the KSK status to ACTIVE.
     ///
@@ -402,7 +402,7 @@ extension Route53Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssociateVPCWithHostedZone` operation on the `AWSDnsV20130401` service.
+    /// Performs the `AssociateVPCWithHostedZone` operation on the `Route53` service.
     ///
     /// Associates an Amazon VPC with a private hosted zone. To perform the association, the VPC and the private hosted zone must already exist. You can't convert a public hosted zone into a private hosted zone. If you want to associate a VPC that was created by using one Amazon Web Services account with a private hosted zone that was created by using a different account, the Amazon Web Services account that created the private hosted zone must first submit a CreateVPCAssociationAuthorization request. Then the account that created the VPC must submit an AssociateVPCWithHostedZone request. When granting access, the hosted zone and the Amazon VPC must belong to the same partition. A partition is a group of Amazon Web Services Regions. Each Amazon Web Services account is scoped to one partition. The following are the supported partitions:
     ///
@@ -494,7 +494,7 @@ extension Route53Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ChangeCidrCollection` operation on the `AWSDnsV20130401` service.
+    /// Performs the `ChangeCidrCollection` operation on the `Route53` service.
     ///
     /// Creates, changes, or deletes CIDR blocks within a collection. Contains authoritative IP information mapping blocks to one or multiple locations. A change request can update multiple locations in a collection at a time, which is helpful if you want to move one or more CIDR blocks from one location to another in one transaction, without downtime. Limits The max number of CIDR blocks included in the request is 1000. As a result, big updates require multiple API calls. PUT and DELETE_IF_EXISTS Use ChangeCidrCollection to perform the following actions:
     ///
@@ -572,7 +572,7 @@ extension Route53Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ChangeResourceRecordSets` operation on the `AWSDnsV20130401` service.
+    /// Performs the `ChangeResourceRecordSets` operation on the `Route53` service.
     ///
     /// Creates, changes, or deletes a resource record set, which contains authoritative DNS information for a specified domain name or subdomain name. For example, you can use ChangeResourceRecordSets to create a resource record set that routes traffic for test.example.com to a web server that has an IP address of 192.0.2.44. Deleting Resource Record Sets To delete a resource record set, you must specify all the same values that you specified when you created it. Change Batches and Transactional Changes The request body must include a document with a ChangeResourceRecordSetsRequest element. The request body contains a list of change items, known as a change batch. Change batches are considered transactional changes. Route 53 validates the changes in the request and then either makes all or none of the changes in the change batch request. This ensures that DNS routing isn't adversely affected by partial changes to the resource record sets in a hosted zone. For example, suppose a change batch request contains two changes: it deletes the CNAME resource record set for www.example.com and creates an alias resource record set for www.example.com. If validation for both records succeeds, Route 53 deletes the first resource record set and creates the second resource record set in a single operation. If validation for either the DELETE or the CREATE action fails, then the request is canceled, and the original CNAME record continues to exist. If you try to delete the same resource record set more than once in a single change batch, Route 53 returns an InvalidChangeBatch error. Traffic Flow To create resource record sets for complex routing configurations, use either the traffic flow visual editor in the Route 53 console or the API actions for traffic policies and traffic policy instances. Save the configuration as a traffic policy, then associate the traffic policy with one or more domain names (such as example.com) or subdomain names (such as www.example.com), in the same hosted zone or in multiple hosted zones. You can roll back the updates if the new configuration isn't performing as expected. For more information, see [Using Traffic Flow to Route DNS Traffic](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/traffic-flow.html) in the Amazon Route 53 Developer Guide. Create, Delete, and Upsert Use ChangeResourceRecordsSetsRequest to perform the following actions:
     ///
@@ -655,7 +655,7 @@ extension Route53Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ChangeTagsForResource` operation on the `AWSDnsV20130401` service.
+    /// Performs the `ChangeTagsForResource` operation on the `Route53` service.
     ///
     /// Adds, edits, or deletes tags for a health check or a hosted zone. For information about using tags for cost allocation, see [Using Cost Allocation Tags](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html) in the Billing and Cost Management User Guide.
     ///
@@ -728,7 +728,7 @@ extension Route53Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateCidrCollection` operation on the `AWSDnsV20130401` service.
+    /// Performs the `CreateCidrCollection` operation on the `Route53` service.
     ///
     /// Creates a CIDR collection in the current Amazon Web Services account.
     ///
@@ -800,7 +800,7 @@ extension Route53Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateHealthCheck` operation on the `AWSDnsV20130401` service.
+    /// Performs the `CreateHealthCheck` operation on the `Route53` service.
     ///
     /// Creates a new health check. For information about adding health checks to resource record sets, see [HealthCheckId](https://docs.aws.amazon.com/Route53/latest/APIReference/API_ResourceRecordSet.html#Route53-Type-ResourceRecordSet-HealthCheckId) in [ChangeResourceRecordSets](https://docs.aws.amazon.com/Route53/latest/APIReference/API_ChangeResourceRecordSets.html). ELB Load Balancers If you're registering EC2 instances with an Elastic Load Balancing (ELB) load balancer, do not create Amazon Route 53 health checks for the EC2 instances. When you register an EC2 instance with a load balancer, you configure settings for an ELB health check, which performs a similar function to a Route 53 health check. Private Hosted Zones You can associate health checks with failover resource record sets in a private hosted zone. Note the following:
     ///
@@ -881,7 +881,7 @@ extension Route53Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateHostedZone` operation on the `AWSDnsV20130401` service.
+    /// Performs the `CreateHostedZone` operation on the `Route53` service.
     ///
     /// Creates a new public or private hosted zone. You create records in a public hosted zone to define how you want to route traffic on the internet for a domain, such as example.com, and its subdomains (apex.example.com, acme.example.com). You create records in a private hosted zone to define how you want to route traffic for a domain and its subdomains within one or more Amazon Virtual Private Clouds (Amazon VPCs). You can't convert a public hosted zone to a private hosted zone or vice versa. Instead, you must create a new hosted zone with the same name and create new resource record sets. For more information about charges for hosted zones, see [Amazon Route 53 Pricing](http://aws.amazon.com/route53/pricing/). Note the following:
     ///
@@ -982,7 +982,7 @@ extension Route53Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateKeySigningKey` operation on the `AWSDnsV20130401` service.
+    /// Performs the `CreateKeySigningKey` operation on the `Route53` service.
     ///
     /// Creates a new key-signing key (KSK) associated with a hosted zone. You can only have two KSKs per hosted zone.
     ///
@@ -1060,7 +1060,7 @@ extension Route53Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateQueryLoggingConfig` operation on the `AWSDnsV20130401` service.
+    /// Performs the `CreateQueryLoggingConfig` operation on the `Route53` service.
     ///
     /// Creates a configuration for DNS query logging. After you create a query logging configuration, Amazon Route 53 begins to publish log data to an Amazon CloudWatch Logs log group. DNS query logs contain information about the queries that Route 53 receives for a specified public hosted zone, such as the following:
     ///
@@ -1185,7 +1185,7 @@ extension Route53Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateReusableDelegationSet` operation on the `AWSDnsV20130401` service.
+    /// Performs the `CreateReusableDelegationSet` operation on the `Route53` service.
     ///
     /// Creates a delegation set (a group of four name servers) that can be reused by multiple hosted zones that were created by the same Amazon Web Services account. You can also create a reusable delegation set that uses the four name servers that are associated with an existing hosted zone. Specify the hosted zone ID in the CreateReusableDelegationSet request. You can't associate a reusable delegation set with a private hosted zone. For information about using a reusable delegation set to configure white label name servers, see [Configuring White Label Name Servers](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/white-label-name-servers.html). The process for migrating existing hosted zones to use a reusable delegation set is comparable to the process for configuring white label name servers. You need to perform the following steps:
     ///
@@ -1281,7 +1281,7 @@ extension Route53Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateTrafficPolicy` operation on the `AWSDnsV20130401` service.
+    /// Performs the `CreateTrafficPolicy` operation on the `Route53` service.
     ///
     /// Creates a traffic policy, which you use to create multiple DNS resource record sets for one domain name (such as example.com) or one subdomain name (such as www.example.com).
     ///
@@ -1353,7 +1353,7 @@ extension Route53Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateTrafficPolicyInstance` operation on the `AWSDnsV20130401` service.
+    /// Performs the `CreateTrafficPolicyInstance` operation on the `Route53` service.
     ///
     /// Creates resource record sets in a specified hosted zone based on the settings in a specified traffic policy version. In addition, CreateTrafficPolicyInstance associates the resource record sets with a specified domain name (such as example.com) or subdomain name (such as www.example.com). Amazon Route 53 responds to DNS queries for the domain or subdomain name by using the resource record sets that CreateTrafficPolicyInstance created. After you submit an CreateTrafficPolicyInstance request, there's a brief delay while Amazon Route 53 creates the resource record sets that are specified in the traffic policy definition. Use GetTrafficPolicyInstance with the id of new traffic policy instance to confirm that the CreateTrafficPolicyInstance request completed successfully. For more information, see the State response element.
     ///
@@ -1426,7 +1426,7 @@ extension Route53Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateTrafficPolicyVersion` operation on the `AWSDnsV20130401` service.
+    /// Performs the `CreateTrafficPolicyVersion` operation on the `Route53` service.
     ///
     /// Creates a new version of an existing traffic policy. When you create a new version of a traffic policy, you specify the ID of the traffic policy that you want to update and a JSON-formatted document that describes the new version. You use traffic policies to create multiple DNS resource record sets for one domain name (such as example.com) or one subdomain name (such as www.example.com). You can create a maximum of 1000 versions of a traffic policy. If you reach the limit and need to create another version, you'll need to start a new traffic policy.
     ///
@@ -1499,7 +1499,7 @@ extension Route53Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateVPCAssociationAuthorization` operation on the `AWSDnsV20130401` service.
+    /// Performs the `CreateVPCAssociationAuthorization` operation on the `Route53` service.
     ///
     /// Authorizes the Amazon Web Services account that created a specified VPC to submit an AssociateVPCWithHostedZone request to associate the VPC with a specified hosted zone that was created by a different account. To submit a CreateVPCAssociationAuthorization request, you must use the account that created the hosted zone. After you authorize the association, use the account that created the VPC to submit an AssociateVPCWithHostedZone request. If you want to associate multiple VPCs that you created by using one account with a hosted zone that you created by using a different account, you must submit one authorization request for each VPC.
     ///
@@ -1573,7 +1573,7 @@ extension Route53Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeactivateKeySigningKey` operation on the `AWSDnsV20130401` service.
+    /// Performs the `DeactivateKeySigningKey` operation on the `Route53` service.
     ///
     /// Deactivates a key-signing key (KSK) so that it will not be used for signing by DNSSEC. This operation changes the KSK status to INACTIVE.
     ///
@@ -1646,7 +1646,7 @@ extension Route53Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteCidrCollection` operation on the `AWSDnsV20130401` service.
+    /// Performs the `DeleteCidrCollection` operation on the `Route53` service.
     ///
     /// Deletes a CIDR collection in the current Amazon Web Services account. The collection must be empty before it can be deleted.
     ///
@@ -1715,7 +1715,7 @@ extension Route53Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteHealthCheck` operation on the `AWSDnsV20130401` service.
+    /// Performs the `DeleteHealthCheck` operation on the `Route53` service.
     ///
     /// Deletes a health check. Amazon Route 53 does not prevent you from deleting a health check even if the health check is associated with one or more resource record sets. If you delete a health check and you don't update the associated resource record sets, the future status of the health check can't be predicted and may change. This will affect the routing of DNS queries for your DNS failover configuration. For more information, see [Replacing and Deleting Health Checks](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/health-checks-creating-deleting.html#health-checks-deleting.html) in the Amazon Route 53 Developer Guide. If you're using Cloud Map and you configured Cloud Map to create a Route 53 health check when you register an instance, you can't use the Route 53 DeleteHealthCheck command to delete the health check. The health check is deleted automatically when you deregister the instance; there can be a delay of several hours before the health check is deleted from Route 53.
     ///
@@ -1783,7 +1783,7 @@ extension Route53Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteHostedZone` operation on the `AWSDnsV20130401` service.
+    /// Performs the `DeleteHostedZone` operation on the `Route53` service.
     ///
     /// Deletes a hosted zone. If the hosted zone was created by another service, such as Cloud Map, see [Deleting Public Hosted Zones That Were Created by Another Service](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DeleteHostedZone.html#delete-public-hosted-zone-created-by-another-service) in the Amazon Route 53 Developer Guide for information about how to delete it. (The process is the same for public and private hosted zones that were created by another service.) If you want to keep your domain registration but you want to stop routing internet traffic to your website or web application, we recommend that you delete resource record sets in the hosted zone instead of deleting the hosted zone. If you delete a hosted zone, you can't undelete it. You must create a new hosted zone and update the name servers for your domain registration, which can require up to 48 hours to take effect. (If you delegated responsibility for a subdomain to a hosted zone and you delete the child hosted zone, you must update the name servers in the parent hosted zone.) In addition, if you delete a hosted zone, someone could hijack the domain and route traffic to their own resources using your domain name. If you want to avoid the monthly charge for the hosted zone, you can transfer DNS service for the domain to a free DNS service. When you transfer DNS service, you have to update the name servers for the domain registration. If the domain is registered with Route 53, see [UpdateDomainNameservers](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_UpdateDomainNameservers.html) for information about how to replace Route 53 name servers with name servers for the new DNS service. If the domain is registered with another registrar, use the method provided by the registrar to update name servers for the domain registration. For more information, perform an internet search on "free DNS service." You can delete a hosted zone only if it contains only the default SOA record and NS resource record sets. If the hosted zone contains other resource record sets, you must delete them before you can delete the hosted zone. If you try to delete a hosted zone that contains other resource record sets, the request fails, and Route 53 returns a HostedZoneNotEmpty error. For information about deleting records from your hosted zone, see [ChangeResourceRecordSets](https://docs.aws.amazon.com/Route53/latest/APIReference/API_ChangeResourceRecordSets.html). To verify that the hosted zone has been deleted, do one of the following:
     ///
@@ -1858,7 +1858,7 @@ extension Route53Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteKeySigningKey` operation on the `AWSDnsV20130401` service.
+    /// Performs the `DeleteKeySigningKey` operation on the `Route53` service.
     ///
     /// Deletes a key-signing key (KSK). Before you can delete a KSK, you must deactivate it. The KSK must be deactivated before you can delete it regardless of whether the hosted zone is enabled for DNSSEC signing. You can use [DeactivateKeySigningKey](https://docs.aws.amazon.com/Route53/latest/APIReference/API_DeactivateKeySigningKey.html) to deactivate the key before you delete it. Use [GetDNSSEC](https://docs.aws.amazon.com/Route53/latest/APIReference/API_GetDNSSEC.html) to verify that the KSK is in an INACTIVE status.
     ///
@@ -1930,7 +1930,7 @@ extension Route53Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteQueryLoggingConfig` operation on the `AWSDnsV20130401` service.
+    /// Performs the `DeleteQueryLoggingConfig` operation on the `Route53` service.
     ///
     /// Deletes a configuration for DNS query logging. If you delete a configuration, Amazon Route 53 stops sending query logs to CloudWatch Logs. Route 53 doesn't delete any logs that are already in CloudWatch Logs. For more information about DNS query logs, see [CreateQueryLoggingConfig](https://docs.aws.amazon.com/Route53/latest/APIReference/API_CreateQueryLoggingConfig.html).
     ///
@@ -1998,7 +1998,7 @@ extension Route53Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteReusableDelegationSet` operation on the `AWSDnsV20130401` service.
+    /// Performs the `DeleteReusableDelegationSet` operation on the `Route53` service.
     ///
     /// Deletes a reusable delegation set. You can delete a reusable delegation set only if it isn't associated with any hosted zones. To verify that the reusable delegation set is not associated with any hosted zones, submit a [GetReusableDelegationSet](https://docs.aws.amazon.com/Route53/latest/APIReference/API_GetReusableDelegationSet.html) request and specify the ID of the reusable delegation set that you want to delete.
     ///
@@ -2068,7 +2068,7 @@ extension Route53Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteTrafficPolicy` operation on the `AWSDnsV20130401` service.
+    /// Performs the `DeleteTrafficPolicy` operation on the `Route53` service.
     ///
     /// Deletes a traffic policy. When you delete a traffic policy, Route 53 sets a flag on the policy to indicate that it has been deleted. However, Route 53 never fully deletes the traffic policy. Note the following:
     ///
@@ -2143,7 +2143,7 @@ extension Route53Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteTrafficPolicyInstance` operation on the `AWSDnsV20130401` service.
+    /// Performs the `DeleteTrafficPolicyInstance` operation on the `Route53` service.
     ///
     /// Deletes a traffic policy instance and all of the resource record sets that Amazon Route 53 created when you created the instance. In the Route 53 console, traffic policy instances are known as policy records.
     ///
@@ -2211,7 +2211,7 @@ extension Route53Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteVPCAssociationAuthorization` operation on the `AWSDnsV20130401` service.
+    /// Performs the `DeleteVPCAssociationAuthorization` operation on the `Route53` service.
     ///
     /// Removes authorization to submit an AssociateVPCWithHostedZone request to associate a specified VPC with a hosted zone that was created by a different account. You must use the account that created the hosted zone to submit a DeleteVPCAssociationAuthorization request. Sending this request only prevents the Amazon Web Services account that created the VPC from associating the VPC with the Amazon Route 53 hosted zone in the future. If the VPC is already associated with the hosted zone, DeleteVPCAssociationAuthorization won't disassociate the VPC from the hosted zone. If you want to delete an existing association, use DisassociateVPCFromHostedZone.
     ///
@@ -2285,7 +2285,7 @@ extension Route53Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisableHostedZoneDNSSEC` operation on the `AWSDnsV20130401` service.
+    /// Performs the `DisableHostedZoneDNSSEC` operation on the `Route53` service.
     ///
     /// Disables DNSSEC signing in a specific hosted zone. This action does not deactivate any key-signing keys (KSKs) that are active in the hosted zone.
     ///
@@ -2359,7 +2359,7 @@ extension Route53Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateVPCFromHostedZone` operation on the `AWSDnsV20130401` service.
+    /// Performs the `DisassociateVPCFromHostedZone` operation on the `Route53` service.
     ///
     /// Disassociates an Amazon Virtual Private Cloud (Amazon VPC) from an Amazon Route 53 private hosted zone. Note the following:
     ///
@@ -2453,7 +2453,7 @@ extension Route53Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `EnableHostedZoneDNSSEC` operation on the `AWSDnsV20130401` service.
+    /// Performs the `EnableHostedZoneDNSSEC` operation on the `Route53` service.
     ///
     /// Enables DNSSEC signing in a specific hosted zone.
     ///
@@ -2528,7 +2528,7 @@ extension Route53Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAccountLimit` operation on the `AWSDnsV20130401` service.
+    /// Performs the `GetAccountLimit` operation on the `Route53` service.
     ///
     /// Gets the specified limit for the current account, for example, the maximum number of health checks that you can create using the account. For the default limit, see [Limits](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html) in the Amazon Route 53 Developer Guide. To request a higher limit, [open a case](https://console.aws.amazon.com/support/home#/case/create?issueType=service-limit-increase&limitType=service-code-route53). You can also view account limits in Amazon Web Services Trusted Advisor. Sign in to the Amazon Web Services Management Console and open the Trusted Advisor console at [https://console.aws.amazon.com/trustedadvisor/](https://console.aws.amazon.com/trustedadvisor). Then choose Service limits in the navigation pane.
     ///
@@ -2594,7 +2594,7 @@ extension Route53Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetChange` operation on the `AWSDnsV20130401` service.
+    /// Performs the `GetChange` operation on the `Route53` service.
     ///
     /// Returns the current status of a change batch request. The status is one of the following values:
     ///
@@ -2665,7 +2665,7 @@ extension Route53Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetCheckerIpRanges` operation on the `AWSDnsV20130401` service.
+    /// Performs the `GetCheckerIpRanges` operation on the `Route53` service.
     ///
     /// Route 53 does not perform authorization for this API because it retrieves information that is already available to the public. GetCheckerIpRanges still works, but we recommend that you download ip-ranges.json, which includes IP address ranges for all Amazon Web Services services. For more information, see [IP Address Ranges of Amazon Route 53 Servers](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/route-53-ip-addresses.html) in the Amazon Route 53 Developer Guide.
     ///
@@ -2726,7 +2726,7 @@ extension Route53Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDNSSEC` operation on the `AWSDnsV20130401` service.
+    /// Performs the `GetDNSSEC` operation on the `Route53` service.
     ///
     /// Returns information about DNSSEC for a specific hosted zone, including the key-signing keys (KSKs) in the hosted zone.
     ///
@@ -2795,7 +2795,7 @@ extension Route53Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetGeoLocation` operation on the `AWSDnsV20130401` service.
+    /// Performs the `GetGeoLocation` operation on the `Route53` service.
     ///
     /// Gets information about whether a specified geographic location is supported for Amazon Route 53 geolocation resource record sets. Route 53 does not perform authorization for this API because it retrieves information that is already available to the public. Use the following syntax to determine whether a continent is supported for geolocation: GET /2013-04-01/geolocation?continentcode=two-letter abbreviation for a continent  Use the following syntax to determine whether a country is supported for geolocation: GET /2013-04-01/geolocation?countrycode=two-character country code  Use the following syntax to determine whether a subdivision of a country is supported for geolocation: GET /2013-04-01/geolocation?countrycode=two-character country code&subdivisioncode=subdivision code
     ///
@@ -2863,7 +2863,7 @@ extension Route53Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetHealthCheck` operation on the `AWSDnsV20130401` service.
+    /// Performs the `GetHealthCheck` operation on the `Route53` service.
     ///
     /// Gets information about a specified health check.
     ///
@@ -2931,7 +2931,7 @@ extension Route53Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetHealthCheckCount` operation on the `AWSDnsV20130401` service.
+    /// Performs the `GetHealthCheckCount` operation on the `Route53` service.
     ///
     /// Retrieves the number of health checks that are associated with the current Amazon Web Services account.
     ///
@@ -2992,7 +2992,7 @@ extension Route53Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetHealthCheckLastFailureReason` operation on the `AWSDnsV20130401` service.
+    /// Performs the `GetHealthCheckLastFailureReason` operation on the `Route53` service.
     ///
     /// Gets the reason that a specified health check failed most recently.
     ///
@@ -3059,7 +3059,7 @@ extension Route53Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetHealthCheckStatus` operation on the `AWSDnsV20130401` service.
+    /// Performs the `GetHealthCheckStatus` operation on the `Route53` service.
     ///
     /// Gets status of a specified health check. This API is intended for use during development to diagnose behavior. It doesn’t support production use-cases with high query rates that require immediate and actionable responses.
     ///
@@ -3126,7 +3126,7 @@ extension Route53Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetHostedZone` operation on the `AWSDnsV20130401` service.
+    /// Performs the `GetHostedZone` operation on the `Route53` service.
     ///
     /// Gets information about a specified hosted zone including the four name servers assigned to the hosted zone.  returns the VPCs associated with the specified hosted zone and does not reflect the VPC associations by Route 53 Profiles. To get the associations to a Profile, call the [ListProfileAssociations](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53profiles_ListProfileAssociations.html) API.
     ///
@@ -3194,7 +3194,7 @@ extension Route53Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetHostedZoneCount` operation on the `AWSDnsV20130401` service.
+    /// Performs the `GetHostedZoneCount` operation on the `Route53` service.
     ///
     /// Retrieves the number of hosted zones that are associated with the current Amazon Web Services account.
     ///
@@ -3260,7 +3260,7 @@ extension Route53Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetHostedZoneLimit` operation on the `AWSDnsV20130401` service.
+    /// Performs the `GetHostedZoneLimit` operation on the `Route53` service.
     ///
     /// Gets the specified limit for a specified hosted zone, for example, the maximum number of records that you can create in the hosted zone. For the default limit, see [Limits](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html) in the Amazon Route 53 Developer Guide. To request a higher limit, [open a case](https://console.aws.amazon.com/support/home#/case/create?issueType=service-limit-increase&limitType=service-code-route53).
     ///
@@ -3329,7 +3329,7 @@ extension Route53Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetQueryLoggingConfig` operation on the `AWSDnsV20130401` service.
+    /// Performs the `GetQueryLoggingConfig` operation on the `Route53` service.
     ///
     /// Gets information about a specified configuration for DNS query logging. For more information about DNS query logs, see [CreateQueryLoggingConfig](https://docs.aws.amazon.com/Route53/latest/APIReference/API_CreateQueryLoggingConfig.html) and [Logging DNS Queries](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/query-logs.html).
     ///
@@ -3396,7 +3396,7 @@ extension Route53Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetReusableDelegationSet` operation on the `AWSDnsV20130401` service.
+    /// Performs the `GetReusableDelegationSet` operation on the `Route53` service.
     ///
     /// Retrieves information about a specified reusable delegation set, including the four name servers that are assigned to the delegation set.
     ///
@@ -3465,7 +3465,7 @@ extension Route53Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetReusableDelegationSetLimit` operation on the `AWSDnsV20130401` service.
+    /// Performs the `GetReusableDelegationSetLimit` operation on the `Route53` service.
     ///
     /// Gets the maximum number of hosted zones that you can associate with the specified reusable delegation set. For the default limit, see [Limits](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html) in the Amazon Route 53 Developer Guide. To request a higher limit, [open a case](https://console.aws.amazon.com/support/home#/case/create?issueType=service-limit-increase&limitType=service-code-route53).
     ///
@@ -3533,7 +3533,7 @@ extension Route53Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetTrafficPolicy` operation on the `AWSDnsV20130401` service.
+    /// Performs the `GetTrafficPolicy` operation on the `Route53` service.
     ///
     /// Gets information about a specific traffic policy version. For information about how of deleting a traffic policy affects the response from GetTrafficPolicy, see [DeleteTrafficPolicy](https://docs.aws.amazon.com/Route53/latest/APIReference/API_DeleteTrafficPolicy.html).
     ///
@@ -3600,7 +3600,7 @@ extension Route53Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetTrafficPolicyInstance` operation on the `AWSDnsV20130401` service.
+    /// Performs the `GetTrafficPolicyInstance` operation on the `Route53` service.
     ///
     /// Gets information about a specified traffic policy instance. Use GetTrafficPolicyInstance with the id of new traffic policy instance to confirm that the CreateTrafficPolicyInstance or an UpdateTrafficPolicyInstance request completed successfully. For more information, see the State response element. In the Route 53 console, traffic policy instances are known as policy records.
     ///
@@ -3667,7 +3667,7 @@ extension Route53Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetTrafficPolicyInstanceCount` operation on the `AWSDnsV20130401` service.
+    /// Performs the `GetTrafficPolicyInstanceCount` operation on the `Route53` service.
     ///
     /// Gets the number of traffic policy instances that are associated with the current Amazon Web Services account.
     ///
@@ -3728,7 +3728,7 @@ extension Route53Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListCidrBlocks` operation on the `AWSDnsV20130401` service.
+    /// Performs the `ListCidrBlocks` operation on the `Route53` service.
     ///
     /// Returns a paginated list of location objects and their CIDR blocks.
     ///
@@ -3797,7 +3797,7 @@ extension Route53Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListCidrCollections` operation on the `AWSDnsV20130401` service.
+    /// Performs the `ListCidrCollections` operation on the `Route53` service.
     ///
     /// Returns a paginated list of CIDR collections in the Amazon Web Services account (metadata only).
     ///
@@ -3864,7 +3864,7 @@ extension Route53Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListCidrLocations` operation on the `AWSDnsV20130401` service.
+    /// Performs the `ListCidrLocations` operation on the `Route53` service.
     ///
     /// Returns a paginated list of CIDR locations for the given collection (metadata only, does not include CIDR blocks).
     ///
@@ -3932,7 +3932,7 @@ extension Route53Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListGeoLocations` operation on the `AWSDnsV20130401` service.
+    /// Performs the `ListGeoLocations` operation on the `Route53` service.
     ///
     /// Retrieves a list of supported geographic locations. Countries are listed first, and continents are listed last. If Amazon Route 53 supports subdivisions for a country (for example, states or provinces), the subdivisions for that country are listed in alphabetical order immediately after the corresponding country. Route 53 does not perform authorization for this API because it retrieves information that is already available to the public. For a list of supported geolocation codes, see the [GeoLocation](https://docs.aws.amazon.com/Route53/latest/APIReference/API_GeoLocation.html) data type.
     ///
@@ -3999,7 +3999,7 @@ extension Route53Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListHealthChecks` operation on the `AWSDnsV20130401` service.
+    /// Performs the `ListHealthChecks` operation on the `Route53` service.
     ///
     /// Retrieve a list of the health checks that are associated with the current Amazon Web Services account.
     ///
@@ -4067,7 +4067,7 @@ extension Route53Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListHostedZones` operation on the `AWSDnsV20130401` service.
+    /// Performs the `ListHostedZones` operation on the `Route53` service.
     ///
     /// Retrieves a list of the public and private hosted zones that are associated with the current Amazon Web Services account. The response includes a HostedZones child element for each hosted zone. Amazon Route 53 returns a maximum of 100 items in each response. If you have a lot of hosted zones, you can use the maxitems parameter to list them in groups of up to 100.
     ///
@@ -4136,7 +4136,7 @@ extension Route53Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListHostedZonesByName` operation on the `AWSDnsV20130401` service.
+    /// Performs the `ListHostedZonesByName` operation on the `Route53` service.
     ///
     /// Retrieves a list of your hosted zones in lexicographic order. The response includes a HostedZones child element for each hosted zone created by the current Amazon Web Services account. ListHostedZonesByName sorts hosted zones by name with the labels reversed. For example: com.example.www. Note the trailing dot, which can change the sort order in some circumstances. If the domain name includes escape characters or Punycode, ListHostedZonesByName alphabetizes the domain name using the escaped or Punycoded value, which is the format that Amazon Route 53 saves in its database. For example, to create a hosted zone for exämple.com, you specify ex\344mple.com for the domain name. ListHostedZonesByName alphabetizes it as: com.ex\344mple. The labels are reversed and alphabetized using the escaped value. For more information about valid domain name formats, including internationalized domain names, see [DNS Domain Name Format](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DomainNameFormat.html) in the Amazon Route 53 Developer Guide. Route 53 returns up to 100 items in each response. If you have a lot of hosted zones, use the MaxItems parameter to list them in groups of up to 100. The response includes values that help navigate from one group of MaxItems hosted zones to the next:
     ///
@@ -4212,7 +4212,7 @@ extension Route53Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListHostedZonesByVPC` operation on the `AWSDnsV20130401` service.
+    /// Performs the `ListHostedZonesByVPC` operation on the `Route53` service.
     ///
     /// Lists all the private hosted zones that a specified VPC is associated with, regardless of which Amazon Web Services account or Amazon Web Services service owns the hosted zones. The HostedZoneOwner structure in the response contains one of the following values:
     ///
@@ -4296,7 +4296,7 @@ extension Route53Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListQueryLoggingConfigs` operation on the `AWSDnsV20130401` service.
+    /// Performs the `ListQueryLoggingConfigs` operation on the `Route53` service.
     ///
     /// Lists the configurations for DNS query logging that are associated with the current Amazon Web Services account or the configuration that is associated with a specified hosted zone. For more information about DNS query logs, see [CreateQueryLoggingConfig](https://docs.aws.amazon.com/Route53/latest/APIReference/API_CreateQueryLoggingConfig.html). Additional information, including the format of DNS query logs, appears in [Logging DNS Queries](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/query-logs.html) in the Amazon Route 53 Developer Guide.
     ///
@@ -4365,7 +4365,7 @@ extension Route53Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListResourceRecordSets` operation on the `AWSDnsV20130401` service.
+    /// Performs the `ListResourceRecordSets` operation on the `Route53` service.
     ///
     /// Lists the resource record sets in a specified hosted zone. ListResourceRecordSets returns up to 300 resource record sets at a time in ASCII order, beginning at a position specified by the name and type elements. Sort order ListResourceRecordSets sorts results first by DNS name with the labels reversed, for example: com.example.www. Note the trailing dot, which can change the sort order when the record name contains characters that appear before . (decimal 46) in the ASCII table. These characters include the following: ! " # $ % & ' ( ) * + , - When multiple records have the same DNS name, ListResourceRecordSets sorts results by the record type. Specifying where to start listing records You can use the name and type elements to specify the resource record set that the list begins with: If you do not specify Name or Type The results begin with the first resource record set that the hosted zone contains. If you specify Name but not Type The results begin with the first resource record set in the list whose name is greater than or equal to Name. If you specify Type but not Name Amazon Route 53 returns the InvalidInput error. If you specify both Name and Type The results begin with the first resource record set in the list whose name is greater than or equal to Name, and whose type is greater than or equal to Type. Resource record sets that are PENDING This action returns the most current version of the records. This includes records that are PENDING, and that are not yet available on all Route 53 DNS servers. Changing resource record sets To ensure that you get an accurate listing of the resource record sets for a hosted zone at a point in time, do not submit a ChangeResourceRecordSets request while you're paging through the results of a ListResourceRecordSets request. If you do, some pages may display results without the latest changes while other pages display results with the latest changes. Displaying the next page of results If a ListResourceRecordSets command returns more than one page of results, the value of IsTruncated is true. To display the next page of results, get the values of NextRecordName, NextRecordType, and NextRecordIdentifier (if any) from the response. Then submit another ListResourceRecordSets request, and specify those values for StartRecordName, StartRecordType, and StartRecordIdentifier.
     ///
@@ -4434,7 +4434,7 @@ extension Route53Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListReusableDelegationSets` operation on the `AWSDnsV20130401` service.
+    /// Performs the `ListReusableDelegationSets` operation on the `Route53` service.
     ///
     /// Retrieves a list of the reusable delegation sets that are associated with the current Amazon Web Services account.
     ///
@@ -4501,7 +4501,7 @@ extension Route53Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `AWSDnsV20130401` service.
+    /// Performs the `ListTagsForResource` operation on the `Route53` service.
     ///
     /// Lists tags for one health check or hosted zone. For information about using tags for cost allocation, see [Using Cost Allocation Tags](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html) in the Billing and Cost Management User Guide.
     ///
@@ -4571,7 +4571,7 @@ extension Route53Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResources` operation on the `AWSDnsV20130401` service.
+    /// Performs the `ListTagsForResources` operation on the `Route53` service.
     ///
     /// Lists tags for up to 10 health checks or hosted zones. For information about using tags for cost allocation, see [Using Cost Allocation Tags](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html) in the Billing and Cost Management User Guide.
     ///
@@ -4644,7 +4644,7 @@ extension Route53Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTrafficPolicies` operation on the `AWSDnsV20130401` service.
+    /// Performs the `ListTrafficPolicies` operation on the `Route53` service.
     ///
     /// Gets information about the latest version for every traffic policy that is associated with the current Amazon Web Services account. Policies are listed in the order that they were created in. For information about how of deleting a traffic policy affects the response from ListTrafficPolicies, see [DeleteTrafficPolicy](https://docs.aws.amazon.com/Route53/latest/APIReference/API_DeleteTrafficPolicy.html).
     ///
@@ -4711,7 +4711,7 @@ extension Route53Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTrafficPolicyInstances` operation on the `AWSDnsV20130401` service.
+    /// Performs the `ListTrafficPolicyInstances` operation on the `Route53` service.
     ///
     /// Gets information about the traffic policy instances that you created by using the current Amazon Web Services account. After you submit an UpdateTrafficPolicyInstance request, there's a brief delay while Amazon Route 53 creates the resource record sets that are specified in the traffic policy definition. For more information, see the State response element. Route 53 returns a maximum of 100 items in each response. If you have a lot of traffic policy instances, you can use the MaxItems parameter to list them in groups of up to 100.
     ///
@@ -4779,7 +4779,7 @@ extension Route53Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTrafficPolicyInstancesByHostedZone` operation on the `AWSDnsV20130401` service.
+    /// Performs the `ListTrafficPolicyInstancesByHostedZone` operation on the `Route53` service.
     ///
     /// Gets information about the traffic policy instances that you created in a specified hosted zone. After you submit a CreateTrafficPolicyInstance or an UpdateTrafficPolicyInstance request, there's a brief delay while Amazon Route 53 creates the resource record sets that are specified in the traffic policy definition. For more information, see the State response element. Route 53 returns a maximum of 100 items in each response. If you have a lot of traffic policy instances, you can use the MaxItems parameter to list them in groups of up to 100.
     ///
@@ -4848,7 +4848,7 @@ extension Route53Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTrafficPolicyInstancesByPolicy` operation on the `AWSDnsV20130401` service.
+    /// Performs the `ListTrafficPolicyInstancesByPolicy` operation on the `Route53` service.
     ///
     /// Gets information about the traffic policy instances that you created by using a specify traffic policy version. After you submit a CreateTrafficPolicyInstance or an UpdateTrafficPolicyInstance request, there's a brief delay while Amazon Route 53 creates the resource record sets that are specified in the traffic policy definition. For more information, see the State response element. Route 53 returns a maximum of 100 items in each response. If you have a lot of traffic policy instances, you can use the MaxItems parameter to list them in groups of up to 100.
     ///
@@ -4917,7 +4917,7 @@ extension Route53Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTrafficPolicyVersions` operation on the `AWSDnsV20130401` service.
+    /// Performs the `ListTrafficPolicyVersions` operation on the `Route53` service.
     ///
     /// Gets information about all of the versions for a specified traffic policy. Traffic policy versions are listed in numerical order by VersionNumber.
     ///
@@ -4985,7 +4985,7 @@ extension Route53Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListVPCAssociationAuthorizations` operation on the `AWSDnsV20130401` service.
+    /// Performs the `ListVPCAssociationAuthorizations` operation on the `Route53` service.
     ///
     /// Gets a list of the VPCs that were created by other accounts and that can be associated with a specified hosted zone because you've submitted one or more CreateVPCAssociationAuthorization requests. The response includes a VPCs element with a VPC child element for each VPC that can be associated with the hosted zone.
     ///
@@ -5055,7 +5055,7 @@ extension Route53Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TestDNSAnswer` operation on the `AWSDnsV20130401` service.
+    /// Performs the `TestDNSAnswer` operation on the `Route53` service.
     ///
     /// Gets the value that Amazon Route 53 returns in response to a DNS request for a specified record name and type. You can optionally specify the IP address of a DNS resolver, an EDNS0 client subnet IP address, and a subnet mask. This call only supports querying public hosted zones. The TestDnsAnswer  returns information similar to what you would expect from the answer section of the dig command. Therefore, if you query for the name servers of a subdomain that point to the parent name servers, those will not be returned.
     ///
@@ -5123,7 +5123,7 @@ extension Route53Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateHealthCheck` operation on the `AWSDnsV20130401` service.
+    /// Performs the `UpdateHealthCheck` operation on the `Route53` service.
     ///
     /// Updates an existing health check. Note that some values can't be updated. For more information about updating health checks, see [Creating, Updating, and Deleting Health Checks](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/health-checks-creating-deleting.html) in the Amazon Route 53 Developer Guide.
     ///
@@ -5194,7 +5194,7 @@ extension Route53Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateHostedZoneComment` operation on the `AWSDnsV20130401` service.
+    /// Performs the `UpdateHostedZoneComment` operation on the `Route53` service.
     ///
     /// Updates the comment for a specified hosted zone.
     ///
@@ -5266,7 +5266,7 @@ extension Route53Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateTrafficPolicyComment` operation on the `AWSDnsV20130401` service.
+    /// Performs the `UpdateTrafficPolicyComment` operation on the `Route53` service.
     ///
     /// Updates the comment for a specified traffic policy version.
     ///
@@ -5337,7 +5337,7 @@ extension Route53Client {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateTrafficPolicyInstance` operation on the `AWSDnsV20130401` service.
+    /// Performs the `UpdateTrafficPolicyInstance` operation on the `Route53` service.
     ///
     /// After you submit a UpdateTrafficPolicyInstance request, there's a brief delay while Route 53 creates the resource record sets that are specified in the traffic policy definition. Use GetTrafficPolicyInstance with the id of updated traffic policy instance confirm that the UpdateTrafficPolicyInstance request completed successfully. For more information, see the State response element. Updates the resource record sets in a specified hosted zone that were created based on the settings in a specified traffic policy version. When you update a traffic policy instance, Amazon Route 53 continues to respond to DNS queries for the root resource record set name (such as example.com) while it replaces one group of resource record sets with another. Route 53 performs the following operations:
     ///

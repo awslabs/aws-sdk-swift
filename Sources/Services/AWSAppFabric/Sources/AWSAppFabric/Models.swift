@@ -46,8 +46,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -62,8 +61,7 @@ extension AppFabricClientTypes {
 
         public init(
             apiKey: Swift.String? = nil
-        )
-        {
+        ) {
             self.apiKey = apiKey
         }
     }
@@ -181,8 +179,7 @@ extension AppFabricClientTypes {
         public init(
             tenantDisplayName: Swift.String? = nil,
             tenantIdentifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.tenantDisplayName = tenantDisplayName
             self.tenantIdentifier = tenantIdentifier
         }
@@ -241,8 +238,7 @@ extension AppFabricClientTypes {
             status: AppFabricClientTypes.AppAuthorizationStatus? = nil,
             tenant: AppFabricClientTypes.Tenant? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.app = app
             self.appAuthorizationArn = appAuthorizationArn
             self.appBundleArn = appBundleArn
@@ -295,8 +291,7 @@ extension AppFabricClientTypes {
             status: AppFabricClientTypes.AppAuthorizationStatus? = nil,
             tenant: AppFabricClientTypes.Tenant? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.app = app
             self.appAuthorizationArn = appAuthorizationArn
             self.appBundleArn = appBundleArn
@@ -320,8 +315,7 @@ extension AppFabricClientTypes {
         public init(
             arn: Swift.String? = nil,
             customerManagedKeyArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.customerManagedKeyArn = customerManagedKeyArn
         }
@@ -338,8 +332,7 @@ extension AppFabricClientTypes {
 
         public init(
             arn: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
         }
     }
@@ -355,8 +348,7 @@ extension AppFabricClientTypes {
 
         public init(
             streamName: Swift.String? = nil
-        )
-        {
+        ) {
             self.streamName = streamName
         }
     }
@@ -375,8 +367,7 @@ extension AppFabricClientTypes {
         public init(
             bucketName: Swift.String? = nil,
             `prefix`: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucketName = bucketName
             self.`prefix` = `prefix`
         }
@@ -405,8 +396,7 @@ extension AppFabricClientTypes {
 
         public init(
             destination: AppFabricClientTypes.Destination? = nil
-        )
-        {
+        ) {
             self.destination = destination
         }
     }
@@ -484,8 +474,7 @@ extension AppFabricClientTypes {
         public init(
             format: AppFabricClientTypes.Format? = nil,
             schema: AppFabricClientTypes.Schema? = nil
-        )
-        {
+        ) {
             self.format = format
             self.schema = schema
         }
@@ -506,8 +495,7 @@ extension AppFabricClientTypes {
         public init(
             code: Swift.String? = nil,
             redirectUri: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.redirectUri = redirectUri
         }
@@ -541,8 +529,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public init(
         message: Swift.String? = nil,
         retryAfterSeconds: Swift.Int? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.retryAfterSeconds = retryAfterSeconds
     }
@@ -575,8 +562,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -611,8 +597,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
         quotaCode: Swift.String? = nil,
         retryAfterSeconds: Swift.Int? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.quotaCode = quotaCode
         self.properties.retryAfterSeconds = retryAfterSeconds
@@ -634,8 +619,7 @@ extension AppFabricClientTypes {
         public init(
             message: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
             self.name = name
         }
@@ -703,8 +687,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
         fieldList: [AppFabricClientTypes.ValidationExceptionField]? = nil,
         message: Swift.String? = nil,
         reason: AppFabricClientTypes.ValidationExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.fieldList = fieldList
         self.properties.message = message
         self.properties.reason = reason
@@ -722,8 +705,7 @@ public struct BatchGetUserAccessTasksInput: Swift.Sendable {
     public init(
         appBundleIdentifier: Swift.String? = nil,
         taskIdList: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.appBundleIdentifier = appBundleIdentifier
         self.taskIdList = taskIdList
     }
@@ -776,8 +758,7 @@ extension AppFabricClientTypes {
         public init(
             errorCode: Swift.String? = nil,
             errorMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
         }
@@ -834,8 +815,7 @@ extension AppFabricClientTypes {
             userId: Swift.String? = nil,
             userLastName: Swift.String? = nil,
             userStatus: Swift.String? = nil
-        )
-        {
+        ) {
             self.app = app
             self.email = email
             self.resultStatus = resultStatus
@@ -863,8 +843,7 @@ public struct BatchGetUserAccessTasksOutput: Swift.Sendable {
 
     public init(
         userAccessResultsList: [AppFabricClientTypes.UserAccessResultItem]? = nil
-    )
-    {
+    ) {
         self.userAccessResultsList = userAccessResultsList
     }
 }
@@ -896,8 +875,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -918,8 +896,7 @@ public struct ConnectAppAuthorizationInput: Swift.Sendable {
         appAuthorizationIdentifier: Swift.String? = nil,
         appBundleIdentifier: Swift.String? = nil,
         authRequest: AppFabricClientTypes.AuthRequest? = nil
-    )
-    {
+    ) {
         self.appAuthorizationIdentifier = appAuthorizationIdentifier
         self.appBundleIdentifier = appBundleIdentifier
         self.authRequest = authRequest
@@ -933,8 +910,7 @@ public struct ConnectAppAuthorizationOutput: Swift.Sendable {
 
     public init(
         appAuthorizationSummary: AppFabricClientTypes.AppAuthorizationSummary? = nil
-    )
-    {
+    ) {
         self.appAuthorizationSummary = appAuthorizationSummary
     }
 }
@@ -974,8 +950,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.quotaCode = quotaCode
         self.properties.resourceId = resourceId
@@ -998,8 +973,7 @@ extension AppFabricClientTypes {
         public init(
             clientId: Swift.String? = nil,
             clientSecret: Swift.String? = nil
-        )
-        {
+        ) {
             self.clientId = clientId
             self.clientSecret = clientSecret
         }
@@ -1037,8 +1011,7 @@ extension AppFabricClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -1098,8 +1071,7 @@ public struct CreateAppAuthorizationInput: Swift.Sendable {
         credential: AppFabricClientTypes.Credential? = nil,
         tags: [AppFabricClientTypes.Tag]? = nil,
         tenant: AppFabricClientTypes.Tenant? = nil
-    )
-    {
+    ) {
         self.app = app
         self.appBundleIdentifier = appBundleIdentifier
         self.authType = authType
@@ -1117,8 +1089,7 @@ public struct CreateAppAuthorizationOutput: Swift.Sendable {
 
     public init(
         appAuthorization: AppFabricClientTypes.AppAuthorization? = nil
-    )
-    {
+    ) {
         self.appAuthorization = appAuthorization
     }
 }
@@ -1135,8 +1106,7 @@ public struct CreateAppBundleInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         customerManagedKeyIdentifier: Swift.String? = nil,
         tags: [AppFabricClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.customerManagedKeyIdentifier = customerManagedKeyIdentifier
         self.tags = tags
@@ -1150,8 +1120,7 @@ public struct CreateAppBundleOutput: Swift.Sendable {
 
     public init(
         appBundle: AppFabricClientTypes.AppBundle? = nil
-    )
-    {
+    ) {
         self.appBundle = appBundle
     }
 }
@@ -1231,8 +1200,7 @@ public struct CreateIngestionInput: Swift.Sendable {
         ingestionType: AppFabricClientTypes.IngestionType? = nil,
         tags: [AppFabricClientTypes.Tag]? = nil,
         tenantId: Swift.String? = nil
-    )
-    {
+    ) {
         self.app = app
         self.appBundleIdentifier = appBundleIdentifier
         self.clientToken = clientToken
@@ -1309,8 +1277,7 @@ extension AppFabricClientTypes {
             state: AppFabricClientTypes.IngestionState? = nil,
             tenantId: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.app = app
             self.appBundleArn = appBundleArn
             self.arn = arn
@@ -1330,8 +1297,7 @@ public struct CreateIngestionOutput: Swift.Sendable {
 
     public init(
         ingestion: AppFabricClientTypes.Ingestion? = nil
-    )
-    {
+    ) {
         self.ingestion = ingestion
     }
 }
@@ -1381,8 +1347,7 @@ public struct CreateIngestionDestinationInput: Swift.Sendable {
         ingestionIdentifier: Swift.String? = nil,
         processingConfiguration: AppFabricClientTypes.ProcessingConfiguration? = nil,
         tags: [AppFabricClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.appBundleIdentifier = appBundleIdentifier
         self.clientToken = clientToken
         self.destinationConfiguration = destinationConfiguration
@@ -1459,8 +1424,7 @@ extension AppFabricClientTypes {
             status: AppFabricClientTypes.IngestionDestinationStatus? = nil,
             statusReason: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.destinationConfiguration = destinationConfiguration
@@ -1480,8 +1444,7 @@ public struct CreateIngestionDestinationOutput: Swift.Sendable {
 
     public init(
         ingestionDestination: AppFabricClientTypes.IngestionDestination? = nil
-    )
-    {
+    ) {
         self.ingestionDestination = ingestionDestination
     }
 }
@@ -1497,8 +1460,7 @@ public struct DeleteAppAuthorizationInput: Swift.Sendable {
     public init(
         appAuthorizationIdentifier: Swift.String? = nil,
         appBundleIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.appAuthorizationIdentifier = appAuthorizationIdentifier
         self.appBundleIdentifier = appBundleIdentifier
     }
@@ -1516,8 +1478,7 @@ public struct DeleteAppBundleInput: Swift.Sendable {
 
     public init(
         appBundleIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.appBundleIdentifier = appBundleIdentifier
     }
 }
@@ -1538,8 +1499,7 @@ public struct DeleteIngestionInput: Swift.Sendable {
     public init(
         appBundleIdentifier: Swift.String? = nil,
         ingestionIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.appBundleIdentifier = appBundleIdentifier
         self.ingestionIdentifier = ingestionIdentifier
     }
@@ -1565,8 +1525,7 @@ public struct DeleteIngestionDestinationInput: Swift.Sendable {
         appBundleIdentifier: Swift.String? = nil,
         ingestionDestinationIdentifier: Swift.String? = nil,
         ingestionIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.appBundleIdentifier = appBundleIdentifier
         self.ingestionDestinationIdentifier = ingestionDestinationIdentifier
         self.ingestionIdentifier = ingestionIdentifier
@@ -1589,8 +1548,7 @@ public struct GetAppAuthorizationInput: Swift.Sendable {
     public init(
         appAuthorizationIdentifier: Swift.String? = nil,
         appBundleIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.appAuthorizationIdentifier = appAuthorizationIdentifier
         self.appBundleIdentifier = appBundleIdentifier
     }
@@ -1603,8 +1561,7 @@ public struct GetAppAuthorizationOutput: Swift.Sendable {
 
     public init(
         appAuthorization: AppFabricClientTypes.AppAuthorization? = nil
-    )
-    {
+    ) {
         self.appAuthorization = appAuthorization
     }
 }
@@ -1616,8 +1573,7 @@ public struct GetAppBundleInput: Swift.Sendable {
 
     public init(
         appBundleIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.appBundleIdentifier = appBundleIdentifier
     }
 }
@@ -1629,8 +1585,7 @@ public struct GetAppBundleOutput: Swift.Sendable {
 
     public init(
         appBundle: AppFabricClientTypes.AppBundle? = nil
-    )
-    {
+    ) {
         self.appBundle = appBundle
     }
 }
@@ -1646,8 +1601,7 @@ public struct GetIngestionInput: Swift.Sendable {
     public init(
         appBundleIdentifier: Swift.String? = nil,
         ingestionIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.appBundleIdentifier = appBundleIdentifier
         self.ingestionIdentifier = ingestionIdentifier
     }
@@ -1660,8 +1614,7 @@ public struct GetIngestionOutput: Swift.Sendable {
 
     public init(
         ingestion: AppFabricClientTypes.Ingestion? = nil
-    )
-    {
+    ) {
         self.ingestion = ingestion
     }
 }
@@ -1681,8 +1634,7 @@ public struct GetIngestionDestinationInput: Swift.Sendable {
         appBundleIdentifier: Swift.String? = nil,
         ingestionDestinationIdentifier: Swift.String? = nil,
         ingestionIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.appBundleIdentifier = appBundleIdentifier
         self.ingestionDestinationIdentifier = ingestionDestinationIdentifier
         self.ingestionIdentifier = ingestionIdentifier
@@ -1696,8 +1648,7 @@ public struct GetIngestionDestinationOutput: Swift.Sendable {
 
     public init(
         ingestionDestination: AppFabricClientTypes.IngestionDestination? = nil
-    )
-    {
+    ) {
         self.ingestionDestination = ingestionDestination
     }
 }
@@ -1715,8 +1666,7 @@ public struct ListAppAuthorizationsInput: Swift.Sendable {
         appBundleIdentifier: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.appBundleIdentifier = appBundleIdentifier
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1733,8 +1683,7 @@ public struct ListAppAuthorizationsOutput: Swift.Sendable {
     public init(
         appAuthorizationSummaryList: [AppFabricClientTypes.AppAuthorizationSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.appAuthorizationSummaryList = appAuthorizationSummaryList
         self.nextToken = nextToken
     }
@@ -1749,8 +1698,7 @@ public struct ListAppBundlesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -1766,8 +1714,7 @@ public struct ListAppBundlesOutput: Swift.Sendable {
     public init(
         appBundleSummaryList: [AppFabricClientTypes.AppBundleSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.appBundleSummaryList = appBundleSummaryList
         self.nextToken = nextToken
     }
@@ -1790,8 +1737,7 @@ public struct ListIngestionDestinationsInput: Swift.Sendable {
         ingestionIdentifier: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.appBundleIdentifier = appBundleIdentifier
         self.ingestionIdentifier = ingestionIdentifier
         self.maxResults = maxResults
@@ -1809,8 +1755,7 @@ extension AppFabricClientTypes {
 
         public init(
             arn: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
         }
     }
@@ -1826,8 +1771,7 @@ public struct ListIngestionDestinationsOutput: Swift.Sendable {
     public init(
         ingestionDestinations: [AppFabricClientTypes.IngestionDestinationSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.ingestionDestinations = ingestionDestinations
         self.nextToken = nextToken
     }
@@ -1846,8 +1790,7 @@ public struct ListIngestionsInput: Swift.Sendable {
         appBundleIdentifier: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.appBundleIdentifier = appBundleIdentifier
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1876,8 +1819,7 @@ extension AppFabricClientTypes {
             arn: Swift.String? = nil,
             state: AppFabricClientTypes.IngestionState? = nil,
             tenantId: Swift.String? = nil
-        )
-        {
+        ) {
             self.app = app
             self.arn = arn
             self.state = state
@@ -1896,8 +1838,7 @@ public struct ListIngestionsOutput: Swift.Sendable {
     public init(
         ingestions: [AppFabricClientTypes.IngestionSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.ingestions = ingestions
         self.nextToken = nextToken
     }
@@ -1910,8 +1851,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -1922,8 +1862,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [AppFabricClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -1939,8 +1878,7 @@ public struct StartIngestionInput: Swift.Sendable {
     public init(
         appBundleIdentifier: Swift.String? = nil,
         ingestionIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.appBundleIdentifier = appBundleIdentifier
         self.ingestionIdentifier = ingestionIdentifier
     }
@@ -1962,8 +1900,7 @@ public struct StartUserAccessTasksInput: Swift.Sendable {
     public init(
         appBundleIdentifier: Swift.String? = nil,
         email: Swift.String? = nil
-    )
-    {
+    ) {
         self.appBundleIdentifier = appBundleIdentifier
         self.email = email
     }
@@ -1994,8 +1931,7 @@ extension AppFabricClientTypes {
             error: AppFabricClientTypes.TaskError? = nil,
             taskId: Swift.String? = nil,
             tenantId: Swift.String? = nil
-        )
-        {
+        ) {
             self.app = app
             self.error = error
             self.taskId = taskId
@@ -2010,8 +1946,7 @@ public struct StartUserAccessTasksOutput: Swift.Sendable {
 
     public init(
         userAccessTasksList: [AppFabricClientTypes.UserAccessTaskItem]? = nil
-    )
-    {
+    ) {
         self.userAccessTasksList = userAccessTasksList
     }
 }
@@ -2027,8 +1962,7 @@ public struct StopIngestionInput: Swift.Sendable {
     public init(
         appBundleIdentifier: Swift.String? = nil,
         ingestionIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.appBundleIdentifier = appBundleIdentifier
         self.ingestionIdentifier = ingestionIdentifier
     }
@@ -2050,8 +1984,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [AppFabricClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -2073,8 +2006,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -2102,8 +2034,7 @@ public struct UpdateAppAuthorizationInput: Swift.Sendable {
         appBundleIdentifier: Swift.String? = nil,
         credential: AppFabricClientTypes.Credential? = nil,
         tenant: AppFabricClientTypes.Tenant? = nil
-    )
-    {
+    ) {
         self.appAuthorizationIdentifier = appAuthorizationIdentifier
         self.appBundleIdentifier = appBundleIdentifier
         self.credential = credential
@@ -2118,8 +2049,7 @@ public struct UpdateAppAuthorizationOutput: Swift.Sendable {
 
     public init(
         appAuthorization: AppFabricClientTypes.AppAuthorization? = nil
-    )
-    {
+    ) {
         self.appAuthorization = appAuthorization
     }
 }
@@ -2143,8 +2073,7 @@ public struct UpdateIngestionDestinationInput: Swift.Sendable {
         destinationConfiguration: AppFabricClientTypes.DestinationConfiguration? = nil,
         ingestionDestinationIdentifier: Swift.String? = nil,
         ingestionIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.appBundleIdentifier = appBundleIdentifier
         self.destinationConfiguration = destinationConfiguration
         self.ingestionDestinationIdentifier = ingestionDestinationIdentifier
@@ -2159,8 +2088,7 @@ public struct UpdateIngestionDestinationOutput: Swift.Sendable {
 
     public init(
         ingestionDestination: AppFabricClientTypes.IngestionDestination? = nil
-    )
-    {
+    ) {
         self.ingestionDestination = ingestionDestination
     }
 }

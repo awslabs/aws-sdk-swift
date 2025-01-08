@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class EntityResolutionClient: ClientRuntime.Client {
     public static let clientName = "EntityResolutionClient"
-    public static let version = "1.0.69"
+    public static let version = "1.0.74"
     let client: ClientRuntime.SdkHttpClient
     let config: EntityResolutionClient.EntityResolutionClientConfiguration
     let serviceName = "EntityResolution"
@@ -332,7 +332,7 @@ extension EntityResolutionClient {
 }
 
 extension EntityResolutionClient {
-    /// Performs the `AddPolicyStatement` operation on the `AWSVeniceService` service.
+    /// Performs the `AddPolicyStatement` operation on the `EntityResolution` service.
     ///
     /// Adds a policy statement object. To retrieve a list of existing policy statements, use the GetPolicy API.
     ///
@@ -406,7 +406,7 @@ extension EntityResolutionClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchDeleteUniqueId` operation on the `AWSVeniceService` service.
+    /// Performs the `BatchDeleteUniqueId` operation on the `EntityResolution` service.
     ///
     /// Deletes multiple unique IDs in a matching workflow.
     ///
@@ -475,7 +475,7 @@ extension EntityResolutionClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateIdMappingWorkflow` operation on the `AWSVeniceService` service.
+    /// Performs the `CreateIdMappingWorkflow` operation on the `EntityResolution` service.
     ///
     /// Creates an IdMappingWorkflow object which stores the configuration of the data processing job to be run. Each IdMappingWorkflow must have a unique workflow name. To modify an existing workflow, use the UpdateIdMappingWorkflow API.
     ///
@@ -549,7 +549,7 @@ extension EntityResolutionClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateIdNamespace` operation on the `AWSVeniceService` service.
+    /// Performs the `CreateIdNamespace` operation on the `EntityResolution` service.
     ///
     /// Creates an ID namespace object which will help customers provide metadata explaining their dataset and how to use it. Each ID namespace must have a unique name. To modify an existing ID namespace, use the UpdateIdNamespace API.
     ///
@@ -623,7 +623,7 @@ extension EntityResolutionClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateMatchingWorkflow` operation on the `AWSVeniceService` service.
+    /// Performs the `CreateMatchingWorkflow` operation on the `EntityResolution` service.
     ///
     /// Creates a MatchingWorkflow object which stores the configuration of the data processing job to be run. It is important to note that there should not be a pre-existing MatchingWorkflow with the same name. To modify an existing workflow, utilize the UpdateMatchingWorkflow API.
     ///
@@ -697,7 +697,7 @@ extension EntityResolutionClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateSchemaMapping` operation on the `AWSVeniceService` service.
+    /// Performs the `CreateSchemaMapping` operation on the `EntityResolution` service.
     ///
     /// Creates a schema mapping, which defines the schema of the input customer records table. The SchemaMapping also provides Entity Resolution with some metadata about the table, such as the attribute types of the columns and which columns to match on.
     ///
@@ -771,7 +771,7 @@ extension EntityResolutionClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteIdMappingWorkflow` operation on the `AWSVeniceService` service.
+    /// Performs the `DeleteIdMappingWorkflow` operation on the `EntityResolution` service.
     ///
     /// Deletes the IdMappingWorkflow with a given name. This operation will succeed even if a workflow with the given name does not exist.
     ///
@@ -841,7 +841,7 @@ extension EntityResolutionClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteIdNamespace` operation on the `AWSVeniceService` service.
+    /// Performs the `DeleteIdNamespace` operation on the `EntityResolution` service.
     ///
     /// Deletes the IdNamespace with a given name.
     ///
@@ -910,7 +910,7 @@ extension EntityResolutionClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteMatchingWorkflow` operation on the `AWSVeniceService` service.
+    /// Performs the `DeleteMatchingWorkflow` operation on the `EntityResolution` service.
     ///
     /// Deletes the MatchingWorkflow with a given name. This operation will succeed even if a workflow with the given name does not exist.
     ///
@@ -980,7 +980,7 @@ extension EntityResolutionClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeletePolicyStatement` operation on the `AWSVeniceService` service.
+    /// Performs the `DeletePolicyStatement` operation on the `EntityResolution` service.
     ///
     /// Deletes the policy statement.
     ///
@@ -1051,7 +1051,7 @@ extension EntityResolutionClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteSchemaMapping` operation on the `AWSVeniceService` service.
+    /// Performs the `DeleteSchemaMapping` operation on the `EntityResolution` service.
     ///
     /// Deletes the SchemaMapping with a given name. This operation will succeed even if a schema with the given name does not exist. This operation will fail if there is a MatchingWorkflow object that references the SchemaMapping in the workflow's InputSourceConfig.
     ///
@@ -1121,7 +1121,7 @@ extension EntityResolutionClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetIdMappingJob` operation on the `AWSVeniceService` service.
+    /// Performs the `GetIdMappingJob` operation on the `EntityResolution` service.
     ///
     /// Gets the status, metrics, and errors (if there are any) that are associated with a job.
     ///
@@ -1191,7 +1191,7 @@ extension EntityResolutionClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetIdMappingWorkflow` operation on the `AWSVeniceService` service.
+    /// Performs the `GetIdMappingWorkflow` operation on the `EntityResolution` service.
     ///
     /// Returns the IdMappingWorkflow with a given name, if it exists.
     ///
@@ -1261,7 +1261,7 @@ extension EntityResolutionClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetIdNamespace` operation on the `AWSVeniceService` service.
+    /// Performs the `GetIdNamespace` operation on the `EntityResolution` service.
     ///
     /// Returns the IdNamespace with a given name, if it exists.
     ///
@@ -1331,7 +1331,7 @@ extension EntityResolutionClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetMatchId` operation on the `AWSVeniceService` service.
+    /// Performs the `GetMatchId` operation on the `EntityResolution` service.
     ///
     /// Returns the corresponding Match ID of a customer record if the record has been processed.
     ///
@@ -1404,7 +1404,7 @@ extension EntityResolutionClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetMatchingJob` operation on the `AWSVeniceService` service.
+    /// Performs the `GetMatchingJob` operation on the `EntityResolution` service.
     ///
     /// Gets the status, metrics, and errors (if there are any) that are associated with a job.
     ///
@@ -1474,7 +1474,7 @@ extension EntityResolutionClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetMatchingWorkflow` operation on the `AWSVeniceService` service.
+    /// Performs the `GetMatchingWorkflow` operation on the `EntityResolution` service.
     ///
     /// Returns the MatchingWorkflow with a given name, if it exists.
     ///
@@ -1544,7 +1544,7 @@ extension EntityResolutionClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetPolicy` operation on the `AWSVeniceService` service.
+    /// Performs the `GetPolicy` operation on the `EntityResolution` service.
     ///
     /// Returns the resource-based policy.
     ///
@@ -1614,7 +1614,7 @@ extension EntityResolutionClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetProviderService` operation on the `AWSVeniceService` service.
+    /// Performs the `GetProviderService` operation on the `EntityResolution` service.
     ///
     /// Returns the ProviderService of a given name.
     ///
@@ -1684,7 +1684,7 @@ extension EntityResolutionClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetSchemaMapping` operation on the `AWSVeniceService` service.
+    /// Performs the `GetSchemaMapping` operation on the `EntityResolution` service.
     ///
     /// Returns the SchemaMapping of a given name.
     ///
@@ -1754,7 +1754,7 @@ extension EntityResolutionClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListIdMappingJobs` operation on the `AWSVeniceService` service.
+    /// Performs the `ListIdMappingJobs` operation on the `EntityResolution` service.
     ///
     /// Lists all ID mapping jobs for a given workflow.
     ///
@@ -1825,7 +1825,7 @@ extension EntityResolutionClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListIdMappingWorkflows` operation on the `AWSVeniceService` service.
+    /// Performs the `ListIdMappingWorkflows` operation on the `EntityResolution` service.
     ///
     /// Returns a list of all the IdMappingWorkflows that have been created for an Amazon Web Services account.
     ///
@@ -1895,7 +1895,7 @@ extension EntityResolutionClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListIdNamespaces` operation on the `AWSVeniceService` service.
+    /// Performs the `ListIdNamespaces` operation on the `EntityResolution` service.
     ///
     /// Returns a list of all ID namespaces.
     ///
@@ -1965,7 +1965,7 @@ extension EntityResolutionClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListMatchingJobs` operation on the `AWSVeniceService` service.
+    /// Performs the `ListMatchingJobs` operation on the `EntityResolution` service.
     ///
     /// Lists all jobs for a given workflow.
     ///
@@ -2036,7 +2036,7 @@ extension EntityResolutionClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListMatchingWorkflows` operation on the `AWSVeniceService` service.
+    /// Performs the `ListMatchingWorkflows` operation on the `EntityResolution` service.
     ///
     /// Returns a list of all the MatchingWorkflows that have been created for an Amazon Web Services account.
     ///
@@ -2106,7 +2106,7 @@ extension EntityResolutionClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListProviderServices` operation on the `AWSVeniceService` service.
+    /// Performs the `ListProviderServices` operation on the `EntityResolution` service.
     ///
     /// Returns a list of all the ProviderServices that are available in this Amazon Web Services Region.
     ///
@@ -2176,7 +2176,7 @@ extension EntityResolutionClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListSchemaMappings` operation on the `AWSVeniceService` service.
+    /// Performs the `ListSchemaMappings` operation on the `EntityResolution` service.
     ///
     /// Returns a list of all the SchemaMappings that have been created for an Amazon Web Services account.
     ///
@@ -2246,7 +2246,7 @@ extension EntityResolutionClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `AWSVeniceService` service.
+    /// Performs the `ListTagsForResource` operation on the `EntityResolution` service.
     ///
     /// Displays the tags associated with an Entity Resolution resource. In Entity Resolution, SchemaMapping, and MatchingWorkflow can be tagged.
     ///
@@ -2314,7 +2314,7 @@ extension EntityResolutionClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutPolicy` operation on the `AWSVeniceService` service.
+    /// Performs the `PutPolicy` operation on the `EntityResolution` service.
     ///
     /// Updates the resource-based policy.
     ///
@@ -2388,7 +2388,7 @@ extension EntityResolutionClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartIdMappingJob` operation on the `AWSVeniceService` service.
+    /// Performs the `StartIdMappingJob` operation on the `EntityResolution` service.
     ///
     /// Starts the IdMappingJob of a workflow. The workflow must have previously been created using the CreateIdMappingWorkflow endpoint.
     ///
@@ -2463,7 +2463,7 @@ extension EntityResolutionClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartMatchingJob` operation on the `AWSVeniceService` service.
+    /// Performs the `StartMatchingJob` operation on the `EntityResolution` service.
     ///
     /// Starts the MatchingJob of a workflow. The workflow must have previously been created using the CreateMatchingWorkflow endpoint.
     ///
@@ -2535,7 +2535,7 @@ extension EntityResolutionClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `AWSVeniceService` service.
+    /// Performs the `TagResource` operation on the `EntityResolution` service.
     ///
     /// Assigns one or more tags (key-value pairs) to the specified Entity Resolution resource. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. In Entity Resolution, SchemaMapping and MatchingWorkflow can be tagged. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can use the TagResource action with a resource that already has tags. If you specify a new tag key, this tag is appended to the list of tags associated with the resource. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag.
     ///
@@ -2606,7 +2606,7 @@ extension EntityResolutionClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `AWSVeniceService` service.
+    /// Performs the `UntagResource` operation on the `EntityResolution` service.
     ///
     /// Removes one or more tags from the specified Entity Resolution resource. In Entity Resolution, SchemaMapping, and MatchingWorkflow can be tagged.
     ///
@@ -2674,7 +2674,7 @@ extension EntityResolutionClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateIdMappingWorkflow` operation on the `AWSVeniceService` service.
+    /// Performs the `UpdateIdMappingWorkflow` operation on the `EntityResolution` service.
     ///
     /// Updates an existing IdMappingWorkflow. This method is identical to CreateIdMappingWorkflow, except it uses an HTTP PUT request instead of a POST request, and the IdMappingWorkflow must already exist for the method to succeed.
     ///
@@ -2747,7 +2747,7 @@ extension EntityResolutionClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateIdNamespace` operation on the `AWSVeniceService` service.
+    /// Performs the `UpdateIdNamespace` operation on the `EntityResolution` service.
     ///
     /// Updates an existing ID namespace.
     ///
@@ -2820,7 +2820,7 @@ extension EntityResolutionClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateMatchingWorkflow` operation on the `AWSVeniceService` service.
+    /// Performs the `UpdateMatchingWorkflow` operation on the `EntityResolution` service.
     ///
     /// Updates an existing MatchingWorkflow. This method is identical to CreateMatchingWorkflow, except it uses an HTTP PUT request instead of a POST request, and the MatchingWorkflow must already exist for the method to succeed.
     ///
@@ -2893,7 +2893,7 @@ extension EntityResolutionClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateSchemaMapping` operation on the `AWSVeniceService` service.
+    /// Performs the `UpdateSchemaMapping` operation on the `EntityResolution` service.
     ///
     /// Updates a schema mapping. A schema is immutable if it is being used by a workflow. Therefore, you can't update a schema mapping if it's associated with a workflow.
     ///

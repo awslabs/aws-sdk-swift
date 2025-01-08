@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class LicenseManagerClient: ClientRuntime.Client {
     public static let clientName = "LicenseManagerClient"
-    public static let version = "1.0.69"
+    public static let version = "1.0.74"
     let client: ClientRuntime.SdkHttpClient
     let config: LicenseManagerClient.LicenseManagerClientConfiguration
     let serviceName = "License Manager"
@@ -330,7 +330,7 @@ extension LicenseManagerClient {
 }
 
 extension LicenseManagerClient {
-    /// Performs the `AcceptGrant` operation on the `AWSLicenseManager` service.
+    /// Performs the `AcceptGrant` operation on the `LicenseManager` service.
     ///
     /// Accepts the specified grant.
     ///
@@ -406,7 +406,7 @@ extension LicenseManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CheckInLicense` operation on the `AWSLicenseManager` service.
+    /// Performs the `CheckInLicense` operation on the `LicenseManager` service.
     ///
     /// Checks in the specified license. Check in a license when it is no longer in use.
     ///
@@ -483,7 +483,7 @@ extension LicenseManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CheckoutBorrowLicense` operation on the `AWSLicenseManager` service.
+    /// Performs the `CheckoutBorrowLicense` operation on the `LicenseManager` service.
     ///
     /// Checks out the specified license for offline use.
     ///
@@ -563,7 +563,7 @@ extension LicenseManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CheckoutLicense` operation on the `AWSLicenseManager` service.
+    /// Performs the `CheckoutLicense` operation on the `LicenseManager` service.
     ///
     /// Checks out the specified license. If the account that created the license is the same that is performing the check out, you must specify the account as the beneficiary.
     ///
@@ -642,7 +642,7 @@ extension LicenseManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateGrant` operation on the `AWSLicenseManager` service.
+    /// Performs the `CreateGrant` operation on the `LicenseManager` service.
     ///
     /// Creates a grant for the specified license. A grant shares the use of license entitlements with a specific Amazon Web Services account, an organization, or an organizational unit (OU). For more information, see [Granted licenses in License Manager](https://docs.aws.amazon.com/license-manager/latest/userguide/granted-licenses.html) in the License Manager User Guide.
     ///
@@ -718,7 +718,7 @@ extension LicenseManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateGrantVersion` operation on the `AWSLicenseManager` service.
+    /// Performs the `CreateGrantVersion` operation on the `LicenseManager` service.
     ///
     /// Creates a new version of the specified grant. For more information, see [Granted licenses in License Manager](https://docs.aws.amazon.com/license-manager/latest/userguide/granted-licenses.html) in the License Manager User Guide.
     ///
@@ -794,7 +794,7 @@ extension LicenseManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateLicense` operation on the `AWSLicenseManager` service.
+    /// Performs the `CreateLicense` operation on the `LicenseManager` service.
     ///
     /// Creates a license.
     ///
@@ -870,7 +870,7 @@ extension LicenseManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateLicenseConfiguration` operation on the `AWSLicenseManager` service.
+    /// Performs the `CreateLicenseConfiguration` operation on the `LicenseManager` service.
     ///
     /// Creates a license configuration. A license configuration is an abstraction of a customer license agreement that can be consumed and enforced by License Manager. Components include specifications for the license type (licensing by instance, socket, CPU, or vCPU), allowed tenancy (shared tenancy, Dedicated Instance, Dedicated Host, or all of these), license affinity to host (how long a license must be associated with a host), and the number of licenses purchased and used.
     ///
@@ -945,7 +945,7 @@ extension LicenseManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateLicenseConversionTaskForResource` operation on the `AWSLicenseManager` service.
+    /// Performs the `CreateLicenseConversionTaskForResource` operation on the `LicenseManager` service.
     ///
     /// Creates a new license conversion task.
     ///
@@ -1020,7 +1020,7 @@ extension LicenseManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateLicenseManagerReportGenerator` operation on the `AWSLicenseManager` service.
+    /// Performs the `CreateLicenseManagerReportGenerator` operation on the `LicenseManager` service.
     ///
     /// Creates a report generator.
     ///
@@ -1097,7 +1097,7 @@ extension LicenseManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateLicenseVersion` operation on the `AWSLicenseManager` service.
+    /// Performs the `CreateLicenseVersion` operation on the `LicenseManager` service.
     ///
     /// Creates a new version of the specified license.
     ///
@@ -1174,7 +1174,7 @@ extension LicenseManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateToken` operation on the `AWSLicenseManager` service.
+    /// Performs the `CreateToken` operation on the `LicenseManager` service.
     ///
     /// Creates a long-lived token. A refresh token is a JWT token used to get an access token. With an access token, you can call AssumeRoleWithWebIdentity to get role credentials that you can use to call License Manager to manage the specified license.
     ///
@@ -1251,7 +1251,7 @@ extension LicenseManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteGrant` operation on the `AWSLicenseManager` service.
+    /// Performs the `DeleteGrant` operation on the `LicenseManager` service.
     ///
     /// Deletes the specified grant.
     ///
@@ -1327,7 +1327,7 @@ extension LicenseManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteLicense` operation on the `AWSLicenseManager` service.
+    /// Performs the `DeleteLicense` operation on the `LicenseManager` service.
     ///
     /// Deletes the specified license.
     ///
@@ -1404,7 +1404,7 @@ extension LicenseManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteLicenseConfiguration` operation on the `AWSLicenseManager` service.
+    /// Performs the `DeleteLicenseConfiguration` operation on the `LicenseManager` service.
     ///
     /// Deletes the specified license configuration. You cannot delete a license configuration that is in use.
     ///
@@ -1478,7 +1478,7 @@ extension LicenseManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteLicenseManagerReportGenerator` operation on the `AWSLicenseManager` service.
+    /// Performs the `DeleteLicenseManagerReportGenerator` operation on the `LicenseManager` service.
     ///
     /// Deletes the specified report generator. This action deletes the report generator, which stops it from generating future reports. The action cannot be reversed. It has no effect on the previous reports from this generator.
     ///
@@ -1555,7 +1555,7 @@ extension LicenseManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteToken` operation on the `AWSLicenseManager` service.
+    /// Performs the `DeleteToken` operation on the `LicenseManager` service.
     ///
     /// Deletes the specified token. Must be called in the license home Region.
     ///
@@ -1631,7 +1631,7 @@ extension LicenseManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ExtendLicenseConsumption` operation on the `AWSLicenseManager` service.
+    /// Performs the `ExtendLicenseConsumption` operation on the `LicenseManager` service.
     ///
     /// Extends the expiration date for license consumption.
     ///
@@ -1707,7 +1707,7 @@ extension LicenseManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAccessToken` operation on the `AWSLicenseManager` service.
+    /// Performs the `GetAccessToken` operation on the `LicenseManager` service.
     ///
     /// Gets a temporary access token to use with AssumeRoleWithWebIdentity. Access tokens are valid for one hour.
     ///
@@ -1781,7 +1781,7 @@ extension LicenseManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetGrant` operation on the `AWSLicenseManager` service.
+    /// Performs the `GetGrant` operation on the `LicenseManager` service.
     ///
     /// Gets detailed information about the specified grant.
     ///
@@ -1857,7 +1857,7 @@ extension LicenseManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetLicense` operation on the `AWSLicenseManager` service.
+    /// Performs the `GetLicense` operation on the `LicenseManager` service.
     ///
     /// Gets detailed information about the specified license.
     ///
@@ -1932,7 +1932,7 @@ extension LicenseManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetLicenseConfiguration` operation on the `AWSLicenseManager` service.
+    /// Performs the `GetLicenseConfiguration` operation on the `LicenseManager` service.
     ///
     /// Gets detailed information about the specified license configuration.
     ///
@@ -2006,7 +2006,7 @@ extension LicenseManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetLicenseConversionTask` operation on the `AWSLicenseManager` service.
+    /// Performs the `GetLicenseConversionTask` operation on the `LicenseManager` service.
     ///
     /// Gets information about the specified license type conversion task.
     ///
@@ -2080,7 +2080,7 @@ extension LicenseManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetLicenseManagerReportGenerator` operation on the `AWSLicenseManager` service.
+    /// Performs the `GetLicenseManagerReportGenerator` operation on the `LicenseManager` service.
     ///
     /// Gets information about the specified report generator.
     ///
@@ -2157,7 +2157,7 @@ extension LicenseManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetLicenseUsage` operation on the `AWSLicenseManager` service.
+    /// Performs the `GetLicenseUsage` operation on the `LicenseManager` service.
     ///
     /// Gets detailed information about the usage of the specified license.
     ///
@@ -2232,7 +2232,7 @@ extension LicenseManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetServiceSettings` operation on the `AWSLicenseManager` service.
+    /// Performs the `GetServiceSettings` operation on the `LicenseManager` service.
     ///
     /// Gets the License Manager settings for the current Region.
     ///
@@ -2305,7 +2305,7 @@ extension LicenseManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAssociationsForLicenseConfiguration` operation on the `AWSLicenseManager` service.
+    /// Performs the `ListAssociationsForLicenseConfiguration` operation on the `LicenseManager` service.
     ///
     /// Lists the resource associations for the specified license configuration. Resource associations need not consume licenses from a license configuration. For example, an AMI or a stopped instance might not consume a license (depending on the license rules).
     ///
@@ -2380,7 +2380,7 @@ extension LicenseManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDistributedGrants` operation on the `AWSLicenseManager` service.
+    /// Performs the `ListDistributedGrants` operation on the `LicenseManager` service.
     ///
     /// Lists the grants distributed for the specified license.
     ///
@@ -2456,7 +2456,7 @@ extension LicenseManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListFailuresForLicenseConfigurationOperations` operation on the `AWSLicenseManager` service.
+    /// Performs the `ListFailuresForLicenseConfigurationOperations` operation on the `LicenseManager` service.
     ///
     /// Lists the license configuration operations that failed.
     ///
@@ -2530,7 +2530,7 @@ extension LicenseManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListLicenseConfigurations` operation on the `AWSLicenseManager` service.
+    /// Performs the `ListLicenseConfigurations` operation on the `LicenseManager` service.
     ///
     /// Lists the license configurations for your account.
     ///
@@ -2605,7 +2605,7 @@ extension LicenseManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListLicenseConversionTasks` operation on the `AWSLicenseManager` service.
+    /// Performs the `ListLicenseConversionTasks` operation on the `LicenseManager` service.
     ///
     /// Lists the license type conversion tasks for your account.
     ///
@@ -2679,7 +2679,7 @@ extension LicenseManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListLicenseManagerReportGenerators` operation on the `AWSLicenseManager` service.
+    /// Performs the `ListLicenseManagerReportGenerators` operation on the `LicenseManager` service.
     ///
     /// Lists the report generators for your account.
     ///
@@ -2756,7 +2756,7 @@ extension LicenseManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListLicenseSpecificationsForResource` operation on the `AWSLicenseManager` service.
+    /// Performs the `ListLicenseSpecificationsForResource` operation on the `LicenseManager` service.
     ///
     /// Describes the license configurations for the specified resource.
     ///
@@ -2830,7 +2830,7 @@ extension LicenseManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListLicenseVersions` operation on the `AWSLicenseManager` service.
+    /// Performs the `ListLicenseVersions` operation on the `LicenseManager` service.
     ///
     /// Lists all versions of the specified license.
     ///
@@ -2904,7 +2904,7 @@ extension LicenseManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListLicenses` operation on the `AWSLicenseManager` service.
+    /// Performs the `ListLicenses` operation on the `LicenseManager` service.
     ///
     /// Lists the licenses for your account.
     ///
@@ -2979,7 +2979,7 @@ extension LicenseManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListReceivedGrants` operation on the `AWSLicenseManager` service.
+    /// Performs the `ListReceivedGrants` operation on the `LicenseManager` service.
     ///
     /// Lists grants that are received. Received grants are grants created while specifying the recipient as this Amazon Web Services account, your organization, or an organizational unit (OU) to which this member account belongs.
     ///
@@ -3055,7 +3055,7 @@ extension LicenseManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListReceivedGrantsForOrganization` operation on the `AWSLicenseManager` service.
+    /// Performs the `ListReceivedGrantsForOrganization` operation on the `LicenseManager` service.
     ///
     /// Lists the grants received for all accounts in the organization.
     ///
@@ -3131,7 +3131,7 @@ extension LicenseManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListReceivedLicenses` operation on the `AWSLicenseManager` service.
+    /// Performs the `ListReceivedLicenses` operation on the `LicenseManager` service.
     ///
     /// Lists received licenses.
     ///
@@ -3207,7 +3207,7 @@ extension LicenseManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListReceivedLicensesForOrganization` operation on the `AWSLicenseManager` service.
+    /// Performs the `ListReceivedLicensesForOrganization` operation on the `LicenseManager` service.
     ///
     /// Lists the licenses received for all accounts in the organization.
     ///
@@ -3283,7 +3283,7 @@ extension LicenseManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListResourceInventory` operation on the `AWSLicenseManager` service.
+    /// Performs the `ListResourceInventory` operation on the `LicenseManager` service.
     ///
     /// Lists resources managed using Systems Manager inventory.
     ///
@@ -3359,7 +3359,7 @@ extension LicenseManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `AWSLicenseManager` service.
+    /// Performs the `ListTagsForResource` operation on the `LicenseManager` service.
     ///
     /// Lists the tags for the specified license configuration.
     ///
@@ -3433,7 +3433,7 @@ extension LicenseManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTokens` operation on the `AWSLicenseManager` service.
+    /// Performs the `ListTokens` operation on the `LicenseManager` service.
     ///
     /// Lists your tokens.
     ///
@@ -3507,7 +3507,7 @@ extension LicenseManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListUsageForLicenseConfiguration` operation on the `AWSLicenseManager` service.
+    /// Performs the `ListUsageForLicenseConfiguration` operation on the `LicenseManager` service.
     ///
     /// Lists all license usage records for a license configuration, displaying license consumption details by resource at a selected point in time. Use this action to audit the current license consumption for any license inventory and configuration.
     ///
@@ -3582,7 +3582,7 @@ extension LicenseManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RejectGrant` operation on the `AWSLicenseManager` service.
+    /// Performs the `RejectGrant` operation on the `LicenseManager` service.
     ///
     /// Rejects the specified grant.
     ///
@@ -3658,7 +3658,7 @@ extension LicenseManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `AWSLicenseManager` service.
+    /// Performs the `TagResource` operation on the `LicenseManager` service.
     ///
     /// Adds the specified tags to the specified license configuration.
     ///
@@ -3732,7 +3732,7 @@ extension LicenseManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `AWSLicenseManager` service.
+    /// Performs the `UntagResource` operation on the `LicenseManager` service.
     ///
     /// Removes the specified tags from the specified license configuration.
     ///
@@ -3806,7 +3806,7 @@ extension LicenseManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateLicenseConfiguration` operation on the `AWSLicenseManager` service.
+    /// Performs the `UpdateLicenseConfiguration` operation on the `LicenseManager` service.
     ///
     /// Modifies the attributes of an existing license configuration.
     ///
@@ -3881,7 +3881,7 @@ extension LicenseManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateLicenseManagerReportGenerator` operation on the `AWSLicenseManager` service.
+    /// Performs the `UpdateLicenseManagerReportGenerator` operation on the `LicenseManager` service.
     ///
     /// Updates a report generator. After you make changes to a report generator, it starts generating new reports within 60 minutes of being updated.
     ///
@@ -3958,7 +3958,7 @@ extension LicenseManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateLicenseSpecificationsForResource` operation on the `AWSLicenseManager` service.
+    /// Performs the `UpdateLicenseSpecificationsForResource` operation on the `LicenseManager` service.
     ///
     /// Adds or removes the specified license configurations for the specified Amazon Web Services resource. You can update the license specifications of AMIs, instances, and hosts. You cannot update the license specifications for launch templates and CloudFormation templates, as they send license configurations to the operation that creates the resource.
     ///
@@ -4034,7 +4034,7 @@ extension LicenseManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateServiceSettings` operation on the `AWSLicenseManager` service.
+    /// Performs the `UpdateServiceSettings` operation on the `LicenseManager` service.
     ///
     /// Updates License Manager settings for the current Region.
     ///

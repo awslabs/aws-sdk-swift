@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class IvschatClient: ClientRuntime.Client {
     public static let clientName = "IvschatClient"
-    public static let version = "1.0.69"
+    public static let version = "1.0.74"
     let client: ClientRuntime.SdkHttpClient
     let config: IvschatClient.IvschatClientConfiguration
     let serviceName = "ivschat"
@@ -330,7 +330,7 @@ extension IvschatClient {
 }
 
 extension IvschatClient {
-    /// Performs the `CreateChatToken` operation on the `AmazonInteractiveVideoServiceChat` service.
+    /// Performs the `CreateChatToken` operation on the `Ivschat` service.
     ///
     /// Creates an encrypted token that is used by a chat participant to establish an individual WebSocket chat connection to a room. When the token is used to connect to chat, the connection is valid for the session duration specified in the request. The token becomes invalid at the token-expiration timestamp included in the response. Use the capabilities field to permit an end user to send messages or moderate a room. The attributes field securely attaches structured data to the chat session; the data is included within each message sent by the end user and received by other participants in the room. Common use cases for attributes include passing end-user profile data like an icon, display name, colors, badges, and other display features. Encryption keys are owned by Amazon IVS Chat and never used directly by your application.
     ///
@@ -402,7 +402,7 @@ extension IvschatClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateLoggingConfiguration` operation on the `AmazonInteractiveVideoServiceChat` service.
+    /// Performs the `CreateLoggingConfiguration` operation on the `Ivschat` service.
     ///
     /// Creates a logging configuration that allows clients to store and record sent messages.
     ///
@@ -476,7 +476,7 @@ extension IvschatClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateRoom` operation on the `AmazonInteractiveVideoServiceChat` service.
+    /// Performs the `CreateRoom` operation on the `Ivschat` service.
     ///
     /// Creates a room that allows clients to connect and pass messages.
     ///
@@ -550,7 +550,7 @@ extension IvschatClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteLoggingConfiguration` operation on the `AmazonInteractiveVideoServiceChat` service.
+    /// Performs the `DeleteLoggingConfiguration` operation on the `Ivschat` service.
     ///
     /// Deletes the specified logging configuration.
     ///
@@ -623,7 +623,7 @@ extension IvschatClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteMessage` operation on the `AmazonInteractiveVideoServiceChat` service.
+    /// Performs the `DeleteMessage` operation on the `Ivschat` service.
     ///
     /// Sends an event to a specific room which directs clients to delete a specific message; that is, unrender it from view and delete it from the client’s chat history. This event’s EventName is aws:DELETE_MESSAGE. This replicates the [ DeleteMessage](https://docs.aws.amazon.com/ivs/latest/chatmsgapireference/actions-deletemessage-publish.html) WebSocket operation in the Amazon IVS Chat Messaging API.
     ///
@@ -696,7 +696,7 @@ extension IvschatClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteRoom` operation on the `AmazonInteractiveVideoServiceChat` service.
+    /// Performs the `DeleteRoom` operation on the `Ivschat` service.
     ///
     /// Deletes the specified room.
     ///
@@ -768,7 +768,7 @@ extension IvschatClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisconnectUser` operation on the `AmazonInteractiveVideoServiceChat` service.
+    /// Performs the `DisconnectUser` operation on the `Ivschat` service.
     ///
     /// Disconnects all connections using a specified user ID from a room. This replicates the [ DisconnectUser](https://docs.aws.amazon.com/ivs/latest/chatmsgapireference/actions-disconnectuser-publish.html) WebSocket operation in the Amazon IVS Chat Messaging API.
     ///
@@ -841,7 +841,7 @@ extension IvschatClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetLoggingConfiguration` operation on the `AmazonInteractiveVideoServiceChat` service.
+    /// Performs the `GetLoggingConfiguration` operation on the `Ivschat` service.
     ///
     /// Gets the specified logging configuration.
     ///
@@ -912,7 +912,7 @@ extension IvschatClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetRoom` operation on the `AmazonInteractiveVideoServiceChat` service.
+    /// Performs the `GetRoom` operation on the `Ivschat` service.
     ///
     /// Gets the specified room.
     ///
@@ -983,7 +983,7 @@ extension IvschatClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListLoggingConfigurations` operation on the `AmazonInteractiveVideoServiceChat` service.
+    /// Performs the `ListLoggingConfigurations` operation on the `Ivschat` service.
     ///
     /// Gets summary information about all your logging configurations in the AWS region where the API request is processed.
     ///
@@ -1053,7 +1053,7 @@ extension IvschatClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListRooms` operation on the `AmazonInteractiveVideoServiceChat` service.
+    /// Performs the `ListRooms` operation on the `Ivschat` service.
     ///
     /// Gets summary information about all your rooms in the AWS region where the API request is processed. Results are sorted in descending order of updateTime.
     ///
@@ -1124,7 +1124,7 @@ extension IvschatClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `AmazonInteractiveVideoServiceChat` service.
+    /// Performs the `ListTagsForResource` operation on the `Ivschat` service.
     ///
     /// Gets information about AWS tags for the specified ARN.
     ///
@@ -1192,7 +1192,7 @@ extension IvschatClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SendEvent` operation on the `AmazonInteractiveVideoServiceChat` service.
+    /// Performs the `SendEvent` operation on the `Ivschat` service.
     ///
     /// Sends an event to a room. Use this within your application’s business logic to send events to clients of a room; e.g., to notify clients to change the way the chat UI is rendered.
     ///
@@ -1265,7 +1265,7 @@ extension IvschatClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `AmazonInteractiveVideoServiceChat` service.
+    /// Performs the `TagResource` operation on the `Ivschat` service.
     ///
     /// Adds or updates tags for the AWS resource with the specified ARN.
     ///
@@ -1336,7 +1336,7 @@ extension IvschatClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `AmazonInteractiveVideoServiceChat` service.
+    /// Performs the `UntagResource` operation on the `Ivschat` service.
     ///
     /// Removes tags from the resource with the specified ARN.
     ///
@@ -1405,7 +1405,7 @@ extension IvschatClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateLoggingConfiguration` operation on the `AmazonInteractiveVideoServiceChat` service.
+    /// Performs the `UpdateLoggingConfiguration` operation on the `Ivschat` service.
     ///
     /// Updates a specified logging configuration.
     ///
@@ -1478,7 +1478,7 @@ extension IvschatClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateRoom` operation on the `AmazonInteractiveVideoServiceChat` service.
+    /// Performs the `UpdateRoom` operation on the `Ivschat` service.
     ///
     /// Updates a room’s configuration.
     ///

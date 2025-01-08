@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ChimeSDKVoiceClient: ClientRuntime.Client {
     public static let clientName = "ChimeSDKVoiceClient"
-    public static let version = "1.0.69"
+    public static let version = "1.0.74"
     let client: ClientRuntime.SdkHttpClient
     let config: ChimeSDKVoiceClient.ChimeSDKVoiceClientConfiguration
     let serviceName = "Chime SDK Voice"
@@ -330,7 +330,7 @@ extension ChimeSDKVoiceClient {
 }
 
 extension ChimeSDKVoiceClient {
-    /// Performs the `AssociatePhoneNumbersWithVoiceConnector` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `AssociatePhoneNumbersWithVoiceConnector` operation on the `ChimeSDKVoice` service.
     ///
     /// Associates phone numbers with the specified Amazon Chime SDK Voice Connector.
     ///
@@ -407,7 +407,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssociatePhoneNumbersWithVoiceConnectorGroup` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `AssociatePhoneNumbersWithVoiceConnectorGroup` operation on the `ChimeSDKVoice` service.
     ///
     /// Associates phone numbers with the specified Amazon Chime SDK Voice Connector group.
     ///
@@ -484,7 +484,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchDeletePhoneNumber` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `BatchDeletePhoneNumber` operation on the `ChimeSDKVoice` service.
     ///
     /// Moves phone numbers into the Deletion queue. Phone numbers must be disassociated from any users or Amazon Chime SDK Voice Connectors before they can be deleted. Phone numbers remain in the Deletion queue for 7 days before they are deleted permanently.
     ///
@@ -560,7 +560,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchUpdatePhoneNumber` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `BatchUpdatePhoneNumber` operation on the `ChimeSDKVoice` service.
     ///
     /// Updates phone number product types, calling names, or phone number names. You can update one attribute at a time for each UpdatePhoneNumberRequestItem. For example, you can update the product type, the calling name, or phone name. You cannot have a duplicate phoneNumberId in a request.
     ///
@@ -636,7 +636,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreatePhoneNumberOrder` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `CreatePhoneNumberOrder` operation on the `ChimeSDKVoice` service.
     ///
     /// Creates an order for phone numbers to be provisioned. For numbers outside the U.S., you must use the Amazon Chime SDK SIP media application dial-in product type.
     ///
@@ -712,7 +712,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateProxySession` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `CreateProxySession` operation on the `ChimeSDKVoice` service.
     ///
     /// Creates a proxy session for the specified Amazon Chime SDK Voice Connector for the specified participant phone numbers.
     ///
@@ -787,7 +787,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateSipMediaApplication` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `CreateSipMediaApplication` operation on the `ChimeSDKVoice` service.
     ///
     /// Creates a SIP media application. For more information about SIP media applications, see [Managing SIP media applications and rules](https://docs.aws.amazon.com/chime-sdk/latest/ag/manage-sip-applications.html) in the Amazon Chime SDK Administrator Guide.
     ///
@@ -864,7 +864,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateSipMediaApplicationCall` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `CreateSipMediaApplicationCall` operation on the `ChimeSDKVoice` service.
     ///
     /// Creates an outbound call to a phone number from the phone number specified in the request, and it invokes the endpoint of the specified sipMediaApplicationId.
     ///
@@ -940,7 +940,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateSipRule` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `CreateSipRule` operation on the `ChimeSDKVoice` service.
     ///
     /// Creates a SIP rule, which can be used to run a SIP media application as a target for a specific trigger type. For more information about SIP rules, see [Managing SIP media applications and rules](https://docs.aws.amazon.com/chime-sdk/latest/ag/manage-sip-applications.html) in the Amazon Chime SDK Administrator Guide.
     ///
@@ -1017,7 +1017,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateVoiceConnector` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `CreateVoiceConnector` operation on the `ChimeSDKVoice` service.
     ///
     /// Creates an Amazon Chime SDK Voice Connector. For more information about Voice Connectors, see [Managing Amazon Chime SDK Voice Connector groups](https://docs.aws.amazon.com/chime-sdk/latest/ag/voice-connector-groups.html) in the Amazon Chime SDK Administrator Guide.
     ///
@@ -1093,7 +1093,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateVoiceConnectorGroup` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `CreateVoiceConnectorGroup` operation on the `ChimeSDKVoice` service.
     ///
     /// Creates an Amazon Chime SDK Voice Connector group under the administrator's AWS account. You can associate Amazon Chime SDK Voice Connectors with the Voice Connector group by including VoiceConnectorItems in the request. You can include Voice Connectors from different AWS Regions in your group. This creates a fault tolerant mechanism for fallback in case of availability events.
     ///
@@ -1169,7 +1169,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateVoiceProfile` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `CreateVoiceProfile` operation on the `ChimeSDKVoice` service.
     ///
     /// Creates a voice profile, which consists of an enrolled user and their latest voice print. Before creating any voice profiles, you must provide all notices and obtain all consents from the speaker as required under applicable privacy and biometrics laws, and as required under the [AWS service terms](https://aws.amazon.com/service-terms/) for the Amazon Chime SDK. For more information about voice profiles and voice analytics, see [Using Amazon Chime SDK Voice Analytics](https://docs.aws.amazon.com/chime-sdk/latest/dg/pstn-voice-analytics.html) in the Amazon Chime SDK Developer Guide.
     ///
@@ -1248,7 +1248,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateVoiceProfileDomain` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `CreateVoiceProfileDomain` operation on the `ChimeSDKVoice` service.
     ///
     /// Creates a voice profile domain, a collection of voice profiles, their voice prints, and encrypted enrollment audio. Before creating any voice profiles, you must provide all notices and obtain all consents from the speaker as required under applicable privacy and biometrics laws, and as required under the [AWS service terms](https://aws.amazon.com/service-terms/) for the Amazon Chime SDK. For more information about voice profile domains, see [Using Amazon Chime SDK Voice Analytics](https://docs.aws.amazon.com/chime-sdk/latest/dg/pstn-voice-analytics.html) in the Amazon Chime SDK Developer Guide.
     ///
@@ -1325,7 +1325,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeletePhoneNumber` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `DeletePhoneNumber` operation on the `ChimeSDKVoice` service.
     ///
     /// Moves the specified phone number into the Deletion queue. A phone number must be disassociated from any users or Amazon Chime SDK Voice Connectors before it can be deleted. Deleted phone numbers remain in the Deletion queue queue for 7 days before they are deleted permanently.
     ///
@@ -1397,7 +1397,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteProxySession` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `DeleteProxySession` operation on the `ChimeSDKVoice` service.
     ///
     /// Deletes the specified proxy session from the specified Amazon Chime SDK Voice Connector.
     ///
@@ -1469,7 +1469,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteSipMediaApplication` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `DeleteSipMediaApplication` operation on the `ChimeSDKVoice` service.
     ///
     /// Deletes a SIP media application.
     ///
@@ -1542,7 +1542,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteSipRule` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `DeleteSipRule` operation on the `ChimeSDKVoice` service.
     ///
     /// Deletes a SIP rule.
     ///
@@ -1615,7 +1615,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteVoiceConnector` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `DeleteVoiceConnector` operation on the `ChimeSDKVoice` service.
     ///
     /// Deletes an Amazon Chime SDK Voice Connector. Any phone numbers associated with the Amazon Chime SDK Voice Connector must be disassociated from it before it can be deleted.
     ///
@@ -1688,7 +1688,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteVoiceConnectorEmergencyCallingConfiguration` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `DeleteVoiceConnectorEmergencyCallingConfiguration` operation on the `ChimeSDKVoice` service.
     ///
     /// Deletes the emergency calling details from the specified Amazon Chime SDK Voice Connector.
     ///
@@ -1760,7 +1760,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteVoiceConnectorExternalSystemsConfiguration` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `DeleteVoiceConnectorExternalSystemsConfiguration` operation on the `ChimeSDKVoice` service.
     ///
     /// Deletes the external systems configuration for a Voice Connector.
     ///
@@ -1832,7 +1832,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteVoiceConnectorGroup` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `DeleteVoiceConnectorGroup` operation on the `ChimeSDKVoice` service.
     ///
     /// Deletes an Amazon Chime SDK Voice Connector group. Any VoiceConnectorItems and phone numbers associated with the group must be removed before it can be deleted.
     ///
@@ -1905,7 +1905,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteVoiceConnectorOrigination` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `DeleteVoiceConnectorOrigination` operation on the `ChimeSDKVoice` service.
     ///
     /// Deletes the origination settings for the specified Amazon Chime SDK Voice Connector. If emergency calling is configured for the Voice Connector, it must be deleted prior to deleting the origination settings.
     ///
@@ -1977,7 +1977,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteVoiceConnectorProxy` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `DeleteVoiceConnectorProxy` operation on the `ChimeSDKVoice` service.
     ///
     /// Deletes the proxy configuration from the specified Amazon Chime SDK Voice Connector.
     ///
@@ -2049,7 +2049,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteVoiceConnectorStreamingConfiguration` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `DeleteVoiceConnectorStreamingConfiguration` operation on the `ChimeSDKVoice` service.
     ///
     /// Deletes a Voice Connector's streaming configuration.
     ///
@@ -2121,7 +2121,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteVoiceConnectorTermination` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `DeleteVoiceConnectorTermination` operation on the `ChimeSDKVoice` service.
     ///
     /// Deletes the termination settings for the specified Amazon Chime SDK Voice Connector. If emergency calling is configured for the Voice Connector, it must be deleted prior to deleting the termination settings.
     ///
@@ -2193,7 +2193,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteVoiceConnectorTerminationCredentials` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `DeleteVoiceConnectorTerminationCredentials` operation on the `ChimeSDKVoice` service.
     ///
     /// Deletes the specified SIP credentials used by your equipment to authenticate during call termination.
     ///
@@ -2269,7 +2269,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteVoiceProfile` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `DeleteVoiceProfile` operation on the `ChimeSDKVoice` service.
     ///
     /// Deletes a voice profile, including its voice print and enrollment data. WARNING: This action is not reversible.
     ///
@@ -2343,7 +2343,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteVoiceProfileDomain` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `DeleteVoiceProfileDomain` operation on the `ChimeSDKVoice` service.
     ///
     /// Deletes all voice profiles in the domain. WARNING: This action is not reversible.
     ///
@@ -2417,7 +2417,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociatePhoneNumbersFromVoiceConnector` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `DisassociatePhoneNumbersFromVoiceConnector` operation on the `ChimeSDKVoice` service.
     ///
     /// Disassociates the specified phone numbers from the specified Amazon Chime SDK Voice Connector.
     ///
@@ -2493,7 +2493,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociatePhoneNumbersFromVoiceConnectorGroup` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `DisassociatePhoneNumbersFromVoiceConnectorGroup` operation on the `ChimeSDKVoice` service.
     ///
     /// Disassociates the specified phone numbers from the specified Amazon Chime SDK Voice Connector group.
     ///
@@ -2569,7 +2569,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetGlobalSettings` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `GetGlobalSettings` operation on the `ChimeSDKVoice` service.
     ///
     /// Retrieves the global settings for the Amazon Chime SDK Voice Connectors in an AWS account.
     ///
@@ -2640,7 +2640,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetPhoneNumber` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `GetPhoneNumber` operation on the `ChimeSDKVoice` service.
     ///
     /// Retrieves details for the specified phone number ID, such as associations, capabilities, and product type.
     ///
@@ -2712,7 +2712,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetPhoneNumberOrder` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `GetPhoneNumberOrder` operation on the `ChimeSDKVoice` service.
     ///
     /// Retrieves details for the specified phone number order, such as the order creation timestamp, phone numbers in E.164 format, product type, and order status.
     ///
@@ -2784,7 +2784,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetPhoneNumberSettings` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `GetPhoneNumberSettings` operation on the `ChimeSDKVoice` service.
     ///
     /// Retrieves the phone number settings for the administrator's AWS account, such as the default outbound calling name.
     ///
@@ -2855,7 +2855,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetProxySession` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `GetProxySession` operation on the `ChimeSDKVoice` service.
     ///
     /// Retrieves the specified proxy session details for the specified Amazon Chime SDK Voice Connector.
     ///
@@ -2927,7 +2927,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetSipMediaApplication` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `GetSipMediaApplication` operation on the `ChimeSDKVoice` service.
     ///
     /// Retrieves the information for a SIP media application, including name, AWS Region, and endpoints.
     ///
@@ -2999,7 +2999,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetSipMediaApplicationAlexaSkillConfiguration` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `GetSipMediaApplicationAlexaSkillConfiguration` operation on the `ChimeSDKVoice` service.
     ///
     /// Gets the Alexa Skill configuration for the SIP media application. Due to changes made by the Amazon Alexa service, this API is no longer available for use. For more information, refer to the [Alexa Smart Properties](https://developer.amazon.com/en-US/alexa/alexasmartproperties) page.
     @available(*, deprecated, message: "Due to changes made by the Amazon Alexa service, this API is no longer available for use. For more information, refer to the Alexa Smart Properties page(https://developer.amazon.com/en-US/alexa/alexasmartproperties).")
@@ -3072,7 +3072,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetSipMediaApplicationLoggingConfiguration` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `GetSipMediaApplicationLoggingConfiguration` operation on the `ChimeSDKVoice` service.
     ///
     /// Retrieves the logging configuration for the specified SIP media application.
     ///
@@ -3144,7 +3144,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetSipRule` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `GetSipRule` operation on the `ChimeSDKVoice` service.
     ///
     /// Retrieves the details of a SIP rule, such as the rule ID, name, triggers, and target endpoints.
     ///
@@ -3216,7 +3216,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetSpeakerSearchTask` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `GetSpeakerSearchTask` operation on the `ChimeSDKVoice` service.
     ///
     /// Retrieves the details of the specified speaker search task.
     ///
@@ -3290,7 +3290,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetVoiceConnector` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `GetVoiceConnector` operation on the `ChimeSDKVoice` service.
     ///
     /// Retrieves details for the specified Amazon Chime SDK Voice Connector, such as timestamps,name, outbound host, and encryption requirements.
     ///
@@ -3362,7 +3362,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetVoiceConnectorEmergencyCallingConfiguration` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `GetVoiceConnectorEmergencyCallingConfiguration` operation on the `ChimeSDKVoice` service.
     ///
     /// Retrieves the emergency calling configuration details for the specified Voice Connector.
     ///
@@ -3434,7 +3434,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetVoiceConnectorExternalSystemsConfiguration` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `GetVoiceConnectorExternalSystemsConfiguration` operation on the `ChimeSDKVoice` service.
     ///
     /// Gets information about an external systems configuration for a Voice Connector.
     ///
@@ -3506,7 +3506,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetVoiceConnectorGroup` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `GetVoiceConnectorGroup` operation on the `ChimeSDKVoice` service.
     ///
     /// Retrieves details for the specified Amazon Chime SDK Voice Connector group, such as timestamps,name, and associated VoiceConnectorItems.
     ///
@@ -3578,7 +3578,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetVoiceConnectorLoggingConfiguration` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `GetVoiceConnectorLoggingConfiguration` operation on the `ChimeSDKVoice` service.
     ///
     /// Retrieves the logging configuration settings for the specified Voice Connector. Shows whether SIP message logs are enabled for sending to Amazon CloudWatch Logs.
     ///
@@ -3650,7 +3650,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetVoiceConnectorOrigination` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `GetVoiceConnectorOrigination` operation on the `ChimeSDKVoice` service.
     ///
     /// Retrieves the origination settings for the specified Voice Connector.
     ///
@@ -3722,7 +3722,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetVoiceConnectorProxy` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `GetVoiceConnectorProxy` operation on the `ChimeSDKVoice` service.
     ///
     /// Retrieves the proxy configuration details for the specified Amazon Chime SDK Voice Connector.
     ///
@@ -3794,7 +3794,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetVoiceConnectorStreamingConfiguration` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `GetVoiceConnectorStreamingConfiguration` operation on the `ChimeSDKVoice` service.
     ///
     /// Retrieves the streaming configuration details for the specified Amazon Chime SDK Voice Connector. Shows whether media streaming is enabled for sending to Amazon Kinesis. It also shows the retention period, in hours, for the Amazon Kinesis data.
     ///
@@ -3866,7 +3866,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetVoiceConnectorTermination` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `GetVoiceConnectorTermination` operation on the `ChimeSDKVoice` service.
     ///
     /// Retrieves the termination setting details for the specified Voice Connector.
     ///
@@ -3938,7 +3938,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetVoiceConnectorTerminationHealth` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `GetVoiceConnectorTerminationHealth` operation on the `ChimeSDKVoice` service.
     ///
     /// Retrieves information about the last time a SIP OPTIONS ping was received from your SIP infrastructure for the specified Amazon Chime SDK Voice Connector.
     ///
@@ -4010,7 +4010,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetVoiceProfile` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `GetVoiceProfile` operation on the `ChimeSDKVoice` service.
     ///
     /// Retrieves the details of the specified voice profile.
     ///
@@ -4083,7 +4083,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetVoiceProfileDomain` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `GetVoiceProfileDomain` operation on the `ChimeSDKVoice` service.
     ///
     /// Retrieves the details of the specified voice profile domain.
     ///
@@ -4156,7 +4156,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetVoiceToneAnalysisTask` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `GetVoiceToneAnalysisTask` operation on the `ChimeSDKVoice` service.
     ///
     /// Retrieves the details of a voice tone analysis task.
     ///
@@ -4231,7 +4231,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAvailableVoiceConnectorRegions` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `ListAvailableVoiceConnectorRegions` operation on the `ChimeSDKVoice` service.
     ///
     /// Lists the available AWS Regions in which you can create an Amazon Chime SDK Voice Connector.
     ///
@@ -4302,7 +4302,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListPhoneNumberOrders` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `ListPhoneNumberOrders` operation on the `ChimeSDKVoice` service.
     ///
     /// Lists the phone numbers for an administrator's Amazon Chime SDK account.
     ///
@@ -4374,7 +4374,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListPhoneNumbers` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `ListPhoneNumbers` operation on the `ChimeSDKVoice` service.
     ///
     /// Lists the phone numbers for the specified Amazon Chime SDK account, Amazon Chime SDK user, Amazon Chime SDK Voice Connector, or Amazon Chime SDK Voice Connector group.
     ///
@@ -4447,7 +4447,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListProxySessions` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `ListProxySessions` operation on the `ChimeSDKVoice` service.
     ///
     /// Lists the proxy sessions for the specified Amazon Chime SDK Voice Connector.
     ///
@@ -4520,7 +4520,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListSipMediaApplications` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `ListSipMediaApplications` operation on the `ChimeSDKVoice` service.
     ///
     /// Lists the SIP media applications under the administrator's AWS account.
     ///
@@ -4592,7 +4592,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListSipRules` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `ListSipRules` operation on the `ChimeSDKVoice` service.
     ///
     /// Lists the SIP rules under the administrator's AWS account.
     ///
@@ -4664,7 +4664,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListSupportedPhoneNumberCountries` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `ListSupportedPhoneNumberCountries` operation on the `ChimeSDKVoice` service.
     ///
     /// Lists the countries that you can order phone numbers from.
     ///
@@ -4737,7 +4737,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `ListTagsForResource` operation on the `ChimeSDKVoice` service.
     ///
     /// Returns a list of the tags in a given resource.
     ///
@@ -4809,7 +4809,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListVoiceConnectorGroups` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `ListVoiceConnectorGroups` operation on the `ChimeSDKVoice` service.
     ///
     /// Lists the Amazon Chime SDK Voice Connector groups in the administrator's AWS account.
     ///
@@ -4881,7 +4881,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListVoiceConnectorTerminationCredentials` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `ListVoiceConnectorTerminationCredentials` operation on the `ChimeSDKVoice` service.
     ///
     /// Lists the SIP credentials for the specified Amazon Chime SDK Voice Connector.
     ///
@@ -4953,7 +4953,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListVoiceConnectors` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `ListVoiceConnectors` operation on the `ChimeSDKVoice` service.
     ///
     /// Lists the Amazon Chime SDK Voice Connectors in the administrators AWS account.
     ///
@@ -5025,7 +5025,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListVoiceProfileDomains` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `ListVoiceProfileDomains` operation on the `ChimeSDKVoice` service.
     ///
     /// Lists the specified voice profile domains in the administrator's AWS account.
     ///
@@ -5098,7 +5098,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListVoiceProfiles` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `ListVoiceProfiles` operation on the `ChimeSDKVoice` service.
     ///
     /// Lists the voice profiles in a voice profile domain.
     ///
@@ -5171,7 +5171,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutSipMediaApplicationAlexaSkillConfiguration` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `PutSipMediaApplicationAlexaSkillConfiguration` operation on the `ChimeSDKVoice` service.
     ///
     /// Updates the Alexa Skill configuration for the SIP media application. Due to changes made by the Amazon Alexa service, this API is no longer available for use. For more information, refer to the [Alexa Smart Properties](https://developer.amazon.com/en-US/alexa/alexasmartproperties) page.
     @available(*, deprecated, message: "Due to changes made by the Amazon Alexa service, this API is no longer available for use. For more information, refer to the Alexa Smart Properties page(https://developer.amazon.com/en-US/alexa/alexasmartproperties).")
@@ -5247,7 +5247,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutSipMediaApplicationLoggingConfiguration` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `PutSipMediaApplicationLoggingConfiguration` operation on the `ChimeSDKVoice` service.
     ///
     /// Updates the logging configuration for the specified SIP media application.
     ///
@@ -5322,7 +5322,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutVoiceConnectorEmergencyCallingConfiguration` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `PutVoiceConnectorEmergencyCallingConfiguration` operation on the `ChimeSDKVoice` service.
     ///
     /// Updates a Voice Connector's emergency calling configuration.
     ///
@@ -5397,7 +5397,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutVoiceConnectorExternalSystemsConfiguration` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `PutVoiceConnectorExternalSystemsConfiguration` operation on the `ChimeSDKVoice` service.
     ///
     /// Adds an external systems configuration to a Voice Connector.
     ///
@@ -5473,7 +5473,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutVoiceConnectorLoggingConfiguration` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `PutVoiceConnectorLoggingConfiguration` operation on the `ChimeSDKVoice` service.
     ///
     /// Updates a Voice Connector's logging configuration.
     ///
@@ -5548,7 +5548,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutVoiceConnectorOrigination` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `PutVoiceConnectorOrigination` operation on the `ChimeSDKVoice` service.
     ///
     /// Updates a Voice Connector's origination settings.
     ///
@@ -5623,7 +5623,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutVoiceConnectorProxy` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `PutVoiceConnectorProxy` operation on the `ChimeSDKVoice` service.
     ///
     /// Puts the specified proxy configuration to the specified Amazon Chime SDK Voice Connector.
     ///
@@ -5699,7 +5699,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutVoiceConnectorStreamingConfiguration` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `PutVoiceConnectorStreamingConfiguration` operation on the `ChimeSDKVoice` service.
     ///
     /// Updates a Voice Connector's streaming configuration settings.
     ///
@@ -5774,7 +5774,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutVoiceConnectorTermination` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `PutVoiceConnectorTermination` operation on the `ChimeSDKVoice` service.
     ///
     /// Updates a Voice Connector's termination settings.
     ///
@@ -5850,7 +5850,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutVoiceConnectorTerminationCredentials` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `PutVoiceConnectorTerminationCredentials` operation on the `ChimeSDKVoice` service.
     ///
     /// Updates a Voice Connector's termination credentials.
     ///
@@ -5926,7 +5926,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RestorePhoneNumber` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `RestorePhoneNumber` operation on the `ChimeSDKVoice` service.
     ///
     /// Restores a deleted phone number.
     ///
@@ -6000,7 +6000,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SearchAvailablePhoneNumbers` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `SearchAvailablePhoneNumbers` operation on the `ChimeSDKVoice` service.
     ///
     /// Searches the provisioned phone numbers in an organization.
     ///
@@ -6073,7 +6073,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartSpeakerSearchTask` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `StartSpeakerSearchTask` operation on the `ChimeSDKVoice` service.
     ///
     /// Starts a speaker search task. Before starting any speaker search tasks, you must provide all notices and obtain all consents from the speaker as required under applicable privacy and biometrics laws, and as required under the [AWS service terms](https://aws.amazon.com/service-terms/) for the Amazon Chime SDK.
     ///
@@ -6153,7 +6153,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartVoiceToneAnalysisTask` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `StartVoiceToneAnalysisTask` operation on the `ChimeSDKVoice` service.
     ///
     /// Starts a voice tone analysis task. For more information about voice tone analysis, see [Using Amazon Chime SDK voice analytics](https://docs.aws.amazon.com/chime-sdk/latest/dg/pstn-voice-analytics.html) in the Amazon Chime SDK Developer Guide. Before starting any voice tone analysis tasks, you must provide all notices and obtain all consents from the speaker as required under applicable privacy and biometrics laws, and as required under the [AWS service terms](https://aws.amazon.com/service-terms/) for the Amazon Chime SDK.
     ///
@@ -6233,7 +6233,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopSpeakerSearchTask` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `StopSpeakerSearchTask` operation on the `ChimeSDKVoice` service.
     ///
     /// Stops a speaker search task.
     ///
@@ -6309,7 +6309,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopVoiceToneAnalysisTask` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `StopVoiceToneAnalysisTask` operation on the `ChimeSDKVoice` service.
     ///
     /// Stops a voice tone analysis task.
     ///
@@ -6385,7 +6385,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `TagResource` operation on the `ChimeSDKVoice` service.
     ///
     /// Adds a tag to the specified resource.
     ///
@@ -6461,7 +6461,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `UntagResource` operation on the `ChimeSDKVoice` service.
     ///
     /// Removes tags from a resource.
     ///
@@ -6536,7 +6536,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateGlobalSettings` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `UpdateGlobalSettings` operation on the `ChimeSDKVoice` service.
     ///
     /// Updates global settings for the Amazon Chime SDK Voice Connectors in an AWS account.
     ///
@@ -6610,7 +6610,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdatePhoneNumber` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `UpdatePhoneNumber` operation on the `ChimeSDKVoice` service.
     ///
     /// Updates phone number details, such as product type, calling name, or phone number name for the specified phone number ID. You can update one phone number detail at a time. For example, you can update either the product type, calling name, or phone number name in one action. For numbers outside the U.S., you must use the Amazon Chime SDK SIP Media Application Dial-In product type. Updates to outbound calling names can take 72 hours to complete. Pending updates to outbound calling names must be complete before you can request another update.
     ///
@@ -6686,7 +6686,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdatePhoneNumberSettings` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `UpdatePhoneNumberSettings` operation on the `ChimeSDKVoice` service.
     ///
     /// Updates the phone number settings for the administrator's AWS account, such as the default outbound calling name. You can update the default outbound calling name once every seven days. Outbound calling names can take up to 72 hours to update.
     ///
@@ -6760,7 +6760,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateProxySession` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `UpdateProxySession` operation on the `ChimeSDKVoice` service.
     ///
     /// Updates the specified proxy session details, such as voice or SMS capabilities.
     ///
@@ -6835,7 +6835,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateSipMediaApplication` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `UpdateSipMediaApplication` operation on the `ChimeSDKVoice` service.
     ///
     /// Updates the details of the specified SIP media application.
     ///
@@ -6911,7 +6911,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateSipMediaApplicationCall` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `UpdateSipMediaApplicationCall` operation on the `ChimeSDKVoice` service.
     ///
     /// Invokes the AWS Lambda function associated with the SIP media application and transaction ID in an update request. The Lambda function can then return a new set of actions.
     ///
@@ -6987,7 +6987,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateSipRule` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `UpdateSipRule` operation on the `ChimeSDKVoice` service.
     ///
     /// Updates the details of the specified SIP rule.
     ///
@@ -7064,7 +7064,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateVoiceConnector` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `UpdateVoiceConnector` operation on the `ChimeSDKVoice` service.
     ///
     /// Updates the details for the specified Amazon Chime SDK Voice Connector.
     ///
@@ -7139,7 +7139,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateVoiceConnectorGroup` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `UpdateVoiceConnectorGroup` operation on the `ChimeSDKVoice` service.
     ///
     /// Updates the settings for the specified Amazon Chime SDK Voice Connector group.
     ///
@@ -7215,7 +7215,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateVoiceProfile` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `UpdateVoiceProfile` operation on the `ChimeSDKVoice` service.
     ///
     /// Updates the specified voice profile’s voice print and refreshes its expiration timestamp. As a condition of using this feature, you acknowledge that the collection, use, storage, and retention of your caller’s biometric identifiers and biometric information (“biometric data”) in the form of a digital voiceprint requires the caller’s informed consent via a written release. Such consent is required under various state laws, including biometrics laws in Illinois, Texas, Washington and other state privacy laws. You must provide a written release to each caller through a process that clearly reflects each caller’s informed consent before using Amazon Chime SDK Voice Insights service, as required under the terms of your agreement with AWS governing your use of the service.
     ///
@@ -7293,7 +7293,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateVoiceProfileDomain` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `UpdateVoiceProfileDomain` operation on the `ChimeSDKVoice` service.
     ///
     /// Updates the settings for the specified voice profile domain.
     ///
@@ -7369,7 +7369,7 @@ extension ChimeSDKVoiceClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ValidateE911Address` operation on the `ChimeSDKTelephonyService` service.
+    /// Performs the `ValidateE911Address` operation on the `ChimeSDKVoice` service.
     ///
     /// Validates an address to be used for 911 calls made with Amazon Chime SDK Voice Connectors. You can use validated addresses in a Presence Information Data Format Location Object file that you include in SIP requests. That helps ensure that addresses are routed to the appropriate Public Safety Answering Point.
     ///

@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ApplicationCostProfilerClient: ClientRuntime.Client {
     public static let clientName = "ApplicationCostProfilerClient"
-    public static let version = "1.0.69"
+    public static let version = "1.0.74"
     let client: ClientRuntime.SdkHttpClient
     let config: ApplicationCostProfilerClient.ApplicationCostProfilerClientConfiguration
     let serviceName = "ApplicationCostProfiler"
@@ -330,7 +330,7 @@ extension ApplicationCostProfilerClient {
 }
 
 extension ApplicationCostProfilerClient {
-    /// Performs the `DeleteReportDefinition` operation on the `AWSApplicationCostProfiler` service.
+    /// Performs the `DeleteReportDefinition` operation on the `ApplicationCostProfiler` service.
     ///
     /// Deletes the specified report definition in AWS Application Cost Profiler. This stops the report from being generated.
     ///
@@ -399,7 +399,7 @@ extension ApplicationCostProfilerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetReportDefinition` operation on the `AWSApplicationCostProfiler` service.
+    /// Performs the `GetReportDefinition` operation on the `ApplicationCostProfiler` service.
     ///
     /// Retrieves the definition of a report already configured in AWS Application Cost Profiler.
     ///
@@ -468,7 +468,7 @@ extension ApplicationCostProfilerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ImportApplicationUsage` operation on the `AWSApplicationCostProfiler` service.
+    /// Performs the `ImportApplicationUsage` operation on the `ApplicationCostProfiler` service.
     ///
     /// Ingests application usage data from Amazon Simple Storage Service (Amazon S3). The data must already exist in the S3 location. As part of the action, AWS Application Cost Profiler copies the object from your S3 bucket to an S3 bucket owned by Amazon for processing asynchronously.
     ///
@@ -540,7 +540,7 @@ extension ApplicationCostProfilerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListReportDefinitions` operation on the `AWSApplicationCostProfiler` service.
+    /// Performs the `ListReportDefinitions` operation on the `ApplicationCostProfiler` service.
     ///
     /// Retrieves a list of all reports and their configurations for your AWS account. The maximum number of reports is one.
     ///
@@ -610,7 +610,7 @@ extension ApplicationCostProfilerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutReportDefinition` operation on the `AWSApplicationCostProfiler` service.
+    /// Performs the `PutReportDefinition` operation on the `ApplicationCostProfiler` service.
     ///
     /// Creates the report definition for a report in Application Cost Profiler.
     ///
@@ -683,7 +683,7 @@ extension ApplicationCostProfilerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateReportDefinition` operation on the `AWSApplicationCostProfiler` service.
+    /// Performs the `UpdateReportDefinition` operation on the `ApplicationCostProfiler` service.
     ///
     /// Updates existing report in AWS Application Cost Profiler.
     ///
