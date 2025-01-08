@@ -98,6 +98,13 @@ public class AuthTokenGenerator {
         return rdsAuthToken
     }
 
+    /// Generates authenetication token for DSQL using given inputs to the method and credential identity instance variable.
+    ///
+    /// - Parameters:
+    ///   - endpoint: The endpoint of the DSQL instance. E.g., `peccy.dsql.us-east-1.on.aws`
+    ///   - region: The region that DSQL instance is located in. E.g., `us-east-1`
+    ///   - expiration: The expiration for the token in seconds. Default is 900 seconds (15 minutes).
+    ///   - isForAdmin: Determines the value of `Action` query item.
     public func generateDSQLAuthToken(
         endpoint: String,
         region: String,
@@ -135,13 +142,13 @@ public class AuthTokenGenerator {
         )
 
         guard let presignedURL = signedRequest?.destination.url else {
-            throw ClientError.authError("Failed to generate auth token for RDS.")
+            throw ClientError.authError("Failed to generate auth token for DSQL.")
         }
 
-        // Remove https:// from the presigned URL to get final value for RDS auth token.
+        // Remove https:// from the presigned URL to get final value for DSQL auth token.
         let startIndex = presignedURL.absoluteString.index(presignedURL.absoluteString.startIndex, offsetBy: 8)
-        let rdsAuthToken = String(presignedURL.absoluteString[startIndex...])
+        let dsqlAuthToken = String(presignedURL.absoluteString[startIndex...])
 
-        return rdsAuthToken
+        return dsqlAuthToken
     }
 }
