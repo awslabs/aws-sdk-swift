@@ -96,8 +96,7 @@ extension IoTAnalyticsClientTypes {
             attributes: [Swift.String: Swift.String]? = nil,
             name: Swift.String? = nil,
             next: Swift.String? = nil
-        )
-        {
+        ) {
             self.attributes = attributes
             self.name = name
             self.next = next
@@ -123,8 +122,7 @@ public struct InternalFailureException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -147,8 +145,7 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -171,8 +168,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -195,8 +191,7 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -219,8 +214,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -239,8 +233,7 @@ extension IoTAnalyticsClientTypes {
         public init(
             messageId: Swift.String? = nil,
             payload: Foundation.Data? = nil
-        )
-        {
+        ) {
             self.messageId = messageId
             self.payload = payload
         }
@@ -273,8 +266,7 @@ public struct BatchPutMessageInput: Swift.Sendable {
     public init(
         channelName: Swift.String? = nil,
         messages: [IoTAnalyticsClientTypes.Message]? = nil
-    )
-    {
+    ) {
         self.channelName = channelName
         self.messages = messages
     }
@@ -295,8 +287,7 @@ extension IoTAnalyticsClientTypes {
             errorCode: Swift.String? = nil,
             errorMessage: Swift.String? = nil,
             messageId: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.messageId = messageId
@@ -310,8 +301,7 @@ public struct BatchPutMessageOutput: Swift.Sendable {
 
     public init(
         batchPutMessageErrorEntries: [IoTAnalyticsClientTypes.BatchPutMessageErrorEntry]? = nil
-    )
-    {
+    ) {
         self.batchPutMessageErrorEntries = batchPutMessageErrorEntries
     }
 }
@@ -327,8 +317,7 @@ public struct CancelPipelineReprocessingInput: Swift.Sendable {
     public init(
         pipelineName: Swift.String? = nil,
         reprocessingId: Swift.String? = nil
-    )
-    {
+    ) {
         self.pipelineName = pipelineName
         self.reprocessingId = reprocessingId
     }
@@ -357,8 +346,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -387,8 +375,7 @@ public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSCli
         message: Swift.String? = nil,
         resourceArn: Swift.String? = nil,
         resourceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceArn = resourceArn
         self.properties.resourceId = resourceId
@@ -412,8 +399,7 @@ extension IoTAnalyticsClientTypes {
             bucket: Swift.String? = nil,
             keyPrefix: Swift.String? = nil,
             roleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucket = bucket
             self.keyPrefix = keyPrefix
             self.roleArn = roleArn
@@ -442,8 +428,7 @@ extension IoTAnalyticsClientTypes {
         public init(
             customerManagedS3: IoTAnalyticsClientTypes.CustomerManagedChannelS3Storage? = nil,
             serviceManagedS3: IoTAnalyticsClientTypes.ServiceManagedChannelS3Storage? = nil
-        )
-        {
+        ) {
             self.customerManagedS3 = customerManagedS3
             self.serviceManagedS3 = serviceManagedS3
         }
@@ -462,8 +447,7 @@ extension IoTAnalyticsClientTypes {
         public init(
             numberOfDays: Swift.Int? = nil,
             unlimited: Swift.Bool = false
-        )
-        {
+        ) {
             self.numberOfDays = numberOfDays
             self.unlimited = unlimited
         }
@@ -484,8 +468,7 @@ extension IoTAnalyticsClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -508,8 +491,7 @@ public struct CreateChannelInput: Swift.Sendable {
         channelStorage: IoTAnalyticsClientTypes.ChannelStorage? = nil,
         retentionPeriod: IoTAnalyticsClientTypes.RetentionPeriod? = nil,
         tags: [IoTAnalyticsClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.channelName = channelName
         self.channelStorage = channelStorage
         self.retentionPeriod = retentionPeriod
@@ -529,8 +511,7 @@ public struct CreateChannelOutput: Swift.Sendable {
         channelArn: Swift.String? = nil,
         channelName: Swift.String? = nil,
         retentionPeriod: IoTAnalyticsClientTypes.RetentionPeriod? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.channelName = channelName
         self.retentionPeriod = retentionPeriod
@@ -580,8 +561,7 @@ extension IoTAnalyticsClientTypes {
         public init(
             computeType: IoTAnalyticsClientTypes.ComputeType? = nil,
             volumeSizeInGB: Swift.Int? = nil
-        )
-        {
+        ) {
             self.computeType = computeType
             self.volumeSizeInGB = volumeSizeInGB
         }
@@ -598,8 +578,7 @@ extension IoTAnalyticsClientTypes {
 
         public init(
             datasetName: Swift.String? = nil
-        )
-        {
+        ) {
             self.datasetName = datasetName
         }
     }
@@ -615,8 +594,7 @@ extension IoTAnalyticsClientTypes {
 
         public init(
             fileName: Swift.String? = nil
-        )
-        {
+        ) {
             self.fileName = fileName
         }
     }
@@ -644,8 +622,7 @@ extension IoTAnalyticsClientTypes {
             name: Swift.String? = nil,
             outputFileUriValue: IoTAnalyticsClientTypes.OutputFileUriValue? = nil,
             stringValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.datasetContentVersionValue = datasetContentVersionValue
             self.doubleValue = doubleValue
             self.name = name
@@ -676,8 +653,7 @@ extension IoTAnalyticsClientTypes {
             image: Swift.String? = nil,
             resourceConfiguration: IoTAnalyticsClientTypes.ResourceConfiguration? = nil,
             variables: [IoTAnalyticsClientTypes.Variable]? = nil
-        )
-        {
+        ) {
             self.executionRoleArn = executionRoleArn
             self.image = image
             self.resourceConfiguration = resourceConfiguration
@@ -700,8 +676,7 @@ extension IoTAnalyticsClientTypes {
         public init(
             offsetSeconds: Swift.Int? = nil,
             timeExpression: Swift.String? = nil
-        )
-        {
+        ) {
             self.offsetSeconds = offsetSeconds
             self.timeExpression = timeExpression
         }
@@ -717,8 +692,7 @@ extension IoTAnalyticsClientTypes {
 
         public init(
             deltaTime: IoTAnalyticsClientTypes.DeltaTime? = nil
-        )
-        {
+        ) {
             self.deltaTime = deltaTime
         }
     }
@@ -737,8 +711,7 @@ extension IoTAnalyticsClientTypes {
         public init(
             filters: [IoTAnalyticsClientTypes.QueryFilter]? = nil,
             sqlQuery: Swift.String? = nil
-        )
-        {
+        ) {
             self.filters = filters
             self.sqlQuery = sqlQuery
         }
@@ -760,8 +733,7 @@ extension IoTAnalyticsClientTypes {
             actionName: Swift.String? = nil,
             containerAction: IoTAnalyticsClientTypes.ContainerDatasetAction? = nil,
             queryAction: IoTAnalyticsClientTypes.SqlQueryDatasetAction? = nil
-        )
-        {
+        ) {
             self.actionName = actionName
             self.containerAction = containerAction
             self.queryAction = queryAction
@@ -783,8 +755,7 @@ extension IoTAnalyticsClientTypes {
         public init(
             inputName: Swift.String? = nil,
             roleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.inputName = inputName
             self.roleArn = roleArn
         }
@@ -805,8 +776,7 @@ extension IoTAnalyticsClientTypes {
         public init(
             databaseName: Swift.String? = nil,
             tableName: Swift.String? = nil
-        )
-        {
+        ) {
             self.databaseName = databaseName
             self.tableName = tableName
         }
@@ -843,8 +813,7 @@ extension IoTAnalyticsClientTypes {
             glueConfiguration: IoTAnalyticsClientTypes.GlueConfiguration? = nil,
             key: Swift.String? = nil,
             roleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucket = bucket
             self.glueConfiguration = glueConfiguration
             self.key = key
@@ -865,8 +834,7 @@ extension IoTAnalyticsClientTypes {
         public init(
             iotEventsDestinationConfiguration: IoTAnalyticsClientTypes.IotEventsDestinationConfiguration? = nil,
             s3DestinationConfiguration: IoTAnalyticsClientTypes.S3DestinationConfiguration? = nil
-        )
-        {
+        ) {
             self.iotEventsDestinationConfiguration = iotEventsDestinationConfiguration
             self.s3DestinationConfiguration = s3DestinationConfiguration
         }
@@ -886,8 +854,7 @@ extension IoTAnalyticsClientTypes {
         public init(
             destination: IoTAnalyticsClientTypes.DatasetContentDeliveryDestination? = nil,
             entryName: Swift.String? = nil
-        )
-        {
+        ) {
             self.destination = destination
             self.entryName = entryName
         }
@@ -904,8 +871,7 @@ extension IoTAnalyticsClientTypes {
 
         public init(
             timeoutInMinutes: Swift.Int? = nil
-        )
-        {
+        ) {
             self.timeoutInMinutes = timeoutInMinutes
         }
     }
@@ -920,8 +886,7 @@ extension IoTAnalyticsClientTypes {
 
         public init(
             deltaTimeSessionWindowConfiguration: IoTAnalyticsClientTypes.DeltaTimeSessionWindowConfiguration? = nil
-        )
-        {
+        ) {
             self.deltaTimeSessionWindowConfiguration = deltaTimeSessionWindowConfiguration
         }
     }
@@ -940,8 +905,7 @@ extension IoTAnalyticsClientTypes {
         public init(
             ruleConfiguration: IoTAnalyticsClientTypes.LateDataRuleConfiguration? = nil,
             ruleName: Swift.String? = nil
-        )
-        {
+        ) {
             self.ruleConfiguration = ruleConfiguration
             self.ruleName = ruleName
         }
@@ -958,8 +922,7 @@ extension IoTAnalyticsClientTypes {
 
         public init(
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
         }
     }
@@ -974,8 +937,7 @@ extension IoTAnalyticsClientTypes {
 
         public init(
             expression: Swift.String? = nil
-        )
-        {
+        ) {
             self.expression = expression
         }
     }
@@ -993,8 +955,7 @@ extension IoTAnalyticsClientTypes {
         public init(
             dataset: IoTAnalyticsClientTypes.TriggeringDataset? = nil,
             schedule: IoTAnalyticsClientTypes.Schedule? = nil
-        )
-        {
+        ) {
             self.dataset = dataset
             self.schedule = schedule
         }
@@ -1013,8 +974,7 @@ extension IoTAnalyticsClientTypes {
         public init(
             maxVersions: Swift.Int? = nil,
             unlimited: Swift.Bool = false
-        )
-        {
+        ) {
             self.maxVersions = maxVersions
             self.unlimited = unlimited
         }
@@ -1050,8 +1010,7 @@ public struct CreateDatasetInput: Swift.Sendable {
         tags: [IoTAnalyticsClientTypes.Tag]? = nil,
         triggers: [IoTAnalyticsClientTypes.DatasetTrigger]? = nil,
         versioningConfiguration: IoTAnalyticsClientTypes.VersioningConfiguration? = nil
-    )
-    {
+    ) {
         self.actions = actions
         self.contentDeliveryRules = contentDeliveryRules
         self.datasetName = datasetName
@@ -1075,8 +1034,7 @@ public struct CreateDatasetOutput: Swift.Sendable {
         datasetArn: Swift.String? = nil,
         datasetName: Swift.String? = nil,
         retentionPeriod: IoTAnalyticsClientTypes.RetentionPeriod? = nil
-    )
-    {
+    ) {
         self.datasetArn = datasetArn
         self.datasetName = datasetName
         self.retentionPeriod = retentionPeriod
@@ -1093,8 +1051,7 @@ public struct CreateDatasetContentInput: Swift.Sendable {
     public init(
         datasetName: Swift.String? = nil,
         versionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.datasetName = datasetName
         self.versionId = versionId
     }
@@ -1106,8 +1063,7 @@ public struct CreateDatasetContentOutput: Swift.Sendable {
 
     public init(
         versionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.versionId = versionId
     }
 }
@@ -1122,8 +1078,7 @@ extension IoTAnalyticsClientTypes {
 
         public init(
             attributeName: Swift.String? = nil
-        )
-        {
+        ) {
             self.attributeName = attributeName
         }
     }
@@ -1142,8 +1097,7 @@ extension IoTAnalyticsClientTypes {
         public init(
             attributeName: Swift.String? = nil,
             timestampFormat: Swift.String? = nil
-        )
-        {
+        ) {
             self.attributeName = attributeName
             self.timestampFormat = timestampFormat
         }
@@ -1162,8 +1116,7 @@ extension IoTAnalyticsClientTypes {
         public init(
             attributePartition: IoTAnalyticsClientTypes.Partition? = nil,
             timestampPartition: IoTAnalyticsClientTypes.TimestampPartition? = nil
-        )
-        {
+        ) {
             self.attributePartition = attributePartition
             self.timestampPartition = timestampPartition
         }
@@ -1179,8 +1132,7 @@ extension IoTAnalyticsClientTypes {
 
         public init(
             partitions: [IoTAnalyticsClientTypes.DatastorePartition]? = nil
-        )
-        {
+        ) {
             self.partitions = partitions
         }
     }
@@ -1203,8 +1155,7 @@ extension IoTAnalyticsClientTypes {
             bucket: Swift.String? = nil,
             keyPrefix: Swift.String? = nil,
             roleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucket = bucket
             self.keyPrefix = keyPrefix
             self.roleArn = roleArn
@@ -1225,8 +1176,7 @@ extension IoTAnalyticsClientTypes {
         public init(
             bucket: Swift.String? = nil,
             keyPrefix: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucket = bucket
             self.keyPrefix = keyPrefix
         }
@@ -1243,8 +1193,7 @@ extension IoTAnalyticsClientTypes {
 
         public init(
             customerManagedS3Storage: IoTAnalyticsClientTypes.IotSiteWiseCustomerManagedDatastoreS3Storage? = nil
-        )
-        {
+        ) {
             self.customerManagedS3Storage = customerManagedS3Storage
         }
     }
@@ -1296,8 +1245,7 @@ extension IoTAnalyticsClientTypes {
         public init(
             name: Swift.String? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.type = type
         }
@@ -1313,8 +1261,7 @@ extension IoTAnalyticsClientTypes {
 
         public init(
             columns: [IoTAnalyticsClientTypes.Column]? = nil
-        )
-        {
+        ) {
             self.columns = columns
         }
     }
@@ -1329,8 +1276,7 @@ extension IoTAnalyticsClientTypes {
 
         public init(
             schemaDefinition: IoTAnalyticsClientTypes.SchemaDefinition? = nil
-        )
-        {
+        ) {
             self.schemaDefinition = schemaDefinition
         }
     }
@@ -1348,8 +1294,7 @@ extension IoTAnalyticsClientTypes {
         public init(
             jsonConfiguration: IoTAnalyticsClientTypes.JsonConfiguration? = nil,
             parquetConfiguration: IoTAnalyticsClientTypes.ParquetConfiguration? = nil
-        )
-        {
+        ) {
             self.jsonConfiguration = jsonConfiguration
             self.parquetConfiguration = parquetConfiguration
         }
@@ -1378,8 +1323,7 @@ public struct CreateDatastoreInput: Swift.Sendable {
         fileFormatConfiguration: IoTAnalyticsClientTypes.FileFormatConfiguration? = nil,
         retentionPeriod: IoTAnalyticsClientTypes.RetentionPeriod? = nil,
         tags: [IoTAnalyticsClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.datastoreName = datastoreName
         self.datastorePartitions = datastorePartitions
         self.datastoreStorage = datastoreStorage
@@ -1401,8 +1345,7 @@ public struct CreateDatastoreOutput: Swift.Sendable {
         datastoreArn: Swift.String? = nil,
         datastoreName: Swift.String? = nil,
         retentionPeriod: IoTAnalyticsClientTypes.RetentionPeriod? = nil
-    )
-    {
+    ) {
         self.datastoreArn = datastoreArn
         self.datastoreName = datastoreName
         self.retentionPeriod = retentionPeriod
@@ -1426,8 +1369,7 @@ extension IoTAnalyticsClientTypes {
             channelName: Swift.String? = nil,
             name: Swift.String? = nil,
             next: Swift.String? = nil
-        )
-        {
+        ) {
             self.channelName = channelName
             self.name = name
             self.next = next
@@ -1449,8 +1391,7 @@ extension IoTAnalyticsClientTypes {
         public init(
             datastoreName: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.datastoreName = datastoreName
             self.name = name
         }
@@ -1482,8 +1423,7 @@ extension IoTAnalyticsClientTypes {
             next: Swift.String? = nil,
             roleArn: Swift.String? = nil,
             thingName: Swift.String? = nil
-        )
-        {
+        ) {
             self.attribute = attribute
             self.name = name
             self.next = next
@@ -1518,8 +1458,7 @@ extension IoTAnalyticsClientTypes {
             next: Swift.String? = nil,
             roleArn: Swift.String? = nil,
             thingName: Swift.String? = nil
-        )
-        {
+        ) {
             self.attribute = attribute
             self.name = name
             self.next = next
@@ -1546,8 +1485,7 @@ extension IoTAnalyticsClientTypes {
             filter: Swift.String? = nil,
             name: Swift.String? = nil,
             next: Swift.String? = nil
-        )
-        {
+        ) {
             self.filter = filter
             self.name = name
             self.next = next
@@ -1576,8 +1514,7 @@ extension IoTAnalyticsClientTypes {
             lambdaName: Swift.String? = nil,
             name: Swift.String? = nil,
             next: Swift.String? = nil
-        )
-        {
+        ) {
             self.batchSize = batchSize
             self.lambdaName = lambdaName
             self.name = name
@@ -1607,8 +1544,7 @@ extension IoTAnalyticsClientTypes {
             math: Swift.String? = nil,
             name: Swift.String? = nil,
             next: Swift.String? = nil
-        )
-        {
+        ) {
             self.attribute = attribute
             self.math = math
             self.name = name
@@ -1634,8 +1570,7 @@ extension IoTAnalyticsClientTypes {
             attributes: [Swift.String]? = nil,
             name: Swift.String? = nil,
             next: Swift.String? = nil
-        )
-        {
+        ) {
             self.attributes = attributes
             self.name = name
             self.next = next
@@ -1660,8 +1595,7 @@ extension IoTAnalyticsClientTypes {
             attributes: [Swift.String]? = nil,
             name: Swift.String? = nil,
             next: Swift.String? = nil
-        )
-        {
+        ) {
             self.attributes = attributes
             self.name = name
             self.next = next
@@ -1705,8 +1639,7 @@ extension IoTAnalyticsClientTypes {
             math: IoTAnalyticsClientTypes.MathActivity? = nil,
             removeAttributes: IoTAnalyticsClientTypes.RemoveAttributesActivity? = nil,
             selectAttributes: IoTAnalyticsClientTypes.SelectAttributesActivity? = nil
-        )
-        {
+        ) {
             self.addAttributes = addAttributes
             self.channel = channel
             self.datastore = datastore
@@ -1735,8 +1668,7 @@ public struct CreatePipelineInput: Swift.Sendable {
         pipelineActivities: [IoTAnalyticsClientTypes.PipelineActivity]? = nil,
         pipelineName: Swift.String? = nil,
         tags: [IoTAnalyticsClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.pipelineActivities = pipelineActivities
         self.pipelineName = pipelineName
         self.tags = tags
@@ -1752,8 +1684,7 @@ public struct CreatePipelineOutput: Swift.Sendable {
     public init(
         pipelineArn: Swift.String? = nil,
         pipelineName: Swift.String? = nil
-    )
-    {
+    ) {
         self.pipelineArn = pipelineArn
         self.pipelineName = pipelineName
     }
@@ -1766,8 +1697,7 @@ public struct DeleteChannelInput: Swift.Sendable {
 
     public init(
         channelName: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelName = channelName
     }
 }
@@ -1779,8 +1709,7 @@ public struct DeleteDatasetInput: Swift.Sendable {
 
     public init(
         datasetName: Swift.String? = nil
-    )
-    {
+    ) {
         self.datasetName = datasetName
     }
 }
@@ -1795,8 +1724,7 @@ public struct DeleteDatasetContentInput: Swift.Sendable {
     public init(
         datasetName: Swift.String? = nil,
         versionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.datasetName = datasetName
         self.versionId = versionId
     }
@@ -1809,8 +1737,7 @@ public struct DeleteDatastoreInput: Swift.Sendable {
 
     public init(
         datastoreName: Swift.String? = nil
-    )
-    {
+    ) {
         self.datastoreName = datastoreName
     }
 }
@@ -1822,8 +1749,7 @@ public struct DeletePipelineInput: Swift.Sendable {
 
     public init(
         pipelineName: Swift.String? = nil
-    )
-    {
+    ) {
         self.pipelineName = pipelineName
     }
 }
@@ -1838,8 +1764,7 @@ public struct DescribeChannelInput: Swift.Sendable {
     public init(
         channelName: Swift.String? = nil,
         includeStatistics: Swift.Bool? = false
-    )
-    {
+    ) {
         self.channelName = channelName
         self.includeStatistics = includeStatistics
     }
@@ -1907,8 +1832,7 @@ extension IoTAnalyticsClientTypes {
             retentionPeriod: IoTAnalyticsClientTypes.RetentionPeriod? = nil,
             status: IoTAnalyticsClientTypes.ChannelStatus? = nil,
             storage: IoTAnalyticsClientTypes.ChannelStorage? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.creationTime = creationTime
             self.lastMessageArrivalTime = lastMessageArrivalTime
@@ -1933,8 +1857,7 @@ extension IoTAnalyticsClientTypes {
         public init(
             estimatedOn: Foundation.Date? = nil,
             estimatedSizeInBytes: Swift.Double? = nil
-        )
-        {
+        ) {
             self.estimatedOn = estimatedOn
             self.estimatedSizeInBytes = estimatedSizeInBytes
         }
@@ -1950,8 +1873,7 @@ extension IoTAnalyticsClientTypes {
 
         public init(
             size: IoTAnalyticsClientTypes.EstimatedResourceSize? = nil
-        )
-        {
+        ) {
             self.size = size
         }
     }
@@ -1966,8 +1888,7 @@ public struct DescribeChannelOutput: Swift.Sendable {
     public init(
         channel: IoTAnalyticsClientTypes.Channel? = nil,
         statistics: IoTAnalyticsClientTypes.ChannelStatistics? = nil
-    )
-    {
+    ) {
         self.channel = channel
         self.statistics = statistics
     }
@@ -1980,8 +1901,7 @@ public struct DescribeDatasetInput: Swift.Sendable {
 
     public init(
         datasetName: Swift.String? = nil
-    )
-    {
+    ) {
         self.datasetName = datasetName
     }
 }
@@ -2057,8 +1977,7 @@ extension IoTAnalyticsClientTypes {
             status: IoTAnalyticsClientTypes.DatasetStatus? = nil,
             triggers: [IoTAnalyticsClientTypes.DatasetTrigger]? = nil,
             versioningConfiguration: IoTAnalyticsClientTypes.VersioningConfiguration? = nil
-        )
-        {
+        ) {
             self.actions = actions
             self.arn = arn
             self.contentDeliveryRules = contentDeliveryRules
@@ -2080,8 +1999,7 @@ public struct DescribeDatasetOutput: Swift.Sendable {
 
     public init(
         dataset: IoTAnalyticsClientTypes.Dataset? = nil
-    )
-    {
+    ) {
         self.dataset = dataset
     }
 }
@@ -2096,8 +2014,7 @@ public struct DescribeDatastoreInput: Swift.Sendable {
     public init(
         datastoreName: Swift.String? = nil,
         includeStatistics: Swift.Bool? = false
-    )
-    {
+    ) {
         self.datastoreName = datastoreName
         self.includeStatistics = includeStatistics
     }
@@ -2171,8 +2088,7 @@ extension IoTAnalyticsClientTypes {
             retentionPeriod: IoTAnalyticsClientTypes.RetentionPeriod? = nil,
             status: IoTAnalyticsClientTypes.DatastoreStatus? = nil,
             storage: IoTAnalyticsClientTypes.DatastoreStorage? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.creationTime = creationTime
             self.datastorePartitions = datastorePartitions
@@ -2196,8 +2112,7 @@ extension IoTAnalyticsClientTypes {
 
         public init(
             size: IoTAnalyticsClientTypes.EstimatedResourceSize? = nil
-        )
-        {
+        ) {
             self.size = size
         }
     }
@@ -2212,8 +2127,7 @@ public struct DescribeDatastoreOutput: Swift.Sendable {
     public init(
         datastore: IoTAnalyticsClientTypes.Datastore? = nil,
         statistics: IoTAnalyticsClientTypes.DatastoreStatistics? = nil
-    )
-    {
+    ) {
         self.datastore = datastore
         self.statistics = statistics
     }
@@ -2268,8 +2182,7 @@ extension IoTAnalyticsClientTypes {
             enabled: Swift.Bool = false,
             level: IoTAnalyticsClientTypes.LoggingLevel? = nil,
             roleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
             self.level = level
             self.roleArn = roleArn
@@ -2283,8 +2196,7 @@ public struct DescribeLoggingOptionsOutput: Swift.Sendable {
 
     public init(
         loggingOptions: IoTAnalyticsClientTypes.LoggingOptions? = nil
-    )
-    {
+    ) {
         self.loggingOptions = loggingOptions
     }
 }
@@ -2296,8 +2208,7 @@ public struct DescribePipelineInput: Swift.Sendable {
 
     public init(
         pipelineName: Swift.String? = nil
-    )
-    {
+    ) {
         self.pipelineName = pipelineName
     }
 }
@@ -2352,8 +2263,7 @@ extension IoTAnalyticsClientTypes {
             creationTime: Foundation.Date? = nil,
             id: Swift.String? = nil,
             status: IoTAnalyticsClientTypes.ReprocessingStatus? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.id = id
             self.status = status
@@ -2385,8 +2295,7 @@ extension IoTAnalyticsClientTypes {
             lastUpdateTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             reprocessingSummaries: [IoTAnalyticsClientTypes.ReprocessingSummary]? = nil
-        )
-        {
+        ) {
             self.activities = activities
             self.arn = arn
             self.creationTime = creationTime
@@ -2403,8 +2312,7 @@ public struct DescribePipelineOutput: Swift.Sendable {
 
     public init(
         pipeline: IoTAnalyticsClientTypes.Pipeline? = nil
-    )
-    {
+    ) {
         self.pipeline = pipeline
     }
 }
@@ -2419,8 +2327,7 @@ public struct GetDatasetContentInput: Swift.Sendable {
     public init(
         datasetName: Swift.String? = nil,
         versionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.datasetName = datasetName
         self.versionId = versionId
     }
@@ -2438,8 +2345,7 @@ extension IoTAnalyticsClientTypes {
         public init(
             dataURI: Swift.String? = nil,
             entryName: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataURI = dataURI
             self.entryName = entryName
         }
@@ -2490,8 +2396,7 @@ extension IoTAnalyticsClientTypes {
         public init(
             reason: Swift.String? = nil,
             state: IoTAnalyticsClientTypes.DatasetContentState? = nil
-        )
-        {
+        ) {
             self.reason = reason
             self.state = state
         }
@@ -2510,8 +2415,7 @@ public struct GetDatasetContentOutput: Swift.Sendable {
         entries: [IoTAnalyticsClientTypes.DatasetEntry]? = nil,
         status: IoTAnalyticsClientTypes.DatasetContentStatus? = nil,
         timestamp: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.entries = entries
         self.status = status
         self.timestamp = timestamp
@@ -2527,8 +2431,7 @@ public struct ListChannelsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -2549,8 +2452,7 @@ extension IoTAnalyticsClientTypes {
             bucket: Swift.String? = nil,
             keyPrefix: Swift.String? = nil,
             roleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucket = bucket
             self.keyPrefix = keyPrefix
             self.roleArn = roleArn
@@ -2579,8 +2481,7 @@ extension IoTAnalyticsClientTypes {
         public init(
             customerManagedS3: IoTAnalyticsClientTypes.CustomerManagedChannelS3StorageSummary? = nil,
             serviceManagedS3: IoTAnalyticsClientTypes.ServiceManagedChannelS3StorageSummary? = nil
-        )
-        {
+        ) {
             self.customerManagedS3 = customerManagedS3
             self.serviceManagedS3 = serviceManagedS3
         }
@@ -2611,8 +2512,7 @@ extension IoTAnalyticsClientTypes {
             lastMessageArrivalTime: Foundation.Date? = nil,
             lastUpdateTime: Foundation.Date? = nil,
             status: IoTAnalyticsClientTypes.ChannelStatus? = nil
-        )
-        {
+        ) {
             self.channelName = channelName
             self.channelStorage = channelStorage
             self.creationTime = creationTime
@@ -2632,8 +2532,7 @@ public struct ListChannelsOutput: Swift.Sendable {
     public init(
         channelSummaries: [IoTAnalyticsClientTypes.ChannelSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelSummaries = channelSummaries
         self.nextToken = nextToken
     }
@@ -2658,8 +2557,7 @@ public struct ListDatasetContentsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         scheduledBefore: Foundation.Date? = nil,
         scheduledOnOrAfter: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.datasetName = datasetName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2689,8 +2587,7 @@ extension IoTAnalyticsClientTypes {
             scheduleTime: Foundation.Date? = nil,
             status: IoTAnalyticsClientTypes.DatasetContentStatus? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.completionTime = completionTime
             self.creationTime = creationTime
             self.scheduleTime = scheduleTime
@@ -2709,8 +2606,7 @@ public struct ListDatasetContentsOutput: Swift.Sendable {
     public init(
         datasetContentSummaries: [IoTAnalyticsClientTypes.DatasetContentSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.datasetContentSummaries = datasetContentSummaries
         self.nextToken = nextToken
     }
@@ -2725,8 +2621,7 @@ public struct ListDatasetsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -2773,8 +2668,7 @@ extension IoTAnalyticsClientTypes {
         public init(
             actionName: Swift.String? = nil,
             actionType: IoTAnalyticsClientTypes.DatasetActionType? = nil
-        )
-        {
+        ) {
             self.actionName = actionName
             self.actionType = actionType
         }
@@ -2805,8 +2699,7 @@ extension IoTAnalyticsClientTypes {
             lastUpdateTime: Foundation.Date? = nil,
             status: IoTAnalyticsClientTypes.DatasetStatus? = nil,
             triggers: [IoTAnalyticsClientTypes.DatasetTrigger]? = nil
-        )
-        {
+        ) {
             self.actions = actions
             self.creationTime = creationTime
             self.datasetName = datasetName
@@ -2826,8 +2719,7 @@ public struct ListDatasetsOutput: Swift.Sendable {
     public init(
         datasetSummaries: [IoTAnalyticsClientTypes.DatasetSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.datasetSummaries = datasetSummaries
         self.nextToken = nextToken
     }
@@ -2842,8 +2734,7 @@ public struct ListDatastoresInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -2864,8 +2755,7 @@ extension IoTAnalyticsClientTypes {
             bucket: Swift.String? = nil,
             keyPrefix: Swift.String? = nil,
             roleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucket = bucket
             self.keyPrefix = keyPrefix
             self.roleArn = roleArn
@@ -2885,8 +2775,7 @@ extension IoTAnalyticsClientTypes {
         public init(
             bucket: Swift.String? = nil,
             keyPrefix: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucket = bucket
             self.keyPrefix = keyPrefix
         }
@@ -2902,8 +2791,7 @@ extension IoTAnalyticsClientTypes {
 
         public init(
             customerManagedS3Storage: IoTAnalyticsClientTypes.IotSiteWiseCustomerManagedDatastoreS3StorageSummary? = nil
-        )
-        {
+        ) {
             self.customerManagedS3Storage = customerManagedS3Storage
         }
     }
@@ -2933,8 +2821,7 @@ extension IoTAnalyticsClientTypes {
             customerManagedS3: IoTAnalyticsClientTypes.CustomerManagedDatastoreS3StorageSummary? = nil,
             iotSiteWiseMultiLayerStorage: IoTAnalyticsClientTypes.DatastoreIotSiteWiseMultiLayerStorageSummary? = nil,
             serviceManagedS3: IoTAnalyticsClientTypes.ServiceManagedDatastoreS3StorageSummary? = nil
-        )
-        {
+        ) {
             self.customerManagedS3 = customerManagedS3
             self.iotSiteWiseMultiLayerStorage = iotSiteWiseMultiLayerStorage
             self.serviceManagedS3 = serviceManagedS3
@@ -3001,8 +2888,7 @@ extension IoTAnalyticsClientTypes {
             lastMessageArrivalTime: Foundation.Date? = nil,
             lastUpdateTime: Foundation.Date? = nil,
             status: IoTAnalyticsClientTypes.DatastoreStatus? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.datastoreName = datastoreName
             self.datastorePartitions = datastorePartitions
@@ -3024,8 +2910,7 @@ public struct ListDatastoresOutput: Swift.Sendable {
     public init(
         datastoreSummaries: [IoTAnalyticsClientTypes.DatastoreSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.datastoreSummaries = datastoreSummaries
         self.nextToken = nextToken
     }
@@ -3040,8 +2925,7 @@ public struct ListPipelinesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -3065,8 +2949,7 @@ extension IoTAnalyticsClientTypes {
             lastUpdateTime: Foundation.Date? = nil,
             pipelineName: Swift.String? = nil,
             reprocessingSummaries: [IoTAnalyticsClientTypes.ReprocessingSummary]? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.lastUpdateTime = lastUpdateTime
             self.pipelineName = pipelineName
@@ -3084,8 +2967,7 @@ public struct ListPipelinesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         pipelineSummaries: [IoTAnalyticsClientTypes.PipelineSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.pipelineSummaries = pipelineSummaries
     }
@@ -3098,8 +2980,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -3110,8 +2991,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [IoTAnalyticsClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -3123,8 +3003,7 @@ public struct PutLoggingOptionsInput: Swift.Sendable {
 
     public init(
         loggingOptions: IoTAnalyticsClientTypes.LoggingOptions? = nil
-    )
-    {
+    ) {
         self.loggingOptions = loggingOptions
     }
 }
@@ -3140,8 +3019,7 @@ public struct RunPipelineActivityInput: Swift.Sendable {
     public init(
         payloads: [Foundation.Data]? = nil,
         pipelineActivity: IoTAnalyticsClientTypes.PipelineActivity? = nil
-    )
-    {
+    ) {
         self.payloads = payloads
         self.pipelineActivity = pipelineActivity
     }
@@ -3156,8 +3034,7 @@ public struct RunPipelineActivityOutput: Swift.Sendable {
     public init(
         logResult: Swift.String? = nil,
         payloads: [Foundation.Data]? = nil
-    )
-    {
+    ) {
         self.logResult = logResult
         self.payloads = payloads
     }
@@ -3179,8 +3056,7 @@ public struct SampleChannelDataInput: Swift.Sendable {
         endTime: Foundation.Date? = nil,
         maxMessages: Swift.Int? = nil,
         startTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.channelName = channelName
         self.endTime = endTime
         self.maxMessages = maxMessages
@@ -3194,8 +3070,7 @@ public struct SampleChannelDataOutput: Swift.Sendable {
 
     public init(
         payloads: [Foundation.Data]? = nil
-    )
-    {
+    ) {
         self.payloads = payloads
     }
 }
@@ -3209,8 +3084,7 @@ extension IoTAnalyticsClientTypes {
 
         public init(
             s3Paths: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.s3Paths = s3Paths
         }
     }
@@ -3232,8 +3106,7 @@ public struct StartPipelineReprocessingInput: Swift.Sendable {
         endTime: Foundation.Date? = nil,
         pipelineName: Swift.String? = nil,
         startTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.channelMessages = channelMessages
         self.endTime = endTime
         self.pipelineName = pipelineName
@@ -3247,8 +3120,7 @@ public struct StartPipelineReprocessingOutput: Swift.Sendable {
 
     public init(
         reprocessingId: Swift.String? = nil
-    )
-    {
+    ) {
         self.reprocessingId = reprocessingId
     }
 }
@@ -3264,8 +3136,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [IoTAnalyticsClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -3287,8 +3158,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -3312,8 +3182,7 @@ public struct UpdateChannelInput: Swift.Sendable {
         channelName: Swift.String? = nil,
         channelStorage: IoTAnalyticsClientTypes.ChannelStorage? = nil,
         retentionPeriod: IoTAnalyticsClientTypes.RetentionPeriod? = nil
-    )
-    {
+    ) {
         self.channelName = channelName
         self.channelStorage = channelStorage
         self.retentionPeriod = retentionPeriod
@@ -3346,8 +3215,7 @@ public struct UpdateDatasetInput: Swift.Sendable {
         retentionPeriod: IoTAnalyticsClientTypes.RetentionPeriod? = nil,
         triggers: [IoTAnalyticsClientTypes.DatasetTrigger]? = nil,
         versioningConfiguration: IoTAnalyticsClientTypes.VersioningConfiguration? = nil
-    )
-    {
+    ) {
         self.actions = actions
         self.contentDeliveryRules = contentDeliveryRules
         self.datasetName = datasetName
@@ -3374,8 +3242,7 @@ public struct UpdateDatastoreInput: Swift.Sendable {
         datastoreStorage: IoTAnalyticsClientTypes.DatastoreStorage? = nil,
         fileFormatConfiguration: IoTAnalyticsClientTypes.FileFormatConfiguration? = nil,
         retentionPeriod: IoTAnalyticsClientTypes.RetentionPeriod? = nil
-    )
-    {
+    ) {
         self.datastoreName = datastoreName
         self.datastoreStorage = datastoreStorage
         self.fileFormatConfiguration = fileFormatConfiguration
@@ -3394,8 +3261,7 @@ public struct UpdatePipelineInput: Swift.Sendable {
     public init(
         pipelineActivities: [IoTAnalyticsClientTypes.PipelineActivity]? = nil,
         pipelineName: Swift.String? = nil
-    )
-    {
+    ) {
         self.pipelineActivities = pipelineActivities
         self.pipelineName = pipelineName
     }

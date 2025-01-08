@@ -64,8 +64,7 @@ public struct SourceNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -88,8 +87,7 @@ public struct SubscriptionNotFoundFault: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -114,8 +112,7 @@ public struct AddSourceIdentifierToSubscriptionInput: Swift.Sendable {
     public init(
         sourceIdentifier: Swift.String? = nil,
         subscriptionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.sourceIdentifier = sourceIdentifier
         self.subscriptionName = subscriptionName
     }
@@ -157,8 +154,7 @@ extension DocDBClientTypes {
             sourceType: Swift.String? = nil,
             status: Swift.String? = nil,
             subscriptionCreationTime: Swift.String? = nil
-        )
-        {
+        ) {
             self.custSubscriptionId = custSubscriptionId
             self.customerAwsId = customerAwsId
             self.enabled = enabled
@@ -179,8 +175,7 @@ public struct AddSourceIdentifierToSubscriptionOutput: Swift.Sendable {
 
     public init(
         eventSubscription: DocDBClientTypes.EventSubscription? = nil
-    )
-    {
+    ) {
         self.eventSubscription = eventSubscription
     }
 }
@@ -203,8 +198,7 @@ public struct DBClusterNotFoundFault: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -227,8 +221,7 @@ public struct DBInstanceNotFoundFault: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -251,8 +244,7 @@ public struct DBSnapshotNotFoundFault: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -269,8 +261,7 @@ extension DocDBClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -289,8 +280,7 @@ public struct AddTagsToResourceInput: Swift.Sendable {
     public init(
         resourceName: Swift.String? = nil,
         tags: [DocDBClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceName = resourceName
         self.tags = tags
     }
@@ -314,8 +304,7 @@ public struct InvalidDBClusterStateFault: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -338,8 +327,7 @@ public struct InvalidDBInstanceStateFault: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -362,8 +350,7 @@ public struct ResourceNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -390,8 +377,7 @@ public struct ApplyPendingMaintenanceActionInput: Swift.Sendable {
         applyAction: Swift.String? = nil,
         optInType: Swift.String? = nil,
         resourceIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.applyAction = applyAction
         self.optInType = optInType
         self.resourceIdentifier = resourceIdentifier
@@ -422,8 +408,7 @@ extension DocDBClientTypes {
             description: Swift.String? = nil,
             forcedApplyDate: Foundation.Date? = nil,
             optInStatus: Swift.String? = nil
-        )
-        {
+        ) {
             self.action = action
             self.autoAppliedAfterDate = autoAppliedAfterDate
             self.currentApplyDate = currentApplyDate
@@ -446,8 +431,7 @@ extension DocDBClientTypes {
         public init(
             pendingMaintenanceActionDetails: [DocDBClientTypes.PendingMaintenanceAction]? = nil,
             resourceIdentifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.pendingMaintenanceActionDetails = pendingMaintenanceActionDetails
             self.resourceIdentifier = resourceIdentifier
         }
@@ -460,8 +444,7 @@ public struct ApplyPendingMaintenanceActionOutput: Swift.Sendable {
 
     public init(
         resourcePendingMaintenanceActions: DocDBClientTypes.ResourcePendingMaintenanceActions? = nil
-    )
-    {
+    ) {
         self.resourcePendingMaintenanceActions = resourcePendingMaintenanceActions
     }
 }
@@ -484,8 +467,7 @@ public struct DBParameterGroupAlreadyExistsFault: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -508,8 +490,7 @@ public struct DBParameterGroupNotFoundFault: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -532,8 +513,7 @@ public struct DBParameterGroupQuotaExceededFault: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -574,8 +554,7 @@ public struct CopyDBClusterParameterGroupInput: Swift.Sendable {
         tags: [DocDBClientTypes.Tag]? = nil,
         targetDBClusterParameterGroupDescription: Swift.String? = nil,
         targetDBClusterParameterGroupIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.sourceDBClusterParameterGroupIdentifier = sourceDBClusterParameterGroupIdentifier
         self.tags = tags
         self.targetDBClusterParameterGroupDescription = targetDBClusterParameterGroupDescription
@@ -601,8 +580,7 @@ extension DocDBClientTypes {
             dbClusterParameterGroupName: Swift.String? = nil,
             dbParameterGroupFamily: Swift.String? = nil,
             description: Swift.String? = nil
-        )
-        {
+        ) {
             self.dbClusterParameterGroupArn = dbClusterParameterGroupArn
             self.dbClusterParameterGroupName = dbClusterParameterGroupName
             self.dbParameterGroupFamily = dbParameterGroupFamily
@@ -617,8 +595,7 @@ public struct CopyDBClusterParameterGroupOutput: Swift.Sendable {
 
     public init(
         dbClusterParameterGroup: DocDBClientTypes.DBClusterParameterGroup? = nil
-    )
-    {
+    ) {
         self.dbClusterParameterGroup = dbClusterParameterGroup
     }
 }
@@ -641,8 +618,7 @@ public struct DBClusterSnapshotAlreadyExistsFault: ClientRuntime.ModeledError, A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -665,8 +641,7 @@ public struct DBClusterSnapshotNotFoundFault: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -689,8 +664,7 @@ public struct InvalidDBClusterSnapshotStateFault: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -713,8 +687,7 @@ public struct KMSKeyNotAccessibleFault: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -737,8 +710,7 @@ public struct SnapshotQuotaExceededFault: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -791,8 +763,7 @@ public struct CopyDBClusterSnapshotInput: Swift.Sendable {
         sourceDBClusterSnapshotIdentifier: Swift.String? = nil,
         tags: [DocDBClientTypes.Tag]? = nil,
         targetDBClusterSnapshotIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.copyTags = copyTags
         self.kmsKeyId = kmsKeyId
         self.preSignedUrl = preSignedUrl
@@ -862,8 +833,7 @@ extension DocDBClientTypes {
             storageEncrypted: Swift.Bool? = nil,
             storageType: Swift.String? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.availabilityZones = availabilityZones
             self.clusterCreateTime = clusterCreateTime
             self.dbClusterIdentifier = dbClusterIdentifier
@@ -892,8 +862,7 @@ public struct CopyDBClusterSnapshotOutput: Swift.Sendable {
 
     public init(
         dbClusterSnapshot: DocDBClientTypes.DBClusterSnapshot? = nil
-    )
-    {
+    ) {
         self.dbClusterSnapshot = dbClusterSnapshot
     }
 }
@@ -916,8 +885,7 @@ public struct DBClusterAlreadyExistsFault: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -940,8 +908,7 @@ public struct DBClusterParameterGroupNotFoundFault: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -964,8 +931,7 @@ public struct DBClusterQuotaExceededFault: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -988,8 +954,7 @@ public struct DBSubnetGroupDoesNotCoverEnoughAZs: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1012,8 +977,7 @@ public struct DBSubnetGroupNotFoundFault: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1036,8 +1000,7 @@ public struct GlobalClusterNotFoundFault: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1060,8 +1023,7 @@ public struct InsufficientStorageClusterCapacityFault: ClientRuntime.ModeledErro
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1084,8 +1046,7 @@ public struct InvalidDBSubnetGroupStateFault: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1108,8 +1069,7 @@ public struct InvalidGlobalClusterStateFault: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1132,8 +1092,7 @@ public struct InvalidSubnet: ClientRuntime.ModeledError, AWSClientRuntime.AWSSer
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1156,8 +1115,7 @@ public struct InvalidVPCNetworkStateFault: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1180,8 +1138,7 @@ public struct StorageQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1291,8 +1248,7 @@ public struct CreateDBClusterInput: Swift.Sendable {
         storageType: Swift.String? = nil,
         tags: [DocDBClientTypes.Tag]? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.availabilityZones = availabilityZones
         self.backupRetentionPeriod = backupRetentionPeriod
         self.dbClusterIdentifier = dbClusterIdentifier
@@ -1337,8 +1293,7 @@ extension DocDBClientTypes {
         public init(
             roleArn: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.roleArn = roleArn
             self.status = status
         }
@@ -1363,8 +1318,7 @@ extension DocDBClientTypes {
             dbInstanceIdentifier: Swift.String? = nil,
             isClusterWriter: Swift.Bool? = nil,
             promotionTier: Swift.Int? = nil
-        )
-        {
+        ) {
             self.dbClusterParameterGroupStatus = dbClusterParameterGroupStatus
             self.dbInstanceIdentifier = dbInstanceIdentifier
             self.isClusterWriter = isClusterWriter
@@ -1396,8 +1350,7 @@ extension DocDBClientTypes {
             kmsKeyId: Swift.String? = nil,
             secretArn: Swift.String? = nil,
             secretStatus: Swift.String? = nil
-        )
-        {
+        ) {
             self.kmsKeyId = kmsKeyId
             self.secretArn = secretArn
             self.secretStatus = secretStatus
@@ -1417,8 +1370,7 @@ extension DocDBClientTypes {
         public init(
             status: Swift.String? = nil,
             vpcSecurityGroupId: Swift.String? = nil
-        )
-        {
+        ) {
             self.status = status
             self.vpcSecurityGroupId = vpcSecurityGroupId
         }
@@ -1533,8 +1485,7 @@ extension DocDBClientTypes {
             storageEncrypted: Swift.Bool? = nil,
             storageType: Swift.String? = nil,
             vpcSecurityGroups: [DocDBClientTypes.VpcSecurityGroupMembership]? = nil
-        )
-        {
+        ) {
             self.associatedRoles = associatedRoles
             self.availabilityZones = availabilityZones
             self.backupRetentionPeriod = backupRetentionPeriod
@@ -1579,8 +1530,7 @@ public struct CreateDBClusterOutput: Swift.Sendable {
 
     public init(
         dbCluster: DocDBClientTypes.DBCluster? = nil
-    )
-    {
+    ) {
         self.dbCluster = dbCluster
     }
 }
@@ -1609,8 +1559,7 @@ public struct CreateDBClusterParameterGroupInput: Swift.Sendable {
         dbParameterGroupFamily: Swift.String? = nil,
         description: Swift.String? = nil,
         tags: [DocDBClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.dbClusterParameterGroupName = dbClusterParameterGroupName
         self.dbParameterGroupFamily = dbParameterGroupFamily
         self.description = description
@@ -1624,8 +1573,7 @@ public struct CreateDBClusterParameterGroupOutput: Swift.Sendable {
 
     public init(
         dbClusterParameterGroup: DocDBClientTypes.DBClusterParameterGroup? = nil
-    )
-    {
+    ) {
         self.dbClusterParameterGroup = dbClusterParameterGroup
     }
 }
@@ -1659,8 +1607,7 @@ public struct CreateDBClusterSnapshotInput: Swift.Sendable {
         dbClusterIdentifier: Swift.String? = nil,
         dbClusterSnapshotIdentifier: Swift.String? = nil,
         tags: [DocDBClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.dbClusterIdentifier = dbClusterIdentifier
         self.dbClusterSnapshotIdentifier = dbClusterSnapshotIdentifier
         self.tags = tags
@@ -1673,8 +1620,7 @@ public struct CreateDBClusterSnapshotOutput: Swift.Sendable {
 
     public init(
         dbClusterSnapshot: DocDBClientTypes.DBClusterSnapshot? = nil
-    )
-    {
+    ) {
         self.dbClusterSnapshot = dbClusterSnapshot
     }
 }
@@ -1697,8 +1643,7 @@ public struct AuthorizationNotFoundFault: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1721,8 +1666,7 @@ public struct DBInstanceAlreadyExistsFault: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1745,8 +1689,7 @@ public struct DBSecurityGroupNotFoundFault: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1769,8 +1712,7 @@ public struct InstanceQuotaExceededFault: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1793,8 +1735,7 @@ public struct InsufficientDBInstanceCapacityFault: ClientRuntime.ModeledError, A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1817,8 +1758,7 @@ public struct StorageTypeNotSupportedFault: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1879,8 +1819,7 @@ public struct CreateDBInstanceInput: Swift.Sendable {
         preferredMaintenanceWindow: Swift.String? = nil,
         promotionTier: Swift.Int? = nil,
         tags: [DocDBClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
         self.availabilityZone = availabilityZone
         self.caCertificateIdentifier = caCertificateIdentifier
@@ -1909,8 +1848,7 @@ extension DocDBClientTypes {
         public init(
             caIdentifier: Swift.String? = nil,
             validTill: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.caIdentifier = caIdentifier
             self.validTill = validTill
         }
@@ -1926,8 +1864,7 @@ extension DocDBClientTypes {
 
         public init(
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
         }
     }
@@ -1948,8 +1885,7 @@ extension DocDBClientTypes {
             subnetAvailabilityZone: DocDBClientTypes.AvailabilityZone? = nil,
             subnetIdentifier: Swift.String? = nil,
             subnetStatus: Swift.String? = nil
-        )
-        {
+        ) {
             self.subnetAvailabilityZone = subnetAvailabilityZone
             self.subnetIdentifier = subnetIdentifier
             self.subnetStatus = subnetStatus
@@ -1981,8 +1917,7 @@ extension DocDBClientTypes {
             subnetGroupStatus: Swift.String? = nil,
             subnets: [DocDBClientTypes.Subnet]? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.dbSubnetGroupArn = dbSubnetGroupArn
             self.dbSubnetGroupDescription = dbSubnetGroupDescription
             self.dbSubnetGroupName = dbSubnetGroupName
@@ -2008,8 +1943,7 @@ extension DocDBClientTypes {
             address: Swift.String? = nil,
             hostedZoneId: Swift.String? = nil,
             port: Swift.Int? = nil
-        )
-        {
+        ) {
             self.address = address
             self.hostedZoneId = hostedZoneId
             self.port = port
@@ -2029,8 +1963,7 @@ extension DocDBClientTypes {
         public init(
             logTypesToDisable: [Swift.String]? = nil,
             logTypesToEnable: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.logTypesToDisable = logTypesToDisable
             self.logTypesToEnable = logTypesToEnable
         }
@@ -2085,8 +2018,7 @@ extension DocDBClientTypes {
             pendingCloudwatchLogsExports: DocDBClientTypes.PendingCloudwatchLogsExports? = nil,
             port: Swift.Int? = nil,
             storageType: Swift.String? = nil
-        )
-        {
+        ) {
             self.allocatedStorage = allocatedStorage
             self.backupRetentionPeriod = backupRetentionPeriod
             self.caCertificateIdentifier = caCertificateIdentifier
@@ -2123,8 +2055,7 @@ extension DocDBClientTypes {
             normal: Swift.Bool? = nil,
             status: Swift.String? = nil,
             statusType: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
             self.normal = normal
             self.status = status
@@ -2229,8 +2160,7 @@ extension DocDBClientTypes {
             statusInfos: [DocDBClientTypes.DBInstanceStatusInfo]? = nil,
             storageEncrypted: Swift.Bool? = nil,
             vpcSecurityGroups: [DocDBClientTypes.VpcSecurityGroupMembership]? = nil
-        )
-        {
+        ) {
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.availabilityZone = availabilityZone
             self.backupRetentionPeriod = backupRetentionPeriod
@@ -2271,8 +2201,7 @@ public struct CreateDBInstanceOutput: Swift.Sendable {
 
     public init(
         dbInstance: DocDBClientTypes.DBInstance? = nil
-    )
-    {
+    ) {
         self.dbInstance = dbInstance
     }
 }
@@ -2295,8 +2224,7 @@ public struct DBSubnetGroupAlreadyExistsFault: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2319,8 +2247,7 @@ public struct DBSubnetGroupQuotaExceededFault: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2343,8 +2270,7 @@ public struct DBSubnetQuotaExceededFault: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2368,8 +2294,7 @@ public struct CreateDBSubnetGroupInput: Swift.Sendable {
         dbSubnetGroupName: Swift.String? = nil,
         subnetIds: [Swift.String]? = nil,
         tags: [DocDBClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.dbSubnetGroupDescription = dbSubnetGroupDescription
         self.dbSubnetGroupName = dbSubnetGroupName
         self.subnetIds = subnetIds
@@ -2383,8 +2308,7 @@ public struct CreateDBSubnetGroupOutput: Swift.Sendable {
 
     public init(
         dbSubnetGroup: DocDBClientTypes.DBSubnetGroup? = nil
-    )
-    {
+    ) {
         self.dbSubnetGroup = dbSubnetGroup
     }
 }
@@ -2407,8 +2331,7 @@ public struct EventSubscriptionQuotaExceededFault: ClientRuntime.ModeledError, A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2431,8 +2354,7 @@ public struct SNSInvalidTopicFault: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2455,8 +2377,7 @@ public struct SNSNoAuthorizationFault: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2479,8 +2400,7 @@ public struct SNSTopicArnNotFoundFault: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2503,8 +2423,7 @@ public struct SubscriptionAlreadyExistFault: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2527,8 +2446,7 @@ public struct SubscriptionCategoryNotFoundFault: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2570,8 +2488,7 @@ public struct CreateEventSubscriptionInput: Swift.Sendable {
         sourceType: Swift.String? = nil,
         subscriptionName: Swift.String? = nil,
         tags: [DocDBClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.enabled = enabled
         self.eventCategories = eventCategories
         self.snsTopicArn = snsTopicArn
@@ -2588,8 +2505,7 @@ public struct CreateEventSubscriptionOutput: Swift.Sendable {
 
     public init(
         eventSubscription: DocDBClientTypes.EventSubscription? = nil
-    )
-    {
+    ) {
         self.eventSubscription = eventSubscription
     }
 }
@@ -2612,8 +2528,7 @@ public struct GlobalClusterAlreadyExistsFault: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2636,8 +2551,7 @@ public struct GlobalClusterQuotaExceededFault: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2668,8 +2582,7 @@ public struct CreateGlobalClusterInput: Swift.Sendable {
         globalClusterIdentifier: Swift.String? = nil,
         sourceDBClusterIdentifier: Swift.String? = nil,
         storageEncrypted: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.databaseName = databaseName
         self.deletionProtection = deletionProtection
         self.engine = engine
@@ -2695,8 +2608,7 @@ extension DocDBClientTypes {
             dbClusterArn: Swift.String? = nil,
             isWriter: Swift.Bool? = nil,
             readers: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.dbClusterArn = dbClusterArn
             self.isWriter = isWriter
             self.readers = readers
@@ -2740,8 +2652,7 @@ extension DocDBClientTypes {
             globalClusterResourceId: Swift.String? = nil,
             status: Swift.String? = nil,
             storageEncrypted: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.databaseName = databaseName
             self.deletionProtection = deletionProtection
             self.engine = engine
@@ -2762,8 +2673,7 @@ public struct CreateGlobalClusterOutput: Swift.Sendable {
 
     public init(
         globalCluster: DocDBClientTypes.GlobalCluster? = nil
-    )
-    {
+    ) {
         self.globalCluster = globalCluster
     }
 }
@@ -2790,8 +2700,7 @@ public struct DeleteDBClusterInput: Swift.Sendable {
         dbClusterIdentifier: Swift.String? = nil,
         finalDBSnapshotIdentifier: Swift.String? = nil,
         skipFinalSnapshot: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.dbClusterIdentifier = dbClusterIdentifier
         self.finalDBSnapshotIdentifier = finalDBSnapshotIdentifier
         self.skipFinalSnapshot = skipFinalSnapshot
@@ -2804,8 +2713,7 @@ public struct DeleteDBClusterOutput: Swift.Sendable {
 
     public init(
         dbCluster: DocDBClientTypes.DBCluster? = nil
-    )
-    {
+    ) {
         self.dbCluster = dbCluster
     }
 }
@@ -2828,8 +2736,7 @@ public struct InvalidDBParameterGroupStateFault: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2848,8 +2755,7 @@ public struct DeleteDBClusterParameterGroupInput: Swift.Sendable {
 
     public init(
         dbClusterParameterGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbClusterParameterGroupName = dbClusterParameterGroupName
     }
 }
@@ -2862,8 +2768,7 @@ public struct DeleteDBClusterSnapshotInput: Swift.Sendable {
 
     public init(
         dbClusterSnapshotIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbClusterSnapshotIdentifier = dbClusterSnapshotIdentifier
     }
 }
@@ -2874,8 +2779,7 @@ public struct DeleteDBClusterSnapshotOutput: Swift.Sendable {
 
     public init(
         dbClusterSnapshot: DocDBClientTypes.DBClusterSnapshot? = nil
-    )
-    {
+    ) {
         self.dbClusterSnapshot = dbClusterSnapshot
     }
 }
@@ -2898,8 +2802,7 @@ public struct DBSnapshotAlreadyExistsFault: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2914,8 +2817,7 @@ public struct DeleteDBInstanceInput: Swift.Sendable {
 
     public init(
         dbInstanceIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbInstanceIdentifier = dbInstanceIdentifier
     }
 }
@@ -2926,8 +2828,7 @@ public struct DeleteDBInstanceOutput: Swift.Sendable {
 
     public init(
         dbInstance: DocDBClientTypes.DBInstance? = nil
-    )
-    {
+    ) {
         self.dbInstance = dbInstance
     }
 }
@@ -2950,8 +2851,7 @@ public struct InvalidDBSubnetStateFault: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2964,8 +2864,7 @@ public struct DeleteDBSubnetGroupInput: Swift.Sendable {
 
     public init(
         dbSubnetGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbSubnetGroupName = dbSubnetGroupName
     }
 }
@@ -2988,8 +2887,7 @@ public struct InvalidEventSubscriptionStateFault: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3002,8 +2900,7 @@ public struct DeleteEventSubscriptionInput: Swift.Sendable {
 
     public init(
         subscriptionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.subscriptionName = subscriptionName
     }
 }
@@ -3014,8 +2911,7 @@ public struct DeleteEventSubscriptionOutput: Swift.Sendable {
 
     public init(
         eventSubscription: DocDBClientTypes.EventSubscription? = nil
-    )
-    {
+    ) {
         self.eventSubscription = eventSubscription
     }
 }
@@ -3028,8 +2924,7 @@ public struct DeleteGlobalClusterInput: Swift.Sendable {
 
     public init(
         globalClusterIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.globalClusterIdentifier = globalClusterIdentifier
     }
 }
@@ -3040,8 +2935,7 @@ public struct DeleteGlobalClusterOutput: Swift.Sendable {
 
     public init(
         globalCluster: DocDBClientTypes.GlobalCluster? = nil
-    )
-    {
+    ) {
         self.globalCluster = globalCluster
     }
 }
@@ -3064,8 +2958,7 @@ public struct CertificateNotFoundFault: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3084,8 +2977,7 @@ extension DocDBClientTypes {
         public init(
             name: Swift.String? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.values = values
         }
@@ -3113,8 +3005,7 @@ public struct DescribeCertificatesInput: Swift.Sendable {
         filters: [DocDBClientTypes.Filter]? = nil,
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil
-    )
-    {
+    ) {
         self.certificateIdentifier = certificateIdentifier
         self.filters = filters
         self.marker = marker
@@ -3146,8 +3037,7 @@ extension DocDBClientTypes {
             thumbprint: Swift.String? = nil,
             validFrom: Foundation.Date? = nil,
             validTill: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.certificateArn = certificateArn
             self.certificateIdentifier = certificateIdentifier
             self.certificateType = certificateType
@@ -3167,8 +3057,7 @@ public struct DescribeCertificatesOutput: Swift.Sendable {
     public init(
         certificates: [DocDBClientTypes.Certificate]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificates = certificates
         self.marker = marker
     }
@@ -3192,8 +3081,7 @@ public struct DescribeDBClusterParameterGroupsInput: Swift.Sendable {
         filters: [DocDBClientTypes.Filter]? = nil,
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil
-    )
-    {
+    ) {
         self.dbClusterParameterGroupName = dbClusterParameterGroupName
         self.filters = filters
         self.marker = marker
@@ -3211,8 +3099,7 @@ public struct DescribeDBClusterParameterGroupsOutput: Swift.Sendable {
     public init(
         dbClusterParameterGroups: [DocDBClientTypes.DBClusterParameterGroup]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbClusterParameterGroups = dbClusterParameterGroups
         self.marker = marker
     }
@@ -3240,8 +3127,7 @@ public struct DescribeDBClusterParametersInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil,
         source: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbClusterParameterGroupName = dbClusterParameterGroupName
         self.filters = filters
         self.marker = marker
@@ -3315,8 +3201,7 @@ extension DocDBClientTypes {
             parameterName: Swift.String? = nil,
             parameterValue: Swift.String? = nil,
             source: Swift.String? = nil
-        )
-        {
+        ) {
             self.allowedValues = allowedValues
             self.applyMethod = applyMethod
             self.applyType = applyType
@@ -3341,8 +3226,7 @@ public struct DescribeDBClusterParametersOutput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         parameters: [DocDBClientTypes.Parameter]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.parameters = parameters
     }
@@ -3368,8 +3252,7 @@ public struct DescribeDBClustersInput: Swift.Sendable {
         filters: [DocDBClientTypes.Filter]? = nil,
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil
-    )
-    {
+    ) {
         self.dbClusterIdentifier = dbClusterIdentifier
         self.filters = filters
         self.marker = marker
@@ -3387,8 +3270,7 @@ public struct DescribeDBClustersOutput: Swift.Sendable {
     public init(
         dbClusters: [DocDBClientTypes.DBCluster]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbClusters = dbClusters
         self.marker = marker
     }
@@ -3402,8 +3284,7 @@ public struct DescribeDBClusterSnapshotAttributesInput: Swift.Sendable {
 
     public init(
         dbClusterSnapshotIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbClusterSnapshotIdentifier = dbClusterSnapshotIdentifier
     }
 }
@@ -3420,8 +3301,7 @@ extension DocDBClientTypes {
         public init(
             attributeName: Swift.String? = nil,
             attributeValues: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.attributeName = attributeName
             self.attributeValues = attributeValues
         }
@@ -3440,8 +3320,7 @@ extension DocDBClientTypes {
         public init(
             dbClusterSnapshotAttributes: [DocDBClientTypes.DBClusterSnapshotAttribute]? = nil,
             dbClusterSnapshotIdentifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.dbClusterSnapshotAttributes = dbClusterSnapshotAttributes
             self.dbClusterSnapshotIdentifier = dbClusterSnapshotIdentifier
         }
@@ -3454,8 +3333,7 @@ public struct DescribeDBClusterSnapshotAttributesOutput: Swift.Sendable {
 
     public init(
         dbClusterSnapshotAttributesResult: DocDBClientTypes.DBClusterSnapshotAttributesResult? = nil
-    )
-    {
+    ) {
         self.dbClusterSnapshotAttributesResult = dbClusterSnapshotAttributesResult
     }
 }
@@ -3505,8 +3383,7 @@ public struct DescribeDBClusterSnapshotsInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil,
         snapshotType: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbClusterIdentifier = dbClusterIdentifier
         self.dbClusterSnapshotIdentifier = dbClusterSnapshotIdentifier
         self.filters = filters
@@ -3528,8 +3405,7 @@ public struct DescribeDBClusterSnapshotsOutput: Swift.Sendable {
     public init(
         dbClusterSnapshots: [DocDBClientTypes.DBClusterSnapshot]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbClusterSnapshots = dbClusterSnapshots
         self.marker = marker
     }
@@ -3568,8 +3444,7 @@ public struct DescribeDBEngineVersionsInput: Swift.Sendable {
         listSupportedTimezones: Swift.Bool? = nil,
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil
-    )
-    {
+    ) {
         self.dbParameterGroupFamily = dbParameterGroupFamily
         self.defaultOnly = defaultOnly
         self.engine = engine
@@ -3603,8 +3478,7 @@ extension DocDBClientTypes {
             engine: Swift.String? = nil,
             engineVersion: Swift.String? = nil,
             isMajorVersionUpgrade: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.autoUpgrade = autoUpgrade
             self.description = description
             self.engine = engine
@@ -3650,8 +3524,7 @@ extension DocDBClientTypes {
             supportsCertificateRotationWithoutRestart: Swift.Bool? = nil,
             supportsLogExportsToCloudwatchLogs: Swift.Bool? = nil,
             validUpgradeTarget: [DocDBClientTypes.UpgradeTarget]? = nil
-        )
-        {
+        ) {
             self.dbEngineDescription = dbEngineDescription
             self.dbEngineVersionDescription = dbEngineVersionDescription
             self.dbParameterGroupFamily = dbParameterGroupFamily
@@ -3676,8 +3549,7 @@ public struct DescribeDBEngineVersionsOutput: Swift.Sendable {
     public init(
         dbEngineVersions: [DocDBClientTypes.DBEngineVersion]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbEngineVersions = dbEngineVersions
         self.marker = marker
     }
@@ -3705,8 +3577,7 @@ public struct DescribeDBInstancesInput: Swift.Sendable {
         filters: [DocDBClientTypes.Filter]? = nil,
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil
-    )
-    {
+    ) {
         self.dbInstanceIdentifier = dbInstanceIdentifier
         self.filters = filters
         self.marker = marker
@@ -3724,8 +3595,7 @@ public struct DescribeDBInstancesOutput: Swift.Sendable {
     public init(
         dbInstances: [DocDBClientTypes.DBInstance]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbInstances = dbInstances
         self.marker = marker
     }
@@ -3747,8 +3617,7 @@ public struct DescribeDBSubnetGroupsInput: Swift.Sendable {
         filters: [DocDBClientTypes.Filter]? = nil,
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil
-    )
-    {
+    ) {
         self.dbSubnetGroupName = dbSubnetGroupName
         self.filters = filters
         self.marker = marker
@@ -3766,8 +3635,7 @@ public struct DescribeDBSubnetGroupsOutput: Swift.Sendable {
     public init(
         dbSubnetGroups: [DocDBClientTypes.DBSubnetGroup]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbSubnetGroups = dbSubnetGroups
         self.marker = marker
     }
@@ -3790,8 +3658,7 @@ public struct DescribeEngineDefaultClusterParametersInput: Swift.Sendable {
         filters: [DocDBClientTypes.Filter]? = nil,
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil
-    )
-    {
+    ) {
         self.dbParameterGroupFamily = dbParameterGroupFamily
         self.filters = filters
         self.marker = marker
@@ -3814,8 +3681,7 @@ extension DocDBClientTypes {
             dbParameterGroupFamily: Swift.String? = nil,
             marker: Swift.String? = nil,
             parameters: [DocDBClientTypes.Parameter]? = nil
-        )
-        {
+        ) {
             self.dbParameterGroupFamily = dbParameterGroupFamily
             self.marker = marker
             self.parameters = parameters
@@ -3829,8 +3695,7 @@ public struct DescribeEngineDefaultClusterParametersOutput: Swift.Sendable {
 
     public init(
         engineDefaults: DocDBClientTypes.EngineDefaults? = nil
-    )
-    {
+    ) {
         self.engineDefaults = engineDefaults
     }
 }
@@ -3845,8 +3710,7 @@ public struct DescribeEventCategoriesInput: Swift.Sendable {
     public init(
         filters: [DocDBClientTypes.Filter]? = nil,
         sourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.sourceType = sourceType
     }
@@ -3864,8 +3728,7 @@ extension DocDBClientTypes {
         public init(
             eventCategories: [Swift.String]? = nil,
             sourceType: Swift.String? = nil
-        )
-        {
+        ) {
             self.eventCategories = eventCategories
             self.sourceType = sourceType
         }
@@ -3879,8 +3742,7 @@ public struct DescribeEventCategoriesOutput: Swift.Sendable {
 
     public init(
         eventCategoriesMapList: [DocDBClientTypes.EventCategoriesMap]? = nil
-    )
-    {
+    ) {
         self.eventCategoriesMapList = eventCategoriesMapList
     }
 }
@@ -3969,8 +3831,7 @@ public struct DescribeEventsInput: Swift.Sendable {
         sourceIdentifier: Swift.String? = nil,
         sourceType: DocDBClientTypes.SourceType? = nil,
         startTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.duration = duration
         self.endTime = endTime
         self.eventCategories = eventCategories
@@ -4007,8 +3868,7 @@ extension DocDBClientTypes {
             sourceArn: Swift.String? = nil,
             sourceIdentifier: Swift.String? = nil,
             sourceType: DocDBClientTypes.SourceType? = nil
-        )
-        {
+        ) {
             self.date = date
             self.eventCategories = eventCategories
             self.message = message
@@ -4029,8 +3889,7 @@ public struct DescribeEventsOutput: Swift.Sendable {
     public init(
         events: [DocDBClientTypes.Event]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.events = events
         self.marker = marker
     }
@@ -4052,8 +3911,7 @@ public struct DescribeEventSubscriptionsInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil,
         subscriptionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.marker = marker
         self.maxRecords = maxRecords
@@ -4071,8 +3929,7 @@ public struct DescribeEventSubscriptionsOutput: Swift.Sendable {
     public init(
         eventSubscriptionsList: [DocDBClientTypes.EventSubscription]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.eventSubscriptionsList = eventSubscriptionsList
         self.marker = marker
     }
@@ -4093,8 +3950,7 @@ public struct DescribeGlobalClustersInput: Swift.Sendable {
         globalClusterIdentifier: Swift.String? = nil,
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.globalClusterIdentifier = globalClusterIdentifier
         self.marker = marker
@@ -4111,8 +3967,7 @@ public struct DescribeGlobalClustersOutput: Swift.Sendable {
     public init(
         globalClusters: [DocDBClientTypes.GlobalCluster]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.globalClusters = globalClusters
         self.marker = marker
     }
@@ -4147,8 +4002,7 @@ public struct DescribeOrderableDBInstanceOptionsInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil,
         vpc: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.dbInstanceClass = dbInstanceClass
         self.engine = engine
         self.engineVersion = engineVersion
@@ -4187,8 +4041,7 @@ extension DocDBClientTypes {
             licenseModel: Swift.String? = nil,
             storageType: Swift.String? = nil,
             vpc: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.availabilityZones = availabilityZones
             self.dbInstanceClass = dbInstanceClass
             self.engine = engine
@@ -4210,8 +4063,7 @@ public struct DescribeOrderableDBInstanceOptionsOutput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         orderableDBInstanceOptions: [DocDBClientTypes.OrderableDBInstanceOption]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.orderableDBInstanceOptions = orderableDBInstanceOptions
     }
@@ -4237,8 +4089,7 @@ public struct DescribePendingMaintenanceActionsInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil,
         resourceIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.marker = marker
         self.maxRecords = maxRecords
@@ -4256,8 +4107,7 @@ public struct DescribePendingMaintenanceActionsOutput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         pendingMaintenanceActions: [DocDBClientTypes.ResourcePendingMaintenanceActions]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.pendingMaintenanceActions = pendingMaintenanceActions
     }
@@ -4275,8 +4125,7 @@ public struct FailoverDBClusterInput: Swift.Sendable {
     public init(
         dbClusterIdentifier: Swift.String? = nil,
         targetDBInstanceIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbClusterIdentifier = dbClusterIdentifier
         self.targetDBInstanceIdentifier = targetDBInstanceIdentifier
     }
@@ -4288,8 +4137,7 @@ public struct FailoverDBClusterOutput: Swift.Sendable {
 
     public init(
         dbCluster: DocDBClientTypes.DBCluster? = nil
-    )
-    {
+    ) {
         self.dbCluster = dbCluster
     }
 }
@@ -4329,8 +4177,7 @@ public struct FailoverGlobalClusterInput: Swift.Sendable {
         globalClusterIdentifier: Swift.String? = nil,
         switchover: Swift.Bool? = nil,
         targetDbClusterIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.allowDataLoss = allowDataLoss
         self.globalClusterIdentifier = globalClusterIdentifier
         self.switchover = switchover
@@ -4344,8 +4191,7 @@ public struct FailoverGlobalClusterOutput: Swift.Sendable {
 
     public init(
         globalCluster: DocDBClientTypes.GlobalCluster? = nil
-    )
-    {
+    ) {
         self.globalCluster = globalCluster
     }
 }
@@ -4361,8 +4207,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
     public init(
         filters: [DocDBClientTypes.Filter]? = nil,
         resourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.resourceName = resourceName
     }
@@ -4375,8 +4220,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tagList: [DocDBClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tagList = tagList
     }
 }
@@ -4399,8 +4243,7 @@ public struct InvalidDBSecurityGroupStateFault: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4417,8 +4260,7 @@ extension DocDBClientTypes {
         public init(
             disableLogTypes: [Swift.String]? = nil,
             enableLogTypes: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.disableLogTypes = disableLogTypes
             self.enableLogTypes = enableLogTypes
         }
@@ -4512,8 +4354,7 @@ public struct ModifyDBClusterInput: Swift.Sendable {
         rotateMasterUserPassword: Swift.Bool? = nil,
         storageType: Swift.String? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.allowMajorVersionUpgrade = allowMajorVersionUpgrade
         self.applyImmediately = applyImmediately
         self.backupRetentionPeriod = backupRetentionPeriod
@@ -4541,8 +4382,7 @@ public struct ModifyDBClusterOutput: Swift.Sendable {
 
     public init(
         dbCluster: DocDBClientTypes.DBCluster? = nil
-    )
-    {
+    ) {
         self.dbCluster = dbCluster
     }
 }
@@ -4559,8 +4399,7 @@ public struct ModifyDBClusterParameterGroupInput: Swift.Sendable {
     public init(
         dbClusterParameterGroupName: Swift.String? = nil,
         parameters: [DocDBClientTypes.Parameter]? = nil
-    )
-    {
+    ) {
         self.dbClusterParameterGroupName = dbClusterParameterGroupName
         self.parameters = parameters
     }
@@ -4582,8 +4421,7 @@ public struct ModifyDBClusterParameterGroupOutput: Swift.Sendable {
 
     public init(
         dbClusterParameterGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbClusterParameterGroupName = dbClusterParameterGroupName
     }
 }
@@ -4606,8 +4444,7 @@ public struct SharedSnapshotQuotaExceededFault: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4630,8 +4467,7 @@ public struct ModifyDBClusterSnapshotAttributeInput: Swift.Sendable {
         dbClusterSnapshotIdentifier: Swift.String? = nil,
         valuesToAdd: [Swift.String]? = nil,
         valuesToRemove: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.attributeName = attributeName
         self.dbClusterSnapshotIdentifier = dbClusterSnapshotIdentifier
         self.valuesToAdd = valuesToAdd
@@ -4645,8 +4481,7 @@ public struct ModifyDBClusterSnapshotAttributeOutput: Swift.Sendable {
 
     public init(
         dbClusterSnapshotAttributesResult: DocDBClientTypes.DBClusterSnapshotAttributesResult? = nil
-    )
-    {
+    ) {
         self.dbClusterSnapshotAttributesResult = dbClusterSnapshotAttributesResult
     }
 }
@@ -4669,8 +4504,7 @@ public struct DBUpgradeDependencyFailureFault: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4727,8 +4561,7 @@ public struct ModifyDBInstanceInput: Swift.Sendable {
         performanceInsightsKMSKeyId: Swift.String? = nil,
         preferredMaintenanceWindow: Swift.String? = nil,
         promotionTier: Swift.Int? = nil
-    )
-    {
+    ) {
         self.applyImmediately = applyImmediately
         self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
         self.caCertificateIdentifier = caCertificateIdentifier
@@ -4750,8 +4583,7 @@ public struct ModifyDBInstanceOutput: Swift.Sendable {
 
     public init(
         dbInstance: DocDBClientTypes.DBInstance? = nil
-    )
-    {
+    ) {
         self.dbInstance = dbInstance
     }
 }
@@ -4774,8 +4606,7 @@ public struct SubnetAlreadyInUse: ClientRuntime.ModeledError, AWSClientRuntime.A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4795,8 +4626,7 @@ public struct ModifyDBSubnetGroupInput: Swift.Sendable {
         dbSubnetGroupDescription: Swift.String? = nil,
         dbSubnetGroupName: Swift.String? = nil,
         subnetIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.dbSubnetGroupDescription = dbSubnetGroupDescription
         self.dbSubnetGroupName = dbSubnetGroupName
         self.subnetIds = subnetIds
@@ -4809,8 +4639,7 @@ public struct ModifyDBSubnetGroupOutput: Swift.Sendable {
 
     public init(
         dbSubnetGroup: DocDBClientTypes.DBSubnetGroup? = nil
-    )
-    {
+    ) {
         self.dbSubnetGroup = dbSubnetGroup
     }
 }
@@ -4835,8 +4664,7 @@ public struct ModifyEventSubscriptionInput: Swift.Sendable {
         snsTopicArn: Swift.String? = nil,
         sourceType: Swift.String? = nil,
         subscriptionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.enabled = enabled
         self.eventCategories = eventCategories
         self.snsTopicArn = snsTopicArn
@@ -4851,8 +4679,7 @@ public struct ModifyEventSubscriptionOutput: Swift.Sendable {
 
     public init(
         eventSubscription: DocDBClientTypes.EventSubscription? = nil
-    )
-    {
+    ) {
         self.eventSubscription = eventSubscription
     }
 }
@@ -4878,8 +4705,7 @@ public struct ModifyGlobalClusterInput: Swift.Sendable {
         deletionProtection: Swift.Bool? = nil,
         globalClusterIdentifier: Swift.String? = nil,
         newGlobalClusterIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.deletionProtection = deletionProtection
         self.globalClusterIdentifier = globalClusterIdentifier
         self.newGlobalClusterIdentifier = newGlobalClusterIdentifier
@@ -4892,8 +4718,7 @@ public struct ModifyGlobalClusterOutput: Swift.Sendable {
 
     public init(
         globalCluster: DocDBClientTypes.GlobalCluster? = nil
-    )
-    {
+    ) {
         self.globalCluster = globalCluster
     }
 }
@@ -4911,8 +4736,7 @@ public struct RebootDBInstanceInput: Swift.Sendable {
     public init(
         dbInstanceIdentifier: Swift.String? = nil,
         forceFailover: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.dbInstanceIdentifier = dbInstanceIdentifier
         self.forceFailover = forceFailover
     }
@@ -4924,8 +4748,7 @@ public struct RebootDBInstanceOutput: Swift.Sendable {
 
     public init(
         dbInstance: DocDBClientTypes.DBInstance? = nil
-    )
-    {
+    ) {
         self.dbInstance = dbInstance
     }
 }
@@ -4942,8 +4765,7 @@ public struct RemoveFromGlobalClusterInput: Swift.Sendable {
     public init(
         dbClusterIdentifier: Swift.String? = nil,
         globalClusterIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbClusterIdentifier = dbClusterIdentifier
         self.globalClusterIdentifier = globalClusterIdentifier
     }
@@ -4955,8 +4777,7 @@ public struct RemoveFromGlobalClusterOutput: Swift.Sendable {
 
     public init(
         globalCluster: DocDBClientTypes.GlobalCluster? = nil
-    )
-    {
+    ) {
         self.globalCluster = globalCluster
     }
 }
@@ -4973,8 +4794,7 @@ public struct RemoveSourceIdentifierFromSubscriptionInput: Swift.Sendable {
     public init(
         sourceIdentifier: Swift.String? = nil,
         subscriptionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.sourceIdentifier = sourceIdentifier
         self.subscriptionName = subscriptionName
     }
@@ -4986,8 +4806,7 @@ public struct RemoveSourceIdentifierFromSubscriptionOutput: Swift.Sendable {
 
     public init(
         eventSubscription: DocDBClientTypes.EventSubscription? = nil
-    )
-    {
+    ) {
         self.eventSubscription = eventSubscription
     }
 }
@@ -5004,8 +4823,7 @@ public struct RemoveTagsFromResourceInput: Swift.Sendable {
     public init(
         resourceName: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceName = resourceName
         self.tagKeys = tagKeys
     }
@@ -5025,8 +4843,7 @@ public struct ResetDBClusterParameterGroupInput: Swift.Sendable {
         dbClusterParameterGroupName: Swift.String? = nil,
         parameters: [DocDBClientTypes.Parameter]? = nil,
         resetAllParameters: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.dbClusterParameterGroupName = dbClusterParameterGroupName
         self.parameters = parameters
         self.resetAllParameters = resetAllParameters
@@ -5049,8 +4866,7 @@ public struct ResetDBClusterParameterGroupOutput: Swift.Sendable {
 
     public init(
         dbClusterParameterGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbClusterParameterGroupName = dbClusterParameterGroupName
     }
 }
@@ -5073,8 +4889,7 @@ public struct InsufficientDBClusterCapacityFault: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5097,8 +4912,7 @@ public struct InvalidDBSnapshotStateFault: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5121,8 +4935,7 @@ public struct InvalidRestoreFault: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5191,8 +5004,7 @@ public struct RestoreDBClusterFromSnapshotInput: Swift.Sendable {
         storageType: Swift.String? = nil,
         tags: [DocDBClientTypes.Tag]? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.availabilityZones = availabilityZones
         self.dbClusterIdentifier = dbClusterIdentifier
         self.dbClusterParameterGroupName = dbClusterParameterGroupName
@@ -5216,8 +5028,7 @@ public struct RestoreDBClusterFromSnapshotOutput: Swift.Sendable {
 
     public init(
         dbCluster: DocDBClientTypes.DBCluster? = nil
-    )
-    {
+    ) {
         self.dbCluster = dbCluster
     }
 }
@@ -5300,8 +5111,7 @@ public struct RestoreDBClusterToPointInTimeInput: Swift.Sendable {
         tags: [DocDBClientTypes.Tag]? = nil,
         useLatestRestorableTime: Swift.Bool? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.dbClusterIdentifier = dbClusterIdentifier
         self.dbSubnetGroupName = dbSubnetGroupName
         self.deletionProtection = deletionProtection
@@ -5324,8 +5134,7 @@ public struct RestoreDBClusterToPointInTimeOutput: Swift.Sendable {
 
     public init(
         dbCluster: DocDBClientTypes.DBCluster? = nil
-    )
-    {
+    ) {
         self.dbCluster = dbCluster
     }
 }
@@ -5337,8 +5146,7 @@ public struct StartDBClusterInput: Swift.Sendable {
 
     public init(
         dbClusterIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbClusterIdentifier = dbClusterIdentifier
     }
 }
@@ -5349,8 +5157,7 @@ public struct StartDBClusterOutput: Swift.Sendable {
 
     public init(
         dbCluster: DocDBClientTypes.DBCluster? = nil
-    )
-    {
+    ) {
         self.dbCluster = dbCluster
     }
 }
@@ -5362,8 +5169,7 @@ public struct StopDBClusterInput: Swift.Sendable {
 
     public init(
         dbClusterIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbClusterIdentifier = dbClusterIdentifier
     }
 }
@@ -5374,8 +5180,7 @@ public struct StopDBClusterOutput: Swift.Sendable {
 
     public init(
         dbCluster: DocDBClientTypes.DBCluster? = nil
-    )
-    {
+    ) {
         self.dbCluster = dbCluster
     }
 }
@@ -5405,8 +5210,7 @@ public struct SwitchoverGlobalClusterInput: Swift.Sendable {
     public init(
         globalClusterIdentifier: Swift.String? = nil,
         targetDbClusterIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.globalClusterIdentifier = globalClusterIdentifier
         self.targetDbClusterIdentifier = targetDbClusterIdentifier
     }
@@ -5418,8 +5222,7 @@ public struct SwitchoverGlobalClusterOutput: Swift.Sendable {
 
     public init(
         globalCluster: DocDBClientTypes.GlobalCluster? = nil
-    )
-    {
+    ) {
         self.globalCluster = globalCluster
     }
 }

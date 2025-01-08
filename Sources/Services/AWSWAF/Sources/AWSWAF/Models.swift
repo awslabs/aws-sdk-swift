@@ -74,8 +74,7 @@ extension WAFClientTypes {
 
         public init(
             type: WAFClientTypes.WafActionType? = nil
-        )
-        {
+        ) {
             self.type = type
         }
     }
@@ -91,8 +90,7 @@ extension WAFClientTypes {
 
         public init(
             ruleId: Swift.String? = nil
-        )
-        {
+        ) {
             self.ruleId = ruleId
         }
     }
@@ -137,8 +135,7 @@ extension WAFClientTypes {
 
         public init(
             type: WAFClientTypes.WafOverrideActionType? = nil
-        )
-        {
+        ) {
             self.type = type
         }
     }
@@ -219,8 +216,7 @@ extension WAFClientTypes {
             priority: Swift.Int? = nil,
             ruleId: Swift.String? = nil,
             type: WAFClientTypes.WafRuleType? = nil
-        )
-        {
+        ) {
             self.action = action
             self.excludedRules = excludedRules
             self.overrideAction = overrideAction
@@ -249,8 +245,7 @@ public struct WAFDisallowedNameException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -273,8 +268,7 @@ public struct WAFInternalErrorException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -444,8 +438,7 @@ public struct WAFInvalidParameterException: ClientRuntime.ModeledError, AWSClien
         field: WAFClientTypes.ParameterExceptionField? = nil,
         parameter: Swift.String? = nil,
         reason: WAFClientTypes.ParameterExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.field = field
         self.properties.parameter = parameter
         self.properties.reason = reason
@@ -470,8 +463,7 @@ public struct WAFLimitsExceededException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -494,8 +486,7 @@ public struct WAFStaleDataException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -511,8 +502,7 @@ public struct CreateByteMatchSetInput: Swift.Sendable {
     public init(
         changeToken: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.changeToken = changeToken
         self.name = name
     }
@@ -589,8 +579,7 @@ extension WAFClientTypes {
         public init(
             data: Swift.String? = nil,
             type: WAFClientTypes.MatchFieldType? = nil
-        )
-        {
+        ) {
             self.data = data
             self.type = type
         }
@@ -769,8 +758,7 @@ extension WAFClientTypes {
             positionalConstraint: WAFClientTypes.PositionalConstraint? = nil,
             targetString: Foundation.Data? = nil,
             textTransformation: WAFClientTypes.TextTransformation? = nil
-        )
-        {
+        ) {
             self.fieldToMatch = fieldToMatch
             self.positionalConstraint = positionalConstraint
             self.targetString = targetString
@@ -796,8 +784,7 @@ extension WAFClientTypes {
             byteMatchSetId: Swift.String? = nil,
             byteMatchTuples: [WAFClientTypes.ByteMatchTuple]? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.byteMatchSetId = byteMatchSetId
             self.byteMatchTuples = byteMatchTuples
             self.name = name
@@ -814,8 +801,7 @@ public struct CreateByteMatchSetOutput: Swift.Sendable {
     public init(
         byteMatchSet: WAFClientTypes.ByteMatchSet? = nil,
         changeToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.byteMatchSet = byteMatchSet
         self.changeToken = changeToken
     }
@@ -832,8 +818,7 @@ public struct CreateGeoMatchSetInput: Swift.Sendable {
     public init(
         changeToken: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.changeToken = changeToken
         self.name = name
     }
@@ -1649,8 +1634,7 @@ extension WAFClientTypes {
         public init(
             type: WAFClientTypes.GeoMatchConstraintType? = nil,
             value: WAFClientTypes.GeoMatchConstraintValue? = nil
-        )
-        {
+        ) {
             self.type = type
             self.value = value
         }
@@ -1674,8 +1658,7 @@ extension WAFClientTypes {
             geoMatchConstraints: [WAFClientTypes.GeoMatchConstraint]? = nil,
             geoMatchSetId: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.geoMatchConstraints = geoMatchConstraints
             self.geoMatchSetId = geoMatchSetId
             self.name = name
@@ -1692,8 +1675,7 @@ public struct CreateGeoMatchSetOutput: Swift.Sendable {
     public init(
         changeToken: Swift.String? = nil,
         geoMatchSet: WAFClientTypes.GeoMatchSet? = nil
-    )
-    {
+    ) {
         self.changeToken = changeToken
         self.geoMatchSet = geoMatchSet
     }
@@ -1710,8 +1692,7 @@ public struct CreateIPSetInput: Swift.Sendable {
     public init(
         changeToken: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.changeToken = changeToken
         self.name = name
     }
@@ -1771,8 +1752,7 @@ extension WAFClientTypes {
         public init(
             type: WAFClientTypes.IPSetDescriptorType? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.type = type
             self.value = value
         }
@@ -1796,8 +1776,7 @@ extension WAFClientTypes {
             ipSetDescriptors: [WAFClientTypes.IPSetDescriptor]? = nil,
             ipSetId: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.ipSetDescriptors = ipSetDescriptors
             self.ipSetId = ipSetId
             self.name = name
@@ -1814,8 +1793,7 @@ public struct CreateIPSetOutput: Swift.Sendable {
     public init(
         changeToken: Swift.String? = nil,
         ipSet: WAFClientTypes.IPSet? = nil
-    )
-    {
+    ) {
         self.changeToken = changeToken
         self.ipSet = ipSet
     }
@@ -1839,8 +1817,7 @@ public struct WAFBadRequestException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1863,8 +1840,7 @@ public struct WAFTagOperationException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1887,8 +1863,7 @@ public struct WAFTagOperationInternalErrorException: ClientRuntime.ModeledError,
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1933,8 +1908,7 @@ extension WAFClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -1967,8 +1941,7 @@ public struct CreateRateBasedRuleInput: Swift.Sendable {
         rateKey: WAFClientTypes.RateKey? = nil,
         rateLimit: Swift.Int? = nil,
         tags: [WAFClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.changeToken = changeToken
         self.metricName = metricName
         self.name = name
@@ -2040,8 +2013,7 @@ extension WAFClientTypes {
             dataId: Swift.String? = nil,
             negated: Swift.Bool? = nil,
             type: WAFClientTypes.PredicateType? = nil
-        )
-        {
+        ) {
             self.dataId = dataId
             self.negated = negated
             self.type = type
@@ -2084,8 +2056,7 @@ extension WAFClientTypes {
             rateKey: WAFClientTypes.RateKey? = nil,
             rateLimit: Swift.Int? = nil,
             ruleId: Swift.String? = nil
-        )
-        {
+        ) {
             self.matchPredicates = matchPredicates
             self.metricName = metricName
             self.name = name
@@ -2105,8 +2076,7 @@ public struct CreateRateBasedRuleOutput: Swift.Sendable {
     public init(
         changeToken: Swift.String? = nil,
         rule: WAFClientTypes.RateBasedRule? = nil
-    )
-    {
+    ) {
         self.changeToken = changeToken
         self.rule = rule
     }
@@ -2123,8 +2093,7 @@ public struct CreateRegexMatchSetInput: Swift.Sendable {
     public init(
         changeToken: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.changeToken = changeToken
         self.name = name
     }
@@ -2197,8 +2166,7 @@ extension WAFClientTypes {
             fieldToMatch: WAFClientTypes.FieldToMatch? = nil,
             regexPatternSetId: Swift.String? = nil,
             textTransformation: WAFClientTypes.TextTransformation? = nil
-        )
-        {
+        ) {
             self.fieldToMatch = fieldToMatch
             self.regexPatternSetId = regexPatternSetId
             self.textTransformation = textTransformation
@@ -2227,8 +2195,7 @@ extension WAFClientTypes {
             name: Swift.String? = nil,
             regexMatchSetId: Swift.String? = nil,
             regexMatchTuples: [WAFClientTypes.RegexMatchTuple]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.regexMatchSetId = regexMatchSetId
             self.regexMatchTuples = regexMatchTuples
@@ -2245,8 +2212,7 @@ public struct CreateRegexMatchSetOutput: Swift.Sendable {
     public init(
         changeToken: Swift.String? = nil,
         regexMatchSet: WAFClientTypes.RegexMatchSet? = nil
-    )
-    {
+    ) {
         self.changeToken = changeToken
         self.regexMatchSet = regexMatchSet
     }
@@ -2263,8 +2229,7 @@ public struct CreateRegexPatternSetInput: Swift.Sendable {
     public init(
         changeToken: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.changeToken = changeToken
         self.name = name
     }
@@ -2287,8 +2252,7 @@ extension WAFClientTypes {
             name: Swift.String? = nil,
             regexPatternSetId: Swift.String? = nil,
             regexPatternStrings: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.regexPatternSetId = regexPatternSetId
             self.regexPatternStrings = regexPatternStrings
@@ -2305,8 +2269,7 @@ public struct CreateRegexPatternSetOutput: Swift.Sendable {
     public init(
         changeToken: Swift.String? = nil,
         regexPatternSet: WAFClientTypes.RegexPatternSet? = nil
-    )
-    {
+    ) {
         self.changeToken = changeToken
         self.regexPatternSet = regexPatternSet
     }
@@ -2330,8 +2293,7 @@ public struct CreateRuleInput: Swift.Sendable {
         metricName: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [WAFClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.changeToken = changeToken
         self.metricName = metricName
         self.name = name
@@ -2366,8 +2328,7 @@ extension WAFClientTypes {
             name: Swift.String? = nil,
             predicates: [WAFClientTypes.Predicate]? = nil,
             ruleId: Swift.String? = nil
-        )
-        {
+        ) {
             self.metricName = metricName
             self.name = name
             self.predicates = predicates
@@ -2385,8 +2346,7 @@ public struct CreateRuleOutput: Swift.Sendable {
     public init(
         changeToken: Swift.String? = nil,
         rule: WAFClientTypes.Rule? = nil
-    )
-    {
+    ) {
         self.changeToken = changeToken
         self.rule = rule
     }
@@ -2410,8 +2370,7 @@ public struct CreateRuleGroupInput: Swift.Sendable {
         metricName: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [WAFClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.changeToken = changeToken
         self.metricName = metricName
         self.name = name
@@ -2441,8 +2400,7 @@ extension WAFClientTypes {
             metricName: Swift.String? = nil,
             name: Swift.String? = nil,
             ruleGroupId: Swift.String? = nil
-        )
-        {
+        ) {
             self.metricName = metricName
             self.name = name
             self.ruleGroupId = ruleGroupId
@@ -2459,8 +2417,7 @@ public struct CreateRuleGroupOutput: Swift.Sendable {
     public init(
         changeToken: Swift.String? = nil,
         ruleGroup: WAFClientTypes.RuleGroup? = nil
-    )
-    {
+    ) {
         self.changeToken = changeToken
         self.ruleGroup = ruleGroup
     }
@@ -2477,8 +2434,7 @@ public struct CreateSizeConstraintSetInput: Swift.Sendable {
     public init(
         changeToken: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.changeToken = changeToken
         self.name = name
     }
@@ -2590,8 +2546,7 @@ extension WAFClientTypes {
             fieldToMatch: WAFClientTypes.FieldToMatch? = nil,
             size: Swift.Int = 0,
             textTransformation: WAFClientTypes.TextTransformation? = nil
-        )
-        {
+        ) {
             self.comparisonOperator = comparisonOperator
             self.fieldToMatch = fieldToMatch
             self.size = size
@@ -2617,8 +2572,7 @@ extension WAFClientTypes {
             name: Swift.String? = nil,
             sizeConstraintSetId: Swift.String? = nil,
             sizeConstraints: [WAFClientTypes.SizeConstraint]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.sizeConstraintSetId = sizeConstraintSetId
             self.sizeConstraints = sizeConstraints
@@ -2635,8 +2589,7 @@ public struct CreateSizeConstraintSetOutput: Swift.Sendable {
     public init(
         changeToken: Swift.String? = nil,
         sizeConstraintSet: WAFClientTypes.SizeConstraintSet? = nil
-    )
-    {
+    ) {
         self.changeToken = changeToken
         self.sizeConstraintSet = sizeConstraintSet
     }
@@ -2654,8 +2607,7 @@ public struct CreateSqlInjectionMatchSetInput: Swift.Sendable {
     public init(
         changeToken: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.changeToken = changeToken
         self.name = name
     }
@@ -2718,8 +2670,7 @@ extension WAFClientTypes {
         public init(
             fieldToMatch: WAFClientTypes.FieldToMatch? = nil,
             textTransformation: WAFClientTypes.TextTransformation? = nil
-        )
-        {
+        ) {
             self.fieldToMatch = fieldToMatch
             self.textTransformation = textTransformation
         }
@@ -2743,8 +2694,7 @@ extension WAFClientTypes {
             name: Swift.String? = nil,
             sqlInjectionMatchSetId: Swift.String? = nil,
             sqlInjectionMatchTuples: [WAFClientTypes.SqlInjectionMatchTuple]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.sqlInjectionMatchSetId = sqlInjectionMatchSetId
             self.sqlInjectionMatchTuples = sqlInjectionMatchTuples
@@ -2762,8 +2712,7 @@ public struct CreateSqlInjectionMatchSetOutput: Swift.Sendable {
     public init(
         changeToken: Swift.String? = nil,
         sqlInjectionMatchSet: WAFClientTypes.SqlInjectionMatchSet? = nil
-    )
-    {
+    ) {
         self.changeToken = changeToken
         self.sqlInjectionMatchSet = sqlInjectionMatchSet
     }
@@ -2791,8 +2740,7 @@ public struct CreateWebACLInput: Swift.Sendable {
         metricName: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [WAFClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.changeToken = changeToken
         self.defaultAction = defaultAction
         self.metricName = metricName
@@ -2828,8 +2776,7 @@ extension WAFClientTypes {
             rules: [WAFClientTypes.ActivatedRule]? = nil,
             webACLArn: Swift.String? = nil,
             webACLId: Swift.String? = nil
-        )
-        {
+        ) {
             self.defaultAction = defaultAction
             self.metricName = metricName
             self.name = name
@@ -2849,8 +2796,7 @@ public struct CreateWebACLOutput: Swift.Sendable {
     public init(
         changeToken: Swift.String? = nil,
         webACL: WAFClientTypes.WebACL? = nil
-    )
-    {
+    ) {
         self.changeToken = changeToken
         self.webACL = webACL
     }
@@ -2936,8 +2882,7 @@ public struct WAFEntityMigrationException: ClientRuntime.ModeledError, AWSClient
         message: Swift.String? = nil,
         migrationErrorReason: Swift.String? = nil,
         migrationErrorType: WAFClientTypes.MigrationErrorType? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.migrationErrorReason = migrationErrorReason
         self.properties.migrationErrorType = migrationErrorType
@@ -2972,8 +2917,7 @@ public struct WAFInvalidOperationException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2996,8 +2940,7 @@ public struct WAFNonexistentItemException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3023,8 +2966,7 @@ public struct CreateWebACLMigrationStackInput: Swift.Sendable {
         ignoreUnsupportedType: Swift.Bool? = nil,
         s3BucketName: Swift.String? = nil,
         webACLId: Swift.String? = nil
-    )
-    {
+    ) {
         self.ignoreUnsupportedType = ignoreUnsupportedType
         self.s3BucketName = s3BucketName
         self.webACLId = webACLId
@@ -3038,8 +2980,7 @@ public struct CreateWebACLMigrationStackOutput: Swift.Sendable {
 
     public init(
         s3ObjectUrl: Swift.String? = nil
-    )
-    {
+    ) {
         self.s3ObjectUrl = s3ObjectUrl
     }
 }
@@ -3056,8 +2997,7 @@ public struct CreateXssMatchSetInput: Swift.Sendable {
     public init(
         changeToken: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.changeToken = changeToken
         self.name = name
     }
@@ -3120,8 +3060,7 @@ extension WAFClientTypes {
         public init(
             fieldToMatch: WAFClientTypes.FieldToMatch? = nil,
             textTransformation: WAFClientTypes.TextTransformation? = nil
-        )
-        {
+        ) {
             self.fieldToMatch = fieldToMatch
             self.textTransformation = textTransformation
         }
@@ -3145,8 +3084,7 @@ extension WAFClientTypes {
             name: Swift.String? = nil,
             xssMatchSetId: Swift.String? = nil,
             xssMatchTuples: [WAFClientTypes.XssMatchTuple]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.xssMatchSetId = xssMatchSetId
             self.xssMatchTuples = xssMatchTuples
@@ -3164,8 +3102,7 @@ public struct CreateXssMatchSetOutput: Swift.Sendable {
     public init(
         changeToken: Swift.String? = nil,
         xssMatchSet: WAFClientTypes.XssMatchSet? = nil
-    )
-    {
+    ) {
         self.changeToken = changeToken
         self.xssMatchSet = xssMatchSet
     }
@@ -3197,8 +3134,7 @@ public struct WAFNonEmptyEntityException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3225,8 +3161,7 @@ public struct WAFReferencedItemException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3242,8 +3177,7 @@ public struct DeleteByteMatchSetInput: Swift.Sendable {
     public init(
         byteMatchSetId: Swift.String? = nil,
         changeToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.byteMatchSetId = byteMatchSetId
         self.changeToken = changeToken
     }
@@ -3255,8 +3189,7 @@ public struct DeleteByteMatchSetOutput: Swift.Sendable {
 
     public init(
         changeToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.changeToken = changeToken
     }
 }
@@ -3272,8 +3205,7 @@ public struct DeleteGeoMatchSetInput: Swift.Sendable {
     public init(
         changeToken: Swift.String? = nil,
         geoMatchSetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.changeToken = changeToken
         self.geoMatchSetId = geoMatchSetId
     }
@@ -3285,8 +3217,7 @@ public struct DeleteGeoMatchSetOutput: Swift.Sendable {
 
     public init(
         changeToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.changeToken = changeToken
     }
 }
@@ -3302,8 +3233,7 @@ public struct DeleteIPSetInput: Swift.Sendable {
     public init(
         changeToken: Swift.String? = nil,
         ipSetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.changeToken = changeToken
         self.ipSetId = ipSetId
     }
@@ -3315,8 +3245,7 @@ public struct DeleteIPSetOutput: Swift.Sendable {
 
     public init(
         changeToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.changeToken = changeToken
     }
 }
@@ -3328,8 +3257,7 @@ public struct DeleteLoggingConfigurationInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -3346,8 +3274,7 @@ public struct DeletePermissionPolicyInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -3368,8 +3295,7 @@ public struct DeleteRateBasedRuleInput: Swift.Sendable {
     public init(
         changeToken: Swift.String? = nil,
         ruleId: Swift.String? = nil
-    )
-    {
+    ) {
         self.changeToken = changeToken
         self.ruleId = ruleId
     }
@@ -3381,8 +3307,7 @@ public struct DeleteRateBasedRuleOutput: Swift.Sendable {
 
     public init(
         changeToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.changeToken = changeToken
     }
 }
@@ -3398,8 +3323,7 @@ public struct DeleteRegexMatchSetInput: Swift.Sendable {
     public init(
         changeToken: Swift.String? = nil,
         regexMatchSetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.changeToken = changeToken
         self.regexMatchSetId = regexMatchSetId
     }
@@ -3411,8 +3335,7 @@ public struct DeleteRegexMatchSetOutput: Swift.Sendable {
 
     public init(
         changeToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.changeToken = changeToken
     }
 }
@@ -3428,8 +3351,7 @@ public struct DeleteRegexPatternSetInput: Swift.Sendable {
     public init(
         changeToken: Swift.String? = nil,
         regexPatternSetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.changeToken = changeToken
         self.regexPatternSetId = regexPatternSetId
     }
@@ -3441,8 +3363,7 @@ public struct DeleteRegexPatternSetOutput: Swift.Sendable {
 
     public init(
         changeToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.changeToken = changeToken
     }
 }
@@ -3458,8 +3379,7 @@ public struct DeleteRuleInput: Swift.Sendable {
     public init(
         changeToken: Swift.String? = nil,
         ruleId: Swift.String? = nil
-    )
-    {
+    ) {
         self.changeToken = changeToken
         self.ruleId = ruleId
     }
@@ -3471,8 +3391,7 @@ public struct DeleteRuleOutput: Swift.Sendable {
 
     public init(
         changeToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.changeToken = changeToken
     }
 }
@@ -3488,8 +3407,7 @@ public struct DeleteRuleGroupInput: Swift.Sendable {
     public init(
         changeToken: Swift.String? = nil,
         ruleGroupId: Swift.String? = nil
-    )
-    {
+    ) {
         self.changeToken = changeToken
         self.ruleGroupId = ruleGroupId
     }
@@ -3501,8 +3419,7 @@ public struct DeleteRuleGroupOutput: Swift.Sendable {
 
     public init(
         changeToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.changeToken = changeToken
     }
 }
@@ -3518,8 +3435,7 @@ public struct DeleteSizeConstraintSetInput: Swift.Sendable {
     public init(
         changeToken: Swift.String? = nil,
         sizeConstraintSetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.changeToken = changeToken
         self.sizeConstraintSetId = sizeConstraintSetId
     }
@@ -3531,8 +3447,7 @@ public struct DeleteSizeConstraintSetOutput: Swift.Sendable {
 
     public init(
         changeToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.changeToken = changeToken
     }
 }
@@ -3549,8 +3464,7 @@ public struct DeleteSqlInjectionMatchSetInput: Swift.Sendable {
     public init(
         changeToken: Swift.String? = nil,
         sqlInjectionMatchSetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.changeToken = changeToken
         self.sqlInjectionMatchSetId = sqlInjectionMatchSetId
     }
@@ -3563,8 +3477,7 @@ public struct DeleteSqlInjectionMatchSetOutput: Swift.Sendable {
 
     public init(
         changeToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.changeToken = changeToken
     }
 }
@@ -3580,8 +3493,7 @@ public struct DeleteWebACLInput: Swift.Sendable {
     public init(
         changeToken: Swift.String? = nil,
         webACLId: Swift.String? = nil
-    )
-    {
+    ) {
         self.changeToken = changeToken
         self.webACLId = webACLId
     }
@@ -3593,8 +3505,7 @@ public struct DeleteWebACLOutput: Swift.Sendable {
 
     public init(
         changeToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.changeToken = changeToken
     }
 }
@@ -3611,8 +3522,7 @@ public struct DeleteXssMatchSetInput: Swift.Sendable {
     public init(
         changeToken: Swift.String? = nil,
         xssMatchSetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.changeToken = changeToken
         self.xssMatchSetId = xssMatchSetId
     }
@@ -3625,8 +3535,7 @@ public struct DeleteXssMatchSetOutput: Swift.Sendable {
 
     public init(
         changeToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.changeToken = changeToken
     }
 }
@@ -3638,8 +3547,7 @@ public struct GetByteMatchSetInput: Swift.Sendable {
 
     public init(
         byteMatchSetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.byteMatchSetId = byteMatchSetId
     }
 }
@@ -3656,8 +3564,7 @@ public struct GetByteMatchSetOutput: Swift.Sendable {
 
     public init(
         byteMatchSet: WAFClientTypes.ByteMatchSet? = nil
-    )
-    {
+    ) {
         self.byteMatchSet = byteMatchSet
     }
 }
@@ -3673,8 +3580,7 @@ public struct GetChangeTokenOutput: Swift.Sendable {
 
     public init(
         changeToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.changeToken = changeToken
     }
 }
@@ -3686,8 +3592,7 @@ public struct GetChangeTokenStatusInput: Swift.Sendable {
 
     public init(
         changeToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.changeToken = changeToken
     }
 }
@@ -3730,8 +3635,7 @@ public struct GetChangeTokenStatusOutput: Swift.Sendable {
 
     public init(
         changeTokenStatus: WAFClientTypes.ChangeTokenStatus? = nil
-    )
-    {
+    ) {
         self.changeTokenStatus = changeTokenStatus
     }
 }
@@ -3743,8 +3647,7 @@ public struct GetGeoMatchSetInput: Swift.Sendable {
 
     public init(
         geoMatchSetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.geoMatchSetId = geoMatchSetId
     }
 }
@@ -3755,8 +3658,7 @@ public struct GetGeoMatchSetOutput: Swift.Sendable {
 
     public init(
         geoMatchSet: WAFClientTypes.GeoMatchSet? = nil
-    )
-    {
+    ) {
         self.geoMatchSet = geoMatchSet
     }
 }
@@ -3768,8 +3670,7 @@ public struct GetIPSetInput: Swift.Sendable {
 
     public init(
         ipSetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.ipSetId = ipSetId
     }
 }
@@ -3784,8 +3685,7 @@ public struct GetIPSetOutput: Swift.Sendable {
 
     public init(
         ipSet: WAFClientTypes.IPSet? = nil
-    )
-    {
+    ) {
         self.ipSet = ipSet
     }
 }
@@ -3797,8 +3697,7 @@ public struct GetLoggingConfigurationInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -3820,8 +3719,7 @@ extension WAFClientTypes {
             logDestinationConfigs: [Swift.String]? = nil,
             redactedFields: [WAFClientTypes.FieldToMatch]? = nil,
             resourceArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.logDestinationConfigs = logDestinationConfigs
             self.redactedFields = redactedFields
             self.resourceArn = resourceArn
@@ -3835,8 +3733,7 @@ public struct GetLoggingConfigurationOutput: Swift.Sendable {
 
     public init(
         loggingConfiguration: WAFClientTypes.LoggingConfiguration? = nil
-    )
-    {
+    ) {
         self.loggingConfiguration = loggingConfiguration
     }
 }
@@ -3848,8 +3745,7 @@ public struct GetPermissionPolicyInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -3860,8 +3756,7 @@ public struct GetPermissionPolicyOutput: Swift.Sendable {
 
     public init(
         policy: Swift.String? = nil
-    )
-    {
+    ) {
         self.policy = policy
     }
 }
@@ -3873,8 +3768,7 @@ public struct GetRateBasedRuleInput: Swift.Sendable {
 
     public init(
         ruleId: Swift.String? = nil
-    )
-    {
+    ) {
         self.ruleId = ruleId
     }
 }
@@ -3885,8 +3779,7 @@ public struct GetRateBasedRuleOutput: Swift.Sendable {
 
     public init(
         rule: WAFClientTypes.RateBasedRule? = nil
-    )
-    {
+    ) {
         self.rule = rule
     }
 }
@@ -3901,8 +3794,7 @@ public struct GetRateBasedRuleManagedKeysInput: Swift.Sendable {
     public init(
         nextMarker: Swift.String? = nil,
         ruleId: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextMarker = nextMarker
         self.ruleId = ruleId
     }
@@ -3917,8 +3809,7 @@ public struct GetRateBasedRuleManagedKeysOutput: Swift.Sendable {
     public init(
         managedKeys: [Swift.String]? = nil,
         nextMarker: Swift.String? = nil
-    )
-    {
+    ) {
         self.managedKeys = managedKeys
         self.nextMarker = nextMarker
     }
@@ -3931,8 +3822,7 @@ public struct GetRegexMatchSetInput: Swift.Sendable {
 
     public init(
         regexMatchSetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.regexMatchSetId = regexMatchSetId
     }
 }
@@ -3943,8 +3833,7 @@ public struct GetRegexMatchSetOutput: Swift.Sendable {
 
     public init(
         regexMatchSet: WAFClientTypes.RegexMatchSet? = nil
-    )
-    {
+    ) {
         self.regexMatchSet = regexMatchSet
     }
 }
@@ -3956,8 +3845,7 @@ public struct GetRegexPatternSetInput: Swift.Sendable {
 
     public init(
         regexPatternSetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.regexPatternSetId = regexPatternSetId
     }
 }
@@ -3968,8 +3856,7 @@ public struct GetRegexPatternSetOutput: Swift.Sendable {
 
     public init(
         regexPatternSet: WAFClientTypes.RegexPatternSet? = nil
-    )
-    {
+    ) {
         self.regexPatternSet = regexPatternSet
     }
 }
@@ -3981,8 +3868,7 @@ public struct GetRuleInput: Swift.Sendable {
 
     public init(
         ruleId: Swift.String? = nil
-    )
-    {
+    ) {
         self.ruleId = ruleId
     }
 }
@@ -3997,8 +3883,7 @@ public struct GetRuleOutput: Swift.Sendable {
 
     public init(
         rule: WAFClientTypes.Rule? = nil
-    )
-    {
+    ) {
         self.rule = rule
     }
 }
@@ -4010,8 +3895,7 @@ public struct GetRuleGroupInput: Swift.Sendable {
 
     public init(
         ruleGroupId: Swift.String? = nil
-    )
-    {
+    ) {
         self.ruleGroupId = ruleGroupId
     }
 }
@@ -4022,8 +3906,7 @@ public struct GetRuleGroupOutput: Swift.Sendable {
 
     public init(
         ruleGroup: WAFClientTypes.RuleGroup? = nil
-    )
-    {
+    ) {
         self.ruleGroup = ruleGroup
     }
 }
@@ -4042,8 +3925,7 @@ extension WAFClientTypes {
         public init(
             endTime: Foundation.Date? = nil,
             startTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.endTime = endTime
             self.startTime = startTime
         }
@@ -4073,8 +3955,7 @@ public struct GetSampledRequestsInput: Swift.Sendable {
         ruleId: Swift.String? = nil,
         timeWindow: WAFClientTypes.TimeWindow? = nil,
         webAclId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxItems = maxItems
         self.ruleId = ruleId
         self.timeWindow = timeWindow
@@ -4094,8 +3975,7 @@ extension WAFClientTypes {
         public init(
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -4130,8 +4010,7 @@ extension WAFClientTypes {
             httpVersion: Swift.String? = nil,
             method: Swift.String? = nil,
             uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.clientIP = clientIP
             self.country = country
             self.headers = headers
@@ -4165,8 +4044,7 @@ extension WAFClientTypes {
             ruleWithinRuleGroup: Swift.String? = nil,
             timestamp: Foundation.Date? = nil,
             weight: Swift.Int = 0
-        )
-        {
+        ) {
             self.action = action
             self.request = request
             self.ruleWithinRuleGroup = ruleWithinRuleGroup
@@ -4188,8 +4066,7 @@ public struct GetSampledRequestsOutput: Swift.Sendable {
         populationSize: Swift.Int = 0,
         sampledRequests: [WAFClientTypes.SampledHTTPRequest]? = nil,
         timeWindow: WAFClientTypes.TimeWindow? = nil
-    )
-    {
+    ) {
         self.populationSize = populationSize
         self.sampledRequests = sampledRequests
         self.timeWindow = timeWindow
@@ -4203,8 +4080,7 @@ public struct GetSizeConstraintSetInput: Swift.Sendable {
 
     public init(
         sizeConstraintSetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.sizeConstraintSetId = sizeConstraintSetId
     }
 }
@@ -4221,8 +4097,7 @@ public struct GetSizeConstraintSetOutput: Swift.Sendable {
 
     public init(
         sizeConstraintSet: WAFClientTypes.SizeConstraintSet? = nil
-    )
-    {
+    ) {
         self.sizeConstraintSet = sizeConstraintSet
     }
 }
@@ -4235,8 +4110,7 @@ public struct GetSqlInjectionMatchSetInput: Swift.Sendable {
 
     public init(
         sqlInjectionMatchSetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.sqlInjectionMatchSetId = sqlInjectionMatchSetId
     }
 }
@@ -4254,8 +4128,7 @@ public struct GetSqlInjectionMatchSetOutput: Swift.Sendable {
 
     public init(
         sqlInjectionMatchSet: WAFClientTypes.SqlInjectionMatchSet? = nil
-    )
-    {
+    ) {
         self.sqlInjectionMatchSet = sqlInjectionMatchSet
     }
 }
@@ -4267,8 +4140,7 @@ public struct GetWebACLInput: Swift.Sendable {
 
     public init(
         webACLId: Swift.String? = nil
-    )
-    {
+    ) {
         self.webACLId = webACLId
     }
 }
@@ -4287,8 +4159,7 @@ public struct GetWebACLOutput: Swift.Sendable {
 
     public init(
         webACL: WAFClientTypes.WebACL? = nil
-    )
-    {
+    ) {
         self.webACL = webACL
     }
 }
@@ -4301,8 +4172,7 @@ public struct GetXssMatchSetInput: Swift.Sendable {
 
     public init(
         xssMatchSetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.xssMatchSetId = xssMatchSetId
     }
 }
@@ -4320,8 +4190,7 @@ public struct GetXssMatchSetOutput: Swift.Sendable {
 
     public init(
         xssMatchSet: WAFClientTypes.XssMatchSet? = nil
-    )
-    {
+    ) {
         self.xssMatchSet = xssMatchSet
     }
 }
@@ -4338,8 +4207,7 @@ public struct ListActivatedRulesInRuleGroupInput: Swift.Sendable {
         limit: Swift.Int? = 0,
         nextMarker: Swift.String? = nil,
         ruleGroupId: Swift.String? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.nextMarker = nextMarker
         self.ruleGroupId = ruleGroupId
@@ -4355,8 +4223,7 @@ public struct ListActivatedRulesInRuleGroupOutput: Swift.Sendable {
     public init(
         activatedRules: [WAFClientTypes.ActivatedRule]? = nil,
         nextMarker: Swift.String? = nil
-    )
-    {
+    ) {
         self.activatedRules = activatedRules
         self.nextMarker = nextMarker
     }
@@ -4371,8 +4238,7 @@ public struct ListByteMatchSetsInput: Swift.Sendable {
     public init(
         limit: Swift.Int? = 0,
         nextMarker: Swift.String? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.nextMarker = nextMarker
     }
@@ -4392,8 +4258,7 @@ extension WAFClientTypes {
         public init(
             byteMatchSetId: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.byteMatchSetId = byteMatchSetId
             self.name = name
         }
@@ -4409,8 +4274,7 @@ public struct ListByteMatchSetsOutput: Swift.Sendable {
     public init(
         byteMatchSets: [WAFClientTypes.ByteMatchSetSummary]? = nil,
         nextMarker: Swift.String? = nil
-    )
-    {
+    ) {
         self.byteMatchSets = byteMatchSets
         self.nextMarker = nextMarker
     }
@@ -4425,8 +4289,7 @@ public struct ListGeoMatchSetsInput: Swift.Sendable {
     public init(
         limit: Swift.Int? = 0,
         nextMarker: Swift.String? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.nextMarker = nextMarker
     }
@@ -4446,8 +4309,7 @@ extension WAFClientTypes {
         public init(
             geoMatchSetId: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.geoMatchSetId = geoMatchSetId
             self.name = name
         }
@@ -4463,8 +4325,7 @@ public struct ListGeoMatchSetsOutput: Swift.Sendable {
     public init(
         geoMatchSets: [WAFClientTypes.GeoMatchSetSummary]? = nil,
         nextMarker: Swift.String? = nil
-    )
-    {
+    ) {
         self.geoMatchSets = geoMatchSets
         self.nextMarker = nextMarker
     }
@@ -4479,8 +4340,7 @@ public struct ListIPSetsInput: Swift.Sendable {
     public init(
         limit: Swift.Int? = 0,
         nextMarker: Swift.String? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.nextMarker = nextMarker
     }
@@ -4500,8 +4360,7 @@ extension WAFClientTypes {
         public init(
             ipSetId: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.ipSetId = ipSetId
             self.name = name
         }
@@ -4517,8 +4376,7 @@ public struct ListIPSetsOutput: Swift.Sendable {
     public init(
         ipSets: [WAFClientTypes.IPSetSummary]? = nil,
         nextMarker: Swift.String? = nil
-    )
-    {
+    ) {
         self.ipSets = ipSets
         self.nextMarker = nextMarker
     }
@@ -4533,8 +4391,7 @@ public struct ListLoggingConfigurationsInput: Swift.Sendable {
     public init(
         limit: Swift.Int? = 0,
         nextMarker: Swift.String? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.nextMarker = nextMarker
     }
@@ -4549,8 +4406,7 @@ public struct ListLoggingConfigurationsOutput: Swift.Sendable {
     public init(
         loggingConfigurations: [WAFClientTypes.LoggingConfiguration]? = nil,
         nextMarker: Swift.String? = nil
-    )
-    {
+    ) {
         self.loggingConfigurations = loggingConfigurations
         self.nextMarker = nextMarker
     }
@@ -4565,8 +4421,7 @@ public struct ListRateBasedRulesInput: Swift.Sendable {
     public init(
         limit: Swift.Int? = 0,
         nextMarker: Swift.String? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.nextMarker = nextMarker
     }
@@ -4586,8 +4441,7 @@ extension WAFClientTypes {
         public init(
             name: Swift.String? = nil,
             ruleId: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.ruleId = ruleId
         }
@@ -4603,8 +4457,7 @@ public struct ListRateBasedRulesOutput: Swift.Sendable {
     public init(
         nextMarker: Swift.String? = nil,
         rules: [WAFClientTypes.RuleSummary]? = nil
-    )
-    {
+    ) {
         self.nextMarker = nextMarker
         self.rules = rules
     }
@@ -4619,8 +4472,7 @@ public struct ListRegexMatchSetsInput: Swift.Sendable {
     public init(
         limit: Swift.Int? = 0,
         nextMarker: Swift.String? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.nextMarker = nextMarker
     }
@@ -4640,8 +4492,7 @@ extension WAFClientTypes {
         public init(
             name: Swift.String? = nil,
             regexMatchSetId: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.regexMatchSetId = regexMatchSetId
         }
@@ -4657,8 +4508,7 @@ public struct ListRegexMatchSetsOutput: Swift.Sendable {
     public init(
         nextMarker: Swift.String? = nil,
         regexMatchSets: [WAFClientTypes.RegexMatchSetSummary]? = nil
-    )
-    {
+    ) {
         self.nextMarker = nextMarker
         self.regexMatchSets = regexMatchSets
     }
@@ -4673,8 +4523,7 @@ public struct ListRegexPatternSetsInput: Swift.Sendable {
     public init(
         limit: Swift.Int? = 0,
         nextMarker: Swift.String? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.nextMarker = nextMarker
     }
@@ -4694,8 +4543,7 @@ extension WAFClientTypes {
         public init(
             name: Swift.String? = nil,
             regexPatternSetId: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.regexPatternSetId = regexPatternSetId
         }
@@ -4711,8 +4559,7 @@ public struct ListRegexPatternSetsOutput: Swift.Sendable {
     public init(
         nextMarker: Swift.String? = nil,
         regexPatternSets: [WAFClientTypes.RegexPatternSetSummary]? = nil
-    )
-    {
+    ) {
         self.nextMarker = nextMarker
         self.regexPatternSets = regexPatternSets
     }
@@ -4727,8 +4574,7 @@ public struct ListRuleGroupsInput: Swift.Sendable {
     public init(
         limit: Swift.Int? = 0,
         nextMarker: Swift.String? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.nextMarker = nextMarker
     }
@@ -4748,8 +4594,7 @@ extension WAFClientTypes {
         public init(
             name: Swift.String? = nil,
             ruleGroupId: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.ruleGroupId = ruleGroupId
         }
@@ -4765,8 +4610,7 @@ public struct ListRuleGroupsOutput: Swift.Sendable {
     public init(
         nextMarker: Swift.String? = nil,
         ruleGroups: [WAFClientTypes.RuleGroupSummary]? = nil
-    )
-    {
+    ) {
         self.nextMarker = nextMarker
         self.ruleGroups = ruleGroups
     }
@@ -4781,8 +4625,7 @@ public struct ListRulesInput: Swift.Sendable {
     public init(
         limit: Swift.Int? = 0,
         nextMarker: Swift.String? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.nextMarker = nextMarker
     }
@@ -4797,8 +4640,7 @@ public struct ListRulesOutput: Swift.Sendable {
     public init(
         nextMarker: Swift.String? = nil,
         rules: [WAFClientTypes.RuleSummary]? = nil
-    )
-    {
+    ) {
         self.nextMarker = nextMarker
         self.rules = rules
     }
@@ -4813,8 +4655,7 @@ public struct ListSizeConstraintSetsInput: Swift.Sendable {
     public init(
         limit: Swift.Int? = 0,
         nextMarker: Swift.String? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.nextMarker = nextMarker
     }
@@ -4834,8 +4675,7 @@ extension WAFClientTypes {
         public init(
             name: Swift.String? = nil,
             sizeConstraintSetId: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.sizeConstraintSetId = sizeConstraintSetId
         }
@@ -4851,8 +4691,7 @@ public struct ListSizeConstraintSetsOutput: Swift.Sendable {
     public init(
         nextMarker: Swift.String? = nil,
         sizeConstraintSets: [WAFClientTypes.SizeConstraintSetSummary]? = nil
-    )
-    {
+    ) {
         self.nextMarker = nextMarker
         self.sizeConstraintSets = sizeConstraintSets
     }
@@ -4868,8 +4707,7 @@ public struct ListSqlInjectionMatchSetsInput: Swift.Sendable {
     public init(
         limit: Swift.Int? = 0,
         nextMarker: Swift.String? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.nextMarker = nextMarker
     }
@@ -4889,8 +4727,7 @@ extension WAFClientTypes {
         public init(
             name: Swift.String? = nil,
             sqlInjectionMatchSetId: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.sqlInjectionMatchSetId = sqlInjectionMatchSetId
         }
@@ -4907,8 +4744,7 @@ public struct ListSqlInjectionMatchSetsOutput: Swift.Sendable {
     public init(
         nextMarker: Swift.String? = nil,
         sqlInjectionMatchSets: [WAFClientTypes.SqlInjectionMatchSetSummary]? = nil
-    )
-    {
+    ) {
         self.nextMarker = nextMarker
         self.sqlInjectionMatchSets = sqlInjectionMatchSets
     }
@@ -4923,8 +4759,7 @@ public struct ListSubscribedRuleGroupsInput: Swift.Sendable {
     public init(
         limit: Swift.Int? = 0,
         nextMarker: Swift.String? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.nextMarker = nextMarker
     }
@@ -4948,8 +4783,7 @@ extension WAFClientTypes {
             metricName: Swift.String? = nil,
             name: Swift.String? = nil,
             ruleGroupId: Swift.String? = nil
-        )
-        {
+        ) {
             self.metricName = metricName
             self.name = name
             self.ruleGroupId = ruleGroupId
@@ -4966,8 +4800,7 @@ public struct ListSubscribedRuleGroupsOutput: Swift.Sendable {
     public init(
         nextMarker: Swift.String? = nil,
         ruleGroups: [WAFClientTypes.SubscribedRuleGroupSummary]? = nil
-    )
-    {
+    ) {
         self.nextMarker = nextMarker
         self.ruleGroups = ruleGroups
     }
@@ -4986,8 +4819,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
         limit: Swift.Int? = 0,
         nextMarker: Swift.String? = nil,
         resourceARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.nextMarker = nextMarker
         self.resourceARN = resourceARN
@@ -5006,8 +4838,7 @@ extension WAFClientTypes {
         public init(
             resourceARN: Swift.String? = nil,
             tagList: [WAFClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.resourceARN = resourceARN
             self.tagList = tagList
         }
@@ -5023,8 +4854,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
     public init(
         nextMarker: Swift.String? = nil,
         tagInfoForResource: WAFClientTypes.TagInfoForResource? = nil
-    )
-    {
+    ) {
         self.nextMarker = nextMarker
         self.tagInfoForResource = tagInfoForResource
     }
@@ -5039,8 +4869,7 @@ public struct ListWebACLsInput: Swift.Sendable {
     public init(
         limit: Swift.Int? = 0,
         nextMarker: Swift.String? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.nextMarker = nextMarker
     }
@@ -5060,8 +4889,7 @@ extension WAFClientTypes {
         public init(
             name: Swift.String? = nil,
             webACLId: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.webACLId = webACLId
         }
@@ -5077,8 +4905,7 @@ public struct ListWebACLsOutput: Swift.Sendable {
     public init(
         nextMarker: Swift.String? = nil,
         webACLs: [WAFClientTypes.WebACLSummary]? = nil
-    )
-    {
+    ) {
         self.nextMarker = nextMarker
         self.webACLs = webACLs
     }
@@ -5094,8 +4921,7 @@ public struct ListXssMatchSetsInput: Swift.Sendable {
     public init(
         limit: Swift.Int? = 0,
         nextMarker: Swift.String? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.nextMarker = nextMarker
     }
@@ -5115,8 +4941,7 @@ extension WAFClientTypes {
         public init(
             name: Swift.String? = nil,
             xssMatchSetId: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.xssMatchSetId = xssMatchSetId
         }
@@ -5133,8 +4958,7 @@ public struct ListXssMatchSetsOutput: Swift.Sendable {
     public init(
         nextMarker: Swift.String? = nil,
         xssMatchSets: [WAFClientTypes.XssMatchSetSummary]? = nil
-    )
-    {
+    ) {
         self.nextMarker = nextMarker
         self.xssMatchSets = xssMatchSets
     }
@@ -5158,8 +4982,7 @@ public struct WAFServiceLinkedRoleErrorException: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5171,8 +4994,7 @@ public struct PutLoggingConfigurationInput: Swift.Sendable {
 
     public init(
         loggingConfiguration: WAFClientTypes.LoggingConfiguration? = nil
-    )
-    {
+    ) {
         self.loggingConfiguration = loggingConfiguration
     }
 }
@@ -5183,8 +5005,7 @@ public struct PutLoggingConfigurationOutput: Swift.Sendable {
 
     public init(
         loggingConfiguration: WAFClientTypes.LoggingConfiguration? = nil
-    )
-    {
+    ) {
         self.loggingConfiguration = loggingConfiguration
     }
 }
@@ -5223,8 +5044,7 @@ public struct WAFInvalidPermissionPolicyException: ClientRuntime.ModeledError, A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5240,8 +5060,7 @@ public struct PutPermissionPolicyInput: Swift.Sendable {
     public init(
         policy: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.policy = policy
         self.resourceArn = resourceArn
     }
@@ -5263,8 +5082,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tags: [WAFClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tags = tags
     }
@@ -5286,8 +5104,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tagKeys = tagKeys
     }
@@ -5324,8 +5141,7 @@ public struct WAFNonexistentContainerException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5373,8 +5189,7 @@ extension WAFClientTypes {
         public init(
             action: WAFClientTypes.ChangeAction? = nil,
             byteMatchTuple: WAFClientTypes.ByteMatchTuple? = nil
-        )
-        {
+        ) {
             self.action = action
             self.byteMatchTuple = byteMatchTuple
         }
@@ -5402,8 +5217,7 @@ public struct UpdateByteMatchSetInput: Swift.Sendable {
         byteMatchSetId: Swift.String? = nil,
         changeToken: Swift.String? = nil,
         updates: [WAFClientTypes.ByteMatchSetUpdate]? = nil
-    )
-    {
+    ) {
         self.byteMatchSetId = byteMatchSetId
         self.changeToken = changeToken
         self.updates = updates
@@ -5416,8 +5230,7 @@ public struct UpdateByteMatchSetOutput: Swift.Sendable {
 
     public init(
         changeToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.changeToken = changeToken
     }
 }
@@ -5436,8 +5249,7 @@ extension WAFClientTypes {
         public init(
             action: WAFClientTypes.ChangeAction? = nil,
             geoMatchConstraint: WAFClientTypes.GeoMatchConstraint? = nil
-        )
-        {
+        ) {
             self.action = action
             self.geoMatchConstraint = geoMatchConstraint
         }
@@ -5463,8 +5275,7 @@ public struct UpdateGeoMatchSetInput: Swift.Sendable {
         changeToken: Swift.String? = nil,
         geoMatchSetId: Swift.String? = nil,
         updates: [WAFClientTypes.GeoMatchSetUpdate]? = nil
-    )
-    {
+    ) {
         self.changeToken = changeToken
         self.geoMatchSetId = geoMatchSetId
         self.updates = updates
@@ -5477,8 +5288,7 @@ public struct UpdateGeoMatchSetOutput: Swift.Sendable {
 
     public init(
         changeToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.changeToken = changeToken
     }
 }
@@ -5497,8 +5307,7 @@ extension WAFClientTypes {
         public init(
             action: WAFClientTypes.ChangeAction? = nil,
             ipSetDescriptor: WAFClientTypes.IPSetDescriptor? = nil
-        )
-        {
+        ) {
             self.action = action
             self.ipSetDescriptor = ipSetDescriptor
         }
@@ -5527,8 +5336,7 @@ public struct UpdateIPSetInput: Swift.Sendable {
         changeToken: Swift.String? = nil,
         ipSetId: Swift.String? = nil,
         updates: [WAFClientTypes.IPSetUpdate]? = nil
-    )
-    {
+    ) {
         self.changeToken = changeToken
         self.ipSetId = ipSetId
         self.updates = updates
@@ -5541,8 +5349,7 @@ public struct UpdateIPSetOutput: Swift.Sendable {
 
     public init(
         changeToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.changeToken = changeToken
     }
 }
@@ -5561,8 +5368,7 @@ extension WAFClientTypes {
         public init(
             action: WAFClientTypes.ChangeAction? = nil,
             predicate: WAFClientTypes.Predicate? = nil
-        )
-        {
+        ) {
             self.action = action
             self.predicate = predicate
         }
@@ -5588,8 +5394,7 @@ public struct UpdateRateBasedRuleInput: Swift.Sendable {
         rateLimit: Swift.Int? = nil,
         ruleId: Swift.String? = nil,
         updates: [WAFClientTypes.RuleUpdate]? = nil
-    )
-    {
+    ) {
         self.changeToken = changeToken
         self.rateLimit = rateLimit
         self.ruleId = ruleId
@@ -5603,8 +5408,7 @@ public struct UpdateRateBasedRuleOutput: Swift.Sendable {
 
     public init(
         changeToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.changeToken = changeToken
     }
 }
@@ -5623,8 +5427,7 @@ extension WAFClientTypes {
         public init(
             action: WAFClientTypes.ChangeAction? = nil,
             regexMatchTuple: WAFClientTypes.RegexMatchTuple? = nil
-        )
-        {
+        ) {
             self.action = action
             self.regexMatchTuple = regexMatchTuple
         }
@@ -5646,8 +5449,7 @@ public struct UpdateRegexMatchSetInput: Swift.Sendable {
         changeToken: Swift.String? = nil,
         regexMatchSetId: Swift.String? = nil,
         updates: [WAFClientTypes.RegexMatchSetUpdate]? = nil
-    )
-    {
+    ) {
         self.changeToken = changeToken
         self.regexMatchSetId = regexMatchSetId
         self.updates = updates
@@ -5660,8 +5462,7 @@ public struct UpdateRegexMatchSetOutput: Swift.Sendable {
 
     public init(
         changeToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.changeToken = changeToken
     }
 }
@@ -5684,8 +5485,7 @@ public struct WAFInvalidRegexPatternException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5704,8 +5504,7 @@ extension WAFClientTypes {
         public init(
             action: WAFClientTypes.ChangeAction? = nil,
             regexPatternString: Swift.String? = nil
-        )
-        {
+        ) {
             self.action = action
             self.regexPatternString = regexPatternString
         }
@@ -5727,8 +5526,7 @@ public struct UpdateRegexPatternSetInput: Swift.Sendable {
         changeToken: Swift.String? = nil,
         regexPatternSetId: Swift.String? = nil,
         updates: [WAFClientTypes.RegexPatternSetUpdate]? = nil
-    )
-    {
+    ) {
         self.changeToken = changeToken
         self.regexPatternSetId = regexPatternSetId
         self.updates = updates
@@ -5741,8 +5539,7 @@ public struct UpdateRegexPatternSetOutput: Swift.Sendable {
 
     public init(
         changeToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.changeToken = changeToken
     }
 }
@@ -5768,8 +5565,7 @@ public struct UpdateRuleInput: Swift.Sendable {
         changeToken: Swift.String? = nil,
         ruleId: Swift.String? = nil,
         updates: [WAFClientTypes.RuleUpdate]? = nil
-    )
-    {
+    ) {
         self.changeToken = changeToken
         self.ruleId = ruleId
         self.updates = updates
@@ -5782,8 +5578,7 @@ public struct UpdateRuleOutput: Swift.Sendable {
 
     public init(
         changeToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.changeToken = changeToken
     }
 }
@@ -5802,8 +5597,7 @@ extension WAFClientTypes {
         public init(
             action: WAFClientTypes.ChangeAction? = nil,
             activatedRule: WAFClientTypes.ActivatedRule? = nil
-        )
-        {
+        ) {
             self.action = action
             self.activatedRule = activatedRule
         }
@@ -5825,8 +5619,7 @@ public struct UpdateRuleGroupInput: Swift.Sendable {
         changeToken: Swift.String? = nil,
         ruleGroupId: Swift.String? = nil,
         updates: [WAFClientTypes.RuleGroupUpdate]? = nil
-    )
-    {
+    ) {
         self.changeToken = changeToken
         self.ruleGroupId = ruleGroupId
         self.updates = updates
@@ -5839,8 +5632,7 @@ public struct UpdateRuleGroupOutput: Swift.Sendable {
 
     public init(
         changeToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.changeToken = changeToken
     }
 }
@@ -5859,8 +5651,7 @@ extension WAFClientTypes {
         public init(
             action: WAFClientTypes.ChangeAction? = nil,
             sizeConstraint: WAFClientTypes.SizeConstraint? = nil
-        )
-        {
+        ) {
             self.action = action
             self.sizeConstraint = sizeConstraint
         }
@@ -5888,8 +5679,7 @@ public struct UpdateSizeConstraintSetInput: Swift.Sendable {
         changeToken: Swift.String? = nil,
         sizeConstraintSetId: Swift.String? = nil,
         updates: [WAFClientTypes.SizeConstraintSetUpdate]? = nil
-    )
-    {
+    ) {
         self.changeToken = changeToken
         self.sizeConstraintSetId = sizeConstraintSetId
         self.updates = updates
@@ -5902,8 +5692,7 @@ public struct UpdateSizeConstraintSetOutput: Swift.Sendable {
 
     public init(
         changeToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.changeToken = changeToken
     }
 }
@@ -5922,8 +5711,7 @@ extension WAFClientTypes {
         public init(
             action: WAFClientTypes.ChangeAction? = nil,
             sqlInjectionMatchTuple: WAFClientTypes.SqlInjectionMatchTuple? = nil
-        )
-        {
+        ) {
             self.action = action
             self.sqlInjectionMatchTuple = sqlInjectionMatchTuple
         }
@@ -5952,8 +5740,7 @@ public struct UpdateSqlInjectionMatchSetInput: Swift.Sendable {
         changeToken: Swift.String? = nil,
         sqlInjectionMatchSetId: Swift.String? = nil,
         updates: [WAFClientTypes.SqlInjectionMatchSetUpdate]? = nil
-    )
-    {
+    ) {
         self.changeToken = changeToken
         self.sqlInjectionMatchSetId = sqlInjectionMatchSetId
         self.updates = updates
@@ -5967,8 +5754,7 @@ public struct UpdateSqlInjectionMatchSetOutput: Swift.Sendable {
 
     public init(
         changeToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.changeToken = changeToken
     }
 }
@@ -5991,8 +5777,7 @@ public struct WAFSubscriptionNotFoundException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -6011,8 +5796,7 @@ extension WAFClientTypes {
         public init(
             action: WAFClientTypes.ChangeAction? = nil,
             activatedRule: WAFClientTypes.ActivatedRule? = nil
-        )
-        {
+        ) {
             self.action = action
             self.activatedRule = activatedRule
         }
@@ -6042,8 +5826,7 @@ public struct UpdateWebACLInput: Swift.Sendable {
         defaultAction: WAFClientTypes.WafAction? = nil,
         updates: [WAFClientTypes.WebACLUpdate]? = nil,
         webACLId: Swift.String? = nil
-    )
-    {
+    ) {
         self.changeToken = changeToken
         self.defaultAction = defaultAction
         self.updates = updates
@@ -6057,8 +5840,7 @@ public struct UpdateWebACLOutput: Swift.Sendable {
 
     public init(
         changeToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.changeToken = changeToken
     }
 }
@@ -6077,8 +5859,7 @@ extension WAFClientTypes {
         public init(
             action: WAFClientTypes.ChangeAction? = nil,
             xssMatchTuple: WAFClientTypes.XssMatchTuple? = nil
-        )
-        {
+        ) {
             self.action = action
             self.xssMatchTuple = xssMatchTuple
         }
@@ -6107,8 +5888,7 @@ public struct UpdateXssMatchSetInput: Swift.Sendable {
         changeToken: Swift.String? = nil,
         updates: [WAFClientTypes.XssMatchSetUpdate]? = nil,
         xssMatchSetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.changeToken = changeToken
         self.updates = updates
         self.xssMatchSetId = xssMatchSetId
@@ -6122,8 +5902,7 @@ public struct UpdateXssMatchSetOutput: Swift.Sendable {
 
     public init(
         changeToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.changeToken = changeToken
     }
 }

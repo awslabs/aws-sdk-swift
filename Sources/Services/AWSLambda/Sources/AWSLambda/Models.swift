@@ -121,8 +121,7 @@ extension LambdaClientTypes {
             concurrentExecutions: Swift.Int = 0,
             totalCodeSize: Swift.Int = 0,
             unreservedConcurrentExecutions: Swift.Int? = nil
-        )
-        {
+        ) {
             self.codeSizeUnzipped = codeSizeUnzipped
             self.codeSizeZipped = codeSizeZipped
             self.concurrentExecutions = concurrentExecutions
@@ -144,8 +143,7 @@ extension LambdaClientTypes {
         public init(
             functionCount: Swift.Int = 0,
             totalCodeSize: Swift.Int = 0
-        )
-        {
+        ) {
             self.functionCount = functionCount
             self.totalCodeSize = totalCodeSize
         }
@@ -174,8 +172,7 @@ public struct InvalidParameterValueException: ClientRuntime.ModeledError, AWSCli
     public init(
         message: Swift.String? = nil,
         type: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.type = type
     }
@@ -201,8 +198,7 @@ public struct PolicyLengthExceededException: ClientRuntime.ModeledError, AWSClie
     public init(
         message: Swift.String? = nil,
         type: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.type = type
     }
@@ -234,8 +230,7 @@ public struct PreconditionFailedException: ClientRuntime.ModeledError, AWSClient
     public init(
         message: Swift.String? = nil,
         type: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.type = type
     }
@@ -263,8 +258,7 @@ public struct ResourceConflictException: ClientRuntime.ModeledError, AWSClientRu
     public init(
         message: Swift.String? = nil,
         type: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.type = type
     }
@@ -290,8 +284,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public init(
         message: Swift.String? = nil,
         type: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.type = type
     }
@@ -317,8 +310,7 @@ public struct ServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWS
     public init(
         message: Swift.String? = nil,
         type: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.type = type
     }
@@ -390,8 +382,7 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
         reason: LambdaClientTypes.ThrottleReason? = nil,
         retryAfterSeconds: Swift.String? = nil,
         type: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.reason = reason
         self.properties.retryAfterSeconds = retryAfterSeconds
@@ -428,8 +419,7 @@ public struct AddLayerVersionPermissionInput: Swift.Sendable {
         revisionId: Swift.String? = nil,
         statementId: Swift.String? = nil,
         versionNumber: Swift.Int? = 0
-    )
-    {
+    ) {
         self.action = action
         self.layerName = layerName
         self.organizationId = organizationId
@@ -449,8 +439,7 @@ public struct AddLayerVersionPermissionOutput: Swift.Sendable {
     public init(
         revisionId: Swift.String? = nil,
         statement: Swift.String? = nil
-    )
-    {
+    ) {
         self.revisionId = revisionId
         self.statement = statement
     }
@@ -534,8 +523,7 @@ public struct AddPermissionInput: Swift.Sendable {
         sourceAccount: Swift.String? = nil,
         sourceArn: Swift.String? = nil,
         statementId: Swift.String? = nil
-    )
-    {
+    ) {
         self.action = action
         self.eventSourceToken = eventSourceToken
         self.functionName = functionName
@@ -556,8 +544,7 @@ public struct AddPermissionOutput: Swift.Sendable {
 
     public init(
         statement: Swift.String? = nil
-    )
-    {
+    ) {
         self.statement = statement
     }
 }
@@ -571,8 +558,7 @@ extension LambdaClientTypes {
 
         public init(
             additionalVersionWeights: [Swift.String: Swift.Double]? = nil
-        )
-        {
+        ) {
             self.additionalVersionWeights = additionalVersionWeights
         }
     }
@@ -602,8 +588,7 @@ extension LambdaClientTypes {
             name: Swift.String? = nil,
             revisionId: Swift.String? = nil,
             routingConfig: LambdaClientTypes.AliasRoutingConfiguration? = nil
-        )
-        {
+        ) {
             self.aliasArn = aliasArn
             self.description = description
             self.functionVersion = functionVersion
@@ -624,8 +609,7 @@ extension LambdaClientTypes {
 
         public init(
             signingProfileVersionArns: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.signingProfileVersionArns = signingProfileVersionArns
         }
     }
@@ -640,8 +624,7 @@ extension LambdaClientTypes {
 
         public init(
             consumerGroupId: Swift.String? = nil
-        )
-        {
+        ) {
             self.consumerGroupId = consumerGroupId
         }
     }
@@ -747,8 +730,7 @@ public struct CreateAliasInput: Swift.Sendable {
         functionVersion: Swift.String? = nil,
         name: Swift.String? = nil,
         routingConfig: LambdaClientTypes.AliasRoutingConfiguration? = nil
-    )
-    {
+    ) {
         self.description = description
         self.functionName = functionName
         self.functionVersion = functionVersion
@@ -779,8 +761,7 @@ public struct CreateAliasOutput: Swift.Sendable {
         name: Swift.String? = nil,
         revisionId: Swift.String? = nil,
         routingConfig: LambdaClientTypes.AliasRoutingConfiguration? = nil
-    )
-    {
+    ) {
         self.aliasArn = aliasArn
         self.description = description
         self.functionVersion = functionVersion
@@ -828,8 +809,7 @@ extension LambdaClientTypes {
 
         public init(
             untrustedArtifactOnDeployment: LambdaClientTypes.CodeSigningPolicy? = nil
-        )
-        {
+        ) {
             self.untrustedArtifactOnDeployment = untrustedArtifactOnDeployment
         }
     }
@@ -851,8 +831,7 @@ public struct CreateCodeSigningConfigInput: Swift.Sendable {
         codeSigningPolicies: LambdaClientTypes.CodeSigningPolicies? = nil,
         description: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.allowedPublishers = allowedPublishers
         self.codeSigningPolicies = codeSigningPolicies
         self.description = description
@@ -889,8 +868,7 @@ extension LambdaClientTypes {
             codeSigningPolicies: LambdaClientTypes.CodeSigningPolicies? = nil,
             description: Swift.String? = nil,
             lastModified: Swift.String? = nil
-        )
-        {
+        ) {
             self.allowedPublishers = allowedPublishers
             self.codeSigningConfigArn = codeSigningConfigArn
             self.codeSigningConfigId = codeSigningConfigId
@@ -908,8 +886,7 @@ public struct CreateCodeSigningConfigOutput: Swift.Sendable {
 
     public init(
         codeSigningConfig: LambdaClientTypes.CodeSigningConfig? = nil
-    )
-    {
+    ) {
         self.codeSigningConfig = codeSigningConfig
     }
 }
@@ -923,8 +900,7 @@ extension LambdaClientTypes {
 
         public init(
             destination: Swift.String? = nil
-        )
-        {
+        ) {
             self.destination = destination
         }
     }
@@ -939,8 +915,7 @@ extension LambdaClientTypes {
 
         public init(
             destination: Swift.String? = nil
-        )
-        {
+        ) {
             self.destination = destination
         }
     }
@@ -958,8 +933,7 @@ extension LambdaClientTypes {
         public init(
             onFailure: LambdaClientTypes.OnFailure? = nil,
             onSuccess: LambdaClientTypes.OnSuccess? = nil
-        )
-        {
+        ) {
             self.onFailure = onFailure
             self.onSuccess = onSuccess
         }
@@ -1010,8 +984,7 @@ extension LambdaClientTypes {
             collectionName: Swift.String? = nil,
             databaseName: Swift.String? = nil,
             fullDocument: LambdaClientTypes.FullDocument? = nil
-        )
-        {
+        ) {
             self.collectionName = collectionName
             self.databaseName = databaseName
             self.fullDocument = fullDocument
@@ -1028,8 +1001,7 @@ extension LambdaClientTypes {
 
         public init(
             pattern: Swift.String? = nil
-        )
-        {
+        ) {
             self.pattern = pattern
         }
     }
@@ -1044,8 +1016,7 @@ extension LambdaClientTypes {
 
         public init(
             filters: [LambdaClientTypes.Filter]? = nil
-        )
-        {
+        ) {
             self.filters = filters
         }
     }
@@ -1112,8 +1083,7 @@ extension LambdaClientTypes {
 
         public init(
             metrics: [LambdaClientTypes.EventSourceMappingMetric]? = nil
-        )
-        {
+        ) {
             self.metrics = metrics
         }
     }
@@ -1131,8 +1101,7 @@ extension LambdaClientTypes {
         public init(
             maximumPollers: Swift.Int? = nil,
             minimumPollers: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maximumPollers = maximumPollers
             self.minimumPollers = minimumPollers
         }
@@ -1148,8 +1117,7 @@ extension LambdaClientTypes {
 
         public init(
             maximumConcurrency: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maximumConcurrency = maximumConcurrency
         }
     }
@@ -1190,8 +1158,7 @@ extension LambdaClientTypes {
 
         public init(
             endpoints: [Swift.String: [Swift.String]]? = nil
-        )
-        {
+        ) {
             self.endpoints = endpoints
         }
     }
@@ -1206,8 +1173,7 @@ extension LambdaClientTypes {
 
         public init(
             consumerGroupId: Swift.String? = nil
-        )
-        {
+        ) {
             self.consumerGroupId = consumerGroupId
         }
     }
@@ -1290,8 +1256,7 @@ extension LambdaClientTypes {
         public init(
             type: LambdaClientTypes.SourceAccessType? = nil,
             uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.type = type
             self.uri = uri
         }
@@ -1452,8 +1417,7 @@ public struct CreateEventSourceMappingInput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         topics: [Swift.String]? = nil,
         tumblingWindowInSeconds: Swift.Int? = nil
-    )
-    {
+    ) {
         self.amazonManagedKafkaEventSourceConfig = amazonManagedKafkaEventSourceConfig
         self.batchSize = batchSize
         self.bisectBatchOnFunctionError = bisectBatchOnFunctionError
@@ -1496,8 +1460,7 @@ extension LambdaClientTypes {
         public init(
             errorCode: Swift.String? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.message = message
         }
@@ -1604,8 +1567,7 @@ public struct CreateEventSourceMappingOutput: Swift.Sendable {
         topics: [Swift.String]? = nil,
         tumblingWindowInSeconds: Swift.Int? = nil,
         uuid: Swift.String? = nil
-    )
-    {
+    ) {
         self.amazonManagedKafkaEventSourceConfig = amazonManagedKafkaEventSourceConfig
         self.batchSize = batchSize
         self.bisectBatchOnFunctionError = bisectBatchOnFunctionError
@@ -1661,8 +1623,7 @@ public struct CodeSigningConfigNotFoundException: ClientRuntime.ModeledError, AW
     public init(
         message: Swift.String? = nil,
         type: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.type = type
     }
@@ -1689,8 +1650,7 @@ public struct CodeStorageExceededException: ClientRuntime.ModeledError, AWSClien
     public init(
         message: Swift.String? = nil,
         type: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.type = type
     }
@@ -1716,8 +1676,7 @@ public struct CodeVerificationFailedException: ClientRuntime.ModeledError, AWSCl
     public init(
         message: Swift.String? = nil,
         type: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.type = type
     }
@@ -1743,8 +1702,7 @@ public struct InvalidCodeSignatureException: ClientRuntime.ModeledError, AWSClie
     public init(
         message: Swift.String? = nil,
         type: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.type = type
     }
@@ -1774,8 +1732,7 @@ extension LambdaClientTypes {
             s3ObjectVersion: Swift.String? = nil,
             sourceKMSKeyArn: Swift.String? = nil,
             zipFile: Foundation.Data? = nil
-        )
-        {
+        ) {
             self.imageUri = imageUri
             self.s3Bucket = s3Bucket
             self.s3Key = s3Key
@@ -1800,8 +1757,7 @@ extension LambdaClientTypes {
 
         public init(
             targetArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.targetArn = targetArn
         }
     }
@@ -1816,8 +1772,7 @@ extension LambdaClientTypes {
 
         public init(
             variables: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.variables = variables
         }
     }
@@ -1838,8 +1793,7 @@ extension LambdaClientTypes {
 
         public init(
             size: Swift.Int? = nil
-        )
-        {
+        ) {
             self.size = size
         }
     }
@@ -1859,8 +1813,7 @@ extension LambdaClientTypes {
         public init(
             arn: Swift.String? = nil,
             localMountPath: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.localMountPath = localMountPath
         }
@@ -1882,8 +1835,7 @@ extension LambdaClientTypes {
             command: [Swift.String]? = nil,
             entryPoint: [Swift.String]? = nil,
             workingDirectory: Swift.String? = nil
-        )
-        {
+        ) {
             self.command = command
             self.entryPoint = entryPoint
             self.workingDirectory = workingDirectory
@@ -1970,8 +1922,7 @@ extension LambdaClientTypes {
             logFormat: LambdaClientTypes.LogFormat? = nil,
             logGroup: Swift.String? = nil,
             systemLogLevel: LambdaClientTypes.SystemLogLevel? = nil
-        )
-        {
+        ) {
             self.applicationLogLevel = applicationLogLevel
             self.logFormat = logFormat
             self.logGroup = logGroup
@@ -2190,8 +2141,7 @@ extension LambdaClientTypes {
 
         public init(
             applyOn: LambdaClientTypes.SnapStartApplyOn? = nil
-        )
-        {
+        ) {
             self.applyOn = applyOn
         }
     }
@@ -2235,8 +2185,7 @@ extension LambdaClientTypes {
 
         public init(
             mode: LambdaClientTypes.TracingMode? = nil
-        )
-        {
+        ) {
             self.mode = mode
         }
     }
@@ -2257,8 +2206,7 @@ extension LambdaClientTypes {
             ipv6AllowedForDualStack: Swift.Bool? = nil,
             securityGroupIds: [Swift.String]? = nil,
             subnetIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.ipv6AllowedForDualStack = ipv6AllowedForDualStack
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
@@ -2364,8 +2312,7 @@ public struct CreateFunctionInput: Swift.Sendable {
         timeout: Swift.Int? = nil,
         tracingConfig: LambdaClientTypes.TracingConfig? = nil,
         vpcConfig: LambdaClientTypes.VpcConfig? = nil
-    )
-    {
+    ) {
         self.architectures = architectures
         self.code = code
         self.codeSigningConfigArn = codeSigningConfigArn
@@ -2405,8 +2352,7 @@ extension LambdaClientTypes {
         public init(
             errorCode: Swift.String? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.message = message
         }
@@ -2430,8 +2376,7 @@ extension LambdaClientTypes {
         public init(
             error: LambdaClientTypes.EnvironmentError? = nil,
             variables: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.error = error
             self.variables = variables
         }
@@ -2455,8 +2400,7 @@ extension LambdaClientTypes {
         public init(
             errorCode: Swift.String? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.message = message
         }
@@ -2480,8 +2424,7 @@ extension LambdaClientTypes {
         public init(
             error: LambdaClientTypes.ImageConfigError? = nil,
             imageConfig: LambdaClientTypes.ImageConfig? = nil
-        )
-        {
+        ) {
             self.error = error
             self.imageConfig = imageConfig
         }
@@ -2624,8 +2567,7 @@ extension LambdaClientTypes {
             codeSize: Swift.Int = 0,
             signingJobArn: Swift.String? = nil,
             signingProfileVersionArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.codeSize = codeSize
             self.signingJobArn = signingJobArn
@@ -2646,8 +2588,7 @@ extension LambdaClientTypes {
         public init(
             errorCode: Swift.String? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.message = message
         }
@@ -2671,8 +2612,7 @@ extension LambdaClientTypes {
         public init(
             error: LambdaClientTypes.RuntimeVersionError? = nil,
             runtimeVersionArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.error = error
             self.runtimeVersionArn = runtimeVersionArn
         }
@@ -2720,8 +2660,7 @@ extension LambdaClientTypes {
         public init(
             applyOn: LambdaClientTypes.SnapStartApplyOn? = nil,
             optimizationStatus: LambdaClientTypes.SnapStartOptimizationStatus? = nil
-        )
-        {
+        ) {
             self.applyOn = applyOn
             self.optimizationStatus = optimizationStatus
         }
@@ -2867,8 +2806,7 @@ extension LambdaClientTypes {
 
         public init(
             mode: LambdaClientTypes.TracingMode? = nil
-        )
-        {
+        ) {
             self.mode = mode
         }
     }
@@ -2892,8 +2830,7 @@ extension LambdaClientTypes {
             securityGroupIds: [Swift.String]? = nil,
             subnetIds: [Swift.String]? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.ipv6AllowedForDualStack = ipv6AllowedForDualStack
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
@@ -3025,8 +2962,7 @@ public struct CreateFunctionOutput: Swift.Sendable {
         tracingConfig: LambdaClientTypes.TracingConfigResponse? = nil,
         version: Swift.String? = nil,
         vpcConfig: LambdaClientTypes.VpcConfigResponse? = nil
-    )
-    {
+    ) {
         self.architectures = architectures
         self.codeSha256 = codeSha256
         self.codeSize = codeSize
@@ -3090,8 +3026,7 @@ extension LambdaClientTypes {
             allowOrigins: [Swift.String]? = nil,
             exposeHeaders: [Swift.String]? = nil,
             maxAge: Swift.Int? = nil
-        )
-        {
+        ) {
             self.allowCredentials = allowCredentials
             self.allowHeaders = allowHeaders
             self.allowMethods = allowMethods
@@ -3164,8 +3099,7 @@ public struct CreateFunctionUrlConfigInput: Swift.Sendable {
         functionName: Swift.String? = nil,
         invokeMode: LambdaClientTypes.InvokeMode? = nil,
         qualifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.authType = authType
         self.cors = cors
         self.functionName = functionName
@@ -3203,8 +3137,7 @@ public struct CreateFunctionUrlConfigOutput: Swift.Sendable {
         functionArn: Swift.String? = nil,
         functionUrl: Swift.String? = nil,
         invokeMode: LambdaClientTypes.InvokeMode? = nil
-    )
-    {
+    ) {
         self.authType = authType
         self.cors = cors
         self.creationTime = creationTime
@@ -3234,8 +3167,7 @@ public struct DeleteAliasInput: Swift.Sendable {
     public init(
         functionName: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.functionName = functionName
         self.name = name
     }
@@ -3248,8 +3180,7 @@ public struct DeleteCodeSigningConfigInput: Swift.Sendable {
 
     public init(
         codeSigningConfigArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.codeSigningConfigArn = codeSigningConfigArn
     }
 }
@@ -3279,8 +3210,7 @@ public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRunti
     public init(
         message: Swift.String? = nil,
         type: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.type = type
     }
@@ -3293,8 +3223,7 @@ public struct DeleteEventSourceMappingInput: Swift.Sendable {
 
     public init(
         uuid: Swift.String? = nil
-    )
-    {
+    ) {
         self.uuid = uuid
     }
 }
@@ -3399,8 +3328,7 @@ public struct DeleteEventSourceMappingOutput: Swift.Sendable {
         topics: [Swift.String]? = nil,
         tumblingWindowInSeconds: Swift.Int? = nil,
         uuid: Swift.String? = nil
-    )
-    {
+    ) {
         self.amazonManagedKafkaEventSourceConfig = amazonManagedKafkaEventSourceConfig
         self.batchSize = batchSize
         self.bisectBatchOnFunctionError = bisectBatchOnFunctionError
@@ -3455,8 +3383,7 @@ public struct DeleteFunctionInput: Swift.Sendable {
     public init(
         functionName: Swift.String? = nil,
         qualifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.functionName = functionName
         self.qualifier = qualifier
     }
@@ -3478,8 +3405,7 @@ public struct DeleteFunctionCodeSigningConfigInput: Swift.Sendable {
 
     public init(
         functionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.functionName = functionName
     }
 }
@@ -3500,8 +3426,7 @@ public struct DeleteFunctionConcurrencyInput: Swift.Sendable {
 
     public init(
         functionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.functionName = functionName
     }
 }
@@ -3525,8 +3450,7 @@ public struct DeleteFunctionEventInvokeConfigInput: Swift.Sendable {
     public init(
         functionName: Swift.String? = nil,
         qualifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.functionName = functionName
         self.qualifier = qualifier
     }
@@ -3551,8 +3475,7 @@ public struct DeleteFunctionUrlConfigInput: Swift.Sendable {
     public init(
         functionName: Swift.String? = nil,
         qualifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.functionName = functionName
         self.qualifier = qualifier
     }
@@ -3569,8 +3492,7 @@ public struct DeleteLayerVersionInput: Swift.Sendable {
     public init(
         layerName: Swift.String? = nil,
         versionNumber: Swift.Int? = 0
-    )
-    {
+    ) {
         self.layerName = layerName
         self.versionNumber = versionNumber
     }
@@ -3596,8 +3518,7 @@ public struct DeleteProvisionedConcurrencyConfigInput: Swift.Sendable {
     public init(
         functionName: Swift.String? = nil,
         qualifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.functionName = functionName
         self.qualifier = qualifier
     }
@@ -3617,8 +3538,7 @@ public struct GetAccountSettingsOutput: Swift.Sendable {
     public init(
         accountLimit: LambdaClientTypes.AccountLimit? = nil,
         accountUsage: LambdaClientTypes.AccountUsage? = nil
-    )
-    {
+    ) {
         self.accountLimit = accountLimit
         self.accountUsage = accountUsage
     }
@@ -3644,8 +3564,7 @@ public struct GetAliasInput: Swift.Sendable {
     public init(
         functionName: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.functionName = functionName
         self.name = name
     }
@@ -3673,8 +3592,7 @@ public struct GetAliasOutput: Swift.Sendable {
         name: Swift.String? = nil,
         revisionId: Swift.String? = nil,
         routingConfig: LambdaClientTypes.AliasRoutingConfiguration? = nil
-    )
-    {
+    ) {
         self.aliasArn = aliasArn
         self.description = description
         self.functionVersion = functionVersion
@@ -3691,8 +3609,7 @@ public struct GetCodeSigningConfigInput: Swift.Sendable {
 
     public init(
         codeSigningConfigArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.codeSigningConfigArn = codeSigningConfigArn
     }
 }
@@ -3704,8 +3621,7 @@ public struct GetCodeSigningConfigOutput: Swift.Sendable {
 
     public init(
         codeSigningConfig: LambdaClientTypes.CodeSigningConfig? = nil
-    )
-    {
+    ) {
         self.codeSigningConfig = codeSigningConfig
     }
 }
@@ -3717,8 +3633,7 @@ public struct GetEventSourceMappingInput: Swift.Sendable {
 
     public init(
         uuid: Swift.String? = nil
-    )
-    {
+    ) {
         self.uuid = uuid
     }
 }
@@ -3823,8 +3738,7 @@ public struct GetEventSourceMappingOutput: Swift.Sendable {
         topics: [Swift.String]? = nil,
         tumblingWindowInSeconds: Swift.Int? = nil,
         uuid: Swift.String? = nil
-    )
-    {
+    ) {
         self.amazonManagedKafkaEventSourceConfig = amazonManagedKafkaEventSourceConfig
         self.batchSize = batchSize
         self.bisectBatchOnFunctionError = bisectBatchOnFunctionError
@@ -3879,8 +3793,7 @@ public struct GetFunctionInput: Swift.Sendable {
     public init(
         functionName: Swift.String? = nil,
         qualifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.functionName = functionName
         self.qualifier = qualifier
     }
@@ -3907,8 +3820,7 @@ extension LambdaClientTypes {
             repositoryType: Swift.String? = nil,
             resolvedImageUri: Swift.String? = nil,
             sourceKMSKeyArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.imageUri = imageUri
             self.location = location
             self.repositoryType = repositoryType
@@ -3926,8 +3838,7 @@ extension LambdaClientTypes {
 
         public init(
             reservedConcurrentExecutions: Swift.Int? = nil
-        )
-        {
+        ) {
             self.reservedConcurrentExecutions = reservedConcurrentExecutions
         }
     }
@@ -4058,8 +3969,7 @@ extension LambdaClientTypes {
             tracingConfig: LambdaClientTypes.TracingConfigResponse? = nil,
             version: Swift.String? = nil,
             vpcConfig: LambdaClientTypes.VpcConfigResponse? = nil
-        )
-        {
+        ) {
             self.architectures = architectures
             self.codeSha256 = codeSha256
             self.codeSize = codeSize
@@ -4114,8 +4024,7 @@ extension LambdaClientTypes {
         public init(
             errorCode: Swift.String? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.message = message
         }
@@ -4140,8 +4049,7 @@ public struct GetFunctionOutput: Swift.Sendable {
         configuration: LambdaClientTypes.FunctionConfiguration? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         tagsError: LambdaClientTypes.TagsError? = nil
-    )
-    {
+    ) {
         self.code = code
         self.concurrency = concurrency
         self.configuration = configuration
@@ -4166,8 +4074,7 @@ public struct GetFunctionCodeSigningConfigInput: Swift.Sendable {
 
     public init(
         functionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.functionName = functionName
     }
 }
@@ -4192,8 +4099,7 @@ public struct GetFunctionCodeSigningConfigOutput: Swift.Sendable {
     public init(
         codeSigningConfigArn: Swift.String? = nil,
         functionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.codeSigningConfigArn = codeSigningConfigArn
         self.functionName = functionName
     }
@@ -4215,8 +4121,7 @@ public struct GetFunctionConcurrencyInput: Swift.Sendable {
 
     public init(
         functionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.functionName = functionName
     }
 }
@@ -4227,8 +4132,7 @@ public struct GetFunctionConcurrencyOutput: Swift.Sendable {
 
     public init(
         reservedConcurrentExecutions: Swift.Int? = nil
-    )
-    {
+    ) {
         self.reservedConcurrentExecutions = reservedConcurrentExecutions
     }
 }
@@ -4252,8 +4156,7 @@ public struct GetFunctionConfigurationInput: Swift.Sendable {
     public init(
         functionName: Swift.String? = nil,
         qualifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.functionName = functionName
         self.qualifier = qualifier
     }
@@ -4382,8 +4285,7 @@ public struct GetFunctionConfigurationOutput: Swift.Sendable {
         tracingConfig: LambdaClientTypes.TracingConfigResponse? = nil,
         version: Swift.String? = nil,
         vpcConfig: LambdaClientTypes.VpcConfigResponse? = nil
-    )
-    {
+    ) {
         self.architectures = architectures
         self.codeSha256 = codeSha256
         self.codeSize = codeSize
@@ -4442,8 +4344,7 @@ public struct GetFunctionEventInvokeConfigInput: Swift.Sendable {
     public init(
         functionName: Swift.String? = nil,
         qualifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.functionName = functionName
         self.qualifier = qualifier
     }
@@ -4480,8 +4381,7 @@ public struct GetFunctionEventInvokeConfigOutput: Swift.Sendable {
         lastModified: Foundation.Date? = nil,
         maximumEventAgeInSeconds: Swift.Int? = nil,
         maximumRetryAttempts: Swift.Int? = nil
-    )
-    {
+    ) {
         self.destinationConfig = destinationConfig
         self.functionArn = functionArn
         self.lastModified = lastModified
@@ -4497,8 +4397,7 @@ public struct GetFunctionRecursionConfigInput: Swift.Sendable {
 
     public init(
         functionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.functionName = functionName
     }
 }
@@ -4538,8 +4437,7 @@ public struct GetFunctionRecursionConfigOutput: Swift.Sendable {
 
     public init(
         recursiveLoop: LambdaClientTypes.RecursiveLoop? = nil
-    )
-    {
+    ) {
         self.recursiveLoop = recursiveLoop
     }
 }
@@ -4563,8 +4461,7 @@ public struct GetFunctionUrlConfigInput: Swift.Sendable {
     public init(
         functionName: Swift.String? = nil,
         qualifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.functionName = functionName
         self.qualifier = qualifier
     }
@@ -4603,8 +4500,7 @@ public struct GetFunctionUrlConfigOutput: Swift.Sendable {
         functionUrl: Swift.String? = nil,
         invokeMode: LambdaClientTypes.InvokeMode? = nil,
         lastModifiedTime: Swift.String? = nil
-    )
-    {
+    ) {
         self.authType = authType
         self.cors = cors
         self.creationTime = creationTime
@@ -4626,8 +4522,7 @@ public struct GetLayerVersionInput: Swift.Sendable {
     public init(
         layerName: Swift.String? = nil,
         versionNumber: Swift.Int? = 0
-    )
-    {
+    ) {
         self.layerName = layerName
         self.versionNumber = versionNumber
     }
@@ -4654,8 +4549,7 @@ extension LambdaClientTypes {
             location: Swift.String? = nil,
             signingJobArn: Swift.String? = nil,
             signingProfileVersionArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.codeSha256 = codeSha256
             self.codeSize = codeSize
             self.location = location
@@ -4695,8 +4589,7 @@ public struct GetLayerVersionOutput: Swift.Sendable {
         layerVersionArn: Swift.String? = nil,
         licenseInfo: Swift.String? = nil,
         version: Swift.Int = 0
-    )
-    {
+    ) {
         self.compatibleArchitectures = compatibleArchitectures
         self.compatibleRuntimes = compatibleRuntimes
         self.content = content
@@ -4716,8 +4609,7 @@ public struct GetLayerVersionByArnInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -4752,8 +4644,7 @@ public struct GetLayerVersionByArnOutput: Swift.Sendable {
         layerVersionArn: Swift.String? = nil,
         licenseInfo: Swift.String? = nil,
         version: Swift.Int = 0
-    )
-    {
+    ) {
         self.compatibleArchitectures = compatibleArchitectures
         self.compatibleRuntimes = compatibleRuntimes
         self.content = content
@@ -4777,8 +4668,7 @@ public struct GetLayerVersionPolicyInput: Swift.Sendable {
     public init(
         layerName: Swift.String? = nil,
         versionNumber: Swift.Int? = 0
-    )
-    {
+    ) {
         self.layerName = layerName
         self.versionNumber = versionNumber
     }
@@ -4793,8 +4683,7 @@ public struct GetLayerVersionPolicyOutput: Swift.Sendable {
     public init(
         policy: Swift.String? = nil,
         revisionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.policy = policy
         self.revisionId = revisionId
     }
@@ -4819,8 +4708,7 @@ public struct GetPolicyInput: Swift.Sendable {
     public init(
         functionName: Swift.String? = nil,
         qualifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.functionName = functionName
         self.qualifier = qualifier
     }
@@ -4835,8 +4723,7 @@ public struct GetPolicyOutput: Swift.Sendable {
     public init(
         policy: Swift.String? = nil,
         revisionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.policy = policy
         self.revisionId = revisionId
     }
@@ -4862,8 +4749,7 @@ public struct ProvisionedConcurrencyConfigNotFoundException: ClientRuntime.Model
     public init(
         message: Swift.String? = nil,
         type: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.type = type
     }
@@ -4889,8 +4775,7 @@ public struct GetProvisionedConcurrencyConfigInput: Swift.Sendable {
     public init(
         functionName: Swift.String? = nil,
         qualifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.functionName = functionName
         self.qualifier = qualifier
     }
@@ -4949,8 +4834,7 @@ public struct GetProvisionedConcurrencyConfigOutput: Swift.Sendable {
         requestedProvisionedConcurrentExecutions: Swift.Int? = nil,
         status: LambdaClientTypes.ProvisionedConcurrencyStatusEnum? = nil,
         statusReason: Swift.String? = nil
-    )
-    {
+    ) {
         self.allocatedProvisionedConcurrentExecutions = allocatedProvisionedConcurrentExecutions
         self.availableProvisionedConcurrentExecutions = availableProvisionedConcurrentExecutions
         self.lastModified = lastModified
@@ -4979,8 +4863,7 @@ public struct GetRuntimeManagementConfigInput: Swift.Sendable {
     public init(
         functionName: Swift.String? = nil,
         qualifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.functionName = functionName
         self.qualifier = qualifier
     }
@@ -5030,8 +4913,7 @@ public struct GetRuntimeManagementConfigOutput: Swift.Sendable {
         functionArn: Swift.String? = nil,
         runtimeVersionArn: Swift.String? = nil,
         updateRuntimeOn: LambdaClientTypes.UpdateRuntimeOn? = nil
-    )
-    {
+    ) {
         self.functionArn = functionArn
         self.runtimeVersionArn = runtimeVersionArn
         self.updateRuntimeOn = updateRuntimeOn
@@ -5058,8 +4940,7 @@ public struct EC2AccessDeniedException: ClientRuntime.ModeledError, AWSClientRun
     public init(
         message: Swift.String? = nil,
         type: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.type = type
     }
@@ -5085,8 +4966,7 @@ public struct EC2ThrottledException: ClientRuntime.ModeledError, AWSClientRuntim
     public init(
         message: Swift.String? = nil,
         type: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.type = type
     }
@@ -5114,8 +4994,7 @@ public struct EC2UnexpectedException: ClientRuntime.ModeledError, AWSClientRunti
         ec2ErrorCode: Swift.String? = nil,
         message: Swift.String? = nil,
         type: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.ec2ErrorCode = ec2ErrorCode
         self.properties.message = message
         self.properties.type = type
@@ -5142,8 +5021,7 @@ public struct EFSIOException: ClientRuntime.ModeledError, AWSClientRuntime.AWSSe
     public init(
         message: Swift.String? = nil,
         type: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.type = type
     }
@@ -5169,8 +5047,7 @@ public struct EFSMountConnectivityException: ClientRuntime.ModeledError, AWSClie
     public init(
         message: Swift.String? = nil,
         type: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.type = type
     }
@@ -5196,8 +5073,7 @@ public struct EFSMountFailureException: ClientRuntime.ModeledError, AWSClientRun
     public init(
         message: Swift.String? = nil,
         type: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.type = type
     }
@@ -5223,8 +5099,7 @@ public struct EFSMountTimeoutException: ClientRuntime.ModeledError, AWSClientRun
     public init(
         message: Swift.String? = nil,
         type: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.type = type
     }
@@ -5250,8 +5125,7 @@ public struct ENILimitReachedException: ClientRuntime.ModeledError, AWSClientRun
     public init(
         message: Swift.String? = nil,
         type: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.type = type
     }
@@ -5279,8 +5153,7 @@ public struct InvalidRequestContentException: ClientRuntime.ModeledError, AWSCli
     public init(
         message: Swift.String? = nil,
         type: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.type = type
     }
@@ -5306,8 +5179,7 @@ public struct InvalidRuntimeException: ClientRuntime.ModeledError, AWSClientRunt
     public init(
         message: Swift.String? = nil,
         type: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.type = type
     }
@@ -5333,8 +5205,7 @@ public struct InvalidSecurityGroupIDException: ClientRuntime.ModeledError, AWSCl
     public init(
         message: Swift.String? = nil,
         type: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.type = type
     }
@@ -5360,8 +5231,7 @@ public struct InvalidSubnetIDException: ClientRuntime.ModeledError, AWSClientRun
     public init(
         message: Swift.String? = nil,
         type: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.type = type
     }
@@ -5387,8 +5257,7 @@ public struct InvalidZipFileException: ClientRuntime.ModeledError, AWSClientRunt
     public init(
         message: Swift.String? = nil,
         type: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.type = type
     }
@@ -5414,8 +5283,7 @@ public struct KMSAccessDeniedException: ClientRuntime.ModeledError, AWSClientRun
     public init(
         message: Swift.String? = nil,
         type: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.type = type
     }
@@ -5441,8 +5309,7 @@ public struct KMSDisabledException: ClientRuntime.ModeledError, AWSClientRuntime
     public init(
         message: Swift.String? = nil,
         type: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.type = type
     }
@@ -5468,8 +5335,7 @@ public struct KMSInvalidStateException: ClientRuntime.ModeledError, AWSClientRun
     public init(
         message: Swift.String? = nil,
         type: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.type = type
     }
@@ -5495,8 +5361,7 @@ public struct KMSNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime
     public init(
         message: Swift.String? = nil,
         type: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.type = type
     }
@@ -5524,8 +5389,7 @@ public struct RecursiveInvocationException: ClientRuntime.ModeledError, AWSClien
     public init(
         message: Swift.String? = nil,
         type: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.type = type
     }
@@ -5551,8 +5415,7 @@ public struct RequestTooLargeException: ClientRuntime.ModeledError, AWSClientRun
     public init(
         message: Swift.String? = nil,
         type: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.type = type
     }
@@ -5580,8 +5443,7 @@ public struct ResourceNotReadyException: ClientRuntime.ModeledError, AWSClientRu
     public init(
         message: Swift.String? = nil,
         type: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.type = type
     }
@@ -5607,8 +5469,7 @@ public struct SnapStartException: ClientRuntime.ModeledError, AWSClientRuntime.A
     public init(
         message: Swift.String? = nil,
         type: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.type = type
     }
@@ -5634,8 +5495,7 @@ public struct SnapStartNotReadyException: ClientRuntime.ModeledError, AWSClientR
     public init(
         message: Swift.String? = nil,
         type: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.type = type
     }
@@ -5661,8 +5521,7 @@ public struct SnapStartTimeoutException: ClientRuntime.ModeledError, AWSClientRu
     public init(
         message: Swift.String? = nil,
         type: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.type = type
     }
@@ -5688,8 +5547,7 @@ public struct SubnetIPAddressLimitReachedException: ClientRuntime.ModeledError, 
     public init(
         message: Swift.String? = nil,
         type: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.type = type
     }
@@ -5715,8 +5573,7 @@ public struct UnsupportedMediaTypeException: ClientRuntime.ModeledError, AWSClie
     public init(
         message: Swift.String? = nil,
         type: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.type = type
     }
@@ -5820,8 +5677,7 @@ public struct InvokeInput: Swift.Sendable {
         logType: LambdaClientTypes.LogType? = nil,
         payload: Foundation.Data? = nil,
         qualifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientContext = clientContext
         self.functionName = functionName
         self.invocationType = invocationType
@@ -5854,8 +5710,7 @@ public struct InvokeOutput: Swift.Sendable {
         logResult: Swift.String? = nil,
         payload: Foundation.Data? = nil,
         statusCode: Swift.Int = 0
-    )
-    {
+    ) {
         self.executedVersion = executedVersion
         self.functionError = functionError
         self.logResult = logResult
@@ -5890,8 +5745,7 @@ public struct InvokeAsyncInput: Swift.Sendable {
     public init(
         functionName: Swift.String? = nil,
         invokeArgs: Smithy.ByteStream? = nil
-    )
-    {
+    ) {
         self.functionName = functionName
         self.invokeArgs = invokeArgs
     }
@@ -5905,8 +5759,7 @@ public struct InvokeAsyncOutput: Swift.Sendable {
 
     public init(
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.status = status
     }
 }
@@ -5975,8 +5828,7 @@ public struct InvokeWithResponseStreamInput: Swift.Sendable {
         logType: LambdaClientTypes.LogType? = nil,
         payload: Foundation.Data? = nil,
         qualifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientContext = clientContext
         self.functionName = functionName
         self.invocationType = invocationType
@@ -6006,8 +5858,7 @@ extension LambdaClientTypes {
             errorCode: Swift.String? = nil,
             errorDetails: Swift.String? = nil,
             logResult: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorDetails = errorDetails
             self.logResult = logResult
@@ -6024,8 +5875,7 @@ extension LambdaClientTypes {
 
         public init(
             payload: Foundation.Data? = nil
-        )
-        {
+        ) {
             self.payload = payload
         }
     }
@@ -6063,8 +5913,7 @@ public struct InvokeWithResponseStreamOutput: Swift.Sendable {
         executedVersion: Swift.String? = nil,
         responseStreamContentType: Swift.String? = nil,
         statusCode: Swift.Int = 0
-    )
-    {
+    ) {
         self.eventStream = eventStream
         self.executedVersion = executedVersion
         self.responseStreamContentType = responseStreamContentType
@@ -6097,8 +5946,7 @@ public struct ListAliasesInput: Swift.Sendable {
         functionVersion: Swift.String? = nil,
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil
-    )
-    {
+    ) {
         self.functionName = functionName
         self.functionVersion = functionVersion
         self.marker = marker
@@ -6115,8 +5963,7 @@ public struct ListAliasesOutput: Swift.Sendable {
     public init(
         aliases: [LambdaClientTypes.AliasConfiguration]? = nil,
         nextMarker: Swift.String? = nil
-    )
-    {
+    ) {
         self.aliases = aliases
         self.nextMarker = nextMarker
     }
@@ -6131,8 +5978,7 @@ public struct ListCodeSigningConfigsInput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.maxItems = maxItems
     }
@@ -6147,8 +5993,7 @@ public struct ListCodeSigningConfigsOutput: Swift.Sendable {
     public init(
         codeSigningConfigs: [LambdaClientTypes.CodeSigningConfig]? = nil,
         nextMarker: Swift.String? = nil
-    )
-    {
+    ) {
         self.codeSigningConfigs = codeSigningConfigs
         self.nextMarker = nextMarker
     }
@@ -6192,8 +6037,7 @@ public struct ListEventSourceMappingsInput: Swift.Sendable {
         functionName: Swift.String? = nil,
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil
-    )
-    {
+    ) {
         self.eventSourceArn = eventSourceArn
         self.functionName = functionName
         self.marker = marker
@@ -6303,8 +6147,7 @@ extension LambdaClientTypes {
             topics: [Swift.String]? = nil,
             tumblingWindowInSeconds: Swift.Int? = nil,
             uuid: Swift.String? = nil
-        )
-        {
+        ) {
             self.amazonManagedKafkaEventSourceConfig = amazonManagedKafkaEventSourceConfig
             self.batchSize = batchSize
             self.bisectBatchOnFunctionError = bisectBatchOnFunctionError
@@ -6350,8 +6193,7 @@ public struct ListEventSourceMappingsOutput: Swift.Sendable {
     public init(
         eventSourceMappings: [LambdaClientTypes.EventSourceMappingConfiguration]? = nil,
         nextMarker: Swift.String? = nil
-    )
-    {
+    ) {
         self.eventSourceMappings = eventSourceMappings
         self.nextMarker = nextMarker
     }
@@ -6379,8 +6221,7 @@ public struct ListFunctionEventInvokeConfigsInput: Swift.Sendable {
         functionName: Swift.String? = nil,
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil
-    )
-    {
+    ) {
         self.functionName = functionName
         self.marker = marker
         self.maxItems = maxItems
@@ -6420,8 +6261,7 @@ extension LambdaClientTypes {
             lastModified: Foundation.Date? = nil,
             maximumEventAgeInSeconds: Swift.Int? = nil,
             maximumRetryAttempts: Swift.Int? = nil
-        )
-        {
+        ) {
             self.destinationConfig = destinationConfig
             self.functionArn = functionArn
             self.lastModified = lastModified
@@ -6440,8 +6280,7 @@ public struct ListFunctionEventInvokeConfigsOutput: Swift.Sendable {
     public init(
         functionEventInvokeConfigs: [LambdaClientTypes.FunctionEventInvokeConfig]? = nil,
         nextMarker: Swift.String? = nil
-    )
-    {
+    ) {
         self.functionEventInvokeConfigs = functionEventInvokeConfigs
         self.nextMarker = nextMarker
     }
@@ -6488,8 +6327,7 @@ public struct ListFunctionsInput: Swift.Sendable {
         marker: Swift.String? = nil,
         masterRegion: Swift.String? = nil,
         maxItems: Swift.Int? = nil
-    )
-    {
+    ) {
         self.functionVersion = functionVersion
         self.marker = marker
         self.masterRegion = masterRegion
@@ -6507,8 +6345,7 @@ public struct ListFunctionsOutput: Swift.Sendable {
     public init(
         functions: [LambdaClientTypes.FunctionConfiguration]? = nil,
         nextMarker: Swift.String? = nil
-    )
-    {
+    ) {
         self.functions = functions
         self.nextMarker = nextMarker
     }
@@ -6527,8 +6364,7 @@ public struct ListFunctionsByCodeSigningConfigInput: Swift.Sendable {
         codeSigningConfigArn: Swift.String? = nil,
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil
-    )
-    {
+    ) {
         self.codeSigningConfigArn = codeSigningConfigArn
         self.marker = marker
         self.maxItems = maxItems
@@ -6544,8 +6380,7 @@ public struct ListFunctionsByCodeSigningConfigOutput: Swift.Sendable {
     public init(
         functionArns: [Swift.String]? = nil,
         nextMarker: Swift.String? = nil
-    )
-    {
+    ) {
         self.functionArns = functionArns
         self.nextMarker = nextMarker
     }
@@ -6573,8 +6408,7 @@ public struct ListFunctionUrlConfigsInput: Swift.Sendable {
         functionName: Swift.String? = nil,
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil
-    )
-    {
+    ) {
         self.functionName = functionName
         self.marker = marker
         self.maxItems = maxItems
@@ -6617,8 +6451,7 @@ extension LambdaClientTypes {
             functionUrl: Swift.String? = nil,
             invokeMode: LambdaClientTypes.InvokeMode? = nil,
             lastModifiedTime: Swift.String? = nil
-        )
-        {
+        ) {
             self.authType = authType
             self.cors = cors
             self.creationTime = creationTime
@@ -6640,8 +6473,7 @@ public struct ListFunctionUrlConfigsOutput: Swift.Sendable {
     public init(
         functionUrlConfigs: [LambdaClientTypes.FunctionUrlConfig]? = nil,
         nextMarker: Swift.String? = nil
-    )
-    {
+    ) {
         self.functionUrlConfigs = functionUrlConfigs
         self.nextMarker = nextMarker
     }
@@ -6662,8 +6494,7 @@ public struct ListLayersInput: Swift.Sendable {
         compatibleRuntime: LambdaClientTypes.Runtime? = nil,
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil
-    )
-    {
+    ) {
         self.compatibleArchitecture = compatibleArchitecture
         self.compatibleRuntime = compatibleRuntime
         self.marker = marker
@@ -6698,8 +6529,7 @@ extension LambdaClientTypes {
             layerVersionArn: Swift.String? = nil,
             licenseInfo: Swift.String? = nil,
             version: Swift.Int = 0
-        )
-        {
+        ) {
             self.compatibleArchitectures = compatibleArchitectures
             self.compatibleRuntimes = compatibleRuntimes
             self.createdDate = createdDate
@@ -6726,8 +6556,7 @@ extension LambdaClientTypes {
             latestMatchingVersion: LambdaClientTypes.LayerVersionsListItem? = nil,
             layerArn: Swift.String? = nil,
             layerName: Swift.String? = nil
-        )
-        {
+        ) {
             self.latestMatchingVersion = latestMatchingVersion
             self.layerArn = layerArn
             self.layerName = layerName
@@ -6744,8 +6573,7 @@ public struct ListLayersOutput: Swift.Sendable {
     public init(
         layers: [LambdaClientTypes.LayersListItem]? = nil,
         nextMarker: Swift.String? = nil
-    )
-    {
+    ) {
         self.layers = layers
         self.nextMarker = nextMarker
     }
@@ -6770,8 +6598,7 @@ public struct ListLayerVersionsInput: Swift.Sendable {
         layerName: Swift.String? = nil,
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil
-    )
-    {
+    ) {
         self.compatibleArchitecture = compatibleArchitecture
         self.compatibleRuntime = compatibleRuntime
         self.layerName = layerName
@@ -6789,8 +6616,7 @@ public struct ListLayerVersionsOutput: Swift.Sendable {
     public init(
         layerVersions: [LambdaClientTypes.LayerVersionsListItem]? = nil,
         nextMarker: Swift.String? = nil
-    )
-    {
+    ) {
         self.layerVersions = layerVersions
         self.nextMarker = nextMarker
     }
@@ -6818,8 +6644,7 @@ public struct ListProvisionedConcurrencyConfigsInput: Swift.Sendable {
         functionName: Swift.String? = nil,
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil
-    )
-    {
+    ) {
         self.functionName = functionName
         self.marker = marker
         self.maxItems = maxItems
@@ -6853,8 +6678,7 @@ extension LambdaClientTypes {
             requestedProvisionedConcurrentExecutions: Swift.Int? = nil,
             status: LambdaClientTypes.ProvisionedConcurrencyStatusEnum? = nil,
             statusReason: Swift.String? = nil
-        )
-        {
+        ) {
             self.allocatedProvisionedConcurrentExecutions = allocatedProvisionedConcurrentExecutions
             self.availableProvisionedConcurrentExecutions = availableProvisionedConcurrentExecutions
             self.functionArn = functionArn
@@ -6875,8 +6699,7 @@ public struct ListProvisionedConcurrencyConfigsOutput: Swift.Sendable {
     public init(
         nextMarker: Swift.String? = nil,
         provisionedConcurrencyConfigs: [LambdaClientTypes.ProvisionedConcurrencyConfigListItem]? = nil
-    )
-    {
+    ) {
         self.nextMarker = nextMarker
         self.provisionedConcurrencyConfigs = provisionedConcurrencyConfigs
     }
@@ -6889,8 +6712,7 @@ public struct ListTagsInput: Swift.Sendable {
 
     public init(
         resource: Swift.String? = nil
-    )
-    {
+    ) {
         self.resource = resource
     }
 }
@@ -6901,8 +6723,7 @@ public struct ListTagsOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -6929,8 +6750,7 @@ public struct ListVersionsByFunctionInput: Swift.Sendable {
         functionName: Swift.String? = nil,
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil
-    )
-    {
+    ) {
         self.functionName = functionName
         self.marker = marker
         self.maxItems = maxItems
@@ -6946,8 +6766,7 @@ public struct ListVersionsByFunctionOutput: Swift.Sendable {
     public init(
         nextMarker: Swift.String? = nil,
         versions: [LambdaClientTypes.FunctionConfiguration]? = nil
-    )
-    {
+    ) {
         self.nextMarker = nextMarker
         self.versions = versions
     }
@@ -6971,8 +6790,7 @@ extension LambdaClientTypes {
             s3Key: Swift.String? = nil,
             s3ObjectVersion: Swift.String? = nil,
             zipFile: Foundation.Data? = nil
-        )
-        {
+        ) {
             self.s3Bucket = s3Bucket
             self.s3Key = s3Key
             self.s3ObjectVersion = s3ObjectVersion
@@ -7015,8 +6833,7 @@ public struct PublishLayerVersionInput: Swift.Sendable {
         description: Swift.String? = nil,
         layerName: Swift.String? = nil,
         licenseInfo: Swift.String? = nil
-    )
-    {
+    ) {
         self.compatibleArchitectures = compatibleArchitectures
         self.compatibleRuntimes = compatibleRuntimes
         self.content = content
@@ -7056,8 +6873,7 @@ public struct PublishLayerVersionOutput: Swift.Sendable {
         layerVersionArn: Swift.String? = nil,
         licenseInfo: Swift.String? = nil,
         version: Swift.Int = 0
-    )
-    {
+    ) {
         self.compatibleArchitectures = compatibleArchitectures
         self.compatibleRuntimes = compatibleRuntimes
         self.content = content
@@ -7095,8 +6911,7 @@ public struct PublishVersionInput: Swift.Sendable {
         description: Swift.String? = nil,
         functionName: Swift.String? = nil,
         revisionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.codeSha256 = codeSha256
         self.description = description
         self.functionName = functionName
@@ -7227,8 +7042,7 @@ public struct PublishVersionOutput: Swift.Sendable {
         tracingConfig: LambdaClientTypes.TracingConfigResponse? = nil,
         version: Swift.String? = nil,
         vpcConfig: LambdaClientTypes.VpcConfigResponse? = nil
-    )
-    {
+    ) {
         self.architectures = architectures
         self.codeSha256 = codeSha256
         self.codeSize = codeSize
@@ -7288,8 +7102,7 @@ public struct PutFunctionCodeSigningConfigInput: Swift.Sendable {
     public init(
         codeSigningConfigArn: Swift.String? = nil,
         functionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.codeSigningConfigArn = codeSigningConfigArn
         self.functionName = functionName
     }
@@ -7315,8 +7128,7 @@ public struct PutFunctionCodeSigningConfigOutput: Swift.Sendable {
     public init(
         codeSigningConfigArn: Swift.String? = nil,
         functionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.codeSigningConfigArn = codeSigningConfigArn
         self.functionName = functionName
     }
@@ -7342,8 +7154,7 @@ public struct PutFunctionConcurrencyInput: Swift.Sendable {
     public init(
         functionName: Swift.String? = nil,
         reservedConcurrentExecutions: Swift.Int? = nil
-    )
-    {
+    ) {
         self.functionName = functionName
         self.reservedConcurrentExecutions = reservedConcurrentExecutions
     }
@@ -7355,8 +7166,7 @@ public struct PutFunctionConcurrencyOutput: Swift.Sendable {
 
     public init(
         reservedConcurrentExecutions: Swift.Int? = nil
-    )
-    {
+    ) {
         self.reservedConcurrentExecutions = reservedConcurrentExecutions
     }
 }
@@ -7402,8 +7212,7 @@ public struct PutFunctionEventInvokeConfigInput: Swift.Sendable {
         maximumEventAgeInSeconds: Swift.Int? = nil,
         maximumRetryAttempts: Swift.Int? = nil,
         qualifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.destinationConfig = destinationConfig
         self.functionName = functionName
         self.maximumEventAgeInSeconds = maximumEventAgeInSeconds
@@ -7443,8 +7252,7 @@ public struct PutFunctionEventInvokeConfigOutput: Swift.Sendable {
         lastModified: Foundation.Date? = nil,
         maximumEventAgeInSeconds: Swift.Int? = nil,
         maximumRetryAttempts: Swift.Int? = nil
-    )
-    {
+    ) {
         self.destinationConfig = destinationConfig
         self.functionArn = functionArn
         self.lastModified = lastModified
@@ -7473,8 +7281,7 @@ public struct PutFunctionRecursionConfigInput: Swift.Sendable {
     public init(
         functionName: Swift.String? = nil,
         recursiveLoop: LambdaClientTypes.RecursiveLoop? = nil
-    )
-    {
+    ) {
         self.functionName = functionName
         self.recursiveLoop = recursiveLoop
     }
@@ -7486,8 +7293,7 @@ public struct PutFunctionRecursionConfigOutput: Swift.Sendable {
 
     public init(
         recursiveLoop: LambdaClientTypes.RecursiveLoop? = nil
-    )
-    {
+    ) {
         self.recursiveLoop = recursiveLoop
     }
 }
@@ -7516,8 +7322,7 @@ public struct PutProvisionedConcurrencyConfigInput: Swift.Sendable {
         functionName: Swift.String? = nil,
         provisionedConcurrentExecutions: Swift.Int? = nil,
         qualifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.functionName = functionName
         self.provisionedConcurrentExecutions = provisionedConcurrentExecutions
         self.qualifier = qualifier
@@ -7545,8 +7350,7 @@ public struct PutProvisionedConcurrencyConfigOutput: Swift.Sendable {
         requestedProvisionedConcurrentExecutions: Swift.Int? = nil,
         status: LambdaClientTypes.ProvisionedConcurrencyStatusEnum? = nil,
         statusReason: Swift.String? = nil
-    )
-    {
+    ) {
         self.allocatedProvisionedConcurrentExecutions = allocatedProvisionedConcurrentExecutions
         self.availableProvisionedConcurrentExecutions = availableProvisionedConcurrentExecutions
         self.lastModified = lastModified
@@ -7588,8 +7392,7 @@ public struct PutRuntimeManagementConfigInput: Swift.Sendable {
         qualifier: Swift.String? = nil,
         runtimeVersionArn: Swift.String? = nil,
         updateRuntimeOn: LambdaClientTypes.UpdateRuntimeOn? = nil
-    )
-    {
+    ) {
         self.functionName = functionName
         self.qualifier = qualifier
         self.runtimeVersionArn = runtimeVersionArn
@@ -7611,8 +7414,7 @@ public struct PutRuntimeManagementConfigOutput: Swift.Sendable {
         functionArn: Swift.String? = nil,
         runtimeVersionArn: Swift.String? = nil,
         updateRuntimeOn: LambdaClientTypes.UpdateRuntimeOn? = nil
-    )
-    {
+    ) {
         self.functionArn = functionArn
         self.runtimeVersionArn = runtimeVersionArn
         self.updateRuntimeOn = updateRuntimeOn
@@ -7637,8 +7439,7 @@ public struct RemoveLayerVersionPermissionInput: Swift.Sendable {
         revisionId: Swift.String? = nil,
         statementId: Swift.String? = nil,
         versionNumber: Swift.Int? = 0
-    )
-    {
+    ) {
         self.layerName = layerName
         self.revisionId = revisionId
         self.statementId = statementId
@@ -7672,8 +7473,7 @@ public struct RemovePermissionInput: Swift.Sendable {
         qualifier: Swift.String? = nil,
         revisionId: Swift.String? = nil,
         statementId: Swift.String? = nil
-    )
-    {
+    ) {
         self.functionName = functionName
         self.qualifier = qualifier
         self.revisionId = revisionId
@@ -7692,8 +7492,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resource: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resource = resource
         self.tags = tags
     }
@@ -7710,8 +7509,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resource: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resource = resource
         self.tagKeys = tagKeys
     }
@@ -7749,8 +7547,7 @@ public struct UpdateAliasInput: Swift.Sendable {
         name: Swift.String? = nil,
         revisionId: Swift.String? = nil,
         routingConfig: LambdaClientTypes.AliasRoutingConfiguration? = nil
-    )
-    {
+    ) {
         self.description = description
         self.functionName = functionName
         self.functionVersion = functionVersion
@@ -7782,8 +7579,7 @@ public struct UpdateAliasOutput: Swift.Sendable {
         name: Swift.String? = nil,
         revisionId: Swift.String? = nil,
         routingConfig: LambdaClientTypes.AliasRoutingConfiguration? = nil
-    )
-    {
+    ) {
         self.aliasArn = aliasArn
         self.description = description
         self.functionVersion = functionVersion
@@ -7809,8 +7605,7 @@ public struct UpdateCodeSigningConfigInput: Swift.Sendable {
         codeSigningConfigArn: Swift.String? = nil,
         codeSigningPolicies: LambdaClientTypes.CodeSigningPolicies? = nil,
         description: Swift.String? = nil
-    )
-    {
+    ) {
         self.allowedPublishers = allowedPublishers
         self.codeSigningConfigArn = codeSigningConfigArn
         self.codeSigningPolicies = codeSigningPolicies
@@ -7825,8 +7620,7 @@ public struct UpdateCodeSigningConfigOutput: Swift.Sendable {
 
     public init(
         codeSigningConfig: LambdaClientTypes.CodeSigningConfig? = nil
-    )
-    {
+    ) {
         self.codeSigningConfig = codeSigningConfig
     }
 }
@@ -7917,8 +7711,7 @@ public struct UpdateEventSourceMappingInput: Swift.Sendable {
         sourceAccessConfigurations: [LambdaClientTypes.SourceAccessConfiguration]? = nil,
         tumblingWindowInSeconds: Swift.Int? = nil,
         uuid: Swift.String? = nil
-    )
-    {
+    ) {
         self.batchSize = batchSize
         self.bisectBatchOnFunctionError = bisectBatchOnFunctionError
         self.destinationConfig = destinationConfig
@@ -8041,8 +7834,7 @@ public struct UpdateEventSourceMappingOutput: Swift.Sendable {
         topics: [Swift.String]? = nil,
         tumblingWindowInSeconds: Swift.Int? = nil,
         uuid: Swift.String? = nil
-    )
-    {
+    ) {
         self.amazonManagedKafkaEventSourceConfig = amazonManagedKafkaEventSourceConfig
         self.batchSize = batchSize
         self.bisectBatchOnFunctionError = bisectBatchOnFunctionError
@@ -8124,8 +7916,7 @@ public struct UpdateFunctionCodeInput: Swift.Sendable {
         s3ObjectVersion: Swift.String? = nil,
         sourceKMSKeyArn: Swift.String? = nil,
         zipFile: Foundation.Data? = nil
-    )
-    {
+    ) {
         self.architectures = architectures
         self.dryRun = dryRun
         self.functionName = functionName
@@ -8268,8 +8059,7 @@ public struct UpdateFunctionCodeOutput: Swift.Sendable {
         tracingConfig: LambdaClientTypes.TracingConfigResponse? = nil,
         version: Swift.String? = nil,
         vpcConfig: LambdaClientTypes.VpcConfigResponse? = nil
-    )
-    {
+    ) {
         self.architectures = architectures
         self.codeSha256 = codeSha256
         self.codeSize = codeSize
@@ -8390,8 +8180,7 @@ public struct UpdateFunctionConfigurationInput: Swift.Sendable {
         timeout: Swift.Int? = nil,
         tracingConfig: LambdaClientTypes.TracingConfig? = nil,
         vpcConfig: LambdaClientTypes.VpcConfig? = nil
-    )
-    {
+    ) {
         self.deadLetterConfig = deadLetterConfig
         self.description = description
         self.environment = environment
@@ -8537,8 +8326,7 @@ public struct UpdateFunctionConfigurationOutput: Swift.Sendable {
         tracingConfig: LambdaClientTypes.TracingConfigResponse? = nil,
         version: Swift.String? = nil,
         vpcConfig: LambdaClientTypes.VpcConfigResponse? = nil
-    )
-    {
+    ) {
         self.architectures = architectures
         self.codeSha256 = codeSha256
         self.codeSize = codeSize
@@ -8619,8 +8407,7 @@ public struct UpdateFunctionEventInvokeConfigInput: Swift.Sendable {
         maximumEventAgeInSeconds: Swift.Int? = nil,
         maximumRetryAttempts: Swift.Int? = nil,
         qualifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.destinationConfig = destinationConfig
         self.functionName = functionName
         self.maximumEventAgeInSeconds = maximumEventAgeInSeconds
@@ -8660,8 +8447,7 @@ public struct UpdateFunctionEventInvokeConfigOutput: Swift.Sendable {
         lastModified: Foundation.Date? = nil,
         maximumEventAgeInSeconds: Swift.Int? = nil,
         maximumRetryAttempts: Swift.Int? = nil
-    )
-    {
+    ) {
         self.destinationConfig = destinationConfig
         self.functionArn = functionArn
         self.lastModified = lastModified
@@ -8702,8 +8488,7 @@ public struct UpdateFunctionUrlConfigInput: Swift.Sendable {
         functionName: Swift.String? = nil,
         invokeMode: LambdaClientTypes.InvokeMode? = nil,
         qualifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.authType = authType
         self.cors = cors
         self.functionName = functionName
@@ -8745,8 +8530,7 @@ public struct UpdateFunctionUrlConfigOutput: Swift.Sendable {
         functionUrl: Swift.String? = nil,
         invokeMode: LambdaClientTypes.InvokeMode? = nil,
         lastModifiedTime: Swift.String? = nil
-    )
-    {
+    ) {
         self.authType = authType
         self.cors = cors
         self.creationTime = creationTime

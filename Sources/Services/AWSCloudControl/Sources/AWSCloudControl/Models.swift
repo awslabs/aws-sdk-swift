@@ -42,8 +42,7 @@ public struct AlreadyExistsException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -66,8 +65,7 @@ public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -90,8 +88,7 @@ public struct RequestTokenNotFoundException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -103,8 +100,7 @@ public struct CancelResourceRequestInput: Swift.Sendable {
 
     public init(
         requestToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.requestToken = requestToken
     }
 }
@@ -304,8 +300,7 @@ extension CloudControlClientTypes {
             retryAfter: Foundation.Date? = nil,
             statusMessage: Swift.String? = nil,
             typeName: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.eventTime = eventTime
             self.hooksRequestToken = hooksRequestToken
@@ -332,8 +327,7 @@ public struct CancelResourceRequestOutput: Swift.Sendable {
 
     public init(
         progressEvent: CloudControlClientTypes.ProgressEvent? = nil
-    )
-    {
+    ) {
         self.progressEvent = progressEvent
     }
 }
@@ -356,8 +350,7 @@ public struct ClientTokenConflictException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -380,8 +373,7 @@ public struct ConcurrentOperationException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -404,8 +396,7 @@ public struct GeneralServiceException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -428,8 +419,7 @@ public struct HandlerFailureException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -452,8 +442,7 @@ public struct HandlerInternalFailureException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -476,8 +465,7 @@ public struct InvalidCredentialsException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -500,8 +488,7 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -524,8 +511,7 @@ public struct NetworkFailureException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -548,8 +534,7 @@ public struct NotStabilizedException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -572,8 +557,7 @@ public struct NotUpdatableException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -596,8 +580,7 @@ public struct PrivateTypeException: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -620,8 +603,7 @@ public struct ResourceConflictException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -644,8 +626,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -668,8 +649,7 @@ public struct ServiceInternalErrorException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -692,8 +672,7 @@ public struct ServiceLimitExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -716,8 +695,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -740,8 +718,7 @@ public struct TypeNotFoundException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -764,8 +741,7 @@ public struct UnsupportedActionException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -797,8 +773,7 @@ public struct CreateResourceInput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         typeName: Swift.String? = nil,
         typeVersionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.desiredState = desiredState
         self.roleArn = roleArn
@@ -818,8 +793,7 @@ public struct CreateResourceOutput: Swift.Sendable {
 
     public init(
         progressEvent: CloudControlClientTypes.ProgressEvent? = nil
-    )
-    {
+    ) {
         self.progressEvent = progressEvent
     }
 }
@@ -844,8 +818,7 @@ public struct DeleteResourceInput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         typeName: Swift.String? = nil,
         typeVersionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.identifier = identifier
         self.roleArn = roleArn
@@ -860,8 +833,7 @@ public struct DeleteResourceOutput: Swift.Sendable {
 
     public init(
         progressEvent: CloudControlClientTypes.ProgressEvent? = nil
-    )
-    {
+    ) {
         self.progressEvent = progressEvent
     }
 }
@@ -883,8 +855,7 @@ public struct GetResourceInput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         typeName: Swift.String? = nil,
         typeVersionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.identifier = identifier
         self.roleArn = roleArn
         self.typeName = typeName
@@ -904,8 +875,7 @@ extension CloudControlClientTypes {
         public init(
             identifier: Swift.String? = nil,
             properties: Swift.String? = nil
-        )
-        {
+        ) {
             self.identifier = identifier
             self.properties = properties
         }
@@ -926,8 +896,7 @@ public struct GetResourceOutput: Swift.Sendable {
     public init(
         resourceDescription: CloudControlClientTypes.ResourceDescription? = nil,
         typeName: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceDescription = resourceDescription
         self.typeName = typeName
     }
@@ -940,8 +909,7 @@ public struct GetResourceRequestStatusInput: Swift.Sendable {
 
     public init(
         requestToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.requestToken = requestToken
     }
 }
@@ -990,8 +958,7 @@ extension CloudControlClientTypes {
             hookTypeName: Swift.String? = nil,
             hookTypeVersionId: Swift.String? = nil,
             invocationPoint: Swift.String? = nil
-        )
-        {
+        ) {
             self.failureMode = failureMode
             self.hookEventTime = hookEventTime
             self.hookStatus = hookStatus
@@ -1013,8 +980,7 @@ public struct GetResourceRequestStatusOutput: Swift.Sendable {
     public init(
         hooksProgressEvent: [CloudControlClientTypes.HookProgressEvent]? = nil,
         progressEvent: CloudControlClientTypes.ProgressEvent? = nil
-    )
-    {
+    ) {
         self.hooksProgressEvent = hooksProgressEvent
         self.progressEvent = progressEvent
     }
@@ -1044,8 +1010,7 @@ extension CloudControlClientTypes {
         public init(
             operationStatuses: [CloudControlClientTypes.OperationStatus]? = nil,
             operations: [CloudControlClientTypes.Operation]? = nil
-        )
-        {
+        ) {
             self.operationStatuses = operationStatuses
             self.operations = operations
         }
@@ -1064,8 +1029,7 @@ public struct ListResourceRequestsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceRequestStatusFilter: CloudControlClientTypes.ResourceRequestStatusFilter? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.resourceRequestStatusFilter = resourceRequestStatusFilter
@@ -1081,8 +1045,7 @@ public struct ListResourceRequestsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         resourceRequestStatusSummaries: [CloudControlClientTypes.ProgressEvent]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.resourceRequestStatusSummaries = resourceRequestStatusSummaries
     }
@@ -1110,8 +1073,7 @@ public struct ListResourcesInput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         typeName: Swift.String? = nil,
         typeVersionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.resourceModel = resourceModel
@@ -1138,8 +1100,7 @@ public struct ListResourcesOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         resourceDescriptions: [CloudControlClientTypes.ResourceDescription]? = nil,
         typeName: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.resourceDescriptions = resourceDescriptions
         self.typeName = typeName
@@ -1170,8 +1131,7 @@ public struct UpdateResourceInput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         typeName: Swift.String? = nil,
         typeVersionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.identifier = identifier
         self.patchDocument = patchDocument
@@ -1192,8 +1152,7 @@ public struct UpdateResourceOutput: Swift.Sendable {
 
     public init(
         progressEvent: CloudControlClientTypes.ProgressEvent? = nil
-    )
-    {
+    ) {
         self.progressEvent = progressEvent
     }
 }

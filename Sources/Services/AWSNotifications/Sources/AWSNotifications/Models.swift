@@ -47,8 +47,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -143,8 +142,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public init(
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
     }
@@ -169,8 +167,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -198,8 +195,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public init(
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
     }
@@ -237,8 +233,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.quotaCode = quotaCode
         self.properties.resourceId = resourceId
@@ -275,8 +270,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
         quotaCode: Swift.String? = nil,
         retryAfterSeconds: Swift.Int? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.quotaCode = quotaCode
         self.properties.retryAfterSeconds = retryAfterSeconds
@@ -298,8 +292,7 @@ extension NotificationsClientTypes {
         public init(
             message: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
             self.name = name
         }
@@ -360,8 +353,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
         fieldList: [NotificationsClientTypes.ValidationExceptionField]? = nil,
         message: Swift.String? = nil,
         reason: NotificationsClientTypes.ValidationExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.fieldList = fieldList
         self.properties.message = message
         self.properties.reason = reason
@@ -379,8 +371,7 @@ public struct AssociateChannelInput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         notificationConfigurationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.notificationConfigurationArn = notificationConfigurationArn
     }
@@ -402,8 +393,7 @@ public struct DisassociateChannelInput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         notificationConfigurationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.notificationConfigurationArn = notificationConfigurationArn
     }
@@ -427,8 +417,7 @@ public struct ListChannelsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         notificationConfigurationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.notificationConfigurationArn = notificationConfigurationArn
@@ -445,8 +434,7 @@ public struct ListChannelsOutput: Swift.Sendable {
     public init(
         channels: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.channels = channels
         self.nextToken = nextToken
     }
@@ -474,8 +462,7 @@ public struct CreateEventRuleInput: Swift.Sendable {
         notificationConfigurationArn: Swift.String? = nil,
         regions: [Swift.String]? = nil,
         source: Swift.String? = nil
-    )
-    {
+    ) {
         self.eventPattern = eventPattern
         self.eventType = eventType
         self.notificationConfigurationArn = notificationConfigurationArn
@@ -575,8 +562,7 @@ extension NotificationsClientTypes {
         public init(
             reason: Swift.String? = nil,
             status: NotificationsClientTypes.EventRuleStatus? = nil
-        )
-        {
+        ) {
             self.reason = reason
             self.status = status
         }
@@ -598,8 +584,7 @@ public struct CreateEventRuleOutput: Swift.Sendable {
         arn: Swift.String? = nil,
         notificationConfigurationArn: Swift.String? = nil,
         statusSummaryByRegion: [Swift.String: NotificationsClientTypes.EventRuleStatusSummary]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.notificationConfigurationArn = notificationConfigurationArn
         self.statusSummaryByRegion = statusSummaryByRegion
@@ -643,8 +628,7 @@ public struct CreateNotificationConfigurationInput: Swift.Sendable {
         description: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.aggregationDuration = aggregationDuration
         self.description = description
         self.name = name
@@ -733,8 +717,7 @@ public struct CreateNotificationConfigurationOutput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         status: NotificationsClientTypes.NotificationConfigurationStatus? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.status = status
     }
@@ -747,8 +730,7 @@ public struct DeleteEventRuleInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -765,8 +747,7 @@ public struct DeleteNotificationConfigurationInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -783,8 +764,7 @@ public struct DeregisterNotificationHubInput: Swift.Sendable {
 
     public init(
         notificationHubRegion: Swift.String? = nil
-    )
-    {
+    ) {
         self.notificationHubRegion = notificationHubRegion
     }
 }
@@ -862,8 +842,7 @@ extension NotificationsClientTypes {
         public init(
             reason: Swift.String? = nil,
             status: NotificationsClientTypes.NotificationHubStatus? = nil
-        )
-        {
+        ) {
             self.reason = reason
             self.status = status
         }
@@ -881,8 +860,7 @@ public struct DeregisterNotificationHubOutput: Swift.Sendable {
     public init(
         notificationHubRegion: Swift.String? = nil,
         statusSummary: NotificationsClientTypes.NotificationHubStatusSummary? = nil
-    )
-    {
+    ) {
         self.notificationHubRegion = notificationHubRegion
         self.statusSummary = statusSummary
     }
@@ -902,8 +880,7 @@ extension NotificationsClientTypes {
         public init(
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -917,8 +894,7 @@ public struct GetEventRuleInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -962,8 +938,7 @@ public struct GetEventRuleOutput: Swift.Sendable {
         regions: [Swift.String]? = nil,
         source: Swift.String? = nil,
         statusSummaryByRegion: [Swift.String: NotificationsClientTypes.EventRuleStatusSummary]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationTime = creationTime
         self.eventPattern = eventPattern
@@ -989,8 +964,7 @@ public struct ListEventRulesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         notificationConfigurationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.notificationConfigurationArn = notificationConfigurationArn
@@ -1039,8 +1013,7 @@ extension NotificationsClientTypes {
             regions: [Swift.String]? = nil,
             source: Swift.String? = nil,
             statusSummaryByRegion: [Swift.String: NotificationsClientTypes.EventRuleStatusSummary]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.creationTime = creationTime
             self.eventPattern = eventPattern
@@ -1064,8 +1037,7 @@ public struct ListEventRulesOutput: Swift.Sendable {
     public init(
         eventRules: [NotificationsClientTypes.EventRuleStructure]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.eventRules = eventRules
         self.nextToken = nextToken
     }
@@ -1084,8 +1056,7 @@ public struct UpdateEventRuleInput: Swift.Sendable {
         arn: Swift.String? = nil,
         eventPattern: Swift.String? = nil,
         regions: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.eventPattern = eventPattern
         self.regions = regions
@@ -1107,8 +1078,7 @@ public struct UpdateEventRuleOutput: Swift.Sendable {
         arn: Swift.String? = nil,
         notificationConfigurationArn: Swift.String? = nil,
         statusSummaryByRegion: [Swift.String: NotificationsClientTypes.EventRuleStatusSummary]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.notificationConfigurationArn = notificationConfigurationArn
         self.statusSummaryByRegion = statusSummaryByRegion
@@ -1151,8 +1121,7 @@ public struct GetNotificationConfigurationInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -1234,8 +1203,7 @@ public struct GetNotificationConfigurationOutput: Swift.Sendable {
         description: Swift.String? = nil,
         name: Swift.String? = nil,
         status: NotificationsClientTypes.NotificationConfigurationStatus? = nil
-    )
-    {
+    ) {
         self.aggregationDuration = aggregationDuration
         self.arn = arn
         self.creationTime = creationTime
@@ -1338,8 +1306,7 @@ public struct GetNotificationEventInput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         locale: NotificationsClientTypes.LocaleCode? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.locale = locale
     }
@@ -1393,8 +1360,7 @@ extension NotificationsClientTypes {
             mediaId: Swift.String? = nil,
             type: NotificationsClientTypes.MediaElementType? = nil,
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.caption = caption
             self.mediaId = mediaId
             self.type = type
@@ -1421,8 +1387,7 @@ extension NotificationsClientTypes {
             dimensions: [NotificationsClientTypes.Dimension]? = nil,
             headline: Swift.String? = nil,
             paragraphSummary: Swift.String? = nil
-        )
-        {
+        ) {
             self.completeDescription = completeDescription
             self.dimensions = dimensions
             self.headline = headline
@@ -1510,8 +1475,7 @@ extension NotificationsClientTypes {
             detailUrl: Swift.String? = nil,
             id: Swift.String? = nil,
             tags: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.detailUrl = detailUrl
             self.id = id
@@ -1557,8 +1521,7 @@ extension NotificationsClientTypes {
             relatedResources: [NotificationsClientTypes.Resource]? = nil,
             source: Swift.String? = nil,
             sourceEventId: Swift.String? = nil
-        )
-        {
+        ) {
             self.eventOccurrenceTime = eventOccurrenceTime
             self.eventOriginRegion = eventOriginRegion
             self.eventType = eventType
@@ -1622,8 +1585,7 @@ extension NotificationsClientTypes {
             textByLocale: [Swift.String: Swift.String]? = nil,
             type: NotificationsClientTypes.TextPartType? = nil,
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.displayText = displayText
             self.textByLocale = textByLocale
             self.type = type
@@ -1747,8 +1709,7 @@ extension NotificationsClientTypes {
             sourceEventMetadata: NotificationsClientTypes.SourceEventMetadata? = nil,
             startTime: Foundation.Date? = nil,
             textParts: [Swift.String: NotificationsClientTypes.TextPartValue]? = nil
-        )
-        {
+        ) {
             self.aggregateNotificationEventArn = aggregateNotificationEventArn
             self.aggregationEventType = aggregationEventType
             self.endTime = endTime
@@ -1786,8 +1747,7 @@ public struct GetNotificationEventOutput: Swift.Sendable {
         content: NotificationsClientTypes.NotificationEventSchema? = nil,
         creationTime: Foundation.Date? = nil,
         notificationConfigurationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.content = content
         self.creationTime = creationTime
@@ -1844,8 +1804,7 @@ public struct ListNotificationConfigurationsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         status: NotificationsClientTypes.NotificationConfigurationStatus? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.eventRuleSource = eventRuleSource
         self.maxResults = maxResults
@@ -1934,8 +1893,7 @@ extension NotificationsClientTypes {
             description: Swift.String? = nil,
             name: Swift.String? = nil,
             status: NotificationsClientTypes.NotificationConfigurationStatus? = nil
-        )
-        {
+        ) {
             self.aggregationDuration = aggregationDuration
             self.arn = arn
             self.creationTime = creationTime
@@ -1956,8 +1914,7 @@ public struct ListNotificationConfigurationsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         notificationConfigurations: [NotificationsClientTypes.NotificationConfigurationStructure]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.notificationConfigurations = notificationConfigurations
     }
@@ -1990,8 +1947,7 @@ public struct ListNotificationEventsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         source: Swift.String? = nil,
         startTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.aggregateNotificationEventArn = aggregateNotificationEventArn
         self.endTime = endTime
         self.includeChildEvents = includeChildEvents
@@ -2013,8 +1969,7 @@ extension NotificationsClientTypes {
 
         public init(
             headline: Swift.String? = nil
-        )
-        {
+        ) {
             self.headline = headline
         }
     }
@@ -2037,8 +1992,7 @@ extension NotificationsClientTypes {
             eventOriginRegion: Swift.String? = nil,
             eventType: Swift.String? = nil,
             source: Swift.String? = nil
-        )
-        {
+        ) {
             self.eventOriginRegion = eventOriginRegion
             self.eventType = eventType
             self.source = source
@@ -2112,8 +2066,7 @@ extension NotificationsClientTypes {
             notificationType: NotificationsClientTypes.NotificationType? = nil,
             schemaVersion: NotificationsClientTypes.SchemaVersion? = nil,
             sourceEventMetadata: NotificationsClientTypes.SourceEventMetadataSummary? = nil
-        )
-        {
+        ) {
             self.eventStatus = eventStatus
             self.messageComponents = messageComponents
             self.notificationType = notificationType
@@ -2175,8 +2128,7 @@ extension NotificationsClientTypes {
             notificationConfigurationArn: Swift.String? = nil,
             notificationEvent: NotificationsClientTypes.NotificationEventSummary? = nil,
             relatedAccount: Swift.String? = nil
-        )
-        {
+        ) {
             self.aggregateNotificationEventArn = aggregateNotificationEventArn
             self.aggregationEventType = aggregationEventType
             self.arn = arn
@@ -2198,8 +2150,7 @@ public struct ListNotificationEventsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         notificationEvents: [NotificationsClientTypes.NotificationEventOverview]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.notificationEvents = notificationEvents
     }
@@ -2214,8 +2165,7 @@ public struct ListNotificationHubsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -2242,8 +2192,7 @@ extension NotificationsClientTypes {
             lastActivationTime: Foundation.Date? = nil,
             notificationHubRegion: Swift.String? = nil,
             statusSummary: NotificationsClientTypes.NotificationHubStatusSummary? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.lastActivationTime = lastActivationTime
             self.notificationHubRegion = notificationHubRegion
@@ -2262,8 +2211,7 @@ public struct ListNotificationHubsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         notificationHubs: [NotificationsClientTypes.NotificationHubOverview]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.notificationHubs = notificationHubs
     }
@@ -2276,8 +2224,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -2288,8 +2235,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -2341,8 +2287,7 @@ public struct UpdateNotificationConfigurationInput: Swift.Sendable {
         arn: Swift.String? = nil,
         description: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.aggregationDuration = aggregationDuration
         self.arn = arn
         self.description = description
@@ -2357,8 +2302,7 @@ public struct UpdateNotificationConfigurationOutput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -2370,8 +2314,7 @@ public struct RegisterNotificationHubInput: Swift.Sendable {
 
     public init(
         notificationHubRegion: Swift.String? = nil
-    )
-    {
+    ) {
         self.notificationHubRegion = notificationHubRegion
     }
 }
@@ -2394,8 +2337,7 @@ public struct RegisterNotificationHubOutput: Swift.Sendable {
         lastActivationTime: Foundation.Date? = nil,
         notificationHubRegion: Swift.String? = nil,
         statusSummary: NotificationsClientTypes.NotificationHubStatusSummary? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.lastActivationTime = lastActivationTime
         self.notificationHubRegion = notificationHubRegion
@@ -2414,8 +2356,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.tags = tags
     }
@@ -2437,8 +2378,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.tagKeys = tagKeys
     }

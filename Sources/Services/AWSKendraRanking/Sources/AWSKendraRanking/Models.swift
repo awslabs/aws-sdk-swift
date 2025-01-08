@@ -54,8 +54,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -78,8 +77,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -102,8 +100,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -126,8 +123,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -150,8 +146,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -174,8 +169,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -190,8 +184,7 @@ extension KendraRankingClientTypes {
 
         public init(
             rescoreCapacityUnits: Swift.Int? = nil
-        )
-        {
+        ) {
             self.rescoreCapacityUnits = rescoreCapacityUnits
         }
     }
@@ -211,8 +204,7 @@ extension KendraRankingClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -238,8 +230,7 @@ public struct CreateRescoreExecutionPlanInput: Swift.Sendable {
         description: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [KendraRankingClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.capacityUnits = capacityUnits
         self.clientToken = clientToken
         self.description = description
@@ -259,8 +250,7 @@ public struct CreateRescoreExecutionPlanOutput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.id = id
     }
@@ -284,8 +274,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -297,8 +286,7 @@ public struct DeleteRescoreExecutionPlanInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -310,8 +298,7 @@ public struct DescribeRescoreExecutionPlanInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -384,8 +371,7 @@ public struct DescribeRescoreExecutionPlanOutput: Swift.Sendable {
         name: Swift.String? = nil,
         status: KendraRankingClientTypes.RescoreExecutionPlanStatus? = nil,
         updatedAt: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.capacityUnits = capacityUnits
         self.createdAt = createdAt
@@ -407,8 +393,7 @@ public struct ListRescoreExecutionPlansInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -435,8 +420,7 @@ extension KendraRankingClientTypes {
             name: Swift.String? = nil,
             status: KendraRankingClientTypes.RescoreExecutionPlanStatus? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.id = id
             self.name = name
@@ -455,8 +439,7 @@ public struct ListRescoreExecutionPlansOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         summaryItems: [KendraRankingClientTypes.RescoreExecutionPlanSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.summaryItems = summaryItems
     }
@@ -480,8 +463,7 @@ public struct ResourceUnavailableException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -494,8 +476,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
     }
 }
@@ -507,8 +488,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [KendraRankingClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -542,8 +522,7 @@ extension KendraRankingClientTypes {
             title: Swift.String? = nil,
             tokenizedBody: [Swift.String]? = nil,
             tokenizedTitle: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.body = body
             self.groupId = groupId
             self.id = id
@@ -570,8 +549,7 @@ public struct RescoreInput: Swift.Sendable {
         documents: [KendraRankingClientTypes.Document]? = nil,
         rescoreExecutionPlanId: Swift.String? = nil,
         searchQuery: Swift.String? = nil
-    )
-    {
+    ) {
         self.documents = documents
         self.rescoreExecutionPlanId = rescoreExecutionPlanId
         self.searchQuery = searchQuery
@@ -590,8 +568,7 @@ extension KendraRankingClientTypes {
         public init(
             documentId: Swift.String? = nil,
             score: Swift.Float? = nil
-        )
-        {
+        ) {
             self.documentId = documentId
             self.score = score
         }
@@ -607,8 +584,7 @@ public struct RescoreOutput: Swift.Sendable {
     public init(
         rescoreId: Swift.String? = nil,
         resultItems: [KendraRankingClientTypes.RescoreResultItem]? = nil
-    )
-    {
+    ) {
         self.rescoreId = rescoreId
         self.resultItems = resultItems
     }
@@ -626,8 +602,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tags: [KendraRankingClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tags = tags
     }
@@ -651,8 +626,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tagKeys = tagKeys
     }
@@ -680,8 +654,7 @@ public struct UpdateRescoreExecutionPlanInput: Swift.Sendable {
         description: Swift.String? = nil,
         id: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.capacityUnits = capacityUnits
         self.description = description
         self.id = id

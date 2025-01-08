@@ -49,8 +49,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -67,8 +66,7 @@ extension LookoutVisionClientTypes {
         public init(
             color: Swift.String? = nil,
             totalPercentageArea: Swift.Float? = nil
-        )
-        {
+        ) {
             self.color = color
             self.totalPercentageArea = totalPercentageArea
         }
@@ -87,8 +85,7 @@ extension LookoutVisionClientTypes {
         public init(
             name: Swift.String? = nil,
             pixelAnomaly: LookoutVisionClientTypes.PixelAnomaly? = nil
-        )
-        {
+        ) {
             self.name = name
             self.pixelAnomaly = pixelAnomaly
         }
@@ -160,8 +157,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: LookoutVisionClientTypes.ResourceType? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -190,8 +186,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public init(
         message: Swift.String? = nil,
         retryAfterSeconds: Swift.Int? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.retryAfterSeconds = retryAfterSeconds
     }
@@ -224,8 +219,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: LookoutVisionClientTypes.ResourceType? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -265,8 +259,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
         resourceId: Swift.String? = nil,
         resourceType: LookoutVisionClientTypes.ResourceType? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.quotaCode = quotaCode
         self.properties.resourceId = resourceId
@@ -303,8 +296,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
         quotaCode: Swift.String? = nil,
         retryAfterSeconds: Swift.Int? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.quotaCode = quotaCode
         self.properties.retryAfterSeconds = retryAfterSeconds
@@ -331,8 +323,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -354,8 +345,7 @@ extension LookoutVisionClientTypes {
             bucket: Swift.String? = nil,
             key: Swift.String? = nil,
             versionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucket = bucket
             self.key = key
             self.versionId = versionId
@@ -372,8 +362,7 @@ extension LookoutVisionClientTypes {
 
         public init(
             s3Object: LookoutVisionClientTypes.InputS3Object? = nil
-        )
-        {
+        ) {
             self.s3Object = s3Object
         }
     }
@@ -388,8 +377,7 @@ extension LookoutVisionClientTypes {
 
         public init(
             groundTruthManifest: LookoutVisionClientTypes.DatasetGroundTruthManifest? = nil
-        )
-        {
+        ) {
             self.groundTruthManifest = groundTruthManifest
         }
     }
@@ -412,8 +400,7 @@ public struct CreateDatasetInput: Swift.Sendable {
         datasetSource: LookoutVisionClientTypes.DatasetSource? = nil,
         datasetType: Swift.String? = nil,
         projectName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.datasetSource = datasetSource
         self.datasetType = datasetType
@@ -492,8 +479,7 @@ extension LookoutVisionClientTypes {
             datasetType: Swift.String? = nil,
             status: LookoutVisionClientTypes.DatasetStatus? = nil,
             statusMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationTimestamp = creationTimestamp
             self.datasetType = datasetType
             self.status = status
@@ -508,8 +494,7 @@ public struct CreateDatasetOutput: Swift.Sendable {
 
     public init(
         datasetMetadata: LookoutVisionClientTypes.DatasetMetadata? = nil
-    )
-    {
+    ) {
         self.datasetMetadata = datasetMetadata
     }
 }
@@ -527,8 +512,7 @@ extension LookoutVisionClientTypes {
         public init(
             bucket: Swift.String? = nil,
             `prefix`: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucket = bucket
             self.`prefix` = `prefix`
         }
@@ -545,8 +529,7 @@ extension LookoutVisionClientTypes {
 
         public init(
             s3Location: LookoutVisionClientTypes.S3Location? = nil
-        )
-        {
+        ) {
             self.s3Location = s3Location
         }
     }
@@ -566,8 +549,7 @@ extension LookoutVisionClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -597,8 +579,7 @@ public struct CreateModelInput: Swift.Sendable {
         outputConfig: LookoutVisionClientTypes.OutputConfig? = nil,
         projectName: Swift.String? = nil,
         tags: [LookoutVisionClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.kmsKeyId = kmsKeyId
@@ -623,8 +604,7 @@ extension LookoutVisionClientTypes {
             f1Score: Swift.Float? = nil,
             precision: Swift.Float? = nil,
             recall: Swift.Float? = nil
-        )
-        {
+        ) {
             self.f1Score = f1Score
             self.precision = precision
             self.recall = recall
@@ -709,8 +689,7 @@ extension LookoutVisionClientTypes {
             performance: LookoutVisionClientTypes.ModelPerformance? = nil,
             status: LookoutVisionClientTypes.ModelStatus? = nil,
             statusMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationTimestamp = creationTimestamp
             self.description = description
             self.modelArn = modelArn
@@ -728,8 +707,7 @@ public struct CreateModelOutput: Swift.Sendable {
 
     public init(
         modelMetadata: LookoutVisionClientTypes.ModelMetadata? = nil
-    )
-    {
+    ) {
         self.modelMetadata = modelMetadata
     }
 }
@@ -744,8 +722,7 @@ public struct CreateProjectInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         projectName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.projectName = projectName
     }
@@ -766,8 +743,7 @@ extension LookoutVisionClientTypes {
             creationTimestamp: Foundation.Date? = nil,
             projectArn: Swift.String? = nil,
             projectName: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationTimestamp = creationTimestamp
             self.projectArn = projectArn
             self.projectName = projectName
@@ -781,8 +757,7 @@ public struct CreateProjectOutput: Swift.Sendable {
 
     public init(
         projectMetadata: LookoutVisionClientTypes.ProjectMetadata? = nil
-    )
-    {
+    ) {
         self.projectMetadata = projectMetadata
     }
 }
@@ -805,8 +780,7 @@ extension LookoutVisionClientTypes {
             labeled: Swift.Int? = nil,
             normal: Swift.Int? = nil,
             total: Swift.Int? = nil
-        )
-        {
+        ) {
             self.anomaly = anomaly
             self.labeled = labeled
             self.normal = normal
@@ -842,8 +816,7 @@ extension LookoutVisionClientTypes {
             projectName: Swift.String? = nil,
             status: LookoutVisionClientTypes.DatasetStatus? = nil,
             statusMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationTimestamp = creationTimestamp
             self.datasetType = datasetType
             self.imageStats = imageStats
@@ -869,8 +842,7 @@ public struct DeleteDatasetInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         datasetType: Swift.String? = nil,
         projectName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.datasetType = datasetType
         self.projectName = projectName
@@ -896,8 +868,7 @@ public struct DeleteModelInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         modelVersion: Swift.String? = nil,
         projectName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.modelVersion = modelVersion
         self.projectName = projectName
@@ -910,8 +881,7 @@ public struct DeleteModelOutput: Swift.Sendable {
 
     public init(
         modelArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.modelArn = modelArn
     }
 }
@@ -926,8 +896,7 @@ public struct DeleteProjectInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         projectName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.projectName = projectName
     }
@@ -939,8 +908,7 @@ public struct DeleteProjectOutput: Swift.Sendable {
 
     public init(
         projectArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.projectArn = projectArn
     }
 }
@@ -956,8 +924,7 @@ public struct DescribeDatasetInput: Swift.Sendable {
     public init(
         datasetType: Swift.String? = nil,
         projectName: Swift.String? = nil
-    )
-    {
+    ) {
         self.datasetType = datasetType
         self.projectName = projectName
     }
@@ -969,8 +936,7 @@ public struct DescribeDatasetOutput: Swift.Sendable {
 
     public init(
         datasetDescription: LookoutVisionClientTypes.DatasetDescription? = nil
-    )
-    {
+    ) {
         self.datasetDescription = datasetDescription
     }
 }
@@ -986,8 +952,7 @@ public struct DescribeModelInput: Swift.Sendable {
     public init(
         modelVersion: Swift.String? = nil,
         projectName: Swift.String? = nil
-    )
-    {
+    ) {
         self.modelVersion = modelVersion
         self.projectName = projectName
     }
@@ -1007,8 +972,7 @@ extension LookoutVisionClientTypes {
         public init(
             bucket: Swift.String? = nil,
             key: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucket = bucket
             self.key = key
         }
@@ -1063,8 +1027,7 @@ extension LookoutVisionClientTypes {
             performance: LookoutVisionClientTypes.ModelPerformance? = nil,
             status: LookoutVisionClientTypes.ModelStatus? = nil,
             statusMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationTimestamp = creationTimestamp
             self.description = description
             self.evaluationEndTimestamp = evaluationEndTimestamp
@@ -1089,8 +1052,7 @@ public struct DescribeModelOutput: Swift.Sendable {
 
     public init(
         modelDescription: LookoutVisionClientTypes.ModelDescription? = nil
-    )
-    {
+    ) {
         self.modelDescription = modelDescription
     }
 }
@@ -1106,8 +1068,7 @@ public struct DescribeModelPackagingJobInput: Swift.Sendable {
     public init(
         jobName: Swift.String? = nil,
         projectName: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobName = jobName
         self.projectName = projectName
     }
@@ -1241,8 +1202,7 @@ extension LookoutVisionClientTypes {
             accelerator: LookoutVisionClientTypes.TargetPlatformAccelerator? = nil,
             arch: LookoutVisionClientTypes.TargetPlatformArch? = nil,
             os: LookoutVisionClientTypes.TargetPlatformOs? = nil
-        )
-        {
+        ) {
             self.accelerator = accelerator
             self.arch = arch
             self.os = os
@@ -1282,8 +1242,7 @@ extension LookoutVisionClientTypes {
             tags: [LookoutVisionClientTypes.Tag]? = nil,
             targetDevice: LookoutVisionClientTypes.TargetDevice? = nil,
             targetPlatform: LookoutVisionClientTypes.TargetPlatform? = nil
-        )
-        {
+        ) {
             self.compilerOptions = compilerOptions
             self.componentDescription = componentDescription
             self.componentName = componentName
@@ -1306,8 +1265,7 @@ extension LookoutVisionClientTypes {
 
         public init(
             greengrass: LookoutVisionClientTypes.GreengrassConfiguration? = nil
-        )
-        {
+        ) {
             self.greengrass = greengrass
         }
     }
@@ -1328,8 +1286,7 @@ extension LookoutVisionClientTypes {
             componentName: Swift.String? = nil,
             componentVersion: Swift.String? = nil,
             componentVersionArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.componentName = componentName
             self.componentVersion = componentVersion
             self.componentVersionArn = componentVersionArn
@@ -1346,8 +1303,7 @@ extension LookoutVisionClientTypes {
 
         public init(
             greengrass: LookoutVisionClientTypes.GreengrassOutputDetails? = nil
-        )
-        {
+        ) {
             self.greengrass = greengrass
         }
     }
@@ -1427,8 +1383,7 @@ extension LookoutVisionClientTypes {
             projectName: Swift.String? = nil,
             status: LookoutVisionClientTypes.ModelPackagingJobStatus? = nil,
             statusMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationTimestamp = creationTimestamp
             self.jobName = jobName
             self.lastUpdatedTimestamp = lastUpdatedTimestamp
@@ -1450,8 +1405,7 @@ public struct DescribeModelPackagingJobOutput: Swift.Sendable {
 
     public init(
         modelPackagingDescription: LookoutVisionClientTypes.ModelPackagingDescription? = nil
-    )
-    {
+    ) {
         self.modelPackagingDescription = modelPackagingDescription
     }
 }
@@ -1463,8 +1417,7 @@ public struct DescribeProjectInput: Swift.Sendable {
 
     public init(
         projectName: Swift.String? = nil
-    )
-    {
+    ) {
         self.projectName = projectName
     }
 }
@@ -1487,8 +1440,7 @@ extension LookoutVisionClientTypes {
             datasets: [LookoutVisionClientTypes.DatasetMetadata]? = nil,
             projectArn: Swift.String? = nil,
             projectName: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationTimestamp = creationTimestamp
             self.datasets = datasets
             self.projectArn = projectArn
@@ -1503,8 +1455,7 @@ public struct DescribeProjectOutput: Swift.Sendable {
 
     public init(
         projectDescription: LookoutVisionClientTypes.ProjectDescription? = nil
-    )
-    {
+    ) {
         self.projectDescription = projectDescription
     }
 }
@@ -1528,8 +1479,7 @@ public struct DetectAnomaliesInput: Swift.Sendable {
         contentType: Swift.String? = nil,
         modelVersion: Swift.String? = nil,
         projectName: Swift.String? = nil
-    )
-    {
+    ) {
         self.body = body
         self.contentType = contentType
         self.modelVersion = modelVersion
@@ -1546,8 +1496,7 @@ extension LookoutVisionClientTypes {
 
         public init(
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.type = type
         }
     }
@@ -1574,8 +1523,7 @@ extension LookoutVisionClientTypes {
             confidence: Swift.Float? = nil,
             isAnomalous: Swift.Bool? = nil,
             source: LookoutVisionClientTypes.ImageSource? = nil
-        )
-        {
+        ) {
             self.anomalies = anomalies
             self.anomalyMask = anomalyMask
             self.confidence = confidence
@@ -1591,8 +1539,7 @@ public struct DetectAnomaliesOutput: Swift.Sendable {
 
     public init(
         detectAnomalyResult: LookoutVisionClientTypes.DetectAnomalyResult? = nil
-    )
-    {
+    ) {
         self.detectAnomalyResult = detectAnomalyResult
     }
 }
@@ -1629,8 +1576,7 @@ public struct ListDatasetEntriesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         projectName: Swift.String? = nil,
         sourceRefContains: Swift.String? = nil
-    )
-    {
+    ) {
         self.afterCreationDate = afterCreationDate
         self.anomalyClass = anomalyClass
         self.beforeCreationDate = beforeCreationDate
@@ -1652,8 +1598,7 @@ public struct ListDatasetEntriesOutput: Swift.Sendable {
     public init(
         datasetEntries: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.datasetEntries = datasetEntries
         self.nextToken = nextToken
     }
@@ -1672,8 +1617,7 @@ public struct ListModelPackagingJobsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         projectName: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.projectName = projectName
@@ -1713,8 +1657,7 @@ extension LookoutVisionClientTypes {
             projectName: Swift.String? = nil,
             status: LookoutVisionClientTypes.ModelPackagingJobStatus? = nil,
             statusMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationTimestamp = creationTimestamp
             self.jobName = jobName
             self.lastUpdatedTimestamp = lastUpdatedTimestamp
@@ -1737,8 +1680,7 @@ public struct ListModelPackagingJobsOutput: Swift.Sendable {
     public init(
         modelPackagingJobs: [LookoutVisionClientTypes.ModelPackagingJobMetadata]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.modelPackagingJobs = modelPackagingJobs
         self.nextToken = nextToken
     }
@@ -1757,8 +1699,7 @@ public struct ListModelsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         projectName: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.projectName = projectName
@@ -1774,8 +1715,7 @@ public struct ListModelsOutput: Swift.Sendable {
     public init(
         models: [LookoutVisionClientTypes.ModelMetadata]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.models = models
         self.nextToken = nextToken
     }
@@ -1790,8 +1730,7 @@ public struct ListProjectsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -1806,8 +1745,7 @@ public struct ListProjectsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         projects: [LookoutVisionClientTypes.ProjectMetadata]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.projects = projects
     }
@@ -1820,8 +1758,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -1832,8 +1769,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [LookoutVisionClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -1859,8 +1795,7 @@ public struct StartModelInput: Swift.Sendable {
         minInferenceUnits: Swift.Int? = nil,
         modelVersion: Swift.String? = nil,
         projectName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.maxInferenceUnits = maxInferenceUnits
         self.minInferenceUnits = minInferenceUnits
@@ -1913,8 +1848,7 @@ public struct StartModelOutput: Swift.Sendable {
 
     public init(
         status: LookoutVisionClientTypes.ModelHostingStatus? = nil
-    )
-    {
+    ) {
         self.status = status
     }
 }
@@ -1943,8 +1877,7 @@ public struct StartModelPackagingJobInput: Swift.Sendable {
         jobName: Swift.String? = nil,
         modelVersion: Swift.String? = nil,
         projectName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.configuration = configuration
         self.description = description
@@ -1960,8 +1893,7 @@ public struct StartModelPackagingJobOutput: Swift.Sendable {
 
     public init(
         jobName: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobName = jobName
     }
 }
@@ -1980,8 +1912,7 @@ public struct StopModelInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         modelVersion: Swift.String? = nil,
         projectName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.modelVersion = modelVersion
         self.projectName = projectName
@@ -1994,8 +1925,7 @@ public struct StopModelOutput: Swift.Sendable {
 
     public init(
         status: LookoutVisionClientTypes.ModelHostingStatus? = nil
-    )
-    {
+    ) {
         self.status = status
     }
 }
@@ -2011,8 +1941,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [LookoutVisionClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -2034,8 +1963,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -2064,8 +1992,7 @@ public struct UpdateDatasetEntriesInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         datasetType: Swift.String? = nil,
         projectName: Swift.String? = nil
-    )
-    {
+    ) {
         self.changes = changes
         self.clientToken = clientToken
         self.datasetType = datasetType
@@ -2079,8 +2006,7 @@ public struct UpdateDatasetEntriesOutput: Swift.Sendable {
 
     public init(
         status: LookoutVisionClientTypes.DatasetStatus? = nil
-    )
-    {
+    ) {
         self.status = status
     }
 }

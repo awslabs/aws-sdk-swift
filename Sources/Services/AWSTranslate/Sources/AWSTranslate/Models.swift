@@ -43,8 +43,7 @@ extension TranslateClientTypes {
         public init(
             sourceText: Swift.String? = nil,
             targetText: Swift.String? = nil
-        )
-        {
+        ) {
             self.sourceText = sourceText
             self.targetText = targetText
         }
@@ -63,8 +62,7 @@ extension TranslateClientTypes {
         public init(
             name: Swift.String? = nil,
             terms: [TranslateClientTypes.Term]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.terms = terms
         }
@@ -89,8 +87,7 @@ public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -113,8 +110,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -137,8 +133,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -161,8 +156,7 @@ public struct InvalidParameterValueException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -185,8 +179,7 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -209,8 +202,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -233,8 +225,7 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -259,8 +250,7 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
     public init(
         message: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceArn = resourceArn
     }
@@ -306,8 +296,7 @@ extension TranslateClientTypes {
         public init(
             id: Swift.String? = nil,
             type: TranslateClientTypes.EncryptionKeyType? = nil
-        )
-        {
+        ) {
             self.id = id
             self.type = type
         }
@@ -358,8 +347,7 @@ extension TranslateClientTypes {
         public init(
             format: TranslateClientTypes.ParallelDataFormat? = nil,
             s3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.format = format
             self.s3Uri = s3Uri
         }
@@ -380,8 +368,7 @@ extension TranslateClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -412,8 +399,7 @@ public struct CreateParallelDataInput: Swift.Sendable {
         name: Swift.String? = nil,
         parallelDataConfig: TranslateClientTypes.ParallelDataConfig? = nil,
         tags: [TranslateClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.encryptionKey = encryptionKey
@@ -470,8 +456,7 @@ public struct CreateParallelDataOutput: Swift.Sendable {
     public init(
         name: Swift.String? = nil,
         status: TranslateClientTypes.ParallelDataStatus? = nil
-    )
-    {
+    ) {
         self.name = name
         self.status = status
     }
@@ -495,8 +480,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -508,8 +492,7 @@ public struct DeleteParallelDataInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -523,8 +506,7 @@ public struct DeleteParallelDataOutput: Swift.Sendable {
     public init(
         name: Swift.String? = nil,
         status: TranslateClientTypes.ParallelDataStatus? = nil
-    )
-    {
+    ) {
         self.name = name
         self.status = status
     }
@@ -537,8 +519,7 @@ public struct DeleteTerminologyInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -550,8 +531,7 @@ public struct DescribeTextTranslationJobInput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -585,8 +565,7 @@ extension TranslateClientTypes {
         public init(
             contentType: Swift.String? = nil,
             s3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.contentType = contentType
             self.s3Uri = s3Uri
         }
@@ -608,8 +587,7 @@ extension TranslateClientTypes {
             documentsWithErrorsCount: Swift.Int? = nil,
             inputDocumentsCount: Swift.Int? = nil,
             translatedDocumentsCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.documentsWithErrorsCount = documentsWithErrorsCount
             self.inputDocumentsCount = inputDocumentsCount
             self.translatedDocumentsCount = translatedDocumentsCount
@@ -674,8 +652,7 @@ extension TranslateClientTypes {
         public init(
             encryptionKey: TranslateClientTypes.EncryptionKey? = nil,
             s3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.encryptionKey = encryptionKey
             self.s3Uri = s3Uri
         }
@@ -784,8 +761,7 @@ extension TranslateClientTypes {
             brevity: TranslateClientTypes.Brevity? = nil,
             formality: TranslateClientTypes.Formality? = nil,
             profanity: TranslateClientTypes.Profanity? = nil
-        )
-        {
+        ) {
             self.brevity = brevity
             self.formality = formality
             self.profanity = profanity
@@ -844,8 +820,7 @@ extension TranslateClientTypes {
             submittedTime: Foundation.Date? = nil,
             targetLanguageCodes: [Swift.String]? = nil,
             terminologyNames: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.dataAccessRoleArn = dataAccessRoleArn
             self.endTime = endTime
             self.inputDataConfig = inputDataConfig
@@ -871,8 +846,7 @@ public struct DescribeTextTranslationJobOutput: Swift.Sendable {
 
     public init(
         textTranslationJobProperties: TranslateClientTypes.TextTranslationJobProperties? = nil
-    )
-    {
+    ) {
         self.textTranslationJobProperties = textTranslationJobProperties
     }
 }
@@ -884,8 +858,7 @@ public struct GetParallelDataInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -904,8 +877,7 @@ extension TranslateClientTypes {
         public init(
             location: Swift.String? = nil,
             repositoryType: Swift.String? = nil
-        )
-        {
+        ) {
             self.location = location
             self.repositoryType = repositoryType
         }
@@ -969,8 +941,7 @@ extension TranslateClientTypes {
             sourceLanguageCode: Swift.String? = nil,
             status: TranslateClientTypes.ParallelDataStatus? = nil,
             targetLanguageCodes: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.description = description
@@ -1007,8 +978,7 @@ public struct GetParallelDataOutput: Swift.Sendable {
         dataLocation: TranslateClientTypes.ParallelDataDataLocation? = nil,
         latestUpdateAttemptAuxiliaryDataLocation: TranslateClientTypes.ParallelDataDataLocation? = nil,
         parallelDataProperties: TranslateClientTypes.ParallelDataProperties? = nil
-    )
-    {
+    ) {
         self.auxiliaryDataLocation = auxiliaryDataLocation
         self.dataLocation = dataLocation
         self.latestUpdateAttemptAuxiliaryDataLocation = latestUpdateAttemptAuxiliaryDataLocation
@@ -1058,8 +1028,7 @@ public struct GetTerminologyInput: Swift.Sendable {
     public init(
         name: Swift.String? = nil,
         terminologyDataFormat: TranslateClientTypes.TerminologyDataFormat? = nil
-    )
-    {
+    ) {
         self.name = name
         self.terminologyDataFormat = terminologyDataFormat
     }
@@ -1079,8 +1048,7 @@ extension TranslateClientTypes {
         public init(
             location: Swift.String? = nil,
             repositoryType: Swift.String? = nil
-        )
-        {
+        ) {
             self.location = location
             self.repositoryType = repositoryType
         }
@@ -1164,8 +1132,7 @@ extension TranslateClientTypes {
             sourceLanguageCode: Swift.String? = nil,
             targetLanguageCodes: [Swift.String]? = nil,
             termCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.description = description
@@ -1196,8 +1163,7 @@ public struct GetTerminologyOutput: Swift.Sendable {
         auxiliaryDataLocation: TranslateClientTypes.TerminologyDataLocation? = nil,
         terminologyDataLocation: TranslateClientTypes.TerminologyDataLocation? = nil,
         terminologyProperties: TranslateClientTypes.TerminologyProperties? = nil
-    )
-    {
+    ) {
         self.auxiliaryDataLocation = auxiliaryDataLocation
         self.terminologyDataLocation = terminologyDataLocation
         self.terminologyProperties = terminologyProperties
@@ -1247,8 +1213,7 @@ extension TranslateClientTypes {
             directionality: TranslateClientTypes.Directionality? = nil,
             file: Foundation.Data? = nil,
             format: TranslateClientTypes.TerminologyDataFormat? = nil
-        )
-        {
+        ) {
             self.directionality = directionality
             self.file = file
             self.format = format
@@ -1285,8 +1250,7 @@ public struct ImportTerminologyInput: Swift.Sendable {
         name: Swift.String? = nil,
         tags: [TranslateClientTypes.Tag]? = nil,
         terminologyData: TranslateClientTypes.TerminologyData? = nil
-    )
-    {
+    ) {
         self.description = description
         self.encryptionKey = encryptionKey
         self.mergeStrategy = mergeStrategy
@@ -1305,8 +1269,7 @@ public struct ImportTerminologyOutput: Swift.Sendable {
     public init(
         auxiliaryDataLocation: TranslateClientTypes.TerminologyDataLocation? = nil,
         terminologyProperties: TranslateClientTypes.TerminologyProperties? = nil
-    )
-    {
+    ) {
         self.auxiliaryDataLocation = auxiliaryDataLocation
         self.terminologyProperties = terminologyProperties
     }
@@ -1333,8 +1296,7 @@ public struct UnsupportedDisplayLanguageCodeException: ClientRuntime.ModeledErro
     public init(
         displayLanguageCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.displayLanguageCode = displayLanguageCode
         self.properties.message = message
     }
@@ -1405,8 +1367,7 @@ public struct ListLanguagesInput: Swift.Sendable {
         displayLanguageCode: TranslateClientTypes.DisplayLanguageCode? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.displayLanguageCode = displayLanguageCode
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1427,8 +1388,7 @@ extension TranslateClientTypes {
         public init(
             languageCode: Swift.String? = nil,
             languageName: Swift.String? = nil
-        )
-        {
+        ) {
             self.languageCode = languageCode
             self.languageName = languageName
         }
@@ -1447,8 +1407,7 @@ public struct ListLanguagesOutput: Swift.Sendable {
         displayLanguageCode: TranslateClientTypes.DisplayLanguageCode? = nil,
         languages: [TranslateClientTypes.Language]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.displayLanguageCode = displayLanguageCode
         self.languages = languages
         self.nextToken = nextToken
@@ -1464,8 +1423,7 @@ public struct ListParallelDataInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -1480,8 +1438,7 @@ public struct ListParallelDataOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         parallelDataPropertiesList: [TranslateClientTypes.ParallelDataProperties]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.parallelDataPropertiesList = parallelDataPropertiesList
     }
@@ -1494,8 +1451,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -1506,8 +1462,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [TranslateClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -1521,8 +1476,7 @@ public struct ListTerminologiesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -1537,8 +1491,7 @@ public struct ListTerminologiesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         terminologyPropertiesList: [TranslateClientTypes.TerminologyProperties]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.terminologyPropertiesList = terminologyPropertiesList
     }
@@ -1562,8 +1515,7 @@ public struct InvalidFilterException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1586,8 +1538,7 @@ extension TranslateClientTypes {
             jobStatus: TranslateClientTypes.JobStatus? = nil,
             submittedAfterTime: Foundation.Date? = nil,
             submittedBeforeTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.jobName = jobName
             self.jobStatus = jobStatus
             self.submittedAfterTime = submittedAfterTime
@@ -1608,8 +1559,7 @@ public struct ListTextTranslationJobsInput: Swift.Sendable {
         filter: TranslateClientTypes.TextTranslationJobFilter? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1625,8 +1575,7 @@ public struct ListTextTranslationJobsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         textTranslationJobPropertiesList: [TranslateClientTypes.TextTranslationJobProperties]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.textTranslationJobPropertiesList = textTranslationJobPropertiesList
     }
@@ -1656,8 +1605,7 @@ public struct UnsupportedLanguagePairException: ClientRuntime.ModeledError, AWSC
         message: Swift.String? = nil,
         sourceLanguageCode: Swift.String? = nil,
         targetLanguageCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.sourceLanguageCode = sourceLanguageCode
         self.properties.targetLanguageCode = targetLanguageCode
@@ -1709,8 +1657,7 @@ public struct StartTextTranslationJobInput: Swift.Sendable {
         sourceLanguageCode: Swift.String? = nil,
         targetLanguageCodes: [Swift.String]? = nil,
         terminologyNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.dataAccessRoleArn = dataAccessRoleArn
         self.inputDataConfig = inputDataConfig
@@ -1747,8 +1694,7 @@ public struct StartTextTranslationJobOutput: Swift.Sendable {
     public init(
         jobId: Swift.String? = nil,
         jobStatus: TranslateClientTypes.JobStatus? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
         self.jobStatus = jobStatus
     }
@@ -1761,8 +1707,7 @@ public struct StopTextTranslationJobInput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -1776,8 +1721,7 @@ public struct StopTextTranslationJobOutput: Swift.Sendable {
     public init(
         jobId: Swift.String? = nil,
         jobStatus: TranslateClientTypes.JobStatus? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
         self.jobStatus = jobStatus
     }
@@ -1794,8 +1738,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [TranslateClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -1824,8 +1767,7 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1850,8 +1792,7 @@ extension TranslateClientTypes {
         public init(
             content: Foundation.Data? = nil,
             contentType: Swift.String? = nil
-        )
-        {
+        ) {
             self.content = content
             self.contentType = contentType
         }
@@ -1890,8 +1831,7 @@ public struct TranslateDocumentInput: Swift.Sendable {
         sourceLanguageCode: Swift.String? = nil,
         targetLanguageCode: Swift.String? = nil,
         terminologyNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.document = document
         self.settings = settings
         self.sourceLanguageCode = sourceLanguageCode
@@ -1910,8 +1850,7 @@ extension TranslateClientTypes {
 
         public init(
             content: Foundation.Data? = nil
-        )
-        {
+        ) {
             self.content = content
         }
     }
@@ -1949,8 +1888,7 @@ public struct TranslateDocumentOutput: Swift.Sendable {
         sourceLanguageCode: Swift.String? = nil,
         targetLanguageCode: Swift.String? = nil,
         translatedDocument: TranslateClientTypes.TranslatedDocument? = nil
-    )
-    {
+    ) {
         self.appliedSettings = appliedSettings
         self.appliedTerminologies = appliedTerminologies
         self.sourceLanguageCode = sourceLanguageCode
@@ -1980,8 +1918,7 @@ public struct DetectedLanguageLowConfidenceException: ClientRuntime.ModeledError
     public init(
         detectedLanguageCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.detectedLanguageCode = detectedLanguageCode
         self.properties.message = message
     }
@@ -2005,8 +1942,7 @@ public struct TextSizeLimitExceededException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2038,8 +1974,7 @@ public struct TranslateTextInput: Swift.Sendable {
         targetLanguageCode: Swift.String? = nil,
         terminologyNames: [Swift.String]? = nil,
         text: Swift.String? = nil
-    )
-    {
+    ) {
         self.settings = settings
         self.sourceLanguageCode = sourceLanguageCode
         self.targetLanguageCode = targetLanguageCode
@@ -2069,8 +2004,7 @@ public struct TranslateTextOutput: Swift.Sendable {
         sourceLanguageCode: Swift.String? = nil,
         targetLanguageCode: Swift.String? = nil,
         translatedText: Swift.String? = nil
-    )
-    {
+    ) {
         self.appliedSettings = appliedSettings
         self.appliedTerminologies = appliedTerminologies
         self.sourceLanguageCode = sourceLanguageCode
@@ -2090,8 +2024,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -2120,8 +2053,7 @@ public struct UpdateParallelDataInput: Swift.Sendable {
         description: Swift.String? = nil,
         name: Swift.String? = nil,
         parallelDataConfig: TranslateClientTypes.ParallelDataConfig? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.name = name
@@ -2144,8 +2076,7 @@ public struct UpdateParallelDataOutput: Swift.Sendable {
         latestUpdateAttemptStatus: TranslateClientTypes.ParallelDataStatus? = nil,
         name: Swift.String? = nil,
         status: TranslateClientTypes.ParallelDataStatus? = nil
-    )
-    {
+    ) {
         self.latestUpdateAttemptAt = latestUpdateAttemptAt
         self.latestUpdateAttemptStatus = latestUpdateAttemptStatus
         self.name = name

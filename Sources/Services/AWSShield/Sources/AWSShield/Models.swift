@@ -44,8 +44,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -68,8 +67,7 @@ public struct AccessDeniedForDependencyException: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -104,8 +102,7 @@ extension ShieldClientTypes {
         public init(
             block: ShieldClientTypes.BlockAction? = nil,
             count: ShieldClientTypes.CountAction? = nil
-        )
-        {
+        ) {
             self.block = block
             self.count = count
         }
@@ -155,8 +152,7 @@ extension ShieldClientTypes {
         public init(
             action: ShieldClientTypes.ResponseAction? = nil,
             status: ShieldClientTypes.ApplicationLayerAutomaticResponseStatus? = nil
-        )
-        {
+        ) {
             self.action = action
             self.status = status
         }
@@ -181,8 +177,7 @@ public struct InternalErrorException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -205,8 +200,7 @@ public struct InvalidOperationException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -225,8 +219,7 @@ extension ShieldClientTypes {
         public init(
             message: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
             self.name = name
         }
@@ -286,8 +279,7 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
         fields: [ShieldClientTypes.ValidationExceptionField]? = nil,
         message: Swift.String? = nil,
         reason: ShieldClientTypes.ValidationExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.fields = fields
         self.properties.message = message
         self.properties.reason = reason
@@ -318,8 +310,7 @@ public struct LimitsExceededException: ClientRuntime.ModeledError, AWSClientRunt
         limit: Swift.Int = 0,
         message: Swift.String? = nil,
         type: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.limit = limit
         self.properties.message = message
         self.properties.type = type
@@ -344,8 +335,7 @@ public struct NoAssociatedRoleException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -368,8 +358,7 @@ public struct OptimisticLockException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -395,8 +384,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public init(
         message: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceType = resourceType
     }
@@ -409,8 +397,7 @@ public struct AssociateDRTLogBucketInput: Swift.Sendable {
 
     public init(
         logBucket: Swift.String? = nil
-    )
-    {
+    ) {
         self.logBucket = logBucket
     }
 }
@@ -427,8 +414,7 @@ public struct AssociateDRTRoleInput: Swift.Sendable {
 
     public init(
         roleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.roleArn = roleArn
     }
 }
@@ -456,8 +442,7 @@ public struct InvalidResourceException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -473,8 +458,7 @@ public struct AssociateHealthCheckInput: Swift.Sendable {
     public init(
         healthCheckArn: Swift.String? = nil,
         protectionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.healthCheckArn = healthCheckArn
         self.protectionId = protectionId
     }
@@ -501,8 +485,7 @@ extension ShieldClientTypes {
             contactNotes: Swift.String? = nil,
             emailAddress: Swift.String? = nil,
             phoneNumber: Swift.String? = nil
-        )
-        {
+        ) {
             self.contactNotes = contactNotes
             self.emailAddress = emailAddress
             self.phoneNumber = phoneNumber
@@ -517,8 +500,7 @@ public struct AssociateProactiveEngagementDetailsInput: Swift.Sendable {
 
     public init(
         emergencyContactList: [ShieldClientTypes.EmergencyContact]? = nil
-    )
-    {
+    ) {
         self.emergencyContactList = emergencyContactList
     }
 }
@@ -552,8 +534,7 @@ extension ShieldClientTypes {
             name: Swift.String? = nil,
             sum: Swift.Double = 0.0,
             unit: Swift.String? = nil
-        )
-        {
+        ) {
             self.average = average
             self.max = max
             self.n = n
@@ -652,8 +633,7 @@ extension ShieldClientTypes {
         public init(
             name: Swift.String? = nil,
             value: Swift.Int = 0
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -716,8 +696,7 @@ extension ShieldClientTypes {
             topContributors: [ShieldClientTypes.Contributor]? = nil,
             total: Swift.Int = 0,
             unit: ShieldClientTypes.Unit? = nil
-        )
-        {
+        ) {
             self.attackLayer = attackLayer
             self.attackPropertyIdentifier = attackPropertyIdentifier
             self.topContributors = topContributors
@@ -736,8 +715,7 @@ extension ShieldClientTypes {
 
         public init(
             mitigationName: Swift.String? = nil
-        )
-        {
+        ) {
             self.mitigationName = mitigationName
         }
     }
@@ -756,8 +734,7 @@ extension ShieldClientTypes {
         public init(
             vectorCounters: [ShieldClientTypes.SummarizedCounter]? = nil,
             vectorType: Swift.String? = nil
-        )
-        {
+        ) {
             self.vectorCounters = vectorCounters
             self.vectorType = vectorType
         }
@@ -811,8 +788,7 @@ extension ShieldClientTypes {
             counters: [ShieldClientTypes.SummarizedCounter]? = nil,
             id: Swift.String? = nil,
             type: ShieldClientTypes.SubResourceType? = nil
-        )
-        {
+        ) {
             self.attackVectors = attackVectors
             self.counters = counters
             self.id = id
@@ -851,8 +827,7 @@ extension ShieldClientTypes {
             resourceArn: Swift.String? = nil,
             startTime: Foundation.Date? = nil,
             subResources: [ShieldClientTypes.SubResourceSummary]? = nil
-        )
-        {
+        ) {
             self.attackCounters = attackCounters
             self.attackId = attackId
             self.attackProperties = attackProperties
@@ -875,8 +850,7 @@ extension ShieldClientTypes {
 
         public init(
             max: Swift.Double = 0.0
-        )
-        {
+        ) {
             self.max = max
         }
     }
@@ -897,8 +871,7 @@ extension ShieldClientTypes {
             bitsPerSecond: ShieldClientTypes.AttackVolumeStatistics? = nil,
             packetsPerSecond: ShieldClientTypes.AttackVolumeStatistics? = nil,
             requestsPerSecond: ShieldClientTypes.AttackVolumeStatistics? = nil
-        )
-        {
+        ) {
             self.bitsPerSecond = bitsPerSecond
             self.packetsPerSecond = packetsPerSecond
             self.requestsPerSecond = requestsPerSecond
@@ -919,8 +892,7 @@ extension ShieldClientTypes {
         public init(
             attackCount: Swift.Int = 0,
             attackVolume: ShieldClientTypes.AttackVolume? = nil
-        )
-        {
+        ) {
             self.attackCount = attackCount
             self.attackVolume = attackVolume
         }
@@ -973,8 +945,7 @@ extension ShieldClientTypes {
 
         public init(
             vectorType: Swift.String? = nil
-        )
-        {
+        ) {
             self.vectorType = vectorType
         }
     }
@@ -1001,8 +972,7 @@ extension ShieldClientTypes {
             endTime: Foundation.Date? = nil,
             resourceArn: Swift.String? = nil,
             startTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.attackId = attackId
             self.attackVectors = attackVectors
             self.endTime = endTime
@@ -1062,8 +1032,7 @@ public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSCli
     public init(
         message: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceType = resourceType
     }
@@ -1081,8 +1050,7 @@ extension ShieldClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -1115,8 +1083,7 @@ public struct CreateProtectionInput: Swift.Sendable {
         name: Swift.String? = nil,
         resourceArn: Swift.String? = nil,
         tags: [ShieldClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.name = name
         self.resourceArn = resourceArn
         self.tags = tags
@@ -1129,8 +1096,7 @@ public struct CreateProtectionOutput: Swift.Sendable {
 
     public init(
         protectionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.protectionId = protectionId
     }
 }
@@ -1270,8 +1236,7 @@ public struct CreateProtectionGroupInput: Swift.Sendable {
         protectionGroupId: Swift.String? = nil,
         resourceType: ShieldClientTypes.ProtectedResourceType? = nil,
         tags: [ShieldClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.aggregation = aggregation
         self.members = members
         self.pattern = pattern
@@ -1303,8 +1268,7 @@ public struct DeleteProtectionInput: Swift.Sendable {
 
     public init(
         protectionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.protectionId = protectionId
     }
 }
@@ -1321,8 +1285,7 @@ public struct DeleteProtectionGroupInput: Swift.Sendable {
 
     public init(
         protectionGroupId: Swift.String? = nil
-    )
-    {
+    ) {
         self.protectionGroupId = protectionGroupId
     }
 }
@@ -1350,8 +1313,7 @@ public struct LockedSubscriptionException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1375,8 +1337,7 @@ public struct DescribeAttackInput: Swift.Sendable {
 
     public init(
         attackId: Swift.String? = nil
-    )
-    {
+    ) {
         self.attackId = attackId
     }
 }
@@ -1387,8 +1348,7 @@ public struct DescribeAttackOutput: Swift.Sendable {
 
     public init(
         attack: ShieldClientTypes.AttackDetail? = nil
-    )
-    {
+    ) {
         self.attack = attack
     }
 }
@@ -1410,8 +1370,7 @@ extension ShieldClientTypes {
         public init(
             fromInclusive: Foundation.Date? = nil,
             toExclusive: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.fromInclusive = fromInclusive
             self.toExclusive = toExclusive
         }
@@ -1429,8 +1388,7 @@ public struct DescribeAttackStatisticsOutput: Swift.Sendable {
     public init(
         dataItems: [ShieldClientTypes.AttackStatisticsDataItem]? = nil,
         timeRange: ShieldClientTypes.TimeRange? = nil
-    )
-    {
+    ) {
         self.dataItems = dataItems
         self.timeRange = timeRange
     }
@@ -1450,8 +1408,7 @@ public struct DescribeDRTAccessOutput: Swift.Sendable {
     public init(
         logBucketList: [Swift.String]? = nil,
         roleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.logBucketList = logBucketList
         self.roleArn = roleArn
     }
@@ -1468,8 +1425,7 @@ public struct DescribeEmergencyContactSettingsOutput: Swift.Sendable {
 
     public init(
         emergencyContactList: [ShieldClientTypes.EmergencyContact]? = nil
-    )
-    {
+    ) {
         self.emergencyContactList = emergencyContactList
     }
 }
@@ -1483,8 +1439,7 @@ public struct DescribeProtectionInput: Swift.Sendable {
     public init(
         protectionId: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.protectionId = protectionId
         self.resourceArn = resourceArn
     }
@@ -1514,8 +1469,7 @@ extension ShieldClientTypes {
             name: Swift.String? = nil,
             protectionArn: Swift.String? = nil,
             resourceArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.applicationLayerAutomaticResponseConfiguration = applicationLayerAutomaticResponseConfiguration
             self.healthCheckIds = healthCheckIds
             self.id = id
@@ -1532,8 +1486,7 @@ public struct DescribeProtectionOutput: Swift.Sendable {
 
     public init(
         protection: ShieldClientTypes.Protection? = nil
-    )
-    {
+    ) {
         self.protection = protection
     }
 }
@@ -1545,8 +1498,7 @@ public struct DescribeProtectionGroupInput: Swift.Sendable {
 
     public init(
         protectionGroupId: Swift.String? = nil
-    )
-    {
+    ) {
         self.protectionGroupId = protectionGroupId
     }
 }
@@ -1585,8 +1537,7 @@ extension ShieldClientTypes {
             protectionGroupArn: Swift.String? = nil,
             protectionGroupId: Swift.String? = nil,
             resourceType: ShieldClientTypes.ProtectedResourceType? = nil
-        )
-        {
+        ) {
             self.aggregation = aggregation
             self.members = members
             self.pattern = pattern
@@ -1604,8 +1555,7 @@ public struct DescribeProtectionGroupOutput: Swift.Sendable {
 
     public init(
         protectionGroup: ShieldClientTypes.ProtectionGroup? = nil
-    )
-    {
+    ) {
         self.protectionGroup = protectionGroup
     }
 }
@@ -1627,8 +1577,7 @@ extension ShieldClientTypes {
         public init(
             max: Swift.Int = 0,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.max = max
             self.type = type
         }
@@ -1677,8 +1626,7 @@ extension ShieldClientTypes {
 
         public init(
             maxMembers: Swift.Int = 0
-        )
-        {
+        ) {
             self.maxMembers = maxMembers
         }
     }
@@ -1694,8 +1642,7 @@ extension ShieldClientTypes {
 
         public init(
             arbitraryPatternLimits: ShieldClientTypes.ProtectionGroupArbitraryPatternLimits? = nil
-        )
-        {
+        ) {
             self.arbitraryPatternLimits = arbitraryPatternLimits
         }
     }
@@ -1715,8 +1662,7 @@ extension ShieldClientTypes {
         public init(
             maxProtectionGroups: Swift.Int = 0,
             patternTypeLimits: ShieldClientTypes.ProtectionGroupPatternTypeLimits? = nil
-        )
-        {
+        ) {
             self.maxProtectionGroups = maxProtectionGroups
             self.patternTypeLimits = patternTypeLimits
         }
@@ -1733,8 +1679,7 @@ extension ShieldClientTypes {
 
         public init(
             protectedResourceTypeLimits: [ShieldClientTypes.Limit]? = nil
-        )
-        {
+        ) {
             self.protectedResourceTypeLimits = protectedResourceTypeLimits
         }
     }
@@ -1754,8 +1699,7 @@ extension ShieldClientTypes {
         public init(
             protectionGroupLimits: ShieldClientTypes.ProtectionGroupLimits? = nil,
             protectionLimits: ShieldClientTypes.ProtectionLimits? = nil
-        )
-        {
+        ) {
             self.protectionGroupLimits = protectionGroupLimits
             self.protectionLimits = protectionLimits
         }
@@ -1793,8 +1737,7 @@ extension ShieldClientTypes {
             subscriptionArn: Swift.String? = nil,
             subscriptionLimits: ShieldClientTypes.SubscriptionLimits? = nil,
             timeCommitmentInSeconds: Swift.Int = 0
-        )
-        {
+        ) {
             self.autoRenew = autoRenew
             self.endTime = endTime
             self.limits = limits
@@ -1813,8 +1756,7 @@ public struct DescribeSubscriptionOutput: Swift.Sendable {
 
     public init(
         subscription: ShieldClientTypes.Subscription? = nil
-    )
-    {
+    ) {
         self.subscription = subscription
     }
 }
@@ -1826,8 +1768,7 @@ public struct DisableApplicationLayerAutomaticResponseInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -1854,8 +1795,7 @@ public struct DisassociateDRTLogBucketInput: Swift.Sendable {
 
     public init(
         logBucket: Swift.String? = nil
-    )
-    {
+    ) {
         self.logBucket = logBucket
     }
 }
@@ -1886,8 +1826,7 @@ public struct DisassociateHealthCheckInput: Swift.Sendable {
     public init(
         healthCheckArn: Swift.String? = nil,
         protectionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.healthCheckArn = healthCheckArn
         self.protectionId = protectionId
     }
@@ -1909,8 +1848,7 @@ public struct EnableApplicationLayerAutomaticResponseInput: Swift.Sendable {
     public init(
         action: ShieldClientTypes.ResponseAction? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.action = action
         self.resourceArn = resourceArn
     }
@@ -1972,8 +1910,7 @@ public struct GetSubscriptionStateOutput: Swift.Sendable {
 
     public init(
         subscriptionState: ShieldClientTypes.SubscriptionState? = nil
-    )
-    {
+    ) {
         self.subscriptionState = subscriptionState
     }
 }
@@ -1996,8 +1933,7 @@ public struct ListAttacksInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         resourceArns: [Swift.String]? = nil,
         startTime: ShieldClientTypes.TimeRange? = nil
-    )
-    {
+    ) {
         self.endTime = endTime
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2015,8 +1951,7 @@ public struct ListAttacksOutput: Swift.Sendable {
     public init(
         attackSummaries: [ShieldClientTypes.AttackSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.attackSummaries = attackSummaries
         self.nextToken = nextToken
     }
@@ -2040,8 +1975,7 @@ public struct InvalidPaginationTokenException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2064,8 +1998,7 @@ extension ShieldClientTypes {
             patterns: [ShieldClientTypes.ProtectionGroupPattern]? = nil,
             protectionGroupIds: [Swift.String]? = nil,
             resourceTypes: [ShieldClientTypes.ProtectedResourceType]? = nil
-        )
-        {
+        ) {
             self.aggregations = aggregations
             self.patterns = patterns
             self.protectionGroupIds = protectionGroupIds
@@ -2086,8 +2019,7 @@ public struct ListProtectionGroupsInput: Swift.Sendable {
         inclusionFilters: ShieldClientTypes.InclusionProtectionGroupFilters? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.inclusionFilters = inclusionFilters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2104,8 +2036,7 @@ public struct ListProtectionGroupsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         protectionGroups: [ShieldClientTypes.ProtectionGroup]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.protectionGroups = protectionGroups
     }
@@ -2126,8 +2057,7 @@ extension ShieldClientTypes {
             protectionNames: [Swift.String]? = nil,
             resourceArns: [Swift.String]? = nil,
             resourceTypes: [ShieldClientTypes.ProtectedResourceType]? = nil
-        )
-        {
+        ) {
             self.protectionNames = protectionNames
             self.resourceArns = resourceArns
             self.resourceTypes = resourceTypes
@@ -2147,8 +2077,7 @@ public struct ListProtectionsInput: Swift.Sendable {
         inclusionFilters: ShieldClientTypes.InclusionProtectionFilters? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.inclusionFilters = inclusionFilters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2164,8 +2093,7 @@ public struct ListProtectionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         protections: [ShieldClientTypes.Protection]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.protections = protections
     }
@@ -2184,8 +2112,7 @@ public struct ListResourcesInProtectionGroupInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         protectionGroupId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.protectionGroupId = protectionGroupId
@@ -2202,8 +2129,7 @@ public struct ListResourcesInProtectionGroupOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         resourceArns: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.resourceArns = resourceArns
     }
@@ -2216,8 +2142,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
     }
 }
@@ -2228,8 +2153,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [ShieldClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -2245,8 +2169,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tags: [ShieldClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tags = tags
     }
@@ -2268,8 +2191,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tagKeys = tagKeys
     }
@@ -2291,8 +2213,7 @@ public struct UpdateApplicationLayerAutomaticResponseInput: Swift.Sendable {
     public init(
         action: ShieldClientTypes.ResponseAction? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.action = action
         self.resourceArn = resourceArn
     }
@@ -2309,8 +2230,7 @@ public struct UpdateEmergencyContactSettingsInput: Swift.Sendable {
 
     public init(
         emergencyContactList: [ShieldClientTypes.EmergencyContact]? = nil
-    )
-    {
+    ) {
         self.emergencyContactList = emergencyContactList
     }
 }
@@ -2347,8 +2267,7 @@ public struct UpdateProtectionGroupInput: Swift.Sendable {
         pattern: ShieldClientTypes.ProtectionGroupPattern? = nil,
         protectionGroupId: Swift.String? = nil,
         resourceType: ShieldClientTypes.ProtectedResourceType? = nil
-    )
-    {
+    ) {
         self.aggregation = aggregation
         self.members = members
         self.pattern = pattern
@@ -2368,8 +2287,7 @@ public struct UpdateSubscriptionInput: Swift.Sendable {
 
     public init(
         autoRenew: ShieldClientTypes.AutoRenew? = nil
-    )
-    {
+    ) {
         self.autoRenew = autoRenew
     }
 }

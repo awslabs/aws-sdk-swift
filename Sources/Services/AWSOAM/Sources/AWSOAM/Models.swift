@@ -47,8 +47,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public init(
         amznErrorType: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.amznErrorType = amznErrorType
         self.properties.message = message
     }
@@ -75,8 +74,7 @@ public struct InternalServiceFault: ClientRuntime.ModeledError, AWSClientRuntime
     public init(
         amznErrorType: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.amznErrorType = amznErrorType
         self.properties.message = message
     }
@@ -103,8 +101,7 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
     public init(
         amznErrorType: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.amznErrorType = amznErrorType
         self.properties.message = message
     }
@@ -131,8 +128,7 @@ public struct MissingRequiredParameterException: ClientRuntime.ModeledError, AWS
     public init(
         amznErrorType: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.amznErrorType = amznErrorType
         self.properties.message = message
     }
@@ -159,8 +155,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     public init(
         amznErrorType: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.amznErrorType = amznErrorType
         self.properties.message = message
     }
@@ -198,8 +193,7 @@ extension OAMClientTypes {
 
         public init(
             filter: Swift.String? = nil
-        )
-        {
+        ) {
             self.filter = filter
         }
     }
@@ -237,8 +231,7 @@ extension OAMClientTypes {
 
         public init(
             filter: Swift.String? = nil
-        )
-        {
+        ) {
             self.filter = filter
         }
     }
@@ -256,8 +249,7 @@ extension OAMClientTypes {
         public init(
             logGroupConfiguration: OAMClientTypes.LogGroupConfiguration? = nil,
             metricConfiguration: OAMClientTypes.MetricConfiguration? = nil
-        )
-        {
+        ) {
             self.logGroupConfiguration = logGroupConfiguration
             self.metricConfiguration = metricConfiguration
         }
@@ -329,8 +321,7 @@ public struct CreateLinkInput: Swift.Sendable {
         resourceTypes: [OAMClientTypes.ResourceType]? = nil,
         sinkIdentifier: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.labelTemplate = labelTemplate
         self.linkConfiguration = linkConfiguration
         self.resourceTypes = resourceTypes
@@ -366,8 +357,7 @@ public struct CreateLinkOutput: Swift.Sendable {
         resourceTypes: [Swift.String]? = nil,
         sinkArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.id = id
         self.label = label
@@ -389,8 +379,7 @@ public struct CreateSinkInput: Swift.Sendable {
     public init(
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.name = name
         self.tags = tags
     }
@@ -411,8 +400,7 @@ public struct CreateSinkOutput: Swift.Sendable {
         id: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.id = id
         self.name = name
@@ -441,8 +429,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public init(
         amznErrorType: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.amznErrorType = amznErrorType
         self.properties.message = message
     }
@@ -455,8 +442,7 @@ public struct DeleteLinkInput: Swift.Sendable {
 
     public init(
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.identifier = identifier
     }
 }
@@ -473,8 +459,7 @@ public struct DeleteSinkInput: Swift.Sendable {
 
     public init(
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.identifier = identifier
     }
 }
@@ -491,8 +476,7 @@ public struct GetLinkInput: Swift.Sendable {
 
     public init(
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.identifier = identifier
     }
 }
@@ -524,8 +508,7 @@ public struct GetLinkOutput: Swift.Sendable {
         resourceTypes: [Swift.String]? = nil,
         sinkArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.id = id
         self.label = label
@@ -544,8 +527,7 @@ public struct GetSinkInput: Swift.Sendable {
 
     public init(
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.identifier = identifier
     }
 }
@@ -565,8 +547,7 @@ public struct GetSinkOutput: Swift.Sendable {
         id: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.id = id
         self.name = name
@@ -581,8 +562,7 @@ public struct GetSinkPolicyInput: Swift.Sendable {
 
     public init(
         sinkIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.sinkIdentifier = sinkIdentifier
     }
 }
@@ -599,8 +579,7 @@ public struct GetSinkPolicyOutput: Swift.Sendable {
         policy: Swift.String? = nil,
         sinkArn: Swift.String? = nil,
         sinkId: Swift.String? = nil
-    )
-    {
+    ) {
         self.policy = policy
         self.sinkArn = sinkArn
         self.sinkId = sinkId
@@ -620,8 +599,7 @@ public struct ListAttachedLinksInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sinkIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.sinkIdentifier = sinkIdentifier
@@ -643,8 +621,7 @@ extension OAMClientTypes {
             label: Swift.String? = nil,
             linkArn: Swift.String? = nil,
             resourceTypes: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.label = label
             self.linkArn = linkArn
             self.resourceTypes = resourceTypes
@@ -662,8 +639,7 @@ public struct ListAttachedLinksOutput: Swift.Sendable {
     public init(
         items: [OAMClientTypes.ListAttachedLinksItem]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -678,8 +654,7 @@ public struct ListLinksInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -706,8 +681,7 @@ extension OAMClientTypes {
             label: Swift.String? = nil,
             resourceTypes: [Swift.String]? = nil,
             sinkArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.id = id
             self.label = label
@@ -727,8 +701,7 @@ public struct ListLinksOutput: Swift.Sendable {
     public init(
         items: [OAMClientTypes.ListLinksItem]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -743,8 +716,7 @@ public struct ListSinksInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -765,8 +737,7 @@ extension OAMClientTypes {
             arn: Swift.String? = nil,
             id: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.id = id
             self.name = name
@@ -784,8 +755,7 @@ public struct ListSinksOutput: Swift.Sendable {
     public init(
         items: [OAMClientTypes.ListSinksItem]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -809,8 +779,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -822,8 +791,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -834,8 +802,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -851,8 +818,7 @@ public struct PutSinkPolicyInput: Swift.Sendable {
     public init(
         policy: Swift.String? = nil,
         sinkIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.policy = policy
         self.sinkIdentifier = sinkIdentifier
     }
@@ -870,8 +836,7 @@ public struct PutSinkPolicyOutput: Swift.Sendable {
         policy: Swift.String? = nil,
         sinkArn: Swift.String? = nil,
         sinkId: Swift.String? = nil
-    )
-    {
+    ) {
         self.policy = policy
         self.sinkArn = sinkArn
         self.sinkId = sinkId
@@ -896,8 +861,7 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -913,8 +877,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -936,8 +899,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -962,8 +924,7 @@ public struct UpdateLinkInput: Swift.Sendable {
         identifier: Swift.String? = nil,
         linkConfiguration: OAMClientTypes.LinkConfiguration? = nil,
         resourceTypes: [OAMClientTypes.ResourceType]? = nil
-    )
-    {
+    ) {
         self.identifier = identifier
         self.linkConfiguration = linkConfiguration
         self.resourceTypes = resourceTypes
@@ -997,8 +958,7 @@ public struct UpdateLinkOutput: Swift.Sendable {
         resourceTypes: [Swift.String]? = nil,
         sinkArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.id = id
         self.label = label

@@ -70,8 +70,7 @@ extension ServiceCatalogAppRegistryClientTypes {
             lastUpdateTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.applicationTag = applicationTag
             self.arn = arn
             self.creationTime = creationTime
@@ -108,8 +107,7 @@ extension ServiceCatalogAppRegistryClientTypes {
             id: Swift.String? = nil,
             lastUpdateTime: Foundation.Date? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.creationTime = creationTime
             self.description = description
@@ -170,8 +168,7 @@ extension ServiceCatalogAppRegistryClientTypes {
             resourceArn: Swift.String? = nil,
             resourceType: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorMessage = errorMessage
             self.resourceArn = resourceArn
             self.resourceType = resourceType
@@ -198,8 +195,7 @@ extension ServiceCatalogAppRegistryClientTypes {
             errorMessage: Swift.String? = nil,
             nextToken: Swift.String? = nil,
             resources: [ServiceCatalogAppRegistryClientTypes.ResourcesListItem]? = nil
-        )
-        {
+        ) {
             self.applicationTagStatus = applicationTagStatus
             self.errorMessage = errorMessage
             self.nextToken = nextToken
@@ -217,8 +213,7 @@ extension ServiceCatalogAppRegistryClientTypes {
 
         public init(
             tagKey: Swift.String? = nil
-        )
-        {
+        ) {
             self.tagKey = tagKey
         }
     }
@@ -233,8 +228,7 @@ extension ServiceCatalogAppRegistryClientTypes {
 
         public init(
             tagQueryConfiguration: ServiceCatalogAppRegistryClientTypes.TagQueryConfiguration? = nil
-        )
-        {
+        ) {
             self.tagQueryConfiguration = tagQueryConfiguration
         }
     }
@@ -258,8 +252,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -282,8 +275,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -306,8 +298,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -330,8 +321,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -354,8 +344,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -371,8 +360,7 @@ public struct AssociateAttributeGroupInput: Swift.Sendable {
     public init(
         application: Swift.String? = nil,
         attributeGroup: Swift.String? = nil
-    )
-    {
+    ) {
         self.application = application
         self.attributeGroup = attributeGroup
     }
@@ -387,8 +375,7 @@ public struct AssociateAttributeGroupOutput: Swift.Sendable {
     public init(
         applicationArn: Swift.String? = nil,
         attributeGroupArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationArn = applicationArn
         self.attributeGroupArn = attributeGroupArn
     }
@@ -417,8 +404,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         message: Swift.String? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.serviceCode = serviceCode
     }
@@ -500,8 +486,7 @@ public struct AssociateResourceInput: Swift.Sendable {
         options: [ServiceCatalogAppRegistryClientTypes.AssociationOption]? = nil,
         resource: Swift.String? = nil,
         resourceType: ServiceCatalogAppRegistryClientTypes.ResourceType? = nil
-    )
-    {
+    ) {
         self.application = application
         self.options = options
         self.resource = resource
@@ -521,8 +506,7 @@ public struct AssociateResourceOutput: Swift.Sendable {
         applicationArn: Swift.String? = nil,
         options: [ServiceCatalogAppRegistryClientTypes.AssociationOption]? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationArn = applicationArn
         self.options = options
         self.resourceArn = resourceArn
@@ -556,8 +540,7 @@ extension ServiceCatalogAppRegistryClientTypes {
             lastUpdateTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.creationTime = creationTime
             self.description = description
@@ -587,8 +570,7 @@ extension ServiceCatalogAppRegistryClientTypes {
             createdBy: Swift.String? = nil,
             id: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdBy = createdBy
             self.id = id
@@ -624,8 +606,7 @@ extension ServiceCatalogAppRegistryClientTypes {
             id: Swift.String? = nil,
             lastUpdateTime: Foundation.Date? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdBy = createdBy
             self.creationTime = creationTime
@@ -654,8 +635,7 @@ public struct CreateApplicationInput: Swift.Sendable {
         description: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.name = name
@@ -669,8 +649,7 @@ public struct CreateApplicationOutput: Swift.Sendable {
 
     public init(
         application: ServiceCatalogAppRegistryClientTypes.Application? = nil
-    )
-    {
+    ) {
         self.application = application
     }
 }
@@ -696,8 +675,7 @@ public struct CreateAttributeGroupInput: Swift.Sendable {
         description: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.attributes = attributes
         self.clientToken = clientToken
         self.description = description
@@ -712,8 +690,7 @@ public struct CreateAttributeGroupOutput: Swift.Sendable {
 
     public init(
         attributeGroup: ServiceCatalogAppRegistryClientTypes.AttributeGroup? = nil
-    )
-    {
+    ) {
         self.attributeGroup = attributeGroup
     }
 }
@@ -725,8 +702,7 @@ public struct DeleteApplicationInput: Swift.Sendable {
 
     public init(
         application: Swift.String? = nil
-    )
-    {
+    ) {
         self.application = application
     }
 }
@@ -737,8 +713,7 @@ public struct DeleteApplicationOutput: Swift.Sendable {
 
     public init(
         application: ServiceCatalogAppRegistryClientTypes.ApplicationSummary? = nil
-    )
-    {
+    ) {
         self.application = application
     }
 }
@@ -750,8 +725,7 @@ public struct DeleteAttributeGroupInput: Swift.Sendable {
 
     public init(
         attributeGroup: Swift.String? = nil
-    )
-    {
+    ) {
         self.attributeGroup = attributeGroup
     }
 }
@@ -762,8 +736,7 @@ public struct DeleteAttributeGroupOutput: Swift.Sendable {
 
     public init(
         attributeGroup: ServiceCatalogAppRegistryClientTypes.AttributeGroupSummary? = nil
-    )
-    {
+    ) {
         self.attributeGroup = attributeGroup
     }
 }
@@ -779,8 +752,7 @@ public struct DisassociateAttributeGroupInput: Swift.Sendable {
     public init(
         application: Swift.String? = nil,
         attributeGroup: Swift.String? = nil
-    )
-    {
+    ) {
         self.application = application
         self.attributeGroup = attributeGroup
     }
@@ -795,8 +767,7 @@ public struct DisassociateAttributeGroupOutput: Swift.Sendable {
     public init(
         applicationArn: Swift.String? = nil,
         attributeGroupArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationArn = applicationArn
         self.attributeGroupArn = attributeGroupArn
     }
@@ -817,8 +788,7 @@ public struct DisassociateResourceInput: Swift.Sendable {
         application: Swift.String? = nil,
         resource: Swift.String? = nil,
         resourceType: ServiceCatalogAppRegistryClientTypes.ResourceType? = nil
-    )
-    {
+    ) {
         self.application = application
         self.resource = resource
         self.resourceType = resourceType
@@ -834,8 +804,7 @@ public struct DisassociateResourceOutput: Swift.Sendable {
     public init(
         applicationArn: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationArn = applicationArn
         self.resourceArn = resourceArn
     }
@@ -848,8 +817,7 @@ public struct GetApplicationInput: Swift.Sendable {
 
     public init(
         application: Swift.String? = nil
-    )
-    {
+    ) {
         self.application = application
     }
 }
@@ -910,8 +878,7 @@ extension ServiceCatalogAppRegistryClientTypes {
             arn: Swift.String? = nil,
             errorMessage: Swift.String? = nil,
             state: ServiceCatalogAppRegistryClientTypes.ResourceGroupState? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.errorMessage = errorMessage
             self.state = state
@@ -931,8 +898,7 @@ extension ServiceCatalogAppRegistryClientTypes {
         public init(
             applicationTagResourceGroup: ServiceCatalogAppRegistryClientTypes.ResourceGroup? = nil,
             resourceGroup: ServiceCatalogAppRegistryClientTypes.ResourceGroup? = nil
-        )
-        {
+        ) {
             self.applicationTagResourceGroup = applicationTagResourceGroup
             self.resourceGroup = resourceGroup
         }
@@ -972,8 +938,7 @@ public struct GetApplicationOutput: Swift.Sendable {
         lastUpdateTime: Foundation.Date? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.applicationTag = applicationTag
         self.arn = arn
         self.associatedResourceCount = associatedResourceCount
@@ -1046,8 +1011,7 @@ public struct GetAssociatedResourceInput: Swift.Sendable {
         resource: Swift.String? = nil,
         resourceTagStatus: [ServiceCatalogAppRegistryClientTypes.ResourceItemStatus]? = nil,
         resourceType: ServiceCatalogAppRegistryClientTypes.ResourceType? = nil
-    )
-    {
+    ) {
         self.application = application
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1066,8 +1030,7 @@ extension ServiceCatalogAppRegistryClientTypes {
 
         public init(
             resourceGroup: ServiceCatalogAppRegistryClientTypes.ResourceGroup? = nil
-        )
-        {
+        ) {
             self.resourceGroup = resourceGroup
         }
     }
@@ -1091,8 +1054,7 @@ extension ServiceCatalogAppRegistryClientTypes {
             associationTime: Foundation.Date? = nil,
             integrations: ServiceCatalogAppRegistryClientTypes.ResourceIntegrations? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.associationTime = associationTime
             self.integrations = integrations
@@ -1113,8 +1075,7 @@ public struct GetAssociatedResourceOutput: Swift.Sendable {
         applicationTagResult: ServiceCatalogAppRegistryClientTypes.ApplicationTagResult? = nil,
         options: [ServiceCatalogAppRegistryClientTypes.AssociationOption]? = nil,
         resource: ServiceCatalogAppRegistryClientTypes.Resource? = nil
-    )
-    {
+    ) {
         self.applicationTagResult = applicationTagResult
         self.options = options
         self.resource = resource
@@ -1128,8 +1089,7 @@ public struct GetAttributeGroupInput: Swift.Sendable {
 
     public init(
         attributeGroup: Swift.String? = nil
-    )
-    {
+    ) {
         self.attributeGroup = attributeGroup
     }
 }
@@ -1164,8 +1124,7 @@ public struct GetAttributeGroupOutput: Swift.Sendable {
         lastUpdateTime: Foundation.Date? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.attributes = attributes
         self.createdBy = createdBy
@@ -1184,8 +1143,7 @@ public struct GetConfigurationOutput: Swift.Sendable {
 
     public init(
         configuration: ServiceCatalogAppRegistryClientTypes.AppRegistryConfiguration? = nil
-    )
-    {
+    ) {
         self.configuration = configuration
     }
 }
@@ -1199,8 +1157,7 @@ public struct ListApplicationsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -1215,8 +1172,7 @@ public struct ListApplicationsOutput: Swift.Sendable {
     public init(
         applications: [ServiceCatalogAppRegistryClientTypes.ApplicationSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.applications = applications
         self.nextToken = nextToken
     }
@@ -1235,8 +1191,7 @@ public struct ListAssociatedAttributeGroupsInput: Swift.Sendable {
         application: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.application = application
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1252,8 +1207,7 @@ public struct ListAssociatedAttributeGroupsOutput: Swift.Sendable {
     public init(
         attributeGroups: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.attributeGroups = attributeGroups
         self.nextToken = nextToken
     }
@@ -1272,8 +1226,7 @@ public struct ListAssociatedResourcesInput: Swift.Sendable {
         application: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.application = application
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1289,8 +1242,7 @@ extension ServiceCatalogAppRegistryClientTypes {
 
         public init(
             tagValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.tagValue = tagValue
         }
     }
@@ -1317,8 +1269,7 @@ extension ServiceCatalogAppRegistryClientTypes {
             options: [ServiceCatalogAppRegistryClientTypes.AssociationOption]? = nil,
             resourceDetails: ServiceCatalogAppRegistryClientTypes.ResourceDetails? = nil,
             resourceType: ServiceCatalogAppRegistryClientTypes.ResourceType? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.name = name
             self.options = options
@@ -1337,8 +1288,7 @@ public struct ListAssociatedResourcesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         resources: [ServiceCatalogAppRegistryClientTypes.ResourceInfo]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.resources = resources
     }
@@ -1353,8 +1303,7 @@ public struct ListAttributeGroupsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -1369,8 +1318,7 @@ public struct ListAttributeGroupsOutput: Swift.Sendable {
     public init(
         attributeGroups: [ServiceCatalogAppRegistryClientTypes.AttributeGroupSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.attributeGroups = attributeGroups
         self.nextToken = nextToken
     }
@@ -1389,8 +1337,7 @@ public struct ListAttributeGroupsForApplicationInput: Swift.Sendable {
         application: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.application = application
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1406,8 +1353,7 @@ public struct ListAttributeGroupsForApplicationOutput: Swift.Sendable {
     public init(
         attributeGroupsDetails: [ServiceCatalogAppRegistryClientTypes.AttributeGroupDetails]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.attributeGroupsDetails = attributeGroupsDetails
         self.nextToken = nextToken
     }
@@ -1420,8 +1366,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -1432,8 +1377,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -1445,8 +1389,7 @@ public struct PutConfigurationInput: Swift.Sendable {
 
     public init(
         configuration: ServiceCatalogAppRegistryClientTypes.AppRegistryConfiguration? = nil
-    )
-    {
+    ) {
         self.configuration = configuration
     }
 }
@@ -1462,8 +1405,7 @@ public struct SyncResourceInput: Swift.Sendable {
     public init(
         resource: Swift.String? = nil,
         resourceType: ServiceCatalogAppRegistryClientTypes.ResourceType? = nil
-    )
-    {
+    ) {
         self.resource = resource
         self.resourceType = resourceType
     }
@@ -1510,8 +1452,7 @@ public struct SyncResourceOutput: Swift.Sendable {
         actionTaken: ServiceCatalogAppRegistryClientTypes.SyncAction? = nil,
         applicationArn: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.actionTaken = actionTaken
         self.applicationArn = applicationArn
         self.resourceArn = resourceArn
@@ -1529,8 +1470,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -1552,8 +1492,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -1578,8 +1517,7 @@ public struct UpdateApplicationInput: Swift.Sendable {
         application: Swift.String? = nil,
         description: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.application = application
         self.description = description
         self.name = name
@@ -1592,8 +1530,7 @@ public struct UpdateApplicationOutput: Swift.Sendable {
 
     public init(
         application: ServiceCatalogAppRegistryClientTypes.Application? = nil
-    )
-    {
+    ) {
         self.application = application
     }
 }
@@ -1615,8 +1552,7 @@ public struct UpdateAttributeGroupInput: Swift.Sendable {
         attributes: Swift.String? = nil,
         description: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.attributeGroup = attributeGroup
         self.attributes = attributes
         self.description = description
@@ -1630,8 +1566,7 @@ public struct UpdateAttributeGroupOutput: Swift.Sendable {
 
     public init(
         attributeGroup: ServiceCatalogAppRegistryClientTypes.AttributeGroup? = nil
-    )
-    {
+    ) {
         self.attributeGroup = attributeGroup
     }
 }

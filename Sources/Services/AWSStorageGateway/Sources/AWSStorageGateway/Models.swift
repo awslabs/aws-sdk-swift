@@ -247,8 +247,7 @@ extension StorageGatewayClientTypes {
         public init(
             errorCode: StorageGatewayClientTypes.ErrorCode? = nil,
             errorDetails: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorDetails = errorDetails
         }
@@ -277,8 +276,7 @@ public struct InternalServerError: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         error: StorageGatewayClientTypes.StorageGatewayError? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.error = error
         self.properties.message = message
     }
@@ -306,8 +304,7 @@ public struct InvalidGatewayRequestException: ClientRuntime.ModeledError, AWSCli
     public init(
         error: StorageGatewayClientTypes.StorageGatewayError? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.error = error
         self.properties.message = message
     }
@@ -327,8 +324,7 @@ extension StorageGatewayClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -381,8 +377,7 @@ public struct ActivateGatewayInput: Swift.Sendable {
         mediumChangerType: Swift.String? = nil,
         tags: [StorageGatewayClientTypes.Tag]? = nil,
         tapeDriveType: Swift.String? = nil
-    )
-    {
+    ) {
         self.activationKey = activationKey
         self.gatewayName = gatewayName
         self.gatewayRegion = gatewayRegion
@@ -401,8 +396,7 @@ public struct ActivateGatewayOutput: Swift.Sendable {
 
     public init(
         gatewayARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.gatewayARN = gatewayARN
     }
 }
@@ -462,8 +456,7 @@ public struct AddCacheInput: Swift.Sendable {
     public init(
         diskIds: [Swift.String]? = nil,
         gatewayARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.diskIds = diskIds
         self.gatewayARN = gatewayARN
     }
@@ -475,8 +468,7 @@ public struct AddCacheOutput: Swift.Sendable {
 
     public init(
         gatewayARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.gatewayARN = gatewayARN
     }
 }
@@ -493,8 +485,7 @@ public struct AddTagsToResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tags: [StorageGatewayClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tags = tags
     }
@@ -507,8 +498,7 @@ public struct AddTagsToResourceOutput: Swift.Sendable {
 
     public init(
         resourceARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
     }
 }
@@ -524,8 +514,7 @@ public struct AddUploadBufferInput: Swift.Sendable {
     public init(
         diskIds: [Swift.String]? = nil,
         gatewayARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.diskIds = diskIds
         self.gatewayARN = gatewayARN
     }
@@ -537,8 +526,7 @@ public struct AddUploadBufferOutput: Swift.Sendable {
 
     public init(
         gatewayARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.gatewayARN = gatewayARN
     }
 }
@@ -557,8 +545,7 @@ public struct AddWorkingStorageInput: Swift.Sendable {
     public init(
         diskIds: [Swift.String]? = nil,
         gatewayARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.diskIds = diskIds
         self.gatewayARN = gatewayARN
     }
@@ -571,8 +558,7 @@ public struct AddWorkingStorageOutput: Swift.Sendable {
 
     public init(
         gatewayARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.gatewayARN = gatewayARN
     }
 }
@@ -591,8 +577,7 @@ public struct AssignTapePoolInput: Swift.Sendable {
         bypassGovernanceRetention: Swift.Bool? = false,
         poolId: Swift.String? = nil,
         tapeARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.bypassGovernanceRetention = bypassGovernanceRetention
         self.poolId = poolId
         self.tapeARN = tapeARN
@@ -605,8 +590,7 @@ public struct AssignTapePoolOutput: Swift.Sendable {
 
     public init(
         tapeARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.tapeARN = tapeARN
     }
 }
@@ -620,8 +604,7 @@ extension StorageGatewayClientTypes {
 
         public init(
             cacheStaleTimeoutInSeconds: Swift.Int? = nil
-        )
-        {
+        ) {
             self.cacheStaleTimeoutInSeconds = cacheStaleTimeoutInSeconds
         }
     }
@@ -636,8 +619,7 @@ extension StorageGatewayClientTypes {
 
         public init(
             ipAddresses: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.ipAddresses = ipAddresses
         }
     }
@@ -678,8 +660,7 @@ public struct AssociateFileSystemInput: Swift.Sendable {
         password: Swift.String? = nil,
         tags: [StorageGatewayClientTypes.Tag]? = nil,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.auditDestinationARN = auditDestinationARN
         self.cacheAttributes = cacheAttributes
         self.clientToken = clientToken
@@ -703,8 +684,7 @@ public struct AssociateFileSystemOutput: Swift.Sendable {
 
     public init(
         fileSystemAssociationARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.fileSystemAssociationARN = fileSystemAssociationARN
     }
 }
@@ -731,8 +711,7 @@ public struct AttachVolumeInput: Swift.Sendable {
         networkInterfaceId: Swift.String? = nil,
         targetName: Swift.String? = nil,
         volumeARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.diskId = diskId
         self.gatewayARN = gatewayARN
         self.networkInterfaceId = networkInterfaceId
@@ -751,8 +730,7 @@ public struct AttachVolumeOutput: Swift.Sendable {
     public init(
         targetARN: Swift.String? = nil,
         volumeARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.targetARN = targetARN
         self.volumeARN = volumeARN
     }
@@ -783,8 +761,7 @@ extension StorageGatewayClientTypes {
             tapeBarcodePrefix: Swift.String? = nil,
             tapeSizeInBytes: Swift.Int? = nil,
             worm: Swift.Bool = false
-        )
-        {
+        ) {
             self.minimumNumTapes = minimumNumTapes
             self.poolId = poolId
             self.tapeBarcodePrefix = tapeBarcodePrefix
@@ -806,8 +783,7 @@ extension StorageGatewayClientTypes {
         public init(
             automaticTapeCreationRules: [StorageGatewayClientTypes.AutomaticTapeCreationRule]? = nil,
             gatewayARN: Swift.String? = nil
-        )
-        {
+        ) {
             self.automaticTapeCreationRules = automaticTapeCreationRules
             self.gatewayARN = gatewayARN
         }
@@ -907,8 +883,7 @@ extension StorageGatewayClientTypes {
             endMinuteOfHour: Swift.Int? = nil,
             startHourOfDay: Swift.Int? = nil,
             startMinuteOfHour: Swift.Int? = nil
-        )
-        {
+        ) {
             self.averageDownloadRateLimitInBitsPerSec = averageDownloadRateLimitInBitsPerSec
             self.averageUploadRateLimitInBitsPerSec = averageUploadRateLimitInBitsPerSec
             self.daysOfWeek = daysOfWeek
@@ -941,8 +916,7 @@ extension StorageGatewayClientTypes {
             networkInterfaceId: Swift.String? = nil,
             networkInterfacePort: Swift.Int = 0,
             targetARN: Swift.String? = nil
-        )
-        {
+        ) {
             self.chapEnabled = chapEnabled
             self.lunNumber = lunNumber
             self.networkInterfaceId = networkInterfaceId
@@ -997,8 +971,7 @@ extension StorageGatewayClientTypes {
             volumeType: Swift.String? = nil,
             volumeUsedInBytes: Swift.Int? = nil,
             volumeiSCSIAttributes: StorageGatewayClientTypes.VolumeiSCSIAttributes? = nil
-        )
-        {
+        ) {
             self.createdDate = createdDate
             self.kmsKey = kmsKey
             self.sourceSnapshotId = sourceSnapshotId
@@ -1028,8 +1001,7 @@ public struct CancelArchivalInput: Swift.Sendable {
     public init(
         gatewayARN: Swift.String? = nil,
         tapeARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.gatewayARN = gatewayARN
         self.tapeARN = tapeARN
     }
@@ -1042,8 +1014,7 @@ public struct CancelArchivalOutput: Swift.Sendable {
 
     public init(
         tapeARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.tapeARN = tapeARN
     }
 }
@@ -1060,8 +1031,7 @@ public struct CancelRetrievalInput: Swift.Sendable {
     public init(
         gatewayARN: Swift.String? = nil,
         tapeARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.gatewayARN = gatewayARN
         self.tapeARN = tapeARN
     }
@@ -1074,8 +1044,7 @@ public struct CancelRetrievalOutput: Swift.Sendable {
 
     public init(
         tapeARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.tapeARN = tapeARN
     }
 }
@@ -1127,8 +1096,7 @@ extension StorageGatewayClientTypes {
             secretToAuthenticateInitiator: Swift.String? = nil,
             secretToAuthenticateTarget: Swift.String? = nil,
             targetARN: Swift.String? = nil
-        )
-        {
+        ) {
             self.initiatorName = initiatorName
             self.secretToAuthenticateInitiator = secretToAuthenticateInitiator
             self.secretToAuthenticateTarget = secretToAuthenticateTarget
@@ -1180,8 +1148,7 @@ public struct CreateCachediSCSIVolumeInput: Swift.Sendable {
         tags: [StorageGatewayClientTypes.Tag]? = nil,
         targetName: Swift.String? = nil,
         volumeSizeInBytes: Swift.Int? = 0
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.gatewayARN = gatewayARN
         self.kmsEncrypted = kmsEncrypted
@@ -1204,8 +1171,7 @@ public struct CreateCachediSCSIVolumeOutput: Swift.Sendable {
     public init(
         targetARN: Swift.String? = nil,
         volumeARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.targetARN = targetARN
         self.volumeARN = volumeARN
     }
@@ -1261,8 +1227,7 @@ extension StorageGatewayClientTypes {
             fileMode: Swift.String? = nil,
             groupId: Swift.Int? = nil,
             ownerId: Swift.Int? = nil
-        )
-        {
+        ) {
             self.directoryMode = directoryMode
             self.fileMode = fileMode
             self.groupId = groupId
@@ -1397,8 +1362,7 @@ public struct CreateNFSFileShareInput: Swift.Sendable {
         squash: Swift.String? = nil,
         tags: [StorageGatewayClientTypes.Tag]? = nil,
         vpcEndpointDNSName: Swift.String? = nil
-    )
-    {
+    ) {
         self.auditDestinationARN = auditDestinationARN
         self.bucketRegion = bucketRegion
         self.cacheAttributes = cacheAttributes
@@ -1431,8 +1395,7 @@ public struct CreateNFSFileShareOutput: Swift.Sendable {
 
     public init(
         fileShareARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.fileShareARN = fileShareARN
     }
 }
@@ -1527,8 +1490,7 @@ public struct CreateSMBFileShareInput: Swift.Sendable {
         tags: [StorageGatewayClientTypes.Tag]? = nil,
         validUserList: [Swift.String]? = nil,
         vpcEndpointDNSName: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessBasedEnumeration = accessBasedEnumeration
         self.adminUserList = adminUserList
         self.auditDestinationARN = auditDestinationARN
@@ -1566,8 +1528,7 @@ public struct CreateSMBFileShareOutput: Swift.Sendable {
 
     public init(
         fileShareARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.fileShareARN = fileShareARN
     }
 }
@@ -1594,8 +1555,7 @@ public struct ServiceUnavailableError: ClientRuntime.ModeledError, AWSClientRunt
     public init(
         error: StorageGatewayClientTypes.StorageGatewayError? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.error = error
         self.properties.message = message
     }
@@ -1620,8 +1580,7 @@ public struct CreateSnapshotInput: Swift.Sendable {
         snapshotDescription: Swift.String? = nil,
         tags: [StorageGatewayClientTypes.Tag]? = nil,
         volumeARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.snapshotDescription = snapshotDescription
         self.tags = tags
         self.volumeARN = volumeARN
@@ -1638,8 +1597,7 @@ public struct CreateSnapshotOutput: Swift.Sendable {
     public init(
         snapshotId: Swift.String? = nil,
         volumeARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.snapshotId = snapshotId
         self.volumeARN = volumeARN
     }
@@ -1659,8 +1617,7 @@ public struct CreateSnapshotFromVolumeRecoveryPointInput: Swift.Sendable {
         snapshotDescription: Swift.String? = nil,
         tags: [StorageGatewayClientTypes.Tag]? = nil,
         volumeARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.snapshotDescription = snapshotDescription
         self.tags = tags
         self.volumeARN = volumeARN
@@ -1679,8 +1636,7 @@ public struct CreateSnapshotFromVolumeRecoveryPointOutput: Swift.Sendable {
         snapshotId: Swift.String? = nil,
         volumeARN: Swift.String? = nil,
         volumeRecoveryPointTime: Swift.String? = nil
-    )
-    {
+    ) {
         self.snapshotId = snapshotId
         self.volumeARN = volumeARN
         self.volumeRecoveryPointTime = volumeRecoveryPointTime
@@ -1733,8 +1689,7 @@ public struct CreateStorediSCSIVolumeInput: Swift.Sendable {
         snapshotId: Swift.String? = nil,
         tags: [StorageGatewayClientTypes.Tag]? = nil,
         targetName: Swift.String? = nil
-    )
-    {
+    ) {
         self.diskId = diskId
         self.gatewayARN = gatewayARN
         self.kmsEncrypted = kmsEncrypted
@@ -1760,8 +1715,7 @@ public struct CreateStorediSCSIVolumeOutput: Swift.Sendable {
         targetARN: Swift.String? = nil,
         volumeARN: Swift.String? = nil,
         volumeSizeInBytes: Swift.Int = 0
-    )
-    {
+    ) {
         self.targetARN = targetARN
         self.volumeARN = volumeARN
         self.volumeSizeInBytes = volumeSizeInBytes
@@ -1849,8 +1803,7 @@ public struct CreateTapePoolInput: Swift.Sendable {
         retentionLockType: StorageGatewayClientTypes.RetentionLockType? = nil,
         storageClass: StorageGatewayClientTypes.TapeStorageClass? = nil,
         tags: [StorageGatewayClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.poolName = poolName
         self.retentionLockTimeInDays = retentionLockTimeInDays
         self.retentionLockType = retentionLockType
@@ -1865,8 +1818,7 @@ public struct CreateTapePoolOutput: Swift.Sendable {
 
     public init(
         poolARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.poolARN = poolARN
     }
 }
@@ -1910,8 +1862,7 @@ public struct CreateTapesInput: Swift.Sendable {
         tapeBarcodePrefix: Swift.String? = nil,
         tapeSizeInBytes: Swift.Int? = nil,
         worm: Swift.Bool? = false
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.gatewayARN = gatewayARN
         self.kmsEncrypted = kmsEncrypted
@@ -1932,8 +1883,7 @@ public struct CreateTapesOutput: Swift.Sendable {
 
     public init(
         tapeARNs: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.tapeARNs = tapeARNs
     }
 }
@@ -1969,8 +1919,7 @@ public struct CreateTapeWithBarcodeInput: Swift.Sendable {
         tapeBarcode: Swift.String? = nil,
         tapeSizeInBytes: Swift.Int? = nil,
         worm: Swift.Bool? = false
-    )
-    {
+    ) {
         self.gatewayARN = gatewayARN
         self.kmsEncrypted = kmsEncrypted
         self.kmsKey = kmsKey
@@ -1989,8 +1938,7 @@ public struct CreateTapeWithBarcodeOutput: Swift.Sendable {
 
     public init(
         tapeARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.tapeARN = tapeARN
     }
 }
@@ -2002,8 +1950,7 @@ public struct DeleteAutomaticTapeCreationPolicyInput: Swift.Sendable {
 
     public init(
         gatewayARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.gatewayARN = gatewayARN
     }
 }
@@ -2014,8 +1961,7 @@ public struct DeleteAutomaticTapeCreationPolicyOutput: Swift.Sendable {
 
     public init(
         gatewayARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.gatewayARN = gatewayARN
     }
 }
@@ -2034,8 +1980,7 @@ public struct DeleteBandwidthRateLimitInput: Swift.Sendable {
     public init(
         bandwidthType: Swift.String? = nil,
         gatewayARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.bandwidthType = bandwidthType
         self.gatewayARN = gatewayARN
     }
@@ -2048,8 +1993,7 @@ public struct DeleteBandwidthRateLimitOutput: Swift.Sendable {
 
     public init(
         gatewayARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.gatewayARN = gatewayARN
     }
 }
@@ -2070,8 +2014,7 @@ public struct DeleteChapCredentialsInput: Swift.Sendable {
     public init(
         initiatorName: Swift.String? = nil,
         targetARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.initiatorName = initiatorName
         self.targetARN = targetARN
     }
@@ -2087,8 +2030,7 @@ public struct DeleteChapCredentialsOutput: Swift.Sendable {
     public init(
         initiatorName: Swift.String? = nil,
         targetARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.initiatorName = initiatorName
         self.targetARN = targetARN
     }
@@ -2105,8 +2047,7 @@ public struct DeleteFileShareInput: Swift.Sendable {
     public init(
         fileShareARN: Swift.String? = nil,
         forceDelete: Swift.Bool? = false
-    )
-    {
+    ) {
         self.fileShareARN = fileShareARN
         self.forceDelete = forceDelete
     }
@@ -2119,8 +2060,7 @@ public struct DeleteFileShareOutput: Swift.Sendable {
 
     public init(
         fileShareARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.fileShareARN = fileShareARN
     }
 }
@@ -2133,8 +2073,7 @@ public struct DeleteGatewayInput: Swift.Sendable {
 
     public init(
         gatewayARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.gatewayARN = gatewayARN
     }
 }
@@ -2146,8 +2085,7 @@ public struct DeleteGatewayOutput: Swift.Sendable {
 
     public init(
         gatewayARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.gatewayARN = gatewayARN
     }
 }
@@ -2159,8 +2097,7 @@ public struct DeleteSnapshotScheduleInput: Swift.Sendable {
 
     public init(
         volumeARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.volumeARN = volumeARN
     }
 }
@@ -2171,8 +2108,7 @@ public struct DeleteSnapshotScheduleOutput: Swift.Sendable {
 
     public init(
         volumeARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.volumeARN = volumeARN
     }
 }
@@ -2192,8 +2128,7 @@ public struct DeleteTapeInput: Swift.Sendable {
         bypassGovernanceRetention: Swift.Bool? = false,
         gatewayARN: Swift.String? = nil,
         tapeARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.bypassGovernanceRetention = bypassGovernanceRetention
         self.gatewayARN = gatewayARN
         self.tapeARN = tapeARN
@@ -2207,8 +2142,7 @@ public struct DeleteTapeOutput: Swift.Sendable {
 
     public init(
         tapeARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.tapeARN = tapeARN
     }
 }
@@ -2224,8 +2158,7 @@ public struct DeleteTapeArchiveInput: Swift.Sendable {
     public init(
         bypassGovernanceRetention: Swift.Bool? = false,
         tapeARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.bypassGovernanceRetention = bypassGovernanceRetention
         self.tapeARN = tapeARN
     }
@@ -2238,8 +2171,7 @@ public struct DeleteTapeArchiveOutput: Swift.Sendable {
 
     public init(
         tapeARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.tapeARN = tapeARN
     }
 }
@@ -2251,8 +2183,7 @@ public struct DeleteTapePoolInput: Swift.Sendable {
 
     public init(
         poolARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.poolARN = poolARN
     }
 }
@@ -2263,8 +2194,7 @@ public struct DeleteTapePoolOutput: Swift.Sendable {
 
     public init(
         poolARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.poolARN = poolARN
     }
 }
@@ -2277,8 +2207,7 @@ public struct DeleteVolumeInput: Swift.Sendable {
 
     public init(
         volumeARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.volumeARN = volumeARN
     }
 }
@@ -2290,8 +2219,7 @@ public struct DeleteVolumeOutput: Swift.Sendable {
 
     public init(
         volumeARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.volumeARN = volumeARN
     }
 }
@@ -2303,8 +2231,7 @@ public struct DescribeAvailabilityMonitorTestInput: Swift.Sendable {
 
     public init(
         gatewayARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.gatewayARN = gatewayARN
     }
 }
@@ -2321,8 +2248,7 @@ public struct DescribeAvailabilityMonitorTestOutput: Swift.Sendable {
         gatewayARN: Swift.String? = nil,
         startTime: Foundation.Date? = nil,
         status: StorageGatewayClientTypes.AvailabilityMonitorTestStatus? = nil
-    )
-    {
+    ) {
         self.gatewayARN = gatewayARN
         self.startTime = startTime
         self.status = status
@@ -2337,8 +2263,7 @@ public struct DescribeBandwidthRateLimitInput: Swift.Sendable {
 
     public init(
         gatewayARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.gatewayARN = gatewayARN
     }
 }
@@ -2356,8 +2281,7 @@ public struct DescribeBandwidthRateLimitOutput: Swift.Sendable {
         averageDownloadRateLimitInBitsPerSec: Swift.Int? = nil,
         averageUploadRateLimitInBitsPerSec: Swift.Int? = nil,
         gatewayARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.averageDownloadRateLimitInBitsPerSec = averageDownloadRateLimitInBitsPerSec
         self.averageUploadRateLimitInBitsPerSec = averageUploadRateLimitInBitsPerSec
         self.gatewayARN = gatewayARN
@@ -2371,8 +2295,7 @@ public struct DescribeBandwidthRateLimitScheduleInput: Swift.Sendable {
 
     public init(
         gatewayARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.gatewayARN = gatewayARN
     }
 }
@@ -2386,8 +2309,7 @@ public struct DescribeBandwidthRateLimitScheduleOutput: Swift.Sendable {
     public init(
         bandwidthRateLimitIntervals: [StorageGatewayClientTypes.BandwidthRateLimitInterval]? = nil,
         gatewayARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.bandwidthRateLimitIntervals = bandwidthRateLimitIntervals
         self.gatewayARN = gatewayARN
     }
@@ -2400,8 +2322,7 @@ public struct DescribeCacheInput: Swift.Sendable {
 
     public init(
         gatewayARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.gatewayARN = gatewayARN
     }
 }
@@ -2430,8 +2351,7 @@ public struct DescribeCacheOutput: Swift.Sendable {
         cacheUsedPercentage: Swift.Double = 0.0,
         diskIds: [Swift.String]? = nil,
         gatewayARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.cacheAllocatedInBytes = cacheAllocatedInBytes
         self.cacheDirtyPercentage = cacheDirtyPercentage
         self.cacheHitPercentage = cacheHitPercentage
@@ -2449,8 +2369,7 @@ public struct DescribeCachediSCSIVolumesInput: Swift.Sendable {
 
     public init(
         volumeARNs: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.volumeARNs = volumeARNs
     }
 }
@@ -2462,8 +2381,7 @@ public struct DescribeCachediSCSIVolumesOutput: Swift.Sendable {
 
     public init(
         cachediSCSIVolumes: [StorageGatewayClientTypes.CachediSCSIVolume]? = nil
-    )
-    {
+    ) {
         self.cachediSCSIVolumes = cachediSCSIVolumes
     }
 }
@@ -2476,8 +2394,7 @@ public struct DescribeChapCredentialsInput: Swift.Sendable {
 
     public init(
         targetARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.targetARN = targetARN
     }
 }
@@ -2497,8 +2414,7 @@ public struct DescribeChapCredentialsOutput: Swift.Sendable {
 
     public init(
         chapCredentials: [StorageGatewayClientTypes.ChapInfo]? = nil
-    )
-    {
+    ) {
         self.chapCredentials = chapCredentials
     }
 }
@@ -2510,8 +2426,7 @@ public struct DescribeFileSystemAssociationsInput: Swift.Sendable {
 
     public init(
         fileSystemAssociationARNList: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.fileSystemAssociationARNList = fileSystemAssociationARNList
     }
 }
@@ -2525,8 +2440,7 @@ extension StorageGatewayClientTypes {
 
         public init(
             errorCode: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
         }
     }
@@ -2565,8 +2479,7 @@ extension StorageGatewayClientTypes {
             gatewayARN: Swift.String? = nil,
             locationARN: Swift.String? = nil,
             tags: [StorageGatewayClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.auditDestinationARN = auditDestinationARN
             self.cacheAttributes = cacheAttributes
             self.endpointNetworkConfiguration = endpointNetworkConfiguration
@@ -2586,8 +2499,7 @@ public struct DescribeFileSystemAssociationsOutput: Swift.Sendable {
 
     public init(
         fileSystemAssociationInfoList: [StorageGatewayClientTypes.FileSystemAssociationInfo]? = nil
-    )
-    {
+    ) {
         self.fileSystemAssociationInfoList = fileSystemAssociationInfoList
     }
 }
@@ -2600,8 +2512,7 @@ public struct DescribeGatewayInformationInput: Swift.Sendable {
 
     public init(
         gatewayARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.gatewayARN = gatewayARN
     }
 }
@@ -2653,8 +2564,7 @@ extension StorageGatewayClientTypes {
             ipv4Address: Swift.String? = nil,
             ipv6Address: Swift.String? = nil,
             macAddress: Swift.String? = nil
-        )
-        {
+        ) {
             self.ipv4Address = ipv4Address
             self.ipv6Address = ipv6Address
             self.macAddress = macAddress
@@ -2779,8 +2689,7 @@ public struct DescribeGatewayInformationOutput: Swift.Sendable {
         supportedGatewayCapacities: [StorageGatewayClientTypes.GatewayCapacity]? = nil,
         tags: [StorageGatewayClientTypes.Tag]? = nil,
         vpcEndpoint: Swift.String? = nil
-    )
-    {
+    ) {
         self.cloudWatchLogGroupARN = cloudWatchLogGroupARN
         self.deprecationDate = deprecationDate
         self.ec2InstanceId = ec2InstanceId
@@ -2819,8 +2728,7 @@ public struct DescribeMaintenanceStartTimeInput: Swift.Sendable {
 
     public init(
         gatewayARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.gatewayARN = gatewayARN
     }
 }
@@ -2834,8 +2742,7 @@ extension StorageGatewayClientTypes {
 
         public init(
             automaticUpdatePolicy: StorageGatewayClientTypes.AutomaticUpdatePolicy? = nil
-        )
-        {
+        ) {
             self.automaticUpdatePolicy = automaticUpdatePolicy
         }
     }
@@ -2878,8 +2785,7 @@ public struct DescribeMaintenanceStartTimeOutput: Swift.Sendable {
         minuteOfHour: Swift.Int? = nil,
         softwareUpdatePreferences: StorageGatewayClientTypes.SoftwareUpdatePreferences? = nil,
         timezone: Swift.String? = nil
-    )
-    {
+    ) {
         self.dayOfMonth = dayOfMonth
         self.dayOfWeek = dayOfWeek
         self.gatewayARN = gatewayARN
@@ -2898,8 +2804,7 @@ public struct DescribeNFSFileSharesInput: Swift.Sendable {
 
     public init(
         fileShareARNList: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.fileShareARNList = fileShareARNList
     }
 }
@@ -2992,8 +2897,7 @@ extension StorageGatewayClientTypes {
             squash: Swift.String? = nil,
             tags: [StorageGatewayClientTypes.Tag]? = nil,
             vpcEndpointDNSName: Swift.String? = nil
-        )
-        {
+        ) {
             self.auditDestinationARN = auditDestinationARN
             self.bucketRegion = bucketRegion
             self.cacheAttributes = cacheAttributes
@@ -3030,8 +2934,7 @@ public struct DescribeNFSFileSharesOutput: Swift.Sendable {
 
     public init(
         nfsFileShareInfoList: [StorageGatewayClientTypes.NFSFileShareInfo]? = nil
-    )
-    {
+    ) {
         self.nfsFileShareInfoList = nfsFileShareInfoList
     }
 }
@@ -3044,8 +2947,7 @@ public struct DescribeSMBFileSharesInput: Swift.Sendable {
 
     public init(
         fileShareARNList: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.fileShareARNList = fileShareARNList
     }
 }
@@ -3147,8 +3049,7 @@ extension StorageGatewayClientTypes {
             tags: [StorageGatewayClientTypes.Tag]? = nil,
             validUserList: [Swift.String]? = nil,
             vpcEndpointDNSName: Swift.String? = nil
-        )
-        {
+        ) {
             self.accessBasedEnumeration = accessBasedEnumeration
             self.adminUserList = adminUserList
             self.auditDestinationARN = auditDestinationARN
@@ -3190,8 +3091,7 @@ public struct DescribeSMBFileSharesOutput: Swift.Sendable {
 
     public init(
         smbFileShareInfoList: [StorageGatewayClientTypes.SMBFileShareInfo]? = nil
-    )
-    {
+    ) {
         self.smbFileShareInfoList = smbFileShareInfoList
     }
 }
@@ -3203,8 +3103,7 @@ public struct DescribeSMBSettingsInput: Swift.Sendable {
 
     public init(
         gatewayARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.gatewayARN = gatewayARN
     }
 }
@@ -3218,8 +3117,7 @@ extension StorageGatewayClientTypes {
 
         public init(
             gatewayAdmins: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.gatewayAdmins = gatewayAdmins
         }
     }
@@ -3306,8 +3204,7 @@ public struct DescribeSMBSettingsOutput: Swift.Sendable {
         smbGuestPasswordSet: Swift.Bool? = nil,
         smbLocalGroups: StorageGatewayClientTypes.SMBLocalGroups? = nil,
         smbSecurityStrategy: StorageGatewayClientTypes.SMBSecurityStrategy? = nil
-    )
-    {
+    ) {
         self.activeDirectoryStatus = activeDirectoryStatus
         self.domainName = domainName
         self.fileSharesVisible = fileSharesVisible
@@ -3326,8 +3223,7 @@ public struct DescribeSnapshotScheduleInput: Swift.Sendable {
 
     public init(
         volumeARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.volumeARN = volumeARN
     }
 }
@@ -3353,8 +3249,7 @@ public struct DescribeSnapshotScheduleOutput: Swift.Sendable {
         tags: [StorageGatewayClientTypes.Tag]? = nil,
         timezone: Swift.String? = nil,
         volumeARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.recurrenceInHours = recurrenceInHours
         self.startAt = startAt
@@ -3372,8 +3267,7 @@ public struct DescribeStorediSCSIVolumesInput: Swift.Sendable {
 
     public init(
         volumeARNs: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.volumeARNs = volumeARNs
     }
 }
@@ -3429,8 +3323,7 @@ extension StorageGatewayClientTypes {
             volumeType: Swift.String? = nil,
             volumeUsedInBytes: Swift.Int? = nil,
             volumeiSCSIAttributes: StorageGatewayClientTypes.VolumeiSCSIAttributes? = nil
-        )
-        {
+        ) {
             self.createdDate = createdDate
             self.kmsKey = kmsKey
             self.preservedExistingData = preservedExistingData
@@ -3488,8 +3381,7 @@ public struct DescribeStorediSCSIVolumesOutput: Swift.Sendable {
 
     public init(
         storediSCSIVolumes: [StorageGatewayClientTypes.StorediSCSIVolume]? = nil
-    )
-    {
+    ) {
         self.storediSCSIVolumes = storediSCSIVolumes
     }
 }
@@ -3507,8 +3399,7 @@ public struct DescribeTapeArchivesInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         marker: Swift.String? = nil,
         tapeARNs: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.marker = marker
         self.tapeARNs = tapeARNs
@@ -3560,8 +3451,7 @@ extension StorageGatewayClientTypes {
             tapeStatus: Swift.String? = nil,
             tapeUsedInBytes: Swift.Int? = nil,
             worm: Swift.Bool = false
-        )
-        {
+        ) {
             self.completionTime = completionTime
             self.kmsKey = kmsKey
             self.poolEntryDate = poolEntryDate
@@ -3589,8 +3479,7 @@ public struct DescribeTapeArchivesOutput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         tapeArchives: [StorageGatewayClientTypes.TapeArchive]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.tapeArchives = tapeArchives
     }
@@ -3610,8 +3499,7 @@ public struct DescribeTapeRecoveryPointsInput: Swift.Sendable {
         gatewayARN: Swift.String? = nil,
         limit: Swift.Int? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.gatewayARN = gatewayARN
         self.limit = limit
         self.marker = marker
@@ -3636,8 +3524,7 @@ extension StorageGatewayClientTypes {
             tapeRecoveryPointTime: Foundation.Date? = nil,
             tapeSizeInBytes: Swift.Int? = nil,
             tapeStatus: Swift.String? = nil
-        )
-        {
+        ) {
             self.tapeARN = tapeARN
             self.tapeRecoveryPointTime = tapeRecoveryPointTime
             self.tapeSizeInBytes = tapeSizeInBytes
@@ -3659,8 +3546,7 @@ public struct DescribeTapeRecoveryPointsOutput: Swift.Sendable {
         gatewayARN: Swift.String? = nil,
         marker: Swift.String? = nil,
         tapeRecoveryPointInfos: [StorageGatewayClientTypes.TapeRecoveryPointInfo]? = nil
-    )
-    {
+    ) {
         self.gatewayARN = gatewayARN
         self.marker = marker
         self.tapeRecoveryPointInfos = tapeRecoveryPointInfos
@@ -3684,8 +3570,7 @@ public struct DescribeTapesInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         marker: Swift.String? = nil,
         tapeARNs: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.gatewayARN = gatewayARN
         self.limit = limit
         self.marker = marker
@@ -3738,8 +3623,7 @@ extension StorageGatewayClientTypes {
             tapeUsedInBytes: Swift.Int? = nil,
             vtlDevice: Swift.String? = nil,
             worm: Swift.Bool = false
-        )
-        {
+        ) {
             self.kmsKey = kmsKey
             self.poolEntryDate = poolEntryDate
             self.poolId = poolId
@@ -3767,8 +3651,7 @@ public struct DescribeTapesOutput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         tapes: [StorageGatewayClientTypes.Tape]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.tapes = tapes
     }
@@ -3781,8 +3664,7 @@ public struct DescribeUploadBufferInput: Swift.Sendable {
 
     public init(
         gatewayARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.gatewayARN = gatewayARN
     }
 }
@@ -3802,8 +3684,7 @@ public struct DescribeUploadBufferOutput: Swift.Sendable {
         gatewayARN: Swift.String? = nil,
         uploadBufferAllocatedInBytes: Swift.Int = 0,
         uploadBufferUsedInBytes: Swift.Int = 0
-    )
-    {
+    ) {
         self.diskIds = diskIds
         self.gatewayARN = gatewayARN
         self.uploadBufferAllocatedInBytes = uploadBufferAllocatedInBytes
@@ -3828,8 +3709,7 @@ public struct DescribeVTLDevicesInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         marker: Swift.String? = nil,
         vtlDeviceARNs: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.gatewayARN = gatewayARN
         self.limit = limit
         self.marker = marker
@@ -3855,8 +3735,7 @@ extension StorageGatewayClientTypes {
             networkInterfaceId: Swift.String? = nil,
             networkInterfacePort: Swift.Int = 0,
             targetARN: Swift.String? = nil
-        )
-        {
+        ) {
             self.chapEnabled = chapEnabled
             self.networkInterfaceId = networkInterfaceId
             self.networkInterfacePort = networkInterfacePort
@@ -3886,8 +3765,7 @@ extension StorageGatewayClientTypes {
             vtlDeviceProductIdentifier: Swift.String? = nil,
             vtlDeviceType: Swift.String? = nil,
             vtlDeviceVendor: Swift.String? = nil
-        )
-        {
+        ) {
             self.deviceiSCSIAttributes = deviceiSCSIAttributes
             self.vtlDeviceARN = vtlDeviceARN
             self.vtlDeviceProductIdentifier = vtlDeviceProductIdentifier
@@ -3910,8 +3788,7 @@ public struct DescribeVTLDevicesOutput: Swift.Sendable {
         gatewayARN: Swift.String? = nil,
         marker: Swift.String? = nil,
         vtlDevices: [StorageGatewayClientTypes.VTLDevice]? = nil
-    )
-    {
+    ) {
         self.gatewayARN = gatewayARN
         self.marker = marker
         self.vtlDevices = vtlDevices
@@ -3926,8 +3803,7 @@ public struct DescribeWorkingStorageInput: Swift.Sendable {
 
     public init(
         gatewayARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.gatewayARN = gatewayARN
     }
 }
@@ -3948,8 +3824,7 @@ public struct DescribeWorkingStorageOutput: Swift.Sendable {
         gatewayARN: Swift.String? = nil,
         workingStorageAllocatedInBytes: Swift.Int = 0,
         workingStorageUsedInBytes: Swift.Int = 0
-    )
-    {
+    ) {
         self.diskIds = diskIds
         self.gatewayARN = gatewayARN
         self.workingStorageAllocatedInBytes = workingStorageAllocatedInBytes
@@ -3968,8 +3843,7 @@ public struct DetachVolumeInput: Swift.Sendable {
     public init(
         forceDetach: Swift.Bool? = nil,
         volumeARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.forceDetach = forceDetach
         self.volumeARN = volumeARN
     }
@@ -3982,8 +3856,7 @@ public struct DetachVolumeOutput: Swift.Sendable {
 
     public init(
         volumeARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.volumeARN = volumeARN
     }
 }
@@ -3996,8 +3869,7 @@ public struct DisableGatewayInput: Swift.Sendable {
 
     public init(
         gatewayARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.gatewayARN = gatewayARN
     }
 }
@@ -4009,8 +3881,7 @@ public struct DisableGatewayOutput: Swift.Sendable {
 
     public init(
         gatewayARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.gatewayARN = gatewayARN
     }
 }
@@ -4025,8 +3896,7 @@ public struct DisassociateFileSystemInput: Swift.Sendable {
     public init(
         fileSystemAssociationARN: Swift.String? = nil,
         forceDelete: Swift.Bool? = false
-    )
-    {
+    ) {
         self.fileSystemAssociationARN = fileSystemAssociationARN
         self.forceDelete = forceDelete
     }
@@ -4038,8 +3908,7 @@ public struct DisassociateFileSystemOutput: Swift.Sendable {
 
     public init(
         fileSystemAssociationARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.fileSystemAssociationARN = fileSystemAssociationARN
     }
 }
@@ -4074,8 +3943,7 @@ extension StorageGatewayClientTypes {
             diskPath: Swift.String? = nil,
             diskSizeInBytes: Swift.Int = 0,
             diskStatus: Swift.String? = nil
-        )
-        {
+        ) {
             self.diskAllocationResource = diskAllocationResource
             self.diskAllocationType = diskAllocationType
             self.diskAttributeList = diskAttributeList
@@ -4139,8 +4007,7 @@ extension StorageGatewayClientTypes {
             fileShareStatus: Swift.String? = nil,
             fileShareType: StorageGatewayClientTypes.FileShareType? = nil,
             gatewayARN: Swift.String? = nil
-        )
-        {
+        ) {
             self.fileShareARN = fileShareARN
             self.fileShareId = fileShareId
             self.fileShareStatus = fileShareStatus
@@ -4168,8 +4035,7 @@ extension StorageGatewayClientTypes {
             fileSystemAssociationId: Swift.String? = nil,
             fileSystemAssociationStatus: Swift.String? = nil,
             gatewayARN: Swift.String? = nil
-        )
-        {
+        ) {
             self.fileSystemAssociationARN = fileSystemAssociationARN
             self.fileSystemAssociationId = fileSystemAssociationId
             self.fileSystemAssociationStatus = fileSystemAssociationStatus
@@ -4217,8 +4083,7 @@ extension StorageGatewayClientTypes {
             hostEnvironment: StorageGatewayClientTypes.HostEnvironment? = nil,
             hostEnvironmentId: Swift.String? = nil,
             softwareVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.deprecationDate = deprecationDate
             self.ec2InstanceId = ec2InstanceId
             self.ec2InstanceRegion = ec2InstanceRegion
@@ -4263,8 +4128,7 @@ public struct JoinDomainInput: Swift.Sendable {
         password: Swift.String? = nil,
         timeoutInSeconds: Swift.Int? = nil,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainControllers = domainControllers
         self.domainName = domainName
         self.gatewayARN = gatewayARN
@@ -4304,8 +4168,7 @@ public struct JoinDomainOutput: Swift.Sendable {
     public init(
         activeDirectoryStatus: StorageGatewayClientTypes.ActiveDirectoryStatus? = nil,
         gatewayARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.activeDirectoryStatus = activeDirectoryStatus
         self.gatewayARN = gatewayARN
     }
@@ -4317,8 +4180,7 @@ public struct ListAutomaticTapeCreationPoliciesInput: Swift.Sendable {
 
     public init(
         gatewayARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.gatewayARN = gatewayARN
     }
 }
@@ -4329,8 +4191,7 @@ public struct ListAutomaticTapeCreationPoliciesOutput: Swift.Sendable {
 
     public init(
         automaticTapeCreationPolicyInfos: [StorageGatewayClientTypes.AutomaticTapeCreationPolicyInfo]? = nil
-    )
-    {
+    ) {
         self.automaticTapeCreationPolicyInfos = automaticTapeCreationPolicyInfos
     }
 }
@@ -4348,8 +4209,7 @@ public struct ListFileSharesInput: Swift.Sendable {
         gatewayARN: Swift.String? = nil,
         limit: Swift.Int? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.gatewayARN = gatewayARN
         self.limit = limit
         self.marker = marker
@@ -4369,8 +4229,7 @@ public struct ListFileSharesOutput: Swift.Sendable {
         fileShareInfoList: [StorageGatewayClientTypes.FileShareInfo]? = nil,
         marker: Swift.String? = nil,
         nextMarker: Swift.String? = nil
-    )
-    {
+    ) {
         self.fileShareInfoList = fileShareInfoList
         self.marker = marker
         self.nextMarker = nextMarker
@@ -4389,8 +4248,7 @@ public struct ListFileSystemAssociationsInput: Swift.Sendable {
         gatewayARN: Swift.String? = nil,
         limit: Swift.Int? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.gatewayARN = gatewayARN
         self.limit = limit
         self.marker = marker
@@ -4409,8 +4267,7 @@ public struct ListFileSystemAssociationsOutput: Swift.Sendable {
         fileSystemAssociationSummaryList: [StorageGatewayClientTypes.FileSystemAssociationSummary]? = nil,
         marker: Swift.String? = nil,
         nextMarker: Swift.String? = nil
-    )
-    {
+    ) {
         self.fileSystemAssociationSummaryList = fileSystemAssociationSummaryList
         self.marker = marker
         self.nextMarker = nextMarker
@@ -4431,8 +4288,7 @@ public struct ListGatewaysInput: Swift.Sendable {
     public init(
         limit: Swift.Int? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.marker = marker
     }
@@ -4447,8 +4303,7 @@ public struct ListGatewaysOutput: Swift.Sendable {
     public init(
         gateways: [StorageGatewayClientTypes.GatewayInfo]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.gateways = gateways
         self.marker = marker
     }
@@ -4462,8 +4317,7 @@ public struct ListLocalDisksInput: Swift.Sendable {
 
     public init(
         gatewayARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.gatewayARN = gatewayARN
     }
 }
@@ -4479,8 +4333,7 @@ public struct ListLocalDisksOutput: Swift.Sendable {
     public init(
         disks: [StorageGatewayClientTypes.Disk]? = nil,
         gatewayARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.disks = disks
         self.gatewayARN = gatewayARN
     }
@@ -4500,8 +4353,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         marker: Swift.String? = nil,
         resourceARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.marker = marker
         self.resourceARN = resourceARN
@@ -4521,8 +4373,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
         marker: Swift.String? = nil,
         resourceARN: Swift.String? = nil,
         tags: [StorageGatewayClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.resourceARN = resourceARN
         self.tags = tags
@@ -4541,8 +4392,7 @@ public struct ListTapePoolsInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         marker: Swift.String? = nil,
         poolARNs: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.marker = marker
         self.poolARNs = poolARNs
@@ -4602,8 +4452,7 @@ extension StorageGatewayClientTypes {
             retentionLockTimeInDays: Swift.Int? = nil,
             retentionLockType: StorageGatewayClientTypes.RetentionLockType? = nil,
             storageClass: StorageGatewayClientTypes.TapeStorageClass? = nil
-        )
-        {
+        ) {
             self.poolARN = poolARN
             self.poolName = poolName
             self.poolStatus = poolStatus
@@ -4623,8 +4472,7 @@ public struct ListTapePoolsOutput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         poolInfos: [StorageGatewayClientTypes.PoolInfo]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.poolInfos = poolInfos
     }
@@ -4649,8 +4497,7 @@ public struct ListTapesInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         marker: Swift.String? = nil,
         tapeARNs: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.marker = marker
         self.tapeARNs = tapeARNs
@@ -4687,8 +4534,7 @@ extension StorageGatewayClientTypes {
             tapeBarcode: Swift.String? = nil,
             tapeSizeInBytes: Swift.Int? = nil,
             tapeStatus: Swift.String? = nil
-        )
-        {
+        ) {
             self.gatewayARN = gatewayARN
             self.poolEntryDate = poolEntryDate
             self.poolId = poolId
@@ -4715,8 +4561,7 @@ public struct ListTapesOutput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         tapeInfos: [StorageGatewayClientTypes.TapeInfo]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.tapeInfos = tapeInfos
     }
@@ -4730,8 +4575,7 @@ public struct ListVolumeInitiatorsInput: Swift.Sendable {
 
     public init(
         volumeARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.volumeARN = volumeARN
     }
 }
@@ -4743,8 +4587,7 @@ public struct ListVolumeInitiatorsOutput: Swift.Sendable {
 
     public init(
         initiators: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.initiators = initiators
     }
 }
@@ -4756,8 +4599,7 @@ public struct ListVolumeRecoveryPointsInput: Swift.Sendable {
 
     public init(
         gatewayARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.gatewayARN = gatewayARN
     }
 }
@@ -4780,8 +4622,7 @@ extension StorageGatewayClientTypes {
             volumeRecoveryPointTime: Swift.String? = nil,
             volumeSizeInBytes: Swift.Int = 0,
             volumeUsageInBytes: Swift.Int = 0
-        )
-        {
+        ) {
             self.volumeARN = volumeARN
             self.volumeRecoveryPointTime = volumeRecoveryPointTime
             self.volumeSizeInBytes = volumeSizeInBytes
@@ -4799,8 +4640,7 @@ public struct ListVolumeRecoveryPointsOutput: Swift.Sendable {
     public init(
         gatewayARN: Swift.String? = nil,
         volumeRecoveryPointInfos: [StorageGatewayClientTypes.VolumeRecoveryPointInfo]? = nil
-    )
-    {
+    ) {
         self.gatewayARN = gatewayARN
         self.volumeRecoveryPointInfos = volumeRecoveryPointInfos
     }
@@ -4823,8 +4663,7 @@ public struct ListVolumesInput: Swift.Sendable {
         gatewayARN: Swift.String? = nil,
         limit: Swift.Int? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.gatewayARN = gatewayARN
         self.limit = limit
         self.marker = marker
@@ -4858,8 +4697,7 @@ extension StorageGatewayClientTypes {
             volumeId: Swift.String? = nil,
             volumeSizeInBytes: Swift.Int = 0,
             volumeType: Swift.String? = nil
-        )
-        {
+        ) {
             self.gatewayARN = gatewayARN
             self.gatewayId = gatewayId
             self.volumeARN = volumeARN
@@ -4888,8 +4726,7 @@ public struct ListVolumesOutput: Swift.Sendable {
         gatewayARN: Swift.String? = nil,
         marker: Swift.String? = nil,
         volumeInfos: [StorageGatewayClientTypes.VolumeInfo]? = nil
-    )
-    {
+    ) {
         self.gatewayARN = gatewayARN
         self.marker = marker
         self.volumeInfos = volumeInfos
@@ -4903,8 +4740,7 @@ public struct NotifyWhenUploadedInput: Swift.Sendable {
 
     public init(
         fileShareARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.fileShareARN = fileShareARN
     }
 }
@@ -4918,8 +4754,7 @@ public struct NotifyWhenUploadedOutput: Swift.Sendable {
     public init(
         fileShareARN: Swift.String? = nil,
         notificationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.fileShareARN = fileShareARN
         self.notificationId = notificationId
     }
@@ -4939,8 +4774,7 @@ public struct RefreshCacheInput: Swift.Sendable {
         fileShareARN: Swift.String? = nil,
         folderList: [Swift.String]? = nil,
         recursive: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.fileShareARN = fileShareARN
         self.folderList = folderList
         self.recursive = recursive
@@ -4957,8 +4791,7 @@ public struct RefreshCacheOutput: Swift.Sendable {
     public init(
         fileShareARN: Swift.String? = nil,
         notificationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.fileShareARN = fileShareARN
         self.notificationId = notificationId
     }
@@ -4976,8 +4809,7 @@ public struct RemoveTagsFromResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tagKeys = tagKeys
     }
@@ -4990,8 +4822,7 @@ public struct RemoveTagsFromResourceOutput: Swift.Sendable {
 
     public init(
         resourceARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
     }
 }
@@ -5003,8 +4834,7 @@ public struct ResetCacheInput: Swift.Sendable {
 
     public init(
         gatewayARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.gatewayARN = gatewayARN
     }
 }
@@ -5015,8 +4845,7 @@ public struct ResetCacheOutput: Swift.Sendable {
 
     public init(
         gatewayARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.gatewayARN = gatewayARN
     }
 }
@@ -5033,8 +4862,7 @@ public struct RetrieveTapeArchiveInput: Swift.Sendable {
     public init(
         gatewayARN: Swift.String? = nil,
         tapeARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.gatewayARN = gatewayARN
         self.tapeARN = tapeARN
     }
@@ -5047,8 +4875,7 @@ public struct RetrieveTapeArchiveOutput: Swift.Sendable {
 
     public init(
         tapeARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.tapeARN = tapeARN
     }
 }
@@ -5065,8 +4892,7 @@ public struct RetrieveTapeRecoveryPointInput: Swift.Sendable {
     public init(
         gatewayARN: Swift.String? = nil,
         tapeARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.gatewayARN = gatewayARN
         self.tapeARN = tapeARN
     }
@@ -5079,8 +4905,7 @@ public struct RetrieveTapeRecoveryPointOutput: Swift.Sendable {
 
     public init(
         tapeARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.tapeARN = tapeARN
     }
 }
@@ -5097,8 +4922,7 @@ public struct SetLocalConsolePasswordInput: Swift.Sendable {
     public init(
         gatewayARN: Swift.String? = nil,
         localConsolePassword: Swift.String? = nil
-    )
-    {
+    ) {
         self.gatewayARN = gatewayARN
         self.localConsolePassword = localConsolePassword
     }
@@ -5115,8 +4939,7 @@ public struct SetLocalConsolePasswordOutput: Swift.Sendable {
 
     public init(
         gatewayARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.gatewayARN = gatewayARN
     }
 }
@@ -5133,8 +4956,7 @@ public struct SetSMBGuestPasswordInput: Swift.Sendable {
     public init(
         gatewayARN: Swift.String? = nil,
         password: Swift.String? = nil
-    )
-    {
+    ) {
         self.gatewayARN = gatewayARN
         self.password = password
     }
@@ -5151,8 +4973,7 @@ public struct SetSMBGuestPasswordOutput: Swift.Sendable {
 
     public init(
         gatewayARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.gatewayARN = gatewayARN
     }
 }
@@ -5165,8 +4986,7 @@ public struct ShutdownGatewayInput: Swift.Sendable {
 
     public init(
         gatewayARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.gatewayARN = gatewayARN
     }
 }
@@ -5178,8 +4998,7 @@ public struct ShutdownGatewayOutput: Swift.Sendable {
 
     public init(
         gatewayARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.gatewayARN = gatewayARN
     }
 }
@@ -5191,8 +5010,7 @@ public struct StartAvailabilityMonitorTestInput: Swift.Sendable {
 
     public init(
         gatewayARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.gatewayARN = gatewayARN
     }
 }
@@ -5203,8 +5021,7 @@ public struct StartAvailabilityMonitorTestOutput: Swift.Sendable {
 
     public init(
         gatewayARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.gatewayARN = gatewayARN
     }
 }
@@ -5217,8 +5034,7 @@ public struct StartGatewayInput: Swift.Sendable {
 
     public init(
         gatewayARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.gatewayARN = gatewayARN
     }
 }
@@ -5230,8 +5046,7 @@ public struct StartGatewayOutput: Swift.Sendable {
 
     public init(
         gatewayARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.gatewayARN = gatewayARN
     }
 }
@@ -5247,8 +5062,7 @@ public struct UpdateAutomaticTapeCreationPolicyInput: Swift.Sendable {
     public init(
         automaticTapeCreationRules: [StorageGatewayClientTypes.AutomaticTapeCreationRule]? = nil,
         gatewayARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.automaticTapeCreationRules = automaticTapeCreationRules
         self.gatewayARN = gatewayARN
     }
@@ -5260,8 +5074,7 @@ public struct UpdateAutomaticTapeCreationPolicyOutput: Swift.Sendable {
 
     public init(
         gatewayARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.gatewayARN = gatewayARN
     }
 }
@@ -5284,8 +5097,7 @@ public struct UpdateBandwidthRateLimitInput: Swift.Sendable {
         averageDownloadRateLimitInBitsPerSec: Swift.Int? = nil,
         averageUploadRateLimitInBitsPerSec: Swift.Int? = nil,
         gatewayARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.averageDownloadRateLimitInBitsPerSec = averageDownloadRateLimitInBitsPerSec
         self.averageUploadRateLimitInBitsPerSec = averageUploadRateLimitInBitsPerSec
         self.gatewayARN = gatewayARN
@@ -5299,8 +5111,7 @@ public struct UpdateBandwidthRateLimitOutput: Swift.Sendable {
 
     public init(
         gatewayARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.gatewayARN = gatewayARN
     }
 }
@@ -5316,8 +5127,7 @@ public struct UpdateBandwidthRateLimitScheduleInput: Swift.Sendable {
     public init(
         bandwidthRateLimitIntervals: [StorageGatewayClientTypes.BandwidthRateLimitInterval]? = nil,
         gatewayARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.bandwidthRateLimitIntervals = bandwidthRateLimitIntervals
         self.gatewayARN = gatewayARN
     }
@@ -5329,8 +5139,7 @@ public struct UpdateBandwidthRateLimitScheduleOutput: Swift.Sendable {
 
     public init(
         gatewayARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.gatewayARN = gatewayARN
     }
 }
@@ -5362,8 +5171,7 @@ public struct UpdateChapCredentialsInput: Swift.Sendable {
         secretToAuthenticateInitiator: Swift.String? = nil,
         secretToAuthenticateTarget: Swift.String? = nil,
         targetARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.initiatorName = initiatorName
         self.secretToAuthenticateInitiator = secretToAuthenticateInitiator
         self.secretToAuthenticateTarget = secretToAuthenticateTarget
@@ -5386,8 +5194,7 @@ public struct UpdateChapCredentialsOutput: Swift.Sendable {
     public init(
         initiatorName: Swift.String? = nil,
         targetARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.initiatorName = initiatorName
         self.targetARN = targetARN
     }
@@ -5412,8 +5219,7 @@ public struct UpdateFileSystemAssociationInput: Swift.Sendable {
         fileSystemAssociationARN: Swift.String? = nil,
         password: Swift.String? = nil,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.auditDestinationARN = auditDestinationARN
         self.cacheAttributes = cacheAttributes
         self.fileSystemAssociationARN = fileSystemAssociationARN
@@ -5433,8 +5239,7 @@ public struct UpdateFileSystemAssociationOutput: Swift.Sendable {
 
     public init(
         fileSystemAssociationARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.fileSystemAssociationARN = fileSystemAssociationARN
     }
 }
@@ -5458,8 +5263,7 @@ public struct UpdateGatewayInformationInput: Swift.Sendable {
         gatewayCapacity: StorageGatewayClientTypes.GatewayCapacity? = nil,
         gatewayName: Swift.String? = nil,
         gatewayTimezone: Swift.String? = nil
-    )
-    {
+    ) {
         self.cloudWatchLogGroupARN = cloudWatchLogGroupARN
         self.gatewayARN = gatewayARN
         self.gatewayCapacity = gatewayCapacity
@@ -5478,8 +5282,7 @@ public struct UpdateGatewayInformationOutput: Swift.Sendable {
     public init(
         gatewayARN: Swift.String? = nil,
         gatewayName: Swift.String? = nil
-    )
-    {
+    ) {
         self.gatewayARN = gatewayARN
         self.gatewayName = gatewayName
     }
@@ -5493,8 +5296,7 @@ public struct UpdateGatewaySoftwareNowInput: Swift.Sendable {
 
     public init(
         gatewayARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.gatewayARN = gatewayARN
     }
 }
@@ -5506,8 +5308,7 @@ public struct UpdateGatewaySoftwareNowOutput: Swift.Sendable {
 
     public init(
         gatewayARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.gatewayARN = gatewayARN
     }
 }
@@ -5545,8 +5346,7 @@ public struct UpdateMaintenanceStartTimeInput: Swift.Sendable {
         hourOfDay: Swift.Int? = nil,
         minuteOfHour: Swift.Int? = nil,
         softwareUpdatePreferences: StorageGatewayClientTypes.SoftwareUpdatePreferences? = nil
-    )
-    {
+    ) {
         self.dayOfMonth = dayOfMonth
         self.dayOfWeek = dayOfWeek
         self.gatewayARN = gatewayARN
@@ -5563,8 +5363,7 @@ public struct UpdateMaintenanceStartTimeOutput: Swift.Sendable {
 
     public init(
         gatewayARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.gatewayARN = gatewayARN
     }
 }
@@ -5629,8 +5428,7 @@ public struct UpdateNFSFileShareInput: Swift.Sendable {
         readOnly: Swift.Bool? = nil,
         requesterPays: Swift.Bool? = nil,
         squash: Swift.String? = nil
-    )
-    {
+    ) {
         self.auditDestinationARN = auditDestinationARN
         self.cacheAttributes = cacheAttributes
         self.clientList = clientList
@@ -5657,8 +5455,7 @@ public struct UpdateNFSFileShareOutput: Swift.Sendable {
 
     public init(
         fileShareARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.fileShareARN = fileShareARN
     }
 }
@@ -5729,8 +5526,7 @@ public struct UpdateSMBFileShareInput: Swift.Sendable {
         requesterPays: Swift.Bool? = nil,
         smbaclEnabled: Swift.Bool? = nil,
         validUserList: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.accessBasedEnumeration = accessBasedEnumeration
         self.adminUserList = adminUserList
         self.auditDestinationARN = auditDestinationARN
@@ -5761,8 +5557,7 @@ public struct UpdateSMBFileShareOutput: Swift.Sendable {
 
     public init(
         fileShareARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.fileShareARN = fileShareARN
     }
 }
@@ -5778,8 +5573,7 @@ public struct UpdateSMBFileShareVisibilityInput: Swift.Sendable {
     public init(
         fileSharesVisible: Swift.Bool? = nil,
         gatewayARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.fileSharesVisible = fileSharesVisible
         self.gatewayARN = gatewayARN
     }
@@ -5791,8 +5585,7 @@ public struct UpdateSMBFileShareVisibilityOutput: Swift.Sendable {
 
     public init(
         gatewayARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.gatewayARN = gatewayARN
     }
 }
@@ -5808,8 +5601,7 @@ public struct UpdateSMBLocalGroupsInput: Swift.Sendable {
     public init(
         gatewayARN: Swift.String? = nil,
         smbLocalGroups: StorageGatewayClientTypes.SMBLocalGroups? = nil
-    )
-    {
+    ) {
         self.gatewayARN = gatewayARN
         self.smbLocalGroups = smbLocalGroups
     }
@@ -5821,8 +5613,7 @@ public struct UpdateSMBLocalGroupsOutput: Swift.Sendable {
 
     public init(
         gatewayARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.gatewayARN = gatewayARN
     }
 }
@@ -5838,8 +5629,7 @@ public struct UpdateSMBSecurityStrategyInput: Swift.Sendable {
     public init(
         gatewayARN: Swift.String? = nil,
         smbSecurityStrategy: StorageGatewayClientTypes.SMBSecurityStrategy? = nil
-    )
-    {
+    ) {
         self.gatewayARN = gatewayARN
         self.smbSecurityStrategy = smbSecurityStrategy
     }
@@ -5851,8 +5641,7 @@ public struct UpdateSMBSecurityStrategyOutput: Swift.Sendable {
 
     public init(
         gatewayARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.gatewayARN = gatewayARN
     }
 }
@@ -5887,8 +5676,7 @@ public struct UpdateSnapshotScheduleInput: Swift.Sendable {
         startAt: Swift.Int? = nil,
         tags: [StorageGatewayClientTypes.Tag]? = nil,
         volumeARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.recurrenceInHours = recurrenceInHours
         self.startAt = startAt
@@ -5904,8 +5692,7 @@ public struct UpdateSnapshotScheduleOutput: Swift.Sendable {
 
     public init(
         volumeARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.volumeARN = volumeARN
     }
 }
@@ -5921,8 +5708,7 @@ public struct UpdateVTLDeviceTypeInput: Swift.Sendable {
     public init(
         deviceType: Swift.String? = nil,
         vtlDeviceARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.deviceType = deviceType
         self.vtlDeviceARN = vtlDeviceARN
     }
@@ -5935,8 +5721,7 @@ public struct UpdateVTLDeviceTypeOutput: Swift.Sendable {
 
     public init(
         vtlDeviceARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.vtlDeviceARN = vtlDeviceARN
     }
 }

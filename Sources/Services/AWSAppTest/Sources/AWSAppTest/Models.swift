@@ -47,8 +47,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -75,8 +74,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public init(
         message: Swift.String? = nil,
         retryAfterSeconds: Swift.Int? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.retryAfterSeconds = retryAfterSeconds
     }
@@ -107,8 +105,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -143,8 +140,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
         quotaCode: Swift.String? = nil,
         retryAfterSeconds: Swift.Int? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.quotaCode = quotaCode
         self.properties.retryAfterSeconds = retryAfterSeconds
@@ -166,8 +162,7 @@ extension AppTestClientTypes {
         public init(
             message: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
             self.name = name
         }
@@ -234,8 +229,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
         fieldList: [AppTestClientTypes.ValidationExceptionField]? = nil,
         message: Swift.String? = nil,
         reason: AppTestClientTypes.ValidationExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.fieldList = fieldList
         self.properties.message = message
         self.properties.reason = reason
@@ -249,8 +243,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -262,8 +255,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -299,8 +291,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.quotaCode = quotaCode
         self.properties.resourceId = resourceId
@@ -320,8 +311,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -357,8 +347,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -434,8 +423,7 @@ extension AppTestClientTypes {
         public init(
             captureTool: AppTestClientTypes.CaptureTool? = nil,
             type: AppTestClientTypes.SourceDatabase? = nil
-        )
-        {
+        ) {
             self.captureTool = captureTool
             self.type = type
         }
@@ -482,8 +470,7 @@ extension AppTestClientTypes {
         public init(
             captureTool: AppTestClientTypes.CaptureTool? = nil,
             type: AppTestClientTypes.TargetDatabase? = nil
-        )
-        {
+        ) {
             self.captureTool = captureTool
             self.type = type
         }
@@ -504,8 +491,7 @@ extension AppTestClientTypes {
         public init(
             sourceMetadata: AppTestClientTypes.SourceDatabaseMetadata? = nil,
             targetMetadata: AppTestClientTypes.TargetDatabaseMetadata? = nil
-        )
-        {
+        ) {
             self.sourceMetadata = sourceMetadata
             self.targetMetadata = targetMetadata
         }
@@ -596,8 +582,7 @@ extension AppTestClientTypes {
             length: Swift.Int? = nil,
             name: Swift.String? = nil,
             type: AppTestClientTypes.DataSetType? = nil
-        )
-        {
+        ) {
             self.ccsid = ccsid
             self.format = format
             self.length = length
@@ -637,8 +622,7 @@ extension AppTestClientTypes {
             fileMetadata: AppTestClientTypes.FileMetadata? = nil,
             sourceLocation: Swift.String? = nil,
             targetLocation: Swift.String? = nil
-        )
-        {
+        ) {
             self.fileMetadata = fileMetadata
             self.sourceLocation = sourceLocation
             self.targetLocation = targetLocation
@@ -665,8 +649,7 @@ extension AppTestClientTypes {
 
         public init(
             fileLocation: Swift.String? = nil
-        )
-        {
+        ) {
             self.fileLocation = fileLocation
         }
     }
@@ -695,8 +678,7 @@ extension AppTestClientTypes {
         public init(
             input: AppTestClientTypes.Input? = nil,
             output: AppTestClientTypes.Output? = nil
-        )
-        {
+        ) {
             self.input = input
             self.output = output
         }
@@ -719,8 +701,7 @@ extension AppTestClientTypes {
             batchJobName: Swift.String? = nil,
             batchJobParameters: [Swift.String: Swift.String]? = nil,
             exportDataSetNames: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.batchJobName = batchJobName
             self.batchJobParameters = batchJobParameters
             self.exportDataSetNames = exportDataSetNames
@@ -768,8 +749,7 @@ extension AppTestClientTypes {
         public init(
             scriptLocation: Swift.String? = nil,
             type: AppTestClientTypes.ScriptType? = nil
-        )
-        {
+        ) {
             self.scriptLocation = scriptLocation
             self.type = type
         }
@@ -789,8 +769,7 @@ extension AppTestClientTypes {
         public init(
             exportDataSetNames: [Swift.String]? = nil,
             script: AppTestClientTypes.Script? = nil
-        )
-        {
+        ) {
             self.exportDataSetNames = exportDataSetNames
             self.script = script
         }
@@ -818,8 +797,7 @@ extension AppTestClientTypes {
 
         public init(
             dmsTaskArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.dmsTaskArn = dmsTaskArn
         }
     }
@@ -842,8 +820,7 @@ extension AppTestClientTypes {
             actionType: AppTestClientTypes.MainframeActionType? = nil,
             properties: AppTestClientTypes.MainframeActionProperties? = nil,
             resource: Swift.String? = nil
-        )
-        {
+        ) {
             self.actionType = actionType
             self.properties = properties
             self.resource = resource
@@ -893,8 +870,7 @@ extension AppTestClientTypes {
         public init(
             actionType: AppTestClientTypes.CloudFormationActionType? = nil,
             resource: Swift.String? = nil
-        )
-        {
+        ) {
             self.actionType = actionType
             self.resource = resource
         }
@@ -942,8 +918,7 @@ extension AppTestClientTypes {
         public init(
             forceStop: Swift.Bool? = nil,
             importDataSetLocation: Swift.String? = nil
-        )
-        {
+        ) {
             self.forceStop = forceStop
             self.importDataSetLocation = importDataSetLocation
         }
@@ -967,8 +942,7 @@ extension AppTestClientTypes {
             actionType: AppTestClientTypes.M2ManagedActionType? = nil,
             properties: AppTestClientTypes.M2ManagedActionProperties? = nil,
             resource: Swift.String? = nil
-        )
-        {
+        ) {
             self.actionType = actionType
             self.properties = properties
             self.resource = resource
@@ -1019,8 +993,7 @@ extension AppTestClientTypes {
         public init(
             actionType: AppTestClientTypes.M2NonManagedActionType? = nil,
             resource: Swift.String? = nil
-        )
-        {
+        ) {
             self.actionType = actionType
             self.resource = resource
         }
@@ -1072,8 +1045,7 @@ extension AppTestClientTypes {
             action: AppTestClientTypes.StepAction? = nil,
             description: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.action = action
             self.description = description
             self.name = name
@@ -1101,8 +1073,7 @@ public struct CreateTestCaseInput: Swift.Sendable {
         name: Swift.String? = nil,
         steps: [AppTestClientTypes.Step]? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.name = name
@@ -1122,8 +1093,7 @@ public struct CreateTestCaseOutput: Swift.Sendable {
     public init(
         testCaseId: Swift.String? = nil,
         testCaseVersion: Swift.Int? = nil
-    )
-    {
+    ) {
         self.testCaseId = testCaseId
         self.testCaseVersion = testCaseVersion
     }
@@ -1136,8 +1106,7 @@ public struct DeleteTestCaseInput: Swift.Sendable {
 
     public init(
         testCaseId: Swift.String? = nil
-    )
-    {
+    ) {
         self.testCaseId = testCaseId
     }
 }
@@ -1157,8 +1126,7 @@ public struct GetTestCaseInput: Swift.Sendable {
     public init(
         testCaseId: Swift.String? = nil,
         testCaseVersion: Swift.Int? = nil
-    )
-    {
+    ) {
         self.testCaseId = testCaseId
         self.testCaseVersion = testCaseVersion
     }
@@ -1210,8 +1178,7 @@ extension AppTestClientTypes {
             status: AppTestClientTypes.TestCaseLifecycle? = nil,
             statusReason: Swift.String? = nil,
             version: Swift.Int? = nil
-        )
-        {
+        ) {
             self.status = status
             self.statusReason = statusReason
             self.version = version
@@ -1267,8 +1234,7 @@ public struct GetTestCaseOutput: Swift.Sendable {
         testCaseArn: Swift.String? = nil,
         testCaseId: Swift.String? = nil,
         testCaseVersion: Swift.Int? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.description = description
         self.lastUpdateTime = lastUpdateTime
@@ -1296,8 +1262,7 @@ public struct ListTestCasesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         testCaseIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.testCaseIds = testCaseIds
@@ -1341,8 +1306,7 @@ extension AppTestClientTypes {
             statusReason: Swift.String? = nil,
             testCaseArn: Swift.String? = nil,
             testCaseId: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.lastUpdateTime = lastUpdateTime
             self.latestVersion = latestVersion
@@ -1365,8 +1329,7 @@ public struct ListTestCasesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         testCases: [AppTestClientTypes.TestCaseSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.testCases = testCases
     }
@@ -1385,8 +1348,7 @@ public struct UpdateTestCaseInput: Swift.Sendable {
         description: Swift.String? = nil,
         steps: [AppTestClientTypes.Step]? = nil,
         testCaseId: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.steps = steps
         self.testCaseId = testCaseId
@@ -1404,8 +1366,7 @@ public struct UpdateTestCaseOutput: Swift.Sendable {
     public init(
         testCaseId: Swift.String? = nil,
         testCaseVersion: Swift.Int? = nil
-    )
-    {
+    ) {
         self.testCaseId = testCaseId
         self.testCaseVersion = testCaseVersion
     }
@@ -1424,8 +1385,7 @@ extension AppTestClientTypes {
         public init(
             parameters: [Swift.String: Swift.String]? = nil,
             templateLocation: Swift.String? = nil
-        )
-        {
+        ) {
             self.parameters = parameters
             self.templateLocation = templateLocation
         }
@@ -1478,8 +1438,7 @@ extension AppTestClientTypes {
             listenerPort: Swift.String? = nil,
             runtime: AppTestClientTypes.M2ManagedRuntime? = nil,
             vpcEndpointServiceName: Swift.String? = nil
-        )
-        {
+        ) {
             self.applicationId = applicationId
             self.listenerPort = listenerPort
             self.runtime = runtime
@@ -1535,8 +1494,7 @@ extension AppTestClientTypes {
             runtime: AppTestClientTypes.M2NonManagedRuntime? = nil,
             vpcEndpointServiceName: Swift.String? = nil,
             webAppName: Swift.String? = nil
-        )
-        {
+        ) {
             self.listenerPort = listenerPort
             self.runtime = runtime
             self.vpcEndpointServiceName = vpcEndpointServiceName
@@ -1573,8 +1531,7 @@ extension AppTestClientTypes {
         public init(
             name: Swift.String? = nil,
             type: AppTestClientTypes.ResourceType? = nil
-        )
-        {
+        ) {
             self.name = name
             self.type = type
         }
@@ -1590,8 +1547,7 @@ extension AppTestClientTypes {
 
         public init(
             kmsKeyId: Swift.String? = nil
-        )
-        {
+        ) {
             self.kmsKeyId = kmsKeyId
         }
     }
@@ -1623,8 +1579,7 @@ public struct CreateTestConfigurationInput: Swift.Sendable {
         resources: [AppTestClientTypes.Resource]? = nil,
         serviceSettings: AppTestClientTypes.ServiceSettings? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.name = name
@@ -1646,8 +1601,7 @@ public struct CreateTestConfigurationOutput: Swift.Sendable {
     public init(
         testConfigurationId: Swift.String? = nil,
         testConfigurationVersion: Swift.Int? = nil
-    )
-    {
+    ) {
         self.testConfigurationId = testConfigurationId
         self.testConfigurationVersion = testConfigurationVersion
     }
@@ -1660,8 +1614,7 @@ public struct DeleteTestConfigurationInput: Swift.Sendable {
 
     public init(
         testConfigurationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.testConfigurationId = testConfigurationId
     }
 }
@@ -1681,8 +1634,7 @@ public struct GetTestConfigurationInput: Swift.Sendable {
     public init(
         testConfigurationId: Swift.String? = nil,
         testConfigurationVersion: Swift.Int? = nil
-    )
-    {
+    ) {
         self.testConfigurationId = testConfigurationId
         self.testConfigurationVersion = testConfigurationVersion
     }
@@ -1734,8 +1686,7 @@ extension AppTestClientTypes {
             status: AppTestClientTypes.TestConfigurationLifecycle? = nil,
             statusReason: Swift.String? = nil,
             version: Swift.Int? = nil
-        )
-        {
+        ) {
             self.status = status
             self.statusReason = statusReason
             self.version = version
@@ -1798,8 +1749,7 @@ public struct GetTestConfigurationOutput: Swift.Sendable {
         testConfigurationArn: Swift.String? = nil,
         testConfigurationId: Swift.String? = nil,
         testConfigurationVersion: Swift.Int? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.description = description
         self.lastUpdateTime = lastUpdateTime
@@ -1829,8 +1779,7 @@ public struct ListTestConfigurationsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         testConfigurationIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.testConfigurationIds = testConfigurationIds
@@ -1874,8 +1823,7 @@ extension AppTestClientTypes {
             statusReason: Swift.String? = nil,
             testConfigurationArn: Swift.String? = nil,
             testConfigurationId: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.lastUpdateTime = lastUpdateTime
             self.latestVersion = latestVersion
@@ -1898,8 +1846,7 @@ public struct ListTestConfigurationsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         testConfigurations: [AppTestClientTypes.TestConfigurationSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.testConfigurations = testConfigurations
     }
@@ -1924,8 +1871,7 @@ public struct UpdateTestConfigurationInput: Swift.Sendable {
         resources: [AppTestClientTypes.Resource]? = nil,
         serviceSettings: AppTestClientTypes.ServiceSettings? = nil,
         testConfigurationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.properties = properties
         self.resources = resources
@@ -1945,8 +1891,7 @@ public struct UpdateTestConfigurationOutput: Swift.Sendable {
     public init(
         testConfigurationId: Swift.String? = nil,
         testConfigurationVersion: Swift.Int? = nil
-    )
-    {
+    ) {
         self.testConfigurationId = testConfigurationId
         self.testConfigurationVersion = testConfigurationVersion
     }
@@ -1959,8 +1904,7 @@ public struct DeleteTestRunInput: Swift.Sendable {
 
     public init(
         testRunId: Swift.String? = nil
-    )
-    {
+    ) {
         self.testRunId = testRunId
     }
 }
@@ -1987,8 +1931,7 @@ public struct GetTestRunStepInput: Swift.Sendable {
         testCaseId: Swift.String? = nil,
         testRunId: Swift.String? = nil,
         testSuiteId: Swift.String? = nil
-    )
-    {
+    ) {
         self.stepName = stepName
         self.testCaseId = testCaseId
         self.testRunId = testRunId
@@ -2053,8 +1996,7 @@ extension AppTestClientTypes {
             sourceMetadata: AppTestClientTypes.SourceDatabaseMetadata? = nil,
             targetLocation: Swift.String? = nil,
             targetMetadata: AppTestClientTypes.TargetDatabaseMetadata? = nil
-        )
-        {
+        ) {
             self.outputLocation = outputLocation
             self.sourceLocation = sourceLocation
             self.sourceMetadata = sourceMetadata
@@ -2110,8 +2052,7 @@ extension AppTestClientTypes {
         public init(
             comparisonOutputLocation: Swift.String? = nil,
             comparisonStatus: AppTestClientTypes.ComparisonStatusEnum? = nil
-        )
-        {
+        ) {
             self.comparisonOutputLocation = comparisonOutputLocation
             self.comparisonStatus = comparisonStatus
         }
@@ -2131,8 +2072,7 @@ extension AppTestClientTypes {
         public init(
             stepInput: AppTestClientTypes.CompareDatabaseCDCStepInput? = nil,
             stepOutput: AppTestClientTypes.CompareDatabaseCDCStepOutput? = nil
-        )
-        {
+        ) {
             self.stepInput = stepInput
             self.stepOutput = stepOutput
         }
@@ -2161,8 +2101,7 @@ extension AppTestClientTypes {
             sourceLocation: Swift.String? = nil,
             targetDataSets: [AppTestClientTypes.DataSet]? = nil,
             targetLocation: Swift.String? = nil
-        )
-        {
+        ) {
             self.sourceDataSets = sourceDataSets
             self.sourceLocation = sourceLocation
             self.targetDataSets = targetDataSets
@@ -2185,8 +2124,7 @@ extension AppTestClientTypes {
         public init(
             comparisonOutputLocation: Swift.String? = nil,
             comparisonStatus: AppTestClientTypes.ComparisonStatusEnum? = nil
-        )
-        {
+        ) {
             self.comparisonOutputLocation = comparisonOutputLocation
             self.comparisonStatus = comparisonStatus
         }
@@ -2206,8 +2144,7 @@ extension AppTestClientTypes {
         public init(
             stepInput: AppTestClientTypes.CompareDataSetsStepInput? = nil,
             stepOutput: AppTestClientTypes.CompareDataSetsStepOutput? = nil
-        )
-        {
+        ) {
             self.stepInput = stepInput
             self.stepOutput = stepOutput
         }
@@ -2246,8 +2183,7 @@ extension AppTestClientTypes {
 
         public init(
             type: AppTestClientTypes.File? = nil
-        )
-        {
+        ) {
             self.type = type
         }
     }
@@ -2270,8 +2206,7 @@ extension AppTestClientTypes {
             applicationId: Swift.String? = nil,
             listenerPort: Swift.Int? = nil,
             runtime: AppTestClientTypes.M2ManagedRuntime? = nil
-        )
-        {
+        ) {
             self.applicationId = applicationId
             self.listenerPort = listenerPort
             self.runtime = runtime
@@ -2300,8 +2235,7 @@ extension AppTestClientTypes {
             runtime: AppTestClientTypes.M2NonManagedRuntime? = nil,
             vpcEndpointServiceName: Swift.String? = nil,
             webAppName: Swift.String? = nil
-        )
-        {
+        ) {
             self.listenerPort = listenerPort
             self.runtime = runtime
             self.vpcEndpointServiceName = vpcEndpointServiceName
@@ -2345,8 +2279,7 @@ extension AppTestClientTypes {
             exportDataSetNames: [Swift.String]? = nil,
             properties: AppTestClientTypes.MainframeActionProperties? = nil,
             resource: AppTestClientTypes.MainframeResourceSummary? = nil
-        )
-        {
+        ) {
             self.batchJobName = batchJobName
             self.batchJobParameters = batchJobParameters
             self.exportDataSetNames = exportDataSetNames
@@ -2371,8 +2304,7 @@ extension AppTestClientTypes {
             dataSetDetails: [AppTestClientTypes.DataSet]? = nil,
             dataSetExportLocation: Swift.String? = nil,
             dmsOutputLocation: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataSetDetails = dataSetDetails
             self.dataSetExportLocation = dataSetExportLocation
             self.dmsOutputLocation = dmsOutputLocation
@@ -2393,8 +2325,7 @@ extension AppTestClientTypes {
         public init(
             stepInput: AppTestClientTypes.BatchStepInput? = nil,
             stepOutput: AppTestClientTypes.BatchStepOutput? = nil
-        )
-        {
+        ) {
             self.stepInput = stepInput
             self.stepOutput = stepOutput
         }
@@ -2415,8 +2346,7 @@ extension AppTestClientTypes {
         public init(
             scriptLocation: Swift.String? = nil,
             type: AppTestClientTypes.ScriptType? = nil
-        )
-        {
+        ) {
             self.scriptLocation = scriptLocation
             self.type = type
         }
@@ -2443,8 +2373,7 @@ extension AppTestClientTypes {
             properties: AppTestClientTypes.MainframeActionProperties? = nil,
             resource: AppTestClientTypes.MainframeResourceSummary? = nil,
             script: AppTestClientTypes.ScriptSummary? = nil
-        )
-        {
+        ) {
             self.exportDataSetNames = exportDataSetNames
             self.properties = properties
             self.resource = resource
@@ -2472,8 +2401,7 @@ extension AppTestClientTypes {
             dataSetExportLocation: Swift.String? = nil,
             dmsOutputLocation: Swift.String? = nil,
             scriptOutputLocation: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataSetDetails = dataSetDetails
             self.dataSetExportLocation = dataSetExportLocation
             self.dmsOutputLocation = dmsOutputLocation
@@ -2495,8 +2423,7 @@ extension AppTestClientTypes {
         public init(
             stepInput: AppTestClientTypes.TN3270StepInput? = nil,
             stepOutput: AppTestClientTypes.TN3270StepOutput? = nil
-        )
-        {
+        ) {
             self.stepInput = stepInput
             self.stepOutput = stepOutput
         }
@@ -2528,8 +2455,7 @@ extension AppTestClientTypes {
         public init(
             parameters: [Swift.String: Swift.String]? = nil,
             templateLocation: Swift.String? = nil
-        )
-        {
+        ) {
             self.parameters = parameters
             self.templateLocation = templateLocation
         }
@@ -2549,8 +2475,7 @@ extension AppTestClientTypes {
         public init(
             exports: [Swift.String: Swift.String]? = nil,
             stackId: Swift.String? = nil
-        )
-        {
+        ) {
             self.exports = exports
             self.stackId = stackId
         }
@@ -2570,8 +2495,7 @@ extension AppTestClientTypes {
         public init(
             stepInput: AppTestClientTypes.CreateCloudFormationStepInput? = nil,
             stepOutput: AppTestClientTypes.CreateCloudFormationStepOutput? = nil
-        )
-        {
+        ) {
             self.stepInput = stepInput
             self.stepOutput = stepOutput
         }
@@ -2588,8 +2512,7 @@ extension AppTestClientTypes {
 
         public init(
             stackId: Swift.String? = nil
-        )
-        {
+        ) {
             self.stackId = stackId
         }
     }
@@ -2617,8 +2540,7 @@ extension AppTestClientTypes {
         public init(
             stepInput: AppTestClientTypes.DeleteCloudFormationStepInput? = nil,
             stepOutput: AppTestClientTypes.DeleteCloudFormationStepOutput? = nil
-        )
-        {
+        ) {
             self.stepInput = stepInput
             self.stepOutput = stepOutput
         }
@@ -2664,8 +2586,7 @@ extension AppTestClientTypes {
             properties: AppTestClientTypes.M2ManagedActionProperties? = nil,
             runtime: Swift.String? = nil,
             vpcEndpointServiceName: Swift.String? = nil
-        )
-        {
+        ) {
             self.actionType = actionType
             self.applicationId = applicationId
             self.listenerPort = listenerPort
@@ -2685,8 +2606,7 @@ extension AppTestClientTypes {
 
         public init(
             importDataSetSummary: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.importDataSetSummary = importDataSetSummary
         }
     }
@@ -2705,8 +2625,7 @@ extension AppTestClientTypes {
         public init(
             stepInput: AppTestClientTypes.M2ManagedApplicationStepInput? = nil,
             stepOutput: AppTestClientTypes.M2ManagedApplicationStepOutput? = nil
-        )
-        {
+        ) {
             self.stepInput = stepInput
             self.stepOutput = stepOutput
         }
@@ -2738,8 +2657,7 @@ extension AppTestClientTypes {
             runtime: AppTestClientTypes.M2NonManagedRuntime? = nil,
             vpcEndpointServiceName: Swift.String? = nil,
             webAppName: Swift.String? = nil
-        )
-        {
+        ) {
             self.actionType = actionType
             self.listenerPort = listenerPort
             self.runtime = runtime
@@ -2771,8 +2689,7 @@ extension AppTestClientTypes {
         public init(
             stepInput: AppTestClientTypes.M2NonManagedApplicationStepInput? = nil,
             stepOutput: AppTestClientTypes.M2NonManagedApplicationStepOutput? = nil
-        )
-        {
+        ) {
             self.stepInput = stepInput
             self.stepOutput = stepOutput
         }
@@ -2853,8 +2770,7 @@ public struct GetTestRunStepOutput: Swift.Sendable {
         testRunId: Swift.String? = nil,
         testSuiteId: Swift.String? = nil,
         testSuiteVersion: Swift.Int? = nil
-    )
-    {
+    ) {
         self.afterStep = afterStep
         self.beforeStep = beforeStep
         self.runEndTime = runEndTime
@@ -2886,8 +2802,7 @@ public struct ListTestRunsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         testRunIds: [Swift.String]? = nil,
         testSuiteId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.testRunIds = testRunIds
@@ -2972,8 +2887,7 @@ extension AppTestClientTypes {
             testRunId: Swift.String? = nil,
             testSuiteId: Swift.String? = nil,
             testSuiteVersion: Swift.Int? = nil
-        )
-        {
+        ) {
             self.runEndTime = runEndTime
             self.runStartTime = runStartTime
             self.status = status
@@ -2998,8 +2912,7 @@ public struct ListTestRunsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         testRuns: [AppTestClientTypes.TestRunSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.testRuns = testRuns
     }
@@ -3024,8 +2937,7 @@ public struct ListTestRunStepsInput: Swift.Sendable {
         testCaseId: Swift.String? = nil,
         testRunId: Swift.String? = nil,
         testSuiteId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.testCaseId = testCaseId
@@ -3080,8 +2992,7 @@ extension AppTestClientTypes {
             testRunId: Swift.String? = nil,
             testSuiteId: Swift.String? = nil,
             testSuiteVersion: Swift.Int? = nil
-        )
-        {
+        ) {
             self.afterStep = afterStep
             self.beforeStep = beforeStep
             self.runEndTime = runEndTime
@@ -3108,8 +3019,7 @@ public struct ListTestRunStepsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         testRunSteps: [AppTestClientTypes.TestRunStepSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.testRunSteps = testRunSteps
     }
@@ -3128,8 +3038,7 @@ public struct ListTestRunTestCasesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         testRunId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.testRunId = testRunId
@@ -3200,8 +3109,7 @@ extension AppTestClientTypes {
             testCaseId: Swift.String? = nil,
             testCaseVersion: Swift.Int? = nil,
             testRunId: Swift.String? = nil
-        )
-        {
+        ) {
             self.runEndTime = runEndTime
             self.runStartTime = runStartTime
             self.status = status
@@ -3223,8 +3131,7 @@ public struct ListTestRunTestCasesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         testRunTestCases: [AppTestClientTypes.TestCaseRunSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.testRunTestCases = testRunTestCases
     }
@@ -3246,8 +3153,7 @@ public struct StartTestRunInput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         testConfigurationId: Swift.String? = nil,
         testSuiteId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.tags = tags
         self.testConfigurationId = testConfigurationId
@@ -3266,8 +3172,7 @@ public struct StartTestRunOutput: Swift.Sendable {
     public init(
         testRunId: Swift.String? = nil,
         testRunStatus: AppTestClientTypes.TestRunStatus? = nil
-    )
-    {
+    ) {
         self.testRunId = testRunId
         self.testRunStatus = testRunStatus
     }
@@ -3309,8 +3214,7 @@ public struct CreateTestSuiteInput: Swift.Sendable {
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         testCases: AppTestClientTypes.TestCases? = nil
-    )
-    {
+    ) {
         self.afterSteps = afterSteps
         self.beforeSteps = beforeSteps
         self.clientToken = clientToken
@@ -3332,8 +3236,7 @@ public struct CreateTestSuiteOutput: Swift.Sendable {
     public init(
         testSuiteId: Swift.String? = nil,
         testSuiteVersion: Swift.Int? = nil
-    )
-    {
+    ) {
         self.testSuiteId = testSuiteId
         self.testSuiteVersion = testSuiteVersion
     }
@@ -3346,8 +3249,7 @@ public struct DeleteTestSuiteInput: Swift.Sendable {
 
     public init(
         testSuiteId: Swift.String? = nil
-    )
-    {
+    ) {
         self.testSuiteId = testSuiteId
     }
 }
@@ -3367,8 +3269,7 @@ public struct GetTestSuiteInput: Swift.Sendable {
     public init(
         testSuiteId: Swift.String? = nil,
         testSuiteVersion: Swift.Int? = nil
-    )
-    {
+    ) {
         self.testSuiteId = testSuiteId
         self.testSuiteVersion = testSuiteVersion
     }
@@ -3429,8 +3330,7 @@ extension AppTestClientTypes {
             status: AppTestClientTypes.TestSuiteLifecycle? = nil,
             statusReason: Swift.String? = nil,
             version: Swift.Int? = nil
-        )
-        {
+        ) {
             self.status = status
             self.statusReason = statusReason
             self.version = version
@@ -3493,8 +3393,7 @@ public struct GetTestSuiteOutput: Swift.Sendable {
         testSuiteArn: Swift.String? = nil,
         testSuiteId: Swift.String? = nil,
         testSuiteVersion: Swift.Int? = nil
-    )
-    {
+    ) {
         self.afterSteps = afterSteps
         self.beforeSteps = beforeSteps
         self.creationTime = creationTime
@@ -3524,8 +3423,7 @@ public struct ListTestSuitesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         testSuiteIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.testSuiteIds = testSuiteIds
@@ -3569,8 +3467,7 @@ extension AppTestClientTypes {
             statusReason: Swift.String? = nil,
             testSuiteArn: Swift.String? = nil,
             testSuiteId: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.lastUpdateTime = lastUpdateTime
             self.latestVersion = latestVersion
@@ -3593,8 +3490,7 @@ public struct ListTestSuitesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         testSuites: [AppTestClientTypes.TestSuiteSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.testSuites = testSuites
     }
@@ -3619,8 +3515,7 @@ public struct UpdateTestSuiteInput: Swift.Sendable {
         description: Swift.String? = nil,
         testCases: AppTestClientTypes.TestCases? = nil,
         testSuiteId: Swift.String? = nil
-    )
-    {
+    ) {
         self.afterSteps = afterSteps
         self.beforeSteps = beforeSteps
         self.description = description
@@ -3639,8 +3534,7 @@ public struct UpdateTestSuiteOutput: Swift.Sendable {
     public init(
         testSuiteId: Swift.String? = nil,
         testSuiteVersion: Swift.Int? = nil
-    )
-    {
+    ) {
         self.testSuiteId = testSuiteId
         self.testSuiteVersion = testSuiteVersion
     }
@@ -3657,8 +3551,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }

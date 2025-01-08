@@ -40,8 +40,7 @@ public struct ClientLimitExceededException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -64,8 +63,7 @@ public struct InvalidArgumentException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -88,8 +86,7 @@ public struct InvalidClientException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -112,8 +109,7 @@ public struct NotAuthorizedException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -136,8 +132,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -160,8 +155,7 @@ public struct SessionExpiredException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -208,8 +202,7 @@ public struct GetIceServerConfigInput: Swift.Sendable {
         clientId: Swift.String? = nil,
         service: KinesisVideoSignalingClientTypes.Service? = nil,
         username: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelARN = channelARN
         self.clientId = clientId
         self.service = service
@@ -235,8 +228,7 @@ extension KinesisVideoSignalingClientTypes {
             ttl: Swift.Int? = nil,
             uris: [Swift.String]? = nil,
             username: Swift.String? = nil
-        )
-        {
+        ) {
             self.password = password
             self.ttl = ttl
             self.uris = uris
@@ -251,8 +243,7 @@ public struct GetIceServerConfigOutput: Swift.Sendable {
 
     public init(
         iceServerList: [KinesisVideoSignalingClientTypes.IceServer]? = nil
-    )
-    {
+    ) {
         self.iceServerList = iceServerList
     }
 }
@@ -272,8 +263,7 @@ public struct SendAlexaOfferToMasterInput: Swift.Sendable {
         channelARN: Swift.String? = nil,
         messagePayload: Swift.String? = nil,
         senderClientId: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelARN = channelARN
         self.messagePayload = messagePayload
         self.senderClientId = senderClientId
@@ -286,8 +276,7 @@ public struct SendAlexaOfferToMasterOutput: Swift.Sendable {
 
     public init(
         answer: Swift.String? = nil
-    )
-    {
+    ) {
         self.answer = answer
     }
 }

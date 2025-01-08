@@ -47,8 +47,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -71,8 +70,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -98,8 +96,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public init(
         message: Swift.String? = nil,
         resourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceName = resourceName
     }
@@ -123,8 +120,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -147,8 +143,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -168,8 +163,7 @@ public struct ActivateMessageTemplateInput: Swift.Sendable {
         knowledgeBaseId: Swift.String? = nil,
         messageTemplateId: Swift.String? = nil,
         versionNumber: Swift.Int? = nil
-    )
-    {
+    ) {
         self.knowledgeBaseId = knowledgeBaseId
         self.messageTemplateId = messageTemplateId
         self.versionNumber = versionNumber
@@ -191,8 +185,7 @@ public struct ActivateMessageTemplateOutput: Swift.Sendable {
         messageTemplateArn: Swift.String? = nil,
         messageTemplateId: Swift.String? = nil,
         versionNumber: Swift.Int? = nil
-    )
-    {
+    ) {
         self.messageTemplateArn = messageTemplateArn
         self.messageTemplateId = messageTemplateId
         self.versionNumber = versionNumber
@@ -211,8 +204,7 @@ extension QConnectClientTypes {
         public init(
             firstName: Swift.String? = nil,
             lastName: Swift.String? = nil
-        )
-        {
+        ) {
             self.firstName = firstName
             self.lastName = lastName
         }
@@ -242,8 +234,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -261,8 +252,7 @@ extension QConnectClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -339,8 +329,7 @@ extension QConnectClientTypes {
             contentTagFilter: QConnectClientTypes.TagFilter? = nil,
             maxResults: Swift.Int? = nil,
             overrideKnowledgeBaseSearchType: QConnectClientTypes.KnowledgeBaseSearchType? = nil
-        )
-        {
+        ) {
             self.contentTagFilter = contentTagFilter
             self.maxResults = maxResults
             self.overrideKnowledgeBaseSearchType = overrideKnowledgeBaseSearchType
@@ -399,8 +388,7 @@ extension QConnectClientTypes {
             associationConfigurationData: QConnectClientTypes.AssociationConfigurationData? = nil,
             associationId: Swift.String? = nil,
             associationType: QConnectClientTypes.AIAgentAssociationConfigurationType? = nil
-        )
-        {
+        ) {
             self.associationConfigurationData = associationConfigurationData
             self.associationId = associationId
             self.associationType = associationType
@@ -432,8 +420,7 @@ extension QConnectClientTypes {
             intentLabelingGenerationAIPromptId: Swift.String? = nil,
             locale: Swift.String? = nil,
             queryReformulationAIPromptId: Swift.String? = nil
-        )
-        {
+        ) {
             self.answerGenerationAIGuardrailId = answerGenerationAIGuardrailId
             self.answerGenerationAIPromptId = answerGenerationAIPromptId
             self.associationConfigurations = associationConfigurations
@@ -462,8 +449,7 @@ extension QConnectClientTypes {
             answerGenerationAIPromptId: Swift.String? = nil,
             associationConfigurations: [QConnectClientTypes.AssociationConfiguration]? = nil,
             locale: Swift.String? = nil
-        )
-        {
+        ) {
             self.answerGenerationAIGuardrailId = answerGenerationAIGuardrailId
             self.answerGenerationAIPromptId = answerGenerationAIPromptId
             self.associationConfigurations = associationConfigurations
@@ -490,8 +476,7 @@ extension QConnectClientTypes {
             selfServiceAIGuardrailId: Swift.String? = nil,
             selfServiceAnswerGenerationAIPromptId: Swift.String? = nil,
             selfServicePreProcessingAIPromptId: Swift.String? = nil
-        )
-        {
+        ) {
             self.associationConfigurations = associationConfigurations
             self.selfServiceAIGuardrailId = selfServiceAIGuardrailId
             self.selfServiceAnswerGenerationAIPromptId = selfServiceAnswerGenerationAIPromptId
@@ -607,8 +592,7 @@ public struct CreateAIAgentInput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         type: QConnectClientTypes.AIAgentType? = nil,
         visibilityStatus: QConnectClientTypes.VisibilityStatus? = nil
-    )
-    {
+    ) {
         self.assistantId = assistantId
         self.clientToken = clientToken
         self.configuration = configuration
@@ -743,8 +727,7 @@ extension QConnectClientTypes {
             tags: [Swift.String: Swift.String]? = nil,
             type: QConnectClientTypes.AIAgentType? = nil,
             visibilityStatus: QConnectClientTypes.VisibilityStatus? = nil
-        )
-        {
+        ) {
             self.aiAgentArn = aiAgentArn
             self.aiAgentId = aiAgentId
             self.assistantArn = assistantArn
@@ -768,8 +751,7 @@ public struct CreateAIAgentOutput: Swift.Sendable {
 
     public init(
         aiAgent: QConnectClientTypes.AIAgentData? = nil
-    )
-    {
+    ) {
         self.aiAgent = aiAgent
     }
 }
@@ -791,8 +773,7 @@ public struct CreateAIAgentVersionInput: Swift.Sendable {
         assistantId: Swift.String? = nil,
         clientToken: Swift.String? = nil,
         modifiedTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.aiAgentId = aiAgentId
         self.assistantId = assistantId
         self.clientToken = clientToken
@@ -809,8 +790,7 @@ public struct CreateAIAgentVersionOutput: Swift.Sendable {
     public init(
         aiAgent: QConnectClientTypes.AIAgentData? = nil,
         versionNumber: Swift.Int? = nil
-    )
-    {
+    ) {
         self.aiAgent = aiAgent
         self.versionNumber = versionNumber
     }
@@ -827,8 +807,7 @@ public struct DeleteAIAgentInput: Swift.Sendable {
     public init(
         aiAgentId: Swift.String? = nil,
         assistantId: Swift.String? = nil
-    )
-    {
+    ) {
         self.aiAgentId = aiAgentId
         self.assistantId = assistantId
     }
@@ -854,8 +833,7 @@ public struct DeleteAIAgentVersionInput: Swift.Sendable {
         aiAgentId: Swift.String? = nil,
         assistantId: Swift.String? = nil,
         versionNumber: Swift.Int? = nil
-    )
-    {
+    ) {
         self.aiAgentId = aiAgentId
         self.assistantId = assistantId
         self.versionNumber = versionNumber
@@ -878,8 +856,7 @@ public struct GetAIAgentInput: Swift.Sendable {
     public init(
         aiAgentId: Swift.String? = nil,
         assistantId: Swift.String? = nil
-    )
-    {
+    ) {
         self.aiAgentId = aiAgentId
         self.assistantId = assistantId
     }
@@ -894,8 +871,7 @@ public struct GetAIAgentOutput: Swift.Sendable {
     public init(
         aiAgent: QConnectClientTypes.AIAgentData? = nil,
         versionNumber: Swift.Int? = nil
-    )
-    {
+    ) {
         self.aiAgent = aiAgent
         self.versionNumber = versionNumber
     }
@@ -917,8 +893,7 @@ public struct ListAIAgentsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         origin: QConnectClientTypes.Origin? = nil
-    )
-    {
+    ) {
         self.assistantId = assistantId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -978,8 +953,7 @@ extension QConnectClientTypes {
             tags: [Swift.String: Swift.String]? = nil,
             type: QConnectClientTypes.AIAgentType? = nil,
             visibilityStatus: QConnectClientTypes.VisibilityStatus? = nil
-        )
-        {
+        ) {
             self.aiAgentArn = aiAgentArn
             self.aiAgentId = aiAgentId
             self.assistantArn = assistantArn
@@ -1007,8 +981,7 @@ public struct ListAIAgentsOutput: Swift.Sendable {
     public init(
         aiAgentSummaries: [QConnectClientTypes.AIAgentSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.aiAgentSummaries = aiAgentSummaries
         self.nextToken = nextToken
     }
@@ -1034,8 +1007,7 @@ public struct ListAIAgentVersionsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         origin: QConnectClientTypes.Origin? = nil
-    )
-    {
+    ) {
         self.aiAgentId = aiAgentId
         self.assistantId = assistantId
         self.maxResults = maxResults
@@ -1056,8 +1028,7 @@ extension QConnectClientTypes {
         public init(
             aiAgentSummary: QConnectClientTypes.AIAgentSummary? = nil,
             versionNumber: Swift.Int? = nil
-        )
-        {
+        ) {
             self.aiAgentSummary = aiAgentSummary
             self.versionNumber = versionNumber
         }
@@ -1074,8 +1045,7 @@ public struct ListAIAgentVersionsOutput: Swift.Sendable {
     public init(
         aiAgentVersionSummaries: [QConnectClientTypes.AIAgentVersionSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.aiAgentVersionSummaries = aiAgentVersionSummaries
         self.nextToken = nextToken
     }
@@ -1105,8 +1075,7 @@ public struct UpdateAIAgentInput: Swift.Sendable {
         configuration: QConnectClientTypes.AIAgentConfiguration? = nil,
         description: Swift.String? = nil,
         visibilityStatus: QConnectClientTypes.VisibilityStatus? = nil
-    )
-    {
+    ) {
         self.aiAgentId = aiAgentId
         self.assistantId = assistantId
         self.clientToken = clientToken
@@ -1122,8 +1091,7 @@ public struct UpdateAIAgentOutput: Swift.Sendable {
 
     public init(
         aiAgent: QConnectClientTypes.AIAgentData? = nil
-    )
-    {
+    ) {
         self.aiAgent = aiAgent
     }
 }
@@ -1138,8 +1106,7 @@ extension QConnectClientTypes {
 
         public init(
             aiAgentId: Swift.String? = nil
-        )
-        {
+        ) {
             self.aiAgentId = aiAgentId
         }
     }
@@ -1252,8 +1219,7 @@ extension QConnectClientTypes {
             inputStrength: QConnectClientTypes.GuardrailFilterStrength? = nil,
             outputStrength: QConnectClientTypes.GuardrailFilterStrength? = nil,
             type: QConnectClientTypes.GuardrailContentFilterType? = nil
-        )
-        {
+        ) {
             self.inputStrength = inputStrength
             self.outputStrength = outputStrength
             self.type = type
@@ -1276,8 +1242,7 @@ extension QConnectClientTypes {
 
         public init(
             filtersConfig: [QConnectClientTypes.GuardrailContentFilterConfig]? = nil
-        )
-        {
+        ) {
             self.filtersConfig = filtersConfig
         }
     }
@@ -1327,8 +1292,7 @@ extension QConnectClientTypes {
         public init(
             threshold: Swift.Double = 0.0,
             type: QConnectClientTypes.GuardrailContextualGroundingFilterType? = nil
-        )
-        {
+        ) {
             self.threshold = threshold
             self.type = type
         }
@@ -1350,8 +1314,7 @@ extension QConnectClientTypes {
 
         public init(
             filtersConfig: [QConnectClientTypes.GuardrailContextualGroundingFilterConfig]? = nil
-        )
-        {
+        ) {
             self.filtersConfig = filtersConfig
         }
     }
@@ -1614,8 +1577,7 @@ extension QConnectClientTypes {
         public init(
             action: QConnectClientTypes.GuardrailSensitiveInformationAction? = nil,
             type: QConnectClientTypes.GuardrailPiiEntityType? = nil
-        )
-        {
+        ) {
             self.action = action
             self.type = type
         }
@@ -1648,8 +1610,7 @@ extension QConnectClientTypes {
             description: Swift.String? = nil,
             name: Swift.String? = nil,
             pattern: Swift.String? = nil
-        )
-        {
+        ) {
             self.action = action
             self.description = description
             self.name = name
@@ -1675,8 +1636,7 @@ extension QConnectClientTypes {
         public init(
             piiEntitiesConfig: [QConnectClientTypes.GuardrailPiiEntityConfig]? = nil,
             regexesConfig: [QConnectClientTypes.GuardrailRegexConfig]? = nil
-        )
-        {
+        ) {
             self.piiEntitiesConfig = piiEntitiesConfig
             self.regexesConfig = regexesConfig
         }
@@ -1731,8 +1691,7 @@ extension QConnectClientTypes {
             examples: [Swift.String]? = nil,
             name: Swift.String? = nil,
             type: QConnectClientTypes.GuardrailTopicType? = nil
-        )
-        {
+        ) {
             self.definition = definition
             self.examples = examples
             self.name = name
@@ -1756,8 +1715,7 @@ extension QConnectClientTypes {
 
         public init(
             topicsConfig: [QConnectClientTypes.GuardrailTopicConfig]? = nil
-        )
-        {
+        ) {
             self.topicsConfig = topicsConfig
         }
     }
@@ -1800,8 +1758,7 @@ extension QConnectClientTypes {
 
         public init(
             type: QConnectClientTypes.GuardrailManagedWordsType? = nil
-        )
-        {
+        ) {
             self.type = type
         }
     }
@@ -1822,8 +1779,7 @@ extension QConnectClientTypes {
 
         public init(
             text: Swift.String? = nil
-        )
-        {
+        ) {
             self.text = text
         }
     }
@@ -1846,8 +1802,7 @@ extension QConnectClientTypes {
         public init(
             managedWordListsConfig: [QConnectClientTypes.GuardrailManagedWordsConfig]? = nil,
             wordsConfig: [QConnectClientTypes.GuardrailWordConfig]? = nil
-        )
-        {
+        ) {
             self.managedWordListsConfig = managedWordListsConfig
             self.wordsConfig = wordsConfig
         }
@@ -1901,8 +1856,7 @@ public struct CreateAIGuardrailInput: Swift.Sendable {
         topicPolicyConfig: QConnectClientTypes.AIGuardrailTopicPolicyConfig? = nil,
         visibilityStatus: QConnectClientTypes.VisibilityStatus? = nil,
         wordPolicyConfig: QConnectClientTypes.AIGuardrailWordPolicyConfig? = nil
-    )
-    {
+    ) {
         self.assistantId = assistantId
         self.blockedInputMessaging = blockedInputMessaging
         self.blockedOutputsMessaging = blockedOutputsMessaging
@@ -1989,8 +1943,7 @@ extension QConnectClientTypes {
             topicPolicyConfig: QConnectClientTypes.AIGuardrailTopicPolicyConfig? = nil,
             visibilityStatus: QConnectClientTypes.VisibilityStatus? = nil,
             wordPolicyConfig: QConnectClientTypes.AIGuardrailWordPolicyConfig? = nil
-        )
-        {
+        ) {
             self.aiGuardrailArn = aiGuardrailArn
             self.aiGuardrailId = aiGuardrailId
             self.assistantArn = assistantArn
@@ -2023,8 +1976,7 @@ public struct CreateAIGuardrailOutput: Swift.Sendable {
 
     public init(
         aiGuardrail: QConnectClientTypes.AIGuardrailData? = nil
-    )
-    {
+    ) {
         self.aiGuardrail = aiGuardrail
     }
 }
@@ -2046,8 +1998,7 @@ public struct CreateAIGuardrailVersionInput: Swift.Sendable {
         assistantId: Swift.String? = nil,
         clientToken: Swift.String? = nil,
         modifiedTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.aiGuardrailId = aiGuardrailId
         self.assistantId = assistantId
         self.clientToken = clientToken
@@ -2064,8 +2015,7 @@ public struct CreateAIGuardrailVersionOutput: Swift.Sendable {
     public init(
         aiGuardrail: QConnectClientTypes.AIGuardrailData? = nil,
         versionNumber: Swift.Int? = nil
-    )
-    {
+    ) {
         self.aiGuardrail = aiGuardrail
         self.versionNumber = versionNumber
     }
@@ -2082,8 +2032,7 @@ public struct DeleteAIGuardrailInput: Swift.Sendable {
     public init(
         aiGuardrailId: Swift.String? = nil,
         assistantId: Swift.String? = nil
-    )
-    {
+    ) {
         self.aiGuardrailId = aiGuardrailId
         self.assistantId = assistantId
     }
@@ -2109,8 +2058,7 @@ public struct DeleteAIGuardrailVersionInput: Swift.Sendable {
         aiGuardrailId: Swift.String? = nil,
         assistantId: Swift.String? = nil,
         versionNumber: Swift.Int? = nil
-    )
-    {
+    ) {
         self.aiGuardrailId = aiGuardrailId
         self.assistantId = assistantId
         self.versionNumber = versionNumber
@@ -2133,8 +2081,7 @@ public struct GetAIGuardrailInput: Swift.Sendable {
     public init(
         aiGuardrailId: Swift.String? = nil,
         assistantId: Swift.String? = nil
-    )
-    {
+    ) {
         self.aiGuardrailId = aiGuardrailId
         self.assistantId = assistantId
     }
@@ -2149,8 +2096,7 @@ public struct GetAIGuardrailOutput: Swift.Sendable {
     public init(
         aiGuardrail: QConnectClientTypes.AIGuardrailData? = nil,
         versionNumber: Swift.Int? = nil
-    )
-    {
+    ) {
         self.aiGuardrail = aiGuardrail
         self.versionNumber = versionNumber
     }
@@ -2169,8 +2115,7 @@ public struct ListAIGuardrailsInput: Swift.Sendable {
         assistantId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.assistantId = assistantId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2219,8 +2164,7 @@ extension QConnectClientTypes {
             status: QConnectClientTypes.Status? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             visibilityStatus: QConnectClientTypes.VisibilityStatus? = nil
-        )
-        {
+        ) {
             self.aiGuardrailArn = aiGuardrailArn
             self.aiGuardrailId = aiGuardrailId
             self.assistantArn = assistantArn
@@ -2250,8 +2194,7 @@ public struct ListAIGuardrailsOutput: Swift.Sendable {
     public init(
         aiGuardrailSummaries: [QConnectClientTypes.AIGuardrailSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.aiGuardrailSummaries = aiGuardrailSummaries
         self.nextToken = nextToken
     }
@@ -2274,8 +2217,7 @@ public struct ListAIGuardrailVersionsInput: Swift.Sendable {
         assistantId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.aiGuardrailId = aiGuardrailId
         self.assistantId = assistantId
         self.maxResults = maxResults
@@ -2295,8 +2237,7 @@ extension QConnectClientTypes {
         public init(
             aiGuardrailSummary: QConnectClientTypes.AIGuardrailSummary? = nil,
             versionNumber: Swift.Int? = nil
-        )
-        {
+        ) {
             self.aiGuardrailSummary = aiGuardrailSummary
             self.versionNumber = versionNumber
         }
@@ -2313,8 +2254,7 @@ public struct ListAIGuardrailVersionsOutput: Swift.Sendable {
     public init(
         aiGuardrailVersionSummaries: [QConnectClientTypes.AIGuardrailVersionSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.aiGuardrailVersionSummaries = aiGuardrailVersionSummaries
         self.nextToken = nextToken
     }
@@ -2364,8 +2304,7 @@ public struct UpdateAIGuardrailInput: Swift.Sendable {
         topicPolicyConfig: QConnectClientTypes.AIGuardrailTopicPolicyConfig? = nil,
         visibilityStatus: QConnectClientTypes.VisibilityStatus? = nil,
         wordPolicyConfig: QConnectClientTypes.AIGuardrailWordPolicyConfig? = nil
-    )
-    {
+    ) {
         self.aiGuardrailId = aiGuardrailId
         self.assistantId = assistantId
         self.blockedInputMessaging = blockedInputMessaging
@@ -2392,8 +2331,7 @@ public struct UpdateAIGuardrailOutput: Swift.Sendable {
 
     public init(
         aiGuardrail: QConnectClientTypes.AIGuardrailData? = nil
-    )
-    {
+    ) {
         self.aiGuardrail = aiGuardrail
     }
 }
@@ -2437,8 +2375,7 @@ extension QConnectClientTypes {
 
         public init(
             text: Swift.String? = nil
-        )
-        {
+        ) {
             self.text = text
         }
     }
@@ -2567,8 +2504,7 @@ public struct CreateAIPromptInput: Swift.Sendable {
         templateType: QConnectClientTypes.AIPromptTemplateType? = nil,
         type: QConnectClientTypes.AIPromptType? = nil,
         visibilityStatus: QConnectClientTypes.VisibilityStatus? = nil
-    )
-    {
+    ) {
         self.apiFormat = apiFormat
         self.assistantId = assistantId
         self.clientToken = clientToken
@@ -2648,8 +2584,7 @@ extension QConnectClientTypes {
             templateType: QConnectClientTypes.AIPromptTemplateType? = nil,
             type: QConnectClientTypes.AIPromptType? = nil,
             visibilityStatus: QConnectClientTypes.VisibilityStatus? = nil
-        )
-        {
+        ) {
             self.aiPromptArn = aiPromptArn
             self.aiPromptId = aiPromptId
             self.apiFormat = apiFormat
@@ -2676,8 +2611,7 @@ public struct CreateAIPromptOutput: Swift.Sendable {
 
     public init(
         aiPrompt: QConnectClientTypes.AIPromptData? = nil
-    )
-    {
+    ) {
         self.aiPrompt = aiPrompt
     }
 }
@@ -2699,8 +2633,7 @@ public struct CreateAIPromptVersionInput: Swift.Sendable {
         assistantId: Swift.String? = nil,
         clientToken: Swift.String? = nil,
         modifiedTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.aiPromptId = aiPromptId
         self.assistantId = assistantId
         self.clientToken = clientToken
@@ -2717,8 +2650,7 @@ public struct CreateAIPromptVersionOutput: Swift.Sendable {
     public init(
         aiPrompt: QConnectClientTypes.AIPromptData? = nil,
         versionNumber: Swift.Int? = nil
-    )
-    {
+    ) {
         self.aiPrompt = aiPrompt
         self.versionNumber = versionNumber
     }
@@ -2735,8 +2667,7 @@ public struct DeleteAIPromptInput: Swift.Sendable {
     public init(
         aiPromptId: Swift.String? = nil,
         assistantId: Swift.String? = nil
-    )
-    {
+    ) {
         self.aiPromptId = aiPromptId
         self.assistantId = assistantId
     }
@@ -2762,8 +2693,7 @@ public struct DeleteAIPromptVersionInput: Swift.Sendable {
         aiPromptId: Swift.String? = nil,
         assistantId: Swift.String? = nil,
         versionNumber: Swift.Int? = nil
-    )
-    {
+    ) {
         self.aiPromptId = aiPromptId
         self.assistantId = assistantId
         self.versionNumber = versionNumber
@@ -2786,8 +2716,7 @@ public struct GetAIPromptInput: Swift.Sendable {
     public init(
         aiPromptId: Swift.String? = nil,
         assistantId: Swift.String? = nil
-    )
-    {
+    ) {
         self.aiPromptId = aiPromptId
         self.assistantId = assistantId
     }
@@ -2802,8 +2731,7 @@ public struct GetAIPromptOutput: Swift.Sendable {
     public init(
         aiPrompt: QConnectClientTypes.AIPromptData? = nil,
         versionNumber: Swift.Int? = nil
-    )
-    {
+    ) {
         self.aiPrompt = aiPrompt
         self.versionNumber = versionNumber
     }
@@ -2825,8 +2753,7 @@ public struct ListAIPromptsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         origin: QConnectClientTypes.Origin? = nil
-    )
-    {
+    ) {
         self.assistantId = assistantId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2895,8 +2822,7 @@ extension QConnectClientTypes {
             templateType: QConnectClientTypes.AIPromptTemplateType? = nil,
             type: QConnectClientTypes.AIPromptType? = nil,
             visibilityStatus: QConnectClientTypes.VisibilityStatus? = nil
-        )
-        {
+        ) {
             self.aiPromptArn = aiPromptArn
             self.aiPromptId = aiPromptId
             self.apiFormat = apiFormat
@@ -2926,8 +2852,7 @@ public struct ListAIPromptsOutput: Swift.Sendable {
     public init(
         aiPromptSummaries: [QConnectClientTypes.AIPromptSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.aiPromptSummaries = aiPromptSummaries
         self.nextToken = nextToken
     }
@@ -2953,8 +2878,7 @@ public struct ListAIPromptVersionsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         origin: QConnectClientTypes.Origin? = nil
-    )
-    {
+    ) {
         self.aiPromptId = aiPromptId
         self.assistantId = assistantId
         self.maxResults = maxResults
@@ -2975,8 +2899,7 @@ extension QConnectClientTypes {
         public init(
             aiPromptSummary: QConnectClientTypes.AIPromptSummary? = nil,
             versionNumber: Swift.Int? = nil
-        )
-        {
+        ) {
             self.aiPromptSummary = aiPromptSummary
             self.versionNumber = versionNumber
         }
@@ -2993,8 +2916,7 @@ public struct ListAIPromptVersionsOutput: Swift.Sendable {
     public init(
         aiPromptVersionSummaries: [QConnectClientTypes.AIPromptVersionSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.aiPromptVersionSummaries = aiPromptVersionSummaries
         self.nextToken = nextToken
     }
@@ -3024,8 +2946,7 @@ public struct UpdateAIPromptInput: Swift.Sendable {
         description: Swift.String? = nil,
         templateConfiguration: QConnectClientTypes.AIPromptTemplateConfiguration? = nil,
         visibilityStatus: QConnectClientTypes.VisibilityStatus? = nil
-    )
-    {
+    ) {
         self.aiPromptId = aiPromptId
         self.assistantId = assistantId
         self.clientToken = clientToken
@@ -3041,8 +2962,7 @@ public struct UpdateAIPromptOutput: Swift.Sendable {
 
     public init(
         aiPrompt: QConnectClientTypes.AIPromptData? = nil
-    )
-    {
+    ) {
         self.aiPrompt = aiPrompt
     }
 }
@@ -3056,8 +2976,7 @@ extension QConnectClientTypes {
 
         public init(
             flowId: Swift.String? = nil
-        )
-        {
+        ) {
             self.flowId = flowId
         }
     }
@@ -3095,8 +3014,7 @@ extension QConnectClientTypes {
         public init(
             appIntegrationArn: Swift.String? = nil,
             objectFields: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.appIntegrationArn = appIntegrationArn
             self.objectFields = objectFields
         }
@@ -3160,8 +3078,7 @@ public struct CreateAssistantAssociationInput: Swift.Sendable {
         associationType: QConnectClientTypes.AssociationType? = nil,
         clientToken: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.assistantId = assistantId
         self.association = association
         self.associationType = associationType
@@ -3182,8 +3099,7 @@ extension QConnectClientTypes {
         public init(
             knowledgeBaseArn: Swift.String? = nil,
             knowledgeBaseId: Swift.String? = nil
-        )
-        {
+        ) {
             self.knowledgeBaseArn = knowledgeBaseArn
             self.knowledgeBaseId = knowledgeBaseId
         }
@@ -3233,8 +3149,7 @@ extension QConnectClientTypes {
             associationData: QConnectClientTypes.AssistantAssociationOutputData? = nil,
             associationType: QConnectClientTypes.AssociationType? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.assistantArn = assistantArn
             self.assistantAssociationArn = assistantAssociationArn
             self.assistantAssociationId = assistantAssociationId
@@ -3252,8 +3167,7 @@ public struct CreateAssistantAssociationOutput: Swift.Sendable {
 
     public init(
         assistantAssociation: QConnectClientTypes.AssistantAssociationData? = nil
-    )
-    {
+    ) {
         self.assistantAssociation = assistantAssociation
     }
 }
@@ -3269,8 +3183,7 @@ public struct DeleteAssistantAssociationInput: Swift.Sendable {
     public init(
         assistantAssociationId: Swift.String? = nil,
         assistantId: Swift.String? = nil
-    )
-    {
+    ) {
         self.assistantAssociationId = assistantAssociationId
         self.assistantId = assistantId
     }
@@ -3292,8 +3205,7 @@ public struct GetAssistantAssociationInput: Swift.Sendable {
     public init(
         assistantAssociationId: Swift.String? = nil,
         assistantId: Swift.String? = nil
-    )
-    {
+    ) {
         self.assistantAssociationId = assistantAssociationId
         self.assistantId = assistantId
     }
@@ -3305,8 +3217,7 @@ public struct GetAssistantAssociationOutput: Swift.Sendable {
 
     public init(
         assistantAssociation: QConnectClientTypes.AssistantAssociationData? = nil
-    )
-    {
+    ) {
         self.assistantAssociation = assistantAssociation
     }
 }
@@ -3324,8 +3235,7 @@ public struct ListAssistantAssociationsInput: Swift.Sendable {
         assistantId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.assistantId = assistantId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3365,8 +3275,7 @@ extension QConnectClientTypes {
             associationData: QConnectClientTypes.AssistantAssociationOutputData? = nil,
             associationType: QConnectClientTypes.AssociationType? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.assistantArn = assistantArn
             self.assistantAssociationArn = assistantAssociationArn
             self.assistantAssociationId = assistantAssociationId
@@ -3388,8 +3297,7 @@ public struct ListAssistantAssociationsOutput: Swift.Sendable {
     public init(
         assistantAssociationSummaries: [QConnectClientTypes.AssistantAssociationSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.assistantAssociationSummaries = assistantAssociationSummaries
         self.nextToken = nextToken
     }
@@ -3404,8 +3312,7 @@ extension QConnectClientTypes {
 
         public init(
             kmsKeyId: Swift.String? = nil
-        )
-        {
+        ) {
             self.kmsKeyId = kmsKeyId
         }
     }
@@ -3460,8 +3367,7 @@ public struct CreateAssistantInput: Swift.Sendable {
         serverSideEncryptionConfiguration: QConnectClientTypes.ServerSideEncryptionConfiguration? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         type: QConnectClientTypes.AssistantType? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.name = name
@@ -3509,8 +3415,7 @@ extension QConnectClientTypes {
 
         public init(
             type: QConnectClientTypes.AssistantCapabilityType? = nil
-        )
-        {
+        ) {
             self.type = type
         }
     }
@@ -3525,8 +3430,7 @@ extension QConnectClientTypes {
 
         public init(
             topicIntegrationArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.topicIntegrationArn = topicIntegrationArn
         }
     }
@@ -3617,8 +3521,7 @@ extension QConnectClientTypes {
             status: QConnectClientTypes.AssistantStatus? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             type: QConnectClientTypes.AssistantType? = nil
-        )
-        {
+        ) {
             self.aiAgentConfiguration = aiAgentConfiguration
             self.assistantArn = assistantArn
             self.assistantId = assistantId
@@ -3640,8 +3543,7 @@ public struct CreateAssistantOutput: Swift.Sendable {
 
     public init(
         assistant: QConnectClientTypes.AssistantData? = nil
-    )
-    {
+    ) {
         self.assistant = assistant
     }
 }
@@ -3653,8 +3555,7 @@ public struct DeleteAssistantInput: Swift.Sendable {
 
     public init(
         assistantId: Swift.String? = nil
-    )
-    {
+    ) {
         self.assistantId = assistantId
     }
 }
@@ -3671,8 +3572,7 @@ public struct GetAssistantInput: Swift.Sendable {
 
     public init(
         assistantId: Swift.String? = nil
-    )
-    {
+    ) {
         self.assistantId = assistantId
     }
 }
@@ -3683,8 +3583,7 @@ public struct GetAssistantOutput: Swift.Sendable {
 
     public init(
         assistant: QConnectClientTypes.AssistantData? = nil
-    )
-    {
+    ) {
         self.assistant = assistant
     }
 }
@@ -3706,8 +3605,7 @@ public struct GetRecommendationsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         sessionId: Swift.String? = nil,
         waitTimeSeconds: Swift.Int = 0
-    )
-    {
+    ) {
         self.assistantId = assistantId
         self.maxResults = maxResults
         self.sessionId = sessionId
@@ -3759,8 +3657,7 @@ extension QConnectClientTypes {
         public init(
             relevanceLevel: QConnectClientTypes.RelevanceLevel? = nil,
             relevanceScore: Swift.Double = 0.0
-        )
-        {
+        ) {
             self.relevanceLevel = relevanceLevel
             self.relevanceScore = relevanceScore
         }
@@ -3779,8 +3676,7 @@ extension QConnectClientTypes {
         public init(
             beginOffsetInclusive: Swift.Int = 0,
             endOffsetExclusive: Swift.Int = 0
-        )
-        {
+        ) {
             self.beginOffsetInclusive = beginOffsetInclusive
             self.endOffsetExclusive = endOffsetExclusive
         }
@@ -3799,8 +3695,7 @@ extension QConnectClientTypes {
         public init(
             highlights: [QConnectClientTypes.Highlight]? = nil,
             text: Swift.String? = nil
-        )
-        {
+        ) {
             self.highlights = highlights
             self.text = text
         }
@@ -3824,8 +3719,7 @@ extension QConnectClientTypes {
         public init(
             excerpt: QConnectClientTypes.DocumentText? = nil,
             title: QConnectClientTypes.DocumentText? = nil
-        )
-        {
+        ) {
             self.excerpt = excerpt
             self.title = title
         }
@@ -3846,8 +3740,7 @@ extension QConnectClientTypes {
         public init(
             rankingData: QConnectClientTypes.RankingData? = nil,
             textData: QConnectClientTypes.TextData? = nil
-        )
-        {
+        ) {
             self.rankingData = rankingData
             self.textData = textData
         }
@@ -3868,8 +3761,7 @@ extension QConnectClientTypes {
         public init(
             intent: Swift.String? = nil,
             intentId: Swift.String? = nil
-        )
-        {
+        ) {
             self.intent = intent
             self.intentId = intentId
         }
@@ -3893,8 +3785,7 @@ extension QConnectClientTypes {
         public init(
             beginOffsetInclusive: Swift.Int = 0,
             endOffsetExclusive: Swift.Int = 0
-        )
-        {
+        ) {
             self.beginOffsetInclusive = beginOffsetInclusive
             self.endOffsetExclusive = endOffsetExclusive
         }
@@ -3952,8 +3843,7 @@ extension QConnectClientTypes {
             rankingData: QConnectClientTypes.RankingData? = nil,
             textData: QConnectClientTypes.TextData? = nil,
             type: QConnectClientTypes.SourceContentType? = nil
-        )
-        {
+        ) {
             self.citationSpan = citationSpan
             self.id = id
             self.rankingData = rankingData
@@ -4016,8 +3906,7 @@ extension QConnectClientTypes {
             knowledgeBaseId: Swift.String? = nil,
             referenceType: QConnectClientTypes.ReferenceType? = nil,
             sourceURL: Swift.String? = nil
-        )
-        {
+        ) {
             self.contentArn = contentArn
             self.contentId = contentId
             self.knowledgeBaseArn = knowledgeBaseArn
@@ -4040,8 +3929,7 @@ extension QConnectClientTypes {
         public init(
             generationId: Swift.String? = nil,
             modelId: Swift.String? = nil
-        )
-        {
+        ) {
             self.generationId = generationId
             self.modelId = modelId
         }
@@ -4076,8 +3964,7 @@ extension QConnectClientTypes {
             contentReference: QConnectClientTypes.ContentReference? = nil,
             excerpt: QConnectClientTypes.DocumentText? = nil,
             title: QConnectClientTypes.DocumentText? = nil
-        )
-        {
+        ) {
             self.contentReference = contentReference
             self.excerpt = excerpt
             self.title = title
@@ -4129,8 +4016,7 @@ extension QConnectClientTypes {
 
         public init(
             text: Swift.String? = nil
-        )
-        {
+        ) {
             self.text = text
         }
     }
@@ -4242,8 +4128,7 @@ extension QConnectClientTypes {
             recommendationIds: [Swift.String]? = nil,
             source: QConnectClientTypes.RecommendationSourceType? = nil,
             type: QConnectClientTypes.RecommendationTriggerType? = nil
-        )
-        {
+        ) {
             self.data = data
             self.id = id
             self.recommendationIds = recommendationIds
@@ -4262,8 +4147,7 @@ public struct ListAssistantsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -4313,8 +4197,7 @@ extension QConnectClientTypes {
             status: QConnectClientTypes.AssistantStatus? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             type: QConnectClientTypes.AssistantType? = nil
-        )
-        {
+        ) {
             self.aiAgentConfiguration = aiAgentConfiguration
             self.assistantArn = assistantArn
             self.assistantId = assistantId
@@ -4340,8 +4223,7 @@ public struct ListAssistantsOutput: Swift.Sendable {
     public init(
         assistantSummaries: [QConnectClientTypes.AssistantSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.assistantSummaries = assistantSummaries
         self.nextToken = nextToken
     }
@@ -4362,8 +4244,7 @@ public struct NotifyRecommendationsReceivedInput: Swift.Sendable {
         assistantId: Swift.String? = nil,
         recommendationIds: [Swift.String]? = nil,
         sessionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.assistantId = assistantId
         self.recommendationIds = recommendationIds
         self.sessionId = sessionId
@@ -4382,8 +4263,7 @@ extension QConnectClientTypes {
         public init(
             message: Swift.String? = nil,
             recommendationId: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
             self.recommendationId = recommendationId
         }
@@ -4399,8 +4279,7 @@ public struct NotifyRecommendationsReceivedOutput: Swift.Sendable {
     public init(
         errors: [QConnectClientTypes.NotifyRecommendationsReceivedError]? = nil,
         recommendationIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.errors = errors
         self.recommendationIds = recommendationIds
     }
@@ -4445,8 +4324,7 @@ extension QConnectClientTypes {
 
         public init(
             relevance: QConnectClientTypes.Relevance? = nil
-        )
-        {
+        ) {
             self.relevance = relevance
         }
     }
@@ -4510,8 +4388,7 @@ public struct PutFeedbackInput: Swift.Sendable {
         contentFeedback: QConnectClientTypes.ContentFeedbackData? = nil,
         targetId: Swift.String? = nil,
         targetType: QConnectClientTypes.TargetType? = nil
-    )
-    {
+    ) {
         self.assistantId = assistantId
         self.contentFeedback = contentFeedback
         self.targetId = targetId
@@ -4542,8 +4419,7 @@ public struct PutFeedbackOutput: Swift.Sendable {
         contentFeedback: QConnectClientTypes.ContentFeedbackData? = nil,
         targetId: Swift.String? = nil,
         targetType: QConnectClientTypes.TargetType? = nil
-    )
-    {
+    ) {
         self.assistantArn = assistantArn
         self.assistantId = assistantId
         self.contentFeedback = contentFeedback
@@ -4570,8 +4446,7 @@ public struct RequestTimeoutException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4646,8 +4521,7 @@ extension QConnectClientTypes {
             comparator: QConnectClientTypes.QueryConditionComparisonOperator? = nil,
             field: QConnectClientTypes.QueryConditionFieldName? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.comparator = comparator
             self.field = field
             self.value = value
@@ -4675,8 +4549,7 @@ extension QConnectClientTypes {
 
         public init(
             intentId: Swift.String? = nil
-        )
-        {
+        ) {
             self.intentId = intentId
         }
     }
@@ -4692,8 +4565,7 @@ extension QConnectClientTypes {
 
         public init(
             text: Swift.String? = nil
-        )
-        {
+        ) {
             self.text = text
         }
     }
@@ -4744,8 +4616,7 @@ public struct QueryAssistantInput: Swift.Sendable {
         queryInputData: QConnectClientTypes.QueryInputData? = nil,
         queryText: Swift.String? = nil,
         sessionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.assistantId = assistantId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4805,8 +4676,7 @@ public struct RemoveAssistantAIAgentInput: Swift.Sendable {
     public init(
         aiAgentType: QConnectClientTypes.AIAgentType? = nil,
         assistantId: Swift.String? = nil
-    )
-    {
+    ) {
         self.aiAgentType = aiAgentType
         self.assistantId = assistantId
     }
@@ -4887,8 +4757,7 @@ extension QConnectClientTypes {
             field: QConnectClientTypes.FilterField? = nil,
             `operator`: QConnectClientTypes.FilterOperator? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.field = field
             self.`operator` = `operator`
             self.value = value
@@ -4906,8 +4775,7 @@ extension QConnectClientTypes {
 
         public init(
             filters: [QConnectClientTypes.Filter]? = nil
-        )
-        {
+        ) {
             self.filters = filters
         }
     }
@@ -4930,8 +4798,7 @@ public struct SearchSessionsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         searchExpression: QConnectClientTypes.SearchExpression? = nil
-    )
-    {
+    ) {
         self.assistantId = assistantId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4961,8 +4828,7 @@ extension QConnectClientTypes {
             assistantId: Swift.String? = nil,
             sessionArn: Swift.String? = nil,
             sessionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.assistantArn = assistantArn
             self.assistantId = assistantId
             self.sessionArn = sessionArn
@@ -4981,8 +4847,7 @@ public struct SearchSessionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         sessionSummaries: [QConnectClientTypes.SessionSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.sessionSummaries = sessionSummaries
     }
@@ -5014,8 +4879,7 @@ public struct CreateSessionInput: Swift.Sendable {
         name: Swift.String? = nil,
         tagFilter: QConnectClientTypes.TagFilter? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.aiAgentConfiguration = aiAgentConfiguration
         self.assistantId = assistantId
         self.clientToken = clientToken
@@ -5035,8 +4899,7 @@ extension QConnectClientTypes {
 
         public init(
             topicIntegrationArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.topicIntegrationArn = topicIntegrationArn
         }
     }
@@ -5075,8 +4938,7 @@ extension QConnectClientTypes {
             sessionId: Swift.String? = nil,
             tagFilter: QConnectClientTypes.TagFilter? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.aiAgentConfiguration = aiAgentConfiguration
             self.description = description
             self.integrationConfiguration = integrationConfiguration
@@ -5095,8 +4957,7 @@ public struct CreateSessionOutput: Swift.Sendable {
 
     public init(
         session: QConnectClientTypes.SessionData? = nil
-    )
-    {
+    ) {
         self.session = session
     }
 }
@@ -5116,8 +4977,7 @@ public struct GetNextMessageInput: Swift.Sendable {
         assistantId: Swift.String? = nil,
         nextMessageToken: Swift.String? = nil,
         sessionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.assistantId = assistantId
         self.nextMessageToken = nextMessageToken
         self.sessionId = sessionId
@@ -5148,8 +5008,7 @@ extension QConnectClientTypes {
         public init(
             key: Swift.String? = nil,
             value: QConnectClientTypes.RuntimeSessionDataValue? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -5238,8 +5097,7 @@ extension QConnectClientTypes {
         public init(
             reason: QConnectClientTypes.ConversationStatusReason? = nil,
             status: QConnectClientTypes.ConversationStatus? = nil
-        )
-        {
+        ) {
             self.reason = reason
             self.status = status
         }
@@ -5287,8 +5145,7 @@ extension QConnectClientTypes {
 
         public init(
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.value = value
         }
     }
@@ -5331,8 +5188,7 @@ extension QConnectClientTypes {
             participant: QConnectClientTypes.Participant? = nil,
             timestamp: Foundation.Date? = nil,
             value: QConnectClientTypes.MessageData? = nil
-        )
-        {
+        ) {
             self.messageId = messageId
             self.participant = participant
             self.timestamp = timestamp
@@ -5392,8 +5248,7 @@ public struct GetNextMessageOutput: Swift.Sendable {
         requestMessageId: Swift.String? = nil,
         response: QConnectClientTypes.MessageOutput? = nil,
         type: QConnectClientTypes.MessageType? = nil
-    )
-    {
+    ) {
         self.conversationSessionData = conversationSessionData
         self.conversationState = conversationState
         self.nextMessageToken = nextMessageToken
@@ -5414,8 +5269,7 @@ public struct GetSessionInput: Swift.Sendable {
     public init(
         assistantId: Swift.String? = nil,
         sessionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.assistantId = assistantId
         self.sessionId = sessionId
     }
@@ -5427,8 +5281,7 @@ public struct GetSessionOutput: Swift.Sendable {
 
     public init(
         session: QConnectClientTypes.SessionData? = nil
-    )
-    {
+    ) {
         self.session = session
     }
 }
@@ -5450,8 +5303,7 @@ public struct ListMessagesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sessionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.assistantId = assistantId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -5469,8 +5321,7 @@ public struct ListMessagesOutput: Swift.Sendable {
     public init(
         messages: [QConnectClientTypes.MessageOutput]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.messages = messages
         self.nextToken = nextToken
     }
@@ -5492,8 +5343,7 @@ extension QConnectClientTypes {
             botResponse: Swift.String? = nil,
             inputTranscript: Swift.String? = nil,
             turnNumber: Swift.Int? = nil
-        )
-        {
+        ) {
             self.botResponse = botResponse
             self.inputTranscript = inputTranscript
             self.turnNumber = turnNumber
@@ -5516,8 +5366,7 @@ extension QConnectClientTypes {
 
         public init(
             selfServiceConversationHistory: [QConnectClientTypes.SelfServiceConversationHistory]? = nil
-        )
-        {
+        ) {
             self.selfServiceConversationHistory = selfServiceConversationHistory
         }
     }
@@ -5533,8 +5382,7 @@ extension QConnectClientTypes {
 
         public init(
             value: QConnectClientTypes.MessageData? = nil
-        )
-        {
+        ) {
             self.value = value
         }
     }
@@ -5565,8 +5413,7 @@ public struct SendMessageInput: Swift.Sendable {
         message: QConnectClientTypes.MessageInput? = nil,
         sessionId: Swift.String? = nil,
         type: QConnectClientTypes.MessageType? = nil
-    )
-    {
+    ) {
         self.assistantId = assistantId
         self.clientToken = clientToken
         self.conversationContext = conversationContext
@@ -5587,8 +5434,7 @@ public struct SendMessageOutput: Swift.Sendable {
     public init(
         nextMessageToken: Swift.String? = nil,
         requestMessageId: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextMessageToken = nextMessageToken
         self.requestMessageId = requestMessageId
     }
@@ -5614,8 +5460,7 @@ public struct UpdateSessionInput: Swift.Sendable {
         description: Swift.String? = nil,
         sessionId: Swift.String? = nil,
         tagFilter: QConnectClientTypes.TagFilter? = nil
-    )
-    {
+    ) {
         self.aiAgentConfiguration = aiAgentConfiguration
         self.assistantId = assistantId
         self.description = description
@@ -5630,8 +5475,7 @@ public struct UpdateSessionOutput: Swift.Sendable {
 
     public init(
         session: QConnectClientTypes.SessionData? = nil
-    )
-    {
+    ) {
         self.session = session
     }
 }
@@ -5680,8 +5524,7 @@ public struct UpdateSessionDataInput: Swift.Sendable {
         data: [QConnectClientTypes.RuntimeSessionData]? = nil,
         namespace: QConnectClientTypes.SessionDataNamespace? = nil,
         sessionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.assistantId = assistantId
         self.data = data
         self.namespace = namespace
@@ -5708,8 +5551,7 @@ public struct UpdateSessionDataOutput: Swift.Sendable {
         namespace: QConnectClientTypes.SessionDataNamespace? = nil,
         sessionArn: Swift.String? = nil,
         sessionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.data = data
         self.namespace = namespace
         self.sessionArn = sessionArn
@@ -5732,8 +5574,7 @@ public struct UpdateAssistantAIAgentInput: Swift.Sendable {
         aiAgentType: QConnectClientTypes.AIAgentType? = nil,
         assistantId: Swift.String? = nil,
         configuration: QConnectClientTypes.AIAgentConfigurationData? = nil
-    )
-    {
+    ) {
         self.aiAgentType = aiAgentType
         self.assistantId = assistantId
         self.configuration = configuration
@@ -5746,8 +5587,7 @@ public struct UpdateAssistantAIAgentOutput: Swift.Sendable {
 
     public init(
         assistant: QConnectClientTypes.AssistantData? = nil
-    )
-    {
+    ) {
         self.assistant = assistant
     }
 }
@@ -5762,8 +5602,7 @@ extension QConnectClientTypes {
 
         public init(
             parsingPromptText: Swift.String? = nil
-        )
-        {
+        ) {
             self.parsingPromptText = parsingPromptText
         }
     }
@@ -5782,8 +5621,7 @@ extension QConnectClientTypes {
         public init(
             modelArn: Swift.String? = nil,
             parsingPrompt: QConnectClientTypes.ParsingPrompt? = nil
-        )
-        {
+        ) {
             self.modelArn = modelArn
             self.parsingPrompt = parsingPrompt
         }
@@ -5868,8 +5706,7 @@ extension QConnectClientTypes {
         public init(
             maxTokens: Swift.Int? = nil,
             overlapPercentage: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maxTokens = maxTokens
             self.overlapPercentage = overlapPercentage
         }
@@ -5886,8 +5723,7 @@ extension QConnectClientTypes {
 
         public init(
             maxTokens: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maxTokens = maxTokens
         }
     }
@@ -5907,8 +5743,7 @@ extension QConnectClientTypes {
         public init(
             levelConfigurations: [QConnectClientTypes.HierarchicalChunkingLevelConfiguration]? = nil,
             overlapTokens: Swift.Int? = nil
-        )
-        {
+        ) {
             self.levelConfigurations = levelConfigurations
             self.overlapTokens = overlapTokens
         }
@@ -5933,8 +5768,7 @@ extension QConnectClientTypes {
             breakpointPercentileThreshold: Swift.Int? = nil,
             bufferSize: Swift.Int? = nil,
             maxTokens: Swift.Int? = nil
-        )
-        {
+        ) {
             self.breakpointPercentileThreshold = breakpointPercentileThreshold
             self.bufferSize = bufferSize
             self.maxTokens = maxTokens
@@ -5961,8 +5795,7 @@ extension QConnectClientTypes {
             fixedSizeChunkingConfiguration: QConnectClientTypes.FixedSizeChunkingConfiguration? = nil,
             hierarchicalChunkingConfiguration: QConnectClientTypes.HierarchicalChunkingConfiguration? = nil,
             semanticChunkingConfiguration: QConnectClientTypes.SemanticChunkingConfiguration? = nil
-        )
-        {
+        ) {
             self.chunkingStrategy = chunkingStrategy
             self.fixedSizeChunkingConfiguration = fixedSizeChunkingConfiguration
             self.hierarchicalChunkingConfiguration = hierarchicalChunkingConfiguration
@@ -5980,8 +5813,7 @@ extension QConnectClientTypes {
 
         public init(
             instanceId: Swift.String? = nil
-        )
-        {
+        ) {
             self.instanceId = instanceId
         }
     }
@@ -6058,8 +5890,7 @@ public struct CreateContentAssociationInput: Swift.Sendable {
         contentId: Swift.String? = nil,
         knowledgeBaseId: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.association = association
         self.associationType = associationType
         self.clientToken = clientToken
@@ -6110,8 +5941,7 @@ extension QConnectClientTypes {
             knowledgeBaseArn: Swift.String? = nil,
             knowledgeBaseId: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.associationData = associationData
             self.associationType = associationType
             self.contentArn = contentArn
@@ -6131,8 +5961,7 @@ public struct CreateContentAssociationOutput: Swift.Sendable {
 
     public init(
         contentAssociation: QConnectClientTypes.ContentAssociationData? = nil
-    )
-    {
+    ) {
         self.contentAssociation = contentAssociation
     }
 }
@@ -6152,8 +5981,7 @@ public struct DeleteContentAssociationInput: Swift.Sendable {
         contentAssociationId: Swift.String? = nil,
         contentId: Swift.String? = nil,
         knowledgeBaseId: Swift.String? = nil
-    )
-    {
+    ) {
         self.contentAssociationId = contentAssociationId
         self.contentId = contentId
         self.knowledgeBaseId = knowledgeBaseId
@@ -6180,8 +6008,7 @@ public struct GetContentAssociationInput: Swift.Sendable {
         contentAssociationId: Swift.String? = nil,
         contentId: Swift.String? = nil,
         knowledgeBaseId: Swift.String? = nil
-    )
-    {
+    ) {
         self.contentAssociationId = contentAssociationId
         self.contentId = contentId
         self.knowledgeBaseId = knowledgeBaseId
@@ -6194,8 +6021,7 @@ public struct GetContentAssociationOutput: Swift.Sendable {
 
     public init(
         contentAssociation: QConnectClientTypes.ContentAssociationData? = nil
-    )
-    {
+    ) {
         self.contentAssociation = contentAssociation
     }
 }
@@ -6217,8 +6043,7 @@ public struct ListContentAssociationsInput: Swift.Sendable {
         knowledgeBaseId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.contentId = contentId
         self.knowledgeBaseId = knowledgeBaseId
         self.maxResults = maxResults
@@ -6267,8 +6092,7 @@ extension QConnectClientTypes {
             knowledgeBaseArn: Swift.String? = nil,
             knowledgeBaseId: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.associationData = associationData
             self.associationType = associationType
             self.contentArn = contentArn
@@ -6292,8 +6116,7 @@ public struct ListContentAssociationsOutput: Swift.Sendable {
     public init(
         contentAssociationSummaries: [QConnectClientTypes.ContentAssociationSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.contentAssociationSummaries = contentAssociationSummaries
         self.nextToken = nextToken
     }
@@ -6329,8 +6152,7 @@ public struct CreateContentInput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         title: Swift.String? = nil,
         uploadId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.knowledgeBaseId = knowledgeBaseId
         self.metadata = metadata
@@ -6446,8 +6268,7 @@ extension QConnectClientTypes {
             title: Swift.String? = nil,
             url: Swift.String? = nil,
             urlExpiry: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.contentArn = contentArn
             self.contentId = contentId
             self.contentType = contentType
@@ -6477,8 +6298,7 @@ public struct CreateContentOutput: Swift.Sendable {
 
     public init(
         content: QConnectClientTypes.ContentData? = nil
-    )
-    {
+    ) {
         self.content = content
     }
 }
@@ -6494,8 +6314,7 @@ public struct DeleteContentInput: Swift.Sendable {
     public init(
         contentId: Swift.String? = nil,
         knowledgeBaseId: Swift.String? = nil
-    )
-    {
+    ) {
         self.contentId = contentId
         self.knowledgeBaseId = knowledgeBaseId
     }
@@ -6517,8 +6336,7 @@ public struct GetContentInput: Swift.Sendable {
     public init(
         contentId: Swift.String? = nil,
         knowledgeBaseId: Swift.String? = nil
-    )
-    {
+    ) {
         self.contentId = contentId
         self.knowledgeBaseId = knowledgeBaseId
     }
@@ -6530,8 +6348,7 @@ public struct GetContentOutput: Swift.Sendable {
 
     public init(
         content: QConnectClientTypes.ContentData? = nil
-    )
-    {
+    ) {
         self.content = content
     }
 }
@@ -6547,8 +6364,7 @@ public struct GetContentSummaryInput: Swift.Sendable {
     public init(
         contentId: Swift.String? = nil,
         knowledgeBaseId: Swift.String? = nil
-    )
-    {
+    ) {
         self.contentId = contentId
         self.knowledgeBaseId = knowledgeBaseId
     }
@@ -6603,8 +6419,7 @@ extension QConnectClientTypes {
             status: QConnectClientTypes.ContentStatus? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             title: Swift.String? = nil
-        )
-        {
+        ) {
             self.contentArn = contentArn
             self.contentId = contentId
             self.contentType = contentType
@@ -6626,8 +6441,7 @@ public struct GetContentSummaryOutput: Swift.Sendable {
 
     public init(
         contentSummary: QConnectClientTypes.ContentSummary? = nil
-    )
-    {
+    ) {
         self.contentSummary = contentSummary
     }
 }
@@ -6645,8 +6459,7 @@ public struct ListContentsInput: Swift.Sendable {
         knowledgeBaseId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.knowledgeBaseId = knowledgeBaseId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -6663,8 +6476,7 @@ public struct ListContentsOutput: Swift.Sendable {
     public init(
         contentSummaries: [QConnectClientTypes.ContentSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.contentSummaries = contentSummaries
         self.nextToken = nextToken
     }
@@ -6688,8 +6500,7 @@ public struct PreconditionFailedException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -6723,8 +6534,7 @@ public struct UpdateContentInput: Swift.Sendable {
         revisionId: Swift.String? = nil,
         title: Swift.String? = nil,
         uploadId: Swift.String? = nil
-    )
-    {
+    ) {
         self.contentId = contentId
         self.knowledgeBaseId = knowledgeBaseId
         self.metadata = metadata
@@ -6742,8 +6552,7 @@ public struct UpdateContentOutput: Swift.Sendable {
 
     public init(
         content: QConnectClientTypes.ContentData? = nil
-    )
-    {
+    ) {
         self.content = content
     }
 }
@@ -6830,8 +6639,7 @@ extension QConnectClientTypes {
 
         public init(
             templateUri: Swift.String? = nil
-        )
-        {
+        ) {
             self.templateUri = templateUri
         }
     }
@@ -6846,8 +6654,7 @@ extension QConnectClientTypes {
 
         public init(
             rateLimit: Swift.Int? = nil
-        )
-        {
+        ) {
             self.rateLimit = rateLimit
         }
     }
@@ -6891,8 +6698,7 @@ extension QConnectClientTypes {
 
         public init(
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.url = url
         }
     }
@@ -6907,8 +6713,7 @@ extension QConnectClientTypes {
 
         public init(
             seedUrls: [QConnectClientTypes.SeedUrl]? = nil
-        )
-        {
+        ) {
             self.seedUrls = seedUrls
         }
     }
@@ -6936,8 +6741,7 @@ extension QConnectClientTypes {
             inclusionFilters: [Swift.String]? = nil,
             scope: QConnectClientTypes.WebScopeType? = nil,
             urlConfiguration: QConnectClientTypes.UrlConfiguration? = nil
-        )
-        {
+        ) {
             self.crawlerLimits = crawlerLimits
             self.exclusionFilters = exclusionFilters
             self.inclusionFilters = inclusionFilters
@@ -7013,8 +6817,7 @@ extension QConnectClientTypes {
         public init(
             bedrockFoundationModelConfiguration: QConnectClientTypes.BedrockFoundationModelConfigurationForParsing? = nil,
             parsingStrategy: QConnectClientTypes.ParsingStrategy? = nil
-        )
-        {
+        ) {
             self.bedrockFoundationModelConfiguration = bedrockFoundationModelConfiguration
             self.parsingStrategy = parsingStrategy
         }
@@ -7033,8 +6836,7 @@ extension QConnectClientTypes {
         public init(
             chunkingConfiguration: QConnectClientTypes.ChunkingConfiguration? = nil,
             parsingConfiguration: QConnectClientTypes.ParsingConfiguration? = nil
-        )
-        {
+        ) {
             self.chunkingConfiguration = chunkingConfiguration
             self.parsingConfiguration = parsingConfiguration
         }
@@ -7073,8 +6875,7 @@ public struct CreateKnowledgeBaseInput: Swift.Sendable {
         sourceConfiguration: QConnectClientTypes.SourceConfiguration? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         vectorIngestionConfiguration: QConnectClientTypes.VectorIngestionConfiguration? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.knowledgeBaseType = knowledgeBaseType
@@ -7216,8 +7017,7 @@ extension QConnectClientTypes {
             status: QConnectClientTypes.KnowledgeBaseStatus? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             vectorIngestionConfiguration: QConnectClientTypes.VectorIngestionConfiguration? = nil
-        )
-        {
+        ) {
             self.description = description
             self.ingestionFailureReasons = ingestionFailureReasons
             self.ingestionStatus = ingestionStatus
@@ -7242,8 +7042,7 @@ public struct CreateKnowledgeBaseOutput: Swift.Sendable {
 
     public init(
         knowledgeBase: QConnectClientTypes.KnowledgeBaseData? = nil
-    )
-    {
+    ) {
         self.knowledgeBase = knowledgeBase
     }
 }
@@ -7270,8 +7069,7 @@ extension QConnectClientTypes {
         public init(
             html: QConnectClientTypes.MessageTemplateBodyContentProvider? = nil,
             plainText: QConnectClientTypes.MessageTemplateBodyContentProvider? = nil
-        )
-        {
+        ) {
             self.html = html
             self.plainText = plainText
         }
@@ -7290,8 +7088,7 @@ extension QConnectClientTypes {
         public init(
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -7318,8 +7115,7 @@ extension QConnectClientTypes {
             body: QConnectClientTypes.EmailMessageTemplateContentBody? = nil,
             headers: [QConnectClientTypes.EmailHeader]? = nil,
             subject: Swift.String? = nil
-        )
-        {
+        ) {
             self.body = body
             self.headers = headers
             self.subject = subject
@@ -7341,8 +7137,7 @@ extension QConnectClientTypes {
 
         public init(
             plainText: QConnectClientTypes.MessageTemplateBodyContentProvider? = nil
-        )
-        {
+        ) {
             self.plainText = plainText
         }
     }
@@ -7357,8 +7152,7 @@ extension QConnectClientTypes {
 
         public init(
             body: QConnectClientTypes.SMSMessageTemplateContentBody? = nil
-        )
-        {
+        ) {
             self.body = body
         }
     }
@@ -7556,8 +7350,7 @@ extension QConnectClientTypes {
             shippingProvince: Swift.String? = nil,
             shippingState: Swift.String? = nil,
             state: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountNumber = accountNumber
             self.additionalInformation = additionalInformation
             self.address1 = address1
@@ -7634,8 +7427,7 @@ extension QConnectClientTypes {
 
         public init(
             address: Swift.String? = nil
-        )
-        {
+        ) {
             self.address = address
         }
     }
@@ -7661,8 +7453,7 @@ extension QConnectClientTypes {
             customerEndpoint: QConnectClientTypes.SystemEndpointAttributes? = nil,
             name: Swift.String? = nil,
             systemEndpoint: QConnectClientTypes.SystemEndpointAttributes? = nil
-        )
-        {
+        ) {
             self.customerEndpoint = customerEndpoint
             self.name = name
             self.systemEndpoint = systemEndpoint
@@ -7693,8 +7484,7 @@ extension QConnectClientTypes {
             customAttributes: [Swift.String: Swift.String]? = nil,
             customerProfileAttributes: QConnectClientTypes.CustomerProfileAttributes? = nil,
             systemAttributes: QConnectClientTypes.SystemAttributes? = nil
-        )
-        {
+        ) {
             self.agentAttributes = agentAttributes
             self.customAttributes = customAttributes
             self.customerProfileAttributes = customerProfileAttributes
@@ -7724,8 +7514,7 @@ extension QConnectClientTypes {
         public init(
             criteria: Swift.String? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.criteria = criteria
             self.values = values
         }
@@ -7774,8 +7563,7 @@ public struct CreateMessageTemplateInput: Swift.Sendable {
         language: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.channelSubtype = channelSubtype
         self.clientToken = clientToken
         self.content = content
@@ -7892,8 +7680,7 @@ extension QConnectClientTypes {
             messageTemplateId: Swift.String? = nil,
             name: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.attributeTypes = attributeTypes
             self.channelSubtype = channelSubtype
             self.content = content
@@ -7921,8 +7708,7 @@ public struct CreateMessageTemplateOutput: Swift.Sendable {
 
     public init(
         messageTemplate: QConnectClientTypes.MessageTemplateData? = nil
-    )
-    {
+    ) {
         self.messageTemplate = messageTemplate
     }
 }
@@ -7953,8 +7739,7 @@ public struct CreateMessageTemplateAttachmentInput: Swift.Sendable {
         knowledgeBaseId: Swift.String? = nil,
         messageTemplateId: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.body = body
         self.clientToken = clientToken
         self.contentDisposition = contentDisposition
@@ -7999,8 +7784,7 @@ extension QConnectClientTypes {
             uploadedTime: Foundation.Date? = nil,
             url: Swift.String? = nil,
             urlExpiry: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.attachmentId = attachmentId
             self.contentDisposition = contentDisposition
             self.name = name
@@ -8022,8 +7806,7 @@ public struct CreateMessageTemplateAttachmentOutput: Swift.Sendable {
 
     public init(
         attachment: QConnectClientTypes.MessageTemplateAttachment? = nil
-    )
-    {
+    ) {
         self.attachment = attachment
     }
 }
@@ -8042,8 +7825,7 @@ public struct CreateMessageTemplateVersionInput: Swift.Sendable {
         knowledgeBaseId: Swift.String? = nil,
         messageTemplateContentSha256: Swift.String? = nil,
         messageTemplateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.knowledgeBaseId = knowledgeBaseId
         self.messageTemplateContentSha256 = messageTemplateContentSha256
         self.messageTemplateId = messageTemplateId
@@ -8127,8 +7909,7 @@ extension QConnectClientTypes {
             name: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             versionNumber: Swift.Int? = nil
-        )
-        {
+        ) {
             self.attachments = attachments
             self.attributeTypes = attributeTypes
             self.channelSubtype = channelSubtype
@@ -8159,8 +7940,7 @@ public struct CreateMessageTemplateVersionOutput: Swift.Sendable {
 
     public init(
         messageTemplate: QConnectClientTypes.ExtendedMessageTemplateData? = nil
-    )
-    {
+    ) {
         self.messageTemplate = messageTemplate
     }
 }
@@ -8221,8 +8001,7 @@ public struct CreateQuickResponseInput: Swift.Sendable {
         name: Swift.String? = nil,
         shortcutKey: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.channels = channels
         self.clientToken = clientToken
         self.content = content
@@ -8265,8 +8044,7 @@ extension QConnectClientTypes {
         public init(
             markdown: QConnectClientTypes.QuickResponseContentProvider? = nil,
             plainText: QConnectClientTypes.QuickResponseContentProvider? = nil
-        )
-        {
+        ) {
             self.markdown = markdown
             self.plainText = plainText
         }
@@ -8393,8 +8171,7 @@ extension QConnectClientTypes {
             shortcutKey: Swift.String? = nil,
             status: QConnectClientTypes.QuickResponseStatus? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.channels = channels
             self.contentType = contentType
             self.contents = contents
@@ -8428,8 +8205,7 @@ public struct CreateQuickResponseOutput: Swift.Sendable {
 
     public init(
         quickResponse: QConnectClientTypes.QuickResponseData? = nil
-    )
-    {
+    ) {
         self.quickResponse = quickResponse
     }
 }
@@ -8449,8 +8225,7 @@ public struct DeactivateMessageTemplateInput: Swift.Sendable {
         knowledgeBaseId: Swift.String? = nil,
         messageTemplateId: Swift.String? = nil,
         versionNumber: Swift.Int? = nil
-    )
-    {
+    ) {
         self.knowledgeBaseId = knowledgeBaseId
         self.messageTemplateId = messageTemplateId
         self.versionNumber = versionNumber
@@ -8472,8 +8247,7 @@ public struct DeactivateMessageTemplateOutput: Swift.Sendable {
         messageTemplateArn: Swift.String? = nil,
         messageTemplateId: Swift.String? = nil,
         versionNumber: Swift.Int? = nil
-    )
-    {
+    ) {
         self.messageTemplateArn = messageTemplateArn
         self.messageTemplateId = messageTemplateId
         self.versionNumber = versionNumber
@@ -8491,8 +8265,7 @@ public struct DeleteImportJobInput: Swift.Sendable {
     public init(
         importJobId: Swift.String? = nil,
         knowledgeBaseId: Swift.String? = nil
-    )
-    {
+    ) {
         self.importJobId = importJobId
         self.knowledgeBaseId = knowledgeBaseId
     }
@@ -8510,8 +8283,7 @@ public struct DeleteKnowledgeBaseInput: Swift.Sendable {
 
     public init(
         knowledgeBaseId: Swift.String? = nil
-    )
-    {
+    ) {
         self.knowledgeBaseId = knowledgeBaseId
     }
 }
@@ -8532,8 +8304,7 @@ public struct DeleteMessageTemplateInput: Swift.Sendable {
     public init(
         knowledgeBaseId: Swift.String? = nil,
         messageTemplateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.knowledgeBaseId = knowledgeBaseId
         self.messageTemplateId = messageTemplateId
     }
@@ -8559,8 +8330,7 @@ public struct DeleteMessageTemplateAttachmentInput: Swift.Sendable {
         attachmentId: Swift.String? = nil,
         knowledgeBaseId: Swift.String? = nil,
         messageTemplateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.attachmentId = attachmentId
         self.knowledgeBaseId = knowledgeBaseId
         self.messageTemplateId = messageTemplateId
@@ -8583,8 +8353,7 @@ public struct DeleteQuickResponseInput: Swift.Sendable {
     public init(
         knowledgeBaseId: Swift.String? = nil,
         quickResponseId: Swift.String? = nil
-    )
-    {
+    ) {
         self.knowledgeBaseId = knowledgeBaseId
         self.quickResponseId = quickResponseId
     }
@@ -8635,8 +8404,7 @@ extension QConnectClientTypes {
         public init(
             configuration: QConnectClientTypes.Configuration? = nil,
             source: QConnectClientTypes.ExternalSource? = nil
-        )
-        {
+        ) {
             self.configuration = configuration
             self.source = source
         }
@@ -8654,8 +8422,7 @@ public struct GetImportJobInput: Swift.Sendable {
     public init(
         importJobId: Swift.String? = nil,
         knowledgeBaseId: Swift.String? = nil
-    )
-    {
+    ) {
         self.importJobId = importJobId
         self.knowledgeBaseId = knowledgeBaseId
     }
@@ -8783,8 +8550,7 @@ extension QConnectClientTypes {
             uploadId: Swift.String? = nil,
             url: Swift.String? = nil,
             urlExpiry: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.createdTime = createdTime
             self.externalSourceConfiguration = externalSourceConfiguration
             self.failedRecordReport = failedRecordReport
@@ -8813,8 +8579,7 @@ public struct GetImportJobOutput: Swift.Sendable {
 
     public init(
         importJob: QConnectClientTypes.ImportJobData? = nil
-    )
-    {
+    ) {
         self.importJob = importJob
     }
 }
@@ -8826,8 +8591,7 @@ public struct GetKnowledgeBaseInput: Swift.Sendable {
 
     public init(
         knowledgeBaseId: Swift.String? = nil
-    )
-    {
+    ) {
         self.knowledgeBaseId = knowledgeBaseId
     }
 }
@@ -8838,8 +8602,7 @@ public struct GetKnowledgeBaseOutput: Swift.Sendable {
 
     public init(
         knowledgeBase: QConnectClientTypes.KnowledgeBaseData? = nil
-    )
-    {
+    ) {
         self.knowledgeBase = knowledgeBase
     }
 }
@@ -8855,8 +8618,7 @@ public struct GetMessageTemplateInput: Swift.Sendable {
     public init(
         knowledgeBaseId: Swift.String? = nil,
         messageTemplateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.knowledgeBaseId = knowledgeBaseId
         self.messageTemplateId = messageTemplateId
     }
@@ -8868,8 +8630,7 @@ public struct GetMessageTemplateOutput: Swift.Sendable {
 
     public init(
         messageTemplate: QConnectClientTypes.ExtendedMessageTemplateData? = nil
-    )
-    {
+    ) {
         self.messageTemplate = messageTemplate
     }
 }
@@ -8885,8 +8646,7 @@ public struct GetQuickResponseInput: Swift.Sendable {
     public init(
         knowledgeBaseId: Swift.String? = nil,
         quickResponseId: Swift.String? = nil
-    )
-    {
+    ) {
         self.knowledgeBaseId = knowledgeBaseId
         self.quickResponseId = quickResponseId
     }
@@ -8898,8 +8658,7 @@ public struct GetQuickResponseOutput: Swift.Sendable {
 
     public init(
         quickResponse: QConnectClientTypes.QuickResponseData? = nil
-    )
-    {
+    ) {
         self.quickResponse = quickResponse
     }
 }
@@ -8948,8 +8707,7 @@ extension QConnectClientTypes {
             metadata: [Swift.String: Swift.String]? = nil,
             status: QConnectClientTypes.ImportJobStatus? = nil,
             uploadId: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdTime = createdTime
             self.externalSourceConfiguration = externalSourceConfiguration
             self.importJobId = importJobId
@@ -8977,8 +8735,7 @@ public struct ListImportJobsInput: Swift.Sendable {
         knowledgeBaseId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.knowledgeBaseId = knowledgeBaseId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -8995,8 +8752,7 @@ public struct ListImportJobsOutput: Swift.Sendable {
     public init(
         importJobSummaries: [QConnectClientTypes.ImportJobSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.importJobSummaries = importJobSummaries
         self.nextToken = nextToken
     }
@@ -9011,8 +8767,7 @@ public struct ListKnowledgeBasesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -9062,8 +8817,7 @@ extension QConnectClientTypes {
             status: QConnectClientTypes.KnowledgeBaseStatus? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             vectorIngestionConfiguration: QConnectClientTypes.VectorIngestionConfiguration? = nil
-        )
-        {
+        ) {
             self.description = description
             self.knowledgeBaseArn = knowledgeBaseArn
             self.knowledgeBaseId = knowledgeBaseId
@@ -9089,8 +8843,7 @@ public struct ListKnowledgeBasesOutput: Swift.Sendable {
     public init(
         knowledgeBaseSummaries: [QConnectClientTypes.KnowledgeBaseSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.knowledgeBaseSummaries = knowledgeBaseSummaries
         self.nextToken = nextToken
     }
@@ -9109,8 +8862,7 @@ public struct ListMessageTemplatesInput: Swift.Sendable {
         knowledgeBaseId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.knowledgeBaseId = knowledgeBaseId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -9168,8 +8920,7 @@ extension QConnectClientTypes {
             messageTemplateId: Swift.String? = nil,
             name: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.activeVersionNumber = activeVersionNumber
             self.channelSubtype = channelSubtype
             self.createdTime = createdTime
@@ -9196,8 +8947,7 @@ public struct ListMessageTemplatesOutput: Swift.Sendable {
     public init(
         messageTemplateSummaries: [QConnectClientTypes.MessageTemplateSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.messageTemplateSummaries = messageTemplateSummaries
         self.nextToken = nextToken
     }
@@ -9220,8 +8970,7 @@ public struct ListMessageTemplateVersionsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         messageTemplateId: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.knowledgeBaseId = knowledgeBaseId
         self.maxResults = maxResults
         self.messageTemplateId = messageTemplateId
@@ -9267,8 +9016,7 @@ extension QConnectClientTypes {
             messageTemplateId: Swift.String? = nil,
             name: Swift.String? = nil,
             versionNumber: Swift.Int? = nil
-        )
-        {
+        ) {
             self.channelSubtype = channelSubtype
             self.isActive = isActive
             self.knowledgeBaseArn = knowledgeBaseArn
@@ -9291,8 +9039,7 @@ public struct ListMessageTemplateVersionsOutput: Swift.Sendable {
     public init(
         messageTemplateVersionSummaries: [QConnectClientTypes.MessageTemplateVersionSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.messageTemplateVersionSummaries = messageTemplateVersionSummaries
         self.nextToken = nextToken
     }
@@ -9313,8 +9060,7 @@ public struct RenderMessageTemplateInput: Swift.Sendable {
         attributes: QConnectClientTypes.MessageTemplateAttributes? = nil,
         knowledgeBaseId: Swift.String? = nil,
         messageTemplateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.attributes = attributes
         self.knowledgeBaseId = knowledgeBaseId
         self.messageTemplateId = messageTemplateId
@@ -9334,8 +9080,7 @@ public struct RenderMessageTemplateOutput: Swift.Sendable {
         attachments: [QConnectClientTypes.MessageTemplateAttachment]? = nil,
         attributesNotInterpolated: [Swift.String]? = nil,
         content: QConnectClientTypes.MessageTemplateContentProvider? = nil
-    )
-    {
+    ) {
         self.attachments = attachments
         self.attributesNotInterpolated = attributesNotInterpolated
         self.content = content
@@ -9367,8 +9112,7 @@ public struct UpdateMessageTemplateInput: Swift.Sendable {
         knowledgeBaseId: Swift.String? = nil,
         language: Swift.String? = nil,
         messageTemplateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.content = content
         self.defaultAttributes = defaultAttributes
         self.knowledgeBaseId = knowledgeBaseId
@@ -9383,8 +9127,7 @@ public struct UpdateMessageTemplateOutput: Swift.Sendable {
 
     public init(
         messageTemplate: QConnectClientTypes.MessageTemplateData? = nil
-    )
-    {
+    ) {
         self.messageTemplate = messageTemplate
     }
 }
@@ -9409,8 +9152,7 @@ public struct UpdateMessageTemplateMetadataInput: Swift.Sendable {
         knowledgeBaseId: Swift.String? = nil,
         messageTemplateId: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.groupingConfiguration = groupingConfiguration
         self.knowledgeBaseId = knowledgeBaseId
@@ -9425,8 +9167,7 @@ public struct UpdateMessageTemplateMetadataOutput: Swift.Sendable {
 
     public init(
         messageTemplate: QConnectClientTypes.MessageTemplateData? = nil
-    )
-    {
+    ) {
         self.messageTemplate = messageTemplate
     }
 }
@@ -9444,8 +9185,7 @@ public struct ListQuickResponsesInput: Swift.Sendable {
         knowledgeBaseId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.knowledgeBaseId = knowledgeBaseId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -9513,8 +9253,7 @@ extension QConnectClientTypes {
             quickResponseId: Swift.String? = nil,
             status: QConnectClientTypes.QuickResponseStatus? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.channels = channels
             self.contentType = contentType
             self.createdTime = createdTime
@@ -9548,8 +9287,7 @@ public struct ListQuickResponsesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         quickResponseSummaries: [QConnectClientTypes.QuickResponseSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.quickResponseSummaries = quickResponseSummaries
     }
@@ -9606,8 +9344,7 @@ public struct UpdateQuickResponseInput: Swift.Sendable {
         removeGroupingConfiguration: Swift.Bool? = nil,
         removeShortcutKey: Swift.Bool? = nil,
         shortcutKey: Swift.String? = nil
-    )
-    {
+    ) {
         self.channels = channels
         self.content = content
         self.contentType = contentType
@@ -9636,8 +9373,7 @@ public struct UpdateQuickResponseOutput: Swift.Sendable {
 
     public init(
         quickResponse: QConnectClientTypes.QuickResponseData? = nil
-    )
-    {
+    ) {
         self.quickResponse = quickResponse
     }
 }
@@ -9649,8 +9385,7 @@ public struct RemoveKnowledgeBaseTemplateUriInput: Swift.Sendable {
 
     public init(
         knowledgeBaseId: Swift.String? = nil
-    )
-    {
+    ) {
         self.knowledgeBaseId = knowledgeBaseId
     }
 }
@@ -9677,8 +9412,7 @@ public struct SearchContentInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         searchExpression: QConnectClientTypes.SearchExpression? = nil
-    )
-    {
+    ) {
         self.knowledgeBaseId = knowledgeBaseId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -9696,8 +9430,7 @@ public struct SearchContentOutput: Swift.Sendable {
     public init(
         contentSummaries: [QConnectClientTypes.ContentSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.contentSummaries = contentSummaries
         self.nextToken = nextToken
     }
@@ -9774,8 +9507,7 @@ extension QConnectClientTypes {
             name: Swift.String? = nil,
             `operator`: QConnectClientTypes.MessageTemplateFilterOperator? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.includeNoExistence = includeNoExistence
             self.name = name
             self.`operator` = `operator`
@@ -9848,8 +9580,7 @@ extension QConnectClientTypes {
         public init(
             name: Swift.String? = nil,
             order: QConnectClientTypes.Order? = nil
-        )
-        {
+        ) {
             self.name = name
             self.order = order
         }
@@ -9945,8 +9676,7 @@ extension QConnectClientTypes {
             `operator`: QConnectClientTypes.MessageTemplateQueryOperator? = nil,
             priority: QConnectClientTypes.Priority? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.allowFuzziness = allowFuzziness
             self.name = name
             self.`operator` = `operator`
@@ -9971,8 +9701,7 @@ extension QConnectClientTypes {
             filters: [QConnectClientTypes.MessageTemplateFilterField]? = nil,
             orderOnField: QConnectClientTypes.MessageTemplateOrderField? = nil,
             queries: [QConnectClientTypes.MessageTemplateQueryField]? = nil
-        )
-        {
+        ) {
             self.filters = filters
             self.orderOnField = orderOnField
             self.queries = queries
@@ -9997,8 +9726,7 @@ public struct SearchMessageTemplatesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         searchExpression: QConnectClientTypes.MessageTemplateSearchExpression? = nil
-    )
-    {
+    ) {
         self.knowledgeBaseId = knowledgeBaseId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -10066,8 +9794,7 @@ extension QConnectClientTypes {
             name: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             versionNumber: Swift.Int? = nil
-        )
-        {
+        ) {
             self.channelSubtype = channelSubtype
             self.createdTime = createdTime
             self.description = description
@@ -10097,8 +9824,7 @@ public struct SearchMessageTemplatesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         results: [QConnectClientTypes.MessageTemplateSearchResultData]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.results = results
     }
@@ -10177,8 +9903,7 @@ extension QConnectClientTypes {
             name: Swift.String? = nil,
             `operator`: QConnectClientTypes.QuickResponseFilterOperator? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.includeNoExistence = includeNoExistence
             self.name = name
             self.`operator` = `operator`
@@ -10224,8 +9949,7 @@ extension QConnectClientTypes {
         public init(
             name: Swift.String? = nil,
             order: QConnectClientTypes.Order? = nil
-        )
-        {
+        ) {
             self.name = name
             self.order = order
         }
@@ -10293,8 +10017,7 @@ extension QConnectClientTypes {
             `operator`: QConnectClientTypes.QuickResponseQueryOperator? = nil,
             priority: QConnectClientTypes.Priority? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.allowFuzziness = allowFuzziness
             self.name = name
             self.`operator` = `operator`
@@ -10319,8 +10042,7 @@ extension QConnectClientTypes {
             filters: [QConnectClientTypes.QuickResponseFilterField]? = nil,
             orderOnField: QConnectClientTypes.QuickResponseOrderField? = nil,
             queries: [QConnectClientTypes.QuickResponseQueryField]? = nil
-        )
-        {
+        ) {
             self.filters = filters
             self.orderOnField = orderOnField
             self.queries = queries
@@ -10348,8 +10070,7 @@ public struct SearchQuickResponsesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         searchExpression: QConnectClientTypes.QuickResponseSearchExpression? = nil
-    )
-    {
+    ) {
         self.attributes = attributes
         self.knowledgeBaseId = knowledgeBaseId
         self.maxResults = maxResults
@@ -10444,8 +10165,7 @@ extension QConnectClientTypes {
             shortcutKey: Swift.String? = nil,
             status: QConnectClientTypes.QuickResponseStatus? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.attributesInterpolated = attributesInterpolated
             self.attributesNotInterpolated = attributesNotInterpolated
             self.channels = channels
@@ -10485,8 +10205,7 @@ public struct SearchQuickResponsesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         results: [QConnectClientTypes.QuickResponseSearchResultData]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.results = results
     }
@@ -10506,8 +10225,7 @@ public struct StartContentUploadInput: Swift.Sendable {
         contentType: Swift.String? = nil,
         knowledgeBaseId: Swift.String? = nil,
         presignedUrlTimeToLive: Swift.Int? = nil
-    )
-    {
+    ) {
         self.contentType = contentType
         self.knowledgeBaseId = knowledgeBaseId
         self.presignedUrlTimeToLive = presignedUrlTimeToLive
@@ -10533,8 +10251,7 @@ public struct StartContentUploadOutput: Swift.Sendable {
         uploadId: Swift.String? = nil,
         url: Swift.String? = nil,
         urlExpiry: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.headersToInclude = headersToInclude
         self.uploadId = uploadId
         self.url = url
@@ -10575,8 +10292,7 @@ public struct StartImportJobInput: Swift.Sendable {
         knowledgeBaseId: Swift.String? = nil,
         metadata: [Swift.String: Swift.String]? = nil,
         uploadId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.externalSourceConfiguration = externalSourceConfiguration
         self.importJobType = importJobType
@@ -10592,8 +10308,7 @@ public struct StartImportJobOutput: Swift.Sendable {
 
     public init(
         importJob: QConnectClientTypes.ImportJobData? = nil
-    )
-    {
+    ) {
         self.importJob = importJob
     }
 }
@@ -10609,8 +10324,7 @@ public struct UpdateKnowledgeBaseTemplateUriInput: Swift.Sendable {
     public init(
         knowledgeBaseId: Swift.String? = nil,
         templateUri: Swift.String? = nil
-    )
-    {
+    ) {
         self.knowledgeBaseId = knowledgeBaseId
         self.templateUri = templateUri
     }
@@ -10622,8 +10336,7 @@ public struct UpdateKnowledgeBaseTemplateUriOutput: Swift.Sendable {
 
     public init(
         knowledgeBase: QConnectClientTypes.KnowledgeBaseData? = nil
-    )
-    {
+    ) {
         self.knowledgeBase = knowledgeBase
     }
 }
@@ -10635,8 +10348,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -10647,8 +10359,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -10674,8 +10385,7 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
     public init(
         message: Swift.String? = nil,
         resourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceName = resourceName
     }
@@ -10692,8 +10402,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -10715,8 +10424,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -10757,8 +10465,7 @@ extension QConnectClientTypes {
         public init(
             details: QConnectClientTypes.DataDetails? = nil,
             reference: QConnectClientTypes.DataReference? = nil
-        )
-        {
+        ) {
             self.details = details
             self.reference = reference
         }
@@ -10783,8 +10490,7 @@ extension QConnectClientTypes {
             completion: Swift.String? = nil,
             rankingData: QConnectClientTypes.RankingData? = nil,
             references: [QConnectClientTypes.DataSummary]? = nil
-        )
-        {
+        ) {
             self.completion = completion
             self.rankingData = rankingData
             self.references = references
@@ -10822,8 +10528,7 @@ extension QConnectClientTypes {
             relevanceLevel: QConnectClientTypes.RelevanceLevel? = nil,
             relevanceScore: Swift.Double = 0.0,
             type: QConnectClientTypes.RecommendationType? = nil
-        )
-        {
+        ) {
             self.data = data
             self.document = document
             self.recommendationId = recommendationId
@@ -10856,8 +10561,7 @@ extension QConnectClientTypes {
             relevanceScore: Swift.Double = 0.0,
             resultId: Swift.String? = nil,
             type: QConnectClientTypes.QueryResultType? = nil
-        )
-        {
+        ) {
             self.data = data
             self.document = document
             self.relevanceScore = relevanceScore
@@ -10877,8 +10581,7 @@ public struct GetRecommendationsOutput: Swift.Sendable {
     public init(
         recommendations: [QConnectClientTypes.RecommendationData]? = nil,
         triggers: [QConnectClientTypes.RecommendationTrigger]? = nil
-    )
-    {
+    ) {
         self.recommendations = recommendations
         self.triggers = triggers
     }
@@ -10894,8 +10597,7 @@ public struct QueryAssistantOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         results: [QConnectClientTypes.ResultData]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.results = results
     }

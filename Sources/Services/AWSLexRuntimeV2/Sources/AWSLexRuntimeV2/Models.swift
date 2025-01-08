@@ -58,8 +58,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -78,8 +77,7 @@ extension LexRuntimeV2ClientTypes {
         public init(
             timeToLiveInSeconds: Swift.Int? = nil,
             turnsToLive: Swift.Int? = nil
-        )
-        {
+        ) {
             self.timeToLiveInSeconds = timeToLiveInSeconds
             self.turnsToLive = turnsToLive
         }
@@ -104,8 +102,7 @@ extension LexRuntimeV2ClientTypes {
             contextAttributes: [Swift.String: Swift.String]? = nil,
             name: Swift.String? = nil,
             timeToLive: LexRuntimeV2ClientTypes.ActiveContextTimeToLive? = nil
-        )
-        {
+        ) {
             self.contextAttributes = contextAttributes
             self.name = name
             self.timeToLive = timeToLive
@@ -137,8 +134,7 @@ extension LexRuntimeV2ClientTypes {
             clientTimestampMillis: Swift.Int = 0,
             contentType: Swift.String? = nil,
             eventId: Swift.String? = nil
-        )
-        {
+        ) {
             self.audioChunk = audioChunk
             self.clientTimestampMillis = clientTimestampMillis
             self.contentType = contentType
@@ -162,8 +158,7 @@ extension LexRuntimeV2ClientTypes {
             audioChunk: Foundation.Data? = nil,
             contentType: Swift.String? = nil,
             eventId: Swift.String? = nil
-        )
-        {
+        ) {
             self.audioChunk = audioChunk
             self.contentType = contentType
             self.eventId = eventId
@@ -190,8 +185,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -215,8 +209,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -240,8 +233,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -265,8 +257,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -290,8 +281,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -315,8 +305,7 @@ public struct DeleteSessionInput: Swift.Sendable {
         botId: Swift.String? = nil,
         localeId: Swift.String? = nil,
         sessionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.botAliasId = botAliasId
         self.botId = botId
         self.localeId = localeId
@@ -339,8 +328,7 @@ public struct DeleteSessionOutput: Swift.Sendable {
         botId: Swift.String? = nil,
         localeId: Swift.String? = nil,
         sessionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.botAliasId = botAliasId
         self.botId = botId
         self.localeId = localeId
@@ -367,8 +355,7 @@ public struct GetSessionInput: Swift.Sendable {
         botId: Swift.String? = nil,
         localeId: Swift.String? = nil,
         sessionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.botAliasId = botAliasId
         self.botId = botId
         self.localeId = localeId
@@ -456,8 +443,7 @@ extension LexRuntimeV2ClientTypes {
             interpretedValue: Swift.String? = nil,
             originalValue: Swift.String? = nil,
             resolvedValues: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.interpretedValue = interpretedValue
             self.originalValue = originalValue
             self.resolvedValues = resolvedValues
@@ -544,8 +530,7 @@ extension LexRuntimeV2ClientTypes {
 
         public init(
             score: Swift.Double = 0.0
-        )
-        {
+        ) {
             self.score = score
         }
     }
@@ -604,8 +589,7 @@ extension LexRuntimeV2ClientTypes {
             negative: Swift.Double = 0.0,
             neutral: Swift.Double = 0.0,
             positive: Swift.Double = 0.0
-        )
-        {
+        ) {
             self.mixed = mixed
             self.negative = negative
             self.neutral = neutral
@@ -626,8 +610,7 @@ extension LexRuntimeV2ClientTypes {
         public init(
             sentiment: LexRuntimeV2ClientTypes.SentimentType? = nil,
             sentimentScore: LexRuntimeV2ClientTypes.SentimentScore? = nil
-        )
-        {
+        ) {
             self.sentiment = sentiment
             self.sentimentScore = sentimentScore
         }
@@ -683,8 +666,7 @@ extension LexRuntimeV2ClientTypes {
         public init(
             text: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.text = text
             self.value = value
         }
@@ -710,8 +692,7 @@ extension LexRuntimeV2ClientTypes {
             imageUrl: Swift.String? = nil,
             subtitle: Swift.String? = nil,
             title: Swift.String? = nil
-        )
-        {
+        ) {
             self.buttons = buttons
             self.imageUrl = imageUrl
             self.subtitle = subtitle
@@ -736,8 +717,7 @@ extension LexRuntimeV2ClientTypes {
             content: Swift.String? = nil,
             contentType: LexRuntimeV2ClientTypes.MessageContentType? = nil,
             imageResponseCard: LexRuntimeV2ClientTypes.ImageResponseCard? = nil
-        )
-        {
+        ) {
             self.content = content
             self.contentType = contentType
             self.imageResponseCard = imageResponseCard
@@ -833,8 +813,7 @@ extension LexRuntimeV2ClientTypes {
 
         public init(
             phrase: Swift.String? = nil
-        )
-        {
+        ) {
             self.phrase = phrase
         }
     }
@@ -859,8 +838,7 @@ public struct BadGatewayException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -884,8 +862,7 @@ public struct DependencyFailedException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -911,8 +888,7 @@ public struct PutSessionOutput: Swift.Sendable {
         requestAttributes: Swift.String? = nil,
         sessionId: Swift.String? = nil,
         sessionState: Swift.String? = nil
-    )
-    {
+    ) {
         self.audioStream = audioStream
         self.contentType = contentType
         self.messages = messages
@@ -935,8 +911,7 @@ extension LexRuntimeV2ClientTypes {
         public init(
             botId: Swift.String? = nil,
             botName: Swift.String? = nil
-        )
-        {
+        ) {
             self.botId = botId
             self.botName = botName
         }
@@ -1018,8 +993,7 @@ public struct RecognizeUtteranceInput: Swift.Sendable {
         responseContentType: Swift.String? = nil,
         sessionId: Swift.String? = nil,
         sessionState: Swift.String? = nil
-    )
-    {
+    ) {
         self.botAliasId = botAliasId
         self.botId = botId
         self.inputStream = inputStream
@@ -1070,8 +1044,7 @@ public struct RecognizeUtteranceOutput: Swift.Sendable {
         requestAttributes: Swift.String? = nil,
         sessionId: Swift.String? = nil,
         sessionState: Swift.String? = nil
-    )
-    {
+    ) {
         self.audioStream = audioStream
         self.contentType = contentType
         self.inputMode = inputMode
@@ -1126,8 +1099,7 @@ extension LexRuntimeV2ClientTypes {
         public init(
             clientTimestampMillis: Swift.Int = 0,
             eventId: Swift.String? = nil
-        )
-        {
+        ) {
             self.clientTimestampMillis = clientTimestampMillis
             self.eventId = eventId
         }
@@ -1150,8 +1122,7 @@ extension LexRuntimeV2ClientTypes {
             clientTimestampMillis: Swift.Int = 0,
             eventId: Swift.String? = nil,
             inputCharacter: Swift.String? = nil
-        )
-        {
+        ) {
             self.clientTimestampMillis = clientTimestampMillis
             self.eventId = eventId
             self.inputCharacter = inputCharacter
@@ -1176,8 +1147,7 @@ extension LexRuntimeV2ClientTypes {
         public init(
             clientTimestampMillis: Swift.Int = 0,
             eventId: Swift.String? = nil
-        )
-        {
+        ) {
             self.clientTimestampMillis = clientTimestampMillis
             self.eventId = eventId
         }
@@ -1200,8 +1170,7 @@ extension LexRuntimeV2ClientTypes {
             clientTimestampMillis: Swift.Int = 0,
             eventId: Swift.String? = nil,
             text: Swift.String? = nil
-        )
-        {
+        ) {
             self.clientTimestampMillis = clientTimestampMillis
             self.eventId = eventId
             self.text = text
@@ -1223,8 +1192,7 @@ extension LexRuntimeV2ClientTypes {
 
         public init(
             eventId: Swift.String? = nil
-        )
-        {
+        ) {
             self.eventId = eventId
         }
     }
@@ -1309,8 +1277,7 @@ extension LexRuntimeV2ClientTypes {
             causedByEventId: Swift.String? = nil,
             eventId: Swift.String? = nil,
             eventReason: LexRuntimeV2ClientTypes.PlaybackInterruptionReason? = nil
-        )
-        {
+        ) {
             self.causedByEventId = causedByEventId
             self.eventId = eventId
             self.eventReason = eventReason
@@ -1330,8 +1297,7 @@ extension LexRuntimeV2ClientTypes {
         public init(
             eventId: Swift.String? = nil,
             messages: [LexRuntimeV2ClientTypes.Message]? = nil
-        )
-        {
+        ) {
             self.eventId = eventId
             self.messages = messages
         }
@@ -1350,8 +1316,7 @@ extension LexRuntimeV2ClientTypes {
         public init(
             eventId: Swift.String? = nil,
             transcript: Swift.String? = nil
-        )
-        {
+        ) {
             self.eventId = eventId
             self.transcript = transcript
         }
@@ -1371,8 +1336,7 @@ extension LexRuntimeV2ClientTypes {
         public init(
             name: Swift.String? = nil,
             subSlotToElicit: LexRuntimeV2ClientTypes.ElicitSubSlot? = nil
-        )
-        {
+        ) {
             self.name = name
             self.subSlotToElicit = subSlotToElicit
         }
@@ -1415,8 +1379,7 @@ extension LexRuntimeV2ClientTypes {
             slotToElicit: Swift.String? = nil,
             subSlotToElicit: LexRuntimeV2ClientTypes.ElicitSubSlot? = nil,
             type: LexRuntimeV2ClientTypes.DialogActionType? = nil
-        )
-        {
+        ) {
             self.slotElicitationStyle = slotElicitationStyle
             self.slotToElicit = slotToElicit
             self.subSlotToElicit = subSlotToElicit
@@ -1437,8 +1400,7 @@ extension LexRuntimeV2ClientTypes {
         public init(
             runtimeHintValues: [LexRuntimeV2ClientTypes.RuntimeHintValue]? = nil,
             subSlotHints: [Swift.String: LexRuntimeV2ClientTypes.RuntimeHintDetails]? = nil
-        )
-        {
+        ) {
             self.runtimeHintValues = runtimeHintValues
             self.subSlotHints = subSlotHints
         }
@@ -1454,8 +1416,7 @@ extension LexRuntimeV2ClientTypes {
 
         public init(
             slotHints: [Swift.String: [Swift.String: LexRuntimeV2ClientTypes.RuntimeHintDetails]]? = nil
-        )
-        {
+        ) {
             self.slotHints = slotHints
         }
     }
@@ -1479,8 +1440,7 @@ extension LexRuntimeV2ClientTypes {
             subSlots: [Swift.String: LexRuntimeV2ClientTypes.Slot]? = nil,
             value: LexRuntimeV2ClientTypes.Value? = nil,
             values: [LexRuntimeV2ClientTypes.Slot]? = nil
-        )
-        {
+        ) {
             self.shape = shape
             self.subSlots = subSlots
             self.value = value
@@ -1520,8 +1480,7 @@ extension LexRuntimeV2ClientTypes {
             name: Swift.String? = nil,
             slots: [Swift.String: LexRuntimeV2ClientTypes.Slot]? = nil,
             state: LexRuntimeV2ClientTypes.IntentState? = nil
-        )
-        {
+        ) {
             self.confirmationState = confirmationState
             self.name = name
             self.slots = slots
@@ -1548,8 +1507,7 @@ extension LexRuntimeV2ClientTypes {
             interpretationSource: LexRuntimeV2ClientTypes.InterpretationSource? = nil,
             nluConfidence: LexRuntimeV2ClientTypes.ConfidenceScore? = nil,
             sentimentResponse: LexRuntimeV2ClientTypes.SentimentResponse? = nil
-        )
-        {
+        ) {
             self.intent = intent
             self.interpretationSource = interpretationSource
             self.nluConfidence = nluConfidence
@@ -1582,8 +1540,7 @@ extension LexRuntimeV2ClientTypes {
             originatingRequestId: Swift.String? = nil,
             runtimeHints: LexRuntimeV2ClientTypes.RuntimeHints? = nil,
             sessionAttributes: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.activeContexts = activeContexts
             self.dialogAction = dialogAction
             self.intent = intent
@@ -1640,8 +1597,7 @@ extension LexRuntimeV2ClientTypes {
             responseContentType: Swift.String? = nil,
             sessionState: LexRuntimeV2ClientTypes.SessionState? = nil,
             welcomeMessages: [LexRuntimeV2ClientTypes.Message]? = nil
-        )
-        {
+        ) {
             self.clientTimestampMillis = clientTimestampMillis
             self.disablePlayback = disablePlayback
             self.eventId = eventId
@@ -1687,8 +1643,7 @@ public struct PutSessionInput: Swift.Sendable {
         responseContentType: Swift.String? = nil,
         sessionId: Swift.String? = nil,
         sessionState: LexRuntimeV2ClientTypes.SessionState? = nil
-    )
-    {
+    ) {
         self.botAliasId = botAliasId
         self.botId = botId
         self.localeId = localeId
@@ -1729,8 +1684,7 @@ public struct RecognizeTextInput: Swift.Sendable {
         sessionId: Swift.String? = nil,
         sessionState: LexRuntimeV2ClientTypes.SessionState? = nil,
         text: Swift.String? = nil
-    )
-    {
+    ) {
         self.botAliasId = botAliasId
         self.botId = botId
         self.localeId = localeId
@@ -1798,8 +1752,7 @@ public struct StartConversationInput: Swift.Sendable {
         localeId: Swift.String? = nil,
         requestEventStream: AsyncThrowingStream<LexRuntimeV2ClientTypes.StartConversationRequestEventStream, Swift.Error>? = nil,
         sessionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.botAliasId = botAliasId
         self.botId = botId
         self.conversationMode = conversationMode
@@ -1836,8 +1789,7 @@ extension LexRuntimeV2ClientTypes {
             requestAttributes: [Swift.String: Swift.String]? = nil,
             sessionId: Swift.String? = nil,
             sessionState: LexRuntimeV2ClientTypes.SessionState? = nil
-        )
-        {
+        ) {
             self.eventId = eventId
             self.inputMode = inputMode
             self.interpretations = interpretations
@@ -1864,8 +1816,7 @@ public struct GetSessionOutput: Swift.Sendable {
         messages: [LexRuntimeV2ClientTypes.Message]? = nil,
         sessionId: Swift.String? = nil,
         sessionState: LexRuntimeV2ClientTypes.SessionState? = nil
-    )
-    {
+    ) {
         self.interpretations = interpretations
         self.messages = messages
         self.sessionId = sessionId
@@ -1894,8 +1845,7 @@ public struct RecognizeTextOutput: Swift.Sendable {
         requestAttributes: [Swift.String: Swift.String]? = nil,
         sessionId: Swift.String? = nil,
         sessionState: LexRuntimeV2ClientTypes.SessionState? = nil
-    )
-    {
+    ) {
         self.interpretations = interpretations
         self.messages = messages
         self.recognizedBotMember = recognizedBotMember
@@ -1931,8 +1881,7 @@ public struct StartConversationOutput: Swift.Sendable {
 
     public init(
         responseEventStream: AsyncThrowingStream<LexRuntimeV2ClientTypes.StartConversationResponseEventStream, Swift.Error>? = nil
-    )
-    {
+    ) {
         self.responseEventStream = responseEventStream
     }
 }

@@ -105,8 +105,7 @@ public struct InternalServiceException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -129,8 +128,7 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -153,8 +151,7 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -177,8 +174,7 @@ public struct UnsupportedRegionException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -198,8 +194,7 @@ public struct AcceptMatchInput: Swift.Sendable {
         acceptanceType: GameLiftClientTypes.AcceptanceType? = nil,
         playerIds: [Swift.String]? = nil,
         ticketId: Swift.String? = nil
-    )
-    {
+    ) {
         self.acceptanceType = acceptanceType
         self.playerIds = playerIds
         self.ticketId = ticketId
@@ -264,8 +259,7 @@ extension GameLiftClientTypes {
             fleetId: Swift.String? = nil,
             message: Swift.String? = nil,
             type: GameLiftClientTypes.RoutingStrategyType? = nil
-        )
-        {
+        ) {
             self.fleetId = fleetId
             self.message = message
             self.type = type
@@ -300,8 +294,7 @@ extension GameLiftClientTypes {
             lastUpdatedTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             routingStrategy: GameLiftClientTypes.RoutingStrategy? = nil
-        )
-        {
+        ) {
             self.aliasArn = aliasArn
             self.aliasId = aliasId
             self.creationTime = creationTime
@@ -323,8 +316,7 @@ extension GameLiftClientTypes {
 
         public init(
             cost: Swift.String? = nil
-        )
-        {
+        ) {
             self.cost = cost
         }
     }
@@ -348,8 +340,7 @@ extension GameLiftClientTypes {
             s: Swift.String? = nil,
             sdm: [Swift.String: Swift.Double]? = nil,
             sl: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.n = n
             self.s = s
             self.sdm = sdm
@@ -377,8 +368,7 @@ extension GameLiftClientTypes {
             accessKeyId: Swift.String? = nil,
             secretAccessKey: Swift.String? = nil,
             sessionToken: Swift.String? = nil
-        )
-        {
+        ) {
             self.accessKeyId = accessKeyId
             self.secretAccessKey = secretAccessKey
             self.sessionToken = sessionToken
@@ -562,8 +552,7 @@ extension GameLiftClientTypes {
             sizeOnDisk: Swift.Int? = nil,
             status: GameLiftClientTypes.BuildStatus? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.buildArn = buildArn
             self.buildId = buildId
             self.creationTime = creationTime
@@ -620,8 +609,7 @@ extension GameLiftClientTypes {
 
         public init(
             certificateType: GameLiftClientTypes.CertificateType? = nil
-        )
-        {
+        ) {
             self.certificateType = certificateType
         }
     }
@@ -665,8 +653,7 @@ extension GameLiftClientTypes {
 
         public init(
             instanceStatuses: [GameLiftClientTypes.FilterInstanceStatus]? = nil
-        )
-        {
+        ) {
             self.instanceStatuses = instanceStatuses
         }
     }
@@ -690,8 +677,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -714,8 +700,7 @@ public struct OutOfCapacityException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -738,8 +723,7 @@ public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -760,8 +744,7 @@ public struct ClaimGameServerInput: Swift.Sendable {
         gameServerData: Swift.String? = nil,
         gameServerGroupName: Swift.String? = nil,
         gameServerId: Swift.String? = nil
-    )
-    {
+    ) {
         self.filterOption = filterOption
         self.gameServerData = gameServerData
         self.gameServerGroupName = gameServerGroupName
@@ -867,8 +850,7 @@ extension GameLiftClientTypes {
             lastHealthCheckTime: Foundation.Date? = nil,
             registrationTime: Foundation.Date? = nil,
             utilizationStatus: GameLiftClientTypes.GameServerUtilizationStatus? = nil
-        )
-        {
+        ) {
             self.claimStatus = claimStatus
             self.connectionInfo = connectionInfo
             self.gameServerData = gameServerData
@@ -890,8 +872,7 @@ public struct ClaimGameServerOutput: Swift.Sendable {
 
     public init(
         gameServer: GameLiftClientTypes.GameServer? = nil
-    )
-    {
+    ) {
         self.gameServer = gameServer
     }
 }
@@ -978,8 +959,7 @@ extension GameLiftClientTypes {
         public init(
             containerName: Swift.String? = nil,
             containerRuntimeId: Swift.String? = nil
-        )
-        {
+        ) {
             self.containerName = containerName
             self.containerRuntimeId = containerRuntimeId
         }
@@ -1592,8 +1572,7 @@ extension GameLiftClientTypes {
             location: Swift.String? = nil,
             operatingSystem: GameLiftClientTypes.OperatingSystem? = nil,
             type: GameLiftClientTypes.EC2InstanceType? = nil
-        )
-        {
+        ) {
             self.computeArn = computeArn
             self.computeName = computeName
             self.computeStatus = computeStatus
@@ -1662,8 +1641,7 @@ extension GameLiftClientTypes {
         public init(
             fromPort: Swift.Int? = nil,
             toPort: Swift.Int? = nil
-        )
-        {
+        ) {
             self.fromPort = fromPort
             self.toPort = toPort
         }
@@ -1732,8 +1710,7 @@ extension GameLiftClientTypes {
         public init(
             condition: GameLiftClientTypes.ContainerDependencyCondition? = nil,
             containerName: Swift.String? = nil
-        )
-        {
+        ) {
             self.condition = condition
             self.containerName = containerName
         }
@@ -1754,8 +1731,7 @@ extension GameLiftClientTypes {
         public init(
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -1800,8 +1776,7 @@ extension GameLiftClientTypes {
 
         public init(
             latestDeploymentId: Swift.String? = nil
-        )
-        {
+        ) {
             self.latestDeploymentId = latestDeploymentId
         }
     }
@@ -1819,8 +1794,7 @@ extension GameLiftClientTypes {
         public init(
             newGameSessionsPerCreator: Swift.Int? = nil,
             policyPeriodInMinutes: Swift.Int? = nil
-        )
-        {
+        ) {
             self.newGameSessionsPerCreator = newGameSessionsPerCreator
             self.policyPeriodInMinutes = policyPeriodInMinutes
         }
@@ -1878,8 +1852,7 @@ extension GameLiftClientTypes {
             ipRange: Swift.String? = nil,
             `protocol`: GameLiftClientTypes.IpProtocol? = nil,
             toPort: Swift.Int? = nil
-        )
-        {
+        ) {
             self.fromPort = fromPort
             self.ipRange = ipRange
             self.`protocol` = `protocol`
@@ -1961,8 +1934,7 @@ extension GameLiftClientTypes {
         public init(
             location: Swift.String? = nil,
             status: GameLiftClientTypes.ContainerFleetLocationStatus? = nil
-        )
-        {
+        ) {
             self.location = location
             self.status = status
         }
@@ -2022,8 +1994,7 @@ extension GameLiftClientTypes {
             logDestination: GameLiftClientTypes.LogDestination? = nil,
             logGroupArn: Swift.String? = nil,
             s3BucketName: Swift.String? = nil
-        )
-        {
+        ) {
             self.logDestination = logDestination
             self.logGroupArn = logGroupArn
             self.s3BucketName = s3BucketName
@@ -2198,8 +2169,7 @@ extension GameLiftClientTypes {
             perInstanceContainerGroupDefinitionArn: Swift.String? = nil,
             perInstanceContainerGroupDefinitionName: Swift.String? = nil,
             status: GameLiftClientTypes.ContainerFleetStatus? = nil
-        )
-        {
+        ) {
             self.billingType = billingType
             self.creationTime = creationTime
             self.deploymentDetails = deploymentDetails
@@ -2326,8 +2296,7 @@ extension GameLiftClientTypes {
             accessLevel: GameLiftClientTypes.ContainerMountPointAccessLevel? = nil,
             containerPath: Swift.String? = nil,
             instancePath: Swift.String? = nil
-        )
-        {
+        ) {
             self.accessLevel = accessLevel
             self.containerPath = containerPath
             self.instancePath = instancePath
@@ -2353,8 +2322,7 @@ extension GameLiftClientTypes {
             fromPort: Swift.Int? = nil,
             `protocol`: GameLiftClientTypes.IpProtocol? = nil,
             toPort: Swift.Int? = nil
-        )
-        {
+        ) {
             self.fromPort = fromPort
             self.`protocol` = `protocol`
             self.toPort = toPort
@@ -2377,8 +2345,7 @@ extension GameLiftClientTypes {
 
         public init(
             containerPortRanges: [GameLiftClientTypes.ContainerPortRange]? = nil
-        )
-        {
+        ) {
             self.containerPortRanges = containerPortRanges
         }
     }
@@ -2414,8 +2381,7 @@ extension GameLiftClientTypes {
             portConfiguration: GameLiftClientTypes.ContainerPortConfiguration? = nil,
             resolvedImageDigest: Swift.String? = nil,
             serverSdkVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.containerName = containerName
             self.dependsOn = dependsOn
             self.environmentOverride = environmentOverride
@@ -2508,8 +2474,7 @@ extension GameLiftClientTypes {
             retries: Swift.Int? = nil,
             startPeriod: Swift.Int? = nil,
             timeout: Swift.Int? = nil
-        )
-        {
+        ) {
             self.command = command
             self.interval = interval
             self.retries = retries
@@ -2558,8 +2523,7 @@ extension GameLiftClientTypes {
             portConfiguration: GameLiftClientTypes.ContainerPortConfiguration? = nil,
             resolvedImageDigest: Swift.String? = nil,
             vcpu: Swift.Double? = nil
-        )
-        {
+        ) {
             self.containerName = containerName
             self.dependsOn = dependsOn
             self.environmentOverride = environmentOverride
@@ -2637,8 +2601,7 @@ extension GameLiftClientTypes {
             totalVcpuLimit: Swift.Double? = nil,
             versionDescription: Swift.String? = nil,
             versionNumber: Swift.Int? = nil
-        )
-        {
+        ) {
             self.containerGroupDefinitionArn = containerGroupDefinitionArn
             self.containerGroupType = containerGroupType
             self.creationTime = creationTime
@@ -2668,8 +2631,7 @@ extension GameLiftClientTypes {
         public init(
             containerName: Swift.String? = nil,
             containerRuntimeId: Swift.String? = nil
-        )
-        {
+        ) {
             self.containerName = containerName
             self.containerRuntimeId = containerRuntimeId
         }
@@ -2694,8 +2656,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2718,8 +2679,7 @@ public struct TaggingFailedException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2738,8 +2698,7 @@ extension GameLiftClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -2763,8 +2722,7 @@ public struct CreateAliasInput: Swift.Sendable {
         name: Swift.String? = nil,
         routingStrategy: GameLiftClientTypes.RoutingStrategy? = nil,
         tags: [GameLiftClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.name = name
         self.routingStrategy = routingStrategy
@@ -2778,8 +2736,7 @@ public struct CreateAliasOutput: Swift.Sendable {
 
     public init(
         alias: GameLiftClientTypes.Alias? = nil
-    )
-    {
+    ) {
         self.alias = alias
     }
 }
@@ -2802,8 +2759,7 @@ extension GameLiftClientTypes {
             key: Swift.String? = nil,
             objectVersion: Swift.String? = nil,
             roleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucket = bucket
             self.key = key
             self.objectVersion = objectVersion
@@ -2833,8 +2789,7 @@ public struct CreateBuildInput: Swift.Sendable {
         storageLocation: GameLiftClientTypes.S3Location? = nil,
         tags: [GameLiftClientTypes.Tag]? = nil,
         version: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
         self.operatingSystem = operatingSystem
         self.serverSdkVersion = serverSdkVersion
@@ -2856,8 +2811,7 @@ public struct CreateBuildOutput: Swift.Sendable {
         build: GameLiftClientTypes.Build? = nil,
         storageLocation: GameLiftClientTypes.S3Location? = nil,
         uploadCredentials: GameLiftClientTypes.AwsCredentials? = nil
-    )
-    {
+    ) {
         self.build = build
         self.storageLocation = storageLocation
         self.uploadCredentials = uploadCredentials
@@ -2879,8 +2833,7 @@ extension GameLiftClientTypes {
 
         public init(
             location: Swift.String? = nil
-        )
-        {
+        ) {
             self.location = location
         }
     }
@@ -2963,8 +2916,7 @@ public struct CreateContainerFleetInput: Swift.Sendable {
         newGameSessionProtectionPolicy: GameLiftClientTypes.ProtectionPolicy? = nil,
         perInstanceContainerGroupDefinitionName: Swift.String? = nil,
         tags: [GameLiftClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.billingType = billingType
         self.description = description
         self.fleetRoleArn = fleetRoleArn
@@ -2989,8 +2941,7 @@ public struct CreateContainerFleetOutput: Swift.Sendable {
 
     public init(
         containerFleet: GameLiftClientTypes.ContainerFleet? = nil
-    )
-    {
+    ) {
         self.containerFleet = containerFleet
     }
 }
@@ -3032,8 +2983,7 @@ extension GameLiftClientTypes {
             mountPoints: [GameLiftClientTypes.ContainerMountPoint]? = nil,
             portConfiguration: GameLiftClientTypes.ContainerPortConfiguration? = nil,
             serverSdkVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.containerName = containerName
             self.dependsOn = dependsOn
             self.environmentOverride = environmentOverride
@@ -3089,8 +3039,7 @@ extension GameLiftClientTypes {
             mountPoints: [GameLiftClientTypes.ContainerMountPoint]? = nil,
             portConfiguration: GameLiftClientTypes.ContainerPortConfiguration? = nil,
             vcpu: Swift.Double? = nil
-        )
-        {
+        ) {
             self.containerName = containerName
             self.dependsOn = dependsOn
             self.environmentOverride = environmentOverride
@@ -3139,8 +3088,7 @@ public struct CreateContainerGroupDefinitionInput: Swift.Sendable {
         totalMemoryLimitMebibytes: Swift.Int? = nil,
         totalVcpuLimit: Swift.Double? = nil,
         versionDescription: Swift.String? = nil
-    )
-    {
+    ) {
         self.containerGroupType = containerGroupType
         self.gameServerContainerDefinition = gameServerContainerDefinition
         self.name = name
@@ -3159,8 +3107,7 @@ public struct CreateContainerGroupDefinitionOutput: Swift.Sendable {
 
     public init(
         containerGroupDefinition: GameLiftClientTypes.ContainerGroupDefinition? = nil
-    )
-    {
+    ) {
         self.containerGroupDefinition = containerGroupDefinition
     }
 }
@@ -3183,8 +3130,7 @@ public struct NotReadyException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3256,8 +3202,7 @@ extension GameLiftClientTypes {
         public init(
             newGameSessionsPerCreator: Swift.Int? = nil,
             policyPeriodInMinutes: Swift.Int? = nil
-        )
-        {
+        ) {
             self.newGameSessionsPerCreator = newGameSessionsPerCreator
             self.policyPeriodInMinutes = policyPeriodInMinutes
         }
@@ -3288,8 +3233,7 @@ extension GameLiftClientTypes {
             concurrentExecutions: Swift.Int? = nil,
             launchPath: Swift.String? = nil,
             parameters: Swift.String? = nil
-        )
-        {
+        ) {
             self.concurrentExecutions = concurrentExecutions
             self.launchPath = launchPath
             self.parameters = parameters
@@ -3312,8 +3256,7 @@ extension GameLiftClientTypes {
             gameSessionActivationTimeoutSeconds: Swift.Int? = nil,
             maxConcurrentGameSessionActivations: Swift.Int? = nil,
             serverProcesses: [GameLiftClientTypes.ServerProcess]? = nil
-        )
-        {
+        ) {
             self.gameSessionActivationTimeoutSeconds = gameSessionActivationTimeoutSeconds
             self.maxConcurrentGameSessionActivations = maxConcurrentGameSessionActivations
             self.serverProcesses = serverProcesses
@@ -3402,8 +3345,7 @@ public struct CreateFleetInput: Swift.Sendable {
         serverLaunchParameters: Swift.String? = nil,
         serverLaunchPath: Swift.String? = nil,
         tags: [GameLiftClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.anywhereConfiguration = anywhereConfiguration
         self.buildId = buildId
         self.certificateConfiguration = certificateConfiguration
@@ -3618,8 +3560,7 @@ extension GameLiftClientTypes {
             status: GameLiftClientTypes.FleetStatus? = nil,
             stoppedActions: [GameLiftClientTypes.FleetAction]? = nil,
             terminationTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.anywhereConfiguration = anywhereConfiguration
             self.buildArn = buildArn
             self.buildId = buildId
@@ -3676,8 +3617,7 @@ extension GameLiftClientTypes {
         public init(
             location: Swift.String? = nil,
             status: GameLiftClientTypes.FleetStatus? = nil
-        )
-        {
+        ) {
             self.location = location
             self.status = status
         }
@@ -3693,8 +3633,7 @@ public struct CreateFleetOutput: Swift.Sendable {
     public init(
         fleetAttributes: GameLiftClientTypes.FleetAttributes? = nil,
         locationStates: [GameLiftClientTypes.LocationState]? = nil
-    )
-    {
+    ) {
         self.fleetAttributes = fleetAttributes
         self.locationStates = locationStates
     }
@@ -3718,8 +3657,7 @@ public struct InvalidFleetStatusException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3735,8 +3673,7 @@ public struct CreateFleetLocationsInput: Swift.Sendable {
     public init(
         fleetId: Swift.String? = nil,
         locations: [GameLiftClientTypes.LocationConfiguration]? = nil
-    )
-    {
+    ) {
         self.fleetId = fleetId
         self.locations = locations
     }
@@ -3754,8 +3691,7 @@ public struct CreateFleetLocationsOutput: Swift.Sendable {
         fleetArn: Swift.String? = nil,
         fleetId: Swift.String? = nil,
         locationStates: [GameLiftClientTypes.LocationState]? = nil
-    )
-    {
+    ) {
         self.fleetArn = fleetArn
         self.fleetId = fleetId
         self.locationStates = locationStates
@@ -3772,8 +3708,7 @@ extension GameLiftClientTypes {
 
         public init(
             targetValue: Swift.Double? = nil
-        )
-        {
+        ) {
             self.targetValue = targetValue
         }
     }
@@ -3792,8 +3727,7 @@ extension GameLiftClientTypes {
         public init(
             estimatedInstanceWarmup: Swift.Int? = nil,
             targetTrackingConfiguration: GameLiftClientTypes.TargetTrackingConfiguration? = nil
-        )
-        {
+        ) {
             self.estimatedInstanceWarmup = estimatedInstanceWarmup
             self.targetTrackingConfiguration = targetTrackingConfiguration
         }
@@ -4129,8 +4063,7 @@ extension GameLiftClientTypes {
         public init(
             instanceType: GameLiftClientTypes.GameServerGroupInstanceType? = nil,
             weightedCapacity: Swift.String? = nil
-        )
-        {
+        ) {
             self.instanceType = instanceType
             self.weightedCapacity = weightedCapacity
         }
@@ -4152,8 +4085,7 @@ extension GameLiftClientTypes {
             launchTemplateId: Swift.String? = nil,
             launchTemplateName: Swift.String? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.launchTemplateId = launchTemplateId
             self.launchTemplateName = launchTemplateName
             self.version = version
@@ -4209,8 +4141,7 @@ public struct CreateGameServerGroupInput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         tags: [GameLiftClientTypes.Tag]? = nil,
         vpcSubnets: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.autoScalingPolicy = autoScalingPolicy
         self.balancingStrategy = balancingStrategy
         self.gameServerGroupName = gameServerGroupName
@@ -4357,8 +4288,7 @@ extension GameLiftClientTypes {
             status: GameLiftClientTypes.GameServerGroupStatus? = nil,
             statusReason: Swift.String? = nil,
             suspendedActions: [GameLiftClientTypes.GameServerGroupAction]? = nil
-        )
-        {
+        ) {
             self.autoScalingGroupArn = autoScalingGroupArn
             self.balancingStrategy = balancingStrategy
             self.creationTime = creationTime
@@ -4381,8 +4311,7 @@ public struct CreateGameServerGroupOutput: Swift.Sendable {
 
     public init(
         gameServerGroup: GameLiftClientTypes.GameServerGroup? = nil
-    )
-    {
+    ) {
         self.gameServerGroup = gameServerGroup
     }
 }
@@ -4405,8 +4334,7 @@ public struct FleetCapacityExceededException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4429,8 +4357,7 @@ public struct IdempotentParameterMismatchException: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4453,8 +4380,7 @@ public struct TerminalRoutingStrategyException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4473,8 +4399,7 @@ extension GameLiftClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -4515,8 +4440,7 @@ public struct CreateGameSessionInput: Swift.Sendable {
         location: Swift.String? = nil,
         maximumPlayerSessionCount: Swift.Int? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.aliasId = aliasId
         self.creatorId = creatorId
         self.fleetId = fleetId
@@ -4705,8 +4629,7 @@ extension GameLiftClientTypes {
             status: GameLiftClientTypes.GameSessionStatus? = nil,
             statusReason: GameLiftClientTypes.GameSessionStatusReason? = nil,
             terminationTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.creatorId = creatorId
             self.currentPlayerSessionCount = currentPlayerSessionCount
@@ -4741,8 +4664,7 @@ public struct CreateGameSessionOutput: Swift.Sendable {
 
     public init(
         gameSession: GameLiftClientTypes.GameSession? = nil
-    )
-    {
+    ) {
         self.gameSession = gameSession
     }
 }
@@ -4756,8 +4678,7 @@ extension GameLiftClientTypes {
 
         public init(
             destinationArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.destinationArn = destinationArn
         }
     }
@@ -4772,8 +4693,7 @@ extension GameLiftClientTypes {
 
         public init(
             allowedLocations: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.allowedLocations = allowedLocations
         }
     }
@@ -4791,8 +4711,7 @@ extension GameLiftClientTypes {
         public init(
             maximumIndividualPlayerLatencyMilliseconds: Swift.Int? = nil,
             policyDurationSeconds: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maximumIndividualPlayerLatencyMilliseconds = maximumIndividualPlayerLatencyMilliseconds
             self.policyDurationSeconds = policyDurationSeconds
         }
@@ -4861,8 +4780,7 @@ extension GameLiftClientTypes {
         public init(
             locationOrder: [Swift.String]? = nil,
             priorityOrder: [GameLiftClientTypes.PriorityType]? = nil
-        )
-        {
+        ) {
             self.locationOrder = locationOrder
             self.priorityOrder = priorityOrder
         }
@@ -4900,8 +4818,7 @@ public struct CreateGameSessionQueueInput: Swift.Sendable {
         priorityConfiguration: GameLiftClientTypes.PriorityConfiguration? = nil,
         tags: [GameLiftClientTypes.Tag]? = nil,
         timeoutInSeconds: Swift.Int? = nil
-    )
-    {
+    ) {
         self.customEventData = customEventData
         self.destinations = destinations
         self.filterConfiguration = filterConfiguration
@@ -4947,8 +4864,7 @@ extension GameLiftClientTypes {
             playerLatencyPolicies: [GameLiftClientTypes.PlayerLatencyPolicy]? = nil,
             priorityConfiguration: GameLiftClientTypes.PriorityConfiguration? = nil,
             timeoutInSeconds: Swift.Int? = nil
-        )
-        {
+        ) {
             self.customEventData = customEventData
             self.destinations = destinations
             self.filterConfiguration = filterConfiguration
@@ -4968,8 +4884,7 @@ public struct CreateGameSessionQueueOutput: Swift.Sendable {
 
     public init(
         gameSessionQueue: GameLiftClientTypes.GameSessionQueue? = nil
-    )
-    {
+    ) {
         self.gameSessionQueue = gameSessionQueue
     }
 }
@@ -4984,8 +4899,7 @@ public struct CreateLocationInput: Swift.Sendable {
     public init(
         locationName: Swift.String? = nil,
         tags: [GameLiftClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.locationName = locationName
         self.tags = tags
     }
@@ -5003,8 +4917,7 @@ extension GameLiftClientTypes {
         public init(
             locationArn: Swift.String? = nil,
             locationName: Swift.String? = nil
-        )
-        {
+        ) {
             self.locationArn = locationArn
             self.locationName = locationName
         }
@@ -5017,8 +4930,7 @@ public struct CreateLocationOutput: Swift.Sendable {
 
     public init(
         location: GameLiftClientTypes.LocationModel? = nil
-    )
-    {
+    ) {
         self.location = location
     }
 }
@@ -5108,8 +5020,7 @@ public struct CreateMatchmakingConfigurationInput: Swift.Sendable {
         requestTimeoutSeconds: Swift.Int? = nil,
         ruleSetName: Swift.String? = nil,
         tags: [GameLiftClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.acceptanceRequired = acceptanceRequired
         self.acceptanceTimeoutSeconds = acceptanceTimeoutSeconds
         self.additionalPlayerCount = additionalPlayerCount
@@ -5189,8 +5100,7 @@ extension GameLiftClientTypes {
             requestTimeoutSeconds: Swift.Int? = nil,
             ruleSetArn: Swift.String? = nil,
             ruleSetName: Swift.String? = nil
-        )
-        {
+        ) {
             self.acceptanceRequired = acceptanceRequired
             self.acceptanceTimeoutSeconds = acceptanceTimeoutSeconds
             self.additionalPlayerCount = additionalPlayerCount
@@ -5218,8 +5128,7 @@ public struct CreateMatchmakingConfigurationOutput: Swift.Sendable {
 
     public init(
         configuration: GameLiftClientTypes.MatchmakingConfiguration? = nil
-    )
-    {
+    ) {
         self.configuration = configuration
     }
 }
@@ -5238,8 +5147,7 @@ public struct CreateMatchmakingRuleSetInput: Swift.Sendable {
         name: Swift.String? = nil,
         ruleSetBody: Swift.String? = nil,
         tags: [GameLiftClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.name = name
         self.ruleSetBody = ruleSetBody
         self.tags = tags
@@ -5273,8 +5181,7 @@ extension GameLiftClientTypes {
             ruleSetArn: Swift.String? = nil,
             ruleSetBody: Swift.String? = nil,
             ruleSetName: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.ruleSetArn = ruleSetArn
             self.ruleSetBody = ruleSetBody
@@ -5290,8 +5197,7 @@ public struct CreateMatchmakingRuleSetOutput: Swift.Sendable {
 
     public init(
         ruleSet: GameLiftClientTypes.MatchmakingRuleSet? = nil
-    )
-    {
+    ) {
         self.ruleSet = ruleSet
     }
 }
@@ -5314,8 +5220,7 @@ public struct GameSessionFullException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5338,8 +5243,7 @@ public struct InvalidGameSessionStatusException: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5358,8 +5262,7 @@ public struct CreatePlayerSessionInput: Swift.Sendable {
         gameSessionId: Swift.String? = nil,
         playerData: Swift.String? = nil,
         playerId: Swift.String? = nil
-    )
-    {
+    ) {
         self.gameSessionId = gameSessionId
         self.playerData = playerData
         self.playerId = playerId
@@ -5463,8 +5366,7 @@ extension GameLiftClientTypes {
             port: Swift.Int? = nil,
             status: GameLiftClientTypes.PlayerSessionStatus? = nil,
             terminationTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.dnsName = dnsName
             self.fleetArn = fleetArn
@@ -5492,8 +5394,7 @@ public struct CreatePlayerSessionOutput: Swift.Sendable {
 
     public init(
         playerSession: GameLiftClientTypes.PlayerSession? = nil
-    )
-    {
+    ) {
         self.playerSession = playerSession
     }
 }
@@ -5512,8 +5413,7 @@ public struct CreatePlayerSessionsInput: Swift.Sendable {
         gameSessionId: Swift.String? = nil,
         playerDataMap: [Swift.String: Swift.String]? = nil,
         playerIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.gameSessionId = gameSessionId
         self.playerDataMap = playerDataMap
         self.playerIds = playerIds
@@ -5531,8 +5431,7 @@ public struct CreatePlayerSessionsOutput: Swift.Sendable {
 
     public init(
         playerSessions: [GameLiftClientTypes.PlayerSession]? = nil
-    )
-    {
+    ) {
         self.playerSessions = playerSessions
     }
 }
@@ -5555,8 +5454,7 @@ public struct CreateScriptInput: Swift.Sendable {
         tags: [GameLiftClientTypes.Tag]? = nil,
         version: Swift.String? = nil,
         zipFile: Foundation.Data? = nil
-    )
-    {
+    ) {
         self.name = name
         self.storageLocation = storageLocation
         self.tags = tags
@@ -5592,8 +5490,7 @@ extension GameLiftClientTypes {
             sizeOnDisk: Swift.Int? = nil,
             storageLocation: GameLiftClientTypes.S3Location? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.name = name
             self.scriptArn = scriptArn
@@ -5611,8 +5508,7 @@ public struct CreateScriptOutput: Swift.Sendable {
 
     public init(
         script: GameLiftClientTypes.Script? = nil
-    )
-    {
+    ) {
         self.script = script
     }
 }
@@ -5628,8 +5524,7 @@ public struct CreateVpcPeeringAuthorizationInput: Swift.Sendable {
     public init(
         gameLiftAwsAccountId: Swift.String? = nil,
         peerVpcId: Swift.String? = nil
-    )
-    {
+    ) {
         self.gameLiftAwsAccountId = gameLiftAwsAccountId
         self.peerVpcId = peerVpcId
     }
@@ -5656,8 +5551,7 @@ extension GameLiftClientTypes {
             gameLiftAwsAccountId: Swift.String? = nil,
             peerVpcAwsAccountId: Swift.String? = nil,
             peerVpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.expirationTime = expirationTime
             self.gameLiftAwsAccountId = gameLiftAwsAccountId
@@ -5673,8 +5567,7 @@ public struct CreateVpcPeeringAuthorizationOutput: Swift.Sendable {
 
     public init(
         vpcPeeringAuthorization: GameLiftClientTypes.VpcPeeringAuthorization? = nil
-    )
-    {
+    ) {
         self.vpcPeeringAuthorization = vpcPeeringAuthorization
     }
 }
@@ -5694,8 +5587,7 @@ public struct CreateVpcPeeringConnectionInput: Swift.Sendable {
         fleetId: Swift.String? = nil,
         peerVpcAwsAccountId: Swift.String? = nil,
         peerVpcId: Swift.String? = nil
-    )
-    {
+    ) {
         self.fleetId = fleetId
         self.peerVpcAwsAccountId = peerVpcAwsAccountId
         self.peerVpcId = peerVpcId
@@ -5714,8 +5606,7 @@ public struct DeleteAliasInput: Swift.Sendable {
 
     public init(
         aliasId: Swift.String? = nil
-    )
-    {
+    ) {
         self.aliasId = aliasId
     }
 }
@@ -5727,8 +5618,7 @@ public struct DeleteBuildInput: Swift.Sendable {
 
     public init(
         buildId: Swift.String? = nil
-    )
-    {
+    ) {
         self.buildId = buildId
     }
 }
@@ -5740,8 +5630,7 @@ public struct DeleteContainerFleetInput: Swift.Sendable {
 
     public init(
         fleetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.fleetId = fleetId
     }
 }
@@ -5764,8 +5653,7 @@ public struct DeleteContainerGroupDefinitionInput: Swift.Sendable {
         name: Swift.String? = nil,
         versionCountToRetain: Swift.Int? = nil,
         versionNumber: Swift.Int? = nil
-    )
-    {
+    ) {
         self.name = name
         self.versionCountToRetain = versionCountToRetain
         self.versionNumber = versionNumber
@@ -5784,8 +5672,7 @@ public struct DeleteFleetInput: Swift.Sendable {
 
     public init(
         fleetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.fleetId = fleetId
     }
 }
@@ -5801,8 +5688,7 @@ public struct DeleteFleetLocationsInput: Swift.Sendable {
     public init(
         fleetId: Swift.String? = nil,
         locations: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.fleetId = fleetId
         self.locations = locations
     }
@@ -5820,8 +5706,7 @@ public struct DeleteFleetLocationsOutput: Swift.Sendable {
         fleetArn: Swift.String? = nil,
         fleetId: Swift.String? = nil,
         locationStates: [GameLiftClientTypes.LocationState]? = nil
-    )
-    {
+    ) {
         self.fleetArn = fleetArn
         self.fleetId = fleetId
         self.locationStates = locationStates
@@ -5876,8 +5761,7 @@ public struct DeleteGameServerGroupInput: Swift.Sendable {
     public init(
         deleteOption: GameLiftClientTypes.GameServerGroupDeleteOption? = nil,
         gameServerGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.deleteOption = deleteOption
         self.gameServerGroupName = gameServerGroupName
     }
@@ -5889,8 +5773,7 @@ public struct DeleteGameServerGroupOutput: Swift.Sendable {
 
     public init(
         gameServerGroup: GameLiftClientTypes.GameServerGroup? = nil
-    )
-    {
+    ) {
         self.gameServerGroup = gameServerGroup
     }
 }
@@ -5902,8 +5785,7 @@ public struct DeleteGameSessionQueueInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -5920,8 +5802,7 @@ public struct DeleteLocationInput: Swift.Sendable {
 
     public init(
         locationName: Swift.String? = nil
-    )
-    {
+    ) {
         self.locationName = locationName
     }
 }
@@ -5938,8 +5819,7 @@ public struct DeleteMatchmakingConfigurationInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -5956,8 +5836,7 @@ public struct DeleteMatchmakingRuleSetInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -5978,8 +5857,7 @@ public struct DeleteScalingPolicyInput: Swift.Sendable {
     public init(
         fleetId: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.fleetId = fleetId
         self.name = name
     }
@@ -5992,8 +5870,7 @@ public struct DeleteScriptInput: Swift.Sendable {
 
     public init(
         scriptId: Swift.String? = nil
-    )
-    {
+    ) {
         self.scriptId = scriptId
     }
 }
@@ -6009,8 +5886,7 @@ public struct DeleteVpcPeeringAuthorizationInput: Swift.Sendable {
     public init(
         gameLiftAwsAccountId: Swift.String? = nil,
         peerVpcId: Swift.String? = nil
-    )
-    {
+    ) {
         self.gameLiftAwsAccountId = gameLiftAwsAccountId
         self.peerVpcId = peerVpcId
     }
@@ -6032,8 +5908,7 @@ public struct DeleteVpcPeeringConnectionInput: Swift.Sendable {
     public init(
         fleetId: Swift.String? = nil,
         vpcPeeringConnectionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.fleetId = fleetId
         self.vpcPeeringConnectionId = vpcPeeringConnectionId
     }
@@ -6117,8 +5992,7 @@ extension GameLiftClientTypes {
             impairmentStrategy: GameLiftClientTypes.DeploymentImpairmentStrategy? = nil,
             minimumHealthyPercentage: Swift.Int? = nil,
             protectionStrategy: GameLiftClientTypes.DeploymentProtectionStrategy? = nil
-        )
-        {
+        ) {
             self.impairmentStrategy = impairmentStrategy
             self.minimumHealthyPercentage = minimumHealthyPercentage
             self.protectionStrategy = protectionStrategy
@@ -6181,8 +6055,7 @@ public struct DeregisterComputeInput: Swift.Sendable {
     public init(
         computeName: Swift.String? = nil,
         fleetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.computeName = computeName
         self.fleetId = fleetId
     }
@@ -6204,8 +6077,7 @@ public struct DeregisterGameServerInput: Swift.Sendable {
     public init(
         gameServerGroupName: Swift.String? = nil,
         gameServerId: Swift.String? = nil
-    )
-    {
+    ) {
         self.gameServerGroupName = gameServerGroupName
         self.gameServerId = gameServerId
     }
@@ -6218,8 +6090,7 @@ public struct DescribeAliasInput: Swift.Sendable {
 
     public init(
         aliasId: Swift.String? = nil
-    )
-    {
+    ) {
         self.aliasId = aliasId
     }
 }
@@ -6230,8 +6101,7 @@ public struct DescribeAliasOutput: Swift.Sendable {
 
     public init(
         alias: GameLiftClientTypes.Alias? = nil
-    )
-    {
+    ) {
         self.alias = alias
     }
 }
@@ -6243,8 +6113,7 @@ public struct DescribeBuildInput: Swift.Sendable {
 
     public init(
         buildId: Swift.String? = nil
-    )
-    {
+    ) {
         self.buildId = buildId
     }
 }
@@ -6255,8 +6124,7 @@ public struct DescribeBuildOutput: Swift.Sendable {
 
     public init(
         build: GameLiftClientTypes.Build? = nil
-    )
-    {
+    ) {
         self.build = build
     }
 }
@@ -6272,8 +6140,7 @@ public struct DescribeComputeInput: Swift.Sendable {
     public init(
         computeName: Swift.String? = nil,
         fleetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.computeName = computeName
         self.fleetId = fleetId
     }
@@ -6285,8 +6152,7 @@ public struct DescribeComputeOutput: Swift.Sendable {
 
     public init(
         compute: GameLiftClientTypes.Compute? = nil
-    )
-    {
+    ) {
         self.compute = compute
     }
 }
@@ -6298,8 +6164,7 @@ public struct DescribeContainerFleetInput: Swift.Sendable {
 
     public init(
         fleetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.fleetId = fleetId
     }
 }
@@ -6310,8 +6175,7 @@ public struct DescribeContainerFleetOutput: Swift.Sendable {
 
     public init(
         containerFleet: GameLiftClientTypes.ContainerFleet? = nil
-    )
-    {
+    ) {
         self.containerFleet = containerFleet
     }
 }
@@ -6326,8 +6190,7 @@ public struct DescribeContainerGroupDefinitionInput: Swift.Sendable {
     public init(
         name: Swift.String? = nil,
         versionNumber: Swift.Int? = nil
-    )
-    {
+    ) {
         self.name = name
         self.versionNumber = versionNumber
     }
@@ -6339,8 +6202,7 @@ public struct DescribeContainerGroupDefinitionOutput: Swift.Sendable {
 
     public init(
         containerGroupDefinition: GameLiftClientTypes.ContainerGroupDefinition? = nil
-    )
-    {
+    ) {
         self.containerGroupDefinition = containerGroupDefinition
     }
 }
@@ -6354,8 +6216,7 @@ public struct DescribeEC2InstanceLimitsInput: Swift.Sendable {
     public init(
         ec2InstanceType: GameLiftClientTypes.EC2InstanceType? = nil,
         location: Swift.String? = nil
-    )
-    {
+    ) {
         self.ec2InstanceType = ec2InstanceType
         self.location = location
     }
@@ -6379,8 +6240,7 @@ extension GameLiftClientTypes {
             ec2InstanceType: GameLiftClientTypes.EC2InstanceType? = nil,
             instanceLimit: Swift.Int? = nil,
             location: Swift.String? = nil
-        )
-        {
+        ) {
             self.currentInstances = currentInstances
             self.ec2InstanceType = ec2InstanceType
             self.instanceLimit = instanceLimit
@@ -6395,8 +6255,7 @@ public struct DescribeEC2InstanceLimitsOutput: Swift.Sendable {
 
     public init(
         ec2InstanceLimits: [GameLiftClientTypes.EC2InstanceLimit]? = nil
-    )
-    {
+    ) {
         self.ec2InstanceLimits = ec2InstanceLimits
     }
 }
@@ -6413,8 +6272,7 @@ public struct DescribeFleetAttributesInput: Swift.Sendable {
         fleetIds: [Swift.String]? = nil,
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.fleetIds = fleetIds
         self.limit = limit
         self.nextToken = nextToken
@@ -6430,8 +6288,7 @@ public struct DescribeFleetAttributesOutput: Swift.Sendable {
     public init(
         fleetAttributes: [GameLiftClientTypes.FleetAttributes]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.fleetAttributes = fleetAttributes
         self.nextToken = nextToken
     }
@@ -6449,8 +6306,7 @@ public struct DescribeFleetCapacityInput: Swift.Sendable {
         fleetIds: [Swift.String]? = nil,
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.fleetIds = fleetIds
         self.limit = limit
         self.nextToken = nextToken
@@ -6475,8 +6331,7 @@ extension GameLiftClientTypes {
             idle: Swift.Int? = nil,
             pending: Swift.Int? = nil,
             terminating: Swift.Int? = nil
-        )
-        {
+        ) {
             self.active = active
             self.idle = idle
             self.pending = pending
@@ -6512,8 +6367,7 @@ extension GameLiftClientTypes {
             minimum: Swift.Int? = nil,
             pending: Swift.Int? = nil,
             terminating: Swift.Int? = nil
-        )
-        {
+        ) {
             self.active = active
             self.desired = desired
             self.idle = idle
@@ -6549,8 +6403,7 @@ extension GameLiftClientTypes {
             instanceCounts: GameLiftClientTypes.EC2InstanceCounts? = nil,
             instanceType: GameLiftClientTypes.EC2InstanceType? = nil,
             location: Swift.String? = nil
-        )
-        {
+        ) {
             self.fleetArn = fleetArn
             self.fleetId = fleetId
             self.gameServerContainerGroupCounts = gameServerContainerGroupCounts
@@ -6570,8 +6423,7 @@ public struct DescribeFleetCapacityOutput: Swift.Sendable {
     public init(
         fleetCapacity: [GameLiftClientTypes.FleetCapacity]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.fleetCapacity = fleetCapacity
         self.nextToken = nextToken
     }
@@ -6587,8 +6439,7 @@ public struct DescribeFleetDeploymentInput: Swift.Sendable {
     public init(
         deploymentId: Swift.String? = nil,
         fleetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.deploymentId = deploymentId
         self.fleetId = fleetId
     }
@@ -6639,8 +6490,7 @@ extension GameLiftClientTypes {
             perInstanceBinaryArn: Swift.String? = nil,
             rollbackGameServerBinaryArn: Swift.String? = nil,
             rollbackPerInstanceBinaryArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.deploymentConfiguration = deploymentConfiguration
             self.deploymentId = deploymentId
@@ -6675,8 +6525,7 @@ extension GameLiftClientTypes {
 
         public init(
             deploymentStatus: GameLiftClientTypes.DeploymentStatus? = nil
-        )
-        {
+        ) {
             self.deploymentStatus = deploymentStatus
         }
     }
@@ -6691,8 +6540,7 @@ public struct DescribeFleetDeploymentOutput: Swift.Sendable {
     public init(
         fleetDeployment: GameLiftClientTypes.FleetDeployment? = nil,
         locationalDeployments: [Swift.String: GameLiftClientTypes.LocationalDeployment]? = nil
-    )
-    {
+    ) {
         self.fleetDeployment = fleetDeployment
         self.locationalDeployments = locationalDeployments
     }
@@ -6717,8 +6565,7 @@ public struct DescribeFleetEventsInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         startTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.endTime = endTime
         self.fleetId = fleetId
         self.limit = limit
@@ -7035,8 +6882,7 @@ extension GameLiftClientTypes {
             message: Swift.String? = nil,
             preSignedLogUrl: Swift.String? = nil,
             resourceId: Swift.String? = nil
-        )
-        {
+        ) {
             self.count = count
             self.eventCode = eventCode
             self.eventId = eventId
@@ -7057,8 +6903,7 @@ public struct DescribeFleetEventsOutput: Swift.Sendable {
     public init(
         events: [GameLiftClientTypes.Event]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.events = events
         self.nextToken = nextToken
     }
@@ -7080,8 +6925,7 @@ public struct DescribeFleetLocationAttributesInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         locations: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.fleetId = fleetId
         self.limit = limit
         self.locations = locations
@@ -7130,8 +6974,7 @@ extension GameLiftClientTypes {
             locationState: GameLiftClientTypes.LocationState? = nil,
             stoppedActions: [GameLiftClientTypes.FleetAction]? = nil,
             updateStatus: GameLiftClientTypes.LocationUpdateStatus? = nil
-        )
-        {
+        ) {
             self.locationState = locationState
             self.stoppedActions = stoppedActions
             self.updateStatus = updateStatus
@@ -7154,8 +6997,7 @@ public struct DescribeFleetLocationAttributesOutput: Swift.Sendable {
         fleetId: Swift.String? = nil,
         locationAttributes: [GameLiftClientTypes.LocationAttributes]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.fleetArn = fleetArn
         self.fleetId = fleetId
         self.locationAttributes = locationAttributes
@@ -7174,8 +7016,7 @@ public struct DescribeFleetLocationCapacityInput: Swift.Sendable {
     public init(
         fleetId: Swift.String? = nil,
         location: Swift.String? = nil
-    )
-    {
+    ) {
         self.fleetId = fleetId
         self.location = location
     }
@@ -7187,8 +7028,7 @@ public struct DescribeFleetLocationCapacityOutput: Swift.Sendable {
 
     public init(
         fleetCapacity: GameLiftClientTypes.FleetCapacity? = nil
-    )
-    {
+    ) {
         self.fleetCapacity = fleetCapacity
     }
 }
@@ -7204,8 +7044,7 @@ public struct DescribeFleetLocationUtilizationInput: Swift.Sendable {
     public init(
         fleetId: Swift.String? = nil,
         location: Swift.String? = nil
-    )
-    {
+    ) {
         self.fleetId = fleetId
         self.location = location
     }
@@ -7238,8 +7077,7 @@ extension GameLiftClientTypes {
             fleetId: Swift.String? = nil,
             location: Swift.String? = nil,
             maximumPlayerSessionCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.activeGameSessionCount = activeGameSessionCount
             self.activeServerProcessCount = activeServerProcessCount
             self.currentPlayerSessionCount = currentPlayerSessionCount
@@ -7257,8 +7095,7 @@ public struct DescribeFleetLocationUtilizationOutput: Swift.Sendable {
 
     public init(
         fleetUtilization: GameLiftClientTypes.FleetUtilization? = nil
-    )
-    {
+    ) {
         self.fleetUtilization = fleetUtilization
     }
 }
@@ -7273,8 +7110,7 @@ public struct DescribeFleetPortSettingsInput: Swift.Sendable {
     public init(
         fleetId: Swift.String? = nil,
         location: Swift.String? = nil
-    )
-    {
+    ) {
         self.fleetId = fleetId
         self.location = location
     }
@@ -7298,8 +7134,7 @@ public struct DescribeFleetPortSettingsOutput: Swift.Sendable {
         inboundPermissions: [GameLiftClientTypes.IpPermission]? = nil,
         location: Swift.String? = nil,
         updateStatus: GameLiftClientTypes.LocationUpdateStatus? = nil
-    )
-    {
+    ) {
         self.fleetArn = fleetArn
         self.fleetId = fleetId
         self.inboundPermissions = inboundPermissions
@@ -7320,8 +7155,7 @@ public struct DescribeFleetUtilizationInput: Swift.Sendable {
         fleetIds: [Swift.String]? = nil,
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.fleetIds = fleetIds
         self.limit = limit
         self.nextToken = nextToken
@@ -7337,8 +7171,7 @@ public struct DescribeFleetUtilizationOutput: Swift.Sendable {
     public init(
         fleetUtilization: [GameLiftClientTypes.FleetUtilization]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.fleetUtilization = fleetUtilization
         self.nextToken = nextToken
     }
@@ -7355,8 +7188,7 @@ public struct DescribeGameServerInput: Swift.Sendable {
     public init(
         gameServerGroupName: Swift.String? = nil,
         gameServerId: Swift.String? = nil
-    )
-    {
+    ) {
         self.gameServerGroupName = gameServerGroupName
         self.gameServerId = gameServerId
     }
@@ -7368,8 +7200,7 @@ public struct DescribeGameServerOutput: Swift.Sendable {
 
     public init(
         gameServer: GameLiftClientTypes.GameServer? = nil
-    )
-    {
+    ) {
         self.gameServer = gameServer
     }
 }
@@ -7381,8 +7212,7 @@ public struct DescribeGameServerGroupInput: Swift.Sendable {
 
     public init(
         gameServerGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.gameServerGroupName = gameServerGroupName
     }
 }
@@ -7393,8 +7223,7 @@ public struct DescribeGameServerGroupOutput: Swift.Sendable {
 
     public init(
         gameServerGroup: GameLiftClientTypes.GameServerGroup? = nil
-    )
-    {
+    ) {
         self.gameServerGroup = gameServerGroup
     }
 }
@@ -7415,8 +7244,7 @@ public struct DescribeGameServerInstancesInput: Swift.Sendable {
         instanceIds: [Swift.String]? = nil,
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.gameServerGroupName = gameServerGroupName
         self.instanceIds = instanceIds
         self.limit = limit
@@ -7474,8 +7302,7 @@ extension GameLiftClientTypes {
             gameServerGroupName: Swift.String? = nil,
             instanceId: Swift.String? = nil,
             instanceStatus: GameLiftClientTypes.GameServerInstanceStatus? = nil
-        )
-        {
+        ) {
             self.gameServerGroupArn = gameServerGroupArn
             self.gameServerGroupName = gameServerGroupName
             self.instanceId = instanceId
@@ -7493,8 +7320,7 @@ public struct DescribeGameServerInstancesOutput: Swift.Sendable {
     public init(
         gameServerInstances: [GameLiftClientTypes.GameServerInstance]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.gameServerInstances = gameServerInstances
         self.nextToken = nextToken
     }
@@ -7524,8 +7350,7 @@ public struct DescribeGameSessionDetailsInput: Swift.Sendable {
         location: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         statusFilter: Swift.String? = nil
-    )
-    {
+    ) {
         self.aliasId = aliasId
         self.fleetId = fleetId
         self.gameSessionId = gameSessionId
@@ -7552,8 +7377,7 @@ extension GameLiftClientTypes {
         public init(
             gameSession: GameLiftClientTypes.GameSession? = nil,
             protectionPolicy: GameLiftClientTypes.ProtectionPolicy? = nil
-        )
-        {
+        ) {
             self.gameSession = gameSession
             self.protectionPolicy = protectionPolicy
         }
@@ -7569,8 +7393,7 @@ public struct DescribeGameSessionDetailsOutput: Swift.Sendable {
     public init(
         gameSessionDetails: [GameLiftClientTypes.GameSessionDetail]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.gameSessionDetails = gameSessionDetails
         self.nextToken = nextToken
     }
@@ -7583,8 +7406,7 @@ public struct DescribeGameSessionPlacementInput: Swift.Sendable {
 
     public init(
         placementId: Swift.String? = nil
-    )
-    {
+    ) {
         self.placementId = placementId
     }
 }
@@ -7601,8 +7423,7 @@ extension GameLiftClientTypes {
         public init(
             playerId: Swift.String? = nil,
             playerSessionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.playerId = playerId
             self.playerSessionId = playerSessionId
         }
@@ -7629,8 +7450,7 @@ extension GameLiftClientTypes {
             latencyInMilliseconds: Swift.Float? = nil,
             playerId: Swift.String? = nil,
             regionIdentifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.latencyInMilliseconds = latencyInMilliseconds
             self.playerId = playerId
             self.regionIdentifier = regionIdentifier
@@ -7758,8 +7578,7 @@ extension GameLiftClientTypes {
             port: Swift.Int? = nil,
             startTime: Foundation.Date? = nil,
             status: GameLiftClientTypes.GameSessionPlacementState? = nil
-        )
-        {
+        ) {
             self.dnsName = dnsName
             self.endTime = endTime
             self.gameProperties = gameProperties
@@ -7793,8 +7612,7 @@ public struct DescribeGameSessionPlacementOutput: Swift.Sendable {
 
     public init(
         gameSessionPlacement: GameLiftClientTypes.GameSessionPlacement? = nil
-    )
-    {
+    ) {
         self.gameSessionPlacement = gameSessionPlacement
     }
 }
@@ -7811,8 +7629,7 @@ public struct DescribeGameSessionQueuesInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         names: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.names = names
         self.nextToken = nextToken
@@ -7828,8 +7645,7 @@ public struct DescribeGameSessionQueuesOutput: Swift.Sendable {
     public init(
         gameSessionQueues: [GameLiftClientTypes.GameSessionQueue]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.gameSessionQueues = gameSessionQueues
         self.nextToken = nextToken
     }
@@ -7859,8 +7675,7 @@ public struct DescribeGameSessionsInput: Swift.Sendable {
         location: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         statusFilter: Swift.String? = nil
-    )
-    {
+    ) {
         self.aliasId = aliasId
         self.fleetId = fleetId
         self.gameSessionId = gameSessionId
@@ -7880,8 +7695,7 @@ public struct DescribeGameSessionsOutput: Swift.Sendable {
     public init(
         gameSessions: [GameLiftClientTypes.GameSession]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.gameSessions = gameSessions
         self.nextToken = nextToken
     }
@@ -7906,8 +7720,7 @@ public struct DescribeInstancesInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         location: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.fleetId = fleetId
         self.instanceId = instanceId
         self.limit = limit
@@ -7997,8 +7810,7 @@ extension GameLiftClientTypes {
             operatingSystem: GameLiftClientTypes.OperatingSystem? = nil,
             status: GameLiftClientTypes.InstanceStatus? = nil,
             type: GameLiftClientTypes.EC2InstanceType? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.dnsName = dnsName
             self.fleetArn = fleetArn
@@ -8027,8 +7839,7 @@ public struct DescribeInstancesOutput: Swift.Sendable {
     public init(
         instances: [GameLiftClientTypes.Instance]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.instances = instances
         self.nextToken = nextToken
     }
@@ -8041,8 +7852,7 @@ public struct DescribeMatchmakingInput: Swift.Sendable {
 
     public init(
         ticketIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.ticketIds = ticketIds
     }
 }
@@ -8059,8 +7869,7 @@ extension GameLiftClientTypes {
         public init(
             playerId: Swift.String? = nil,
             playerSessionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.playerId = playerId
             self.playerSessionId = playerSessionId
         }
@@ -8100,8 +7909,7 @@ extension GameLiftClientTypes {
             ipAddress: Swift.String? = nil,
             matchedPlayerSessions: [GameLiftClientTypes.MatchedPlayerSession]? = nil,
             port: Swift.Int? = nil
-        )
-        {
+        ) {
             self.dnsName = dnsName
             self.gameSessionArn = gameSessionArn
             self.ipAddress = ipAddress
@@ -8134,8 +7942,7 @@ extension GameLiftClientTypes {
             playerAttributes: [Swift.String: GameLiftClientTypes.AttributeValue]? = nil,
             playerId: Swift.String? = nil,
             team: Swift.String? = nil
-        )
-        {
+        ) {
             self.latencyInMs = latencyInMs
             self.playerAttributes = playerAttributes
             self.playerId = playerId
@@ -8254,8 +8061,7 @@ extension GameLiftClientTypes {
             statusMessage: Swift.String? = nil,
             statusReason: Swift.String? = nil,
             ticketId: Swift.String? = nil
-        )
-        {
+        ) {
             self.configurationArn = configurationArn
             self.configurationName = configurationName
             self.endTime = endTime
@@ -8277,8 +8083,7 @@ public struct DescribeMatchmakingOutput: Swift.Sendable {
 
     public init(
         ticketList: [GameLiftClientTypes.MatchmakingTicket]? = nil
-    )
-    {
+    ) {
         self.ticketList = ticketList
     }
 }
@@ -8298,8 +8103,7 @@ public struct DescribeMatchmakingConfigurationsInput: Swift.Sendable {
         names: [Swift.String]? = nil,
         nextToken: Swift.String? = nil,
         ruleSetName: Swift.String? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.names = names
         self.nextToken = nextToken
@@ -8316,8 +8120,7 @@ public struct DescribeMatchmakingConfigurationsOutput: Swift.Sendable {
     public init(
         configurations: [GameLiftClientTypes.MatchmakingConfiguration]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurations = configurations
         self.nextToken = nextToken
     }
@@ -8335,8 +8138,7 @@ public struct DescribeMatchmakingRuleSetsInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         names: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.names = names
         self.nextToken = nextToken
@@ -8353,8 +8155,7 @@ public struct DescribeMatchmakingRuleSetsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         ruleSets: [GameLiftClientTypes.MatchmakingRuleSet]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.ruleSets = ruleSets
     }
@@ -8389,8 +8190,7 @@ public struct DescribePlayerSessionsInput: Swift.Sendable {
         playerId: Swift.String? = nil,
         playerSessionId: Swift.String? = nil,
         playerSessionStatusFilter: Swift.String? = nil
-    )
-    {
+    ) {
         self.gameSessionId = gameSessionId
         self.limit = limit
         self.nextToken = nextToken
@@ -8414,8 +8214,7 @@ public struct DescribePlayerSessionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         playerSessions: [GameLiftClientTypes.PlayerSession]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.playerSessions = playerSessions
     }
@@ -8428,8 +8227,7 @@ public struct DescribeRuntimeConfigurationInput: Swift.Sendable {
 
     public init(
         fleetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.fleetId = fleetId
     }
 }
@@ -8440,8 +8238,7 @@ public struct DescribeRuntimeConfigurationOutput: Swift.Sendable {
 
     public init(
         runtimeConfiguration: GameLiftClientTypes.RuntimeConfiguration? = nil
-    )
-    {
+    ) {
         self.runtimeConfiguration = runtimeConfiguration
     }
 }
@@ -8523,8 +8320,7 @@ public struct DescribeScalingPoliciesInput: Swift.Sendable {
         location: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         statusFilter: GameLiftClientTypes.ScalingStatusType? = nil
-    )
-    {
+    ) {
         self.fleetId = fleetId
         self.limit = limit
         self.location = location
@@ -8663,8 +8459,7 @@ extension GameLiftClientTypes {
 
         public init(
             targetValue: Swift.Double? = nil
-        )
-        {
+        ) {
             self.targetValue = targetValue
         }
     }
@@ -8760,8 +8555,7 @@ extension GameLiftClientTypes {
             targetConfiguration: GameLiftClientTypes.TargetConfiguration? = nil,
             threshold: Swift.Double? = nil,
             updateStatus: GameLiftClientTypes.LocationUpdateStatus? = nil
-        )
-        {
+        ) {
             self.comparisonOperator = comparisonOperator
             self.evaluationPeriods = evaluationPeriods
             self.fleetArn = fleetArn
@@ -8789,8 +8583,7 @@ public struct DescribeScalingPoliciesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         scalingPolicies: [GameLiftClientTypes.ScalingPolicy]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.scalingPolicies = scalingPolicies
     }
@@ -8803,8 +8596,7 @@ public struct DescribeScriptInput: Swift.Sendable {
 
     public init(
         scriptId: Swift.String? = nil
-    )
-    {
+    ) {
         self.scriptId = scriptId
     }
 }
@@ -8815,8 +8607,7 @@ public struct DescribeScriptOutput: Swift.Sendable {
 
     public init(
         script: GameLiftClientTypes.Script? = nil
-    )
-    {
+    ) {
         self.script = script
     }
 }
@@ -8832,8 +8623,7 @@ public struct DescribeVpcPeeringAuthorizationsOutput: Swift.Sendable {
 
     public init(
         vpcPeeringAuthorizations: [GameLiftClientTypes.VpcPeeringAuthorization]? = nil
-    )
-    {
+    ) {
         self.vpcPeeringAuthorizations = vpcPeeringAuthorizations
     }
 }
@@ -8844,8 +8634,7 @@ public struct DescribeVpcPeeringConnectionsInput: Swift.Sendable {
 
     public init(
         fleetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.fleetId = fleetId
     }
 }
@@ -8862,8 +8651,7 @@ extension GameLiftClientTypes {
         public init(
             code: Swift.String? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.message = message
         }
@@ -8897,8 +8685,7 @@ extension GameLiftClientTypes {
             peerVpcId: Swift.String? = nil,
             status: GameLiftClientTypes.VpcPeeringConnectionStatus? = nil,
             vpcPeeringConnectionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.fleetArn = fleetArn
             self.fleetId = fleetId
             self.gameLiftVpcId = gameLiftVpcId
@@ -8916,8 +8703,7 @@ public struct DescribeVpcPeeringConnectionsOutput: Swift.Sendable {
 
     public init(
         vpcPeeringConnections: [GameLiftClientTypes.VpcPeeringConnection]? = nil
-    )
-    {
+    ) {
         self.vpcPeeringConnections = vpcPeeringConnections
     }
 }
@@ -8934,8 +8720,7 @@ extension GameLiftClientTypes {
         public init(
             playerData: Swift.String? = nil,
             playerId: Swift.String? = nil
-        )
-        {
+        ) {
             self.playerData = playerData
             self.playerId = playerId
         }
@@ -8958,8 +8743,7 @@ public struct GetComputeAccessInput: Swift.Sendable {
     public init(
         computeName: Swift.String? = nil,
         fleetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.computeName = computeName
         self.fleetId = fleetId
     }
@@ -8989,8 +8773,7 @@ public struct GetComputeAccessOutput: Swift.Sendable {
         fleetArn: Swift.String? = nil,
         fleetId: Swift.String? = nil,
         target: Swift.String? = nil
-    )
-    {
+    ) {
         self.computeArn = computeArn
         self.computeName = computeName
         self.containerIdentifiers = containerIdentifiers
@@ -9017,8 +8800,7 @@ public struct GetComputeAuthTokenInput: Swift.Sendable {
     public init(
         computeName: Swift.String? = nil,
         fleetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.computeName = computeName
         self.fleetId = fleetId
     }
@@ -9045,8 +8827,7 @@ public struct GetComputeAuthTokenOutput: Swift.Sendable {
         expirationTimestamp: Foundation.Date? = nil,
         fleetArn: Swift.String? = nil,
         fleetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.authToken = authToken
         self.computeArn = computeArn
         self.computeName = computeName
@@ -9063,8 +8844,7 @@ public struct GetGameSessionLogUrlInput: Swift.Sendable {
 
     public init(
         gameSessionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.gameSessionId = gameSessionId
     }
 }
@@ -9075,8 +8855,7 @@ public struct GetGameSessionLogUrlOutput: Swift.Sendable {
 
     public init(
         preSignedUrl: Swift.String? = nil
-    )
-    {
+    ) {
         self.preSignedUrl = preSignedUrl
     }
 }
@@ -9092,8 +8871,7 @@ public struct GetInstanceAccessInput: Swift.Sendable {
     public init(
         fleetId: Swift.String? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.fleetId = fleetId
         self.instanceId = instanceId
     }
@@ -9111,8 +8889,7 @@ extension GameLiftClientTypes {
         public init(
             secret: Swift.String? = nil,
             userName: Swift.String? = nil
-        )
-        {
+        ) {
             self.secret = secret
             self.userName = userName
         }
@@ -9146,8 +8923,7 @@ extension GameLiftClientTypes {
             instanceId: Swift.String? = nil,
             ipAddress: Swift.String? = nil,
             operatingSystem: GameLiftClientTypes.OperatingSystem? = nil
-        )
-        {
+        ) {
             self.credentials = credentials
             self.fleetId = fleetId
             self.instanceId = instanceId
@@ -9168,8 +8944,7 @@ public struct GetInstanceAccessOutput: Swift.Sendable {
 
     public init(
         instanceAccess: GameLiftClientTypes.InstanceAccess? = nil
-    )
-    {
+    ) {
         self.instanceAccess = instanceAccess
     }
 }
@@ -9193,8 +8968,7 @@ public struct ListAliasesInput: Swift.Sendable {
         name: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         routingStrategyType: GameLiftClientTypes.RoutingStrategyType? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.name = name
         self.nextToken = nextToken
@@ -9211,8 +8985,7 @@ public struct ListAliasesOutput: Swift.Sendable {
     public init(
         aliases: [GameLiftClientTypes.Alias]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.aliases = aliases
         self.nextToken = nextToken
     }
@@ -9236,8 +9009,7 @@ public struct ListBuildsInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         status: GameLiftClientTypes.BuildStatus? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.nextToken = nextToken
         self.status = status
@@ -9253,8 +9025,7 @@ public struct ListBuildsOutput: Swift.Sendable {
     public init(
         builds: [GameLiftClientTypes.Build]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.builds = builds
         self.nextToken = nextToken
     }
@@ -9315,8 +9086,7 @@ public struct ListComputeInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         location: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.computeStatus = computeStatus
         self.containerGroupDefinitionName = containerGroupDefinitionName
         self.fleetId = fleetId
@@ -9335,8 +9105,7 @@ public struct ListComputeOutput: Swift.Sendable {
     public init(
         computeList: [GameLiftClientTypes.Compute]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.computeList = computeList
         self.nextToken = nextToken
     }
@@ -9354,8 +9123,7 @@ public struct ListContainerFleetsInput: Swift.Sendable {
         containerGroupDefinitionName: Swift.String? = nil,
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.containerGroupDefinitionName = containerGroupDefinitionName
         self.limit = limit
         self.nextToken = nextToken
@@ -9371,8 +9139,7 @@ public struct ListContainerFleetsOutput: Swift.Sendable {
     public init(
         containerFleets: [GameLiftClientTypes.ContainerFleet]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.containerFleets = containerFleets
         self.nextToken = nextToken
     }
@@ -9390,8 +9157,7 @@ public struct ListContainerGroupDefinitionsInput: Swift.Sendable {
         containerGroupType: GameLiftClientTypes.ContainerGroupType? = nil,
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.containerGroupType = containerGroupType
         self.limit = limit
         self.nextToken = nextToken
@@ -9407,8 +9173,7 @@ public struct ListContainerGroupDefinitionsOutput: Swift.Sendable {
     public init(
         containerGroupDefinitions: [GameLiftClientTypes.ContainerGroupDefinition]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.containerGroupDefinitions = containerGroupDefinitions
         self.nextToken = nextToken
     }
@@ -9427,8 +9192,7 @@ public struct ListContainerGroupDefinitionVersionsInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         name: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.name = name
         self.nextToken = nextToken
@@ -9444,8 +9208,7 @@ public struct ListContainerGroupDefinitionVersionsOutput: Swift.Sendable {
     public init(
         containerGroupDefinitions: [GameLiftClientTypes.ContainerGroupDefinition]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.containerGroupDefinitions = containerGroupDefinitions
         self.nextToken = nextToken
     }
@@ -9463,8 +9226,7 @@ public struct ListFleetDeploymentsInput: Swift.Sendable {
         fleetId: Swift.String? = nil,
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.fleetId = fleetId
         self.limit = limit
         self.nextToken = nextToken
@@ -9480,8 +9242,7 @@ public struct ListFleetDeploymentsOutput: Swift.Sendable {
     public init(
         fleetDeployments: [GameLiftClientTypes.FleetDeployment]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.fleetDeployments = fleetDeployments
         self.nextToken = nextToken
     }
@@ -9502,8 +9263,7 @@ public struct ListFleetsInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         scriptId: Swift.String? = nil
-    )
-    {
+    ) {
         self.buildId = buildId
         self.limit = limit
         self.nextToken = nextToken
@@ -9520,8 +9280,7 @@ public struct ListFleetsOutput: Swift.Sendable {
     public init(
         fleetIds: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.fleetIds = fleetIds
         self.nextToken = nextToken
     }
@@ -9536,8 +9295,7 @@ public struct ListGameServerGroupsInput: Swift.Sendable {
     public init(
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.nextToken = nextToken
     }
@@ -9552,8 +9310,7 @@ public struct ListGameServerGroupsOutput: Swift.Sendable {
     public init(
         gameServerGroups: [GameLiftClientTypes.GameServerGroup]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.gameServerGroups = gameServerGroups
         self.nextToken = nextToken
     }
@@ -9604,8 +9361,7 @@ public struct ListGameServersInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sortOrder: GameLiftClientTypes.SortOrder? = nil
-    )
-    {
+    ) {
         self.gameServerGroupName = gameServerGroupName
         self.limit = limit
         self.nextToken = nextToken
@@ -9622,8 +9378,7 @@ public struct ListGameServersOutput: Swift.Sendable {
     public init(
         gameServers: [GameLiftClientTypes.GameServer]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.gameServers = gameServers
         self.nextToken = nextToken
     }
@@ -9670,8 +9425,7 @@ public struct ListLocationsInput: Swift.Sendable {
         filters: [GameLiftClientTypes.LocationFilter]? = nil,
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.limit = limit
         self.nextToken = nextToken
@@ -9687,8 +9441,7 @@ public struct ListLocationsOutput: Swift.Sendable {
     public init(
         locations: [GameLiftClientTypes.LocationModel]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.locations = locations
         self.nextToken = nextToken
     }
@@ -9703,8 +9456,7 @@ public struct ListScriptsInput: Swift.Sendable {
     public init(
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.nextToken = nextToken
     }
@@ -9719,8 +9471,7 @@ public struct ListScriptsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         scripts: [GameLiftClientTypes.Script]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.scripts = scripts
     }
@@ -9733,8 +9484,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
     }
 }
@@ -9745,8 +9495,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [GameLiftClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -9815,8 +9564,7 @@ public struct PutScalingPolicyInput: Swift.Sendable {
         scalingAdjustmentType: GameLiftClientTypes.ScalingAdjustmentType? = nil,
         targetConfiguration: GameLiftClientTypes.TargetConfiguration? = nil,
         threshold: Swift.Double? = nil
-    )
-    {
+    ) {
         self.comparisonOperator = comparisonOperator
         self.evaluationPeriods = evaluationPeriods
         self.fleetId = fleetId
@@ -9836,8 +9584,7 @@ public struct PutScalingPolicyOutput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -9865,8 +9612,7 @@ public struct RegisterComputeInput: Swift.Sendable {
         fleetId: Swift.String? = nil,
         ipAddress: Swift.String? = nil,
         location: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificatePath = certificatePath
         self.computeName = computeName
         self.dnsName = dnsName
@@ -9887,8 +9633,7 @@ public struct RegisterComputeOutput: Swift.Sendable {
 
     public init(
         compute: GameLiftClientTypes.Compute? = nil
-    )
-    {
+    ) {
         self.compute = compute
     }
 }
@@ -9914,8 +9659,7 @@ public struct RegisterGameServerInput: Swift.Sendable {
         gameServerGroupName: Swift.String? = nil,
         gameServerId: Swift.String? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectionInfo = connectionInfo
         self.gameServerData = gameServerData
         self.gameServerGroupName = gameServerGroupName
@@ -9930,8 +9674,7 @@ public struct RegisterGameServerOutput: Swift.Sendable {
 
     public init(
         gameServer: GameLiftClientTypes.GameServer? = nil
-    )
-    {
+    ) {
         self.gameServer = gameServer
     }
 }
@@ -9943,8 +9686,7 @@ public struct RequestUploadCredentialsInput: Swift.Sendable {
 
     public init(
         buildId: Swift.String? = nil
-    )
-    {
+    ) {
         self.buildId = buildId
     }
 }
@@ -9958,8 +9700,7 @@ public struct RequestUploadCredentialsOutput: Swift.Sendable {
     public init(
         storageLocation: GameLiftClientTypes.S3Location? = nil,
         uploadCredentials: GameLiftClientTypes.AwsCredentials? = nil
-    )
-    {
+    ) {
         self.storageLocation = storageLocation
         self.uploadCredentials = uploadCredentials
     }
@@ -9977,8 +9718,7 @@ public struct ResolveAliasInput: Swift.Sendable {
 
     public init(
         aliasId: Swift.String? = nil
-    )
-    {
+    ) {
         self.aliasId = aliasId
     }
 }
@@ -9992,8 +9732,7 @@ public struct ResolveAliasOutput: Swift.Sendable {
     public init(
         fleetArn: Swift.String? = nil,
         fleetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.fleetArn = fleetArn
         self.fleetId = fleetId
     }
@@ -10010,8 +9749,7 @@ public struct ResumeGameServerGroupInput: Swift.Sendable {
     public init(
         gameServerGroupName: Swift.String? = nil,
         resumeActions: [GameLiftClientTypes.GameServerGroupAction]? = nil
-    )
-    {
+    ) {
         self.gameServerGroupName = gameServerGroupName
         self.resumeActions = resumeActions
     }
@@ -10023,8 +9761,7 @@ public struct ResumeGameServerGroupOutput: Swift.Sendable {
 
     public init(
         gameServerGroup: GameLiftClientTypes.GameServerGroup? = nil
-    )
-    {
+    ) {
         self.gameServerGroup = gameServerGroup
     }
 }
@@ -10082,8 +9819,7 @@ public struct SearchGameSessionsInput: Swift.Sendable {
         location: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         sortExpression: Swift.String? = nil
-    )
-    {
+    ) {
         self.aliasId = aliasId
         self.filterExpression = filterExpression
         self.fleetId = fleetId
@@ -10103,8 +9839,7 @@ public struct SearchGameSessionsOutput: Swift.Sendable {
     public init(
         gameSessions: [GameLiftClientTypes.GameSession]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.gameSessions = gameSessions
         self.nextToken = nextToken
     }
@@ -10124,8 +9859,7 @@ public struct StartFleetActionsInput: Swift.Sendable {
         actions: [GameLiftClientTypes.FleetAction]? = nil,
         fleetId: Swift.String? = nil,
         location: Swift.String? = nil
-    )
-    {
+    ) {
         self.actions = actions
         self.fleetId = fleetId
         self.location = location
@@ -10141,8 +9875,7 @@ public struct StartFleetActionsOutput: Swift.Sendable {
     public init(
         fleetArn: Swift.String? = nil,
         fleetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.fleetArn = fleetArn
         self.fleetId = fleetId
     }
@@ -10178,8 +9911,7 @@ public struct StartGameSessionPlacementInput: Swift.Sendable {
         maximumPlayerSessionCount: Swift.Int? = nil,
         placementId: Swift.String? = nil,
         playerLatencies: [GameLiftClientTypes.PlayerLatency]? = nil
-    )
-    {
+    ) {
         self.desiredPlayerSessions = desiredPlayerSessions
         self.gameProperties = gameProperties
         self.gameSessionData = gameSessionData
@@ -10197,8 +9929,7 @@ public struct StartGameSessionPlacementOutput: Swift.Sendable {
 
     public init(
         gameSessionPlacement: GameLiftClientTypes.GameSessionPlacement? = nil
-    )
-    {
+    ) {
         self.gameSessionPlacement = gameSessionPlacement
     }
 }
@@ -10224,8 +9955,7 @@ public struct StartMatchBackfillInput: Swift.Sendable {
         gameSessionArn: Swift.String? = nil,
         players: [GameLiftClientTypes.Player]? = nil,
         ticketId: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurationName = configurationName
         self.gameSessionArn = gameSessionArn
         self.players = players
@@ -10239,8 +9969,7 @@ public struct StartMatchBackfillOutput: Swift.Sendable {
 
     public init(
         matchmakingTicket: GameLiftClientTypes.MatchmakingTicket? = nil
-    )
-    {
+    ) {
         self.matchmakingTicket = matchmakingTicket
     }
 }
@@ -10259,8 +9988,7 @@ public struct StartMatchmakingInput: Swift.Sendable {
         configurationName: Swift.String? = nil,
         players: [GameLiftClientTypes.Player]? = nil,
         ticketId: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurationName = configurationName
         self.players = players
         self.ticketId = ticketId
@@ -10273,8 +10001,7 @@ public struct StartMatchmakingOutput: Swift.Sendable {
 
     public init(
         matchmakingTicket: GameLiftClientTypes.MatchmakingTicket? = nil
-    )
-    {
+    ) {
         self.matchmakingTicket = matchmakingTicket
     }
 }
@@ -10293,8 +10020,7 @@ public struct StopFleetActionsInput: Swift.Sendable {
         actions: [GameLiftClientTypes.FleetAction]? = nil,
         fleetId: Swift.String? = nil,
         location: Swift.String? = nil
-    )
-    {
+    ) {
         self.actions = actions
         self.fleetId = fleetId
         self.location = location
@@ -10310,8 +10036,7 @@ public struct StopFleetActionsOutput: Swift.Sendable {
     public init(
         fleetArn: Swift.String? = nil,
         fleetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.fleetArn = fleetArn
         self.fleetId = fleetId
     }
@@ -10324,8 +10049,7 @@ public struct StopGameSessionPlacementInput: Swift.Sendable {
 
     public init(
         placementId: Swift.String? = nil
-    )
-    {
+    ) {
         self.placementId = placementId
     }
 }
@@ -10336,8 +10060,7 @@ public struct StopGameSessionPlacementOutput: Swift.Sendable {
 
     public init(
         gameSessionPlacement: GameLiftClientTypes.GameSessionPlacement? = nil
-    )
-    {
+    ) {
         self.gameSessionPlacement = gameSessionPlacement
     }
 }
@@ -10349,8 +10072,7 @@ public struct StopMatchmakingInput: Swift.Sendable {
 
     public init(
         ticketId: Swift.String? = nil
-    )
-    {
+    ) {
         self.ticketId = ticketId
     }
 }
@@ -10371,8 +10093,7 @@ public struct SuspendGameServerGroupInput: Swift.Sendable {
     public init(
         gameServerGroupName: Swift.String? = nil,
         suspendActions: [GameLiftClientTypes.GameServerGroupAction]? = nil
-    )
-    {
+    ) {
         self.gameServerGroupName = gameServerGroupName
         self.suspendActions = suspendActions
     }
@@ -10384,8 +10105,7 @@ public struct SuspendGameServerGroupOutput: Swift.Sendable {
 
     public init(
         gameServerGroup: GameLiftClientTypes.GameServerGroup? = nil
-    )
-    {
+    ) {
         self.gameServerGroup = gameServerGroup
     }
 }
@@ -10401,8 +10121,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tags: [GameLiftClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tags = tags
     }
@@ -10457,8 +10176,7 @@ public struct TerminateGameSessionInput: Swift.Sendable {
     public init(
         gameSessionId: Swift.String? = nil,
         terminationMode: GameLiftClientTypes.TerminationMode? = nil
-    )
-    {
+    ) {
         self.gameSessionId = gameSessionId
         self.terminationMode = terminationMode
     }
@@ -10470,8 +10188,7 @@ public struct TerminateGameSessionOutput: Swift.Sendable {
 
     public init(
         gameSession: GameLiftClientTypes.GameSession? = nil
-    )
-    {
+    ) {
         self.gameSession = gameSession
     }
 }
@@ -10487,8 +10204,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tagKeys = tagKeys
     }
@@ -10515,8 +10231,7 @@ public struct UpdateAliasInput: Swift.Sendable {
         description: Swift.String? = nil,
         name: Swift.String? = nil,
         routingStrategy: GameLiftClientTypes.RoutingStrategy? = nil
-    )
-    {
+    ) {
         self.aliasId = aliasId
         self.description = description
         self.name = name
@@ -10530,8 +10245,7 @@ public struct UpdateAliasOutput: Swift.Sendable {
 
     public init(
         alias: GameLiftClientTypes.Alias? = nil
-    )
-    {
+    ) {
         self.alias = alias
     }
 }
@@ -10549,8 +10263,7 @@ public struct UpdateBuildInput: Swift.Sendable {
         buildId: Swift.String? = nil,
         name: Swift.String? = nil,
         version: Swift.String? = nil
-    )
-    {
+    ) {
         self.buildId = buildId
         self.name = name
         self.version = version
@@ -10563,8 +10276,7 @@ public struct UpdateBuildOutput: Swift.Sendable {
 
     public init(
         build: GameLiftClientTypes.Build? = nil
-    )
-    {
+    ) {
         self.build = build
     }
 }
@@ -10615,8 +10327,7 @@ public struct UpdateContainerFleetInput: Swift.Sendable {
         newGameSessionProtectionPolicy: GameLiftClientTypes.ProtectionPolicy? = nil,
         perInstanceContainerGroupDefinitionName: Swift.String? = nil,
         removeAttributes: [GameLiftClientTypes.ContainerFleetRemoveAttribute]? = nil
-    )
-    {
+    ) {
         self.deploymentConfiguration = deploymentConfiguration
         self.description = description
         self.fleetId = fleetId
@@ -10640,8 +10351,7 @@ public struct UpdateContainerFleetOutput: Swift.Sendable {
 
     public init(
         containerFleet: GameLiftClientTypes.ContainerFleet? = nil
-    )
-    {
+    ) {
         self.containerFleet = containerFleet
     }
 }
@@ -10674,8 +10384,7 @@ public struct UpdateContainerGroupDefinitionInput: Swift.Sendable {
         totalMemoryLimitMebibytes: Swift.Int? = nil,
         totalVcpuLimit: Swift.Double? = nil,
         versionDescription: Swift.String? = nil
-    )
-    {
+    ) {
         self.gameServerContainerDefinition = gameServerContainerDefinition
         self.name = name
         self.operatingSystem = operatingSystem
@@ -10693,8 +10402,7 @@ public struct UpdateContainerGroupDefinitionOutput: Swift.Sendable {
 
     public init(
         containerGroupDefinition: GameLiftClientTypes.ContainerGroupDefinition? = nil
-    )
-    {
+    ) {
         self.containerGroupDefinition = containerGroupDefinition
     }
 }
@@ -10728,8 +10436,7 @@ public struct UpdateFleetAttributesInput: Swift.Sendable {
         name: Swift.String? = nil,
         newGameSessionProtectionPolicy: GameLiftClientTypes.ProtectionPolicy? = nil,
         resourceCreationLimitPolicy: GameLiftClientTypes.ResourceCreationLimitPolicy? = nil
-    )
-    {
+    ) {
         self.anywhereConfiguration = anywhereConfiguration
         self.description = description
         self.fleetId = fleetId
@@ -10749,8 +10456,7 @@ public struct UpdateFleetAttributesOutput: Swift.Sendable {
     public init(
         fleetArn: Swift.String? = nil,
         fleetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.fleetArn = fleetArn
         self.fleetId = fleetId
     }
@@ -10775,8 +10481,7 @@ public struct UpdateFleetCapacityInput: Swift.Sendable {
         location: Swift.String? = nil,
         maxSize: Swift.Int? = nil,
         minSize: Swift.Int? = nil
-    )
-    {
+    ) {
         self.desiredInstances = desiredInstances
         self.fleetId = fleetId
         self.location = location
@@ -10797,8 +10502,7 @@ public struct UpdateFleetCapacityOutput: Swift.Sendable {
         fleetArn: Swift.String? = nil,
         fleetId: Swift.String? = nil,
         location: Swift.String? = nil
-    )
-    {
+    ) {
         self.fleetArn = fleetArn
         self.fleetId = fleetId
         self.location = location
@@ -10818,8 +10522,7 @@ public struct UpdateFleetPortSettingsInput: Swift.Sendable {
         fleetId: Swift.String? = nil,
         inboundPermissionAuthorizations: [GameLiftClientTypes.IpPermission]? = nil,
         inboundPermissionRevocations: [GameLiftClientTypes.IpPermission]? = nil
-    )
-    {
+    ) {
         self.fleetId = fleetId
         self.inboundPermissionAuthorizations = inboundPermissionAuthorizations
         self.inboundPermissionRevocations = inboundPermissionRevocations
@@ -10835,8 +10538,7 @@ public struct UpdateFleetPortSettingsOutput: Swift.Sendable {
     public init(
         fleetArn: Swift.String? = nil,
         fleetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.fleetArn = fleetArn
         self.fleetId = fleetId
     }
@@ -10888,8 +10590,7 @@ public struct UpdateGameServerInput: Swift.Sendable {
         gameServerId: Swift.String? = nil,
         healthCheck: GameLiftClientTypes.GameServerHealthCheck? = nil,
         utilizationStatus: GameLiftClientTypes.GameServerUtilizationStatus? = nil
-    )
-    {
+    ) {
         self.gameServerData = gameServerData
         self.gameServerGroupName = gameServerGroupName
         self.gameServerId = gameServerId
@@ -10904,8 +10605,7 @@ public struct UpdateGameServerOutput: Swift.Sendable {
 
     public init(
         gameServer: GameLiftClientTypes.GameServer? = nil
-    )
-    {
+    ) {
         self.gameServer = gameServer
     }
 }
@@ -10935,8 +10635,7 @@ public struct UpdateGameServerGroupInput: Swift.Sendable {
         gameServerProtectionPolicy: GameLiftClientTypes.GameServerProtectionPolicy? = nil,
         instanceDefinitions: [GameLiftClientTypes.InstanceDefinition]? = nil,
         roleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.balancingStrategy = balancingStrategy
         self.gameServerGroupName = gameServerGroupName
         self.gameServerProtectionPolicy = gameServerProtectionPolicy
@@ -10951,8 +10650,7 @@ public struct UpdateGameServerGroupOutput: Swift.Sendable {
 
     public init(
         gameServerGroup: GameLiftClientTypes.GameServerGroup? = nil
-    )
-    {
+    ) {
         self.gameServerGroup = gameServerGroup
     }
 }
@@ -10983,8 +10681,7 @@ public struct UpdateGameSessionInput: Swift.Sendable {
         name: Swift.String? = nil,
         playerSessionCreationPolicy: GameLiftClientTypes.PlayerSessionCreationPolicy? = nil,
         protectionPolicy: GameLiftClientTypes.ProtectionPolicy? = nil
-    )
-    {
+    ) {
         self.gameProperties = gameProperties
         self.gameSessionId = gameSessionId
         self.maximumPlayerSessionCount = maximumPlayerSessionCount
@@ -11000,8 +10697,7 @@ public struct UpdateGameSessionOutput: Swift.Sendable {
 
     public init(
         gameSession: GameLiftClientTypes.GameSession? = nil
-    )
-    {
+    ) {
         self.gameSession = gameSession
     }
 }
@@ -11034,8 +10730,7 @@ public struct UpdateGameSessionQueueInput: Swift.Sendable {
         playerLatencyPolicies: [GameLiftClientTypes.PlayerLatencyPolicy]? = nil,
         priorityConfiguration: GameLiftClientTypes.PriorityConfiguration? = nil,
         timeoutInSeconds: Swift.Int? = nil
-    )
-    {
+    ) {
         self.customEventData = customEventData
         self.destinations = destinations
         self.filterConfiguration = filterConfiguration
@@ -11053,8 +10748,7 @@ public struct UpdateGameSessionQueueOutput: Swift.Sendable {
 
     public init(
         gameSessionQueue: GameLiftClientTypes.GameSessionQueue? = nil
-    )
-    {
+    ) {
         self.gameSessionQueue = gameSessionQueue
     }
 }
@@ -11109,8 +10803,7 @@ public struct UpdateMatchmakingConfigurationInput: Swift.Sendable {
         notificationTarget: Swift.String? = nil,
         requestTimeoutSeconds: Swift.Int? = nil,
         ruleSetName: Swift.String? = nil
-    )
-    {
+    ) {
         self.acceptanceRequired = acceptanceRequired
         self.acceptanceTimeoutSeconds = acceptanceTimeoutSeconds
         self.additionalPlayerCount = additionalPlayerCount
@@ -11134,8 +10827,7 @@ public struct UpdateMatchmakingConfigurationOutput: Swift.Sendable {
 
     public init(
         configuration: GameLiftClientTypes.MatchmakingConfiguration? = nil
-    )
-    {
+    ) {
         self.configuration = configuration
     }
 }
@@ -11151,8 +10843,7 @@ public struct UpdateRuntimeConfigurationInput: Swift.Sendable {
     public init(
         fleetId: Swift.String? = nil,
         runtimeConfiguration: GameLiftClientTypes.RuntimeConfiguration? = nil
-    )
-    {
+    ) {
         self.fleetId = fleetId
         self.runtimeConfiguration = runtimeConfiguration
     }
@@ -11164,8 +10855,7 @@ public struct UpdateRuntimeConfigurationOutput: Swift.Sendable {
 
     public init(
         runtimeConfiguration: GameLiftClientTypes.RuntimeConfiguration? = nil
-    )
-    {
+    ) {
         self.runtimeConfiguration = runtimeConfiguration
     }
 }
@@ -11189,8 +10879,7 @@ public struct UpdateScriptInput: Swift.Sendable {
         storageLocation: GameLiftClientTypes.S3Location? = nil,
         version: Swift.String? = nil,
         zipFile: Foundation.Data? = nil
-    )
-    {
+    ) {
         self.name = name
         self.scriptId = scriptId
         self.storageLocation = storageLocation
@@ -11205,8 +10894,7 @@ public struct UpdateScriptOutput: Swift.Sendable {
 
     public init(
         script: GameLiftClientTypes.Script? = nil
-    )
-    {
+    ) {
         self.script = script
     }
 }
@@ -11218,8 +10906,7 @@ public struct ValidateMatchmakingRuleSetInput: Swift.Sendable {
 
     public init(
         ruleSetBody: Swift.String? = nil
-    )
-    {
+    ) {
         self.ruleSetBody = ruleSetBody
     }
 }
@@ -11230,8 +10917,7 @@ public struct ValidateMatchmakingRuleSetOutput: Swift.Sendable {
 
     public init(
         valid: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.valid = valid
     }
 }

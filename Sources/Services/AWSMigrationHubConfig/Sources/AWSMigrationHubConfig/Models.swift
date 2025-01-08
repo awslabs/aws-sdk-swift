@@ -41,8 +41,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -65,8 +64,7 @@ public struct DryRunOperation: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -89,8 +87,7 @@ public struct InternalServerError: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -113,8 +110,7 @@ public struct InvalidInputException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -137,8 +133,7 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -165,8 +160,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         message: Swift.String? = nil,
         retryAfterSeconds: Swift.Int = 0
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.retryAfterSeconds = retryAfterSeconds
     }
@@ -211,8 +205,7 @@ extension MigrationHubConfigClientTypes {
         public init(
             id: Swift.String? = nil,
             type: MigrationHubConfigClientTypes.TargetType? = nil
-        )
-        {
+        ) {
             self.id = id
             self.type = type
         }
@@ -233,8 +226,7 @@ public struct CreateHomeRegionControlInput: Swift.Sendable {
         dryRun: Swift.Bool? = false,
         homeRegion: Swift.String? = nil,
         target: MigrationHubConfigClientTypes.Target? = nil
-    )
-    {
+    ) {
         self.dryRun = dryRun
         self.homeRegion = homeRegion
         self.target = target
@@ -259,8 +251,7 @@ extension MigrationHubConfigClientTypes {
             homeRegion: Swift.String? = nil,
             requestedTime: Foundation.Date? = nil,
             target: MigrationHubConfigClientTypes.Target? = nil
-        )
-        {
+        ) {
             self.controlId = controlId
             self.homeRegion = homeRegion
             self.requestedTime = requestedTime
@@ -275,8 +266,7 @@ public struct CreateHomeRegionControlOutput: Swift.Sendable {
 
     public init(
         homeRegionControl: MigrationHubConfigClientTypes.HomeRegionControl? = nil
-    )
-    {
+    ) {
         self.homeRegionControl = homeRegionControl
     }
 }
@@ -288,8 +278,7 @@ public struct DeleteHomeRegionControlInput: Swift.Sendable {
 
     public init(
         controlId: Swift.String? = nil
-    )
-    {
+    ) {
         self.controlId = controlId
     }
 }
@@ -317,8 +306,7 @@ public struct DescribeHomeRegionControlsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         target: MigrationHubConfigClientTypes.Target? = nil
-    )
-    {
+    ) {
         self.controlId = controlId
         self.homeRegion = homeRegion
         self.maxResults = maxResults
@@ -336,8 +324,7 @@ public struct DescribeHomeRegionControlsOutput: Swift.Sendable {
     public init(
         homeRegionControls: [MigrationHubConfigClientTypes.HomeRegionControl]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.homeRegionControls = homeRegionControls
         self.nextToken = nextToken
     }
@@ -354,8 +341,7 @@ public struct GetHomeRegionOutput: Swift.Sendable {
 
     public init(
         homeRegion: Swift.String? = nil
-    )
-    {
+    ) {
         self.homeRegion = homeRegion
     }
 }

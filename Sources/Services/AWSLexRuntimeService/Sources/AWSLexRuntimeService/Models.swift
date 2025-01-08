@@ -40,8 +40,7 @@ extension LexRuntimeClientTypes {
         public init(
             timeToLiveInSeconds: Swift.Int? = nil,
             turnsToLive: Swift.Int? = nil
-        )
-        {
+        ) {
             self.timeToLiveInSeconds = timeToLiveInSeconds
             self.turnsToLive = turnsToLive
         }
@@ -66,8 +65,7 @@ extension LexRuntimeClientTypes {
             name: Swift.String? = nil,
             parameters: [Swift.String: Swift.String]? = nil,
             timeToLive: LexRuntimeClientTypes.ActiveContextTimeToLive? = nil
-        )
-        {
+        ) {
             self.name = name
             self.parameters = parameters
             self.timeToLive = timeToLive
@@ -98,8 +96,7 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -122,8 +119,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -146,8 +142,7 @@ public struct InternalFailureException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -172,8 +167,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     public init(
         message: Swift.String? = nil,
         retryAfterSeconds: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.retryAfterSeconds = retryAfterSeconds
     }
@@ -197,8 +191,7 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -218,8 +211,7 @@ public struct DeleteSessionInput: Swift.Sendable {
         botAlias: Swift.String? = nil,
         botName: Swift.String? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.botAlias = botAlias
         self.botName = botName
         self.userId = userId
@@ -241,8 +233,7 @@ public struct DeleteSessionOutput: Swift.Sendable {
         botName: Swift.String? = nil,
         sessionId: Swift.String? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.botAlias = botAlias
         self.botName = botName
         self.sessionId = sessionId
@@ -268,8 +259,7 @@ public struct GetSessionInput: Swift.Sendable {
         botName: Swift.String? = nil,
         checkpointLabelFilter: Swift.String? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.botAlias = botAlias
         self.botName = botName
         self.checkpointLabelFilter = checkpointLabelFilter
@@ -432,8 +422,7 @@ extension LexRuntimeClientTypes {
             slotToElicit: Swift.String? = nil,
             slots: [Swift.String: Swift.String]? = nil,
             type: LexRuntimeClientTypes.DialogActionType? = nil
-        )
-        {
+        ) {
             self.fulfillmentState = fulfillmentState
             self.intentName = intentName
             self.message = message
@@ -530,8 +519,7 @@ extension LexRuntimeClientTypes {
             intentName: Swift.String? = nil,
             slotToElicit: Swift.String? = nil,
             slots: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.checkpointLabel = checkpointLabel
             self.confirmationStatus = confirmationStatus
             self.dialogActionType = dialogActionType
@@ -566,8 +554,7 @@ public struct GetSessionOutput: Swift.Sendable {
         recentIntentSummaryView: [LexRuntimeClientTypes.IntentSummary]? = nil,
         sessionAttributes: [Swift.String: Swift.String]? = nil,
         sessionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.activeContexts = activeContexts
         self.dialogAction = dialogAction
         self.recentIntentSummaryView = recentIntentSummaryView
@@ -599,8 +586,7 @@ public struct BadGatewayException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -629,8 +615,7 @@ public struct DependencyFailedException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -653,8 +638,7 @@ public struct LoopDetectedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -677,8 +661,7 @@ public struct NotAcceptableException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -701,8 +684,7 @@ public struct RequestTimeoutException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -725,8 +707,7 @@ public struct UnsupportedMediaTypeException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -814,8 +795,7 @@ public struct PostContentInput: Swift.Sendable {
         requestAttributes: Swift.String? = nil,
         sessionAttributes: Swift.String? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accept = accept
         self.activeContexts = activeContexts
         self.botAlias = botAlias
@@ -953,8 +933,7 @@ public struct PostContentOutput: Swift.Sendable {
         sessionId: Swift.String? = nil,
         slotToElicit: Swift.String? = nil,
         slots: Swift.String? = nil
-    )
-    {
+    ) {
         self.activeContexts = activeContexts
         self.alternativeIntents = alternativeIntents
         self.audioStream = audioStream
@@ -1017,8 +996,7 @@ public struct PostTextInput: Swift.Sendable {
         requestAttributes: [Swift.String: Swift.String]? = nil,
         sessionAttributes: [Swift.String: Swift.String]? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.activeContexts = activeContexts
         self.botAlias = botAlias
         self.botName = botName
@@ -1043,8 +1021,7 @@ extension LexRuntimeClientTypes {
 
         public init(
             score: Swift.Double = 0.0
-        )
-        {
+        ) {
             self.score = score
         }
     }
@@ -1065,8 +1042,7 @@ extension LexRuntimeClientTypes {
             intentName: Swift.String? = nil,
             nluIntentConfidence: LexRuntimeClientTypes.IntentConfidence? = nil,
             slots: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.intentName = intentName
             self.nluIntentConfidence = nluIntentConfidence
             self.slots = slots
@@ -1119,8 +1095,7 @@ extension LexRuntimeClientTypes {
         public init(
             text: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.text = text
             self.value = value
         }
@@ -1148,8 +1123,7 @@ extension LexRuntimeClientTypes {
             imageUrl: Swift.String? = nil,
             subTitle: Swift.String? = nil,
             title: Swift.String? = nil
-        )
-        {
+        ) {
             self.attachmentLinkUrl = attachmentLinkUrl
             self.buttons = buttons
             self.imageUrl = imageUrl
@@ -1174,8 +1148,7 @@ extension LexRuntimeClientTypes {
             contentType: LexRuntimeClientTypes.ContentType? = nil,
             genericAttachments: [LexRuntimeClientTypes.GenericAttachment]? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.contentType = contentType
             self.genericAttachments = genericAttachments
             self.version = version
@@ -1195,8 +1168,7 @@ extension LexRuntimeClientTypes {
         public init(
             sentimentLabel: Swift.String? = nil,
             sentimentScore: Swift.String? = nil
-        )
-        {
+        ) {
             self.sentimentLabel = sentimentLabel
             self.sentimentScore = sentimentScore
         }
@@ -1268,8 +1240,7 @@ public struct PostTextOutput: Swift.Sendable {
         sessionId: Swift.String? = nil,
         slotToElicit: Swift.String? = nil,
         slots: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.activeContexts = activeContexts
         self.alternativeIntents = alternativeIntents
         self.botVersion = botVersion
@@ -1349,8 +1320,7 @@ public struct PutSessionInput: Swift.Sendable {
         recentIntentSummaryView: [LexRuntimeClientTypes.IntentSummary]? = nil,
         sessionAttributes: [Swift.String: Swift.String]? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accept = accept
         self.activeContexts = activeContexts
         self.botAlias = botAlias
@@ -1425,8 +1395,7 @@ public struct PutSessionOutput: Swift.Sendable {
         sessionId: Swift.String? = nil,
         slotToElicit: Swift.String? = nil,
         slots: Swift.String? = nil
-    )
-    {
+    ) {
         self.activeContexts = activeContexts
         self.audioStream = audioStream
         self.contentType = contentType

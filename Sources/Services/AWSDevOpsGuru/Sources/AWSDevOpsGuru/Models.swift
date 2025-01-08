@@ -48,8 +48,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -66,8 +65,7 @@ extension DevOpsGuruClientTypes {
         public init(
             openProactiveInsights: Swift.Int = 0,
             openReactiveInsights: Swift.Int = 0
-        )
-        {
+        ) {
             self.openProactiveInsights = openProactiveInsights
             self.openReactiveInsights = openReactiveInsights
         }
@@ -86,8 +84,7 @@ extension DevOpsGuruClientTypes {
         public init(
             accountId: Swift.String? = nil,
             insight: DevOpsGuruClientTypes.AccountInsightHealth? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.insight = insight
         }
@@ -121,8 +118,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -151,8 +147,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public init(
         message: Swift.String? = nil,
         retryAfterSeconds: Swift.Int = 0
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.retryAfterSeconds = retryAfterSeconds
     }
@@ -185,8 +180,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -211,8 +205,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -245,8 +238,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
         quotaCode: Swift.String? = nil,
         retryAfterSeconds: Swift.Int = 0,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.quotaCode = quotaCode
         self.properties.retryAfterSeconds = retryAfterSeconds
@@ -268,8 +260,7 @@ extension DevOpsGuruClientTypes {
         public init(
             message: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
             self.name = name
         }
@@ -343,8 +334,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
         fields: [DevOpsGuruClientTypes.ValidationExceptionField]? = nil,
         message: Swift.String? = nil,
         reason: DevOpsGuruClientTypes.ValidationExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.fields = fields
         self.properties.message = message
         self.properties.reason = reason
@@ -433,8 +423,7 @@ extension DevOpsGuruClientTypes {
         public init(
             messageTypes: [DevOpsGuruClientTypes.NotificationMessageType]? = nil,
             severities: [DevOpsGuruClientTypes.InsightSeverity]? = nil
-        )
-        {
+        ) {
             self.messageTypes = messageTypes
             self.severities = severities
         }
@@ -450,8 +439,7 @@ extension DevOpsGuruClientTypes {
 
         public init(
             topicArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.topicArn = topicArn
         }
     }
@@ -470,8 +458,7 @@ extension DevOpsGuruClientTypes {
         public init(
             filters: DevOpsGuruClientTypes.NotificationFilterConfig? = nil,
             sns: DevOpsGuruClientTypes.SnsChannelConfig? = nil
-        )
-        {
+        ) {
             self.filters = filters
             self.sns = sns
         }
@@ -485,8 +472,7 @@ public struct AddNotificationChannelInput: Swift.Sendable {
 
     public init(
         config: DevOpsGuruClientTypes.NotificationChannelConfig? = nil
-    )
-    {
+    ) {
         self.config = config
     }
 }
@@ -498,8 +484,7 @@ public struct AddNotificationChannelOutput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -542,8 +527,7 @@ extension DevOpsGuruClientTypes {
 
         public init(
             status: DevOpsGuruClientTypes.EventSourceOptInStatus? = nil
-        )
-        {
+        ) {
             self.status = status
         }
     }
@@ -623,8 +607,7 @@ extension DevOpsGuruClientTypes {
             logEventTimestamp: Foundation.Date? = nil,
             logStreamName: Swift.String? = nil,
             numberOfLogLinesOccurrences: Swift.Int = 0
-        )
-        {
+        ) {
             self.explanation = explanation
             self.logAnomalyToken = logAnomalyToken
             self.logAnomalyType = logAnomalyType
@@ -645,8 +628,7 @@ extension DevOpsGuruClientTypes {
 
         public init(
             logAnomalyClasses: [DevOpsGuruClientTypes.LogAnomalyClass]? = nil
-        )
-        {
+        ) {
             self.logAnomalyClasses = logAnomalyClasses
         }
     }
@@ -673,8 +655,7 @@ extension DevOpsGuruClientTypes {
             logAnomalyShowcases: [DevOpsGuruClientTypes.LogAnomalyShowcase]? = nil,
             logGroupName: Swift.String? = nil,
             numberOfLogLinesScanned: Swift.Int = 0
-        )
-        {
+        ) {
             self.impactEndTime = impactEndTime
             self.impactStartTime = impactStartTime
             self.logAnomalyShowcases = logAnomalyShowcases
@@ -697,8 +678,7 @@ extension DevOpsGuruClientTypes {
         public init(
             closeTime: Foundation.Date? = nil,
             openTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.closeTime = closeTime
             self.openTime = openTime
         }
@@ -717,8 +697,7 @@ extension DevOpsGuruClientTypes {
         public init(
             name: Swift.String? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.type = type
         }
@@ -769,8 +748,7 @@ extension DevOpsGuruClientTypes {
         public init(
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -821,8 +799,7 @@ extension DevOpsGuruClientTypes {
         public init(
             metricValue: Swift.Double? = nil,
             timestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.metricValue = metricValue
             self.timestamp = timestamp
         }
@@ -841,8 +818,7 @@ extension DevOpsGuruClientTypes {
         public init(
             statusCode: DevOpsGuruClientTypes.CloudWatchMetricDataStatusCode? = nil,
             timestampMetricValuePairList: [DevOpsGuruClientTypes.TimestampMetricValuePair]? = nil
-        )
-        {
+        ) {
             self.statusCode = statusCode
             self.timestampMetricValuePairList = timestampMetricValuePairList
         }
@@ -923,8 +899,7 @@ extension DevOpsGuruClientTypes {
             period: Swift.Int = 0,
             stat: DevOpsGuruClientTypes.CloudWatchMetricsStat? = nil,
             unit: Swift.String? = nil
-        )
-        {
+        ) {
             self.dimensions = dimensions
             self.metricDataSummary = metricDataSummary
             self.metricName = metricName
@@ -1007,8 +982,7 @@ extension DevOpsGuruClientTypes {
             dimensions: [Swift.String]? = nil,
             group: Swift.String? = nil,
             limit: Swift.Int? = nil
-        )
-        {
+        ) {
             self.dimensions = dimensions
             self.group = group
             self.limit = limit
@@ -1046,8 +1020,7 @@ extension DevOpsGuruClientTypes {
             filter: [Swift.String: Swift.String]? = nil,
             groupBy: DevOpsGuruClientTypes.PerformanceInsightsMetricDimensionGroup? = nil,
             metric: Swift.String? = nil
-        )
-        {
+        ) {
             self.filter = filter
             self.groupBy = groupBy
             self.metric = metric
@@ -1064,8 +1037,7 @@ extension DevOpsGuruClientTypes {
 
         public init(
             metricQuery: DevOpsGuruClientTypes.PerformanceInsightsMetricQuery? = nil
-        )
-        {
+        ) {
             self.metricQuery = metricQuery
         }
     }
@@ -1080,8 +1052,7 @@ extension DevOpsGuruClientTypes {
 
         public init(
             value: Swift.Double? = nil
-        )
-        {
+        ) {
             self.value = value
         }
     }
@@ -1099,8 +1070,7 @@ extension DevOpsGuruClientTypes {
         public init(
             referenceMetric: DevOpsGuruClientTypes.PerformanceInsightsReferenceMetric? = nil,
             referenceScalar: DevOpsGuruClientTypes.PerformanceInsightsReferenceScalar? = nil
-        )
-        {
+        ) {
             self.referenceMetric = referenceMetric
             self.referenceScalar = referenceScalar
         }
@@ -1119,8 +1089,7 @@ extension DevOpsGuruClientTypes {
         public init(
             comparisonValues: DevOpsGuruClientTypes.PerformanceInsightsReferenceComparisonValues? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.comparisonValues = comparisonValues
             self.name = name
         }
@@ -1139,8 +1108,7 @@ extension DevOpsGuruClientTypes {
         public init(
             type: Swift.String? = nil,
             value: Swift.Double? = nil
-        )
-        {
+        ) {
             self.type = type
             self.value = value
         }
@@ -1175,8 +1143,7 @@ extension DevOpsGuruClientTypes {
             statsAtAnomaly: [DevOpsGuruClientTypes.PerformanceInsightsStat]? = nil,
             statsAtBaseline: [DevOpsGuruClientTypes.PerformanceInsightsStat]? = nil,
             unit: Swift.String? = nil
-        )
-        {
+        ) {
             self.metricDisplayName = metricDisplayName
             self.metricQuery = metricQuery
             self.referenceData = referenceData
@@ -1199,8 +1166,7 @@ extension DevOpsGuruClientTypes {
         public init(
             cloudWatchMetrics: [DevOpsGuruClientTypes.CloudWatchMetricsDetail]? = nil,
             performanceInsightsMetrics: [DevOpsGuruClientTypes.PerformanceInsightsMetricsDetail]? = nil
-        )
-        {
+        ) {
             self.cloudWatchMetrics = cloudWatchMetrics
             self.performanceInsightsMetrics = performanceInsightsMetrics
         }
@@ -1222,8 +1188,7 @@ extension DevOpsGuruClientTypes {
             source: Swift.String? = nil,
             sourceResourceName: Swift.String? = nil,
             sourceResourceType: Swift.String? = nil
-        )
-        {
+        ) {
             self.source = source
             self.sourceResourceName = sourceResourceName
             self.sourceResourceType = sourceResourceType
@@ -1273,8 +1238,7 @@ extension DevOpsGuruClientTypes {
         public init(
             endTime: Foundation.Date? = nil,
             startTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.endTime = endTime
             self.startTime = startTime
         }
@@ -1317,8 +1281,7 @@ public struct DeleteInsightInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -1355,8 +1318,7 @@ public struct DescribeAccountHealthOutput: Swift.Sendable {
         openProactiveInsights: Swift.Int = 0,
         openReactiveInsights: Swift.Int = 0,
         resourceHours: Swift.Int? = nil
-    )
-    {
+    ) {
         self.analyzedResourceCount = analyzedResourceCount
         self.metricsAnalyzed = metricsAnalyzed
         self.openProactiveInsights = openProactiveInsights
@@ -1375,8 +1337,7 @@ public struct DescribeAccountOverviewInput: Swift.Sendable {
     public init(
         fromTime: Foundation.Date? = nil,
         toTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.fromTime = fromTime
         self.toTime = toTime
     }
@@ -1397,8 +1358,7 @@ public struct DescribeAccountOverviewOutput: Swift.Sendable {
         meanTimeToRecoverInMilliseconds: Swift.Int? = nil,
         proactiveInsights: Swift.Int = 0,
         reactiveInsights: Swift.Int = 0
-    )
-    {
+    ) {
         self.meanTimeToRecoverInMilliseconds = meanTimeToRecoverInMilliseconds
         self.proactiveInsights = proactiveInsights
         self.reactiveInsights = reactiveInsights
@@ -1415,8 +1375,7 @@ public struct DescribeAnomalyInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.id = id
     }
@@ -1435,8 +1394,7 @@ extension DevOpsGuruClientTypes {
         public init(
             endTime: Foundation.Date? = nil,
             startTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.endTime = endTime
             self.startTime = startTime
         }
@@ -1452,8 +1410,7 @@ extension DevOpsGuruClientTypes {
 
         public init(
             stackNames: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.stackNames = stackNames
         }
     }
@@ -1480,8 +1437,7 @@ extension DevOpsGuruClientTypes {
         public init(
             appBoundaryKey: Swift.String? = nil,
             tagValues: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.appBoundaryKey = appBoundaryKey
             self.tagValues = tagValues
         }
@@ -1507,8 +1463,7 @@ extension DevOpsGuruClientTypes {
         public init(
             cloudFormation: DevOpsGuruClientTypes.CloudFormationCollection? = nil,
             tags: [DevOpsGuruClientTypes.TagCollection]? = nil
-        )
-        {
+        ) {
             self.cloudFormation = cloudFormation
             self.tags = tags
         }
@@ -1563,8 +1518,7 @@ extension DevOpsGuruClientTypes {
             sourceMetadata: DevOpsGuruClientTypes.AnomalySourceMetadata? = nil,
             status: DevOpsGuruClientTypes.AnomalyStatus? = nil,
             updateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.anomalyReportedTimeRange = anomalyReportedTimeRange
             self.anomalyResources = anomalyResources
             self.anomalyTimeRange = anomalyTimeRange
@@ -1632,8 +1586,7 @@ extension DevOpsGuruClientTypes {
             sourceDetails: DevOpsGuruClientTypes.AnomalySourceDetails? = nil,
             status: DevOpsGuruClientTypes.AnomalyStatus? = nil,
             type: DevOpsGuruClientTypes.AnomalyType? = nil
-        )
-        {
+        ) {
             self.anomalyReportedTimeRange = anomalyReportedTimeRange
             self.anomalyResources = anomalyResources
             self.anomalyTimeRange = anomalyTimeRange
@@ -1660,8 +1613,7 @@ public struct DescribeAnomalyOutput: Swift.Sendable {
     public init(
         proactiveAnomaly: DevOpsGuruClientTypes.ProactiveAnomaly? = nil,
         reactiveAnomaly: DevOpsGuruClientTypes.ReactiveAnomaly? = nil
-    )
-    {
+    ) {
         self.proactiveAnomaly = proactiveAnomaly
         self.reactiveAnomaly = reactiveAnomaly
     }
@@ -1681,8 +1633,7 @@ extension DevOpsGuruClientTypes {
 
         public init(
             amazonCodeGuruProfiler: DevOpsGuruClientTypes.AmazonCodeGuruProfilerIntegration? = nil
-        )
-        {
+        ) {
             self.amazonCodeGuruProfiler = amazonCodeGuruProfiler
         }
     }
@@ -1694,8 +1645,7 @@ public struct DescribeEventSourcesConfigOutput: Swift.Sendable {
 
     public init(
         eventSources: DevOpsGuruClientTypes.EventSourcesConfig? = nil
-    )
-    {
+    ) {
         self.eventSources = eventSources
     }
 }
@@ -1706,8 +1656,7 @@ public struct DescribeFeedbackInput: Swift.Sendable {
 
     public init(
         insightId: Swift.String? = nil
-    )
-    {
+    ) {
         self.insightId = insightId
     }
 }
@@ -1762,8 +1711,7 @@ extension DevOpsGuruClientTypes {
         public init(
             feedback: DevOpsGuruClientTypes.InsightFeedbackOption? = nil,
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.feedback = feedback
             self.id = id
         }
@@ -1776,8 +1724,7 @@ public struct DescribeFeedbackOutput: Swift.Sendable {
 
     public init(
         insightFeedback: DevOpsGuruClientTypes.InsightFeedback? = nil
-    )
-    {
+    ) {
         self.insightFeedback = insightFeedback
     }
 }
@@ -1792,8 +1739,7 @@ public struct DescribeInsightInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.id = id
     }
@@ -1812,8 +1758,7 @@ extension DevOpsGuruClientTypes {
         public init(
             endTime: Foundation.Date? = nil,
             startTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.endTime = endTime
             self.startTime = startTime
         }
@@ -1882,8 +1827,7 @@ extension DevOpsGuruClientTypes {
             severity: DevOpsGuruClientTypes.InsightSeverity? = nil,
             ssmOpsItemId: Swift.String? = nil,
             status: DevOpsGuruClientTypes.InsightStatus? = nil
-        )
-        {
+        ) {
             self.description = description
             self.id = id
             self.insightTimeRange = insightTimeRange
@@ -1927,8 +1871,7 @@ extension DevOpsGuruClientTypes {
             severity: DevOpsGuruClientTypes.InsightSeverity? = nil,
             ssmOpsItemId: Swift.String? = nil,
             status: DevOpsGuruClientTypes.InsightStatus? = nil
-        )
-        {
+        ) {
             self.description = description
             self.id = id
             self.insightTimeRange = insightTimeRange
@@ -1950,8 +1893,7 @@ public struct DescribeInsightOutput: Swift.Sendable {
     public init(
         proactiveInsight: DevOpsGuruClientTypes.ProactiveInsight? = nil,
         reactiveInsight: DevOpsGuruClientTypes.ReactiveInsight? = nil
-    )
-    {
+    ) {
         self.proactiveInsight = proactiveInsight
         self.reactiveInsight = reactiveInsight
     }
@@ -1966,8 +1908,7 @@ public struct DescribeOrganizationHealthInput: Swift.Sendable {
     public init(
         accountIds: [Swift.String]? = nil,
         organizationalUnitIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.accountIds = accountIds
         self.organizationalUnitIds = organizationalUnitIds
     }
@@ -1992,8 +1933,7 @@ public struct DescribeOrganizationHealthOutput: Swift.Sendable {
         openProactiveInsights: Swift.Int = 0,
         openReactiveInsights: Swift.Int = 0,
         resourceHours: Swift.Int? = nil
-    )
-    {
+    ) {
         self.metricsAnalyzed = metricsAnalyzed
         self.openProactiveInsights = openProactiveInsights
         self.openReactiveInsights = openReactiveInsights
@@ -2017,8 +1957,7 @@ public struct DescribeOrganizationOverviewInput: Swift.Sendable {
         fromTime: Foundation.Date? = nil,
         organizationalUnitIds: [Swift.String]? = nil,
         toTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.accountIds = accountIds
         self.fromTime = fromTime
         self.organizationalUnitIds = organizationalUnitIds
@@ -2037,8 +1976,7 @@ public struct DescribeOrganizationOverviewOutput: Swift.Sendable {
     public init(
         proactiveInsights: Swift.Int = 0,
         reactiveInsights: Swift.Int = 0
-    )
-    {
+    ) {
         self.proactiveInsights = proactiveInsights
         self.reactiveInsights = reactiveInsights
     }
@@ -2098,8 +2036,7 @@ public struct DescribeOrganizationResourceCollectionHealthInput: Swift.Sendable 
         nextToken: Swift.String? = nil,
         organizationResourceCollectionType: DevOpsGuruClientTypes.OrganizationResourceCollectionType? = nil,
         organizationalUnitIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.accountIds = accountIds
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2123,8 +2060,7 @@ extension DevOpsGuruClientTypes {
             meanTimeToRecoverInMilliseconds: Swift.Int? = nil,
             openProactiveInsights: Swift.Int = 0,
             openReactiveInsights: Swift.Int = 0
-        )
-        {
+        ) {
             self.meanTimeToRecoverInMilliseconds = meanTimeToRecoverInMilliseconds
             self.openProactiveInsights = openProactiveInsights
             self.openReactiveInsights = openReactiveInsights
@@ -2147,8 +2083,7 @@ extension DevOpsGuruClientTypes {
             analyzedResourceCount: Swift.Int? = nil,
             insight: DevOpsGuruClientTypes.InsightHealth? = nil,
             stackName: Swift.String? = nil
-        )
-        {
+        ) {
             self.analyzedResourceCount = analyzedResourceCount
             self.insight = insight
             self.stackName = stackName
@@ -2168,8 +2103,7 @@ extension DevOpsGuruClientTypes {
         public init(
             openProactiveInsights: Swift.Int = 0,
             openReactiveInsights: Swift.Int = 0
-        )
-        {
+        ) {
             self.openProactiveInsights = openProactiveInsights
             self.openReactiveInsights = openReactiveInsights
         }
@@ -2289,8 +2223,7 @@ extension DevOpsGuruClientTypes {
             analyzedResourceCount: Swift.Int? = nil,
             insight: DevOpsGuruClientTypes.ServiceInsightHealth? = nil,
             serviceName: DevOpsGuruClientTypes.ServiceName? = nil
-        )
-        {
+        ) {
             self.analyzedResourceCount = analyzedResourceCount
             self.insight = insight
             self.serviceName = serviceName
@@ -2316,8 +2249,7 @@ extension DevOpsGuruClientTypes {
             appBoundaryKey: Swift.String? = nil,
             insight: DevOpsGuruClientTypes.InsightHealth? = nil,
             tagValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.analyzedResourceCount = analyzedResourceCount
             self.appBoundaryKey = appBoundaryKey
             self.insight = insight
@@ -2351,8 +2283,7 @@ public struct DescribeOrganizationResourceCollectionHealthOutput: Swift.Sendable
         nextToken: Swift.String? = nil,
         service: [DevOpsGuruClientTypes.ServiceHealth]? = nil,
         tags: [DevOpsGuruClientTypes.TagHealth]? = nil
-    )
-    {
+    ) {
         self.account = account
         self.cloudFormation = cloudFormation
         self.nextToken = nextToken
@@ -2403,8 +2334,7 @@ public struct DescribeResourceCollectionHealthInput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         resourceCollectionType: DevOpsGuruClientTypes.ResourceCollectionType? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.resourceCollectionType = resourceCollectionType
     }
@@ -2432,8 +2362,7 @@ public struct DescribeResourceCollectionHealthOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         service: [DevOpsGuruClientTypes.ServiceHealth]? = nil,
         tags: [DevOpsGuruClientTypes.TagHealth]? = nil
-    )
-    {
+    ) {
         self.cloudFormation = cloudFormation
         self.nextToken = nextToken
         self.service = service
@@ -2520,8 +2449,7 @@ extension DevOpsGuruClientTypes {
             kmsKeyId: Swift.String? = nil,
             optInStatus: DevOpsGuruClientTypes.OptInStatus? = nil,
             type: DevOpsGuruClientTypes.ServerSideEncryptionType? = nil
-        )
-        {
+        ) {
             self.kmsKeyId = kmsKeyId
             self.optInStatus = optInStatus
             self.type = type
@@ -2538,8 +2466,7 @@ extension DevOpsGuruClientTypes {
 
         public init(
             optInStatus: DevOpsGuruClientTypes.OptInStatus? = nil
-        )
-        {
+        ) {
             self.optInStatus = optInStatus
         }
     }
@@ -2554,8 +2481,7 @@ extension DevOpsGuruClientTypes {
 
         public init(
             optInStatus: DevOpsGuruClientTypes.OptInStatus? = nil
-        )
-        {
+        ) {
             self.optInStatus = optInStatus
         }
     }
@@ -2576,8 +2502,7 @@ extension DevOpsGuruClientTypes {
             kmsServerSideEncryption: DevOpsGuruClientTypes.KMSServerSideEncryptionIntegration? = nil,
             logsAnomalyDetection: DevOpsGuruClientTypes.LogsAnomalyDetectionIntegration? = nil,
             opsCenter: DevOpsGuruClientTypes.OpsCenterIntegration? = nil
-        )
-        {
+        ) {
             self.kmsServerSideEncryption = kmsServerSideEncryption
             self.logsAnomalyDetection = logsAnomalyDetection
             self.opsCenter = opsCenter
@@ -2591,8 +2516,7 @@ public struct DescribeServiceIntegrationOutput: Swift.Sendable {
 
     public init(
         serviceIntegration: DevOpsGuruClientTypes.ServiceIntegrationConfig? = nil
-    )
-    {
+    ) {
         self.serviceIntegration = serviceIntegration
     }
 }
@@ -2603,8 +2527,7 @@ public struct GetCostEstimationInput: Swift.Sendable {
 
     public init(
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
     }
 }
@@ -2659,8 +2582,7 @@ extension DevOpsGuruClientTypes {
             state: DevOpsGuruClientTypes.CostEstimationServiceResourceState? = nil,
             type: Swift.String? = nil,
             unitCost: Swift.Double = 0.0
-        )
-        {
+        ) {
             self.cost = cost
             self.count = count
             self.state = state
@@ -2679,8 +2601,7 @@ extension DevOpsGuruClientTypes {
 
         public init(
             stackNames: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.stackNames = stackNames
         }
     }
@@ -2700,8 +2621,7 @@ extension DevOpsGuruClientTypes {
         public init(
             appBoundaryKey: Swift.String? = nil,
             tagValues: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.appBoundaryKey = appBoundaryKey
             self.tagValues = tagValues
         }
@@ -2727,8 +2647,7 @@ extension DevOpsGuruClientTypes {
         public init(
             cloudFormation: DevOpsGuruClientTypes.CloudFormationCostEstimationResourceCollectionFilter? = nil,
             tags: [DevOpsGuruClientTypes.TagCostEstimationResourceCollectionFilter]? = nil
-        )
-        {
+        ) {
             self.cloudFormation = cloudFormation
             self.tags = tags
         }
@@ -2776,8 +2695,7 @@ extension DevOpsGuruClientTypes {
         public init(
             endTime: Foundation.Date? = nil,
             startTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.endTime = endTime
             self.startTime = startTime
         }
@@ -2805,8 +2723,7 @@ public struct GetCostEstimationOutput: Swift.Sendable {
         status: DevOpsGuruClientTypes.CostEstimationStatus? = nil,
         timeRange: DevOpsGuruClientTypes.CostEstimationTimeRange? = nil,
         totalCost: Swift.Double = 0.0
-    )
-    {
+    ) {
         self.costs = costs
         self.nextToken = nextToken
         self.resourceCollection = resourceCollection
@@ -2826,8 +2743,7 @@ public struct GetResourceCollectionInput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         resourceCollectionType: DevOpsGuruClientTypes.ResourceCollectionType? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.resourceCollectionType = resourceCollectionType
     }
@@ -2842,8 +2758,7 @@ extension DevOpsGuruClientTypes {
 
         public init(
             stackNames: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.stackNames = stackNames
         }
     }
@@ -2863,8 +2778,7 @@ extension DevOpsGuruClientTypes {
         public init(
             appBoundaryKey: Swift.String? = nil,
             tagValues: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.appBoundaryKey = appBoundaryKey
             self.tagValues = tagValues
         }
@@ -2890,8 +2804,7 @@ extension DevOpsGuruClientTypes {
         public init(
             cloudFormation: DevOpsGuruClientTypes.CloudFormationCollectionFilter? = nil,
             tags: [DevOpsGuruClientTypes.TagCollectionFilter]? = nil
-        )
-        {
+        ) {
             self.cloudFormation = cloudFormation
             self.tags = tags
         }
@@ -2907,8 +2820,7 @@ public struct GetResourceCollectionOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         resourceCollection: DevOpsGuruClientTypes.ResourceCollectionFilter? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.resourceCollection = resourceCollection
     }
@@ -2923,8 +2835,7 @@ extension DevOpsGuruClientTypes {
 
         public init(
             serviceNames: [DevOpsGuruClientTypes.ServiceName]? = nil
-        )
-        {
+        ) {
             self.serviceNames = serviceNames
         }
     }
@@ -2939,8 +2850,7 @@ extension DevOpsGuruClientTypes {
 
         public init(
             serviceCollection: DevOpsGuruClientTypes.ServiceCollection? = nil
-        )
-        {
+        ) {
             self.serviceCollection = serviceCollection
         }
     }
@@ -2958,8 +2868,7 @@ extension DevOpsGuruClientTypes {
         public init(
             fromTime: Foundation.Date? = nil,
             toTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.fromTime = fromTime
             self.toTime = toTime
         }
@@ -2988,8 +2897,7 @@ public struct ListAnomaliesForInsightInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         startTimeRange: DevOpsGuruClientTypes.StartTimeRange? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.filters = filters
         self.insightId = insightId
@@ -3047,8 +2955,7 @@ extension DevOpsGuruClientTypes {
             sourceMetadata: DevOpsGuruClientTypes.AnomalySourceMetadata? = nil,
             status: DevOpsGuruClientTypes.AnomalyStatus? = nil,
             updateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.anomalyReportedTimeRange = anomalyReportedTimeRange
             self.anomalyResources = anomalyResources
             self.anomalyTimeRange = anomalyTimeRange
@@ -3116,8 +3023,7 @@ extension DevOpsGuruClientTypes {
             sourceDetails: DevOpsGuruClientTypes.AnomalySourceDetails? = nil,
             status: DevOpsGuruClientTypes.AnomalyStatus? = nil,
             type: DevOpsGuruClientTypes.AnomalyType? = nil
-        )
-        {
+        ) {
             self.anomalyReportedTimeRange = anomalyReportedTimeRange
             self.anomalyResources = anomalyResources
             self.anomalyTimeRange = anomalyTimeRange
@@ -3147,8 +3053,7 @@ public struct ListAnomaliesForInsightOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         proactiveAnomalies: [DevOpsGuruClientTypes.ProactiveAnomalySummary]? = nil,
         reactiveAnomalies: [DevOpsGuruClientTypes.ReactiveAnomalySummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.proactiveAnomalies = proactiveAnomalies
         self.reactiveAnomalies = reactiveAnomalies
@@ -3168,8 +3073,7 @@ public struct ListAnomalousLogGroupsInput: Swift.Sendable {
         insightId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.insightId = insightId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3190,8 +3094,7 @@ public struct ListAnomalousLogGroupsOutput: Swift.Sendable {
         anomalousLogGroups: [DevOpsGuruClientTypes.AnomalousLogGroup]? = nil,
         insightId: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.anomalousLogGroups = anomalousLogGroups
         self.insightId = insightId
         self.nextToken = nextToken
@@ -3279,8 +3182,7 @@ extension DevOpsGuruClientTypes {
         public init(
             fromTime: Foundation.Date? = nil,
             toTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.fromTime = fromTime
             self.toTime = toTime
         }
@@ -3311,8 +3213,7 @@ extension DevOpsGuruClientTypes {
             eventTimeRange: DevOpsGuruClientTypes.EventTimeRange? = nil,
             insightId: Swift.String? = nil,
             resourceCollection: DevOpsGuruClientTypes.ResourceCollection? = nil
-        )
-        {
+        ) {
             self.dataSource = dataSource
             self.eventClass = eventClass
             self.eventSource = eventSource
@@ -3339,8 +3240,7 @@ public struct ListEventsInput: Swift.Sendable {
         filters: DevOpsGuruClientTypes.ListEventsFilters? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.filters = filters
         self.maxResults = maxResults
@@ -3363,8 +3263,7 @@ extension DevOpsGuruClientTypes {
             arn: Swift.String? = nil,
             name: Swift.String? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.name = name
             self.type = type
@@ -3402,8 +3301,7 @@ extension DevOpsGuruClientTypes {
             resourceCollection: DevOpsGuruClientTypes.ResourceCollection? = nil,
             resources: [DevOpsGuruClientTypes.EventResource]? = nil,
             time: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.dataSource = dataSource
             self.eventClass = eventClass
             self.eventSource = eventSource
@@ -3426,8 +3324,7 @@ public struct ListEventsOutput: Swift.Sendable {
     public init(
         events: [DevOpsGuruClientTypes.Event]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.events = events
         self.nextToken = nextToken
     }
@@ -3476,8 +3373,7 @@ extension DevOpsGuruClientTypes {
         public init(
             startTimeRange: DevOpsGuruClientTypes.StartTimeRange? = nil,
             type: DevOpsGuruClientTypes.InsightType? = nil
-        )
-        {
+        ) {
             self.startTimeRange = startTimeRange
             self.type = type
         }
@@ -3496,8 +3392,7 @@ extension DevOpsGuruClientTypes {
         public init(
             fromTime: Foundation.Date? = nil,
             toTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.fromTime = fromTime
             self.toTime = toTime
         }
@@ -3518,8 +3413,7 @@ extension DevOpsGuruClientTypes {
         public init(
             endTimeRange: DevOpsGuruClientTypes.EndTimeRange? = nil,
             type: DevOpsGuruClientTypes.InsightType? = nil
-        )
-        {
+        ) {
             self.endTimeRange = endTimeRange
             self.type = type
         }
@@ -3536,8 +3430,7 @@ extension DevOpsGuruClientTypes {
 
         public init(
             type: DevOpsGuruClientTypes.InsightType? = nil
-        )
-        {
+        ) {
             self.type = type
         }
     }
@@ -3558,8 +3451,7 @@ extension DevOpsGuruClientTypes {
             any: DevOpsGuruClientTypes.ListInsightsAnyStatusFilter? = nil,
             closed: DevOpsGuruClientTypes.ListInsightsClosedStatusFilter? = nil,
             ongoing: DevOpsGuruClientTypes.ListInsightsOngoingStatusFilter? = nil
-        )
-        {
+        ) {
             self.any = any
             self.closed = closed
             self.ongoing = ongoing
@@ -3580,8 +3472,7 @@ public struct ListInsightsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         statusFilter: DevOpsGuruClientTypes.ListInsightsStatusFilter? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.statusFilter = statusFilter
@@ -3621,8 +3512,7 @@ extension DevOpsGuruClientTypes {
             serviceCollection: DevOpsGuruClientTypes.ServiceCollection? = nil,
             severity: DevOpsGuruClientTypes.InsightSeverity? = nil,
             status: DevOpsGuruClientTypes.InsightStatus? = nil
-        )
-        {
+        ) {
             self.associatedResourceArns = associatedResourceArns
             self.id = id
             self.insightTimeRange = insightTimeRange
@@ -3666,8 +3556,7 @@ extension DevOpsGuruClientTypes {
             serviceCollection: DevOpsGuruClientTypes.ServiceCollection? = nil,
             severity: DevOpsGuruClientTypes.InsightSeverity? = nil,
             status: DevOpsGuruClientTypes.InsightStatus? = nil
-        )
-        {
+        ) {
             self.associatedResourceArns = associatedResourceArns
             self.id = id
             self.insightTimeRange = insightTimeRange
@@ -3692,8 +3581,7 @@ public struct ListInsightsOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         proactiveInsights: [DevOpsGuruClientTypes.ProactiveInsightSummary]? = nil,
         reactiveInsights: [DevOpsGuruClientTypes.ReactiveInsightSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.proactiveInsights = proactiveInsights
         self.reactiveInsights = reactiveInsights
@@ -3847,8 +3735,7 @@ extension DevOpsGuruClientTypes {
         public init(
             resourcePermission: DevOpsGuruClientTypes.ResourcePermission? = nil,
             resourceTypeFilters: [DevOpsGuruClientTypes.ResourceTypeFilter]? = nil
-        )
-        {
+        ) {
             self.resourcePermission = resourcePermission
             self.resourceTypeFilters = resourceTypeFilters
         }
@@ -3867,8 +3754,7 @@ public struct ListMonitoredResourcesInput: Swift.Sendable {
         filters: DevOpsGuruClientTypes.ListMonitoredResourcesFilters? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3896,8 +3782,7 @@ extension DevOpsGuruClientTypes {
             resourceCollection: DevOpsGuruClientTypes.ResourceCollection? = nil,
             resourcePermission: DevOpsGuruClientTypes.ResourcePermission? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.lastUpdated = lastUpdated
             self.monitoredResourceName = monitoredResourceName
             self.resourceCollection = resourceCollection
@@ -3917,8 +3802,7 @@ public struct ListMonitoredResourcesOutput: Swift.Sendable {
     public init(
         monitoredResourceIdentifiers: [DevOpsGuruClientTypes.MonitoredResourceIdentifier]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.monitoredResourceIdentifiers = monitoredResourceIdentifiers
         self.nextToken = nextToken
     }
@@ -3930,8 +3814,7 @@ public struct ListNotificationChannelsInput: Swift.Sendable {
 
     public init(
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
     }
 }
@@ -3948,8 +3831,7 @@ extension DevOpsGuruClientTypes {
         public init(
             config: DevOpsGuruClientTypes.NotificationChannelConfig? = nil,
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.config = config
             self.id = id
         }
@@ -3965,8 +3847,7 @@ public struct ListNotificationChannelsOutput: Swift.Sendable {
     public init(
         channels: [DevOpsGuruClientTypes.NotificationChannel]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.channels = channels
         self.nextToken = nextToken
     }
@@ -3991,8 +3872,7 @@ public struct ListOrganizationInsightsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         organizationalUnitIds: [Swift.String]? = nil,
         statusFilter: DevOpsGuruClientTypes.ListInsightsStatusFilter? = nil
-    )
-    {
+    ) {
         self.accountIds = accountIds
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4037,8 +3917,7 @@ extension DevOpsGuruClientTypes {
             serviceCollection: DevOpsGuruClientTypes.ServiceCollection? = nil,
             severity: DevOpsGuruClientTypes.InsightSeverity? = nil,
             status: DevOpsGuruClientTypes.InsightStatus? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.id = id
             self.insightTimeRange = insightTimeRange
@@ -4086,8 +3965,7 @@ extension DevOpsGuruClientTypes {
             serviceCollection: DevOpsGuruClientTypes.ServiceCollection? = nil,
             severity: DevOpsGuruClientTypes.InsightSeverity? = nil,
             status: DevOpsGuruClientTypes.InsightStatus? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.id = id
             self.insightTimeRange = insightTimeRange
@@ -4113,8 +3991,7 @@ public struct ListOrganizationInsightsOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         proactiveInsights: [DevOpsGuruClientTypes.ProactiveOrganizationInsightSummary]? = nil,
         reactiveInsights: [DevOpsGuruClientTypes.ReactiveOrganizationInsightSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.proactiveInsights = proactiveInsights
         self.reactiveInsights = reactiveInsights
@@ -4193,8 +4070,7 @@ public struct ListRecommendationsInput: Swift.Sendable {
         insightId: Swift.String? = nil,
         locale: DevOpsGuruClientTypes.Locale? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.insightId = insightId
         self.locale = locale
@@ -4214,8 +4090,7 @@ extension DevOpsGuruClientTypes {
         public init(
             name: Swift.String? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.type = type
         }
@@ -4234,8 +4109,7 @@ extension DevOpsGuruClientTypes {
         public init(
             metricName: Swift.String? = nil,
             namespace: Swift.String? = nil
-        )
-        {
+        ) {
             self.metricName = metricName
             self.namespace = namespace
         }
@@ -4251,8 +4125,7 @@ extension DevOpsGuruClientTypes {
 
         public init(
             cloudWatchMetrics: [DevOpsGuruClientTypes.RecommendationRelatedCloudWatchMetricsSourceDetail]? = nil
-        )
-        {
+        ) {
             self.cloudWatchMetrics = cloudWatchMetrics
         }
     }
@@ -4273,8 +4146,7 @@ extension DevOpsGuruClientTypes {
             anomalyId: Swift.String? = nil,
             resources: [DevOpsGuruClientTypes.RecommendationRelatedAnomalyResource]? = nil,
             sourceDetails: [DevOpsGuruClientTypes.RecommendationRelatedAnomalySourceDetail]? = nil
-        )
-        {
+        ) {
             self.anomalyId = anomalyId
             self.resources = resources
             self.sourceDetails = sourceDetails
@@ -4294,8 +4166,7 @@ extension DevOpsGuruClientTypes {
         public init(
             name: Swift.String? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.type = type
         }
@@ -4314,8 +4185,7 @@ extension DevOpsGuruClientTypes {
         public init(
             name: Swift.String? = nil,
             resources: [DevOpsGuruClientTypes.RecommendationRelatedEventResource]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.resources = resources
         }
@@ -4349,8 +4219,7 @@ extension DevOpsGuruClientTypes {
             reason: Swift.String? = nil,
             relatedAnomalies: [DevOpsGuruClientTypes.RecommendationRelatedAnomaly]? = nil,
             relatedEvents: [DevOpsGuruClientTypes.RecommendationRelatedEvent]? = nil
-        )
-        {
+        ) {
             self.category = category
             self.description = description
             self.link = link
@@ -4371,8 +4240,7 @@ public struct ListRecommendationsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         recommendations: [DevOpsGuruClientTypes.Recommendation]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.recommendations = recommendations
     }
@@ -4384,8 +4252,7 @@ public struct PutFeedbackInput: Swift.Sendable {
 
     public init(
         insightFeedback: DevOpsGuruClientTypes.InsightFeedback? = nil
-    )
-    {
+    ) {
         self.insightFeedback = insightFeedback
     }
 }
@@ -4402,8 +4269,7 @@ public struct RemoveNotificationChannelInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -4431,8 +4297,7 @@ extension DevOpsGuruClientTypes {
             serviceCollection: DevOpsGuruClientTypes.ServiceCollection? = nil,
             severities: [DevOpsGuruClientTypes.InsightSeverity]? = nil,
             statuses: [DevOpsGuruClientTypes.InsightStatus]? = nil
-        )
-        {
+        ) {
             self.resourceCollection = resourceCollection
             self.serviceCollection = serviceCollection
             self.severities = severities
@@ -4461,8 +4326,7 @@ public struct SearchInsightsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         startTimeRange: DevOpsGuruClientTypes.StartTimeRange? = nil,
         type: DevOpsGuruClientTypes.InsightType? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4483,8 +4347,7 @@ public struct SearchInsightsOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         proactiveInsights: [DevOpsGuruClientTypes.ProactiveInsightSummary]? = nil,
         reactiveInsights: [DevOpsGuruClientTypes.ReactiveInsightSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.proactiveInsights = proactiveInsights
         self.reactiveInsights = reactiveInsights
@@ -4509,8 +4372,7 @@ extension DevOpsGuruClientTypes {
             serviceCollection: DevOpsGuruClientTypes.ServiceCollection? = nil,
             severities: [DevOpsGuruClientTypes.InsightSeverity]? = nil,
             statuses: [DevOpsGuruClientTypes.InsightStatus]? = nil
-        )
-        {
+        ) {
             self.resourceCollection = resourceCollection
             self.serviceCollection = serviceCollection
             self.severities = severities
@@ -4543,8 +4405,7 @@ public struct SearchOrganizationInsightsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         startTimeRange: DevOpsGuruClientTypes.StartTimeRange? = nil,
         type: DevOpsGuruClientTypes.InsightType? = nil
-    )
-    {
+    ) {
         self.accountIds = accountIds
         self.filters = filters
         self.maxResults = maxResults
@@ -4566,8 +4427,7 @@ public struct SearchOrganizationInsightsOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         proactiveInsights: [DevOpsGuruClientTypes.ProactiveInsightSummary]? = nil,
         reactiveInsights: [DevOpsGuruClientTypes.ReactiveInsightSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.proactiveInsights = proactiveInsights
         self.reactiveInsights = reactiveInsights
@@ -4584,8 +4444,7 @@ public struct StartCostEstimationInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         resourceCollection: DevOpsGuruClientTypes.CostEstimationResourceCollectionFilter? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.resourceCollection = resourceCollection
     }
@@ -4602,8 +4461,7 @@ public struct UpdateEventSourcesConfigInput: Swift.Sendable {
 
     public init(
         eventSources: DevOpsGuruClientTypes.EventSourcesConfig? = nil
-    )
-    {
+    ) {
         self.eventSources = eventSources
     }
 }
@@ -4651,8 +4509,7 @@ extension DevOpsGuruClientTypes {
 
         public init(
             stackNames: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.stackNames = stackNames
         }
     }
@@ -4672,8 +4529,7 @@ extension DevOpsGuruClientTypes {
         public init(
             appBoundaryKey: Swift.String? = nil,
             tagValues: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.appBoundaryKey = appBoundaryKey
             self.tagValues = tagValues
         }
@@ -4699,8 +4555,7 @@ extension DevOpsGuruClientTypes {
         public init(
             cloudFormation: DevOpsGuruClientTypes.UpdateCloudFormationCollectionFilter? = nil,
             tags: [DevOpsGuruClientTypes.UpdateTagCollectionFilter]? = nil
-        )
-        {
+        ) {
             self.cloudFormation = cloudFormation
             self.tags = tags
         }
@@ -4718,8 +4573,7 @@ public struct UpdateResourceCollectionInput: Swift.Sendable {
     public init(
         action: DevOpsGuruClientTypes.UpdateResourceCollectionAction? = nil,
         resourceCollection: DevOpsGuruClientTypes.UpdateResourceCollectionFilter? = nil
-    )
-    {
+    ) {
         self.action = action
         self.resourceCollection = resourceCollection
     }
@@ -4745,8 +4599,7 @@ extension DevOpsGuruClientTypes {
             kmsKeyId: Swift.String? = nil,
             optInStatus: DevOpsGuruClientTypes.OptInStatus? = nil,
             type: DevOpsGuruClientTypes.ServerSideEncryptionType? = nil
-        )
-        {
+        ) {
             self.kmsKeyId = kmsKeyId
             self.optInStatus = optInStatus
             self.type = type
@@ -4763,8 +4616,7 @@ extension DevOpsGuruClientTypes {
 
         public init(
             optInStatus: DevOpsGuruClientTypes.OptInStatus? = nil
-        )
-        {
+        ) {
             self.optInStatus = optInStatus
         }
     }
@@ -4779,8 +4631,7 @@ extension DevOpsGuruClientTypes {
 
         public init(
             optInStatus: DevOpsGuruClientTypes.OptInStatus? = nil
-        )
-        {
+        ) {
             self.optInStatus = optInStatus
         }
     }
@@ -4801,8 +4652,7 @@ extension DevOpsGuruClientTypes {
             kmsServerSideEncryption: DevOpsGuruClientTypes.KMSServerSideEncryptionIntegrationConfig? = nil,
             logsAnomalyDetection: DevOpsGuruClientTypes.LogsAnomalyDetectionIntegrationConfig? = nil,
             opsCenter: DevOpsGuruClientTypes.OpsCenterIntegrationConfig? = nil
-        )
-        {
+        ) {
             self.kmsServerSideEncryption = kmsServerSideEncryption
             self.logsAnomalyDetection = logsAnomalyDetection
             self.opsCenter = opsCenter
@@ -4817,8 +4667,7 @@ public struct UpdateServiceIntegrationInput: Swift.Sendable {
 
     public init(
         serviceIntegration: DevOpsGuruClientTypes.UpdateServiceIntegrationConfig? = nil
-    )
-    {
+    ) {
         self.serviceIntegration = serviceIntegration
     }
 }

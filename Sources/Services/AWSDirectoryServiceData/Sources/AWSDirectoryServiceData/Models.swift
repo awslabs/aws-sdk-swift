@@ -78,8 +78,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     public init(
         message: Swift.String? = nil,
         reason: DirectoryServiceDataClientTypes.AccessDeniedReason? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.reason = reason
     }
@@ -103,8 +102,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -168,8 +166,7 @@ public struct DirectoryUnavailableException: ClientRuntime.ModeledError, AWSClie
     public init(
         message: Swift.String? = nil,
         reason: DirectoryServiceDataClientTypes.DirectoryUnavailableReason? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.reason = reason
     }
@@ -193,8 +190,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -217,8 +213,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -245,8 +240,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         message: Swift.String? = nil,
         retryAfterSeconds: Swift.Int? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.retryAfterSeconds = retryAfterSeconds
     }
@@ -341,8 +335,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         message: Swift.String? = nil,
         reason: DirectoryServiceDataClientTypes.ValidationExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.reason = reason
     }
@@ -369,8 +362,7 @@ public struct AddGroupMemberInput: Swift.Sendable {
         groupName: Swift.String? = nil,
         memberName: Swift.String? = nil,
         memberRealm: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.directoryId = directoryId
         self.groupName = groupName
@@ -487,8 +479,7 @@ public struct CreateGroupInput: Swift.Sendable {
         groupType: DirectoryServiceDataClientTypes.GroupType? = nil,
         otherAttributes: [Swift.String: DirectoryServiceDataClientTypes.AttributeValue]? = nil,
         samAccountName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.directoryId = directoryId
         self.groupScope = groupScope
@@ -510,8 +501,7 @@ public struct CreateGroupOutput: Swift.Sendable {
         directoryId: Swift.String? = nil,
         samAccountName: Swift.String? = nil,
         sid: Swift.String? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
         self.samAccountName = samAccountName
         self.sid = sid
@@ -544,8 +534,7 @@ public struct CreateUserInput: Swift.Sendable {
         otherAttributes: [Swift.String: DirectoryServiceDataClientTypes.AttributeValue]? = nil,
         samAccountName: Swift.String? = nil,
         surname: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.directoryId = directoryId
         self.emailAddress = emailAddress
@@ -573,8 +562,7 @@ public struct CreateUserOutput: Swift.Sendable {
         directoryId: Swift.String? = nil,
         samAccountName: Swift.String? = nil,
         sid: Swift.String? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
         self.samAccountName = samAccountName
         self.sid = sid
@@ -595,8 +583,7 @@ public struct DeleteGroupInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         directoryId: Swift.String? = nil,
         samAccountName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.directoryId = directoryId
         self.samAccountName = samAccountName
@@ -622,8 +609,7 @@ public struct DeleteUserInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         directoryId: Swift.String? = nil,
         samAccountName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.directoryId = directoryId
         self.samAccountName = samAccountName
@@ -652,8 +638,7 @@ public struct DescribeGroupInput: Swift.Sendable {
         otherAttributes: [Swift.String]? = nil,
         realm: Swift.String? = nil,
         samAccountName: Swift.String? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
         self.otherAttributes = otherAttributes
         self.realm = realm
@@ -688,8 +673,7 @@ public struct DescribeGroupOutput: Swift.Sendable {
         realm: Swift.String? = nil,
         samAccountName: Swift.String? = nil,
         sid: Swift.String? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
         self.distinguishedName = distinguishedName
         self.groupScope = groupScope
@@ -723,8 +707,7 @@ public struct DescribeUserInput: Swift.Sendable {
         otherAttributes: [Swift.String]? = nil,
         realm: Swift.String? = nil,
         samAccountName: Swift.String? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
         self.otherAttributes = otherAttributes
         self.realm = realm
@@ -768,8 +751,7 @@ public struct DescribeUserOutput: Swift.Sendable {
         sid: Swift.String? = nil,
         surname: Swift.String? = nil,
         userPrincipalName: Swift.String? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
         self.distinguishedName = distinguishedName
         self.emailAddress = emailAddress
@@ -803,8 +785,7 @@ public struct DisableUserInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         directoryId: Swift.String? = nil,
         samAccountName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.directoryId = directoryId
         self.samAccountName = samAccountName
@@ -839,8 +820,7 @@ public struct ListGroupMembersInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         realm: Swift.String? = nil,
         samAccountName: Swift.String? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
         self.maxResults = maxResults
         self.memberRealm = memberRealm
@@ -905,8 +885,7 @@ extension DirectoryServiceDataClientTypes {
             memberType: DirectoryServiceDataClientTypes.MemberType? = nil,
             samAccountName: Swift.String? = nil,
             sid: Swift.String? = nil
-        )
-        {
+        ) {
             self.memberType = memberType
             self.samAccountName = samAccountName
             self.sid = sid
@@ -932,8 +911,7 @@ public struct ListGroupMembersOutput: Swift.Sendable {
         members: [DirectoryServiceDataClientTypes.Member]? = nil,
         nextToken: Swift.String? = nil,
         realm: Swift.String? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
         self.memberRealm = memberRealm
         self.members = members
@@ -963,8 +941,7 @@ public struct ListGroupsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         realm: Swift.String? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -999,8 +976,7 @@ extension DirectoryServiceDataClientTypes {
             groupType: DirectoryServiceDataClientTypes.GroupType? = nil,
             samAccountName: Swift.String? = nil,
             sid: Swift.String? = nil
-        )
-        {
+        ) {
             self.groupScope = groupScope
             self.groupType = groupType
             self.samAccountName = samAccountName
@@ -1024,8 +1000,7 @@ public struct ListGroupsOutput: Swift.Sendable {
         groups: [DirectoryServiceDataClientTypes.GroupSummary]? = nil,
         nextToken: Swift.String? = nil,
         realm: Swift.String? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
         self.groups = groups
         self.nextToken = nextToken
@@ -1061,8 +1036,7 @@ public struct ListGroupsForMemberInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         realm: Swift.String? = nil,
         samAccountName: Swift.String? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
         self.maxResults = maxResults
         self.memberRealm = memberRealm
@@ -1095,8 +1069,7 @@ public struct ListGroupsForMemberOutput: Swift.Sendable {
         memberRealm: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         realm: Swift.String? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
         self.groups = groups
         self.memberRealm = memberRealm
@@ -1126,8 +1099,7 @@ public struct ListUsersInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         realm: Swift.String? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1164,8 +1136,7 @@ extension DirectoryServiceDataClientTypes {
             samAccountName: Swift.String? = nil,
             sid: Swift.String? = nil,
             surname: Swift.String? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
             self.givenName = givenName
             self.samAccountName = samAccountName
@@ -1195,8 +1166,7 @@ public struct ListUsersOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         realm: Swift.String? = nil,
         users: [DirectoryServiceDataClientTypes.UserSummary]? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
         self.nextToken = nextToken
         self.realm = realm
@@ -1230,8 +1200,7 @@ public struct RemoveGroupMemberInput: Swift.Sendable {
         groupName: Swift.String? = nil,
         memberName: Swift.String? = nil,
         memberRealm: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.directoryId = directoryId
         self.groupName = groupName
@@ -1269,8 +1238,7 @@ public struct SearchGroupsInput: Swift.Sendable {
         realm: Swift.String? = nil,
         searchAttributes: [Swift.String]? = nil,
         searchString: Swift.String? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1310,8 +1278,7 @@ extension DirectoryServiceDataClientTypes {
             otherAttributes: [Swift.String: DirectoryServiceDataClientTypes.AttributeValue]? = nil,
             samAccountName: Swift.String? = nil,
             sid: Swift.String? = nil
-        )
-        {
+        ) {
             self.distinguishedName = distinguishedName
             self.groupScope = groupScope
             self.groupType = groupType
@@ -1342,8 +1309,7 @@ public struct SearchGroupsOutput: Swift.Sendable {
         groups: [DirectoryServiceDataClientTypes.Group]? = nil,
         nextToken: Swift.String? = nil,
         realm: Swift.String? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
         self.groups = groups
         self.nextToken = nextToken
@@ -1380,8 +1346,7 @@ public struct SearchUsersInput: Swift.Sendable {
         realm: Swift.String? = nil,
         searchAttributes: [Swift.String]? = nil,
         searchString: Swift.String? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1430,8 +1395,7 @@ extension DirectoryServiceDataClientTypes {
             sid: Swift.String? = nil,
             surname: Swift.String? = nil,
             userPrincipalName: Swift.String? = nil
-        )
-        {
+        ) {
             self.distinguishedName = distinguishedName
             self.emailAddress = emailAddress
             self.enabled = enabled
@@ -1465,8 +1429,7 @@ public struct SearchUsersOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         realm: Swift.String? = nil,
         users: [DirectoryServiceDataClientTypes.User]? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
         self.nextToken = nextToken
         self.realm = realm
@@ -1537,8 +1500,7 @@ public struct UpdateGroupInput: Swift.Sendable {
         otherAttributes: [Swift.String: DirectoryServiceDataClientTypes.AttributeValue]? = nil,
         samAccountName: Swift.String? = nil,
         updateType: DirectoryServiceDataClientTypes.UpdateType? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.directoryId = directoryId
         self.groupScope = groupScope
@@ -1583,8 +1545,7 @@ public struct UpdateUserInput: Swift.Sendable {
         samAccountName: Swift.String? = nil,
         surname: Swift.String? = nil,
         updateType: DirectoryServiceDataClientTypes.UpdateType? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.directoryId = directoryId
         self.emailAddress = emailAddress

@@ -62,8 +62,7 @@ extension PersonalizeEventsClientTypes {
         public init(
             actionId: Swift.String? = nil,
             properties: Swift.String? = nil
-        )
-        {
+        ) {
             self.actionId = actionId
             self.properties = properties
         }
@@ -124,8 +123,7 @@ extension PersonalizeEventsClientTypes {
             sessionId: Swift.String? = nil,
             timestamp: Foundation.Date? = nil,
             userId: Swift.String? = nil
-        )
-        {
+        ) {
             self.actionId = actionId
             self.eventId = eventId
             self.eventType = eventType
@@ -162,8 +160,7 @@ public struct InvalidInputException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -186,8 +183,7 @@ public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -210,8 +206,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -227,8 +222,7 @@ public struct PutActionInteractionsInput: Swift.Sendable {
     public init(
         actionInteractions: [PersonalizeEventsClientTypes.ActionInteraction]? = nil,
         trackingId: Swift.String? = nil
-    )
-    {
+    ) {
         self.actionInteractions = actionInteractions
         self.trackingId = trackingId
     }
@@ -245,8 +239,7 @@ public struct PutActionsInput: Swift.Sendable {
     public init(
         actions: [PersonalizeEventsClientTypes.Action]? = nil,
         datasetArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.actions = actions
         self.datasetArn = datasetArn
     }
@@ -262,8 +255,7 @@ extension PersonalizeEventsClientTypes {
 
         public init(
             eventAttributionSource: Swift.String? = nil
-        )
-        {
+        ) {
             self.eventAttributionSource = eventAttributionSource
         }
     }
@@ -316,8 +308,7 @@ extension PersonalizeEventsClientTypes {
             properties: Swift.String? = nil,
             recommendationId: Swift.String? = nil,
             sentAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.eventId = eventId
             self.eventType = eventType
             self.eventValue = eventValue
@@ -355,8 +346,7 @@ public struct PutEventsInput: Swift.Sendable {
         sessionId: Swift.String? = nil,
         trackingId: Swift.String? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.eventList = eventList
         self.sessionId = sessionId
         self.trackingId = trackingId
@@ -382,8 +372,7 @@ extension PersonalizeEventsClientTypes {
         public init(
             itemId: Swift.String? = nil,
             properties: Swift.String? = nil
-        )
-        {
+        ) {
             self.itemId = itemId
             self.properties = properties
         }
@@ -406,8 +395,7 @@ public struct PutItemsInput: Swift.Sendable {
     public init(
         datasetArn: Swift.String? = nil,
         items: [PersonalizeEventsClientTypes.Item]? = nil
-    )
-    {
+    ) {
         self.datasetArn = datasetArn
         self.items = items
     }
@@ -426,8 +414,7 @@ extension PersonalizeEventsClientTypes {
         public init(
             properties: Swift.String? = nil,
             userId: Swift.String? = nil
-        )
-        {
+        ) {
             self.properties = properties
             self.userId = userId
         }
@@ -450,8 +437,7 @@ public struct PutUsersInput: Swift.Sendable {
     public init(
         datasetArn: Swift.String? = nil,
         users: [PersonalizeEventsClientTypes.User]? = nil
-    )
-    {
+    ) {
         self.datasetArn = datasetArn
         self.users = users
     }

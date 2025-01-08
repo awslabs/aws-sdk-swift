@@ -48,8 +48,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -95,8 +94,7 @@ extension AppflowClientTypes {
         public init(
             aggregationType: AppflowClientTypes.AggregationType? = nil,
             targetFileSize: Swift.Int? = nil
-        )
-        {
+        ) {
             self.aggregationType = aggregationType
             self.targetFileSize = targetFileSize
         }
@@ -143,8 +141,7 @@ extension AppflowClientTypes {
         public init(
             apiKey: Swift.String? = nil,
             secretKey: Swift.String? = nil
-        )
-        {
+        ) {
             self.apiKey = apiKey
             self.secretKey = secretKey
         }
@@ -184,8 +181,7 @@ extension AppflowClientTypes {
 
         public init(
             object: Swift.String? = nil
-        )
-        {
+        ) {
             self.object = object
         }
     }
@@ -204,8 +200,7 @@ extension AppflowClientTypes {
         public init(
             apiKey: Swift.String? = nil,
             apiSecretKey: Swift.String? = nil
-        )
-        {
+        ) {
             self.apiKey = apiKey
             self.apiSecretKey = apiSecretKey
         }
@@ -241,8 +236,7 @@ extension AppflowClientTypes {
             isSensitiveField: Swift.Bool = false,
             key: Swift.String? = nil,
             label: Swift.String? = nil
-        )
-        {
+        ) {
             self.connectorSuppliedValues = connectorSuppliedValues
             self.description = description
             self.isRequired = isRequired
@@ -265,8 +259,7 @@ extension AppflowClientTypes {
         public init(
             authParameters: [AppflowClientTypes.AuthParameter]? = nil,
             customAuthenticationType: Swift.String? = nil
-        )
-        {
+        ) {
             self.authParameters = authParameters
             self.customAuthenticationType = customAuthenticationType
         }
@@ -329,8 +322,7 @@ extension AppflowClientTypes {
             key: Swift.String? = nil,
             label: Swift.String? = nil,
             type: AppflowClientTypes.OAuth2CustomPropType? = nil
-        )
-        {
+        ) {
             self.connectorSuppliedValues = connectorSuppliedValues
             self.description = description
             self.isRequired = isRequired
@@ -395,8 +387,7 @@ extension AppflowClientTypes {
             oauth2GrantTypesSupported: [AppflowClientTypes.OAuth2GrantType]? = nil,
             oauthScopes: [Swift.String]? = nil,
             tokenUrls: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.authCodeUrls = authCodeUrls
             self.oauth2CustomProperties = oauth2CustomProperties
             self.oauth2GrantTypesSupported = oauth2GrantTypesSupported
@@ -430,8 +421,7 @@ extension AppflowClientTypes {
             isCustomAuthSupported: Swift.Bool = false,
             isOAuth2Supported: Swift.Bool = false,
             oAuth2Defaults: AppflowClientTypes.OAuth2Defaults? = nil
-        )
-        {
+        ) {
             self.customAuthConfigs = customAuthConfigs
             self.isApiKeyAuthSupported = isApiKeyAuthSupported
             self.isBasicAuthSupported = isBasicAuthSupported
@@ -491,8 +481,7 @@ extension AppflowClientTypes {
         public init(
             password: Swift.String? = nil,
             username: Swift.String? = nil
-        )
-        {
+        ) {
             self.password = password
             self.username = username
         }
@@ -522,8 +511,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -546,8 +534,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -570,8 +557,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -594,8 +580,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -610,8 +595,7 @@ public struct CancelFlowExecutionsInput: Swift.Sendable {
     public init(
         executionIds: [Swift.String]? = nil,
         flowName: Swift.String? = nil
-    )
-    {
+    ) {
         self.executionIds = executionIds
         self.flowName = flowName
     }
@@ -623,8 +607,7 @@ public struct CancelFlowExecutionsOutput: Swift.Sendable {
 
     public init(
         invalidExecutions: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.invalidExecutions = invalidExecutions
     }
 }
@@ -673,8 +656,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -726,8 +708,7 @@ public struct ConnectorAuthenticationException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -777,8 +758,7 @@ extension AppflowClientTypes {
 
         public init(
             oAuthScopes: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.oAuthScopes = oAuthScopes
         }
     }
@@ -793,8 +773,7 @@ extension AppflowClientTypes {
 
         public init(
             oAuthScopes: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.oAuthScopes = oAuthScopes
         }
     }
@@ -892,8 +871,7 @@ extension AppflowClientTypes {
             dataTransferApis: [AppflowClientTypes.SalesforceDataTransferApi]? = nil,
             oAuthScopes: [Swift.String]? = nil,
             oauth2GrantTypesSupported: [AppflowClientTypes.OAuth2GrantType]? = nil
-        )
-        {
+        ) {
             self.dataTransferApis = dataTransferApis
             self.oAuthScopes = oAuthScopes
             self.oauth2GrantTypesSupported = oauth2GrantTypesSupported
@@ -937,8 +915,7 @@ extension AppflowClientTypes {
 
         public init(
             oAuthScopes: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.oAuthScopes = oAuthScopes
         }
     }
@@ -953,8 +930,7 @@ extension AppflowClientTypes {
 
         public init(
             supportedRegions: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.supportedRegions = supportedRegions
         }
     }
@@ -996,8 +972,7 @@ extension AppflowClientTypes {
 
         public init(
             oAuthScopes: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.oAuthScopes = oAuthScopes
         }
     }
@@ -1075,8 +1050,7 @@ extension AppflowClientTypes {
             upsolver: AppflowClientTypes.UpsolverMetadata? = nil,
             veeva: AppflowClientTypes.VeevaMetadata? = nil,
             zendesk: AppflowClientTypes.ZendeskMetadata? = nil
-        )
-        {
+        ) {
             self.amplitude = amplitude
             self.customerProfiles = customerProfiles
             self.datadog = datadog
@@ -1113,8 +1087,7 @@ extension AppflowClientTypes {
 
         public init(
             lambdaArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.lambdaArn = lambdaArn
         }
     }
@@ -1129,8 +1102,7 @@ extension AppflowClientTypes {
 
         public init(
             lambda: AppflowClientTypes.LambdaConnectorProvisioningConfig? = nil
-        )
-        {
+        ) {
             self.lambda = lambda
         }
     }
@@ -1190,8 +1162,7 @@ extension AppflowClientTypes {
             key: Swift.String? = nil,
             label: Swift.String? = nil,
             scope: Swift.String? = nil
-        )
-        {
+        ) {
             self.connectorSuppliedValueOptions = connectorSuppliedValueOptions
             self.dataType = dataType
             self.description = description
@@ -1342,8 +1313,7 @@ extension AppflowClientTypes {
         public init(
             name: Swift.String? = nil,
             type: AppflowClientTypes.DataTransferApiType? = nil
-        )
-        {
+        ) {
             self.name = name
             self.type = type
         }
@@ -1664,8 +1634,7 @@ extension AppflowClientTypes {
             supportedSchedulingFrequencies: [AppflowClientTypes.ScheduleFrequencyType]? = nil,
             supportedTriggerTypes: [AppflowClientTypes.TriggerType]? = nil,
             supportedWriteOperations: [AppflowClientTypes.WriteOperationType]? = nil
-        )
-        {
+        ) {
             self.authenticationConfig = authenticationConfig
             self.canUseAsDestination = canUseAsDestination
             self.canUseAsSource = canUseAsSource
@@ -1740,8 +1709,7 @@ extension AppflowClientTypes {
             registeredAt: Foundation.Date? = nil,
             registeredBy: Swift.String? = nil,
             supportedDataTransferTypes: [AppflowClientTypes.SupportedDataTransferType]? = nil
-        )
-        {
+        ) {
             self.applicationType = applicationType
             self.connectorDescription = connectorDescription
             self.connectorLabel = connectorLabel
@@ -1774,8 +1742,7 @@ extension AppflowClientTypes {
             hasNestedEntities: Swift.Bool = false,
             label: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.hasNestedEntities = hasNestedEntities
             self.label = label
             self.name = name
@@ -1807,8 +1774,7 @@ extension AppflowClientTypes {
             isUpdatable: Swift.Bool = false,
             isUpsertable: Swift.Bool = false,
             supportedWriteOperations: [AppflowClientTypes.WriteOperationType]? = nil
-        )
-        {
+        ) {
             self.isCreatable = isCreatable
             self.isDefaultedOnCreate = isDefaultedOnCreate
             self.isNullable = isNullable
@@ -1834,8 +1800,7 @@ extension AppflowClientTypes {
             isQueryable: Swift.Bool = false,
             isRetrievable: Swift.Bool = false,
             isTimestampFieldForIncrementalQueries: Swift.Bool = false
-        )
-        {
+        ) {
             self.isQueryable = isQueryable
             self.isRetrievable = isRetrievable
             self.isTimestampFieldForIncrementalQueries = isTimestampFieldForIncrementalQueries
@@ -1855,8 +1820,7 @@ extension AppflowClientTypes {
         public init(
             maximum: Swift.Double = 0.0,
             minimum: Swift.Double = 0.0
-        )
-        {
+        ) {
             self.maximum = maximum
             self.minimum = minimum
         }
@@ -1978,8 +1942,7 @@ extension AppflowClientTypes {
             supportedDateFormat: Swift.String? = nil,
             supportedValues: [Swift.String]? = nil,
             valueRegexPattern: Swift.String? = nil
-        )
-        {
+        ) {
             self.fieldLengthRange = fieldLengthRange
             self.fieldType = fieldType
             self.fieldValueRange = fieldValueRange
@@ -2001,8 +1964,7 @@ extension AppflowClientTypes {
 
         public init(
             v1: AppflowClientTypes.FieldTypeDetails? = nil
-        )
-        {
+        ) {
             self.v1 = v1
         }
     }
@@ -2048,8 +2010,7 @@ extension AppflowClientTypes {
             parentIdentifier: Swift.String? = nil,
             sourceProperties: AppflowClientTypes.SourceFieldProperties? = nil,
             supportedFieldTypeDetails: AppflowClientTypes.SupportedFieldTypeDetails? = nil
-        )
-        {
+        ) {
             self.customProperties = customProperties
             self.defaultValue = defaultValue
             self.description = description
@@ -2077,8 +2038,7 @@ extension AppflowClientTypes {
         public init(
             authCode: Swift.String? = nil,
             redirectUri: Swift.String? = nil
-        )
-        {
+        ) {
             self.authCode = authCode
             self.redirectUri = redirectUri
         }
@@ -3213,8 +3173,7 @@ extension AppflowClientTypes {
             trendmicro: AppflowClientTypes.TrendmicroConnectorOperator? = nil,
             veeva: AppflowClientTypes.VeevaConnectorOperator? = nil,
             zendesk: AppflowClientTypes.ZendeskConnectorOperator? = nil
-        )
-        {
+        ) {
             self.amplitude = amplitude
             self.customConnector = customConnector
             self.datadog = datadog
@@ -3253,8 +3212,7 @@ extension AppflowClientTypes {
             oAuth2GrantType: AppflowClientTypes.OAuth2GrantType? = nil,
             tokenUrl: Swift.String? = nil,
             tokenUrlCustomProperties: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.oAuth2GrantType = oAuth2GrantType
             self.tokenUrl = tokenUrl
             self.tokenUrlCustomProperties = tokenUrlCustomProperties
@@ -3274,8 +3232,7 @@ extension AppflowClientTypes {
         public init(
             oAuth2Properties: AppflowClientTypes.OAuth2Properties? = nil,
             profileProperties: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.oAuth2Properties = oAuth2Properties
             self.profileProperties = profileProperties
         }
@@ -3292,8 +3249,7 @@ extension AppflowClientTypes {
 
         public init(
             instanceUrl: Swift.String? = nil
-        )
-        {
+        ) {
             self.instanceUrl = instanceUrl
         }
     }
@@ -3309,8 +3265,7 @@ extension AppflowClientTypes {
 
         public init(
             instanceUrl: Swift.String? = nil
-        )
-        {
+        ) {
             self.instanceUrl = instanceUrl
         }
     }
@@ -3344,8 +3299,7 @@ extension AppflowClientTypes {
 
         public init(
             instanceUrl: Swift.String? = nil
-        )
-        {
+        ) {
             self.instanceUrl = instanceUrl
         }
     }
@@ -3361,8 +3315,7 @@ extension AppflowClientTypes {
 
         public init(
             instanceUrl: Swift.String? = nil
-        )
-        {
+        ) {
             self.instanceUrl = instanceUrl
         }
     }
@@ -3383,8 +3336,7 @@ extension AppflowClientTypes {
             businessUnitId: Swift.String? = nil,
             instanceUrl: Swift.String? = nil,
             isSandboxEnvironment: Swift.Bool = false
-        )
-        {
+        ) {
             self.businessUnitId = businessUnitId
             self.instanceUrl = instanceUrl
             self.isSandboxEnvironment = isSandboxEnvironment
@@ -3427,8 +3379,7 @@ extension AppflowClientTypes {
             isRedshiftServerless: Swift.Bool = false,
             roleArn: Swift.String? = nil,
             workgroupName: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucketName = bucketName
             self.bucketPrefix = bucketPrefix
             self.clusterIdentifier = clusterIdentifier
@@ -3475,8 +3426,7 @@ extension AppflowClientTypes {
             instanceUrl: Swift.String? = nil,
             isSandboxEnvironment: Swift.Bool = false,
             usePrivateLinkForMetadataAndAuthorization: Swift.Bool = false
-        )
-        {
+        ) {
             self.instanceUrl = instanceUrl
             self.isSandboxEnvironment = isSandboxEnvironment
             self.usePrivateLinkForMetadataAndAuthorization = usePrivateLinkForMetadataAndAuthorization
@@ -3502,8 +3452,7 @@ extension AppflowClientTypes {
             authCodeUrl: Swift.String? = nil,
             oAuthScopes: [Swift.String]? = nil,
             tokenUrl: Swift.String? = nil
-        )
-        {
+        ) {
             self.authCodeUrl = authCodeUrl
             self.oAuthScopes = oAuthScopes
             self.tokenUrl = tokenUrl
@@ -3545,8 +3494,7 @@ extension AppflowClientTypes {
             oAuthProperties: AppflowClientTypes.OAuthProperties? = nil,
             portNumber: Swift.Int? = nil,
             privateLinkServiceName: Swift.String? = nil
-        )
-        {
+        ) {
             self.applicationHostUrl = applicationHostUrl
             self.applicationServicePath = applicationServicePath
             self.clientNumber = clientNumber
@@ -3569,8 +3517,7 @@ extension AppflowClientTypes {
 
         public init(
             instanceUrl: Swift.String? = nil
-        )
-        {
+        ) {
             self.instanceUrl = instanceUrl
         }
     }
@@ -3595,8 +3542,7 @@ extension AppflowClientTypes {
 
         public init(
             instanceUrl: Swift.String? = nil
-        )
-        {
+        ) {
             self.instanceUrl = instanceUrl
         }
     }
@@ -3632,8 +3578,7 @@ extension AppflowClientTypes {
             region: Swift.String? = nil,
             stage: Swift.String? = nil,
             warehouse: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountName = accountName
             self.bucketName = bucketName
             self.bucketPrefix = bucketPrefix
@@ -3664,8 +3609,7 @@ extension AppflowClientTypes {
 
         public init(
             instanceUrl: Swift.String? = nil
-        )
-        {
+        ) {
             self.instanceUrl = instanceUrl
         }
     }
@@ -3681,8 +3625,7 @@ extension AppflowClientTypes {
 
         public init(
             instanceUrl: Swift.String? = nil
-        )
-        {
+        ) {
             self.instanceUrl = instanceUrl
         }
     }
@@ -3751,8 +3694,7 @@ extension AppflowClientTypes {
             trendmicro: AppflowClientTypes.TrendmicroConnectorProfileProperties? = nil,
             veeva: AppflowClientTypes.VeevaConnectorProfileProperties? = nil,
             zendesk: AppflowClientTypes.ZendeskConnectorProfileProperties? = nil
-        )
-        {
+        ) {
             self.amplitude = amplitude
             self.customConnector = customConnector
             self.datadog = datadog
@@ -3861,8 +3803,7 @@ extension AppflowClientTypes {
             failureCause: AppflowClientTypes.PrivateConnectionProvisioningFailureCause? = nil,
             failureMessage: Swift.String? = nil,
             status: AppflowClientTypes.PrivateConnectionProvisioningStatus? = nil
-        )
-        {
+        ) {
             self.failureCause = failureCause
             self.failureMessage = failureMessage
             self.status = status
@@ -3906,8 +3847,7 @@ extension AppflowClientTypes {
             credentialsArn: Swift.String? = nil,
             lastUpdatedAt: Foundation.Date? = nil,
             privateConnectionProvisioningState: AppflowClientTypes.PrivateConnectionProvisioningState? = nil
-        )
-        {
+        ) {
             self.connectionMode = connectionMode
             self.connectorLabel = connectorLabel
             self.connectorProfileArn = connectorProfileArn
@@ -3935,8 +3875,7 @@ extension AppflowClientTypes {
         public init(
             credentialsMap: [Swift.String: Swift.String]? = nil,
             customAuthenticationType: Swift.String? = nil
-        )
-        {
+        ) {
             self.credentialsMap = credentialsMap
             self.customAuthenticationType = customAuthenticationType
         }
@@ -3969,8 +3908,7 @@ extension AppflowClientTypes {
             clientSecret: Swift.String? = nil,
             oAuthRequest: AppflowClientTypes.ConnectorOAuthRequest? = nil,
             refreshToken: Swift.String? = nil
-        )
-        {
+        ) {
             self.accessToken = accessToken
             self.clientId = clientId
             self.clientSecret = clientSecret
@@ -4007,8 +3945,7 @@ extension AppflowClientTypes {
             basic: AppflowClientTypes.BasicAuthCredentials? = nil,
             custom: AppflowClientTypes.CustomAuthCredentials? = nil,
             oauth2: AppflowClientTypes.OAuth2Credentials? = nil
-        )
-        {
+        ) {
             self.apiKey = apiKey
             self.authenticationType = authenticationType
             self.basic = basic
@@ -4032,8 +3969,7 @@ extension AppflowClientTypes {
         public init(
             apiKey: Swift.String? = nil,
             applicationKey: Swift.String? = nil
-        )
-        {
+        ) {
             self.apiKey = apiKey
             self.applicationKey = applicationKey
         }
@@ -4055,8 +3991,7 @@ extension AppflowClientTypes {
 
         public init(
             apiToken: Swift.String? = nil
-        )
-        {
+        ) {
             self.apiToken = apiToken
         }
     }
@@ -4085,8 +4020,7 @@ extension AppflowClientTypes {
             clientSecret: Swift.String? = nil,
             oAuthRequest: AppflowClientTypes.ConnectorOAuthRequest? = nil,
             refreshToken: Swift.String? = nil
-        )
-        {
+        ) {
             self.accessToken = accessToken
             self.clientId = clientId
             self.clientSecret = clientSecret
@@ -4116,8 +4050,7 @@ extension AppflowClientTypes {
             accessToken: Swift.String? = nil,
             oAuthRequest: AppflowClientTypes.ConnectorOAuthRequest? = nil,
             refreshToken: Swift.String? = nil
-        )
-        {
+        ) {
             self.accessToken = accessToken
             self.oAuthRequest = oAuthRequest
             self.refreshToken = refreshToken
@@ -4152,8 +4085,7 @@ extension AppflowClientTypes {
             datakey: Swift.String? = nil,
             secretAccessKey: Swift.String? = nil,
             userId: Swift.String? = nil
-        )
-        {
+        ) {
             self.accessKeyId = accessKeyId
             self.datakey = datakey
             self.secretAccessKey = secretAccessKey
@@ -4187,8 +4119,7 @@ extension AppflowClientTypes {
             clientId: Swift.String? = nil,
             clientSecret: Swift.String? = nil,
             oAuthRequest: AppflowClientTypes.ConnectorOAuthRequest? = nil
-        )
-        {
+        ) {
             self.accessToken = accessToken
             self.clientId = clientId
             self.clientSecret = clientSecret
@@ -4220,8 +4151,7 @@ extension AppflowClientTypes {
             clientCredentialsArn: Swift.String? = nil,
             oAuthRequest: AppflowClientTypes.ConnectorOAuthRequest? = nil,
             refreshToken: Swift.String? = nil
-        )
-        {
+        ) {
             self.accessToken = accessToken
             self.clientCredentialsArn = clientCredentialsArn
             self.oAuthRequest = oAuthRequest
@@ -4247,8 +4177,7 @@ extension AppflowClientTypes {
         public init(
             password: Swift.String? = nil,
             username: Swift.String? = nil
-        )
-        {
+        ) {
             self.password = password
             self.username = username
         }
@@ -4284,8 +4213,7 @@ extension AppflowClientTypes {
             oAuth2GrantType: AppflowClientTypes.OAuth2GrantType? = nil,
             oAuthRequest: AppflowClientTypes.ConnectorOAuthRequest? = nil,
             refreshToken: Swift.String? = nil
-        )
-        {
+        ) {
             self.accessToken = accessToken
             self.clientCredentialsArn = clientCredentialsArn
             self.jwtToken = jwtToken
@@ -4324,8 +4252,7 @@ extension AppflowClientTypes {
             clientSecret: Swift.String? = nil,
             oAuthRequest: AppflowClientTypes.ConnectorOAuthRequest? = nil,
             refreshToken: Swift.String? = nil
-        )
-        {
+        ) {
             self.accessToken = accessToken
             self.clientId = clientId
             self.clientSecret = clientSecret
@@ -4352,8 +4279,7 @@ extension AppflowClientTypes {
         public init(
             basicAuthCredentials: AppflowClientTypes.BasicAuthCredentials? = nil,
             oAuthCredentials: AppflowClientTypes.OAuthCredentials? = nil
-        )
-        {
+        ) {
             self.basicAuthCredentials = basicAuthCredentials
             self.oAuthCredentials = oAuthCredentials
         }
@@ -4375,8 +4301,7 @@ extension AppflowClientTypes {
             oAuth2Credentials: AppflowClientTypes.OAuth2Credentials? = nil,
             password: Swift.String? = nil,
             username: Swift.String? = nil
-        )
-        {
+        ) {
             self.oAuth2Credentials = oAuth2Credentials
             self.password = password
             self.username = username
@@ -4399,8 +4324,7 @@ extension AppflowClientTypes {
 
         public init(
             apiKey: Swift.String? = nil
-        )
-        {
+        ) {
             self.apiKey = apiKey
         }
     }
@@ -4431,8 +4355,7 @@ extension AppflowClientTypes {
             clientId: Swift.String? = nil,
             clientSecret: Swift.String? = nil,
             oAuthRequest: AppflowClientTypes.ConnectorOAuthRequest? = nil
-        )
-        {
+        ) {
             self.accessToken = accessToken
             self.clientId = clientId
             self.clientSecret = clientSecret
@@ -4460,8 +4383,7 @@ extension AppflowClientTypes {
         public init(
             password: Swift.String? = nil,
             username: Swift.String? = nil
-        )
-        {
+        ) {
             self.password = password
             self.username = username
         }
@@ -4483,8 +4405,7 @@ extension AppflowClientTypes {
 
         public init(
             apiSecretKey: Swift.String? = nil
-        )
-        {
+        ) {
             self.apiSecretKey = apiSecretKey
         }
     }
@@ -4509,8 +4430,7 @@ extension AppflowClientTypes {
         public init(
             password: Swift.String? = nil,
             username: Swift.String? = nil
-        )
-        {
+        ) {
             self.password = password
             self.username = username
         }
@@ -4542,8 +4462,7 @@ extension AppflowClientTypes {
             clientId: Swift.String? = nil,
             clientSecret: Swift.String? = nil,
             oAuthRequest: AppflowClientTypes.ConnectorOAuthRequest? = nil
-        )
-        {
+        ) {
             self.accessToken = accessToken
             self.clientId = clientId
             self.clientSecret = clientSecret
@@ -4620,8 +4539,7 @@ extension AppflowClientTypes {
             trendmicro: AppflowClientTypes.TrendmicroConnectorProfileCredentials? = nil,
             veeva: AppflowClientTypes.VeevaConnectorProfileCredentials? = nil,
             zendesk: AppflowClientTypes.ZendeskConnectorProfileCredentials? = nil
-        )
-        {
+        ) {
             self.amplitude = amplitude
             self.customConnector = customConnector
             self.datadog = datadog
@@ -4658,8 +4576,7 @@ extension AppflowClientTypes {
         public init(
             connectorProfileCredentials: AppflowClientTypes.ConnectorProfileCredentials? = nil,
             connectorProfileProperties: AppflowClientTypes.ConnectorProfileProperties? = nil
-        )
-        {
+        ) {
             self.connectorProfileCredentials = connectorProfileCredentials
             self.connectorProfileProperties = connectorProfileProperties
         }
@@ -4684,8 +4601,7 @@ public struct ConnectorServerException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4708,8 +4624,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4742,8 +4657,7 @@ public struct CreateConnectorProfileInput: Swift.Sendable {
         connectorProfileName: Swift.String? = nil,
         connectorType: AppflowClientTypes.ConnectorType? = nil,
         kmsArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.connectionMode = connectionMode
         self.connectorLabel = connectorLabel
@@ -4760,8 +4674,7 @@ public struct CreateConnectorProfileOutput: Swift.Sendable {
 
     public init(
         connectorProfileArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectorProfileArn = connectorProfileArn
     }
 }
@@ -4781,8 +4694,7 @@ extension AppflowClientTypes {
             bucketName: Swift.String? = nil,
             bucketPrefix: Swift.String? = nil,
             failOnFirstDestinationError: Swift.Bool = false
-        )
-        {
+        ) {
             self.bucketName = bucketName
             self.bucketPrefix = bucketPrefix
             self.failOnFirstDestinationError = failOnFirstDestinationError
@@ -4812,8 +4724,7 @@ extension AppflowClientTypes {
             errorHandlingConfig: AppflowClientTypes.ErrorHandlingConfig? = nil,
             idFieldNames: [Swift.String]? = nil,
             writeOperationType: AppflowClientTypes.WriteOperationType? = nil
-        )
-        {
+        ) {
             self.customProperties = customProperties
             self.entityName = entityName
             self.errorHandlingConfig = errorHandlingConfig
@@ -4836,8 +4747,7 @@ extension AppflowClientTypes {
         public init(
             domainName: Swift.String? = nil,
             objectTypeName: Swift.String? = nil
-        )
-        {
+        ) {
             self.domainName = domainName
             self.objectTypeName = objectTypeName
         }
@@ -4857,8 +4767,7 @@ extension AppflowClientTypes {
         public init(
             errorHandlingConfig: AppflowClientTypes.ErrorHandlingConfig? = nil,
             object: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorHandlingConfig = errorHandlingConfig
             self.object = object
         }
@@ -4878,8 +4787,7 @@ extension AppflowClientTypes {
         public init(
             errorHandlingConfig: AppflowClientTypes.ErrorHandlingConfig? = nil,
             object: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorHandlingConfig = errorHandlingConfig
             self.object = object
         }
@@ -4908,8 +4816,7 @@ extension AppflowClientTypes {
         public init(
             errorHandlingConfig: AppflowClientTypes.ErrorHandlingConfig? = nil,
             object: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorHandlingConfig = errorHandlingConfig
             self.object = object
         }
@@ -4936,8 +4843,7 @@ extension AppflowClientTypes {
             errorHandlingConfig: AppflowClientTypes.ErrorHandlingConfig? = nil,
             intermediateBucketName: Swift.String? = nil,
             object: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucketPrefix = bucketPrefix
             self.errorHandlingConfig = errorHandlingConfig
             self.intermediateBucketName = intermediateBucketName
@@ -5098,8 +5004,7 @@ extension AppflowClientTypes {
             pathPrefixHierarchy: [AppflowClientTypes.PathPrefix]? = nil,
             prefixFormat: AppflowClientTypes.PrefixFormat? = nil,
             prefixType: AppflowClientTypes.PrefixType? = nil
-        )
-        {
+        ) {
             self.pathPrefixHierarchy = pathPrefixHierarchy
             self.prefixFormat = prefixFormat
             self.prefixType = prefixType
@@ -5129,8 +5034,7 @@ extension AppflowClientTypes {
             fileType: AppflowClientTypes.FileType? = nil,
             prefixConfig: AppflowClientTypes.PrefixConfig? = nil,
             preserveSourceDataTyping: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.aggregationConfig = aggregationConfig
             self.fileType = fileType
             self.prefixConfig = prefixConfig
@@ -5155,8 +5059,7 @@ extension AppflowClientTypes {
             bucketName: Swift.String? = nil,
             bucketPrefix: Swift.String? = nil,
             s3OutputFormatConfig: AppflowClientTypes.S3OutputFormatConfig? = nil
-        )
-        {
+        ) {
             self.bucketName = bucketName
             self.bucketPrefix = bucketPrefix
             self.s3OutputFormatConfig = s3OutputFormatConfig
@@ -5186,8 +5089,7 @@ extension AppflowClientTypes {
             idFieldNames: [Swift.String]? = nil,
             object: Swift.String? = nil,
             writeOperationType: AppflowClientTypes.WriteOperationType? = nil
-        )
-        {
+        ) {
             self.dataTransferApi = dataTransferApi
             self.errorHandlingConfig = errorHandlingConfig
             self.idFieldNames = idFieldNames
@@ -5209,8 +5111,7 @@ extension AppflowClientTypes {
         public init(
             bucketName: Swift.String? = nil,
             bucketPrefix: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucketName = bucketName
             self.bucketPrefix = bucketPrefix
         }
@@ -5239,8 +5140,7 @@ extension AppflowClientTypes {
             objectPath: Swift.String? = nil,
             successResponseHandlingConfig: AppflowClientTypes.SuccessResponseHandlingConfig? = nil,
             writeOperationType: AppflowClientTypes.WriteOperationType? = nil
-        )
-        {
+        ) {
             self.errorHandlingConfig = errorHandlingConfig
             self.idFieldNames = idFieldNames
             self.objectPath = objectPath
@@ -5270,8 +5170,7 @@ extension AppflowClientTypes {
             errorHandlingConfig: AppflowClientTypes.ErrorHandlingConfig? = nil,
             intermediateBucketName: Swift.String? = nil,
             object: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucketPrefix = bucketPrefix
             self.errorHandlingConfig = errorHandlingConfig
             self.intermediateBucketName = intermediateBucketName
@@ -5296,8 +5195,7 @@ extension AppflowClientTypes {
             aggregationConfig: AppflowClientTypes.AggregationConfig? = nil,
             fileType: AppflowClientTypes.FileType? = nil,
             prefixConfig: AppflowClientTypes.PrefixConfig? = nil
-        )
-        {
+        ) {
             self.aggregationConfig = aggregationConfig
             self.fileType = fileType
             self.prefixConfig = prefixConfig
@@ -5322,8 +5220,7 @@ extension AppflowClientTypes {
             bucketName: Swift.String? = nil,
             bucketPrefix: Swift.String? = nil,
             s3OutputFormatConfig: AppflowClientTypes.UpsolverS3OutputFormatConfig? = nil
-        )
-        {
+        ) {
             self.bucketName = bucketName
             self.bucketPrefix = bucketPrefix
             self.s3OutputFormatConfig = s3OutputFormatConfig
@@ -5350,8 +5247,7 @@ extension AppflowClientTypes {
             idFieldNames: [Swift.String]? = nil,
             object: Swift.String? = nil,
             writeOperationType: AppflowClientTypes.WriteOperationType? = nil
-        )
-        {
+        ) {
             self.errorHandlingConfig = errorHandlingConfig
             self.idFieldNames = idFieldNames
             self.object = object
@@ -5405,8 +5301,7 @@ extension AppflowClientTypes {
             snowflake: AppflowClientTypes.SnowflakeDestinationProperties? = nil,
             upsolver: AppflowClientTypes.UpsolverDestinationProperties? = nil,
             zendesk: AppflowClientTypes.ZendeskDestinationProperties? = nil
-        )
-        {
+        ) {
             self.customConnector = customConnector
             self.customerProfiles = customerProfiles
             self.eventBridge = eventBridge
@@ -5444,8 +5339,7 @@ extension AppflowClientTypes {
             connectorProfileName: Swift.String? = nil,
             connectorType: AppflowClientTypes.ConnectorType? = nil,
             destinationConnectorProperties: AppflowClientTypes.DestinationConnectorProperties? = nil
-        )
-        {
+        ) {
             self.apiVersion = apiVersion
             self.connectorProfileName = connectorProfileName
             self.connectorType = connectorType
@@ -5472,8 +5366,7 @@ extension AppflowClientTypes {
             databaseName: Swift.String? = nil,
             roleArn: Swift.String? = nil,
             tablePrefix: Swift.String? = nil
-        )
-        {
+        ) {
             self.databaseName = databaseName
             self.roleArn = roleArn
             self.tablePrefix = tablePrefix
@@ -5490,8 +5383,7 @@ extension AppflowClientTypes {
 
         public init(
             glueDataCatalog: AppflowClientTypes.GlueDataCatalogConfig? = nil
-        )
-        {
+        ) {
             self.glueDataCatalog = glueDataCatalog
         }
     }
@@ -5506,8 +5398,7 @@ extension AppflowClientTypes {
 
         public init(
             datetimeTypeFieldName: Swift.String? = nil
-        )
-        {
+        ) {
             self.datetimeTypeFieldName = datetimeTypeFieldName
         }
     }
@@ -5529,8 +5420,7 @@ extension AppflowClientTypes {
             customProperties: [Swift.String: Swift.String]? = nil,
             dataTransferApi: AppflowClientTypes.DataTransferApi? = nil,
             entityName: Swift.String? = nil
-        )
-        {
+        ) {
             self.customProperties = customProperties
             self.dataTransferApi = dataTransferApi
             self.entityName = entityName
@@ -5548,8 +5438,7 @@ extension AppflowClientTypes {
 
         public init(
             object: Swift.String? = nil
-        )
-        {
+        ) {
             self.object = object
         }
     }
@@ -5565,8 +5454,7 @@ extension AppflowClientTypes {
 
         public init(
             object: Swift.String? = nil
-        )
-        {
+        ) {
             self.object = object
         }
     }
@@ -5582,8 +5470,7 @@ extension AppflowClientTypes {
 
         public init(
             object: Swift.String? = nil
-        )
-        {
+        ) {
             self.object = object
         }
     }
@@ -5599,8 +5486,7 @@ extension AppflowClientTypes {
 
         public init(
             object: Swift.String? = nil
-        )
-        {
+        ) {
             self.object = object
         }
     }
@@ -5616,8 +5502,7 @@ extension AppflowClientTypes {
 
         public init(
             object: Swift.String? = nil
-        )
-        {
+        ) {
             self.object = object
         }
     }
@@ -5633,8 +5518,7 @@ extension AppflowClientTypes {
 
         public init(
             object: Swift.String? = nil
-        )
-        {
+        ) {
             self.object = object
         }
     }
@@ -5678,8 +5562,7 @@ extension AppflowClientTypes {
 
         public init(
             s3InputFileType: AppflowClientTypes.S3InputFileType? = nil
-        )
-        {
+        ) {
             self.s3InputFileType = s3InputFileType
         }
     }
@@ -5701,8 +5584,7 @@ extension AppflowClientTypes {
             bucketName: Swift.String? = nil,
             bucketPrefix: Swift.String? = nil,
             s3InputFormatConfig: AppflowClientTypes.S3InputFormatConfig? = nil
-        )
-        {
+        ) {
             self.bucketName = bucketName
             self.bucketPrefix = bucketPrefix
             self.s3InputFormatConfig = s3InputFormatConfig
@@ -5729,8 +5611,7 @@ extension AppflowClientTypes {
             enableDynamicFieldUpdate: Swift.Bool = false,
             includeDeletedRecords: Swift.Bool = false,
             object: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataTransferApi = dataTransferApi
             self.enableDynamicFieldUpdate = enableDynamicFieldUpdate
             self.includeDeletedRecords = includeDeletedRecords
@@ -5749,8 +5630,7 @@ extension AppflowClientTypes {
 
         public init(
             maxPageSize: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maxPageSize = maxPageSize
         }
     }
@@ -5766,8 +5646,7 @@ extension AppflowClientTypes {
 
         public init(
             maxParallelism: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maxParallelism = maxParallelism
         }
     }
@@ -5788,8 +5667,7 @@ extension AppflowClientTypes {
             objectPath: Swift.String? = nil,
             paginationConfig: AppflowClientTypes.SAPODataPaginationConfig? = nil,
             parallelismConfig: AppflowClientTypes.SAPODataParallelismConfig? = nil
-        )
-        {
+        ) {
             self.objectPath = objectPath
             self.paginationConfig = paginationConfig
             self.parallelismConfig = parallelismConfig
@@ -5807,8 +5685,7 @@ extension AppflowClientTypes {
 
         public init(
             object: Swift.String? = nil
-        )
-        {
+        ) {
             self.object = object
         }
     }
@@ -5824,8 +5701,7 @@ extension AppflowClientTypes {
 
         public init(
             object: Swift.String? = nil
-        )
-        {
+        ) {
             self.object = object
         }
     }
@@ -5841,8 +5717,7 @@ extension AppflowClientTypes {
 
         public init(
             object: Swift.String? = nil
-        )
-        {
+        ) {
             self.object = object
         }
     }
@@ -5858,8 +5733,7 @@ extension AppflowClientTypes {
 
         public init(
             object: Swift.String? = nil
-        )
-        {
+        ) {
             self.object = object
         }
     }
@@ -5887,8 +5761,7 @@ extension AppflowClientTypes {
             includeRenditions: Swift.Bool = false,
             includeSourceFiles: Swift.Bool = false,
             object: Swift.String? = nil
-        )
-        {
+        ) {
             self.documentType = documentType
             self.includeAllVersions = includeAllVersions
             self.includeRenditions = includeRenditions
@@ -5908,8 +5781,7 @@ extension AppflowClientTypes {
 
         public init(
             object: Swift.String? = nil
-        )
-        {
+        ) {
             self.object = object
         }
     }
@@ -5972,8 +5844,7 @@ extension AppflowClientTypes {
             trendmicro: AppflowClientTypes.TrendmicroSourceProperties? = nil,
             veeva: AppflowClientTypes.VeevaSourceProperties? = nil,
             zendesk: AppflowClientTypes.ZendeskSourceProperties? = nil
-        )
-        {
+        ) {
             self.amplitude = amplitude
             self.customConnector = customConnector
             self.datadog = datadog
@@ -6018,8 +5889,7 @@ extension AppflowClientTypes {
             connectorType: AppflowClientTypes.ConnectorType? = nil,
             incrementalPullConfig: AppflowClientTypes.IncrementalPullConfig? = nil,
             sourceConnectorProperties: AppflowClientTypes.SourceConnectorProperties? = nil
-        )
-        {
+        ) {
             self.apiVersion = apiVersion
             self.connectorProfileName = connectorProfileName
             self.connectorType = connectorType
@@ -6179,8 +6049,7 @@ extension AppflowClientTypes {
             sourceFields: [Swift.String]? = nil,
             taskProperties: [Swift.String: Swift.String]? = nil,
             taskType: AppflowClientTypes.TaskType? = nil
-        )
-        {
+        ) {
             self.connectorOperator = connectorOperator
             self.destinationField = destinationField
             self.sourceFields = sourceFields
@@ -6250,8 +6119,7 @@ extension AppflowClientTypes {
             scheduleOffset: Swift.Int? = 0,
             scheduleStartTime: Foundation.Date? = nil,
             timezone: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataPullMode = dataPullMode
             self.firstExecutionFrom = firstExecutionFrom
             self.flowErrorDeactivationThreshold = flowErrorDeactivationThreshold
@@ -6273,8 +6141,7 @@ extension AppflowClientTypes {
 
         public init(
             scheduled: AppflowClientTypes.ScheduledTriggerProperties? = nil
-        )
-        {
+        ) {
             self.scheduled = scheduled
         }
     }
@@ -6293,8 +6160,7 @@ extension AppflowClientTypes {
         public init(
             triggerProperties: AppflowClientTypes.TriggerProperties? = nil,
             triggerType: AppflowClientTypes.TriggerType? = nil
-        )
-        {
+        ) {
             self.triggerProperties = triggerProperties
             self.triggerType = triggerType
         }
@@ -6339,8 +6205,7 @@ public struct CreateFlowInput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         tasks: [AppflowClientTypes.Task]? = nil,
         triggerConfig: AppflowClientTypes.TriggerConfig? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.destinationFlowConfigList = destinationFlowConfigList
@@ -6404,8 +6269,7 @@ public struct CreateFlowOutput: Swift.Sendable {
     public init(
         flowArn: Swift.String? = nil,
         flowStatus: AppflowClientTypes.FlowStatus? = nil
-    )
-    {
+    ) {
         self.flowArn = flowArn
         self.flowStatus = flowStatus
     }
@@ -6421,8 +6285,7 @@ public struct DeleteConnectorProfileInput: Swift.Sendable {
     public init(
         connectorProfileName: Swift.String? = nil,
         forceDelete: Swift.Bool? = false
-    )
-    {
+    ) {
         self.connectorProfileName = connectorProfileName
         self.forceDelete = forceDelete
     }
@@ -6443,8 +6306,7 @@ public struct DeleteFlowInput: Swift.Sendable {
     public init(
         flowName: Swift.String? = nil,
         forceDelete: Swift.Bool? = false
-    )
-    {
+    ) {
         self.flowName = flowName
         self.forceDelete = forceDelete
     }
@@ -6465,8 +6327,7 @@ public struct DescribeConnectorInput: Swift.Sendable {
     public init(
         connectorLabel: Swift.String? = nil,
         connectorType: AppflowClientTypes.ConnectorType? = nil
-    )
-    {
+    ) {
         self.connectorLabel = connectorLabel
         self.connectorType = connectorType
     }
@@ -6478,8 +6339,7 @@ public struct DescribeConnectorOutput: Swift.Sendable {
 
     public init(
         connectorConfiguration: AppflowClientTypes.ConnectorConfiguration? = nil
-    )
-    {
+    ) {
         self.connectorConfiguration = connectorConfiguration
     }
 }
@@ -6500,8 +6360,7 @@ public struct DescribeConnectorEntityInput: Swift.Sendable {
         connectorEntityName: Swift.String? = nil,
         connectorProfileName: Swift.String? = nil,
         connectorType: AppflowClientTypes.ConnectorType? = nil
-    )
-    {
+    ) {
         self.apiVersion = apiVersion
         self.connectorEntityName = connectorEntityName
         self.connectorProfileName = connectorProfileName
@@ -6516,8 +6375,7 @@ public struct DescribeConnectorEntityOutput: Swift.Sendable {
 
     public init(
         connectorEntityFields: [AppflowClientTypes.ConnectorEntityField]? = nil
-    )
-    {
+    ) {
         self.connectorEntityFields = connectorEntityFields
     }
 }
@@ -6540,8 +6398,7 @@ public struct DescribeConnectorProfilesInput: Swift.Sendable {
         connectorType: AppflowClientTypes.ConnectorType? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectorLabel = connectorLabel
         self.connectorProfileNames = connectorProfileNames
         self.connectorType = connectorType
@@ -6559,8 +6416,7 @@ public struct DescribeConnectorProfilesOutput: Swift.Sendable {
     public init(
         connectorProfileDetails: [AppflowClientTypes.ConnectorProfile]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectorProfileDetails = connectorProfileDetails
         self.nextToken = nextToken
     }
@@ -6578,8 +6434,7 @@ public struct DescribeConnectorsInput: Swift.Sendable {
         connectorTypes: [AppflowClientTypes.ConnectorType]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectorTypes = connectorTypes
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -6598,8 +6453,7 @@ public struct DescribeConnectorsOutput: Swift.Sendable {
         connectorConfigurations: [Swift.String: AppflowClientTypes.ConnectorConfiguration]? = nil,
         connectors: [AppflowClientTypes.ConnectorDetail]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectorConfigurations = connectorConfigurations
         self.connectors = connectors
         self.nextToken = nextToken
@@ -6613,8 +6467,7 @@ public struct DescribeFlowInput: Swift.Sendable {
 
     public init(
         flowName: Swift.String? = nil
-    )
-    {
+    ) {
         self.flowName = flowName
     }
 }
@@ -6672,8 +6525,7 @@ extension AppflowClientTypes {
             mostRecentExecutionMessage: Swift.String? = nil,
             mostRecentExecutionStatus: AppflowClientTypes.ExecutionStatus? = nil,
             mostRecentExecutionTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.mostRecentExecutionMessage = mostRecentExecutionMessage
             self.mostRecentExecutionStatus = mostRecentExecutionStatus
             self.mostRecentExecutionTime = mostRecentExecutionTime
@@ -6696,8 +6548,7 @@ extension AppflowClientTypes {
             message: Swift.String? = nil,
             result: Swift.String? = nil,
             status: AppflowClientTypes.ExecutionStatus? = nil
-        )
-        {
+        ) {
             self.message = message
             self.result = result
             self.status = status
@@ -6723,8 +6574,7 @@ extension AppflowClientTypes {
             partitionRegistrationOutput: AppflowClientTypes.RegistrationOutput? = nil,
             tableName: Swift.String? = nil,
             tableRegistrationOutput: AppflowClientTypes.RegistrationOutput? = nil
-        )
-        {
+        ) {
             self.catalogType = catalogType
             self.partitionRegistrationOutput = partitionRegistrationOutput
             self.tableName = tableName
@@ -6799,8 +6649,7 @@ public struct DescribeFlowOutput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         tasks: [AppflowClientTypes.Task]? = nil,
         triggerConfig: AppflowClientTypes.TriggerConfig? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.createdBy = createdBy
         self.description = description
@@ -6836,8 +6685,7 @@ public struct DescribeFlowExecutionRecordsInput: Swift.Sendable {
         flowName: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.flowName = flowName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -6856,8 +6704,7 @@ extension AppflowClientTypes {
         public init(
             executionMessage: Swift.String? = nil,
             putFailuresCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.executionMessage = executionMessage
             self.putFailuresCount = putFailuresCount
         }
@@ -6888,8 +6735,7 @@ extension AppflowClientTypes {
             maxPageSize: Swift.Int? = nil,
             numParallelProcesses: Swift.Int? = nil,
             recordsProcessed: Swift.Int? = nil
-        )
-        {
+        ) {
             self.bytesProcessed = bytesProcessed
             self.bytesWritten = bytesWritten
             self.errorInfo = errorInfo
@@ -6930,8 +6776,7 @@ extension AppflowClientTypes {
             lastUpdatedAt: Foundation.Date? = nil,
             metadataCatalogDetails: [AppflowClientTypes.MetadataCatalogDetail]? = nil,
             startedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.dataPullEndTime = dataPullEndTime
             self.dataPullStartTime = dataPullStartTime
             self.executionId = executionId
@@ -6953,8 +6798,7 @@ public struct DescribeFlowExecutionRecordsOutput: Swift.Sendable {
     public init(
         flowExecutions: [AppflowClientTypes.ExecutionRecord]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.flowExecutions = flowExecutions
         self.nextToken = nextToken
     }
@@ -7011,8 +6855,7 @@ extension AppflowClientTypes {
             sourceConnectorType: AppflowClientTypes.ConnectorType? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             triggerType: AppflowClientTypes.TriggerType? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.description = description
@@ -7053,8 +6896,7 @@ public struct ListConnectorEntitiesInput: Swift.Sendable {
         entitiesPath: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiVersion = apiVersion
         self.connectorProfileName = connectorProfileName
         self.connectorType = connectorType
@@ -7074,8 +6916,7 @@ public struct ListConnectorEntitiesOutput: Swift.Sendable {
     public init(
         connectorEntityMap: [Swift.String: [AppflowClientTypes.ConnectorEntity]]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectorEntityMap = connectorEntityMap
         self.nextToken = nextToken
     }
@@ -7090,8 +6931,7 @@ public struct ListConnectorsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -7106,8 +6946,7 @@ public struct ListConnectorsOutput: Swift.Sendable {
     public init(
         connectors: [AppflowClientTypes.ConnectorDetail]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectors = connectors
         self.nextToken = nextToken
     }
@@ -7122,8 +6961,7 @@ public struct ListFlowsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -7138,8 +6976,7 @@ public struct ListFlowsOutput: Swift.Sendable {
     public init(
         flows: [AppflowClientTypes.FlowDefinition]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.flows = flows
         self.nextToken = nextToken
     }
@@ -7152,8 +6989,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -7164,8 +7000,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -7188,8 +7023,7 @@ public struct RegisterConnectorInput: Swift.Sendable {
         connectorProvisioningConfig: AppflowClientTypes.ConnectorProvisioningConfig? = nil,
         connectorProvisioningType: AppflowClientTypes.ConnectorProvisioningType? = nil,
         description: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.connectorLabel = connectorLabel
         self.connectorProvisioningConfig = connectorProvisioningConfig
@@ -7204,8 +7038,7 @@ public struct RegisterConnectorOutput: Swift.Sendable {
 
     public init(
         connectorArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectorArn = connectorArn
     }
 }
@@ -7228,8 +7061,7 @@ public struct ResetConnectorMetadataCacheInput: Swift.Sendable {
         connectorProfileName: Swift.String? = nil,
         connectorType: AppflowClientTypes.ConnectorType? = nil,
         entitiesPath: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiVersion = apiVersion
         self.connectorEntityName = connectorEntityName
         self.connectorProfileName = connectorProfileName
@@ -7253,8 +7085,7 @@ public struct StartFlowInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         flowName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.flowName = flowName
     }
@@ -7272,8 +7103,7 @@ public struct StartFlowOutput: Swift.Sendable {
         executionId: Swift.String? = nil,
         flowArn: Swift.String? = nil,
         flowStatus: AppflowClientTypes.FlowStatus? = nil
-    )
-    {
+    ) {
         self.executionId = executionId
         self.flowArn = flowArn
         self.flowStatus = flowStatus
@@ -7298,8 +7128,7 @@ public struct UnsupportedOperationException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -7311,8 +7140,7 @@ public struct StopFlowInput: Swift.Sendable {
 
     public init(
         flowName: Swift.String? = nil
-    )
-    {
+    ) {
         self.flowName = flowName
     }
 }
@@ -7326,8 +7154,7 @@ public struct StopFlowOutput: Swift.Sendable {
     public init(
         flowArn: Swift.String? = nil,
         flowStatus: AppflowClientTypes.FlowStatus? = nil
-    )
-    {
+    ) {
         self.flowArn = flowArn
         self.flowStatus = flowStatus
     }
@@ -7344,8 +7171,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -7366,8 +7192,7 @@ public struct UnregisterConnectorInput: Swift.Sendable {
     public init(
         connectorLabel: Swift.String? = nil,
         forceDelete: Swift.Bool? = false
-    )
-    {
+    ) {
         self.connectorLabel = connectorLabel
         self.forceDelete = forceDelete
     }
@@ -7389,8 +7214,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -7419,8 +7243,7 @@ public struct UpdateConnectorProfileInput: Swift.Sendable {
         connectionMode: AppflowClientTypes.ConnectionMode? = nil,
         connectorProfileConfig: AppflowClientTypes.ConnectorProfileConfig? = nil,
         connectorProfileName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.connectionMode = connectionMode
         self.connectorProfileConfig = connectorProfileConfig
@@ -7434,8 +7257,7 @@ public struct UpdateConnectorProfileOutput: Swift.Sendable {
 
     public init(
         connectorProfileArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectorProfileArn = connectorProfileArn
     }
 }
@@ -7456,8 +7278,7 @@ public struct UpdateConnectorRegistrationInput: Swift.Sendable {
         connectorLabel: Swift.String? = nil,
         connectorProvisioningConfig: AppflowClientTypes.ConnectorProvisioningConfig? = nil,
         description: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.connectorLabel = connectorLabel
         self.connectorProvisioningConfig = connectorProvisioningConfig
@@ -7471,8 +7292,7 @@ public struct UpdateConnectorRegistrationOutput: Swift.Sendable {
 
     public init(
         connectorArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectorArn = connectorArn
     }
 }
@@ -7509,8 +7329,7 @@ public struct UpdateFlowInput: Swift.Sendable {
         sourceFlowConfig: AppflowClientTypes.SourceFlowConfig? = nil,
         tasks: [AppflowClientTypes.Task]? = nil,
         triggerConfig: AppflowClientTypes.TriggerConfig? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.destinationFlowConfigList = destinationFlowConfigList
@@ -7528,8 +7347,7 @@ public struct UpdateFlowOutput: Swift.Sendable {
 
     public init(
         flowStatus: AppflowClientTypes.FlowStatus? = nil
-    )
-    {
+    ) {
         self.flowStatus = flowStatus
     }
 }

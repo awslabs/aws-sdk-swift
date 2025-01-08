@@ -61,8 +61,7 @@ public struct CacheClusterNotFoundFault: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -85,8 +84,7 @@ public struct CacheParameterGroupNotFoundFault: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -109,8 +107,7 @@ public struct CacheSecurityGroupNotFoundFault: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -133,8 +130,7 @@ public struct CacheSubnetGroupNotFoundFault: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -157,8 +153,7 @@ public struct InvalidARNFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -181,8 +176,7 @@ public struct InvalidReplicationGroupStateFault: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -205,8 +199,7 @@ public struct InvalidServerlessCacheSnapshotStateFault: ClientRuntime.ModeledErr
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -229,8 +222,7 @@ public struct InvalidServerlessCacheStateFault: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -253,8 +245,7 @@ public struct ReplicationGroupNotFoundFault: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -277,8 +268,7 @@ public struct ReservedCacheNodeNotFoundFault: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -301,8 +291,7 @@ public struct ServerlessCacheNotFoundFault: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -325,8 +314,7 @@ public struct ServerlessCacheSnapshotNotFoundFault: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -349,8 +337,7 @@ public struct SnapshotNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -373,8 +360,7 @@ public struct TagQuotaPerResourceExceeded: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -397,8 +383,7 @@ public struct UserGroupNotFoundFault: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -421,8 +406,7 @@ public struct UserNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -439,8 +423,7 @@ extension ElastiCacheClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -459,8 +442,7 @@ public struct AddTagsToResourceInput: Swift.Sendable {
     public init(
         resourceName: Swift.String? = nil,
         tags: [ElastiCacheClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceName = resourceName
         self.tags = tags
     }
@@ -473,8 +455,7 @@ public struct AddTagsToResourceOutput: Swift.Sendable {
 
     public init(
         tagList: [ElastiCacheClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tagList = tagList
     }
 }
@@ -497,8 +478,7 @@ public struct AuthorizationAlreadyExistsFault: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -521,8 +501,7 @@ public struct InvalidCacheSecurityGroupStateFault: ClientRuntime.ModeledError, A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -546,8 +525,7 @@ public struct InvalidParameterCombinationException: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -571,8 +549,7 @@ public struct InvalidParameterValueException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -593,8 +570,7 @@ public struct AuthorizeCacheSecurityGroupIngressInput: Swift.Sendable {
         cacheSecurityGroupName: Swift.String? = nil,
         ec2SecurityGroupName: Swift.String? = nil,
         ec2SecurityGroupOwnerId: Swift.String? = nil
-    )
-    {
+    ) {
         self.cacheSecurityGroupName = cacheSecurityGroupName
         self.ec2SecurityGroupName = ec2SecurityGroupName
         self.ec2SecurityGroupOwnerId = ec2SecurityGroupOwnerId
@@ -616,8 +592,7 @@ extension ElastiCacheClientTypes {
             ec2SecurityGroupName: Swift.String? = nil,
             ec2SecurityGroupOwnerId: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.ec2SecurityGroupName = ec2SecurityGroupName
             self.ec2SecurityGroupOwnerId = ec2SecurityGroupOwnerId
             self.status = status
@@ -652,8 +627,7 @@ extension ElastiCacheClientTypes {
             description: Swift.String? = nil,
             ec2SecurityGroups: [ElastiCacheClientTypes.EC2SecurityGroup]? = nil,
             ownerId: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.cacheSecurityGroupName = cacheSecurityGroupName
             self.description = description
@@ -675,8 +649,7 @@ public struct AuthorizeCacheSecurityGroupIngressOutput: Swift.Sendable {
 
     public init(
         cacheSecurityGroup: ElastiCacheClientTypes.CacheSecurityGroup? = nil
-    )
-    {
+    ) {
         self.cacheSecurityGroup = cacheSecurityGroup
     }
 }
@@ -699,8 +672,7 @@ public struct ServiceUpdateNotFoundFault: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -718,8 +690,7 @@ public struct BatchApplyUpdateActionInput: Swift.Sendable {
         cacheClusterIds: [Swift.String]? = nil,
         replicationGroupIds: [Swift.String]? = nil,
         serviceUpdateName: Swift.String? = nil
-    )
-    {
+    ) {
         self.cacheClusterIds = cacheClusterIds
         self.replicationGroupIds = replicationGroupIds
         self.serviceUpdateName = serviceUpdateName
@@ -794,8 +765,7 @@ extension ElastiCacheClientTypes {
             replicationGroupId: Swift.String? = nil,
             serviceUpdateName: Swift.String? = nil,
             updateActionStatus: ElastiCacheClientTypes.UpdateActionStatus? = nil
-        )
-        {
+        ) {
             self.cacheClusterId = cacheClusterId
             self.replicationGroupId = replicationGroupId
             self.serviceUpdateName = serviceUpdateName
@@ -825,8 +795,7 @@ extension ElastiCacheClientTypes {
             errorType: Swift.String? = nil,
             replicationGroupId: Swift.String? = nil,
             serviceUpdateName: Swift.String? = nil
-        )
-        {
+        ) {
             self.cacheClusterId = cacheClusterId
             self.errorMessage = errorMessage
             self.errorType = errorType
@@ -845,8 +814,7 @@ public struct BatchApplyUpdateActionOutput: Swift.Sendable {
     public init(
         processedUpdateActions: [ElastiCacheClientTypes.ProcessedUpdateAction]? = nil,
         unprocessedUpdateActions: [ElastiCacheClientTypes.UnprocessedUpdateAction]? = nil
-    )
-    {
+    ) {
         self.processedUpdateActions = processedUpdateActions
         self.unprocessedUpdateActions = unprocessedUpdateActions
     }
@@ -865,8 +833,7 @@ public struct BatchStopUpdateActionInput: Swift.Sendable {
         cacheClusterIds: [Swift.String]? = nil,
         replicationGroupIds: [Swift.String]? = nil,
         serviceUpdateName: Swift.String? = nil
-    )
-    {
+    ) {
         self.cacheClusterIds = cacheClusterIds
         self.replicationGroupIds = replicationGroupIds
         self.serviceUpdateName = serviceUpdateName
@@ -882,8 +849,7 @@ public struct BatchStopUpdateActionOutput: Swift.Sendable {
     public init(
         processedUpdateActions: [ElastiCacheClientTypes.ProcessedUpdateAction]? = nil,
         unprocessedUpdateActions: [ElastiCacheClientTypes.UnprocessedUpdateAction]? = nil
-    )
-    {
+    ) {
         self.processedUpdateActions = processedUpdateActions
         self.unprocessedUpdateActions = unprocessedUpdateActions
     }
@@ -907,8 +873,7 @@ public struct ReplicationGroupNotUnderMigrationFault: ClientRuntime.ModeledError
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -923,8 +888,7 @@ public struct CompleteMigrationInput: Swift.Sendable {
     public init(
         force: Swift.Bool? = nil,
         replicationGroupId: Swift.String? = nil
-    )
-    {
+    ) {
         self.force = force
         self.replicationGroupId = replicationGroupId
     }
@@ -1009,8 +973,7 @@ extension ElastiCacheClientTypes {
         public init(
             address: Swift.String? = nil,
             port: Swift.Int? = nil
-        )
-        {
+        ) {
             self.address = address
             self.port = port
         }
@@ -1058,8 +1021,7 @@ extension ElastiCacheClientTypes {
         public init(
             globalReplicationGroupId: Swift.String? = nil,
             globalReplicationGroupMemberRole: Swift.String? = nil
-        )
-        {
+        ) {
             self.globalReplicationGroupId = globalReplicationGroupId
             self.globalReplicationGroupMemberRole = globalReplicationGroupMemberRole
         }
@@ -1104,8 +1066,7 @@ extension ElastiCacheClientTypes {
 
         public init(
             logGroup: Swift.String? = nil
-        )
-        {
+        ) {
             self.logGroup = logGroup
         }
     }
@@ -1120,8 +1081,7 @@ extension ElastiCacheClientTypes {
 
         public init(
             deliveryStream: Swift.String? = nil
-        )
-        {
+        ) {
             self.deliveryStream = deliveryStream
         }
     }
@@ -1139,8 +1099,7 @@ extension ElastiCacheClientTypes {
         public init(
             cloudWatchLogsDetails: ElastiCacheClientTypes.CloudWatchLogsDestinationDetails? = nil,
             kinesisFirehoseDetails: ElastiCacheClientTypes.KinesisFirehoseDestinationDetails? = nil
-        )
-        {
+        ) {
             self.cloudWatchLogsDetails = cloudWatchLogsDetails
             self.kinesisFirehoseDetails = kinesisFirehoseDetails
         }
@@ -1296,8 +1255,7 @@ extension ElastiCacheClientTypes {
             logType: ElastiCacheClientTypes.LogType? = nil,
             message: Swift.String? = nil,
             status: ElastiCacheClientTypes.LogDeliveryConfigurationStatus? = nil
-        )
-        {
+        ) {
             self.destinationDetails = destinationDetails
             self.destinationType = destinationType
             self.logFormat = logFormat
@@ -1393,8 +1351,7 @@ extension ElastiCacheClientTypes {
             preferredAvailabilityZone: Swift.String? = nil,
             preferredOutpostArn: Swift.String? = nil,
             readEndpoint: ElastiCacheClientTypes.Endpoint? = nil
-        )
-        {
+        ) {
             self.cacheClusterId = cacheClusterId
             self.cacheNodeId = cacheNodeId
             self.currentRole = currentRole
@@ -1429,8 +1386,7 @@ extension ElastiCacheClientTypes {
             readerEndpoint: ElastiCacheClientTypes.Endpoint? = nil,
             slots: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.nodeGroupId = nodeGroupId
             self.nodeGroupMembers = nodeGroupMembers
             self.primaryEndpoint = primaryEndpoint
@@ -1517,8 +1473,7 @@ extension ElastiCacheClientTypes {
             destinationType: ElastiCacheClientTypes.DestinationType? = nil,
             logFormat: ElastiCacheClientTypes.LogFormat? = nil,
             logType: ElastiCacheClientTypes.LogType? = nil
-        )
-        {
+        ) {
             self.destinationDetails = destinationDetails
             self.destinationType = destinationType
             self.logFormat = logFormat
@@ -1536,8 +1491,7 @@ extension ElastiCacheClientTypes {
 
         public init(
             progressPercentage: Swift.Double? = nil
-        )
-        {
+        ) {
             self.progressPercentage = progressPercentage
         }
     }
@@ -1552,8 +1506,7 @@ extension ElastiCacheClientTypes {
 
         public init(
             slotMigration: ElastiCacheClientTypes.SlotMigration? = nil
-        )
-        {
+        ) {
             self.slotMigration = slotMigration
         }
     }
@@ -1600,8 +1553,7 @@ extension ElastiCacheClientTypes {
         public init(
             userGroupIdsToAdd: [Swift.String]? = nil,
             userGroupIdsToRemove: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.userGroupIdsToAdd = userGroupIdsToAdd
             self.userGroupIdsToRemove = userGroupIdsToRemove
         }
@@ -1641,8 +1593,7 @@ extension ElastiCacheClientTypes {
             transitEncryptionEnabled: Swift.Bool? = nil,
             transitEncryptionMode: ElastiCacheClientTypes.TransitEncryptionMode? = nil,
             userGroups: ElastiCacheClientTypes.UserGroupsUpdateStatus? = nil
-        )
-        {
+        ) {
             self.authTokenStatus = authTokenStatus
             self.automaticFailoverStatus = automaticFailoverStatus
             self.clusterMode = clusterMode
@@ -1758,8 +1709,7 @@ extension ElastiCacheClientTypes {
             transitEncryptionEnabled: Swift.Bool? = nil,
             transitEncryptionMode: ElastiCacheClientTypes.TransitEncryptionMode? = nil,
             userGroupIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.atRestEncryptionEnabled = atRestEncryptionEnabled
             self.authTokenEnabled = authTokenEnabled
@@ -1802,8 +1752,7 @@ public struct CompleteMigrationOutput: Swift.Sendable {
 
     public init(
         replicationGroup: ElastiCacheClientTypes.ReplicationGroup? = nil
-    )
-    {
+    ) {
         self.replicationGroup = replicationGroup
     }
 }
@@ -1826,8 +1775,7 @@ public struct ServerlessCacheSnapshotAlreadyExistsFault: ClientRuntime.ModeledEr
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1850,8 +1798,7 @@ public struct ServerlessCacheSnapshotQuotaExceededFault: ClientRuntime.ModeledEr
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1874,8 +1821,7 @@ public struct ServiceLinkedRoleNotFoundFault: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1897,8 +1843,7 @@ public struct CopyServerlessCacheSnapshotInput: Swift.Sendable {
         sourceServerlessCacheSnapshotName: Swift.String? = nil,
         tags: [ElastiCacheClientTypes.Tag]? = nil,
         targetServerlessCacheSnapshotName: Swift.String? = nil
-    )
-    {
+    ) {
         self.kmsKeyId = kmsKeyId
         self.sourceServerlessCacheSnapshotName = sourceServerlessCacheSnapshotName
         self.tags = tags
@@ -1921,8 +1866,7 @@ extension ElastiCacheClientTypes {
             engine: Swift.String? = nil,
             majorEngineVersion: Swift.String? = nil,
             serverlessCacheName: Swift.String? = nil
-        )
-        {
+        ) {
             self.engine = engine
             self.majorEngineVersion = majorEngineVersion
             self.serverlessCacheName = serverlessCacheName
@@ -1963,8 +1907,7 @@ extension ElastiCacheClientTypes {
             serverlessCacheSnapshotName: Swift.String? = nil,
             snapshotType: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.bytesUsedForCache = bytesUsedForCache
             self.createTime = createTime
@@ -1984,8 +1927,7 @@ public struct CopyServerlessCacheSnapshotOutput: Swift.Sendable {
 
     public init(
         serverlessCacheSnapshot: ElastiCacheClientTypes.ServerlessCacheSnapshot? = nil
-    )
-    {
+    ) {
         self.serverlessCacheSnapshot = serverlessCacheSnapshot
     }
 }
@@ -2008,8 +1950,7 @@ public struct InvalidSnapshotStateFault: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2032,8 +1973,7 @@ public struct SnapshotAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2056,8 +1996,7 @@ public struct SnapshotQuotaExceededFault: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2083,8 +2022,7 @@ public struct CopySnapshotInput: Swift.Sendable {
         tags: [ElastiCacheClientTypes.Tag]? = nil,
         targetBucket: Swift.String? = nil,
         targetSnapshotName: Swift.String? = nil
-    )
-    {
+    ) {
         self.kmsKeyId = kmsKeyId
         self.sourceSnapshotName = sourceSnapshotName
         self.tags = tags
@@ -2120,8 +2058,7 @@ extension ElastiCacheClientTypes {
             replicaCount: Swift.Int? = nil,
             replicaOutpostArns: [Swift.String]? = nil,
             slots: Swift.String? = nil
-        )
-        {
+        ) {
             self.nodeGroupId = nodeGroupId
             self.primaryAvailabilityZone = primaryAvailabilityZone
             self.primaryOutpostArn = primaryOutpostArn
@@ -2160,8 +2097,7 @@ extension ElastiCacheClientTypes {
             nodeGroupConfiguration: ElastiCacheClientTypes.NodeGroupConfiguration? = nil,
             nodeGroupId: Swift.String? = nil,
             snapshotCreateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.cacheClusterId = cacheClusterId
             self.cacheNodeCreateTime = cacheNodeCreateTime
             self.cacheNodeId = cacheNodeId
@@ -2319,8 +2255,7 @@ extension ElastiCacheClientTypes {
             snapshotWindow: Swift.String? = nil,
             topicArn: Swift.String? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.automaticFailover = automaticFailover
@@ -2359,8 +2294,7 @@ public struct CopySnapshotOutput: Swift.Sendable {
 
     public init(
         snapshot: ElastiCacheClientTypes.Snapshot? = nil
-    )
-    {
+    ) {
         self.snapshot = snapshot
     }
 }
@@ -2383,8 +2317,7 @@ public struct CacheClusterAlreadyExistsFault: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2407,8 +2340,7 @@ public struct ClusterQuotaForCustomerExceededFault: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2431,8 +2363,7 @@ public struct InsufficientCacheClusterCapacityFault: ClientRuntime.ModeledError,
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2455,8 +2386,7 @@ public struct InvalidVPCNetworkStateFault: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2479,8 +2409,7 @@ public struct NodeQuotaForClusterExceededFault: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2503,8 +2432,7 @@ public struct NodeQuotaForCustomerExceededFault: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2559,8 +2487,7 @@ extension ElastiCacheClientTypes {
             enabled: Swift.Bool? = nil,
             logFormat: ElastiCacheClientTypes.LogFormat? = nil,
             logType: ElastiCacheClientTypes.LogType? = nil
-        )
-        {
+        ) {
             self.destinationDetails = destinationDetails
             self.destinationType = destinationType
             self.enabled = enabled
@@ -2748,8 +2675,7 @@ public struct CreateCacheClusterInput: Swift.Sendable {
         snapshotWindow: Swift.String? = nil,
         tags: [ElastiCacheClientTypes.Tag]? = nil,
         transitEncryptionEnabled: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.authToken = authToken
         self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
         self.azMode = azMode
@@ -2852,8 +2778,7 @@ extension ElastiCacheClientTypes {
             endpoint: ElastiCacheClientTypes.Endpoint? = nil,
             parameterGroupStatus: Swift.String? = nil,
             sourceCacheNodeId: Swift.String? = nil
-        )
-        {
+        ) {
             self.cacheNodeCreateTime = cacheNodeCreateTime
             self.cacheNodeId = cacheNodeId
             self.cacheNodeStatus = cacheNodeStatus
@@ -2881,8 +2806,7 @@ extension ElastiCacheClientTypes {
             cacheNodeIdsToReboot: [Swift.String]? = nil,
             cacheParameterGroupName: Swift.String? = nil,
             parameterApplyStatus: Swift.String? = nil
-        )
-        {
+        ) {
             self.cacheNodeIdsToReboot = cacheNodeIdsToReboot
             self.cacheParameterGroupName = cacheParameterGroupName
             self.parameterApplyStatus = parameterApplyStatus
@@ -2902,8 +2826,7 @@ extension ElastiCacheClientTypes {
         public init(
             cacheSecurityGroupName: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.cacheSecurityGroupName = cacheSecurityGroupName
             self.status = status
         }
@@ -2922,8 +2845,7 @@ extension ElastiCacheClientTypes {
         public init(
             topicArn: Swift.String? = nil,
             topicStatus: Swift.String? = nil
-        )
-        {
+        ) {
             self.topicArn = topicArn
             self.topicStatus = topicStatus
         }
@@ -2960,8 +2882,7 @@ extension ElastiCacheClientTypes {
             numCacheNodes: Swift.Int? = nil,
             transitEncryptionEnabled: Swift.Bool? = nil,
             transitEncryptionMode: ElastiCacheClientTypes.TransitEncryptionMode? = nil
-        )
-        {
+        ) {
             self.authTokenStatus = authTokenStatus
             self.cacheNodeIdsToRemove = cacheNodeIdsToRemove
             self.cacheNodeType = cacheNodeType
@@ -2986,8 +2907,7 @@ extension ElastiCacheClientTypes {
         public init(
             securityGroupId: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.securityGroupId = securityGroupId
             self.status = status
         }
@@ -3155,8 +3075,7 @@ extension ElastiCacheClientTypes {
             snapshotWindow: Swift.String? = nil,
             transitEncryptionEnabled: Swift.Bool? = nil,
             transitEncryptionMode: ElastiCacheClientTypes.TransitEncryptionMode? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.atRestEncryptionEnabled = atRestEncryptionEnabled
             self.authTokenEnabled = authTokenEnabled
@@ -3200,8 +3119,7 @@ public struct CreateCacheClusterOutput: Swift.Sendable {
 
     public init(
         cacheCluster: ElastiCacheClientTypes.CacheCluster? = nil
-    )
-    {
+    ) {
         self.cacheCluster = cacheCluster
     }
 }
@@ -3224,8 +3142,7 @@ public struct CacheParameterGroupAlreadyExistsFault: ClientRuntime.ModeledError,
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3248,8 +3165,7 @@ public struct CacheParameterGroupQuotaExceededFault: ClientRuntime.ModeledError,
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3272,8 +3188,7 @@ public struct InvalidCacheParameterGroupStateFault: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3297,8 +3212,7 @@ public struct CreateCacheParameterGroupInput: Swift.Sendable {
         cacheParameterGroupName: Swift.String? = nil,
         description: Swift.String? = nil,
         tags: [ElastiCacheClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.cacheParameterGroupFamily = cacheParameterGroupFamily
         self.cacheParameterGroupName = cacheParameterGroupName
         self.description = description
@@ -3327,8 +3241,7 @@ extension ElastiCacheClientTypes {
             cacheParameterGroupName: Swift.String? = nil,
             description: Swift.String? = nil,
             isGlobal: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.cacheParameterGroupFamily = cacheParameterGroupFamily
             self.cacheParameterGroupName = cacheParameterGroupName
@@ -3344,8 +3257,7 @@ public struct CreateCacheParameterGroupOutput: Swift.Sendable {
 
     public init(
         cacheParameterGroup: ElastiCacheClientTypes.CacheParameterGroup? = nil
-    )
-    {
+    ) {
         self.cacheParameterGroup = cacheParameterGroup
     }
 }
@@ -3368,8 +3280,7 @@ public struct CacheSecurityGroupAlreadyExistsFault: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3392,8 +3303,7 @@ public struct CacheSecurityGroupQuotaExceededFault: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3413,8 +3323,7 @@ public struct CreateCacheSecurityGroupInput: Swift.Sendable {
         cacheSecurityGroupName: Swift.String? = nil,
         description: Swift.String? = nil,
         tags: [ElastiCacheClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.cacheSecurityGroupName = cacheSecurityGroupName
         self.description = description
         self.tags = tags
@@ -3433,8 +3342,7 @@ public struct CreateCacheSecurityGroupOutput: Swift.Sendable {
 
     public init(
         cacheSecurityGroup: ElastiCacheClientTypes.CacheSecurityGroup? = nil
-    )
-    {
+    ) {
         self.cacheSecurityGroup = cacheSecurityGroup
     }
 }
@@ -3457,8 +3365,7 @@ public struct CacheSubnetGroupAlreadyExistsFault: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3481,8 +3388,7 @@ public struct CacheSubnetGroupQuotaExceededFault: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3505,8 +3411,7 @@ public struct CacheSubnetQuotaExceededFault: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3529,8 +3434,7 @@ public struct InvalidSubnet: ClientRuntime.ModeledError, AWSClientRuntime.AWSSer
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3553,8 +3457,7 @@ public struct SubnetNotAllowedFault: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3578,8 +3481,7 @@ public struct CreateCacheSubnetGroupInput: Swift.Sendable {
         cacheSubnetGroupName: Swift.String? = nil,
         subnetIds: [Swift.String]? = nil,
         tags: [ElastiCacheClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.cacheSubnetGroupDescription = cacheSubnetGroupDescription
         self.cacheSubnetGroupName = cacheSubnetGroupName
         self.subnetIds = subnetIds
@@ -3596,8 +3498,7 @@ extension ElastiCacheClientTypes {
 
         public init(
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
         }
     }
@@ -3612,8 +3513,7 @@ extension ElastiCacheClientTypes {
 
         public init(
             subnetOutpostArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.subnetOutpostArn = subnetOutpostArn
         }
     }
@@ -3637,8 +3537,7 @@ extension ElastiCacheClientTypes {
             subnetIdentifier: Swift.String? = nil,
             subnetOutpost: ElastiCacheClientTypes.SubnetOutpost? = nil,
             supportedNetworkTypes: [ElastiCacheClientTypes.NetworkType]? = nil
-        )
-        {
+        ) {
             self.subnetAvailabilityZone = subnetAvailabilityZone
             self.subnetIdentifier = subnetIdentifier
             self.subnetOutpost = subnetOutpost
@@ -3675,8 +3574,7 @@ extension ElastiCacheClientTypes {
             subnets: [ElastiCacheClientTypes.Subnet]? = nil,
             supportedNetworkTypes: [ElastiCacheClientTypes.NetworkType]? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.cacheSubnetGroupDescription = cacheSubnetGroupDescription
             self.cacheSubnetGroupName = cacheSubnetGroupName
@@ -3697,8 +3595,7 @@ public struct CreateCacheSubnetGroupOutput: Swift.Sendable {
 
     public init(
         cacheSubnetGroup: ElastiCacheClientTypes.CacheSubnetGroup? = nil
-    )
-    {
+    ) {
         self.cacheSubnetGroup = cacheSubnetGroup
     }
 }
@@ -3721,8 +3618,7 @@ public struct GlobalReplicationGroupAlreadyExistsFault: ClientRuntime.ModeledErr
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3741,8 +3637,7 @@ public struct CreateGlobalReplicationGroupInput: Swift.Sendable {
         globalReplicationGroupDescription: Swift.String? = nil,
         globalReplicationGroupIdSuffix: Swift.String? = nil,
         primaryReplicationGroupId: Swift.String? = nil
-    )
-    {
+    ) {
         self.globalReplicationGroupDescription = globalReplicationGroupDescription
         self.globalReplicationGroupIdSuffix = globalReplicationGroupIdSuffix
         self.primaryReplicationGroupId = primaryReplicationGroupId
@@ -3761,8 +3656,7 @@ extension ElastiCacheClientTypes {
         public init(
             globalNodeGroupId: Swift.String? = nil,
             slots: Swift.String? = nil
-        )
-        {
+        ) {
             self.globalNodeGroupId = globalNodeGroupId
             self.slots = slots
         }
@@ -3790,8 +3684,7 @@ extension ElastiCacheClientTypes {
             replicationGroupRegion: Swift.String? = nil,
             role: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.automaticFailover = automaticFailover
             self.replicationGroupId = replicationGroupId
             self.replicationGroupRegion = replicationGroupRegion
@@ -3848,8 +3741,7 @@ extension ElastiCacheClientTypes {
             members: [ElastiCacheClientTypes.GlobalReplicationGroupMember]? = nil,
             status: Swift.String? = nil,
             transitEncryptionEnabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.atRestEncryptionEnabled = atRestEncryptionEnabled
             self.authTokenEnabled = authTokenEnabled
@@ -3875,8 +3767,7 @@ public struct CreateGlobalReplicationGroupOutput: Swift.Sendable {
 
     public init(
         globalReplicationGroup: ElastiCacheClientTypes.GlobalReplicationGroup? = nil
-    )
-    {
+    ) {
         self.globalReplicationGroup = globalReplicationGroup
     }
 }
@@ -3899,8 +3790,7 @@ public struct GlobalReplicationGroupNotFoundFault: ClientRuntime.ModeledError, A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3923,8 +3813,7 @@ public struct InvalidCacheClusterStateFault: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3947,8 +3836,7 @@ public struct InvalidGlobalReplicationGroupStateFault: ClientRuntime.ModeledErro
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3971,8 +3859,7 @@ public struct InvalidUserGroupStateFault: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3995,8 +3882,7 @@ public struct NodeGroupsPerReplicationGroupQuotaExceededFault: ClientRuntime.Mod
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4019,8 +3905,7 @@ public struct ReplicationGroupAlreadyExistsFault: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4223,8 +4108,7 @@ public struct CreateReplicationGroupInput: Swift.Sendable {
         transitEncryptionEnabled: Swift.Bool? = nil,
         transitEncryptionMode: ElastiCacheClientTypes.TransitEncryptionMode? = nil,
         userGroupIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.atRestEncryptionEnabled = atRestEncryptionEnabled
         self.authToken = authToken
         self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
@@ -4273,8 +4157,7 @@ public struct CreateReplicationGroupOutput: Swift.Sendable {
 
     public init(
         replicationGroup: ElastiCacheClientTypes.ReplicationGroup? = nil
-    )
-    {
+    ) {
         self.replicationGroup = replicationGroup
     }
 }
@@ -4297,8 +4180,7 @@ public struct InvalidCredentialsException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4321,8 +4203,7 @@ public struct ServerlessCacheAlreadyExistsFault: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4345,8 +4226,7 @@ public struct ServerlessCacheQuotaForCustomerExceededFault: ClientRuntime.Modele
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4393,8 +4273,7 @@ extension ElastiCacheClientTypes {
             maximum: Swift.Int? = nil,
             minimum: Swift.Int? = nil,
             unit: ElastiCacheClientTypes.DataStorageUnit? = nil
-        )
-        {
+        ) {
             self.maximum = maximum
             self.minimum = minimum
             self.unit = unit
@@ -4414,8 +4293,7 @@ extension ElastiCacheClientTypes {
         public init(
             maximum: Swift.Int? = nil,
             minimum: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maximum = maximum
             self.minimum = minimum
         }
@@ -4434,8 +4312,7 @@ extension ElastiCacheClientTypes {
         public init(
             dataStorage: ElastiCacheClientTypes.DataStorage? = nil,
             ecpuPerSecond: ElastiCacheClientTypes.ECPUPerSecond? = nil
-        )
-        {
+        ) {
             self.dataStorage = dataStorage
             self.ecpuPerSecond = ecpuPerSecond
         }
@@ -4486,8 +4363,7 @@ public struct CreateServerlessCacheInput: Swift.Sendable {
         subnetIds: [Swift.String]? = nil,
         tags: [ElastiCacheClientTypes.Tag]? = nil,
         userGroupId: Swift.String? = nil
-    )
-    {
+    ) {
         self.cacheUsageLimits = cacheUsageLimits
         self.dailySnapshotTime = dailySnapshotTime
         self.description = description
@@ -4561,8 +4437,7 @@ extension ElastiCacheClientTypes {
             status: Swift.String? = nil,
             subnetIds: [Swift.String]? = nil,
             userGroupId: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.cacheUsageLimits = cacheUsageLimits
             self.createTime = createTime
@@ -4590,8 +4465,7 @@ public struct CreateServerlessCacheOutput: Swift.Sendable {
 
     public init(
         serverlessCache: ElastiCacheClientTypes.ServerlessCache? = nil
-    )
-    {
+    ) {
         self.serverlessCache = serverlessCache
     }
 }
@@ -4613,8 +4487,7 @@ public struct CreateServerlessCacheSnapshotInput: Swift.Sendable {
         serverlessCacheName: Swift.String? = nil,
         serverlessCacheSnapshotName: Swift.String? = nil,
         tags: [ElastiCacheClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.kmsKeyId = kmsKeyId
         self.serverlessCacheName = serverlessCacheName
         self.serverlessCacheSnapshotName = serverlessCacheSnapshotName
@@ -4628,8 +4501,7 @@ public struct CreateServerlessCacheSnapshotOutput: Swift.Sendable {
 
     public init(
         serverlessCacheSnapshot: ElastiCacheClientTypes.ServerlessCacheSnapshot? = nil
-    )
-    {
+    ) {
         self.serverlessCacheSnapshot = serverlessCacheSnapshot
     }
 }
@@ -4659,8 +4531,7 @@ public struct SnapshotFeatureNotSupportedFault: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4685,8 +4556,7 @@ public struct CreateSnapshotInput: Swift.Sendable {
         replicationGroupId: Swift.String? = nil,
         snapshotName: Swift.String? = nil,
         tags: [ElastiCacheClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.cacheClusterId = cacheClusterId
         self.kmsKeyId = kmsKeyId
         self.replicationGroupId = replicationGroupId
@@ -4701,8 +4571,7 @@ public struct CreateSnapshotOutput: Swift.Sendable {
 
     public init(
         snapshot: ElastiCacheClientTypes.Snapshot? = nil
-    )
-    {
+    ) {
         self.snapshot = snapshot
     }
 }
@@ -4725,8 +4594,7 @@ public struct DuplicateUserNameFault: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4749,8 +4617,7 @@ public struct UserAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4773,8 +4640,7 @@ public struct UserQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4823,8 +4689,7 @@ extension ElastiCacheClientTypes {
         public init(
             passwords: [Swift.String]? = nil,
             type: ElastiCacheClientTypes.InputAuthenticationType? = nil
-        )
-        {
+        ) {
             self.passwords = passwords
             self.type = type
         }
@@ -4862,8 +4727,7 @@ public struct CreateUserInput: Swift.Sendable {
         tags: [ElastiCacheClientTypes.Tag]? = nil,
         userId: Swift.String? = nil,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessString = accessString
         self.authenticationMode = authenticationMode
         self.engine = engine
@@ -4919,8 +4783,7 @@ extension ElastiCacheClientTypes {
         public init(
             passwordCount: Swift.Int? = nil,
             type: ElastiCacheClientTypes.AuthenticationType? = nil
-        )
-        {
+        ) {
             self.passwordCount = passwordCount
             self.type = type
         }
@@ -4957,8 +4820,7 @@ public struct CreateUserOutput: Swift.Sendable {
         userGroupIds: [Swift.String]? = nil,
         userId: Swift.String? = nil,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessString = accessString
         self.arn = arn
         self.authentication = authentication
@@ -4989,8 +4851,7 @@ public struct DefaultUserRequired: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5013,8 +4874,7 @@ public struct UserGroupAlreadyExistsFault: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5037,8 +4897,7 @@ public struct UserGroupQuotaExceededFault: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5060,8 +4919,7 @@ public struct CreateUserGroupInput: Swift.Sendable {
         tags: [ElastiCacheClientTypes.Tag]? = nil,
         userGroupId: Swift.String? = nil,
         userIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.engine = engine
         self.tags = tags
         self.userGroupId = userGroupId
@@ -5081,8 +4939,7 @@ extension ElastiCacheClientTypes {
         public init(
             userIdsToAdd: [Swift.String]? = nil,
             userIdsToRemove: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.userIdsToAdd = userIdsToAdd
             self.userIdsToRemove = userIdsToRemove
         }
@@ -5119,8 +4976,7 @@ public struct CreateUserGroupOutput: Swift.Sendable {
         status: Swift.String? = nil,
         userGroupId: Swift.String? = nil,
         userIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.engine = engine
         self.minimumEngineVersion = minimumEngineVersion
@@ -5154,8 +5010,7 @@ public struct DecreaseNodeGroupsInGlobalReplicationGroupInput: Swift.Sendable {
         globalNodeGroupsToRetain: [Swift.String]? = nil,
         globalReplicationGroupId: Swift.String? = nil,
         nodeGroupCount: Swift.Int? = nil
-    )
-    {
+    ) {
         self.applyImmediately = applyImmediately
         self.globalNodeGroupsToRemove = globalNodeGroupsToRemove
         self.globalNodeGroupsToRetain = globalNodeGroupsToRetain
@@ -5172,8 +5027,7 @@ public struct DecreaseNodeGroupsInGlobalReplicationGroupOutput: Swift.Sendable {
 
     public init(
         globalReplicationGroup: ElastiCacheClientTypes.GlobalReplicationGroup? = nil
-    )
-    {
+    ) {
         self.globalReplicationGroup = globalReplicationGroup
     }
 }
@@ -5196,8 +5050,7 @@ public struct NoOperationFault: ClientRuntime.ModeledError, AWSClientRuntime.AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5233,8 +5086,7 @@ extension ElastiCacheClientTypes {
             nodeGroupId: Swift.String? = nil,
             preferredAvailabilityZones: [Swift.String]? = nil,
             preferredOutpostArns: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.newReplicaCount = newReplicaCount
             self.nodeGroupId = nodeGroupId
             self.preferredAvailabilityZones = preferredAvailabilityZones
@@ -5274,8 +5126,7 @@ public struct DecreaseReplicaCountInput: Swift.Sendable {
         replicaConfiguration: [ElastiCacheClientTypes.ConfigureShard]? = nil,
         replicasToRemove: [Swift.String]? = nil,
         replicationGroupId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applyImmediately = applyImmediately
         self.newReplicaCount = newReplicaCount
         self.replicaConfiguration = replicaConfiguration
@@ -5290,8 +5141,7 @@ public struct DecreaseReplicaCountOutput: Swift.Sendable {
 
     public init(
         replicationGroup: ElastiCacheClientTypes.ReplicationGroup? = nil
-    )
-    {
+    ) {
         self.replicationGroup = replicationGroup
     }
 }
@@ -5307,8 +5157,7 @@ public struct DeleteCacheClusterInput: Swift.Sendable {
     public init(
         cacheClusterId: Swift.String? = nil,
         finalSnapshotIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.cacheClusterId = cacheClusterId
         self.finalSnapshotIdentifier = finalSnapshotIdentifier
     }
@@ -5320,8 +5169,7 @@ public struct DeleteCacheClusterOutput: Swift.Sendable {
 
     public init(
         cacheCluster: ElastiCacheClientTypes.CacheCluster? = nil
-    )
-    {
+    ) {
         self.cacheCluster = cacheCluster
     }
 }
@@ -5334,8 +5182,7 @@ public struct DeleteCacheParameterGroupInput: Swift.Sendable {
 
     public init(
         cacheParameterGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.cacheParameterGroupName = cacheParameterGroupName
     }
 }
@@ -5348,8 +5195,7 @@ public struct DeleteCacheSecurityGroupInput: Swift.Sendable {
 
     public init(
         cacheSecurityGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.cacheSecurityGroupName = cacheSecurityGroupName
     }
 }
@@ -5372,8 +5218,7 @@ public struct CacheSubnetGroupInUse: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5386,8 +5231,7 @@ public struct DeleteCacheSubnetGroupInput: Swift.Sendable {
 
     public init(
         cacheSubnetGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.cacheSubnetGroupName = cacheSubnetGroupName
     }
 }
@@ -5403,8 +5247,7 @@ public struct DeleteGlobalReplicationGroupInput: Swift.Sendable {
     public init(
         globalReplicationGroupId: Swift.String? = nil,
         retainPrimaryReplicationGroup: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.globalReplicationGroupId = globalReplicationGroupId
         self.retainPrimaryReplicationGroup = retainPrimaryReplicationGroup
     }
@@ -5418,8 +5261,7 @@ public struct DeleteGlobalReplicationGroupOutput: Swift.Sendable {
 
     public init(
         globalReplicationGroup: ElastiCacheClientTypes.GlobalReplicationGroup? = nil
-    )
-    {
+    ) {
         self.globalReplicationGroup = globalReplicationGroup
     }
 }
@@ -5438,8 +5280,7 @@ public struct DeleteReplicationGroupInput: Swift.Sendable {
         finalSnapshotIdentifier: Swift.String? = nil,
         replicationGroupId: Swift.String? = nil,
         retainPrimaryCluster: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.finalSnapshotIdentifier = finalSnapshotIdentifier
         self.replicationGroupId = replicationGroupId
         self.retainPrimaryCluster = retainPrimaryCluster
@@ -5452,8 +5293,7 @@ public struct DeleteReplicationGroupOutput: Swift.Sendable {
 
     public init(
         replicationGroup: ElastiCacheClientTypes.ReplicationGroup? = nil
-    )
-    {
+    ) {
         self.replicationGroup = replicationGroup
     }
 }
@@ -5468,8 +5308,7 @@ public struct DeleteServerlessCacheInput: Swift.Sendable {
     public init(
         finalSnapshotName: Swift.String? = nil,
         serverlessCacheName: Swift.String? = nil
-    )
-    {
+    ) {
         self.finalSnapshotName = finalSnapshotName
         self.serverlessCacheName = serverlessCacheName
     }
@@ -5481,8 +5320,7 @@ public struct DeleteServerlessCacheOutput: Swift.Sendable {
 
     public init(
         serverlessCache: ElastiCacheClientTypes.ServerlessCache? = nil
-    )
-    {
+    ) {
         self.serverlessCache = serverlessCache
     }
 }
@@ -5494,8 +5332,7 @@ public struct DeleteServerlessCacheSnapshotInput: Swift.Sendable {
 
     public init(
         serverlessCacheSnapshotName: Swift.String? = nil
-    )
-    {
+    ) {
         self.serverlessCacheSnapshotName = serverlessCacheSnapshotName
     }
 }
@@ -5506,8 +5343,7 @@ public struct DeleteServerlessCacheSnapshotOutput: Swift.Sendable {
 
     public init(
         serverlessCacheSnapshot: ElastiCacheClientTypes.ServerlessCacheSnapshot? = nil
-    )
-    {
+    ) {
         self.serverlessCacheSnapshot = serverlessCacheSnapshot
     }
 }
@@ -5520,8 +5356,7 @@ public struct DeleteSnapshotInput: Swift.Sendable {
 
     public init(
         snapshotName: Swift.String? = nil
-    )
-    {
+    ) {
         self.snapshotName = snapshotName
     }
 }
@@ -5532,8 +5367,7 @@ public struct DeleteSnapshotOutput: Swift.Sendable {
 
     public init(
         snapshot: ElastiCacheClientTypes.Snapshot? = nil
-    )
-    {
+    ) {
         self.snapshot = snapshot
     }
 }
@@ -5556,8 +5390,7 @@ public struct DefaultUserAssociatedToUserGroupFault: ClientRuntime.ModeledError,
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5580,8 +5413,7 @@ public struct InvalidUserStateFault: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5593,8 +5425,7 @@ public struct DeleteUserInput: Swift.Sendable {
 
     public init(
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.userId = userId
     }
 }
@@ -5629,8 +5460,7 @@ public struct DeleteUserOutput: Swift.Sendable {
         userGroupIds: [Swift.String]? = nil,
         userId: Swift.String? = nil,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessString = accessString
         self.arn = arn
         self.authentication = authentication
@@ -5650,8 +5480,7 @@ public struct DeleteUserGroupInput: Swift.Sendable {
 
     public init(
         userGroupId: Swift.String? = nil
-    )
-    {
+    ) {
         self.userGroupId = userGroupId
     }
 }
@@ -5686,8 +5515,7 @@ public struct DeleteUserGroupOutput: Swift.Sendable {
         status: Swift.String? = nil,
         userGroupId: Swift.String? = nil,
         userIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.engine = engine
         self.minimumEngineVersion = minimumEngineVersion
@@ -5719,8 +5547,7 @@ public struct DescribeCacheClustersInput: Swift.Sendable {
         maxRecords: Swift.Int? = nil,
         showCacheClustersNotInReplicationGroups: Swift.Bool? = nil,
         showCacheNodeInfo: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.cacheClusterId = cacheClusterId
         self.marker = marker
         self.maxRecords = maxRecords
@@ -5739,8 +5566,7 @@ public struct DescribeCacheClustersOutput: Swift.Sendable {
     public init(
         cacheClusters: [ElastiCacheClientTypes.CacheCluster]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.cacheClusters = cacheClusters
         self.marker = marker
     }
@@ -5774,8 +5600,7 @@ public struct DescribeCacheEngineVersionsInput: Swift.Sendable {
         engineVersion: Swift.String? = nil,
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil
-    )
-    {
+    ) {
         self.cacheParameterGroupFamily = cacheParameterGroupFamily
         self.defaultOnly = defaultOnly
         self.engine = engine
@@ -5806,8 +5631,7 @@ extension ElastiCacheClientTypes {
             cacheParameterGroupFamily: Swift.String? = nil,
             engine: Swift.String? = nil,
             engineVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.cacheEngineDescription = cacheEngineDescription
             self.cacheEngineVersionDescription = cacheEngineVersionDescription
             self.cacheParameterGroupFamily = cacheParameterGroupFamily
@@ -5827,8 +5651,7 @@ public struct DescribeCacheEngineVersionsOutput: Swift.Sendable {
     public init(
         cacheEngineVersions: [ElastiCacheClientTypes.CacheEngineVersion]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.cacheEngineVersions = cacheEngineVersions
         self.marker = marker
     }
@@ -5847,8 +5670,7 @@ public struct DescribeCacheParameterGroupsInput: Swift.Sendable {
         cacheParameterGroupName: Swift.String? = nil,
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil
-    )
-    {
+    ) {
         self.cacheParameterGroupName = cacheParameterGroupName
         self.marker = marker
         self.maxRecords = maxRecords
@@ -5865,8 +5687,7 @@ public struct DescribeCacheParameterGroupsOutput: Swift.Sendable {
     public init(
         cacheParameterGroups: [ElastiCacheClientTypes.CacheParameterGroup]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.cacheParameterGroups = cacheParameterGroups
         self.marker = marker
     }
@@ -5889,8 +5710,7 @@ public struct DescribeCacheParametersInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil,
         source: Swift.String? = nil
-    )
-    {
+    ) {
         self.cacheParameterGroupName = cacheParameterGroupName
         self.marker = marker
         self.maxRecords = maxRecords
@@ -5910,8 +5730,7 @@ extension ElastiCacheClientTypes {
         public init(
             cacheNodeType: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.cacheNodeType = cacheNodeType
             self.value = value
         }
@@ -5980,8 +5799,7 @@ extension ElastiCacheClientTypes {
             minimumEngineVersion: Swift.String? = nil,
             parameterName: Swift.String? = nil,
             source: Swift.String? = nil
-        )
-        {
+        ) {
             self.allowedValues = allowedValues
             self.cacheNodeTypeSpecificValues = cacheNodeTypeSpecificValues
             self.changeType = changeType
@@ -6028,8 +5846,7 @@ extension ElastiCacheClientTypes {
             parameterName: Swift.String? = nil,
             parameterValue: Swift.String? = nil,
             source: Swift.String? = nil
-        )
-        {
+        ) {
             self.allowedValues = allowedValues
             self.changeType = changeType
             self.dataType = dataType
@@ -6056,8 +5873,7 @@ public struct DescribeCacheParametersOutput: Swift.Sendable {
         cacheNodeTypeSpecificParameters: [ElastiCacheClientTypes.CacheNodeTypeSpecificParameter]? = nil,
         marker: Swift.String? = nil,
         parameters: [ElastiCacheClientTypes.Parameter]? = nil
-    )
-    {
+    ) {
         self.cacheNodeTypeSpecificParameters = cacheNodeTypeSpecificParameters
         self.marker = marker
         self.parameters = parameters
@@ -6077,8 +5893,7 @@ public struct DescribeCacheSecurityGroupsInput: Swift.Sendable {
         cacheSecurityGroupName: Swift.String? = nil,
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil
-    )
-    {
+    ) {
         self.cacheSecurityGroupName = cacheSecurityGroupName
         self.marker = marker
         self.maxRecords = maxRecords
@@ -6095,8 +5910,7 @@ public struct DescribeCacheSecurityGroupsOutput: Swift.Sendable {
     public init(
         cacheSecurityGroups: [ElastiCacheClientTypes.CacheSecurityGroup]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.cacheSecurityGroups = cacheSecurityGroups
         self.marker = marker
     }
@@ -6115,8 +5929,7 @@ public struct DescribeCacheSubnetGroupsInput: Swift.Sendable {
         cacheSubnetGroupName: Swift.String? = nil,
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil
-    )
-    {
+    ) {
         self.cacheSubnetGroupName = cacheSubnetGroupName
         self.marker = marker
         self.maxRecords = maxRecords
@@ -6133,8 +5946,7 @@ public struct DescribeCacheSubnetGroupsOutput: Swift.Sendable {
     public init(
         cacheSubnetGroups: [ElastiCacheClientTypes.CacheSubnetGroup]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.cacheSubnetGroups = cacheSubnetGroups
         self.marker = marker
     }
@@ -6154,8 +5966,7 @@ public struct DescribeEngineDefaultParametersInput: Swift.Sendable {
         cacheParameterGroupFamily: Swift.String? = nil,
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil
-    )
-    {
+    ) {
         self.cacheParameterGroupFamily = cacheParameterGroupFamily
         self.marker = marker
         self.maxRecords = maxRecords
@@ -6180,8 +5991,7 @@ extension ElastiCacheClientTypes {
             cacheParameterGroupFamily: Swift.String? = nil,
             marker: Swift.String? = nil,
             parameters: [ElastiCacheClientTypes.Parameter]? = nil
-        )
-        {
+        ) {
             self.cacheNodeTypeSpecificParameters = cacheNodeTypeSpecificParameters
             self.cacheParameterGroupFamily = cacheParameterGroupFamily
             self.marker = marker
@@ -6196,8 +6006,7 @@ public struct DescribeEngineDefaultParametersOutput: Swift.Sendable {
 
     public init(
         engineDefaults: ElastiCacheClientTypes.EngineDefaults? = nil
-    )
-    {
+    ) {
         self.engineDefaults = engineDefaults
     }
 }
@@ -6277,8 +6086,7 @@ public struct DescribeEventsInput: Swift.Sendable {
         sourceIdentifier: Swift.String? = nil,
         sourceType: ElastiCacheClientTypes.SourceType? = nil,
         startTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.duration = duration
         self.endTime = endTime
         self.marker = marker
@@ -6307,8 +6115,7 @@ extension ElastiCacheClientTypes {
             message: Swift.String? = nil,
             sourceIdentifier: Swift.String? = nil,
             sourceType: ElastiCacheClientTypes.SourceType? = nil
-        )
-        {
+        ) {
             self.date = date
             self.message = message
             self.sourceIdentifier = sourceIdentifier
@@ -6327,8 +6134,7 @@ public struct DescribeEventsOutput: Swift.Sendable {
     public init(
         events: [ElastiCacheClientTypes.Event]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.events = events
         self.marker = marker
     }
@@ -6349,8 +6155,7 @@ public struct DescribeGlobalReplicationGroupsInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil,
         showMemberInfo: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.globalReplicationGroupId = globalReplicationGroupId
         self.marker = marker
         self.maxRecords = maxRecords
@@ -6367,8 +6172,7 @@ public struct DescribeGlobalReplicationGroupsOutput: Swift.Sendable {
     public init(
         globalReplicationGroups: [ElastiCacheClientTypes.GlobalReplicationGroup]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.globalReplicationGroups = globalReplicationGroups
         self.marker = marker
     }
@@ -6387,8 +6191,7 @@ public struct DescribeReplicationGroupsInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil,
         replicationGroupId: Swift.String? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.maxRecords = maxRecords
         self.replicationGroupId = replicationGroupId
@@ -6405,8 +6208,7 @@ public struct DescribeReplicationGroupsOutput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         replicationGroups: [ElastiCacheClientTypes.ReplicationGroup]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.replicationGroups = replicationGroups
     }
@@ -6479,8 +6281,7 @@ public struct DescribeReservedCacheNodesInput: Swift.Sendable {
         productDescription: Swift.String? = nil,
         reservedCacheNodeId: Swift.String? = nil,
         reservedCacheNodesOfferingId: Swift.String? = nil
-    )
-    {
+    ) {
         self.cacheNodeType = cacheNodeType
         self.duration = duration
         self.marker = marker
@@ -6504,8 +6305,7 @@ extension ElastiCacheClientTypes {
         public init(
             recurringChargeAmount: Swift.Double? = nil,
             recurringChargeFrequency: Swift.String? = nil
-        )
-        {
+        ) {
             self.recurringChargeAmount = recurringChargeAmount
             self.recurringChargeFrequency = recurringChargeFrequency
         }
@@ -6596,8 +6396,7 @@ extension ElastiCacheClientTypes {
             startTime: Foundation.Date? = nil,
             state: Swift.String? = nil,
             usagePrice: Swift.Double? = nil
-        )
-        {
+        ) {
             self.cacheNodeCount = cacheNodeCount
             self.cacheNodeType = cacheNodeType
             self.duration = duration
@@ -6625,8 +6424,7 @@ public struct DescribeReservedCacheNodesOutput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         reservedCacheNodes: [ElastiCacheClientTypes.ReservedCacheNode]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.reservedCacheNodes = reservedCacheNodes
     }
@@ -6650,8 +6448,7 @@ public struct ReservedCacheNodesOfferingNotFoundFault: ClientRuntime.ModeledErro
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -6720,8 +6517,7 @@ public struct DescribeReservedCacheNodesOfferingsInput: Swift.Sendable {
         offeringType: Swift.String? = nil,
         productDescription: Swift.String? = nil,
         reservedCacheNodesOfferingId: Swift.String? = nil
-    )
-    {
+    ) {
         self.cacheNodeType = cacheNodeType
         self.duration = duration
         self.marker = marker
@@ -6801,8 +6597,7 @@ extension ElastiCacheClientTypes {
             recurringCharges: [ElastiCacheClientTypes.RecurringCharge]? = nil,
             reservedCacheNodesOfferingId: Swift.String? = nil,
             usagePrice: Swift.Double? = nil
-        )
-        {
+        ) {
             self.cacheNodeType = cacheNodeType
             self.duration = duration
             self.fixedPrice = fixedPrice
@@ -6825,8 +6620,7 @@ public struct DescribeReservedCacheNodesOfferingsOutput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         reservedCacheNodesOfferings: [ElastiCacheClientTypes.ReservedCacheNodesOffering]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.reservedCacheNodesOfferings = reservedCacheNodesOfferings
     }
@@ -6844,8 +6638,7 @@ public struct DescribeServerlessCachesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         serverlessCacheName: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.serverlessCacheName = serverlessCacheName
@@ -6861,8 +6654,7 @@ public struct DescribeServerlessCachesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         serverlessCaches: [ElastiCacheClientTypes.ServerlessCache]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.serverlessCaches = serverlessCaches
     }
@@ -6886,8 +6678,7 @@ public struct DescribeServerlessCacheSnapshotsInput: Swift.Sendable {
         serverlessCacheName: Swift.String? = nil,
         serverlessCacheSnapshotName: Swift.String? = nil,
         snapshotType: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.serverlessCacheName = serverlessCacheName
@@ -6905,8 +6696,7 @@ public struct DescribeServerlessCacheSnapshotsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         serverlessCacheSnapshots: [ElastiCacheClientTypes.ServerlessCacheSnapshot]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.serverlessCacheSnapshots = serverlessCacheSnapshots
     }
@@ -6959,8 +6749,7 @@ public struct DescribeServiceUpdatesInput: Swift.Sendable {
         maxRecords: Swift.Int? = nil,
         serviceUpdateName: Swift.String? = nil,
         serviceUpdateStatus: [ElastiCacheClientTypes.ServiceUpdateStatus]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.maxRecords = maxRecords
         self.serviceUpdateName = serviceUpdateName
@@ -7071,8 +6860,7 @@ extension ElastiCacheClientTypes {
             serviceUpdateSeverity: ElastiCacheClientTypes.ServiceUpdateSeverity? = nil,
             serviceUpdateStatus: ElastiCacheClientTypes.ServiceUpdateStatus? = nil,
             serviceUpdateType: ElastiCacheClientTypes.ServiceUpdateType? = nil
-        )
-        {
+        ) {
             self.autoUpdateAfterRecommendedApplyByDate = autoUpdateAfterRecommendedApplyByDate
             self.engine = engine
             self.engineVersion = engineVersion
@@ -7098,8 +6886,7 @@ public struct DescribeServiceUpdatesOutput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         serviceUpdates: [ElastiCacheClientTypes.ServiceUpdate]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.serviceUpdates = serviceUpdates
     }
@@ -7130,8 +6917,7 @@ public struct DescribeSnapshotsInput: Swift.Sendable {
         showNodeGroupConfig: Swift.Bool? = nil,
         snapshotName: Swift.String? = nil,
         snapshotSource: Swift.String? = nil
-    )
-    {
+    ) {
         self.cacheClusterId = cacheClusterId
         self.marker = marker
         self.maxRecords = maxRecords
@@ -7152,8 +6938,7 @@ public struct DescribeSnapshotsOutput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         snapshots: [ElastiCacheClientTypes.Snapshot]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.snapshots = snapshots
     }
@@ -7171,8 +6956,7 @@ extension ElastiCacheClientTypes {
         public init(
             endTime: Foundation.Date? = nil,
             startTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.endTime = endTime
             self.startTime = startTime
         }
@@ -7212,8 +6996,7 @@ public struct DescribeUpdateActionsInput: Swift.Sendable {
         serviceUpdateTimeRange: ElastiCacheClientTypes.TimeRangeFilter? = nil,
         showNodeLevelUpdateStatus: Swift.Bool? = nil,
         updateActionStatus: [ElastiCacheClientTypes.UpdateActionStatus]? = nil
-    )
-    {
+    ) {
         self.cacheClusterIds = cacheClusterIds
         self.engine = engine
         self.marker = marker
@@ -7327,8 +7110,7 @@ extension ElastiCacheClientTypes {
             nodeUpdateStartDate: Foundation.Date? = nil,
             nodeUpdateStatus: ElastiCacheClientTypes.NodeUpdateStatus? = nil,
             nodeUpdateStatusModifiedDate: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.cacheNodeId = cacheNodeId
             self.nodeDeletionDate = nodeDeletionDate
             self.nodeUpdateEndDate = nodeUpdateEndDate
@@ -7374,8 +7156,7 @@ extension ElastiCacheClientTypes {
             nodeUpdateStartDate: Foundation.Date? = nil,
             nodeUpdateStatus: ElastiCacheClientTypes.NodeUpdateStatus? = nil,
             nodeUpdateStatusModifiedDate: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.cacheClusterId = cacheClusterId
             self.cacheNodeId = cacheNodeId
             self.nodeDeletionDate = nodeDeletionDate
@@ -7401,8 +7182,7 @@ extension ElastiCacheClientTypes {
         public init(
             nodeGroupId: Swift.String? = nil,
             nodeGroupMemberUpdateStatus: [ElastiCacheClientTypes.NodeGroupMemberUpdateStatus]? = nil
-        )
-        {
+        ) {
             self.nodeGroupId = nodeGroupId
             self.nodeGroupMemberUpdateStatus = nodeGroupMemberUpdateStatus
         }
@@ -7498,8 +7278,7 @@ extension ElastiCacheClientTypes {
             updateActionAvailableDate: Foundation.Date? = nil,
             updateActionStatus: ElastiCacheClientTypes.UpdateActionStatus? = nil,
             updateActionStatusModifiedDate: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.cacheClusterId = cacheClusterId
             self.cacheNodeUpdateStatus = cacheNodeUpdateStatus
             self.engine = engine
@@ -7530,8 +7309,7 @@ public struct DescribeUpdateActionsOutput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         updateActions: [ElastiCacheClientTypes.UpdateAction]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.updateActions = updateActions
     }
@@ -7549,8 +7327,7 @@ public struct DescribeUserGroupsInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil,
         userGroupId: Swift.String? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.maxRecords = maxRecords
         self.userGroupId = userGroupId
@@ -7589,8 +7366,7 @@ extension ElastiCacheClientTypes {
             status: Swift.String? = nil,
             userGroupId: Swift.String? = nil,
             userIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.engine = engine
             self.minimumEngineVersion = minimumEngineVersion
@@ -7613,8 +7389,7 @@ public struct DescribeUserGroupsOutput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         userGroups: [ElastiCacheClientTypes.UserGroup]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.userGroups = userGroups
     }
@@ -7634,8 +7409,7 @@ extension ElastiCacheClientTypes {
         public init(
             name: Swift.String? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.values = values
         }
@@ -7660,8 +7434,7 @@ public struct DescribeUsersInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.engine = engine
         self.filters = filters
         self.marker = marker
@@ -7702,8 +7475,7 @@ extension ElastiCacheClientTypes {
             userGroupIds: [Swift.String]? = nil,
             userId: Swift.String? = nil,
             userName: Swift.String? = nil
-        )
-        {
+        ) {
             self.accessString = accessString
             self.arn = arn
             self.authentication = authentication
@@ -7726,8 +7498,7 @@ public struct DescribeUsersOutput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         users: [ElastiCacheClientTypes.User]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.users = users
     }
@@ -7748,8 +7519,7 @@ public struct DisassociateGlobalReplicationGroupInput: Swift.Sendable {
         globalReplicationGroupId: Swift.String? = nil,
         replicationGroupId: Swift.String? = nil,
         replicationGroupRegion: Swift.String? = nil
-    )
-    {
+    ) {
         self.globalReplicationGroupId = globalReplicationGroupId
         self.replicationGroupId = replicationGroupId
         self.replicationGroupRegion = replicationGroupRegion
@@ -7764,8 +7534,7 @@ public struct DisassociateGlobalReplicationGroupOutput: Swift.Sendable {
 
     public init(
         globalReplicationGroup: ElastiCacheClientTypes.GlobalReplicationGroup? = nil
-    )
-    {
+    ) {
         self.globalReplicationGroup = globalReplicationGroup
     }
 }
@@ -7781,8 +7550,7 @@ public struct ExportServerlessCacheSnapshotInput: Swift.Sendable {
     public init(
         s3BucketName: Swift.String? = nil,
         serverlessCacheSnapshotName: Swift.String? = nil
-    )
-    {
+    ) {
         self.s3BucketName = s3BucketName
         self.serverlessCacheSnapshotName = serverlessCacheSnapshotName
     }
@@ -7794,8 +7562,7 @@ public struct ExportServerlessCacheSnapshotOutput: Swift.Sendable {
 
     public init(
         serverlessCacheSnapshot: ElastiCacheClientTypes.ServerlessCacheSnapshot? = nil
-    )
-    {
+    ) {
         self.serverlessCacheSnapshot = serverlessCacheSnapshot
     }
 }
@@ -7815,8 +7582,7 @@ public struct FailoverGlobalReplicationGroupInput: Swift.Sendable {
         globalReplicationGroupId: Swift.String? = nil,
         primaryRegion: Swift.String? = nil,
         primaryReplicationGroupId: Swift.String? = nil
-    )
-    {
+    ) {
         self.globalReplicationGroupId = globalReplicationGroupId
         self.primaryRegion = primaryRegion
         self.primaryReplicationGroupId = primaryReplicationGroupId
@@ -7831,8 +7597,7 @@ public struct FailoverGlobalReplicationGroupOutput: Swift.Sendable {
 
     public init(
         globalReplicationGroup: ElastiCacheClientTypes.GlobalReplicationGroup? = nil
-    )
-    {
+    ) {
         self.globalReplicationGroup = globalReplicationGroup
     }
 }
@@ -7849,8 +7614,7 @@ extension ElastiCacheClientTypes {
         public init(
             nodeGroupId: Swift.String? = nil,
             preferredAvailabilityZones: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.nodeGroupId = nodeGroupId
             self.preferredAvailabilityZones = preferredAvailabilityZones
         }
@@ -7875,8 +7639,7 @@ extension ElastiCacheClientTypes {
             replicationGroupId: Swift.String? = nil,
             replicationGroupRegion: Swift.String? = nil,
             reshardingConfiguration: [ElastiCacheClientTypes.ReshardingConfiguration]? = nil
-        )
-        {
+        ) {
             self.replicationGroupId = replicationGroupId
             self.replicationGroupRegion = replicationGroupRegion
             self.reshardingConfiguration = reshardingConfiguration
@@ -7902,8 +7665,7 @@ public struct IncreaseNodeGroupsInGlobalReplicationGroupInput: Swift.Sendable {
         globalReplicationGroupId: Swift.String? = nil,
         nodeGroupCount: Swift.Int? = nil,
         regionalConfigurations: [ElastiCacheClientTypes.RegionalConfiguration]? = nil
-    )
-    {
+    ) {
         self.applyImmediately = applyImmediately
         self.globalReplicationGroupId = globalReplicationGroupId
         self.nodeGroupCount = nodeGroupCount
@@ -7919,8 +7681,7 @@ public struct IncreaseNodeGroupsInGlobalReplicationGroupOutput: Swift.Sendable {
 
     public init(
         globalReplicationGroup: ElastiCacheClientTypes.GlobalReplicationGroup? = nil
-    )
-    {
+    ) {
         self.globalReplicationGroup = globalReplicationGroup
     }
 }
@@ -7943,8 +7704,7 @@ public struct InvalidKMSKeyFault: ClientRuntime.ModeledError, AWSClientRuntime.A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -7966,8 +7726,7 @@ public struct IncreaseReplicaCountInput: Swift.Sendable {
         newReplicaCount: Swift.Int? = nil,
         replicaConfiguration: [ElastiCacheClientTypes.ConfigureShard]? = nil,
         replicationGroupId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applyImmediately = applyImmediately
         self.newReplicaCount = newReplicaCount
         self.replicaConfiguration = replicaConfiguration
@@ -7981,8 +7740,7 @@ public struct IncreaseReplicaCountOutput: Swift.Sendable {
 
     public init(
         replicationGroup: ElastiCacheClientTypes.ReplicationGroup? = nil
-    )
-    {
+    ) {
         self.replicationGroup = replicationGroup
     }
 }
@@ -7997,8 +7755,7 @@ public struct ListAllowedNodeTypeModificationsInput: Swift.Sendable {
     public init(
         cacheClusterId: Swift.String? = nil,
         replicationGroupId: Swift.String? = nil
-    )
-    {
+    ) {
         self.cacheClusterId = cacheClusterId
         self.replicationGroupId = replicationGroupId
     }
@@ -8014,8 +7771,7 @@ public struct ListAllowedNodeTypeModificationsOutput: Swift.Sendable {
     public init(
         scaleDownModifications: [Swift.String]? = nil,
         scaleUpModifications: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.scaleDownModifications = scaleDownModifications
         self.scaleUpModifications = scaleUpModifications
     }
@@ -8029,8 +7785,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceName = resourceName
     }
 }
@@ -8042,8 +7797,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tagList: [ElastiCacheClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tagList = tagList
     }
 }
@@ -8236,8 +7990,7 @@ public struct ModifyCacheClusterInput: Swift.Sendable {
         securityGroupIds: [Swift.String]? = nil,
         snapshotRetentionLimit: Swift.Int? = nil,
         snapshotWindow: Swift.String? = nil
-    )
-    {
+    ) {
         self.applyImmediately = applyImmediately
         self.authToken = authToken
         self.authTokenUpdateStrategy = authTokenUpdateStrategy
@@ -8269,8 +8022,7 @@ public struct ModifyCacheClusterOutput: Swift.Sendable {
 
     public init(
         cacheCluster: ElastiCacheClientTypes.CacheCluster? = nil
-    )
-    {
+    ) {
         self.cacheCluster = cacheCluster
     }
 }
@@ -8287,8 +8039,7 @@ extension ElastiCacheClientTypes {
         public init(
             parameterName: Swift.String? = nil,
             parameterValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.parameterName = parameterName
             self.parameterValue = parameterValue
         }
@@ -8307,8 +8058,7 @@ public struct ModifyCacheParameterGroupInput: Swift.Sendable {
     public init(
         cacheParameterGroupName: Swift.String? = nil,
         parameterNameValues: [ElastiCacheClientTypes.ParameterNameValue]? = nil
-    )
-    {
+    ) {
         self.cacheParameterGroupName = cacheParameterGroupName
         self.parameterNameValues = parameterNameValues
     }
@@ -8325,8 +8075,7 @@ public struct ModifyCacheParameterGroupOutput: Swift.Sendable {
 
     public init(
         cacheParameterGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.cacheParameterGroupName = cacheParameterGroupName
     }
 }
@@ -8349,8 +8098,7 @@ public struct SubnetInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServi
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -8369,8 +8117,7 @@ public struct ModifyCacheSubnetGroupInput: Swift.Sendable {
         cacheSubnetGroupDescription: Swift.String? = nil,
         cacheSubnetGroupName: Swift.String? = nil,
         subnetIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.cacheSubnetGroupDescription = cacheSubnetGroupDescription
         self.cacheSubnetGroupName = cacheSubnetGroupName
         self.subnetIds = subnetIds
@@ -8387,8 +8134,7 @@ public struct ModifyCacheSubnetGroupOutput: Swift.Sendable {
 
     public init(
         cacheSubnetGroup: ElastiCacheClientTypes.CacheSubnetGroup? = nil
-    )
-    {
+    ) {
         self.cacheSubnetGroup = cacheSubnetGroup
     }
 }
@@ -8422,8 +8168,7 @@ public struct ModifyGlobalReplicationGroupInput: Swift.Sendable {
         engineVersion: Swift.String? = nil,
         globalReplicationGroupDescription: Swift.String? = nil,
         globalReplicationGroupId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applyImmediately = applyImmediately
         self.automaticFailoverEnabled = automaticFailoverEnabled
         self.cacheNodeType = cacheNodeType
@@ -8443,8 +8188,7 @@ public struct ModifyGlobalReplicationGroupOutput: Swift.Sendable {
 
     public init(
         globalReplicationGroup: ElastiCacheClientTypes.GlobalReplicationGroup? = nil
-    )
-    {
+    ) {
         self.globalReplicationGroup = globalReplicationGroup
     }
 }
@@ -8580,8 +8324,7 @@ public struct ModifyReplicationGroupInput: Swift.Sendable {
         transitEncryptionMode: ElastiCacheClientTypes.TransitEncryptionMode? = nil,
         userGroupIdsToAdd: [Swift.String]? = nil,
         userGroupIdsToRemove: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.applyImmediately = applyImmediately
         self.authToken = authToken
         self.authTokenUpdateStrategy = authTokenUpdateStrategy
@@ -8621,8 +8364,7 @@ public struct ModifyReplicationGroupOutput: Swift.Sendable {
 
     public init(
         replicationGroup: ElastiCacheClientTypes.ReplicationGroup? = nil
-    )
-    {
+    ) {
         self.replicationGroup = replicationGroup
     }
 }
@@ -8652,8 +8394,7 @@ public struct ModifyReplicationGroupShardConfigurationInput: Swift.Sendable {
         nodeGroupsToRetain: [Swift.String]? = nil,
         replicationGroupId: Swift.String? = nil,
         reshardingConfiguration: [ElastiCacheClientTypes.ReshardingConfiguration]? = nil
-    )
-    {
+    ) {
         self.applyImmediately = applyImmediately
         self.nodeGroupCount = nodeGroupCount
         self.nodeGroupsToRemove = nodeGroupsToRemove
@@ -8669,8 +8410,7 @@ public struct ModifyReplicationGroupShardConfigurationOutput: Swift.Sendable {
 
     public init(
         replicationGroup: ElastiCacheClientTypes.ReplicationGroup? = nil
-    )
-    {
+    ) {
         self.replicationGroup = replicationGroup
     }
 }
@@ -8709,8 +8449,7 @@ public struct ModifyServerlessCacheInput: Swift.Sendable {
         serverlessCacheName: Swift.String? = nil,
         snapshotRetentionLimit: Swift.Int? = nil,
         userGroupId: Swift.String? = nil
-    )
-    {
+    ) {
         self.cacheUsageLimits = cacheUsageLimits
         self.dailySnapshotTime = dailySnapshotTime
         self.description = description
@@ -8730,8 +8469,7 @@ public struct ModifyServerlessCacheOutput: Swift.Sendable {
 
     public init(
         serverlessCache: ElastiCacheClientTypes.ServerlessCache? = nil
-    )
-    {
+    ) {
         self.serverlessCache = serverlessCache
     }
 }
@@ -8761,8 +8499,7 @@ public struct ModifyUserInput: Swift.Sendable {
         noPasswordRequired: Swift.Bool? = nil,
         passwords: [Swift.String]? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessString = accessString
         self.appendAccessString = appendAccessString
         self.authenticationMode = authenticationMode
@@ -8803,8 +8540,7 @@ public struct ModifyUserOutput: Swift.Sendable {
         userGroupIds: [Swift.String]? = nil,
         userId: Swift.String? = nil,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessString = accessString
         self.arn = arn
         self.authentication = authentication
@@ -8833,8 +8569,7 @@ public struct ModifyUserGroupInput: Swift.Sendable {
         userGroupId: Swift.String? = nil,
         userIdsToAdd: [Swift.String]? = nil,
         userIdsToRemove: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.engine = engine
         self.userGroupId = userGroupId
         self.userIdsToAdd = userIdsToAdd
@@ -8872,8 +8607,7 @@ public struct ModifyUserGroupOutput: Swift.Sendable {
         status: Swift.String? = nil,
         userGroupId: Swift.String? = nil,
         userIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.engine = engine
         self.minimumEngineVersion = minimumEngineVersion
@@ -8904,8 +8638,7 @@ public struct ReservedCacheNodeAlreadyExistsFault: ClientRuntime.ModeledError, A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -8928,8 +8661,7 @@ public struct ReservedCacheNodeQuotaExceededFault: ClientRuntime.ModeledError, A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -8951,8 +8683,7 @@ public struct PurchaseReservedCacheNodesOfferingInput: Swift.Sendable {
         reservedCacheNodeId: Swift.String? = nil,
         reservedCacheNodesOfferingId: Swift.String? = nil,
         tags: [ElastiCacheClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.cacheNodeCount = cacheNodeCount
         self.reservedCacheNodeId = reservedCacheNodeId
         self.reservedCacheNodesOfferingId = reservedCacheNodesOfferingId
@@ -8966,8 +8697,7 @@ public struct PurchaseReservedCacheNodesOfferingOutput: Swift.Sendable {
 
     public init(
         reservedCacheNode: ElastiCacheClientTypes.ReservedCacheNode? = nil
-    )
-    {
+    ) {
         self.reservedCacheNode = reservedCacheNode
     }
 }
@@ -8983,8 +8713,7 @@ public struct RebalanceSlotsInGlobalReplicationGroupInput: Swift.Sendable {
     public init(
         applyImmediately: Swift.Bool? = nil,
         globalReplicationGroupId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applyImmediately = applyImmediately
         self.globalReplicationGroupId = globalReplicationGroupId
     }
@@ -8998,8 +8727,7 @@ public struct RebalanceSlotsInGlobalReplicationGroupOutput: Swift.Sendable {
 
     public init(
         globalReplicationGroup: ElastiCacheClientTypes.GlobalReplicationGroup? = nil
-    )
-    {
+    ) {
         self.globalReplicationGroup = globalReplicationGroup
     }
 }
@@ -9016,8 +8744,7 @@ public struct RebootCacheClusterInput: Swift.Sendable {
     public init(
         cacheClusterId: Swift.String? = nil,
         cacheNodeIdsToReboot: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.cacheClusterId = cacheClusterId
         self.cacheNodeIdsToReboot = cacheNodeIdsToReboot
     }
@@ -9029,8 +8756,7 @@ public struct RebootCacheClusterOutput: Swift.Sendable {
 
     public init(
         cacheCluster: ElastiCacheClientTypes.CacheCluster? = nil
-    )
-    {
+    ) {
         self.cacheCluster = cacheCluster
     }
 }
@@ -9053,8 +8779,7 @@ public struct TagNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -9071,8 +8796,7 @@ public struct RemoveTagsFromResourceInput: Swift.Sendable {
     public init(
         resourceName: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceName = resourceName
         self.tagKeys = tagKeys
     }
@@ -9085,8 +8809,7 @@ public struct RemoveTagsFromResourceOutput: Swift.Sendable {
 
     public init(
         tagList: [ElastiCacheClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tagList = tagList
     }
 }
@@ -9105,8 +8828,7 @@ public struct ResetCacheParameterGroupInput: Swift.Sendable {
         cacheParameterGroupName: Swift.String? = nil,
         parameterNameValues: [ElastiCacheClientTypes.ParameterNameValue]? = nil,
         resetAllParameters: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.cacheParameterGroupName = cacheParameterGroupName
         self.parameterNameValues = parameterNameValues
         self.resetAllParameters = resetAllParameters
@@ -9124,8 +8846,7 @@ public struct ResetCacheParameterGroupOutput: Swift.Sendable {
 
     public init(
         cacheParameterGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.cacheParameterGroupName = cacheParameterGroupName
     }
 }
@@ -9148,8 +8869,7 @@ public struct AuthorizationNotFoundFault: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -9170,8 +8890,7 @@ public struct RevokeCacheSecurityGroupIngressInput: Swift.Sendable {
         cacheSecurityGroupName: Swift.String? = nil,
         ec2SecurityGroupName: Swift.String? = nil,
         ec2SecurityGroupOwnerId: Swift.String? = nil
-    )
-    {
+    ) {
         self.cacheSecurityGroupName = cacheSecurityGroupName
         self.ec2SecurityGroupName = ec2SecurityGroupName
         self.ec2SecurityGroupOwnerId = ec2SecurityGroupOwnerId
@@ -9190,8 +8909,7 @@ public struct RevokeCacheSecurityGroupIngressOutput: Swift.Sendable {
 
     public init(
         cacheSecurityGroup: ElastiCacheClientTypes.CacheSecurityGroup? = nil
-    )
-    {
+    ) {
         self.cacheSecurityGroup = cacheSecurityGroup
     }
 }
@@ -9214,8 +8932,7 @@ public struct ReplicationGroupAlreadyUnderMigrationFault: ClientRuntime.ModeledE
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -9232,8 +8949,7 @@ extension ElastiCacheClientTypes {
         public init(
             address: Swift.String? = nil,
             port: Swift.Int? = nil
-        )
-        {
+        ) {
             self.address = address
             self.port = port
         }
@@ -9251,8 +8967,7 @@ public struct StartMigrationInput: Swift.Sendable {
     public init(
         customerNodeEndpointList: [ElastiCacheClientTypes.CustomerNodeEndpoint]? = nil,
         replicationGroupId: Swift.String? = nil
-    )
-    {
+    ) {
         self.customerNodeEndpointList = customerNodeEndpointList
         self.replicationGroupId = replicationGroupId
     }
@@ -9264,8 +8979,7 @@ public struct StartMigrationOutput: Swift.Sendable {
 
     public init(
         replicationGroup: ElastiCacheClientTypes.ReplicationGroup? = nil
-    )
-    {
+    ) {
         self.replicationGroup = replicationGroup
     }
 }
@@ -9288,8 +9002,7 @@ public struct APICallRateForCustomerExceededFault: ClientRuntime.ModeledError, A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -9312,8 +9025,7 @@ public struct NodeGroupNotFoundFault: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -9336,8 +9048,7 @@ public struct TestFailoverNotAvailableFault: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -9353,8 +9064,7 @@ public struct TestFailoverInput: Swift.Sendable {
     public init(
         nodeGroupId: Swift.String? = nil,
         replicationGroupId: Swift.String? = nil
-    )
-    {
+    ) {
         self.nodeGroupId = nodeGroupId
         self.replicationGroupId = replicationGroupId
     }
@@ -9366,8 +9076,7 @@ public struct TestFailoverOutput: Swift.Sendable {
 
     public init(
         replicationGroup: ElastiCacheClientTypes.ReplicationGroup? = nil
-    )
-    {
+    ) {
         self.replicationGroup = replicationGroup
     }
 }
@@ -9383,8 +9092,7 @@ public struct TestMigrationInput: Swift.Sendable {
     public init(
         customerNodeEndpointList: [ElastiCacheClientTypes.CustomerNodeEndpoint]? = nil,
         replicationGroupId: Swift.String? = nil
-    )
-    {
+    ) {
         self.customerNodeEndpointList = customerNodeEndpointList
         self.replicationGroupId = replicationGroupId
     }
@@ -9396,8 +9104,7 @@ public struct TestMigrationOutput: Swift.Sendable {
 
     public init(
         replicationGroup: ElastiCacheClientTypes.ReplicationGroup? = nil
-    )
-    {
+    ) {
         self.replicationGroup = replicationGroup
     }
 }

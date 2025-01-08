@@ -49,8 +49,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -73,8 +72,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -97,8 +95,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -121,8 +118,7 @@ public struct OutpostOfflineException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -145,8 +141,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -169,8 +164,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -193,8 +187,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -249,8 +242,7 @@ public struct CreateEndpointInput: Swift.Sendable {
         outpostId: Swift.String? = nil,
         securityGroupId: Swift.String? = nil,
         subnetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessType = accessType
         self.customerOwnedIpv4Pool = customerOwnedIpv4Pool
         self.outpostId = outpostId
@@ -265,8 +257,7 @@ public struct CreateEndpointOutput: Swift.Sendable {
 
     public init(
         endpointArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.endpointArn = endpointArn
     }
 }
@@ -282,8 +273,7 @@ public struct DeleteEndpointInput: Swift.Sendable {
     public init(
         endpointId: Swift.String? = nil,
         outpostId: Swift.String? = nil
-    )
-    {
+    ) {
         self.endpointId = endpointId
         self.outpostId = outpostId
     }
@@ -301,8 +291,7 @@ extension S3OutpostsClientTypes {
         public init(
             errorCode: Swift.String? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.message = message
         }
@@ -318,8 +307,7 @@ extension S3OutpostsClientTypes {
 
         public init(
             networkInterfaceId: Swift.String? = nil
-        )
-        {
+        ) {
             self.networkInterfaceId = networkInterfaceId
         }
     }
@@ -405,8 +393,7 @@ extension S3OutpostsClientTypes {
             status: S3OutpostsClientTypes.EndpointStatus? = nil,
             subnetId: Swift.String? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.accessType = accessType
             self.cidrBlock = cidrBlock
             self.creationTime = creationTime
@@ -432,8 +419,7 @@ public struct ListEndpointsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -448,8 +434,7 @@ public struct ListEndpointsOutput: Swift.Sendable {
     public init(
         endpoints: [S3OutpostsClientTypes.Endpoint]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.endpoints = endpoints
         self.nextToken = nextToken
     }
@@ -464,8 +449,7 @@ public struct ListOutpostsWithS3Input: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -492,8 +476,7 @@ extension S3OutpostsClientTypes {
             outpostId: Swift.String? = nil,
             ownerId: Swift.String? = nil,
             s3OutpostArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.capacityInBytes = capacityInBytes
             self.outpostArn = outpostArn
             self.outpostId = outpostId
@@ -518,8 +501,7 @@ public struct ListOutpostsWithS3Output: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         outposts: [S3OutpostsClientTypes.Outpost]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.outposts = outposts
     }
@@ -538,8 +520,7 @@ public struct ListSharedEndpointsInput: Swift.Sendable {
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         outpostId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.outpostId = outpostId
@@ -555,8 +536,7 @@ public struct ListSharedEndpointsOutput: Swift.Sendable {
     public init(
         endpoints: [S3OutpostsClientTypes.Endpoint]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.endpoints = endpoints
         self.nextToken = nextToken
     }

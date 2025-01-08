@@ -89,8 +89,7 @@ public struct InvalidAddress: ClientRuntime.ModeledError, AWSClientRuntime.AWSSe
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -113,8 +112,7 @@ public struct InvalidSecurity: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -137,8 +135,7 @@ public struct OverLimit: ClientRuntime.ModeledError, AWSClientRuntime.AWSService
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -161,8 +158,7 @@ public struct QueueDoesNotExist: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -189,8 +185,7 @@ public struct RequestThrottled: ClientRuntime.ModeledError, AWSClientRuntime.AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -213,8 +208,7 @@ public struct UnsupportedOperation: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -239,8 +233,7 @@ public struct AddPermissionInput: Swift.Sendable {
         awsAccountIds: [Swift.String]? = nil,
         label: Swift.String? = nil,
         queueUrl: Swift.String? = nil
-    )
-    {
+    ) {
         self.actions = actions
         self.awsAccountIds = awsAccountIds
         self.label = label
@@ -266,8 +259,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -279,8 +271,7 @@ public struct CancelMessageMoveTaskInput: Swift.Sendable {
 
     public init(
         taskHandle: Swift.String? = nil
-    )
-    {
+    ) {
         self.taskHandle = taskHandle
     }
 }
@@ -291,8 +282,7 @@ public struct CancelMessageMoveTaskOutput: Swift.Sendable {
 
     public init(
         approximateNumberOfMessagesMoved: Swift.Int = 0
-    )
-    {
+    ) {
         self.approximateNumberOfMessagesMoved = approximateNumberOfMessagesMoved
     }
 }
@@ -328,8 +318,7 @@ public struct ReceiptHandleIsInvalid: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -349,8 +338,7 @@ public struct ChangeMessageVisibilityInput: Swift.Sendable {
         queueUrl: Swift.String? = nil,
         receiptHandle: Swift.String? = nil,
         visibilityTimeout: Swift.Int? = nil
-    )
-    {
+    ) {
         self.queueUrl = queueUrl
         self.receiptHandle = receiptHandle
         self.visibilityTimeout = visibilityTimeout
@@ -375,8 +363,7 @@ public struct BatchEntryIdsNotDistinct: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -399,8 +386,7 @@ public struct EmptyBatchRequest: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -423,8 +409,7 @@ public struct InvalidBatchEntryId: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -447,8 +432,7 @@ public struct TooManyEntriesInBatchRequest: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -470,8 +454,7 @@ extension SQSClientTypes {
             id: Swift.String? = nil,
             receiptHandle: Swift.String? = nil,
             visibilityTimeout: Swift.Int? = nil
-        )
-        {
+        ) {
             self.id = id
             self.receiptHandle = receiptHandle
             self.visibilityTimeout = visibilityTimeout
@@ -491,8 +474,7 @@ public struct ChangeMessageVisibilityBatchInput: Swift.Sendable {
     public init(
         entries: [SQSClientTypes.ChangeMessageVisibilityBatchRequestEntry]? = nil,
         queueUrl: Swift.String? = nil
-    )
-    {
+    ) {
         self.entries = entries
         self.queueUrl = queueUrl
     }
@@ -519,8 +501,7 @@ extension SQSClientTypes {
             id: Swift.String? = nil,
             message: Swift.String? = nil,
             senderFault: Swift.Bool = false
-        )
-        {
+        ) {
             self.code = code
             self.id = id
             self.message = message
@@ -539,8 +520,7 @@ extension SQSClientTypes {
 
         public init(
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.id = id
         }
     }
@@ -558,8 +538,7 @@ public struct ChangeMessageVisibilityBatchOutput: Swift.Sendable {
     public init(
         failed: [SQSClientTypes.BatchResultErrorEntry]? = nil,
         successful: [SQSClientTypes.ChangeMessageVisibilityBatchResultEntry]? = nil
-    )
-    {
+    ) {
         self.failed = failed
         self.successful = successful
     }
@@ -583,8 +562,7 @@ public struct InvalidAttributeName: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -607,8 +585,7 @@ public struct InvalidAttributeValue: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -631,8 +608,7 @@ public struct QueueDeletedRecently: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -655,8 +631,7 @@ public struct QueueNameExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -879,8 +854,7 @@ public struct CreateQueueInput: Swift.Sendable {
         attributes: [Swift.String: Swift.String]? = nil,
         queueName: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.attributes = attributes
         self.queueName = queueName
         self.tags = tags
@@ -894,8 +868,7 @@ public struct CreateQueueOutput: Swift.Sendable {
 
     public init(
         queueUrl: Swift.String? = nil
-    )
-    {
+    ) {
         self.queueUrl = queueUrl
     }
 }
@@ -926,8 +899,7 @@ public struct DeleteMessageInput: Swift.Sendable {
     public init(
         queueUrl: Swift.String? = nil,
         receiptHandle: Swift.String? = nil
-    )
-    {
+    ) {
         self.queueUrl = queueUrl
         self.receiptHandle = receiptHandle
     }
@@ -947,8 +919,7 @@ extension SQSClientTypes {
         public init(
             id: Swift.String? = nil,
             receiptHandle: Swift.String? = nil
-        )
-        {
+        ) {
             self.id = id
             self.receiptHandle = receiptHandle
         }
@@ -967,8 +938,7 @@ public struct DeleteMessageBatchInput: Swift.Sendable {
     public init(
         entries: [SQSClientTypes.DeleteMessageBatchRequestEntry]? = nil,
         queueUrl: Swift.String? = nil
-    )
-    {
+    ) {
         self.entries = entries
         self.queueUrl = queueUrl
     }
@@ -984,8 +954,7 @@ extension SQSClientTypes {
 
         public init(
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.id = id
         }
     }
@@ -1003,8 +972,7 @@ public struct DeleteMessageBatchOutput: Swift.Sendable {
     public init(
         failed: [SQSClientTypes.BatchResultErrorEntry]? = nil,
         successful: [SQSClientTypes.DeleteMessageBatchResultEntry]? = nil
-    )
-    {
+    ) {
         self.failed = failed
         self.successful = successful
     }
@@ -1018,8 +986,7 @@ public struct DeleteQueueInput: Swift.Sendable {
 
     public init(
         queueUrl: Swift.String? = nil
-    )
-    {
+    ) {
         self.queueUrl = queueUrl
     }
 }
@@ -1124,8 +1091,7 @@ public struct GetQueueAttributesInput: Swift.Sendable {
     public init(
         attributeNames: [SQSClientTypes.QueueAttributeName]? = nil,
         queueUrl: Swift.String? = nil
-    )
-    {
+    ) {
         self.attributeNames = attributeNames
         self.queueUrl = queueUrl
     }
@@ -1138,8 +1104,7 @@ public struct GetQueueAttributesOutput: Swift.Sendable {
 
     public init(
         attributes: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.attributes = attributes
     }
 }
@@ -1155,8 +1120,7 @@ public struct GetQueueUrlInput: Swift.Sendable {
     public init(
         queueName: Swift.String? = nil,
         queueOwnerAWSAccountId: Swift.String? = nil
-    )
-    {
+    ) {
         self.queueName = queueName
         self.queueOwnerAWSAccountId = queueOwnerAWSAccountId
     }
@@ -1169,8 +1133,7 @@ public struct GetQueueUrlOutput: Swift.Sendable {
 
     public init(
         queueUrl: Swift.String? = nil
-    )
-    {
+    ) {
         self.queueUrl = queueUrl
     }
 }
@@ -1189,8 +1152,7 @@ public struct ListDeadLetterSourceQueuesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         queueUrl: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.queueUrl = queueUrl
@@ -1208,8 +1170,7 @@ public struct ListDeadLetterSourceQueuesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         queueUrls: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.queueUrls = queueUrls
     }
@@ -1225,8 +1186,7 @@ public struct ListMessageMoveTasksInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         sourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.sourceArn = sourceArn
     }
@@ -1265,8 +1225,7 @@ extension SQSClientTypes {
             startedTimestamp: Swift.Int = 0,
             status: Swift.String? = nil,
             taskHandle: Swift.String? = nil
-        )
-        {
+        ) {
             self.approximateNumberOfMessagesMoved = approximateNumberOfMessagesMoved
             self.approximateNumberOfMessagesToMove = approximateNumberOfMessagesToMove
             self.destinationArn = destinationArn
@@ -1286,8 +1245,7 @@ public struct ListMessageMoveTasksOutput: Swift.Sendable {
 
     public init(
         results: [SQSClientTypes.ListMessageMoveTasksResultEntry]? = nil
-    )
-    {
+    ) {
         self.results = results
     }
 }
@@ -1305,8 +1263,7 @@ public struct ListQueuesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         queueNamePrefix: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.queueNamePrefix = queueNamePrefix
@@ -1323,8 +1280,7 @@ public struct ListQueuesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         queueUrls: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.queueUrls = queueUrls
     }
@@ -1337,8 +1293,7 @@ public struct ListQueueTagsInput: Swift.Sendable {
 
     public init(
         queueUrl: Swift.String? = nil
-    )
-    {
+    ) {
         self.queueUrl = queueUrl
     }
 }
@@ -1349,8 +1304,7 @@ public struct ListQueueTagsOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -1373,8 +1327,7 @@ public struct PurgeQueueInProgress: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1387,8 +1340,7 @@ public struct PurgeQueueInput: Swift.Sendable {
 
     public init(
         queueUrl: Swift.String? = nil
-    )
-    {
+    ) {
         self.queueUrl = queueUrl
     }
 }
@@ -1411,8 +1363,7 @@ public struct KmsAccessDenied: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1435,8 +1386,7 @@ public struct KmsDisabled: ClientRuntime.ModeledError, AWSClientRuntime.AWSServi
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1463,8 +1413,7 @@ public struct KmsInvalidKeyUsage: ClientRuntime.ModeledError, AWSClientRuntime.A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1487,8 +1436,7 @@ public struct KmsInvalidState: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1511,8 +1459,7 @@ public struct KmsNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServi
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1535,8 +1482,7 @@ public struct KmsOptInRequired: ClientRuntime.ModeledError, AWSClientRuntime.AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1559,8 +1505,7 @@ public struct KmsThrottled: ClientRuntime.ModeledError, AWSClientRuntime.AWSServ
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1741,8 +1686,7 @@ public struct ReceiveMessageInput: Swift.Sendable {
         receiveRequestAttemptId: Swift.String? = nil,
         visibilityTimeout: Swift.Int? = nil,
         waitTimeSeconds: Swift.Int? = nil
-    )
-    {
+    ) {
         self.attributeNames = attributeNames
         self.maxNumberOfMessages = maxNumberOfMessages
         self.messageAttributeNames = messageAttributeNames
@@ -1776,8 +1720,7 @@ extension SQSClientTypes {
             dataType: Swift.String? = nil,
             stringListValues: [Swift.String]? = nil,
             stringValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.binaryListValues = binaryListValues
             self.binaryValue = binaryValue
             self.dataType = dataType
@@ -1831,8 +1774,7 @@ extension SQSClientTypes {
             messageAttributes: [Swift.String: SQSClientTypes.MessageAttributeValue]? = nil,
             messageId: Swift.String? = nil,
             receiptHandle: Swift.String? = nil
-        )
-        {
+        ) {
             self.attributes = attributes
             self.body = body
             self.md5OfBody = md5OfBody
@@ -1851,8 +1793,7 @@ public struct ReceiveMessageOutput: Swift.Sendable {
 
     public init(
         messages: [SQSClientTypes.Message]? = nil
-    )
-    {
+    ) {
         self.messages = messages
     }
 }
@@ -1869,8 +1810,7 @@ public struct RemovePermissionInput: Swift.Sendable {
     public init(
         label: Swift.String? = nil,
         queueUrl: Swift.String? = nil
-    )
-    {
+    ) {
         self.label = label
         self.queueUrl = queueUrl
     }
@@ -1894,8 +1834,7 @@ public struct InvalidMessageContents: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1948,8 +1887,7 @@ extension SQSClientTypes {
             dataType: Swift.String? = nil,
             stringListValues: [Swift.String]? = nil,
             stringValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.binaryListValues = binaryListValues
             self.binaryValue = binaryValue
             self.dataType = dataType
@@ -2017,8 +1955,7 @@ public struct SendMessageInput: Swift.Sendable {
         messageGroupId: Swift.String? = nil,
         messageSystemAttributes: [Swift.String: SQSClientTypes.MessageSystemAttributeValue]? = nil,
         queueUrl: Swift.String? = nil
-    )
-    {
+    ) {
         self.delaySeconds = delaySeconds
         self.messageAttributes = messageAttributes
         self.messageBody = messageBody
@@ -2048,8 +1985,7 @@ public struct SendMessageOutput: Swift.Sendable {
         md5OfMessageSystemAttributes: Swift.String? = nil,
         messageId: Swift.String? = nil,
         sequenceNumber: Swift.String? = nil
-    )
-    {
+    ) {
         self.md5OfMessageAttributes = md5OfMessageAttributes
         self.md5OfMessageBody = md5OfMessageBody
         self.md5OfMessageSystemAttributes = md5OfMessageSystemAttributes
@@ -2076,8 +2012,7 @@ public struct BatchRequestTooLong: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2142,8 +2077,7 @@ extension SQSClientTypes {
             messageDeduplicationId: Swift.String? = nil,
             messageGroupId: Swift.String? = nil,
             messageSystemAttributes: [Swift.String: SQSClientTypes.MessageSystemAttributeValue]? = nil
-        )
-        {
+        ) {
             self.delaySeconds = delaySeconds
             self.id = id
             self.messageAttributes = messageAttributes
@@ -2167,8 +2101,7 @@ public struct SendMessageBatchInput: Swift.Sendable {
     public init(
         entries: [SQSClientTypes.SendMessageBatchRequestEntry]? = nil,
         queueUrl: Swift.String? = nil
-    )
-    {
+    ) {
         self.entries = entries
         self.queueUrl = queueUrl
     }
@@ -2201,8 +2134,7 @@ extension SQSClientTypes {
             md5OfMessageSystemAttributes: Swift.String? = nil,
             messageId: Swift.String? = nil,
             sequenceNumber: Swift.String? = nil
-        )
-        {
+        ) {
             self.id = id
             self.md5OfMessageAttributes = md5OfMessageAttributes
             self.md5OfMessageBody = md5OfMessageBody
@@ -2225,8 +2157,7 @@ public struct SendMessageBatchOutput: Swift.Sendable {
     public init(
         failed: [SQSClientTypes.BatchResultErrorEntry]? = nil,
         successful: [SQSClientTypes.SendMessageBatchResultEntry]? = nil
-    )
-    {
+    ) {
         self.failed = failed
         self.successful = successful
     }
@@ -2337,8 +2268,7 @@ public struct SetQueueAttributesInput: Swift.Sendable {
     public init(
         attributes: [Swift.String: Swift.String]? = nil,
         queueUrl: Swift.String? = nil
-    )
-    {
+    ) {
         self.attributes = attributes
         self.queueUrl = queueUrl
     }
@@ -2357,8 +2287,7 @@ public struct StartMessageMoveTaskInput: Swift.Sendable {
         destinationArn: Swift.String? = nil,
         maxNumberOfMessagesPerSecond: Swift.Int? = nil,
         sourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.destinationArn = destinationArn
         self.maxNumberOfMessagesPerSecond = maxNumberOfMessagesPerSecond
         self.sourceArn = sourceArn
@@ -2371,8 +2300,7 @@ public struct StartMessageMoveTaskOutput: Swift.Sendable {
 
     public init(
         taskHandle: Swift.String? = nil
-    )
-    {
+    ) {
         self.taskHandle = taskHandle
     }
 }
@@ -2388,8 +2316,7 @@ public struct TagQueueInput: Swift.Sendable {
     public init(
         queueUrl: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.queueUrl = queueUrl
         self.tags = tags
     }
@@ -2406,8 +2333,7 @@ public struct UntagQueueInput: Swift.Sendable {
     public init(
         queueUrl: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.queueUrl = queueUrl
         self.tagKeys = tagKeys
     }
