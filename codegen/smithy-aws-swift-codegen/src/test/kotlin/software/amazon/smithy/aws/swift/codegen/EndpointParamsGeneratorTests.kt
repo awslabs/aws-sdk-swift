@@ -43,11 +43,11 @@ public struct EndpointParams {
     public init(
         boolBar: Swift.Bool? = nil,
         boolBaz: Swift.String? = nil,
-        boolFoo: Swift.Bool = false,
+        boolFoo: Swift.Bool,
         endpoint: Swift.String? = nil,
         flattenedArray: Swift.Array<Swift.String>? = nil,
         keysFunctionArray: Swift.Array<Swift.String>? = nil,
-        region: Swift.String = "",
+        region: Swift.String,
         stringArrayBar: Swift.Array<Swift.String>? = nil,
         stringBar: Swift.String? = nil,
         stringBaz: Swift.String? = nil,
