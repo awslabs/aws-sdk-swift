@@ -13,7 +13,7 @@
 import SmithyIdentity
 import struct Foundation.TimeInterval
 
-/// A utility class with a single utility method that generates IAM authentication token used for connecting to RDS.
+/// A utility class with methods that generate IAM authentication token used for connecting to DSQL.
 public class AuthTokenGenerator {
     private let generator: AWSClientRuntime.AuthTokenGenerator
 
@@ -37,27 +37,41 @@ public class AuthTokenGenerator {
         try await generator.updateCredentials(awsCredentialIdentityResolver: awsCredentialIdentityResolver)
     }
 
-    /// Generates authenetication token using given inputs to the method and credential identity instance variable.
+    /// Generates authenetication token for non-admin connection using given inputs to the method and credential identity instance variable.
     ///
     /// - Parameters:
-    ///   - endpoint: The endpoint of the RDS instance. E.g., `rdsmysql.123456789012.us-west-2.rds.amazonaws.com`
-    ///   - port: The port of the RDS instance to connect to. E.g., `3306`
-    ///   - region: The region that RDS instance is located in. E.g., `us-west-2`
-    ///   - username: The username of the RDS database user. E.g., `admin`
+    ///   - endpoint: The endpoint of the RDS instance. E.g., `peccy.dsql.us-east-1.on.aws`
+    ///   - region: The region that RDS instance is located in. E.g., `us-east-1`
     ///   - expiration: The expiration for the token in seconds. Default is 900 seconds (15 minutes).
-    public func generateAuthToken(
+    public func generateDBConnectAuthToken(
         endpoint: String,
-        port: Int16,
         region: String,
-        username: String,
         expiration: TimeInterval = 900
     ) async throws -> String {
-        return try await generator.generateRDSAuthToken(
+        return try await generator.generateDSQLAuthToken(
             endpoint: endpoint,
-            port: port,
             region: region,
-            username: username,
-            expiration: expiration
+            expiration: expiration,
+            isForAdmin: false
+        )
+    }
+
+    /// Generates authenetication token for admin connection using given inputs to the method and credential identity instance variable.
+    ///
+    /// - Parameters:
+    ///   - endpoint: The endpoint of the RDS instance. E.g., `peccy.dsql.us-east-1.on.aws`
+    ///   - region: The region that RDS instance is located in. E.g., `us-east-1`
+    ///   - expiration: The expiration for the token in seconds. Default is 900 seconds (15 minutes).
+    public func generateDBConnectAdminAuthToken(
+        endpoint: String,
+        region: String,
+        expiration: TimeInterval = 900
+    ) async throws -> String {
+        return try await generator.generateDSQLAuthToken(
+            endpoint: endpoint,
+            region: region,
+            expiration: expiration,
+            isForAdmin: true
         )
     }
 }
