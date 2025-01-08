@@ -36,12 +36,9 @@ class S3ErrorIntegration : SwiftIntegration {
 
     private val s3MembersParams = SectionWriter { writer, _ ->
         writer.write(
-            "static func responseErrorBinding(httpResponse: \$N, reader: \$N, message: \$T = \$D, requestID: \$T = \$D, requestID2: \$T = \$D) async throws -> \$N {",
+            "static func responseErrorBinding(httpResponse: \$N, reader: \$N, message: \$D, requestID: \$D, requestID2: \$D) async throws -> \$N {",
             SmithyHTTPAPITypes.HTTPResponse,
             SmithyXMLTypes.Reader,
-            SwiftTypes.String,
-            SwiftTypes.String,
-            SwiftTypes.String,
             SwiftTypes.String,
             SwiftTypes.String,
             SwiftTypes.String,
