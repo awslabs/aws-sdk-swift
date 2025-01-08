@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class DataSyncClient: ClientRuntime.Client {
     public static let clientName = "DataSyncClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: DataSyncClient.DataSyncClientConfiguration
     let serviceName = "DataSync"
@@ -331,7 +331,7 @@ extension DataSyncClient {
 }
 
 extension DataSyncClient {
-    /// Performs the `AddStorageSystem` operation on the `FmrsService` service.
+    /// Performs the `AddStorageSystem` operation on the `DataSync` service.
     ///
     /// Creates an Amazon Web Services resource for an on-premises storage system that you want DataSync Discovery to collect information about.
     ///
@@ -403,7 +403,7 @@ extension DataSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CancelTaskExecution` operation on the `FmrsService` service.
+    /// Performs the `CancelTaskExecution` operation on the `DataSync` service.
     ///
     /// Stops an DataSync task execution that's in progress. The transfer of some files are abruptly interrupted. File contents that're transferred to the destination might be incomplete or inconsistent with the source files. However, if you start a new task execution using the same task and allow it to finish, file content on the destination will be complete and consistent. This applies to other unexpected failures that interrupt a task execution. In all of these cases, DataSync successfully completes the transfer when you start the next task execution.
     ///
@@ -474,7 +474,7 @@ extension DataSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateAgent` operation on the `FmrsService` service.
+    /// Performs the `CreateAgent` operation on the `DataSync` service.
     ///
     /// Activates an DataSync agent that you deploy in your storage environment. The activation process associates the agent with your Amazon Web Services account. If you haven't deployed an agent yet, see [Do I need a DataSync agent?](https://docs.aws.amazon.com/datasync/latest/userguide/do-i-need-datasync-agent.html)
     ///
@@ -545,7 +545,7 @@ extension DataSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateLocationAzureBlob` operation on the `FmrsService` service.
+    /// Performs the `CreateLocationAzureBlob` operation on the `DataSync` service.
     ///
     /// Creates a transfer location for a Microsoft Azure Blob Storage container. DataSync can use this location as a transfer source or destination. Before you begin, make sure you know [how DataSync accesses Azure Blob Storage](https://docs.aws.amazon.com/datasync/latest/userguide/creating-azure-blob-location.html#azure-blob-access) and works with [access tiers](https://docs.aws.amazon.com/datasync/latest/userguide/creating-azure-blob-location.html#azure-blob-access-tiers) and [blob types](https://docs.aws.amazon.com/datasync/latest/userguide/creating-azure-blob-location.html#blob-types). You also need a [DataSync agent](https://docs.aws.amazon.com/datasync/latest/userguide/creating-azure-blob-location.html#azure-blob-creating-agent) that can connect to your container.
     ///
@@ -616,7 +616,7 @@ extension DataSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateLocationEfs` operation on the `FmrsService` service.
+    /// Performs the `CreateLocationEfs` operation on the `DataSync` service.
     ///
     /// Creates a transfer location for an Amazon EFS file system. DataSync can use this location as a source or destination for transferring data. Before you begin, make sure that you understand how DataSync [accesses Amazon EFS file systems](https://docs.aws.amazon.com/datasync/latest/userguide/create-efs-location.html#create-efs-location-access).
     ///
@@ -687,7 +687,7 @@ extension DataSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateLocationFsxLustre` operation on the `FmrsService` service.
+    /// Performs the `CreateLocationFsxLustre` operation on the `DataSync` service.
     ///
     /// Creates a transfer location for an Amazon FSx for Lustre file system. DataSync can use this location as a source or destination for transferring data. Before you begin, make sure that you understand how DataSync [accesses FSx for Lustre file systems](https://docs.aws.amazon.com/datasync/latest/userguide/create-lustre-location.html#create-lustre-location-access).
     ///
@@ -758,7 +758,7 @@ extension DataSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateLocationFsxOntap` operation on the `FmrsService` service.
+    /// Performs the `CreateLocationFsxOntap` operation on the `DataSync` service.
     ///
     /// Creates a transfer location for an Amazon FSx for NetApp ONTAP file system. DataSync can use this location as a source or destination for transferring data. Before you begin, make sure that you understand how DataSync [accesses FSx for ONTAP file systems](https://docs.aws.amazon.com/datasync/latest/userguide/create-ontap-location.html#create-ontap-location-access).
     ///
@@ -829,7 +829,7 @@ extension DataSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateLocationFsxOpenZfs` operation on the `FmrsService` service.
+    /// Performs the `CreateLocationFsxOpenZfs` operation on the `DataSync` service.
     ///
     /// Creates a transfer location for an Amazon FSx for OpenZFS file system. DataSync can use this location as a source or destination for transferring data. Before you begin, make sure that you understand how DataSync [accesses FSx for OpenZFS file systems](https://docs.aws.amazon.com/datasync/latest/userguide/create-openzfs-location.html#create-openzfs-access). Request parameters related to SMB aren't supported with the CreateLocationFsxOpenZfs operation.
     ///
@@ -900,7 +900,7 @@ extension DataSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateLocationFsxWindows` operation on the `FmrsService` service.
+    /// Performs the `CreateLocationFsxWindows` operation on the `DataSync` service.
     ///
     /// Creates a transfer location for an Amazon FSx for Windows File Server file system. DataSync can use this location as a source or destination for transferring data. Before you begin, make sure that you understand how DataSync [accesses FSx for Windows File Server file systems](https://docs.aws.amazon.com/datasync/latest/userguide/create-fsx-location.html#create-fsx-location-access).
     ///
@@ -971,7 +971,7 @@ extension DataSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateLocationHdfs` operation on the `FmrsService` service.
+    /// Performs the `CreateLocationHdfs` operation on the `DataSync` service.
     ///
     /// Creates a transfer location for a Hadoop Distributed File System (HDFS). DataSync can use this location as a source or destination for transferring data. Before you begin, make sure that you understand how DataSync [accesses HDFS clusters](https://docs.aws.amazon.com/datasync/latest/userguide/create-hdfs-location.html#accessing-hdfs).
     ///
@@ -1042,7 +1042,7 @@ extension DataSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateLocationNfs` operation on the `FmrsService` service.
+    /// Performs the `CreateLocationNfs` operation on the `DataSync` service.
     ///
     /// Creates a transfer location for a Network File System (NFS) file server. DataSync can use this location as a source or destination for transferring data. Before you begin, make sure that you understand how DataSync [accesses NFS file servers](https://docs.aws.amazon.com/datasync/latest/userguide/create-nfs-location.html#accessing-nfs).
     ///
@@ -1113,7 +1113,7 @@ extension DataSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateLocationObjectStorage` operation on the `FmrsService` service.
+    /// Performs the `CreateLocationObjectStorage` operation on the `DataSync` service.
     ///
     /// Creates a transfer location for an object storage system. DataSync can use this location as a source or destination for transferring data. Before you begin, make sure that you understand the [prerequisites](https://docs.aws.amazon.com/datasync/latest/userguide/create-object-location.html#create-object-location-prerequisites) for DataSync to work with object storage systems.
     ///
@@ -1184,7 +1184,7 @@ extension DataSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateLocationS3` operation on the `FmrsService` service.
+    /// Performs the `CreateLocationS3` operation on the `DataSync` service.
     ///
     /// Creates a transfer location for an Amazon S3 bucket. DataSync can use this location as a source or destination for transferring data. Before you begin, make sure that you read the following topics:
     ///
@@ -1262,7 +1262,7 @@ extension DataSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateLocationSmb` operation on the `FmrsService` service.
+    /// Performs the `CreateLocationSmb` operation on the `DataSync` service.
     ///
     /// Creates a transfer location for a Server Message Block (SMB) file server. DataSync can use this location as a source or destination for transferring data. Before you begin, make sure that you understand how DataSync [accesses SMB file servers](https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html#configuring-smb).
     ///
@@ -1333,7 +1333,7 @@ extension DataSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateTask` operation on the `FmrsService` service.
+    /// Performs the `CreateTask` operation on the `DataSync` service.
     ///
     /// Configures a task, which defines where and how DataSync transfers your data. A task includes a source location, destination location, and transfer options (such as bandwidth limits, scheduling, and more). If you're planning to transfer data to or from an Amazon S3 location, review [how DataSync can affect your S3 request charges](https://docs.aws.amazon.com/datasync/latest/userguide/create-s3-location.html#create-s3-location-s3-requests) and the [DataSync pricing page](http://aws.amazon.com/datasync/pricing/) before you begin.
     ///
@@ -1404,7 +1404,7 @@ extension DataSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAgent` operation on the `FmrsService` service.
+    /// Performs the `DeleteAgent` operation on the `DataSync` service.
     ///
     /// Removes an DataSync agent resource from your Amazon Web Services account. Keep in mind that this operation (which can't be undone) doesn't remove the agent's virtual machine (VM) or Amazon EC2 instance from your storage environment. For next steps, you can delete the VM or instance from your storage environment or reuse it to [activate a new agent](https://docs.aws.amazon.com/datasync/latest/userguide/activate-agent.html).
     ///
@@ -1475,7 +1475,7 @@ extension DataSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteLocation` operation on the `FmrsService` service.
+    /// Performs the `DeleteLocation` operation on the `DataSync` service.
     ///
     /// Deletes a transfer location resource from DataSync.
     ///
@@ -1546,7 +1546,7 @@ extension DataSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteTask` operation on the `FmrsService` service.
+    /// Performs the `DeleteTask` operation on the `DataSync` service.
     ///
     /// Deletes a transfer task resource from DataSync.
     ///
@@ -1617,7 +1617,7 @@ extension DataSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeAgent` operation on the `FmrsService` service.
+    /// Performs the `DescribeAgent` operation on the `DataSync` service.
     ///
     /// Returns information about an DataSync agent, such as its name, service endpoint type, and status.
     ///
@@ -1688,7 +1688,7 @@ extension DataSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeDiscoveryJob` operation on the `FmrsService` service.
+    /// Performs the `DescribeDiscoveryJob` operation on the `DataSync` service.
     ///
     /// Returns information about a DataSync discovery job.
     ///
@@ -1759,7 +1759,7 @@ extension DataSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeLocationAzureBlob` operation on the `FmrsService` service.
+    /// Performs the `DescribeLocationAzureBlob` operation on the `DataSync` service.
     ///
     /// Provides details about how an DataSync transfer location for Microsoft Azure Blob Storage is configured.
     ///
@@ -1830,7 +1830,7 @@ extension DataSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeLocationEfs` operation on the `FmrsService` service.
+    /// Performs the `DescribeLocationEfs` operation on the `DataSync` service.
     ///
     /// Provides details about how an DataSync transfer location for an Amazon EFS file system is configured.
     ///
@@ -1901,7 +1901,7 @@ extension DataSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeLocationFsxLustre` operation on the `FmrsService` service.
+    /// Performs the `DescribeLocationFsxLustre` operation on the `DataSync` service.
     ///
     /// Provides details about how an DataSync transfer location for an Amazon FSx for Lustre file system is configured.
     ///
@@ -1972,7 +1972,7 @@ extension DataSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeLocationFsxOntap` operation on the `FmrsService` service.
+    /// Performs the `DescribeLocationFsxOntap` operation on the `DataSync` service.
     ///
     /// Provides details about how an DataSync transfer location for an Amazon FSx for NetApp ONTAP file system is configured. If your location uses SMB, the DescribeLocationFsxOntap operation doesn't actually return a Password.
     ///
@@ -2043,7 +2043,7 @@ extension DataSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeLocationFsxOpenZfs` operation on the `FmrsService` service.
+    /// Performs the `DescribeLocationFsxOpenZfs` operation on the `DataSync` service.
     ///
     /// Provides details about how an DataSync transfer location for an Amazon FSx for OpenZFS file system is configured. Response elements related to SMB aren't supported with the DescribeLocationFsxOpenZfs operation.
     ///
@@ -2114,7 +2114,7 @@ extension DataSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeLocationFsxWindows` operation on the `FmrsService` service.
+    /// Performs the `DescribeLocationFsxWindows` operation on the `DataSync` service.
     ///
     /// Provides details about how an DataSync transfer location for an Amazon FSx for Windows File Server file system is configured.
     ///
@@ -2185,7 +2185,7 @@ extension DataSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeLocationHdfs` operation on the `FmrsService` service.
+    /// Performs the `DescribeLocationHdfs` operation on the `DataSync` service.
     ///
     /// Provides details about how an DataSync transfer location for a Hadoop Distributed File System (HDFS) is configured.
     ///
@@ -2256,7 +2256,7 @@ extension DataSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeLocationNfs` operation on the `FmrsService` service.
+    /// Performs the `DescribeLocationNfs` operation on the `DataSync` service.
     ///
     /// Provides details about how an DataSync transfer location for a Network File System (NFS) file server is configured.
     ///
@@ -2327,7 +2327,7 @@ extension DataSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeLocationObjectStorage` operation on the `FmrsService` service.
+    /// Performs the `DescribeLocationObjectStorage` operation on the `DataSync` service.
     ///
     /// Provides details about how an DataSync transfer location for an object storage system is configured.
     ///
@@ -2398,7 +2398,7 @@ extension DataSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeLocationS3` operation on the `FmrsService` service.
+    /// Performs the `DescribeLocationS3` operation on the `DataSync` service.
     ///
     /// Provides details about how an DataSync transfer location for an S3 bucket is configured.
     ///
@@ -2469,7 +2469,7 @@ extension DataSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeLocationSmb` operation on the `FmrsService` service.
+    /// Performs the `DescribeLocationSmb` operation on the `DataSync` service.
     ///
     /// Provides details about how an DataSync transfer location for a Server Message Block (SMB) file server is configured.
     ///
@@ -2540,7 +2540,7 @@ extension DataSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeStorageSystem` operation on the `FmrsService` service.
+    /// Performs the `DescribeStorageSystem` operation on the `DataSync` service.
     ///
     /// Returns information about an on-premises storage system that you're using with DataSync Discovery.
     ///
@@ -2611,7 +2611,7 @@ extension DataSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeStorageSystemResourceMetrics` operation on the `FmrsService` service.
+    /// Performs the `DescribeStorageSystemResourceMetrics` operation on the `DataSync` service.
     ///
     /// Returns information, including performance data and capacity usage, which DataSync Discovery collects about a specific resource in your-premises storage system.
     ///
@@ -2682,7 +2682,7 @@ extension DataSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeStorageSystemResources` operation on the `FmrsService` service.
+    /// Performs the `DescribeStorageSystemResources` operation on the `DataSync` service.
     ///
     /// Returns information that DataSync Discovery collects about resources in your on-premises storage system.
     ///
@@ -2753,7 +2753,7 @@ extension DataSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeTask` operation on the `FmrsService` service.
+    /// Performs the `DescribeTask` operation on the `DataSync` service.
     ///
     /// Provides information about a task, which defines where and how DataSync transfers your data.
     ///
@@ -2824,7 +2824,7 @@ extension DataSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeTaskExecution` operation on the `FmrsService` service.
+    /// Performs the `DescribeTaskExecution` operation on the `DataSync` service.
     ///
     /// Provides information about an execution of your DataSync task. You can use this operation to help monitor the progress of an ongoing data transfer or check the results of the transfer. Some DescribeTaskExecution response elements are only relevant to a specific task mode. For information, see [Understanding task mode differences](https://docs.aws.amazon.com/datasync/latest/userguide/choosing-task-mode.html#task-mode-differences) and [Understanding data transfer performance counters](https://docs.aws.amazon.com/datasync/latest/userguide/transfer-performance-counters.html).
     ///
@@ -2895,7 +2895,7 @@ extension DataSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GenerateRecommendations` operation on the `FmrsService` service.
+    /// Performs the `GenerateRecommendations` operation on the `DataSync` service.
     ///
     /// Creates recommendations about where to migrate your data to in Amazon Web Services. Recommendations are generated based on information that DataSync Discovery collects about your on-premises storage system's resources. For more information, see [Recommendations provided by DataSync Discovery](https://docs.aws.amazon.com/datasync/latest/userguide/discovery-understand-recommendations.html). Once generated, you can view your recommendations by using the [DescribeStorageSystemResources](https://docs.aws.amazon.com/datasync/latest/userguide/API_DescribeStorageSystemResources.html) operation.
     ///
@@ -2966,7 +2966,7 @@ extension DataSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAgents` operation on the `FmrsService` service.
+    /// Performs the `ListAgents` operation on the `DataSync` service.
     ///
     /// Returns a list of DataSync agents that belong to an Amazon Web Services account in the Amazon Web Services Region specified in the request. With pagination, you can reduce the number of agents returned in a response. If you get a truncated list of agents in a response, the response contains a marker that you can specify in your next request to fetch the next page of agents. ListAgents is eventually consistent. This means the result of running the operation might not reflect that you just created or deleted an agent. For example, if you create an agent with [CreateAgent](https://docs.aws.amazon.com/datasync/latest/userguide/API_CreateAgent.html) and then immediately run ListAgents, that agent might not show up in the list right away. In situations like this, you can always confirm whether an agent has been created (or deleted) by using [DescribeAgent](https://docs.aws.amazon.com/datasync/latest/userguide/API_DescribeAgent.html).
     ///
@@ -3037,7 +3037,7 @@ extension DataSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDiscoveryJobs` operation on the `FmrsService` service.
+    /// Performs the `ListDiscoveryJobs` operation on the `DataSync` service.
     ///
     /// Provides a list of the existing discovery jobs in the Amazon Web Services Region and Amazon Web Services account where you're using DataSync Discovery.
     ///
@@ -3108,7 +3108,7 @@ extension DataSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListLocations` operation on the `FmrsService` service.
+    /// Performs the `ListLocations` operation on the `DataSync` service.
     ///
     /// Returns a list of source and destination locations. If you have more locations than are returned in a response (that is, the response returns only a truncated list of your agents), the response contains a token that you can specify in your next request to fetch the next page of locations.
     ///
@@ -3179,7 +3179,7 @@ extension DataSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListStorageSystems` operation on the `FmrsService` service.
+    /// Performs the `ListStorageSystems` operation on the `DataSync` service.
     ///
     /// Lists the on-premises storage systems that you're using with DataSync Discovery.
     ///
@@ -3250,7 +3250,7 @@ extension DataSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `FmrsService` service.
+    /// Performs the `ListTagsForResource` operation on the `DataSync` service.
     ///
     /// Returns all the tags associated with an Amazon Web Services resource.
     ///
@@ -3321,7 +3321,7 @@ extension DataSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTaskExecutions` operation on the `FmrsService` service.
+    /// Performs the `ListTaskExecutions` operation on the `DataSync` service.
     ///
     /// Returns a list of executions for an DataSync transfer task.
     ///
@@ -3392,7 +3392,7 @@ extension DataSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTasks` operation on the `FmrsService` service.
+    /// Performs the `ListTasks` operation on the `DataSync` service.
     ///
     /// Returns a list of the DataSync tasks you created.
     ///
@@ -3463,7 +3463,7 @@ extension DataSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RemoveStorageSystem` operation on the `FmrsService` service.
+    /// Performs the `RemoveStorageSystem` operation on the `DataSync` service.
     ///
     /// Permanently removes a storage system resource from DataSync Discovery, including the associated discovery jobs, collected data, and recommendations.
     ///
@@ -3534,7 +3534,7 @@ extension DataSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartDiscoveryJob` operation on the `FmrsService` service.
+    /// Performs the `StartDiscoveryJob` operation on the `DataSync` service.
     ///
     /// Runs a DataSync discovery job on your on-premises storage system. If you haven't added the storage system to DataSync Discovery yet, do this first by using the [AddStorageSystem](https://docs.aws.amazon.com/datasync/latest/userguide/API_AddStorageSystem.html) operation.
     ///
@@ -3606,7 +3606,7 @@ extension DataSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartTaskExecution` operation on the `FmrsService` service.
+    /// Performs the `StartTaskExecution` operation on the `DataSync` service.
     ///
     /// Starts an DataSync transfer task. For each task, you can only run one task execution at a time. There are several steps to a task execution. For more information, see [Task execution statuses](https://docs.aws.amazon.com/datasync/latest/userguide/working-with-task-executions.html#understand-task-execution-statuses). If you're planning to transfer data to or from an Amazon S3 location, review [how DataSync can affect your S3 request charges](https://docs.aws.amazon.com/datasync/latest/userguide/create-s3-location.html#create-s3-location-s3-requests) and the [DataSync pricing page](http://aws.amazon.com/datasync/pricing/) before you begin.
     ///
@@ -3677,7 +3677,7 @@ extension DataSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopDiscoveryJob` operation on the `FmrsService` service.
+    /// Performs the `StopDiscoveryJob` operation on the `DataSync` service.
     ///
     /// Stops a running DataSync discovery job. You can stop a discovery job anytime. A job that's stopped before it's scheduled to end likely will provide you some information about your on-premises storage system resources. To get recommendations for a stopped job, you must use the [GenerateRecommendations](https://docs.aws.amazon.com/datasync/latest/userguide/API_GenerateRecommendations.html) operation.
     ///
@@ -3748,7 +3748,7 @@ extension DataSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `FmrsService` service.
+    /// Performs the `TagResource` operation on the `DataSync` service.
     ///
     /// Applies a tag to an Amazon Web Services resource. Tags are key-value pairs that can help you manage, filter, and search for your resources. These include DataSync resources, such as locations, tasks, and task executions.
     ///
@@ -3819,7 +3819,7 @@ extension DataSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `FmrsService` service.
+    /// Performs the `UntagResource` operation on the `DataSync` service.
     ///
     /// Removes tags from an Amazon Web Services resource.
     ///
@@ -3890,7 +3890,7 @@ extension DataSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateAgent` operation on the `FmrsService` service.
+    /// Performs the `UpdateAgent` operation on the `DataSync` service.
     ///
     /// Updates the name of an DataSync agent.
     ///
@@ -3961,7 +3961,7 @@ extension DataSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateDiscoveryJob` operation on the `FmrsService` service.
+    /// Performs the `UpdateDiscoveryJob` operation on the `DataSync` service.
     ///
     /// Edits a DataSync discovery job configuration.
     ///
@@ -4032,7 +4032,7 @@ extension DataSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateLocationAzureBlob` operation on the `FmrsService` service.
+    /// Performs the `UpdateLocationAzureBlob` operation on the `DataSync` service.
     ///
     /// Modifies the following configurations of the Microsoft Azure Blob Storage transfer location that you're using with DataSync. For more information, see [Configuring DataSync transfers with Azure Blob Storage](https://docs.aws.amazon.com/datasync/latest/userguide/creating-azure-blob-location.html).
     ///
@@ -4103,7 +4103,7 @@ extension DataSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateLocationEfs` operation on the `FmrsService` service.
+    /// Performs the `UpdateLocationEfs` operation on the `DataSync` service.
     ///
     /// Modifies the following configuration parameters of the Amazon EFS transfer location that you're using with DataSync. For more information, see [Configuring DataSync transfers with Amazon EFS](https://docs.aws.amazon.com/datasync/latest/userguide/create-efs-location.html).
     ///
@@ -4174,7 +4174,7 @@ extension DataSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateLocationFsxLustre` operation on the `FmrsService` service.
+    /// Performs the `UpdateLocationFsxLustre` operation on the `DataSync` service.
     ///
     /// Modifies the following configuration parameters of the Amazon FSx for Lustre transfer location that you're using with DataSync. For more information, see [Configuring DataSync transfers with FSx for Lustre](https://docs.aws.amazon.com/datasync/latest/userguide/create-lustre-location.html).
     ///
@@ -4245,7 +4245,7 @@ extension DataSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateLocationFsxOntap` operation on the `FmrsService` service.
+    /// Performs the `UpdateLocationFsxOntap` operation on the `DataSync` service.
     ///
     /// Modifies the following configuration parameters of the Amazon FSx for NetApp ONTAP transfer location that you're using with DataSync. For more information, see [Configuring DataSync transfers with FSx for ONTAP](https://docs.aws.amazon.com/datasync/latest/userguide/create-ontap-location.html).
     ///
@@ -4316,7 +4316,7 @@ extension DataSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateLocationFsxOpenZfs` operation on the `FmrsService` service.
+    /// Performs the `UpdateLocationFsxOpenZfs` operation on the `DataSync` service.
     ///
     /// Modifies the following configuration parameters of the Amazon FSx for OpenZFS transfer location that you're using with DataSync. For more information, see [Configuring DataSync transfers with FSx for OpenZFS](https://docs.aws.amazon.com/datasync/latest/userguide/create-openzfs-location.html). Request parameters related to SMB aren't supported with the UpdateLocationFsxOpenZfs operation.
     ///
@@ -4387,7 +4387,7 @@ extension DataSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateLocationFsxWindows` operation on the `FmrsService` service.
+    /// Performs the `UpdateLocationFsxWindows` operation on the `DataSync` service.
     ///
     /// Modifies the following configuration parameters of the Amazon FSx for Windows File Server transfer location that you're using with DataSync. For more information, see [Configuring DataSync transfers with FSx for Windows File Server](https://docs.aws.amazon.com/datasync/latest/userguide/create-fsx-location.html).
     ///
@@ -4458,7 +4458,7 @@ extension DataSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateLocationHdfs` operation on the `FmrsService` service.
+    /// Performs the `UpdateLocationHdfs` operation on the `DataSync` service.
     ///
     /// Modifies the following configuration parameters of the Hadoop Distributed File System (HDFS) transfer location that you're using with DataSync. For more information, see [Configuring DataSync transfers with an HDFS cluster](https://docs.aws.amazon.com/datasync/latest/userguide/create-hdfs-location.html).
     ///
@@ -4529,7 +4529,7 @@ extension DataSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateLocationNfs` operation on the `FmrsService` service.
+    /// Performs the `UpdateLocationNfs` operation on the `DataSync` service.
     ///
     /// Modifies the following configuration parameters of the Network File System (NFS) transfer location that you're using with DataSync. For more information, see [Configuring transfers with an NFS file server](https://docs.aws.amazon.com/datasync/latest/userguide/create-nfs-location.html).
     ///
@@ -4600,7 +4600,7 @@ extension DataSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateLocationObjectStorage` operation on the `FmrsService` service.
+    /// Performs the `UpdateLocationObjectStorage` operation on the `DataSync` service.
     ///
     /// Modifies the following configuration parameters of the object storage transfer location that you're using with DataSync. For more information, see [Configuring DataSync transfers with an object storage system](https://docs.aws.amazon.com/datasync/latest/userguide/create-object-location.html).
     ///
@@ -4671,7 +4671,7 @@ extension DataSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateLocationS3` operation on the `FmrsService` service.
+    /// Performs the `UpdateLocationS3` operation on the `DataSync` service.
     ///
     /// Modifies the following configuration parameters of the Amazon S3 transfer location that you're using with DataSync. Before you begin, make sure that you read the following topics:
     ///
@@ -4746,7 +4746,7 @@ extension DataSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateLocationSmb` operation on the `FmrsService` service.
+    /// Performs the `UpdateLocationSmb` operation on the `DataSync` service.
     ///
     /// Modifies the following configuration parameters of the Server Message Block (SMB) transfer location that you're using with DataSync. For more information, see [Configuring DataSync transfers with an SMB file server](https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html).
     ///
@@ -4817,7 +4817,7 @@ extension DataSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateStorageSystem` operation on the `FmrsService` service.
+    /// Performs the `UpdateStorageSystem` operation on the `DataSync` service.
     ///
     /// Modifies some configurations of an on-premises storage system resource that you're using with DataSync Discovery.
     ///
@@ -4888,7 +4888,7 @@ extension DataSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateTask` operation on the `FmrsService` service.
+    /// Performs the `UpdateTask` operation on the `DataSync` service.
     ///
     /// Updates the configuration of a task, which defines where and how DataSync transfers your data.
     ///
@@ -4959,7 +4959,7 @@ extension DataSyncClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateTaskExecution` operation on the `FmrsService` service.
+    /// Performs the `UpdateTaskExecution` operation on the `DataSync` service.
     ///
     /// Updates the configuration of a running DataSync task execution. Currently, the only Option that you can modify with UpdateTaskExecution is [BytesPerSecond](https://docs.aws.amazon.com/datasync/latest/userguide/API_Options.html#DataSync-Type-Options-BytesPerSecond), which throttles bandwidth for a running or queued task execution.
     ///

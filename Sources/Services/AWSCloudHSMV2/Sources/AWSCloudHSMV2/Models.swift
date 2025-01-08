@@ -617,6 +617,8 @@ extension CloudHSMV2ClientTypes {
         /// The HSM's identifier (ID).
         /// This member is required.
         public var hsmId: Swift.String?
+        /// The type of HSM.
+        public var hsmType: Swift.String?
         /// The HSM's state.
         public var state: CloudHSMV2ClientTypes.HsmState?
         /// A description of the HSM's state.
@@ -631,6 +633,7 @@ extension CloudHSMV2ClientTypes {
             eniIp: Swift.String? = nil,
             eniIpV6: Swift.String? = nil,
             hsmId: Swift.String? = nil,
+            hsmType: Swift.String? = nil,
             state: CloudHSMV2ClientTypes.HsmState? = nil,
             stateMessage: Swift.String? = nil,
             subnetId: Swift.String? = nil
@@ -642,6 +645,7 @@ extension CloudHSMV2ClientTypes {
             self.eniIp = eniIp
             self.eniIpV6 = eniIpV6
             self.hsmId = hsmId
+            self.hsmType = hsmType
             self.state = state
             self.stateMessage = stateMessage
             self.subnetId = subnetId
@@ -721,11 +725,13 @@ extension CloudHSMV2ClientTypes {
         public var createTimestamp: Foundation.Date?
         /// The type of HSM that the cluster contains.
         public var hsmType: Swift.String?
+        /// The timestamp until when the cluster can be rolled back to its original HSM type.
+        public var hsmTypeRollbackExpiration: Foundation.Date?
         /// Contains information about the HSMs in the cluster.
         public var hsms: [CloudHSMV2ClientTypes.Hsm]?
         /// The mode of the cluster.
         public var mode: CloudHSMV2ClientTypes.ClusterMode?
-        /// The cluster's NetworkType can be set to either IPV4 (which is the default) or DUALSTACK. When set to IPV4, communication between your application and the Hardware Security Modules (HSMs) is restricted to the IPv4 protocol only. In contrast, the DUALSTACK network type enables communication over both the IPv4 and IPv6 protocols. To use the DUALSTACK option, you'll need to configure your Virtual Private Cloud (VPC) and subnets to support both IPv4 and IPv6. This involves adding IPv6 Classless Inter-Domain Routing (CIDR) blocks to the existing IPv4 CIDR blocks in your subnets. The choice between IPV4 and DUALSTACK network types determines the flexibility of the network addressing setup for your cluster. The DUALSTACK option provides more flexibility by allowing both IPv4 and IPv6 communication.
+        /// The cluster's NetworkType can be IPv4 (the default) or DUALSTACK. The IPv4 NetworkType restricts communication between your application and the hardware security modules (HSMs) to the IPv4 protocol only. The DUALSTACK NetworkType enables communication over both IPv4 and IPv6 protocols. To use DUALSTACK, configure your virtual private cloud (VPC) and subnets to support both IPv4 and IPv6. This configuration involves adding IPv6 Classless Inter-Domain Routing (CIDR) blocks to the existing IPv4 CIDR blocks in your subnets. The NetworkType you choose affects the network addressing options for your cluster. DUALSTACK provides more flexibility by supporting both IPv4 and IPv6 communication.
         public var networkType: CloudHSMV2ClientTypes.NetworkType?
         /// The default password for the cluster's Pre-Crypto Officer (PRECO) user.
         public var preCoPassword: Swift.String?
@@ -751,6 +757,7 @@ extension CloudHSMV2ClientTypes {
             clusterId: Swift.String? = nil,
             createTimestamp: Foundation.Date? = nil,
             hsmType: Swift.String? = nil,
+            hsmTypeRollbackExpiration: Foundation.Date? = nil,
             hsms: [CloudHSMV2ClientTypes.Hsm]? = nil,
             mode: CloudHSMV2ClientTypes.ClusterMode? = nil,
             networkType: CloudHSMV2ClientTypes.NetworkType? = nil,
@@ -770,6 +777,7 @@ extension CloudHSMV2ClientTypes {
             self.clusterId = clusterId
             self.createTimestamp = createTimestamp
             self.hsmType = hsmType
+            self.hsmTypeRollbackExpiration = hsmTypeRollbackExpiration
             self.hsms = hsms
             self.mode = mode
             self.networkType = networkType
@@ -1159,19 +1167,22 @@ public struct ModifyBackupAttributesOutput: Swift.Sendable {
 
 public struct ModifyClusterInput: Swift.Sendable {
     /// A policy that defines how the service retains backups.
-    /// This member is required.
     public var backupRetentionPolicy: CloudHSMV2ClientTypes.BackupRetentionPolicy?
     /// The identifier (ID) of the cluster that you want to modify. To find the cluster ID, use [DescribeClusters].
     /// This member is required.
     public var clusterId: Swift.String?
+    /// The desired HSM type of the cluster.
+    public var hsmType: Swift.String?
 
     public init(
         backupRetentionPolicy: CloudHSMV2ClientTypes.BackupRetentionPolicy? = nil,
-        clusterId: Swift.String? = nil
+        clusterId: Swift.String? = nil,
+        hsmType: Swift.String? = nil
     )
     {
         self.backupRetentionPolicy = backupRetentionPolicy
         self.clusterId = clusterId
+        self.hsmType = hsmType
     }
 }
 
@@ -1574,6 +1585,7 @@ extension ModifyClusterInput {
         guard let value else { return }
         try writer["BackupRetentionPolicy"].write(value.backupRetentionPolicy, with: CloudHSMV2ClientTypes.BackupRetentionPolicy.write(value:to:))
         try writer["ClusterId"].write(value.clusterId)
+        try writer["HsmType"].write(value.hsmType)
     }
 }
 
@@ -2271,6 +2283,7 @@ extension CloudHSMV2ClientTypes.Cluster {
         value.createTimestamp = try reader["CreateTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.hsms = try reader["Hsms"].readListIfPresent(memberReadingClosure: CloudHSMV2ClientTypes.Hsm.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.hsmType = try reader["HsmType"].readIfPresent()
+        value.hsmTypeRollbackExpiration = try reader["HsmTypeRollbackExpiration"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.preCoPassword = try reader["PreCoPassword"].readIfPresent()
         value.securityGroup = try reader["SecurityGroup"].readIfPresent()
         value.sourceBackupId = try reader["SourceBackupId"].readIfPresent()
@@ -2329,6 +2342,7 @@ extension CloudHSMV2ClientTypes.Hsm {
         value.eniIp = try reader["EniIp"].readIfPresent()
         value.eniIpV6 = try reader["EniIpV6"].readIfPresent()
         value.hsmId = try reader["HsmId"].readIfPresent() ?? ""
+        value.hsmType = try reader["HsmType"].readIfPresent()
         value.state = try reader["State"].readIfPresent()
         value.stateMessage = try reader["StateMessage"].readIfPresent()
         return value

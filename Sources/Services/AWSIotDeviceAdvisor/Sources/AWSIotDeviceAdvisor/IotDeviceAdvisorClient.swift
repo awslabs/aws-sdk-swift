@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class IotDeviceAdvisorClient: ClientRuntime.Client {
     public static let clientName = "IotDeviceAdvisorClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: IotDeviceAdvisorClient.IotDeviceAdvisorClientConfiguration
     let serviceName = "IotDeviceAdvisor"
@@ -331,7 +331,7 @@ extension IotDeviceAdvisorClient {
 }
 
 extension IotDeviceAdvisorClient {
-    /// Performs the `CreateSuiteDefinition` operation on the `IotSenateService` service.
+    /// Performs the `CreateSuiteDefinition` operation on the `IotDeviceAdvisor` service.
     ///
     /// Creates a Device Advisor test suite. Requires permission to access the [CreateSuiteDefinition](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -402,7 +402,7 @@ extension IotDeviceAdvisorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteSuiteDefinition` operation on the `IotSenateService` service.
+    /// Performs the `DeleteSuiteDefinition` operation on the `IotDeviceAdvisor` service.
     ///
     /// Deletes a Device Advisor test suite. Requires permission to access the [DeleteSuiteDefinition](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -469,7 +469,7 @@ extension IotDeviceAdvisorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetEndpoint` operation on the `IotSenateService` service.
+    /// Performs the `GetEndpoint` operation on the `IotDeviceAdvisor` service.
     ///
     /// Gets information about an Device Advisor endpoint.
     ///
@@ -538,7 +538,7 @@ extension IotDeviceAdvisorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetSuiteDefinition` operation on the `IotSenateService` service.
+    /// Performs the `GetSuiteDefinition` operation on the `IotDeviceAdvisor` service.
     ///
     /// Gets information about a Device Advisor test suite. Requires permission to access the [GetSuiteDefinition](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -607,7 +607,7 @@ extension IotDeviceAdvisorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetSuiteRun` operation on the `IotSenateService` service.
+    /// Performs the `GetSuiteRun` operation on the `IotDeviceAdvisor` service.
     ///
     /// Gets information about a Device Advisor test suite run. Requires permission to access the [GetSuiteRun](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -675,7 +675,7 @@ extension IotDeviceAdvisorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetSuiteRunReport` operation on the `IotSenateService` service.
+    /// Performs the `GetSuiteRunReport` operation on the `IotDeviceAdvisor` service.
     ///
     /// Gets a report download link for a successful Device Advisor qualifying test suite run. Requires permission to access the [GetSuiteRunReport](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -743,7 +743,7 @@ extension IotDeviceAdvisorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListSuiteDefinitions` operation on the `IotSenateService` service.
+    /// Performs the `ListSuiteDefinitions` operation on the `IotDeviceAdvisor` service.
     ///
     /// Lists the Device Advisor test suites you have created. Requires permission to access the [ListSuiteDefinitions](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -811,7 +811,7 @@ extension IotDeviceAdvisorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListSuiteRuns` operation on the `IotSenateService` service.
+    /// Performs the `ListSuiteRuns` operation on the `IotDeviceAdvisor` service.
     ///
     /// Lists runs of the specified Device Advisor test suite. You can list all runs of the test suite, or the runs of a specific version of the test suite. Requires permission to access the [ListSuiteRuns](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -879,7 +879,7 @@ extension IotDeviceAdvisorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `IotSenateService` service.
+    /// Performs the `ListTagsForResource` operation on the `IotDeviceAdvisor` service.
     ///
     /// Lists the tags attached to an IoT Device Advisor resource. Requires permission to access the [ListTagsForResource](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -947,7 +947,7 @@ extension IotDeviceAdvisorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartSuiteRun` operation on the `IotSenateService` service.
+    /// Performs the `StartSuiteRun` operation on the `IotDeviceAdvisor` service.
     ///
     /// Starts a Device Advisor test suite run. Requires permission to access the [StartSuiteRun](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -1018,7 +1018,7 @@ extension IotDeviceAdvisorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopSuiteRun` operation on the `IotSenateService` service.
+    /// Performs the `StopSuiteRun` operation on the `IotDeviceAdvisor` service.
     ///
     /// Stops a Device Advisor test suite run that is currently running. Requires permission to access the [StopSuiteRun](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -1086,7 +1086,7 @@ extension IotDeviceAdvisorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `IotSenateService` service.
+    /// Performs the `TagResource` operation on the `IotDeviceAdvisor` service.
     ///
     /// Adds to and modifies existing tags of an IoT Device Advisor resource. Requires permission to access the [TagResource](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -1157,7 +1157,7 @@ extension IotDeviceAdvisorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `IotSenateService` service.
+    /// Performs the `UntagResource` operation on the `IotDeviceAdvisor` service.
     ///
     /// Removes tags from an IoT Device Advisor resource. Requires permission to access the [UntagResource](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -1226,7 +1226,7 @@ extension IotDeviceAdvisorClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateSuiteDefinition` operation on the `IotSenateService` service.
+    /// Performs the `UpdateSuiteDefinition` operation on the `IotDeviceAdvisor` service.
     ///
     /// Updates a Device Advisor test suite. Requires permission to access the [UpdateSuiteDefinition](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///

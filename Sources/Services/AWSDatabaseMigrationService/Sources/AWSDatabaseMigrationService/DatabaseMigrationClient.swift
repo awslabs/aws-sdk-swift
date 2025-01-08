@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class DatabaseMigrationClient: ClientRuntime.Client {
     public static let clientName = "DatabaseMigrationClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: DatabaseMigrationClient.DatabaseMigrationClientConfiguration
     let serviceName = "Database Migration"
@@ -330,7 +330,7 @@ extension DatabaseMigrationClient {
 }
 
 extension DatabaseMigrationClient {
-    /// Performs the `AddTagsToResource` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `AddTagsToResource` operation on the `DatabaseMigration` service.
     ///
     /// Adds metadata tags to an DMS resource, including replication instance, endpoint, subnet group, and migration task. These tags can also be used with cost allocation reporting to track cost associated with DMS resources, or used in a Condition statement in an IAM policy for DMS. For more information, see [Tag](https://docs.aws.amazon.com/dms/latest/APIReference/API_Tag.html) data type description.
     ///
@@ -401,7 +401,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ApplyPendingMaintenanceAction` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `ApplyPendingMaintenanceAction` operation on the `DatabaseMigration` service.
     ///
     /// Applies a pending maintenance action to a resource (for example, to a replication instance).
     ///
@@ -471,7 +471,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchStartRecommendations` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `BatchStartRecommendations` operation on the `DatabaseMigration` service.
     ///
     /// Starts the analysis of up to 20 source databases to recommend target engines for each source database. This is a batch version of [StartRecommendations](https://docs.aws.amazon.com/dms/latest/APIReference/API_StartRecommendations.html). The result of analysis of each source database is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.
     ///
@@ -543,7 +543,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CancelReplicationTaskAssessmentRun` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `CancelReplicationTaskAssessmentRun` operation on the `DatabaseMigration` service.
     ///
     /// Cancels a single premigration assessment run. This operation prevents any individual assessments from running if they haven't started running. It also attempts to cancel any individual assessments that are currently running.
     ///
@@ -615,7 +615,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateDataMigration` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `CreateDataMigration` operation on the `DatabaseMigration` service.
     ///
     /// Creates a data migration using the provided settings.
     ///
@@ -689,7 +689,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateDataProvider` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `CreateDataProvider` operation on the `DatabaseMigration` service.
     ///
     /// Creates a data provider using the provided settings. A data provider stores a data store type and location information about your database.
     ///
@@ -762,7 +762,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateEndpoint` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `CreateEndpoint` operation on the `DatabaseMigration` service.
     ///
     /// Creates an endpoint using the provided settings. For a MySQL source or target endpoint, don't explicitly specify the database using the DatabaseName request parameter on the CreateEndpoint API call. Specifying DatabaseName when you create a MySQL endpoint replicates all the task tables to this single database. For MySQL endpoints, you specify the database only when you specify the schema in the table-mapping rules of the DMS task.
     ///
@@ -838,7 +838,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateEventSubscription` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `CreateEventSubscription` operation on the `DatabaseMigration` service.
     ///
     /// Creates an DMS event notification subscription. You can specify the type of source (SourceType) you want to be notified of, provide a list of DMS source IDs (SourceIds) that triggers the events, and provide a list of event categories (EventCategories) for events you want to be notified of. If you specify both the SourceType and SourceIds, such as SourceType = replication-instance and SourceIdentifier = my-replinstance, you will be notified of all the replication instance events for the specified source. If you specify a SourceType but don't specify a SourceIdentifier, you receive notice of the events for that source type for all your DMS sources. If you don't specify either SourceType nor SourceIdentifier, you will be notified of events generated from all DMS sources belonging to your customer account. For more information about DMS events, see [Working with Events and Notifications](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Events.html) in the Database Migration Service User Guide.
     ///
@@ -917,7 +917,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateFleetAdvisorCollector` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `CreateFleetAdvisorCollector` operation on the `DatabaseMigration` service.
     ///
     /// Creates a Fleet Advisor collector using the specified parameters.
     ///
@@ -991,7 +991,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateInstanceProfile` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `CreateInstanceProfile` operation on the `DatabaseMigration` service.
     ///
     /// Creates the instance profile using the specified parameters.
     ///
@@ -1069,7 +1069,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateMigrationProject` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `CreateMigrationProject` operation on the `DatabaseMigration` service.
     ///
     /// Creates the migration project using the specified parameters. You can run this action only after you create an instance profile and data providers using [CreateInstanceProfile](https://docs.aws.amazon.com/dms/latest/APIReference/API_CreateInstanceProfile.html) and [CreateDataProvider](https://docs.aws.amazon.com/dms/latest/APIReference/API_CreateDataProvider.html).
     ///
@@ -1145,7 +1145,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateReplicationConfig` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `CreateReplicationConfig` operation on the `DatabaseMigration` service.
     ///
     /// Creates a configuration that you can later provide to configure and start an DMS Serverless replication. You can also provide options to validate the configuration inputs before you start the replication.
     ///
@@ -1222,7 +1222,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateReplicationInstance` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `CreateReplicationInstance` operation on the `DatabaseMigration` service.
     ///
     /// Creates the replication instance using the specified parameters. DMS requires that your account have certain roles with appropriate permissions before you can create a replication instance. For information on the required roles, see [Creating the IAM Roles to Use With the CLI and DMS API](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Security.html#CHAP_Security.APIRole). For information on the required permissions, see [IAM Permissions Needed to Use DMS](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Security.html#CHAP_Security.IAMPermissions). If you don't specify a version when creating a replication instance, DMS will create the instance using the default engine version. For information about the default engine version, see [Release Notes](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_ReleaseNotes.html).
     ///
@@ -1301,7 +1301,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateReplicationSubnetGroup` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `CreateReplicationSubnetGroup` operation on the `DatabaseMigration` service.
     ///
     /// Creates a replication subnet group given a list of the subnet IDs in a VPC. The VPC needs to have at least one subnet in at least two availability zones in the Amazon Web Services Region, otherwise the service will throw a ReplicationSubnetGroupDoesNotCoverEnoughAZs exception. If a replication subnet group exists in your Amazon Web Services account, the CreateReplicationSubnetGroup action returns the following error message: The Replication Subnet Group already exists. In this case, delete the existing replication subnet group. To do so, use the [DeleteReplicationSubnetGroup](https://docs.aws.amazon.com/en_us/dms/latest/APIReference/API_DeleteReplicationSubnetGroup.html) action. Optionally, choose Subnet groups in the DMS console, then choose your subnet group. Next, choose Delete from Actions.
     ///
@@ -1376,7 +1376,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateReplicationTask` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `CreateReplicationTask` operation on the `DatabaseMigration` service.
     ///
     /// Creates a replication task using the specified parameters.
     ///
@@ -1451,7 +1451,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteCertificate` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `DeleteCertificate` operation on the `DatabaseMigration` service.
     ///
     /// Deletes the specified certificate.
     ///
@@ -1522,7 +1522,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteConnection` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `DeleteConnection` operation on the `DatabaseMigration` service.
     ///
     /// Deletes the connection between a replication instance and an endpoint.
     ///
@@ -1594,7 +1594,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteDataMigration` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `DeleteDataMigration` operation on the `DatabaseMigration` service.
     ///
     /// Deletes the specified data migration.
     ///
@@ -1666,7 +1666,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteDataProvider` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `DeleteDataProvider` operation on the `DatabaseMigration` service.
     ///
     /// Deletes the specified data provider. All migration projects associated with the data provider must be deleted or modified before you can delete the data provider.
     ///
@@ -1739,7 +1739,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteEndpoint` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `DeleteEndpoint` operation on the `DatabaseMigration` service.
     ///
     /// Deletes the specified endpoint. All tasks associated with the endpoint must be deleted before you can delete the endpoint.
     ///
@@ -1810,7 +1810,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteEventSubscription` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `DeleteEventSubscription` operation on the `DatabaseMigration` service.
     ///
     /// Deletes an DMS event subscription.
     ///
@@ -1882,7 +1882,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteFleetAdvisorCollector` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `DeleteFleetAdvisorCollector` operation on the `DatabaseMigration` service.
     ///
     /// Deletes the specified Fleet Advisor collector.
     ///
@@ -1954,7 +1954,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteFleetAdvisorDatabases` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `DeleteFleetAdvisorDatabases` operation on the `DatabaseMigration` service.
     ///
     /// Deletes the specified Fleet Advisor collector databases.
     ///
@@ -2026,7 +2026,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteInstanceProfile` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `DeleteInstanceProfile` operation on the `DatabaseMigration` service.
     ///
     /// Deletes the specified instance profile. All migration projects associated with the instance profile must be deleted or modified before you can delete the instance profile.
     ///
@@ -2099,7 +2099,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteMigrationProject` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `DeleteMigrationProject` operation on the `DatabaseMigration` service.
     ///
     /// Deletes the specified migration project. The migration project must be closed before you can delete it.
     ///
@@ -2172,7 +2172,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteReplicationConfig` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `DeleteReplicationConfig` operation on the `DatabaseMigration` service.
     ///
     /// Deletes an DMS Serverless replication configuration. This effectively deprovisions any and all replications that use this configuration. You can't delete the configuration for an DMS Serverless replication that is ongoing. You can delete the configuration when the replication is in a non-RUNNING and non-STARTING state.
     ///
@@ -2244,7 +2244,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteReplicationInstance` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `DeleteReplicationInstance` operation on the `DatabaseMigration` service.
     ///
     /// Deletes the specified replication instance. You must delete any migration tasks that are associated with the replication instance before you can delete it.
     ///
@@ -2315,7 +2315,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteReplicationSubnetGroup` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `DeleteReplicationSubnetGroup` operation on the `DatabaseMigration` service.
     ///
     /// Deletes a subnet group.
     ///
@@ -2387,7 +2387,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteReplicationTask` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `DeleteReplicationTask` operation on the `DatabaseMigration` service.
     ///
     /// Deletes the specified replication task.
     ///
@@ -2458,7 +2458,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteReplicationTaskAssessmentRun` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `DeleteReplicationTaskAssessmentRun` operation on the `DatabaseMigration` service.
     ///
     /// Deletes the record of a single premigration assessment run. This operation removes all metadata that DMS maintains about this assessment run. However, the operation leaves untouched all information about this assessment run that is stored in your Amazon S3 bucket.
     ///
@@ -2530,7 +2530,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeAccountAttributes` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `DescribeAccountAttributes` operation on the `DatabaseMigration` service.
     ///
     /// Lists all of the DMS attributes for a customer account. These attributes include DMS quotas for the account and a unique account identifier in a particular DMS region. DMS quotas include a list of resource quotas supported by the account, such as the number of replication instances allowed. The description for each resource quota, includes the quota name, current usage toward that quota, and the quota's maximum value. DMS uses the unique account identifier to name each artifact used by DMS in the given region. This command does not take any parameters.
     ///
@@ -2595,7 +2595,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeApplicableIndividualAssessments` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `DescribeApplicableIndividualAssessments` operation on the `DatabaseMigration` service.
     ///
     /// Provides a list of individual assessments that you can specify for a new premigration assessment run, given one or more parameters. If you specify an existing migration task, this operation provides the default individual assessments you can specify for that task. Otherwise, the specified parameters model elements of a possible migration task on which to base a premigration assessment run. To use these migration task modeling parameters, you must specify an existing replication instance, a source database engine, a target database engine, and a migration type. This combination of parameters potentially limits the default individual assessments available for an assessment run created for a corresponding migration task. If you specify no parameters, this operation provides a list of all possible individual assessments that you can specify for an assessment run. If you specify any one of the task modeling parameters, you must specify all of them or the operation cannot provide a list of individual assessments. The only parameter that you can specify alone is for an existing migration task. The specified task definition then determines the default list of individual assessments that you can specify in an assessment run for the task.
     ///
@@ -2667,7 +2667,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeCertificates` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `DescribeCertificates` operation on the `DatabaseMigration` service.
     ///
     /// Provides a description of the certificate.
     ///
@@ -2737,7 +2737,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeConnections` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `DescribeConnections` operation on the `DatabaseMigration` service.
     ///
     /// Describes the status of the connections that have been made between the replication instance and an endpoint. Connections are created when you test an endpoint.
     ///
@@ -2807,7 +2807,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeConversionConfiguration` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `DescribeConversionConfiguration` operation on the `DatabaseMigration` service.
     ///
     /// Returns configuration parameters for a schema conversion project.
     ///
@@ -2877,7 +2877,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeDataMigrations` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `DescribeDataMigrations` operation on the `DatabaseMigration` service.
     ///
     /// Returns information about data migrations.
     ///
@@ -2949,7 +2949,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeDataProviders` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `DescribeDataProviders` operation on the `DatabaseMigration` service.
     ///
     /// Returns a paginated list of data providers for your account in the current region.
     ///
@@ -3021,7 +3021,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeEndpointSettings` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `DescribeEndpointSettings` operation on the `DatabaseMigration` service.
     ///
     /// Returns information about the possible endpoint settings available when you create an endpoint for a specific database engine.
     ///
@@ -3086,7 +3086,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeEndpointTypes` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `DescribeEndpointTypes` operation on the `DatabaseMigration` service.
     ///
     /// Returns information about the type of endpoints available.
     ///
@@ -3151,7 +3151,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeEndpoints` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `DescribeEndpoints` operation on the `DatabaseMigration` service.
     ///
     /// Returns information about the endpoints for your account in the current region.
     ///
@@ -3221,7 +3221,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeEngineVersions` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `DescribeEngineVersions` operation on the `DatabaseMigration` service.
     ///
     /// Returns information about the replication instance versions used in the project.
     ///
@@ -3286,7 +3286,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeEventCategories` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `DescribeEventCategories` operation on the `DatabaseMigration` service.
     ///
     /// Lists categories for all event source types, or, if specified, for a specified source type. You can see a list of the event categories and source types in [Working with Events and Notifications](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Events.html) in the Database Migration Service User Guide.
     ///
@@ -3351,7 +3351,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeEventSubscriptions` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `DescribeEventSubscriptions` operation on the `DatabaseMigration` service.
     ///
     /// Lists all the event subscriptions for a customer account. The description of a subscription includes SubscriptionName, SNSTopicARN, CustomerID, SourceType, SourceID, CreationTime, and Status. If you specify SubscriptionName, this action lists the description for that subscription.
     ///
@@ -3421,7 +3421,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeEvents` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `DescribeEvents` operation on the `DatabaseMigration` service.
     ///
     /// Lists events for a given source identifier and source type. You can also specify a start and end time. For more information on DMS events, see [Working with Events and Notifications](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Events.html) in the Database Migration Service User Guide.
     ///
@@ -3486,7 +3486,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeExtensionPackAssociations` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `DescribeExtensionPackAssociations` operation on the `DatabaseMigration` service.
     ///
     /// Returns a paginated list of extension pack associations for the specified migration project. An extension pack is an add-on module that emulates functions present in a source database that are required when converting objects to the target database.
     ///
@@ -3551,7 +3551,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeFleetAdvisorCollectors` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `DescribeFleetAdvisorCollectors` operation on the `DatabaseMigration` service.
     ///
     /// Returns a list of the Fleet Advisor collectors in your account.
     ///
@@ -3621,7 +3621,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeFleetAdvisorDatabases` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `DescribeFleetAdvisorDatabases` operation on the `DatabaseMigration` service.
     ///
     /// Returns a list of Fleet Advisor databases in your account.
     ///
@@ -3691,7 +3691,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeFleetAdvisorLsaAnalysis` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `DescribeFleetAdvisorLsaAnalysis` operation on the `DatabaseMigration` service.
     ///
     /// Provides descriptions of large-scale assessment (LSA) analyses produced by your Fleet Advisor collectors.
     ///
@@ -3761,7 +3761,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeFleetAdvisorSchemaObjectSummary` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `DescribeFleetAdvisorSchemaObjectSummary` operation on the `DatabaseMigration` service.
     ///
     /// Provides descriptions of the schemas discovered by your Fleet Advisor collectors.
     ///
@@ -3831,7 +3831,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeFleetAdvisorSchemas` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `DescribeFleetAdvisorSchemas` operation on the `DatabaseMigration` service.
     ///
     /// Returns a list of schemas detected by Fleet Advisor Collectors in your account.
     ///
@@ -3901,7 +3901,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeInstanceProfiles` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `DescribeInstanceProfiles` operation on the `DatabaseMigration` service.
     ///
     /// Returns a paginated list of instance profiles for your account in the current region.
     ///
@@ -3973,7 +3973,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeMetadataModelAssessments` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `DescribeMetadataModelAssessments` operation on the `DatabaseMigration` service.
     ///
     /// Returns a paginated list of metadata model assessments for your account in the current region.
     ///
@@ -4043,7 +4043,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeMetadataModelConversions` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `DescribeMetadataModelConversions` operation on the `DatabaseMigration` service.
     ///
     /// Returns a paginated list of metadata model conversions for a migration project.
     ///
@@ -4113,7 +4113,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeMetadataModelExportsAsScript` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `DescribeMetadataModelExportsAsScript` operation on the `DatabaseMigration` service.
     ///
     /// Returns a paginated list of metadata model exports.
     ///
@@ -4183,7 +4183,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeMetadataModelExportsToTarget` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `DescribeMetadataModelExportsToTarget` operation on the `DatabaseMigration` service.
     ///
     /// Returns a paginated list of metadata model exports.
     ///
@@ -4253,7 +4253,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeMetadataModelImports` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `DescribeMetadataModelImports` operation on the `DatabaseMigration` service.
     ///
     /// Returns a paginated list of metadata model imports.
     ///
@@ -4323,7 +4323,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeMigrationProjects` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `DescribeMigrationProjects` operation on the `DatabaseMigration` service.
     ///
     /// Returns a paginated list of migration projects for your account in the current region.
     ///
@@ -4395,7 +4395,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeOrderableReplicationInstances` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `DescribeOrderableReplicationInstances` operation on the `DatabaseMigration` service.
     ///
     /// Returns information about the replication instance types that can be created in the specified region.
     ///
@@ -4460,7 +4460,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribePendingMaintenanceActions` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `DescribePendingMaintenanceActions` operation on the `DatabaseMigration` service.
     ///
     /// For internal use only
     ///
@@ -4530,7 +4530,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeRecommendationLimitations` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `DescribeRecommendationLimitations` operation on the `DatabaseMigration` service.
     ///
     /// Returns a paginated list of limitations for recommendations of target Amazon Web Services engines.
     ///
@@ -4601,7 +4601,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeRecommendations` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `DescribeRecommendations` operation on the `DatabaseMigration` service.
     ///
     /// Returns a paginated list of target engine recommendations for your source databases.
     ///
@@ -4672,7 +4672,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeRefreshSchemasStatus` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `DescribeRefreshSchemasStatus` operation on the `DatabaseMigration` service.
     ///
     /// Returns the status of the RefreshSchemas operation.
     ///
@@ -4743,7 +4743,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeReplicationConfigs` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `DescribeReplicationConfigs` operation on the `DatabaseMigration` service.
     ///
     /// Returns one or more existing DMS Serverless replication configurations as a list of structures.
     ///
@@ -4813,7 +4813,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeReplicationInstanceTaskLogs` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `DescribeReplicationInstanceTaskLogs` operation on the `DatabaseMigration` service.
     ///
     /// Returns information about the task logs for the specified task.
     ///
@@ -4884,7 +4884,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeReplicationInstances` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `DescribeReplicationInstances` operation on the `DatabaseMigration` service.
     ///
     /// Returns information about replication instances for your account in the current region.
     ///
@@ -4954,7 +4954,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeReplicationSubnetGroups` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `DescribeReplicationSubnetGroups` operation on the `DatabaseMigration` service.
     ///
     /// Returns information about the replication subnet groups.
     ///
@@ -5024,7 +5024,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeReplicationTableStatistics` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `DescribeReplicationTableStatistics` operation on the `DatabaseMigration` service.
     ///
     /// Returns table and schema statistics for one or more provisioned replications that use a given DMS Serverless replication configuration.
     ///
@@ -5095,7 +5095,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeReplicationTaskAssessmentResults` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `DescribeReplicationTaskAssessmentResults` operation on the `DatabaseMigration` service.
     ///
     /// Returns the task assessment results from the Amazon S3 bucket that DMS creates in your Amazon Web Services account. This action always returns the latest results. For more information about DMS task assessments, see [Creating a task assessment report](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Tasks.AssessmentReport.html) in the Database Migration Service User Guide.
     ///
@@ -5165,7 +5165,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeReplicationTaskAssessmentRuns` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `DescribeReplicationTaskAssessmentRuns` operation on the `DatabaseMigration` service.
     ///
     /// Returns a paginated list of premigration assessment runs based on filter settings. These filter settings can specify a combination of premigration assessment runs, migration tasks, replication instances, and assessment run status values. This operation doesn't return information about individual assessments. For this information, see the DescribeReplicationTaskIndividualAssessments operation.
     ///
@@ -5235,7 +5235,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeReplicationTaskIndividualAssessments` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `DescribeReplicationTaskIndividualAssessments` operation on the `DatabaseMigration` service.
     ///
     /// Returns a paginated list of individual assessments based on filter settings. These filter settings can specify a combination of premigration assessment runs, migration tasks, and assessment status values.
     ///
@@ -5305,7 +5305,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeReplicationTasks` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `DescribeReplicationTasks` operation on the `DatabaseMigration` service.
     ///
     /// Returns information about replication tasks for your account in the current region.
     ///
@@ -5375,7 +5375,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeReplications` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `DescribeReplications` operation on the `DatabaseMigration` service.
     ///
     /// Provides details on replication progress by returning status information for one or more provisioned DMS Serverless replications.
     ///
@@ -5445,7 +5445,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeSchemas` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `DescribeSchemas` operation on the `DatabaseMigration` service.
     ///
     /// Returns information about the schema for the specified endpoint.
     ///
@@ -5516,7 +5516,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeTableStatistics` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `DescribeTableStatistics` operation on the `DatabaseMigration` service.
     ///
     /// Returns table statistics on the database migration task, including table name, rows inserted, rows updated, and rows deleted. Note that the "last updated" column the DMS console only indicates the time that DMS last updated the table statistics record for a table. It does not indicate the time of the last update to the table.
     ///
@@ -5588,7 +5588,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ExportMetadataModelAssessment` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `ExportMetadataModelAssessment` operation on the `DatabaseMigration` service.
     ///
     /// Saves a copy of a database migration assessment report to your Amazon S3 bucket. DMS can save your assessment report as a comma-separated value (CSV) or a PDF file.
     ///
@@ -5658,7 +5658,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ImportCertificate` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `ImportCertificate` operation on the `DatabaseMigration` service.
     ///
     /// Uploads the specified certificate.
     ///
@@ -5730,7 +5730,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `ListTagsForResource` operation on the `DatabaseMigration` service.
     ///
     /// Lists all metadata tags attached to an DMS resource, including replication instance, endpoint, subnet group, and migration task. For more information, see [Tag](https://docs.aws.amazon.com/dms/latest/APIReference/API_Tag.html) data type description.
     ///
@@ -5801,7 +5801,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyConversionConfiguration` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `ModifyConversionConfiguration` operation on the `DatabaseMigration` service.
     ///
     /// Modifies the specified schema conversion configuration using the provided parameters.
     ///
@@ -5872,7 +5872,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyDataMigration` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `ModifyDataMigration` operation on the `DatabaseMigration` service.
     ///
     /// Modifies an existing DMS data migration.
     ///
@@ -5944,7 +5944,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyDataProvider` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `ModifyDataProvider` operation on the `DatabaseMigration` service.
     ///
     /// Modifies the specified data provider using the provided settings. You must remove the data provider from all migration projects before you can modify it.
     ///
@@ -6017,7 +6017,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyEndpoint` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `ModifyEndpoint` operation on the `DatabaseMigration` service.
     ///
     /// Modifies the specified endpoint. For a MySQL source or target endpoint, don't explicitly specify the database using the DatabaseName request parameter on the ModifyEndpoint API call. Specifying DatabaseName when you modify a MySQL endpoint replicates all the task tables to this single database. For MySQL endpoints, you specify the database only when you specify the schema in the table-mapping rules of the DMS task.
     ///
@@ -6091,7 +6091,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyEventSubscription` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `ModifyEventSubscription` operation on the `DatabaseMigration` service.
     ///
     /// Modifies an existing DMS event notification subscription.
     ///
@@ -6170,7 +6170,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyInstanceProfile` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `ModifyInstanceProfile` operation on the `DatabaseMigration` service.
     ///
     /// Modifies the specified instance profile using the provided parameters. All migration projects associated with the instance profile must be deleted or modified before you can modify the instance profile.
     ///
@@ -6246,7 +6246,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyMigrationProject` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `ModifyMigrationProject` operation on the `DatabaseMigration` service.
     ///
     /// Modifies the specified migration project using the provided parameters. The migration project must be closed before you can modify it.
     ///
@@ -6321,7 +6321,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyReplicationConfig` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `ModifyReplicationConfig` operation on the `DatabaseMigration` service.
     ///
     /// Modifies an existing DMS Serverless replication configuration that you can use to start a replication. This command includes input validation and logic to check the state of any replication that uses this configuration. You can only modify a replication configuration before any replication that uses it has started. As soon as you have initially started a replication with a given configuiration, you can't modify that configuration, even if you stop it. Other run statuses that allow you to run this command include FAILED and CREATED. A provisioning state that allows you to run this command is FAILED_PROVISION.
     ///
@@ -6396,7 +6396,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyReplicationInstance` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `ModifyReplicationInstance` operation on the `DatabaseMigration` service.
     ///
     /// Modifies the replication instance to apply new settings. You can change one or more parameters by specifying these parameters and the new values in the request. Some settings are applied during the maintenance window.
     ///
@@ -6472,7 +6472,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyReplicationSubnetGroup` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `ModifyReplicationSubnetGroup` operation on the `DatabaseMigration` service.
     ///
     /// Modifies the settings for the specified replication subnet group.
     ///
@@ -6547,7 +6547,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ModifyReplicationTask` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `ModifyReplicationTask` operation on the `DatabaseMigration` service.
     ///
     /// Modifies the specified replication task. You can't modify the task endpoints. The task must be stopped before you can modify it. For more information about DMS tasks, see [Working with Migration Tasks](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Tasks.html) in the Database Migration Service User Guide.
     ///
@@ -6620,7 +6620,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `MoveReplicationTask` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `MoveReplicationTask` operation on the `DatabaseMigration` service.
     ///
     /// Moves a replication task from its current replication instance to a different target replication instance using the specified parameters. The target replication instance must be created with the same or later DMS version as the current replication instance.
     ///
@@ -6694,7 +6694,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RebootReplicationInstance` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `RebootReplicationInstance` operation on the `DatabaseMigration` service.
     ///
     /// Reboots a replication instance. Rebooting results in a momentary outage, until the replication instance becomes available again.
     ///
@@ -6765,7 +6765,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RefreshSchemas` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `RefreshSchemas` operation on the `DatabaseMigration` service.
     ///
     /// Populates the schema for the specified endpoint. This is an asynchronous operation and can take several minutes. You can check the status of this operation by calling the DescribeRefreshSchemasStatus operation.
     ///
@@ -6838,7 +6838,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ReloadReplicationTables` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `ReloadReplicationTables` operation on the `DatabaseMigration` service.
     ///
     /// Reloads the target database table with the source data for a given DMS Serverless replication configuration. You can only use this operation with a task in the RUNNING state, otherwise the service will throw an InvalidResourceStateFault exception.
     ///
@@ -6909,7 +6909,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ReloadTables` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `ReloadTables` operation on the `DatabaseMigration` service.
     ///
     /// Reloads the target database table with the source data. You can only use this operation with a task in the RUNNING state, otherwise the service will throw an InvalidResourceStateFault exception.
     ///
@@ -6980,7 +6980,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RemoveTagsFromResource` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `RemoveTagsFromResource` operation on the `DatabaseMigration` service.
     ///
     /// Removes metadata tags from an DMS resource, including replication instance, endpoint, subnet group, and migration task. For more information, see [Tag](https://docs.aws.amazon.com/dms/latest/APIReference/API_Tag.html) data type description.
     ///
@@ -7051,7 +7051,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RunFleetAdvisorLsaAnalysis` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `RunFleetAdvisorLsaAnalysis` operation on the `DatabaseMigration` service.
     ///
     /// Runs large-scale assessment (LSA) analysis on every Fleet Advisor collector in your account.
     ///
@@ -7122,7 +7122,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartDataMigration` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `StartDataMigration` operation on the `DatabaseMigration` service.
     ///
     /// Starts the specified data migration.
     ///
@@ -7196,7 +7196,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartExtensionPackAssociation` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `StartExtensionPackAssociation` operation on the `DatabaseMigration` service.
     ///
     /// Applies the extension pack to your target database. An extension pack is an add-on module that emulates functions present in a source database that are required when converting objects to the target database.
     ///
@@ -7273,7 +7273,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartMetadataModelAssessment` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `StartMetadataModelAssessment` operation on the `DatabaseMigration` service.
     ///
     /// Creates a database migration assessment report by assessing the migration complexity for your source database. A database migration assessment report summarizes all of the schema conversion tasks. It also details the action items for database objects that can't be converted to the database engine of your target database instance.
     ///
@@ -7350,7 +7350,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartMetadataModelConversion` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `StartMetadataModelConversion` operation on the `DatabaseMigration` service.
     ///
     /// Converts your source database objects to a format compatible with the target database.
     ///
@@ -7427,7 +7427,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartMetadataModelExportAsScript` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `StartMetadataModelExportAsScript` operation on the `DatabaseMigration` service.
     ///
     /// Saves your converted code to a file as a SQL script, and stores this file on your Amazon S3 bucket.
     ///
@@ -7504,7 +7504,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartMetadataModelExportToTarget` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `StartMetadataModelExportToTarget` operation on the `DatabaseMigration` service.
     ///
     /// Applies converted database objects to your target database.
     ///
@@ -7581,7 +7581,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartMetadataModelImport` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `StartMetadataModelImport` operation on the `DatabaseMigration` service.
     ///
     /// Loads the metadata for all the dependent database objects of the parent object. This operation uses your project's Amazon S3 bucket as a metadata cache to improve performance.
     ///
@@ -7658,7 +7658,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartRecommendations` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `StartRecommendations` operation on the `DatabaseMigration` service.
     ///
     /// Starts the analysis of your source database to provide recommendations of target engines. You can create recommendations for multiple source databases using [BatchStartRecommendations](https://docs.aws.amazon.com/dms/latest/APIReference/API_BatchStartRecommendations.html).
     ///
@@ -7730,7 +7730,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartReplication` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `StartReplication` operation on the `DatabaseMigration` service.
     ///
     /// For a given DMS Serverless replication configuration, DMS connects to the source endpoint and collects the metadata to analyze the replication workload. Using this metadata, DMS then computes and provisions the required capacity and starts replicating to the target endpoint using the server resources that DMS has provisioned for the DMS Serverless replication.
     ///
@@ -7802,7 +7802,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartReplicationTask` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `StartReplicationTask` operation on the `DatabaseMigration` service.
     ///
     /// Starts the replication task. For more information about DMS tasks, see [Working with Migration Tasks ](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Tasks.html) in the Database Migration Service User Guide.
     ///
@@ -7874,7 +7874,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartReplicationTaskAssessment` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `StartReplicationTaskAssessment` operation on the `DatabaseMigration` service.
     ///
     /// Starts the replication task assessment for unsupported data types in the source database. You can only use this operation for a task if the following conditions are true:
     ///
@@ -7952,7 +7952,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartReplicationTaskAssessmentRun` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `StartReplicationTaskAssessmentRun` operation on the `DatabaseMigration` service.
     ///
     /// Starts a new premigration assessment run for one or more individual assessments of a migration task. The assessments that you can specify depend on the source and target database engine and the migration type defined for the given task. To run this operation, your migration task must already be created. After you run this operation, you can review the status of each individual assessment. You can also run the migration task manually after the assessment run and its individual assessments complete.
     ///
@@ -8033,7 +8033,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopDataMigration` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `StopDataMigration` operation on the `DatabaseMigration` service.
     ///
     /// Stops the specified data migration.
     ///
@@ -8105,7 +8105,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopReplication` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `StopReplication` operation on the `DatabaseMigration` service.
     ///
     /// For a given DMS Serverless replication configuration, DMS stops any and all ongoing DMS Serverless replications. This command doesn't deprovision the stopped replications.
     ///
@@ -8177,7 +8177,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopReplicationTask` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `StopReplicationTask` operation on the `DatabaseMigration` service.
     ///
     /// Stops the replication task.
     ///
@@ -8248,7 +8248,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TestConnection` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `TestConnection` operation on the `DatabaseMigration` service.
     ///
     /// Tests the connection between the replication instance and the endpoint.
     ///
@@ -8322,7 +8322,7 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateSubscriptionsToEventBridge` operation on the `AmazonDMSv20160101` service.
+    /// Performs the `UpdateSubscriptionsToEventBridge` operation on the `DatabaseMigration` service.
     ///
     /// Migrates 10 active and enabled Amazon SNS subscriptions at a time and converts them to corresponding Amazon EventBridge rules. By default, this operation migrates subscriptions only when all your replication instance versions are 3.4.5 or higher. If any replication instances are from versions earlier than 3.4.5, the operation raises an error and tells you to upgrade these instances to version 3.4.5 or higher. To enable migration regardless of version, set the Force option to true. However, if you don't upgrade instances earlier than version 3.4.5, some types of events might not be available when you use Amazon EventBridge. To call this operation, make sure that you have certain permissions added to your user account. For more information, see [Migrating event subscriptions to Amazon EventBridge](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Events.html#CHAP_Events-migrate-to-eventbridge) in the Amazon Web Services Database Migration Service User Guide.
     ///

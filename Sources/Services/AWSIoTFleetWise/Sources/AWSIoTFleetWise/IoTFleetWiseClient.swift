@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class IoTFleetWiseClient: ClientRuntime.Client {
     public static let clientName = "IoTFleetWiseClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: IoTFleetWiseClient.IoTFleetWiseClientConfiguration
     let serviceName = "IoTFleetWise"
@@ -331,7 +331,7 @@ extension IoTFleetWiseClient {
 }
 
 extension IoTFleetWiseClient {
-    /// Performs the `AssociateVehicleFleet` operation on the `IoTAutobahnControlPlane` service.
+    /// Performs the `AssociateVehicleFleet` operation on the `IoTFleetWise` service.
     ///
     /// Adds, or associates, a vehicle with a fleet.
     ///
@@ -406,7 +406,7 @@ extension IoTFleetWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchCreateVehicle` operation on the `IoTAutobahnControlPlane` service.
+    /// Performs the `BatchCreateVehicle` operation on the `IoTFleetWise` service.
     ///
     /// Creates a group, or batch, of vehicles. You must specify a decoder manifest and a vehicle model (model manifest) for each vehicle. For more information, see [Create multiple vehicles (AWS CLI)](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/create-vehicles-cli.html) in the Amazon Web Services IoT FleetWise Developer Guide.
     ///
@@ -480,7 +480,7 @@ extension IoTFleetWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchUpdateVehicle` operation on the `IoTAutobahnControlPlane` service.
+    /// Performs the `BatchUpdateVehicle` operation on the `IoTFleetWise` service.
     ///
     /// Updates a group, or batch, of vehicles. You must specify a decoder manifest and a vehicle model (model manifest) for each vehicle. For more information, see [Update multiple vehicles (AWS CLI)](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/update-vehicles-cli.html) in the Amazon Web Services IoT FleetWise Developer Guide.
     ///
@@ -554,7 +554,7 @@ extension IoTFleetWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateCampaign` operation on the `IoTAutobahnControlPlane` service.
+    /// Performs the `CreateCampaign` operation on the `IoTFleetWise` service.
     ///
     /// Creates an orchestration of data collection rules. The Amazon Web Services IoT FleetWise Edge Agent software running in vehicles uses campaigns to decide how to collect and transfer data to the cloud. You create campaigns in the cloud. After you or your team approve campaigns, Amazon Web Services IoT FleetWise automatically deploys them to vehicles. For more information, see [Collect and transfer data with campaigns](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/campaigns.html) in the Amazon Web Services IoT FleetWise Developer Guide. Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see [Amazon Web Services Region and feature availability](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleetwise-regions.html) in the Amazon Web Services IoT FleetWise Developer Guide.
     ///
@@ -630,7 +630,7 @@ extension IoTFleetWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateDecoderManifest` operation on the `IoTAutobahnControlPlane` service.
+    /// Performs the `CreateDecoderManifest` operation on the `IoTFleetWise` service.
     ///
     /// Creates the decoder manifest associated with a model manifest. To create a decoder manifest, the following must be true:
     ///
@@ -715,7 +715,7 @@ extension IoTFleetWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateFleet` operation on the `IoTAutobahnControlPlane` service.
+    /// Performs the `CreateFleet` operation on the `IoTFleetWise` service.
     ///
     /// Creates a fleet that represents a group of vehicles. You must create both a signal catalog and vehicles before you can create a fleet. For more information, see [Fleets](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleets.html) in the Amazon Web Services IoT FleetWise Developer Guide.
     ///
@@ -791,7 +791,7 @@ extension IoTFleetWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateModelManifest` operation on the `IoTAutobahnControlPlane` service.
+    /// Performs the `CreateModelManifest` operation on the `IoTFleetWise` service.
     ///
     /// Creates a vehicle model (model manifest) that specifies signals (attributes, branches, sensors, and actuators). For more information, see [Vehicle models](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/vehicle-models.html) in the Amazon Web Services IoT FleetWise Developer Guide.
     ///
@@ -868,7 +868,7 @@ extension IoTFleetWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateSignalCatalog` operation on the `IoTAutobahnControlPlane` service.
+    /// Performs the `CreateSignalCatalog` operation on the `IoTFleetWise` service.
     ///
     /// Creates a collection of standardized signals that can be reused to create vehicle models.
     ///
@@ -945,7 +945,7 @@ extension IoTFleetWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateStateTemplate` operation on the `IoTAutobahnControlPlane` service.
+    /// Performs the `CreateStateTemplate` operation on the `IoTFleetWise` service.
     ///
     /// Creates a state template. State templates contain state properties, which are signals that belong to a signal catalog that is synchronized between the Amazon Web Services IoT FleetWise Edge and the Amazon Web Services Cloud. Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see [Amazon Web Services Region and feature availability](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleetwise-regions.html) in the Amazon Web Services IoT FleetWise Developer Guide.
     ///
@@ -1022,7 +1022,7 @@ extension IoTFleetWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateVehicle` operation on the `IoTAutobahnControlPlane` service.
+    /// Performs the `CreateVehicle` operation on the `IoTFleetWise` service.
     ///
     /// Creates a vehicle, which is an instance of a vehicle model (model manifest). Vehicles created from the same vehicle model consist of the same signals inherited from the vehicle model. If you have an existing Amazon Web Services IoT thing, you can use Amazon Web Services IoT FleetWise to create a vehicle and collect data from your thing. For more information, see [Create a vehicle (AWS CLI)](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/create-vehicle-cli.html) in the Amazon Web Services IoT FleetWise Developer Guide.
     ///
@@ -1098,7 +1098,7 @@ extension IoTFleetWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteCampaign` operation on the `IoTAutobahnControlPlane` service.
+    /// Performs the `DeleteCampaign` operation on the `IoTFleetWise` service.
     ///
     /// Deletes a data collection campaign. Deleting a campaign suspends all data collection and removes it from any vehicles.
     ///
@@ -1172,7 +1172,7 @@ extension IoTFleetWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteDecoderManifest` operation on the `IoTAutobahnControlPlane` service.
+    /// Performs the `DeleteDecoderManifest` operation on the `IoTFleetWise` service.
     ///
     /// Deletes a decoder manifest. You can't delete a decoder manifest if it has vehicles associated with it.
     ///
@@ -1246,7 +1246,7 @@ extension IoTFleetWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteFleet` operation on the `IoTAutobahnControlPlane` service.
+    /// Performs the `DeleteFleet` operation on the `IoTFleetWise` service.
     ///
     /// Deletes a fleet. Before you delete a fleet, all vehicles must be dissociated from the fleet. For more information, see [Delete a fleet (AWS CLI)](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/delete-fleet-cli.html) in the Amazon Web Services IoT FleetWise Developer Guide.
     ///
@@ -1319,7 +1319,7 @@ extension IoTFleetWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteModelManifest` operation on the `IoTAutobahnControlPlane` service.
+    /// Performs the `DeleteModelManifest` operation on the `IoTFleetWise` service.
     ///
     /// Deletes a vehicle model (model manifest).
     ///
@@ -1393,7 +1393,7 @@ extension IoTFleetWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteSignalCatalog` operation on the `IoTAutobahnControlPlane` service.
+    /// Performs the `DeleteSignalCatalog` operation on the `IoTFleetWise` service.
     ///
     /// Deletes a signal catalog.
     ///
@@ -1467,7 +1467,7 @@ extension IoTFleetWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteStateTemplate` operation on the `IoTAutobahnControlPlane` service.
+    /// Performs the `DeleteStateTemplate` operation on the `IoTFleetWise` service.
     ///
     /// Deletes a state template.
     ///
@@ -1540,7 +1540,7 @@ extension IoTFleetWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteVehicle` operation on the `IoTAutobahnControlPlane` service.
+    /// Performs the `DeleteVehicle` operation on the `IoTFleetWise` service.
     ///
     /// Deletes a vehicle and removes it from any campaigns.
     ///
@@ -1613,7 +1613,7 @@ extension IoTFleetWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateVehicleFleet` operation on the `IoTAutobahnControlPlane` service.
+    /// Performs the `DisassociateVehicleFleet` operation on the `IoTFleetWise` service.
     ///
     /// Removes, or disassociates, a vehicle from a fleet. Disassociating a vehicle from a fleet doesn't delete the vehicle.
     ///
@@ -1687,7 +1687,7 @@ extension IoTFleetWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetCampaign` operation on the `IoTAutobahnControlPlane` service.
+    /// Performs the `GetCampaign` operation on the `IoTFleetWise` service.
     ///
     /// Retrieves information about a campaign. Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see [Amazon Web Services Region and feature availability](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleetwise-regions.html) in the Amazon Web Services IoT FleetWise Developer Guide.
     ///
@@ -1761,7 +1761,7 @@ extension IoTFleetWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDecoderManifest` operation on the `IoTAutobahnControlPlane` service.
+    /// Performs the `GetDecoderManifest` operation on the `IoTFleetWise` service.
     ///
     /// Retrieves information about a created decoder manifest.
     ///
@@ -1835,7 +1835,7 @@ extension IoTFleetWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetEncryptionConfiguration` operation on the `IoTAutobahnControlPlane` service.
+    /// Performs the `GetEncryptionConfiguration` operation on the `IoTFleetWise` service.
     ///
     /// Retrieves the encryption configuration for resources and data in Amazon Web Services IoT FleetWise.
     ///
@@ -1909,7 +1909,7 @@ extension IoTFleetWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetFleet` operation on the `IoTAutobahnControlPlane` service.
+    /// Performs the `GetFleet` operation on the `IoTFleetWise` service.
     ///
     /// Retrieves information about a fleet.
     ///
@@ -1983,7 +1983,7 @@ extension IoTFleetWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetLoggingOptions` operation on the `IoTAutobahnControlPlane` service.
+    /// Performs the `GetLoggingOptions` operation on the `IoTFleetWise` service.
     ///
     /// Retrieves the logging options.
     ///
@@ -2055,7 +2055,7 @@ extension IoTFleetWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetModelManifest` operation on the `IoTAutobahnControlPlane` service.
+    /// Performs the `GetModelManifest` operation on the `IoTFleetWise` service.
     ///
     /// Retrieves information about a vehicle model (model manifest).
     ///
@@ -2129,7 +2129,7 @@ extension IoTFleetWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetRegisterAccountStatus` operation on the `IoTAutobahnControlPlane` service.
+    /// Performs the `GetRegisterAccountStatus` operation on the `IoTFleetWise` service.
     ///
     /// Retrieves information about the status of registering your Amazon Web Services account, IAM, and Amazon Timestream resources so that Amazon Web Services IoT FleetWise can transfer your vehicle data to the Amazon Web Services Cloud. For more information, including step-by-step procedures, see [Setting up Amazon Web Services IoT FleetWise](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/setting-up.html). This API operation doesn't require input parameters.
     ///
@@ -2203,7 +2203,7 @@ extension IoTFleetWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetSignalCatalog` operation on the `IoTAutobahnControlPlane` service.
+    /// Performs the `GetSignalCatalog` operation on the `IoTFleetWise` service.
     ///
     /// Retrieves information about a signal catalog.
     ///
@@ -2277,7 +2277,7 @@ extension IoTFleetWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetStateTemplate` operation on the `IoTAutobahnControlPlane` service.
+    /// Performs the `GetStateTemplate` operation on the `IoTFleetWise` service.
     ///
     /// Retrieves information about a state template. Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see [Amazon Web Services Region and feature availability](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleetwise-regions.html) in the Amazon Web Services IoT FleetWise Developer Guide.
     ///
@@ -2351,7 +2351,7 @@ extension IoTFleetWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetVehicle` operation on the `IoTAutobahnControlPlane` service.
+    /// Performs the `GetVehicle` operation on the `IoTFleetWise` service.
     ///
     /// Retrieves information about a vehicle.
     ///
@@ -2425,7 +2425,7 @@ extension IoTFleetWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetVehicleStatus` operation on the `IoTAutobahnControlPlane` service.
+    /// Performs the `GetVehicleStatus` operation on the `IoTFleetWise` service.
     ///
     /// Retrieves information about the status of campaigns, decoder manifests, or state templates associated with a vehicle.
     ///
@@ -2500,7 +2500,7 @@ extension IoTFleetWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ImportDecoderManifest` operation on the `IoTAutobahnControlPlane` service.
+    /// Performs the `ImportDecoderManifest` operation on the `IoTFleetWise` service.
     ///
     /// Creates a decoder manifest using your existing CAN DBC file from your local device. The CAN signal name must be unique and not repeated across CAN message definitions in a .dbc file.
     ///
@@ -2577,7 +2577,7 @@ extension IoTFleetWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ImportSignalCatalog` operation on the `IoTAutobahnControlPlane` service.
+    /// Performs the `ImportSignalCatalog` operation on the `IoTFleetWise` service.
     ///
     /// Creates a signal catalog using your existing VSS formatted content from your local device.
     ///
@@ -2654,7 +2654,7 @@ extension IoTFleetWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListCampaigns` operation on the `IoTAutobahnControlPlane` service.
+    /// Performs the `ListCampaigns` operation on the `IoTFleetWise` service.
     ///
     /// Lists information about created campaigns. This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
     ///
@@ -2728,7 +2728,7 @@ extension IoTFleetWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDecoderManifestNetworkInterfaces` operation on the `IoTAutobahnControlPlane` service.
+    /// Performs the `ListDecoderManifestNetworkInterfaces` operation on the `IoTFleetWise` service.
     ///
     /// Lists the network interfaces specified in a decoder manifest. This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
     ///
@@ -2803,7 +2803,7 @@ extension IoTFleetWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDecoderManifestSignals` operation on the `IoTAutobahnControlPlane` service.
+    /// Performs the `ListDecoderManifestSignals` operation on the `IoTFleetWise` service.
     ///
     /// A list of information about signal decoders specified in a decoder manifest. This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
     ///
@@ -2878,7 +2878,7 @@ extension IoTFleetWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDecoderManifests` operation on the `IoTAutobahnControlPlane` service.
+    /// Performs the `ListDecoderManifests` operation on the `IoTFleetWise` service.
     ///
     /// Lists decoder manifests. This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
     ///
@@ -2952,7 +2952,7 @@ extension IoTFleetWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListFleets` operation on the `IoTAutobahnControlPlane` service.
+    /// Performs the `ListFleets` operation on the `IoTFleetWise` service.
     ///
     /// Retrieves information for each created fleet in an Amazon Web Services account. This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
     ///
@@ -3027,7 +3027,7 @@ extension IoTFleetWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListFleetsForVehicle` operation on the `IoTAutobahnControlPlane` service.
+    /// Performs the `ListFleetsForVehicle` operation on the `IoTFleetWise` service.
     ///
     /// Retrieves a list of IDs for all fleets that the vehicle is associated with. This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
     ///
@@ -3102,7 +3102,7 @@ extension IoTFleetWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListModelManifestNodes` operation on the `IoTAutobahnControlPlane` service.
+    /// Performs the `ListModelManifestNodes` operation on the `IoTFleetWise` service.
     ///
     /// Lists information about nodes specified in a vehicle model (model manifest). This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
     ///
@@ -3178,7 +3178,7 @@ extension IoTFleetWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListModelManifests` operation on the `IoTAutobahnControlPlane` service.
+    /// Performs the `ListModelManifests` operation on the `IoTFleetWise` service.
     ///
     /// Retrieves a list of vehicle models (model manifests). This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
     ///
@@ -3252,7 +3252,7 @@ extension IoTFleetWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListSignalCatalogNodes` operation on the `IoTAutobahnControlPlane` service.
+    /// Performs the `ListSignalCatalogNodes` operation on the `IoTFleetWise` service.
     ///
     /// Lists of information about the signals (nodes) specified in a signal catalog. This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
     ///
@@ -3328,7 +3328,7 @@ extension IoTFleetWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListSignalCatalogs` operation on the `IoTAutobahnControlPlane` service.
+    /// Performs the `ListSignalCatalogs` operation on the `IoTFleetWise` service.
     ///
     /// Lists all the created signal catalogs in an Amazon Web Services account. You can use to list information about each signal (node) specified in a signal catalog. This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
     ///
@@ -3402,7 +3402,7 @@ extension IoTFleetWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListStateTemplates` operation on the `IoTAutobahnControlPlane` service.
+    /// Performs the `ListStateTemplates` operation on the `IoTFleetWise` service.
     ///
     /// Lists information about created state templates. Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see [Amazon Web Services Region and feature availability](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleetwise-regions.html) in the Amazon Web Services IoT FleetWise Developer Guide.
     ///
@@ -3476,7 +3476,7 @@ extension IoTFleetWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `IoTAutobahnControlPlane` service.
+    /// Performs the `ListTagsForResource` operation on the `IoTFleetWise` service.
     ///
     /// Lists the tags (metadata) you have assigned to the resource.
     ///
@@ -3551,7 +3551,7 @@ extension IoTFleetWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListVehicles` operation on the `IoTAutobahnControlPlane` service.
+    /// Performs the `ListVehicles` operation on the `IoTFleetWise` service.
     ///
     /// Retrieves a list of summaries of created vehicles. This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
     ///
@@ -3625,7 +3625,7 @@ extension IoTFleetWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListVehiclesInFleet` operation on the `IoTAutobahnControlPlane` service.
+    /// Performs the `ListVehiclesInFleet` operation on the `IoTFleetWise` service.
     ///
     /// Retrieves a list of summaries of all vehicles associated with a fleet. This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
     ///
@@ -3700,7 +3700,7 @@ extension IoTFleetWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutEncryptionConfiguration` operation on the `IoTAutobahnControlPlane` service.
+    /// Performs the `PutEncryptionConfiguration` operation on the `IoTFleetWise` service.
     ///
     /// Creates or updates the encryption configuration. Amazon Web Services IoT FleetWise can encrypt your data and resources using an Amazon Web Services managed key. Or, you can use a KMS key that you own and manage. For more information, see [Data encryption](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/data-encryption.html) in the Amazon Web Services IoT FleetWise Developer Guide.
     ///
@@ -3775,7 +3775,7 @@ extension IoTFleetWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutLoggingOptions` operation on the `IoTAutobahnControlPlane` service.
+    /// Performs the `PutLoggingOptions` operation on the `IoTFleetWise` service.
     ///
     /// Creates or updates the logging option.
     ///
@@ -3850,7 +3850,7 @@ extension IoTFleetWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RegisterAccount` operation on the `IoTAutobahnControlPlane` service.
+    /// Performs the `RegisterAccount` operation on the `IoTFleetWise` service.
     ///
     /// This API operation contains deprecated parameters. Register your account again without the Timestream resources parameter so that Amazon Web Services IoT FleetWise can remove the Timestream metadata stored. You should then pass the data destination into the [CreateCampaign](https://docs.aws.amazon.com/iot-fleetwise/latest/APIReference/API_CreateCampaign.html) API operation. You must delete any existing campaigns that include an empty data destination before you register your account again. For more information, see the [DeleteCampaign](https://docs.aws.amazon.com/iot-fleetwise/latest/APIReference/API_DeleteCampaign.html) API operation. If you want to delete the Timestream inline policy from the service-linked role, such as to mitigate an overly permissive policy, you must first delete any existing campaigns. Then delete the service-linked role and register your account again to enable CloudWatch metrics. For more information, see [DeleteServiceLinkedRole](https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeleteServiceLinkedRole.html) in the Identity and Access Management API Reference. Registers your Amazon Web Services account, IAM, and Amazon Timestream resources so Amazon Web Services IoT FleetWise can transfer your vehicle data to the Amazon Web Services Cloud. For more information, including step-by-step procedures, see [Setting up Amazon Web Services IoT FleetWise](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/setting-up.html). An Amazon Web Services account is not the same thing as a "user." An [Amazon Web Services user](https://docs.aws.amazon.com/IAM/latest/UserGuide/introduction_identity-management.html#intro-identity-users) is an identity that you create using Identity and Access Management (IAM) and takes the form of either an [IAM user](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users.html) or an [IAM role, both with credentials](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html). A single Amazon Web Services account can, and typically does, contain many users and roles.
     ///
@@ -3925,7 +3925,7 @@ extension IoTFleetWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `IoTAutobahnControlPlane` service.
+    /// Performs the `TagResource` operation on the `IoTFleetWise` service.
     ///
     /// Adds to or modifies the tags of the given resource. Tags are metadata which can be used to manage a resource.
     ///
@@ -4000,7 +4000,7 @@ extension IoTFleetWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `IoTAutobahnControlPlane` service.
+    /// Performs the `UntagResource` operation on the `IoTFleetWise` service.
     ///
     /// Removes the given tags (metadata) from the resource.
     ///
@@ -4075,7 +4075,7 @@ extension IoTFleetWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateCampaign` operation on the `IoTAutobahnControlPlane` service.
+    /// Performs the `UpdateCampaign` operation on the `IoTFleetWise` service.
     ///
     /// Updates a campaign.
     ///
@@ -4150,7 +4150,7 @@ extension IoTFleetWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateDecoderManifest` operation on the `IoTAutobahnControlPlane` service.
+    /// Performs the `UpdateDecoderManifest` operation on the `IoTFleetWise` service.
     ///
     /// Updates a decoder manifest. A decoder manifest can only be updated when the status is DRAFT. Only ACTIVE decoder manifests can be associated with vehicles.
     ///
@@ -4227,7 +4227,7 @@ extension IoTFleetWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateFleet` operation on the `IoTAutobahnControlPlane` service.
+    /// Performs the `UpdateFleet` operation on the `IoTFleetWise` service.
     ///
     /// Updates the description of an existing fleet.
     ///
@@ -4302,7 +4302,7 @@ extension IoTFleetWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateModelManifest` operation on the `IoTAutobahnControlPlane` service.
+    /// Performs the `UpdateModelManifest` operation on the `IoTFleetWise` service.
     ///
     /// Updates a vehicle model (model manifest). If created vehicles are associated with a vehicle model, it can't be updated.
     ///
@@ -4378,7 +4378,7 @@ extension IoTFleetWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateSignalCatalog` operation on the `IoTAutobahnControlPlane` service.
+    /// Performs the `UpdateSignalCatalog` operation on the `IoTFleetWise` service.
     ///
     /// Updates a signal catalog.
     ///
@@ -4456,7 +4456,7 @@ extension IoTFleetWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateStateTemplate` operation on the `IoTAutobahnControlPlane` service.
+    /// Performs the `UpdateStateTemplate` operation on the `IoTFleetWise` service.
     ///
     /// Updates a state template. Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see [Amazon Web Services Region and feature availability](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleetwise-regions.html) in the Amazon Web Services IoT FleetWise Developer Guide.
     ///
@@ -4532,7 +4532,7 @@ extension IoTFleetWiseClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateVehicle` operation on the `IoTAutobahnControlPlane` service.
+    /// Performs the `UpdateVehicle` operation on the `IoTFleetWise` service.
     ///
     /// Updates a vehicle.
     ///

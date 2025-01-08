@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MarketplaceDeploymentClient: ClientRuntime.Client {
     public static let clientName = "MarketplaceDeploymentClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: MarketplaceDeploymentClient.MarketplaceDeploymentClientConfiguration
     let serviceName = "Marketplace Deployment"
@@ -331,7 +331,7 @@ extension MarketplaceDeploymentClient {
 }
 
 extension MarketplaceDeploymentClient {
-    /// Performs the `ListTagsForResource` operation on the `AWSMPDeploymentParametersService` service.
+    /// Performs the `ListTagsForResource` operation on the `MarketplaceDeployment` service.
     ///
     /// Lists all tags that have been added to a deployment parameter resource.
     ///
@@ -401,7 +401,7 @@ extension MarketplaceDeploymentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutDeploymentParameter` operation on the `AWSMPDeploymentParametersService` service.
+    /// Performs the `PutDeploymentParameter` operation on the `MarketplaceDeployment` service.
     ///
     /// Creates or updates a deployment parameter and is targeted by catalog and agreementId.
     ///
@@ -477,7 +477,7 @@ extension MarketplaceDeploymentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `AWSMPDeploymentParametersService` service.
+    /// Performs the `TagResource` operation on the `MarketplaceDeployment` service.
     ///
     /// Tags a resource.
     ///
@@ -551,7 +551,7 @@ extension MarketplaceDeploymentClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `AWSMPDeploymentParametersService` service.
+    /// Performs the `UntagResource` operation on the `MarketplaceDeployment` service.
     ///
     /// Removes a tag or list of tags from a resource.
     ///

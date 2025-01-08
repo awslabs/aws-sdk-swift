@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class IoTEventsClient: ClientRuntime.Client {
     public static let clientName = "IoTEventsClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: IoTEventsClient.IoTEventsClientConfiguration
     let serviceName = "IoT Events"
@@ -330,7 +330,7 @@ extension IoTEventsClient {
 }
 
 extension IoTEventsClient {
-    /// Performs the `CreateAlarmModel` operation on the `IotColumboService` service.
+    /// Performs the `CreateAlarmModel` operation on the `IoTEvents` service.
     ///
     /// Creates an alarm model to monitor an AWS IoT Events input attribute. You can use the alarm to get notified when the value is outside a specified range. For more information, see [Create an alarm model](https://docs.aws.amazon.com/iotevents/latest/developerguide/create-alarms.html) in the AWS IoT Events Developer Guide.
     ///
@@ -405,7 +405,7 @@ extension IoTEventsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateDetectorModel` operation on the `IotColumboService` service.
+    /// Performs the `CreateDetectorModel` operation on the `IoTEvents` service.
     ///
     /// Creates a detector model.
     ///
@@ -480,7 +480,7 @@ extension IoTEventsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateInput` operation on the `IotColumboService` service.
+    /// Performs the `CreateInput` operation on the `IoTEvents` service.
     ///
     /// Creates an input.
     ///
@@ -553,7 +553,7 @@ extension IoTEventsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAlarmModel` operation on the `IotColumboService` service.
+    /// Performs the `DeleteAlarmModel` operation on the `IoTEvents` service.
     ///
     /// Deletes an alarm model. Any alarm instances that were created based on this alarm model are also deleted. This action can't be undone.
     ///
@@ -624,7 +624,7 @@ extension IoTEventsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteDetectorModel` operation on the `IotColumboService` service.
+    /// Performs the `DeleteDetectorModel` operation on the `IoTEvents` service.
     ///
     /// Deletes a detector model. Any active instances of the detector model are also deleted.
     ///
@@ -695,7 +695,7 @@ extension IoTEventsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteInput` operation on the `IotColumboService` service.
+    /// Performs the `DeleteInput` operation on the `IoTEvents` service.
     ///
     /// Deletes an input.
     ///
@@ -766,7 +766,7 @@ extension IoTEventsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeAlarmModel` operation on the `IotColumboService` service.
+    /// Performs the `DescribeAlarmModel` operation on the `IoTEvents` service.
     ///
     /// Retrieves information about an alarm model. If you don't specify a value for the alarmModelVersion parameter, the latest version is returned.
     ///
@@ -837,7 +837,7 @@ extension IoTEventsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeDetectorModel` operation on the `IotColumboService` service.
+    /// Performs the `DescribeDetectorModel` operation on the `IoTEvents` service.
     ///
     /// Describes a detector model. If the version parameter is not specified, information about the latest version is returned.
     ///
@@ -908,7 +908,7 @@ extension IoTEventsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeDetectorModelAnalysis` operation on the `IotColumboService` service.
+    /// Performs the `DescribeDetectorModelAnalysis` operation on the `IoTEvents` service.
     ///
     /// Retrieves runtime information about a detector model analysis. After AWS IoT Events starts analyzing your detector model, you have up to 24 hours to retrieve the analysis results.
     ///
@@ -978,7 +978,7 @@ extension IoTEventsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeInput` operation on the `IotColumboService` service.
+    /// Performs the `DescribeInput` operation on the `IoTEvents` service.
     ///
     /// Describes an input.
     ///
@@ -1048,7 +1048,7 @@ extension IoTEventsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeLoggingOptions` operation on the `IotColumboService` service.
+    /// Performs the `DescribeLoggingOptions` operation on the `IoTEvents` service.
     ///
     /// Retrieves the current settings of the AWS IoT Events logging options.
     ///
@@ -1119,7 +1119,7 @@ extension IoTEventsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDetectorModelAnalysisResults` operation on the `IotColumboService` service.
+    /// Performs the `GetDetectorModelAnalysisResults` operation on the `IoTEvents` service.
     ///
     /// Retrieves one or more analysis results of the detector model. After AWS IoT Events starts analyzing your detector model, you have up to 24 hours to retrieve the analysis results.
     ///
@@ -1190,7 +1190,7 @@ extension IoTEventsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAlarmModelVersions` operation on the `IotColumboService` service.
+    /// Performs the `ListAlarmModelVersions` operation on the `IoTEvents` service.
     ///
     /// Lists all the versions of an alarm model. The operation returns only the metadata associated with each alarm model version.
     ///
@@ -1261,7 +1261,7 @@ extension IoTEventsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAlarmModels` operation on the `IotColumboService` service.
+    /// Performs the `ListAlarmModels` operation on the `IoTEvents` service.
     ///
     /// Lists the alarm models that you created. The operation returns only the metadata associated with each alarm model.
     ///
@@ -1331,7 +1331,7 @@ extension IoTEventsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDetectorModelVersions` operation on the `IotColumboService` service.
+    /// Performs the `ListDetectorModelVersions` operation on the `IoTEvents` service.
     ///
     /// Lists all the versions of a detector model. Only the metadata associated with each detector model version is returned.
     ///
@@ -1402,7 +1402,7 @@ extension IoTEventsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDetectorModels` operation on the `IotColumboService` service.
+    /// Performs the `ListDetectorModels` operation on the `IoTEvents` service.
     ///
     /// Lists the detector models you have created. Only the metadata associated with each detector model is returned.
     ///
@@ -1472,7 +1472,7 @@ extension IoTEventsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListInputRoutings` operation on the `IotColumboService` service.
+    /// Performs the `ListInputRoutings` operation on the `IoTEvents` service.
     ///
     /// Lists one or more input routings.
     ///
@@ -1545,7 +1545,7 @@ extension IoTEventsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListInputs` operation on the `IotColumboService` service.
+    /// Performs the `ListInputs` operation on the `IoTEvents` service.
     ///
     /// Lists the inputs you have created.
     ///
@@ -1615,7 +1615,7 @@ extension IoTEventsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `IotColumboService` service.
+    /// Performs the `ListTagsForResource` operation on the `IoTEvents` service.
     ///
     /// Lists the tags (metadata) you have assigned to the resource.
     ///
@@ -1686,7 +1686,7 @@ extension IoTEventsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutLoggingOptions` operation on the `IotColumboService` service.
+    /// Performs the `PutLoggingOptions` operation on the `IoTEvents` service.
     ///
     /// Sets or updates the AWS IoT Events logging options. If you update the value of any loggingOptions field, it takes up to one minute for the change to take effect. If you change the policy attached to the role you specified in the roleArn field (for example, to correct an invalid policy), it takes up to five minutes for that change to take effect.
     ///
@@ -1760,7 +1760,7 @@ extension IoTEventsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartDetectorModelAnalysis` operation on the `IotColumboService` service.
+    /// Performs the `StartDetectorModelAnalysis` operation on the `IoTEvents` service.
     ///
     /// Performs an analysis of your detector model. For more information, see [Troubleshooting a detector model](https://docs.aws.amazon.com/iotevents/latest/developerguide/iotevents-analyze-api.html) in the AWS IoT Events Developer Guide.
     ///
@@ -1833,7 +1833,7 @@ extension IoTEventsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `IotColumboService` service.
+    /// Performs the `TagResource` operation on the `IoTEvents` service.
     ///
     /// Adds to or modifies the tags of the given resource. Tags are metadata that can be used to manage a resource.
     ///
@@ -1908,7 +1908,7 @@ extension IoTEventsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `IotColumboService` service.
+    /// Performs the `UntagResource` operation on the `IoTEvents` service.
     ///
     /// Removes the given tags (metadata) from the resource.
     ///
@@ -1979,7 +1979,7 @@ extension IoTEventsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateAlarmModel` operation on the `IotColumboService` service.
+    /// Performs the `UpdateAlarmModel` operation on the `IoTEvents` service.
     ///
     /// Updates an alarm model. Any alarms that were created based on the previous version are deleted and then created again as new data arrives.
     ///
@@ -2053,7 +2053,7 @@ extension IoTEventsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateDetectorModel` operation on the `IotColumboService` service.
+    /// Performs the `UpdateDetectorModel` operation on the `IoTEvents` service.
     ///
     /// Updates a detector model. Detectors (instances) spawned by the previous version are deleted and then re-created as new inputs arrive.
     ///
@@ -2127,7 +2127,7 @@ extension IoTEventsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateInput` operation on the `IotColumboService` service.
+    /// Performs the `UpdateInput` operation on the `IoTEvents` service.
     ///
     /// Updates an input.
     ///

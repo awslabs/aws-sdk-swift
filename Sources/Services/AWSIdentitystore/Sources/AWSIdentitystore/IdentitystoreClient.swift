@@ -63,7 +63,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class IdentitystoreClient: ClientRuntime.Client {
     public static let clientName = "IdentitystoreClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: IdentitystoreClient.IdentitystoreClientConfiguration
     let serviceName = "identitystore"
@@ -329,7 +329,7 @@ extension IdentitystoreClient {
 }
 
 extension IdentitystoreClient {
-    /// Performs the `CreateGroup` operation on the `AWSIdentityStore` service.
+    /// Performs the `CreateGroup` operation on the `Identitystore` service.
     ///
     /// Creates a group within the specified identity store.
     ///
@@ -409,7 +409,7 @@ extension IdentitystoreClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateGroupMembership` operation on the `AWSIdentityStore` service.
+    /// Performs the `CreateGroupMembership` operation on the `Identitystore` service.
     ///
     /// Creates a relationship between a member and a group. The following identifiers must be specified: GroupId, IdentityStoreId, and MemberId.
     ///
@@ -489,7 +489,7 @@ extension IdentitystoreClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateUser` operation on the `AWSIdentityStore` service.
+    /// Performs the `CreateUser` operation on the `Identitystore` service.
     ///
     /// Creates a user within the specified identity store.
     ///
@@ -569,7 +569,7 @@ extension IdentitystoreClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteGroup` operation on the `AWSIdentityStore` service.
+    /// Performs the `DeleteGroup` operation on the `Identitystore` service.
     ///
     /// Delete a group within an identity store given GroupId.
     ///
@@ -648,7 +648,7 @@ extension IdentitystoreClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteGroupMembership` operation on the `AWSIdentityStore` service.
+    /// Performs the `DeleteGroupMembership` operation on the `Identitystore` service.
     ///
     /// Delete a membership within a group given MembershipId.
     ///
@@ -727,7 +727,7 @@ extension IdentitystoreClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteUser` operation on the `AWSIdentityStore` service.
+    /// Performs the `DeleteUser` operation on the `Identitystore` service.
     ///
     /// Deletes a user within an identity store given UserId.
     ///
@@ -806,7 +806,7 @@ extension IdentitystoreClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeGroup` operation on the `AWSIdentityStore` service.
+    /// Performs the `DescribeGroup` operation on the `Identitystore` service.
     ///
     /// Retrieves the group metadata and attributes from GroupId in an identity store. If you have administrator access to a member account, you can use this API from the member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html) in the Organizations User Guide.
     ///
@@ -880,7 +880,7 @@ extension IdentitystoreClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeGroupMembership` operation on the `AWSIdentityStore` service.
+    /// Performs the `DescribeGroupMembership` operation on the `Identitystore` service.
     ///
     /// Retrieves membership metadata and attributes from MembershipId in an identity store. If you have administrator access to a member account, you can use this API from the member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html) in the Organizations User Guide.
     ///
@@ -954,7 +954,7 @@ extension IdentitystoreClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeUser` operation on the `AWSIdentityStore` service.
+    /// Performs the `DescribeUser` operation on the `Identitystore` service.
     ///
     /// Retrieves the user metadata and attributes from the UserId in an identity store. If you have administrator access to a member account, you can use this API from the member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html) in the Organizations User Guide.
     ///
@@ -1028,7 +1028,7 @@ extension IdentitystoreClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetGroupId` operation on the `AWSIdentityStore` service.
+    /// Performs the `GetGroupId` operation on the `Identitystore` service.
     ///
     /// Retrieves GroupId in an identity store. If you have administrator access to a member account, you can use this API from the member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html) in the Organizations User Guide.
     ///
@@ -1102,7 +1102,7 @@ extension IdentitystoreClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetGroupMembershipId` operation on the `AWSIdentityStore` service.
+    /// Performs the `GetGroupMembershipId` operation on the `Identitystore` service.
     ///
     /// Retrieves the MembershipId in an identity store. If you have administrator access to a member account, you can use this API from the member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html) in the Organizations User Guide.
     ///
@@ -1176,7 +1176,7 @@ extension IdentitystoreClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetUserId` operation on the `AWSIdentityStore` service.
+    /// Performs the `GetUserId` operation on the `Identitystore` service.
     ///
     /// Retrieves the UserId in an identity store. If you have administrator access to a member account, you can use this API from the member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html) in the Organizations User Guide.
     ///
@@ -1250,7 +1250,7 @@ extension IdentitystoreClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `IsMemberInGroups` operation on the `AWSIdentityStore` service.
+    /// Performs the `IsMemberInGroups` operation on the `Identitystore` service.
     ///
     /// Checks the user's membership in all requested groups and returns if the member exists in all queried groups. If you have administrator access to a member account, you can use this API from the member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html) in the Organizations User Guide.
     ///
@@ -1324,7 +1324,7 @@ extension IdentitystoreClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListGroupMemberships` operation on the `AWSIdentityStore` service.
+    /// Performs the `ListGroupMemberships` operation on the `Identitystore` service.
     ///
     /// For the specified group in the specified identity store, returns the list of all GroupMembership objects and returns results in paginated form. If you have administrator access to a member account, you can use this API from the member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html) in the Organizations User Guide.
     ///
@@ -1398,7 +1398,7 @@ extension IdentitystoreClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListGroupMembershipsForMember` operation on the `AWSIdentityStore` service.
+    /// Performs the `ListGroupMembershipsForMember` operation on the `Identitystore` service.
     ///
     /// For the specified member in the specified identity store, returns the list of all GroupMembership objects and returns results in paginated form. If you have administrator access to a member account, you can use this API from the member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html) in the Organizations User Guide.
     ///
@@ -1472,7 +1472,7 @@ extension IdentitystoreClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListGroups` operation on the `AWSIdentityStore` service.
+    /// Performs the `ListGroups` operation on the `Identitystore` service.
     ///
     /// Lists all groups in the identity store. Returns a paginated list of complete Group objects. Filtering for a Group by the DisplayName attribute is deprecated. Instead, use the GetGroupId API action. If you have administrator access to a member account, you can use this API from the member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html) in the Organizations User Guide.
     ///
@@ -1546,7 +1546,7 @@ extension IdentitystoreClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListUsers` operation on the `AWSIdentityStore` service.
+    /// Performs the `ListUsers` operation on the `Identitystore` service.
     ///
     /// Lists all users in the identity store. Returns a paginated list of complete User objects. Filtering for a User by the UserName attribute is deprecated. Instead, use the GetUserId API action. If you have administrator access to a member account, you can use this API from the member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html) in the Organizations User Guide.
     ///
@@ -1620,7 +1620,7 @@ extension IdentitystoreClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateGroup` operation on the `AWSIdentityStore` service.
+    /// Performs the `UpdateGroup` operation on the `Identitystore` service.
     ///
     /// For the specified group in the specified identity store, updates the group metadata and attributes.
     ///
@@ -1700,7 +1700,7 @@ extension IdentitystoreClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateUser` operation on the `AWSIdentityStore` service.
+    /// Performs the `UpdateUser` operation on the `Identitystore` service.
     ///
     /// For the specified user in the specified identity store, updates the user metadata and attributes.
     ///

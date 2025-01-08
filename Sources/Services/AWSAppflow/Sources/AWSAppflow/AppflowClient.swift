@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class AppflowClient: ClientRuntime.Client {
     public static let clientName = "AppflowClient"
-    public static let version = "1.0.72"
+    public static let version = "1.0.73"
     let client: ClientRuntime.SdkHttpClient
     let config: AppflowClient.AppflowClientConfiguration
     let serviceName = "Appflow"
@@ -331,7 +331,7 @@ extension AppflowClient {
 }
 
 extension AppflowClient {
-    /// Performs the `CancelFlowExecutions` operation on the `SandstoneConfigurationServiceLambda` service.
+    /// Performs the `CancelFlowExecutions` operation on the `Appflow` service.
     ///
     /// Cancels active runs for a flow. You can cancel all of the active runs for a flow, or you can cancel specific runs by providing their IDs. You can cancel a flow run only when the run is in progress. You can't cancel a run that has already completed or failed. You also can't cancel a run that's scheduled to occur but hasn't started yet. To prevent a scheduled run, you can deactivate the flow with the StopFlow action. You cannot resume a run after you cancel it. When you send your request, the status for each run becomes CancelStarted. When the cancellation completes, the status becomes Canceled. When you cancel a run, you still incur charges for any data that the run already processed before the cancellation. If the run had already written some data to the flow destination, then that data remains in the destination. If you configured the flow to use a batch API (such as the Salesforce Bulk API 2.0), then the run will finish reading or writing its entire batch of data after the cancellation. For these operations, the data processing charges for Amazon AppFlow apply. For the pricing information, see [Amazon AppFlow pricing](http://aws.amazon.com/appflow/pricing/).
     ///
@@ -404,7 +404,7 @@ extension AppflowClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateConnectorProfile` operation on the `SandstoneConfigurationServiceLambda` service.
+    /// Performs the `CreateConnectorProfile` operation on the `Appflow` service.
     ///
     /// Creates a new connector profile associated with your Amazon Web Services account. There is a soft quota of 100 connector profiles per Amazon Web Services account. If you need more connector profiles than this quota allows, you can submit a request to the Amazon AppFlow team through the Amazon AppFlow support channel. In each connector profile that you create, you can provide the credentials and properties for only one connector.
     ///
@@ -478,7 +478,7 @@ extension AppflowClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateFlow` operation on the `SandstoneConfigurationServiceLambda` service.
+    /// Performs the `CreateFlow` operation on the `Appflow` service.
     ///
     /// Enables your application to create a new flow using Amazon AppFlow. You must create a connector profile before calling this API. Please note that the Request Syntax below shows syntax for multiple destinations, however, you can only transfer data to one item in this list at a time. Amazon AppFlow does not currently support flows to multiple destinations at once.
     ///
@@ -555,7 +555,7 @@ extension AppflowClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteConnectorProfile` operation on the `SandstoneConfigurationServiceLambda` service.
+    /// Performs the `DeleteConnectorProfile` operation on the `Appflow` service.
     ///
     /// Enables you to delete an existing connector profile.
     ///
@@ -626,7 +626,7 @@ extension AppflowClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteFlow` operation on the `SandstoneConfigurationServiceLambda` service.
+    /// Performs the `DeleteFlow` operation on the `Appflow` service.
     ///
     /// Enables your application to delete an existing flow. Before deleting the flow, Amazon AppFlow validates the request by checking the flow configuration and status. You can delete flows one at a time.
     ///
@@ -697,7 +697,7 @@ extension AppflowClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeConnector` operation on the `SandstoneConfigurationServiceLambda` service.
+    /// Performs the `DescribeConnector` operation on the `Appflow` service.
     ///
     /// Describes the given custom connector registered in your Amazon Web Services account. This API can be used for custom connectors that are registered in your account and also for Amazon authored connectors.
     ///
@@ -768,7 +768,7 @@ extension AppflowClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeConnectorEntity` operation on the `SandstoneConfigurationServiceLambda` service.
+    /// Performs the `DescribeConnectorEntity` operation on the `Appflow` service.
     ///
     /// Provides details regarding the entity used with the connector, with a description of the data model for each field in that entity.
     ///
@@ -841,7 +841,7 @@ extension AppflowClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeConnectorProfiles` operation on the `SandstoneConfigurationServiceLambda` service.
+    /// Performs the `DescribeConnectorProfiles` operation on the `Appflow` service.
     ///
     /// Returns a list of connector-profile details matching the provided connector-profile names and connector-types. Both input lists are optional, and you can use them to filter the result. If no names or connector-types are provided, returns all connector profiles in a paginated form. If there is no match, this operation returns an empty list.
     ///
@@ -911,7 +911,7 @@ extension AppflowClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeConnectors` operation on the `SandstoneConfigurationServiceLambda` service.
+    /// Performs the `DescribeConnectors` operation on the `Appflow` service.
     ///
     /// Describes the connectors vended by Amazon AppFlow for specified connector types. If you don't specify a connector type, this operation describes all connectors vended by Amazon AppFlow. If there are more connectors than can be returned in one page, the response contains a nextToken object, which can be be passed in to the next call to the DescribeConnectors API operation to retrieve the next page.
     ///
@@ -981,7 +981,7 @@ extension AppflowClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeFlow` operation on the `SandstoneConfigurationServiceLambda` service.
+    /// Performs the `DescribeFlow` operation on the `Appflow` service.
     ///
     /// Provides a description of the specified flow.
     ///
@@ -1051,7 +1051,7 @@ extension AppflowClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeFlowExecutionRecords` operation on the `SandstoneConfigurationServiceLambda` service.
+    /// Performs the `DescribeFlowExecutionRecords` operation on the `Appflow` service.
     ///
     /// Fetches the execution history of the flow.
     ///
@@ -1122,7 +1122,7 @@ extension AppflowClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListConnectorEntities` operation on the `SandstoneConfigurationServiceLambda` service.
+    /// Performs the `ListConnectorEntities` operation on the `Appflow` service.
     ///
     /// Returns the list of available connector entities supported by Amazon AppFlow. For example, you can query Salesforce for Account and Opportunity entities, or query ServiceNow for the Incident entity.
     ///
@@ -1195,7 +1195,7 @@ extension AppflowClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListConnectors` operation on the `SandstoneConfigurationServiceLambda` service.
+    /// Performs the `ListConnectors` operation on the `Appflow` service.
     ///
     /// Returns the list of all registered custom connectors in your Amazon Web Services account. This API lists only custom connectors registered in this account, not the Amazon Web Services authored connectors.
     ///
@@ -1265,7 +1265,7 @@ extension AppflowClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListFlows` operation on the `SandstoneConfigurationServiceLambda` service.
+    /// Performs the `ListFlows` operation on the `Appflow` service.
     ///
     /// Lists all of the flows associated with your account.
     ///
@@ -1335,7 +1335,7 @@ extension AppflowClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `SandstoneConfigurationServiceLambda` service.
+    /// Performs the `ListTagsForResource` operation on the `Appflow` service.
     ///
     /// Retrieves the tags that are associated with a specified flow.
     ///
@@ -1403,7 +1403,7 @@ extension AppflowClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RegisterConnector` operation on the `SandstoneConfigurationServiceLambda` service.
+    /// Performs the `RegisterConnector` operation on the `Appflow` service.
     ///
     /// Registers a new custom connector with your Amazon Web Services account. Before you can register the connector, you must deploy the associated AWS lambda function in your account.
     ///
@@ -1481,7 +1481,7 @@ extension AppflowClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ResetConnectorMetadataCache` operation on the `SandstoneConfigurationServiceLambda` service.
+    /// Performs the `ResetConnectorMetadataCache` operation on the `Appflow` service.
     ///
     /// Resets metadata about your connector entities that Amazon AppFlow stored in its cache. Use this action when you want Amazon AppFlow to return the latest information about the data that you have in a source application. Amazon AppFlow returns metadata about your entities when you use the ListConnectorEntities or DescribeConnectorEntities actions. Following these actions, Amazon AppFlow caches the metadata to reduce the number of API requests that it must send to the source application. Amazon AppFlow automatically resets the cache once every hour, but you can use this action when you want to get the latest metadata right away.
     ///
@@ -1553,7 +1553,7 @@ extension AppflowClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartFlow` operation on the `SandstoneConfigurationServiceLambda` service.
+    /// Performs the `StartFlow` operation on the `Appflow` service.
     ///
     /// Activates an existing flow. For on-demand flows, this operation runs the flow immediately. For schedule and event-triggered flows, this operation activates the flow.
     ///
@@ -1626,7 +1626,7 @@ extension AppflowClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopFlow` operation on the `SandstoneConfigurationServiceLambda` service.
+    /// Performs the `StopFlow` operation on the `Appflow` service.
     ///
     /// Deactivates the existing flow. For on-demand flows, this operation returns an unsupportedOperationException error message. For schedule and event-triggered flows, this operation deactivates the flow.
     ///
@@ -1698,7 +1698,7 @@ extension AppflowClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `SandstoneConfigurationServiceLambda` service.
+    /// Performs the `TagResource` operation on the `Appflow` service.
     ///
     /// Applies a tag to the specified flow.
     ///
@@ -1769,7 +1769,7 @@ extension AppflowClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UnregisterConnector` operation on the `SandstoneConfigurationServiceLambda` service.
+    /// Performs the `UnregisterConnector` operation on the `Appflow` service.
     ///
     /// Unregisters the custom connector registered in your account that matches the connector label provided in the request.
     ///
@@ -1840,7 +1840,7 @@ extension AppflowClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `SandstoneConfigurationServiceLambda` service.
+    /// Performs the `UntagResource` operation on the `Appflow` service.
     ///
     /// Removes a tag from the specified flow.
     ///
@@ -1909,7 +1909,7 @@ extension AppflowClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateConnectorProfile` operation on the `SandstoneConfigurationServiceLambda` service.
+    /// Performs the `UpdateConnectorProfile` operation on the `Appflow` service.
     ///
     /// Updates a given connector profile associated with your account.
     ///
@@ -1983,7 +1983,7 @@ extension AppflowClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateConnectorRegistration` operation on the `SandstoneConfigurationServiceLambda` service.
+    /// Performs the `UpdateConnectorRegistration` operation on the `Appflow` service.
     ///
     /// Updates a custom connector that you've previously registered. This operation updates the connector with one of the following:
     ///
@@ -2065,7 +2065,7 @@ extension AppflowClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateFlow` operation on the `SandstoneConfigurationServiceLambda` service.
+    /// Performs the `UpdateFlow` operation on the `Appflow` service.
     ///
     /// Updates an existing flow.
     ///
