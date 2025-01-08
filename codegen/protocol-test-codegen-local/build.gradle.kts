@@ -51,7 +51,11 @@ val codegenTests = listOf(
     CodegenTest(
         "aws.endpointtests.stringarray#EndpointStringArray",
         "StringArrayEndpointParam"
-    )
+    ),
+    CodegenTest(
+        "aws.smithy.swift.performance#Performance",
+        "Performance"
+    ),
 )
 
 fun generateSmithyBuild(tests: List<CodegenTest>): String {
