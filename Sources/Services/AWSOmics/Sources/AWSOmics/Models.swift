@@ -96,8 +96,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -121,8 +120,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -146,8 +144,7 @@ public struct NotSupportedOperationException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -171,8 +168,7 @@ public struct RequestTimeoutException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -196,8 +192,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -221,8 +216,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -246,8 +240,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -271,8 +264,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -288,8 +280,7 @@ public struct AbortMultipartReadSetUploadInput: Swift.Sendable {
     public init(
         sequenceStoreId: Swift.String? = nil,
         uploadId: Swift.String? = nil
-    )
-    {
+    ) {
         self.sequenceStoreId = sequenceStoreId
         self.uploadId = uploadId
     }
@@ -345,8 +336,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -358,8 +348,7 @@ public struct AcceptShareInput: Swift.Sendable {
 
     public init(
         shareId: Swift.String? = nil
-    )
-    {
+    ) {
         self.shareId = shareId
     }
 }
@@ -417,8 +406,7 @@ public struct AcceptShareOutput: Swift.Sendable {
 
     public init(
         status: OmicsClientTypes.ShareStatus? = nil
-    )
-    {
+    ) {
         self.status = status
     }
 }
@@ -482,8 +470,7 @@ extension OmicsClientTypes {
             createdAfter: Foundation.Date? = nil,
             createdBefore: Foundation.Date? = nil,
             status: OmicsClientTypes.ReadSetActivationJobStatus? = nil
-        )
-        {
+        ) {
             self.createdAfter = createdAfter
             self.createdBefore = createdBefore
             self.status = status
@@ -516,8 +503,7 @@ extension OmicsClientTypes {
             id: Swift.String? = nil,
             sequenceStoreId: Swift.String? = nil,
             status: OmicsClientTypes.ReadSetActivationJobStatus? = nil
-        )
-        {
+        ) {
             self.completionTime = completionTime
             self.creationTime = creationTime
             self.id = id
@@ -579,8 +565,7 @@ extension OmicsClientTypes {
             readSetId: Swift.String? = nil,
             status: OmicsClientTypes.ReadSetActivationJobItemStatus? = nil,
             statusMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.readSetId = readSetId
             self.status = status
             self.statusMessage = statusMessage
@@ -649,8 +634,7 @@ extension OmicsClientTypes {
         public init(
             jobStatus: OmicsClientTypes.JobStatus? = nil,
             source: Swift.String? = nil
-        )
-        {
+        ) {
             self.jobStatus = jobStatus
             self.source = source
         }
@@ -667,8 +651,7 @@ extension OmicsClientTypes {
 
         public init(
             source: Swift.String? = nil
-        )
-        {
+        ) {
             self.source = source
         }
     }
@@ -681,8 +664,7 @@ public struct CancelAnnotationImportJobInput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -699,8 +681,7 @@ public struct GetAnnotationImportJobInput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -738,8 +719,7 @@ extension OmicsClientTypes {
             quote: Swift.String? = nil,
             quoteAll: Swift.Bool = false,
             sep: Swift.String? = nil
-        )
-        {
+        ) {
             self.comment = comment
             self.encoding = encoding
             self.escape = escape
@@ -762,8 +742,7 @@ extension OmicsClientTypes {
 
         public init(
             readOptions: OmicsClientTypes.ReadOptions? = nil
-        )
-        {
+        ) {
             self.readOptions = readOptions
         }
     }
@@ -781,8 +760,7 @@ extension OmicsClientTypes {
         public init(
             ignoreFilterField: Swift.Bool? = nil,
             ignoreQualField: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.ignoreFilterField = ignoreFilterField
             self.ignoreQualField = ignoreQualField
         }
@@ -855,8 +833,7 @@ public struct GetAnnotationImportJobOutput: Swift.Sendable {
         statusMessage: Swift.String? = nil,
         updateTime: Foundation.Date? = nil,
         versionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.annotationFields = annotationFields
         self.completionTime = completionTime
         self.creationTime = creationTime
@@ -885,8 +862,7 @@ extension OmicsClientTypes {
         public init(
             status: OmicsClientTypes.JobStatus? = nil,
             storeName: Swift.String? = nil
-        )
-        {
+        ) {
             self.status = status
             self.storeName = storeName
         }
@@ -908,8 +884,7 @@ public struct ListAnnotationImportJobsInput: Swift.Sendable {
         ids: [Swift.String]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.ids = ids
         self.maxResults = maxResults
@@ -960,8 +935,7 @@ extension OmicsClientTypes {
             status: OmicsClientTypes.JobStatus? = nil,
             updateTime: Foundation.Date? = nil,
             versionName: Swift.String? = nil
-        )
-        {
+        ) {
             self.annotationFields = annotationFields
             self.completionTime = completionTime
             self.creationTime = creationTime
@@ -985,8 +959,7 @@ public struct ListAnnotationImportJobsOutput: Swift.Sendable {
     public init(
         annotationImportJobs: [OmicsClientTypes.AnnotationImportJobItem]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.annotationImportJobs = annotationImportJobs
         self.nextToken = nextToken
     }
@@ -1019,8 +992,7 @@ public struct StartAnnotationImportJobInput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         runLeftNormalization: Swift.Bool? = false,
         versionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.annotationFields = annotationFields
         self.destinationName = destinationName
         self.formatOptions = formatOptions
@@ -1038,8 +1010,7 @@ public struct StartAnnotationImportJobOutput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -1094,8 +1065,7 @@ extension OmicsClientTypes {
         public init(
             keyArn: Swift.String? = nil,
             type: OmicsClientTypes.EncryptionType? = nil
-        )
-        {
+        ) {
             self.keyArn = keyArn
             self.type = type
         }
@@ -1291,8 +1261,7 @@ extension OmicsClientTypes {
             annotationType: OmicsClientTypes.AnnotationType? = nil,
             formatToHeader: [Swift.String: Swift.String]? = nil,
             schema: [[Swift.String: OmicsClientTypes.SchemaValueType]]? = nil
-        )
-        {
+        ) {
             self.annotationType = annotationType
             self.formatToHeader = formatToHeader
             self.schema = schema
@@ -1338,8 +1307,7 @@ public struct CreateAnnotationStoreInput: Swift.Sendable {
         storeOptions: OmicsClientTypes.StoreOptions? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         versionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.name = name
         self.reference = reference
@@ -1426,8 +1394,7 @@ public struct CreateAnnotationStoreOutput: Swift.Sendable {
         storeFormat: OmicsClientTypes.StoreFormat? = nil,
         storeOptions: OmicsClientTypes.StoreOptions? = nil,
         versionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.id = id
         self.name = name
@@ -1449,8 +1416,7 @@ public struct DeleteAnnotationStoreInput: Swift.Sendable {
     public init(
         force: Swift.Bool? = false,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.force = force
         self.name = name
     }
@@ -1463,8 +1429,7 @@ public struct DeleteAnnotationStoreOutput: Swift.Sendable {
 
     public init(
         status: OmicsClientTypes.StoreStatus? = nil
-    )
-    {
+    ) {
         self.status = status
     }
 }
@@ -1476,8 +1441,7 @@ public struct GetAnnotationStoreInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -1543,8 +1507,7 @@ public struct GetAnnotationStoreOutput: Swift.Sendable {
         storeSizeBytes: Swift.Int? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         updateTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.description = description
         self.id = id
@@ -1572,8 +1535,7 @@ extension OmicsClientTypes {
 
         public init(
             status: OmicsClientTypes.StoreStatus? = nil
-        )
-        {
+        ) {
             self.status = status
         }
     }
@@ -1594,8 +1556,7 @@ public struct ListAnnotationStoresInput: Swift.Sendable {
         ids: [Swift.String]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.ids = ids
         self.maxResults = maxResults
@@ -1657,8 +1618,7 @@ extension OmicsClientTypes {
             storeFormat: OmicsClientTypes.StoreFormat? = nil,
             storeSizeBytes: Swift.Int? = nil,
             updateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.description = description
             self.id = id
@@ -1684,8 +1644,7 @@ public struct ListAnnotationStoresOutput: Swift.Sendable {
     public init(
         annotationStores: [OmicsClientTypes.AnnotationStoreItem]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.annotationStores = annotationStores
         self.nextToken = nextToken
     }
@@ -1701,8 +1660,7 @@ public struct UpdateAnnotationStoreInput: Swift.Sendable {
     public init(
         description: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.name = name
     }
@@ -1745,8 +1703,7 @@ public struct UpdateAnnotationStoreOutput: Swift.Sendable {
         storeFormat: OmicsClientTypes.StoreFormat? = nil,
         storeOptions: OmicsClientTypes.StoreOptions? = nil,
         updateTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.description = description
         self.id = id
@@ -1774,8 +1731,7 @@ extension OmicsClientTypes {
             annotationType: OmicsClientTypes.AnnotationType? = nil,
             formatToHeader: [Swift.String: Swift.String]? = nil,
             schema: [[Swift.String: OmicsClientTypes.SchemaValueType]]? = nil
-        )
-        {
+        ) {
             self.annotationType = annotationType
             self.formatToHeader = formatToHeader
             self.schema = schema
@@ -1813,8 +1769,7 @@ public struct CreateAnnotationStoreVersionInput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         versionName: Swift.String? = nil,
         versionOptions: OmicsClientTypes.VersionOptions? = nil
-    )
-    {
+    ) {
         self.description = description
         self.name = name
         self.tags = tags
@@ -1896,8 +1851,7 @@ public struct CreateAnnotationStoreVersionOutput: Swift.Sendable {
         storeId: Swift.String? = nil,
         versionName: Swift.String? = nil,
         versionOptions: OmicsClientTypes.VersionOptions? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.id = id
         self.name = name
@@ -1922,8 +1876,7 @@ public struct DeleteAnnotationStoreVersionsInput: Swift.Sendable {
         force: Swift.Bool? = false,
         name: Swift.String? = nil,
         versions: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.force = force
         self.name = name
         self.versions = versions
@@ -1944,8 +1897,7 @@ extension OmicsClientTypes {
         public init(
             message: Swift.String? = nil,
             versionName: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
             self.versionName = versionName
         }
@@ -1958,8 +1910,7 @@ public struct DeleteAnnotationStoreVersionsOutput: Swift.Sendable {
 
     public init(
         errors: [OmicsClientTypes.VersionDeleteError]? = nil
-    )
-    {
+    ) {
         self.errors = errors
     }
 }
@@ -1975,8 +1926,7 @@ public struct GetAnnotationStoreVersionInput: Swift.Sendable {
     public init(
         name: Swift.String? = nil,
         versionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
         self.versionName = versionName
     }
@@ -2036,8 +1986,7 @@ public struct GetAnnotationStoreVersionOutput: Swift.Sendable {
         versionName: Swift.String? = nil,
         versionOptions: OmicsClientTypes.VersionOptions? = nil,
         versionSizeBytes: Swift.Int? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.description = description
         self.id = id
@@ -2063,8 +2012,7 @@ extension OmicsClientTypes {
 
         public init(
             status: OmicsClientTypes.VersionStatus? = nil
-        )
-        {
+        ) {
             self.status = status
         }
     }
@@ -2086,8 +2034,7 @@ public struct ListAnnotationStoreVersionsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         name: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.maxResults = maxResults
         self.name = name
@@ -2145,8 +2092,7 @@ extension OmicsClientTypes {
             versionArn: Swift.String? = nil,
             versionName: Swift.String? = nil,
             versionSizeBytes: Swift.Int? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.description = description
             self.id = id
@@ -2171,8 +2117,7 @@ public struct ListAnnotationStoreVersionsOutput: Swift.Sendable {
     public init(
         annotationStoreVersions: [OmicsClientTypes.AnnotationStoreVersionItem]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.annotationStoreVersions = annotationStoreVersions
         self.nextToken = nextToken
     }
@@ -2192,8 +2137,7 @@ public struct UpdateAnnotationStoreVersionInput: Swift.Sendable {
         description: Swift.String? = nil,
         name: Swift.String? = nil,
         versionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.name = name
         self.versionName = versionName
@@ -2235,8 +2179,7 @@ public struct UpdateAnnotationStoreVersionOutput: Swift.Sendable {
         storeId: Swift.String? = nil,
         updateTime: Foundation.Date? = nil,
         versionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.description = description
         self.id = id
@@ -2259,8 +2202,7 @@ public struct BatchDeleteReadSetInput: Swift.Sendable {
     public init(
         ids: [Swift.String]? = nil,
         sequenceStoreId: Swift.String? = nil
-    )
-    {
+    ) {
         self.ids = ids
         self.sequenceStoreId = sequenceStoreId
     }
@@ -2284,8 +2226,7 @@ extension OmicsClientTypes {
             code: Swift.String? = nil,
             id: Swift.String? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.id = id
             self.message = message
@@ -2299,8 +2240,7 @@ public struct BatchDeleteReadSetOutput: Swift.Sendable {
 
     public init(
         errors: [OmicsClientTypes.ReadSetBatchError]? = nil
-    )
-    {
+    ) {
         self.errors = errors
     }
 }
@@ -2341,8 +2281,7 @@ public struct CancelRunInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -2354,8 +2293,7 @@ public struct CancelVariantImportJobInput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -2412,8 +2350,7 @@ extension OmicsClientTypes {
             checksum: Swift.String? = nil,
             partNumber: Swift.Int? = nil,
             partSource: OmicsClientTypes.ReadSetPartSource? = nil
-        )
-        {
+        ) {
             self.checksum = checksum
             self.partNumber = partNumber
             self.partSource = partSource
@@ -2436,8 +2373,7 @@ public struct CompleteMultipartReadSetUploadInput: Swift.Sendable {
         parts: [OmicsClientTypes.CompleteReadSetUploadPartListItem]? = nil,
         sequenceStoreId: Swift.String? = nil,
         uploadId: Swift.String? = nil
-    )
-    {
+    ) {
         self.parts = parts
         self.sequenceStoreId = sequenceStoreId
         self.uploadId = uploadId
@@ -2451,8 +2387,7 @@ public struct CompleteMultipartReadSetUploadOutput: Swift.Sendable {
 
     public init(
         readSetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.readSetId = readSetId
     }
 }
@@ -2530,8 +2465,7 @@ public struct CreateMultipartReadSetUploadInput: Swift.Sendable {
         sourceFileType: OmicsClientTypes.FileType? = nil,
         subjectId: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.generatedFrom = generatedFrom
@@ -2588,8 +2522,7 @@ public struct CreateMultipartReadSetUploadOutput: Swift.Sendable {
         subjectId: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         uploadId: Swift.String? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.description = description
         self.generatedFrom = generatedFrom
@@ -2623,8 +2556,7 @@ public struct CreateReferenceStoreInput: Swift.Sendable {
         name: Swift.String? = nil,
         sseConfig: OmicsClientTypes.SseConfig? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.name = name
@@ -2657,8 +2589,7 @@ public struct CreateReferenceStoreOutput: Swift.Sendable {
         id: Swift.String? = nil,
         name: Swift.String? = nil,
         sseConfig: OmicsClientTypes.SseConfig? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationTime = creationTime
         self.description = description
@@ -2694,8 +2625,7 @@ public struct CreateRunCacheInput: Swift.Sendable {
         name: Swift.String? = nil,
         requestId: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.cacheBehavior = cacheBehavior
         self.cacheBucketOwnerId = cacheBucketOwnerId
         self.cacheS3Location = cacheS3Location
@@ -2753,8 +2683,7 @@ public struct CreateRunCacheOutput: Swift.Sendable {
         id: Swift.String? = nil,
         status: OmicsClientTypes.RunCacheStatus? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.id = id
         self.status = status
@@ -2787,8 +2716,7 @@ public struct CreateRunGroupInput: Swift.Sendable {
         name: Swift.String? = nil,
         requestId: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.maxCpus = maxCpus
         self.maxDuration = maxDuration
         self.maxGpus = maxGpus
@@ -2811,8 +2739,7 @@ public struct CreateRunGroupOutput: Swift.Sendable {
         arn: Swift.String? = nil,
         id: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.id = id
         self.tags = tags
@@ -2860,8 +2787,7 @@ extension OmicsClientTypes {
 
         public init(
             accessLogLocation: Swift.String? = nil
-        )
-        {
+        ) {
             self.accessLogLocation = accessLogLocation
         }
     }
@@ -2898,8 +2824,7 @@ public struct CreateSequenceStoreInput: Swift.Sendable {
         s3AccessConfig: OmicsClientTypes.S3AccessConfig? = nil,
         sseConfig: OmicsClientTypes.SseConfig? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.eTagAlgorithmFamily = eTagAlgorithmFamily
@@ -2927,8 +2852,7 @@ extension OmicsClientTypes {
             accessLogLocation: Swift.String? = nil,
             s3AccessPointArn: Swift.String? = nil,
             s3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.accessLogLocation = accessLogLocation
             self.s3AccessPointArn = s3AccessPointArn
             self.s3Uri = s3Uri
@@ -3016,8 +2940,7 @@ public struct CreateSequenceStoreOutput: Swift.Sendable {
         sseConfig: OmicsClientTypes.SseConfig? = nil,
         status: OmicsClientTypes.SequenceStoreStatus? = nil,
         statusMessage: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationTime = creationTime
         self.description = description
@@ -3047,8 +2970,7 @@ public struct CreateShareInput: Swift.Sendable {
         principalSubscriber: Swift.String? = nil,
         resourceArn: Swift.String? = nil,
         shareName: Swift.String? = nil
-    )
-    {
+    ) {
         self.principalSubscriber = principalSubscriber
         self.resourceArn = resourceArn
         self.shareName = shareName
@@ -3067,8 +2989,7 @@ public struct CreateShareOutput: Swift.Sendable {
         shareId: Swift.String? = nil,
         shareName: Swift.String? = nil,
         status: OmicsClientTypes.ShareStatus? = nil
-    )
-    {
+    ) {
         self.shareId = shareId
         self.shareName = shareName
         self.status = status
@@ -3094,8 +3015,7 @@ public struct CreateVariantStoreInput: Swift.Sendable {
         reference: OmicsClientTypes.ReferenceItem? = nil,
         sseConfig: OmicsClientTypes.SseConfig? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.name = name
         self.reference = reference
@@ -3126,8 +3046,7 @@ public struct CreateVariantStoreOutput: Swift.Sendable {
         name: Swift.String? = nil,
         reference: OmicsClientTypes.ReferenceItem? = nil,
         status: OmicsClientTypes.StoreStatus? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.id = id
         self.name = name
@@ -3180,8 +3099,7 @@ extension OmicsClientTypes {
         public init(
             description: Swift.String? = nil,
             `optional`: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.description = description
             self.`optional` = `optional`
         }
@@ -3225,8 +3143,7 @@ public struct CreateWorkflowInput: Swift.Sendable {
         requestId: Swift.String? = nil,
         storageCapacity: Swift.Int? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.accelerators = accelerators
         self.definitionUri = definitionUri
         self.definitionZip = definitionZip
@@ -3297,8 +3214,7 @@ public struct CreateWorkflowOutput: Swift.Sendable {
         id: Swift.String? = nil,
         status: OmicsClientTypes.WorkflowStatus? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.id = id
         self.status = status
@@ -3346,8 +3262,7 @@ public struct DeleteReferenceInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         referenceStoreId: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.referenceStoreId = referenceStoreId
     }
@@ -3365,8 +3280,7 @@ public struct DeleteReferenceStoreInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -3383,8 +3297,7 @@ public struct DeleteRunInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -3396,8 +3309,7 @@ public struct DeleteRunCacheInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -3409,8 +3321,7 @@ public struct DeleteRunGroupInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -3422,8 +3333,7 @@ public struct DeleteS3AccessPolicyInput: Swift.Sendable {
 
     public init(
         s3AccessPointArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.s3AccessPointArn = s3AccessPointArn
     }
 }
@@ -3440,8 +3350,7 @@ public struct DeleteSequenceStoreInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -3458,8 +3367,7 @@ public struct DeleteShareInput: Swift.Sendable {
 
     public init(
         shareId: Swift.String? = nil
-    )
-    {
+    ) {
         self.shareId = shareId
     }
 }
@@ -3470,8 +3378,7 @@ public struct DeleteShareOutput: Swift.Sendable {
 
     public init(
         status: OmicsClientTypes.ShareStatus? = nil
-    )
-    {
+    ) {
         self.status = status
     }
 }
@@ -3486,8 +3393,7 @@ public struct DeleteVariantStoreInput: Swift.Sendable {
     public init(
         force: Swift.Bool? = false,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.force = force
         self.name = name
     }
@@ -3500,8 +3406,7 @@ public struct DeleteVariantStoreOutput: Swift.Sendable {
 
     public init(
         status: OmicsClientTypes.StoreStatus? = nil
-    )
-    {
+    ) {
         self.status = status
     }
 }
@@ -3513,8 +3418,7 @@ public struct DeleteWorkflowInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -3584,8 +3488,7 @@ extension OmicsClientTypes {
             algorithm: OmicsClientTypes.ETagAlgorithm? = nil,
             source1: Swift.String? = nil,
             source2: Swift.String? = nil
-        )
-        {
+        ) {
             self.algorithm = algorithm
             self.source1 = source1
             self.source2 = source2
@@ -3603,8 +3506,7 @@ extension OmicsClientTypes {
 
         public init(
             readSetId: Swift.String? = nil
-        )
-        {
+        ) {
             self.readSetId = readSetId
         }
     }
@@ -3662,8 +3564,7 @@ extension OmicsClientTypes {
             id: Swift.String? = nil,
             status: OmicsClientTypes.ReadSetExportJobItemStatus? = nil,
             statusMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.id = id
             self.status = status
             self.statusMessage = statusMessage
@@ -3730,8 +3631,7 @@ extension OmicsClientTypes {
             createdAfter: Foundation.Date? = nil,
             createdBefore: Foundation.Date? = nil,
             status: OmicsClientTypes.ReadSetExportJobStatus? = nil
-        )
-        {
+        ) {
             self.createdAfter = createdAfter
             self.createdBefore = createdBefore
             self.status = status
@@ -3768,8 +3668,7 @@ extension OmicsClientTypes {
             id: Swift.String? = nil,
             sequenceStoreId: Swift.String? = nil,
             status: OmicsClientTypes.ReadSetExportJobStatus? = nil
-        )
-        {
+        ) {
             self.completionTime = completionTime
             self.creationTime = creationTime
             self.destination = destination
@@ -3789,8 +3688,7 @@ extension OmicsClientTypes {
 
         public init(
             s3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.s3Uri = s3Uri
         }
     }
@@ -3814,8 +3712,7 @@ extension OmicsClientTypes {
             partSize: Swift.Int? = nil,
             s3Access: OmicsClientTypes.ReadSetS3Access? = nil,
             totalParts: Swift.Int? = nil
-        )
-        {
+        ) {
             self.contentLength = contentLength
             self.partSize = partSize
             self.s3Access = s3Access
@@ -3874,8 +3771,7 @@ extension OmicsClientTypes {
             resourceArns: [Swift.String]? = nil,
             status: [OmicsClientTypes.ShareStatus]? = nil,
             type: [OmicsClientTypes.ShareResourceType]? = nil
-        )
-        {
+        ) {
             self.resourceArns = resourceArns
             self.status = status
             self.type = type
@@ -3902,8 +3798,7 @@ public struct RangeNotSatisfiableException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3958,8 +3853,7 @@ public struct GetReadSetInput: Swift.Sendable {
         id: Swift.String? = nil,
         partNumber: Swift.Int? = nil,
         sequenceStoreId: Swift.String? = nil
-    )
-    {
+    ) {
         self.file = file
         self.id = id
         self.partNumber = partNumber
@@ -3973,8 +3867,7 @@ public struct GetReadSetOutput: Swift.Sendable {
 
     public init(
         payload: Smithy.ByteStream? = Smithy.ByteStream.data(Foundation.Data(base64Encoded: ""))
-    )
-    {
+    ) {
         self.payload = payload
     }
 }
@@ -3990,8 +3883,7 @@ public struct GetReadSetActivationJobInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         sequenceStoreId: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.sequenceStoreId = sequenceStoreId
     }
@@ -4025,8 +3917,7 @@ public struct GetReadSetActivationJobOutput: Swift.Sendable {
         sources: [OmicsClientTypes.ActivateReadSetSourceItem]? = nil,
         status: OmicsClientTypes.ReadSetActivationJobStatus? = nil,
         statusMessage: Swift.String? = nil
-    )
-    {
+    ) {
         self.completionTime = completionTime
         self.creationTime = creationTime
         self.id = id
@@ -4048,8 +3939,7 @@ public struct GetReadSetExportJobInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         sequenceStoreId: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.sequenceStoreId = sequenceStoreId
     }
@@ -4087,8 +3977,7 @@ public struct GetReadSetExportJobOutput: Swift.Sendable {
         sequenceStoreId: Swift.String? = nil,
         status: OmicsClientTypes.ReadSetExportJobStatus? = nil,
         statusMessage: Swift.String? = nil
-    )
-    {
+    ) {
         self.completionTime = completionTime
         self.creationTime = creationTime
         self.destination = destination
@@ -4111,8 +4000,7 @@ public struct GetReadSetImportJobInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         sequenceStoreId: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.sequenceStoreId = sequenceStoreId
     }
@@ -4131,8 +4019,7 @@ extension OmicsClientTypes {
         public init(
             source1: Swift.String? = nil,
             source2: Swift.String? = nil
-        )
-        {
+        ) {
             self.source1 = source1
             self.source2 = source2
         }
@@ -4221,8 +4108,7 @@ extension OmicsClientTypes {
             statusMessage: Swift.String? = nil,
             subjectId: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.description = description
             self.generatedFrom = generatedFrom
             self.name = name
@@ -4316,8 +4202,7 @@ public struct GetReadSetImportJobOutput: Swift.Sendable {
         sources: [OmicsClientTypes.ImportReadSetSourceItem]? = nil,
         status: OmicsClientTypes.ReadSetImportJobStatus? = nil,
         statusMessage: Swift.String? = nil
-    )
-    {
+    ) {
         self.completionTime = completionTime
         self.creationTime = creationTime
         self.id = id
@@ -4340,8 +4225,7 @@ public struct GetReadSetMetadataInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         sequenceStoreId: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.sequenceStoreId = sequenceStoreId
     }
@@ -4362,8 +4246,7 @@ extension OmicsClientTypes {
             index: OmicsClientTypes.FileInformation? = nil,
             source1: OmicsClientTypes.FileInformation? = nil,
             source2: OmicsClientTypes.FileInformation? = nil
-        )
-        {
+        ) {
             self.index = index
             self.source1 = source1
             self.source2 = source2
@@ -4389,8 +4272,7 @@ extension OmicsClientTypes {
             generatedFrom: Swift.String? = nil,
             totalBaseCount: Swift.Int? = nil,
             totalReadCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.alignment = alignment
             self.generatedFrom = generatedFrom
             self.totalBaseCount = totalBaseCount
@@ -4503,8 +4385,7 @@ public struct GetReadSetMetadataOutput: Swift.Sendable {
         status: OmicsClientTypes.ReadSetStatus? = nil,
         statusMessage: Swift.String? = nil,
         subjectId: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationJobId = creationJobId
         self.creationTime = creationTime
@@ -4575,8 +4456,7 @@ public struct GetReferenceInput: Swift.Sendable {
         partNumber: Swift.Int? = nil,
         range: Swift.String? = nil,
         referenceStoreId: Swift.String? = nil
-    )
-    {
+    ) {
         self.file = file
         self.id = id
         self.partNumber = partNumber
@@ -4591,8 +4471,7 @@ public struct GetReferenceOutput: Swift.Sendable {
 
     public init(
         payload: Smithy.ByteStream? = Smithy.ByteStream.data(Foundation.Data(base64Encoded: ""))
-    )
-    {
+    ) {
         self.payload = payload
     }
 }
@@ -4608,8 +4487,7 @@ public struct GetReferenceImportJobInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         referenceStoreId: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.referenceStoreId = referenceStoreId
     }
@@ -4678,8 +4556,7 @@ extension OmicsClientTypes {
             status: OmicsClientTypes.ReferenceImportJobItemStatus? = nil,
             statusMessage: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.description = description
             self.name = name
             self.referenceId = referenceId
@@ -4768,8 +4645,7 @@ public struct GetReferenceImportJobOutput: Swift.Sendable {
         sources: [OmicsClientTypes.ImportReferenceSourceItem]? = nil,
         status: OmicsClientTypes.ReferenceImportJobStatus? = nil,
         statusMessage: Swift.String? = nil
-    )
-    {
+    ) {
         self.completionTime = completionTime
         self.creationTime = creationTime
         self.id = id
@@ -4792,8 +4668,7 @@ public struct GetReferenceMetadataInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         referenceStoreId: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.referenceStoreId = referenceStoreId
     }
@@ -4837,8 +4712,7 @@ extension OmicsClientTypes {
         public init(
             index: OmicsClientTypes.FileInformation? = nil,
             source: OmicsClientTypes.FileInformation? = nil
-        )
-        {
+        ) {
             self.index = index
             self.source = source
         }
@@ -4922,8 +4796,7 @@ public struct GetReferenceMetadataOutput: Swift.Sendable {
         referenceStoreId: Swift.String? = nil,
         status: OmicsClientTypes.ReferenceStatus? = nil,
         updateTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationJobId = creationJobId
         self.creationTime = creationTime
@@ -4946,8 +4819,7 @@ public struct GetReferenceStoreInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -4976,8 +4848,7 @@ public struct GetReferenceStoreOutput: Swift.Sendable {
         id: Swift.String? = nil,
         name: Swift.String? = nil,
         sseConfig: OmicsClientTypes.SseConfig? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationTime = creationTime
         self.description = description
@@ -5023,8 +4894,7 @@ public struct GetRunInput: Swift.Sendable {
     public init(
         export: [OmicsClientTypes.RunExport]? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.export = export
         self.id = id
     }
@@ -5077,8 +4947,7 @@ extension OmicsClientTypes {
         public init(
             engineLogStream: Swift.String? = nil,
             runLogStream: Swift.String? = nil
-        )
-        {
+        ) {
             self.engineLogStream = engineLogStream
             self.runLogStream = runLogStream
         }
@@ -5324,8 +5193,7 @@ public struct GetRunOutput: Swift.Sendable {
         workflowId: Swift.String? = nil,
         workflowOwnerId: Swift.String? = nil,
         workflowType: OmicsClientTypes.WorkflowType? = nil
-    )
-    {
+    ) {
         self.accelerators = accelerators
         self.arn = arn
         self.cacheBehavior = cacheBehavior
@@ -5370,8 +5238,7 @@ public struct GetRunCacheInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -5409,8 +5276,7 @@ public struct GetRunCacheOutput: Swift.Sendable {
         name: Swift.String? = nil,
         status: OmicsClientTypes.RunCacheStatus? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.cacheBehavior = cacheBehavior
         self.cacheBucketOwnerId = cacheBucketOwnerId
@@ -5431,8 +5297,7 @@ public struct GetRunGroupInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -5467,8 +5332,7 @@ public struct GetRunGroupOutput: Swift.Sendable {
         maxRuns: Swift.Int? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationTime = creationTime
         self.id = id
@@ -5492,8 +5356,7 @@ public struct GetRunTaskInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         taskId: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.taskId = taskId
     }
@@ -5591,8 +5454,7 @@ public struct GetRunTaskOutput: Swift.Sendable {
         statusMessage: Swift.String? = nil,
         stopTime: Foundation.Date? = nil,
         taskId: Swift.String? = nil
-    )
-    {
+    ) {
         self.cacheHit = cacheHit
         self.cacheS3Uri = cacheS3Uri
         self.cpus = cpus
@@ -5618,8 +5480,7 @@ public struct GetS3AccessPolicyInput: Swift.Sendable {
 
     public init(
         s3AccessPointArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.s3AccessPointArn = s3AccessPointArn
     }
 }
@@ -5672,8 +5533,7 @@ public struct GetS3AccessPolicyOutput: Swift.Sendable {
         storeId: Swift.String? = nil,
         storeType: OmicsClientTypes.StoreType? = nil,
         updateTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.s3AccessPointArn = s3AccessPointArn
         self.s3AccessPolicy = s3AccessPolicy
         self.storeId = storeId
@@ -5689,8 +5549,7 @@ public struct GetSequenceStoreInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -5740,8 +5599,7 @@ public struct GetSequenceStoreOutput: Swift.Sendable {
         status: OmicsClientTypes.SequenceStoreStatus? = nil,
         statusMessage: Swift.String? = nil,
         updateTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationTime = creationTime
         self.description = description
@@ -5765,8 +5623,7 @@ public struct GetShareInput: Swift.Sendable {
 
     public init(
         shareId: Swift.String? = nil
-    )
-    {
+    ) {
         self.shareId = shareId
     }
 }
@@ -5807,8 +5664,7 @@ extension OmicsClientTypes {
             status: OmicsClientTypes.ShareStatus? = nil,
             statusMessage: Swift.String? = nil,
             updateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.ownerId = ownerId
             self.principalSubscriber = principalSubscriber
@@ -5829,8 +5685,7 @@ public struct GetShareOutput: Swift.Sendable {
 
     public init(
         share: OmicsClientTypes.ShareDetails? = nil
-    )
-    {
+    ) {
         self.share = share
     }
 }
@@ -5842,8 +5697,7 @@ public struct GetVariantImportJobInput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -5865,8 +5719,7 @@ extension OmicsClientTypes {
             jobStatus: OmicsClientTypes.JobStatus? = nil,
             source: Swift.String? = nil,
             statusMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.jobStatus = jobStatus
             self.source = source
             self.statusMessage = statusMessage
@@ -5919,8 +5772,7 @@ public struct GetVariantImportJobOutput: Swift.Sendable {
         status: OmicsClientTypes.JobStatus? = nil,
         statusMessage: Swift.String? = nil,
         updateTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.annotationFields = annotationFields
         self.completionTime = completionTime
         self.creationTime = creationTime
@@ -5942,8 +5794,7 @@ public struct GetVariantStoreInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -5999,8 +5850,7 @@ public struct GetVariantStoreOutput: Swift.Sendable {
         storeSizeBytes: Swift.Int? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         updateTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.description = description
         self.id = id
@@ -6058,8 +5908,7 @@ public struct GetWorkflowInput: Swift.Sendable {
         id: Swift.String? = nil,
         type: OmicsClientTypes.WorkflowType? = nil,
         workflowOwnerId: Swift.String? = nil
-    )
-    {
+    ) {
         self.export = export
         self.id = id
         self.type = type
@@ -6121,8 +5970,7 @@ public struct GetWorkflowOutput: Swift.Sendable {
         storageCapacity: Swift.Int? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         type: OmicsClientTypes.WorkflowType? = nil
-    )
-    {
+    ) {
         self.accelerators = accelerators
         self.arn = arn
         self.creationTime = creationTime
@@ -6158,8 +6006,7 @@ extension OmicsClientTypes {
             createdAfter: Foundation.Date? = nil,
             createdBefore: Foundation.Date? = nil,
             status: OmicsClientTypes.ReadSetImportJobStatus? = nil
-        )
-        {
+        ) {
             self.createdAfter = createdAfter
             self.createdBefore = createdBefore
             self.status = status
@@ -6196,8 +6043,7 @@ extension OmicsClientTypes {
             roleArn: Swift.String? = nil,
             sequenceStoreId: Swift.String? = nil,
             status: OmicsClientTypes.ReadSetImportJobStatus? = nil
-        )
-        {
+        ) {
             self.completionTime = completionTime
             self.creationTime = creationTime
             self.id = id
@@ -6223,8 +6069,7 @@ extension OmicsClientTypes {
             createdAfter: Foundation.Date? = nil,
             createdBefore: Foundation.Date? = nil,
             status: OmicsClientTypes.ReferenceImportJobStatus? = nil
-        )
-        {
+        ) {
             self.createdAfter = createdAfter
             self.createdBefore = createdBefore
             self.status = status
@@ -6261,8 +6106,7 @@ extension OmicsClientTypes {
             referenceStoreId: Swift.String? = nil,
             roleArn: Swift.String? = nil,
             status: OmicsClientTypes.ReferenceImportJobStatus? = nil
-        )
-        {
+        ) {
             self.completionTime = completionTime
             self.creationTime = creationTime
             self.id = id
@@ -6286,8 +6130,7 @@ public struct ListMultipartReadSetUploadsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sequenceStoreId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.sequenceStoreId = sequenceStoreId
@@ -6341,8 +6184,7 @@ extension OmicsClientTypes {
             subjectId: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             uploadId: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.description = description
             self.generatedFrom = generatedFrom
@@ -6367,8 +6209,7 @@ public struct ListMultipartReadSetUploadsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         uploads: [OmicsClientTypes.MultipartReadSetUploadListItem]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.uploads = uploads
     }
@@ -6390,8 +6231,7 @@ public struct ListReadSetActivationJobsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sequenceStoreId: Swift.String? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -6408,8 +6248,7 @@ public struct ListReadSetActivationJobsOutput: Swift.Sendable {
     public init(
         activationJobs: [OmicsClientTypes.ActivateReadSetJobItem]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.activationJobs = activationJobs
         self.nextToken = nextToken
     }
@@ -6431,8 +6270,7 @@ public struct ListReadSetExportJobsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sequenceStoreId: Swift.String? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -6449,8 +6287,7 @@ public struct ListReadSetExportJobsOutput: Swift.Sendable {
     public init(
         exportJobs: [OmicsClientTypes.ExportReadSetJobDetail]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.exportJobs = exportJobs
         self.nextToken = nextToken
     }
@@ -6472,8 +6309,7 @@ public struct ListReadSetImportJobsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sequenceStoreId: Swift.String? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -6490,8 +6326,7 @@ public struct ListReadSetImportJobsOutput: Swift.Sendable {
     public init(
         importJobs: [OmicsClientTypes.ImportReadSetJobItem]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.importJobs = importJobs
         self.nextToken = nextToken
     }
@@ -6530,8 +6365,7 @@ extension OmicsClientTypes {
             sampleId: Swift.String? = nil,
             status: OmicsClientTypes.ReadSetStatus? = nil,
             subjectId: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdAfter = createdAfter
             self.createdBefore = createdBefore
             self.creationType = creationType
@@ -6561,8 +6395,7 @@ public struct ListReadSetsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sequenceStoreId: Swift.String? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -6627,8 +6460,7 @@ extension OmicsClientTypes {
             status: OmicsClientTypes.ReadSetStatus? = nil,
             statusMessage: Swift.String? = nil,
             subjectId: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.creationTime = creationTime
             self.creationType = creationType
@@ -6658,8 +6490,7 @@ public struct ListReadSetsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         readSets: [OmicsClientTypes.ReadSetListItem]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.readSets = readSets
     }
@@ -6677,8 +6508,7 @@ extension OmicsClientTypes {
         public init(
             createdAfter: Foundation.Date? = nil,
             createdBefore: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.createdAfter = createdAfter
             self.createdBefore = createdBefore
         }
@@ -6709,8 +6539,7 @@ public struct ListReadSetUploadPartsInput: Swift.Sendable {
         partSource: OmicsClientTypes.ReadSetPartSource? = nil,
         sequenceStoreId: Swift.String? = nil,
         uploadId: Swift.String? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -6748,8 +6577,7 @@ extension OmicsClientTypes {
             partNumber: Swift.Int? = nil,
             partSize: Swift.Int? = nil,
             partSource: OmicsClientTypes.ReadSetPartSource? = nil
-        )
-        {
+        ) {
             self.checksum = checksum
             self.creationTime = creationTime
             self.lastUpdatedTime = lastUpdatedTime
@@ -6769,8 +6597,7 @@ public struct ListReadSetUploadPartsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         parts: [OmicsClientTypes.ReadSetUploadPartListItem]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.parts = parts
     }
@@ -6792,8 +6619,7 @@ public struct ListReferenceImportJobsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         referenceStoreId: Swift.String? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -6810,8 +6636,7 @@ public struct ListReferenceImportJobsOutput: Swift.Sendable {
     public init(
         importJobs: [OmicsClientTypes.ImportReferenceJobItem]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.importJobs = importJobs
         self.nextToken = nextToken
     }
@@ -6835,8 +6660,7 @@ extension OmicsClientTypes {
             createdBefore: Foundation.Date? = nil,
             md5: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdAfter = createdAfter
             self.createdBefore = createdBefore
             self.md5 = md5
@@ -6861,8 +6685,7 @@ public struct ListReferencesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         referenceStoreId: Swift.String? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -6909,8 +6732,7 @@ extension OmicsClientTypes {
             referenceStoreId: Swift.String? = nil,
             status: OmicsClientTypes.ReferenceStatus? = nil,
             updateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.creationTime = creationTime
             self.description = description
@@ -6934,8 +6756,7 @@ public struct ListReferencesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         references: [OmicsClientTypes.ReferenceListItem]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.references = references
     }
@@ -6956,8 +6777,7 @@ extension OmicsClientTypes {
             createdAfter: Foundation.Date? = nil,
             createdBefore: Foundation.Date? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdAfter = createdAfter
             self.createdBefore = createdBefore
             self.name = name
@@ -6977,8 +6797,7 @@ public struct ListReferenceStoresInput: Swift.Sendable {
         filter: OmicsClientTypes.ReferenceStoreFilter? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -7012,8 +6831,7 @@ extension OmicsClientTypes {
             id: Swift.String? = nil,
             name: Swift.String? = nil,
             sseConfig: OmicsClientTypes.SseConfig? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.creationTime = creationTime
             self.description = description
@@ -7034,8 +6852,7 @@ public struct ListReferenceStoresOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         referenceStores: [OmicsClientTypes.ReferenceStoreDetail]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.referenceStores = referenceStores
     }
@@ -7050,8 +6867,7 @@ public struct ListRunCachesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         startingToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.startingToken = startingToken
     }
@@ -7084,8 +6900,7 @@ extension OmicsClientTypes {
             id: Swift.String? = nil,
             name: Swift.String? = nil,
             status: OmicsClientTypes.RunCacheStatus? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.cacheBehavior = cacheBehavior
             self.cacheS3Uri = cacheS3Uri
@@ -7106,8 +6921,7 @@ public struct ListRunCachesOutput: Swift.Sendable {
     public init(
         items: [OmicsClientTypes.RunCacheListItem]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -7125,8 +6939,7 @@ public struct ListRunGroupsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         name: Swift.String? = nil,
         startingToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.name = name
         self.startingToken = startingToken
@@ -7163,8 +6976,7 @@ extension OmicsClientTypes {
             maxGpus: Swift.Int? = nil,
             maxRuns: Swift.Int? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.creationTime = creationTime
             self.id = id
@@ -7186,8 +6998,7 @@ public struct ListRunGroupsOutput: Swift.Sendable {
     public init(
         items: [OmicsClientTypes.RunGroupListItem]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -7211,8 +7022,7 @@ public struct ListRunsInput: Swift.Sendable {
         runGroupId: Swift.String? = nil,
         startingToken: Swift.String? = nil,
         status: OmicsClientTypes.RunStatus? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.name = name
         self.runGroupId = runGroupId
@@ -7260,8 +7070,7 @@ extension OmicsClientTypes {
             storageCapacity: Swift.Int? = nil,
             storageType: OmicsClientTypes.StorageType? = nil,
             workflowId: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.creationTime = creationTime
             self.id = id
@@ -7286,8 +7095,7 @@ public struct ListRunsOutput: Swift.Sendable {
     public init(
         items: [OmicsClientTypes.RunListItem]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -7309,8 +7117,7 @@ public struct ListRunTasksInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         startingToken: Swift.String? = nil,
         status: OmicsClientTypes.TaskStatus? = nil
-    )
-    {
+    ) {
         self.id = id
         self.maxResults = maxResults
         self.startingToken = startingToken
@@ -7360,8 +7167,7 @@ extension OmicsClientTypes {
             status: OmicsClientTypes.TaskStatus? = nil,
             stopTime: Foundation.Date? = nil,
             taskId: Swift.String? = nil
-        )
-        {
+        ) {
             self.cacheHit = cacheHit
             self.cacheS3Uri = cacheS3Uri
             self.cpus = cpus
@@ -7387,8 +7193,7 @@ public struct ListRunTasksOutput: Swift.Sendable {
     public init(
         items: [OmicsClientTypes.TaskListItem]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -7418,8 +7223,7 @@ extension OmicsClientTypes {
             status: OmicsClientTypes.SequenceStoreStatus? = nil,
             updatedAfter: Foundation.Date? = nil,
             updatedBefore: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.createdAfter = createdAfter
             self.createdBefore = createdBefore
             self.name = name
@@ -7442,8 +7246,7 @@ public struct ListSequenceStoresInput: Swift.Sendable {
         filter: OmicsClientTypes.SequenceStoreFilter? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -7492,8 +7295,7 @@ extension OmicsClientTypes {
             status: OmicsClientTypes.SequenceStoreStatus? = nil,
             statusMessage: Swift.String? = nil,
             updateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.creationTime = creationTime
             self.description = description
@@ -7519,8 +7321,7 @@ public struct ListSequenceStoresOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         sequenceStores: [OmicsClientTypes.SequenceStoreDetail]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.sequenceStores = sequenceStores
     }
@@ -7573,8 +7374,7 @@ public struct ListSharesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceOwner: OmicsClientTypes.ResourceOwner? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -7592,8 +7392,7 @@ public struct ListSharesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         shares: [OmicsClientTypes.ShareDetails]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.shares = shares
     }
@@ -7606,8 +7405,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -7619,8 +7417,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -7637,8 +7434,7 @@ extension OmicsClientTypes {
         public init(
             status: OmicsClientTypes.JobStatus? = nil,
             storeName: Swift.String? = nil
-        )
-        {
+        ) {
             self.status = status
             self.storeName = storeName
         }
@@ -7660,8 +7456,7 @@ public struct ListVariantImportJobsInput: Swift.Sendable {
         ids: [Swift.String]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.ids = ids
         self.maxResults = maxResults
@@ -7708,8 +7503,7 @@ extension OmicsClientTypes {
             runLeftNormalization: Swift.Bool = false,
             status: OmicsClientTypes.JobStatus? = nil,
             updateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.annotationFields = annotationFields
             self.completionTime = completionTime
             self.creationTime = creationTime
@@ -7732,8 +7526,7 @@ public struct ListVariantImportJobsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         variantImportJobs: [OmicsClientTypes.VariantImportJobItem]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.variantImportJobs = variantImportJobs
     }
@@ -7748,8 +7541,7 @@ extension OmicsClientTypes {
 
         public init(
             status: OmicsClientTypes.StoreStatus? = nil
-        )
-        {
+        ) {
             self.status = status
         }
     }
@@ -7770,8 +7562,7 @@ public struct ListVariantStoresInput: Swift.Sendable {
         ids: [Swift.String]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.ids = ids
         self.maxResults = maxResults
@@ -7829,8 +7620,7 @@ extension OmicsClientTypes {
             storeArn: Swift.String? = nil,
             storeSizeBytes: Swift.Int? = nil,
             updateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.description = description
             self.id = id
@@ -7855,8 +7645,7 @@ public struct ListVariantStoresOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         variantStores: [OmicsClientTypes.VariantStoreItem]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.variantStores = variantStores
     }
@@ -7877,8 +7666,7 @@ public struct ListWorkflowsInput: Swift.Sendable {
         name: Swift.String? = nil,
         startingToken: Swift.String? = nil,
         type: OmicsClientTypes.WorkflowType? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.name = name
         self.startingToken = startingToken
@@ -7916,8 +7704,7 @@ extension OmicsClientTypes {
             name: Swift.String? = nil,
             status: OmicsClientTypes.WorkflowStatus? = nil,
             type: OmicsClientTypes.WorkflowType? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.creationTime = creationTime
             self.digest = digest
@@ -7939,8 +7726,7 @@ public struct ListWorkflowsOutput: Swift.Sendable {
     public init(
         items: [OmicsClientTypes.WorkflowListItem]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -7957,8 +7743,7 @@ public struct PutS3AccessPolicyInput: Swift.Sendable {
     public init(
         s3AccessPointArn: Swift.String? = nil,
         s3AccessPolicy: Swift.String? = nil
-    )
-    {
+    ) {
         self.s3AccessPointArn = s3AccessPointArn
         self.s3AccessPolicy = s3AccessPolicy
     }
@@ -7976,8 +7761,7 @@ public struct PutS3AccessPolicyOutput: Swift.Sendable {
         s3AccessPointArn: Swift.String? = nil,
         storeId: Swift.String? = nil,
         storeType: OmicsClientTypes.StoreType? = nil
-    )
-    {
+    ) {
         self.s3AccessPointArn = s3AccessPointArn
         self.storeId = storeId
         self.storeType = storeType
@@ -8004,8 +7788,7 @@ extension OmicsClientTypes {
             name: Swift.String? = nil,
             sourceFile: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.description = description
             self.name = name
             self.sourceFile = sourceFile
@@ -8032,8 +7815,7 @@ public struct StartReferenceImportJobInput: Swift.Sendable {
         referenceStoreId: Swift.String? = nil,
         roleArn: Swift.String? = nil,
         sources: [OmicsClientTypes.StartReferenceImportJobSourceItem]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.referenceStoreId = referenceStoreId
         self.roleArn = roleArn
@@ -8064,8 +7846,7 @@ public struct StartReferenceImportJobOutput: Swift.Sendable {
         referenceStoreId: Swift.String? = nil,
         roleArn: Swift.String? = nil,
         status: OmicsClientTypes.ReferenceImportJobStatus? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.id = id
         self.referenceStoreId = referenceStoreId
@@ -8090,8 +7871,7 @@ public struct UpdateRunCacheInput: Swift.Sendable {
         description: Swift.String? = nil,
         id: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.cacheBehavior = cacheBehavior
         self.description = description
         self.id = id
@@ -8121,8 +7901,7 @@ public struct UpdateRunGroupInput: Swift.Sendable {
         maxGpus: Swift.Int? = nil,
         maxRuns: Swift.Int? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.maxCpus = maxCpus
         self.maxDuration = maxDuration
@@ -8191,8 +7970,7 @@ public struct StartRunInput: Swift.Sendable {
         workflowId: Swift.String? = nil,
         workflowOwnerId: Swift.String? = nil,
         workflowType: OmicsClientTypes.WorkflowType? = nil
-    )
-    {
+    ) {
         self.cacheBehavior = cacheBehavior
         self.cacheId = cacheId
         self.logLevel = logLevel
@@ -8235,8 +8013,7 @@ public struct StartRunOutput: Swift.Sendable {
         status: OmicsClientTypes.RunStatus? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         uuid: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.id = id
         self.runOutputUri = runOutputUri
@@ -8256,8 +8033,7 @@ extension OmicsClientTypes {
 
         public init(
             readSetId: Swift.String? = nil
-        )
-        {
+        ) {
             self.readSetId = readSetId
         }
     }
@@ -8277,8 +8053,7 @@ public struct StartReadSetActivationJobInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         sequenceStoreId: Swift.String? = nil,
         sources: [OmicsClientTypes.StartReadSetActivationJobSourceItem]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.sequenceStoreId = sequenceStoreId
         self.sources = sources
@@ -8304,8 +8079,7 @@ public struct StartReadSetActivationJobOutput: Swift.Sendable {
         id: Swift.String? = nil,
         sequenceStoreId: Swift.String? = nil,
         status: OmicsClientTypes.ReadSetActivationJobStatus? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.id = id
         self.sequenceStoreId = sequenceStoreId
@@ -8335,8 +8109,7 @@ public struct StartReadSetExportJobInput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         sequenceStoreId: Swift.String? = nil,
         sources: [OmicsClientTypes.ExportReadSet]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.destination = destination
         self.roleArn = roleArn
@@ -8368,8 +8141,7 @@ public struct StartReadSetExportJobOutput: Swift.Sendable {
         id: Swift.String? = nil,
         sequenceStoreId: Swift.String? = nil,
         status: OmicsClientTypes.ReadSetExportJobStatus? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.destination = destination
         self.id = id
@@ -8415,8 +8187,7 @@ extension OmicsClientTypes {
             sourceFiles: OmicsClientTypes.SourceFiles? = nil,
             subjectId: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.description = description
             self.generatedFrom = generatedFrom
             self.name = name
@@ -8448,8 +8219,7 @@ public struct StartReadSetImportJobInput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         sequenceStoreId: Swift.String? = nil,
         sources: [OmicsClientTypes.StartReadSetImportJobSourceItem]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.roleArn = roleArn
         self.sequenceStoreId = sequenceStoreId
@@ -8480,8 +8250,7 @@ public struct StartReadSetImportJobOutput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         sequenceStoreId: Swift.String? = nil,
         status: OmicsClientTypes.ReadSetImportJobStatus? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.id = id
         self.roleArn = roleArn
@@ -8515,8 +8284,7 @@ public struct UpdateSequenceStoreInput: Swift.Sendable {
         name: Swift.String? = nil,
         propagatedSetLevelTags: [Swift.String]? = nil,
         s3AccessConfig: OmicsClientTypes.S3AccessConfig? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.fallbackLocation = fallbackLocation
@@ -8572,8 +8340,7 @@ public struct UpdateSequenceStoreOutput: Swift.Sendable {
         status: OmicsClientTypes.SequenceStoreStatus? = nil,
         statusMessage: Swift.String? = nil,
         updateTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationTime = creationTime
         self.description = description
@@ -8613,8 +8380,7 @@ public struct UploadReadSetPartInput: Swift.Sendable {
         payload: Smithy.ByteStream? = nil,
         sequenceStoreId: Swift.String? = nil,
         uploadId: Swift.String? = nil
-    )
-    {
+    ) {
         self.partNumber = partNumber
         self.partSource = partSource
         self.payload = payload
@@ -8630,8 +8396,7 @@ public struct UploadReadSetPartOutput: Swift.Sendable {
 
     public init(
         checksum: Swift.String? = nil
-    )
-    {
+    ) {
         self.checksum = checksum
     }
 }
@@ -8647,8 +8412,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -8670,8 +8434,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -8692,8 +8455,7 @@ extension OmicsClientTypes {
 
         public init(
             source: Swift.String? = nil
-        )
-        {
+        ) {
             self.source = source
         }
     }
@@ -8720,8 +8482,7 @@ public struct StartVariantImportJobInput: Swift.Sendable {
         items: [OmicsClientTypes.VariantImportItemSource]? = nil,
         roleArn: Swift.String? = nil,
         runLeftNormalization: Swift.Bool? = false
-    )
-    {
+    ) {
         self.annotationFields = annotationFields
         self.destinationName = destinationName
         self.items = items
@@ -8737,8 +8498,7 @@ public struct StartVariantImportJobOutput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -8753,8 +8513,7 @@ public struct UpdateVariantStoreInput: Swift.Sendable {
     public init(
         description: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.name = name
     }
@@ -8791,8 +8550,7 @@ public struct UpdateVariantStoreOutput: Swift.Sendable {
         reference: OmicsClientTypes.ReferenceItem? = nil,
         status: OmicsClientTypes.StoreStatus? = nil,
         updateTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.description = description
         self.id = id
@@ -8816,8 +8574,7 @@ public struct UpdateWorkflowInput: Swift.Sendable {
         description: Swift.String? = nil,
         id: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.id = id
         self.name = name

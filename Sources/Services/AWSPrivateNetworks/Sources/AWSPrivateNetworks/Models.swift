@@ -52,8 +52,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -81,8 +80,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public init(
         message: Swift.String? = nil,
         retryAfterSeconds: Swift.Int? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.retryAfterSeconds = retryAfterSeconds
     }
@@ -116,8 +114,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -138,8 +135,7 @@ extension PrivateNetworksClientTypes {
         public init(
             message: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
             self.name = name
         }
@@ -211,8 +207,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
         fieldList: [PrivateNetworksClientTypes.ValidationExceptionField]? = nil,
         message: Swift.String? = nil,
         reason: PrivateNetworksClientTypes.ValidationExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.fieldList = fieldList
         self.properties.message = message
         self.properties.reason = reason
@@ -226,8 +221,7 @@ public struct AcknowledgeOrderReceiptInput: Swift.Sendable {
 
     public init(
         orderArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.orderArn = orderArn
     }
 }
@@ -319,8 +313,7 @@ extension PrivateNetworksClientTypes {
         public init(
             automaticRenewal: Swift.Bool? = nil,
             commitmentLength: PrivateNetworksClientTypes.CommitmentLength? = nil
-        )
-        {
+        ) {
             self.automaticRenewal = automaticRenewal
             self.commitmentLength = commitmentLength
         }
@@ -373,8 +366,7 @@ extension PrivateNetworksClientTypes {
             commitmentConfiguration: PrivateNetworksClientTypes.CommitmentConfiguration? = nil,
             count: Swift.Int? = nil,
             type: PrivateNetworksClientTypes.NetworkResourceDefinitionType? = nil
-        )
-        {
+        ) {
             self.commitmentConfiguration = commitmentConfiguration
             self.count = count
             self.type = type
@@ -427,8 +419,7 @@ extension PrivateNetworksClientTypes {
             street1: Swift.String? = nil,
             street2: Swift.String? = nil,
             street3: Swift.String? = nil
-        )
-        {
+        ) {
             self.city = city
             self.company = company
             self.country = country
@@ -458,8 +449,7 @@ extension PrivateNetworksClientTypes {
 
         public init(
             trackingNumber: Swift.String? = nil
-        )
-        {
+        ) {
             self.trackingNumber = trackingNumber
         }
     }
@@ -495,8 +485,7 @@ extension PrivateNetworksClientTypes {
             orderedResources: [PrivateNetworksClientTypes.OrderedResourceDefinition]? = nil,
             shippingAddress: PrivateNetworksClientTypes.Address? = nil,
             trackingInformation: [PrivateNetworksClientTypes.TrackingInformation]? = nil
-        )
-        {
+        ) {
             self.acknowledgmentStatus = acknowledgmentStatus
             self.createdAt = createdAt
             self.networkArn = networkArn
@@ -516,8 +505,7 @@ public struct AcknowledgeOrderReceiptOutput: Swift.Sendable {
 
     public init(
         order: PrivateNetworksClientTypes.Order? = nil
-    )
-    {
+    ) {
         self.order = order
     }
 }
@@ -532,8 +520,7 @@ public struct ActivateDeviceIdentifierInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         deviceIdentifierArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.deviceIdentifierArn = deviceIdentifierArn
     }
@@ -601,8 +588,7 @@ extension PrivateNetworksClientTypes {
             status: PrivateNetworksClientTypes.DeviceIdentifierStatus? = nil,
             trafficGroupArn: Swift.String? = nil,
             vendor: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.deviceIdentifierArn = deviceIdentifierArn
             self.iccid = iccid
@@ -631,8 +617,7 @@ public struct ActivateDeviceIdentifierOutput: Swift.Sendable {
     public init(
         deviceIdentifier: PrivateNetworksClientTypes.DeviceIdentifier? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.deviceIdentifier = deviceIdentifier
         self.tags = tags
     }
@@ -667,8 +652,7 @@ public struct ActivateNetworkSiteInput: Swift.Sendable {
         commitmentConfiguration: PrivateNetworksClientTypes.CommitmentConfiguration? = nil,
         networkSiteArn: Swift.String? = nil,
         shippingAddress: PrivateNetworksClientTypes.Address? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.commitmentConfiguration = commitmentConfiguration
         self.networkSiteArn = networkSiteArn
@@ -689,8 +673,7 @@ extension PrivateNetworksClientTypes {
         public init(
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -714,8 +697,7 @@ extension PrivateNetworksClientTypes {
             count: Swift.Int? = nil,
             options: [PrivateNetworksClientTypes.NameValuePair]? = nil,
             type: PrivateNetworksClientTypes.NetworkResourceDefinitionType? = nil
-        )
-        {
+        ) {
             self.count = count
             self.options = options
             self.type = type
@@ -735,8 +717,7 @@ extension PrivateNetworksClientTypes {
         public init(
             options: [PrivateNetworksClientTypes.NameValuePair]? = nil,
             resourceDefinitions: [PrivateNetworksClientTypes.NetworkResourceDefinition]? = nil
-        )
-        {
+        ) {
             self.options = options
             self.resourceDefinitions = resourceDefinitions
         }
@@ -824,8 +805,7 @@ extension PrivateNetworksClientTypes {
             pendingPlan: PrivateNetworksClientTypes.SitePlan? = nil,
             status: PrivateNetworksClientTypes.NetworkSiteStatus? = nil,
             statusReason: Swift.String? = nil
-        )
-        {
+        ) {
             self.availabilityZone = availabilityZone
             self.availabilityZoneId = availabilityZoneId
             self.createdAt = createdAt
@@ -847,8 +827,7 @@ public struct ActivateNetworkSiteOutput: Swift.Sendable {
 
     public init(
         networkSite: PrivateNetworksClientTypes.NetworkSite? = nil
-    )
-    {
+    ) {
         self.networkSite = networkSite
     }
 }
@@ -869,8 +848,7 @@ extension PrivateNetworksClientTypes {
             commitmentConfiguration: PrivateNetworksClientTypes.CommitmentConfiguration? = nil,
             expiresOn: Foundation.Date? = nil,
             startAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.commitmentConfiguration = commitmentConfiguration
             self.expiresOn = expiresOn
             self.startAt = startAt
@@ -955,8 +933,7 @@ extension PrivateNetworksClientTypes {
             elevationUnit: PrivateNetworksClientTypes.ElevationUnit? = nil,
             latitude: Swift.Double? = nil,
             longitude: Swift.Double? = nil
-        )
-        {
+        ) {
             self.elevation = elevation
             self.elevationReference = elevationReference
             self.elevationUnit = elevationUnit
@@ -988,8 +965,7 @@ public struct ConfigureAccessPointInput: Swift.Sendable {
         cpiUserPassword: Swift.String? = nil,
         cpiUsername: Swift.String? = nil,
         position: PrivateNetworksClientTypes.Position? = nil
-    )
-    {
+    ) {
         self.accessPointArn = accessPointArn
         self.cpiSecretKey = cpiSecretKey
         self.cpiUserId = cpiUserId
@@ -1054,8 +1030,7 @@ extension PrivateNetworksClientTypes {
             returnReason: Swift.String? = nil,
             shippingAddress: PrivateNetworksClientTypes.Address? = nil,
             shippingLabel: Swift.String? = nil
-        )
-        {
+        ) {
             self.replacementOrderArn = replacementOrderArn
             self.returnReason = returnReason
             self.shippingAddress = shippingAddress
@@ -1197,8 +1172,7 @@ extension PrivateNetworksClientTypes {
             statusReason: Swift.String? = nil,
             type: PrivateNetworksClientTypes.NetworkResourceType? = nil,
             vendor: Swift.String? = nil
-        )
-        {
+        ) {
             self.attributes = attributes
             self.commitmentInformation = commitmentInformation
             self.createdAt = createdAt
@@ -1227,8 +1201,7 @@ public struct ConfigureAccessPointOutput: Swift.Sendable {
 
     public init(
         accessPoint: PrivateNetworksClientTypes.NetworkResource? = nil
-    )
-    {
+    ) {
         self.accessPoint = accessPoint
     }
 }
@@ -1252,8 +1225,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1274,8 +1246,7 @@ public struct CreateNetworkInput: Swift.Sendable {
         description: Swift.String? = nil,
         networkName: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.networkName = networkName
@@ -1353,8 +1324,7 @@ extension PrivateNetworksClientTypes {
             networkName: Swift.String? = nil,
             status: PrivateNetworksClientTypes.NetworkStatus? = nil,
             statusReason: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.description = description
             self.networkArn = networkArn
@@ -1375,8 +1345,7 @@ public struct CreateNetworkOutput: Swift.Sendable {
     public init(
         network: PrivateNetworksClientTypes.Network? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.network = network
         self.tags = tags
     }
@@ -1416,8 +1385,7 @@ public struct CreateNetworkSiteInput: Swift.Sendable {
         networkSiteName: Swift.String? = nil,
         pendingPlan: PrivateNetworksClientTypes.SitePlan? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.availabilityZone = availabilityZone
         self.availabilityZoneId = availabilityZoneId
         self.clientToken = clientToken
@@ -1443,8 +1411,7 @@ public struct CreateNetworkSiteOutput: Swift.Sendable {
     public init(
         networkSite: PrivateNetworksClientTypes.NetworkSite? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.networkSite = networkSite
         self.tags = tags
     }
@@ -1465,8 +1432,7 @@ public struct DeactivateDeviceIdentifierInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         deviceIdentifierArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.deviceIdentifierArn = deviceIdentifierArn
     }
@@ -1479,8 +1445,7 @@ public struct DeactivateDeviceIdentifierOutput: Swift.Sendable {
 
     public init(
         deviceIdentifier: PrivateNetworksClientTypes.DeviceIdentifier? = nil
-    )
-    {
+    ) {
         self.deviceIdentifier = deviceIdentifier
     }
 }
@@ -1495,8 +1460,7 @@ public struct DeleteNetworkInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         networkArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.networkArn = networkArn
     }
@@ -1509,8 +1473,7 @@ public struct DeleteNetworkOutput: Swift.Sendable {
 
     public init(
         network: PrivateNetworksClientTypes.Network? = nil
-    )
-    {
+    ) {
         self.network = network
     }
 }
@@ -1525,8 +1488,7 @@ public struct DeleteNetworkSiteInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         networkSiteArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.networkSiteArn = networkSiteArn
     }
@@ -1538,8 +1500,7 @@ public struct DeleteNetworkSiteOutput: Swift.Sendable {
 
     public init(
         networkSite: PrivateNetworksClientTypes.NetworkSite? = nil
-    )
-    {
+    ) {
         self.networkSite = networkSite
     }
 }
@@ -1583,8 +1544,7 @@ public struct GetDeviceIdentifierInput: Swift.Sendable {
 
     public init(
         deviceIdentifierArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.deviceIdentifierArn = deviceIdentifierArn
     }
 }
@@ -1598,8 +1558,7 @@ public struct GetDeviceIdentifierOutput: Swift.Sendable {
     public init(
         deviceIdentifier: PrivateNetworksClientTypes.DeviceIdentifier? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.deviceIdentifier = deviceIdentifier
         self.tags = tags
     }
@@ -1617,8 +1576,7 @@ public struct GetNetworkInput: Swift.Sendable {
 
     public init(
         networkArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.networkArn = networkArn
     }
 }
@@ -1633,8 +1591,7 @@ public struct GetNetworkOutput: Swift.Sendable {
     public init(
         network: PrivateNetworksClientTypes.Network? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.network = network
         self.tags = tags
     }
@@ -1652,8 +1609,7 @@ public struct GetNetworkResourceInput: Swift.Sendable {
 
     public init(
         networkResourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.networkResourceArn = networkResourceArn
     }
 }
@@ -1668,8 +1624,7 @@ public struct GetNetworkResourceOutput: Swift.Sendable {
     public init(
         networkResource: PrivateNetworksClientTypes.NetworkResource? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.networkResource = networkResource
         self.tags = tags
     }
@@ -1687,8 +1642,7 @@ public struct GetNetworkSiteInput: Swift.Sendable {
 
     public init(
         networkSiteArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.networkSiteArn = networkSiteArn
     }
 }
@@ -1702,8 +1656,7 @@ public struct GetNetworkSiteOutput: Swift.Sendable {
     public init(
         networkSite: PrivateNetworksClientTypes.NetworkSite? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.networkSite = networkSite
         self.tags = tags
     }
@@ -1721,8 +1674,7 @@ public struct GetOrderInput: Swift.Sendable {
 
     public init(
         orderArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.orderArn = orderArn
     }
 }
@@ -1737,8 +1689,7 @@ public struct GetOrderOutput: Swift.Sendable {
     public init(
         order: PrivateNetworksClientTypes.Order? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.order = order
         self.tags = tags
     }
@@ -1774,8 +1725,7 @@ public struct ListDeviceIdentifiersInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         networkArn: Swift.String? = nil,
         startToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.networkArn = networkArn
@@ -1792,8 +1742,7 @@ public struct ListDeviceIdentifiersOutput: Swift.Sendable {
     public init(
         deviceIdentifiers: [PrivateNetworksClientTypes.DeviceIdentifier]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.deviceIdentifiers = deviceIdentifiers
         self.nextToken = nextToken
     }
@@ -1851,8 +1800,7 @@ public struct ListNetworkResourcesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         networkArn: Swift.String? = nil,
         startToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.networkArn = networkArn
@@ -1869,8 +1817,7 @@ public struct ListNetworkResourcesOutput: Swift.Sendable {
     public init(
         networkResources: [PrivateNetworksClientTypes.NetworkResource]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.networkResources = networkResources
         self.nextToken = nextToken
     }
@@ -1919,8 +1866,7 @@ public struct ListNetworksInput: Swift.Sendable {
         filters: [Swift.String: [Swift.String]]? = nil,
         maxResults: Swift.Int? = nil,
         startToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.startToken = startToken
@@ -1936,8 +1882,7 @@ public struct ListNetworksOutput: Swift.Sendable {
     public init(
         networks: [PrivateNetworksClientTypes.Network]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.networks = networks
         self.nextToken = nextToken
     }
@@ -1990,8 +1935,7 @@ public struct ListNetworkSitesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         networkArn: Swift.String? = nil,
         startToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.networkArn = networkArn
@@ -2008,8 +1952,7 @@ public struct ListNetworkSitesOutput: Swift.Sendable {
     public init(
         networkSites: [PrivateNetworksClientTypes.NetworkSite]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.networkSites = networkSites
         self.nextToken = nextToken
     }
@@ -2067,8 +2010,7 @@ public struct ListOrdersInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         networkArn: Swift.String? = nil,
         startToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.networkArn = networkArn
@@ -2085,8 +2027,7 @@ public struct ListOrdersOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         orders: [PrivateNetworksClientTypes.Order]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.orders = orders
     }
@@ -2110,8 +2051,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2123,8 +2063,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -2135,8 +2074,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -2152,8 +2090,7 @@ public struct PingOutput: Swift.Sendable {
 
     public init(
         status: Swift.String? = nil
-    )
-    {
+    ) {
         self.status = status
     }
 }
@@ -2229,8 +2166,7 @@ public struct StartNetworkResourceUpdateInput: Swift.Sendable {
         returnReason: Swift.String? = nil,
         shippingAddress: PrivateNetworksClientTypes.Address? = nil,
         updateType: PrivateNetworksClientTypes.UpdateType? = nil
-    )
-    {
+    ) {
         self.commitmentConfiguration = commitmentConfiguration
         self.networkResourceArn = networkResourceArn
         self.returnReason = returnReason
@@ -2245,8 +2181,7 @@ public struct StartNetworkResourceUpdateOutput: Swift.Sendable {
 
     public init(
         networkResource: PrivateNetworksClientTypes.NetworkResource? = nil
-    )
-    {
+    ) {
         self.networkResource = networkResource
     }
 }
@@ -2262,8 +2197,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -2290,8 +2224,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -2320,8 +2253,7 @@ public struct UpdateNetworkSiteInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
         networkSiteArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.networkSiteArn = networkSiteArn
@@ -2337,8 +2269,7 @@ public struct UpdateNetworkSiteOutput: Swift.Sendable {
     public init(
         networkSite: PrivateNetworksClientTypes.NetworkSite? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.networkSite = networkSite
         self.tags = tags
     }
@@ -2363,8 +2294,7 @@ public struct UpdateNetworkSitePlanInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         networkSiteArn: Swift.String? = nil,
         pendingPlan: PrivateNetworksClientTypes.SitePlan? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.networkSiteArn = networkSiteArn
         self.pendingPlan = pendingPlan
@@ -2380,8 +2310,7 @@ public struct UpdateNetworkSitePlanOutput: Swift.Sendable {
     public init(
         networkSite: PrivateNetworksClientTypes.NetworkSite? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.networkSite = networkSite
         self.tags = tags
     }

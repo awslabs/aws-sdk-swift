@@ -45,8 +45,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -61,8 +60,7 @@ extension DataBrewClientTypes {
 
         public init(
             statistics: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.statistics = statistics
         }
     }
@@ -115,8 +113,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -139,8 +136,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -163,8 +159,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -180,8 +175,7 @@ public struct BatchDeleteRecipeVersionInput: Swift.Sendable {
     public init(
         name: Swift.String? = nil,
         recipeVersions: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.name = name
         self.recipeVersions = recipeVersions
     }
@@ -202,8 +196,7 @@ extension DataBrewClientTypes {
             errorCode: Swift.String? = nil,
             errorMessage: Swift.String? = nil,
             recipeVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.recipeVersion = recipeVersion
@@ -221,8 +214,7 @@ public struct BatchDeleteRecipeVersionOutput: Swift.Sendable {
     public init(
         errors: [DataBrewClientTypes.RecipeVersionErrorDetail]? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.errors = errors
         self.name = name
     }
@@ -246,8 +238,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -302,8 +293,7 @@ extension DataBrewClientTypes {
         public init(
             delimiter: Swift.String? = nil,
             headerRow: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.delimiter = delimiter
             self.headerRow = headerRow
         }
@@ -325,8 +315,7 @@ extension DataBrewClientTypes {
             headerRow: Swift.Bool? = nil,
             sheetIndexes: [Swift.Int]? = nil,
             sheetNames: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.headerRow = headerRow
             self.sheetIndexes = sheetIndexes
             self.sheetNames = sheetNames
@@ -343,8 +332,7 @@ extension DataBrewClientTypes {
 
         public init(
             multiLine: Swift.Bool = false
-        )
-        {
+        ) {
             self.multiLine = multiLine
         }
     }
@@ -365,8 +353,7 @@ extension DataBrewClientTypes {
             csv: DataBrewClientTypes.CsvOptions? = nil,
             excel: DataBrewClientTypes.ExcelOptions? = nil,
             json: DataBrewClientTypes.JsonOptions? = nil
-        )
-        {
+        ) {
             self.csv = csv
             self.excel = excel
             self.json = json
@@ -390,8 +377,7 @@ extension DataBrewClientTypes {
             bucket: Swift.String? = nil,
             bucketOwner: Swift.String? = nil,
             key: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucket = bucket
             self.bucketOwner = bucketOwner
             self.key = key
@@ -418,8 +404,7 @@ extension DataBrewClientTypes {
             glueConnectionName: Swift.String? = nil,
             queryString: Swift.String? = nil,
             tempDirectory: DataBrewClientTypes.S3Location? = nil
-        )
-        {
+        ) {
             self.databaseTableName = databaseTableName
             self.glueConnectionName = glueConnectionName
             self.queryString = queryString
@@ -448,8 +433,7 @@ extension DataBrewClientTypes {
             databaseName: Swift.String? = nil,
             tableName: Swift.String? = nil,
             tempDirectory: DataBrewClientTypes.S3Location? = nil
-        )
-        {
+        ) {
             self.catalogId = catalogId
             self.databaseName = databaseName
             self.tableName = tableName
@@ -467,8 +451,7 @@ extension DataBrewClientTypes {
 
         public init(
             sourceArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.sourceArn = sourceArn
         }
     }
@@ -492,8 +475,7 @@ extension DataBrewClientTypes {
             databaseInputDefinition: DataBrewClientTypes.DatabaseInputDefinition? = nil,
             metadata: DataBrewClientTypes.Metadata? = nil,
             s3InputDefinition: DataBrewClientTypes.S3Location? = nil
-        )
-        {
+        ) {
             self.dataCatalogInputDefinition = dataCatalogInputDefinition
             self.databaseInputDefinition = databaseInputDefinition
             self.metadata = metadata
@@ -573,8 +555,7 @@ extension DataBrewClientTypes {
             maxFiles: Swift.Int? = nil,
             order: DataBrewClientTypes.Order? = nil,
             orderedBy: DataBrewClientTypes.OrderedBy? = nil
-        )
-        {
+        ) {
             self.maxFiles = maxFiles
             self.order = order
             self.orderedBy = orderedBy
@@ -596,8 +577,7 @@ extension DataBrewClientTypes {
         public init(
             expression: Swift.String? = nil,
             valuesMap: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.expression = expression
             self.valuesMap = valuesMap
         }
@@ -620,8 +600,7 @@ extension DataBrewClientTypes {
             format: Swift.String? = nil,
             localeCode: Swift.String? = nil,
             timezoneOffset: Swift.String? = nil
-        )
-        {
+        ) {
             self.format = format
             self.localeCode = localeCode
             self.timezoneOffset = timezoneOffset
@@ -684,8 +663,7 @@ extension DataBrewClientTypes {
             filter: DataBrewClientTypes.FilterExpression? = nil,
             name: Swift.String? = nil,
             type: DataBrewClientTypes.ParameterType? = nil
-        )
-        {
+        ) {
             self.createColumn = createColumn
             self.datetimeOptions = datetimeOptions
             self.filter = filter
@@ -710,8 +688,7 @@ extension DataBrewClientTypes {
             filesLimit: DataBrewClientTypes.FilesLimit? = nil,
             lastModifiedDateCondition: DataBrewClientTypes.FilterExpression? = nil,
             parameters: [Swift.String: DataBrewClientTypes.DatasetParameter]? = nil
-        )
-        {
+        ) {
             self.filesLimit = filesLimit
             self.lastModifiedDateCondition = lastModifiedDateCondition
             self.parameters = parameters
@@ -742,8 +719,7 @@ public struct CreateDatasetInput: Swift.Sendable {
         name: Swift.String? = nil,
         pathOptions: DataBrewClientTypes.PathOptions? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.format = format
         self.formatOptions = formatOptions
         self.input = input
@@ -760,8 +736,7 @@ public struct CreateDatasetOutput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -778,8 +753,7 @@ extension DataBrewClientTypes {
         public init(
             name: Swift.String? = nil,
             regex: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.regex = regex
         }
@@ -800,8 +774,7 @@ extension DataBrewClientTypes {
         public init(
             parameters: [Swift.String: Swift.String]? = nil,
             statistic: Swift.String? = nil
-        )
-        {
+        ) {
             self.parameters = parameters
             self.statistic = statistic
         }
@@ -820,8 +793,7 @@ extension DataBrewClientTypes {
         public init(
             includedStatistics: [Swift.String]? = nil,
             overrides: [DataBrewClientTypes.StatisticOverride]? = nil
-        )
-        {
+        ) {
             self.includedStatistics = includedStatistics
             self.overrides = overrides
         }
@@ -841,8 +813,7 @@ extension DataBrewClientTypes {
         public init(
             selectors: [DataBrewClientTypes.ColumnSelector]? = nil,
             statistics: DataBrewClientTypes.StatisticsConfiguration? = nil
-        )
-        {
+        ) {
             self.selectors = selectors
             self.statistics = statistics
         }
@@ -903,8 +874,7 @@ extension DataBrewClientTypes {
         public init(
             allowedStatistics: [DataBrewClientTypes.AllowedStatistics]? = nil,
             entityTypes: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.allowedStatistics = allowedStatistics
             self.entityTypes = entityTypes
         }
@@ -929,8 +899,7 @@ extension DataBrewClientTypes {
             datasetStatisticsConfiguration: DataBrewClientTypes.StatisticsConfiguration? = nil,
             entityDetectorConfiguration: DataBrewClientTypes.EntityDetectorConfiguration? = nil,
             profileColumns: [DataBrewClientTypes.ColumnSelector]? = nil
-        )
-        {
+        ) {
             self.columnStatisticsConfigurations = columnStatisticsConfigurations
             self.datasetStatisticsConfiguration = datasetStatisticsConfiguration
             self.entityDetectorConfiguration = entityDetectorConfiguration
@@ -1013,8 +982,7 @@ extension DataBrewClientTypes {
         public init(
             mode: DataBrewClientTypes.SampleMode? = nil,
             size: Swift.Int? = nil
-        )
-        {
+        ) {
             self.mode = mode
             self.size = size
         }
@@ -1089,8 +1057,7 @@ extension DataBrewClientTypes {
         public init(
             rulesetArn: Swift.String? = nil,
             validationMode: DataBrewClientTypes.ValidationMode? = nil
-        )
-        {
+        ) {
             self.rulesetArn = rulesetArn
             self.validationMode = validationMode
         }
@@ -1150,8 +1117,7 @@ public struct CreateProfileJobInput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         timeout: Swift.Int? = 0,
         validationConfigurations: [DataBrewClientTypes.ValidationConfiguration]? = nil
-    )
-    {
+    ) {
         self.configuration = configuration
         self.datasetName = datasetName
         self.encryptionKeyArn = encryptionKeyArn
@@ -1176,8 +1142,7 @@ public struct CreateProfileJobOutput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -1200,8 +1165,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1251,8 +1215,7 @@ extension DataBrewClientTypes {
         public init(
             size: Swift.Int? = nil,
             type: DataBrewClientTypes.SampleType? = nil
-        )
-        {
+        ) {
             self.size = size
             self.type = type
         }
@@ -1284,8 +1247,7 @@ public struct CreateProjectInput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         sample: DataBrewClientTypes.Sample? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.datasetName = datasetName
         self.name = name
         self.recipeName = recipeName
@@ -1302,8 +1264,7 @@ public struct CreateProjectOutput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -1321,8 +1282,7 @@ extension DataBrewClientTypes {
         public init(
             operation: Swift.String? = nil,
             parameters: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.operation = operation
             self.parameters = parameters
         }
@@ -1346,8 +1306,7 @@ extension DataBrewClientTypes {
             condition: Swift.String? = nil,
             targetColumn: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.condition = condition
             self.targetColumn = targetColumn
             self.value = value
@@ -1368,8 +1327,7 @@ extension DataBrewClientTypes {
         public init(
             action: DataBrewClientTypes.RecipeAction? = nil,
             conditionExpressions: [DataBrewClientTypes.ConditionExpression]? = nil
-        )
-        {
+        ) {
             self.action = action
             self.conditionExpressions = conditionExpressions
         }
@@ -1393,8 +1351,7 @@ public struct CreateRecipeInput: Swift.Sendable {
         name: Swift.String? = nil,
         steps: [DataBrewClientTypes.RecipeStep]? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.name = name
         self.steps = steps
@@ -1409,8 +1366,7 @@ public struct CreateRecipeOutput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -1428,8 +1384,7 @@ extension DataBrewClientTypes {
         public init(
             tableName: Swift.String? = nil,
             tempDirectory: DataBrewClientTypes.S3Location? = nil
-        )
-        {
+        ) {
             self.tableName = tableName
             self.tempDirectory = tempDirectory
         }
@@ -1479,8 +1434,7 @@ extension DataBrewClientTypes {
             databaseOptions: DataBrewClientTypes.DatabaseTableOutputOptions? = nil,
             databaseOutputMode: DataBrewClientTypes.DatabaseOutputMode? = nil,
             glueConnectionName: Swift.String? = nil
-        )
-        {
+        ) {
             self.databaseOptions = databaseOptions
             self.databaseOutputMode = databaseOutputMode
             self.glueConnectionName = glueConnectionName
@@ -1498,8 +1452,7 @@ extension DataBrewClientTypes {
 
         public init(
             location: DataBrewClientTypes.S3Location? = nil
-        )
-        {
+        ) {
             self.location = location
         }
     }
@@ -1531,8 +1484,7 @@ extension DataBrewClientTypes {
             overwrite: Swift.Bool = false,
             s3Options: DataBrewClientTypes.S3TableOutputOptions? = nil,
             tableName: Swift.String? = nil
-        )
-        {
+        ) {
             self.catalogId = catalogId
             self.databaseName = databaseName
             self.databaseOptions = databaseOptions
@@ -1649,8 +1601,7 @@ extension DataBrewClientTypes {
 
         public init(
             delimiter: Swift.String? = nil
-        )
-        {
+        ) {
             self.delimiter = delimiter
         }
     }
@@ -1665,8 +1616,7 @@ extension DataBrewClientTypes {
 
         public init(
             csv: DataBrewClientTypes.CsvOutputOptions? = nil
-        )
-        {
+        ) {
             self.csv = csv
         }
     }
@@ -1700,8 +1650,7 @@ extension DataBrewClientTypes {
             maxOutputFiles: Swift.Int? = nil,
             overwrite: Swift.Bool = false,
             partitionColumns: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.compressionFormat = compressionFormat
             self.format = format
             self.formatOptions = formatOptions
@@ -1726,8 +1675,7 @@ extension DataBrewClientTypes {
         public init(
             name: Swift.String? = nil,
             recipeVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.recipeVersion = recipeVersion
         }
@@ -1788,8 +1736,7 @@ public struct CreateRecipeJobInput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         timeout: Swift.Int? = 0
-    )
-    {
+    ) {
         self.dataCatalogOutputs = dataCatalogOutputs
         self.databaseOutputs = databaseOutputs
         self.datasetName = datasetName
@@ -1815,8 +1762,7 @@ public struct CreateRecipeJobOutput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -1901,8 +1847,7 @@ extension DataBrewClientTypes {
             type: DataBrewClientTypes.ThresholdType? = nil,
             unit: DataBrewClientTypes.ThresholdUnit? = nil,
             value: Swift.Double = 0.0
-        )
-        {
+        ) {
             self.type = type
             self.unit = unit
             self.value = value
@@ -1936,8 +1881,7 @@ extension DataBrewClientTypes {
             name: Swift.String? = nil,
             substitutionMap: [Swift.String: Swift.String]? = nil,
             threshold: DataBrewClientTypes.Threshold? = nil
-        )
-        {
+        ) {
             self.checkExpression = checkExpression
             self.columnSelectors = columnSelectors
             self.disabled = disabled
@@ -1969,8 +1913,7 @@ public struct CreateRulesetInput: Swift.Sendable {
         rules: [DataBrewClientTypes.Rule]? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         targetArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.name = name
         self.rules = rules
@@ -1986,8 +1929,7 @@ public struct CreateRulesetOutput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -2009,8 +1951,7 @@ public struct CreateScheduleInput: Swift.Sendable {
         jobNames: [Swift.String]? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.cronExpression = cronExpression
         self.jobNames = jobNames
         self.name = name
@@ -2025,8 +1966,7 @@ public struct CreateScheduleOutput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -2038,8 +1978,7 @@ public struct DeleteDatasetInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -2051,8 +1990,7 @@ public struct DeleteDatasetOutput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -2064,8 +2002,7 @@ public struct DeleteJobInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -2077,8 +2014,7 @@ public struct DeleteJobOutput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -2090,8 +2026,7 @@ public struct DeleteProjectInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -2103,8 +2038,7 @@ public struct DeleteProjectOutput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -2120,8 +2054,7 @@ public struct DeleteRecipeVersionInput: Swift.Sendable {
     public init(
         name: Swift.String? = nil,
         recipeVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
         self.recipeVersion = recipeVersion
     }
@@ -2138,8 +2071,7 @@ public struct DeleteRecipeVersionOutput: Swift.Sendable {
     public init(
         name: Swift.String? = nil,
         recipeVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
         self.recipeVersion = recipeVersion
     }
@@ -2152,8 +2084,7 @@ public struct DeleteRulesetInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -2165,8 +2096,7 @@ public struct DeleteRulesetOutput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -2178,8 +2108,7 @@ public struct DeleteScheduleInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -2191,8 +2120,7 @@ public struct DeleteScheduleOutput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -2204,8 +2132,7 @@ public struct DescribeDatasetInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -2283,8 +2210,7 @@ public struct DescribeDatasetOutput: Swift.Sendable {
         resourceArn: Swift.String? = nil,
         source: DataBrewClientTypes.Source? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.createDate = createDate
         self.createdBy = createdBy
         self.format = format
@@ -2307,8 +2233,7 @@ public struct DescribeJobInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -2426,8 +2351,7 @@ public struct DescribeJobOutput: Swift.Sendable {
         timeout: Swift.Int = 0,
         type: DataBrewClientTypes.JobType? = nil,
         validationConfigurations: [DataBrewClientTypes.ValidationConfiguration]? = nil
-    )
-    {
+    ) {
         self.createDate = createDate
         self.createdBy = createdBy
         self.dataCatalogOutputs = dataCatalogOutputs
@@ -2466,8 +2390,7 @@ public struct DescribeJobRunInput: Swift.Sendable {
     public init(
         name: Swift.String? = nil,
         runId: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
         self.runId = runId
     }
@@ -2578,8 +2501,7 @@ public struct DescribeJobRunOutput: Swift.Sendable {
         startedOn: Foundation.Date? = nil,
         state: DataBrewClientTypes.JobRunState? = nil,
         validationConfigurations: [DataBrewClientTypes.ValidationConfiguration]? = nil
-    )
-    {
+    ) {
         self.attempt = attempt
         self.completedOn = completedOn
         self.dataCatalogOutputs = dataCatalogOutputs
@@ -2609,8 +2531,7 @@ public struct DescribeProjectInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -2720,8 +2641,7 @@ public struct DescribeProjectOutput: Swift.Sendable {
         sample: DataBrewClientTypes.Sample? = nil,
         sessionStatus: DataBrewClientTypes.SessionStatus? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.createDate = createDate
         self.createdBy = createdBy
         self.datasetName = datasetName
@@ -2749,8 +2669,7 @@ public struct DescribeRecipeInput: Swift.Sendable {
     public init(
         name: Swift.String? = nil,
         recipeVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
         self.recipeVersion = recipeVersion
     }
@@ -2799,8 +2718,7 @@ public struct DescribeRecipeOutput: Swift.Sendable {
         resourceArn: Swift.String? = nil,
         steps: [DataBrewClientTypes.RecipeStep]? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.createDate = createDate
         self.createdBy = createdBy
         self.description = description
@@ -2824,8 +2742,7 @@ public struct DescribeRulesetInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -2864,8 +2781,7 @@ public struct DescribeRulesetOutput: Swift.Sendable {
         rules: [DataBrewClientTypes.Rule]? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         targetArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.createDate = createDate
         self.createdBy = createdBy
         self.description = description
@@ -2886,8 +2802,7 @@ public struct DescribeScheduleInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -2923,8 +2838,7 @@ public struct DescribeScheduleOutput: Swift.Sendable {
         name: Swift.String? = nil,
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.createDate = createDate
         self.createdBy = createdBy
         self.cronExpression = cronExpression
@@ -2946,8 +2860,7 @@ public struct ListDatasetsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -3000,8 +2913,7 @@ extension DataBrewClientTypes {
             resourceArn: Swift.String? = nil,
             source: DataBrewClientTypes.Source? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.createDate = createDate
             self.createdBy = createdBy
@@ -3029,8 +2941,7 @@ public struct ListDatasetsOutput: Swift.Sendable {
     public init(
         datasets: [DataBrewClientTypes.Dataset]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.datasets = datasets
         self.nextToken = nextToken
     }
@@ -3049,8 +2960,7 @@ public struct ListJobRunsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         name: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.name = name
         self.nextToken = nextToken
@@ -3117,8 +3027,7 @@ extension DataBrewClientTypes {
             startedOn: Foundation.Date? = nil,
             state: DataBrewClientTypes.JobRunState? = nil,
             validationConfigurations: [DataBrewClientTypes.ValidationConfiguration]? = nil
-        )
-        {
+        ) {
             self.attempt = attempt
             self.completedOn = completedOn
             self.dataCatalogOutputs = dataCatalogOutputs
@@ -3151,8 +3060,7 @@ public struct ListJobRunsOutput: Swift.Sendable {
     public init(
         jobRuns: [DataBrewClientTypes.JobRun]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobRuns = jobRuns
         self.nextToken = nextToken
     }
@@ -3173,8 +3081,7 @@ public struct ListJobsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         projectName: Swift.String? = nil
-    )
-    {
+    ) {
         self.datasetName = datasetName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3269,8 +3176,7 @@ extension DataBrewClientTypes {
             timeout: Swift.Int = 0,
             type: DataBrewClientTypes.JobType? = nil,
             validationConfigurations: [DataBrewClientTypes.ValidationConfiguration]? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.createDate = createDate
             self.createdBy = createdBy
@@ -3309,8 +3215,7 @@ public struct ListJobsOutput: Swift.Sendable {
     public init(
         jobs: [DataBrewClientTypes.Job]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobs = jobs
         self.nextToken = nextToken
     }
@@ -3325,8 +3230,7 @@ public struct ListProjectsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -3382,8 +3286,7 @@ extension DataBrewClientTypes {
             roleArn: Swift.String? = nil,
             sample: DataBrewClientTypes.Sample? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.createDate = createDate
             self.createdBy = createdBy
@@ -3412,8 +3315,7 @@ public struct ListProjectsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         projects: [DataBrewClientTypes.Project]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.projects = projects
     }
@@ -3431,8 +3333,7 @@ public struct ListRecipesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         recipeVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.recipeVersion = recipeVersion
@@ -3491,8 +3392,7 @@ extension DataBrewClientTypes {
             resourceArn: Swift.String? = nil,
             steps: [DataBrewClientTypes.RecipeStep]? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.createDate = createDate
             self.createdBy = createdBy
             self.description = description
@@ -3520,8 +3420,7 @@ public struct ListRecipesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         recipes: [DataBrewClientTypes.Recipe]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.recipes = recipes
     }
@@ -3540,8 +3439,7 @@ public struct ListRecipeVersionsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         name: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.name = name
         self.nextToken = nextToken
@@ -3558,8 +3456,7 @@ public struct ListRecipeVersionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         recipes: [DataBrewClientTypes.Recipe]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.recipes = recipes
     }
@@ -3577,8 +3474,7 @@ public struct ListRulesetsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         targetArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.targetArn = targetArn
@@ -3626,8 +3522,7 @@ extension DataBrewClientTypes {
             ruleCount: Swift.Int = 0,
             tags: [Swift.String: Swift.String]? = nil,
             targetArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.createDate = createDate
             self.createdBy = createdBy
@@ -3653,8 +3548,7 @@ public struct ListRulesetsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         rulesets: [DataBrewClientTypes.RulesetItem]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.rulesets = rulesets
     }
@@ -3672,8 +3566,7 @@ public struct ListSchedulesInput: Swift.Sendable {
         jobName: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobName = jobName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3717,8 +3610,7 @@ extension DataBrewClientTypes {
             name: Swift.String? = nil,
             resourceArn: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.createDate = createDate
             self.createdBy = createdBy
@@ -3743,8 +3635,7 @@ public struct ListSchedulesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         schedules: [DataBrewClientTypes.Schedule]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.schedules = schedules
     }
@@ -3757,8 +3648,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -3769,8 +3659,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -3785,8 +3674,7 @@ public struct PublishRecipeInput: Swift.Sendable {
     public init(
         description: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.name = name
     }
@@ -3799,8 +3687,7 @@ public struct PublishRecipeOutput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -3830,8 +3717,7 @@ extension DataBrewClientTypes {
             rowRange: Swift.Int? = nil,
             startColumnIndex: Swift.Int? = nil,
             startRowIndex: Swift.Int? = nil
-        )
-        {
+        ) {
             self.analytics = analytics
             self.columnRange = columnRange
             self.hiddenColumns = hiddenColumns
@@ -3864,8 +3750,7 @@ public struct SendProjectSessionActionInput: Swift.Sendable {
         recipeStep: DataBrewClientTypes.RecipeStep? = nil,
         stepIndex: Swift.Int? = nil,
         viewFrame: DataBrewClientTypes.ViewFrame? = nil
-    )
-    {
+    ) {
         self.clientSessionId = clientSessionId
         self.name = name
         self.preview = preview
@@ -3893,8 +3778,7 @@ public struct SendProjectSessionActionOutput: Swift.Sendable {
         actionId: Swift.Int? = nil,
         name: Swift.String? = nil,
         result: Swift.String? = nil
-    )
-    {
+    ) {
         self.actionId = actionId
         self.name = name
         self.result = result
@@ -3908,8 +3792,7 @@ public struct StartJobRunInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -3921,8 +3804,7 @@ public struct StartJobRunOutput: Swift.Sendable {
 
     public init(
         runId: Swift.String? = nil
-    )
-    {
+    ) {
         self.runId = runId
     }
 }
@@ -3937,8 +3819,7 @@ public struct StartProjectSessionInput: Swift.Sendable {
     public init(
         assumeControl: Swift.Bool? = false,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.assumeControl = assumeControl
         self.name = name
     }
@@ -3954,8 +3835,7 @@ public struct StartProjectSessionOutput: Swift.Sendable {
     public init(
         clientSessionId: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientSessionId = clientSessionId
         self.name = name
     }
@@ -3977,8 +3857,7 @@ public struct StopJobRunInput: Swift.Sendable {
     public init(
         name: Swift.String? = nil,
         runId: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
         self.runId = runId
     }
@@ -3991,8 +3870,7 @@ public struct StopJobRunOutput: Swift.Sendable {
 
     public init(
         runId: Swift.String? = nil
-    )
-    {
+    ) {
         self.runId = runId
     }
 }
@@ -4008,8 +3886,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -4031,8 +3908,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -4063,8 +3939,7 @@ public struct UpdateDatasetInput: Swift.Sendable {
         input: DataBrewClientTypes.Input? = nil,
         name: Swift.String? = nil,
         pathOptions: DataBrewClientTypes.PathOptions? = nil
-    )
-    {
+    ) {
         self.format = format
         self.formatOptions = formatOptions
         self.input = input
@@ -4080,8 +3955,7 @@ public struct UpdateDatasetOutput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -4132,8 +4006,7 @@ public struct UpdateProfileJobInput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         timeout: Swift.Int? = 0,
         validationConfigurations: [DataBrewClientTypes.ValidationConfiguration]? = nil
-    )
-    {
+    ) {
         self.configuration = configuration
         self.encryptionKeyArn = encryptionKeyArn
         self.encryptionMode = encryptionMode
@@ -4156,8 +4029,7 @@ public struct UpdateProfileJobOutput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -4176,8 +4048,7 @@ public struct UpdateProjectInput: Swift.Sendable {
         name: Swift.String? = nil,
         roleArn: Swift.String? = nil,
         sample: DataBrewClientTypes.Sample? = nil
-    )
-    {
+    ) {
         self.name = name
         self.roleArn = roleArn
         self.sample = sample
@@ -4194,8 +4065,7 @@ public struct UpdateProjectOutput: Swift.Sendable {
     public init(
         lastModifiedDate: Foundation.Date? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.lastModifiedDate = lastModifiedDate
         self.name = name
     }
@@ -4214,8 +4084,7 @@ public struct UpdateRecipeInput: Swift.Sendable {
         description: Swift.String? = nil,
         name: Swift.String? = nil,
         steps: [DataBrewClientTypes.RecipeStep]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.name = name
         self.steps = steps
@@ -4229,8 +4098,7 @@ public struct UpdateRecipeOutput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -4277,8 +4145,7 @@ public struct UpdateRecipeJobInput: Swift.Sendable {
         outputs: [DataBrewClientTypes.Output]? = nil,
         roleArn: Swift.String? = nil,
         timeout: Swift.Int? = 0
-    )
-    {
+    ) {
         self.dataCatalogOutputs = dataCatalogOutputs
         self.databaseOutputs = databaseOutputs
         self.encryptionKeyArn = encryptionKeyArn
@@ -4300,8 +4167,7 @@ public struct UpdateRecipeJobOutput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -4320,8 +4186,7 @@ public struct UpdateRulesetInput: Swift.Sendable {
         description: Swift.String? = nil,
         name: Swift.String? = nil,
         rules: [DataBrewClientTypes.Rule]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.name = name
         self.rules = rules
@@ -4335,8 +4200,7 @@ public struct UpdateRulesetOutput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -4355,8 +4219,7 @@ public struct UpdateScheduleInput: Swift.Sendable {
         cronExpression: Swift.String? = nil,
         jobNames: [Swift.String]? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.cronExpression = cronExpression
         self.jobNames = jobNames
         self.name = name
@@ -4370,8 +4233,7 @@ public struct UpdateScheduleOutput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }

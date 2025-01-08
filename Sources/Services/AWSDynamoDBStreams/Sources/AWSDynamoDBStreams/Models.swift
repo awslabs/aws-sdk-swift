@@ -43,8 +43,7 @@ public struct InternalServerError: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -68,8 +67,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -88,8 +86,7 @@ public struct DescribeStreamInput: Swift.Sendable {
         exclusiveStartShardId: Swift.String? = nil,
         limit: Swift.Int? = nil,
         streamArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.exclusiveStartShardId = exclusiveStartShardId
         self.limit = limit
         self.streamArn = streamArn
@@ -146,8 +143,7 @@ extension DynamoDBStreamsClientTypes {
         public init(
             attributeName: Swift.String? = nil,
             keyType: DynamoDBStreamsClientTypes.KeyType? = nil
-        )
-        {
+        ) {
             self.attributeName = attributeName
             self.keyType = keyType
         }
@@ -166,8 +162,7 @@ extension DynamoDBStreamsClientTypes {
         public init(
             endingSequenceNumber: Swift.String? = nil,
             startingSequenceNumber: Swift.String? = nil
-        )
-        {
+        ) {
             self.endingSequenceNumber = endingSequenceNumber
             self.startingSequenceNumber = startingSequenceNumber
         }
@@ -189,8 +184,7 @@ extension DynamoDBStreamsClientTypes {
             parentShardId: Swift.String? = nil,
             sequenceNumberRange: DynamoDBStreamsClientTypes.SequenceNumberRange? = nil,
             shardId: Swift.String? = nil
-        )
-        {
+        ) {
             self.parentShardId = parentShardId
             self.sequenceNumberRange = sequenceNumberRange
             self.shardId = shardId
@@ -323,8 +317,7 @@ extension DynamoDBStreamsClientTypes {
             streamStatus: DynamoDBStreamsClientTypes.StreamStatus? = nil,
             streamViewType: DynamoDBStreamsClientTypes.StreamViewType? = nil,
             tableName: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationRequestDateTime = creationRequestDateTime
             self.keySchema = keySchema
             self.lastEvaluatedShardId = lastEvaluatedShardId
@@ -345,8 +338,7 @@ public struct DescribeStreamOutput: Swift.Sendable {
 
     public init(
         streamDescription: DynamoDBStreamsClientTypes.StreamDescription? = nil
-    )
-    {
+    ) {
         self.streamDescription = streamDescription
     }
 }
@@ -370,8 +362,7 @@ public struct ExpiredIteratorException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -395,8 +386,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -424,8 +414,7 @@ public struct TrimmedDataAccessException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -441,8 +430,7 @@ public struct GetRecordsInput: Swift.Sendable {
     public init(
         limit: Swift.Int? = nil,
         shardIterator: Swift.String? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.shardIterator = shardIterator
     }
@@ -492,8 +480,7 @@ extension DynamoDBStreamsClientTypes {
         public init(
             principalId: Swift.String? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.principalId = principalId
             self.type = type
         }
@@ -562,8 +549,7 @@ public struct GetShardIteratorInput: Swift.Sendable {
         shardId: Swift.String? = nil,
         shardIteratorType: DynamoDBStreamsClientTypes.ShardIteratorType? = nil,
         streamArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.sequenceNumber = sequenceNumber
         self.shardId = shardId
         self.shardIteratorType = shardIteratorType
@@ -578,8 +564,7 @@ public struct GetShardIteratorOutput: Swift.Sendable {
 
     public init(
         shardIterator: Swift.String? = nil
-    )
-    {
+    ) {
         self.shardIterator = shardIterator
     }
 }
@@ -597,8 +582,7 @@ public struct ListStreamsInput: Swift.Sendable {
         exclusiveStartStreamArn: Swift.String? = nil,
         limit: Swift.Int? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.exclusiveStartStreamArn = exclusiveStartStreamArn
         self.limit = limit
         self.tableName = tableName
@@ -626,8 +610,7 @@ extension DynamoDBStreamsClientTypes {
             streamArn: Swift.String? = nil,
             streamLabel: Swift.String? = nil,
             tableName: Swift.String? = nil
-        )
-        {
+        ) {
             self.streamArn = streamArn
             self.streamLabel = streamLabel
             self.tableName = tableName
@@ -645,8 +628,7 @@ public struct ListStreamsOutput: Swift.Sendable {
     public init(
         lastEvaluatedStreamArn: Swift.String? = nil,
         streams: [DynamoDBStreamsClientTypes.Stream]? = nil
-    )
-    {
+    ) {
         self.lastEvaluatedStreamArn = lastEvaluatedStreamArn
         self.streams = streams
     }
@@ -715,8 +697,7 @@ extension DynamoDBStreamsClientTypes {
             sequenceNumber: Swift.String? = nil,
             sizeBytes: Swift.Int? = nil,
             streamViewType: DynamoDBStreamsClientTypes.StreamViewType? = nil
-        )
-        {
+        ) {
             self.approximateCreationDateTime = approximateCreationDateTime
             self.keys = keys
             self.newImage = newImage
@@ -765,8 +746,7 @@ extension DynamoDBStreamsClientTypes {
             eventSource: Swift.String? = nil,
             eventVersion: Swift.String? = nil,
             userIdentity: DynamoDBStreamsClientTypes.Identity? = nil
-        )
-        {
+        ) {
             self.awsRegion = awsRegion
             self.dynamodb = dynamodb
             self.eventID = eventID
@@ -788,8 +768,7 @@ public struct GetRecordsOutput: Swift.Sendable {
     public init(
         nextShardIterator: Swift.String? = nil,
         records: [DynamoDBStreamsClientTypes.Record]? = nil
-    )
-    {
+    ) {
         self.nextShardIterator = nextShardIterator
         self.records = records
     }

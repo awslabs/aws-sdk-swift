@@ -41,15 +41,7 @@ let package = Package(
                     package: "smithy-swift"
                 ),
                 .product(
-                    name: "SmithyHTTPAuthAPI",
-                    package: "smithy-swift"
-                ),
-                .product(
                     name: "Smithy",
-                    package: "smithy-swift"
-                ),
-                .product(
-                    name: "SmithyHTTPAPI",
                     package: "smithy-swift"
                 ),
                 .product(
@@ -57,15 +49,11 @@ let package = Package(
                     package: "smithy-swift"
                 ),
                 .product(
-                    name: "SmithyReadWrite",
+                    name: "SmithyHTTPAPI",
                     package: "smithy-swift"
                 ),
                 .product(
-                    name: "SmithyTimestamps",
-                    package: "smithy-swift"
-                ),
-                .product(
-                    name: "SmithyXML",
+                    name: "SmithyHTTPAuthAPI",
                     package: "smithy-swift"
                 ),
                 .product(
@@ -73,7 +61,7 @@ let package = Package(
                     package: "smithy-swift"
                 ),
                 .product(
-                    name: "SmithyRetriesAPI",
+                    name: "SmithyReadWrite",
                     package: "smithy-swift"
                 ),
                 .product(
@@ -81,11 +69,23 @@ let package = Package(
                     package: "smithy-swift"
                 ),
                 .product(
-                    name: "SmithyWaitersAPI",
+                    name: "SmithyRetriesAPI",
                     package: "smithy-swift"
                 ),
                 .product(
                     name: "SmithyTestUtil",
+                    package: "smithy-swift"
+                ),
+                .product(
+                    name: "SmithyTimestamps",
+                    package: "smithy-swift"
+                ),
+                .product(
+                    name: "SmithyWaitersAPI",
+                    package: "smithy-swift"
+                ),
+                .product(
+                    name: "SmithyXML",
                     package: "smithy-swift"
                 ),
             ]

@@ -47,8 +47,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     public init(
         code: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
@@ -81,8 +80,7 @@ extension TextractClientTypes {
             adapterId: Swift.String? = nil,
             pages: [Swift.String]? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.adapterId = adapterId
             self.pages = pages
             self.version = version
@@ -146,8 +144,7 @@ extension TextractClientTypes {
             adapterName: Swift.String? = nil,
             creationTime: Foundation.Date? = nil,
             featureTypes: [TextractClientTypes.FeatureType]? = nil
-        )
-        {
+        ) {
             self.adapterId = adapterId
             self.adapterName = adapterName
             self.creationTime = creationTime
@@ -166,8 +163,7 @@ extension TextractClientTypes {
 
         public init(
             adapters: [TextractClientTypes.Adapter]? = nil
-        )
-        {
+        ) {
             self.adapters = adapters
         }
     }
@@ -188,8 +184,7 @@ extension TextractClientTypes {
             bucket: Swift.String? = nil,
             name: Swift.String? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucket = bucket
             self.name = name
             self.version = version
@@ -206,8 +201,7 @@ extension TextractClientTypes {
 
         public init(
             manifestS3Object: TextractClientTypes.S3Object? = nil
-        )
-        {
+        ) {
             self.manifestS3Object = manifestS3Object
         }
     }
@@ -228,8 +222,7 @@ extension TextractClientTypes {
             f1Score: Swift.Float = 0.0,
             precision: Swift.Float = 0.0,
             recall: Swift.Float = 0.0
-        )
-        {
+        ) {
             self.f1Score = f1Score
             self.precision = precision
             self.recall = recall
@@ -252,8 +245,7 @@ extension TextractClientTypes {
             adapterVersion: TextractClientTypes.EvaluationMetric? = nil,
             baseline: TextractClientTypes.EvaluationMetric? = nil,
             featureType: TextractClientTypes.FeatureType? = nil
-        )
-        {
+        ) {
             self.adapterVersion = adapterVersion
             self.baseline = baseline
             self.featureType = featureType
@@ -323,8 +315,7 @@ extension TextractClientTypes {
             featureTypes: [TextractClientTypes.FeatureType]? = nil,
             status: TextractClientTypes.AdapterVersionStatus? = nil,
             statusMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.adapterId = adapterId
             self.adapterVersion = adapterVersion
             self.creationTime = creationTime
@@ -355,8 +346,7 @@ public struct BadDocumentException: ClientRuntime.ModeledError, AWSClientRuntime
     public init(
         code: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
@@ -382,8 +372,7 @@ public struct DocumentTooLargeException: ClientRuntime.ModeledError, AWSClientRu
     public init(
         code: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
@@ -418,8 +407,7 @@ public struct HumanLoopQuotaExceededException: ClientRuntime.ModeledError, AWSCl
         quotaCode: Swift.String? = nil,
         resourceType: Swift.String? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
         self.properties.quotaCode = quotaCode
@@ -448,8 +436,7 @@ public struct InternalServerError: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         code: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
@@ -475,8 +462,7 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
     public init(
         code: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
@@ -502,8 +488,7 @@ public struct InvalidS3ObjectException: ClientRuntime.ModeledError, AWSClientRun
     public init(
         code: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
@@ -529,8 +514,7 @@ public struct ProvisionedThroughputExceededException: ClientRuntime.ModeledError
     public init(
         code: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
@@ -556,8 +540,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         code: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
@@ -583,8 +566,7 @@ public struct UnsupportedDocumentException: ClientRuntime.ModeledError, AWSClien
     public init(
         code: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
@@ -602,8 +584,7 @@ extension TextractClientTypes {
         public init(
             bytes: Foundation.Data? = nil,
             s3Object: TextractClientTypes.S3Object? = nil
-        )
-        {
+        ) {
             self.bytes = bytes
             self.s3Object = s3Object
         }
@@ -648,8 +629,7 @@ extension TextractClientTypes {
 
         public init(
             contentClassifiers: [TextractClientTypes.ContentClassifier]? = nil
-        )
-        {
+        ) {
             self.contentClassifiers = contentClassifiers
         }
     }
@@ -672,8 +652,7 @@ extension TextractClientTypes {
             dataAttributes: TextractClientTypes.HumanLoopDataAttributes? = nil,
             flowDefinitionArn: Swift.String? = nil,
             humanLoopName: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataAttributes = dataAttributes
             self.flowDefinitionArn = flowDefinitionArn
             self.humanLoopName = humanLoopName
@@ -707,8 +686,7 @@ extension TextractClientTypes {
             alias: Swift.String? = nil,
             pages: [Swift.String]? = nil,
             text: Swift.String? = nil
-        )
-        {
+        ) {
             self.alias = alias
             self.pages = pages
             self.text = text
@@ -726,8 +704,7 @@ extension TextractClientTypes {
 
         public init(
             queries: [TextractClientTypes.Query]? = nil
-        )
-        {
+        ) {
             self.queries = queries
         }
     }
@@ -753,8 +730,7 @@ public struct AnalyzeDocumentInput: Swift.Sendable {
         featureTypes: [TextractClientTypes.FeatureType]? = nil,
         humanLoopConfig: TextractClientTypes.HumanLoopConfig? = nil,
         queriesConfig: TextractClientTypes.QueriesConfig? = nil
-    )
-    {
+    ) {
         self.adaptersConfig = adaptersConfig
         self.document = document
         self.featureTypes = featureTypes
@@ -926,8 +902,7 @@ extension TextractClientTypes {
             `left`: Swift.Float = 0.0,
             top: Swift.Float = 0.0,
             width: Swift.Float = 0.0
-        )
-        {
+        ) {
             self.height = height
             self.`left` = `left`
             self.top = top
@@ -948,8 +923,7 @@ extension TextractClientTypes {
         public init(
             x: Swift.Float = 0.0,
             y: Swift.Float = 0.0
-        )
-        {
+        ) {
             self.x = x
             self.y = y
         }
@@ -968,8 +942,7 @@ extension TextractClientTypes {
         public init(
             boundingBox: TextractClientTypes.BoundingBox? = nil,
             polygon: [TextractClientTypes.Point]? = nil
-        )
-        {
+        ) {
             self.boundingBox = boundingBox
             self.polygon = polygon
         }
@@ -1052,8 +1025,7 @@ extension TextractClientTypes {
         public init(
             ids: [Swift.String]? = nil,
             type: TextractClientTypes.RelationshipType? = nil
-        )
-        {
+        ) {
             self.ids = ids
             self.type = type
         }
@@ -1251,8 +1223,7 @@ extension TextractClientTypes {
             selectionStatus: TextractClientTypes.SelectionStatus? = nil,
             text: Swift.String? = nil,
             textType: TextractClientTypes.TextType? = nil
-        )
-        {
+        ) {
             self.blockType = blockType
             self.columnIndex = columnIndex
             self.columnSpan = columnSpan
@@ -1281,8 +1252,7 @@ extension TextractClientTypes {
 
         public init(
             pages: Swift.Int? = nil
-        )
-        {
+        ) {
             self.pages = pages
         }
     }
@@ -1303,8 +1273,7 @@ extension TextractClientTypes {
             humanLoopActivationConditionsEvaluationResults: Swift.String? = nil,
             humanLoopActivationReasons: [Swift.String]? = nil,
             humanLoopArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.humanLoopActivationConditionsEvaluationResults = humanLoopActivationConditionsEvaluationResults
             self.humanLoopActivationReasons = humanLoopActivationReasons
             self.humanLoopArn = humanLoopArn
@@ -1327,8 +1296,7 @@ public struct AnalyzeDocumentOutput: Swift.Sendable {
         blocks: [TextractClientTypes.Block]? = nil,
         documentMetadata: TextractClientTypes.DocumentMetadata? = nil,
         humanLoopActivationOutput: TextractClientTypes.HumanLoopActivationOutput? = nil
-    )
-    {
+    ) {
         self.analyzeDocumentModelVersion = analyzeDocumentModelVersion
         self.blocks = blocks
         self.documentMetadata = documentMetadata
@@ -1343,8 +1311,7 @@ public struct AnalyzeExpenseInput: Swift.Sendable {
 
     public init(
         document: TextractClientTypes.Document? = nil
-    )
-    {
+    ) {
         self.document = document
     }
 }
@@ -1385,8 +1352,7 @@ extension TextractClientTypes {
         public init(
             code: Swift.String? = nil,
             confidence: Swift.Float? = nil
-        )
-        {
+        ) {
             self.code = code
             self.confidence = confidence
         }
@@ -1405,8 +1371,7 @@ extension TextractClientTypes {
         public init(
             id: Swift.String? = nil,
             types: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.id = id
             self.types = types
         }
@@ -1428,8 +1393,7 @@ extension TextractClientTypes {
             confidence: Swift.Float? = nil,
             geometry: TextractClientTypes.Geometry? = nil,
             text: Swift.String? = nil
-        )
-        {
+        ) {
             self.confidence = confidence
             self.geometry = geometry
             self.text = text
@@ -1449,8 +1413,7 @@ extension TextractClientTypes {
         public init(
             confidence: Swift.Float? = nil,
             text: Swift.String? = nil
-        )
-        {
+        ) {
             self.confidence = confidence
             self.text = text
         }
@@ -1481,8 +1444,7 @@ extension TextractClientTypes {
             pageNumber: Swift.Int? = nil,
             type: TextractClientTypes.ExpenseType? = nil,
             valueDetection: TextractClientTypes.ExpenseDetection? = nil
-        )
-        {
+        ) {
             self.currency = currency
             self.groupProperties = groupProperties
             self.labelDetection = labelDetection
@@ -1502,8 +1464,7 @@ extension TextractClientTypes {
 
         public init(
             lineItemExpenseFields: [TextractClientTypes.ExpenseField]? = nil
-        )
-        {
+        ) {
             self.lineItemExpenseFields = lineItemExpenseFields
         }
     }
@@ -1521,8 +1482,7 @@ extension TextractClientTypes {
         public init(
             lineItemGroupIndex: Swift.Int? = nil,
             lineItems: [TextractClientTypes.LineItemFields]? = nil
-        )
-        {
+        ) {
             self.lineItemGroupIndex = lineItemGroupIndex
             self.lineItems = lineItems
         }
@@ -1547,8 +1507,7 @@ extension TextractClientTypes {
             expenseIndex: Swift.Int? = nil,
             lineItemGroups: [TextractClientTypes.LineItemGroup]? = nil,
             summaryFields: [TextractClientTypes.ExpenseField]? = nil
-        )
-        {
+        ) {
             self.blocks = blocks
             self.expenseIndex = expenseIndex
             self.lineItemGroups = lineItemGroups
@@ -1566,8 +1525,7 @@ public struct AnalyzeExpenseOutput: Swift.Sendable {
     public init(
         documentMetadata: TextractClientTypes.DocumentMetadata? = nil,
         expenseDocuments: [TextractClientTypes.ExpenseDocument]? = nil
-    )
-    {
+    ) {
         self.documentMetadata = documentMetadata
         self.expenseDocuments = expenseDocuments
     }
@@ -1580,8 +1538,7 @@ public struct AnalyzeIDInput: Swift.Sendable {
 
     public init(
         documentPages: [TextractClientTypes.Document]? = nil
-    )
-    {
+    ) {
         self.documentPages = documentPages
     }
 }
@@ -1624,8 +1581,7 @@ extension TextractClientTypes {
         public init(
             value: Swift.String? = nil,
             valueType: TextractClientTypes.ValueType? = nil
-        )
-        {
+        ) {
             self.value = value
             self.valueType = valueType
         }
@@ -1648,8 +1604,7 @@ extension TextractClientTypes {
             confidence: Swift.Float? = nil,
             normalizedValue: TextractClientTypes.NormalizedValue? = nil,
             text: Swift.String? = nil
-        )
-        {
+        ) {
             self.confidence = confidence
             self.normalizedValue = normalizedValue
             self.text = text
@@ -1669,8 +1624,7 @@ extension TextractClientTypes {
         public init(
             type: TextractClientTypes.AnalyzeIDDetections? = nil,
             valueDetection: TextractClientTypes.AnalyzeIDDetections? = nil
-        )
-        {
+        ) {
             self.type = type
             self.valueDetection = valueDetection
         }
@@ -1692,8 +1646,7 @@ extension TextractClientTypes {
             blocks: [TextractClientTypes.Block]? = nil,
             documentIndex: Swift.Int? = nil,
             identityDocumentFields: [TextractClientTypes.IdentityDocumentField]? = nil
-        )
-        {
+        ) {
             self.blocks = blocks
             self.documentIndex = documentIndex
             self.identityDocumentFields = identityDocumentFields
@@ -1713,8 +1666,7 @@ public struct AnalyzeIDOutput: Swift.Sendable {
         analyzeIDModelVersion: Swift.String? = nil,
         documentMetadata: TextractClientTypes.DocumentMetadata? = nil,
         identityDocuments: [TextractClientTypes.IdentityDocument]? = nil
-    )
-    {
+    ) {
         self.analyzeIDModelVersion = analyzeIDModelVersion
         self.documentMetadata = documentMetadata
         self.identityDocuments = identityDocuments
@@ -1770,8 +1722,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public init(
         code: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
@@ -1797,8 +1748,7 @@ public struct IdempotentParameterMismatchException: ClientRuntime.ModeledError, 
     public init(
         code: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
@@ -1824,8 +1774,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     public init(
         code: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
@@ -1851,8 +1800,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     public init(
         code: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
@@ -1878,8 +1826,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         code: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
@@ -1908,8 +1855,7 @@ public struct CreateAdapterInput: Swift.Sendable {
         description: Swift.String? = nil,
         featureTypes: [TextractClientTypes.FeatureType]? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.adapterName = adapterName
         self.autoUpdate = autoUpdate
         self.clientRequestToken = clientRequestToken
@@ -1925,8 +1871,7 @@ public struct CreateAdapterOutput: Swift.Sendable {
 
     public init(
         adapterId: Swift.String? = nil
-    )
-    {
+    ) {
         self.adapterId = adapterId
     }
 }
@@ -1951,8 +1896,7 @@ public struct InvalidKMSKeyException: ClientRuntime.ModeledError, AWSClientRunti
     public init(
         code: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
@@ -1978,8 +1922,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public init(
         code: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
@@ -1998,8 +1941,7 @@ extension TextractClientTypes {
         public init(
             s3Bucket: Swift.String? = nil,
             s3Prefix: Swift.String? = nil
-        )
-        {
+        ) {
             self.s3Bucket = s3Bucket
             self.s3Prefix = s3Prefix
         }
@@ -2030,8 +1972,7 @@ public struct CreateAdapterVersionInput: Swift.Sendable {
         kmsKeyId: Swift.String? = nil,
         outputConfig: TextractClientTypes.OutputConfig? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.adapterId = adapterId
         self.clientRequestToken = clientRequestToken
         self.datasetConfig = datasetConfig
@@ -2050,8 +1991,7 @@ public struct CreateAdapterVersionOutput: Swift.Sendable {
     public init(
         adapterId: Swift.String? = nil,
         adapterVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.adapterId = adapterId
         self.adapterVersion = adapterVersion
     }
@@ -2064,8 +2004,7 @@ public struct DeleteAdapterInput: Swift.Sendable {
 
     public init(
         adapterId: Swift.String? = nil
-    )
-    {
+    ) {
         self.adapterId = adapterId
     }
 }
@@ -2086,8 +2025,7 @@ public struct DeleteAdapterVersionInput: Swift.Sendable {
     public init(
         adapterId: Swift.String? = nil,
         adapterVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.adapterId = adapterId
         self.adapterVersion = adapterVersion
     }
@@ -2105,8 +2043,7 @@ public struct DetectDocumentTextInput: Swift.Sendable {
 
     public init(
         document: TextractClientTypes.Document? = nil
-    )
-    {
+    ) {
         self.document = document
     }
 }
@@ -2123,8 +2060,7 @@ public struct DetectDocumentTextOutput: Swift.Sendable {
         blocks: [TextractClientTypes.Block]? = nil,
         detectDocumentTextModelVersion: Swift.String? = nil,
         documentMetadata: TextractClientTypes.DocumentMetadata? = nil
-    )
-    {
+    ) {
         self.blocks = blocks
         self.detectDocumentTextModelVersion = detectDocumentTextModelVersion
         self.documentMetadata = documentMetadata
@@ -2140,8 +2076,7 @@ extension TextractClientTypes {
 
         public init(
             page: Swift.Int? = nil
-        )
-        {
+        ) {
             self.page = page
         }
     }
@@ -2159,8 +2094,7 @@ extension TextractClientTypes {
         public init(
             index: Swift.Int? = nil,
             pages: [Swift.Int]? = nil
-        )
-        {
+        ) {
             self.index = index
             self.pages = pages
         }
@@ -2176,8 +2110,7 @@ extension TextractClientTypes {
 
         public init(
             page: Swift.Int? = nil
-        )
-        {
+        ) {
             self.page = page
         }
     }
@@ -2201,8 +2134,7 @@ extension TextractClientTypes {
             splitDocuments: [TextractClientTypes.SplitDocument]? = nil,
             type: Swift.String? = nil,
             undetectedSignatures: [TextractClientTypes.UndetectedSignature]? = nil
-        )
-        {
+        ) {
             self.detectedSignatures = detectedSignatures
             self.splitDocuments = splitDocuments
             self.type = type
@@ -2220,8 +2152,7 @@ extension TextractClientTypes {
 
         public init(
             s3Object: TextractClientTypes.S3Object? = nil
-        )
-        {
+        ) {
             self.s3Object = s3Object
         }
     }
@@ -2245,8 +2176,7 @@ extension TextractClientTypes {
             geometry: TextractClientTypes.Geometry? = nil,
             selectionStatus: TextractClientTypes.SelectionStatus? = nil,
             text: Swift.String? = nil
-        )
-        {
+        ) {
             self.confidence = confidence
             self.geometry = geometry
             self.selectionStatus = selectionStatus
@@ -2270,8 +2200,7 @@ extension TextractClientTypes {
             keyDetection: TextractClientTypes.LendingDetection? = nil,
             type: Swift.String? = nil,
             valueDetections: [TextractClientTypes.LendingDetection]? = nil
-        )
-        {
+        ) {
             self.keyDetection = keyDetection
             self.type = type
             self.valueDetections = valueDetections
@@ -2291,8 +2220,7 @@ extension TextractClientTypes {
         public init(
             confidence: Swift.Float? = nil,
             geometry: TextractClientTypes.Geometry? = nil
-        )
-        {
+        ) {
             self.confidence = confidence
             self.geometry = geometry
         }
@@ -2311,8 +2239,7 @@ extension TextractClientTypes {
         public init(
             lendingFields: [TextractClientTypes.LendingField]? = nil,
             signatureDetections: [TextractClientTypes.SignatureDetection]? = nil
-        )
-        {
+        ) {
             self.lendingFields = lendingFields
             self.signatureDetections = signatureDetections
         }
@@ -2334,8 +2261,7 @@ extension TextractClientTypes {
             expenseDocument: TextractClientTypes.ExpenseDocument? = nil,
             identityDocument: TextractClientTypes.IdentityDocument? = nil,
             lendingDocument: TextractClientTypes.LendingDocument? = nil
-        )
-        {
+        ) {
             self.expenseDocument = expenseDocument
             self.identityDocument = identityDocument
             self.lendingDocument = lendingDocument
@@ -2350,8 +2276,7 @@ public struct GetAdapterInput: Swift.Sendable {
 
     public init(
         adapterId: Swift.String? = nil
-    )
-    {
+    ) {
         self.adapterId = adapterId
     }
 }
@@ -2380,8 +2305,7 @@ public struct GetAdapterOutput: Swift.Sendable {
         description: Swift.String? = nil,
         featureTypes: [TextractClientTypes.FeatureType]? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.adapterId = adapterId
         self.adapterName = adapterName
         self.autoUpdate = autoUpdate
@@ -2403,8 +2327,7 @@ public struct GetAdapterVersionInput: Swift.Sendable {
     public init(
         adapterId: Swift.String? = nil,
         adapterVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.adapterId = adapterId
         self.adapterVersion = adapterVersion
     }
@@ -2446,8 +2369,7 @@ public struct GetAdapterVersionOutput: Swift.Sendable {
         status: TextractClientTypes.AdapterVersionStatus? = nil,
         statusMessage: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.adapterId = adapterId
         self.adapterVersion = adapterVersion
         self.creationTime = creationTime
@@ -2482,8 +2404,7 @@ public struct InvalidJobIdException: ClientRuntime.ModeledError, AWSClientRuntim
     public init(
         code: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
@@ -2502,8 +2423,7 @@ public struct GetDocumentAnalysisInput: Swift.Sendable {
         jobId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2557,8 +2477,7 @@ extension TextractClientTypes {
         public init(
             errorCode: Swift.String? = nil,
             pages: [Swift.Int]? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.pages = pages
         }
@@ -2589,8 +2508,7 @@ public struct GetDocumentAnalysisOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         statusMessage: Swift.String? = nil,
         warnings: [TextractClientTypes.Warning]? = nil
-    )
-    {
+    ) {
         self.analyzeDocumentModelVersion = analyzeDocumentModelVersion
         self.blocks = blocks
         self.documentMetadata = documentMetadata
@@ -2614,8 +2532,7 @@ public struct GetDocumentTextDetectionInput: Swift.Sendable {
         jobId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2646,8 +2563,7 @@ public struct GetDocumentTextDetectionOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         statusMessage: Swift.String? = nil,
         warnings: [TextractClientTypes.Warning]? = nil
-    )
-    {
+    ) {
         self.blocks = blocks
         self.detectDocumentTextModelVersion = detectDocumentTextModelVersion
         self.documentMetadata = documentMetadata
@@ -2671,8 +2587,7 @@ public struct GetExpenseAnalysisInput: Swift.Sendable {
         jobId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2703,8 +2618,7 @@ public struct GetExpenseAnalysisOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         statusMessage: Swift.String? = nil,
         warnings: [TextractClientTypes.Warning]? = nil
-    )
-    {
+    ) {
         self.analyzeExpenseModelVersion = analyzeExpenseModelVersion
         self.documentMetadata = documentMetadata
         self.expenseDocuments = expenseDocuments
@@ -2728,8 +2642,7 @@ public struct GetLendingAnalysisInput: Swift.Sendable {
         jobId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2748,8 +2661,7 @@ extension TextractClientTypes {
         public init(
             confidence: Swift.Float? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.confidence = confidence
             self.value = value
         }
@@ -2770,8 +2682,7 @@ extension TextractClientTypes {
         public init(
             pageNumber: [TextractClientTypes.Prediction]? = nil,
             pageType: [TextractClientTypes.Prediction]? = nil
-        )
-        {
+        ) {
             self.pageNumber = pageNumber
             self.pageType = pageType
         }
@@ -2793,8 +2704,7 @@ extension TextractClientTypes {
             extractions: [TextractClientTypes.Extraction]? = nil,
             page: Swift.Int? = nil,
             pageClassification: TextractClientTypes.PageClassification? = nil
-        )
-        {
+        ) {
             self.extractions = extractions
             self.page = page
             self.pageClassification = pageClassification
@@ -2826,8 +2736,7 @@ public struct GetLendingAnalysisOutput: Swift.Sendable {
         results: [TextractClientTypes.LendingResult]? = nil,
         statusMessage: Swift.String? = nil,
         warnings: [TextractClientTypes.Warning]? = nil
-    )
-    {
+    ) {
         self.analyzeLendingModelVersion = analyzeLendingModelVersion
         self.documentMetadata = documentMetadata
         self.jobStatus = jobStatus
@@ -2845,8 +2754,7 @@ public struct GetLendingAnalysisSummaryInput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -2863,8 +2771,7 @@ extension TextractClientTypes {
         public init(
             documentGroups: [TextractClientTypes.DocumentGroup]? = nil,
             undetectedDocumentTypes: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.documentGroups = documentGroups
             self.undetectedDocumentTypes = undetectedDocumentTypes
         }
@@ -2892,8 +2799,7 @@ public struct GetLendingAnalysisSummaryOutput: Swift.Sendable {
         statusMessage: Swift.String? = nil,
         summary: TextractClientTypes.LendingSummary? = nil,
         warnings: [TextractClientTypes.Warning]? = nil
-    )
-    {
+    ) {
         self.analyzeLendingModelVersion = analyzeLendingModelVersion
         self.documentMetadata = documentMetadata
         self.jobStatus = jobStatus
@@ -2918,8 +2824,7 @@ public struct ListAdaptersInput: Swift.Sendable {
         beforeCreationTime: Foundation.Date? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.afterCreationTime = afterCreationTime
         self.beforeCreationTime = beforeCreationTime
         self.maxResults = maxResults
@@ -2936,8 +2841,7 @@ public struct ListAdaptersOutput: Swift.Sendable {
     public init(
         adapters: [TextractClientTypes.AdapterOverview]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.adapters = adapters
         self.nextToken = nextToken
     }
@@ -2961,8 +2865,7 @@ public struct ListAdapterVersionsInput: Swift.Sendable {
         beforeCreationTime: Foundation.Date? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.adapterId = adapterId
         self.afterCreationTime = afterCreationTime
         self.beforeCreationTime = beforeCreationTime
@@ -2980,8 +2883,7 @@ public struct ListAdapterVersionsOutput: Swift.Sendable {
     public init(
         adapterVersions: [TextractClientTypes.AdapterVersionOverview]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.adapterVersions = adapterVersions
         self.nextToken = nextToken
     }
@@ -2994,8 +2896,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
     }
 }
@@ -3006,8 +2907,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -3026,8 +2926,7 @@ extension TextractClientTypes {
         public init(
             roleArn: Swift.String? = nil,
             snsTopicArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.roleArn = roleArn
             self.snsTopicArn = snsTopicArn
         }
@@ -3066,8 +2965,7 @@ public struct StartDocumentAnalysisInput: Swift.Sendable {
         notificationChannel: TextractClientTypes.NotificationChannel? = nil,
         outputConfig: TextractClientTypes.OutputConfig? = nil,
         queriesConfig: TextractClientTypes.QueriesConfig? = nil
-    )
-    {
+    ) {
         self.adaptersConfig = adaptersConfig
         self.clientRequestToken = clientRequestToken
         self.documentLocation = documentLocation
@@ -3086,8 +2984,7 @@ public struct StartDocumentAnalysisOutput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -3114,8 +3011,7 @@ public struct StartDocumentTextDetectionInput: Swift.Sendable {
         kmsKeyId: Swift.String? = nil,
         notificationChannel: TextractClientTypes.NotificationChannel? = nil,
         outputConfig: TextractClientTypes.OutputConfig? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.documentLocation = documentLocation
         self.jobTag = jobTag
@@ -3131,8 +3027,7 @@ public struct StartDocumentTextDetectionOutput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -3159,8 +3054,7 @@ public struct StartExpenseAnalysisInput: Swift.Sendable {
         kmsKeyId: Swift.String? = nil,
         notificationChannel: TextractClientTypes.NotificationChannel? = nil,
         outputConfig: TextractClientTypes.OutputConfig? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.documentLocation = documentLocation
         self.jobTag = jobTag
@@ -3176,8 +3070,7 @@ public struct StartExpenseAnalysisOutput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -3204,8 +3097,7 @@ public struct StartLendingAnalysisInput: Swift.Sendable {
         kmsKeyId: Swift.String? = nil,
         notificationChannel: TextractClientTypes.NotificationChannel? = nil,
         outputConfig: TextractClientTypes.OutputConfig? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.documentLocation = documentLocation
         self.jobTag = jobTag
@@ -3221,8 +3113,7 @@ public struct StartLendingAnalysisOutput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -3238,8 +3129,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tags = tags
     }
@@ -3261,8 +3151,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tagKeys = tagKeys
     }
@@ -3289,8 +3178,7 @@ public struct UpdateAdapterInput: Swift.Sendable {
         adapterName: Swift.String? = nil,
         autoUpdate: TextractClientTypes.AutoUpdate? = nil,
         description: Swift.String? = nil
-    )
-    {
+    ) {
         self.adapterId = adapterId
         self.adapterName = adapterName
         self.autoUpdate = autoUpdate
@@ -3319,8 +3207,7 @@ public struct UpdateAdapterOutput: Swift.Sendable {
         creationTime: Foundation.Date? = nil,
         description: Swift.String? = nil,
         featureTypes: [TextractClientTypes.FeatureType]? = nil
-    )
-    {
+    ) {
         self.adapterId = adapterId
         self.adapterName = adapterName
         self.autoUpdate = autoUpdate

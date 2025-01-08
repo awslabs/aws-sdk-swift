@@ -64,8 +64,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -105,8 +104,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -132,8 +130,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -165,8 +162,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -211,8 +207,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.quotaCode = quotaCode
         self.properties.resourceId = resourceId
@@ -243,8 +238,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         message: Swift.String? = nil,
         retryAfterSeconds: Swift.Int? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.retryAfterSeconds = retryAfterSeconds
     }
@@ -264,8 +258,7 @@ extension PCSClientTypes {
         public init(
             message: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
             self.name = name
         }
@@ -341,8 +334,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
         fieldList: [PCSClientTypes.ValidationExceptionField]? = nil,
         message: Swift.String? = nil,
         reason: PCSClientTypes.ValidationExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.fieldList = fieldList
         self.properties.message = message
         self.properties.reason = reason
@@ -363,8 +355,7 @@ extension PCSClientTypes {
         public init(
             id: Swift.String? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.id = id
             self.version = version
         }
@@ -380,8 +371,7 @@ extension PCSClientTypes {
 
         public init(
             instanceType: Swift.String? = nil
-        )
-        {
+        ) {
             self.instanceType = instanceType
         }
     }
@@ -430,8 +420,7 @@ extension PCSClientTypes {
         public init(
             maxInstanceCount: Swift.Int = 0,
             minInstanceCount: Swift.Int = 0
-        )
-        {
+        ) {
             self.maxInstanceCount = maxInstanceCount
             self.minInstanceCount = minInstanceCount
         }
@@ -469,8 +458,7 @@ extension PCSClientTypes {
         public init(
             parameterName: Swift.String? = nil,
             parameterValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.parameterName = parameterName
             self.parameterValue = parameterValue
         }
@@ -486,8 +474,7 @@ extension PCSClientTypes {
 
         public init(
             slurmCustomSettings: [PCSClientTypes.SlurmCustomSetting]? = nil
-        )
-        {
+        ) {
             self.slurmCustomSettings = slurmCustomSettings
         }
     }
@@ -534,8 +521,7 @@ extension PCSClientTypes {
 
         public init(
             allocationStrategy: PCSClientTypes.SpotAllocationStrategy? = nil
-        )
-        {
+        ) {
             self.allocationStrategy = allocationStrategy
         }
     }
@@ -594,8 +580,7 @@ public struct CreateComputeNodeGroupInput: Swift.Sendable {
         spotOptions: PCSClientTypes.SpotOptions? = nil,
         subnetIds: [Swift.String]? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.amiId = amiId
         self.clientToken = clientToken
         self.clusterIdentifier = clusterIdentifier
@@ -624,8 +609,7 @@ extension PCSClientTypes {
         public init(
             code: Swift.String? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.message = message
         }
@@ -646,8 +630,7 @@ extension PCSClientTypes {
         public init(
             maxInstanceCount: Swift.Int = 0,
             minInstanceCount: Swift.Int = 0
-        )
-        {
+        ) {
             self.maxInstanceCount = maxInstanceCount
             self.minInstanceCount = minInstanceCount
         }
@@ -663,8 +646,7 @@ extension PCSClientTypes {
 
         public init(
             slurmCustomSettings: [PCSClientTypes.SlurmCustomSetting]? = nil
-        )
-        {
+        ) {
             self.slurmCustomSettings = slurmCustomSettings
         }
     }
@@ -790,8 +772,7 @@ extension PCSClientTypes {
             spotOptions: PCSClientTypes.SpotOptions? = nil,
             status: PCSClientTypes.ComputeNodeGroupStatus? = nil,
             subnetIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.amiId = amiId
             self.arn = arn
             self.clusterId = clusterId
@@ -819,8 +800,7 @@ public struct CreateComputeNodeGroupOutput: Swift.Sendable {
 
     public init(
         computeNodeGroup: PCSClientTypes.ComputeNodeGroup? = nil
-    )
-    {
+    ) {
         self.computeNodeGroup = computeNodeGroup
     }
 }
@@ -839,8 +819,7 @@ public struct DeleteComputeNodeGroupInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         clusterIdentifier: Swift.String? = nil,
         computeNodeGroupIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.clusterIdentifier = clusterIdentifier
         self.computeNodeGroupIdentifier = computeNodeGroupIdentifier
@@ -863,8 +842,7 @@ public struct GetComputeNodeGroupInput: Swift.Sendable {
     public init(
         clusterIdentifier: Swift.String? = nil,
         computeNodeGroupIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterIdentifier = clusterIdentifier
         self.computeNodeGroupIdentifier = computeNodeGroupIdentifier
     }
@@ -876,8 +854,7 @@ public struct GetComputeNodeGroupOutput: Swift.Sendable {
 
     public init(
         computeNodeGroup: PCSClientTypes.ComputeNodeGroup? = nil
-    )
-    {
+    ) {
         self.computeNodeGroup = computeNodeGroup
     }
 }
@@ -895,8 +872,7 @@ public struct ListComputeNodeGroupsInput: Swift.Sendable {
         clusterIdentifier: Swift.String? = nil,
         maxResults: Swift.Int? = 10,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterIdentifier = clusterIdentifier
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -937,8 +913,7 @@ extension PCSClientTypes {
             modifiedAt: Foundation.Date? = nil,
             name: Swift.String? = nil,
             status: PCSClientTypes.ComputeNodeGroupStatus? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.clusterId = clusterId
             self.createdAt = createdAt
@@ -960,8 +935,7 @@ public struct ListComputeNodeGroupsOutput: Swift.Sendable {
     public init(
         computeNodeGroups: [PCSClientTypes.ComputeNodeGroupSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.computeNodeGroups = computeNodeGroups
         self.nextToken = nextToken
     }
@@ -976,8 +950,7 @@ extension PCSClientTypes {
 
         public init(
             slurmCustomSettings: [PCSClientTypes.SlurmCustomSetting]? = nil
-        )
-        {
+        ) {
             self.slurmCustomSettings = slurmCustomSettings
         }
     }
@@ -1025,8 +998,7 @@ public struct UpdateComputeNodeGroupInput: Swift.Sendable {
         slurmConfiguration: PCSClientTypes.UpdateComputeNodeGroupSlurmConfigurationRequest? = nil,
         spotOptions: PCSClientTypes.SpotOptions? = nil,
         subnetIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.amiId = amiId
         self.clientToken = clientToken
         self.clusterIdentifier = clusterIdentifier
@@ -1047,8 +1019,7 @@ public struct UpdateComputeNodeGroupOutput: Swift.Sendable {
 
     public init(
         computeNodeGroup: PCSClientTypes.ComputeNodeGroup? = nil
-    )
-    {
+    ) {
         self.computeNodeGroup = computeNodeGroup
     }
 }
@@ -1065,8 +1036,7 @@ extension PCSClientTypes {
         public init(
             securityGroupIds: [Swift.String]? = nil,
             subnetIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
         }
@@ -1113,8 +1083,7 @@ extension PCSClientTypes {
         public init(
             type: PCSClientTypes.SchedulerType? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.type = type
             self.version = version
         }
@@ -1165,8 +1134,7 @@ extension PCSClientTypes {
         public init(
             scaleDownIdleTimeInSeconds: Swift.Int? = nil,
             slurmCustomSettings: [PCSClientTypes.SlurmCustomSetting]? = nil
-        )
-        {
+        ) {
             self.scaleDownIdleTimeInSeconds = scaleDownIdleTimeInSeconds
             self.slurmCustomSettings = slurmCustomSettings
         }
@@ -1207,8 +1175,7 @@ public struct CreateClusterInput: Swift.Sendable {
         size: PCSClientTypes.Size? = nil,
         slurmConfiguration: PCSClientTypes.ClusterSlurmConfigurationRequest? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.clusterName = clusterName
         self.networking = networking
@@ -1269,8 +1236,7 @@ extension PCSClientTypes {
             privateIpAddress: Swift.String? = nil,
             publicIpAddress: Swift.String? = nil,
             type: PCSClientTypes.EndpointType? = nil
-        )
-        {
+        ) {
             self.port = port
             self.privateIpAddress = privateIpAddress
             self.publicIpAddress = publicIpAddress
@@ -1321,8 +1287,7 @@ extension PCSClientTypes {
         public init(
             securityGroupIds: [Swift.String]? = nil,
             subnetIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
         }
@@ -1343,8 +1308,7 @@ extension PCSClientTypes {
         public init(
             type: PCSClientTypes.SchedulerType? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.type = type
             self.version = version
         }
@@ -1365,8 +1329,7 @@ extension PCSClientTypes {
         public init(
             secretArn: Swift.String? = nil,
             secretVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.secretArn = secretArn
             self.secretVersion = secretVersion
         }
@@ -1388,8 +1351,7 @@ extension PCSClientTypes {
             authKey: PCSClientTypes.SlurmAuthKey? = nil,
             scaleDownIdleTimeInSeconds: Swift.Int? = nil,
             slurmCustomSettings: [PCSClientTypes.SlurmCustomSetting]? = nil
-        )
-        {
+        ) {
             self.authKey = authKey
             self.scaleDownIdleTimeInSeconds = scaleDownIdleTimeInSeconds
             self.slurmCustomSettings = slurmCustomSettings
@@ -1498,8 +1460,7 @@ extension PCSClientTypes {
             size: PCSClientTypes.Size? = nil,
             slurmConfiguration: PCSClientTypes.ClusterSlurmConfiguration? = nil,
             status: PCSClientTypes.ClusterStatus? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.endpoints = endpoints
@@ -1522,8 +1483,7 @@ public struct CreateClusterOutput: Swift.Sendable {
 
     public init(
         cluster: PCSClientTypes.Cluster? = nil
-    )
-    {
+    ) {
         self.cluster = cluster
     }
 }
@@ -1538,8 +1498,7 @@ public struct DeleteClusterInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         clusterIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.clusterIdentifier = clusterIdentifier
     }
@@ -1557,8 +1516,7 @@ public struct GetClusterInput: Swift.Sendable {
 
     public init(
         clusterIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterIdentifier = clusterIdentifier
     }
 }
@@ -1569,8 +1527,7 @@ public struct GetClusterOutput: Swift.Sendable {
 
     public init(
         cluster: PCSClientTypes.Cluster? = nil
-    )
-    {
+    ) {
         self.cluster = cluster
     }
 }
@@ -1584,8 +1541,7 @@ public struct ListClustersInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = 10,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -1621,8 +1577,7 @@ extension PCSClientTypes {
             modifiedAt: Foundation.Date? = nil,
             name: Swift.String? = nil,
             status: PCSClientTypes.ClusterStatus? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.id = id
@@ -1643,8 +1598,7 @@ public struct ListClustersOutput: Swift.Sendable {
     public init(
         clusters: [PCSClientTypes.ClusterSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusters = clusters
         self.nextToken = nextToken
     }
@@ -1659,8 +1613,7 @@ extension PCSClientTypes {
 
         public init(
             computeNodeGroupId: Swift.String? = nil
-        )
-        {
+        ) {
             self.computeNodeGroupId = computeNodeGroupId
         }
     }
@@ -1686,8 +1639,7 @@ public struct CreateQueueInput: Swift.Sendable {
         computeNodeGroupConfigurations: [PCSClientTypes.ComputeNodeGroupConfiguration]? = nil,
         queueName: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.clusterIdentifier = clusterIdentifier
         self.computeNodeGroupConfigurations = computeNodeGroupConfigurations
@@ -1781,8 +1733,7 @@ extension PCSClientTypes {
             modifiedAt: Foundation.Date? = nil,
             name: Swift.String? = nil,
             status: PCSClientTypes.QueueStatus? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.clusterId = clusterId
             self.computeNodeGroupConfigurations = computeNodeGroupConfigurations
@@ -1802,8 +1753,7 @@ public struct CreateQueueOutput: Swift.Sendable {
 
     public init(
         queue: PCSClientTypes.Queue? = nil
-    )
-    {
+    ) {
         self.queue = queue
     }
 }
@@ -1822,8 +1772,7 @@ public struct DeleteQueueInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         clusterIdentifier: Swift.String? = nil,
         queueIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.clusterIdentifier = clusterIdentifier
         self.queueIdentifier = queueIdentifier
@@ -1846,8 +1795,7 @@ public struct GetQueueInput: Swift.Sendable {
     public init(
         clusterIdentifier: Swift.String? = nil,
         queueIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterIdentifier = clusterIdentifier
         self.queueIdentifier = queueIdentifier
     }
@@ -1859,8 +1807,7 @@ public struct GetQueueOutput: Swift.Sendable {
 
     public init(
         queue: PCSClientTypes.Queue? = nil
-    )
-    {
+    ) {
         self.queue = queue
     }
 }
@@ -1878,8 +1825,7 @@ public struct ListQueuesInput: Swift.Sendable {
         clusterIdentifier: Swift.String? = nil,
         maxResults: Swift.Int? = 10,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterIdentifier = clusterIdentifier
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1920,8 +1866,7 @@ extension PCSClientTypes {
             modifiedAt: Foundation.Date? = nil,
             name: Swift.String? = nil,
             status: PCSClientTypes.QueueStatus? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.clusterId = clusterId
             self.createdAt = createdAt
@@ -1943,8 +1888,7 @@ public struct ListQueuesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         queues: [PCSClientTypes.QueueSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.queues = queues
     }
@@ -1967,8 +1911,7 @@ public struct UpdateQueueInput: Swift.Sendable {
         clusterIdentifier: Swift.String? = nil,
         computeNodeGroupConfigurations: [PCSClientTypes.ComputeNodeGroupConfiguration]? = nil,
         queueIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.clusterIdentifier = clusterIdentifier
         self.computeNodeGroupConfigurations = computeNodeGroupConfigurations
@@ -1982,8 +1925,7 @@ public struct UpdateQueueOutput: Swift.Sendable {
 
     public init(
         queue: PCSClientTypes.Queue? = nil
-    )
-    {
+    ) {
         self.queue = queue
     }
 }
@@ -1999,8 +1941,7 @@ public struct RegisterComputeNodeGroupInstanceInput: Swift.Sendable {
     public init(
         bootstrapId: Swift.String? = nil,
         clusterIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.bootstrapId = bootstrapId
         self.clusterIdentifier = clusterIdentifier
     }
@@ -2021,8 +1962,7 @@ public struct RegisterComputeNodeGroupInstanceOutput: Swift.Sendable {
         endpoints: [PCSClientTypes.Endpoint]? = nil,
         nodeID: Swift.String? = nil,
         sharedSecret: Swift.String? = nil
-    )
-    {
+    ) {
         self.endpoints = endpoints
         self.nodeID = nodeID
         self.sharedSecret = sharedSecret
@@ -2041,8 +1981,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -2053,8 +1992,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -2070,8 +2008,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -2088,8 +2025,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }

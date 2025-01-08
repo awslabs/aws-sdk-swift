@@ -45,8 +45,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -69,8 +68,7 @@ public struct ResourceLimitException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -93,8 +91,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -117,8 +114,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -148,8 +144,7 @@ public struct CreateDeploymentInput: Swift.Sendable {
         specifications: [Swift.String: Swift.String]? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         workloadName: Swift.String? = nil
-    )
-    {
+    ) {
         self.deploymentPatternName = deploymentPatternName
         self.dryRun = dryRun
         self.name = name
@@ -170,8 +165,7 @@ public struct CreateDeploymentOutput: Swift.Sendable {
 
     public init(
         deploymentId: Swift.String? = nil
-    )
-    {
+    ) {
         self.deploymentId = deploymentId
     }
 }
@@ -183,8 +177,7 @@ public struct DeleteDeploymentInput: Swift.Sendable {
 
     public init(
         deploymentId: Swift.String? = nil
-    )
-    {
+    ) {
         self.deploymentId = deploymentId
     }
 }
@@ -248,8 +241,7 @@ public struct DeleteDeploymentOutput: Swift.Sendable {
     public init(
         status: LaunchWizardClientTypes.DeploymentStatus? = nil,
         statusReason: Swift.String? = nil
-    )
-    {
+    ) {
         self.status = status
         self.statusReason = statusReason
     }
@@ -268,8 +260,7 @@ public struct ListDeploymentEventsInput: Swift.Sendable {
         deploymentId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.deploymentId = deploymentId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -344,8 +335,7 @@ extension LaunchWizardClientTypes {
             status: LaunchWizardClientTypes.EventStatus? = nil,
             statusReason: Swift.String? = nil,
             timestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.description = description
             self.name = name
             self.status = status
@@ -364,8 +354,7 @@ public struct ListDeploymentEventsOutput: Swift.Sendable {
     public init(
         deploymentEvents: [LaunchWizardClientTypes.DeploymentEventDataSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.deploymentEvents = deploymentEvents
         self.nextToken = nextToken
     }
@@ -378,8 +367,7 @@ public struct GetDeploymentInput: Swift.Sendable {
 
     public init(
         deploymentId: Swift.String? = nil
-    )
-    {
+    ) {
         self.deploymentId = deploymentId
     }
 }
@@ -423,8 +411,7 @@ extension LaunchWizardClientTypes {
             status: LaunchWizardClientTypes.DeploymentStatus? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             workloadName: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.deletedAt = deletedAt
             self.deploymentArn = deploymentArn
@@ -451,8 +438,7 @@ public struct GetDeploymentOutput: Swift.Sendable {
 
     public init(
         deployment: LaunchWizardClientTypes.DeploymentData? = nil
-    )
-    {
+    ) {
         self.deployment = deployment
     }
 }
@@ -498,8 +484,7 @@ extension LaunchWizardClientTypes {
         public init(
             name: LaunchWizardClientTypes.DeploymentFilterKey? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.values = values
         }
@@ -522,8 +507,7 @@ public struct ListDeploymentsInput: Swift.Sendable {
         filters: [LaunchWizardClientTypes.DeploymentFilter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -554,8 +538,7 @@ extension LaunchWizardClientTypes {
             patternName: Swift.String? = nil,
             status: LaunchWizardClientTypes.DeploymentStatus? = nil,
             workloadName: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.id = id
             self.name = name
@@ -575,8 +558,7 @@ public struct ListDeploymentsOutput: Swift.Sendable {
     public init(
         deployments: [LaunchWizardClientTypes.DeploymentDataSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.deployments = deployments
         self.nextToken = nextToken
     }
@@ -597,8 +579,7 @@ extension LaunchWizardClientTypes {
             comparator: Swift.String? = nil,
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.comparator = comparator
             self.name = name
             self.value = value
@@ -627,8 +608,7 @@ extension LaunchWizardClientTypes {
             description: Swift.String? = nil,
             name: Swift.String? = nil,
             `required`: Swift.String? = nil
-        )
-        {
+        ) {
             self.allowedValues = allowedValues
             self.conditionals = conditionals
             self.description = description
@@ -645,8 +625,7 @@ public struct GetWorkloadInput: Swift.Sendable {
 
     public init(
         workloadName: Swift.String? = nil
-    )
-    {
+    ) {
         self.workloadName = workloadName
     }
 }
@@ -713,8 +692,7 @@ extension LaunchWizardClientTypes {
             status: LaunchWizardClientTypes.WorkloadStatus? = nil,
             statusMessage: Swift.String? = nil,
             workloadName: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.displayName = displayName
             self.documentationUrl = documentationUrl
@@ -732,8 +710,7 @@ public struct GetWorkloadOutput: Swift.Sendable {
 
     public init(
         workload: LaunchWizardClientTypes.WorkloadData? = nil
-    )
-    {
+    ) {
         self.workload = workload
     }
 }
@@ -749,8 +726,7 @@ public struct GetWorkloadDeploymentPatternInput: Swift.Sendable {
     public init(
         deploymentPatternName: Swift.String? = nil,
         workloadName: Swift.String? = nil
-    )
-    {
+    ) {
         self.deploymentPatternName = deploymentPatternName
         self.workloadName = workloadName
     }
@@ -821,8 +797,7 @@ extension LaunchWizardClientTypes {
             statusMessage: Swift.String? = nil,
             workloadName: Swift.String? = nil,
             workloadVersionName: Swift.String? = nil
-        )
-        {
+        ) {
             self.deploymentPatternName = deploymentPatternName
             self.description = description
             self.displayName = displayName
@@ -841,8 +816,7 @@ public struct GetWorkloadDeploymentPatternOutput: Swift.Sendable {
 
     public init(
         workloadDeploymentPattern: LaunchWizardClientTypes.WorkloadDeploymentPatternData? = nil
-    )
-    {
+    ) {
         self.workloadDeploymentPattern = workloadDeploymentPattern
     }
 }
@@ -854,8 +828,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -866,8 +839,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -883,8 +855,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -906,8 +877,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -927,8 +897,7 @@ public struct ListWorkloadsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -946,8 +915,7 @@ extension LaunchWizardClientTypes {
         public init(
             displayName: Swift.String? = nil,
             workloadName: Swift.String? = nil
-        )
-        {
+        ) {
             self.displayName = displayName
             self.workloadName = workloadName
         }
@@ -963,8 +931,7 @@ public struct ListWorkloadsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         workloads: [LaunchWizardClientTypes.WorkloadDataSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.workloads = workloads
     }
@@ -983,8 +950,7 @@ public struct ListWorkloadDeploymentPatternsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         workloadName: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.workloadName = workloadName
@@ -1018,8 +984,7 @@ extension LaunchWizardClientTypes {
             statusMessage: Swift.String? = nil,
             workloadName: Swift.String? = nil,
             workloadVersionName: Swift.String? = nil
-        )
-        {
+        ) {
             self.deploymentPatternName = deploymentPatternName
             self.description = description
             self.displayName = displayName
@@ -1040,8 +1005,7 @@ public struct ListWorkloadDeploymentPatternsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         workloadDeploymentPatterns: [LaunchWizardClientTypes.WorkloadDeploymentPatternDataSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.workloadDeploymentPatterns = workloadDeploymentPatterns
     }

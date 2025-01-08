@@ -46,8 +46,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -85,8 +84,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.quotaCode = quotaCode
         self.properties.resourceId = resourceId
@@ -120,8 +118,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
         message: Swift.String? = nil,
         quotaCode: Swift.String? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.quotaCode = quotaCode
         self.properties.serviceCode = serviceCode
@@ -142,8 +139,7 @@ extension BCMDataExportsClientTypes {
         public init(
             message: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
             self.name = name
         }
@@ -210,8 +206,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
         fields: [BCMDataExportsClientTypes.ValidationExceptionField]? = nil,
         message: Swift.String? = nil,
         reason: BCMDataExportsClientTypes.ValidationExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.fields = fields
         self.properties.message = message
         self.properties.reason = reason
@@ -231,8 +226,7 @@ extension BCMDataExportsClientTypes {
         public init(
             queryStatement: Swift.String? = nil,
             tableConfigurations: [Swift.String: [Swift.String: Swift.String]]? = nil
-        )
-        {
+        ) {
             self.queryStatement = queryStatement
             self.tableConfigurations = tableConfigurations
         }
@@ -374,8 +368,7 @@ extension BCMDataExportsClientTypes {
             format: BCMDataExportsClientTypes.FormatOption? = nil,
             outputType: BCMDataExportsClientTypes.S3OutputType? = nil,
             overwrite: BCMDataExportsClientTypes.OverwriteOption? = nil
-        )
-        {
+        ) {
             self.compression = compression
             self.format = format
             self.outputType = outputType
@@ -406,8 +399,7 @@ extension BCMDataExportsClientTypes {
             s3OutputConfigurations: BCMDataExportsClientTypes.S3OutputConfigurations? = nil,
             s3Prefix: Swift.String? = nil,
             s3Region: Swift.String? = nil
-        )
-        {
+        ) {
             self.s3Bucket = s3Bucket
             self.s3OutputConfigurations = s3OutputConfigurations
             self.s3Prefix = s3Prefix
@@ -426,8 +418,7 @@ extension BCMDataExportsClientTypes {
 
         public init(
             s3Destination: BCMDataExportsClientTypes.S3Destination? = nil
-        )
-        {
+        ) {
             self.s3Destination = s3Destination
         }
     }
@@ -469,8 +460,7 @@ extension BCMDataExportsClientTypes {
 
         public init(
             frequency: BCMDataExportsClientTypes.FrequencyOption? = nil
-        )
-        {
+        ) {
             self.frequency = frequency
         }
     }
@@ -504,8 +494,7 @@ extension BCMDataExportsClientTypes {
             exportArn: Swift.String? = nil,
             name: Swift.String? = nil,
             refreshCadence: BCMDataExportsClientTypes.RefreshCadence? = nil
-        )
-        {
+        ) {
             self.dataQuery = dataQuery
             self.description = description
             self.destinationConfigurations = destinationConfigurations
@@ -530,8 +519,7 @@ extension BCMDataExportsClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -548,8 +536,7 @@ public struct CreateExportInput: Swift.Sendable {
     public init(
         export: BCMDataExportsClientTypes.Export? = nil,
         resourceTags: [BCMDataExportsClientTypes.ResourceTag]? = nil
-    )
-    {
+    ) {
         self.export = export
         self.resourceTags = resourceTags
     }
@@ -561,8 +548,7 @@ public struct CreateExportOutput: Swift.Sendable {
 
     public init(
         exportArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.exportArn = exportArn
     }
 }
@@ -594,8 +580,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -609,8 +594,7 @@ public struct DeleteExportInput: Swift.Sendable {
 
     public init(
         exportArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.exportArn = exportArn
     }
 }
@@ -621,8 +605,7 @@ public struct DeleteExportOutput: Swift.Sendable {
 
     public init(
         exportArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.exportArn = exportArn
     }
 }
@@ -638,8 +621,7 @@ public struct GetExecutionInput: Swift.Sendable {
     public init(
         executionId: Swift.String? = nil,
         exportArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.executionId = executionId
         self.exportArn = exportArn
     }
@@ -742,8 +724,7 @@ extension BCMDataExportsClientTypes {
             lastUpdatedAt: Foundation.Date? = nil,
             statusCode: BCMDataExportsClientTypes.ExecutionStatusCode? = nil,
             statusReason: BCMDataExportsClientTypes.ExecutionStatusReason? = nil
-        )
-        {
+        ) {
             self.completedAt = completedAt
             self.createdAt = createdAt
             self.lastUpdatedAt = lastUpdatedAt
@@ -765,8 +746,7 @@ public struct GetExecutionOutput: Swift.Sendable {
         executionId: Swift.String? = nil,
         executionStatus: BCMDataExportsClientTypes.ExecutionStatus? = nil,
         export: BCMDataExportsClientTypes.Export? = nil
-    )
-    {
+    ) {
         self.executionId = executionId
         self.executionStatus = executionStatus
         self.export = export
@@ -780,8 +760,7 @@ public struct GetExportInput: Swift.Sendable {
 
     public init(
         exportArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.exportArn = exportArn
     }
 }
@@ -836,8 +815,7 @@ extension BCMDataExportsClientTypes {
             lastUpdatedAt: Foundation.Date? = nil,
             statusCode: BCMDataExportsClientTypes.ExportStatusCode? = nil,
             statusReason: BCMDataExportsClientTypes.ExecutionStatusReason? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.lastRefreshedAt = lastRefreshedAt
             self.lastUpdatedAt = lastUpdatedAt
@@ -856,8 +834,7 @@ public struct GetExportOutput: Swift.Sendable {
     public init(
         export: BCMDataExportsClientTypes.Export? = nil,
         exportStatus: BCMDataExportsClientTypes.ExportStatus? = nil
-    )
-    {
+    ) {
         self.export = export
         self.exportStatus = exportStatus
     }
@@ -873,8 +850,7 @@ public struct GetTableInput: Swift.Sendable {
     public init(
         tableName: Swift.String? = nil,
         tableProperties: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tableName = tableName
         self.tableProperties = tableProperties
     }
@@ -895,8 +871,7 @@ extension BCMDataExportsClientTypes {
             description: Swift.String? = nil,
             name: Swift.String? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.name = name
             self.type = type
@@ -919,8 +894,7 @@ public struct GetTableOutput: Swift.Sendable {
         schema: [BCMDataExportsClientTypes.Column]? = nil,
         tableName: Swift.String? = nil,
         tableProperties: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.schema = schema
         self.tableName = tableName
@@ -941,8 +915,7 @@ public struct ListExecutionsInput: Swift.Sendable {
         exportArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.exportArn = exportArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -963,8 +936,7 @@ extension BCMDataExportsClientTypes {
         public init(
             executionId: Swift.String? = nil,
             executionStatus: BCMDataExportsClientTypes.ExecutionStatus? = nil
-        )
-        {
+        ) {
             self.executionId = executionId
             self.executionStatus = executionStatus
         }
@@ -980,8 +952,7 @@ public struct ListExecutionsOutput: Swift.Sendable {
     public init(
         executions: [BCMDataExportsClientTypes.ExecutionReference]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.executions = executions
         self.nextToken = nextToken
     }
@@ -996,8 +967,7 @@ public struct ListExportsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -1021,8 +991,7 @@ extension BCMDataExportsClientTypes {
             exportArn: Swift.String? = nil,
             exportName: Swift.String? = nil,
             exportStatus: BCMDataExportsClientTypes.ExportStatus? = nil
-        )
-        {
+        ) {
             self.exportArn = exportArn
             self.exportName = exportName
             self.exportStatus = exportStatus
@@ -1039,8 +1008,7 @@ public struct ListExportsOutput: Swift.Sendable {
     public init(
         exports: [BCMDataExportsClientTypes.ExportReference]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.exports = exports
         self.nextToken = nextToken
     }
@@ -1055,8 +1023,7 @@ public struct ListTablesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -1080,8 +1047,7 @@ extension BCMDataExportsClientTypes {
             description: Swift.String? = nil,
             name: Swift.String? = nil,
             validValues: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.defaultValue = defaultValue
             self.description = description
             self.name = name
@@ -1105,8 +1071,7 @@ extension BCMDataExportsClientTypes {
             description: Swift.String? = nil,
             tableName: Swift.String? = nil,
             tableProperties: [BCMDataExportsClientTypes.TablePropertyDescription]? = nil
-        )
-        {
+        ) {
             self.description = description
             self.tableName = tableName
             self.tableProperties = tableProperties
@@ -1123,8 +1088,7 @@ public struct ListTablesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         tables: [BCMDataExportsClientTypes.Table]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.tables = tables
     }
@@ -1143,8 +1107,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.resourceArn = resourceArn
@@ -1160,8 +1123,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         resourceTags: [BCMDataExportsClientTypes.ResourceTag]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.resourceTags = resourceTags
     }
@@ -1178,8 +1140,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         resourceTags: [BCMDataExportsClientTypes.ResourceTag]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.resourceTags = resourceTags
     }
@@ -1201,8 +1162,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         resourceTagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.resourceTagKeys = resourceTagKeys
     }
@@ -1224,8 +1184,7 @@ public struct UpdateExportInput: Swift.Sendable {
     public init(
         export: BCMDataExportsClientTypes.Export? = nil,
         exportArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.export = export
         self.exportArn = exportArn
     }
@@ -1237,8 +1196,7 @@ public struct UpdateExportOutput: Swift.Sendable {
 
     public init(
         exportArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.exportArn = exportArn
     }
 }

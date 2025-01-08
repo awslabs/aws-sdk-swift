@@ -69,8 +69,7 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         message: Swift.String? = nil,
         type: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.type = type
     }
@@ -98,8 +97,7 @@ public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClien
     public init(
         message: Swift.String? = nil,
         type: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.type = type
     }
@@ -120,8 +118,7 @@ public struct AcceptAdministratorInvitationInput: Swift.Sendable {
         administratorId: Swift.String? = nil,
         detectorId: Swift.String? = nil,
         invitationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.administratorId = administratorId
         self.detectorId = detectorId
         self.invitationId = invitationId
@@ -149,8 +146,7 @@ public struct AcceptInvitationInput: Swift.Sendable {
         detectorId: Swift.String? = nil,
         invitationId: Swift.String? = nil,
         masterId: Swift.String? = nil
-    )
-    {
+    ) {
         self.detectorId = detectorId
         self.invitationId = invitationId
         self.masterId = masterId
@@ -175,8 +171,7 @@ extension GuardDutyClientTypes {
         public init(
             allowsPublicReadAccess: Swift.Bool? = nil,
             allowsPublicWriteAccess: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.allowsPublicReadAccess = allowsPublicReadAccess
             self.allowsPublicWriteAccess = allowsPublicWriteAccess
         }
@@ -205,8 +200,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     public init(
         message: Swift.String? = nil,
         type: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.type = type
     }
@@ -227,8 +221,7 @@ extension GuardDutyClientTypes {
             principalId: Swift.String? = nil,
             userName: Swift.String? = nil,
             userType: Swift.String? = nil
-        )
-        {
+        ) {
             self.principalId = principalId
             self.userName = userName
             self.userType = userType
@@ -254,8 +247,7 @@ extension GuardDutyClientTypes {
             principalId: Swift.String? = nil,
             userName: Swift.String? = nil,
             userType: Swift.String? = nil
-        )
-        {
+        ) {
             self.accessKeyId = accessKeyId
             self.principalId = principalId
             self.userName = userName
@@ -277,8 +269,7 @@ extension GuardDutyClientTypes {
         public init(
             name: Swift.String? = nil,
             uid: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.uid = uid
         }
@@ -299,8 +290,7 @@ extension GuardDutyClientTypes {
         public init(
             accountId: Swift.String? = nil,
             email: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.email = email
         }
@@ -321,8 +311,7 @@ extension GuardDutyClientTypes {
 
         public init(
             freeTrialDaysRemaining: Swift.Int? = nil
-        )
-        {
+        ) {
             self.freeTrialDaysRemaining = freeTrialDaysRemaining
         }
     }
@@ -337,8 +326,7 @@ extension GuardDutyClientTypes {
 
         public init(
             auditLogs: GuardDutyClientTypes.DataSourceFreeTrial? = nil
-        )
-        {
+        ) {
             self.auditLogs = auditLogs
         }
     }
@@ -353,8 +341,7 @@ extension GuardDutyClientTypes {
 
         public init(
             scanEc2InstanceWithFindings: GuardDutyClientTypes.DataSourceFreeTrial? = nil
-        )
-        {
+        ) {
             self.scanEc2InstanceWithFindings = scanEc2InstanceWithFindings
         }
     }
@@ -384,8 +371,7 @@ extension GuardDutyClientTypes {
             kubernetes: GuardDutyClientTypes.KubernetesDataSourceFreeTrial? = nil,
             malwareProtection: GuardDutyClientTypes.MalwareProtectionDataSourceFreeTrial? = nil,
             s3Logs: GuardDutyClientTypes.DataSourceFreeTrial? = nil
-        )
-        {
+        ) {
             self.cloudTrail = cloudTrail
             self.dnsLogs = dnsLogs
             self.flowLogs = flowLogs
@@ -464,8 +450,7 @@ extension GuardDutyClientTypes {
         public init(
             freeTrialDaysRemaining: Swift.Int? = nil,
             name: GuardDutyClientTypes.FreeTrialFeatureResult? = nil
-        )
-        {
+        ) {
             self.freeTrialDaysRemaining = freeTrialDaysRemaining
             self.name = name
         }
@@ -488,8 +473,7 @@ extension GuardDutyClientTypes {
             accountId: Swift.String? = nil,
             dataSources: GuardDutyClientTypes.DataSourcesFreeTrial? = nil,
             features: [GuardDutyClientTypes.FreeTrialFeatureConfigurationResult]? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.dataSources = dataSources
             self.features = features
@@ -515,8 +499,7 @@ extension GuardDutyClientTypes {
             blockPublicPolicy: Swift.Bool? = nil,
             ignorePublicAcls: Swift.Bool? = nil,
             restrictPublicBuckets: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.blockPublicAcls = blockPublicAcls
             self.blockPublicPolicy = blockPublicPolicy
             self.ignorePublicAcls = ignorePublicAcls
@@ -534,8 +517,7 @@ extension GuardDutyClientTypes {
 
         public init(
             blockPublicAccess: GuardDutyClientTypes.BlockPublicAccess? = nil
-        )
-        {
+        ) {
             self.blockPublicAccess = blockPublicAccess
         }
     }
@@ -556,8 +538,7 @@ extension GuardDutyClientTypes {
             accountId: Swift.String? = nil,
             lastGeneratedAt: Foundation.Date? = nil,
             totalFindings: Swift.Int? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.lastGeneratedAt = lastGeneratedAt
             self.totalFindings = totalFindings
@@ -574,8 +555,7 @@ extension GuardDutyClientTypes {
 
         public init(
             domain: Swift.String? = nil
-        )
-        {
+        ) {
             self.domain = domain
         }
     }
@@ -593,8 +573,7 @@ extension GuardDutyClientTypes {
         public init(
             accountId: Swift.String? = nil,
             affiliated: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.affiliated = affiliated
         }
@@ -610,8 +589,7 @@ extension GuardDutyClientTypes {
 
         public init(
             cityName: Swift.String? = nil
-        )
-        {
+        ) {
             self.cityName = cityName
         }
     }
@@ -629,8 +607,7 @@ extension GuardDutyClientTypes {
         public init(
             countryCode: Swift.String? = nil,
             countryName: Swift.String? = nil
-        )
-        {
+        ) {
             self.countryCode = countryCode
             self.countryName = countryName
         }
@@ -649,8 +626,7 @@ extension GuardDutyClientTypes {
         public init(
             lat: Swift.Double? = nil,
             lon: Swift.Double? = nil
-        )
-        {
+        ) {
             self.lat = lat
             self.lon = lon
         }
@@ -675,8 +651,7 @@ extension GuardDutyClientTypes {
             asnOrg: Swift.String? = nil,
             isp: Swift.String? = nil,
             org: Swift.String? = nil
-        )
-        {
+        ) {
             self.asn = asn
             self.asnOrg = asnOrg
             self.isp = isp
@@ -709,8 +684,7 @@ extension GuardDutyClientTypes {
             ipAddressV4: Swift.String? = nil,
             ipAddressV6: Swift.String? = nil,
             organization: GuardDutyClientTypes.Organization? = nil
-        )
-        {
+        ) {
             self.city = city
             self.country = country
             self.geoLocation = geoLocation
@@ -759,8 +733,7 @@ extension GuardDutyClientTypes {
             remoteIpDetails: GuardDutyClientTypes.RemoteIpDetails? = nil,
             serviceName: Swift.String? = nil,
             userAgent: Swift.String? = nil
-        )
-        {
+        ) {
             self.affectedResources = affectedResources
             self.api = api
             self.callerType = callerType
@@ -792,8 +765,7 @@ extension GuardDutyClientTypes {
             domain: Swift.String? = nil,
             domainWithSuffix: Swift.String? = nil,
             `protocol`: Swift.String? = nil
-        )
-        {
+        ) {
             self.blocked = blocked
             self.domain = domain
             self.domainWithSuffix = domainWithSuffix
@@ -841,8 +813,7 @@ extension GuardDutyClientTypes {
             subresource: Swift.String? = nil,
             userAgent: Swift.String? = nil,
             verb: Swift.String? = nil
-        )
-        {
+        ) {
             self.namespace = namespace
             self.parameters = parameters
             self.remoteIpDetails = remoteIpDetails
@@ -876,8 +847,7 @@ extension GuardDutyClientTypes {
             namespace: Swift.String? = nil,
             resource: Swift.String? = nil,
             verb: Swift.String? = nil
-        )
-        {
+        ) {
             self.allowed = allowed
             self.namespace = namespace
             self.resource = resource
@@ -907,8 +877,7 @@ extension GuardDutyClientTypes {
             roleRefKind: Swift.String? = nil,
             roleRefName: Swift.String? = nil,
             uid: Swift.String? = nil
-        )
-        {
+        ) {
             self.kind = kind
             self.name = name
             self.roleRefKind = roleRefKind
@@ -933,8 +902,7 @@ extension GuardDutyClientTypes {
             kind: Swift.String? = nil,
             name: Swift.String? = nil,
             uid: Swift.String? = nil
-        )
-        {
+        ) {
             self.kind = kind
             self.name = name
             self.uid = uid
@@ -954,8 +922,7 @@ extension GuardDutyClientTypes {
         public init(
             ipAddressV4: Swift.String? = nil,
             ipAddressV6: Swift.String? = nil
-        )
-        {
+        ) {
             self.ipAddressV4 = ipAddressV4
             self.ipAddressV6 = ipAddressV6
         }
@@ -979,8 +946,7 @@ extension GuardDutyClientTypes {
         public init(
             port: Swift.Int? = nil,
             portName: Swift.String? = nil
-        )
-        {
+        ) {
             self.port = port
             self.portName = portName
         }
@@ -999,8 +965,7 @@ extension GuardDutyClientTypes {
         public init(
             port: Swift.Int? = nil,
             portName: Swift.String? = nil
-        )
-        {
+        ) {
             self.port = port
             self.portName = portName
         }
@@ -1037,8 +1002,7 @@ extension GuardDutyClientTypes {
             `protocol`: Swift.String? = nil,
             remoteIpDetails: GuardDutyClientTypes.RemoteIpDetails? = nil,
             remotePortDetails: GuardDutyClientTypes.RemotePortDetails? = nil
-        )
-        {
+        ) {
             self.blocked = blocked
             self.connectionDirection = connectionDirection
             self.localIpDetails = localIpDetails
@@ -1066,8 +1030,7 @@ extension GuardDutyClientTypes {
             localIpDetails: GuardDutyClientTypes.LocalIpDetails? = nil,
             localPortDetails: GuardDutyClientTypes.LocalPortDetails? = nil,
             remoteIpDetails: GuardDutyClientTypes.RemoteIpDetails? = nil
-        )
-        {
+        ) {
             self.localIpDetails = localIpDetails
             self.localPortDetails = localPortDetails
             self.remoteIpDetails = remoteIpDetails
@@ -1087,8 +1050,7 @@ extension GuardDutyClientTypes {
         public init(
             blocked: Swift.Bool? = nil,
             portProbeDetails: [GuardDutyClientTypes.PortProbeDetail]? = nil
-        )
-        {
+        ) {
             self.blocked = blocked
             self.portProbeDetails = portProbeDetails
         }
@@ -1113,8 +1075,7 @@ extension GuardDutyClientTypes {
             failedLoginAttempts: Swift.Int? = nil,
             successfulLoginAttempts: Swift.Int? = nil,
             user: Swift.String? = nil
-        )
-        {
+        ) {
             self.application = application
             self.failedLoginAttempts = failedLoginAttempts
             self.successfulLoginAttempts = successfulLoginAttempts
@@ -1135,8 +1096,7 @@ extension GuardDutyClientTypes {
         public init(
             loginAttributes: [GuardDutyClientTypes.LoginAttribute]? = nil,
             remoteIpDetails: GuardDutyClientTypes.RemoteIpDetails? = nil
-        )
-        {
+        ) {
             self.loginAttributes = loginAttributes
             self.remoteIpDetails = remoteIpDetails
         }
@@ -1179,8 +1139,7 @@ extension GuardDutyClientTypes {
             networkConnectionAction: GuardDutyClientTypes.NetworkConnectionAction? = nil,
             portProbeAction: GuardDutyClientTypes.PortProbeAction? = nil,
             rdsLoginAttemptAction: GuardDutyClientTypes.RdsLoginAttemptAction? = nil
-        )
-        {
+        ) {
             self.actionType = actionType
             self.awsApiCallAction = awsApiCallAction
             self.dnsRequestAction = dnsRequestAction
@@ -1242,8 +1201,7 @@ extension GuardDutyClientTypes {
             issuer: Swift.String? = nil,
             mfaStatus: GuardDutyClientTypes.MfaStatus? = nil,
             uid: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdTime = createdTime
             self.issuer = issuer
             self.mfaStatus = mfaStatus
@@ -1276,8 +1234,7 @@ extension GuardDutyClientTypes {
             name: Swift.String? = nil,
             type: Swift.String? = nil,
             uid: Swift.String? = nil
-        )
-        {
+        ) {
             self.account = account
             self.credentialUid = credentialUid
             self.name = name
@@ -1303,8 +1260,7 @@ extension GuardDutyClientTypes {
             id: Swift.String? = nil,
             session: GuardDutyClientTypes.Session? = nil,
             user: GuardDutyClientTypes.User? = nil
-        )
-        {
+        ) {
             self.id = id
             self.session = session
             self.user = user
@@ -1324,8 +1280,7 @@ extension GuardDutyClientTypes {
         public init(
             addonStatus: Swift.String? = nil,
             addonVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.addonStatus = addonStatus
             self.addonVersion = addonVersion
         }
@@ -1373,8 +1328,7 @@ extension GuardDutyClientTypes {
         public init(
             adminAccountId: Swift.String? = nil,
             adminStatus: GuardDutyClientTypes.AdminStatus? = nil
-        )
-        {
+        ) {
             self.adminAccountId = adminAccountId
             self.adminStatus = adminStatus
         }
@@ -1399,8 +1353,7 @@ extension GuardDutyClientTypes {
             invitationId: Swift.String? = nil,
             invitedAt: Swift.String? = nil,
             relationshipStatus: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.invitationId = invitationId
             self.invitedAt = invitedAt
@@ -1418,8 +1371,7 @@ extension GuardDutyClientTypes {
 
         public init(
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.version = version
         }
     }
@@ -1434,8 +1386,7 @@ extension GuardDutyClientTypes {
 
         public init(
             text: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.text = text
         }
     }
@@ -1517,8 +1468,7 @@ extension GuardDutyClientTypes {
             observations: GuardDutyClientTypes.Observations? = nil,
             profileSubtype: GuardDutyClientTypes.ProfileSubtype? = nil,
             profileType: GuardDutyClientTypes.ProfileType? = nil
-        )
-        {
+        ) {
             self.observations = observations
             self.profileSubtype = profileSubtype
             self.profileType = profileType
@@ -1535,8 +1485,7 @@ extension GuardDutyClientTypes {
 
         public init(
             behavior: [Swift.String: [Swift.String: GuardDutyClientTypes.AnomalyObject]]? = nil
-        )
-        {
+        ) {
             self.behavior = behavior
         }
     }
@@ -1554,8 +1503,7 @@ extension GuardDutyClientTypes {
         public init(
             profiles: [Swift.String: [Swift.String: [GuardDutyClientTypes.AnomalyObject]]]? = nil,
             unusual: GuardDutyClientTypes.AnomalyUnusual? = nil
-        )
-        {
+        ) {
             self.profiles = profiles
             self.unusual = unusual
         }
@@ -1573,8 +1521,7 @@ public struct ArchiveFindingsInput: Swift.Sendable {
     public init(
         detectorId: Swift.String? = nil,
         findingIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.detectorId = detectorId
         self.findingIds = findingIds
     }
@@ -1631,8 +1578,7 @@ extension GuardDutyClientTypes {
         public init(
             name: Swift.String? = nil,
             number: Swift.Int? = nil
-        )
-        {
+        ) {
             self.name = name
             self.number = number
         }
@@ -1651,8 +1597,7 @@ extension GuardDutyClientTypes {
         public init(
             allowsPublicReadAccess: Swift.Bool? = nil,
             allowsPublicWriteAccess: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.allowsPublicReadAccess = allowsPublicReadAccess
             self.allowsPublicWriteAccess = allowsPublicWriteAccess
         }
@@ -1674,8 +1619,7 @@ extension GuardDutyClientTypes {
             accessControlList: GuardDutyClientTypes.AccessControlList? = nil,
             blockPublicAccess: GuardDutyClientTypes.BlockPublicAccess? = nil,
             bucketPolicy: GuardDutyClientTypes.BucketPolicy? = nil
-        )
-        {
+        ) {
             self.accessControlList = accessControlList
             self.blockPublicAccess = blockPublicAccess
             self.bucketPolicy = bucketPolicy
@@ -1722,8 +1666,7 @@ extension GuardDutyClientTypes {
 
         public init(
             status: GuardDutyClientTypes.DataSourceStatus? = nil
-        )
-        {
+        ) {
             self.status = status
         }
     }
@@ -1777,8 +1720,7 @@ extension GuardDutyClientTypes {
             lte: Swift.Int? = nil,
             neq: [Swift.String]? = nil,
             notEquals: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.eq = eq
             self.equals = equals
             self.greaterThan = greaterThan
@@ -1817,8 +1759,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public init(
         message: Swift.String? = nil,
         type: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.type = type
     }
@@ -1836,8 +1777,7 @@ extension GuardDutyClientTypes {
         public init(
             allowPrivilegeEscalation: Swift.Bool? = nil,
             privileged: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.allowPrivilegeEscalation = allowPrivilegeEscalation
             self.privileged = privileged
         }
@@ -1856,8 +1796,7 @@ extension GuardDutyClientTypes {
         public init(
             mountPath: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.mountPath = mountPath
             self.name = name
         }
@@ -1891,8 +1830,7 @@ extension GuardDutyClientTypes {
             name: Swift.String? = nil,
             securityContext: GuardDutyClientTypes.SecurityContext? = nil,
             volumeMounts: [GuardDutyClientTypes.VolumeMount]? = nil
-        )
-        {
+        ) {
             self.containerRuntime = containerRuntime
             self.id = id
             self.image = image
@@ -1916,8 +1854,7 @@ extension GuardDutyClientTypes {
         public init(
             compatibleContainerInstances: Swift.Int? = nil,
             coveredContainerInstances: Swift.Int? = nil
-        )
-        {
+        ) {
             self.compatibleContainerInstances = compatibleContainerInstances
             self.coveredContainerInstances = coveredContainerInstances
         }
@@ -2045,8 +1982,7 @@ extension GuardDutyClientTypes {
             instanceId: Swift.String? = nil,
             instanceType: Swift.String? = nil,
             managementType: GuardDutyClientTypes.ManagementType? = nil
-        )
-        {
+        ) {
             self.agentDetails = agentDetails
             self.clusterArn = clusterArn
             self.instanceId = instanceId
@@ -2075,8 +2011,7 @@ extension GuardDutyClientTypes {
         public init(
             issues: [Swift.String]? = nil,
             managementType: GuardDutyClientTypes.ManagementType? = nil
-        )
-        {
+        ) {
             self.issues = issues
             self.managementType = managementType
         }
@@ -2098,8 +2033,7 @@ extension GuardDutyClientTypes {
             clusterName: Swift.String? = nil,
             containerInstanceDetails: GuardDutyClientTypes.ContainerInstanceDetails? = nil,
             fargateDetails: GuardDutyClientTypes.FargateDetails? = nil
-        )
-        {
+        ) {
             self.clusterName = clusterName
             self.containerInstanceDetails = containerInstanceDetails
             self.fargateDetails = fargateDetails
@@ -2128,8 +2062,7 @@ extension GuardDutyClientTypes {
             compatibleNodes: Swift.Int? = nil,
             coveredNodes: Swift.Int? = nil,
             managementType: GuardDutyClientTypes.ManagementType? = nil
-        )
-        {
+        ) {
             self.addonDetails = addonDetails
             self.clusterName = clusterName
             self.compatibleNodes = compatibleNodes
@@ -2151,8 +2084,7 @@ extension GuardDutyClientTypes {
         public init(
             equals: [Swift.String]? = nil,
             notEquals: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.equals = equals
             self.notEquals = notEquals
         }
@@ -2227,8 +2159,7 @@ extension GuardDutyClientTypes {
         public init(
             criterionKey: GuardDutyClientTypes.CoverageFilterCriterionKey? = nil,
             filterCondition: GuardDutyClientTypes.CoverageFilterCondition? = nil
-        )
-        {
+        ) {
             self.criterionKey = criterionKey
             self.filterCondition = filterCondition
         }
@@ -2244,8 +2175,7 @@ extension GuardDutyClientTypes {
 
         public init(
             filterCriterion: [GuardDutyClientTypes.CoverageFilterCriterion]? = nil
-        )
-        {
+        ) {
             self.filterCriterion = filterCriterion
         }
     }
@@ -2269,8 +2199,7 @@ extension GuardDutyClientTypes {
             ecsClusterDetails: GuardDutyClientTypes.CoverageEcsClusterDetails? = nil,
             eksClusterDetails: GuardDutyClientTypes.CoverageEksClusterDetails? = nil,
             resourceType: GuardDutyClientTypes.ResourceType? = nil
-        )
-        {
+        ) {
             self.ec2InstanceDetails = ec2InstanceDetails
             self.ecsClusterDetails = ecsClusterDetails
             self.eksClusterDetails = eksClusterDetails
@@ -2306,8 +2235,7 @@ extension GuardDutyClientTypes {
             resourceDetails: GuardDutyClientTypes.CoverageResourceDetails? = nil,
             resourceId: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.coverageStatus = coverageStatus
             self.detectorId = detectorId
@@ -2410,8 +2338,7 @@ extension GuardDutyClientTypes {
         public init(
             attributeName: GuardDutyClientTypes.CoverageSortKey? = nil,
             orderBy: GuardDutyClientTypes.OrderBy? = nil
-        )
-        {
+        ) {
             self.attributeName = attributeName
             self.orderBy = orderBy
         }
@@ -2430,8 +2357,7 @@ extension GuardDutyClientTypes {
         public init(
             countByCoverageStatus: [Swift.String: Swift.Int]? = nil,
             countByResourceType: [Swift.String: Swift.Int]? = nil
-        )
-        {
+        ) {
             self.countByCoverageStatus = countByCoverageStatus
             self.countByResourceType = countByResourceType
         }
@@ -2477,8 +2403,7 @@ extension GuardDutyClientTypes {
 
         public init(
             enable: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.enable = enable
         }
     }
@@ -2494,8 +2419,7 @@ extension GuardDutyClientTypes {
 
         public init(
             auditLogs: GuardDutyClientTypes.KubernetesAuditLogsConfiguration? = nil
-        )
-        {
+        ) {
             self.auditLogs = auditLogs
         }
     }
@@ -2510,8 +2434,7 @@ extension GuardDutyClientTypes {
 
         public init(
             ebsVolumes: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.ebsVolumes = ebsVolumes
         }
     }
@@ -2526,8 +2449,7 @@ extension GuardDutyClientTypes {
 
         public init(
             scanEc2InstanceWithFindings: GuardDutyClientTypes.ScanEc2InstanceWithFindings? = nil
-        )
-        {
+        ) {
             self.scanEc2InstanceWithFindings = scanEc2InstanceWithFindings
         }
     }
@@ -2543,8 +2465,7 @@ extension GuardDutyClientTypes {
 
         public init(
             enable: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.enable = enable
         }
     }
@@ -2565,8 +2486,7 @@ extension GuardDutyClientTypes {
             kubernetes: GuardDutyClientTypes.KubernetesConfiguration? = nil,
             malwareProtection: GuardDutyClientTypes.MalwareProtectionConfiguration? = nil,
             s3Logs: GuardDutyClientTypes.S3LogsConfiguration? = nil
-        )
-        {
+        ) {
             self.kubernetes = kubernetes
             self.malwareProtection = malwareProtection
             self.s3Logs = s3Logs
@@ -2647,8 +2567,7 @@ extension GuardDutyClientTypes {
         public init(
             name: GuardDutyClientTypes.FeatureAdditionalConfiguration? = nil,
             status: GuardDutyClientTypes.FeatureStatus? = nil
-        )
-        {
+        ) {
             self.name = name
             self.status = status
         }
@@ -2714,8 +2633,7 @@ extension GuardDutyClientTypes {
             additionalConfiguration: [GuardDutyClientTypes.DetectorAdditionalConfiguration]? = nil,
             name: GuardDutyClientTypes.DetectorFeature? = nil,
             status: GuardDutyClientTypes.FeatureStatus? = nil
-        )
-        {
+        ) {
             self.additionalConfiguration = additionalConfiguration
             self.name = name
             self.status = status
@@ -2778,8 +2696,7 @@ public struct CreateDetectorInput: Swift.Sendable {
         features: [GuardDutyClientTypes.DetectorFeatureConfiguration]? = nil,
         findingPublishingFrequency: GuardDutyClientTypes.FindingPublishingFrequency? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.dataSources = dataSources
         self.enable = enable
@@ -2801,8 +2718,7 @@ extension GuardDutyClientTypes {
         public init(
             reason: Swift.String? = nil,
             status: GuardDutyClientTypes.DataSourceStatus? = nil
-        )
-        {
+        ) {
             self.reason = reason
             self.status = status
         }
@@ -2818,8 +2734,7 @@ extension GuardDutyClientTypes {
 
         public init(
             ebsVolumes: GuardDutyClientTypes.EbsVolumesResult? = nil
-        )
-        {
+        ) {
             self.ebsVolumes = ebsVolumes
         }
     }
@@ -2837,8 +2752,7 @@ extension GuardDutyClientTypes {
         public init(
             scanEc2InstanceWithFindings: GuardDutyClientTypes.ScanEc2InstanceWithFindingsResult? = nil,
             serviceRole: Swift.String? = nil
-        )
-        {
+        ) {
             self.scanEc2InstanceWithFindings = scanEc2InstanceWithFindings
             self.serviceRole = serviceRole
         }
@@ -2854,8 +2768,7 @@ extension GuardDutyClientTypes {
 
         public init(
             malwareProtection: GuardDutyClientTypes.MalwareProtectionConfigurationResult? = nil
-        )
-        {
+        ) {
             self.malwareProtection = malwareProtection
         }
     }
@@ -2870,8 +2783,7 @@ public struct CreateDetectorOutput: Swift.Sendable {
     public init(
         detectorId: Swift.String? = nil,
         unprocessedDataSources: GuardDutyClientTypes.UnprocessedDataSourcesResult? = nil
-    )
-    {
+    ) {
         self.detectorId = detectorId
         self.unprocessedDataSources = unprocessedDataSources
     }
@@ -2915,8 +2827,7 @@ extension GuardDutyClientTypes {
 
         public init(
             criterion: [Swift.String: GuardDutyClientTypes.Condition]? = nil
-        )
-        {
+        ) {
             self.criterion = criterion
         }
     }
@@ -3153,8 +3064,7 @@ public struct CreateFilterInput: Swift.Sendable {
         name: Swift.String? = nil,
         rank: Swift.Int? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.action = action
         self.clientToken = clientToken
         self.description = description
@@ -3173,8 +3083,7 @@ public struct CreateFilterOutput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -3249,8 +3158,7 @@ public struct CreateIPSetInput: Swift.Sendable {
         location: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.activate = activate
         self.clientToken = clientToken
         self.detectorId = detectorId
@@ -3268,8 +3176,7 @@ public struct CreateIPSetOutput: Swift.Sendable {
 
     public init(
         ipSetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.ipSetId = ipSetId
     }
 }
@@ -3312,8 +3219,7 @@ extension GuardDutyClientTypes {
 
         public init(
             status: GuardDutyClientTypes.MalwareProtectionPlanTaggingActionStatus? = nil
-        )
-        {
+        ) {
             self.status = status
         }
     }
@@ -3328,8 +3234,7 @@ extension GuardDutyClientTypes {
 
         public init(
             tagging: GuardDutyClientTypes.MalwareProtectionPlanTaggingAction? = nil
-        )
-        {
+        ) {
             self.tagging = tagging
         }
     }
@@ -3347,8 +3252,7 @@ extension GuardDutyClientTypes {
         public init(
             bucketName: Swift.String? = nil,
             objectPrefixes: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.bucketName = bucketName
             self.objectPrefixes = objectPrefixes
         }
@@ -3364,8 +3268,7 @@ extension GuardDutyClientTypes {
 
         public init(
             s3Bucket: GuardDutyClientTypes.CreateS3BucketResource? = nil
-        )
-        {
+        ) {
             self.s3Bucket = s3Bucket
         }
     }
@@ -3391,8 +3294,7 @@ public struct CreateMalwareProtectionPlanInput: Swift.Sendable {
         protectedResource: GuardDutyClientTypes.CreateProtectedResource? = nil,
         role: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.actions = actions
         self.clientToken = clientToken
         self.protectedResource = protectedResource
@@ -3407,8 +3309,7 @@ public struct CreateMalwareProtectionPlanOutput: Swift.Sendable {
 
     public init(
         malwareProtectionPlanId: Swift.String? = nil
-    )
-    {
+    ) {
         self.malwareProtectionPlanId = malwareProtectionPlanId
     }
 }
@@ -3424,8 +3325,7 @@ public struct CreateMembersInput: Swift.Sendable {
     public init(
         accountDetails: [GuardDutyClientTypes.AccountDetail]? = nil,
         detectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountDetails = accountDetails
         self.detectorId = detectorId
     }
@@ -3445,8 +3345,7 @@ extension GuardDutyClientTypes {
         public init(
             accountId: Swift.String? = nil,
             result: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.result = result
         }
@@ -3460,8 +3359,7 @@ public struct CreateMembersOutput: Swift.Sendable {
 
     public init(
         unprocessedAccounts: [GuardDutyClientTypes.UnprocessedAccount]? = nil
-    )
-    {
+    ) {
         self.unprocessedAccounts = unprocessedAccounts
     }
 }
@@ -3478,8 +3376,7 @@ extension GuardDutyClientTypes {
         public init(
             destinationArn: Swift.String? = nil,
             kmsKeyArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.destinationArn = destinationArn
             self.kmsKeyArn = kmsKeyArn
         }
@@ -3530,8 +3427,7 @@ public struct CreatePublishingDestinationInput: Swift.Sendable {
         destinationProperties: GuardDutyClientTypes.DestinationProperties? = nil,
         destinationType: GuardDutyClientTypes.DestinationType? = nil,
         detectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.destinationProperties = destinationProperties
         self.destinationType = destinationType
@@ -3546,8 +3442,7 @@ public struct CreatePublishingDestinationOutput: Swift.Sendable {
 
     public init(
         destinationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.destinationId = destinationId
     }
 }
@@ -3562,8 +3457,7 @@ public struct CreateSampleFindingsInput: Swift.Sendable {
     public init(
         detectorId: Swift.String? = nil,
         findingTypes: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.detectorId = detectorId
         self.findingTypes = findingTypes
     }
@@ -3644,8 +3538,7 @@ public struct CreateThreatIntelSetInput: Swift.Sendable {
         location: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.activate = activate
         self.clientToken = clientToken
         self.detectorId = detectorId
@@ -3663,8 +3556,7 @@ public struct CreateThreatIntelSetOutput: Swift.Sendable {
 
     public init(
         threatIntelSetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.threatIntelSetId = threatIntelSetId
     }
 }
@@ -3764,8 +3656,7 @@ extension GuardDutyClientTypes {
 
         public init(
             status: GuardDutyClientTypes.DataSourceStatus? = nil
-        )
-        {
+        ) {
             self.status = status
         }
     }
@@ -3781,8 +3672,7 @@ extension GuardDutyClientTypes {
 
         public init(
             status: GuardDutyClientTypes.DataSourceStatus? = nil
-        )
-        {
+        ) {
             self.status = status
         }
     }
@@ -3798,8 +3688,7 @@ extension GuardDutyClientTypes {
 
         public init(
             status: GuardDutyClientTypes.DataSourceStatus? = nil
-        )
-        {
+        ) {
             self.status = status
         }
     }
@@ -3815,8 +3704,7 @@ extension GuardDutyClientTypes {
 
         public init(
             auditLogs: GuardDutyClientTypes.KubernetesAuditLogsConfigurationResult? = nil
-        )
-        {
+        ) {
             self.auditLogs = auditLogs
         }
     }
@@ -3832,8 +3720,7 @@ extension GuardDutyClientTypes {
 
         public init(
             status: GuardDutyClientTypes.DataSourceStatus? = nil
-        )
-        {
+        ) {
             self.status = status
         }
     }
@@ -3867,8 +3754,7 @@ extension GuardDutyClientTypes {
             kubernetes: GuardDutyClientTypes.KubernetesConfigurationResult? = nil,
             malwareProtection: GuardDutyClientTypes.MalwareProtectionConfigurationResult? = nil,
             s3Logs: GuardDutyClientTypes.S3LogsConfigurationResult? = nil
-        )
-        {
+        ) {
             self.cloudTrail = cloudTrail
             self.dnsLogs = dnsLogs
             self.flowLogs = flowLogs
@@ -3897,8 +3783,7 @@ extension GuardDutyClientTypes {
             lastGeneratedAt: Foundation.Date? = nil,
             severity: Swift.Double? = nil,
             totalFindings: Swift.Int? = nil
-        )
-        {
+        ) {
             self.date = date
             self.lastGeneratedAt = lastGeneratedAt
             self.severity = severity
@@ -3914,8 +3799,7 @@ public struct DeclineInvitationsInput: Swift.Sendable {
 
     public init(
         accountIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.accountIds = accountIds
     }
 }
@@ -3927,8 +3811,7 @@ public struct DeclineInvitationsOutput: Swift.Sendable {
 
     public init(
         unprocessedAccounts: [GuardDutyClientTypes.UnprocessedAccount]? = nil
-    )
-    {
+    ) {
         self.unprocessedAccounts = unprocessedAccounts
     }
 }
@@ -3945,8 +3828,7 @@ extension GuardDutyClientTypes {
         public init(
             encryptionType: Swift.String? = nil,
             kmsMasterKeyArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.encryptionType = encryptionType
             self.kmsMasterKeyArn = kmsMasterKeyArn
         }
@@ -3960,8 +3842,7 @@ public struct DeleteDetectorInput: Swift.Sendable {
 
     public init(
         detectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.detectorId = detectorId
     }
 }
@@ -3982,8 +3863,7 @@ public struct DeleteFilterInput: Swift.Sendable {
     public init(
         detectorId: Swift.String? = nil,
         filterName: Swift.String? = nil
-    )
-    {
+    ) {
         self.detectorId = detectorId
         self.filterName = filterName
     }
@@ -4001,8 +3881,7 @@ public struct DeleteInvitationsInput: Swift.Sendable {
 
     public init(
         accountIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.accountIds = accountIds
     }
 }
@@ -4014,8 +3893,7 @@ public struct DeleteInvitationsOutput: Swift.Sendable {
 
     public init(
         unprocessedAccounts: [GuardDutyClientTypes.UnprocessedAccount]? = nil
-    )
-    {
+    ) {
         self.unprocessedAccounts = unprocessedAccounts
     }
 }
@@ -4031,8 +3909,7 @@ public struct DeleteIPSetInput: Swift.Sendable {
     public init(
         detectorId: Swift.String? = nil,
         ipSetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.detectorId = detectorId
         self.ipSetId = ipSetId
     }
@@ -4065,8 +3942,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public init(
         message: Swift.String? = nil,
         type: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.type = type
     }
@@ -4079,8 +3955,7 @@ public struct DeleteMalwareProtectionPlanInput: Swift.Sendable {
 
     public init(
         malwareProtectionPlanId: Swift.String? = nil
-    )
-    {
+    ) {
         self.malwareProtectionPlanId = malwareProtectionPlanId
     }
 }
@@ -4096,8 +3971,7 @@ public struct DeleteMembersInput: Swift.Sendable {
     public init(
         accountIds: [Swift.String]? = nil,
         detectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountIds = accountIds
         self.detectorId = detectorId
     }
@@ -4110,8 +3984,7 @@ public struct DeleteMembersOutput: Swift.Sendable {
 
     public init(
         unprocessedAccounts: [GuardDutyClientTypes.UnprocessedAccount]? = nil
-    )
-    {
+    ) {
         self.unprocessedAccounts = unprocessedAccounts
     }
 }
@@ -4127,8 +4000,7 @@ public struct DeletePublishingDestinationInput: Swift.Sendable {
     public init(
         destinationId: Swift.String? = nil,
         detectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.destinationId = destinationId
         self.detectorId = detectorId
     }
@@ -4150,8 +4022,7 @@ public struct DeleteThreatIntelSetInput: Swift.Sendable {
     public init(
         detectorId: Swift.String? = nil,
         threatIntelSetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.detectorId = detectorId
         self.threatIntelSetId = threatIntelSetId
     }
@@ -4177,8 +4048,7 @@ extension GuardDutyClientTypes {
             equalsValue: Swift.String? = nil,
             greaterThan: Swift.Int? = nil,
             lessThan: Swift.Int? = nil
-        )
-        {
+        ) {
             self.equalsValue = equalsValue
             self.greaterThan = greaterThan
             self.lessThan = lessThan
@@ -4198,8 +4068,7 @@ extension GuardDutyClientTypes {
         public init(
             criterionKey: GuardDutyClientTypes.CriterionKey? = nil,
             filterCondition: GuardDutyClientTypes.FilterCondition? = nil
-        )
-        {
+        ) {
             self.criterionKey = criterionKey
             self.filterCondition = filterCondition
         }
@@ -4215,8 +4084,7 @@ extension GuardDutyClientTypes {
 
         public init(
             filterCriterion: [GuardDutyClientTypes.FilterCriterion]? = nil
-        )
-        {
+        ) {
             self.filterCriterion = filterCriterion
         }
     }
@@ -4234,8 +4102,7 @@ extension GuardDutyClientTypes {
         public init(
             attributeName: Swift.String? = nil,
             orderBy: GuardDutyClientTypes.OrderBy? = nil
-        )
-        {
+        ) {
             self.attributeName = attributeName
             self.orderBy = orderBy
         }
@@ -4261,8 +4128,7 @@ public struct DescribeMalwareScansInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sortCriteria: GuardDutyClientTypes.SortCriteria? = nil
-    )
-    {
+    ) {
         self.detectorId = detectorId
         self.filterCriteria = filterCriteria
         self.maxResults = maxResults
@@ -4298,8 +4164,7 @@ extension GuardDutyClientTypes {
             volumeArn: Swift.String? = nil,
             volumeSizeInGB: Swift.Int? = nil,
             volumeType: Swift.String? = nil
-        )
-        {
+        ) {
             self.deviceName = deviceName
             self.encryptionType = encryptionType
             self.kmsKeyArn = kmsKeyArn
@@ -4320,8 +4185,7 @@ extension GuardDutyClientTypes {
 
         public init(
             instanceArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.instanceArn = instanceArn
         }
     }
@@ -4365,8 +4229,7 @@ extension GuardDutyClientTypes {
 
         public init(
             scanResult: GuardDutyClientTypes.ScanResult? = nil
-        )
-        {
+        ) {
             self.scanResult = scanResult
         }
     }
@@ -4448,8 +4311,7 @@ extension GuardDutyClientTypes {
         public init(
             description: Swift.String? = nil,
             guardDutyFindingId: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.guardDutyFindingId = guardDutyFindingId
         }
@@ -4507,8 +4369,7 @@ extension GuardDutyClientTypes {
             scanType: GuardDutyClientTypes.ScanType? = nil,
             totalBytes: Swift.Int? = nil,
             triggerDetails: GuardDutyClientTypes.TriggerDetails? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.adminDetectorId = adminDetectorId
             self.attachedVolumes = attachedVolumes
@@ -4538,8 +4399,7 @@ public struct DescribeMalwareScansOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         scans: [GuardDutyClientTypes.Scan]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.scans = scans
     }
@@ -4558,8 +4418,7 @@ public struct DescribeOrganizationConfigurationInput: Swift.Sendable {
         detectorId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.detectorId = detectorId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4576,8 +4435,7 @@ extension GuardDutyClientTypes {
 
         public init(
             autoEnable: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.autoEnable = autoEnable
         }
     }
@@ -4593,8 +4451,7 @@ extension GuardDutyClientTypes {
 
         public init(
             auditLogs: GuardDutyClientTypes.OrganizationKubernetesAuditLogsConfigurationResult? = nil
-        )
-        {
+        ) {
             self.auditLogs = auditLogs
         }
     }
@@ -4609,8 +4466,7 @@ extension GuardDutyClientTypes {
 
         public init(
             autoEnable: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.autoEnable = autoEnable
         }
     }
@@ -4625,8 +4481,7 @@ extension GuardDutyClientTypes {
 
         public init(
             ebsVolumes: GuardDutyClientTypes.OrganizationEbsVolumesResult? = nil
-        )
-        {
+        ) {
             self.ebsVolumes = ebsVolumes
         }
     }
@@ -4641,8 +4496,7 @@ extension GuardDutyClientTypes {
 
         public init(
             scanEc2InstanceWithFindings: GuardDutyClientTypes.OrganizationScanEc2InstanceWithFindingsResult? = nil
-        )
-        {
+        ) {
             self.scanEc2InstanceWithFindings = scanEc2InstanceWithFindings
         }
     }
@@ -4658,8 +4512,7 @@ extension GuardDutyClientTypes {
 
         public init(
             autoEnable: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.autoEnable = autoEnable
         }
     }
@@ -4681,8 +4534,7 @@ extension GuardDutyClientTypes {
             kubernetes: GuardDutyClientTypes.OrganizationKubernetesConfigurationResult? = nil,
             malwareProtection: GuardDutyClientTypes.OrganizationMalwareProtectionConfigurationResult? = nil,
             s3Logs: GuardDutyClientTypes.OrganizationS3LogsConfigurationResult? = nil
-        )
-        {
+        ) {
             self.kubernetes = kubernetes
             self.malwareProtection = malwareProtection
             self.s3Logs = s3Logs
@@ -4772,8 +4624,7 @@ extension GuardDutyClientTypes {
         public init(
             autoEnable: GuardDutyClientTypes.OrgFeatureStatus? = nil,
             name: GuardDutyClientTypes.OrgFeatureAdditionalConfiguration? = nil
-        )
-        {
+        ) {
             self.autoEnable = autoEnable
             self.name = name
         }
@@ -4845,8 +4696,7 @@ extension GuardDutyClientTypes {
             additionalConfiguration: [GuardDutyClientTypes.OrganizationAdditionalConfigurationResult]? = nil,
             autoEnable: GuardDutyClientTypes.OrgFeatureStatus? = nil,
             name: GuardDutyClientTypes.OrgFeature? = nil
-        )
-        {
+        ) {
             self.additionalConfiguration = additionalConfiguration
             self.autoEnable = autoEnable
             self.name = name
@@ -4884,8 +4734,7 @@ public struct DescribeOrganizationConfigurationOutput: Swift.Sendable {
         features: [GuardDutyClientTypes.OrganizationFeatureConfigurationResult]? = nil,
         memberAccountLimitReached: Swift.Bool? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.autoEnable = autoEnable
         self.autoEnableOrganizationMembers = autoEnableOrganizationMembers
         self.dataSources = dataSources
@@ -4906,8 +4755,7 @@ public struct DescribePublishingDestinationInput: Swift.Sendable {
     public init(
         destinationId: Swift.String? = nil,
         detectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.destinationId = destinationId
         self.detectorId = detectorId
     }
@@ -4971,8 +4819,7 @@ public struct DescribePublishingDestinationOutput: Swift.Sendable {
         destinationType: GuardDutyClientTypes.DestinationType? = nil,
         publishingFailureStartTimestamp: Swift.Int? = nil,
         status: GuardDutyClientTypes.PublishingStatus? = nil
-    )
-    {
+    ) {
         self.destinationId = destinationId
         self.destinationProperties = destinationProperties
         self.destinationType = destinationType
@@ -4999,8 +4846,7 @@ extension GuardDutyClientTypes {
             destinationId: Swift.String? = nil,
             destinationType: GuardDutyClientTypes.DestinationType? = nil,
             status: GuardDutyClientTypes.PublishingStatus? = nil
-        )
-        {
+        ) {
             self.destinationId = destinationId
             self.destinationType = destinationType
             self.status = status
@@ -5047,8 +4893,7 @@ extension GuardDutyClientTypes {
 
         public init(
             direction: GuardDutyClientTypes.NetworkDirection? = nil
-        )
-        {
+        ) {
             self.direction = direction
         }
     }
@@ -5076,8 +4921,7 @@ extension GuardDutyClientTypes {
             country: Swift.String? = nil,
             latitude: Swift.Double? = nil,
             longitude: Swift.Double? = nil
-        )
-        {
+        ) {
             self.city = city
             self.country = country
             self.latitude = latitude
@@ -5114,8 +4958,7 @@ extension GuardDutyClientTypes {
             ip: Swift.String? = nil,
             location: GuardDutyClientTypes.NetworkGeoLocation? = nil,
             port: Swift.Int? = nil
-        )
-        {
+        ) {
             self.autonomousSystem = autonomousSystem
             self.connection = connection
             self.domain = domain
@@ -5139,8 +4982,7 @@ extension GuardDutyClientTypes {
         public init(
             arn: Swift.String? = nil,
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.id = id
         }
@@ -5159,8 +5001,7 @@ extension GuardDutyClientTypes {
         public init(
             code: Swift.String? = nil,
             productType: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.productType = productType
         }
@@ -5200,8 +5041,7 @@ extension GuardDutyClientTypes {
             outpostArn: Swift.String? = nil,
             platform: Swift.String? = nil,
             productCodes: [GuardDutyClientTypes.ProductCode]? = nil
-        )
-        {
+        ) {
             self.availabilityZone = availabilityZone
             self.ec2NetworkInterfaceUids = ec2NetworkInterfaceUids
             self.iamInstanceProfile = iamInstanceProfile
@@ -5227,8 +5067,7 @@ extension GuardDutyClientTypes {
         public init(
             privateDnsName: Swift.String? = nil,
             privateIpAddress: Swift.String? = nil
-        )
-        {
+        ) {
             self.privateDnsName = privateDnsName
             self.privateIpAddress = privateIpAddress
         }
@@ -5252,8 +5091,7 @@ extension GuardDutyClientTypes {
         public init(
             groupId: Swift.String? = nil,
             groupName: Swift.String? = nil
-        )
-        {
+        ) {
             self.groupId = groupId
             self.groupName = groupName
         }
@@ -5284,8 +5122,7 @@ extension GuardDutyClientTypes {
             securityGroups: [GuardDutyClientTypes.SecurityGroup]? = nil,
             subNetId: Swift.String? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.ipv6Addresses = ipv6Addresses
             self.privateIpAddresses = privateIpAddresses
             self.publicIp = publicIp
@@ -5401,8 +5238,7 @@ extension GuardDutyClientTypes {
             publicAclIgnoreBehavior: GuardDutyClientTypes.PublicAclIgnoreBehavior? = nil,
             publicBucketRestrictBehavior: GuardDutyClientTypes.PublicBucketRestrictBehavior? = nil,
             publicPolicyAccess: GuardDutyClientTypes.PublicAccessStatus? = nil
-        )
-        {
+        ) {
             self.publicAclAccess = publicAclAccess
             self.publicAclIgnoreBehavior = publicAclIgnoreBehavior
             self.publicBucketRestrictBehavior = publicBucketRestrictBehavior
@@ -5447,8 +5283,7 @@ extension GuardDutyClientTypes {
             publicReadAccess: GuardDutyClientTypes.PublicAccessStatus? = nil,
             publicWriteAccess: GuardDutyClientTypes.PublicAccessStatus? = nil,
             s3ObjectUids: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.accountPublicAccess = accountPublicAccess
             self.bucketPublicAccess = bucketPublicAccess
             self.createdAt = createdAt
@@ -5478,8 +5313,7 @@ extension GuardDutyClientTypes {
             eTag: Swift.String? = nil,
             key: Swift.String? = nil,
             versionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.eTag = eTag
             self.key = key
             self.versionId = versionId
@@ -5508,8 +5342,7 @@ extension GuardDutyClientTypes {
             ec2NetworkInterface: GuardDutyClientTypes.Ec2NetworkInterface? = nil,
             s3Bucket: GuardDutyClientTypes.S3Bucket? = nil,
             s3Object: GuardDutyClientTypes.S3Object? = nil
-        )
-        {
+        ) {
             self.accessKey = accessKey
             self.ec2Instance = ec2Instance
             self.ec2NetworkInterface = ec2NetworkInterface
@@ -5569,8 +5402,7 @@ extension GuardDutyClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -5612,8 +5444,7 @@ extension GuardDutyClientTypes {
             service: Swift.String? = nil,
             tags: [GuardDutyClientTypes.Tag]? = nil,
             uid: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.cloudPartition = cloudPartition
             self.data = data
@@ -5696,8 +5527,7 @@ extension GuardDutyClientTypes {
             key: GuardDutyClientTypes.IndicatorType? = nil,
             title: Swift.String? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.key = key
             self.title = title
             self.values = values
@@ -5799,8 +5629,7 @@ extension GuardDutyClientTypes {
             type: GuardDutyClientTypes.SignalType? = nil,
             uid: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.actorIds = actorIds
             self.count = count
             self.createdAt = createdAt
@@ -5849,8 +5678,7 @@ extension GuardDutyClientTypes {
             sequenceIndicators: [GuardDutyClientTypes.Indicator]? = nil,
             signals: [GuardDutyClientTypes.Signal]? = nil,
             uid: Swift.String? = nil
-        )
-        {
+        ) {
             self.actors = actors
             self.description = description
             self.endpoints = endpoints
@@ -5874,8 +5702,7 @@ extension GuardDutyClientTypes {
         public init(
             anomaly: GuardDutyClientTypes.Anomaly? = nil,
             sequence: GuardDutyClientTypes.Sequence? = nil
-        )
-        {
+        ) {
             self.anomaly = anomaly
             self.sequence = sequence
         }
@@ -5897,8 +5724,7 @@ extension GuardDutyClientTypes {
             name: GuardDutyClientTypes.FeatureAdditionalConfiguration? = nil,
             status: GuardDutyClientTypes.FeatureStatus? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.name = name
             self.status = status
             self.updatedAt = updatedAt
@@ -5977,8 +5803,7 @@ extension GuardDutyClientTypes {
             name: GuardDutyClientTypes.DetectorFeatureResult? = nil,
             status: GuardDutyClientTypes.FeatureStatus? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.additionalConfiguration = additionalConfiguration
             self.name = name
             self.status = status
@@ -6023,8 +5848,7 @@ public struct DisableOrganizationAdminAccountInput: Swift.Sendable {
 
     public init(
         adminAccountId: Swift.String? = nil
-    )
-    {
+    ) {
         self.adminAccountId = adminAccountId
     }
 }
@@ -6041,8 +5865,7 @@ public struct DisassociateFromAdministratorAccountInput: Swift.Sendable {
 
     public init(
         detectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.detectorId = detectorId
     }
 }
@@ -6060,8 +5883,7 @@ public struct DisassociateFromMasterAccountInput: Swift.Sendable {
 
     public init(
         detectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.detectorId = detectorId
     }
 }
@@ -6083,8 +5905,7 @@ public struct DisassociateMembersInput: Swift.Sendable {
     public init(
         accountIds: [Swift.String]? = nil,
         detectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountIds = accountIds
         self.detectorId = detectorId
     }
@@ -6097,8 +5918,7 @@ public struct DisassociateMembersOutput: Swift.Sendable {
 
     public init(
         unprocessedAccounts: [GuardDutyClientTypes.UnprocessedAccount]? = nil
-    )
-    {
+    ) {
         self.unprocessedAccounts = unprocessedAccounts
     }
 }
@@ -6144,8 +5964,7 @@ extension GuardDutyClientTypes {
         public init(
             scannedVolumeDetails: [GuardDutyClientTypes.VolumeDetail]? = nil,
             skippedVolumeDetails: [GuardDutyClientTypes.VolumeDetail]? = nil
-        )
-        {
+        ) {
             self.scannedVolumeDetails = scannedVolumeDetails
             self.skippedVolumeDetails = skippedVolumeDetails
         }
@@ -6167,8 +5986,7 @@ extension GuardDutyClientTypes {
             count: Swift.Int? = nil,
             severity: Swift.String? = nil,
             threatName: Swift.String? = nil
-        )
-        {
+        ) {
             self.count = count
             self.severity = severity
             self.threatName = threatName
@@ -6191,8 +6009,7 @@ extension GuardDutyClientTypes {
             files: Swift.Int? = nil,
             totalGb: Swift.Int? = nil,
             volumes: Swift.Int? = nil
-        )
-        {
+        ) {
             self.files = files
             self.totalGb = totalGb
             self.volumes = volumes
@@ -6218,8 +6035,7 @@ extension GuardDutyClientTypes {
             filePath: Swift.String? = nil,
             hash: Swift.String? = nil,
             volumeArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.fileName = fileName
             self.filePath = filePath
             self.hash = hash
@@ -6246,8 +6062,7 @@ extension GuardDutyClientTypes {
             itemCount: Swift.Int? = nil,
             name: Swift.String? = nil,
             severity: Swift.String? = nil
-        )
-        {
+        ) {
             self.filePaths = filePaths
             self.itemCount = itemCount
             self.name = name
@@ -6274,8 +6089,7 @@ extension GuardDutyClientTypes {
             shortened: Swift.Bool? = nil,
             threatNames: [GuardDutyClientTypes.ScanThreatName]? = nil,
             uniqueThreatNameCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.itemCount = itemCount
             self.shortened = shortened
             self.threatNames = threatNames
@@ -6293,8 +6107,7 @@ extension GuardDutyClientTypes {
 
         public init(
             files: Swift.Int? = nil
-        )
-        {
+        ) {
             self.files = files
         }
     }
@@ -6318,8 +6131,7 @@ extension GuardDutyClientTypes {
             scannedItemCount: GuardDutyClientTypes.ScannedItemCount? = nil,
             threatDetectedByName: GuardDutyClientTypes.ThreatDetectedByName? = nil,
             threatsDetectedItemCount: GuardDutyClientTypes.ThreatsDetectedItemCount? = nil
-        )
-        {
+        ) {
             self.highestSeverityThreatDetails = highestSeverityThreatDetails
             self.scannedItemCount = scannedItemCount
             self.threatDetectedByName = threatDetectedByName
@@ -6355,8 +6167,7 @@ extension GuardDutyClientTypes {
             scanType: GuardDutyClientTypes.ScanType? = nil,
             sources: [Swift.String]? = nil,
             triggerFindingId: Swift.String? = nil
-        )
-        {
+        ) {
             self.scanCompletedAt = scanCompletedAt
             self.scanDetections = scanDetections
             self.scanId = scanId
@@ -6377,8 +6188,7 @@ extension GuardDutyClientTypes {
 
         public init(
             path: Swift.String? = nil
-        )
-        {
+        ) {
             self.path = path
         }
     }
@@ -6396,8 +6206,7 @@ extension GuardDutyClientTypes {
         public init(
             hostPath: GuardDutyClientTypes.HostPath? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.hostPath = hostPath
             self.name = name
         }
@@ -6443,8 +6252,7 @@ extension GuardDutyClientTypes {
             taskCreatedAt: Foundation.Date? = nil,
             version: Swift.String? = nil,
             volumes: [GuardDutyClientTypes.Volume]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.containers = containers
             self.definitionArn = definitionArn
@@ -6490,8 +6298,7 @@ extension GuardDutyClientTypes {
             status: Swift.String? = nil,
             tags: [GuardDutyClientTypes.Tag]? = nil,
             taskDetails: GuardDutyClientTypes.EcsTaskDetails? = nil
-        )
-        {
+        ) {
             self.activeServicesCount = activeServicesCount
             self.arn = arn
             self.name = name
@@ -6528,8 +6335,7 @@ extension GuardDutyClientTypes {
             status: Swift.String? = nil,
             tags: [GuardDutyClientTypes.Tag]? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.name = name
@@ -6547,8 +6353,7 @@ public struct EnableOrganizationAdminAccountInput: Swift.Sendable {
 
     public init(
         adminAccountId: Swift.String? = nil
-    )
-    {
+    ) {
         self.adminAccountId = adminAccountId
     }
 }
@@ -6573,8 +6378,7 @@ extension GuardDutyClientTypes {
             threatFileSha256: Swift.String? = nil,
             threatListName: Swift.String? = nil,
             threatNames: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.threatFileSha256 = threatFileSha256
             self.threatListName = threatListName
             self.threatNames = threatNames
@@ -6591,8 +6395,7 @@ extension GuardDutyClientTypes {
 
         public init(
             threatIntelligenceDetails: [GuardDutyClientTypes.ThreatIntelligenceDetail]? = nil
-        )
-        {
+        ) {
             self.threatIntelligenceDetails = threatIntelligenceDetails
         }
     }
@@ -6663,8 +6466,7 @@ extension GuardDutyClientTypes {
             securityGroups: [GuardDutyClientTypes.SecurityGroup]? = nil,
             subnetId: Swift.String? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.ipv6Addresses = ipv6Addresses
             self.networkInterfaceId = networkInterfaceId
             self.privateDnsName = privateDnsName
@@ -6729,8 +6531,7 @@ extension GuardDutyClientTypes {
             platform: Swift.String? = nil,
             productCodes: [GuardDutyClientTypes.ProductCode]? = nil,
             tags: [GuardDutyClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.availabilityZone = availabilityZone
             self.iamInstanceProfile = iamInstanceProfile
             self.imageDescription = imageDescription
@@ -6760,8 +6561,7 @@ extension GuardDutyClientTypes {
         public init(
             groups: [Swift.String]? = nil,
             username: Swift.String? = nil
-        )
-        {
+        ) {
             self.groups = groups
             self.username = username
         }
@@ -6789,8 +6589,7 @@ extension GuardDutyClientTypes {
             sessionName: [Swift.String]? = nil,
             uid: Swift.String? = nil,
             username: Swift.String? = nil
-        )
-        {
+        ) {
             self.groups = groups
             self.impersonatedUser = impersonatedUser
             self.sessionName = sessionName
@@ -6836,8 +6635,7 @@ extension GuardDutyClientTypes {
             type: Swift.String? = nil,
             uid: Swift.String? = nil,
             volumes: [GuardDutyClientTypes.Volume]? = nil
-        )
-        {
+        ) {
             self.containers = containers
             self.hostIPC = hostIPC
             self.hostNetwork = hostNetwork
@@ -6864,8 +6662,7 @@ extension GuardDutyClientTypes {
         public init(
             kubernetesUserDetails: GuardDutyClientTypes.KubernetesUserDetails? = nil,
             kubernetesWorkloadDetails: GuardDutyClientTypes.KubernetesWorkloadDetails? = nil
-        )
-        {
+        ) {
             self.kubernetesUserDetails = kubernetesUserDetails
             self.kubernetesWorkloadDetails = kubernetesWorkloadDetails
         }
@@ -6887,8 +6684,7 @@ extension GuardDutyClientTypes {
             securityGroups: [GuardDutyClientTypes.SecurityGroup]? = nil,
             subnetIds: [Swift.String]? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.securityGroups = securityGroups
             self.subnetIds = subnetIds
             self.vpcId = vpcId
@@ -6929,8 +6725,7 @@ extension GuardDutyClientTypes {
             role: Swift.String? = nil,
             tags: [GuardDutyClientTypes.Tag]? = nil,
             vpcConfig: GuardDutyClientTypes.VpcConfig? = nil
-        )
-        {
+        ) {
             self.description = description
             self.functionArn = functionArn
             self.functionName = functionName
@@ -6968,8 +6763,7 @@ extension GuardDutyClientTypes {
             engine: Swift.String? = nil,
             engineVersion: Swift.String? = nil,
             tags: [GuardDutyClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.dbClusterIdentifier = dbClusterIdentifier
             self.dbInstanceArn = dbInstanceArn
             self.dbInstanceIdentifier = dbInstanceIdentifier
@@ -7001,8 +6795,7 @@ extension GuardDutyClientTypes {
             database: Swift.String? = nil,
             ssl: Swift.String? = nil,
             user: Swift.String? = nil
-        )
-        {
+        ) {
             self.application = application
             self.authMethod = authMethod
             self.database = database
@@ -7039,8 +6832,7 @@ extension GuardDutyClientTypes {
             engine: Swift.String? = nil,
             engineVersion: Swift.String? = nil,
             tags: [GuardDutyClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.dbClusterIdentifier = dbClusterIdentifier
             self.dbShardGroupArn = dbShardGroupArn
             self.dbShardGroupIdentifier = dbShardGroupIdentifier
@@ -7061,8 +6853,7 @@ extension GuardDutyClientTypes {
 
         public init(
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.id = id
         }
     }
@@ -7080,8 +6871,7 @@ extension GuardDutyClientTypes {
         public init(
             accountLevelPermissions: GuardDutyClientTypes.AccountLevelPermissions? = nil,
             bucketLevelPermissions: GuardDutyClientTypes.BucketLevelPermissions? = nil
-        )
-        {
+        ) {
             self.accountLevelPermissions = accountLevelPermissions
             self.bucketLevelPermissions = bucketLevelPermissions
         }
@@ -7100,8 +6890,7 @@ extension GuardDutyClientTypes {
         public init(
             effectivePermission: Swift.String? = nil,
             permissionConfiguration: GuardDutyClientTypes.PermissionConfiguration? = nil
-        )
-        {
+        ) {
             self.effectivePermission = effectivePermission
             self.permissionConfiguration = permissionConfiguration
         }
@@ -7129,8 +6918,7 @@ extension GuardDutyClientTypes {
             key: Swift.String? = nil,
             objectArn: Swift.String? = nil,
             versionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.eTag = eTag
             self.hash = hash
             self.key = key
@@ -7173,8 +6961,7 @@ extension GuardDutyClientTypes {
             s3ObjectDetails: [GuardDutyClientTypes.S3ObjectDetail]? = nil,
             tags: [GuardDutyClientTypes.Tag]? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.defaultServerSideEncryption = defaultServerSideEncryption
@@ -7233,8 +7020,7 @@ extension GuardDutyClientTypes {
             rdsLimitlessDbDetails: GuardDutyClientTypes.RdsLimitlessDbDetails? = nil,
             resourceType: Swift.String? = nil,
             s3BucketDetails: [GuardDutyClientTypes.S3BucketDetail]? = nil
-        )
-        {
+        ) {
             self.accessKeyDetails = accessKeyDetails
             self.containerDetails = containerDetails
             self.ebsVolumeDetails = ebsVolumeDetails
@@ -7264,8 +7050,7 @@ extension GuardDutyClientTypes {
         public init(
             type: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.type = type
             self.value = value
         }
@@ -7284,8 +7069,7 @@ extension GuardDutyClientTypes {
         public init(
             hash: Swift.String? = nil,
             nestedItemPath: Swift.String? = nil
-        )
-        {
+        ) {
             self.hash = hash
             self.nestedItemPath = nestedItemPath
         }
@@ -7307,8 +7091,7 @@ extension GuardDutyClientTypes {
             itemPaths: [GuardDutyClientTypes.ItemPath]? = nil,
             name: Swift.String? = nil,
             source: Swift.String? = nil
-        )
-        {
+        ) {
             self.itemPaths = itemPaths
             self.name = name
             self.source = source
@@ -7325,8 +7108,7 @@ extension GuardDutyClientTypes {
 
         public init(
             threats: [GuardDutyClientTypes.Threat]? = nil
-        )
-        {
+        ) {
             self.threats = threats
         }
     }
@@ -7365,8 +7147,7 @@ extension GuardDutyClientTypes {
             startTime: Foundation.Date? = nil,
             userId: Swift.Int? = nil,
             uuid: Swift.String? = nil
-        )
-        {
+        ) {
             self.euid = euid
             self.executablePath = executablePath
             self.name = name
@@ -7425,8 +7206,7 @@ extension GuardDutyClientTypes {
             user: Swift.String? = nil,
             userId: Swift.Int? = nil,
             uuid: Swift.String? = nil
-        )
-        {
+        ) {
             self.euid = euid
             self.executablePath = executablePath
             self.executableSha256 = executableSha256
@@ -7525,8 +7305,7 @@ extension GuardDutyClientTypes {
             threatFilePath: Swift.String? = nil,
             toolCategory: Swift.String? = nil,
             toolName: Swift.String? = nil
-        )
-        {
+        ) {
             self.addressFamily = addressFamily
             self.commandLineExample = commandLineExample
             self.fileSystemType = fileSystemType
@@ -7568,8 +7347,7 @@ extension GuardDutyClientTypes {
         public init(
             context: GuardDutyClientTypes.RuntimeContext? = nil,
             process: GuardDutyClientTypes.ProcessDetails? = nil
-        )
-        {
+        ) {
             self.context = context
             self.process = process
         }
@@ -7630,8 +7408,7 @@ extension GuardDutyClientTypes {
             runtimeDetails: GuardDutyClientTypes.RuntimeDetails? = nil,
             serviceName: Swift.String? = nil,
             userFeedback: Swift.String? = nil
-        )
-        {
+        ) {
             self.action = action
             self.additionalInfo = additionalInfo
             self.archived = archived
@@ -7716,8 +7493,7 @@ extension GuardDutyClientTypes {
             title: Swift.String? = nil,
             type: Swift.String? = nil,
             updatedAt: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.arn = arn
             self.associatedAttackSequenceArn = associatedAttackSequenceArn
@@ -7753,8 +7529,7 @@ extension GuardDutyClientTypes {
             findingType: Swift.String? = nil,
             lastGeneratedAt: Foundation.Date? = nil,
             totalFindings: Swift.Int? = nil
-        )
-        {
+        ) {
             self.findingType = findingType
             self.lastGeneratedAt = lastGeneratedAt
             self.totalFindings = totalFindings
@@ -7803,8 +7578,7 @@ extension GuardDutyClientTypes {
             resourceId: Swift.String? = nil,
             resourceType: Swift.String? = nil,
             totalFindings: Swift.Int? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.lastGeneratedAt = lastGeneratedAt
             self.resourceId = resourceId
@@ -7829,8 +7603,7 @@ extension GuardDutyClientTypes {
             lastGeneratedAt: Foundation.Date? = nil,
             severity: Swift.Double? = nil,
             totalFindings: Swift.Int? = nil
-        )
-        {
+        ) {
             self.lastGeneratedAt = lastGeneratedAt
             self.severity = severity
             self.totalFindings = totalFindings
@@ -7863,8 +7636,7 @@ extension GuardDutyClientTypes {
             groupedByFindingType: [GuardDutyClientTypes.FindingTypeStatistics]? = nil,
             groupedByResource: [GuardDutyClientTypes.ResourceStatistics]? = nil,
             groupedBySeverity: [GuardDutyClientTypes.SeverityStatistics]? = nil
-        )
-        {
+        ) {
             self.countBySeverity = countBySeverity
             self.groupedByAccount = groupedByAccount
             self.groupedByDate = groupedByDate
@@ -7908,8 +7680,7 @@ public struct GetAdministratorAccountInput: Swift.Sendable {
 
     public init(
         detectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.detectorId = detectorId
     }
 }
@@ -7921,8 +7692,7 @@ public struct GetAdministratorAccountOutput: Swift.Sendable {
 
     public init(
         administrator: GuardDutyClientTypes.Administrator? = nil
-    )
-    {
+    ) {
         self.administrator = administrator
     }
 }
@@ -7941,8 +7711,7 @@ public struct GetCoverageStatisticsInput: Swift.Sendable {
         detectorId: Swift.String? = nil,
         filterCriteria: GuardDutyClientTypes.CoverageFilterCriteria? = nil,
         statisticsType: [GuardDutyClientTypes.CoverageStatisticsType]? = nil
-    )
-    {
+    ) {
         self.detectorId = detectorId
         self.filterCriteria = filterCriteria
         self.statisticsType = statisticsType
@@ -7955,8 +7724,7 @@ public struct GetCoverageStatisticsOutput: Swift.Sendable {
 
     public init(
         coverageStatistics: GuardDutyClientTypes.CoverageStatistics? = nil
-    )
-    {
+    ) {
         self.coverageStatistics = coverageStatistics
     }
 }
@@ -7968,8 +7736,7 @@ public struct GetDetectorInput: Swift.Sendable {
 
     public init(
         detectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.detectorId = detectorId
     }
 }
@@ -8004,8 +7771,7 @@ public struct GetDetectorOutput: Swift.Sendable {
         status: GuardDutyClientTypes.DetectorStatus? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         updatedAt: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.dataSources = dataSources
         self.features = features
@@ -8028,8 +7794,7 @@ public struct GetFilterInput: Swift.Sendable {
     public init(
         detectorId: Swift.String? = nil,
         filterName: Swift.String? = nil
-    )
-    {
+    ) {
         self.detectorId = detectorId
         self.filterName = filterName
     }
@@ -8059,8 +7824,7 @@ public struct GetFilterOutput: Swift.Sendable {
         name: Swift.String? = nil,
         rank: Swift.Int? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.action = action
         self.description = description
         self.findingCriteria = findingCriteria
@@ -8084,8 +7848,7 @@ public struct GetFindingsInput: Swift.Sendable {
         detectorId: Swift.String? = nil,
         findingIds: [Swift.String]? = nil,
         sortCriteria: GuardDutyClientTypes.SortCriteria? = nil
-    )
-    {
+    ) {
         self.detectorId = detectorId
         self.findingIds = findingIds
         self.sortCriteria = sortCriteria
@@ -8099,8 +7862,7 @@ public struct GetFindingsOutput: Swift.Sendable {
 
     public init(
         findings: [GuardDutyClientTypes.Finding]? = nil
-    )
-    {
+    ) {
         self.findings = findings
     }
 }
@@ -8166,8 +7928,7 @@ public struct GetFindingsStatisticsInput: Swift.Sendable {
         groupBy: GuardDutyClientTypes.GroupByType? = nil,
         maxResults: Swift.Int? = nil,
         orderBy: GuardDutyClientTypes.OrderBy? = nil
-    )
-    {
+    ) {
         self.detectorId = detectorId
         self.findingCriteria = findingCriteria
         self.findingStatisticTypes = findingStatisticTypes
@@ -8187,8 +7948,7 @@ public struct GetFindingsStatisticsOutput: Swift.Sendable {
     public init(
         findingStatistics: GuardDutyClientTypes.FindingStatistics? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.findingStatistics = findingStatistics
         self.nextToken = nextToken
     }
@@ -8205,8 +7965,7 @@ public struct GetInvitationsCountOutput: Swift.Sendable {
 
     public init(
         invitationsCount: Swift.Int? = nil
-    )
-    {
+    ) {
         self.invitationsCount = invitationsCount
     }
 }
@@ -8222,8 +7981,7 @@ public struct GetIPSetInput: Swift.Sendable {
     public init(
         detectorId: Swift.String? = nil,
         ipSetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.detectorId = detectorId
         self.ipSetId = ipSetId
     }
@@ -8295,8 +8053,7 @@ public struct GetIPSetOutput: Swift.Sendable {
         name: Swift.String? = nil,
         status: GuardDutyClientTypes.IpSetStatus? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.format = format
         self.location = location
         self.name = name
@@ -8312,8 +8069,7 @@ public struct GetMalwareProtectionPlanInput: Swift.Sendable {
 
     public init(
         malwareProtectionPlanId: Swift.String? = nil
-    )
-    {
+    ) {
         self.malwareProtectionPlanId = malwareProtectionPlanId
     }
 }
@@ -8362,8 +8118,7 @@ extension GuardDutyClientTypes {
         public init(
             code: Swift.String? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.message = message
         }
@@ -8397,8 +8152,7 @@ public struct GetMalwareProtectionPlanOutput: Swift.Sendable {
         status: GuardDutyClientTypes.MalwareProtectionPlanStatus? = nil,
         statusReasons: [GuardDutyClientTypes.MalwareProtectionPlanStatusReason]? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.actions = actions
         self.arn = arn
         self.createdAt = createdAt
@@ -8417,8 +8171,7 @@ public struct GetMalwareScanSettingsInput: Swift.Sendable {
 
     public init(
         detectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.detectorId = detectorId
     }
 }
@@ -8463,8 +8216,7 @@ extension GuardDutyClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -8481,8 +8233,7 @@ extension GuardDutyClientTypes {
 
         public init(
             mapEquals: [GuardDutyClientTypes.ScanConditionPair]? = nil
-        )
-        {
+        ) {
             self.mapEquals = mapEquals
         }
     }
@@ -8500,8 +8251,7 @@ extension GuardDutyClientTypes {
         public init(
             exclude: [Swift.String: GuardDutyClientTypes.ScanCondition]? = nil,
             include: [Swift.String: GuardDutyClientTypes.ScanCondition]? = nil
-        )
-        {
+        ) {
             self.exclude = exclude
             self.include = include
         }
@@ -8517,8 +8267,7 @@ public struct GetMalwareScanSettingsOutput: Swift.Sendable {
     public init(
         ebsSnapshotPreservation: GuardDutyClientTypes.EbsSnapshotPreservation? = nil,
         scanResourceCriteria: GuardDutyClientTypes.ScanResourceCriteria? = nil
-    )
-    {
+    ) {
         self.ebsSnapshotPreservation = ebsSnapshotPreservation
         self.scanResourceCriteria = scanResourceCriteria
     }
@@ -8532,8 +8281,7 @@ public struct GetMasterAccountInput: Swift.Sendable {
 
     public init(
         detectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.detectorId = detectorId
     }
 }
@@ -8556,8 +8304,7 @@ extension GuardDutyClientTypes {
             invitationId: Swift.String? = nil,
             invitedAt: Swift.String? = nil,
             relationshipStatus: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.invitationId = invitationId
             self.invitedAt = invitedAt
@@ -8574,8 +8321,7 @@ public struct GetMasterAccountOutput: Swift.Sendable {
 
     public init(
         master: GuardDutyClientTypes.Master? = nil
-    )
-    {
+    ) {
         self.master = master
     }
 }
@@ -8591,8 +8337,7 @@ public struct GetMemberDetectorsInput: Swift.Sendable {
     public init(
         accountIds: [Swift.String]? = nil,
         detectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountIds = accountIds
         self.detectorId = detectorId
     }
@@ -8613,8 +8358,7 @@ extension GuardDutyClientTypes {
             name: GuardDutyClientTypes.OrgFeatureAdditionalConfiguration? = nil,
             status: GuardDutyClientTypes.FeatureStatus? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.name = name
             self.status = status
             self.updatedAt = updatedAt
@@ -8640,8 +8384,7 @@ extension GuardDutyClientTypes {
             name: GuardDutyClientTypes.OrgFeature? = nil,
             status: GuardDutyClientTypes.FeatureStatus? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.additionalConfiguration = additionalConfiguration
             self.name = name
             self.status = status
@@ -8667,8 +8410,7 @@ extension GuardDutyClientTypes {
             accountId: Swift.String? = nil,
             dataSources: GuardDutyClientTypes.DataSourceConfigurationsResult? = nil,
             features: [GuardDutyClientTypes.MemberFeaturesConfigurationResult]? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.dataSources = dataSources
             self.features = features
@@ -8687,8 +8429,7 @@ public struct GetMemberDetectorsOutput: Swift.Sendable {
     public init(
         memberDataSourceConfigurations: [GuardDutyClientTypes.MemberDataSourceConfiguration]? = nil,
         unprocessedAccounts: [GuardDutyClientTypes.UnprocessedAccount]? = nil
-    )
-    {
+    ) {
         self.memberDataSourceConfigurations = memberDataSourceConfigurations
         self.unprocessedAccounts = unprocessedAccounts
     }
@@ -8705,8 +8446,7 @@ public struct GetMembersInput: Swift.Sendable {
     public init(
         accountIds: [Swift.String]? = nil,
         detectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountIds = accountIds
         self.detectorId = detectorId
     }
@@ -8747,8 +8487,7 @@ extension GuardDutyClientTypes {
             masterId: Swift.String? = nil,
             relationshipStatus: Swift.String? = nil,
             updatedAt: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.administratorId = administratorId
             self.detectorId = detectorId
@@ -8777,8 +8516,7 @@ public struct GetMembersOutput: Swift.Sendable {
     public init(
         members: [GuardDutyClientTypes.Member]? = nil,
         unprocessedAccounts: [GuardDutyClientTypes.UnprocessedAccount]? = nil
-    )
-    {
+    ) {
         self.members = members
         self.unprocessedAccounts = unprocessedAccounts
     }
@@ -8796,8 +8534,7 @@ extension GuardDutyClientTypes {
         public init(
             enabledAccountsCount: Swift.Int? = nil,
             name: GuardDutyClientTypes.OrgFeatureAdditionalConfiguration? = nil
-        )
-        {
+        ) {
             self.enabledAccountsCount = enabledAccountsCount
             self.name = name
         }
@@ -8819,8 +8556,7 @@ extension GuardDutyClientTypes {
             additionalConfiguration: [GuardDutyClientTypes.OrganizationFeatureStatisticsAdditionalConfiguration]? = nil,
             enabledAccountsCount: Swift.Int? = nil,
             name: GuardDutyClientTypes.OrgFeature? = nil
-        )
-        {
+        ) {
             self.additionalConfiguration = additionalConfiguration
             self.enabledAccountsCount = enabledAccountsCount
             self.name = name
@@ -8849,8 +8585,7 @@ extension GuardDutyClientTypes {
             enabledAccountsCount: Swift.Int? = nil,
             memberAccountsCount: Swift.Int? = nil,
             totalAccountsCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.activeAccountsCount = activeAccountsCount
             self.countByFeature = countByFeature
             self.enabledAccountsCount = enabledAccountsCount
@@ -8872,8 +8607,7 @@ extension GuardDutyClientTypes {
         public init(
             organizationStatistics: GuardDutyClientTypes.OrganizationStatistics? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.organizationStatistics = organizationStatistics
             self.updatedAt = updatedAt
         }
@@ -8886,8 +8620,7 @@ public struct GetOrganizationStatisticsOutput: Swift.Sendable {
 
     public init(
         organizationDetails: GuardDutyClientTypes.OrganizationDetails? = nil
-    )
-    {
+    ) {
         self.organizationDetails = organizationDetails
     }
 }
@@ -8902,8 +8635,7 @@ public struct GetRemainingFreeTrialDaysInput: Swift.Sendable {
     public init(
         accountIds: [Swift.String]? = nil,
         detectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountIds = accountIds
         self.detectorId = detectorId
     }
@@ -8918,8 +8650,7 @@ public struct GetRemainingFreeTrialDaysOutput: Swift.Sendable {
     public init(
         accounts: [GuardDutyClientTypes.AccountFreeTrialInfo]? = nil,
         unprocessedAccounts: [GuardDutyClientTypes.UnprocessedAccount]? = nil
-    )
-    {
+    ) {
         self.accounts = accounts
         self.unprocessedAccounts = unprocessedAccounts
     }
@@ -8936,8 +8667,7 @@ public struct GetThreatIntelSetInput: Swift.Sendable {
     public init(
         detectorId: Swift.String? = nil,
         threatIntelSetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.detectorId = detectorId
         self.threatIntelSetId = threatIntelSetId
     }
@@ -9009,8 +8739,7 @@ public struct GetThreatIntelSetOutput: Swift.Sendable {
         name: Swift.String? = nil,
         status: GuardDutyClientTypes.ThreatIntelSetStatus? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.format = format
         self.location = location
         self.name = name
@@ -9100,8 +8829,7 @@ extension GuardDutyClientTypes {
             dataSources: [GuardDutyClientTypes.DataSource]? = nil,
             features: [GuardDutyClientTypes.UsageFeature]? = nil,
             resources: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.accountIds = accountIds
             self.dataSources = dataSources
             self.features = features
@@ -9175,8 +8903,7 @@ public struct GetUsageStatisticsInput: Swift.Sendable {
         unit: Swift.String? = nil,
         usageCriteria: GuardDutyClientTypes.UsageCriteria? = nil,
         usageStatisticType: GuardDutyClientTypes.UsageStatisticType? = nil
-    )
-    {
+    ) {
         self.detectorId = detectorId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -9198,8 +8925,7 @@ extension GuardDutyClientTypes {
         public init(
             amount: Swift.String? = nil,
             unit: Swift.String? = nil
-        )
-        {
+        ) {
             self.amount = amount
             self.unit = unit
         }
@@ -9218,8 +8944,7 @@ extension GuardDutyClientTypes {
         public init(
             accountId: Swift.String? = nil,
             total: GuardDutyClientTypes.Total? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.total = total
         }
@@ -9238,8 +8963,7 @@ extension GuardDutyClientTypes {
         public init(
             dataSource: GuardDutyClientTypes.DataSource? = nil,
             total: GuardDutyClientTypes.Total? = nil
-        )
-        {
+        ) {
             self.dataSource = dataSource
             self.total = total
         }
@@ -9258,8 +8982,7 @@ extension GuardDutyClientTypes {
         public init(
             feature: GuardDutyClientTypes.UsageFeature? = nil,
             total: GuardDutyClientTypes.Total? = nil
-        )
-        {
+        ) {
             self.feature = feature
             self.total = total
         }
@@ -9278,8 +9001,7 @@ extension GuardDutyClientTypes {
         public init(
             resource: Swift.String? = nil,
             total: GuardDutyClientTypes.Total? = nil
-        )
-        {
+        ) {
             self.resource = resource
             self.total = total
         }
@@ -9298,8 +9020,7 @@ extension GuardDutyClientTypes {
         public init(
             accountId: Swift.String? = nil,
             total: GuardDutyClientTypes.Total? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.total = total
         }
@@ -9318,8 +9039,7 @@ extension GuardDutyClientTypes {
         public init(
             accounts: [GuardDutyClientTypes.UsageTopAccountResult]? = nil,
             feature: GuardDutyClientTypes.UsageFeature? = nil
-        )
-        {
+        ) {
             self.accounts = accounts
             self.feature = feature
         }
@@ -9350,8 +9070,7 @@ extension GuardDutyClientTypes {
             sumByResource: [GuardDutyClientTypes.UsageResourceResult]? = nil,
             topAccountsByFeature: [GuardDutyClientTypes.UsageTopAccountsResult]? = nil,
             topResources: [GuardDutyClientTypes.UsageResourceResult]? = nil
-        )
-        {
+        ) {
             self.sumByAccount = sumByAccount
             self.sumByDataSource = sumByDataSource
             self.sumByFeature = sumByFeature
@@ -9371,8 +9090,7 @@ public struct GetUsageStatisticsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         usageStatistics: GuardDutyClientTypes.UsageStatistics? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.usageStatistics = usageStatistics
     }
@@ -9395,8 +9113,7 @@ public struct InviteMembersInput: Swift.Sendable {
         detectorId: Swift.String? = nil,
         disableEmailNotification: Swift.Bool? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountIds = accountIds
         self.detectorId = detectorId
         self.disableEmailNotification = disableEmailNotification
@@ -9411,8 +9128,7 @@ public struct InviteMembersOutput: Swift.Sendable {
 
     public init(
         unprocessedAccounts: [GuardDutyClientTypes.UnprocessedAccount]? = nil
-    )
-    {
+    ) {
         self.unprocessedAccounts = unprocessedAccounts
     }
 }
@@ -9436,8 +9152,7 @@ public struct ListCoverageInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sortCriteria: GuardDutyClientTypes.CoverageSortCriteria? = nil
-    )
-    {
+    ) {
         self.detectorId = detectorId
         self.filterCriteria = filterCriteria
         self.maxResults = maxResults
@@ -9456,8 +9171,7 @@ public struct ListCoverageOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         resources: [GuardDutyClientTypes.CoverageResource]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.resources = resources
     }
@@ -9472,8 +9186,7 @@ public struct ListDetectorsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -9489,8 +9202,7 @@ public struct ListDetectorsOutput: Swift.Sendable {
     public init(
         detectorIds: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.detectorIds = detectorIds
         self.nextToken = nextToken
     }
@@ -9509,8 +9221,7 @@ public struct ListFiltersInput: Swift.Sendable {
         detectorId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.detectorId = detectorId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -9527,8 +9238,7 @@ public struct ListFiltersOutput: Swift.Sendable {
     public init(
         filterNames: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filterNames = filterNames
         self.nextToken = nextToken
     }
@@ -9653,8 +9363,7 @@ public struct ListFindingsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sortCriteria: GuardDutyClientTypes.SortCriteria? = nil
-    )
-    {
+    ) {
         self.detectorId = detectorId
         self.findingCriteria = findingCriteria
         self.maxResults = maxResults
@@ -9673,8 +9382,7 @@ public struct ListFindingsOutput: Swift.Sendable {
     public init(
         findingIds: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.findingIds = findingIds
         self.nextToken = nextToken
     }
@@ -9689,8 +9397,7 @@ public struct ListInvitationsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -9714,8 +9421,7 @@ extension GuardDutyClientTypes {
             invitationId: Swift.String? = nil,
             invitedAt: Swift.String? = nil,
             relationshipStatus: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.invitationId = invitationId
             self.invitedAt = invitedAt
@@ -9733,8 +9439,7 @@ public struct ListInvitationsOutput: Swift.Sendable {
     public init(
         invitations: [GuardDutyClientTypes.Invitation]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.invitations = invitations
         self.nextToken = nextToken
     }
@@ -9753,8 +9458,7 @@ public struct ListIPSetsInput: Swift.Sendable {
         detectorId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.detectorId = detectorId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -9771,8 +9475,7 @@ public struct ListIPSetsOutput: Swift.Sendable {
     public init(
         ipSetIds: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.ipSetIds = ipSetIds
         self.nextToken = nextToken
     }
@@ -9784,8 +9487,7 @@ public struct ListMalwareProtectionPlansInput: Swift.Sendable {
 
     public init(
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
     }
 }
@@ -9799,8 +9501,7 @@ extension GuardDutyClientTypes {
 
         public init(
             malwareProtectionPlanId: Swift.String? = nil
-        )
-        {
+        ) {
             self.malwareProtectionPlanId = malwareProtectionPlanId
         }
     }
@@ -9815,8 +9516,7 @@ public struct ListMalwareProtectionPlansOutput: Swift.Sendable {
     public init(
         malwareProtectionPlans: [GuardDutyClientTypes.MalwareProtectionPlanSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.malwareProtectionPlans = malwareProtectionPlans
         self.nextToken = nextToken
     }
@@ -9838,8 +9538,7 @@ public struct ListMembersInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         onlyAssociated: Swift.String? = nil
-    )
-    {
+    ) {
         self.detectorId = detectorId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -9856,8 +9555,7 @@ public struct ListMembersOutput: Swift.Sendable {
     public init(
         members: [GuardDutyClientTypes.Member]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.members = members
         self.nextToken = nextToken
     }
@@ -9872,8 +9570,7 @@ public struct ListOrganizationAdminAccountsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -9888,8 +9585,7 @@ public struct ListOrganizationAdminAccountsOutput: Swift.Sendable {
     public init(
         adminAccounts: [GuardDutyClientTypes.AdminAccount]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.adminAccounts = adminAccounts
         self.nextToken = nextToken
     }
@@ -9908,8 +9604,7 @@ public struct ListPublishingDestinationsInput: Swift.Sendable {
         detectorId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.detectorId = detectorId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -9926,8 +9621,7 @@ public struct ListPublishingDestinationsOutput: Swift.Sendable {
     public init(
         destinations: [GuardDutyClientTypes.Destination]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.destinations = destinations
         self.nextToken = nextToken
     }
@@ -9940,8 +9634,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -9952,8 +9645,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -9971,8 +9663,7 @@ public struct ListThreatIntelSetsInput: Swift.Sendable {
         detectorId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.detectorId = detectorId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -9989,8 +9680,7 @@ public struct ListThreatIntelSetsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         threatIntelSetIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.threatIntelSetIds = threatIntelSetIds
     }
@@ -10003,8 +9693,7 @@ public struct StartMalwareScanInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -10015,8 +9704,7 @@ public struct StartMalwareScanOutput: Swift.Sendable {
 
     public init(
         scanId: Swift.String? = nil
-    )
-    {
+    ) {
         self.scanId = scanId
     }
 }
@@ -10032,8 +9720,7 @@ public struct StartMonitoringMembersInput: Swift.Sendable {
     public init(
         accountIds: [Swift.String]? = nil,
         detectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountIds = accountIds
         self.detectorId = detectorId
     }
@@ -10046,8 +9733,7 @@ public struct StartMonitoringMembersOutput: Swift.Sendable {
 
     public init(
         unprocessedAccounts: [GuardDutyClientTypes.UnprocessedAccount]? = nil
-    )
-    {
+    ) {
         self.unprocessedAccounts = unprocessedAccounts
     }
 }
@@ -10063,8 +9749,7 @@ public struct StopMonitoringMembersInput: Swift.Sendable {
     public init(
         accountIds: [Swift.String]? = nil,
         detectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountIds = accountIds
         self.detectorId = detectorId
     }
@@ -10077,8 +9762,7 @@ public struct StopMonitoringMembersOutput: Swift.Sendable {
 
     public init(
         unprocessedAccounts: [GuardDutyClientTypes.UnprocessedAccount]? = nil
-    )
-    {
+    ) {
         self.unprocessedAccounts = unprocessedAccounts
     }
 }
@@ -10094,8 +9778,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -10117,8 +9800,7 @@ public struct UnarchiveFindingsInput: Swift.Sendable {
     public init(
         detectorId: Swift.String? = nil,
         findingIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.detectorId = detectorId
         self.findingIds = findingIds
     }
@@ -10140,8 +9822,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -10172,8 +9853,7 @@ public struct UpdateDetectorInput: Swift.Sendable {
         enable: Swift.Bool? = nil,
         features: [GuardDutyClientTypes.DetectorFeatureConfiguration]? = nil,
         findingPublishingFrequency: GuardDutyClientTypes.FindingPublishingFrequency? = nil
-    )
-    {
+    ) {
         self.dataSources = dataSources
         self.detectorId = detectorId
         self.enable = enable
@@ -10210,8 +9890,7 @@ public struct UpdateFilterInput: Swift.Sendable {
         filterName: Swift.String? = nil,
         findingCriteria: GuardDutyClientTypes.FindingCriteria? = nil,
         rank: Swift.Int? = nil
-    )
-    {
+    ) {
         self.action = action
         self.description = description
         self.detectorId = detectorId
@@ -10228,8 +9907,7 @@ public struct UpdateFilterOutput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -10252,8 +9930,7 @@ public struct UpdateFindingsFeedbackInput: Swift.Sendable {
         detectorId: Swift.String? = nil,
         feedback: GuardDutyClientTypes.Feedback? = nil,
         findingIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.comments = comments
         self.detectorId = detectorId
         self.feedback = feedback
@@ -10286,8 +9963,7 @@ public struct UpdateIPSetInput: Swift.Sendable {
         ipSetId: Swift.String? = nil,
         location: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.activate = activate
         self.detectorId = detectorId
         self.ipSetId = ipSetId
@@ -10310,8 +9986,7 @@ extension GuardDutyClientTypes {
 
         public init(
             objectPrefixes: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.objectPrefixes = objectPrefixes
         }
     }
@@ -10326,8 +10001,7 @@ extension GuardDutyClientTypes {
 
         public init(
             s3Bucket: GuardDutyClientTypes.UpdateS3BucketResource? = nil
-        )
-        {
+        ) {
             self.s3Bucket = s3Bucket
         }
     }
@@ -10349,8 +10023,7 @@ public struct UpdateMalwareProtectionPlanInput: Swift.Sendable {
         malwareProtectionPlanId: Swift.String? = nil,
         protectedResource: GuardDutyClientTypes.UpdateProtectedResource? = nil,
         role: Swift.String? = nil
-    )
-    {
+    ) {
         self.actions = actions
         self.malwareProtectionPlanId = malwareProtectionPlanId
         self.protectedResource = protectedResource
@@ -10371,8 +10044,7 @@ public struct UpdateMalwareScanSettingsInput: Swift.Sendable {
         detectorId: Swift.String? = nil,
         ebsSnapshotPreservation: GuardDutyClientTypes.EbsSnapshotPreservation? = nil,
         scanResourceCriteria: GuardDutyClientTypes.ScanResourceCriteria? = nil
-    )
-    {
+    ) {
         self.detectorId = detectorId
         self.ebsSnapshotPreservation = ebsSnapshotPreservation
         self.scanResourceCriteria = scanResourceCriteria
@@ -10396,8 +10068,7 @@ extension GuardDutyClientTypes {
         public init(
             name: GuardDutyClientTypes.OrgFeatureAdditionalConfiguration? = nil,
             status: GuardDutyClientTypes.FeatureStatus? = nil
-        )
-        {
+        ) {
             self.name = name
             self.status = status
         }
@@ -10419,8 +10090,7 @@ extension GuardDutyClientTypes {
             additionalConfiguration: [GuardDutyClientTypes.MemberAdditionalConfiguration]? = nil,
             name: GuardDutyClientTypes.OrgFeature? = nil,
             status: GuardDutyClientTypes.FeatureStatus? = nil
-        )
-        {
+        ) {
             self.additionalConfiguration = additionalConfiguration
             self.name = name
             self.status = status
@@ -10446,8 +10116,7 @@ public struct UpdateMemberDetectorsInput: Swift.Sendable {
         dataSources: GuardDutyClientTypes.DataSourceConfigurations? = nil,
         detectorId: Swift.String? = nil,
         features: [GuardDutyClientTypes.MemberFeaturesConfiguration]? = nil
-    )
-    {
+    ) {
         self.accountIds = accountIds
         self.dataSources = dataSources
         self.detectorId = detectorId
@@ -10462,8 +10131,7 @@ public struct UpdateMemberDetectorsOutput: Swift.Sendable {
 
     public init(
         unprocessedAccounts: [GuardDutyClientTypes.UnprocessedAccount]? = nil
-    )
-    {
+    ) {
         self.unprocessedAccounts = unprocessedAccounts
     }
 }
@@ -10478,8 +10146,7 @@ extension GuardDutyClientTypes {
 
         public init(
             autoEnable: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.autoEnable = autoEnable
         }
     }
@@ -10495,8 +10162,7 @@ extension GuardDutyClientTypes {
 
         public init(
             auditLogs: GuardDutyClientTypes.OrganizationKubernetesAuditLogsConfiguration? = nil
-        )
-        {
+        ) {
             self.auditLogs = auditLogs
         }
     }
@@ -10511,8 +10177,7 @@ extension GuardDutyClientTypes {
 
         public init(
             autoEnable: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.autoEnable = autoEnable
         }
     }
@@ -10527,8 +10192,7 @@ extension GuardDutyClientTypes {
 
         public init(
             ebsVolumes: GuardDutyClientTypes.OrganizationEbsVolumes? = nil
-        )
-        {
+        ) {
             self.ebsVolumes = ebsVolumes
         }
     }
@@ -10543,8 +10207,7 @@ extension GuardDutyClientTypes {
 
         public init(
             scanEc2InstanceWithFindings: GuardDutyClientTypes.OrganizationScanEc2InstanceWithFindings? = nil
-        )
-        {
+        ) {
             self.scanEc2InstanceWithFindings = scanEc2InstanceWithFindings
         }
     }
@@ -10560,8 +10223,7 @@ extension GuardDutyClientTypes {
 
         public init(
             autoEnable: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.autoEnable = autoEnable
         }
     }
@@ -10582,8 +10244,7 @@ extension GuardDutyClientTypes {
             kubernetes: GuardDutyClientTypes.OrganizationKubernetesConfiguration? = nil,
             malwareProtection: GuardDutyClientTypes.OrganizationMalwareProtectionConfiguration? = nil,
             s3Logs: GuardDutyClientTypes.OrganizationS3LogsConfiguration? = nil
-        )
-        {
+        ) {
             self.kubernetes = kubernetes
             self.malwareProtection = malwareProtection
             self.s3Logs = s3Logs
@@ -10609,8 +10270,7 @@ extension GuardDutyClientTypes {
         public init(
             autoEnable: GuardDutyClientTypes.OrgFeatureStatus? = nil,
             name: GuardDutyClientTypes.OrgFeatureAdditionalConfiguration? = nil
-        )
-        {
+        ) {
             self.autoEnable = autoEnable
             self.name = name
         }
@@ -10638,8 +10298,7 @@ extension GuardDutyClientTypes {
             additionalConfiguration: [GuardDutyClientTypes.OrganizationAdditionalConfiguration]? = nil,
             autoEnable: GuardDutyClientTypes.OrgFeatureStatus? = nil,
             name: GuardDutyClientTypes.OrgFeature? = nil
-        )
-        {
+        ) {
             self.additionalConfiguration = additionalConfiguration
             self.autoEnable = autoEnable
             self.name = name
@@ -10674,8 +10333,7 @@ public struct UpdateOrganizationConfigurationInput: Swift.Sendable {
         dataSources: GuardDutyClientTypes.OrganizationDataSourceConfigurations? = nil,
         detectorId: Swift.String? = nil,
         features: [GuardDutyClientTypes.OrganizationFeatureConfiguration]? = nil
-    )
-    {
+    ) {
         self.autoEnable = autoEnable
         self.autoEnableOrganizationMembers = autoEnableOrganizationMembers
         self.dataSources = dataSources
@@ -10703,8 +10361,7 @@ public struct UpdatePublishingDestinationInput: Swift.Sendable {
         destinationId: Swift.String? = nil,
         destinationProperties: GuardDutyClientTypes.DestinationProperties? = nil,
         detectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.destinationId = destinationId
         self.destinationProperties = destinationProperties
         self.detectorId = detectorId
@@ -10736,8 +10393,7 @@ public struct UpdateThreatIntelSetInput: Swift.Sendable {
         location: Swift.String? = nil,
         name: Swift.String? = nil,
         threatIntelSetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.activate = activate
         self.detectorId = detectorId
         self.location = location

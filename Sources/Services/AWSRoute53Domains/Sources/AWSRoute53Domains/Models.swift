@@ -56,8 +56,7 @@ public struct DomainLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -81,8 +80,7 @@ public struct InvalidInput: ClientRuntime.ModeledError, AWSClientRuntime.AWSServ
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -106,8 +104,7 @@ public struct OperationLimitExceeded: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -131,8 +128,7 @@ public struct UnsupportedTLD: ClientRuntime.ModeledError, AWSClientRuntime.AWSSe
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -149,8 +145,7 @@ public struct AcceptDomainTransferFromAnotherAwsAccountInput: Swift.Sendable {
     public init(
         domainName: Swift.String? = nil,
         password: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.password = password
     }
@@ -168,8 +163,7 @@ public struct AcceptDomainTransferFromAnotherAwsAccountOutput: Swift.Sendable {
 
     public init(
         operationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.operationId = operationId
     }
 }
@@ -192,8 +186,7 @@ public struct DnssecLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -220,8 +213,7 @@ public struct DuplicateRequest: ClientRuntime.ModeledError, AWSClientRuntime.AWS
     public init(
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.requestId = requestId
     }
@@ -246,8 +238,7 @@ public struct TLDRulesViolation: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -267,8 +258,7 @@ extension Route53DomainsClientTypes {
             algorithm: Swift.Int? = nil,
             flags: Swift.Int? = nil,
             publicKey: Swift.String? = nil
-        )
-        {
+        ) {
             self.algorithm = algorithm
             self.flags = flags
             self.publicKey = publicKey
@@ -287,8 +277,7 @@ public struct AssociateDelegationSignerToDomainInput: Swift.Sendable {
     public init(
         domainName: Swift.String? = nil,
         signingAttributes: Route53DomainsClientTypes.DnssecSigningAttributes? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.signingAttributes = signingAttributes
     }
@@ -300,8 +289,7 @@ public struct AssociateDelegationSignerToDomainOutput: Swift.Sendable {
 
     public init(
         operationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.operationId = operationId
     }
 }
@@ -413,8 +401,7 @@ extension Route53DomainsClientTypes {
             invoiceId: Swift.String? = nil,
             operation: Route53DomainsClientTypes.OperationType? = nil,
             price: Swift.Double = 0.0
-        )
-        {
+        ) {
             self.billDate = billDate
             self.domainName = domainName
             self.invoiceId = invoiceId
@@ -432,8 +419,7 @@ public struct CancelDomainTransferToAnotherAwsAccountInput: Swift.Sendable {
 
     public init(
         domainName: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
     }
 }
@@ -445,8 +431,7 @@ public struct CancelDomainTransferToAnotherAwsAccountOutput: Swift.Sendable {
 
     public init(
         operationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.operationId = operationId
     }
 }
@@ -473,8 +458,7 @@ public struct CheckDomainAvailabilityInput: Swift.Sendable {
     public init(
         domainName: Swift.String? = nil,
         idnLangCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.idnLangCode = idnLangCode
     }
@@ -540,8 +524,7 @@ public struct CheckDomainAvailabilityOutput: Swift.Sendable {
 
     public init(
         availability: Route53DomainsClientTypes.DomainAvailability? = nil
-    )
-    {
+    ) {
         self.availability = availability
     }
 }
@@ -565,8 +548,7 @@ public struct CheckDomainTransferabilityInput: Swift.Sendable {
     public init(
         authCode: Swift.String? = nil,
         domainName: Swift.String? = nil
-    )
-    {
+    ) {
         self.authCode = authCode
         self.domainName = domainName
     }
@@ -628,8 +610,7 @@ extension Route53DomainsClientTypes {
 
         public init(
             transferable: Route53DomainsClientTypes.Transferable? = nil
-        )
-        {
+        ) {
             self.transferable = transferable
         }
     }
@@ -645,8 +626,7 @@ public struct CheckDomainTransferabilityOutput: Swift.Sendable {
     public init(
         message: Swift.String? = nil,
         transferability: Route53DomainsClientTypes.DomainTransferability? = nil
-    )
-    {
+    ) {
         self.message = message
         self.transferability = transferability
     }
@@ -666,8 +646,7 @@ extension Route53DomainsClientTypes {
         public init(
             currency: Swift.String? = nil,
             maxPrice: Swift.Double = 0.0
-        )
-        {
+        ) {
             self.currency = currency
             self.maxPrice = maxPrice
         }
@@ -2002,8 +1981,7 @@ extension Route53DomainsClientTypes {
         public init(
             name: Route53DomainsClientTypes.ExtraParamName? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -2069,8 +2047,7 @@ extension Route53DomainsClientTypes {
             phoneNumber: Swift.String? = nil,
             state: Swift.String? = nil,
             zipCode: Swift.String? = nil
-        )
-        {
+        ) {
             self.addressLine1 = addressLine1
             self.addressLine2 = addressLine2
             self.city = city
@@ -2102,8 +2079,7 @@ public struct DeleteDomainInput: Swift.Sendable {
 
     public init(
         domainName: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
     }
 }
@@ -2114,8 +2090,7 @@ public struct DeleteDomainOutput: Swift.Sendable {
 
     public init(
         operationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.operationId = operationId
     }
 }
@@ -2132,8 +2107,7 @@ public struct DeleteTagsForDomainInput: Swift.Sendable {
     public init(
         domainName: Swift.String? = nil,
         tagsToDelete: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.tagsToDelete = tagsToDelete
     }
@@ -2151,8 +2125,7 @@ public struct DisableDomainAutoRenewInput: Swift.Sendable {
 
     public init(
         domainName: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
     }
 }
@@ -2170,8 +2143,7 @@ public struct DisableDomainTransferLockInput: Swift.Sendable {
 
     public init(
         domainName: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
     }
 }
@@ -2183,8 +2155,7 @@ public struct DisableDomainTransferLockOutput: Swift.Sendable {
 
     public init(
         operationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.operationId = operationId
     }
 }
@@ -2200,8 +2171,7 @@ public struct DisassociateDelegationSignerFromDomainInput: Swift.Sendable {
     public init(
         domainName: Swift.String? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.id = id
     }
@@ -2213,8 +2183,7 @@ public struct DisassociateDelegationSignerFromDomainOutput: Swift.Sendable {
 
     public init(
         operationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.operationId = operationId
     }
 }
@@ -2246,8 +2215,7 @@ extension Route53DomainsClientTypes {
             id: Swift.String? = nil,
             keyTag: Swift.Int? = nil,
             publicKey: Swift.String? = nil
-        )
-        {
+        ) {
             self.algorithm = algorithm
             self.digest = digest
             self.digestType = digestType
@@ -2273,8 +2241,7 @@ extension Route53DomainsClientTypes {
         public init(
             currency: Swift.String? = nil,
             price: Swift.Double = 0.0
-        )
-        {
+        ) {
             self.currency = currency
             self.price = price
         }
@@ -2305,8 +2272,7 @@ extension Route53DomainsClientTypes {
             renewalPrice: Route53DomainsClientTypes.PriceWithCurrency? = nil,
             restorationPrice: Route53DomainsClientTypes.PriceWithCurrency? = nil,
             transferPrice: Route53DomainsClientTypes.PriceWithCurrency? = nil
-        )
-        {
+        ) {
             self.changeOwnershipPrice = changeOwnershipPrice
             self.name = name
             self.registrationPrice = registrationPrice
@@ -2329,8 +2295,7 @@ extension Route53DomainsClientTypes {
         public init(
             availability: Swift.String? = nil,
             domainName: Swift.String? = nil
-        )
-        {
+        ) {
             self.availability = availability
             self.domainName = domainName
         }
@@ -2355,8 +2320,7 @@ extension Route53DomainsClientTypes {
             domainName: Swift.String? = nil,
             expiry: Foundation.Date? = nil,
             transferLock: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.autoRenew = autoRenew
             self.domainName = domainName
             self.expiry = expiry
@@ -2372,8 +2336,7 @@ public struct EnableDomainAutoRenewInput: Swift.Sendable {
 
     public init(
         domainName: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
     }
 }
@@ -2391,8 +2354,7 @@ public struct EnableDomainTransferLockInput: Swift.Sendable {
 
     public init(
         domainName: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
     }
 }
@@ -2404,8 +2366,7 @@ public struct EnableDomainTransferLockOutput: Swift.Sendable {
 
     public init(
         operationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.operationId = operationId
     }
 }
@@ -2495,8 +2456,7 @@ extension Route53DomainsClientTypes {
             name: Route53DomainsClientTypes.ListDomainsAttributeName? = nil,
             `operator`: Route53DomainsClientTypes.Operator? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.`operator` = `operator`
             self.values = values
@@ -2510,8 +2470,7 @@ public struct GetContactReachabilityStatusInput: Swift.Sendable {
 
     public init(
         domainName: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
     }
 }
@@ -2557,8 +2516,7 @@ public struct GetContactReachabilityStatusOutput: Swift.Sendable {
     public init(
         domainName: Swift.String? = nil,
         status: Route53DomainsClientTypes.ReachabilityStatus? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.status = status
     }
@@ -2572,8 +2530,7 @@ public struct GetDomainDetailInput: Swift.Sendable {
 
     public init(
         domainName: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
     }
 }
@@ -2591,8 +2548,7 @@ extension Route53DomainsClientTypes {
         public init(
             glueIps: [Swift.String]? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.glueIps = glueIps
             self.name = name
         }
@@ -2675,8 +2631,7 @@ public struct GetDomainDetailOutput: Swift.Sendable {
         techPrivacy: Swift.Bool? = nil,
         updatedDate: Foundation.Date? = nil,
         whoIsServer: Swift.String? = nil
-    )
-    {
+    ) {
         self.abuseContactEmail = abuseContactEmail
         self.abuseContactPhone = abuseContactPhone
         self.adminContact = adminContact
@@ -2735,8 +2690,7 @@ public struct GetDomainSuggestionsInput: Swift.Sendable {
         domainName: Swift.String? = nil,
         onlyAvailable: Swift.Bool? = nil,
         suggestionCount: Swift.Int? = 0
-    )
-    {
+    ) {
         self.domainName = domainName
         self.onlyAvailable = onlyAvailable
         self.suggestionCount = suggestionCount
@@ -2749,8 +2703,7 @@ public struct GetDomainSuggestionsOutput: Swift.Sendable {
 
     public init(
         suggestionsList: [Route53DomainsClientTypes.DomainSuggestion]? = nil
-    )
-    {
+    ) {
         self.suggestionsList = suggestionsList
     }
 }
@@ -2763,8 +2716,7 @@ public struct GetOperationDetailInput: Swift.Sendable {
 
     public init(
         operationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.operationId = operationId
     }
 }
@@ -2883,8 +2835,7 @@ public struct GetOperationDetailOutput: Swift.Sendable {
         statusFlag: Route53DomainsClientTypes.StatusFlag? = nil,
         submittedDate: Foundation.Date? = nil,
         type: Route53DomainsClientTypes.OperationType? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.lastUpdatedDate = lastUpdatedDate
         self.message = message
@@ -2939,8 +2890,7 @@ extension Route53DomainsClientTypes {
         public init(
             name: Route53DomainsClientTypes.ListDomainsAttributeName? = nil,
             sortOrder: Route53DomainsClientTypes.SortOrder? = nil
-        )
-        {
+        ) {
             self.name = name
             self.sortOrder = sortOrder
         }
@@ -2963,8 +2913,7 @@ public struct ListDomainsInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil,
         sortCondition: Route53DomainsClientTypes.SortCondition? = nil
-    )
-    {
+    ) {
         self.filterConditions = filterConditions
         self.marker = marker
         self.maxItems = maxItems
@@ -2982,8 +2931,7 @@ public struct ListDomainsOutput: Swift.Sendable {
     public init(
         domains: [Route53DomainsClientTypes.DomainSummary]? = nil,
         nextPageMarker: Swift.String? = nil
-    )
-    {
+    ) {
         self.domains = domains
         self.nextPageMarker = nextPageMarker
     }
@@ -3040,8 +2988,7 @@ public struct ListOperationsInput: Swift.Sendable {
         status: [Route53DomainsClientTypes.OperationStatus]? = nil,
         submittedSince: Foundation.Date? = nil,
         type: [Route53DomainsClientTypes.OperationType]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.maxItems = maxItems
         self.sortBy = sortBy
@@ -3092,8 +3039,7 @@ extension Route53DomainsClientTypes {
             statusFlag: Route53DomainsClientTypes.StatusFlag? = nil,
             submittedDate: Foundation.Date? = nil,
             type: Route53DomainsClientTypes.OperationType? = nil
-        )
-        {
+        ) {
             self.domainName = domainName
             self.lastUpdatedDate = lastUpdatedDate
             self.message = message
@@ -3116,8 +3062,7 @@ public struct ListOperationsOutput: Swift.Sendable {
     public init(
         nextPageMarker: Swift.String? = nil,
         operations: [Route53DomainsClientTypes.OperationSummary]? = nil
-    )
-    {
+    ) {
         self.nextPageMarker = nextPageMarker
         self.operations = operations
     }
@@ -3135,8 +3080,7 @@ public struct ListPricesInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil,
         tld: Swift.String? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.maxItems = maxItems
         self.tld = tld
@@ -3152,8 +3096,7 @@ public struct ListPricesOutput: Swift.Sendable {
     public init(
         nextPageMarker: Swift.String? = nil,
         prices: [Route53DomainsClientTypes.DomainPrice]? = nil
-    )
-    {
+    ) {
         self.nextPageMarker = nextPageMarker
         self.prices = prices
     }
@@ -3167,8 +3110,7 @@ public struct ListTagsForDomainInput: Swift.Sendable {
 
     public init(
         domainName: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
     }
 }
@@ -3185,8 +3127,7 @@ extension Route53DomainsClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -3200,8 +3141,7 @@ public struct ListTagsForDomainOutput: Swift.Sendable {
 
     public init(
         tagList: [Route53DomainsClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tagList = tagList
     }
 }
@@ -3217,8 +3157,7 @@ public struct PushDomainInput: Swift.Sendable {
     public init(
         domainName: Swift.String? = nil,
         target: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.target = target
     }
@@ -3280,8 +3219,7 @@ public struct RegisterDomainInput: Swift.Sendable {
         privacyProtectTechContact: Swift.Bool? = nil,
         registrantContact: Route53DomainsClientTypes.ContactDetail? = nil,
         techContact: Route53DomainsClientTypes.ContactDetail? = nil
-    )
-    {
+    ) {
         self.adminContact = adminContact
         self.autoRenew = autoRenew
         self.billingContact = billingContact
@@ -3309,8 +3247,7 @@ public struct RegisterDomainOutput: Swift.Sendable {
 
     public init(
         operationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.operationId = operationId
     }
 }
@@ -3323,8 +3260,7 @@ public struct RejectDomainTransferFromAnotherAwsAccountInput: Swift.Sendable {
 
     public init(
         domainName: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
     }
 }
@@ -3336,8 +3272,7 @@ public struct RejectDomainTransferFromAnotherAwsAccountOutput: Swift.Sendable {
 
     public init(
         operationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.operationId = operationId
     }
 }
@@ -3357,8 +3292,7 @@ public struct RenewDomainInput: Swift.Sendable {
         currentExpiryYear: Swift.Int? = 0,
         domainName: Swift.String? = nil,
         durationInYears: Swift.Int? = nil
-    )
-    {
+    ) {
         self.currentExpiryYear = currentExpiryYear
         self.domainName = domainName
         self.durationInYears = durationInYears
@@ -3371,8 +3305,7 @@ public struct RenewDomainOutput: Swift.Sendable {
 
     public init(
         operationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.operationId = operationId
     }
 }
@@ -3383,8 +3316,7 @@ public struct ResendContactReachabilityEmailInput: Swift.Sendable {
 
     public init(
         domainName: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
     }
 }
@@ -3401,8 +3333,7 @@ public struct ResendContactReachabilityEmailOutput: Swift.Sendable {
         domainName: Swift.String? = nil,
         emailAddress: Swift.String? = nil,
         isAlreadyVerified: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.emailAddress = emailAddress
         self.isAlreadyVerified = isAlreadyVerified
@@ -3421,8 +3352,7 @@ public struct ResendOperationAuthorizationInput: Swift.Sendable {
 
     public init(
         operationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.operationId = operationId
     }
 }
@@ -3435,8 +3365,7 @@ public struct RetrieveDomainAuthCodeInput: Swift.Sendable {
 
     public init(
         domainName: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
     }
 }
@@ -3448,8 +3377,7 @@ public struct RetrieveDomainAuthCodeOutput: Swift.Sendable {
 
     public init(
         authCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.authCode = authCode
     }
 }
@@ -3518,8 +3446,7 @@ public struct TransferDomainInput: Swift.Sendable {
         privacyProtectTechContact: Swift.Bool? = nil,
         registrantContact: Route53DomainsClientTypes.ContactDetail? = nil,
         techContact: Route53DomainsClientTypes.ContactDetail? = nil
-    )
-    {
+    ) {
         self.adminContact = adminContact
         self.authCode = authCode
         self.autoRenew = autoRenew
@@ -3549,8 +3476,7 @@ public struct TransferDomainOutput: Swift.Sendable {
 
     public init(
         operationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.operationId = operationId
     }
 }
@@ -3567,8 +3493,7 @@ public struct TransferDomainToAnotherAwsAccountInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         domainName: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.domainName = domainName
     }
@@ -3584,8 +3509,7 @@ public struct TransferDomainToAnotherAwsAccountOutput: Swift.Sendable {
     public init(
         operationId: Swift.String? = nil,
         password: Swift.String? = nil
-    )
-    {
+    ) {
         self.operationId = operationId
         self.password = password
     }
@@ -3619,8 +3543,7 @@ public struct UpdateDomainContactInput: Swift.Sendable {
         domainName: Swift.String? = nil,
         registrantContact: Route53DomainsClientTypes.ContactDetail? = nil,
         techContact: Route53DomainsClientTypes.ContactDetail? = nil
-    )
-    {
+    ) {
         self.adminContact = adminContact
         self.billingContact = billingContact
         self.consent = consent
@@ -3642,8 +3565,7 @@ public struct UpdateDomainContactOutput: Swift.Sendable {
 
     public init(
         operationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.operationId = operationId
     }
 }
@@ -3668,8 +3590,7 @@ public struct UpdateDomainContactPrivacyInput: Swift.Sendable {
         domainName: Swift.String? = nil,
         registrantPrivacy: Swift.Bool? = nil,
         techPrivacy: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.adminPrivacy = adminPrivacy
         self.billingPrivacy = billingPrivacy
         self.domainName = domainName
@@ -3685,8 +3606,7 @@ public struct UpdateDomainContactPrivacyOutput: Swift.Sendable {
 
     public init(
         operationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.operationId = operationId
     }
 }
@@ -3707,8 +3627,7 @@ public struct UpdateDomainNameserversInput: Swift.Sendable {
         domainName: Swift.String? = nil,
         fiAuthKey: Swift.String? = nil,
         nameservers: [Route53DomainsClientTypes.Nameserver]? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.fiAuthKey = fiAuthKey
         self.nameservers = nameservers
@@ -3727,8 +3646,7 @@ public struct UpdateDomainNameserversOutput: Swift.Sendable {
 
     public init(
         operationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.operationId = operationId
     }
 }
@@ -3744,8 +3662,7 @@ public struct UpdateTagsForDomainInput: Swift.Sendable {
     public init(
         domainName: Swift.String? = nil,
         tagsToUpdate: [Route53DomainsClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.tagsToUpdate = tagsToUpdate
     }
@@ -3772,8 +3689,7 @@ public struct ViewBillingInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil,
         start: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.end = end
         self.marker = marker
         self.maxItems = maxItems
@@ -3791,8 +3707,7 @@ public struct ViewBillingOutput: Swift.Sendable {
     public init(
         billingRecords: [Route53DomainsClientTypes.BillingRecord]? = nil,
         nextPageMarker: Swift.String? = nil
-    )
-    {
+    ) {
         self.billingRecords = billingRecords
         self.nextPageMarker = nextPageMarker
     }

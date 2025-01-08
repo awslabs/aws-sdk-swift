@@ -125,8 +125,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -141,8 +140,7 @@ extension CleanRoomsMLClientTypes {
 
         public init(
             s3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.s3Uri = s3Uri
         }
     }
@@ -158,8 +156,7 @@ extension CleanRoomsMLClientTypes {
 
         public init(
             s3Destination: CleanRoomsMLClientTypes.S3ConfigMap? = nil
-        )
-        {
+        ) {
             self.s3Destination = s3Destination
         }
     }
@@ -184,8 +181,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -202,8 +198,7 @@ public struct ListAudienceExportJobsInput: Swift.Sendable {
         audienceGenerationJobArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.audienceGenerationJobArn = audienceGenerationJobArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -253,8 +248,7 @@ extension CleanRoomsMLClientTypes {
         public init(
             type: CleanRoomsMLClientTypes.AudienceSizeType? = nil,
             value: Swift.Int? = nil
-        )
-        {
+        ) {
             self.type = type
             self.value = value
         }
@@ -308,8 +302,7 @@ extension CleanRoomsMLClientTypes {
         public init(
             message: Swift.String? = nil,
             statusCode: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
             self.statusCode = statusCode
         }
@@ -355,8 +348,7 @@ extension CleanRoomsMLClientTypes {
             status: CleanRoomsMLClientTypes.AudienceExportJobStatus? = nil,
             statusDetails: CleanRoomsMLClientTypes.StatusDetails? = nil,
             updateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.audienceGenerationJobArn = audienceGenerationJobArn
             self.audienceSize = audienceSize
             self.createTime = createTime
@@ -380,8 +372,7 @@ public struct ListAudienceExportJobsOutput: Swift.Sendable {
     public init(
         audienceExportJobs: [CleanRoomsMLClientTypes.AudienceExportJobSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.audienceExportJobs = audienceExportJobs
         self.nextToken = nextToken
     }
@@ -406,8 +397,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -431,8 +421,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -456,8 +445,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -480,8 +468,7 @@ public struct StartAudienceExportJobInput: Swift.Sendable {
         audienceSize: CleanRoomsMLClientTypes.AudienceSize? = nil,
         description: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.audienceGenerationJobArn = audienceGenerationJobArn
         self.audienceSize = audienceSize
         self.description = description
@@ -496,8 +483,7 @@ public struct DeleteAudienceGenerationJobInput: Swift.Sendable {
 
     public init(
         audienceGenerationJobArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.audienceGenerationJobArn = audienceGenerationJobArn
     }
 }
@@ -509,8 +495,7 @@ public struct GetAudienceGenerationJobInput: Swift.Sendable {
 
     public init(
         audienceGenerationJobArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.audienceGenerationJobArn = audienceGenerationJobArn
     }
 }
@@ -528,8 +513,7 @@ extension CleanRoomsMLClientTypes {
         public init(
             audienceSize: CleanRoomsMLClientTypes.AudienceSize? = nil,
             score: Swift.Double? = nil
-        )
-        {
+        ) {
             self.audienceSize = audienceSize
             self.score = score
         }
@@ -549,8 +533,7 @@ extension CleanRoomsMLClientTypes {
         public init(
             recallMetric: Swift.Double? = nil,
             relevanceMetrics: [CleanRoomsMLClientTypes.RelevanceMetric]? = nil
-        )
-        {
+        ) {
             self.recallMetric = recallMetric
             self.relevanceMetrics = relevanceMetrics
         }
@@ -598,8 +581,7 @@ extension CleanRoomsMLClientTypes {
         public init(
             number: Swift.Int? = 16,
             type: CleanRoomsMLClientTypes.WorkerComputeType? = .cr1x
-        )
-        {
+        ) {
             self.number = number
             self.type = type
         }
@@ -631,8 +613,7 @@ extension CleanRoomsMLClientTypes {
             analysisTemplateArn: Swift.String? = nil,
             parameters: [Swift.String: Swift.String]? = nil,
             queryString: Swift.String? = nil
-        )
-        {
+        ) {
             self.analysisTemplateArn = analysisTemplateArn
             self.parameters = parameters
             self.queryString = queryString
@@ -669,8 +650,7 @@ extension CleanRoomsMLClientTypes {
             roleArn: Swift.String? = nil,
             sqlComputeConfiguration: CleanRoomsMLClientTypes.ComputeConfiguration? = nil,
             sqlParameters: CleanRoomsMLClientTypes.ProtectedQuerySQLParameters? = nil
-        )
-        {
+        ) {
             self.dataSource = dataSource
             self.roleArn = roleArn
             self.sqlComputeConfiguration = sqlComputeConfiguration
@@ -782,8 +762,7 @@ public struct GetAudienceGenerationJobOutput: Swift.Sendable {
         statusDetails: CleanRoomsMLClientTypes.StatusDetails? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         updateTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.audienceGenerationJobArn = audienceGenerationJobArn
         self.collaborationId = collaborationId
         self.configuredAudienceModelArn = configuredAudienceModelArn
@@ -817,8 +796,7 @@ public struct ListAudienceGenerationJobsInput: Swift.Sendable {
         configuredAudienceModelArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.collaborationId = collaborationId
         self.configuredAudienceModelArn = configuredAudienceModelArn
         self.maxResults = maxResults
@@ -865,8 +843,7 @@ extension CleanRoomsMLClientTypes {
             startedBy: Swift.String? = nil,
             status: CleanRoomsMLClientTypes.AudienceGenerationJobStatus? = nil,
             updateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.audienceGenerationJobArn = audienceGenerationJobArn
             self.collaborationId = collaborationId
             self.configuredAudienceModelArn = configuredAudienceModelArn
@@ -890,8 +867,7 @@ public struct ListAudienceGenerationJobsOutput: Swift.Sendable {
     public init(
         audienceGenerationJobs: [CleanRoomsMLClientTypes.AudienceGenerationJobSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.audienceGenerationJobs = audienceGenerationJobs
         self.nextToken = nextToken
     }
@@ -938,8 +914,7 @@ public struct StartAudienceGenerationJobInput: Swift.Sendable {
         name: Swift.String? = nil,
         seedAudience: CleanRoomsMLClientTypes.AudienceGenerationJobDataSource? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.collaborationId = collaborationId
         self.configuredAudienceModelArn = configuredAudienceModelArn
         self.description = description
@@ -957,8 +932,7 @@ public struct StartAudienceGenerationJobOutput: Swift.Sendable {
 
     public init(
         audienceGenerationJobArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.audienceGenerationJobArn = audienceGenerationJobArn
     }
 }
@@ -1003,8 +977,7 @@ public struct CreateAudienceModelInput: Swift.Sendable {
         trainingDataEndTime: Foundation.Date? = nil,
         trainingDataStartTime: Foundation.Date? = nil,
         trainingDatasetArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.kmsKeyArn = kmsKeyArn
         self.name = name
@@ -1022,8 +995,7 @@ public struct CreateAudienceModelOutput: Swift.Sendable {
 
     public init(
         audienceModelArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.audienceModelArn = audienceModelArn
     }
 }
@@ -1035,8 +1007,7 @@ public struct DeleteAudienceModelInput: Swift.Sendable {
 
     public init(
         audienceModelArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.audienceModelArn = audienceModelArn
     }
 }
@@ -1048,8 +1019,7 @@ public struct GetAudienceModelInput: Swift.Sendable {
 
     public init(
         audienceModelArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.audienceModelArn = audienceModelArn
     }
 }
@@ -1143,8 +1113,7 @@ public struct GetAudienceModelOutput: Swift.Sendable {
         trainingDataStartTime: Foundation.Date? = nil,
         trainingDatasetArn: Swift.String? = nil,
         updateTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.audienceModelArn = audienceModelArn
         self.createTime = createTime
         self.description = description
@@ -1169,8 +1138,7 @@ public struct ListAudienceModelsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -1209,8 +1177,7 @@ extension CleanRoomsMLClientTypes {
             status: CleanRoomsMLClientTypes.AudienceModelStatus? = nil,
             trainingDatasetArn: Swift.String? = nil,
             updateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.audienceModelArn = audienceModelArn
             self.createTime = createTime
             self.description = description
@@ -1232,8 +1199,7 @@ public struct ListAudienceModelsOutput: Swift.Sendable {
     public init(
         audienceModels: [CleanRoomsMLClientTypes.AudienceModelSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.audienceModels = audienceModels
         self.nextToken = nextToken
     }
@@ -1253,8 +1219,7 @@ extension CleanRoomsMLClientTypes {
         public init(
             audienceSizeBins: [Swift.Int]? = nil,
             audienceSizeType: CleanRoomsMLClientTypes.AudienceSizeType? = nil
-        )
-        {
+        ) {
             self.audienceSizeBins = audienceSizeBins
             self.audienceSizeType = audienceSizeType
         }
@@ -1304,8 +1269,7 @@ extension CleanRoomsMLClientTypes {
         public init(
             destination: CleanRoomsMLClientTypes.AudienceDestination? = nil,
             roleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.destination = destination
             self.roleArn = roleArn
         }
@@ -1389,8 +1353,7 @@ public struct CreateConfiguredAudienceModelInput: Swift.Sendable {
         outputConfig: CleanRoomsMLClientTypes.ConfiguredAudienceModelOutputConfig? = nil,
         sharedAudienceMetrics: [CleanRoomsMLClientTypes.SharedAudienceMetrics]? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.audienceModelArn = audienceModelArn
         self.audienceSizeConfig = audienceSizeConfig
         self.childResourceTagOnCreatePolicy = childResourceTagOnCreatePolicy
@@ -1410,8 +1373,7 @@ public struct CreateConfiguredAudienceModelOutput: Swift.Sendable {
 
     public init(
         configuredAudienceModelArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.configuredAudienceModelArn = configuredAudienceModelArn
     }
 }
@@ -1423,8 +1385,7 @@ public struct DeleteConfiguredAudienceModelInput: Swift.Sendable {
 
     public init(
         configuredAudienceModelArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.configuredAudienceModelArn = configuredAudienceModelArn
     }
 }
@@ -1436,8 +1397,7 @@ public struct GetConfiguredAudienceModelInput: Swift.Sendable {
 
     public init(
         configuredAudienceModelArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.configuredAudienceModelArn = configuredAudienceModelArn
     }
 }
@@ -1518,8 +1478,7 @@ public struct GetConfiguredAudienceModelOutput: Swift.Sendable {
         status: CleanRoomsMLClientTypes.ConfiguredAudienceModelStatus? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         updateTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.audienceModelArn = audienceModelArn
         self.audienceSizeConfig = audienceSizeConfig
         self.childResourceTagOnCreatePolicy = childResourceTagOnCreatePolicy
@@ -1545,8 +1504,7 @@ public struct ListConfiguredAudienceModelsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -1589,8 +1547,7 @@ extension CleanRoomsMLClientTypes {
             outputConfig: CleanRoomsMLClientTypes.ConfiguredAudienceModelOutputConfig? = nil,
             status: CleanRoomsMLClientTypes.ConfiguredAudienceModelStatus? = nil,
             updateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.audienceModelArn = audienceModelArn
             self.configuredAudienceModelArn = configuredAudienceModelArn
             self.createTime = createTime
@@ -1613,8 +1570,7 @@ public struct ListConfiguredAudienceModelsOutput: Swift.Sendable {
     public init(
         configuredAudienceModels: [CleanRoomsMLClientTypes.ConfiguredAudienceModelSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.configuredAudienceModels = configuredAudienceModels
         self.nextToken = nextToken
     }
@@ -1645,8 +1601,7 @@ public struct UpdateConfiguredAudienceModelInput: Swift.Sendable {
         minMatchingSeedSize: Swift.Int? = nil,
         outputConfig: CleanRoomsMLClientTypes.ConfiguredAudienceModelOutputConfig? = nil,
         sharedAudienceMetrics: [CleanRoomsMLClientTypes.SharedAudienceMetrics]? = nil
-    )
-    {
+    ) {
         self.audienceModelArn = audienceModelArn
         self.audienceSizeConfig = audienceSizeConfig
         self.configuredAudienceModelArn = configuredAudienceModelArn
@@ -1664,8 +1619,7 @@ public struct UpdateConfiguredAudienceModelOutput: Swift.Sendable {
 
     public init(
         configuredAudienceModelArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.configuredAudienceModelArn = configuredAudienceModelArn
     }
 }
@@ -1677,8 +1631,7 @@ public struct DeleteConfiguredAudienceModelPolicyInput: Swift.Sendable {
 
     public init(
         configuredAudienceModelArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.configuredAudienceModelArn = configuredAudienceModelArn
     }
 }
@@ -1690,8 +1643,7 @@ public struct GetConfiguredAudienceModelPolicyInput: Swift.Sendable {
 
     public init(
         configuredAudienceModelArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.configuredAudienceModelArn = configuredAudienceModelArn
     }
 }
@@ -1711,8 +1663,7 @@ public struct GetConfiguredAudienceModelPolicyOutput: Swift.Sendable {
         configuredAudienceModelArn: Swift.String? = nil,
         configuredAudienceModelPolicy: Swift.String? = nil,
         policyHash: Swift.String? = nil
-    )
-    {
+    ) {
         self.configuredAudienceModelArn = configuredAudienceModelArn
         self.configuredAudienceModelPolicy = configuredAudienceModelPolicy
         self.policyHash = policyHash
@@ -1765,8 +1716,7 @@ public struct PutConfiguredAudienceModelPolicyInput: Swift.Sendable {
         configuredAudienceModelPolicy: Swift.String? = nil,
         policyExistenceCondition: CleanRoomsMLClientTypes.PolicyExistenceCondition? = nil,
         previousPolicyHash: Swift.String? = nil
-    )
-    {
+    ) {
         self.configuredAudienceModelArn = configuredAudienceModelArn
         self.configuredAudienceModelPolicy = configuredAudienceModelPolicy
         self.policyExistenceCondition = policyExistenceCondition
@@ -1785,8 +1735,7 @@ public struct PutConfiguredAudienceModelPolicyOutput: Swift.Sendable {
     public init(
         configuredAudienceModelPolicy: Swift.String? = nil,
         policyHash: Swift.String? = nil
-    )
-    {
+    ) {
         self.configuredAudienceModelPolicy = configuredAudienceModelPolicy
         self.policyHash = policyHash
     }
@@ -1802,8 +1751,7 @@ extension CleanRoomsMLClientTypes {
 
         public init(
             imageUri: Swift.String? = nil
-        )
-        {
+        ) {
             self.imageUri = imageUri
         }
     }
@@ -1823,8 +1771,7 @@ extension CleanRoomsMLClientTypes {
         public init(
             name: Swift.String? = nil,
             regex: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.regex = regex
         }
@@ -1850,8 +1797,7 @@ extension CleanRoomsMLClientTypes {
             entrypoint: [Swift.String]? = nil,
             imageUri: Swift.String? = nil,
             metricDefinitions: [CleanRoomsMLClientTypes.MetricDefinition]? = nil
-        )
-        {
+        ) {
             self.arguments = arguments
             self.entrypoint = entrypoint
             self.imageUri = imageUri
@@ -1900,8 +1846,7 @@ public struct CreateConfiguredModelAlgorithmInput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         trainingContainerConfig: CleanRoomsMLClientTypes.ContainerConfig? = nil
-    )
-    {
+    ) {
         self.description = description
         self.inferenceContainerConfig = inferenceContainerConfig
         self.kmsKeyArn = kmsKeyArn
@@ -1919,8 +1864,7 @@ public struct CreateConfiguredModelAlgorithmOutput: Swift.Sendable {
 
     public init(
         configuredModelAlgorithmArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.configuredModelAlgorithmArn = configuredModelAlgorithmArn
     }
 }
@@ -1932,8 +1876,7 @@ public struct DeleteConfiguredModelAlgorithmInput: Swift.Sendable {
 
     public init(
         configuredModelAlgorithmArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.configuredModelAlgorithmArn = configuredModelAlgorithmArn
     }
 }
@@ -1945,8 +1888,7 @@ public struct GetConfiguredModelAlgorithmInput: Swift.Sendable {
 
     public init(
         configuredModelAlgorithmArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.configuredModelAlgorithmArn = configuredModelAlgorithmArn
     }
 }
@@ -2003,8 +1945,7 @@ public struct GetConfiguredModelAlgorithmOutput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         trainingContainerConfig: CleanRoomsMLClientTypes.ContainerConfig? = nil,
         updateTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.configuredModelAlgorithmArn = configuredModelAlgorithmArn
         self.createTime = createTime
         self.description = description
@@ -2027,8 +1968,7 @@ public struct ListConfiguredModelAlgorithmsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -2059,8 +1999,7 @@ extension CleanRoomsMLClientTypes {
             description: Swift.String? = nil,
             name: Swift.String? = nil,
             updateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.configuredModelAlgorithmArn = configuredModelAlgorithmArn
             self.createTime = createTime
             self.description = description
@@ -2080,8 +2019,7 @@ public struct ListConfiguredModelAlgorithmsOutput: Swift.Sendable {
     public init(
         configuredModelAlgorithms: [CleanRoomsMLClientTypes.ConfiguredModelAlgorithmSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.configuredModelAlgorithms = configuredModelAlgorithms
         self.nextToken = nextToken
     }
@@ -2156,8 +2094,7 @@ extension CleanRoomsMLClientTypes {
         public init(
             unit: CleanRoomsMLClientTypes.TrainedModelExportsMaxSizeUnitType? = nil,
             value: Swift.Double? = nil
-        )
-        {
+        ) {
             self.unit = unit
             self.value = value
         }
@@ -2178,8 +2115,7 @@ extension CleanRoomsMLClientTypes {
         public init(
             filesToExport: [CleanRoomsMLClientTypes.TrainedModelExportFileType]? = nil,
             maxSize: CleanRoomsMLClientTypes.TrainedModelExportsMaxSize? = nil
-        )
-        {
+        ) {
             self.filesToExport = filesToExport
             self.maxSize = maxSize
         }
@@ -2199,8 +2135,7 @@ extension CleanRoomsMLClientTypes {
         public init(
             allowedAccountIds: [Swift.String]? = nil,
             filterPattern: Swift.String? = nil
-        )
-        {
+        ) {
             self.allowedAccountIds = allowedAccountIds
             self.filterPattern = filterPattern
         }
@@ -2247,8 +2182,7 @@ extension CleanRoomsMLClientTypes {
         public init(
             unit: CleanRoomsMLClientTypes.TrainedModelInferenceMaxOutputSizeUnitType? = nil,
             value: Swift.Double? = nil
-        )
-        {
+        ) {
             self.unit = unit
             self.value = value
         }
@@ -2267,8 +2201,7 @@ extension CleanRoomsMLClientTypes {
         public init(
             containerLogs: [CleanRoomsMLClientTypes.LogsConfigurationPolicy]? = nil,
             maxOutputSize: CleanRoomsMLClientTypes.TrainedModelInferenceMaxOutputSize? = nil
-        )
-        {
+        ) {
             self.containerLogs = containerLogs
             self.maxOutputSize = maxOutputSize
         }
@@ -2320,8 +2253,7 @@ extension CleanRoomsMLClientTypes {
 
         public init(
             noiseLevel: CleanRoomsMLClientTypes.NoiseLevelType? = nil
-        )
-        {
+        ) {
             self.noiseLevel = noiseLevel
         }
     }
@@ -2339,8 +2271,7 @@ extension CleanRoomsMLClientTypes {
         public init(
             containerLogs: [CleanRoomsMLClientTypes.LogsConfigurationPolicy]? = nil,
             containerMetrics: CleanRoomsMLClientTypes.MetricsConfigurationPolicy? = nil
-        )
-        {
+        ) {
             self.containerLogs = containerLogs
             self.containerMetrics = containerMetrics
         }
@@ -2362,8 +2293,7 @@ extension CleanRoomsMLClientTypes {
             trainedModelExports: CleanRoomsMLClientTypes.TrainedModelExportsConfigurationPolicy? = nil,
             trainedModelInferenceJobs: CleanRoomsMLClientTypes.TrainedModelInferenceJobsConfigurationPolicy? = nil,
             trainedModels: CleanRoomsMLClientTypes.TrainedModelsConfigurationPolicy? = nil
-        )
-        {
+        ) {
             self.trainedModelExports = trainedModelExports
             self.trainedModelInferenceJobs = trainedModelInferenceJobs
             self.trainedModels = trainedModels
@@ -2381,8 +2311,7 @@ extension CleanRoomsMLClientTypes {
 
         public init(
             policies: CleanRoomsMLClientTypes.PrivacyConfigurationPolicies? = nil
-        )
-        {
+        ) {
             self.policies = policies
         }
     }
@@ -2426,8 +2355,7 @@ public struct CreateConfiguredModelAlgorithmAssociationInput: Swift.Sendable {
         name: Swift.String? = nil,
         privacyConfiguration: CleanRoomsMLClientTypes.PrivacyConfiguration? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.configuredModelAlgorithmArn = configuredModelAlgorithmArn
         self.description = description
         self.membershipIdentifier = membershipIdentifier
@@ -2444,8 +2372,7 @@ public struct CreateConfiguredModelAlgorithmAssociationOutput: Swift.Sendable {
 
     public init(
         configuredModelAlgorithmAssociationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.configuredModelAlgorithmAssociationArn = configuredModelAlgorithmAssociationArn
     }
 }
@@ -2461,8 +2388,7 @@ public struct DeleteConfiguredModelAlgorithmAssociationInput: Swift.Sendable {
     public init(
         configuredModelAlgorithmAssociationArn: Swift.String? = nil,
         membershipIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.configuredModelAlgorithmAssociationArn = configuredModelAlgorithmAssociationArn
         self.membershipIdentifier = membershipIdentifier
     }
@@ -2479,8 +2405,7 @@ public struct GetCollaborationConfiguredModelAlgorithmAssociationInput: Swift.Se
     public init(
         collaborationIdentifier: Swift.String? = nil,
         configuredModelAlgorithmAssociationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.collaborationIdentifier = collaborationIdentifier
         self.configuredModelAlgorithmAssociationArn = configuredModelAlgorithmAssociationArn
     }
@@ -2527,8 +2452,7 @@ public struct GetCollaborationConfiguredModelAlgorithmAssociationOutput: Swift.S
         name: Swift.String? = nil,
         privacyConfiguration: CleanRoomsMLClientTypes.PrivacyConfiguration? = nil,
         updateTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.collaborationIdentifier = collaborationIdentifier
         self.configuredModelAlgorithmArn = configuredModelAlgorithmArn
         self.configuredModelAlgorithmAssociationArn = configuredModelAlgorithmAssociationArn
@@ -2553,8 +2477,7 @@ public struct GetConfiguredModelAlgorithmAssociationInput: Swift.Sendable {
     public init(
         configuredModelAlgorithmAssociationArn: Swift.String? = nil,
         membershipIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.configuredModelAlgorithmAssociationArn = configuredModelAlgorithmAssociationArn
         self.membershipIdentifier = membershipIdentifier
     }
@@ -2614,8 +2537,7 @@ public struct GetConfiguredModelAlgorithmAssociationOutput: Swift.Sendable {
         privacyConfiguration: CleanRoomsMLClientTypes.PrivacyConfiguration? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         updateTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.collaborationIdentifier = collaborationIdentifier
         self.configuredModelAlgorithmArn = configuredModelAlgorithmArn
         self.configuredModelAlgorithmAssociationArn = configuredModelAlgorithmAssociationArn
@@ -2642,8 +2564,7 @@ public struct ListConfiguredModelAlgorithmAssociationsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         membershipIdentifier: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.membershipIdentifier = membershipIdentifier
         self.nextToken = nextToken
@@ -2687,8 +2608,7 @@ extension CleanRoomsMLClientTypes {
             membershipIdentifier: Swift.String? = nil,
             name: Swift.String? = nil,
             updateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.collaborationIdentifier = collaborationIdentifier
             self.configuredModelAlgorithmArn = configuredModelAlgorithmArn
             self.configuredModelAlgorithmAssociationArn = configuredModelAlgorithmAssociationArn
@@ -2711,8 +2631,7 @@ public struct ListConfiguredModelAlgorithmAssociationsOutput: Swift.Sendable {
     public init(
         configuredModelAlgorithmAssociations: [CleanRoomsMLClientTypes.ConfiguredModelAlgorithmAssociationSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.configuredModelAlgorithmAssociations = configuredModelAlgorithmAssociations
         self.nextToken = nextToken
     }
@@ -2731,8 +2650,7 @@ public struct ListCollaborationConfiguredModelAlgorithmAssociationsInput: Swift.
         collaborationIdentifier: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.collaborationIdentifier = collaborationIdentifier
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2780,8 +2698,7 @@ extension CleanRoomsMLClientTypes {
             membershipIdentifier: Swift.String? = nil,
             name: Swift.String? = nil,
             updateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.collaborationIdentifier = collaborationIdentifier
             self.configuredModelAlgorithmArn = configuredModelAlgorithmArn
             self.configuredModelAlgorithmAssociationArn = configuredModelAlgorithmAssociationArn
@@ -2805,8 +2722,7 @@ public struct ListCollaborationConfiguredModelAlgorithmAssociationsOutput: Swift
     public init(
         collaborationConfiguredModelAlgorithmAssociations: [CleanRoomsMLClientTypes.CollaborationConfiguredModelAlgorithmAssociationSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.collaborationConfiguredModelAlgorithmAssociations = collaborationConfiguredModelAlgorithmAssociations
         self.nextToken = nextToken
     }
@@ -2825,8 +2741,7 @@ public struct ListCollaborationMLInputChannelsInput: Swift.Sendable {
         collaborationIdentifier: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.collaborationIdentifier = collaborationIdentifier
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2925,8 +2840,7 @@ extension CleanRoomsMLClientTypes {
             name: Swift.String? = nil,
             status: CleanRoomsMLClientTypes.MLInputChannelStatus? = nil,
             updateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.collaborationIdentifier = collaborationIdentifier
             self.configuredModelAlgorithmAssociations = configuredModelAlgorithmAssociations
             self.createTime = createTime
@@ -2951,8 +2865,7 @@ public struct ListCollaborationMLInputChannelsOutput: Swift.Sendable {
     public init(
         collaborationMLInputChannelsList: [CleanRoomsMLClientTypes.CollaborationMLInputChannelSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.collaborationMLInputChannelsList = collaborationMLInputChannelsList
         self.nextToken = nextToken
     }
@@ -2975,8 +2888,7 @@ public struct ListCollaborationTrainedModelExportJobsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         trainedModelArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.collaborationIdentifier = collaborationIdentifier
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2994,8 +2906,7 @@ extension CleanRoomsMLClientTypes {
 
         public init(
             accountId: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
         }
     }
@@ -3011,8 +2922,7 @@ extension CleanRoomsMLClientTypes {
 
         public init(
             members: [CleanRoomsMLClientTypes.TrainedModelExportReceiverMember]? = nil
-        )
-        {
+        ) {
             self.members = members
         }
     }
@@ -3101,8 +3011,7 @@ extension CleanRoomsMLClientTypes {
             statusDetails: CleanRoomsMLClientTypes.StatusDetails? = nil,
             trainedModelArn: Swift.String? = nil,
             updateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.collaborationIdentifier = collaborationIdentifier
             self.createTime = createTime
             self.creatorAccountId = creatorAccountId
@@ -3128,8 +3037,7 @@ public struct ListCollaborationTrainedModelExportJobsOutput: Swift.Sendable {
     public init(
         collaborationTrainedModelExportJobs: [CleanRoomsMLClientTypes.CollaborationTrainedModelExportJobSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.collaborationTrainedModelExportJobs = collaborationTrainedModelExportJobs
         self.nextToken = nextToken
     }
@@ -3151,8 +3059,7 @@ public struct ListCollaborationTrainedModelInferenceJobsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         trainedModelArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.collaborationIdentifier = collaborationIdentifier
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3228,8 +3135,7 @@ extension CleanRoomsMLClientTypes {
 
         public init(
             accountId: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
         }
     }
@@ -3248,8 +3154,7 @@ extension CleanRoomsMLClientTypes {
         public init(
             accept: Swift.String? = "application/json",
             members: [CleanRoomsMLClientTypes.InferenceReceiverMember]? = nil
-        )
-        {
+        ) {
             self.accept = accept
             self.members = members
         }
@@ -3367,8 +3272,7 @@ extension CleanRoomsMLClientTypes {
             trainedModelArn: Swift.String? = nil,
             trainedModelInferenceJobArn: Swift.String? = nil,
             updateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.collaborationIdentifier = collaborationIdentifier
             self.configuredModelAlgorithmAssociationArn = configuredModelAlgorithmAssociationArn
             self.createTime = createTime
@@ -3399,8 +3303,7 @@ public struct ListCollaborationTrainedModelInferenceJobsOutput: Swift.Sendable {
     public init(
         collaborationTrainedModelInferenceJobs: [CleanRoomsMLClientTypes.CollaborationTrainedModelInferenceJobSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.collaborationTrainedModelInferenceJobs = collaborationTrainedModelInferenceJobs
         self.nextToken = nextToken
     }
@@ -3419,8 +3322,7 @@ public struct ListCollaborationTrainedModelsInput: Swift.Sendable {
         collaborationIdentifier: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.collaborationIdentifier = collaborationIdentifier
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3528,8 +3430,7 @@ extension CleanRoomsMLClientTypes {
             status: CleanRoomsMLClientTypes.TrainedModelStatus? = nil,
             trainedModelArn: Swift.String? = nil,
             updateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.collaborationIdentifier = collaborationIdentifier
             self.configuredModelAlgorithmAssociationArn = configuredModelAlgorithmAssociationArn
             self.createTime = createTime
@@ -3554,8 +3455,7 @@ public struct ListCollaborationTrainedModelsOutput: Swift.Sendable {
     public init(
         collaborationTrainedModels: [CleanRoomsMLClientTypes.CollaborationTrainedModelSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.collaborationTrainedModels = collaborationTrainedModels
         self.nextToken = nextToken
     }
@@ -3568,8 +3468,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -3581,8 +3480,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -3594,8 +3492,7 @@ public struct DeleteMLConfigurationInput: Swift.Sendable {
 
     public init(
         membershipIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.membershipIdentifier = membershipIdentifier
     }
 }
@@ -3607,8 +3504,7 @@ public struct GetMLConfigurationInput: Swift.Sendable {
 
     public init(
         membershipIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.membershipIdentifier = membershipIdentifier
     }
 }
@@ -3623,8 +3519,7 @@ extension CleanRoomsMLClientTypes {
 
         public init(
             s3Destination: CleanRoomsMLClientTypes.S3ConfigMap? = nil
-        )
-        {
+        ) {
             self.s3Destination = s3Destination
         }
     }
@@ -3643,8 +3538,7 @@ extension CleanRoomsMLClientTypes {
         public init(
             destination: CleanRoomsMLClientTypes.Destination? = nil,
             roleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.destination = destination
             self.roleArn = roleArn
         }
@@ -3670,8 +3564,7 @@ public struct GetMLConfigurationOutput: Swift.Sendable {
         defaultOutputLocation: CleanRoomsMLClientTypes.MLOutputConfiguration? = nil,
         membershipIdentifier: Swift.String? = nil,
         updateTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.createTime = createTime
         self.defaultOutputLocation = defaultOutputLocation
         self.membershipIdentifier = membershipIdentifier
@@ -3690,8 +3583,7 @@ public struct PutMLConfigurationInput: Swift.Sendable {
     public init(
         defaultOutputLocation: CleanRoomsMLClientTypes.MLOutputConfiguration? = nil,
         membershipIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.defaultOutputLocation = defaultOutputLocation
         self.membershipIdentifier = membershipIdentifier
     }
@@ -3710,8 +3602,7 @@ extension CleanRoomsMLClientTypes {
         public init(
             computeConfiguration: CleanRoomsMLClientTypes.ComputeConfiguration? = nil,
             sqlParameters: CleanRoomsMLClientTypes.ProtectedQuerySQLParameters? = nil
-        )
-        {
+        ) {
             self.computeConfiguration = computeConfiguration
             self.sqlParameters = sqlParameters
         }
@@ -3747,8 +3638,7 @@ extension CleanRoomsMLClientTypes {
         public init(
             dataSource: CleanRoomsMLClientTypes.InputChannelDataSource? = nil,
             roleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataSource = dataSource
             self.roleArn = roleArn
         }
@@ -3801,8 +3691,7 @@ public struct CreateMLInputChannelInput: Swift.Sendable {
         name: Swift.String? = nil,
         retentionInDays: Swift.Int? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.configuredModelAlgorithmAssociations = configuredModelAlgorithmAssociations
         self.description = description
         self.inputChannel = inputChannel
@@ -3821,8 +3710,7 @@ public struct CreateMLInputChannelOutput: Swift.Sendable {
 
     public init(
         mlInputChannelArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.mlInputChannelArn = mlInputChannelArn
     }
 }
@@ -3838,8 +3726,7 @@ public struct DeleteMLInputChannelDataInput: Swift.Sendable {
     public init(
         membershipIdentifier: Swift.String? = nil,
         mlInputChannelArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.membershipIdentifier = membershipIdentifier
         self.mlInputChannelArn = mlInputChannelArn
     }
@@ -3856,8 +3743,7 @@ public struct GetCollaborationMLInputChannelInput: Swift.Sendable {
     public init(
         collaborationIdentifier: Swift.String? = nil,
         mlInputChannelArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.collaborationIdentifier = collaborationIdentifier
         self.mlInputChannelArn = mlInputChannelArn
     }
@@ -3915,8 +3801,7 @@ public struct GetCollaborationMLInputChannelOutput: Swift.Sendable {
         status: CleanRoomsMLClientTypes.MLInputChannelStatus? = nil,
         statusDetails: CleanRoomsMLClientTypes.StatusDetails? = nil,
         updateTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.collaborationIdentifier = collaborationIdentifier
         self.configuredModelAlgorithmAssociations = configuredModelAlgorithmAssociations
         self.createTime = createTime
@@ -3944,8 +3829,7 @@ public struct GetMLInputChannelInput: Swift.Sendable {
     public init(
         membershipIdentifier: Swift.String? = nil,
         mlInputChannelArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.membershipIdentifier = membershipIdentifier
         self.mlInputChannelArn = mlInputChannelArn
     }
@@ -4032,8 +3916,7 @@ public struct GetMLInputChannelOutput: Swift.Sendable {
         statusDetails: CleanRoomsMLClientTypes.StatusDetails? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         updateTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.collaborationIdentifier = collaborationIdentifier
         self.configuredModelAlgorithmAssociations = configuredModelAlgorithmAssociations
         self.createTime = createTime
@@ -4068,8 +3951,7 @@ public struct ListMLInputChannelsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         membershipIdentifier: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.membershipIdentifier = membershipIdentifier
         self.nextToken = nextToken
@@ -4120,8 +4002,7 @@ extension CleanRoomsMLClientTypes {
             protectedQueryIdentifier: Swift.String? = nil,
             status: CleanRoomsMLClientTypes.MLInputChannelStatus? = nil,
             updateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.collaborationIdentifier = collaborationIdentifier
             self.configuredModelAlgorithmAssociations = configuredModelAlgorithmAssociations
             self.createTime = createTime
@@ -4146,8 +4027,7 @@ public struct ListMLInputChannelsOutput: Swift.Sendable {
     public init(
         mlInputChannelsList: [CleanRoomsMLClientTypes.MLInputChannelSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.mlInputChannelsList = mlInputChannelsList
         self.nextToken = nextToken
     }
@@ -4178,8 +4058,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -4201,8 +4080,7 @@ public struct CancelTrainedModelInput: Swift.Sendable {
     public init(
         membershipIdentifier: Swift.String? = nil,
         trainedModelArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.membershipIdentifier = membershipIdentifier
         self.trainedModelArn = trainedModelArn
     }
@@ -4222,8 +4100,7 @@ extension CleanRoomsMLClientTypes {
         public init(
             channelName: Swift.String? = nil,
             mlInputChannelArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.channelName = channelName
             self.mlInputChannelArn = mlInputChannelArn
         }
@@ -4537,8 +4414,7 @@ extension CleanRoomsMLClientTypes {
             instanceCount: Swift.Int? = 1,
             instanceType: CleanRoomsMLClientTypes.InstanceType? = nil,
             volumeSizeInGB: Swift.Int? = nil
-        )
-        {
+        ) {
             self.instanceCount = instanceCount
             self.instanceType = instanceType
             self.volumeSizeInGB = volumeSizeInGB
@@ -4555,8 +4431,7 @@ extension CleanRoomsMLClientTypes {
 
         public init(
             maxRuntimeInSeconds: Swift.Int? = 86400
-        )
-        {
+        ) {
             self.maxRuntimeInSeconds = maxRuntimeInSeconds
         }
     }
@@ -4617,8 +4492,7 @@ public struct CreateTrainedModelInput: Swift.Sendable {
         resourceConfig: CleanRoomsMLClientTypes.ResourceConfig? = nil,
         stoppingCondition: CleanRoomsMLClientTypes.StoppingCondition? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.configuredModelAlgorithmAssociationArn = configuredModelAlgorithmAssociationArn
         self.dataChannels = dataChannels
         self.description = description
@@ -4640,8 +4514,7 @@ public struct CreateTrainedModelOutput: Swift.Sendable {
 
     public init(
         trainedModelArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.trainedModelArn = trainedModelArn
     }
 }
@@ -4657,8 +4530,7 @@ public struct DeleteTrainedModelOutputInput: Swift.Sendable {
     public init(
         membershipIdentifier: Swift.String? = nil,
         trainedModelArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.membershipIdentifier = membershipIdentifier
         self.trainedModelArn = trainedModelArn
     }
@@ -4675,8 +4547,7 @@ public struct GetCollaborationTrainedModelInput: Swift.Sendable {
     public init(
         collaborationIdentifier: Swift.String? = nil,
         trainedModelArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.collaborationIdentifier = collaborationIdentifier
         self.trainedModelArn = trainedModelArn
     }
@@ -4748,8 +4619,7 @@ public struct GetCollaborationTrainedModelOutput: Swift.Sendable {
         trainedModelArn: Swift.String? = nil,
         trainingContainerImageDigest: Swift.String? = nil,
         updateTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.collaborationIdentifier = collaborationIdentifier
         self.configuredModelAlgorithmAssociationArn = configuredModelAlgorithmAssociationArn
         self.createTime = createTime
@@ -4782,8 +4652,7 @@ public struct GetTrainedModelInput: Swift.Sendable {
     public init(
         membershipIdentifier: Swift.String? = nil,
         trainedModelArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.membershipIdentifier = membershipIdentifier
         self.trainedModelArn = trainedModelArn
     }
@@ -4881,8 +4750,7 @@ public struct GetTrainedModelOutput: Swift.Sendable {
         trainedModelArn: Swift.String? = nil,
         trainingContainerImageDigest: Swift.String? = nil,
         updateTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.collaborationIdentifier = collaborationIdentifier
         self.configuredModelAlgorithmAssociationArn = configuredModelAlgorithmAssociationArn
         self.createTime = createTime
@@ -4921,8 +4789,7 @@ public struct ListTrainedModelsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         membershipIdentifier: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.membershipIdentifier = membershipIdentifier
         self.nextToken = nextToken
@@ -4970,8 +4837,7 @@ extension CleanRoomsMLClientTypes {
             status: CleanRoomsMLClientTypes.TrainedModelStatus? = nil,
             trainedModelArn: Swift.String? = nil,
             updateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.collaborationIdentifier = collaborationIdentifier
             self.configuredModelAlgorithmAssociationArn = configuredModelAlgorithmAssociationArn
             self.createTime = createTime
@@ -4995,8 +4861,7 @@ public struct ListTrainedModelsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         trainedModels: [CleanRoomsMLClientTypes.TrainedModelSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.trainedModels = trainedModels
     }
@@ -5024,8 +4889,7 @@ public struct StartTrainedModelExportJobInput: Swift.Sendable {
         name: Swift.String? = nil,
         outputConfiguration: CleanRoomsMLClientTypes.TrainedModelExportOutputConfiguration? = nil,
         trainedModelArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.membershipIdentifier = membershipIdentifier
         self.name = name
@@ -5045,8 +4909,7 @@ public struct CancelTrainedModelInferenceJobInput: Swift.Sendable {
     public init(
         membershipIdentifier: Swift.String? = nil,
         trainedModelInferenceJobArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.membershipIdentifier = membershipIdentifier
         self.trainedModelInferenceJobArn = trainedModelInferenceJobArn
     }
@@ -5063,8 +4926,7 @@ public struct GetTrainedModelInferenceJobInput: Swift.Sendable {
     public init(
         membershipIdentifier: Swift.String? = nil,
         trainedModelInferenceJobArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.membershipIdentifier = membershipIdentifier
         self.trainedModelInferenceJobArn = trainedModelInferenceJobArn
     }
@@ -5079,8 +4941,7 @@ extension CleanRoomsMLClientTypes {
 
         public init(
             maxPayloadInMB: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maxPayloadInMB = maxPayloadInMB
         }
     }
@@ -5096,8 +4957,7 @@ extension CleanRoomsMLClientTypes {
 
         public init(
             mlInputChannelArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.mlInputChannelArn = mlInputChannelArn
         }
     }
@@ -5421,8 +5281,7 @@ extension CleanRoomsMLClientTypes {
         public init(
             instanceCount: Swift.Int? = 1,
             instanceType: CleanRoomsMLClientTypes.InferenceInstanceType? = nil
-        )
-        {
+        ) {
             self.instanceCount = instanceCount
             self.instanceType = instanceType
         }
@@ -5522,8 +5381,7 @@ public struct GetTrainedModelInferenceJobOutput: Swift.Sendable {
         trainedModelArn: Swift.String? = nil,
         trainedModelInferenceJobArn: Swift.String? = nil,
         updateTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.configuredModelAlgorithmAssociationArn = configuredModelAlgorithmAssociationArn
         self.containerExecutionParameters = containerExecutionParameters
         self.createTime = createTime
@@ -5565,8 +5423,7 @@ public struct ListTrainedModelInferenceJobsInput: Swift.Sendable {
         membershipIdentifier: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         trainedModelArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.membershipIdentifier = membershipIdentifier
         self.nextToken = nextToken
@@ -5634,8 +5491,7 @@ extension CleanRoomsMLClientTypes {
             trainedModelArn: Swift.String? = nil,
             trainedModelInferenceJobArn: Swift.String? = nil,
             updateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.collaborationIdentifier = collaborationIdentifier
             self.configuredModelAlgorithmAssociationArn = configuredModelAlgorithmAssociationArn
             self.createTime = createTime
@@ -5665,8 +5521,7 @@ public struct ListTrainedModelInferenceJobsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         trainedModelInferenceJobs: [CleanRoomsMLClientTypes.TrainedModelInferenceJobSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.trainedModelInferenceJobs = trainedModelInferenceJobs
     }
@@ -5731,8 +5586,7 @@ public struct StartTrainedModelInferenceJobInput: Swift.Sendable {
         resourceConfig: CleanRoomsMLClientTypes.InferenceResourceConfig? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         trainedModelArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.configuredModelAlgorithmAssociationArn = configuredModelAlgorithmAssociationArn
         self.containerExecutionParameters = containerExecutionParameters
         self.dataSource = dataSource
@@ -5755,8 +5609,7 @@ public struct StartTrainedModelInferenceJobOutput: Swift.Sendable {
 
     public init(
         trainedModelInferenceJobArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.trainedModelInferenceJobArn = trainedModelInferenceJobArn
     }
 }
@@ -5778,8 +5631,7 @@ extension CleanRoomsMLClientTypes {
             catalogId: Swift.String? = nil,
             databaseName: Swift.String? = nil,
             tableName: Swift.String? = nil
-        )
-        {
+        ) {
             self.catalogId = catalogId
             self.databaseName = databaseName
             self.tableName = tableName
@@ -5797,8 +5649,7 @@ extension CleanRoomsMLClientTypes {
 
         public init(
             glueDataSource: CleanRoomsMLClientTypes.GlueDataSource? = nil
-        )
-        {
+        ) {
             self.glueDataSource = glueDataSource
         }
     }
@@ -5856,8 +5707,7 @@ extension CleanRoomsMLClientTypes {
         public init(
             columnName: Swift.String? = nil,
             columnTypes: [CleanRoomsMLClientTypes.ColumnType]? = nil
-        )
-        {
+        ) {
             self.columnName = columnName
             self.columnTypes = columnTypes
         }
@@ -5878,8 +5728,7 @@ extension CleanRoomsMLClientTypes {
         public init(
             dataSource: CleanRoomsMLClientTypes.DataSource? = nil,
             schema: [CleanRoomsMLClientTypes.ColumnSchema]? = nil
-        )
-        {
+        ) {
             self.dataSource = dataSource
             self.schema = schema
         }
@@ -5926,8 +5775,7 @@ extension CleanRoomsMLClientTypes {
         public init(
             inputConfig: CleanRoomsMLClientTypes.DatasetInputConfig? = nil,
             type: CleanRoomsMLClientTypes.DatasetType? = nil
-        )
-        {
+        ) {
             self.inputConfig = inputConfig
             self.type = type
         }
@@ -5969,8 +5817,7 @@ public struct CreateTrainingDatasetInput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         trainingData: [CleanRoomsMLClientTypes.Dataset]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.name = name
         self.roleArn = roleArn
@@ -5986,8 +5833,7 @@ public struct CreateTrainingDatasetOutput: Swift.Sendable {
 
     public init(
         trainingDatasetArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.trainingDatasetArn = trainingDatasetArn
     }
 }
@@ -5999,8 +5845,7 @@ public struct DeleteTrainingDatasetInput: Swift.Sendable {
 
     public init(
         trainingDatasetArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.trainingDatasetArn = trainingDatasetArn
     }
 }
@@ -6012,8 +5857,7 @@ public struct GetTrainingDatasetInput: Swift.Sendable {
 
     public init(
         trainingDatasetArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.trainingDatasetArn = trainingDatasetArn
     }
 }
@@ -6081,8 +5925,7 @@ public struct GetTrainingDatasetOutput: Swift.Sendable {
         trainingData: [CleanRoomsMLClientTypes.Dataset]? = nil,
         trainingDatasetArn: Swift.String? = nil,
         updateTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.createTime = createTime
         self.description = description
         self.name = name
@@ -6104,8 +5947,7 @@ public struct ListTrainingDatasetsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -6140,8 +5982,7 @@ extension CleanRoomsMLClientTypes {
             status: CleanRoomsMLClientTypes.TrainingDatasetStatus? = nil,
             trainingDatasetArn: Swift.String? = nil,
             updateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.createTime = createTime
             self.description = description
             self.name = name
@@ -6162,8 +6003,7 @@ public struct ListTrainingDatasetsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         trainingDatasets: [CleanRoomsMLClientTypes.TrainingDatasetSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.trainingDatasets = trainingDatasets
     }
@@ -6180,8 +6020,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }

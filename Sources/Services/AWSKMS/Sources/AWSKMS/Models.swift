@@ -165,8 +165,7 @@ extension KMSClientTypes {
             creationDate: Foundation.Date? = nil,
             lastUpdatedDate: Foundation.Date? = nil,
             targetKeyId: Swift.String? = nil
-        )
-        {
+        ) {
             self.aliasArn = aliasArn
             self.aliasName = aliasName
             self.creationDate = creationDate
@@ -194,8 +193,7 @@ public struct AlreadyExistsException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -218,8 +216,7 @@ public struct DependencyTimeoutException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -242,8 +239,7 @@ public struct InvalidArnException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -266,8 +262,7 @@ public struct KMSInternalException: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -294,8 +289,7 @@ public struct KMSInvalidStateException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -318,8 +312,7 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -338,8 +331,7 @@ public struct CancelKeyDeletionInput: Swift.Sendable {
 
     public init(
         keyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.keyId = keyId
     }
 }
@@ -350,8 +342,7 @@ public struct CancelKeyDeletionOutput: Swift.Sendable {
 
     public init(
         keyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.keyId = keyId
     }
 }
@@ -374,8 +365,7 @@ public struct CloudHsmClusterInUseException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -407,8 +397,7 @@ public struct CloudHsmClusterInvalidConfigurationException: ClientRuntime.Modele
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -431,8 +420,7 @@ public struct CloudHsmClusterNotActiveException: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -455,8 +443,7 @@ public struct CloudHsmClusterNotFoundException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -479,8 +466,7 @@ public struct CloudHsmClusterNotRelatedException: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -503,8 +489,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -537,8 +522,7 @@ public struct CustomKeyStoreInvalidStateException: ClientRuntime.ModeledError, A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -561,8 +545,7 @@ public struct CustomKeyStoreNotFoundException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -574,8 +557,7 @@ public struct ConnectCustomKeyStoreInput: Swift.Sendable {
 
     public init(
         customKeyStoreId: Swift.String? = nil
-    )
-    {
+    ) {
         self.customKeyStoreId = customKeyStoreId
     }
 }
@@ -718,8 +700,7 @@ public struct InvalidAliasNameException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -742,8 +723,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -766,8 +746,7 @@ public struct CreateAliasInput: Swift.Sendable {
     public init(
         aliasName: Swift.String? = nil,
         targetKeyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.aliasName = aliasName
         self.targetKeyId = targetKeyId
     }
@@ -791,8 +770,7 @@ public struct CustomKeyStoreNameInUseException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -815,8 +793,7 @@ public struct IncorrectTrustAnchorException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -839,8 +816,7 @@ public struct XksProxyIncorrectAuthenticationCredentialException: ClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -863,8 +839,7 @@ public struct XksProxyInvalidConfigurationException: ClientRuntime.ModeledError,
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -887,8 +862,7 @@ public struct XksProxyInvalidResponseException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -911,8 +885,7 @@ public struct XksProxyUriEndpointInUseException: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -935,8 +908,7 @@ public struct XksProxyUriInUseException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -959,8 +931,7 @@ public struct XksProxyUriUnreachableException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -983,8 +954,7 @@ public struct XksProxyVpcEndpointServiceInUseException: ClientRuntime.ModeledErr
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1007,8 +977,7 @@ public struct XksProxyVpcEndpointServiceInvalidConfigurationException: ClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1031,8 +1000,7 @@ public struct XksProxyVpcEndpointServiceNotFoundException: ClientRuntime.Modeled
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1080,8 +1048,7 @@ extension KMSClientTypes {
         public init(
             accessKeyId: Swift.String? = nil,
             rawSecretAccessKey: Swift.String? = nil
-        )
-        {
+        ) {
             self.accessKeyId = accessKeyId
             self.rawSecretAccessKey = rawSecretAccessKey
         }
@@ -1166,8 +1133,7 @@ public struct CreateCustomKeyStoreInput: Swift.Sendable {
         xksProxyUriEndpoint: Swift.String? = nil,
         xksProxyUriPath: Swift.String? = nil,
         xksProxyVpcEndpointServiceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.cloudHsmClusterId = cloudHsmClusterId
         self.customKeyStoreName = customKeyStoreName
         self.customKeyStoreType = customKeyStoreType
@@ -1192,8 +1158,7 @@ public struct CreateCustomKeyStoreOutput: Swift.Sendable {
 
     public init(
         customKeyStoreId: Swift.String? = nil
-    )
-    {
+    ) {
         self.customKeyStoreId = customKeyStoreId
     }
 }
@@ -1216,8 +1181,7 @@ public struct DisabledException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1240,8 +1204,7 @@ public struct DryRunOperationException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1264,8 +1227,7 @@ public struct InvalidGrantTokenException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1282,8 +1244,7 @@ extension KMSClientTypes {
         public init(
             encryptionContextEquals: [Swift.String: Swift.String]? = nil,
             encryptionContextSubset: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.encryptionContextEquals = encryptionContextEquals
             self.encryptionContextSubset = encryptionContextSubset
         }
@@ -1401,8 +1362,7 @@ public struct CreateGrantInput: Swift.Sendable {
         name: Swift.String? = nil,
         operations: [KMSClientTypes.GrantOperation]? = nil,
         retiringPrincipal: Swift.String? = nil
-    )
-    {
+    ) {
         self.constraints = constraints
         self.dryRun = dryRun
         self.grantTokens = grantTokens
@@ -1423,8 +1383,7 @@ public struct CreateGrantOutput: Swift.Sendable {
     public init(
         grantId: Swift.String? = nil,
         grantToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.grantId = grantId
         self.grantToken = grantToken
     }
@@ -1448,8 +1407,7 @@ public struct MalformedPolicyDocumentException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1472,8 +1430,7 @@ public struct TagException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServ
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1496,8 +1453,7 @@ public struct UnsupportedOperationException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1520,8 +1476,7 @@ public struct XksKeyAlreadyInUseException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1544,8 +1499,7 @@ public struct XksKeyInvalidConfigurationException: ClientRuntime.ModeledError, A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1568,8 +1522,7 @@ public struct XksKeyNotFoundException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1783,8 +1736,7 @@ extension KMSClientTypes {
         public init(
             tagKey: Swift.String? = nil,
             tagValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.tagKey = tagKey
             self.tagValue = tagValue
         }
@@ -1900,8 +1852,7 @@ public struct CreateKeyInput: Swift.Sendable {
         policy: Swift.String? = nil,
         tags: [KMSClientTypes.Tag]? = nil,
         xksKeyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.bypassPolicyLockoutSafetyCheck = bypassPolicyLockoutSafetyCheck
         self.customKeyStoreId = customKeyStoreId
         self.customerMasterKeySpec = customerMasterKeySpec
@@ -2158,8 +2109,7 @@ extension KMSClientTypes {
         public init(
             arn: Swift.String? = nil,
             region: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.region = region
         }
@@ -2181,8 +2131,7 @@ extension KMSClientTypes {
             multiRegionKeyType: KMSClientTypes.MultiRegionKeyType? = nil,
             primaryKey: KMSClientTypes.MultiRegionKey? = nil,
             replicaKeys: [KMSClientTypes.MultiRegionKey]? = nil
-        )
-        {
+        ) {
             self.multiRegionKeyType = multiRegionKeyType
             self.primaryKey = primaryKey
             self.replicaKeys = replicaKeys
@@ -2252,8 +2201,7 @@ extension KMSClientTypes {
 
         public init(
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.id = id
         }
     }
@@ -2348,8 +2296,7 @@ extension KMSClientTypes {
             signingAlgorithms: [KMSClientTypes.SigningAlgorithmSpec]? = nil,
             validTo: Foundation.Date? = nil,
             xksKeyConfiguration: KMSClientTypes.XksKeyConfigurationType? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.awsAccountId = awsAccountId
             self.cloudHsmClusterId = cloudHsmClusterId
@@ -2385,8 +2332,7 @@ public struct CreateKeyOutput: Swift.Sendable {
 
     public init(
         keyMetadata: KMSClientTypes.KeyMetadata? = nil
-    )
-    {
+    ) {
         self.keyMetadata = keyMetadata
     }
 }
@@ -2409,8 +2355,7 @@ public struct CustomKeyStoreHasCMKsException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2436,8 +2381,7 @@ extension KMSClientTypes {
             uriEndpoint: Swift.String? = nil,
             uriPath: Swift.String? = nil,
             vpcEndpointServiceName: Swift.String? = nil
-        )
-        {
+        ) {
             self.accessKeyId = accessKeyId
             self.connectivity = connectivity
             self.uriEndpoint = uriEndpoint
@@ -2546,8 +2490,7 @@ extension KMSClientTypes {
             customKeyStoreType: KMSClientTypes.CustomKeyStoreType? = nil,
             trustAnchorCertificate: Swift.String? = nil,
             xksProxyConfiguration: KMSClientTypes.XksProxyConfigurationType? = nil
-        )
-        {
+        ) {
             self.cloudHsmClusterId = cloudHsmClusterId
             self.connectionErrorCode = connectionErrorCode
             self.connectionState = connectionState
@@ -2655,8 +2598,7 @@ public struct IncorrectKeyException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2679,8 +2621,7 @@ public struct InvalidCiphertextException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2710,8 +2651,7 @@ public struct InvalidKeyUsageException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2734,8 +2674,7 @@ public struct KeyUnavailableException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2778,8 +2717,7 @@ extension KMSClientTypes {
         public init(
             attestationDocument: Foundation.Data? = nil,
             keyEncryptionAlgorithm: KMSClientTypes.KeyEncryptionMechanism? = nil
-        )
-        {
+        ) {
             self.attestationDocument = attestationDocument
             self.keyEncryptionAlgorithm = keyEncryptionAlgorithm
         }
@@ -2822,8 +2760,7 @@ public struct DecryptInput: Swift.Sendable {
         grantTokens: [Swift.String]? = nil,
         keyId: Swift.String? = nil,
         recipient: KMSClientTypes.RecipientInfo? = nil
-    )
-    {
+    ) {
         self.ciphertextBlob = ciphertextBlob
         self.dryRun = dryRun
         self.encryptionAlgorithm = encryptionAlgorithm
@@ -2849,8 +2786,7 @@ public struct DecryptOutput: Swift.Sendable {
         encryptionAlgorithm: KMSClientTypes.EncryptionAlgorithmSpec? = nil,
         keyId: Swift.String? = nil,
         plaintext: Foundation.Data? = nil
-    )
-    {
+    ) {
         self.ciphertextForRecipient = ciphertextForRecipient
         self.encryptionAlgorithm = encryptionAlgorithm
         self.keyId = keyId
@@ -2870,8 +2806,7 @@ public struct DeleteAliasInput: Swift.Sendable {
 
     public init(
         aliasName: Swift.String? = nil
-    )
-    {
+    ) {
         self.aliasName = aliasName
     }
 }
@@ -2883,8 +2818,7 @@ public struct DeleteCustomKeyStoreInput: Swift.Sendable {
 
     public init(
         customKeyStoreId: Swift.String? = nil
-    )
-    {
+    ) {
         self.customKeyStoreId = customKeyStoreId
     }
 }
@@ -2908,8 +2842,7 @@ public struct DeleteImportedKeyMaterialInput: Swift.Sendable {
 
     public init(
         keyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.keyId = keyId
     }
 }
@@ -2949,8 +2882,7 @@ public struct DeriveSharedSecretInput: Swift.Sendable {
         keyId: Swift.String? = nil,
         publicKey: Foundation.Data? = nil,
         recipient: KMSClientTypes.RecipientInfo? = nil
-    )
-    {
+    ) {
         self.dryRun = dryRun
         self.grantTokens = grantTokens
         self.keyAgreementAlgorithm = keyAgreementAlgorithm
@@ -2978,8 +2910,7 @@ public struct DeriveSharedSecretOutput: Swift.Sendable {
         keyId: Swift.String? = nil,
         keyOrigin: KMSClientTypes.OriginType? = nil,
         sharedSecret: Foundation.Data? = nil
-    )
-    {
+    ) {
         self.ciphertextForRecipient = ciphertextForRecipient
         self.keyAgreementAlgorithm = keyAgreementAlgorithm
         self.keyId = keyId
@@ -3011,8 +2942,7 @@ public struct InvalidMarkerException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3032,8 +2962,7 @@ public struct DescribeCustomKeyStoresInput: Swift.Sendable {
         customKeyStoreName: Swift.String? = nil,
         limit: Swift.Int? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.customKeyStoreId = customKeyStoreId
         self.customKeyStoreName = customKeyStoreName
         self.limit = limit
@@ -3053,8 +2982,7 @@ public struct DescribeCustomKeyStoresOutput: Swift.Sendable {
         customKeyStores: [KMSClientTypes.CustomKeyStoresListEntry]? = nil,
         nextMarker: Swift.String? = nil,
         truncated: Swift.Bool = false
-    )
-    {
+    ) {
         self.customKeyStores = customKeyStores
         self.nextMarker = nextMarker
         self.truncated = truncated
@@ -3082,8 +3010,7 @@ public struct DescribeKeyInput: Swift.Sendable {
     public init(
         grantTokens: [Swift.String]? = nil,
         keyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.grantTokens = grantTokens
         self.keyId = keyId
     }
@@ -3095,8 +3022,7 @@ public struct DescribeKeyOutput: Swift.Sendable {
 
     public init(
         keyMetadata: KMSClientTypes.KeyMetadata? = nil
-    )
-    {
+    ) {
         self.keyMetadata = keyMetadata
     }
 }
@@ -3115,8 +3041,7 @@ public struct DisableKeyInput: Swift.Sendable {
 
     public init(
         keyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.keyId = keyId
     }
 }
@@ -3135,8 +3060,7 @@ public struct DisableKeyRotationInput: Swift.Sendable {
 
     public init(
         keyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.keyId = keyId
     }
 }
@@ -3148,8 +3072,7 @@ public struct DisconnectCustomKeyStoreInput: Swift.Sendable {
 
     public init(
         customKeyStoreId: Swift.String? = nil
-    )
-    {
+    ) {
         self.customKeyStoreId = customKeyStoreId
     }
 }
@@ -3173,8 +3096,7 @@ public struct EnableKeyInput: Swift.Sendable {
 
     public init(
         keyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.keyId = keyId
     }
 }
@@ -3196,8 +3118,7 @@ public struct EnableKeyRotationInput: Swift.Sendable {
     public init(
         keyId: Swift.String? = nil,
         rotationPeriodInDays: Swift.Int? = nil
-    )
-    {
+    ) {
         self.keyId = keyId
         self.rotationPeriodInDays = rotationPeriodInDays
     }
@@ -3237,8 +3158,7 @@ public struct EncryptInput: Swift.Sendable {
         grantTokens: [Swift.String]? = nil,
         keyId: Swift.String? = nil,
         plaintext: Foundation.Data? = nil
-    )
-    {
+    ) {
         self.dryRun = dryRun
         self.encryptionAlgorithm = encryptionAlgorithm
         self.encryptionContext = encryptionContext
@@ -3265,8 +3185,7 @@ public struct EncryptOutput: Swift.Sendable {
         ciphertextBlob: Foundation.Data? = nil,
         encryptionAlgorithm: KMSClientTypes.EncryptionAlgorithmSpec? = nil,
         keyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.ciphertextBlob = ciphertextBlob
         self.encryptionAlgorithm = encryptionAlgorithm
         self.keyId = keyId
@@ -3291,8 +3210,7 @@ public struct ExpiredImportTokenException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3333,8 +3251,7 @@ public struct GenerateDataKeyInput: Swift.Sendable {
         keySpec: KMSClientTypes.DataKeySpec? = nil,
         numberOfBytes: Swift.Int? = nil,
         recipient: KMSClientTypes.RecipientInfo? = nil
-    )
-    {
+    ) {
         self.dryRun = dryRun
         self.encryptionContext = encryptionContext
         self.grantTokens = grantTokens
@@ -3360,8 +3277,7 @@ public struct GenerateDataKeyOutput: Swift.Sendable {
         ciphertextForRecipient: Foundation.Data? = nil,
         keyId: Swift.String? = nil,
         plaintext: Foundation.Data? = nil
-    )
-    {
+    ) {
         self.ciphertextBlob = ciphertextBlob
         self.ciphertextForRecipient = ciphertextForRecipient
         self.keyId = keyId
@@ -3408,8 +3324,7 @@ public struct GenerateDataKeyPairInput: Swift.Sendable {
         keyId: Swift.String? = nil,
         keyPairSpec: KMSClientTypes.DataKeyPairSpec? = nil,
         recipient: KMSClientTypes.RecipientInfo? = nil
-    )
-    {
+    ) {
         self.dryRun = dryRun
         self.encryptionContext = encryptionContext
         self.grantTokens = grantTokens
@@ -3440,8 +3355,7 @@ public struct GenerateDataKeyPairOutput: Swift.Sendable {
         privateKeyCiphertextBlob: Foundation.Data? = nil,
         privateKeyPlaintext: Foundation.Data? = nil,
         publicKey: Foundation.Data? = nil
-    )
-    {
+    ) {
         self.ciphertextForRecipient = ciphertextForRecipient
         self.keyId = keyId
         self.keyPairSpec = keyPairSpec
@@ -3487,8 +3401,7 @@ public struct GenerateDataKeyPairWithoutPlaintextInput: Swift.Sendable {
         grantTokens: [Swift.String]? = nil,
         keyId: Swift.String? = nil,
         keyPairSpec: KMSClientTypes.DataKeyPairSpec? = nil
-    )
-    {
+    ) {
         self.dryRun = dryRun
         self.encryptionContext = encryptionContext
         self.grantTokens = grantTokens
@@ -3512,8 +3425,7 @@ public struct GenerateDataKeyPairWithoutPlaintextOutput: Swift.Sendable {
         keyPairSpec: KMSClientTypes.DataKeyPairSpec? = nil,
         privateKeyCiphertextBlob: Foundation.Data? = nil,
         publicKey: Foundation.Data? = nil
-    )
-    {
+    ) {
         self.keyId = keyId
         self.keyPairSpec = keyPairSpec
         self.privateKeyCiphertextBlob = privateKeyCiphertextBlob
@@ -3554,8 +3466,7 @@ public struct GenerateDataKeyWithoutPlaintextInput: Swift.Sendable {
         keyId: Swift.String? = nil,
         keySpec: KMSClientTypes.DataKeySpec? = nil,
         numberOfBytes: Swift.Int? = nil
-    )
-    {
+    ) {
         self.dryRun = dryRun
         self.encryptionContext = encryptionContext
         self.grantTokens = grantTokens
@@ -3574,8 +3485,7 @@ public struct GenerateDataKeyWithoutPlaintextOutput: Swift.Sendable {
     public init(
         ciphertextBlob: Foundation.Data? = nil,
         keyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.ciphertextBlob = ciphertextBlob
         self.keyId = keyId
     }
@@ -3602,8 +3512,7 @@ public struct GenerateMacInput: Swift.Sendable {
         keyId: Swift.String? = nil,
         macAlgorithm: KMSClientTypes.MacAlgorithmSpec? = nil,
         message: Foundation.Data? = nil
-    )
-    {
+    ) {
         self.dryRun = dryRun
         self.grantTokens = grantTokens
         self.keyId = keyId
@@ -3629,8 +3538,7 @@ public struct GenerateMacOutput: Swift.Sendable {
         keyId: Swift.String? = nil,
         mac: Foundation.Data? = nil,
         macAlgorithm: KMSClientTypes.MacAlgorithmSpec? = nil
-    )
-    {
+    ) {
         self.keyId = keyId
         self.mac = mac
         self.macAlgorithm = macAlgorithm
@@ -3649,8 +3557,7 @@ public struct GenerateRandomInput: Swift.Sendable {
         customKeyStoreId: Swift.String? = nil,
         numberOfBytes: Swift.Int? = nil,
         recipient: KMSClientTypes.RecipientInfo? = nil
-    )
-    {
+    ) {
         self.customKeyStoreId = customKeyStoreId
         self.numberOfBytes = numberOfBytes
         self.recipient = recipient
@@ -3666,8 +3573,7 @@ public struct GenerateRandomOutput: Swift.Sendable {
     public init(
         ciphertextForRecipient: Foundation.Data? = nil,
         plaintext: Foundation.Data? = nil
-    )
-    {
+    ) {
         self.ciphertextForRecipient = ciphertextForRecipient
         self.plaintext = plaintext
     }
@@ -3695,8 +3601,7 @@ public struct GetKeyPolicyInput: Swift.Sendable {
     public init(
         keyId: Swift.String? = nil,
         policyName: Swift.String? = nil
-    )
-    {
+    ) {
         self.keyId = keyId
         self.policyName = policyName
     }
@@ -3711,8 +3616,7 @@ public struct GetKeyPolicyOutput: Swift.Sendable {
     public init(
         policy: Swift.String? = nil,
         policyName: Swift.String? = nil
-    )
-    {
+    ) {
         self.policy = policy
         self.policyName = policyName
     }
@@ -3732,8 +3636,7 @@ public struct GetKeyRotationStatusInput: Swift.Sendable {
 
     public init(
         keyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.keyId = keyId
     }
 }
@@ -3756,8 +3659,7 @@ public struct GetKeyRotationStatusOutput: Swift.Sendable {
         nextRotationDate: Foundation.Date? = nil,
         onDemandRotationStartDate: Foundation.Date? = nil,
         rotationPeriodInDays: Swift.Int? = nil
-    )
-    {
+    ) {
         self.keyId = keyId
         self.keyRotationEnabled = keyRotationEnabled
         self.nextRotationDate = nextRotationDate
@@ -3833,8 +3735,7 @@ public struct GetParametersForImportInput: Swift.Sendable {
         keyId: Swift.String? = nil,
         wrappingAlgorithm: KMSClientTypes.AlgorithmSpec? = nil,
         wrappingKeySpec: KMSClientTypes.WrappingKeySpec? = nil
-    )
-    {
+    ) {
         self.keyId = keyId
         self.wrappingAlgorithm = wrappingAlgorithm
         self.wrappingKeySpec = wrappingKeySpec
@@ -3856,8 +3757,7 @@ public struct GetParametersForImportOutput: Swift.Sendable {
         keyId: Swift.String? = nil,
         parametersValidTo: Foundation.Date? = nil,
         publicKey: Foundation.Data? = nil
-    )
-    {
+    ) {
         self.importToken = importToken
         self.keyId = keyId
         self.parametersValidTo = parametersValidTo
@@ -3891,8 +3791,7 @@ public struct GetPublicKeyInput: Swift.Sendable {
     public init(
         grantTokens: [Swift.String]? = nil,
         keyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.grantTokens = grantTokens
         self.keyId = keyId
     }
@@ -3926,8 +3825,7 @@ public struct GetPublicKeyOutput: Swift.Sendable {
         keyUsage: KMSClientTypes.KeyUsageType? = nil,
         publicKey: Foundation.Data? = nil,
         signingAlgorithms: [KMSClientTypes.SigningAlgorithmSpec]? = nil
-    )
-    {
+    ) {
         self.customerMasterKeySpec = customerMasterKeySpec
         self.encryptionAlgorithms = encryptionAlgorithms
         self.keyAgreementAlgorithms = keyAgreementAlgorithms
@@ -3972,8 +3870,7 @@ extension KMSClientTypes {
             name: Swift.String? = nil,
             operations: [KMSClientTypes.GrantOperation]? = nil,
             retiringPrincipal: Swift.String? = nil
-        )
-        {
+        ) {
             self.constraints = constraints
             self.creationDate = creationDate
             self.grantId = grantId
@@ -4005,8 +3902,7 @@ public struct IncorrectKeyMaterialException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4029,8 +3925,7 @@ public struct InvalidImportTokenException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4063,8 +3958,7 @@ public struct ImportKeyMaterialInput: Swift.Sendable {
         importToken: Foundation.Data? = nil,
         keyId: Swift.String? = nil,
         validTo: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.encryptedKeyMaterial = encryptedKeyMaterial
         self.expirationModel = expirationModel
         self.importToken = importToken
@@ -4096,8 +3990,7 @@ public struct InvalidGrantIdException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4114,8 +4007,7 @@ extension KMSClientTypes {
         public init(
             keyArn: Swift.String? = nil,
             keyId: Swift.String? = nil
-        )
-        {
+        ) {
             self.keyArn = keyArn
             self.keyId = keyId
         }
@@ -4140,8 +4032,7 @@ public struct KMSInvalidMacException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4164,8 +4055,7 @@ public struct KMSInvalidSignatureException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4189,8 +4079,7 @@ public struct ListAliasesInput: Swift.Sendable {
         keyId: Swift.String? = nil,
         limit: Swift.Int? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.keyId = keyId
         self.limit = limit
         self.marker = marker
@@ -4209,8 +4098,7 @@ public struct ListAliasesOutput: Swift.Sendable {
         aliases: [KMSClientTypes.AliasListEntry]? = nil,
         nextMarker: Swift.String? = nil,
         truncated: Swift.Bool = false
-    )
-    {
+    ) {
         self.aliases = aliases
         self.nextMarker = nextMarker
         self.truncated = truncated
@@ -4243,8 +4131,7 @@ public struct ListGrantsInput: Swift.Sendable {
         keyId: Swift.String? = nil,
         limit: Swift.Int? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.grantId = grantId
         self.granteePrincipal = granteePrincipal
         self.keyId = keyId
@@ -4265,8 +4152,7 @@ public struct ListGrantsOutput: Swift.Sendable {
         grants: [KMSClientTypes.GrantListEntry]? = nil,
         nextMarker: Swift.String? = nil,
         truncated: Swift.Bool = false
-    )
-    {
+    ) {
         self.grants = grants
         self.nextMarker = nextMarker
         self.truncated = truncated
@@ -4293,8 +4179,7 @@ public struct ListKeyPoliciesInput: Swift.Sendable {
         keyId: Swift.String? = nil,
         limit: Swift.Int? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.keyId = keyId
         self.limit = limit
         self.marker = marker
@@ -4313,8 +4198,7 @@ public struct ListKeyPoliciesOutput: Swift.Sendable {
         nextMarker: Swift.String? = nil,
         policyNames: [Swift.String]? = nil,
         truncated: Swift.Bool = false
-    )
-    {
+    ) {
         self.nextMarker = nextMarker
         self.policyNames = policyNames
         self.truncated = truncated
@@ -4341,8 +4225,7 @@ public struct ListKeyRotationsInput: Swift.Sendable {
         keyId: Swift.String? = nil,
         limit: Swift.Int? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.keyId = keyId
         self.limit = limit
         self.marker = marker
@@ -4393,8 +4276,7 @@ extension KMSClientTypes {
             keyId: Swift.String? = nil,
             rotationDate: Foundation.Date? = nil,
             rotationType: KMSClientTypes.RotationType? = nil
-        )
-        {
+        ) {
             self.keyId = keyId
             self.rotationDate = rotationDate
             self.rotationType = rotationType
@@ -4414,8 +4296,7 @@ public struct ListKeyRotationsOutput: Swift.Sendable {
         nextMarker: Swift.String? = nil,
         rotations: [KMSClientTypes.RotationsListEntry]? = nil,
         truncated: Swift.Bool = false
-    )
-    {
+    ) {
         self.nextMarker = nextMarker
         self.rotations = rotations
         self.truncated = truncated
@@ -4431,8 +4312,7 @@ public struct ListKeysInput: Swift.Sendable {
     public init(
         limit: Swift.Int? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.marker = marker
     }
@@ -4450,8 +4330,7 @@ public struct ListKeysOutput: Swift.Sendable {
         keys: [KMSClientTypes.KeyListEntry]? = nil,
         nextMarker: Swift.String? = nil,
         truncated: Swift.Bool = false
-    )
-    {
+    ) {
         self.keys = keys
         self.nextMarker = nextMarker
         self.truncated = truncated
@@ -4478,8 +4357,7 @@ public struct ListResourceTagsInput: Swift.Sendable {
         keyId: Swift.String? = nil,
         limit: Swift.Int? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.keyId = keyId
         self.limit = limit
         self.marker = marker
@@ -4498,8 +4376,7 @@ public struct ListResourceTagsOutput: Swift.Sendable {
         nextMarker: Swift.String? = nil,
         tags: [KMSClientTypes.Tag]? = nil,
         truncated: Swift.Bool = false
-    )
-    {
+    ) {
         self.nextMarker = nextMarker
         self.tags = tags
         self.truncated = truncated
@@ -4519,8 +4396,7 @@ public struct ListRetirableGrantsInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         marker: Swift.String? = nil,
         retiringPrincipal: Swift.String? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.marker = marker
         self.retiringPrincipal = retiringPrincipal
@@ -4539,8 +4415,7 @@ public struct ListRetirableGrantsOutput: Swift.Sendable {
         grants: [KMSClientTypes.GrantListEntry]? = nil,
         nextMarker: Swift.String? = nil,
         truncated: Swift.Bool = false
-    )
-    {
+    ) {
         self.grants = grants
         self.nextMarker = nextMarker
         self.truncated = truncated
@@ -4616,8 +4491,7 @@ public struct PutKeyPolicyInput: Swift.Sendable {
         keyId: Swift.String? = nil,
         policy: Swift.String? = nil,
         policyName: Swift.String? = nil
-    )
-    {
+    ) {
         self.bypassPolicyLockoutSafetyCheck = bypassPolicyLockoutSafetyCheck
         self.keyId = keyId
         self.policy = policy
@@ -4679,8 +4553,7 @@ public struct ReEncryptInput: Swift.Sendable {
         sourceEncryptionAlgorithm: KMSClientTypes.EncryptionAlgorithmSpec? = nil,
         sourceEncryptionContext: [Swift.String: Swift.String]? = nil,
         sourceKeyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.ciphertextBlob = ciphertextBlob
         self.destinationEncryptionAlgorithm = destinationEncryptionAlgorithm
         self.destinationEncryptionContext = destinationEncryptionContext
@@ -4711,8 +4584,7 @@ public struct ReEncryptOutput: Swift.Sendable {
         keyId: Swift.String? = nil,
         sourceEncryptionAlgorithm: KMSClientTypes.EncryptionAlgorithmSpec? = nil,
         sourceKeyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.ciphertextBlob = ciphertextBlob
         self.destinationEncryptionAlgorithm = destinationEncryptionAlgorithm
         self.keyId = keyId
@@ -4767,8 +4639,7 @@ public struct ReplicateKeyInput: Swift.Sendable {
         policy: Swift.String? = nil,
         replicaRegion: Swift.String? = nil,
         tags: [KMSClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.bypassPolicyLockoutSafetyCheck = bypassPolicyLockoutSafetyCheck
         self.description = description
         self.keyId = keyId
@@ -4790,8 +4661,7 @@ public struct ReplicateKeyOutput: Swift.Sendable {
         replicaKeyMetadata: KMSClientTypes.KeyMetadata? = nil,
         replicaPolicy: Swift.String? = nil,
         replicaTags: [KMSClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.replicaKeyMetadata = replicaKeyMetadata
         self.replicaPolicy = replicaPolicy
         self.replicaTags = replicaTags
@@ -4815,8 +4685,7 @@ public struct RetireGrantInput: Swift.Sendable {
         grantId: Swift.String? = nil,
         grantToken: Swift.String? = nil,
         keyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.dryRun = dryRun
         self.grantId = grantId
         self.grantToken = grantToken
@@ -4845,8 +4714,7 @@ public struct RevokeGrantInput: Swift.Sendable {
         dryRun: Swift.Bool? = nil,
         grantId: Swift.String? = nil,
         keyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.dryRun = dryRun
         self.grantId = grantId
         self.keyId = keyId
@@ -4867,8 +4735,7 @@ public struct RotateKeyOnDemandInput: Swift.Sendable {
 
     public init(
         keyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.keyId = keyId
     }
 }
@@ -4879,8 +4746,7 @@ public struct RotateKeyOnDemandOutput: Swift.Sendable {
 
     public init(
         keyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.keyId = keyId
     }
 }
@@ -4902,8 +4768,7 @@ public struct ScheduleKeyDeletionInput: Swift.Sendable {
     public init(
         keyId: Swift.String? = nil,
         pendingWindowInDays: Swift.Int? = nil
-    )
-    {
+    ) {
         self.keyId = keyId
         self.pendingWindowInDays = pendingWindowInDays
     }
@@ -4924,8 +4789,7 @@ public struct ScheduleKeyDeletionOutput: Swift.Sendable {
         keyId: Swift.String? = nil,
         keyState: KMSClientTypes.KeyState? = nil,
         pendingWindowInDays: Swift.Int? = nil
-    )
-    {
+    ) {
         self.deletionDate = deletionDate
         self.keyId = keyId
         self.keyState = keyState
@@ -4976,8 +4840,7 @@ public struct SignInput: Swift.Sendable {
         message: Foundation.Data? = nil,
         messageType: KMSClientTypes.MessageType? = nil,
         signingAlgorithm: KMSClientTypes.SigningAlgorithmSpec? = nil
-    )
-    {
+    ) {
         self.dryRun = dryRun
         self.grantTokens = grantTokens
         self.keyId = keyId
@@ -5011,8 +4874,7 @@ public struct SignOutput: Swift.Sendable {
         keyId: Swift.String? = nil,
         signature: Foundation.Data? = nil,
         signingAlgorithm: KMSClientTypes.SigningAlgorithmSpec? = nil
-    )
-    {
+    ) {
         self.keyId = keyId
         self.signature = signature
         self.signingAlgorithm = signingAlgorithm
@@ -5037,8 +4899,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         keyId: Swift.String? = nil,
         tags: [KMSClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.keyId = keyId
         self.tags = tags
     }
@@ -5062,8 +4923,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         keyId: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.keyId = keyId
         self.tagKeys = tagKeys
     }
@@ -5087,8 +4947,7 @@ public struct UpdateAliasInput: Swift.Sendable {
     public init(
         aliasName: Swift.String? = nil,
         targetKeyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.aliasName = aliasName
         self.targetKeyId = targetKeyId
     }
@@ -5125,8 +4984,7 @@ public struct UpdateCustomKeyStoreInput: Swift.Sendable {
         xksProxyUriEndpoint: Swift.String? = nil,
         xksProxyUriPath: Swift.String? = nil,
         xksProxyVpcEndpointServiceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.cloudHsmClusterId = cloudHsmClusterId
         self.customKeyStoreId = customKeyStoreId
         self.keyStorePassword = keyStorePassword
@@ -5167,8 +5025,7 @@ public struct UpdateKeyDescriptionInput: Swift.Sendable {
     public init(
         description: Swift.String? = nil,
         keyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.keyId = keyId
     }
@@ -5192,8 +5049,7 @@ public struct UpdatePrimaryRegionInput: Swift.Sendable {
     public init(
         keyId: Swift.String? = nil,
         primaryRegion: Swift.String? = nil
-    )
-    {
+    ) {
         self.keyId = keyId
         self.primaryRegion = primaryRegion
     }
@@ -5246,8 +5102,7 @@ public struct VerifyInput: Swift.Sendable {
         messageType: KMSClientTypes.MessageType? = nil,
         signature: Foundation.Data? = nil,
         signingAlgorithm: KMSClientTypes.SigningAlgorithmSpec? = nil
-    )
-    {
+    ) {
         self.dryRun = dryRun
         self.grantTokens = grantTokens
         self.keyId = keyId
@@ -5275,8 +5130,7 @@ public struct VerifyOutput: Swift.Sendable {
         keyId: Swift.String? = nil,
         signatureValid: Swift.Bool = false,
         signingAlgorithm: KMSClientTypes.SigningAlgorithmSpec? = nil
-    )
-    {
+    ) {
         self.keyId = keyId
         self.signatureValid = signatureValid
         self.signingAlgorithm = signingAlgorithm
@@ -5308,8 +5162,7 @@ public struct VerifyMacInput: Swift.Sendable {
         mac: Foundation.Data? = nil,
         macAlgorithm: KMSClientTypes.MacAlgorithmSpec? = nil,
         message: Foundation.Data? = nil
-    )
-    {
+    ) {
         self.dryRun = dryRun
         self.grantTokens = grantTokens
         self.keyId = keyId
@@ -5336,8 +5189,7 @@ public struct VerifyMacOutput: Swift.Sendable {
         keyId: Swift.String? = nil,
         macAlgorithm: KMSClientTypes.MacAlgorithmSpec? = nil,
         macValid: Swift.Bool = false
-    )
-    {
+    ) {
         self.keyId = keyId
         self.macAlgorithm = macAlgorithm
         self.macValid = macValid

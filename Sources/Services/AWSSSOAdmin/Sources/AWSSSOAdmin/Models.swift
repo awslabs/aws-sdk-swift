@@ -68,8 +68,7 @@ extension SSOAdminClientTypes {
 
         public init(
             source: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.source = source
         }
     }
@@ -89,8 +88,7 @@ extension SSOAdminClientTypes {
         public init(
             key: Swift.String? = nil,
             value: SSOAdminClientTypes.AccessControlAttributeValue? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -115,8 +113,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -168,8 +165,7 @@ extension SSOAdminClientTypes {
             permissionSetArn: Swift.String? = nil,
             principalId: Swift.String? = nil,
             principalType: SSOAdminClientTypes.PrincipalType? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.permissionSetArn = permissionSetArn
             self.principalId = principalId
@@ -196,8 +192,7 @@ extension SSOAdminClientTypes {
             permissionSetArn: Swift.String? = nil,
             principalId: Swift.String? = nil,
             principalType: SSOAdminClientTypes.PrincipalType? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.permissionSetArn = permissionSetArn
             self.principalId = principalId
@@ -297,8 +292,7 @@ extension SSOAdminClientTypes {
             status: SSOAdminClientTypes.StatusValues? = nil,
             targetId: Swift.String? = nil,
             targetType: SSOAdminClientTypes.TargetType? = nil
-        )
-        {
+        ) {
             self.createdDate = createdDate
             self.failureReason = failureReason
             self.permissionSetArn = permissionSetArn
@@ -327,8 +321,7 @@ extension SSOAdminClientTypes {
             createdDate: Foundation.Date? = nil,
             requestId: Swift.String? = nil,
             status: SSOAdminClientTypes.StatusValues? = nil
-        )
-        {
+        ) {
             self.createdDate = createdDate
             self.requestId = requestId
             self.status = status
@@ -382,8 +375,7 @@ extension SSOAdminClientTypes {
         public init(
             applicationUrl: Swift.String? = nil,
             origin: SSOAdminClientTypes.SignInOrigin? = nil
-        )
-        {
+        ) {
             self.applicationUrl = applicationUrl
             self.origin = origin
         }
@@ -431,8 +423,7 @@ extension SSOAdminClientTypes {
         public init(
             signInOptions: SSOAdminClientTypes.SignInOptions? = nil,
             visibility: SSOAdminClientTypes.ApplicationVisibility? = .enabled
-        )
-        {
+        ) {
             self.signInOptions = signInOptions
             self.visibility = visibility
         }
@@ -501,8 +492,7 @@ extension SSOAdminClientTypes {
             name: Swift.String? = nil,
             portalOptions: SSOAdminClientTypes.PortalOptions? = nil,
             status: SSOAdminClientTypes.ApplicationStatus? = nil
-        )
-        {
+        ) {
             self.applicationAccount = applicationAccount
             self.applicationArn = applicationArn
             self.applicationProviderArn = applicationProviderArn
@@ -534,8 +524,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -558,8 +547,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -582,8 +570,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -606,8 +593,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -630,8 +616,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -647,8 +632,7 @@ public struct DeleteApplicationAccessScopeInput: Swift.Sendable {
     public init(
         applicationArn: Swift.String? = nil,
         scope: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationArn = applicationArn
         self.scope = scope
     }
@@ -665,8 +649,7 @@ public struct GetApplicationAccessScopeInput: Swift.Sendable {
     public init(
         applicationArn: Swift.String? = nil,
         scope: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationArn = applicationArn
         self.scope = scope
     }
@@ -682,8 +665,7 @@ public struct GetApplicationAccessScopeOutput: Swift.Sendable {
     public init(
         authorizedTargets: [Swift.String]? = nil,
         scope: Swift.String? = nil
-    )
-    {
+    ) {
         self.authorizedTargets = authorizedTargets
         self.scope = scope
     }
@@ -702,8 +684,7 @@ public struct ListApplicationAccessScopesInput: Swift.Sendable {
         applicationArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationArn = applicationArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -723,8 +704,7 @@ extension SSOAdminClientTypes {
         public init(
             authorizedTargets: [Swift.String]? = nil,
             scope: Swift.String? = nil
-        )
-        {
+        ) {
             self.authorizedTargets = authorizedTargets
             self.scope = scope
         }
@@ -741,8 +721,7 @@ public struct ListApplicationAccessScopesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         scopes: [SSOAdminClientTypes.ScopeDetails]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.scopes = scopes
     }
@@ -762,8 +741,7 @@ public struct PutApplicationAccessScopeInput: Swift.Sendable {
         applicationArn: Swift.String? = nil,
         authorizedTargets: [Swift.String]? = nil,
         scope: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationArn = applicationArn
         self.authorizedTargets = authorizedTargets
         self.scope = scope
@@ -788,8 +766,7 @@ extension SSOAdminClientTypes {
             applicationArn: Swift.String? = nil,
             principalId: Swift.String? = nil,
             principalType: SSOAdminClientTypes.PrincipalType? = nil
-        )
-        {
+        ) {
             self.applicationArn = applicationArn
             self.principalId = principalId
             self.principalType = principalType
@@ -812,8 +789,7 @@ extension SSOAdminClientTypes {
             applicationArn: Swift.String? = nil,
             principalId: Swift.String? = nil,
             principalType: SSOAdminClientTypes.PrincipalType? = nil
-        )
-        {
+        ) {
             self.applicationArn = applicationArn
             self.principalId = principalId
             self.principalType = principalType
@@ -858,8 +834,7 @@ public struct DeleteApplicationAuthenticationMethodInput: Swift.Sendable {
     public init(
         applicationArn: Swift.String? = nil,
         authenticationMethodType: SSOAdminClientTypes.AuthenticationMethodType? = nil
-    )
-    {
+    ) {
         self.applicationArn = applicationArn
         self.authenticationMethodType = authenticationMethodType
     }
@@ -876,8 +851,7 @@ public struct GetApplicationAuthenticationMethodInput: Swift.Sendable {
     public init(
         applicationArn: Swift.String? = nil,
         authenticationMethodType: SSOAdminClientTypes.AuthenticationMethodType? = nil
-    )
-    {
+    ) {
         self.applicationArn = applicationArn
         self.authenticationMethodType = authenticationMethodType
     }
@@ -893,8 +867,7 @@ extension SSOAdminClientTypes {
 
         public init(
             actorPolicy: Smithy.Document? = nil
-        )
-        {
+        ) {
             self.actorPolicy = actorPolicy
         }
     }
@@ -916,8 +889,7 @@ public struct GetApplicationAuthenticationMethodOutput: Swift.Sendable {
 
     public init(
         authenticationMethod: SSOAdminClientTypes.AuthenticationMethod? = nil
-    )
-    {
+    ) {
         self.authenticationMethod = authenticationMethod
     }
 }
@@ -932,8 +904,7 @@ public struct ListApplicationAuthenticationMethodsInput: Swift.Sendable {
     public init(
         applicationArn: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationArn = applicationArn
         self.nextToken = nextToken
     }
@@ -951,8 +922,7 @@ extension SSOAdminClientTypes {
         public init(
             authenticationMethod: SSOAdminClientTypes.AuthenticationMethod? = nil,
             authenticationMethodType: SSOAdminClientTypes.AuthenticationMethodType? = nil
-        )
-        {
+        ) {
             self.authenticationMethod = authenticationMethod
             self.authenticationMethodType = authenticationMethodType
         }
@@ -968,8 +938,7 @@ public struct ListApplicationAuthenticationMethodsOutput: Swift.Sendable {
     public init(
         authenticationMethods: [SSOAdminClientTypes.AuthenticationMethodItem]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.authenticationMethods = authenticationMethods
         self.nextToken = nextToken
     }
@@ -990,8 +959,7 @@ public struct PutApplicationAuthenticationMethodInput: Swift.Sendable {
         applicationArn: Swift.String? = nil,
         authenticationMethod: SSOAdminClientTypes.AuthenticationMethod? = nil,
         authenticationMethodType: SSOAdminClientTypes.AuthenticationMethodType? = nil
-    )
-    {
+    ) {
         self.applicationArn = applicationArn
         self.authenticationMethod = authenticationMethod
         self.authenticationMethodType = authenticationMethodType
@@ -1044,8 +1012,7 @@ public struct DeleteApplicationGrantInput: Swift.Sendable {
     public init(
         applicationArn: Swift.String? = nil,
         grantType: SSOAdminClientTypes.GrantType? = nil
-    )
-    {
+    ) {
         self.applicationArn = applicationArn
         self.grantType = grantType
     }
@@ -1062,8 +1029,7 @@ public struct GetApplicationGrantInput: Swift.Sendable {
     public init(
         applicationArn: Swift.String? = nil,
         grantType: SSOAdminClientTypes.GrantType? = nil
-    )
-    {
+    ) {
         self.applicationArn = applicationArn
         self.grantType = grantType
     }
@@ -1078,8 +1044,7 @@ extension SSOAdminClientTypes {
 
         public init(
             redirectUris: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.redirectUris = redirectUris
         }
     }
@@ -1097,8 +1062,7 @@ extension SSOAdminClientTypes {
         public init(
             authorizedAudiences: [Swift.String]? = nil,
             trustedTokenIssuerArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.authorizedAudiences = authorizedAudiences
             self.trustedTokenIssuerArn = trustedTokenIssuerArn
         }
@@ -1114,8 +1078,7 @@ extension SSOAdminClientTypes {
 
         public init(
             authorizedTokenIssuers: [SSOAdminClientTypes.AuthorizedTokenIssuer]? = nil
-        )
-        {
+        ) {
             self.authorizedTokenIssuers = authorizedTokenIssuers
         }
     }
@@ -1162,8 +1125,7 @@ public struct GetApplicationGrantOutput: Swift.Sendable {
 
     public init(
         grant: SSOAdminClientTypes.Grant? = nil
-    )
-    {
+    ) {
         self.grant = grant
     }
 }
@@ -1178,8 +1140,7 @@ public struct ListApplicationGrantsInput: Swift.Sendable {
     public init(
         applicationArn: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationArn = applicationArn
         self.nextToken = nextToken
     }
@@ -1199,8 +1160,7 @@ extension SSOAdminClientTypes {
         public init(
             grant: SSOAdminClientTypes.Grant? = nil,
             grantType: SSOAdminClientTypes.GrantType? = nil
-        )
-        {
+        ) {
             self.grant = grant
             self.grantType = grantType
         }
@@ -1217,8 +1177,7 @@ public struct ListApplicationGrantsOutput: Swift.Sendable {
     public init(
         grants: [SSOAdminClientTypes.GrantItem]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.grants = grants
         self.nextToken = nextToken
     }
@@ -1239,8 +1198,7 @@ public struct PutApplicationGrantInput: Swift.Sendable {
         applicationArn: Swift.String? = nil,
         grant: SSOAdminClientTypes.Grant? = nil,
         grantType: SSOAdminClientTypes.GrantType? = nil
-    )
-    {
+    ) {
         self.applicationArn = applicationArn
         self.grant = grant
         self.grantType = grantType
@@ -1262,8 +1220,7 @@ extension SSOAdminClientTypes {
             description: Swift.String? = nil,
             displayName: Swift.String? = nil,
             iconUrl: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.displayName = displayName
             self.iconUrl = iconUrl
@@ -1312,8 +1269,7 @@ extension SSOAdminClientTypes {
         public init(
             detailedTitle: Swift.String? = nil,
             longDescription: Swift.String? = nil
-        )
-        {
+        ) {
             self.detailedTitle = detailedTitle
             self.longDescription = longDescription
         }
@@ -1329,8 +1285,7 @@ extension SSOAdminClientTypes {
 
         public init(
             scopes: [Swift.String: SSOAdminClientTypes.ResourceServerScopeDetails]? = nil
-        )
-        {
+        ) {
             self.scopes = scopes
         }
     }
@@ -1355,8 +1310,7 @@ extension SSOAdminClientTypes {
             displayData: SSOAdminClientTypes.DisplayData? = nil,
             federationProtocol: SSOAdminClientTypes.FederationProtocol? = nil,
             resourceServerConfig: SSOAdminClientTypes.ResourceServerConfig? = nil
-        )
-        {
+        ) {
             self.applicationProviderArn = applicationProviderArn
             self.displayData = displayData
             self.federationProtocol = federationProtocol
@@ -1383,8 +1337,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1402,8 +1355,7 @@ extension SSOAdminClientTypes {
         public init(
             name: Swift.String? = nil,
             path: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.path = path
         }
@@ -1425,8 +1377,7 @@ public struct AttachCustomerManagedPolicyReferenceToPermissionSetInput: Swift.Se
         customerManagedPolicyReference: SSOAdminClientTypes.CustomerManagedPolicyReference? = nil,
         instanceArn: Swift.String? = nil,
         permissionSetArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.customerManagedPolicyReference = customerManagedPolicyReference
         self.instanceArn = instanceArn
         self.permissionSetArn = permissionSetArn
@@ -1450,8 +1401,7 @@ extension SSOAdminClientTypes {
         public init(
             arn: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.name = name
         }
@@ -1473,8 +1423,7 @@ public struct AttachManagedPolicyToPermissionSetInput: Swift.Sendable {
         instanceArn: Swift.String? = nil,
         managedPolicyArn: Swift.String? = nil,
         permissionSetArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceArn = instanceArn
         self.managedPolicyArn = managedPolicyArn
         self.permissionSetArn = permissionSetArn
@@ -1513,8 +1462,7 @@ public struct CreateAccountAssignmentInput: Swift.Sendable {
         principalType: SSOAdminClientTypes.PrincipalType? = nil,
         targetId: Swift.String? = nil,
         targetType: SSOAdminClientTypes.TargetType? = nil
-    )
-    {
+    ) {
         self.instanceArn = instanceArn
         self.permissionSetArn = permissionSetArn
         self.principalId = principalId
@@ -1530,8 +1478,7 @@ public struct CreateAccountAssignmentOutput: Swift.Sendable {
 
     public init(
         accountAssignmentCreationStatus: SSOAdminClientTypes.AccountAssignmentOperationStatus? = nil
-    )
-    {
+    ) {
         self.accountAssignmentCreationStatus = accountAssignmentCreationStatus
     }
 }
@@ -1550,8 +1497,7 @@ extension SSOAdminClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -1588,8 +1534,7 @@ public struct CreateApplicationInput: Swift.Sendable {
         portalOptions: SSOAdminClientTypes.PortalOptions? = nil,
         status: SSOAdminClientTypes.ApplicationStatus? = nil,
         tags: [SSOAdminClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.applicationProviderArn = applicationProviderArn
         self.clientToken = clientToken
         self.description = description
@@ -1607,8 +1552,7 @@ public struct CreateApplicationOutput: Swift.Sendable {
 
     public init(
         applicationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationArn = applicationArn
     }
 }
@@ -1628,8 +1572,7 @@ public struct CreateApplicationAssignmentInput: Swift.Sendable {
         applicationArn: Swift.String? = nil,
         principalId: Swift.String? = nil,
         principalType: SSOAdminClientTypes.PrincipalType? = nil
-    )
-    {
+    ) {
         self.applicationArn = applicationArn
         self.principalId = principalId
         self.principalType = principalType
@@ -1653,8 +1596,7 @@ public struct CreateInstanceInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [SSOAdminClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.name = name
         self.tags = tags
@@ -1667,8 +1609,7 @@ public struct CreateInstanceOutput: Swift.Sendable {
 
     public init(
         instanceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceArn = instanceArn
     }
 }
@@ -1683,8 +1624,7 @@ extension SSOAdminClientTypes {
 
         public init(
             accessControlAttributes: [SSOAdminClientTypes.AccessControlAttribute]? = nil
-        )
-        {
+        ) {
             self.accessControlAttributes = accessControlAttributes
         }
     }
@@ -1701,8 +1641,7 @@ public struct CreateInstanceAccessControlAttributeConfigurationInput: Swift.Send
     public init(
         instanceAccessControlAttributeConfiguration: SSOAdminClientTypes.InstanceAccessControlAttributeConfiguration? = nil,
         instanceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceAccessControlAttributeConfiguration = instanceAccessControlAttributeConfiguration
         self.instanceArn = instanceArn
     }
@@ -1736,8 +1675,7 @@ public struct CreatePermissionSetInput: Swift.Sendable {
         relayState: Swift.String? = nil,
         sessionDuration: Swift.String? = nil,
         tags: [SSOAdminClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.instanceArn = instanceArn
         self.name = name
@@ -1771,8 +1709,7 @@ extension SSOAdminClientTypes {
             permissionSetArn: Swift.String? = nil,
             relayState: Swift.String? = nil,
             sessionDuration: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdDate = createdDate
             self.description = description
             self.name = name
@@ -1789,8 +1726,7 @@ public struct CreatePermissionSetOutput: Swift.Sendable {
 
     public init(
         permissionSet: SSOAdminClientTypes.PermissionSet? = nil
-    )
-    {
+    ) {
         self.permissionSet = permissionSet
     }
 }
@@ -1843,8 +1779,7 @@ extension SSOAdminClientTypes {
             identityStoreAttributePath: Swift.String? = nil,
             issuerUrl: Swift.String? = nil,
             jwksRetrievalOption: SSOAdminClientTypes.JwksRetrievalOption? = nil
-        )
-        {
+        ) {
             self.claimAttributePath = claimAttributePath
             self.identityStoreAttributePath = identityStoreAttributePath
             self.issuerUrl = issuerUrl
@@ -1914,8 +1849,7 @@ public struct CreateTrustedTokenIssuerInput: Swift.Sendable {
         tags: [SSOAdminClientTypes.Tag]? = nil,
         trustedTokenIssuerConfiguration: SSOAdminClientTypes.TrustedTokenIssuerConfiguration? = nil,
         trustedTokenIssuerType: SSOAdminClientTypes.TrustedTokenIssuerType? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.instanceArn = instanceArn
         self.name = name
@@ -1931,8 +1865,7 @@ public struct CreateTrustedTokenIssuerOutput: Swift.Sendable {
 
     public init(
         trustedTokenIssuerArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.trustedTokenIssuerArn = trustedTokenIssuerArn
     }
 }
@@ -1964,8 +1897,7 @@ public struct DeleteAccountAssignmentInput: Swift.Sendable {
         principalType: SSOAdminClientTypes.PrincipalType? = nil,
         targetId: Swift.String? = nil,
         targetType: SSOAdminClientTypes.TargetType? = nil
-    )
-    {
+    ) {
         self.instanceArn = instanceArn
         self.permissionSetArn = permissionSetArn
         self.principalId = principalId
@@ -1981,8 +1913,7 @@ public struct DeleteAccountAssignmentOutput: Swift.Sendable {
 
     public init(
         accountAssignmentDeletionStatus: SSOAdminClientTypes.AccountAssignmentOperationStatus? = nil
-    )
-    {
+    ) {
         self.accountAssignmentDeletionStatus = accountAssignmentDeletionStatus
     }
 }
@@ -1994,8 +1925,7 @@ public struct DeleteApplicationInput: Swift.Sendable {
 
     public init(
         applicationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationArn = applicationArn
     }
 }
@@ -2020,8 +1950,7 @@ public struct DeleteApplicationAssignmentInput: Swift.Sendable {
         applicationArn: Swift.String? = nil,
         principalId: Swift.String? = nil,
         principalType: SSOAdminClientTypes.PrincipalType? = nil
-    )
-    {
+    ) {
         self.applicationArn = applicationArn
         self.principalId = principalId
         self.principalType = principalType
@@ -2044,8 +1973,7 @@ public struct DeleteInlinePolicyFromPermissionSetInput: Swift.Sendable {
     public init(
         instanceArn: Swift.String? = nil,
         permissionSetArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceArn = instanceArn
         self.permissionSetArn = permissionSetArn
     }
@@ -2063,8 +1991,7 @@ public struct DeleteInstanceInput: Swift.Sendable {
 
     public init(
         instanceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceArn = instanceArn
     }
 }
@@ -2081,8 +2008,7 @@ public struct DeleteInstanceAccessControlAttributeConfigurationInput: Swift.Send
 
     public init(
         instanceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceArn = instanceArn
     }
 }
@@ -2103,8 +2029,7 @@ public struct DeletePermissionsBoundaryFromPermissionSetInput: Swift.Sendable {
     public init(
         instanceArn: Swift.String? = nil,
         permissionSetArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceArn = instanceArn
         self.permissionSetArn = permissionSetArn
     }
@@ -2126,8 +2051,7 @@ public struct DeletePermissionSetInput: Swift.Sendable {
     public init(
         instanceArn: Swift.String? = nil,
         permissionSetArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceArn = instanceArn
         self.permissionSetArn = permissionSetArn
     }
@@ -2145,8 +2069,7 @@ public struct DeleteTrustedTokenIssuerInput: Swift.Sendable {
 
     public init(
         trustedTokenIssuerArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.trustedTokenIssuerArn = trustedTokenIssuerArn
     }
 }
@@ -2167,8 +2090,7 @@ public struct DescribeAccountAssignmentCreationStatusInput: Swift.Sendable {
     public init(
         accountAssignmentCreationRequestId: Swift.String? = nil,
         instanceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountAssignmentCreationRequestId = accountAssignmentCreationRequestId
         self.instanceArn = instanceArn
     }
@@ -2180,8 +2102,7 @@ public struct DescribeAccountAssignmentCreationStatusOutput: Swift.Sendable {
 
     public init(
         accountAssignmentCreationStatus: SSOAdminClientTypes.AccountAssignmentOperationStatus? = nil
-    )
-    {
+    ) {
         self.accountAssignmentCreationStatus = accountAssignmentCreationStatus
     }
 }
@@ -2197,8 +2118,7 @@ public struct DescribeAccountAssignmentDeletionStatusInput: Swift.Sendable {
     public init(
         accountAssignmentDeletionRequestId: Swift.String? = nil,
         instanceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountAssignmentDeletionRequestId = accountAssignmentDeletionRequestId
         self.instanceArn = instanceArn
     }
@@ -2210,8 +2130,7 @@ public struct DescribeAccountAssignmentDeletionStatusOutput: Swift.Sendable {
 
     public init(
         accountAssignmentDeletionStatus: SSOAdminClientTypes.AccountAssignmentOperationStatus? = nil
-    )
-    {
+    ) {
         self.accountAssignmentDeletionStatus = accountAssignmentDeletionStatus
     }
 }
@@ -2223,8 +2142,7 @@ public struct DescribeApplicationInput: Swift.Sendable {
 
     public init(
         applicationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationArn = applicationArn
     }
 }
@@ -2259,8 +2177,7 @@ public struct DescribeApplicationOutput: Swift.Sendable {
         name: Swift.String? = nil,
         portalOptions: SSOAdminClientTypes.PortalOptions? = nil,
         status: SSOAdminClientTypes.ApplicationStatus? = nil
-    )
-    {
+    ) {
         self.applicationAccount = applicationAccount
         self.applicationArn = applicationArn
         self.applicationProviderArn = applicationProviderArn
@@ -2288,8 +2205,7 @@ public struct DescribeApplicationAssignmentInput: Swift.Sendable {
         applicationArn: Swift.String? = nil,
         principalId: Swift.String? = nil,
         principalType: SSOAdminClientTypes.PrincipalType? = nil
-    )
-    {
+    ) {
         self.applicationArn = applicationArn
         self.principalId = principalId
         self.principalType = principalType
@@ -2308,8 +2224,7 @@ public struct DescribeApplicationAssignmentOutput: Swift.Sendable {
         applicationArn: Swift.String? = nil,
         principalId: Swift.String? = nil,
         principalType: SSOAdminClientTypes.PrincipalType? = nil
-    )
-    {
+    ) {
         self.applicationArn = applicationArn
         self.principalId = principalId
         self.principalType = principalType
@@ -2323,8 +2238,7 @@ public struct DescribeApplicationProviderInput: Swift.Sendable {
 
     public init(
         applicationProviderArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationProviderArn = applicationProviderArn
     }
 }
@@ -2345,8 +2259,7 @@ public struct DescribeApplicationProviderOutput: Swift.Sendable {
         displayData: SSOAdminClientTypes.DisplayData? = nil,
         federationProtocol: SSOAdminClientTypes.FederationProtocol? = nil,
         resourceServerConfig: SSOAdminClientTypes.ResourceServerConfig? = nil
-    )
-    {
+    ) {
         self.applicationProviderArn = applicationProviderArn
         self.displayData = displayData
         self.federationProtocol = federationProtocol
@@ -2361,8 +2274,7 @@ public struct DescribeInstanceInput: Swift.Sendable {
 
     public init(
         instanceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceArn = instanceArn
     }
 }
@@ -2420,8 +2332,7 @@ public struct DescribeInstanceOutput: Swift.Sendable {
         name: Swift.String? = nil,
         ownerAccountId: Swift.String? = nil,
         status: SSOAdminClientTypes.InstanceStatus? = nil
-    )
-    {
+    ) {
         self.createdDate = createdDate
         self.identityStoreId = identityStoreId
         self.instanceArn = instanceArn
@@ -2438,8 +2349,7 @@ public struct DescribeInstanceAccessControlAttributeConfigurationInput: Swift.Se
 
     public init(
         instanceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceArn = instanceArn
     }
 }
@@ -2488,8 +2398,7 @@ public struct DescribeInstanceAccessControlAttributeConfigurationOutput: Swift.S
         instanceAccessControlAttributeConfiguration: SSOAdminClientTypes.InstanceAccessControlAttributeConfiguration? = nil,
         status: SSOAdminClientTypes.InstanceAccessControlAttributeConfigurationStatus? = nil,
         statusReason: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceAccessControlAttributeConfiguration = instanceAccessControlAttributeConfiguration
         self.status = status
         self.statusReason = statusReason
@@ -2507,8 +2416,7 @@ public struct DescribePermissionSetInput: Swift.Sendable {
     public init(
         instanceArn: Swift.String? = nil,
         permissionSetArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceArn = instanceArn
         self.permissionSetArn = permissionSetArn
     }
@@ -2520,8 +2428,7 @@ public struct DescribePermissionSetOutput: Swift.Sendable {
 
     public init(
         permissionSet: SSOAdminClientTypes.PermissionSet? = nil
-    )
-    {
+    ) {
         self.permissionSet = permissionSet
     }
 }
@@ -2537,8 +2444,7 @@ public struct DescribePermissionSetProvisioningStatusInput: Swift.Sendable {
     public init(
         instanceArn: Swift.String? = nil,
         provisionPermissionSetRequestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceArn = instanceArn
         self.provisionPermissionSetRequestId = provisionPermissionSetRequestId
     }
@@ -2568,8 +2474,7 @@ extension SSOAdminClientTypes {
             permissionSetArn: Swift.String? = nil,
             requestId: Swift.String? = nil,
             status: SSOAdminClientTypes.StatusValues? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.createdDate = createdDate
             self.failureReason = failureReason
@@ -2586,8 +2491,7 @@ public struct DescribePermissionSetProvisioningStatusOutput: Swift.Sendable {
 
     public init(
         permissionSetProvisioningStatus: SSOAdminClientTypes.PermissionSetProvisioningStatus? = nil
-    )
-    {
+    ) {
         self.permissionSetProvisioningStatus = permissionSetProvisioningStatus
     }
 }
@@ -2599,8 +2503,7 @@ public struct DescribeTrustedTokenIssuerInput: Swift.Sendable {
 
     public init(
         trustedTokenIssuerArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.trustedTokenIssuerArn = trustedTokenIssuerArn
     }
 }
@@ -2620,8 +2523,7 @@ public struct DescribeTrustedTokenIssuerOutput: Swift.Sendable {
         trustedTokenIssuerArn: Swift.String? = nil,
         trustedTokenIssuerConfiguration: SSOAdminClientTypes.TrustedTokenIssuerConfiguration? = nil,
         trustedTokenIssuerType: SSOAdminClientTypes.TrustedTokenIssuerType? = nil
-    )
-    {
+    ) {
         self.name = name
         self.trustedTokenIssuerArn = trustedTokenIssuerArn
         self.trustedTokenIssuerConfiguration = trustedTokenIssuerConfiguration
@@ -2644,8 +2546,7 @@ public struct DetachCustomerManagedPolicyReferenceFromPermissionSetInput: Swift.
         customerManagedPolicyReference: SSOAdminClientTypes.CustomerManagedPolicyReference? = nil,
         instanceArn: Swift.String? = nil,
         permissionSetArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.customerManagedPolicyReference = customerManagedPolicyReference
         self.instanceArn = instanceArn
         self.permissionSetArn = permissionSetArn
@@ -2672,8 +2573,7 @@ public struct DetachManagedPolicyFromPermissionSetInput: Swift.Sendable {
         instanceArn: Swift.String? = nil,
         managedPolicyArn: Swift.String? = nil,
         permissionSetArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceArn = instanceArn
         self.managedPolicyArn = managedPolicyArn
         self.permissionSetArn = permissionSetArn
@@ -2692,8 +2592,7 @@ public struct GetApplicationAssignmentConfigurationInput: Swift.Sendable {
 
     public init(
         applicationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationArn = applicationArn
     }
 }
@@ -2705,8 +2604,7 @@ public struct GetApplicationAssignmentConfigurationOutput: Swift.Sendable {
 
     public init(
         assignmentRequired: Swift.Bool? = true
-    )
-    {
+    ) {
         self.assignmentRequired = assignmentRequired
     }
 }
@@ -2722,8 +2620,7 @@ public struct GetInlinePolicyForPermissionSetInput: Swift.Sendable {
     public init(
         instanceArn: Swift.String? = nil,
         permissionSetArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceArn = instanceArn
         self.permissionSetArn = permissionSetArn
     }
@@ -2735,8 +2632,7 @@ public struct GetInlinePolicyForPermissionSetOutput: Swift.Sendable {
 
     public init(
         inlinePolicy: Swift.String? = nil
-    )
-    {
+    ) {
         self.inlinePolicy = inlinePolicy
     }
 }
@@ -2752,8 +2648,7 @@ public struct GetPermissionsBoundaryForPermissionSetInput: Swift.Sendable {
     public init(
         instanceArn: Swift.String? = nil,
         permissionSetArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceArn = instanceArn
         self.permissionSetArn = permissionSetArn
     }
@@ -2771,8 +2666,7 @@ extension SSOAdminClientTypes {
         public init(
             customerManagedPolicyReference: SSOAdminClientTypes.CustomerManagedPolicyReference? = nil,
             managedPolicyArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.customerManagedPolicyReference = customerManagedPolicyReference
             self.managedPolicyArn = managedPolicyArn
         }
@@ -2785,8 +2679,7 @@ public struct GetPermissionsBoundaryForPermissionSetOutput: Swift.Sendable {
 
     public init(
         permissionsBoundary: SSOAdminClientTypes.PermissionsBoundary? = nil
-    )
-    {
+    ) {
         self.permissionsBoundary = permissionsBoundary
     }
 }
@@ -2815,8 +2708,7 @@ extension SSOAdminClientTypes {
             name: Swift.String? = nil,
             ownerAccountId: Swift.String? = nil,
             status: SSOAdminClientTypes.InstanceStatus? = nil
-        )
-        {
+        ) {
             self.createdDate = createdDate
             self.identityStoreId = identityStoreId
             self.instanceArn = instanceArn
@@ -2836,8 +2728,7 @@ extension SSOAdminClientTypes {
 
         public init(
             status: SSOAdminClientTypes.StatusValues? = nil
-        )
-        {
+        ) {
             self.status = status
         }
     }
@@ -2859,8 +2750,7 @@ public struct ListAccountAssignmentCreationStatusInput: Swift.Sendable {
         instanceArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.instanceArn = instanceArn
         self.maxResults = maxResults
@@ -2877,8 +2767,7 @@ public struct ListAccountAssignmentCreationStatusOutput: Swift.Sendable {
     public init(
         accountAssignmentsCreationStatus: [SSOAdminClientTypes.AccountAssignmentOperationStatusMetadata]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountAssignmentsCreationStatus = accountAssignmentsCreationStatus
         self.nextToken = nextToken
     }
@@ -2900,8 +2789,7 @@ public struct ListAccountAssignmentDeletionStatusInput: Swift.Sendable {
         instanceArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.instanceArn = instanceArn
         self.maxResults = maxResults
@@ -2918,8 +2806,7 @@ public struct ListAccountAssignmentDeletionStatusOutput: Swift.Sendable {
     public init(
         accountAssignmentsDeletionStatus: [SSOAdminClientTypes.AccountAssignmentOperationStatusMetadata]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountAssignmentsDeletionStatus = accountAssignmentsDeletionStatus
         self.nextToken = nextToken
     }
@@ -2946,8 +2833,7 @@ public struct ListAccountAssignmentsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         permissionSetArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.instanceArn = instanceArn
         self.maxResults = maxResults
@@ -2965,8 +2851,7 @@ public struct ListAccountAssignmentsOutput: Swift.Sendable {
     public init(
         accountAssignments: [SSOAdminClientTypes.AccountAssignment]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountAssignments = accountAssignments
         self.nextToken = nextToken
     }
@@ -2981,8 +2866,7 @@ extension SSOAdminClientTypes {
 
         public init(
             accountId: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
         }
     }
@@ -3012,8 +2896,7 @@ public struct ListAccountAssignmentsForPrincipalInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         principalId: Swift.String? = nil,
         principalType: SSOAdminClientTypes.PrincipalType? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.instanceArn = instanceArn
         self.maxResults = maxResults
@@ -3032,8 +2915,7 @@ public struct ListAccountAssignmentsForPrincipalOutput: Swift.Sendable {
     public init(
         accountAssignments: [SSOAdminClientTypes.AccountAssignmentForPrincipal]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountAssignments = accountAssignments
         self.nextToken = nextToken
     }
@@ -3088,8 +2970,7 @@ public struct ListAccountsForProvisionedPermissionSetInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         permissionSetArn: Swift.String? = nil,
         provisioningStatus: SSOAdminClientTypes.ProvisioningStatus? = nil
-    )
-    {
+    ) {
         self.instanceArn = instanceArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3107,8 +2988,7 @@ public struct ListAccountsForProvisionedPermissionSetOutput: Swift.Sendable {
     public init(
         accountIds: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountIds = accountIds
         self.nextToken = nextToken
     }
@@ -3127,8 +3007,7 @@ public struct ListApplicationAssignmentsInput: Swift.Sendable {
         applicationArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationArn = applicationArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3144,8 +3023,7 @@ public struct ListApplicationAssignmentsOutput: Swift.Sendable {
     public init(
         applicationAssignments: [SSOAdminClientTypes.ApplicationAssignment]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationAssignments = applicationAssignments
         self.nextToken = nextToken
     }
@@ -3160,8 +3038,7 @@ extension SSOAdminClientTypes {
 
         public init(
             applicationArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.applicationArn = applicationArn
         }
     }
@@ -3191,8 +3068,7 @@ public struct ListApplicationAssignmentsForPrincipalInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         principalId: Swift.String? = nil,
         principalType: SSOAdminClientTypes.PrincipalType? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.instanceArn = instanceArn
         self.maxResults = maxResults
@@ -3211,8 +3087,7 @@ public struct ListApplicationAssignmentsForPrincipalOutput: Swift.Sendable {
     public init(
         applicationAssignments: [SSOAdminClientTypes.ApplicationAssignmentForPrincipal]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationAssignments = applicationAssignments
         self.nextToken = nextToken
     }
@@ -3227,8 +3102,7 @@ public struct ListApplicationProvidersInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -3243,8 +3117,7 @@ public struct ListApplicationProvidersOutput: Swift.Sendable {
     public init(
         applicationProviders: [SSOAdminClientTypes.ApplicationProvider]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationProviders = applicationProviders
         self.nextToken = nextToken
     }
@@ -3262,8 +3135,7 @@ extension SSOAdminClientTypes {
         public init(
             applicationAccount: Swift.String? = nil,
             applicationProvider: Swift.String? = nil
-        )
-        {
+        ) {
             self.applicationAccount = applicationAccount
             self.applicationProvider = applicationProvider
         }
@@ -3286,8 +3158,7 @@ public struct ListApplicationsInput: Swift.Sendable {
         instanceArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.instanceArn = instanceArn
         self.maxResults = maxResults
@@ -3304,8 +3175,7 @@ public struct ListApplicationsOutput: Swift.Sendable {
     public init(
         applications: [SSOAdminClientTypes.Application]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.applications = applications
         self.nextToken = nextToken
     }
@@ -3328,8 +3198,7 @@ public struct ListCustomerManagedPolicyReferencesInPermissionSetInput: Swift.Sen
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         permissionSetArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceArn = instanceArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3346,8 +3215,7 @@ public struct ListCustomerManagedPolicyReferencesInPermissionSetOutput: Swift.Se
     public init(
         customerManagedPolicyReferences: [SSOAdminClientTypes.CustomerManagedPolicyReference]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.customerManagedPolicyReferences = customerManagedPolicyReferences
         self.nextToken = nextToken
     }
@@ -3362,8 +3230,7 @@ public struct ListInstancesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -3378,8 +3245,7 @@ public struct ListInstancesOutput: Swift.Sendable {
     public init(
         instances: [SSOAdminClientTypes.InstanceMetadata]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.instances = instances
         self.nextToken = nextToken
     }
@@ -3402,8 +3268,7 @@ public struct ListManagedPoliciesInPermissionSetInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         permissionSetArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceArn = instanceArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3420,8 +3285,7 @@ public struct ListManagedPoliciesInPermissionSetOutput: Swift.Sendable {
     public init(
         attachedManagedPolicies: [SSOAdminClientTypes.AttachedManagedPolicy]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.attachedManagedPolicies = attachedManagedPolicies
         self.nextToken = nextToken
     }
@@ -3443,8 +3307,7 @@ public struct ListPermissionSetProvisioningStatusInput: Swift.Sendable {
         instanceArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.instanceArn = instanceArn
         self.maxResults = maxResults
@@ -3467,8 +3330,7 @@ extension SSOAdminClientTypes {
             createdDate: Foundation.Date? = nil,
             requestId: Swift.String? = nil,
             status: SSOAdminClientTypes.StatusValues? = nil
-        )
-        {
+        ) {
             self.createdDate = createdDate
             self.requestId = requestId
             self.status = status
@@ -3485,8 +3347,7 @@ public struct ListPermissionSetProvisioningStatusOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         permissionSetsProvisioningStatus: [SSOAdminClientTypes.PermissionSetProvisioningStatusMetadata]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.permissionSetsProvisioningStatus = permissionSetsProvisioningStatus
     }
@@ -3505,8 +3366,7 @@ public struct ListPermissionSetsInput: Swift.Sendable {
         instanceArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceArn = instanceArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3522,8 +3382,7 @@ public struct ListPermissionSetsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         permissionSets: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.permissionSets = permissionSets
     }
@@ -3549,8 +3408,7 @@ public struct ListPermissionSetsProvisionedToAccountInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         provisioningStatus: SSOAdminClientTypes.ProvisioningStatus? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.instanceArn = instanceArn
         self.maxResults = maxResults
@@ -3568,8 +3426,7 @@ public struct ListPermissionSetsProvisionedToAccountOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         permissionSets: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.permissionSets = permissionSets
     }
@@ -3588,8 +3445,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
         instanceArn: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceArn = instanceArn
         self.nextToken = nextToken
         self.resourceArn = resourceArn
@@ -3605,8 +3461,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         tags: [SSOAdminClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.tags = tags
     }
@@ -3625,8 +3480,7 @@ public struct ListTrustedTokenIssuersInput: Swift.Sendable {
         instanceArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceArn = instanceArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3648,8 +3502,7 @@ extension SSOAdminClientTypes {
             name: Swift.String? = nil,
             trustedTokenIssuerArn: Swift.String? = nil,
             trustedTokenIssuerType: SSOAdminClientTypes.TrustedTokenIssuerType? = nil
-        )
-        {
+        ) {
             self.name = name
             self.trustedTokenIssuerArn = trustedTokenIssuerArn
             self.trustedTokenIssuerType = trustedTokenIssuerType
@@ -3666,8 +3519,7 @@ public struct ListTrustedTokenIssuersOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         trustedTokenIssuers: [SSOAdminClientTypes.TrustedTokenIssuerMetadata]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.trustedTokenIssuers = trustedTokenIssuers
     }
@@ -3688,8 +3540,7 @@ extension SSOAdminClientTypes {
             claimAttributePath: Swift.String? = nil,
             identityStoreAttributePath: Swift.String? = nil,
             jwksRetrievalOption: SSOAdminClientTypes.JwksRetrievalOption? = nil
-        )
-        {
+        ) {
             self.claimAttributePath = claimAttributePath
             self.identityStoreAttributePath = identityStoreAttributePath
             self.jwksRetrievalOption = jwksRetrievalOption
@@ -3744,8 +3595,7 @@ public struct ProvisionPermissionSetInput: Swift.Sendable {
         permissionSetArn: Swift.String? = nil,
         targetId: Swift.String? = nil,
         targetType: SSOAdminClientTypes.ProvisionTargetType? = nil
-    )
-    {
+    ) {
         self.instanceArn = instanceArn
         self.permissionSetArn = permissionSetArn
         self.targetId = targetId
@@ -3759,8 +3609,7 @@ public struct ProvisionPermissionSetOutput: Swift.Sendable {
 
     public init(
         permissionSetProvisioningStatus: SSOAdminClientTypes.PermissionSetProvisioningStatus? = nil
-    )
-    {
+    ) {
         self.permissionSetProvisioningStatus = permissionSetProvisioningStatus
     }
 }
@@ -3776,8 +3625,7 @@ public struct PutApplicationAssignmentConfigurationInput: Swift.Sendable {
     public init(
         applicationArn: Swift.String? = nil,
         assignmentRequired: Swift.Bool? = true
-    )
-    {
+    ) {
         self.applicationArn = applicationArn
         self.assignmentRequired = assignmentRequired
     }
@@ -3803,8 +3651,7 @@ public struct PutInlinePolicyToPermissionSetInput: Swift.Sendable {
         inlinePolicy: Swift.String? = nil,
         instanceArn: Swift.String? = nil,
         permissionSetArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.inlinePolicy = inlinePolicy
         self.instanceArn = instanceArn
         self.permissionSetArn = permissionSetArn
@@ -3831,8 +3678,7 @@ public struct PutPermissionsBoundaryToPermissionSetInput: Swift.Sendable {
         instanceArn: Swift.String? = nil,
         permissionSetArn: Swift.String? = nil,
         permissionsBoundary: SSOAdminClientTypes.PermissionsBoundary? = nil
-    )
-    {
+    ) {
         self.instanceArn = instanceArn
         self.permissionSetArn = permissionSetArn
         self.permissionsBoundary = permissionsBoundary
@@ -3858,8 +3704,7 @@ public struct TagResourceInput: Swift.Sendable {
         instanceArn: Swift.String? = nil,
         resourceArn: Swift.String? = nil,
         tags: [SSOAdminClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.instanceArn = instanceArn
         self.resourceArn = resourceArn
         self.tags = tags
@@ -3885,8 +3730,7 @@ public struct UntagResourceInput: Swift.Sendable {
         instanceArn: Swift.String? = nil,
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.instanceArn = instanceArn
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
@@ -3907,8 +3751,7 @@ extension SSOAdminClientTypes {
 
         public init(
             signInOptions: SSOAdminClientTypes.SignInOptions? = nil
-        )
-        {
+        ) {
             self.signInOptions = signInOptions
         }
     }
@@ -3933,8 +3776,7 @@ public struct UpdateApplicationInput: Swift.Sendable {
         name: Swift.String? = nil,
         portalOptions: SSOAdminClientTypes.UpdateApplicationPortalOptions? = nil,
         status: SSOAdminClientTypes.ApplicationStatus? = nil
-    )
-    {
+    ) {
         self.applicationArn = applicationArn
         self.description = description
         self.name = name
@@ -3959,8 +3801,7 @@ public struct UpdateInstanceInput: Swift.Sendable {
     public init(
         instanceArn: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceArn = instanceArn
         self.name = name
     }
@@ -3982,8 +3823,7 @@ public struct UpdateInstanceAccessControlAttributeConfigurationInput: Swift.Send
     public init(
         instanceAccessControlAttributeConfiguration: SSOAdminClientTypes.InstanceAccessControlAttributeConfiguration? = nil,
         instanceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceAccessControlAttributeConfiguration = instanceAccessControlAttributeConfiguration
         self.instanceArn = instanceArn
     }
@@ -4014,8 +3854,7 @@ public struct UpdatePermissionSetInput: Swift.Sendable {
         permissionSetArn: Swift.String? = nil,
         relayState: Swift.String? = nil,
         sessionDuration: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.instanceArn = instanceArn
         self.permissionSetArn = permissionSetArn
@@ -4052,8 +3891,7 @@ public struct UpdateTrustedTokenIssuerInput: Swift.Sendable {
         name: Swift.String? = nil,
         trustedTokenIssuerArn: Swift.String? = nil,
         trustedTokenIssuerConfiguration: SSOAdminClientTypes.TrustedTokenIssuerUpdateConfiguration? = nil
-    )
-    {
+    ) {
         self.name = name
         self.trustedTokenIssuerArn = trustedTokenIssuerArn
         self.trustedTokenIssuerConfiguration = trustedTokenIssuerConfiguration

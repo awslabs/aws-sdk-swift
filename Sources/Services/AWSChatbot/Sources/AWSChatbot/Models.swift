@@ -35,8 +35,7 @@ extension ChatbotClientTypes {
         public init(
             trainingDataCollectionEnabled: Swift.Bool? = nil,
             userAuthorizationRequired: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.trainingDataCollectionEnabled = trainingDataCollectionEnabled
             self.userAuthorizationRequired = userAuthorizationRequired
         }
@@ -61,8 +60,7 @@ public struct InternalServiceError: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -85,8 +83,7 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -109,8 +106,7 @@ public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -126,8 +122,7 @@ public struct AssociateToConfigurationInput: Swift.Sendable {
     public init(
         chatConfiguration: Swift.String? = nil,
         resource: Swift.String? = nil
-    )
-    {
+    ) {
         self.chatConfiguration = chatConfiguration
         self.resource = resource
     }
@@ -148,8 +143,7 @@ extension ChatbotClientTypes {
 
         public init(
             resource: Swift.String? = nil
-        )
-        {
+        ) {
             self.resource = resource
         }
     }
@@ -169,8 +163,7 @@ extension ChatbotClientTypes {
         public init(
             tagKey: Swift.String? = nil,
             tagValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.tagKey = tagKey
             self.tagValue = tagValue
         }
@@ -214,8 +207,7 @@ extension ChatbotClientTypes {
             stateReason: Swift.String? = nil,
             tags: [ChatbotClientTypes.Tag]? = nil,
             webhookDescription: Swift.String? = nil
-        )
-        {
+        ) {
             self.chatConfigurationArn = chatConfigurationArn
             self.configurationName = configurationName
             self.iamRoleArn = iamRoleArn
@@ -257,8 +249,7 @@ extension ChatbotClientTypes {
             teamId: Swift.String? = nil,
             teamName: Swift.String? = nil,
             tenantId: Swift.String? = nil
-        )
-        {
+        ) {
             self.state = state
             self.stateReason = stateReason
             self.teamId = teamId
@@ -286,8 +277,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -310,8 +300,7 @@ public struct CreateChimeWebhookConfigurationException: ClientRuntime.ModeledErr
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -334,8 +323,7 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -358,8 +346,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -393,8 +380,7 @@ public struct CreateChimeWebhookConfigurationInput: Swift.Sendable {
         tags: [ChatbotClientTypes.Tag]? = nil,
         webhookDescription: Swift.String? = nil,
         webhookUrl: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurationName = configurationName
         self.iamRoleArn = iamRoleArn
         self.loggingLevel = loggingLevel
@@ -416,8 +402,7 @@ public struct CreateChimeWebhookConfigurationOutput: Swift.Sendable {
 
     public init(
         webhookConfiguration: ChatbotClientTypes.ChimeWebhookConfiguration? = nil
-    )
-    {
+    ) {
         self.webhookConfiguration = webhookConfiguration
     }
 }
@@ -468,8 +453,7 @@ extension ChatbotClientTypes {
             `operator`: ChatbotClientTypes.CustomActionAttachmentCriteriaOperator? = nil,
             value: Swift.String? = nil,
             variableName: Swift.String? = nil
-        )
-        {
+        ) {
             self.`operator` = `operator`
             self.value = value
             self.variableName = variableName
@@ -495,8 +479,7 @@ extension ChatbotClientTypes {
             criteria: [ChatbotClientTypes.CustomActionAttachmentCriteria]? = nil,
             notificationType: Swift.String? = nil,
             variables: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.buttonText = buttonText
             self.criteria = criteria
             self.notificationType = notificationType
@@ -515,8 +498,7 @@ extension ChatbotClientTypes {
 
         public init(
             commandText: Swift.String? = nil
-        )
-        {
+        ) {
             self.commandText = commandText
         }
     }
@@ -545,8 +527,7 @@ public struct CreateCustomActionInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         definition: ChatbotClientTypes.CustomActionDefinition? = nil,
         tags: [ChatbotClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.actionName = actionName
         self.aliasName = aliasName
         self.attachments = attachments
@@ -563,8 +544,7 @@ public struct CreateCustomActionOutput: Swift.Sendable {
 
     public init(
         customActionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.customActionArn = customActionArn
     }
 }
@@ -587,8 +567,7 @@ public struct CreateTeamsChannelConfigurationException: ClientRuntime.ModeledErr
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -637,8 +616,7 @@ public struct CreateMicrosoftTeamsChannelConfigurationInput: Swift.Sendable {
         teamName: Swift.String? = nil,
         tenantId: Swift.String? = nil,
         userAuthorizationRequired: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.channelId = channelId
         self.channelName = channelName
         self.configurationName = configurationName
@@ -716,8 +694,7 @@ extension ChatbotClientTypes {
             teamName: Swift.String? = nil,
             tenantId: Swift.String? = nil,
             userAuthorizationRequired: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.channelId = channelId
             self.channelName = channelName
             self.chatConfigurationArn = chatConfigurationArn
@@ -748,8 +725,7 @@ public struct CreateMicrosoftTeamsChannelConfigurationOutput: Swift.Sendable {
 
     public init(
         channelConfiguration: ChatbotClientTypes.TeamsChannelConfiguration? = nil
-    )
-    {
+    ) {
         self.channelConfiguration = channelConfiguration
     }
 }
@@ -772,8 +748,7 @@ public struct CreateSlackChannelConfigurationException: ClientRuntime.ModeledErr
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -815,8 +790,7 @@ public struct CreateSlackChannelConfigurationInput: Swift.Sendable {
         snsTopicArns: [Swift.String]? = nil,
         tags: [ChatbotClientTypes.Tag]? = nil,
         userAuthorizationRequired: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.configurationName = configurationName
         self.guardrailPolicyArns = guardrailPolicyArns
         self.iamRoleArn = iamRoleArn
@@ -890,8 +864,7 @@ extension ChatbotClientTypes {
             stateReason: Swift.String? = nil,
             tags: [ChatbotClientTypes.Tag]? = nil,
             userAuthorizationRequired: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.chatConfigurationArn = chatConfigurationArn
             self.configurationName = configurationName
             self.guardrailPolicyArns = guardrailPolicyArns
@@ -921,8 +894,7 @@ public struct CreateSlackChannelConfigurationOutput: Swift.Sendable {
 
     public init(
         channelConfiguration: ChatbotClientTypes.SlackChannelConfiguration? = nil
-    )
-    {
+    ) {
         self.channelConfiguration = channelConfiguration
     }
 }
@@ -950,8 +922,7 @@ extension ChatbotClientTypes {
             attachments: [ChatbotClientTypes.CustomActionAttachment]? = nil,
             customActionArn: Swift.String? = nil,
             definition: ChatbotClientTypes.CustomActionDefinition? = nil
-        )
-        {
+        ) {
             self.actionName = actionName
             self.aliasName = aliasName
             self.attachments = attachments
@@ -979,8 +950,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -992,8 +962,7 @@ public struct DeleteCustomActionInput: Swift.Sendable {
 
     public init(
         customActionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.customActionArn = customActionArn
     }
 }
@@ -1010,8 +979,7 @@ public struct GetCustomActionInput: Swift.Sendable {
 
     public init(
         customActionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.customActionArn = customActionArn
     }
 }
@@ -1022,8 +990,7 @@ public struct GetCustomActionOutput: Swift.Sendable {
 
     public init(
         customAction: ChatbotClientTypes.CustomAction? = nil
-    )
-    {
+    ) {
         self.customAction = customAction
     }
 }
@@ -1037,8 +1004,7 @@ public struct ListCustomActionsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -1054,8 +1020,7 @@ public struct ListCustomActionsOutput: Swift.Sendable {
     public init(
         customActions: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.customActions = customActions
         self.nextToken = nextToken
     }
@@ -1078,8 +1043,7 @@ public struct UpdateCustomActionInput: Swift.Sendable {
         attachments: [ChatbotClientTypes.CustomActionAttachment]? = nil,
         customActionArn: Swift.String? = nil,
         definition: ChatbotClientTypes.CustomActionDefinition? = nil
-    )
-    {
+    ) {
         self.aliasName = aliasName
         self.attachments = attachments
         self.customActionArn = customActionArn
@@ -1094,8 +1058,7 @@ public struct UpdateCustomActionOutput: Swift.Sendable {
 
     public init(
         customActionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.customActionArn = customActionArn
     }
 }
@@ -1118,8 +1081,7 @@ public struct DeleteChimeWebhookConfigurationException: ClientRuntime.ModeledErr
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1131,8 +1093,7 @@ public struct DeleteChimeWebhookConfigurationInput: Swift.Sendable {
 
     public init(
         chatConfigurationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.chatConfigurationArn = chatConfigurationArn
     }
 }
@@ -1160,8 +1121,7 @@ public struct DeleteTeamsChannelConfigurationException: ClientRuntime.ModeledErr
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1173,8 +1133,7 @@ public struct DeleteMicrosoftTeamsChannelConfigurationInput: Swift.Sendable {
 
     public init(
         chatConfigurationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.chatConfigurationArn = chatConfigurationArn
     }
 }
@@ -1202,8 +1161,7 @@ public struct DeleteTeamsConfiguredTeamException: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1215,8 +1173,7 @@ public struct DeleteMicrosoftTeamsConfiguredTeamInput: Swift.Sendable {
 
     public init(
         teamId: Swift.String? = nil
-    )
-    {
+    ) {
         self.teamId = teamId
     }
 }
@@ -1244,8 +1201,7 @@ public struct DeleteMicrosoftTeamsUserIdentityException: ClientRuntime.ModeledEr
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1261,8 +1217,7 @@ public struct DeleteMicrosoftTeamsUserIdentityInput: Swift.Sendable {
     public init(
         chatConfigurationArn: Swift.String? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.chatConfigurationArn = chatConfigurationArn
         self.userId = userId
     }
@@ -1291,8 +1246,7 @@ public struct DeleteSlackChannelConfigurationException: ClientRuntime.ModeledErr
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1304,8 +1258,7 @@ public struct DeleteSlackChannelConfigurationInput: Swift.Sendable {
 
     public init(
         chatConfigurationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.chatConfigurationArn = chatConfigurationArn
     }
 }
@@ -1333,8 +1286,7 @@ public struct DeleteSlackUserIdentityException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1354,8 +1306,7 @@ public struct DeleteSlackUserIdentityInput: Swift.Sendable {
         chatConfigurationArn: Swift.String? = nil,
         slackTeamId: Swift.String? = nil,
         slackUserId: Swift.String? = nil
-    )
-    {
+    ) {
         self.chatConfigurationArn = chatConfigurationArn
         self.slackTeamId = slackTeamId
         self.slackUserId = slackUserId
@@ -1385,8 +1336,7 @@ public struct DeleteSlackWorkspaceAuthorizationFault: ClientRuntime.ModeledError
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1398,8 +1348,7 @@ public struct DeleteSlackWorkspaceAuthorizationInput: Swift.Sendable {
 
     public init(
         slackTeamId: Swift.String? = nil
-    )
-    {
+    ) {
         self.slackTeamId = slackTeamId
     }
 }
@@ -1427,8 +1376,7 @@ public struct DescribeChimeWebhookConfigurationsException: ClientRuntime.Modeled
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1445,8 +1393,7 @@ public struct DescribeChimeWebhookConfigurationsInput: Swift.Sendable {
         chatConfigurationArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.chatConfigurationArn = chatConfigurationArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1462,8 +1409,7 @@ public struct DescribeChimeWebhookConfigurationsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         webhookConfigurations: [ChatbotClientTypes.ChimeWebhookConfiguration]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.webhookConfigurations = webhookConfigurations
     }
@@ -1487,8 +1433,7 @@ public struct DescribeSlackChannelConfigurationsException: ClientRuntime.Modeled
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1505,8 +1450,7 @@ public struct DescribeSlackChannelConfigurationsInput: Swift.Sendable {
         chatConfigurationArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.chatConfigurationArn = chatConfigurationArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1522,8 +1466,7 @@ public struct DescribeSlackChannelConfigurationsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         slackChannelConfigurations: [ChatbotClientTypes.SlackChannelConfiguration]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.slackChannelConfigurations = slackChannelConfigurations
     }
@@ -1547,8 +1490,7 @@ public struct DescribeSlackUserIdentitiesException: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1565,8 +1507,7 @@ public struct DescribeSlackUserIdentitiesInput: Swift.Sendable {
         chatConfigurationArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.chatConfigurationArn = chatConfigurationArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1598,8 +1539,7 @@ extension ChatbotClientTypes {
             iamRoleArn: Swift.String? = nil,
             slackTeamId: Swift.String? = nil,
             slackUserId: Swift.String? = nil
-        )
-        {
+        ) {
             self.awsUserIdentity = awsUserIdentity
             self.chatConfigurationArn = chatConfigurationArn
             self.iamRoleArn = iamRoleArn
@@ -1618,8 +1558,7 @@ public struct DescribeSlackUserIdentitiesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         slackUserIdentities: [ChatbotClientTypes.SlackUserIdentity]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.slackUserIdentities = slackUserIdentities
     }
@@ -1643,8 +1582,7 @@ public struct DescribeSlackWorkspacesException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1658,8 +1596,7 @@ public struct DescribeSlackWorkspacesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -1685,8 +1622,7 @@ extension ChatbotClientTypes {
             slackTeamName: Swift.String? = nil,
             state: Swift.String? = nil,
             stateReason: Swift.String? = nil
-        )
-        {
+        ) {
             self.slackTeamId = slackTeamId
             self.slackTeamName = slackTeamName
             self.state = state
@@ -1704,8 +1640,7 @@ public struct DescribeSlackWorkspacesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         slackWorkspaces: [ChatbotClientTypes.SlackWorkspace]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.slackWorkspaces = slackWorkspaces
     }
@@ -1722,8 +1657,7 @@ public struct DisassociateFromConfigurationInput: Swift.Sendable {
     public init(
         chatConfiguration: Swift.String? = nil,
         resource: Swift.String? = nil
-    )
-    {
+    ) {
         self.chatConfiguration = chatConfiguration
         self.resource = resource
     }
@@ -1752,8 +1686,7 @@ public struct GetAccountPreferencesException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1769,8 +1702,7 @@ public struct GetAccountPreferencesOutput: Swift.Sendable {
 
     public init(
         accountPreferences: ChatbotClientTypes.AccountPreferences? = nil
-    )
-    {
+    ) {
         self.accountPreferences = accountPreferences
     }
 }
@@ -1793,8 +1725,7 @@ public struct GetTeamsChannelConfigurationException: ClientRuntime.ModeledError,
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1806,8 +1737,7 @@ public struct GetMicrosoftTeamsChannelConfigurationInput: Swift.Sendable {
 
     public init(
         chatConfigurationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.chatConfigurationArn = chatConfigurationArn
     }
 }
@@ -1818,8 +1748,7 @@ public struct GetMicrosoftTeamsChannelConfigurationOutput: Swift.Sendable {
 
     public init(
         channelConfiguration: ChatbotClientTypes.TeamsChannelConfiguration? = nil
-    )
-    {
+    ) {
         self.channelConfiguration = channelConfiguration
     }
 }
@@ -1837,8 +1766,7 @@ public struct ListAssociationsInput: Swift.Sendable {
         chatConfiguration: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.chatConfiguration = chatConfiguration
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1855,8 +1783,7 @@ public struct ListAssociationsOutput: Swift.Sendable {
     public init(
         associations: [ChatbotClientTypes.AssociationListing]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.associations = associations
         self.nextToken = nextToken
     }
@@ -1880,8 +1807,7 @@ public struct ListTeamsChannelConfigurationsException: ClientRuntime.ModeledErro
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1898,8 +1824,7 @@ public struct ListMicrosoftTeamsChannelConfigurationsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         teamId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.teamId = teamId
@@ -1915,8 +1840,7 @@ public struct ListMicrosoftTeamsChannelConfigurationsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         teamChannelConfigurations: [ChatbotClientTypes.TeamsChannelConfiguration]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.teamChannelConfigurations = teamChannelConfigurations
     }
@@ -1940,8 +1864,7 @@ public struct ListMicrosoftTeamsConfiguredTeamsException: ClientRuntime.ModeledE
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1955,8 +1878,7 @@ public struct ListMicrosoftTeamsConfiguredTeamsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -1971,8 +1893,7 @@ public struct ListMicrosoftTeamsConfiguredTeamsOutput: Swift.Sendable {
     public init(
         configuredTeams: [ChatbotClientTypes.ConfiguredTeam]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.configuredTeams = configuredTeams
         self.nextToken = nextToken
     }
@@ -1996,8 +1917,7 @@ public struct ListMicrosoftTeamsUserIdentitiesException: ClientRuntime.ModeledEr
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2014,8 +1934,7 @@ public struct ListMicrosoftTeamsUserIdentitiesInput: Swift.Sendable {
         chatConfigurationArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.chatConfigurationArn = chatConfigurationArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2052,8 +1971,7 @@ extension ChatbotClientTypes {
             teamsChannelId: Swift.String? = nil,
             teamsTenantId: Swift.String? = nil,
             userId: Swift.String? = nil
-        )
-        {
+        ) {
             self.awsUserIdentity = awsUserIdentity
             self.chatConfigurationArn = chatConfigurationArn
             self.iamRoleArn = iamRoleArn
@@ -2074,8 +1992,7 @@ public struct ListMicrosoftTeamsUserIdentitiesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         teamsUserIdentities: [ChatbotClientTypes.TeamsUserIdentity]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.teamsUserIdentities = teamsUserIdentities
     }
@@ -2099,8 +2016,7 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2112,8 +2028,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
     }
 }
@@ -2124,8 +2039,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [ChatbotClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -2148,8 +2062,7 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2165,8 +2078,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tags: [ChatbotClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tags = tags
     }
@@ -2188,8 +2100,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tagKeys = tagKeys
     }
@@ -2218,8 +2129,7 @@ public struct UpdateAccountPreferencesException: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2233,8 +2143,7 @@ public struct UpdateAccountPreferencesInput: Swift.Sendable {
     public init(
         trainingDataCollectionEnabled: Swift.Bool? = nil,
         userAuthorizationRequired: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.trainingDataCollectionEnabled = trainingDataCollectionEnabled
         self.userAuthorizationRequired = userAuthorizationRequired
     }
@@ -2246,8 +2155,7 @@ public struct UpdateAccountPreferencesOutput: Swift.Sendable {
 
     public init(
         accountPreferences: ChatbotClientTypes.AccountPreferences? = nil
-    )
-    {
+    ) {
         self.accountPreferences = accountPreferences
     }
 }
@@ -2270,8 +2178,7 @@ public struct UpdateChimeWebhookConfigurationException: ClientRuntime.ModeledErr
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2298,8 +2205,7 @@ public struct UpdateChimeWebhookConfigurationInput: Swift.Sendable {
         snsTopicArns: [Swift.String]? = nil,
         webhookDescription: Swift.String? = nil,
         webhookUrl: Swift.String? = nil
-    )
-    {
+    ) {
         self.chatConfigurationArn = chatConfigurationArn
         self.iamRoleArn = iamRoleArn
         self.loggingLevel = loggingLevel
@@ -2320,8 +2226,7 @@ public struct UpdateChimeWebhookConfigurationOutput: Swift.Sendable {
 
     public init(
         webhookConfiguration: ChatbotClientTypes.ChimeWebhookConfiguration? = nil
-    )
-    {
+    ) {
         self.webhookConfiguration = webhookConfiguration
     }
 }
@@ -2344,8 +2249,7 @@ public struct UpdateTeamsChannelConfigurationException: ClientRuntime.ModeledErr
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2379,8 +2283,7 @@ public struct UpdateMicrosoftTeamsChannelConfigurationInput: Swift.Sendable {
         loggingLevel: Swift.String? = nil,
         snsTopicArns: [Swift.String]? = nil,
         userAuthorizationRequired: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.channelId = channelId
         self.channelName = channelName
         self.chatConfigurationArn = chatConfigurationArn
@@ -2403,8 +2306,7 @@ public struct UpdateMicrosoftTeamsChannelConfigurationOutput: Swift.Sendable {
 
     public init(
         channelConfiguration: ChatbotClientTypes.TeamsChannelConfiguration? = nil
-    )
-    {
+    ) {
         self.channelConfiguration = channelConfiguration
     }
 }
@@ -2427,8 +2329,7 @@ public struct UpdateSlackChannelConfigurationException: ClientRuntime.ModeledErr
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2462,8 +2363,7 @@ public struct UpdateSlackChannelConfigurationInput: Swift.Sendable {
         slackChannelName: Swift.String? = nil,
         snsTopicArns: [Swift.String]? = nil,
         userAuthorizationRequired: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.chatConfigurationArn = chatConfigurationArn
         self.guardrailPolicyArns = guardrailPolicyArns
         self.iamRoleArn = iamRoleArn
@@ -2486,8 +2386,7 @@ public struct UpdateSlackChannelConfigurationOutput: Swift.Sendable {
 
     public init(
         channelConfiguration: ChatbotClientTypes.SlackChannelConfiguration? = nil
-    )
-    {
+    ) {
         self.channelConfiguration = channelConfiguration
     }
 }

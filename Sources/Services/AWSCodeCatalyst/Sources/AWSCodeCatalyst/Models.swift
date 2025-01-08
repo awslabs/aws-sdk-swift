@@ -52,8 +52,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -68,8 +67,7 @@ public struct CreateAccessTokenInput: Swift.Sendable {
     public init(
         expiresTime: Foundation.Date? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.expiresTime = expiresTime
         self.name = name
     }
@@ -94,8 +92,7 @@ public struct CreateAccessTokenOutput: Swift.Sendable {
         expiresTime: Foundation.Date? = nil,
         name: Swift.String? = nil,
         secret: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessTokenId = accessTokenId
         self.expiresTime = expiresTime
         self.name = name
@@ -115,8 +112,7 @@ public struct DeleteAccessTokenInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -135,8 +131,7 @@ public struct ListAccessTokensInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -159,8 +154,7 @@ extension CodeCatalystClientTypes {
             expiresTime: Foundation.Date? = nil,
             id: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.expiresTime = expiresTime
             self.id = id
             self.name = name
@@ -178,8 +172,7 @@ public struct ListAccessTokensOutput: Swift.Sendable {
     public init(
         items: [CodeCatalystClientTypes.AccessTokenSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -204,8 +197,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -219,8 +211,7 @@ public struct GetUserDetailsInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.userName = userName
     }
@@ -238,8 +229,7 @@ extension CodeCatalystClientTypes {
         public init(
             email: Swift.String? = nil,
             verified: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.email = email
             self.verified = verified
         }
@@ -264,8 +254,7 @@ public struct GetUserDetailsOutput: Swift.Sendable {
         userId: Swift.String? = nil,
         userName: Swift.String? = nil,
         version: Swift.String? = nil
-    )
-    {
+    ) {
         self.displayName = displayName
         self.primaryEmail = primaryEmail
         self.userId = userId
@@ -293,8 +282,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -318,8 +306,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -331,8 +318,7 @@ public struct DeleteSpaceInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -347,8 +333,7 @@ public struct DeleteSpaceOutput: Swift.Sendable {
     public init(
         displayName: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.displayName = displayName
         self.name = name
     }
@@ -378,8 +363,7 @@ public struct ListEventLogsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         spaceName: Swift.String? = nil,
         startTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.endTime = endTime
         self.eventName = eventName
         self.maxResults = maxResults
@@ -430,8 +414,7 @@ extension CodeCatalystClientTypes {
         public init(
             name: Swift.String? = nil,
             projectId: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.projectId = projectId
         }
@@ -450,8 +433,7 @@ extension CodeCatalystClientTypes {
         public init(
             contentType: Swift.String? = nil,
             data: Swift.String? = nil
-        )
-        {
+        ) {
             self.contentType = contentType
             self.data = data
         }
@@ -510,8 +492,7 @@ extension CodeCatalystClientTypes {
             principalId: Swift.String? = nil,
             userName: Swift.String? = nil,
             userType: CodeCatalystClientTypes.UserType? = nil
-        )
-        {
+        ) {
             self.awsAccountId = awsAccountId
             self.principalId = principalId
             self.userName = userName
@@ -579,8 +560,7 @@ extension CodeCatalystClientTypes {
             sourceIpAddress: Swift.String? = nil,
             userAgent: Swift.String? = nil,
             userIdentity: CodeCatalystClientTypes.UserIdentity? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.eventCategory = eventCategory
             self.eventName = eventName
@@ -610,8 +590,7 @@ public struct ListEventLogsOutput: Swift.Sendable {
     public init(
         items: [CodeCatalystClientTypes.EventLogEntry]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -624,8 +603,7 @@ public struct GetSpaceInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -647,8 +625,7 @@ public struct GetSpaceOutput: Swift.Sendable {
         displayName: Swift.String? = nil,
         name: Swift.String? = nil,
         regionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.displayName = displayName
         self.name = name
@@ -673,8 +650,7 @@ extension CodeCatalystClientTypes {
             comparisonOperator: Swift.String? = nil,
             key: Swift.String? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.comparisonOperator = comparisonOperator
             self.key = key
             self.values = values
@@ -701,8 +677,7 @@ public struct ListDevEnvironmentsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         projectName: Swift.String? = nil,
         spaceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -723,8 +698,7 @@ extension CodeCatalystClientTypes {
         public init(
             name: Swift.String? = nil,
             runtime: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.runtime = runtime
         }
@@ -776,8 +750,7 @@ extension CodeCatalystClientTypes {
 
         public init(
             sizeInGiB: Swift.Int? = nil
-        )
-        {
+        ) {
             self.sizeInGiB = sizeInGiB
         }
     }
@@ -796,8 +769,7 @@ extension CodeCatalystClientTypes {
         public init(
             branchName: Swift.String? = nil,
             repositoryName: Swift.String? = nil
-        )
-        {
+        ) {
             self.branchName = branchName
             self.repositoryName = repositoryName
         }
@@ -907,8 +879,7 @@ extension CodeCatalystClientTypes {
             status: CodeCatalystClientTypes.DevEnvironmentStatus? = nil,
             statusReason: Swift.String? = nil,
             vpcConnectionName: Swift.String? = nil
-        )
-        {
+        ) {
             self.alias = alias
             self.creatorId = creatorId
             self.id = id
@@ -937,8 +908,7 @@ public struct ListDevEnvironmentsOutput: Swift.Sendable {
     public init(
         items: [CodeCatalystClientTypes.DevEnvironmentSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -950,8 +920,7 @@ public struct ListSpacesInput: Swift.Sendable {
 
     public init(
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
     }
 }
@@ -976,8 +945,7 @@ extension CodeCatalystClientTypes {
             displayName: Swift.String? = nil,
             name: Swift.String? = nil,
             regionName: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.displayName = displayName
             self.name = name
@@ -995,8 +963,7 @@ public struct ListSpacesOutput: Swift.Sendable {
     public init(
         items: [CodeCatalystClientTypes.SpaceSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -1016,8 +983,7 @@ public struct CreateProjectInput: Swift.Sendable {
         description: Swift.String? = nil,
         displayName: Swift.String? = nil,
         spaceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.displayName = displayName
         self.spaceName = spaceName
@@ -1040,8 +1006,7 @@ public struct CreateProjectOutput: Swift.Sendable {
         displayName: Swift.String? = nil,
         name: Swift.String? = nil,
         spaceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.displayName = displayName
         self.name = name
@@ -1060,8 +1025,7 @@ public struct DeleteProjectInput: Swift.Sendable {
     public init(
         name: Swift.String? = nil,
         spaceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
         self.spaceName = spaceName
     }
@@ -1081,8 +1045,7 @@ public struct DeleteProjectOutput: Swift.Sendable {
         displayName: Swift.String? = nil,
         name: Swift.String? = nil,
         spaceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.displayName = displayName
         self.name = name
         self.spaceName = spaceName
@@ -1101,8 +1064,7 @@ extension CodeCatalystClientTypes {
         public init(
             name: Swift.String? = nil,
             runtime: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.runtime = runtime
         }
@@ -1119,8 +1081,7 @@ extension CodeCatalystClientTypes {
 
         public init(
             sizeInGiB: Swift.Int? = nil
-        )
-        {
+        ) {
             self.sizeInGiB = sizeInGiB
         }
     }
@@ -1139,8 +1100,7 @@ extension CodeCatalystClientTypes {
         public init(
             branchName: Swift.String? = nil,
             repositoryName: Swift.String? = nil
-        )
-        {
+        ) {
             self.branchName = branchName
             self.repositoryName = repositoryName
         }
@@ -1184,8 +1144,7 @@ public struct CreateDevEnvironmentInput: Swift.Sendable {
         repositories: [CodeCatalystClientTypes.RepositoryInput]? = nil,
         spaceName: Swift.String? = nil,
         vpcConnectionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.alias = alias
         self.clientToken = clientToken
         self.ides = ides
@@ -1217,8 +1176,7 @@ public struct CreateDevEnvironmentOutput: Swift.Sendable {
         projectName: Swift.String? = nil,
         spaceName: Swift.String? = nil,
         vpcConnectionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.projectName = projectName
         self.spaceName = spaceName
@@ -1241,8 +1199,7 @@ public struct DeleteDevEnvironmentInput: Swift.Sendable {
         id: Swift.String? = nil,
         projectName: Swift.String? = nil,
         spaceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.projectName = projectName
         self.spaceName = spaceName
@@ -1264,8 +1221,7 @@ public struct DeleteDevEnvironmentOutput: Swift.Sendable {
         id: Swift.String? = nil,
         projectName: Swift.String? = nil,
         spaceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.projectName = projectName
         self.spaceName = spaceName
@@ -1287,8 +1243,7 @@ public struct GetDevEnvironmentInput: Swift.Sendable {
         id: Swift.String? = nil,
         projectName: Swift.String? = nil,
         spaceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.projectName = projectName
         self.spaceName = spaceName
@@ -1350,8 +1305,7 @@ public struct GetDevEnvironmentOutput: Swift.Sendable {
         status: CodeCatalystClientTypes.DevEnvironmentStatus? = nil,
         statusReason: Swift.String? = nil,
         vpcConnectionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.alias = alias
         self.creatorId = creatorId
         self.id = id
@@ -1390,8 +1344,7 @@ public struct ListDevEnvironmentSessionsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         projectName: Swift.String? = nil,
         spaceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.devEnvironmentId = devEnvironmentId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1426,8 +1379,7 @@ extension CodeCatalystClientTypes {
             projectName: Swift.String? = nil,
             spaceName: Swift.String? = nil,
             startedTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.devEnvironmentId = devEnvironmentId
             self.id = id
             self.projectName = projectName
@@ -1447,8 +1399,7 @@ public struct ListDevEnvironmentSessionsOutput: Swift.Sendable {
     public init(
         items: [CodeCatalystClientTypes.DevEnvironmentSessionSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -1478,8 +1429,7 @@ public struct StartDevEnvironmentInput: Swift.Sendable {
         instanceType: CodeCatalystClientTypes.InstanceType? = nil,
         projectName: Swift.String? = nil,
         spaceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.ides = ides
         self.inactivityTimeoutMinutes = inactivityTimeoutMinutes
@@ -1508,8 +1458,7 @@ public struct StartDevEnvironmentOutput: Swift.Sendable {
         projectName: Swift.String? = nil,
         spaceName: Swift.String? = nil,
         status: CodeCatalystClientTypes.DevEnvironmentStatus? = nil
-    )
-    {
+    ) {
         self.id = id
         self.projectName = projectName
         self.spaceName = spaceName
@@ -1530,8 +1479,7 @@ extension CodeCatalystClientTypes {
         public init(
             arguments: [Swift.String]? = nil,
             command: Swift.String? = nil
-        )
-        {
+        ) {
             self.arguments = arguments
             self.command = command
         }
@@ -1580,8 +1528,7 @@ extension CodeCatalystClientTypes {
         public init(
             executeCommandSessionConfiguration: CodeCatalystClientTypes.ExecuteCommandSessionConfiguration? = nil,
             sessionType: CodeCatalystClientTypes.DevEnvironmentSessionType? = nil
-        )
-        {
+        ) {
             self.executeCommandSessionConfiguration = executeCommandSessionConfiguration
             self.sessionType = sessionType
         }
@@ -1607,8 +1554,7 @@ public struct StartDevEnvironmentSessionInput: Swift.Sendable {
         projectName: Swift.String? = nil,
         sessionConfiguration: CodeCatalystClientTypes.DevEnvironmentSessionConfiguration? = nil,
         spaceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.projectName = projectName
         self.sessionConfiguration = sessionConfiguration
@@ -1630,8 +1576,7 @@ extension CodeCatalystClientTypes {
         public init(
             streamUrl: Swift.String? = nil,
             tokenValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.streamUrl = streamUrl
             self.tokenValue = tokenValue
         }
@@ -1666,8 +1611,7 @@ public struct StartDevEnvironmentSessionOutput: Swift.Sendable {
         projectName: Swift.String? = nil,
         sessionId: Swift.String? = nil,
         spaceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessDetails = accessDetails
         self.id = id
         self.projectName = projectName
@@ -1696,8 +1640,7 @@ public struct StopDevEnvironmentInput: Swift.Sendable {
         id: Swift.String? = nil,
         projectName: Swift.String? = nil,
         spaceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.projectName = projectName
         self.spaceName = spaceName
@@ -1723,8 +1666,7 @@ public struct StopDevEnvironmentOutput: Swift.Sendable {
         projectName: Swift.String? = nil,
         spaceName: Swift.String? = nil,
         status: CodeCatalystClientTypes.DevEnvironmentStatus? = nil
-    )
-    {
+    ) {
         self.id = id
         self.projectName = projectName
         self.spaceName = spaceName
@@ -1751,8 +1693,7 @@ public struct StopDevEnvironmentSessionInput: Swift.Sendable {
         projectName: Swift.String? = nil,
         sessionId: Swift.String? = nil,
         spaceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.projectName = projectName
         self.sessionId = sessionId
@@ -1779,8 +1720,7 @@ public struct StopDevEnvironmentSessionOutput: Swift.Sendable {
         projectName: Swift.String? = nil,
         sessionId: Swift.String? = nil,
         spaceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.projectName = projectName
         self.sessionId = sessionId
@@ -1818,8 +1758,7 @@ public struct UpdateDevEnvironmentInput: Swift.Sendable {
         instanceType: CodeCatalystClientTypes.InstanceType? = nil,
         projectName: Swift.String? = nil,
         spaceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.alias = alias
         self.clientToken = clientToken
         self.id = id
@@ -1861,8 +1800,7 @@ public struct UpdateDevEnvironmentOutput: Swift.Sendable {
         instanceType: CodeCatalystClientTypes.InstanceType? = nil,
         projectName: Swift.String? = nil,
         spaceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.alias = alias
         self.clientToken = clientToken
         self.id = id
@@ -1885,8 +1823,7 @@ public struct GetProjectInput: Swift.Sendable {
     public init(
         name: Swift.String? = nil,
         spaceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
         self.spaceName = spaceName
     }
@@ -1908,8 +1845,7 @@ public struct GetProjectOutput: Swift.Sendable {
         displayName: Swift.String? = nil,
         name: Swift.String? = nil,
         spaceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.displayName = displayName
         self.name = name
@@ -2004,8 +1940,7 @@ extension CodeCatalystClientTypes {
             comparisonOperator: CodeCatalystClientTypes.ComparisonOperator? = nil,
             key: CodeCatalystClientTypes.FilterKey? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.comparisonOperator = comparisonOperator
             self.key = key
             self.values = values
@@ -2029,8 +1964,7 @@ public struct ListProjectsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         spaceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2054,8 +1988,7 @@ extension CodeCatalystClientTypes {
             description: Swift.String? = nil,
             displayName: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.displayName = displayName
             self.name = name
@@ -2072,8 +2005,7 @@ public struct ListProjectsOutput: Swift.Sendable {
     public init(
         items: [CodeCatalystClientTypes.ProjectSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -2097,8 +2029,7 @@ public struct CreateSourceRepositoryInput: Swift.Sendable {
         name: Swift.String? = nil,
         projectName: Swift.String? = nil,
         spaceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.name = name
         self.projectName = projectName
@@ -2124,8 +2055,7 @@ public struct CreateSourceRepositoryOutput: Swift.Sendable {
         name: Swift.String? = nil,
         projectName: Swift.String? = nil,
         spaceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.name = name
         self.projectName = projectName
@@ -2148,8 +2078,7 @@ public struct DeleteSourceRepositoryInput: Swift.Sendable {
         name: Swift.String? = nil,
         projectName: Swift.String? = nil,
         spaceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
         self.projectName = projectName
         self.spaceName = spaceName
@@ -2171,8 +2100,7 @@ public struct DeleteSourceRepositoryOutput: Swift.Sendable {
         name: Swift.String? = nil,
         projectName: Swift.String? = nil,
         spaceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
         self.projectName = projectName
         self.spaceName = spaceName
@@ -2194,8 +2122,7 @@ public struct GetSourceRepositoryInput: Swift.Sendable {
         name: Swift.String? = nil,
         projectName: Swift.String? = nil,
         spaceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
         self.projectName = projectName
         self.spaceName = spaceName
@@ -2228,8 +2155,7 @@ public struct GetSourceRepositoryOutput: Swift.Sendable {
         name: Swift.String? = nil,
         projectName: Swift.String? = nil,
         spaceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdTime = createdTime
         self.description = description
         self.lastUpdatedTime = lastUpdatedTime
@@ -2254,8 +2180,7 @@ public struct GetSourceRepositoryCloneUrlsInput: Swift.Sendable {
         projectName: Swift.String? = nil,
         sourceRepositoryName: Swift.String? = nil,
         spaceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.projectName = projectName
         self.sourceRepositoryName = sourceRepositoryName
         self.spaceName = spaceName
@@ -2269,8 +2194,7 @@ public struct GetSourceRepositoryCloneUrlsOutput: Swift.Sendable {
 
     public init(
         https: Swift.String? = nil
-    )
-    {
+    ) {
         self.https = https
     }
 }
@@ -2292,8 +2216,7 @@ public struct ListSourceRepositoriesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         projectName: Swift.String? = nil,
         spaceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.projectName = projectName
@@ -2326,8 +2249,7 @@ extension CodeCatalystClientTypes {
             id: Swift.String? = nil,
             lastUpdatedTime: Foundation.Date? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdTime = createdTime
             self.description = description
             self.id = id
@@ -2346,8 +2268,7 @@ public struct ListSourceRepositoriesOutput: Swift.Sendable {
     public init(
         items: [CodeCatalystClientTypes.ListSourceRepositoriesItem]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -2375,8 +2296,7 @@ public struct CreateSourceRepositoryBranchInput: Swift.Sendable {
         projectName: Swift.String? = nil,
         sourceRepositoryName: Swift.String? = nil,
         spaceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.headCommitId = headCommitId
         self.name = name
         self.projectName = projectName
@@ -2400,8 +2320,7 @@ public struct CreateSourceRepositoryBranchOutput: Swift.Sendable {
         lastUpdatedTime: Foundation.Date? = nil,
         name: Swift.String? = nil,
         ref: Swift.String? = nil
-    )
-    {
+    ) {
         self.headCommitId = headCommitId
         self.lastUpdatedTime = lastUpdatedTime
         self.name = name
@@ -2430,8 +2349,7 @@ public struct ListSourceRepositoryBranchesInput: Swift.Sendable {
         projectName: Swift.String? = nil,
         sourceRepositoryName: Swift.String? = nil,
         spaceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.projectName = projectName
@@ -2458,8 +2376,7 @@ extension CodeCatalystClientTypes {
             lastUpdatedTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             ref: Swift.String? = nil
-        )
-        {
+        ) {
             self.headCommitId = headCommitId
             self.lastUpdatedTime = lastUpdatedTime
             self.name = name
@@ -2478,8 +2395,7 @@ public struct ListSourceRepositoryBranchesOutput: Swift.Sendable {
     public init(
         items: [CodeCatalystClientTypes.ListSourceRepositoryBranchesItem]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -2499,8 +2415,7 @@ public struct UpdateProjectInput: Swift.Sendable {
         description: Swift.String? = nil,
         name: Swift.String? = nil,
         spaceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.name = name
         self.spaceName = spaceName
@@ -2522,8 +2437,7 @@ public struct UpdateProjectOutput: Swift.Sendable {
         displayName: Swift.String? = nil,
         name: Swift.String? = nil,
         spaceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.displayName = displayName
         self.name = name
@@ -2546,8 +2460,7 @@ public struct GetWorkflowInput: Swift.Sendable {
         id: Swift.String? = nil,
         projectName: Swift.String? = nil,
         spaceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.projectName = projectName
         self.spaceName = spaceName
@@ -2564,8 +2477,7 @@ extension CodeCatalystClientTypes {
 
         public init(
             path: Swift.String? = nil
-        )
-        {
+        ) {
             self.path = path
         }
     }
@@ -2677,8 +2589,7 @@ public struct GetWorkflowOutput: Swift.Sendable {
         sourceRepositoryName: Swift.String? = nil,
         spaceName: Swift.String? = nil,
         status: CodeCatalystClientTypes.WorkflowStatus? = nil
-    )
-    {
+    ) {
         self.createdTime = createdTime
         self.definition = definition
         self.id = id
@@ -2722,8 +2633,7 @@ public struct ListWorkflowsInput: Swift.Sendable {
         projectName: Swift.String? = nil,
         sortBy: [CodeCatalystClientTypes.WorkflowSortCriteria]? = nil,
         spaceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.projectName = projectName
@@ -2742,8 +2652,7 @@ extension CodeCatalystClientTypes {
 
         public init(
             path: Swift.String? = nil
-        )
-        {
+        ) {
             self.path = path
         }
     }
@@ -2791,8 +2700,7 @@ extension CodeCatalystClientTypes {
             sourceBranchName: Swift.String? = nil,
             sourceRepositoryName: Swift.String? = nil,
             status: CodeCatalystClientTypes.WorkflowStatus? = nil
-        )
-        {
+        ) {
             self.createdTime = createdTime
             self.definition = definition
             self.id = id
@@ -2815,8 +2723,7 @@ public struct ListWorkflowsOutput: Swift.Sendable {
     public init(
         items: [CodeCatalystClientTypes.WorkflowSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -2837,8 +2744,7 @@ public struct GetWorkflowRunInput: Swift.Sendable {
         id: Swift.String? = nil,
         projectName: Swift.String? = nil,
         spaceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.projectName = projectName
         self.spaceName = spaceName
@@ -2947,8 +2853,7 @@ public struct GetWorkflowRunOutput: Swift.Sendable {
         status: CodeCatalystClientTypes.WorkflowRunStatus? = nil,
         statusReasons: [CodeCatalystClientTypes.WorkflowRunStatusReason]? = nil,
         workflowId: Swift.String? = nil
-    )
-    {
+    ) {
         self.endTime = endTime
         self.id = id
         self.lastUpdatedTime = lastUpdatedTime
@@ -2993,8 +2898,7 @@ public struct ListWorkflowRunsInput: Swift.Sendable {
         sortBy: [CodeCatalystClientTypes.WorkflowRunSortCriteria]? = nil,
         spaceName: Swift.String? = nil,
         workflowId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.projectName = projectName
@@ -3040,8 +2944,7 @@ extension CodeCatalystClientTypes {
             statusReasons: [CodeCatalystClientTypes.WorkflowRunStatusReason]? = nil,
             workflowId: Swift.String? = nil,
             workflowName: Swift.String? = nil
-        )
-        {
+        ) {
             self.endTime = endTime
             self.id = id
             self.lastUpdatedTime = lastUpdatedTime
@@ -3063,8 +2966,7 @@ public struct ListWorkflowRunsOutput: Swift.Sendable {
     public init(
         items: [CodeCatalystClientTypes.WorkflowRunSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -3088,8 +2990,7 @@ public struct StartWorkflowRunInput: Swift.Sendable {
         projectName: Swift.String? = nil,
         spaceName: Swift.String? = nil,
         workflowId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.projectName = projectName
         self.spaceName = spaceName
@@ -3116,8 +3017,7 @@ public struct StartWorkflowRunOutput: Swift.Sendable {
         projectName: Swift.String? = nil,
         spaceName: Swift.String? = nil,
         workflowId: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.projectName = projectName
         self.spaceName = spaceName
@@ -3132,8 +3032,7 @@ public struct GetSubscriptionInput: Swift.Sendable {
 
     public init(
         spaceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.spaceName = spaceName
     }
 }
@@ -3153,8 +3052,7 @@ public struct GetSubscriptionOutput: Swift.Sendable {
         pendingSubscriptionStartTime: Foundation.Date? = nil,
         pendingSubscriptionType: Swift.String? = nil,
         subscriptionType: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountName = awsAccountName
         self.pendingSubscriptionStartTime = pendingSubscriptionStartTime
         self.pendingSubscriptionType = pendingSubscriptionType
@@ -3172,8 +3070,7 @@ public struct UpdateSpaceInput: Swift.Sendable {
     public init(
         description: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.name = name
     }
@@ -3191,8 +3088,7 @@ public struct UpdateSpaceOutput: Swift.Sendable {
         description: Swift.String? = nil,
         displayName: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.displayName = displayName
         self.name = name
@@ -3218,8 +3114,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3243,8 +3138,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3255,8 +3149,7 @@ public struct VerifySessionOutput: Swift.Sendable {
 
     public init(
         identity: Swift.String? = nil
-    )
-    {
+    ) {
         self.identity = identity
     }
 }

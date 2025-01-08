@@ -42,8 +42,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -95,8 +94,7 @@ extension MigrationHubClientTypes {
             applicationId: Swift.String? = nil,
             applicationStatus: MigrationHubClientTypes.ApplicationStatus? = nil,
             lastUpdatedTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.applicationId = applicationId
             self.applicationStatus = applicationStatus
             self.lastUpdatedTime = lastUpdatedTime
@@ -122,8 +120,7 @@ public struct DryRunOperation: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -146,8 +143,7 @@ public struct HomeRegionNotSetException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -170,8 +166,7 @@ public struct InternalServerError: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -194,8 +189,7 @@ public struct InvalidInputException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -218,8 +212,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -242,8 +235,7 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -271,8 +263,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         message: Swift.String? = nil,
         retryAfterSeconds: Swift.Int = 0
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.retryAfterSeconds = retryAfterSeconds
     }
@@ -296,8 +287,7 @@ public struct UnauthorizedOperation: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -315,8 +305,7 @@ extension MigrationHubClientTypes {
         public init(
             description: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.name = name
         }
@@ -341,8 +330,7 @@ public struct AssociateCreatedArtifactInput: Swift.Sendable {
         dryRun: Swift.Bool? = false,
         migrationTaskName: Swift.String? = nil,
         progressUpdateStream: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdArtifact = createdArtifact
         self.dryRun = dryRun
         self.migrationTaskName = migrationTaskName
@@ -373,8 +361,7 @@ public struct PolicyErrorException: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -392,8 +379,7 @@ extension MigrationHubClientTypes {
         public init(
             configurationId: Swift.String? = nil,
             description: Swift.String? = nil
-        )
-        {
+        ) {
             self.configurationId = configurationId
             self.description = description
         }
@@ -418,8 +404,7 @@ public struct AssociateDiscoveredResourceInput: Swift.Sendable {
         dryRun: Swift.Bool? = false,
         migrationTaskName: Swift.String? = nil,
         progressUpdateStream: Swift.String? = nil
-    )
-    {
+    ) {
         self.discoveredResource = discoveredResource
         self.dryRun = dryRun
         self.migrationTaskName = migrationTaskName
@@ -448,8 +433,7 @@ extension MigrationHubClientTypes {
             description: Swift.String? = nil,
             name: Swift.String? = nil,
             statusDetail: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.name = name
             self.statusDetail = statusDetail
@@ -475,8 +459,7 @@ public struct AssociateSourceResourceInput: Swift.Sendable {
         migrationTaskName: Swift.String? = nil,
         progressUpdateStream: Swift.String? = nil,
         sourceResource: MigrationHubClientTypes.SourceResource? = nil
-    )
-    {
+    ) {
         self.dryRun = dryRun
         self.migrationTaskName = migrationTaskName
         self.progressUpdateStream = progressUpdateStream
@@ -499,8 +482,7 @@ public struct CreateProgressUpdateStreamInput: Swift.Sendable {
     public init(
         dryRun: Swift.Bool? = false,
         progressUpdateStreamName: Swift.String? = nil
-    )
-    {
+    ) {
         self.dryRun = dryRun
         self.progressUpdateStreamName = progressUpdateStreamName
     }
@@ -521,8 +503,7 @@ public struct DeleteProgressUpdateStreamInput: Swift.Sendable {
     public init(
         dryRun: Swift.Bool? = false,
         progressUpdateStreamName: Swift.String? = nil
-    )
-    {
+    ) {
         self.dryRun = dryRun
         self.progressUpdateStreamName = progressUpdateStreamName
     }
@@ -540,8 +521,7 @@ public struct DescribeApplicationStateInput: Swift.Sendable {
 
     public init(
         applicationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
     }
 }
@@ -555,8 +535,7 @@ public struct DescribeApplicationStateOutput: Swift.Sendable {
     public init(
         applicationStatus: MigrationHubClientTypes.ApplicationStatus? = nil,
         lastUpdatedTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.applicationStatus = applicationStatus
         self.lastUpdatedTime = lastUpdatedTime
     }
@@ -573,8 +552,7 @@ public struct DescribeMigrationTaskInput: Swift.Sendable {
     public init(
         migrationTaskName: Swift.String? = nil,
         progressUpdateStream: Swift.String? = nil
-    )
-    {
+    ) {
         self.migrationTaskName = migrationTaskName
         self.progressUpdateStream = progressUpdateStream
     }
@@ -647,8 +625,7 @@ extension MigrationHubClientTypes {
         public init(
             type: MigrationHubClientTypes.ResourceAttributeType? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.type = type
             self.value = value
         }
@@ -706,8 +683,7 @@ extension MigrationHubClientTypes {
             progressPercent: Swift.Int? = nil,
             status: MigrationHubClientTypes.Status? = nil,
             statusDetail: Swift.String? = nil
-        )
-        {
+        ) {
             self.progressPercent = progressPercent
             self.status = status
             self.statusDetail = statusDetail
@@ -736,8 +712,7 @@ extension MigrationHubClientTypes {
             resourceAttributeList: [MigrationHubClientTypes.ResourceAttribute]? = nil,
             task: MigrationHubClientTypes.Task? = nil,
             updateDateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.migrationTaskName = migrationTaskName
             self.progressUpdateStream = progressUpdateStream
             self.resourceAttributeList = resourceAttributeList
@@ -753,8 +728,7 @@ public struct DescribeMigrationTaskOutput: Swift.Sendable {
 
     public init(
         migrationTask: MigrationHubClientTypes.MigrationTask? = nil
-    )
-    {
+    ) {
         self.migrationTask = migrationTask
     }
 }
@@ -777,8 +751,7 @@ public struct DisassociateCreatedArtifactInput: Swift.Sendable {
         dryRun: Swift.Bool? = false,
         migrationTaskName: Swift.String? = nil,
         progressUpdateStream: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdArtifactName = createdArtifactName
         self.dryRun = dryRun
         self.migrationTaskName = migrationTaskName
@@ -809,8 +782,7 @@ public struct DisassociateDiscoveredResourceInput: Swift.Sendable {
         dryRun: Swift.Bool? = false,
         migrationTaskName: Swift.String? = nil,
         progressUpdateStream: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurationId = configurationId
         self.dryRun = dryRun
         self.migrationTaskName = migrationTaskName
@@ -841,8 +813,7 @@ public struct DisassociateSourceResourceInput: Swift.Sendable {
         migrationTaskName: Swift.String? = nil,
         progressUpdateStream: Swift.String? = nil,
         sourceResourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.dryRun = dryRun
         self.migrationTaskName = migrationTaskName
         self.progressUpdateStream = progressUpdateStream
@@ -869,8 +840,7 @@ public struct ImportMigrationTaskInput: Swift.Sendable {
         dryRun: Swift.Bool? = false,
         migrationTaskName: Swift.String? = nil,
         progressUpdateStream: Swift.String? = nil
-    )
-    {
+    ) {
         self.dryRun = dryRun
         self.migrationTaskName = migrationTaskName
         self.progressUpdateStream = progressUpdateStream
@@ -894,8 +864,7 @@ public struct ListApplicationStatesInput: Swift.Sendable {
         applicationIds: [Swift.String]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationIds = applicationIds
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -911,8 +880,7 @@ public struct ListApplicationStatesOutput: Swift.Sendable {
     public init(
         applicationStateList: [MigrationHubClientTypes.ApplicationState]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationStateList = applicationStateList
         self.nextToken = nextToken
     }
@@ -935,8 +903,7 @@ public struct ListCreatedArtifactsInput: Swift.Sendable {
         migrationTaskName: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         progressUpdateStream: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.migrationTaskName = migrationTaskName
         self.nextToken = nextToken
@@ -953,8 +920,7 @@ public struct ListCreatedArtifactsOutput: Swift.Sendable {
     public init(
         createdArtifactList: [MigrationHubClientTypes.CreatedArtifact]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdArtifactList = createdArtifactList
         self.nextToken = nextToken
     }
@@ -977,8 +943,7 @@ public struct ListDiscoveredResourcesInput: Swift.Sendable {
         migrationTaskName: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         progressUpdateStream: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.migrationTaskName = migrationTaskName
         self.nextToken = nextToken
@@ -995,8 +960,7 @@ public struct ListDiscoveredResourcesOutput: Swift.Sendable {
     public init(
         discoveredResourceList: [MigrationHubClientTypes.DiscoveredResource]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.discoveredResourceList = discoveredResourceList
         self.nextToken = nextToken
     }
@@ -1014,8 +978,7 @@ public struct ListMigrationTasksInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.resourceName = resourceName
@@ -1046,8 +1009,7 @@ extension MigrationHubClientTypes {
             status: MigrationHubClientTypes.Status? = nil,
             statusDetail: Swift.String? = nil,
             updateDateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.migrationTaskName = migrationTaskName
             self.progressPercent = progressPercent
             self.progressUpdateStream = progressUpdateStream
@@ -1067,8 +1029,7 @@ public struct ListMigrationTasksOutput: Swift.Sendable {
     public init(
         migrationTaskSummaryList: [MigrationHubClientTypes.MigrationTaskSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.migrationTaskSummaryList = migrationTaskSummaryList
         self.nextToken = nextToken
     }
@@ -1091,8 +1052,7 @@ public struct ListMigrationTaskUpdatesInput: Swift.Sendable {
         migrationTaskName: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         progressUpdateStream: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.migrationTaskName = migrationTaskName
         self.nextToken = nextToken
@@ -1141,8 +1101,7 @@ extension MigrationHubClientTypes {
             migrationTaskState: MigrationHubClientTypes.Task? = nil,
             updateDateTime: Foundation.Date? = nil,
             updateType: MigrationHubClientTypes.UpdateType? = nil
-        )
-        {
+        ) {
             self.migrationTaskState = migrationTaskState
             self.updateDateTime = updateDateTime
             self.updateType = updateType
@@ -1159,8 +1118,7 @@ public struct ListMigrationTaskUpdatesOutput: Swift.Sendable {
     public init(
         migrationTaskUpdateList: [MigrationHubClientTypes.MigrationTaskUpdate]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.migrationTaskUpdateList = migrationTaskUpdateList
         self.nextToken = nextToken
     }
@@ -1175,8 +1133,7 @@ public struct ListProgressUpdateStreamsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -1191,8 +1148,7 @@ extension MigrationHubClientTypes {
 
         public init(
             progressUpdateStreamName: Swift.String? = nil
-        )
-        {
+        ) {
             self.progressUpdateStreamName = progressUpdateStreamName
         }
     }
@@ -1207,8 +1163,7 @@ public struct ListProgressUpdateStreamsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         progressUpdateStreamSummaryList: [MigrationHubClientTypes.ProgressUpdateStreamSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.progressUpdateStreamSummaryList = progressUpdateStreamSummaryList
     }
@@ -1231,8 +1186,7 @@ public struct ListSourceResourcesInput: Swift.Sendable {
         migrationTaskName: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         progressUpdateStream: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.migrationTaskName = migrationTaskName
         self.nextToken = nextToken
@@ -1249,8 +1203,7 @@ public struct ListSourceResourcesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         sourceResourceList: [MigrationHubClientTypes.SourceResource]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.sourceResourceList = sourceResourceList
     }
@@ -1273,8 +1226,7 @@ public struct NotifyApplicationStateInput: Swift.Sendable {
         dryRun: Swift.Bool? = false,
         status: MigrationHubClientTypes.ApplicationStatus? = nil,
         updateDateTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.dryRun = dryRun
         self.status = status
@@ -1313,8 +1265,7 @@ public struct NotifyMigrationTaskStateInput: Swift.Sendable {
         progressUpdateStream: Swift.String? = nil,
         task: MigrationHubClientTypes.Task? = nil,
         updateDateTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.dryRun = dryRun
         self.migrationTaskName = migrationTaskName
         self.nextUpdateSeconds = nextUpdateSeconds
@@ -1351,8 +1302,7 @@ public struct PutResourceAttributesInput: Swift.Sendable {
         migrationTaskName: Swift.String? = nil,
         progressUpdateStream: Swift.String? = nil,
         resourceAttributeList: [MigrationHubClientTypes.ResourceAttribute]? = nil
-    )
-    {
+    ) {
         self.dryRun = dryRun
         self.migrationTaskName = migrationTaskName
         self.progressUpdateStream = progressUpdateStream

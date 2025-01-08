@@ -45,8 +45,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -60,8 +59,7 @@ extension LicenseManagerUserSubscriptionsClientTypes {
 
         public init(
             secretId: Swift.String? = nil
-        )
-        {
+        ) {
             self.secretId = secretId
         }
     }
@@ -87,8 +85,7 @@ extension LicenseManagerUserSubscriptionsClientTypes {
 
         public init(
             subnets: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.subnets = subnets
         }
     }
@@ -112,8 +109,7 @@ extension LicenseManagerUserSubscriptionsClientTypes {
             domainIpv4List: [Swift.String]? = nil,
             domainName: Swift.String? = nil,
             domainNetworkSettings: LicenseManagerUserSubscriptionsClientTypes.DomainNetworkSettings? = nil
-        )
-        {
+        ) {
             self.domainCredentialsProvider = domainCredentialsProvider
             self.domainIpv4List = domainIpv4List
             self.domainName = domainName
@@ -168,8 +164,7 @@ extension LicenseManagerUserSubscriptionsClientTypes {
             activeDirectorySettings: LicenseManagerUserSubscriptionsClientTypes.ActiveDirectorySettings? = nil,
             activeDirectoryType: LicenseManagerUserSubscriptionsClientTypes.ActiveDirectoryType? = nil,
             directoryId: Swift.String? = nil
-        )
-        {
+        ) {
             self.activeDirectorySettings = activeDirectorySettings
             self.activeDirectoryType = activeDirectoryType
             self.directoryId = directoryId
@@ -195,8 +190,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -219,8 +213,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -243,8 +236,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -267,8 +259,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -291,8 +282,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -315,8 +305,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -352,8 +341,7 @@ public struct AssociateUserInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         username: Swift.String? = nil
-    )
-    {
+    ) {
         self.domain = domain
         self.identityProvider = identityProvider
         self.instanceId = instanceId
@@ -404,8 +392,7 @@ extension LicenseManagerUserSubscriptionsClientTypes {
             status: Swift.String? = nil,
             statusMessage: Swift.String? = nil,
             username: Swift.String? = nil
-        )
-        {
+        ) {
             self.associationDate = associationDate
             self.disassociationDate = disassociationDate
             self.domain = domain
@@ -426,8 +413,7 @@ public struct AssociateUserOutput: Swift.Sendable {
 
     public init(
         instanceUserSummary: LicenseManagerUserSubscriptionsClientTypes.InstanceUserSummary? = nil
-    )
-    {
+    ) {
         self.instanceUserSummary = instanceUserSummary
     }
 }
@@ -442,8 +428,7 @@ extension LicenseManagerUserSubscriptionsClientTypes {
 
         public init(
             rdsSalCredentialsProvider: LicenseManagerUserSubscriptionsClientTypes.CredentialsProvider? = nil
-        )
-        {
+        ) {
             self.rdsSalCredentialsProvider = rdsSalCredentialsProvider
         }
     }
@@ -500,8 +485,7 @@ extension LicenseManagerUserSubscriptionsClientTypes {
         public init(
             serverSettings: LicenseManagerUserSubscriptionsClientTypes.ServerSettings? = nil,
             serverType: LicenseManagerUserSubscriptionsClientTypes.ServerType? = nil
-        )
-        {
+        ) {
             self.serverSettings = serverSettings
             self.serverType = serverType
         }
@@ -522,8 +506,7 @@ public struct CreateLicenseServerEndpointInput: Swift.Sendable {
         identityProviderArn: Swift.String? = nil,
         licenseServerSettings: LicenseManagerUserSubscriptionsClientTypes.LicenseServerSettings? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.identityProviderArn = identityProviderArn
         self.licenseServerSettings = licenseServerSettings
         self.tags = tags
@@ -544,8 +527,7 @@ public struct CreateLicenseServerEndpointOutput: Swift.Sendable {
     public init(
         identityProviderArn: Swift.String? = nil,
         licenseServerEndpointArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.identityProviderArn = identityProviderArn
         self.licenseServerEndpointArn = licenseServerEndpointArn
     }
@@ -562,8 +544,7 @@ public struct DeleteLicenseServerEndpointInput: Swift.Sendable {
     public init(
         licenseServerEndpointArn: Swift.String? = nil,
         serverType: LicenseManagerUserSubscriptionsClientTypes.ServerType? = nil
-    )
-    {
+    ) {
         self.licenseServerEndpointArn = licenseServerEndpointArn
         self.serverType = serverType
     }
@@ -666,8 +647,7 @@ extension LicenseManagerUserSubscriptionsClientTypes {
             healthStatus: LicenseManagerUserSubscriptionsClientTypes.LicenseServerHealthStatus? = nil,
             ipv4Address: Swift.String? = nil,
             provisioningStatus: LicenseManagerUserSubscriptionsClientTypes.LicenseServerEndpointProvisioningStatus? = nil
-        )
-        {
+        ) {
             self.healthStatus = healthStatus
             self.ipv4Address = ipv4Address
             self.provisioningStatus = provisioningStatus
@@ -684,8 +664,7 @@ extension LicenseManagerUserSubscriptionsClientTypes {
 
         public init(
             endpoint: Swift.String? = nil
-        )
-        {
+        ) {
             self.endpoint = endpoint
         }
     }
@@ -724,8 +703,7 @@ extension LicenseManagerUserSubscriptionsClientTypes {
             serverEndpoint: LicenseManagerUserSubscriptionsClientTypes.ServerEndpoint? = nil,
             serverType: LicenseManagerUserSubscriptionsClientTypes.ServerType? = nil,
             statusMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.identityProviderArn = identityProviderArn
             self.licenseServerEndpointArn = licenseServerEndpointArn
@@ -745,8 +723,7 @@ public struct DeleteLicenseServerEndpointOutput: Swift.Sendable {
 
     public init(
         licenseServerEndpoint: LicenseManagerUserSubscriptionsClientTypes.LicenseServerEndpoint? = nil
-    )
-    {
+    ) {
         self.licenseServerEndpoint = licenseServerEndpoint
     }
 }
@@ -763,8 +740,7 @@ public struct DeregisterIdentityProviderInput: Swift.Sendable {
         identityProvider: LicenseManagerUserSubscriptionsClientTypes.IdentityProvider? = nil,
         identityProviderArn: Swift.String? = nil,
         product: Swift.String? = nil
-    )
-    {
+    ) {
         self.identityProvider = identityProvider
         self.identityProviderArn = identityProviderArn
         self.product = product
@@ -785,8 +761,7 @@ extension LicenseManagerUserSubscriptionsClientTypes {
         public init(
             securityGroupId: Swift.String? = nil,
             subnets: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.securityGroupId = securityGroupId
             self.subnets = subnets
         }
@@ -821,8 +796,7 @@ extension LicenseManagerUserSubscriptionsClientTypes {
             product: Swift.String? = nil,
             settings: LicenseManagerUserSubscriptionsClientTypes.Settings? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.failureMessage = failureMessage
             self.identityProvider = identityProvider
             self.identityProviderArn = identityProviderArn
@@ -840,8 +814,7 @@ public struct DeregisterIdentityProviderOutput: Swift.Sendable {
 
     public init(
         identityProviderSummary: LicenseManagerUserSubscriptionsClientTypes.IdentityProviderSummary? = nil
-    )
-    {
+    ) {
         self.identityProviderSummary = identityProviderSummary
     }
 }
@@ -864,8 +837,7 @@ public struct DisassociateUserInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         instanceUserArn: Swift.String? = nil,
         username: Swift.String? = nil
-    )
-    {
+    ) {
         self.domain = domain
         self.identityProvider = identityProvider
         self.instanceId = instanceId
@@ -881,8 +853,7 @@ public struct DisassociateUserOutput: Swift.Sendable {
 
     public init(
         instanceUserSummary: LicenseManagerUserSubscriptionsClientTypes.InstanceUserSummary? = nil
-    )
-    {
+    ) {
         self.instanceUserSummary = instanceUserSummary
     }
 }
@@ -902,8 +873,7 @@ extension LicenseManagerUserSubscriptionsClientTypes {
             attribute: Swift.String? = nil,
             operation: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.attribute = attribute
             self.operation = operation
             self.value = value
@@ -935,8 +905,7 @@ extension LicenseManagerUserSubscriptionsClientTypes {
             products: [Swift.String]? = nil,
             status: Swift.String? = nil,
             statusMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.instanceId = instanceId
             self.lastStatusCheckDate = lastStatusCheckDate
             self.products = products
@@ -962,8 +931,7 @@ public struct ListIdentityProvidersInput: Swift.Sendable {
         filters: [LicenseManagerUserSubscriptionsClientTypes.Filter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -980,8 +948,7 @@ public struct ListIdentityProvidersOutput: Swift.Sendable {
     public init(
         identityProviderSummaries: [LicenseManagerUserSubscriptionsClientTypes.IdentityProviderSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.identityProviderSummaries = identityProviderSummaries
         self.nextToken = nextToken
     }
@@ -1003,8 +970,7 @@ public struct ListInstancesInput: Swift.Sendable {
         filters: [LicenseManagerUserSubscriptionsClientTypes.Filter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1020,8 +986,7 @@ public struct ListInstancesOutput: Swift.Sendable {
     public init(
         instanceSummaries: [LicenseManagerUserSubscriptionsClientTypes.InstanceSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceSummaries = instanceSummaries
         self.nextToken = nextToken
     }
@@ -1041,8 +1006,7 @@ public struct ListLicenseServerEndpointsInput: Swift.Sendable {
         filters: [LicenseManagerUserSubscriptionsClientTypes.Filter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1058,8 +1022,7 @@ public struct ListLicenseServerEndpointsOutput: Swift.Sendable {
     public init(
         licenseServerEndpoints: [LicenseManagerUserSubscriptionsClientTypes.LicenseServerEndpoint]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.licenseServerEndpoints = licenseServerEndpoints
         self.nextToken = nextToken
     }
@@ -1090,8 +1053,7 @@ public struct ListProductSubscriptionsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         product: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.identityProvider = identityProvider
         self.maxResults = maxResults
@@ -1137,8 +1099,7 @@ extension LicenseManagerUserSubscriptionsClientTypes {
             subscriptionEndDate: Swift.String? = nil,
             subscriptionStartDate: Swift.String? = nil,
             username: Swift.String? = nil
-        )
-        {
+        ) {
             self.domain = domain
             self.identityProvider = identityProvider
             self.product = product
@@ -1161,8 +1122,7 @@ public struct ListProductSubscriptionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         productUserSummaries: [LicenseManagerUserSubscriptionsClientTypes.ProductUserSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.productUserSummaries = productUserSummaries
     }
@@ -1175,8 +1135,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -1187,8 +1146,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -1224,8 +1182,7 @@ public struct ListUserAssociationsInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.identityProvider = identityProvider
         self.instanceId = instanceId
@@ -1243,8 +1200,7 @@ public struct ListUserAssociationsOutput: Swift.Sendable {
     public init(
         instanceUserSummaries: [LicenseManagerUserSubscriptionsClientTypes.InstanceUserSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceUserSummaries = instanceUserSummaries
         self.nextToken = nextToken
     }
@@ -1267,8 +1223,7 @@ public struct RegisterIdentityProviderInput: Swift.Sendable {
         product: Swift.String? = nil,
         settings: LicenseManagerUserSubscriptionsClientTypes.Settings? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.identityProvider = identityProvider
         self.product = product
         self.settings = settings
@@ -1288,8 +1243,7 @@ public struct RegisterIdentityProviderOutput: Swift.Sendable {
 
     public init(
         identityProviderSummary: LicenseManagerUserSubscriptionsClientTypes.IdentityProviderSummary? = nil
-    )
-    {
+    ) {
         self.identityProviderSummary = identityProviderSummary
     }
 }
@@ -1315,8 +1269,7 @@ public struct StartProductSubscriptionInput: Swift.Sendable {
         product: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         username: Swift.String? = nil
-    )
-    {
+    ) {
         self.domain = domain
         self.identityProvider = identityProvider
         self.product = product
@@ -1337,8 +1290,7 @@ public struct StartProductSubscriptionOutput: Swift.Sendable {
 
     public init(
         productUserSummary: LicenseManagerUserSubscriptionsClientTypes.ProductUserSummary? = nil
-    )
-    {
+    ) {
         self.productUserSummary = productUserSummary
     }
 }
@@ -1361,8 +1313,7 @@ public struct StopProductSubscriptionInput: Swift.Sendable {
         product: Swift.String? = nil,
         productUserArn: Swift.String? = nil,
         username: Swift.String? = nil
-    )
-    {
+    ) {
         self.domain = domain
         self.identityProvider = identityProvider
         self.product = product
@@ -1378,8 +1329,7 @@ public struct StopProductSubscriptionOutput: Swift.Sendable {
 
     public init(
         productUserSummary: LicenseManagerUserSubscriptionsClientTypes.ProductUserSummary? = nil
-    )
-    {
+    ) {
         self.productUserSummary = productUserSummary
     }
 }
@@ -1395,8 +1345,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -1423,8 +1372,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -1457,8 +1405,7 @@ extension LicenseManagerUserSubscriptionsClientTypes {
             addSubnets: [Swift.String]? = nil,
             removeSubnets: [Swift.String]? = nil,
             securityGroupId: Swift.String? = nil
-        )
-        {
+        ) {
             self.addSubnets = addSubnets
             self.removeSubnets = removeSubnets
             self.securityGroupId = securityGroupId
@@ -1488,8 +1435,7 @@ public struct UpdateIdentityProviderSettingsInput: Swift.Sendable {
         identityProviderArn: Swift.String? = nil,
         product: Swift.String? = nil,
         updateSettings: LicenseManagerUserSubscriptionsClientTypes.UpdateSettings? = nil
-    )
-    {
+    ) {
         self.identityProvider = identityProvider
         self.identityProviderArn = identityProviderArn
         self.product = product
@@ -1504,8 +1450,7 @@ public struct UpdateIdentityProviderSettingsOutput: Swift.Sendable {
 
     public init(
         identityProviderSummary: LicenseManagerUserSubscriptionsClientTypes.IdentityProviderSummary? = nil
-    )
-    {
+    ) {
         self.identityProviderSummary = identityProviderSummary
     }
 }

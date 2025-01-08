@@ -48,8 +48,7 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
         className: Swift.String? = nil,
         code: Swift.Int = 0,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.className = className
         self.properties.code = code
         self.properties.message = message
@@ -78,8 +77,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
         className: Swift.String? = nil,
         code: Swift.Int = 0,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.className = className
         self.properties.code = code
         self.properties.message = message
@@ -108,8 +106,7 @@ public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.A
         className: Swift.String? = nil,
         code: Swift.Int = 0,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.className = className
         self.properties.code = code
         self.properties.message = message
@@ -138,8 +135,7 @@ public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClien
         className: Swift.String? = nil,
         code: Swift.Int = 0,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.className = className
         self.properties.code = code
         self.properties.message = message
@@ -168,8 +164,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
         className: Swift.String? = nil,
         code: Swift.Int = 0,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.className = className
         self.properties.code = code
         self.properties.message = message
@@ -198,8 +193,7 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
         className: Swift.String? = nil,
         code: Swift.Int = 0,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.className = className
         self.properties.code = code
         self.properties.message = message
@@ -228,8 +222,7 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
         className: Swift.String? = nil,
         code: Swift.Int = 0,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.className = className
         self.properties.code = code
         self.properties.message = message
@@ -279,8 +272,7 @@ extension Cloud9ClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -351,8 +343,7 @@ public struct CreateEnvironmentEC2Input: Swift.Sendable {
         ownerArn: Swift.String? = nil,
         subnetId: Swift.String? = nil,
         tags: [Cloud9ClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.automaticStopTimeMinutes = automaticStopTimeMinutes
         self.clientRequestToken = clientRequestToken
         self.connectionType = connectionType
@@ -378,8 +369,7 @@ public struct CreateEnvironmentEC2Output: Swift.Sendable {
 
     public init(
         environmentId: Swift.String? = nil
-    )
-    {
+    ) {
         self.environmentId = environmentId
     }
 }
@@ -432,8 +422,7 @@ public struct CreateEnvironmentMembershipInput: Swift.Sendable {
         environmentId: Swift.String? = nil,
         permissions: Cloud9ClientTypes.MemberPermissions? = nil,
         userArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.environmentId = environmentId
         self.permissions = permissions
         self.userArn = userArn
@@ -503,8 +492,7 @@ extension Cloud9ClientTypes {
             permissions: Cloud9ClientTypes.Permissions? = nil,
             userArn: Swift.String? = nil,
             userId: Swift.String? = nil
-        )
-        {
+        ) {
             self.environmentId = environmentId
             self.lastAccess = lastAccess
             self.permissions = permissions
@@ -521,8 +509,7 @@ public struct CreateEnvironmentMembershipOutput: Swift.Sendable {
 
     public init(
         membership: Cloud9ClientTypes.EnvironmentMember? = nil
-    )
-    {
+    ) {
         self.membership = membership
     }
 }
@@ -534,8 +521,7 @@ public struct DeleteEnvironmentInput: Swift.Sendable {
 
     public init(
         environmentId: Swift.String? = nil
-    )
-    {
+    ) {
         self.environmentId = environmentId
     }
 }
@@ -556,8 +542,7 @@ public struct DeleteEnvironmentMembershipInput: Swift.Sendable {
     public init(
         environmentId: Swift.String? = nil,
         userArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.environmentId = environmentId
         self.userArn = userArn
     }
@@ -595,8 +580,7 @@ public struct DescribeEnvironmentMembershipsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         permissions: [Cloud9ClientTypes.Permissions]? = nil,
         userArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.environmentId = environmentId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -614,8 +598,7 @@ public struct DescribeEnvironmentMembershipsOutput: Swift.Sendable {
     public init(
         memberships: [Cloud9ClientTypes.EnvironmentMember]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.memberships = memberships
         self.nextToken = nextToken
     }
@@ -628,8 +611,7 @@ public struct DescribeEnvironmentsInput: Swift.Sendable {
 
     public init(
         environmentIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.environmentIds = environmentIds
     }
 }
@@ -697,8 +679,7 @@ extension Cloud9ClientTypes {
             failureResource: Swift.String? = nil,
             reason: Swift.String? = nil,
             status: Cloud9ClientTypes.EnvironmentLifecycleStatus? = nil
-        )
-        {
+        ) {
             self.failureResource = failureResource
             self.reason = reason
             self.status = status
@@ -851,8 +832,7 @@ extension Cloud9ClientTypes {
             name: Swift.String? = nil,
             ownerArn: Swift.String? = nil,
             type: Cloud9ClientTypes.EnvironmentType? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.connectionType = connectionType
             self.description = description
@@ -877,8 +857,7 @@ public struct DescribeEnvironmentsOutput: Swift.Sendable {
 
     public init(
         environments: [Cloud9ClientTypes.Environment]? = nil
-    )
-    {
+    ) {
         self.environments = environments
     }
 }
@@ -890,8 +869,7 @@ public struct DescribeEnvironmentStatusInput: Swift.Sendable {
 
     public init(
         environmentId: Swift.String? = nil
-    )
-    {
+    ) {
         self.environmentId = environmentId
     }
 }
@@ -965,8 +943,7 @@ public struct DescribeEnvironmentStatusOutput: Swift.Sendable {
     public init(
         message: Swift.String? = nil,
         status: Cloud9ClientTypes.EnvironmentStatus? = nil
-    )
-    {
+    ) {
         self.message = message
         self.status = status
     }
@@ -981,8 +958,7 @@ public struct ListEnvironmentsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -997,8 +973,7 @@ public struct ListEnvironmentsOutput: Swift.Sendable {
     public init(
         environmentIds: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.environmentIds = environmentIds
         self.nextToken = nextToken
     }
@@ -1011,8 +986,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
     }
 }
@@ -1023,8 +997,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Cloud9ClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -1056,8 +1029,7 @@ public struct ConcurrentAccessException: ClientRuntime.ModeledError, AWSClientRu
         className: Swift.String? = nil,
         code: Swift.Int = 0,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.className = className
         self.properties.code = code
         self.properties.message = message
@@ -1075,8 +1047,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tags: [Cloud9ClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tags = tags
     }
@@ -1103,8 +1074,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tagKeys = tagKeys
     }
@@ -1172,8 +1142,7 @@ public struct UpdateEnvironmentInput: Swift.Sendable {
         environmentId: Swift.String? = nil,
         managedCredentialsAction: Cloud9ClientTypes.ManagedCredentialsAction? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.environmentId = environmentId
         self.managedCredentialsAction = managedCredentialsAction
@@ -1210,8 +1179,7 @@ public struct UpdateEnvironmentMembershipInput: Swift.Sendable {
         environmentId: Swift.String? = nil,
         permissions: Cloud9ClientTypes.MemberPermissions? = nil,
         userArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.environmentId = environmentId
         self.permissions = permissions
         self.userArn = userArn
@@ -1224,8 +1192,7 @@ public struct UpdateEnvironmentMembershipOutput: Swift.Sendable {
 
     public init(
         membership: Cloud9ClientTypes.EnvironmentMember? = nil
-    )
-    {
+    ) {
         self.membership = membership
     }
 }

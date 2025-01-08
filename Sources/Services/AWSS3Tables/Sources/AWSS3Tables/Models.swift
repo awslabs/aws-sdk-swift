@@ -96,8 +96,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -120,8 +119,7 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -144,8 +142,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -168,8 +165,7 @@ public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -192,8 +188,7 @@ public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -216,8 +211,7 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -240,8 +234,7 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -257,8 +250,7 @@ public struct CreateNamespaceInput: Swift.Sendable {
     public init(
         namespace: [Swift.String]? = nil,
         tableBucketARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.namespace = namespace
         self.tableBucketARN = tableBucketARN
     }
@@ -275,8 +267,7 @@ public struct CreateNamespaceOutput: Swift.Sendable {
     public init(
         namespace: [Swift.String]? = nil,
         tableBucketARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.namespace = namespace
         self.tableBucketARN = tableBucketARN
     }
@@ -327,8 +318,7 @@ public struct CreateTableInput: Swift.Sendable {
         name: Swift.String? = nil,
         namespace: Swift.String? = nil,
         tableBucketARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.format = format
         self.name = name
         self.namespace = namespace
@@ -347,8 +337,7 @@ public struct CreateTableOutput: Swift.Sendable {
     public init(
         tableARN: Swift.String? = nil,
         versionToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.tableARN = tableARN
         self.versionToken = versionToken
     }
@@ -361,8 +350,7 @@ public struct CreateTableBucketInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -374,8 +362,7 @@ public struct CreateTableBucketOutput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -391,8 +378,7 @@ public struct DeleteNamespaceInput: Swift.Sendable {
     public init(
         namespace: Swift.String? = nil,
         tableBucketARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.namespace = namespace
         self.tableBucketARN = tableBucketARN
     }
@@ -416,8 +402,7 @@ public struct DeleteTableInput: Swift.Sendable {
         namespace: Swift.String? = nil,
         tableBucketARN: Swift.String? = nil,
         versionToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
         self.namespace = namespace
         self.tableBucketARN = tableBucketARN
@@ -432,8 +417,7 @@ public struct DeleteTableBucketInput: Swift.Sendable {
 
     public init(
         tableBucketARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.tableBucketARN = tableBucketARN
     }
 }
@@ -445,8 +429,7 @@ public struct DeleteTableBucketPolicyInput: Swift.Sendable {
 
     public init(
         tableBucketARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.tableBucketARN = tableBucketARN
     }
 }
@@ -466,8 +449,7 @@ public struct DeleteTablePolicyInput: Swift.Sendable {
         name: Swift.String? = nil,
         namespace: Swift.String? = nil,
         tableBucketARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
         self.namespace = namespace
         self.tableBucketARN = tableBucketARN
@@ -485,8 +467,7 @@ public struct GetNamespaceInput: Swift.Sendable {
     public init(
         namespace: Swift.String? = nil,
         tableBucketARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.namespace = namespace
         self.tableBucketARN = tableBucketARN
     }
@@ -511,8 +492,7 @@ public struct GetNamespaceOutput: Swift.Sendable {
         createdBy: Swift.String? = nil,
         namespace: [Swift.String]? = nil,
         ownerAccountId: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.createdBy = createdBy
         self.namespace = namespace
@@ -535,8 +515,7 @@ public struct GetTableInput: Swift.Sendable {
         name: Swift.String? = nil,
         namespace: Swift.String? = nil,
         tableBucketARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
         self.namespace = namespace
         self.tableBucketARN = tableBucketARN
@@ -629,8 +608,7 @@ public struct GetTableOutput: Swift.Sendable {
         type: S3TablesClientTypes.TableType? = nil,
         versionToken: Swift.String? = nil,
         warehouseLocation: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.createdBy = createdBy
         self.format = format
@@ -655,8 +633,7 @@ public struct GetTableBucketInput: Swift.Sendable {
 
     public init(
         tableBucketARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.tableBucketARN = tableBucketARN
     }
 }
@@ -680,8 +657,7 @@ public struct GetTableBucketOutput: Swift.Sendable {
         createdAt: Foundation.Date? = nil,
         name: Swift.String? = nil,
         ownerAccountId: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.createdAt = createdAt
         self.name = name
@@ -696,8 +672,7 @@ public struct GetTableBucketMaintenanceConfigurationInput: Swift.Sendable {
 
     public init(
         tableBucketARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.tableBucketARN = tableBucketARN
     }
 }
@@ -740,8 +715,7 @@ extension S3TablesClientTypes {
         public init(
             nonCurrentDays: Swift.Int? = nil,
             unreferencedDays: Swift.Int? = nil
-        )
-        {
+        ) {
             self.nonCurrentDays = nonCurrentDays
             self.unreferencedDays = unreferencedDays
         }
@@ -799,8 +773,7 @@ extension S3TablesClientTypes {
         public init(
             settings: S3TablesClientTypes.TableBucketMaintenanceSettings? = nil,
             status: S3TablesClientTypes.MaintenanceStatus? = nil
-        )
-        {
+        ) {
             self.settings = settings
             self.status = status
         }
@@ -818,8 +791,7 @@ public struct GetTableBucketMaintenanceConfigurationOutput: Swift.Sendable {
     public init(
         configuration: [Swift.String: S3TablesClientTypes.TableBucketMaintenanceConfigurationValue]? = nil,
         tableBucketARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.configuration = configuration
         self.tableBucketARN = tableBucketARN
     }
@@ -832,8 +804,7 @@ public struct GetTableBucketPolicyInput: Swift.Sendable {
 
     public init(
         tableBucketARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.tableBucketARN = tableBucketARN
     }
 }
@@ -845,8 +816,7 @@ public struct GetTableBucketPolicyOutput: Swift.Sendable {
 
     public init(
         resourcePolicy: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourcePolicy = resourcePolicy
     }
 }
@@ -866,8 +836,7 @@ public struct GetTableMaintenanceConfigurationInput: Swift.Sendable {
         name: Swift.String? = nil,
         namespace: Swift.String? = nil,
         tableBucketARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
         self.namespace = namespace
         self.tableBucketARN = tableBucketARN
@@ -912,8 +881,7 @@ extension S3TablesClientTypes {
 
         public init(
             targetFileSizeMB: Swift.Int? = nil
-        )
-        {
+        ) {
             self.targetFileSizeMB = targetFileSizeMB
         }
     }
@@ -931,8 +899,7 @@ extension S3TablesClientTypes {
         public init(
             maxSnapshotAgeHours: Swift.Int? = nil,
             minSnapshotsToKeep: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maxSnapshotAgeHours = maxSnapshotAgeHours
             self.minSnapshotsToKeep = minSnapshotsToKeep
         }
@@ -963,8 +930,7 @@ extension S3TablesClientTypes {
         public init(
             settings: S3TablesClientTypes.TableMaintenanceSettings? = nil,
             status: S3TablesClientTypes.MaintenanceStatus? = nil
-        )
-        {
+        ) {
             self.settings = settings
             self.status = status
         }
@@ -982,8 +948,7 @@ public struct GetTableMaintenanceConfigurationOutput: Swift.Sendable {
     public init(
         configuration: [Swift.String: S3TablesClientTypes.TableMaintenanceConfigurationValue]? = nil,
         tableARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.configuration = configuration
         self.tableARN = tableARN
     }
@@ -1004,8 +969,7 @@ public struct GetTableMaintenanceJobStatusInput: Swift.Sendable {
         name: Swift.String? = nil,
         namespace: Swift.String? = nil,
         tableBucketARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
         self.namespace = namespace
         self.tableBucketARN = tableBucketARN
@@ -1095,8 +1059,7 @@ extension S3TablesClientTypes {
             failureMessage: Swift.String? = nil,
             lastRunTimestamp: Foundation.Date? = nil,
             status: S3TablesClientTypes.JobStatus? = nil
-        )
-        {
+        ) {
             self.failureMessage = failureMessage
             self.lastRunTimestamp = lastRunTimestamp
             self.status = status
@@ -1115,8 +1078,7 @@ public struct GetTableMaintenanceJobStatusOutput: Swift.Sendable {
     public init(
         status: [Swift.String: S3TablesClientTypes.TableMaintenanceJobStatusValue]? = nil,
         tableARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.status = status
         self.tableARN = tableARN
     }
@@ -1137,8 +1099,7 @@ public struct GetTableMetadataLocationInput: Swift.Sendable {
         name: Swift.String? = nil,
         namespace: Swift.String? = nil,
         tableBucketARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
         self.namespace = namespace
         self.tableBucketARN = tableBucketARN
@@ -1159,8 +1120,7 @@ public struct GetTableMetadataLocationOutput: Swift.Sendable {
         metadataLocation: Swift.String? = nil,
         versionToken: Swift.String? = nil,
         warehouseLocation: Swift.String? = nil
-    )
-    {
+    ) {
         self.metadataLocation = metadataLocation
         self.versionToken = versionToken
         self.warehouseLocation = warehouseLocation
@@ -1182,8 +1142,7 @@ public struct GetTablePolicyInput: Swift.Sendable {
         name: Swift.String? = nil,
         namespace: Swift.String? = nil,
         tableBucketARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
         self.namespace = namespace
         self.tableBucketARN = tableBucketARN
@@ -1197,8 +1156,7 @@ public struct GetTablePolicyOutput: Swift.Sendable {
 
     public init(
         resourcePolicy: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourcePolicy = resourcePolicy
     }
 }
@@ -1219,8 +1177,7 @@ public struct ListNamespacesInput: Swift.Sendable {
         maxNamespaces: Swift.Int? = nil,
         `prefix`: Swift.String? = nil,
         tableBucketARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.continuationToken = continuationToken
         self.maxNamespaces = maxNamespaces
         self.`prefix` = `prefix`
@@ -1250,8 +1207,7 @@ extension S3TablesClientTypes {
             createdBy: Swift.String? = nil,
             namespace: [Swift.String]? = nil,
             ownerAccountId: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.namespace = namespace
@@ -1270,8 +1226,7 @@ public struct ListNamespacesOutput: Swift.Sendable {
     public init(
         continuationToken: Swift.String? = nil,
         namespaces: [S3TablesClientTypes.NamespaceSummary]? = nil
-    )
-    {
+    ) {
         self.continuationToken = continuationToken
         self.namespaces = namespaces
     }
@@ -1289,8 +1244,7 @@ public struct ListTableBucketsInput: Swift.Sendable {
         continuationToken: Swift.String? = nil,
         maxBuckets: Swift.Int? = nil,
         `prefix`: Swift.String? = nil
-    )
-    {
+    ) {
         self.continuationToken = continuationToken
         self.maxBuckets = maxBuckets
         self.`prefix` = `prefix`
@@ -1319,8 +1273,7 @@ extension S3TablesClientTypes {
             createdAt: Foundation.Date? = nil,
             name: Swift.String? = nil,
             ownerAccountId: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.name = name
@@ -1339,8 +1292,7 @@ public struct ListTableBucketsOutput: Swift.Sendable {
     public init(
         continuationToken: Swift.String? = nil,
         tableBuckets: [S3TablesClientTypes.TableBucketSummary]? = nil
-    )
-    {
+    ) {
         self.continuationToken = continuationToken
         self.tableBuckets = tableBuckets
     }
@@ -1365,8 +1317,7 @@ public struct ListTablesInput: Swift.Sendable {
         namespace: Swift.String? = nil,
         `prefix`: Swift.String? = nil,
         tableBucketARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.continuationToken = continuationToken
         self.maxTables = maxTables
         self.namespace = namespace
@@ -1405,8 +1356,7 @@ extension S3TablesClientTypes {
             namespace: [Swift.String]? = nil,
             tableARN: Swift.String? = nil,
             type: S3TablesClientTypes.TableType? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.modifiedAt = modifiedAt
             self.name = name
@@ -1427,8 +1377,7 @@ public struct ListTablesOutput: Swift.Sendable {
     public init(
         continuationToken: Swift.String? = nil,
         tables: [S3TablesClientTypes.TableSummary]? = nil
-    )
-    {
+    ) {
         self.continuationToken = continuationToken
         self.tables = tables
     }
@@ -1449,8 +1398,7 @@ public struct PutTableBucketMaintenanceConfigurationInput: Swift.Sendable {
         tableBucketARN: Swift.String? = nil,
         type: S3TablesClientTypes.TableBucketMaintenanceType? = nil,
         value: S3TablesClientTypes.TableBucketMaintenanceConfigurationValue? = nil
-    )
-    {
+    ) {
         self.tableBucketARN = tableBucketARN
         self.type = type
         self.value = value
@@ -1468,8 +1416,7 @@ public struct PutTableBucketPolicyInput: Swift.Sendable {
     public init(
         resourcePolicy: Swift.String? = nil,
         tableBucketARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourcePolicy = resourcePolicy
         self.tableBucketARN = tableBucketARN
     }
@@ -1498,8 +1445,7 @@ public struct PutTableMaintenanceConfigurationInput: Swift.Sendable {
         tableBucketARN: Swift.String? = nil,
         type: S3TablesClientTypes.TableMaintenanceType? = nil,
         value: S3TablesClientTypes.TableMaintenanceConfigurationValue? = nil
-    )
-    {
+    ) {
         self.name = name
         self.namespace = namespace
         self.tableBucketARN = tableBucketARN
@@ -1527,8 +1473,7 @@ public struct PutTablePolicyInput: Swift.Sendable {
         namespace: Swift.String? = nil,
         resourcePolicy: Swift.String? = nil,
         tableBucketARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
         self.namespace = namespace
         self.resourcePolicy = resourcePolicy
@@ -1560,8 +1505,7 @@ public struct RenameTableInput: Swift.Sendable {
         newNamespaceName: Swift.String? = nil,
         tableBucketARN: Swift.String? = nil,
         versionToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
         self.namespace = namespace
         self.newName = newName
@@ -1594,8 +1538,7 @@ public struct UpdateTableMetadataLocationInput: Swift.Sendable {
         namespace: Swift.String? = nil,
         tableBucketARN: Swift.String? = nil,
         versionToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.metadataLocation = metadataLocation
         self.name = name
         self.namespace = namespace
@@ -1627,8 +1570,7 @@ public struct UpdateTableMetadataLocationOutput: Swift.Sendable {
         namespace: [Swift.String]? = nil,
         tableARN: Swift.String? = nil,
         versionToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.metadataLocation = metadataLocation
         self.name = name
         self.namespace = namespace

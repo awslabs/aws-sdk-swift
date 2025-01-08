@@ -91,8 +91,7 @@ extension PersonalizeClientTypes {
         public init(
             dockerURI: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.dockerURI = dockerURI
             self.name = name
         }
@@ -114,8 +113,7 @@ extension PersonalizeClientTypes {
             isTunable: Swift.Bool = false,
             name: Swift.String? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.isTunable = isTunable
             self.name = name
             self.values = values
@@ -141,8 +139,7 @@ extension PersonalizeClientTypes {
             maxValue: Swift.Double = 0.0,
             minValue: Swift.Double = 0.0,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.isTunable = isTunable
             self.maxValue = maxValue
             self.minValue = minValue
@@ -169,8 +166,7 @@ extension PersonalizeClientTypes {
             maxValue: Swift.Int = 0,
             minValue: Swift.Int = 0,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.isTunable = isTunable
             self.maxValue = maxValue
             self.minValue = minValue
@@ -194,8 +190,7 @@ extension PersonalizeClientTypes {
             categoricalHyperParameterRanges: [PersonalizeClientTypes.DefaultCategoricalHyperParameterRange]? = nil,
             continuousHyperParameterRanges: [PersonalizeClientTypes.DefaultContinuousHyperParameterRange]? = nil,
             integerHyperParameterRanges: [PersonalizeClientTypes.DefaultIntegerHyperParameterRange]? = nil
-        )
-        {
+        ) {
             self.categoricalHyperParameterRanges = categoricalHyperParameterRanges
             self.continuousHyperParameterRanges = continuousHyperParameterRanges
             self.integerHyperParameterRanges = integerHyperParameterRanges
@@ -239,8 +234,7 @@ extension PersonalizeClientTypes {
             name: Swift.String? = nil,
             roleArn: Swift.String? = nil,
             trainingInputMode: Swift.String? = nil
-        )
-        {
+        ) {
             self.algorithmArn = algorithmArn
             self.algorithmImage = algorithmImage
             self.creationDateTime = creationDateTime
@@ -273,8 +267,7 @@ public struct InvalidInputException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -297,8 +290,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -321,8 +313,7 @@ public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -345,8 +336,7 @@ public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -369,8 +359,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -393,8 +382,7 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -408,8 +396,7 @@ extension PersonalizeClientTypes {
 
         public init(
             itemExplorationConfig: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.itemExplorationConfig = itemExplorationConfig
         }
     }
@@ -457,8 +444,7 @@ extension PersonalizeClientTypes {
         public init(
             kmsKeyArn: Swift.String? = nil,
             path: Swift.String? = nil
-        )
-        {
+        ) {
             self.kmsKeyArn = kmsKeyArn
             self.path = path
         }
@@ -475,8 +461,7 @@ extension PersonalizeClientTypes {
 
         public init(
             s3DataSource: PersonalizeClientTypes.S3DataConfig? = nil
-        )
-        {
+        ) {
             self.s3DataSource = s3DataSource
         }
     }
@@ -492,8 +477,7 @@ extension PersonalizeClientTypes {
 
         public init(
             s3DataDestination: PersonalizeClientTypes.S3DataConfig? = nil
-        )
-        {
+        ) {
             self.s3DataDestination = s3DataDestination
         }
     }
@@ -513,8 +497,7 @@ extension PersonalizeClientTypes {
         public init(
             tagKey: Swift.String? = nil,
             tagValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.tagKey = tagKey
             self.tagValue = tagValue
         }
@@ -531,8 +514,7 @@ extension PersonalizeClientTypes {
 
         public init(
             itemName: Swift.String? = nil
-        )
-        {
+        ) {
             self.itemName = itemName
         }
     }
@@ -548,8 +530,7 @@ extension PersonalizeClientTypes {
 
         public init(
             fieldsForThemeGeneration: PersonalizeClientTypes.FieldsForThemeGeneration? = nil
-        )
-        {
+        ) {
             self.fieldsForThemeGeneration = fieldsForThemeGeneration
         }
     }
@@ -596,8 +577,7 @@ public struct CreateBatchInferenceJobInput: Swift.Sendable {
         solutionVersionArn: Swift.String? = nil,
         tags: [PersonalizeClientTypes.Tag]? = nil,
         themeGenerationConfig: PersonalizeClientTypes.ThemeGenerationConfig? = nil
-    )
-    {
+    ) {
         self.batchInferenceJobConfig = batchInferenceJobConfig
         self.batchInferenceJobMode = batchInferenceJobMode
         self.filterArn = filterArn
@@ -618,8 +598,7 @@ public struct CreateBatchInferenceJobOutput: Swift.Sendable {
 
     public init(
         batchInferenceJobArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.batchInferenceJobArn = batchInferenceJobArn
     }
 }
@@ -634,8 +613,7 @@ extension PersonalizeClientTypes {
 
         public init(
             s3DataSource: PersonalizeClientTypes.S3DataConfig? = nil
-        )
-        {
+        ) {
             self.s3DataSource = s3DataSource
         }
     }
@@ -651,8 +629,7 @@ extension PersonalizeClientTypes {
 
         public init(
             s3DataDestination: PersonalizeClientTypes.S3DataConfig? = nil
-        )
-        {
+        ) {
             self.s3DataDestination = s3DataDestination
         }
     }
@@ -690,8 +667,7 @@ public struct CreateBatchSegmentJobInput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         solutionVersionArn: Swift.String? = nil,
         tags: [PersonalizeClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.filterArn = filterArn
         self.jobInput = jobInput
         self.jobName = jobName
@@ -709,8 +685,7 @@ public struct CreateBatchSegmentJobOutput: Swift.Sendable {
 
     public init(
         batchSegmentJobArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.batchSegmentJobArn = batchSegmentJobArn
     }
 }
@@ -730,8 +705,7 @@ extension PersonalizeClientTypes {
             enableMetadataWithRecommendations: Swift.Bool? = nil,
             itemExplorationConfig: [Swift.String: Swift.String]? = nil,
             syncWithLatestSolutionVersion: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.enableMetadataWithRecommendations = enableMetadataWithRecommendations
             self.itemExplorationConfig = itemExplorationConfig
             self.syncWithLatestSolutionVersion = syncWithLatestSolutionVersion
@@ -759,8 +733,7 @@ public struct CreateCampaignInput: Swift.Sendable {
         name: Swift.String? = nil,
         solutionVersionArn: Swift.String? = nil,
         tags: [PersonalizeClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.campaignConfig = campaignConfig
         self.minProvisionedTPS = minProvisionedTPS
         self.name = name
@@ -775,8 +748,7 @@ public struct CreateCampaignOutput: Swift.Sendable {
 
     public init(
         campaignArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.campaignArn = campaignArn
     }
 }
@@ -790,8 +762,7 @@ extension PersonalizeClientTypes {
 
         public init(
             dataLocation: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataLocation = dataLocation
         }
     }
@@ -819,8 +790,7 @@ public struct CreateDataDeletionJobInput: Swift.Sendable {
         jobName: Swift.String? = nil,
         roleArn: Swift.String? = nil,
         tags: [PersonalizeClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.dataSource = dataSource
         self.datasetGroupArn = datasetGroupArn
         self.jobName = jobName
@@ -835,8 +805,7 @@ public struct CreateDataDeletionJobOutput: Swift.Sendable {
 
     public init(
         dataDeletionJobArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataDeletionJobArn = dataDeletionJobArn
     }
 }
@@ -873,8 +842,7 @@ public struct CreateDatasetInput: Swift.Sendable {
         name: Swift.String? = nil,
         schemaArn: Swift.String? = nil,
         tags: [PersonalizeClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.datasetGroupArn = datasetGroupArn
         self.datasetType = datasetType
         self.name = name
@@ -889,8 +857,7 @@ public struct CreateDatasetOutput: Swift.Sendable {
 
     public init(
         datasetArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.datasetArn = datasetArn
     }
 }
@@ -937,8 +904,7 @@ extension PersonalizeClientTypes {
 
         public init(
             s3DataDestination: PersonalizeClientTypes.S3DataConfig? = nil
-        )
-        {
+        ) {
             self.s3DataDestination = s3DataDestination
         }
     }
@@ -969,8 +935,7 @@ public struct CreateDatasetExportJobInput: Swift.Sendable {
         jobOutput: PersonalizeClientTypes.DatasetExportJobOutput? = nil,
         roleArn: Swift.String? = nil,
         tags: [PersonalizeClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.datasetArn = datasetArn
         self.ingestionMode = ingestionMode
         self.jobName = jobName
@@ -986,8 +951,7 @@ public struct CreateDatasetExportJobOutput: Swift.Sendable {
 
     public init(
         datasetExportJobArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.datasetExportJobArn = datasetExportJobArn
     }
 }
@@ -1040,8 +1004,7 @@ public struct CreateDatasetGroupInput: Swift.Sendable {
         name: Swift.String? = nil,
         roleArn: Swift.String? = nil,
         tags: [PersonalizeClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.domain = domain
         self.kmsKeyArn = kmsKeyArn
         self.name = name
@@ -1059,8 +1022,7 @@ public struct CreateDatasetGroupOutput: Swift.Sendable {
     public init(
         datasetGroupArn: Swift.String? = nil,
         domain: PersonalizeClientTypes.Domain? = nil
-    )
-    {
+    ) {
         self.datasetGroupArn = datasetGroupArn
         self.domain = domain
     }
@@ -1127,8 +1089,7 @@ public struct CreateDatasetImportJobInput: Swift.Sendable {
         publishAttributionMetricsToS3: Swift.Bool? = nil,
         roleArn: Swift.String? = nil,
         tags: [PersonalizeClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.dataSource = dataSource
         self.datasetArn = datasetArn
         self.importMode = importMode
@@ -1145,8 +1106,7 @@ public struct CreateDatasetImportJobOutput: Swift.Sendable {
 
     public init(
         datasetImportJobArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.datasetImportJobArn = datasetImportJobArn
     }
 }
@@ -1165,8 +1125,7 @@ public struct CreateEventTrackerInput: Swift.Sendable {
         datasetGroupArn: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [PersonalizeClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.datasetGroupArn = datasetGroupArn
         self.name = name
         self.tags = tags
@@ -1182,8 +1141,7 @@ public struct CreateEventTrackerOutput: Swift.Sendable {
     public init(
         eventTrackerArn: Swift.String? = nil,
         trackingId: Swift.String? = nil
-    )
-    {
+    ) {
         self.eventTrackerArn = eventTrackerArn
         self.trackingId = trackingId
     }
@@ -1207,8 +1165,7 @@ public struct CreateFilterInput: Swift.Sendable {
         filterExpression: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [PersonalizeClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.datasetGroupArn = datasetGroupArn
         self.filterExpression = filterExpression
         self.name = name
@@ -1227,8 +1184,7 @@ public struct CreateFilterOutput: Swift.Sendable {
 
     public init(
         filterArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.filterArn = filterArn
     }
 }
@@ -1251,8 +1207,7 @@ extension PersonalizeClientTypes {
             eventType: Swift.String? = nil,
             expression: Swift.String? = nil,
             metricName: Swift.String? = nil
-        )
-        {
+        ) {
             self.eventType = eventType
             self.expression = expression
             self.metricName = metricName
@@ -1273,8 +1228,7 @@ extension PersonalizeClientTypes {
         public init(
             roleArn: Swift.String? = nil,
             s3DataDestination: PersonalizeClientTypes.S3DataConfig? = nil
-        )
-        {
+        ) {
             self.roleArn = roleArn
             self.s3DataDestination = s3DataDestination
         }
@@ -1300,8 +1254,7 @@ public struct CreateMetricAttributionInput: Swift.Sendable {
         metrics: [PersonalizeClientTypes.MetricAttribute]? = nil,
         metricsOutputConfig: PersonalizeClientTypes.MetricAttributionOutput? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.datasetGroupArn = datasetGroupArn
         self.metrics = metrics
         self.metricsOutputConfig = metricsOutputConfig
@@ -1315,8 +1268,7 @@ public struct CreateMetricAttributionOutput: Swift.Sendable {
 
     public init(
         metricAttributionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.metricAttributionArn = metricAttributionArn
     }
 }
@@ -1330,8 +1282,7 @@ extension PersonalizeClientTypes {
 
         public init(
             excludedDatasetColumns: [Swift.String: [Swift.String]]? = nil
-        )
-        {
+        ) {
             self.excludedDatasetColumns = excludedDatasetColumns
         }
     }
@@ -1355,8 +1306,7 @@ extension PersonalizeClientTypes {
             itemExplorationConfig: [Swift.String: Swift.String]? = nil,
             minRecommendationRequestsPerSecond: Swift.Int? = nil,
             trainingDataConfig: PersonalizeClientTypes.TrainingDataConfig? = nil
-        )
-        {
+        ) {
             self.enableMetadataWithRecommendations = enableMetadataWithRecommendations
             self.itemExplorationConfig = itemExplorationConfig
             self.minRecommendationRequestsPerSecond = minRecommendationRequestsPerSecond
@@ -1386,8 +1336,7 @@ public struct CreateRecommenderInput: Swift.Sendable {
         recipeArn: Swift.String? = nil,
         recommenderConfig: PersonalizeClientTypes.RecommenderConfig? = nil,
         tags: [PersonalizeClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.datasetGroupArn = datasetGroupArn
         self.name = name
         self.recipeArn = recipeArn
@@ -1402,8 +1351,7 @@ public struct CreateRecommenderOutput: Swift.Sendable {
 
     public init(
         recommenderArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.recommenderArn = recommenderArn
     }
 }
@@ -1422,8 +1370,7 @@ public struct CreateSchemaInput: Swift.Sendable {
         domain: PersonalizeClientTypes.Domain? = nil,
         name: Swift.String? = nil,
         schema: Swift.String? = nil
-    )
-    {
+    ) {
         self.domain = domain
         self.name = name
         self.schema = schema
@@ -1436,8 +1383,7 @@ public struct CreateSchemaOutput: Swift.Sendable {
 
     public init(
         schemaArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.schemaArn = schemaArn
     }
 }
@@ -1454,8 +1400,7 @@ extension PersonalizeClientTypes {
         public init(
             metricName: Swift.String? = nil,
             recipeList: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.metricName = metricName
             self.recipeList = recipeList
         }
@@ -1471,8 +1416,7 @@ extension PersonalizeClientTypes {
 
         public init(
             schedulingExpression: Swift.String? = nil
-        )
-        {
+        ) {
             self.schedulingExpression = schedulingExpression
         }
     }
@@ -1490,8 +1434,7 @@ extension PersonalizeClientTypes {
         public init(
             name: Swift.String? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.values = values
         }
@@ -1513,8 +1456,7 @@ extension PersonalizeClientTypes {
             maxValue: Swift.Double = 0.0,
             minValue: Swift.Double = 0.0,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.maxValue = maxValue
             self.minValue = minValue
             self.name = name
@@ -1537,8 +1479,7 @@ extension PersonalizeClientTypes {
             maxValue: Swift.Int = 0,
             minValue: Swift.Int = 0,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.maxValue = maxValue
             self.minValue = minValue
             self.name = name
@@ -1561,8 +1502,7 @@ extension PersonalizeClientTypes {
             categoricalHyperParameterRanges: [PersonalizeClientTypes.CategoricalHyperParameterRange]? = nil,
             continuousHyperParameterRanges: [PersonalizeClientTypes.ContinuousHyperParameterRange]? = nil,
             integerHyperParameterRanges: [PersonalizeClientTypes.IntegerHyperParameterRange]? = nil
-        )
-        {
+        ) {
             self.categoricalHyperParameterRanges = categoricalHyperParameterRanges
             self.continuousHyperParameterRanges = continuousHyperParameterRanges
             self.integerHyperParameterRanges = integerHyperParameterRanges
@@ -1585,8 +1525,7 @@ extension PersonalizeClientTypes {
             metricName: Swift.String? = nil,
             metricRegex: Swift.String? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.metricName = metricName
             self.metricRegex = metricRegex
             self.type = type
@@ -1606,8 +1545,7 @@ extension PersonalizeClientTypes {
         public init(
             maxNumberOfTrainingJobs: Swift.String? = nil,
             maxParallelTrainingJobs: Swift.String? = nil
-        )
-        {
+        ) {
             self.maxNumberOfTrainingJobs = maxNumberOfTrainingJobs
             self.maxParallelTrainingJobs = maxParallelTrainingJobs
         }
@@ -1629,8 +1567,7 @@ extension PersonalizeClientTypes {
             algorithmHyperParameterRanges: PersonalizeClientTypes.HyperParameterRanges? = nil,
             hpoObjective: PersonalizeClientTypes.HPOObjective? = nil,
             hpoResourceConfig: PersonalizeClientTypes.HPOResourceConfig? = nil
-        )
-        {
+        ) {
             self.algorithmHyperParameterRanges = algorithmHyperParameterRanges
             self.hpoObjective = hpoObjective
             self.hpoResourceConfig = hpoResourceConfig
@@ -1685,8 +1622,7 @@ extension PersonalizeClientTypes {
         public init(
             itemAttribute: Swift.String? = nil,
             objectiveSensitivity: PersonalizeClientTypes.ObjectiveSensitivity? = nil
-        )
-        {
+        ) {
             self.itemAttribute = itemAttribute
             self.objectiveSensitivity = objectiveSensitivity
         }
@@ -1723,8 +1659,7 @@ extension PersonalizeClientTypes {
             hpoConfig: PersonalizeClientTypes.HPOConfig? = nil,
             optimizationObjective: PersonalizeClientTypes.OptimizationObjective? = nil,
             trainingDataConfig: PersonalizeClientTypes.TrainingDataConfig? = nil
-        )
-        {
+        ) {
             self.algorithmHyperParameters = algorithmHyperParameters
             self.autoMLConfig = autoMLConfig
             self.autoTrainingConfig = autoTrainingConfig
@@ -1769,8 +1704,7 @@ public struct CreateSolutionInput: Swift.Sendable {
         recipeArn: Swift.String? = nil,
         solutionConfig: PersonalizeClientTypes.SolutionConfig? = nil,
         tags: [PersonalizeClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.datasetGroupArn = datasetGroupArn
         self.eventType = eventType
         self.name = name
@@ -1789,8 +1723,7 @@ public struct CreateSolutionOutput: Swift.Sendable {
 
     public init(
         solutionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.solutionArn = solutionArn
     }
 }
@@ -1843,8 +1776,7 @@ public struct CreateSolutionVersionInput: Swift.Sendable {
         solutionArn: Swift.String? = nil,
         tags: [PersonalizeClientTypes.Tag]? = nil,
         trainingMode: PersonalizeClientTypes.TrainingMode? = nil
-    )
-    {
+    ) {
         self.name = name
         self.solutionArn = solutionArn
         self.tags = tags
@@ -1858,8 +1790,7 @@ public struct CreateSolutionVersionOutput: Swift.Sendable {
 
     public init(
         solutionVersionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.solutionVersionArn = solutionVersionArn
     }
 }
@@ -1871,8 +1802,7 @@ public struct DeleteCampaignInput: Swift.Sendable {
 
     public init(
         campaignArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.campaignArn = campaignArn
     }
 }
@@ -1884,8 +1814,7 @@ public struct DeleteDatasetInput: Swift.Sendable {
 
     public init(
         datasetArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.datasetArn = datasetArn
     }
 }
@@ -1897,8 +1826,7 @@ public struct DeleteDatasetGroupInput: Swift.Sendable {
 
     public init(
         datasetGroupArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.datasetGroupArn = datasetGroupArn
     }
 }
@@ -1910,8 +1838,7 @@ public struct DeleteEventTrackerInput: Swift.Sendable {
 
     public init(
         eventTrackerArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.eventTrackerArn = eventTrackerArn
     }
 }
@@ -1923,8 +1850,7 @@ public struct DeleteFilterInput: Swift.Sendable {
 
     public init(
         filterArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.filterArn = filterArn
     }
 }
@@ -1936,8 +1862,7 @@ public struct DeleteMetricAttributionInput: Swift.Sendable {
 
     public init(
         metricAttributionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.metricAttributionArn = metricAttributionArn
     }
 }
@@ -1949,8 +1874,7 @@ public struct DeleteRecommenderInput: Swift.Sendable {
 
     public init(
         recommenderArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.recommenderArn = recommenderArn
     }
 }
@@ -1962,8 +1886,7 @@ public struct DeleteSchemaInput: Swift.Sendable {
 
     public init(
         schemaArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.schemaArn = schemaArn
     }
 }
@@ -1975,8 +1898,7 @@ public struct DeleteSolutionInput: Swift.Sendable {
 
     public init(
         solutionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.solutionArn = solutionArn
     }
 }
@@ -1988,8 +1910,7 @@ public struct DescribeAlgorithmInput: Swift.Sendable {
 
     public init(
         algorithmArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.algorithmArn = algorithmArn
     }
 }
@@ -2000,8 +1921,7 @@ public struct DescribeAlgorithmOutput: Swift.Sendable {
 
     public init(
         algorithm: PersonalizeClientTypes.Algorithm? = nil
-    )
-    {
+    ) {
         self.algorithm = algorithm
     }
 }
@@ -2013,8 +1933,7 @@ public struct DescribeBatchInferenceJobInput: Swift.Sendable {
 
     public init(
         batchInferenceJobArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.batchInferenceJobArn = batchInferenceJobArn
     }
 }
@@ -2078,8 +1997,7 @@ extension PersonalizeClientTypes {
             solutionVersionArn: Swift.String? = nil,
             status: Swift.String? = nil,
             themeGenerationConfig: PersonalizeClientTypes.ThemeGenerationConfig? = nil
-        )
-        {
+        ) {
             self.batchInferenceJobArn = batchInferenceJobArn
             self.batchInferenceJobConfig = batchInferenceJobConfig
             self.batchInferenceJobMode = batchInferenceJobMode
@@ -2105,8 +2023,7 @@ public struct DescribeBatchInferenceJobOutput: Swift.Sendable {
 
     public init(
         batchInferenceJob: PersonalizeClientTypes.BatchInferenceJob? = nil
-    )
-    {
+    ) {
         self.batchInferenceJob = batchInferenceJob
     }
 }
@@ -2118,8 +2035,7 @@ public struct DescribeBatchSegmentJobInput: Swift.Sendable {
 
     public init(
         batchSegmentJobArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.batchSegmentJobArn = batchSegmentJobArn
     }
 }
@@ -2174,8 +2090,7 @@ extension PersonalizeClientTypes {
             roleArn: Swift.String? = nil,
             solutionVersionArn: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.batchSegmentJobArn = batchSegmentJobArn
             self.creationDateTime = creationDateTime
             self.failureReason = failureReason
@@ -2198,8 +2113,7 @@ public struct DescribeBatchSegmentJobOutput: Swift.Sendable {
 
     public init(
         batchSegmentJob: PersonalizeClientTypes.BatchSegmentJob? = nil
-    )
-    {
+    ) {
         self.batchSegmentJob = batchSegmentJob
     }
 }
@@ -2211,8 +2125,7 @@ public struct DescribeCampaignInput: Swift.Sendable {
 
     public init(
         campaignArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.campaignArn = campaignArn
     }
 }
@@ -2248,8 +2161,7 @@ extension PersonalizeClientTypes {
             minProvisionedTPS: Swift.Int? = nil,
             solutionVersionArn: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.campaignConfig = campaignConfig
             self.creationDateTime = creationDateTime
             self.failureReason = failureReason
@@ -2301,8 +2213,7 @@ extension PersonalizeClientTypes {
             name: Swift.String? = nil,
             solutionVersionArn: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.campaignArn = campaignArn
             self.campaignConfig = campaignConfig
             self.creationDateTime = creationDateTime
@@ -2323,8 +2234,7 @@ public struct DescribeCampaignOutput: Swift.Sendable {
 
     public init(
         campaign: PersonalizeClientTypes.Campaign? = nil
-    )
-    {
+    ) {
         self.campaign = campaign
     }
 }
@@ -2336,8 +2246,7 @@ public struct DescribeDataDeletionJobInput: Swift.Sendable {
 
     public init(
         dataDeletionJobArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataDeletionJobArn = dataDeletionJobArn
     }
 }
@@ -2380,8 +2289,7 @@ extension PersonalizeClientTypes {
             numDeleted: Swift.Int? = nil,
             roleArn: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationDateTime = creationDateTime
             self.dataDeletionJobArn = dataDeletionJobArn
             self.dataSource = dataSource
@@ -2410,8 +2318,7 @@ public struct DescribeDataDeletionJobOutput: Swift.Sendable {
 
     public init(
         dataDeletionJob: PersonalizeClientTypes.DataDeletionJob? = nil
-    )
-    {
+    ) {
         self.dataDeletionJob = dataDeletionJob
     }
 }
@@ -2423,8 +2330,7 @@ public struct DescribeDatasetInput: Swift.Sendable {
 
     public init(
         datasetArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.datasetArn = datasetArn
     }
 }
@@ -2450,8 +2356,7 @@ extension PersonalizeClientTypes {
             lastUpdatedDateTime: Foundation.Date? = nil,
             schemaArn: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationDateTime = creationDateTime
             self.failureReason = failureReason
             self.lastUpdatedDateTime = lastUpdatedDateTime
@@ -2511,8 +2416,7 @@ extension PersonalizeClientTypes {
             schemaArn: Swift.String? = nil,
             status: Swift.String? = nil,
             trackingId: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationDateTime = creationDateTime
             self.datasetArn = datasetArn
             self.datasetGroupArn = datasetGroupArn
@@ -2533,8 +2437,7 @@ public struct DescribeDatasetOutput: Swift.Sendable {
 
     public init(
         dataset: PersonalizeClientTypes.Dataset? = nil
-    )
-    {
+    ) {
         self.dataset = dataset
     }
 }
@@ -2546,8 +2449,7 @@ public struct DescribeDatasetExportJobInput: Swift.Sendable {
 
     public init(
         datasetExportJobArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.datasetExportJobArn = datasetExportJobArn
     }
 }
@@ -2592,8 +2494,7 @@ extension PersonalizeClientTypes {
             lastUpdatedDateTime: Foundation.Date? = nil,
             roleArn: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationDateTime = creationDateTime
             self.datasetArn = datasetArn
             self.datasetExportJobArn = datasetExportJobArn
@@ -2622,8 +2523,7 @@ public struct DescribeDatasetExportJobOutput: Swift.Sendable {
 
     public init(
         datasetExportJob: PersonalizeClientTypes.DatasetExportJob? = nil
-    )
-    {
+    ) {
         self.datasetExportJob = datasetExportJob
     }
 }
@@ -2635,8 +2535,7 @@ public struct DescribeDatasetGroupInput: Swift.Sendable {
 
     public init(
         datasetGroupArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.datasetGroupArn = datasetGroupArn
     }
 }
@@ -2678,8 +2577,7 @@ extension PersonalizeClientTypes {
             name: Swift.String? = nil,
             roleArn: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationDateTime = creationDateTime
             self.datasetGroupArn = datasetGroupArn
             self.domain = domain
@@ -2699,8 +2597,7 @@ public struct DescribeDatasetGroupOutput: Swift.Sendable {
 
     public init(
         datasetGroup: PersonalizeClientTypes.DatasetGroup? = nil
-    )
-    {
+    ) {
         self.datasetGroup = datasetGroup
     }
 }
@@ -2712,8 +2609,7 @@ public struct DescribeDatasetImportJobInput: Swift.Sendable {
 
     public init(
         datasetImportJobArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.datasetImportJobArn = datasetImportJobArn
     }
 }
@@ -2761,8 +2657,7 @@ extension PersonalizeClientTypes {
             publishAttributionMetricsToS3: Swift.Bool? = nil,
             roleArn: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationDateTime = creationDateTime
             self.dataSource = dataSource
             self.datasetArn = datasetArn
@@ -2792,8 +2687,7 @@ public struct DescribeDatasetImportJobOutput: Swift.Sendable {
 
     public init(
         datasetImportJob: PersonalizeClientTypes.DatasetImportJob? = nil
-    )
-    {
+    ) {
         self.datasetImportJob = datasetImportJob
     }
 }
@@ -2805,8 +2699,7 @@ public struct DescribeEventTrackerInput: Swift.Sendable {
 
     public init(
         eventTrackerArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.eventTrackerArn = eventTrackerArn
     }
 }
@@ -2845,8 +2738,7 @@ extension PersonalizeClientTypes {
             name: Swift.String? = nil,
             status: Swift.String? = nil,
             trackingId: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.creationDateTime = creationDateTime
             self.datasetGroupArn = datasetGroupArn
@@ -2865,8 +2757,7 @@ public struct DescribeEventTrackerOutput: Swift.Sendable {
 
     public init(
         eventTracker: PersonalizeClientTypes.EventTracker? = nil
-    )
-    {
+    ) {
         self.eventTracker = eventTracker
     }
 }
@@ -2878,8 +2769,7 @@ public struct DescribeFeatureTransformationInput: Swift.Sendable {
 
     public init(
         featureTransformationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.featureTransformationArn = featureTransformationArn
     }
 }
@@ -2910,8 +2800,7 @@ extension PersonalizeClientTypes {
             lastUpdatedDateTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationDateTime = creationDateTime
             self.defaultParameters = defaultParameters
             self.featureTransformationArn = featureTransformationArn
@@ -2928,8 +2817,7 @@ public struct DescribeFeatureTransformationOutput: Swift.Sendable {
 
     public init(
         featureTransformation: PersonalizeClientTypes.FeatureTransformation? = nil
-    )
-    {
+    ) {
         self.featureTransformation = featureTransformation
     }
 }
@@ -2941,8 +2829,7 @@ public struct DescribeFilterInput: Swift.Sendable {
 
     public init(
         filterArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.filterArn = filterArn
     }
 }
@@ -2977,8 +2864,7 @@ extension PersonalizeClientTypes {
             lastUpdatedDateTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationDateTime = creationDateTime
             self.datasetGroupArn = datasetGroupArn
             self.failureReason = failureReason
@@ -3002,8 +2888,7 @@ public struct DescribeFilterOutput: Swift.Sendable {
 
     public init(
         filter: PersonalizeClientTypes.Filter? = nil
-    )
-    {
+    ) {
         self.filter = filter
     }
 }
@@ -3015,8 +2900,7 @@ public struct DescribeMetricAttributionInput: Swift.Sendable {
 
     public init(
         metricAttributionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.metricAttributionArn = metricAttributionArn
     }
 }
@@ -3051,8 +2935,7 @@ extension PersonalizeClientTypes {
             metricsOutputConfig: PersonalizeClientTypes.MetricAttributionOutput? = nil,
             name: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationDateTime = creationDateTime
             self.datasetGroupArn = datasetGroupArn
             self.failureReason = failureReason
@@ -3071,8 +2954,7 @@ public struct DescribeMetricAttributionOutput: Swift.Sendable {
 
     public init(
         metricAttribution: PersonalizeClientTypes.MetricAttribution? = nil
-    )
-    {
+    ) {
         self.metricAttribution = metricAttribution
     }
 }
@@ -3084,8 +2966,7 @@ public struct DescribeRecipeInput: Swift.Sendable {
 
     public init(
         recipeArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.recipeArn = recipeArn
     }
 }
@@ -3129,8 +3010,7 @@ extension PersonalizeClientTypes {
             recipeArn: Swift.String? = nil,
             recipeType: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.algorithmArn = algorithmArn
             self.creationDateTime = creationDateTime
             self.description = description
@@ -3150,8 +3030,7 @@ public struct DescribeRecipeOutput: Swift.Sendable {
 
     public init(
         recipe: PersonalizeClientTypes.Recipe? = nil
-    )
-    {
+    ) {
         self.recipe = recipe
     }
 }
@@ -3163,8 +3042,7 @@ public struct DescribeRecommenderInput: Swift.Sendable {
 
     public init(
         recommenderArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.recommenderArn = recommenderArn
     }
 }
@@ -3190,8 +3068,7 @@ extension PersonalizeClientTypes {
             lastUpdatedDateTime: Foundation.Date? = nil,
             recommenderConfig: PersonalizeClientTypes.RecommenderConfig? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationDateTime = creationDateTime
             self.failureReason = failureReason
             self.lastUpdatedDateTime = lastUpdatedDateTime
@@ -3246,8 +3123,7 @@ extension PersonalizeClientTypes {
             recommenderArn: Swift.String? = nil,
             recommenderConfig: PersonalizeClientTypes.RecommenderConfig? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationDateTime = creationDateTime
             self.datasetGroupArn = datasetGroupArn
             self.failureReason = failureReason
@@ -3269,8 +3145,7 @@ public struct DescribeRecommenderOutput: Swift.Sendable {
 
     public init(
         recommender: PersonalizeClientTypes.Recommender? = nil
-    )
-    {
+    ) {
         self.recommender = recommender
     }
 }
@@ -3282,8 +3157,7 @@ public struct DescribeSchemaInput: Swift.Sendable {
 
     public init(
         schemaArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.schemaArn = schemaArn
     }
 }
@@ -3312,8 +3186,7 @@ extension PersonalizeClientTypes {
             name: Swift.String? = nil,
             schema: Swift.String? = nil,
             schemaArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationDateTime = creationDateTime
             self.domain = domain
             self.lastUpdatedDateTime = lastUpdatedDateTime
@@ -3330,8 +3203,7 @@ public struct DescribeSchemaOutput: Swift.Sendable {
 
     public init(
         schema: PersonalizeClientTypes.DatasetSchema? = nil
-    )
-    {
+    ) {
         self.schema = schema
     }
 }
@@ -3343,8 +3215,7 @@ public struct DescribeSolutionInput: Swift.Sendable {
 
     public init(
         solutionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.solutionArn = solutionArn
     }
 }
@@ -3358,8 +3229,7 @@ extension PersonalizeClientTypes {
 
         public init(
             bestRecipeArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.bestRecipeArn = bestRecipeArn
         }
     }
@@ -3374,8 +3244,7 @@ extension PersonalizeClientTypes {
 
         public init(
             autoTrainingConfig: PersonalizeClientTypes.AutoTrainingConfig? = nil
-        )
-        {
+        ) {
             self.autoTrainingConfig = autoTrainingConfig
         }
     }
@@ -3405,8 +3274,7 @@ extension PersonalizeClientTypes {
             performAutoTraining: Swift.Bool? = nil,
             solutionUpdateConfig: PersonalizeClientTypes.SolutionUpdateConfig? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationDateTime = creationDateTime
             self.failureReason = failureReason
             self.lastUpdatedDateTime = lastUpdatedDateTime
@@ -3475,8 +3343,7 @@ extension PersonalizeClientTypes {
             status: Swift.String? = nil,
             trainingMode: PersonalizeClientTypes.TrainingMode? = nil,
             trainingType: PersonalizeClientTypes.TrainingType? = nil
-        )
-        {
+        ) {
             self.creationDateTime = creationDateTime
             self.failureReason = failureReason
             self.lastUpdatedDateTime = lastUpdatedDateTime
@@ -3543,8 +3410,7 @@ extension PersonalizeClientTypes {
             solutionArn: Swift.String? = nil,
             solutionConfig: PersonalizeClientTypes.SolutionConfig? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.autoMLResult = autoMLResult
             self.creationDateTime = creationDateTime
             self.datasetGroupArn = datasetGroupArn
@@ -3570,8 +3436,7 @@ public struct DescribeSolutionOutput: Swift.Sendable {
 
     public init(
         solution: PersonalizeClientTypes.Solution? = nil
-    )
-    {
+    ) {
         self.solution = solution
     }
 }
@@ -3583,8 +3448,7 @@ public struct DescribeSolutionVersionInput: Swift.Sendable {
 
     public init(
         solutionVersionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.solutionVersionArn = solutionVersionArn
     }
 }
@@ -3598,8 +3462,7 @@ extension PersonalizeClientTypes {
 
         public init(
             algorithmHyperParameters: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.algorithmHyperParameters = algorithmHyperParameters
         }
     }
@@ -3674,8 +3537,7 @@ extension PersonalizeClientTypes {
             trainingMode: PersonalizeClientTypes.TrainingMode? = nil,
             trainingType: PersonalizeClientTypes.TrainingType? = nil,
             tunedHPOParams: PersonalizeClientTypes.TunedHPOParams? = nil
-        )
-        {
+        ) {
             self.creationDateTime = creationDateTime
             self.datasetGroupArn = datasetGroupArn
             self.eventType = eventType
@@ -3703,8 +3565,7 @@ public struct DescribeSolutionVersionOutput: Swift.Sendable {
 
     public init(
         solutionVersion: PersonalizeClientTypes.SolutionVersion? = nil
-    )
-    {
+    ) {
         self.solutionVersion = solutionVersion
     }
 }
@@ -3716,8 +3577,7 @@ public struct GetSolutionMetricsInput: Swift.Sendable {
 
     public init(
         solutionVersionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.solutionVersionArn = solutionVersionArn
     }
 }
@@ -3731,8 +3591,7 @@ public struct GetSolutionMetricsOutput: Swift.Sendable {
     public init(
         metrics: [Swift.String: Swift.Double]? = nil,
         solutionVersionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.metrics = metrics
         self.solutionVersionArn = solutionVersionArn
     }
@@ -3756,8 +3615,7 @@ public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3774,8 +3632,7 @@ public struct ListBatchInferenceJobsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         solutionVersionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.solutionVersionArn = solutionVersionArn
@@ -3820,8 +3677,7 @@ extension PersonalizeClientTypes {
             lastUpdatedDateTime: Foundation.Date? = nil,
             solutionVersionArn: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.batchInferenceJobArn = batchInferenceJobArn
             self.batchInferenceJobMode = batchInferenceJobMode
             self.creationDateTime = creationDateTime
@@ -3843,8 +3699,7 @@ public struct ListBatchInferenceJobsOutput: Swift.Sendable {
     public init(
         batchInferenceJobs: [PersonalizeClientTypes.BatchInferenceJobSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.batchInferenceJobs = batchInferenceJobs
         self.nextToken = nextToken
     }
@@ -3862,8 +3717,7 @@ public struct ListBatchSegmentJobsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         solutionVersionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.solutionVersionArn = solutionVersionArn
@@ -3905,8 +3759,7 @@ extension PersonalizeClientTypes {
             lastUpdatedDateTime: Foundation.Date? = nil,
             solutionVersionArn: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.batchSegmentJobArn = batchSegmentJobArn
             self.creationDateTime = creationDateTime
             self.failureReason = failureReason
@@ -3927,8 +3780,7 @@ public struct ListBatchSegmentJobsOutput: Swift.Sendable {
     public init(
         batchSegmentJobs: [PersonalizeClientTypes.BatchSegmentJobSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.batchSegmentJobs = batchSegmentJobs
         self.nextToken = nextToken
     }
@@ -3946,8 +3798,7 @@ public struct ListCampaignsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         solutionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.solutionArn = solutionArn
@@ -3982,8 +3833,7 @@ extension PersonalizeClientTypes {
             lastUpdatedDateTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.campaignArn = campaignArn
             self.creationDateTime = creationDateTime
             self.failureReason = failureReason
@@ -4003,8 +3853,7 @@ public struct ListCampaignsOutput: Swift.Sendable {
     public init(
         campaigns: [PersonalizeClientTypes.CampaignSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.campaigns = campaigns
         self.nextToken = nextToken
     }
@@ -4022,8 +3871,7 @@ public struct ListDataDeletionJobsInput: Swift.Sendable {
         datasetGroupArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.datasetGroupArn = datasetGroupArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4059,8 +3907,7 @@ extension PersonalizeClientTypes {
             jobName: Swift.String? = nil,
             lastUpdatedDateTime: Foundation.Date? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationDateTime = creationDateTime
             self.dataDeletionJobArn = dataDeletionJobArn
             self.datasetGroupArn = datasetGroupArn
@@ -4081,8 +3928,7 @@ public struct ListDataDeletionJobsOutput: Swift.Sendable {
     public init(
         dataDeletionJobs: [PersonalizeClientTypes.DataDeletionJobSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataDeletionJobs = dataDeletionJobs
         self.nextToken = nextToken
     }
@@ -4100,8 +3946,7 @@ public struct ListDatasetExportJobsInput: Swift.Sendable {
         datasetArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.datasetArn = datasetArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4134,8 +3979,7 @@ extension PersonalizeClientTypes {
             jobName: Swift.String? = nil,
             lastUpdatedDateTime: Foundation.Date? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationDateTime = creationDateTime
             self.datasetExportJobArn = datasetExportJobArn
             self.failureReason = failureReason
@@ -4155,8 +3999,7 @@ public struct ListDatasetExportJobsOutput: Swift.Sendable {
     public init(
         datasetExportJobs: [PersonalizeClientTypes.DatasetExportJobSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.datasetExportJobs = datasetExportJobs
         self.nextToken = nextToken
     }
@@ -4171,8 +4014,7 @@ public struct ListDatasetGroupsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -4209,8 +4051,7 @@ extension PersonalizeClientTypes {
             lastUpdatedDateTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationDateTime = creationDateTime
             self.datasetGroupArn = datasetGroupArn
             self.domain = domain
@@ -4231,8 +4072,7 @@ public struct ListDatasetGroupsOutput: Swift.Sendable {
     public init(
         datasetGroups: [PersonalizeClientTypes.DatasetGroupSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.datasetGroups = datasetGroups
         self.nextToken = nextToken
     }
@@ -4250,8 +4090,7 @@ public struct ListDatasetImportJobsInput: Swift.Sendable {
         datasetArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.datasetArn = datasetArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4287,8 +4126,7 @@ extension PersonalizeClientTypes {
             jobName: Swift.String? = nil,
             lastUpdatedDateTime: Foundation.Date? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationDateTime = creationDateTime
             self.datasetImportJobArn = datasetImportJobArn
             self.failureReason = failureReason
@@ -4309,8 +4147,7 @@ public struct ListDatasetImportJobsOutput: Swift.Sendable {
     public init(
         datasetImportJobs: [PersonalizeClientTypes.DatasetImportJobSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.datasetImportJobs = datasetImportJobs
         self.nextToken = nextToken
     }
@@ -4328,8 +4165,7 @@ public struct ListDatasetsInput: Swift.Sendable {
         datasetGroupArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.datasetGroupArn = datasetGroupArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4372,8 +4208,7 @@ extension PersonalizeClientTypes {
             lastUpdatedDateTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationDateTime = creationDateTime
             self.datasetArn = datasetArn
             self.datasetType = datasetType
@@ -4393,8 +4228,7 @@ public struct ListDatasetsOutput: Swift.Sendable {
     public init(
         datasets: [PersonalizeClientTypes.DatasetSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.datasets = datasets
         self.nextToken = nextToken
     }
@@ -4412,8 +4246,7 @@ public struct ListEventTrackersInput: Swift.Sendable {
         datasetGroupArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.datasetGroupArn = datasetGroupArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4445,8 +4278,7 @@ extension PersonalizeClientTypes {
             lastUpdatedDateTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationDateTime = creationDateTime
             self.eventTrackerArn = eventTrackerArn
             self.lastUpdatedDateTime = lastUpdatedDateTime
@@ -4465,8 +4297,7 @@ public struct ListEventTrackersOutput: Swift.Sendable {
     public init(
         eventTrackers: [PersonalizeClientTypes.EventTrackerSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.eventTrackers = eventTrackers
         self.nextToken = nextToken
     }
@@ -4484,8 +4315,7 @@ public struct ListFiltersInput: Swift.Sendable {
         datasetGroupArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.datasetGroupArn = datasetGroupArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4519,8 +4349,7 @@ extension PersonalizeClientTypes {
             lastUpdatedDateTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationDateTime = creationDateTime
             self.datasetGroupArn = datasetGroupArn
             self.failureReason = failureReason
@@ -4541,8 +4370,7 @@ public struct ListFiltersOutput: Swift.Sendable {
     public init(
         filters: [PersonalizeClientTypes.FilterSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.nextToken = nextToken
     }
@@ -4560,8 +4388,7 @@ public struct ListMetricAttributionMetricsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         metricAttributionArn: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.metricAttributionArn = metricAttributionArn
         self.nextToken = nextToken
@@ -4577,8 +4404,7 @@ public struct ListMetricAttributionMetricsOutput: Swift.Sendable {
     public init(
         metrics: [PersonalizeClientTypes.MetricAttribute]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.metrics = metrics
         self.nextToken = nextToken
     }
@@ -4596,8 +4422,7 @@ public struct ListMetricAttributionsInput: Swift.Sendable {
         datasetGroupArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.datasetGroupArn = datasetGroupArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4628,8 +4453,7 @@ extension PersonalizeClientTypes {
             metricAttributionArn: Swift.String? = nil,
             name: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationDateTime = creationDateTime
             self.failureReason = failureReason
             self.lastUpdatedDateTime = lastUpdatedDateTime
@@ -4649,8 +4473,7 @@ public struct ListMetricAttributionsOutput: Swift.Sendable {
     public init(
         metricAttributions: [PersonalizeClientTypes.MetricAttributionSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.metricAttributions = metricAttributions
         self.nextToken = nextToken
     }
@@ -4697,8 +4520,7 @@ public struct ListRecipesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         recipeProvider: PersonalizeClientTypes.RecipeProvider? = nil
-    )
-    {
+    ) {
         self.domain = domain
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4730,8 +4552,7 @@ extension PersonalizeClientTypes {
             name: Swift.String? = nil,
             recipeArn: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationDateTime = creationDateTime
             self.domain = domain
             self.lastUpdatedDateTime = lastUpdatedDateTime
@@ -4751,8 +4572,7 @@ public struct ListRecipesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         recipes: [PersonalizeClientTypes.RecipeSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.recipes = recipes
     }
@@ -4770,8 +4590,7 @@ public struct ListRecommendersInput: Swift.Sendable {
         datasetGroupArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.datasetGroupArn = datasetGroupArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4814,8 +4633,7 @@ extension PersonalizeClientTypes {
             recommenderArn: Swift.String? = nil,
             recommenderConfig: PersonalizeClientTypes.RecommenderConfig? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationDateTime = creationDateTime
             self.datasetGroupArn = datasetGroupArn
             self.lastUpdatedDateTime = lastUpdatedDateTime
@@ -4837,8 +4655,7 @@ public struct ListRecommendersOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         recommenders: [PersonalizeClientTypes.RecommenderSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.recommenders = recommenders
     }
@@ -4853,8 +4670,7 @@ public struct ListSchemasInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -4881,8 +4697,7 @@ extension PersonalizeClientTypes {
             lastUpdatedDateTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             schemaArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationDateTime = creationDateTime
             self.domain = domain
             self.lastUpdatedDateTime = lastUpdatedDateTime
@@ -4901,8 +4716,7 @@ public struct ListSchemasOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         schemas: [PersonalizeClientTypes.DatasetSchemaSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.schemas = schemas
     }
@@ -4920,8 +4734,7 @@ public struct ListSolutionsInput: Swift.Sendable {
         datasetGroupArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.datasetGroupArn = datasetGroupArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4956,8 +4769,7 @@ extension PersonalizeClientTypes {
             recipeArn: Swift.String? = nil,
             solutionArn: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationDateTime = creationDateTime
             self.lastUpdatedDateTime = lastUpdatedDateTime
             self.name = name
@@ -4977,8 +4789,7 @@ public struct ListSolutionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         solutions: [PersonalizeClientTypes.SolutionSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.solutions = solutions
     }
@@ -4996,8 +4807,7 @@ public struct ListSolutionVersionsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         solutionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.solutionArn = solutionArn
@@ -5013,8 +4823,7 @@ public struct ListSolutionVersionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         solutionVersions: [PersonalizeClientTypes.SolutionVersionSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.solutionVersions = solutionVersions
     }
@@ -5027,8 +4836,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -5039,8 +4847,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [PersonalizeClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -5052,8 +4859,7 @@ public struct StartRecommenderInput: Swift.Sendable {
 
     public init(
         recommenderArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.recommenderArn = recommenderArn
     }
 }
@@ -5064,8 +4870,7 @@ public struct StartRecommenderOutput: Swift.Sendable {
 
     public init(
         recommenderArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.recommenderArn = recommenderArn
     }
 }
@@ -5077,8 +4882,7 @@ public struct StopRecommenderInput: Swift.Sendable {
 
     public init(
         recommenderArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.recommenderArn = recommenderArn
     }
 }
@@ -5089,8 +4893,7 @@ public struct StopRecommenderOutput: Swift.Sendable {
 
     public init(
         recommenderArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.recommenderArn = recommenderArn
     }
 }
@@ -5102,8 +4905,7 @@ public struct StopSolutionVersionCreationInput: Swift.Sendable {
 
     public init(
         solutionVersionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.solutionVersionArn = solutionVersionArn
     }
 }
@@ -5119,8 +4921,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [PersonalizeClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -5149,8 +4950,7 @@ public struct TooManyTagKeysException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5166,8 +4966,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -5194,8 +4993,7 @@ public struct UpdateCampaignInput: Swift.Sendable {
         campaignConfig: PersonalizeClientTypes.CampaignConfig? = nil,
         minProvisionedTPS: Swift.Int? = nil,
         solutionVersionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.campaignArn = campaignArn
         self.campaignConfig = campaignConfig
         self.minProvisionedTPS = minProvisionedTPS
@@ -5209,8 +5007,7 @@ public struct UpdateCampaignOutput: Swift.Sendable {
 
     public init(
         campaignArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.campaignArn = campaignArn
     }
 }
@@ -5226,8 +5023,7 @@ public struct UpdateDatasetInput: Swift.Sendable {
     public init(
         datasetArn: Swift.String? = nil,
         schemaArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.datasetArn = datasetArn
         self.schemaArn = schemaArn
     }
@@ -5239,8 +5035,7 @@ public struct UpdateDatasetOutput: Swift.Sendable {
 
     public init(
         datasetArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.datasetArn = datasetArn
     }
 }
@@ -5260,8 +5055,7 @@ public struct UpdateMetricAttributionInput: Swift.Sendable {
         metricAttributionArn: Swift.String? = nil,
         metricsOutputConfig: PersonalizeClientTypes.MetricAttributionOutput? = nil,
         removeMetrics: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.addMetrics = addMetrics
         self.metricAttributionArn = metricAttributionArn
         self.metricsOutputConfig = metricsOutputConfig
@@ -5275,8 +5069,7 @@ public struct UpdateMetricAttributionOutput: Swift.Sendable {
 
     public init(
         metricAttributionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.metricAttributionArn = metricAttributionArn
     }
 }
@@ -5292,8 +5085,7 @@ public struct UpdateRecommenderInput: Swift.Sendable {
     public init(
         recommenderArn: Swift.String? = nil,
         recommenderConfig: PersonalizeClientTypes.RecommenderConfig? = nil
-    )
-    {
+    ) {
         self.recommenderArn = recommenderArn
         self.recommenderConfig = recommenderConfig
     }
@@ -5305,8 +5097,7 @@ public struct UpdateRecommenderOutput: Swift.Sendable {
 
     public init(
         recommenderArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.recommenderArn = recommenderArn
     }
 }
@@ -5324,8 +5115,7 @@ public struct UpdateSolutionInput: Swift.Sendable {
         performAutoTraining: Swift.Bool? = nil,
         solutionArn: Swift.String? = nil,
         solutionUpdateConfig: PersonalizeClientTypes.SolutionUpdateConfig? = nil
-    )
-    {
+    ) {
         self.performAutoTraining = performAutoTraining
         self.solutionArn = solutionArn
         self.solutionUpdateConfig = solutionUpdateConfig
@@ -5338,8 +5128,7 @@ public struct UpdateSolutionOutput: Swift.Sendable {
 
     public init(
         solutionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.solutionArn = solutionArn
     }
 }

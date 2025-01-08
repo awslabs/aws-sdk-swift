@@ -92,8 +92,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -116,8 +115,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -140,8 +138,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -164,8 +161,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -251,8 +247,7 @@ extension PartnerCentralSellingClientTypes {
             code: PartnerCentralSellingClientTypes.ValidationExceptionErrorCode? = nil,
             fieldName: Swift.String? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.fieldName = fieldName
             self.message = message
@@ -319,8 +314,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
         errorList: [PartnerCentralSellingClientTypes.ValidationExceptionError]? = nil,
         message: Swift.String? = nil,
         reason: PartnerCentralSellingClientTypes.ValidationExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.errorList = errorList
         self.properties.message = message
         self.properties.reason = reason
@@ -338,8 +332,7 @@ public struct AcceptEngagementInvitationInput: Swift.Sendable {
     public init(
         catalog: Swift.String? = nil,
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalog = catalog
         self.identifier = identifier
     }
@@ -1136,8 +1129,7 @@ extension PartnerCentralSellingClientTypes {
             postalCode: Swift.String? = nil,
             stateOrRegion: Swift.String? = nil,
             streetAddress: Swift.String? = nil
-        )
-        {
+        ) {
             self.city = city
             self.countryCode = countryCode
             self.postalCode = postalCode
@@ -1287,8 +1279,7 @@ extension PartnerCentralSellingClientTypes {
             industry: PartnerCentralSellingClientTypes.Industry? = nil,
             otherIndustry: Swift.String? = nil,
             websiteUrl: Swift.String? = nil
-        )
-        {
+        ) {
             self.address = address
             self.awsAccountId = awsAccountId
             self.companyName = companyName
@@ -1318,8 +1309,7 @@ extension PartnerCentralSellingClientTypes {
         public init(
             alias: Swift.String? = nil,
             awsAccountId: Swift.String? = nil
-        )
-        {
+        ) {
             self.alias = alias
             self.awsAccountId = awsAccountId
         }
@@ -1349,8 +1339,7 @@ extension PartnerCentralSellingClientTypes {
             countryCode: PartnerCentralSellingClientTypes.CountryCode? = nil,
             postalCode: Swift.String? = nil,
             stateOrRegion: Swift.String? = nil
-        )
-        {
+        ) {
             self.city = city
             self.countryCode = countryCode
             self.postalCode = postalCode
@@ -1386,8 +1375,7 @@ extension PartnerCentralSellingClientTypes {
             industry: PartnerCentralSellingClientTypes.Industry? = nil,
             otherIndustry: Swift.String? = nil,
             websiteUrl: Swift.String? = nil
-        )
-        {
+        ) {
             self.address = address
             self.companyName = companyName
             self.industry = industry
@@ -1424,8 +1412,7 @@ extension PartnerCentralSellingClientTypes {
             email: Swift.String? = nil,
             firstName: Swift.String? = nil,
             lastName: Swift.String? = nil
-        )
-        {
+        ) {
             self.businessTitle = businessTitle
             self.email = email
             self.firstName = firstName
@@ -1454,8 +1441,7 @@ public struct AssignOpportunityInput: Swift.Sendable {
         assignee: PartnerCentralSellingClientTypes.AssigneeContact? = nil,
         catalog: Swift.String? = nil,
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.assignee = assignee
         self.catalog = catalog
         self.identifier = identifier
@@ -1513,8 +1499,7 @@ public struct AssociateOpportunityInput: Swift.Sendable {
         opportunityIdentifier: Swift.String? = nil,
         relatedEntityIdentifier: Swift.String? = nil,
         relatedEntityType: PartnerCentralSellingClientTypes.RelatedEntityType? = nil
-    )
-    {
+    ) {
         self.catalog = catalog
         self.opportunityIdentifier = opportunityIdentifier
         self.relatedEntityIdentifier = relatedEntityIdentifier
@@ -1780,8 +1765,7 @@ extension PartnerCentralSellingClientTypes {
             firstName: Swift.String? = nil,
             lastName: Swift.String? = nil,
             phone: Swift.String? = nil
-        )
-        {
+        ) {
             self.businessTitle = businessTitle
             self.email = email
             self.firstName = firstName
@@ -1805,8 +1789,7 @@ extension PartnerCentralSellingClientTypes {
 
         public init(
             contacts: [PartnerCentralSellingClientTypes.Contact]? = nil
-        )
-        {
+        ) {
             self.contacts = contacts
         }
     }
@@ -1856,8 +1839,7 @@ extension PartnerCentralSellingClientTypes {
         public init(
             engagementScore: PartnerCentralSellingClientTypes.EngagementScore? = nil,
             nextBestActions: Swift.String? = nil
-        )
-        {
+        ) {
             self.engagementScore = engagementScore
             self.nextBestActions = nextBestActions
         }
@@ -1878,8 +1860,7 @@ extension PartnerCentralSellingClientTypes {
         public init(
             time: Foundation.Date? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.time = time
             self.value = value
         }
@@ -2002,8 +1983,7 @@ extension PartnerCentralSellingClientTypes {
             nextStepsHistory: [PartnerCentralSellingClientTypes.ProfileNextStepsHistory]? = nil,
             stage: PartnerCentralSellingClientTypes.AwsOpportunityStage? = nil,
             targetCloseDate: Swift.String? = nil
-        )
-        {
+        ) {
             self.closedLostReason = closedLostReason
             self.nextSteps = nextSteps
             self.nextStepsHistory = nextStepsHistory
@@ -2596,8 +2576,7 @@ extension PartnerCentralSellingClientTypes {
             estimationUrl: Swift.String? = nil,
             frequency: PartnerCentralSellingClientTypes.PaymentFrequency? = nil,
             targetCompany: Swift.String? = nil
-        )
-        {
+        ) {
             self.amount = amount
             self.currencyCode = currencyCode
             self.estimationUrl = estimationUrl
@@ -2621,8 +2600,7 @@ extension PartnerCentralSellingClientTypes {
 
         public init(
             expectedCustomerSpend: [PartnerCentralSellingClientTypes.ExpectedCustomerSpend]? = nil
-        )
-        {
+        ) {
             self.expectedCustomerSpend = expectedCustomerSpend
         }
     }
@@ -2640,8 +2618,7 @@ extension PartnerCentralSellingClientTypes {
         public init(
             awsProducts: [Swift.String]? = nil,
             solutions: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.awsProducts = awsProducts
             self.solutions = solutions
         }
@@ -2666,8 +2643,7 @@ extension PartnerCentralSellingClientTypes {
             email: Swift.String? = nil,
             firstName: Swift.String? = nil,
             lastName: Swift.String? = nil
-        )
-        {
+        ) {
             self.businessTitle = businessTitle
             self.email = email
             self.firstName = firstName
@@ -2699,8 +2675,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2723,8 +2698,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2751,8 +2725,7 @@ extension PartnerCentralSellingClientTypes {
             countryCode: PartnerCentralSellingClientTypes.CountryCode? = nil,
             industry: PartnerCentralSellingClientTypes.Industry? = nil,
             websiteUrl: Swift.String? = nil
-        )
-        {
+        ) {
             self.companyName = companyName
             self.countryCode = countryCode
             self.industry = industry
@@ -2784,8 +2757,7 @@ extension PartnerCentralSellingClientTypes {
             businessProblem: Swift.String? = nil,
             targetCompletionDate: Swift.String? = nil,
             title: Swift.String? = nil
-        )
-        {
+        ) {
             self.businessProblem = businessProblem
             self.targetCompletionDate = targetCompletionDate
             self.title = title
@@ -2810,8 +2782,7 @@ extension PartnerCentralSellingClientTypes {
         public init(
             customer: PartnerCentralSellingClientTypes.EngagementCustomer? = nil,
             project: PartnerCentralSellingClientTypes.EngagementCustomerProjectDetails? = nil
-        )
-        {
+        ) {
             self.customer = customer
             self.project = project
         }
@@ -2867,8 +2838,7 @@ extension PartnerCentralSellingClientTypes {
         public init(
             payload: PartnerCentralSellingClientTypes.EngagementContextPayload? = nil,
             type: PartnerCentralSellingClientTypes.EngagementContextType? = nil
-        )
-        {
+        ) {
             self.payload = payload
             self.type = type
         }
@@ -2897,8 +2867,7 @@ public struct CreateEngagementInput: Swift.Sendable {
         contexts: [PartnerCentralSellingClientTypes.EngagementContextDetails]? = nil,
         description: Swift.String? = nil,
         title: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalog = catalog
         self.clientToken = clientToken
         self.contexts = contexts
@@ -2916,8 +2885,7 @@ public struct CreateEngagementOutput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.id = id
     }
@@ -2934,8 +2902,7 @@ public struct GetEngagementInput: Swift.Sendable {
     public init(
         catalog: Swift.String? = nil,
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalog = catalog
         self.identifier = identifier
     }
@@ -2968,8 +2935,7 @@ public struct GetEngagementOutput: Swift.Sendable {
         id: Swift.String? = nil,
         memberCount: Swift.Int? = nil,
         title: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.contexts = contexts
         self.createdAt = createdAt
@@ -3003,8 +2969,7 @@ public struct ListEngagementMembersInput: Swift.Sendable {
         identifier: Swift.String? = nil,
         maxResults: Swift.Int? = 5,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalog = catalog
         self.identifier = identifier
         self.maxResults = maxResults
@@ -3027,8 +2992,7 @@ extension PartnerCentralSellingClientTypes {
             accountId: Swift.String? = nil,
             companyName: Swift.String? = nil,
             websiteUrl: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.companyName = companyName
             self.websiteUrl = websiteUrl
@@ -3051,8 +3015,7 @@ public struct ListEngagementMembersOutput: Swift.Sendable {
     public init(
         engagementMemberList: [PartnerCentralSellingClientTypes.EngagementMember]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.engagementMemberList = engagementMemberList
         self.nextToken = nextToken
     }
@@ -3127,8 +3090,7 @@ extension PartnerCentralSellingClientTypes {
         public init(
             sortBy: PartnerCentralSellingClientTypes.EngagementSortName? = nil,
             sortOrder: PartnerCentralSellingClientTypes.SortOrder? = nil
-        )
-        {
+        ) {
             self.sortBy = sortBy
             self.sortOrder = sortOrder
         }
@@ -3160,8 +3122,7 @@ public struct ListEngagementsInput: Swift.Sendable {
         maxResults: Swift.Int? = 20,
         nextToken: Swift.String? = nil,
         sort: PartnerCentralSellingClientTypes.EngagementSort? = nil
-    )
-    {
+    ) {
         self.catalog = catalog
         self.createdBy = createdBy
         self.engagementIdentifier = engagementIdentifier
@@ -3201,8 +3162,7 @@ extension PartnerCentralSellingClientTypes {
             id: Swift.String? = nil,
             memberCount: Swift.Int? = nil,
             title: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -3228,8 +3188,7 @@ public struct ListEngagementsOutput: Swift.Sendable {
     public init(
         engagementSummaryList: [PartnerCentralSellingClientTypes.EngagementSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.engagementSummaryList = engagementSummaryList
         self.nextToken = nextToken
     }
@@ -3275,8 +3234,7 @@ extension PartnerCentralSellingClientTypes {
         public init(
             sortBy: PartnerCentralSellingClientTypes.ListTasksSortName? = nil,
             sortOrder: PartnerCentralSellingClientTypes.SortOrder? = nil
-        )
-        {
+        ) {
             self.sortBy = sortBy
             self.sortOrder = sortOrder
         }
@@ -3347,8 +3305,7 @@ public struct ListEngagementByAcceptingInvitationTasksInput: Swift.Sendable {
         sort: PartnerCentralSellingClientTypes.ListTasksSortBase? = nil,
         taskIdentifier: [Swift.String]? = nil,
         taskStatus: [PartnerCentralSellingClientTypes.TaskStatus]? = nil
-    )
-    {
+    ) {
         self.catalog = catalog
         self.engagementInvitationIdentifier = engagementInvitationIdentifier
         self.maxResults = maxResults
@@ -3473,8 +3430,7 @@ extension PartnerCentralSellingClientTypes {
             taskArn: Swift.String? = nil,
             taskId: Swift.String? = nil,
             taskStatus: PartnerCentralSellingClientTypes.TaskStatus? = nil
-        )
-        {
+        ) {
             self.engagementInvitationId = engagementInvitationId
             self.message = message
             self.opportunityId = opportunityId
@@ -3497,8 +3453,7 @@ public struct ListEngagementByAcceptingInvitationTasksOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         taskSummaries: [PartnerCentralSellingClientTypes.ListEngagementByAcceptingInvitationTaskSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.taskSummaries = taskSummaries
     }
@@ -3519,8 +3474,7 @@ public struct StartEngagementByAcceptingInvitationTaskInput: Swift.Sendable {
         catalog: Swift.String? = nil,
         clientToken: Swift.String? = nil,
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalog = catalog
         self.clientToken = clientToken
         self.identifier = identifier
@@ -3557,8 +3511,7 @@ public struct StartEngagementByAcceptingInvitationTaskOutput: Swift.Sendable {
         taskArn: Swift.String? = nil,
         taskId: Swift.String? = nil,
         taskStatus: PartnerCentralSellingClientTypes.TaskStatus? = nil
-    )
-    {
+    ) {
         self.engagementInvitationId = engagementInvitationId
         self.message = message
         self.opportunityId = opportunityId
@@ -3603,8 +3556,7 @@ public struct ListEngagementFromOpportunityTasksInput: Swift.Sendable {
         sort: PartnerCentralSellingClientTypes.ListTasksSortBase? = nil,
         taskIdentifier: [Swift.String]? = nil,
         taskStatus: [PartnerCentralSellingClientTypes.TaskStatus]? = nil
-    )
-    {
+    ) {
         self.catalog = catalog
         self.engagementIdentifier = engagementIdentifier
         self.maxResults = maxResults
@@ -3652,8 +3604,7 @@ extension PartnerCentralSellingClientTypes {
             taskArn: Swift.String? = nil,
             taskId: Swift.String? = nil,
             taskStatus: PartnerCentralSellingClientTypes.TaskStatus? = nil
-        )
-        {
+        ) {
             self.engagementId = engagementId
             self.engagementInvitationId = engagementInvitationId
             self.message = message
@@ -3677,8 +3628,7 @@ public struct ListEngagementFromOpportunityTasksOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         taskSummaries: [PartnerCentralSellingClientTypes.ListEngagementFromOpportunityTaskSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.taskSummaries = taskSummaries
     }
@@ -3755,8 +3705,7 @@ extension PartnerCentralSellingClientTypes {
         public init(
             involvementType: PartnerCentralSellingClientTypes.SalesInvolvementType? = nil,
             visibility: PartnerCentralSellingClientTypes.Visibility? = nil
-        )
-        {
+        ) {
             self.involvementType = involvementType
             self.visibility = visibility
         }
@@ -3782,8 +3731,7 @@ public struct StartEngagementFromOpportunityTaskInput: Swift.Sendable {
         catalog: Swift.String? = nil,
         clientToken: Swift.String? = nil,
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsSubmission = awsSubmission
         self.catalog = catalog
         self.clientToken = clientToken
@@ -3824,8 +3772,7 @@ public struct StartEngagementFromOpportunityTaskOutput: Swift.Sendable {
         taskArn: Swift.String? = nil,
         taskId: Swift.String? = nil,
         taskStatus: PartnerCentralSellingClientTypes.TaskStatus? = nil
-    )
-    {
+    ) {
         self.engagementId = engagementId
         self.engagementInvitationId = engagementInvitationId
         self.message = message
@@ -3861,8 +3808,7 @@ extension PartnerCentralSellingClientTypes {
             expectedCustomerSpend: [PartnerCentralSellingClientTypes.ExpectedCustomerSpend]? = nil,
             targetCompletionDate: Swift.String? = nil,
             title: Swift.String? = nil
-        )
-        {
+        ) {
             self.businessProblem = businessProblem
             self.expectedCustomerSpend = expectedCustomerSpend
             self.targetCompletionDate = targetCompletionDate
@@ -3948,8 +3894,7 @@ extension PartnerCentralSellingClientTypes {
             firstName: Swift.String? = nil,
             lastName: Swift.String? = nil,
             phone: Swift.String? = nil
-        )
-        {
+        ) {
             self.businessTitle = businessTitle
             self.email = email
             self.firstName = firstName
@@ -3985,8 +3930,7 @@ extension PartnerCentralSellingClientTypes {
             project: PartnerCentralSellingClientTypes.ProjectDetails? = nil,
             receiverResponsibilities: [PartnerCentralSellingClientTypes.ReceiverResponsibility]? = nil,
             senderContacts: [PartnerCentralSellingClientTypes.SenderContact]? = nil
-        )
-        {
+        ) {
             self.customer = customer
             self.project = project
             self.receiverResponsibilities = receiverResponsibilities
@@ -4033,8 +3977,7 @@ extension PartnerCentralSellingClientTypes {
             message: Swift.String? = nil,
             payload: PartnerCentralSellingClientTypes.Payload? = nil,
             receiver: PartnerCentralSellingClientTypes.Receiver? = nil
-        )
-        {
+        ) {
             self.message = message
             self.payload = payload
             self.receiver = receiver
@@ -4061,8 +4004,7 @@ public struct CreateEngagementInvitationInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         engagementIdentifier: Swift.String? = nil,
         invitation: PartnerCentralSellingClientTypes.Invitation? = nil
-    )
-    {
+    ) {
         self.catalog = catalog
         self.clientToken = clientToken
         self.engagementIdentifier = engagementIdentifier
@@ -4081,8 +4023,7 @@ public struct CreateEngagementInvitationOutput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.id = id
     }
@@ -4099,8 +4040,7 @@ public struct GetEngagementInvitationInput: Swift.Sendable {
     public init(
         catalog: Swift.String? = nil,
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalog = catalog
         self.identifier = identifier
     }
@@ -4118,8 +4058,7 @@ extension PartnerCentralSellingClientTypes {
         public init(
             companyName: Swift.String? = nil,
             websiteUrl: Swift.String? = nil
-        )
-        {
+        ) {
             self.companyName = companyName
             self.websiteUrl = websiteUrl
         }
@@ -4247,8 +4186,7 @@ public struct GetEngagementInvitationOutput: Swift.Sendable {
         senderAwsAccountId: Swift.String? = nil,
         senderCompanyName: Swift.String? = nil,
         status: PartnerCentralSellingClientTypes.InvitationStatus? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.catalog = catalog
         self.engagementDescription = engagementDescription
@@ -4343,8 +4281,7 @@ extension PartnerCentralSellingClientTypes {
         public init(
             sortBy: PartnerCentralSellingClientTypes.OpportunityEngagementInvitationSortName? = nil,
             sortOrder: PartnerCentralSellingClientTypes.SortOrder? = nil
-        )
-        {
+        ) {
             self.sortBy = sortBy
             self.sortOrder = sortOrder
         }
@@ -4383,8 +4320,7 @@ public struct ListEngagementInvitationsInput: Swift.Sendable {
         senderAwsAccountId: [Swift.String]? = nil,
         sort: PartnerCentralSellingClientTypes.OpportunityEngagementInvitationSort? = nil,
         status: [PartnerCentralSellingClientTypes.InvitationStatus]? = nil
-    )
-    {
+    ) {
         self.catalog = catalog
         self.engagementIdentifier = engagementIdentifier
         self.maxResults = maxResults
@@ -4449,8 +4385,7 @@ extension PartnerCentralSellingClientTypes {
             senderAwsAccountId: Swift.String? = nil,
             senderCompanyName: Swift.String? = nil,
             status: PartnerCentralSellingClientTypes.InvitationStatus? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.catalog = catalog
             self.engagementId = engagementId
@@ -4482,8 +4417,7 @@ public struct ListEngagementInvitationsOutput: Swift.Sendable {
     public init(
         engagementInvitationSummaries: [PartnerCentralSellingClientTypes.EngagementInvitationSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.engagementInvitationSummaries = engagementInvitationSummaries
         self.nextToken = nextToken
     }
@@ -4513,8 +4447,7 @@ public struct RejectEngagementInvitationInput: Swift.Sendable {
         catalog: Swift.String? = nil,
         identifier: Swift.String? = nil,
         rejectionReason: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalog = catalog
         self.identifier = identifier
         self.rejectionReason = rejectionReason
@@ -4533,8 +4466,7 @@ extension PartnerCentralSellingClientTypes {
         public init(
             account: PartnerCentralSellingClientTypes.Account? = nil,
             contacts: [PartnerCentralSellingClientTypes.Contact]? = nil
-        )
-        {
+        ) {
             self.account = account
             self.contacts = contacts
         }
@@ -4635,8 +4567,7 @@ extension PartnerCentralSellingClientTypes {
         public init(
             time: Foundation.Date? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.time = time
             self.value = value
         }
@@ -4847,8 +4778,7 @@ extension PartnerCentralSellingClientTypes {
             reviewStatusReason: Swift.String? = nil,
             stage: PartnerCentralSellingClientTypes.Stage? = nil,
             targetCloseDate: Swift.String? = nil
-        )
-        {
+        ) {
             self.closedLostReason = closedLostReason
             self.nextSteps = nextSteps
             self.nextStepsHistory = nextStepsHistory
@@ -4978,8 +4908,7 @@ extension PartnerCentralSellingClientTypes {
             channels: [PartnerCentralSellingClientTypes.Channel]? = nil,
             source: PartnerCentralSellingClientTypes.MarketingSource? = nil,
             useCases: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.awsFundingUsed = awsFundingUsed
             self.campaignName = campaignName
             self.channels = channels
@@ -5340,8 +5269,7 @@ extension PartnerCentralSellingClientTypes {
             relatedOpportunityIdentifier: Swift.String? = nil,
             salesActivities: [PartnerCentralSellingClientTypes.SalesActivity]? = nil,
             title: Swift.String? = nil
-        )
-        {
+        ) {
             self.additionalComments = additionalComments
             self.apnPrograms = apnPrograms
             self.competitorName = competitorName
@@ -5409,8 +5337,7 @@ extension PartnerCentralSellingClientTypes {
         public init(
             amount: Swift.String? = nil,
             currencyCode: PartnerCentralSellingClientTypes.CurrencyCode? = nil
-        )
-        {
+        ) {
             self.amount = amount
             self.currencyCode = currencyCode
         }
@@ -5440,8 +5367,7 @@ extension PartnerCentralSellingClientTypes {
             effectiveDate: Swift.String? = nil,
             expirationDate: Swift.String? = nil,
             value: PartnerCentralSellingClientTypes.MonetaryValue? = nil
-        )
-        {
+        ) {
             self.deliveryModel = deliveryModel
             self.effectiveDate = effectiveDate
             self.expirationDate = expirationDate
@@ -5518,8 +5444,7 @@ public struct CreateOpportunityInput: Swift.Sendable {
         primaryNeedsFromAws: [PartnerCentralSellingClientTypes.PrimaryNeedFromAws]? = nil,
         project: PartnerCentralSellingClientTypes.Project? = nil,
         softwareRevenue: PartnerCentralSellingClientTypes.SoftwareRevenue? = nil
-    )
-    {
+    ) {
         self.catalog = catalog
         self.clientToken = clientToken
         self.customer = customer
@@ -5549,8 +5474,7 @@ public struct CreateOpportunityOutput: Swift.Sendable {
         id: Swift.String? = nil,
         lastModifiedDate: Foundation.Date? = nil,
         partnerOpportunityIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.lastModifiedDate = lastModifiedDate
         self.partnerOpportunityIdentifier = partnerOpportunityIdentifier
@@ -5576,8 +5500,7 @@ public struct DisassociateOpportunityInput: Swift.Sendable {
         opportunityIdentifier: Swift.String? = nil,
         relatedEntityIdentifier: Swift.String? = nil,
         relatedEntityType: PartnerCentralSellingClientTypes.RelatedEntityType? = nil
-    )
-    {
+    ) {
         self.catalog = catalog
         self.opportunityIdentifier = opportunityIdentifier
         self.relatedEntityIdentifier = relatedEntityIdentifier
@@ -5596,8 +5519,7 @@ public struct GetAwsOpportunitySummaryInput: Swift.Sendable {
     public init(
         catalog: Swift.String? = nil,
         relatedOpportunityIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalog = catalog
         self.relatedOpportunityIdentifier = relatedOpportunityIdentifier
     }
@@ -5681,8 +5603,7 @@ public struct GetAwsOpportunitySummaryOutput: Swift.Sendable {
         relatedEntityIds: PartnerCentralSellingClientTypes.AwsOpportunityRelatedEntities? = nil,
         relatedOpportunityId: Swift.String? = nil,
         visibility: PartnerCentralSellingClientTypes.Visibility? = nil
-    )
-    {
+    ) {
         self.catalog = catalog
         self.customer = customer
         self.insights = insights
@@ -5709,8 +5630,7 @@ public struct GetOpportunityInput: Swift.Sendable {
     public init(
         catalog: Swift.String? = nil,
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalog = catalog
         self.identifier = identifier
     }
@@ -5731,8 +5651,7 @@ extension PartnerCentralSellingClientTypes {
             awsMarketplaceOffers: [Swift.String]? = nil,
             awsProducts: [Swift.String]? = nil,
             solutions: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.awsMarketplaceOffers = awsMarketplaceOffers
             self.awsProducts = awsProducts
             self.solutions = solutions
@@ -5820,8 +5739,7 @@ public struct GetOpportunityOutput: Swift.Sendable {
         project: PartnerCentralSellingClientTypes.Project? = nil,
         relatedEntityIdentifiers: PartnerCentralSellingClientTypes.RelatedEntityIdentifiers? = nil,
         softwareRevenue: PartnerCentralSellingClientTypes.SoftwareRevenue? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.catalog = catalog
         self.createdDate = createdDate
@@ -5853,8 +5771,7 @@ extension PartnerCentralSellingClientTypes {
         public init(
             afterLastModifiedDate: Foundation.Date? = nil,
             beforeLastModifiedDate: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.afterLastModifiedDate = afterLastModifiedDate
             self.beforeLastModifiedDate = beforeLastModifiedDate
         }
@@ -5907,8 +5824,7 @@ extension PartnerCentralSellingClientTypes {
         public init(
             sortBy: PartnerCentralSellingClientTypes.OpportunitySortName? = nil,
             sortOrder: PartnerCentralSellingClientTypes.SortOrder? = nil
-        )
-        {
+        ) {
             self.sortBy = sortBy
             self.sortOrder = sortOrder
         }
@@ -5946,8 +5862,7 @@ public struct ListOpportunitiesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sort: PartnerCentralSellingClientTypes.OpportunitySort? = nil
-    )
-    {
+    ) {
         self.catalog = catalog
         self.customerCompanyName = customerCompanyName
         self.identifier = identifier
@@ -5969,8 +5884,7 @@ extension PartnerCentralSellingClientTypes {
 
         public init(
             account: PartnerCentralSellingClientTypes.AccountSummary? = nil
-        )
-        {
+        ) {
             self.account = account
         }
     }
@@ -6054,8 +5968,7 @@ extension PartnerCentralSellingClientTypes {
             reviewStatusReason: Swift.String? = nil,
             stage: PartnerCentralSellingClientTypes.Stage? = nil,
             targetCloseDate: Swift.String? = nil
-        )
-        {
+        ) {
             self.closedLostReason = closedLostReason
             self.nextSteps = nextSteps
             self.reviewComments = reviewComments
@@ -6096,8 +6009,7 @@ extension PartnerCentralSellingClientTypes {
         public init(
             deliveryModels: [PartnerCentralSellingClientTypes.DeliveryModel]? = nil,
             expectedCustomerSpend: [PartnerCentralSellingClientTypes.ExpectedCustomerSpend]? = nil
-        )
-        {
+        ) {
             self.deliveryModels = deliveryModels
             self.expectedCustomerSpend = expectedCustomerSpend
         }
@@ -6147,8 +6059,7 @@ extension PartnerCentralSellingClientTypes {
             opportunityType: PartnerCentralSellingClientTypes.OpportunityType? = nil,
             partnerOpportunityIdentifier: Swift.String? = nil,
             project: PartnerCentralSellingClientTypes.ProjectSummary? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.catalog = catalog
             self.createdDate = createdDate
@@ -6173,8 +6084,7 @@ public struct ListOpportunitiesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         opportunitySummaries: [PartnerCentralSellingClientTypes.OpportunitySummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.opportunitySummaries = opportunitySummaries
     }
@@ -6198,8 +6108,7 @@ public struct SubmitOpportunityInput: Swift.Sendable {
         identifier: Swift.String? = nil,
         involvementType: PartnerCentralSellingClientTypes.SalesInvolvementType? = nil,
         visibility: PartnerCentralSellingClientTypes.Visibility? = nil
-    )
-    {
+    ) {
         self.catalog = catalog
         self.identifier = identifier
         self.involvementType = involvementType
@@ -6273,8 +6182,7 @@ public struct UpdateOpportunityInput: Swift.Sendable {
         primaryNeedsFromAws: [PartnerCentralSellingClientTypes.PrimaryNeedFromAws]? = nil,
         project: PartnerCentralSellingClientTypes.Project? = nil,
         softwareRevenue: PartnerCentralSellingClientTypes.SoftwareRevenue? = nil
-    )
-    {
+    ) {
         self.catalog = catalog
         self.customer = customer
         self.identifier = identifier
@@ -6301,8 +6209,7 @@ public struct UpdateOpportunityOutput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         lastModifiedDate: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.id = id
         self.lastModifiedDate = lastModifiedDate
     }
@@ -6361,8 +6268,7 @@ public struct CreateResourceSnapshotInput: Swift.Sendable {
         resourceIdentifier: Swift.String? = nil,
         resourceSnapshotTemplateIdentifier: Swift.String? = nil,
         resourceType: PartnerCentralSellingClientTypes.ResourceType? = nil
-    )
-    {
+    ) {
         self.catalog = catalog
         self.clientToken = clientToken
         self.engagementIdentifier = engagementIdentifier
@@ -6381,8 +6287,7 @@ public struct CreateResourceSnapshotOutput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         revision: Swift.Int? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.revision = revision
     }
@@ -6418,8 +6323,7 @@ public struct GetResourceSnapshotInput: Swift.Sendable {
         resourceSnapshotTemplateIdentifier: Swift.String? = nil,
         resourceType: PartnerCentralSellingClientTypes.ResourceType? = nil,
         revision: Swift.Int? = nil
-    )
-    {
+    ) {
         self.catalog = catalog
         self.engagementIdentifier = engagementIdentifier
         self.resourceIdentifier = resourceIdentifier
@@ -6447,8 +6351,7 @@ extension PartnerCentralSellingClientTypes {
             reviewStatus: PartnerCentralSellingClientTypes.ReviewStatus? = nil,
             stage: PartnerCentralSellingClientTypes.Stage? = nil,
             targetCloseDate: Swift.String? = nil
-        )
-        {
+        ) {
             self.nextSteps = nextSteps
             self.reviewStatus = reviewStatus
             self.stage = stage
@@ -6483,8 +6386,7 @@ extension PartnerCentralSellingClientTypes {
             expectedCustomerSpend: [PartnerCentralSellingClientTypes.ExpectedCustomerSpend]? = nil,
             otherSolutionDescription: Swift.String? = nil,
             salesActivities: [PartnerCentralSellingClientTypes.SalesActivity]? = nil
-        )
-        {
+        ) {
             self.customerUseCase = customerUseCase
             self.deliveryModels = deliveryModels
             self.expectedCustomerSpend = expectedCustomerSpend
@@ -6526,8 +6428,7 @@ extension PartnerCentralSellingClientTypes {
             primaryNeedsFromAws: [PartnerCentralSellingClientTypes.PrimaryNeedFromAws]? = nil,
             project: PartnerCentralSellingClientTypes.ProjectView? = nil,
             relatedEntityIdentifiers: PartnerCentralSellingClientTypes.RelatedEntityIdentifiers? = nil
-        )
-        {
+        ) {
             self.customer = customer
             self.lifecycle = lifecycle
             self.opportunityTeam = opportunityTeam
@@ -6583,8 +6484,7 @@ public struct GetResourceSnapshotOutput: Swift.Sendable {
         resourceSnapshotTemplateName: Swift.String? = nil,
         resourceType: PartnerCentralSellingClientTypes.ResourceType? = nil,
         revision: Swift.Int? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.catalog = catalog
         self.createdAt = createdAt
@@ -6628,8 +6528,7 @@ public struct ListEngagementResourceAssociationsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         resourceIdentifier: Swift.String? = nil,
         resourceType: PartnerCentralSellingClientTypes.ResourceType? = nil
-    )
-    {
+    ) {
         self.catalog = catalog
         self.createdBy = createdBy
         self.engagementIdentifier = engagementIdentifier
@@ -6667,8 +6566,7 @@ extension PartnerCentralSellingClientTypes {
             engagementId: Swift.String? = nil,
             resourceId: Swift.String? = nil,
             resourceType: PartnerCentralSellingClientTypes.ResourceType? = nil
-        )
-        {
+        ) {
             self.catalog = catalog
             self.createdBy = createdBy
             self.engagementId = engagementId
@@ -6693,8 +6591,7 @@ public struct ListEngagementResourceAssociationsOutput: Swift.Sendable {
     public init(
         engagementResourceAssociationSummaries: [PartnerCentralSellingClientTypes.EngagementResourceAssociationSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.engagementResourceAssociationSummaries = engagementResourceAssociationSummaries
         self.nextToken = nextToken
     }
@@ -6729,8 +6626,7 @@ public struct ListResourceSnapshotsInput: Swift.Sendable {
         resourceIdentifier: Swift.String? = nil,
         resourceSnapshotTemplateIdentifier: Swift.String? = nil,
         resourceType: PartnerCentralSellingClientTypes.ResourceType? = nil
-    )
-    {
+    ) {
         self.catalog = catalog
         self.createdBy = createdBy
         self.engagementIdentifier = engagementIdentifier
@@ -6771,8 +6667,7 @@ extension PartnerCentralSellingClientTypes {
             resourceSnapshotTemplateName: Swift.String? = nil,
             resourceType: PartnerCentralSellingClientTypes.ResourceType? = nil,
             revision: Swift.Int? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdBy = createdBy
             self.resourceId = resourceId
@@ -6798,8 +6693,7 @@ public struct ListResourceSnapshotsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         resourceSnapshotSummaries: [PartnerCentralSellingClientTypes.ResourceSnapshotSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.resourceSnapshotSummaries = resourceSnapshotSummaries
     }
@@ -6832,8 +6726,7 @@ public struct CreateResourceSnapshotJobInput: Swift.Sendable {
         resourceIdentifier: Swift.String? = nil,
         resourceSnapshotTemplateIdentifier: Swift.String? = nil,
         resourceType: PartnerCentralSellingClientTypes.ResourceType? = nil
-    )
-    {
+    ) {
         self.catalog = catalog
         self.clientToken = clientToken
         self.engagementIdentifier = engagementIdentifier
@@ -6852,8 +6745,7 @@ public struct CreateResourceSnapshotJobOutput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.id = id
     }
@@ -6870,8 +6762,7 @@ public struct DeleteResourceSnapshotJobInput: Swift.Sendable {
     public init(
         catalog: Swift.String? = nil,
         resourceSnapshotJobIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalog = catalog
         self.resourceSnapshotJobIdentifier = resourceSnapshotJobIdentifier
     }
@@ -6892,8 +6783,7 @@ public struct GetResourceSnapshotJobInput: Swift.Sendable {
     public init(
         catalog: Swift.String? = nil,
         resourceSnapshotJobIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalog = catalog
         self.resourceSnapshotJobIdentifier = resourceSnapshotJobIdentifier
     }
@@ -6972,8 +6862,7 @@ public struct GetResourceSnapshotJobOutput: Swift.Sendable {
         resourceSnapshotTemplateName: Swift.String? = nil,
         resourceType: PartnerCentralSellingClientTypes.ResourceType? = nil,
         status: PartnerCentralSellingClientTypes.ResourceSnapshotJobStatus? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.catalog = catalog
         self.createdAt = createdAt
@@ -7027,8 +6916,7 @@ extension PartnerCentralSellingClientTypes {
         public init(
             sortBy: PartnerCentralSellingClientTypes.SortBy? = nil,
             sortOrder: PartnerCentralSellingClientTypes.SortOrder? = nil
-        )
-        {
+        ) {
             self.sortBy = sortBy
             self.sortOrder = sortOrder
         }
@@ -7057,8 +6945,7 @@ public struct ListResourceSnapshotJobsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sort: PartnerCentralSellingClientTypes.SortObject? = nil,
         status: PartnerCentralSellingClientTypes.ResourceSnapshotJobStatus? = nil
-    )
-    {
+    ) {
         self.catalog = catalog
         self.engagementIdentifier = engagementIdentifier
         self.maxResults = maxResults
@@ -7086,8 +6973,7 @@ extension PartnerCentralSellingClientTypes {
             engagementId: Swift.String? = nil,
             id: Swift.String? = nil,
             status: PartnerCentralSellingClientTypes.ResourceSnapshotJobStatus? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.engagementId = engagementId
             self.id = id
@@ -7106,8 +6992,7 @@ public struct ListResourceSnapshotJobsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         resourceSnapshotJobSummaries: [PartnerCentralSellingClientTypes.ResourceSnapshotJobSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.resourceSnapshotJobSummaries = resourceSnapshotJobSummaries
     }
@@ -7124,8 +7009,7 @@ public struct StartResourceSnapshotJobInput: Swift.Sendable {
     public init(
         catalog: Swift.String? = nil,
         resourceSnapshotJobIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalog = catalog
         self.resourceSnapshotJobIdentifier = resourceSnapshotJobIdentifier
     }
@@ -7142,8 +7026,7 @@ public struct StopResourceSnapshotJobInput: Swift.Sendable {
     public init(
         catalog: Swift.String? = nil,
         resourceSnapshotJobIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalog = catalog
         self.resourceSnapshotJobIdentifier = resourceSnapshotJobIdentifier
     }
@@ -7156,8 +7039,7 @@ public struct GetSellingSystemSettingsInput: Swift.Sendable {
 
     public init(
         catalog: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalog = catalog
     }
 }
@@ -7172,8 +7054,7 @@ public struct GetSellingSystemSettingsOutput: Swift.Sendable {
     public init(
         catalog: Swift.String? = nil,
         resourceSnapshotJobRoleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalog = catalog
         self.resourceSnapshotJobRoleArn = resourceSnapshotJobRoleArn
     }
@@ -7189,8 +7070,7 @@ public struct PutSellingSystemSettingsInput: Swift.Sendable {
     public init(
         catalog: Swift.String? = nil,
         resourceSnapshotJobRoleIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalog = catalog
         self.resourceSnapshotJobRoleIdentifier = resourceSnapshotJobRoleIdentifier
     }
@@ -7206,8 +7086,7 @@ public struct PutSellingSystemSettingsOutput: Swift.Sendable {
     public init(
         catalog: Swift.String? = nil,
         resourceSnapshotJobRoleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalog = catalog
         self.resourceSnapshotJobRoleArn = resourceSnapshotJobRoleArn
     }
@@ -7265,8 +7144,7 @@ extension PartnerCentralSellingClientTypes {
         public init(
             sortBy: PartnerCentralSellingClientTypes.SolutionSortName? = nil,
             sortOrder: PartnerCentralSellingClientTypes.SortOrder? = nil
-        )
-        {
+        ) {
             self.sortBy = sortBy
             self.sortOrder = sortOrder
         }
@@ -7330,8 +7208,7 @@ public struct ListSolutionsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sort: PartnerCentralSellingClientTypes.SolutionSort? = nil,
         status: [PartnerCentralSellingClientTypes.SolutionStatus]? = nil
-    )
-    {
+    ) {
         self.catalog = catalog
         self.category = category
         self.identifier = identifier
@@ -7375,8 +7252,7 @@ extension PartnerCentralSellingClientTypes {
             id: Swift.String? = nil,
             name: Swift.String? = nil,
             status: PartnerCentralSellingClientTypes.SolutionStatus? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.catalog = catalog
             self.category = category
@@ -7398,8 +7274,7 @@ public struct ListSolutionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         solutionSummaries: [PartnerCentralSellingClientTypes.SolutionBase]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.solutionSummaries = solutionSummaries
     }
